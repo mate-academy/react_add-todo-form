@@ -39,10 +39,10 @@ class TodoList extends React.Component {
     const { todos } = this.state;
     return (
       <div>
-        <NewTodo todos={todos} onSubmit={this.AddTodo}/>
-          <table className='table table-bordered'>
-            <thead className='thead-dark'>
-              <tr>
+        <NewTodo todos={todos} onSubmit={this.AddTodo} />
+        <table className='table table-bordered'>
+          <thead className='thead-dark'>
+            <tr>
               <th>
                 #
               </th>
