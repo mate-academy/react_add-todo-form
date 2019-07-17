@@ -6,7 +6,7 @@ import User from './User';
 const TodoList = ({ currentTodos }) => (
   <div>
     {currentTodos.map(todo => (
-      <div>
+      <div key={todo.name}>
         <User user={todo} key={todo.id} />
       </div>
     ))}
@@ -18,6 +18,7 @@ TodoList.propTypes = {
     todo: PropTypes.shape({
       userPrepare: PropTypes.object.isRequired,
     }).isRequired,
+    i: PropTypes.number.isRequired,
   }).isRequired,
 };
 

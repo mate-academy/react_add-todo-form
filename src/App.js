@@ -6,9 +6,9 @@ import users from './api/users';
 
 function App() {
   return (
-    <div className="App" key={users.name}>
+    <div className="App">
       <h1>Static list of todos</h1>
-      <TodoList currentTodos={users} key={users.id} />
+      <TodoList currentTodos={users} />
     </div>
   );
 }
