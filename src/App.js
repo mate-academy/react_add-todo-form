@@ -1,17 +1,14 @@
 import React from 'react';
 import './App.css';
+import TodoList from './TodoList';
 
 import users from './api/users';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" key={users.name}>
       <h1>Static list of todos</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+      <TodoList currentTodos={users} key={users.id} />
     </div>
   );
 }
