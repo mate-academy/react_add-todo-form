@@ -64,4 +64,13 @@ class TodoList extends React.Component {
   }
 };
 
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf({
+    todo: PropTypes.shape({
+      user: PropTypes.object.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
+
+
 export default TodoList

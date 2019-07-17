@@ -32,11 +32,12 @@ class NewTodo extends React.Component {
 
       this.props.onSubmit({
         id: this.props.todos.length + 1,
-        user: (+this.state.userId !== 0) ? users.find(user => +this.state.userId === +user.id) : {},
+        user: (+this.state.userId !== 0)
+          ? users.find(user => +this.state.userId === +user.id)
+          : {},
         title: this.state.title,
         complited: 'false',
       });
-
     }
     )
 
