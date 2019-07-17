@@ -1,3 +1,51 @@
+body {
+  background: whitesmoke;
+}
 .App {
-  text-align: center;
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+
+.TodoItem {
+  border: 1px solid black;
+  background: white;
+  padding-left: 5px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+
+.User {
+ font-weight: 600;
+}
+
+.App__load-button {
+  height: 40px;
+  width: 80px;
+  border: 2px solid black;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.App__load-button:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+
+}
+.App-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.row1 {
+  width: 5%;
+}
+
+.row2 {
+  width: 77%;
+}
+
+.row3 {
+  width: 18%;
 }
