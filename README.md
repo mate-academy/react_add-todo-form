@@ -1,8 +1,6 @@
 # React add TODO form
 
-## Demo link
-
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+[DEMO LINK](https://irakalmykova.github.io/react_add-todo-form)
 
 
 ## Task

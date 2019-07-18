@@ -1,3 +1,38 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todo-list {
+  border-collapse: collapse;
+  width: 50%;
+
+}
+
+.todo-list__row {
+  border: 2px solid black;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.new-todo {
+  margin: 5px;
+}
+
+.btn-add {
+  width: 50px;
+  margin: 5px;
+}
+
+.error {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  align-self: center;
 }
