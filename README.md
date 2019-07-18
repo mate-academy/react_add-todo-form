@@ -23,7 +23,8 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - if a title is empty show an error (Please enter the title)
     - errors should appear only after pressing `Add` button
 5. Hide an error immediately when you edit a field with an error 
-6. (* Optional) Limit characters displayed in the `title` field to alphanumeric (`\w`)  
+6. (* Optional) Limit characters displayed in the `title` field. 
+  Allow entering `spaces` and alphanumeric (`\w`) characters.
 
 
 ## Workflow
