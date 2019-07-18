@@ -1,13 +1,26 @@
 import React from 'react';
 import './App.css';
-import PropTypes from 'prop-types';
 
 import todos from './api/todos';
 import users from './api/users';
 import TodoList from './TodoList';
+import NewTodo from './NewTodo';
+
+const prepared = () => {
+  const todowithUser = todos.map(todo => ({
+    ...todo,
+    userName: users
+      .filter(user => user.id === todo.userId)
+      .map(person => person.name),
+  }));
+
+  return todowithUser;
+};
 
 class App extends React.Component {
-    state = { todos };
+    state = {
+      todos: prepared(),
+    };
 
   addTodo = (todo) => {
     this.setState(prevState => ({
@@ -24,8 +37,6 @@ class App extends React.Component {
   }
 
   render() {
-    // const { todos } = this.state;
-
     return (
       <div className="App">
         <NewTodo
@@ -42,79 +53,5 @@ class App extends React.Component {
     );
   }
 }
-
-class NewTodo extends React.Component {
-  state = {
-    todo: {
-      title: '',
-    },
-  }
-
-  handleFieldChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState(prevState => ({
-      todo: {
-        ...prevState.todo,
-        [name]: value,
-      },
-    }));
-  };
-
-  handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    const { todo } = this.state;
-    const { onSubmit } = this.props;
-
-    onSubmit(todo);
-    this.setState(prevState => ({
-      todo: {
-        ...prevState.todo,
-        userName: '',
-        title: '',
-      },
-    }));
-  }
-
-  render() {
-    const { todo } = this.state;
-
-    return (
-      <fieldset>
-        <legend>Add TODOs</legend>
-        <form
-          className="form"
-          onSubmit={this.handleFormSubmit}
-        >
-          <label
-            className="new-todo"
-            htmlFor="new-todo-title"
-          >
-            <span>Please, enter a title </span>
-            <input
-              id="new-todo-title"
-              placeholder="Title"
-              value={todo.title}
-              name="title"
-              type="text"
-              onChange={this.handleFieldChange}
-            />
-          </label>
-          <button
-            className="btn-add"
-            type="submit"
-          >
-            Add
-          </button>
-        </form>
-      </fieldset>
-    );
-  }
-}
-
-NewTodo.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default App;
