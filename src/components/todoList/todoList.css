@@ -1,0 +1,9 @@
+.todos-table {
+  width: 650px;
+  border-collapse: collapse;
+}
+
+.todos-table th,
+td {
+  padding: 10px;
+}
