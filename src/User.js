@@ -5,16 +5,13 @@ import PropTypes from 'prop-types';
 const User = ({ user }) => (
   <tr>
     <th>
-      UserName:
       {user.id}
     </th>
     <th>
-      Name:
       {user.title}
     </th>
     <th>
-      Email:
-      {user.completed}
+      {user.completed ? '+' : 'x'}
     </th>
   </tr>
 );
@@ -22,12 +19,9 @@ const User = ({ user }) => (
 User.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    address: PropTypes.shape({
-      city: PropTypes.string.isRequired,
-    }).isRequired,
-    website: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
   }).isRequired,
 };
 
