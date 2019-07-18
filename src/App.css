@@ -1,14 +1,38 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-table {
-  border: 1px solid black;
+.todo-list {
   border-collapse: collapse;
+  width: 50%;
+
 }
 
-th {
-  border: 1px solid black;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 7px;
+.todo-list__row {
+  border: 2px solid black;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.new-todo {
+  margin: 5px;
+}
+
+.btn-add {
+  width: 50px;
+  margin: 5px;
+}
+
+.error {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  align-self: center;
 }
