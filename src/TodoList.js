@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import User from './User';
 
 const TodoList = ({ currentTodos }) => (
-  <div>
+  <table>
     {currentTodos.map(todo => (
-      <div key={todo.name}>
-        <User user={todo} key={todo.id} />
-      </div>
+      <User user={todo} key={todo.id} />
     ))}
-  </div>
+  </table>
 );
 
 TodoList.propTypes = {

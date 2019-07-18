@@ -3,28 +3,28 @@ import './App.css';
 import PropTypes from 'prop-types';
 
 const User = ({ user }) => (
-  <div>
-    <h2>
+  <tr>
+    <th>
       UserName:
       {user.username}
-    </h2>
-    <p>
+    </th>
+    <th>
       Name:
       {user.name}
-    </p>
-    <p>
+    </th>
+    <th>
       Email:
       {user.email}
-    </p>
-    <p>
+    </th>
+    <th>
       From:
       {user.address.city}
-    </p>
-    <p>
+    </th>
+    <th>
       Webiste:
       {user.website}
-    </p>
-  </div>
+    </th>
+  </tr>
 );
 
 User.propTypes = {
