@@ -6,23 +6,15 @@ const User = ({ user }) => (
   <tr>
     <th>
       UserName:
-      {user.username}
+      {user.id}
     </th>
     <th>
       Name:
-      {user.name}
+      {user.title}
     </th>
     <th>
       Email:
-      {user.email}
-    </th>
-    <th>
-      From:
-      {user.address.city}
-    </th>
-    <th>
-      Webiste:
-      {user.website}
+      {user.completed}
     </th>
   </tr>
 );
