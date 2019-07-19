@@ -26,7 +26,7 @@ class NewTodo extends React.Component {
       }
 
       if (!prevState.valuesMap.title.match(pattern)) {
-        errorsMap.title = 'The Title not valid';
+        errorsMap.title = 'The Title is not valid';
       }
 
       if (+prevState.valuesMap.userId === 0) {
@@ -90,7 +90,6 @@ class NewTodo extends React.Component {
                 value={valuesMap.title}
                 placeholder="Input title"
                 onChange={this.handleFieldChange}
-                // pattern="^[0-9a-zA-Z ]+$"
               />
             </label>
             {errorsMap.title && (
