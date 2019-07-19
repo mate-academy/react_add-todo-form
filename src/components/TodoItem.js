@@ -4,46 +4,33 @@ import PropTypes from 'prop-types';
 import User from './User';
 
 const TodoItem = ({
-  id, title, completed, user, todos,
-}) => {
-  const updateStatus = (event) => {
-    const todoId = event.target.id.slice(4);
-    const newTodos = [...todos];
-    const index = newTodos.findIndex(todo => todo.id === +todoId);
-    const todo = newTodos[index];
+  id, title, completed, user, onChangeTodoStatus,
+}) => (
+  <tr>
+    <td>
+      {id}
+    </td>
 
-    todo.completed = !todo.completed;
-    newTodos.splice(index, 1, todo);
-    todo.updateAppState({ todosList: [...newTodos] });
-  };
+    <td>
+      <input
+        id={`todo${id}`}
+        type="checkbox"
+        checked={completed}
+        onChange={() => onChangeTodoStatus(id)}
+      />
+    </td>
 
-  return (
-    <tr>
-      <td>
-        {id}
-      </td>
+    <td>
+      <label htmlFor={`todo${id}`}>
+        {title}
+      </label>
+    </td>
 
-      <td>
-        <input
-          id={`todo${id}`}
-          type="checkbox"
-          checked={completed}
-          onChange={updateStatus}
-        />
-      </td>
-
-      <td>
-        <label htmlFor={`todo${id}`}>
-          {title}
-        </label>
-      </td>
-
-      <td>
-        <User {...user} />
-      </td>
-    </tr>
-  );
-};
+    <td>
+      <User {...user} />
+    </td>
+  </tr>
+);
 
 TodoItem.propTypes = {
   id: PropTypes.number.isRequired,
@@ -52,7 +39,7 @@ TodoItem.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string,
   }),
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChangeTodoStatus: PropTypes.func.isRequired,
 };
 
 TodoItem.defaultProps = {

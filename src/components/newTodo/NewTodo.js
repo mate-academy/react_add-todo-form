@@ -41,7 +41,7 @@ class NewTodo extends React.Component {
     event.preventDefault();
 
     const { todoTitle, selectUser } = this.state;
-    const { todos, users, updateAppState } = this.props;
+    const { todos, users, onSubmitForm } = this.props;
 
     if (todoTitle === '' || selectUser === '') {
       if (todoTitle === '') {
@@ -59,7 +59,6 @@ class NewTodo extends React.Component {
       return;
     }
 
-    const newTodos = [...todos];
     const newTodo = { completed: false };
 
     const user = users.find(currentUser => (
@@ -70,16 +69,13 @@ class NewTodo extends React.Component {
     newTodo.id = todos.length + 1;
     newTodo.title = todoTitle;
     newTodo.user = user;
-    newTodo.updateAppState = updateAppState;
 
-    newTodos.push(newTodo);
+    onSubmitForm(newTodo);
 
-    updateAppState({ todosList: [...newTodos] });
-
-    this.setState({
-      todoTitle: '',
-      selectUser: '',
-    });
+    // this.setState({
+    //   todoTitle: '',
+    //   selectUser: '',
+    // });
   }
 
   render() {
@@ -144,7 +140,7 @@ NewTodo.propTypes = {
     name: PropTypes.string,
     id: PropTypes.number,
   })).isRequired,
-  updateAppState: PropTypes.func.isRequired,
+  onSubmitForm: PropTypes.func.isRequired,
 };
 
 export default NewTodo;

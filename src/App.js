@@ -14,7 +14,6 @@ class App extends React.Component {
       {
         ...todo,
         user: users.find(person => person.id === todo.userId),
-        updateAppState: config => this.setState(config),
       }
     ));
 
@@ -23,9 +22,26 @@ class App extends React.Component {
     });
   }
 
-  updateAppState = (config) => {
-    this.setState(config);
-  };
+  handleChangeTodo = (id) => {
+    const newTodos = [...this.state.todosList];
+    const index = newTodos.findIndex(todo => todo.id === id);
+    const todo = newTodos[index];
+
+    todo.completed = !todo.completed;
+    newTodos.splice(index, 1, todo);
+
+    this.setState({
+      todosList: [...newTodos],
+    });
+  }
+
+  handleSubmit = (newTodo) => {
+    this.setState(prevState => (
+      {
+        todosList: [...prevState.todosList, newTodo],
+      }
+    ));
+  }
 
   render() {
     const { todosList } = this.state;
@@ -36,10 +52,13 @@ class App extends React.Component {
         <NewTodo
           todos={todosList}
           users={users}
-          updateAppState={this.updateAppState}
+          onSubmitForm={this.handleSubmit}
         />
 
-        <TodoList todos={todosList} />
+        <TodoList
+          todos={todosList}
+          onChangeTodoStatus={this.handleChangeTodo}
+        />
       </div>
     );
   }

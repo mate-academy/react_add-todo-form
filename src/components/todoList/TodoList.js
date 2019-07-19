@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TodoItem from '../TodoItem';
 import './todoList.css';
 
-const TodoList = ({ todos }) => (
+const TodoList = ({ todos, onChangeTodoStatus }) => (
   <table className="todos-table">
     <thead>
       <tr className="todos-table__head">
@@ -18,7 +18,7 @@ const TodoList = ({ todos }) => (
         todos.map(todo => (
           <TodoItem
             {...todo}
-            todos={todos}
+            onChangeTodoStatus={onChangeTodoStatus}
             key={todo.id}
           />
         ))
@@ -36,6 +36,7 @@ TodoList.propTypes = {
       name: PropTypes.string,
     }),
   })).isRequired,
+  onChangeTodoStatus: PropTypes.func.isRequired,
 };
 
 export default TodoList;
