@@ -30,7 +30,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { todosList } = this.state;
+    const { todos } = this.state;
 
     return (
       <main>
@@ -44,11 +44,11 @@ class App extends React.Component {
 
         <NewTodo
           onSubmit={this.addTodo}
-          todos={todosList}
+          todos={todos}
         />
 
         <TodoList
-          allTodos={todosList}
+          allTodos={todos}
         />
 
       </main>

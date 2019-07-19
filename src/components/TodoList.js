@@ -30,7 +30,7 @@ TodoList.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     completed: PropTypes.bool,
-    map: PropTypes.func.isRequired,
+    map: PropTypes.func,
   })).isRequired,
 };
 
