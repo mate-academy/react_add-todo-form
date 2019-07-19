@@ -32,7 +32,12 @@ class Modal extends React.Component {
       <div className="backdrop" style={backdropStyle} >
         <div className="modal" style={modalStyle}>
 
-          <button className="btn btn-close" onClick={toggleModalClose}>close</button>
+          <button
+            className="btn btn-close"
+            onClick={toggleModalClose}
+          >
+            close
+            </button>
 
           <form onSubmit={submitForm} className="imput-container" >
 
@@ -51,7 +56,6 @@ class Modal extends React.Component {
                 onChange={handleFieldChange}
               />
 
-
             </div>
 
             <div className="select-field">
@@ -62,15 +66,16 @@ class Modal extends React.Component {
                 </div>
               )}
 
-              <select onChange={handleFieldChange} name="person">
+              <select
+                onChange={handleFieldChange}
+                name="person"
+              >
                 <option value=''>Chose executor from list</option>
                 {usersData.map(user => (
                   <option value={JSON.stringify(user)}>{user.name}</option>
                 ))}
+
               </select>
-
-
-
 
             </div>
 
