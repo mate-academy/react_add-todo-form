@@ -51,7 +51,9 @@ class App extends React.Component {
     this.setState((prevState) => {
       const valuesMap = { ...prevState.valuesMap };
 
-      valuesMap[name] = value.replace(/\W*[_]*/g, '');
+      valuesMap[name] = name === this.statetodoTitle
+        ? value.replace(/\W*[_]*/g, '')
+        : value;
 
       return ({
         valuesMap,

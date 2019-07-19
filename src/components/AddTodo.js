@@ -5,6 +5,7 @@ const AddTodo = (props) => {
   const {
     users, errorsMap, valuesMap, handleSubmit, handleChange,
   } = props;
+
   const usersOptions = users.map(user => (
     <option key={user.id} value={user.username}>
       {user.username}
