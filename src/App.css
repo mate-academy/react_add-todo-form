@@ -7,10 +7,26 @@
   text-align: center;
 }
 
+.NewTodo {
+  text-align: center;
+  margin: 30px auto;
+}
+
+.form-field {
+  margin: 10px 0;
+}
+
+.form-submit {
+  width: 80px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 .todoList {
   border-collapse: collapse;
   font-size: 20px;
-  margin: 30px auto 0;
+  margin: 0 auto;
 }
 
 .todoList__title th, td {

@@ -8,18 +8,45 @@ class NewTodo extends React.Component {
       title: '',
       userId: 0,
     },
+    errorsMap: {
+      title: '',
+      userId: '',
+    },
   };
 
   handleFormSubmit = (event) => {
     event.preventDefault();
 
-    const { userId } = this.state.valuesMap;
+    const errorsMap = {};
+    const pattern = '^[0-9a-zA-Z ]+$';
 
-    this.props.onSubmit({
-      ...this.state.valuesMap,
-      id: this.props.todos.length + 1,
-      user: users.find(user => user.id === +userId),
-      completed: false,
+    this.setState((prevState) => {
+      if (!prevState.valuesMap.title) {
+        errorsMap.title = 'Please enter the title';
+      }
+
+      if (!prevState.valuesMap.title.match(pattern)) {
+        errorsMap.title = 'The Title not valid';
+      }
+
+      if (+prevState.valuesMap.userId === 0) {
+        errorsMap.userId = 'Please choose a user';
+      }
+
+      if (Object.keys(errorsMap).length > 0) {
+        return { errorsMap };
+      }
+
+      const { userId } = prevState.valuesMap;
+
+      this.props.onSubmit({
+        ...prevState.valuesMap,
+        id: this.props.todos.length + 1,
+        user: users.find(user => user.id === +userId),
+        completed: false,
+      });
+
+      return {};
     });
 
     this.setState({
@@ -38,29 +65,42 @@ class NewTodo extends React.Component {
         ...state.valuesMap,
         [name]: value,
       },
+      errorsMap: {
+        title: '',
+        userId: '',
+      },
     }));
   };
 
   render() {
-    const { valuesMap } = this.state;
+    const { valuesMap, errorsMap } = this.state;
 
     return (
-      <div>
+      <div className="NewTodo">
 
         <form onSubmit={this.handleFormSubmit}>
-          <div className="form-field">
+          <div>
             <label htmlFor="title">
               Title:
               <input
                 type="text"
                 name="title"
                 id="title"
+                autoComplete="off"
                 value={valuesMap.title}
                 placeholder="Input title"
                 onChange={this.handleFieldChange}
+                // pattern="^[0-9a-zA-Z ]+$"
               />
             </label>
+            {errorsMap.title && (
+              <div className="error" style={{ color: 'red' }}>
+                {errorsMap.title}
+              </div>
+            )}
+          </div>
 
+          <div className="form-field">
             <label htmlFor="userId">
               User
               <select
@@ -77,12 +117,17 @@ class NewTodo extends React.Component {
                   </option>
                 ))}
               </select>
-            </label>
 
+            </label>
+            {errorsMap.userId && (
+              <div className="error" style={{ color: 'red' }}>
+                {errorsMap.userId}
+              </div>
+            )}
           </div>
 
-          <button type="submit">
-            Add Todo
+          <button className="form-submit" type="submit">
+            Add
           </button>
 
         </form>
