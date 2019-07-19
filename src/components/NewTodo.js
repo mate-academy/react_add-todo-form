@@ -21,6 +21,13 @@ class NewTodo extends React.Component {
       user: users.find(user => user.id === +userId),
       completed: false,
     });
+
+    this.setState({
+      valuesMap: {
+        title: '',
+        userId: 0,
+      },
+    });
   };
 
   handleFieldChange = (event) => {
