@@ -1,19 +1,57 @@
 import React from 'react';
 import './App.css';
 
+import TodoList from './components/TodoList';
+import NewTodo from './components/NewTodo';
+
+import todos from './api/todos';
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+const getUser = userId => (
+  users.find(user => user.id === userId)
+);
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+const todosWithUsers = todos.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+class App extends React.Component {
+  state = {
+    todos: todosWithUsers,
+  };
+
+  addTodo = (todo) => {
+    this.setState(prevState => (
+      {
+        todos: [...prevState.todos, todo],
+      }
+    ));
+  };
+
+  render() {
+    return (
+      <main>
+        <div className="App">
+          <h1>Static list of todos</h1>
+          <p>
+            <span>Users: </span>
+            {users.length}
+          </p>
+        </div>
+
+        <NewTodo
+          onSubmit={this.addTodo}
+          todos={this.state.todos}
+        />
+
+        <TodoList
+          allTodos={this.state.todos}
+        />
+
+      </main>
+    );
+  }
 }
 
 export default App;
