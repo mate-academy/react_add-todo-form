@@ -1,13 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 class Modal extends React.Component {
-
   componentDidMount() {
     this.nameInput.focus();
   }
 
   render() {
-    const { toggleModalClose, usersData, submitForm, handleFieldChange, errorsMap } = this.props
+    const {
+      toggleModalClose,
+      usersData, submitForm,
+      handleFieldChange,
+      errorsMap,
+    } = this.props;
 
     const backdropStyle = {
       position: 'fixed',
@@ -16,7 +21,7 @@ class Modal extends React.Component {
       left: 0,
       right: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
+      padding: 50,
     };
 
     const modalStyle = {
@@ -25,21 +30,22 @@ class Modal extends React.Component {
       maxWidth: 600,
       minHeight: 45,
       margin: '0 auto',
-      padding: 30
+      padding: 30,
     };
 
     return (
-      <div className="backdrop" style={backdropStyle} >
+      <div className="backdrop" style={backdropStyle}>
         <div className="modal" style={modalStyle}>
 
           <button
+            type="button"
             className="btn btn-close"
             onClick={toggleModalClose}
           >
             close
-            </button>
+          </button>
 
-          <form onSubmit={submitForm} className="imput-container" >
+          <form onSubmit={submitForm} className="imput-container">
 
             <div className="input-field">
               {errorsMap.task && (
@@ -48,9 +54,9 @@ class Modal extends React.Component {
                 </div>
               )}
               <input
-                ref={(input) => { this.nameInput = input }}
+                ref={(input) => { this.nameInput = input; }}
                 type="search"
-                autocomplete="off"
+                autoComplete="off"
                 name="task"
                 placeholder="Enter task"
                 onChange={handleFieldChange}
@@ -70,7 +76,7 @@ class Modal extends React.Component {
                 onChange={handleFieldChange}
                 name="person"
               >
-                <option value=''>Chose executor from list</option>
+                <option value="">Chose executor from list</option>
                 {usersData.map(user => (
                   <option value={JSON.stringify(user)}>{user.name}</option>
                 ))}
@@ -91,10 +97,9 @@ class Modal extends React.Component {
 
         </div>
       </div>
-    )
-
+    );
   }
-
 }
 
-export default Modal
+
+export default Modal;

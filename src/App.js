@@ -36,13 +36,10 @@ class App extends React.Component {
   }
 
   submitForm = (event) => {
-    console.log(this.state.todosData);
     event.preventDefault();
-    console.log(event.target);
-
     const errorsMap = {};
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (!prevState.valuesMap.task) {
         errorsMap.task = 'Please, write what shoult be done';
       }
@@ -63,17 +60,17 @@ class App extends React.Component {
           user: JSON.parse(prevState.valuesMap.person),
         }],
         valuesMap: {},
-      }
-
-    })
+      };
+    });
   }
 
   handleFieldChange = (event) => {
     const { name, value } = event.target;
+
     this.setState(prevState => ({
-      valuesMap: { ...prevState.valuesMap, [name]: value, },
+      valuesMap: { ...prevState.valuesMap, [name]: value },
       errorsMap: {},
-    }))
+    }));
   }
 
   toggleModal = () => {
@@ -86,11 +83,10 @@ class App extends React.Component {
     this.setState({
       isOpen: false,
       errorsMap: {},
-    })
+    });
   }
 
   render() {
-
     return (
       <div className="App">
         <header>
@@ -98,26 +94,31 @@ class App extends React.Component {
           <h1>List of todos</h1>
 
           <button
-            className="btn" type="button"
+            className="btn"
+            type="button"
             onClick={this.toggleModal}
           >
             Add new item
-        </button>
+          </button>
 
         </header>
-        {this.state.isOpen && < Modal
-          show={this.state.isOpen}
-          toggleModalClose={this.toggleModalClose}
-          usersData={this.state.usersData}
-          submitForm={this.submitForm}
-          errorsMap={this.state.errorsMap}
-          handleFieldChange={this.handleFieldChange} />}
+        {this.state.isOpen
+          && (
+            <Modal
+              show={this.state.isOpen}
+              toggleModalClose={this.toggleModalClose}
+              usersData={this.state.usersData}
+              submitForm={this.submitForm}
+              errorsMap={this.state.errorsMap}
+              handleFieldChange={this.handleFieldChange}
+            />
+          )
+        }
 
         <TodoList todo={this.state.todosData} />
 
       </div>
     );
-
   }
 }
 

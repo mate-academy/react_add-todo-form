@@ -6,6 +6,7 @@ const TodoList = ({ todo }) => {
   const items = todo.map(item => (
     <TodoItem itemData={item} />
   ));
+
   return (
     <table className="TodoList">
       <thead>
