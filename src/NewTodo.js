@@ -4,18 +4,22 @@ import PropTypes from 'prop-types';
 
 class NewTodo extends React.Component {
   state = {
-    todo: {
+    todosMap: {
       title: '',
       userName: '',
     },
+    // errorsMap: {
+    //   title: '',
+    //   userName: '',
+    // }
   }
 
   handleFieldChange = (event) => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
-      todo: {
-        ...prevState.todo,
+      todosMap: {
+        ...prevState.todosMap,
         [name]: value,
       },
     }));
@@ -24,72 +28,70 @@ class NewTodo extends React.Component {
   handleFormSubmit = (event) => {
     event.preventDefault();
 
-    const { todo } = this.state;
+    const { todosMap } = this.state;
     const { onSubmit } = this.props;
 
-    onSubmit(todo);
+    onSubmit(todosMap);
     this.setState(prevState => ({
-      todo: {
-        ...prevState.todo,
-        userName: '',
+      todosMap: {
+        ...prevState.todosMap,
+        userName: 0,
         title: '',
       },
     }));
   }
 
   render() {
-    const { todo } = this.state;
-    const { users } = this.state.props;
+    const { todosMap } = this.state;
+    // const { users } = this.props;
 
     return (
-      <fieldset>
-        <legend>Add TODOs</legend>
-        <form
-          className="form"
-          onSubmit={this.handleFormSubmit}
+      <form
+        className="form"
+        onSubmit={this.handleFormSubmit}
+      >
+        <select
+          className="destination-details"
+          name="userName"
+          onChange={this.handleFieldChange}
         >
-          <select
-            name="userName"
-            defaultValue={todo.userName}
+          <option value="" selected disabled hidden>choose the user</option>
+          {this.props.users.map(user => (
+            <option
+              key={user.id}
+              value={user.name}
+            >
+              {user.name}
+            </option>
+          ))}
+        </select>
+        <label
+          className="new-todo"
+          htmlFor="new-todo-title"
+        >
+          <span>Please, enter a title </span>
+          <input
+            id="new-todo-title"
+            placeholder="Title"
+            value={todosMap.title}
+            name="title"
+            type="text"
             onChange={this.handleFieldChange}
-          >
-            <option value="" selected disabled hidden>choose the user</option>
-            {users.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <label
-            className="new-todo"
-            htmlFor="new-todo-title"
-          >
-            <span>Please, enter a title </span>
-            <input
-              id="new-todo-title"
-              placeholder="Title"
-              value={todo.title}
-              name="title"
-              type="text"
-              onChange={this.handleFieldChange}
-            />
-          </label>
-          <button
-            className="btn-add"
-            type="submit"
-          >
+          />
+        </label>
+        <button
+          className="btn-add"
+          type="submit"
+        >
             Add
-          </button>
-        </form>
-      </fieldset>
+        </button>
+      </form>
     );
   }
 }
 
 NewTodo.propTypes = {
+  users: PropTypes.arrayOf.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

@@ -8,7 +8,6 @@
 .todo-list {
   border-collapse: collapse;
   width: 50%;
-
 }
 
 .todo-list__row {
@@ -21,18 +20,9 @@
   align-items: flex-end;
 }
 
-.new-todo {
-  margin: 5px;
-}
-
-.btn-add {
-  width: 50px;
-  margin: 5px;
-}
-
-.error {
-  font-size: 18px;
-  font-weight: bold;
-  color: red;
-  align-self: center;
+.destination-details {
+  appearance: none;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e0e0e0;
 }
