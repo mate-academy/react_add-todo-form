@@ -91,7 +91,7 @@ class CreateNewTodo extends React.Component {
               value={userId}
               onChange={this.handleChange}
             >
-              <option>Select user</option>
+              <option value="">Select user</option>
               {users.map(user => (
                 <option
                   value={user.id}

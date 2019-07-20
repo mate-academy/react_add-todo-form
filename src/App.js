@@ -34,13 +34,15 @@ class App extends React.Component {
   }
 
   render() {
+    const { visibleTodos } = this.state;
+
     return (
       <div className="App">
         <CreateNewTodo
-          todos={this.state.visibleTodos}
+          todos={visibleTodos}
           onSubmit={this.addTodo}
         />
-        {this.state.visibleTodos.map(todo => (
+        {visibleTodos.map(todo => (
           <TodosList
             key={todo.id}
             todo={todo}
