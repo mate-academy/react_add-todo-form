@@ -8,10 +8,11 @@ class NewTodo extends React.Component {
       title: '',
       userName: '',
     },
-    // errorsMap: {
-    //   title: '',
-    //   userName: '',
-    // }
+
+    errorsMap: {
+      title: '',
+      userName: '',
+    },
   }
 
   handleFieldChange = (event) => {
@@ -27,22 +28,38 @@ class NewTodo extends React.Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-
     const { todosMap } = this.state;
     const { onSubmit } = this.props;
+    const errorsMap = {};
 
-    onSubmit(todosMap);
-    this.setState(prevState => ({
+    this.setState((prevState) => {
+      if (!prevState.todosMap.title) {
+        errorsMap.title = 'Please enter the title';
+      }
+
+      if (!prevState.todosMap.userName) {
+        errorsMap.userName = 'Please enter the user';
+      }
+
+      if (Object.keys(errorsMap).length > 0) {
+        return { errorsMap };
+      }
+
+      onSubmit(todosMap);
+
+      return {};
+    });
+
+    this.setState({
       todosMap: {
-        ...prevState.todosMap,
-        userName: 0,
         title: '',
+        userName: 0,
       },
-    }));
-  }
+    });
+  };
 
   render() {
-    const { todosMap } = this.state;
+    const { todosMap, errorsMap } = this.state;
     // const { users } = this.props;
 
     return (
@@ -53,9 +70,10 @@ class NewTodo extends React.Component {
         <select
           className="destination-details"
           name="userName"
+          value={todosMap.userId}
           onChange={this.handleFieldChange}
         >
-          <option value="" selected disabled hidden>choose the user</option>
+          <option value="" selected hidden>choose the user</option>
           {this.props.users.map(user => (
             <option
               key={user.id}
@@ -65,20 +83,32 @@ class NewTodo extends React.Component {
             </option>
           ))}
         </select>
-        <label
-          className="new-todo"
-          htmlFor="new-todo-title"
-        >
-          <span>Please, enter a title </span>
-          <input
-            id="new-todo-title"
-            placeholder="Title"
-            value={todosMap.title}
-            name="title"
-            type="text"
-            onChange={this.handleFieldChange}
-          />
-        </label>
+        {errorsMap.userName && (
+          <div className="error">
+            {errorsMap.userName}
+          </div>
+        )}
+        <br />
+        <div>
+          <label
+            className="new-todo"
+            htmlFor="new-todo-title"
+          >
+            <input
+              id="new-todo-title"
+              placeholder="Title"
+              value={todosMap.title}
+              name="title"
+              type="text"
+              onChange={this.handleFieldChange}
+            />
+          </label>
+          {errorsMap.title && (
+            <div className="error">
+              {errorsMap.title}
+            </div>
+          )}
+        </div>
         <button
           className="btn-add"
           type="submit"
