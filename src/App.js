@@ -76,7 +76,7 @@ class App extends React.Component {
     }));
   }
 
-  toggleModalCloser = () => {
+  toggleModalClose = () => {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
       errorsMap: {},
