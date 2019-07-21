@@ -10,7 +10,8 @@ const prepared = () => {
   const todowithUser = todos.map(todo => ({
     ...todo,
     userName: users
-      .find(user => user.id === todo.userId),
+      .filter(user => user.id === todo.userId)
+      .map(person => person.name),
   }));
 
   return todowithUser;

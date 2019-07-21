@@ -66,6 +66,7 @@ class NewTodo extends React.Component {
       todosMap: {
         title: '',
         userName: '',
+
       },
     });
   };
@@ -84,11 +85,13 @@ class NewTodo extends React.Component {
           className="destination-details"
           name="userName"
           onFocus={this.handleInputFocus}
-          value={todosMap.userId}
+          value={todosMap.userName}
           onChange={this.handleFieldChange}
         >
           <option
-            value={0}
+            value=""
+            disabled
+            hidden
             selected
           >
             choose the user
