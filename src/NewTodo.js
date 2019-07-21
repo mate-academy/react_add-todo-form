@@ -12,18 +12,8 @@ class NewTodo extends Component {
         id: [...this.props.data].length + 1,
         title: '',
         completed: false,
-        user: {
-          name: '',
-        },
+        user: { name: '' },
       },
-
-      errorsMap: {
-        title: '',
-        user: {
-          name: '',
-        },
-      },
-
     };
   }
 
@@ -54,10 +44,7 @@ class NewTodo extends Component {
       valuesMap: {
         ...valuesMap,
         id: [...this.props.data].length + 1,
-
-        user: {
-          name: value,
-        },
+        user: { name: value },
       },
     });
   };
@@ -66,36 +53,17 @@ class NewTodo extends Component {
     event.preventDefault();
     this.props.onFormSubmit(this.state.valuesMap);
 
-    const errorsMap = {
-      title: '',
-      user: {
-        name: '',
-      },
-    };
+    const clear = () => this.setState({ inputControl: '' });
 
-    this.setState((prevState) => {
-      if (!prevState.errorsMap.title) {
-        errorsMap.title = 'Please enter the title';
-      }
-
-      if (!prevState.errorsMap.user.name) {
-        errorsMap.user.name = 'Please choose a user';
-      }
-
-      if (Object.keys(errorsMap).length > 0) {
-        return { errorsMap };
-      }
-
-      return true;
-    });
-  }
+    clear();
+  };
 
   render() {
-    const { errorsMap, inputControl } = this.state;
+    const { inputControl, valuesMap } = this.state;
     const { users } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} noValidate>
+      <form onSubmit={this.handleSubmit}>
         <div className="form-box">
           <div className="task-field ">
             <label htmlFor="todo">
@@ -111,18 +79,33 @@ class NewTodo extends Component {
                 maxLength="40"
               />
             </label>
-            {errorsMap.title && (
-              <div className="error">{errorsMap.title}</div>
-            )}
+            {valuesMap.title
+              .split(' ')
+              .filter(elem => elem.length > 1)
+              .length > 1 ? (
+                ''
+              ) : (
+                <div
+                  className="error"
+                  style={{ color: 'red', fontSize: '10px' }}
+                >
+                  {' '}
+                Task must have minimum 2 words
+                </div>
+              )}
           </div>
-          {' - '}
+          {' _ '}
           <div className="person-field">
             <select
               className="person-select"
               name="name"
+              title="choose name"
+              defaultValue=""
               onChange={this.handleChangeSelect}
             >
-              <option>choose name...</option>
+              <option value="">
+                choose name...
+              </option>
 
               {users.map(user => (
                 <option name="name" value={user.name} key={user.id}>
@@ -131,7 +114,28 @@ class NewTodo extends Component {
               ))}
             </select>
             {' '}
-            <button type="submit">+ Add</button>
+            <button
+              className={
+                !valuesMap.title.trim()
+                || !valuesMap.user.name
+                || valuesMap.title
+                  .split(' ')
+                  .filter(elem => elem.length > 1)
+                  .length < 2 ? 'btn btn-outline-info' : 'btn btn-info'
+              }
+              type="submit"
+              title="Click to adding task"
+              disabled={
+                !valuesMap.title.trim()
+                || !valuesMap.user.name
+                || valuesMap.title
+                  .split(' ')
+                  .filter(elem => elem.length > 1)
+                  .length < 2
+              }
+            >
+              + Add
+            </button>
           </div>
         </div>
       </form>

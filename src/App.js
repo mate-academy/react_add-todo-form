@@ -18,7 +18,7 @@ class App extends Component {
 
     this.setState({
       users,
-      copyUsers: users,
+      copyUsers: [...users],
       visibleTodos: todos.map(todo => ({
         ...todo,
         user: users.find(user => todo.userId === user.id),
@@ -86,7 +86,7 @@ class App extends Component {
           data={visibleTodos}
           onFormSubmit={this.handleFormSubmit}
           users={users}
-          key={visibleTodos.map(todo => todo.id)}
+          // key={visibleTodos.map(todo => todo.id)}
         />
         <span>Users:</span>
         {copyUsers.length}

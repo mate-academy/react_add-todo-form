@@ -18,7 +18,8 @@
 }
 
 .task-input {
-width: 400px;
+  width: 400px;
+  height: 38px;
 }
 
 input{
@@ -26,8 +27,13 @@ input{
 }
 
 .person-select {
-  height: 30px;
+  height: 38px;
   width: 150px;
+}
+
+.btn {
+  margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .task-column {
