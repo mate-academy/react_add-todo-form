@@ -1,0 +1,40 @@
+.form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 12px;
+  background: aquamarine;
+  font-size: 16px;
+  border: 2px solid #5c6d86;
+}
+
+.form--field {
+  border: none;
+  border-bottom: 2px solid #5c6d86;
+  text-align: left;
+}
+
+.form--field-todo,
+.form--field-user {
+  width: 200px;
+  height: 30px;
+  background: aliceblue;
+  margin-left: 12px;
+}
+
+.form--button-submit {
+  margin: 15px;
+  width: 160px;
+  height: 50px;
+  background: antiquewhite;
+  color: #5c6d86;
+  text-transform: uppercase;
+}
+
+.form--field-error {
+  visibility: visible;
+  color: red;
+}
+
+.invisible {
+  visibility: hidden;
+}
