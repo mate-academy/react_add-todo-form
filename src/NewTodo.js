@@ -18,13 +18,25 @@ class NewTodo extends React.Component {
   handleFieldChange = (event) => {
     const { name, value } = event.target;
 
-    this.setState(prevState => ({
+    this.setState(({ todosMap }) => ({
       todosMap: {
-        ...prevState.todosMap,
-        [name]: value,
+        ...todosMap,
+        [name]: value.replace(/[^\w]/, ''),
       },
     }));
   };
+
+  handleInputFocus = (event) => {
+    const errorClear = event.target.name;
+
+    this.setState(prevState => ({
+      ...prevState,
+      errorsMap: {
+        ...prevState.errorsMap,
+        [errorClear]: false,
+      },
+    }));
+  }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
@@ -53,14 +65,14 @@ class NewTodo extends React.Component {
     this.setState({
       todosMap: {
         title: '',
-        userName: 0,
+        userName: '',
       },
     });
   };
 
   render() {
     const { todosMap, errorsMap } = this.state;
-    // const { users } = this.props;
+    const { users } = this.props;
 
     return (
       <form
@@ -70,14 +82,21 @@ class NewTodo extends React.Component {
         <select
           className="destination-details"
           name="userName"
+          onFocus={this.handleInputFocus}
           value={todosMap.userId}
           onChange={this.handleFieldChange}
         >
-          <option value="" selected hidden>choose the user</option>
-          {this.props.users.map(user => (
+          <option
+            value={0}
+            selected
+          >
+            choose the user
+          </option>
+          {users.map(user => (
             <option
               key={user.id}
               value={user.name}
+              name="userName"
             >
               {user.name}
             </option>
@@ -95,9 +114,10 @@ class NewTodo extends React.Component {
             htmlFor="new-todo-title"
           >
             <input
-              id="new-todo-title"
+              id="title"
               placeholder="Title"
               value={todosMap.title}
+              onFocus={this.handleInputFocus}
               name="title"
               type="text"
               onChange={this.handleFieldChange}
