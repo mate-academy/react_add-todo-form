@@ -8,7 +8,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 .TodoItem {
   border: 1px solid black;
   background: white;
@@ -81,17 +80,13 @@ header {
 }
 
 input[type=search] {
-
   padding: 7px 7px;
   padding-bottom: 10px;
   margin: 5px 5px;
   box-sizing: border-box;
-
-
 }
 
 select {
-
   height: 37px;
 }
 
@@ -102,11 +97,31 @@ select {
 }
 
 .btn-close {
-display: block;
-margin: 0 5px 10px   auto;
+  display: block;
+  margin: 0 5px 10px auto;
 }
-
 
 .error {
   font-size: 12px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 40px;
+}
+
+.modal {
+  position: relative;
+  background-color: #fff;
+  border-radius: 5px;
+  max-width: 600px;
+  max-height: 45px;
+  margin: 0 auto;
+  padding: 30px;
+  padding-bottom: 70px;
 }

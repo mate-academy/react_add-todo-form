@@ -59,7 +59,10 @@ class App extends React.Component {
           completed: false,
           user: JSON.parse(prevState.valuesMap.person),
         }],
-        valuesMap: {},
+        valuesMap: {
+          task: '',
+          person: '',
+        },
       };
     });
   }
@@ -73,17 +76,11 @@ class App extends React.Component {
     }));
   }
 
-  toggleModal = () => {
-    this.setState({
-      isOpen: true,
-    });
-  }
-
-  toggleModalClose = () => {
-    this.setState({
-      isOpen: false,
+  toggleModalCloser = () => {
+    this.setState(prevState => ({
+      isOpen: !prevState.isOpen,
       errorsMap: {},
-    });
+    }));
   }
 
   render() {
@@ -96,7 +93,7 @@ class App extends React.Component {
           <button
             className="btn"
             type="button"
-            onClick={this.toggleModal}
+            onClick={this.toggleModalClose}
           >
             Add new item
           </button>
@@ -106,6 +103,7 @@ class App extends React.Component {
           && (
             <Modal
               show={this.state.isOpen}
+              valuesMap={this.state.valuesMap}
               toggleModalClose={this.toggleModalClose}
               usersData={this.state.usersData}
               submitForm={this.submitForm}
