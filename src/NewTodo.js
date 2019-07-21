@@ -80,6 +80,7 @@ class NewTodo extends React.Component {
         onSubmit={this.handleFormSubmit}
       >
         <select
+          id="userName"
           className="destination-details"
           name="userName"
           onFocus={this.handleInputFocus}
