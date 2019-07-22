@@ -1,19 +1,44 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 
+import PropTypes from 'prop-types';
+
+import todos from './api/todos';
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+import { setTodos } from './redux/todos';
+import { setUsers } from './redux/users';
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+import TodoList from './TodoList';
+import AddTodo from './AddTodo';
+
+class App extends React.Component {
+  componentDidMount() {
+    const { setTodos: setNewTodos, setUsers: setNewUsers } = this.props;
+
+    setNewTodos(todos, users);
+    setNewUsers(users);
+  }
+
+  render() {
+    return (
+      <main>
+        <AddTodo />
+        <TodoList />
+      </main>
+    );
+  }
 }
 
-export default App;
+App.propTypes = {
+  setTodos: PropTypes.func.isRequired,
+  setUsers: PropTypes.func.isRequired,
+};
+
+const mapActions = {
+  setTodos,
+  setUsers,
+};
+
+export default connect(null, mapActions)(App);
