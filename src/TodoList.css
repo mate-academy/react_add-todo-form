@@ -1,0 +1,20 @@
+.table-list {
+  width: 700px;
+  margin: 24px auto;
+  border-collapse: collapse;
+  background: antiquewhite;
+  border-top: 2px solid #5c6d86;
+}
+
+.table-list--row {
+  border-bottom: 2px solid #5c6d86;
+}
+
+.table-list--item {
+  padding: 12px 0;
+}
+
+.todo-item__user {
+  margin-left: 12px;
+  text-align: left;
+}
