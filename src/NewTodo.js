@@ -15,14 +15,12 @@ class NewTodo extends React.Component {
   };
 
   onFieldChange = (event) => {
-    const inputName = event.target.name;
-    const newValue = event.target.value;
+    const { name, value } = event.target;
 
     this.setState(state => ({
-      ...state,
       valuesMap: {
         ...state.valuesMap,
-        [inputName]: newValue,
+        [name]: value,
       },
     }));
   };
@@ -30,7 +28,6 @@ class NewTodo extends React.Component {
   foundErrors = (field, value) => {
     if (!value) {
       this.setState(state => ({
-        ...state,
         errorsMap: {
           ...state.errorsMap,
           [field]: true,
@@ -44,13 +41,12 @@ class NewTodo extends React.Component {
   };
 
   onFocusInput = (event) => {
-    const clearInputErrors = event.target.name;
+    const nameInputErrors = event.target.name;
 
     this.setState(state => ({
-      ...state,
       errorsMap: {
         ...state.errorsMap,
-        [clearInputErrors]: false,
+        [nameInputErrors]: false,
       },
     }));
   };
@@ -127,7 +123,7 @@ class NewTodo extends React.Component {
               <option value="" selected disabled>Users</option>
               {
                 this.props.users.map(user => (
-                  <option value={user.id}>{user.name}</option>
+                  <option key={user.id} value={user.id}>{user.name}</option>
                 ))
               }
             </select>

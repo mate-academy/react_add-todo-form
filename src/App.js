@@ -8,39 +8,42 @@ import todos from './api/todos';
 
 class App extends React.Component {
   state = {
-    todosAddUsers: [],
+    todoList: [],
   };
 
   componentDidMount() {
-    const todosAddUsers = todos.map(todo => ({
+    const todoList = todos.map(todo => ({
       ...todo,
       user: users.find(user => user.id === todo.userId),
     }));
 
-    this.setState({ todosAddUsers });
+    this.setState({ todoList });
   }
 
   addTodo = (todo) => {
     const { userId, title } = todo;
 
     this.setState((prevState) => {
-      const { todosAddUsers } = prevState;
+      const { todoList } = prevState;
       const newTodo = {
         userId: +userId,
         title,
-        id: todosAddUsers.length + 1,
+        id: todoList.length + 1,
         completed: false,
         user: users.find(user => user.id === +userId),
       };
 
-      todosAddUsers.push(newTodo);
-
-      return { todosAddUsers };
+      return {
+        todoList: [
+          ...todoList,
+          newTodo,
+        ],
+      };
     });
   };
 
   render() {
-    const { todosAddUsers } = this.state;
+    const { todoList } = this.state;
 
     return (
       <main className="App">
@@ -50,7 +53,7 @@ class App extends React.Component {
           users={users}
         />
         <TodoList
-          todos={todosAddUsers}
+          todos={todoList}
         />
       </main>
     );
