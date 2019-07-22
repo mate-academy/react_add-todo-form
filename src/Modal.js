@@ -30,7 +30,7 @@ class Modal extends React.Component {
 
             <div className="input-field">
               {errorsMap.task && (
-                <div className="error" style={{ color: 'red' }}>
+                <div className="error">
                   {errorsMap.task}
                 </div>
               )}
