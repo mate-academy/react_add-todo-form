@@ -21,7 +21,7 @@ class AddTodo extends React.Component {
 
   hangeChangeInput = (e) => {
     const { name, value } = e.target;
-    let newValue;
+    let newValue = value;
 
     if (name === 'title') {
       newValue = value.match(/[a-zA-Z]|\s/g);
