@@ -66,7 +66,6 @@ class NewTodo extends React.Component {
       todosMap: {
         title: '',
         userName: '',
-
       },
     });
   };

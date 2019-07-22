@@ -7,8 +7,9 @@ import TodoList from './TodoList';
 import NewTodo from './NewTodo';
 
 const prepared = () => {
-  const todowithUser = todos.map(todo => ({
+  const todowithUser = todos.map((todo, index) => ({
     ...todo,
+    id: index + 1,
     userName: users
       .filter(user => user.id === todo.userId)
       .map(person => person.name),
@@ -29,7 +30,8 @@ class App extends React.Component {
         {
           userName: todo.userName,
           title: todo.title,
-          id: prevState.todos.length + 1,
+          id: todo.id,
+          // id: prevState.todos.length + 1,
           completed: false,
         },
       ],
@@ -48,7 +50,9 @@ class App extends React.Component {
           <span>Users: </span>
           {users.length}
         </p>
-        <TodoList todos={this.state.todos} />
+        <TodoList
+          todos={this.state.todos}
+        />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Todo from './Todo';
 import './App.css';
 
 const TodoList = ({ todos }) => (
@@ -14,15 +15,10 @@ const TodoList = ({ todos }) => (
     </thead>
     <tbody>
       {todos.map(todo => (
-        <tr
+        <Todo
           key={todo.id}
-          className="todo-list__row"
-        >
-          <td>{todo.id}</td>
-          <td>{todo.userName}</td>
-          <td>{todo.title}</td>
-          <td>{todo.completed || 'x'}</td>
-        </tr>
+          todo={todo}
+        />
       ))}
     </tbody>
   </table>
