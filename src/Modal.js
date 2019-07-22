@@ -50,7 +50,7 @@ class Modal extends React.Component {
             <div className="select-field">
 
               {errorsMap.person && (
-                <div className="error" style={{ color: 'red' }}>
+                <div className="error">
                   {errorsMap.person}
                 </div>
               )}

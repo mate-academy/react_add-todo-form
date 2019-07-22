@@ -40,21 +40,21 @@ body {
   margin-top: 50px;
 }
 
-.row1 {
+.status-row {
   width: 5%;
   text-align: center;
 }
 
-.row2 {
+.task-row {
   width: 72%;
 }
 
-.row3 {
+.name-row {
   width: 18%;
   text-align: center;
 }
 
-.row4 {
+.id-row {
   width: 5%;
   text-align: center;
 }
@@ -103,6 +103,7 @@ select {
 
 .error {
   font-size: 12px;
+  color:red;
 }
 
 .backdrop {

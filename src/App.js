@@ -27,7 +27,7 @@ class App extends React.Component {
   componentDidMount() {
     this.setState({
       usersData: users,
-      idCounter: Math.max(...todos.map(item => item.id), 0),
+      idCounter: todos.length,
       todosData: todos.map(todo => ({
         ...todo,
         user: users.find(user => (user.id === todo.userId)),

@@ -11,10 +11,10 @@ const TodoList = ({ todo }) => {
     <table className="TodoList">
       <thead>
         <tr>
-          <th className="row1">Status</th>
-          <th className="row4">Id</th>
-          <th className="row2">Task</th>
-          <th className="row3">Name</th>
+          <th className="status-row">Status</th>
+          <th className="id-row">Id</th>
+          <th className="task-row">Task</th>
+          <th className="name-row">Name</th>
         </tr>
       </thead>
       <tbody>
