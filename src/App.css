@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap");
+body {
+  margin: 0;
+}
+
+* {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.container {
+  margin: 15px auto;
+  width: 500px;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+          box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+}
+
+.container-header {
+  margin: 0 0 10px;
+  text-align: center;
+  color: #3572b0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 5px;
+}
+
+.table__header th {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 3px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.table__body td {
+  padding: 10px 3px;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.875rem;
+  line-height: 1.43;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form {
+  text-align: center;
+}
+
+.form * {
+  width: 70%;
+  height: 30px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.form *:not(:last-child), .form__input {
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  outline: none;
+}
+
+.form__input {
+  padding-left: 4px;
+}
+
+.form__submit {
+  width: 50%;
+  background: #3572b0;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+
+.form__submit:hover {
+  opacity: .9;
+}
+/*# sourceMappingURL=App.css.map */
