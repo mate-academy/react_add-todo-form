@@ -26,6 +26,17 @@ class NewTodo extends React.Component {
     }));
   };
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState(({ todosMap }) => ({
+      todosMap: {
+        ...todosMap,
+        [name]: value,
+      },
+    }));
+  };
+
   handleInputFocus = (event) => {
     const errorClear = event.target.name;
 
@@ -85,7 +96,7 @@ class NewTodo extends React.Component {
           name="userName"
           onFocus={this.handleInputFocus}
           value={todosMap.userName}
-          onChange={this.handleFieldChange}
+          onChange={this.handleChange}
         >
           <option
             value=""
