@@ -2,7 +2,7 @@
 
 ## Demo link
 
-Add link here: `[DEMO LINK](https://serdavydko.github.io/react_todo-app/)`
+Add link here: [DEMO LINK](https://serdavydko.github.io/react_todo-app/)
 
 
 ## Task
