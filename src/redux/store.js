@@ -1,10 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import todosReducer from './todos';
-import loadingReducer from './loading';
+import todosReducer from './todoList';
 
 const reducer = combineReducers({
-  isLoaded: loadingReducer,
-  todos: todosReducer,
+  todoList: todosReducer,
 });
 
 const store = createStore(reducer);
