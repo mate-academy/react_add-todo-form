@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+body {
+  margin: 0;
+}
+
+* {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+  // color: #3572b0;
+}
+
+// TODO LIST STYLES
+.container {
+  margin: 15px auto;
+  width: 500px;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+
+  &-header {
+    margin: 0 0 10px;
+    text-align: center;
+    color: #3572b0;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 5px;
+
+  &__header th {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 3px;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    text-align: left;
+  }
+
+  &__body td {
+    padding: 10px 3px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 0.875rem;
+    line-height: 1.43;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+  }
+}
+
+.form {
+  text-align: center;
+
+  & * {
+    width: 70%;
+    height: 30px;
+    box-sizing: border-box;
+    margin-top: 10px;
+  }
+
+  & *:not(:last-child),
+  &__input {
+    border: none;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    outline: none;
+  }
+
+  &__input {
+    padding-left: 4px;
+  }
+
+  &__submit {
+    width: 50%;
+    background: #3572b0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  &__submit:hover {
+    opacity: .9;
+  }
+}
