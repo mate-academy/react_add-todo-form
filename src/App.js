@@ -20,6 +20,7 @@ const prepared = () => {
 class App extends React.Component {
     state = {
       todos: prepared(),
+      counter: 3,
     };
 
   addTodo = (todo) => {
@@ -29,10 +30,11 @@ class App extends React.Component {
         {
           userName: todo.userName,
           title: todo.title,
-          id: todos.length + 1,
+          id: prevState.counter,
           completed: false,
         },
       ],
+      counter: prevState.counter + 1,
     }));
   }
 
