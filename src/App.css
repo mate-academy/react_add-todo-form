@@ -1,3 +1,128 @@
+body {
+  background: whitesmoke;
+}
+
 .App {
+  margin: 0 auto;
+  max-width: 800px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.TodoItem {
+  border: 1px solid black;
+  background: white;
+  padding-left: 5px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+
+.User {
+  font-weight: 600;
+}
+
+.App__load-button {
+  height: 40px;
+  width: 80px;
+  border: 2px solid black;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.App__load-button:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+
+}
+
+.App-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.status-row {
+  width: 5%;
   text-align: center;
+}
+
+.task-row {
+  width: 72%;
+}
+
+.name-row {
+  width: 18%;
+  text-align: center;
+}
+
+.id-row {
+  width: 5%;
+  text-align: center;
+}
+
+th {
+  background-color: black;
+  color: white;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.btn {
+  cursor: pointer;
+  height: 35px;
+  border-radius: 4%;
+  box-shadow: 0 5px 0 black;
+  margin-left: 5px;
+}
+
+input[type=search] {
+  padding: 7px 7px;
+  padding-bottom: 10px;
+  margin: 5px 5px;
+  box-sizing: border-box;
+}
+
+select {
+  height: 37px;
+}
+
+.imput-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.btn-close {
+  display: block;
+  margin: 0 5px 10px auto;
+}
+
+.error {
+  font-size: 12px;
+  color:red;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 40px;
+}
+
+.modal {
+  position: relative;
+  background-color: #fff;
+  border-radius: 5px;
+  max-width: 600px;
+  max-height: 45px;
+  margin: 0 auto;
+  padding: 30px;
+  padding-bottom: 70px;
 }
