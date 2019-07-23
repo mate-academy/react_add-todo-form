@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setTodos } from './redux/todos';
-import { setLoaded } from './redux/loading';
+import { setTodos, setLoaded } from './redux/todoList';
 import TodoList from './components/TodoList/TodoList';
 
 import todos from './api/todos';
@@ -35,7 +34,9 @@ App.propTypes = {
   isLoaded: PropTypes.bool.isRequired,
 };
 
-const mapState = ({ isLoaded }) => ({ isLoaded });
+const mapState = ({ todoList }) => ({
+  isLoaded: todoList.isLoaded,
+});
 const mapDispatch = { setTodos, setLoaded };
 
 export default connect(

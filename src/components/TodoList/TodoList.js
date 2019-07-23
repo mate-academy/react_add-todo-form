@@ -17,7 +17,7 @@ const TodoList = ({ todos }) => (
       </thead>
       <tbody>
         {todos.map(todo => (
-          <tr className="table__body">
+          <tr key={todo.id} className="table__body">
             <td>{todo.id}</td>
             <td>{todo.title}</td>
             <td>{todo.user.name}</td>
@@ -43,6 +43,8 @@ TodoList.propTypes = {
   ).isRequired,
 };
 
-const mapState = ({ todos }) => ({ todos });
+const mapState = ({ todoList }) => ({
+  todos: todoList.todos,
+});
 
 export default connect(mapState)(TodoList);

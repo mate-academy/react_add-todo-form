@@ -47,29 +47,36 @@ body {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.form {
-  text-align: center;
+.form * {
+  display: block;
+  margin: 10px auto 0;
+  width: 350px;
+  font-size: 14px;
 }
 
-.form * {
-  width: 70%;
+.form__input {
   height: 30px;
+  padding-left: 4px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  margin-top: 10px;
 }
 
-.form *:not(:last-child), .form__input {
+.form__select {
+  height: 30px;
+}
+
+.form__border-bottom {
   border: none;
   border-bottom: 1px solid #e0e0e0;
   outline: none;
 }
 
-.form__input {
-  padding-left: 4px;
+.form__border-bottom:focus {
+  border-bottom: 1px solid #3572b0;
 }
 
 .form__submit {
+  height: 30px;
   width: 50%;
   background: #3572b0;
   color: #fff;
@@ -83,5 +90,12 @@ body {
 
 .form__submit:hover {
   opacity: .9;
+}
+
+.form__error {
+  padding-left: 8px;
+  margin: 5px auto 0;
+  font-size: 13px;
+  color: #f44336;
 }
 /*# sourceMappingURL=App.css.map */

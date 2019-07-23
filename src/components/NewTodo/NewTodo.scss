@@ -1,0 +1,51 @@
+.form {
+  & * {
+    display: block;
+    margin: 10px auto 0;
+    width: 350px;
+    font-size: 14px;
+  }
+
+  &__input {
+    height: 30px;
+    padding-left: 4px;
+    box-sizing: border-box;
+  }
+
+  &__select {
+    height: 30px;
+  }
+
+  &__border-bottom {
+    border: none;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    outline: none;
+  }
+
+  &__border-bottom:focus {
+    border-bottom: 1px solid #3572b0;
+  }
+
+  &__submit {
+    height: 30px;
+    width: 50%;
+    background: #3572b0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  &__submit:hover {
+    opacity: .9;
+  }
+  
+  &__error {
+    padding-left: 8px;
+    margin: 5px auto 0;
+    font-size: 13px;
+    color: #f44336;
+  }
+}
