@@ -1,3 +1,40 @@
 .App {
   text-align: center;
 }
+
+.users-info {
+  display: grid;
+  grid-template-columns: repeat(4,2fr);
+  grid-row-gap: 20px;
+}
+
+.single-user {
+  border: 1px solid;
+  margin: 5px;
+  padding: 10px 20px;
+  background: beige;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.no-title__error:after {
+  content: "Write title";
+  background: red;
+  color: white;
+  position: absolute;
+  top: 30px;
+  margin-left: 20px;
+  padding: 5px;
+  border-radius: 18px 2px 2px;
+}
+
+.no-selected-user__error:after {
+  content: "Select user";
+  background: blue;
+  color: white;
+  position: absolute;
+  top: 63px;
+  margin-left: 20px;
+  padding: 5px;
+  border-radius: 18px 2px 2px;
+}
