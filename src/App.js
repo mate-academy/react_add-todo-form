@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import './App.css';
 
@@ -5,29 +6,17 @@ import users from './api/users';
 import todos from './api/todos';
 
 import TodoList from './components/TodoList';
+import NewToDo from './components/NewToDo';
 
 class App extends React.Component {
   state = {
-    todos: [],
-    users: [],
-    todosWidthUsers: [],
+    todos: [...todos],
+    users: [...users],
   };
 
-  componentDidMount() {
-    this.setState({
-      users: [...users],
-      todos: [...todos],
-      todosWidthUsers: todos.map(todo => ({
-        ...todo,
-        user: users.find(user => user.id === todo.userId),
-      })),
-    });
-  }
-
-  sortingByTitle = () => {
+  addUserAndTodo = (obj) => {
     this.setState(prevState => ({
-      todosWidthUsers: prevState.todosWidthUsers
-        .sort((todoA, todoB) => ((todoA.title > todoB.title) ? 1 : -1)),
+      todos: prevState.todos.concat(obj),
     }));
   };
 
@@ -39,16 +28,13 @@ class App extends React.Component {
           <span>Users: </span>
           {this.state.users.length}
         </p>
-        <button
-          type="submit"
-          onClick={this.sortingByTitle}
-        >
-          Sort By Title
-        </button>
+        <NewToDo
+          users={this.state.users}
+          addUserAndTodo={this.addUserAndTodo}
+        />
         <TodoList
           users={this.state.users}
           todos={this.state.todos}
-          todosWidthUsers={this.state.todosWidthUsers}
         />
       </div>
     );

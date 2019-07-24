@@ -1,3 +1,79 @@
 .App {
   text-align: center;
 }
+
+.todoList {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  margin: 16px auto;
+}
+
+.todoList__item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+}
+
+.todoList__item-todo {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.todoList__item-name {
+  margin: 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+.todoList__item-title {
+  margin: 0 15px 0 0;
+  font-weight: 400;
+}
+
+.todoList__item-check {
+  margin: 0;
+}
+
+.todoList__item-id {
+  margin: 0 15px 0 0;
+}
+
+.addTodoForm {
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+  padding: 5px 10px;
+  max-width: 50%;
+  margin: auto;
+}
+
+.addTodoForm__title {
+  margin-right: 20px;
+}
+
+.addTodoForm__title input {
+  margin-left: 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+}
+
+.addTodoForm__user-select {
+  margin-right: 20px;
+}
+
+.addTodoForm__user-select select {
+  margin-left: 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+}
+
+.addTodoForm__title input:focus,
+.addTodoForm__user-select select:focus {
+  outline: none;
+}
