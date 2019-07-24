@@ -1,0 +1,32 @@
+.todolist-table__status {
+  text-align: center;
+}
+
+.todolist-table__checkbox {
+  border-radius: 50%;
+  width: 100px;
+}
+
+.todolist-table__task {
+  font-weight: 700;
+}
+
+input[type=checkbox], input[type=radio]
+
+input[type=checkbox] + label:before {
+    content: "\2713";
+    color: transparent;
+    display: inline-block;
+    border: 1px solid #000;
+    box-shadow: 3px 3px 3px #a3a3a3;
+    font-size: 20px;
+    line-height: 22px;
+    margin: -5px 5px 0 0;
+    height: 18px;
+    width: 18px;
+}
+
+input[type=checkbox]:checked + label:before {
+    color: #000;
+}
+
