@@ -4,8 +4,8 @@ import './addTodo.css';
 
 class AddTodo extends React.Component {
   state = {
-    errorsList: {
-    },
+    userId: 0,
+    errorsList: {},
   }
 
   handleFormSubmit = (event) => {
@@ -15,20 +15,19 @@ class AddTodo extends React.Component {
     event.preventDefault();
 
     this.setState((prevState) => {
-      switch (true) {
-        case (!prevState.title):
-          errorsList.title = 'Enter the Todo';
-
-        case (+prevState.userId === 0):
-          errorsList.user = 'Select user first';
-
-        case (Object.keys(errorsList).length > 0):
-          return { errorsList };
+      if (!prevState.title) {
+        errorsList.title = 'Enter the Todo';
+      }
+      if (+prevState.userId === 0) {
+        errorsList.user = 'Select user first';
+      }
+      if (Object.keys(errorsList).length > 0) {
+        return { errorsList };
       }
 
       addTodo({
         id: todos.length +1,
-        user: users.find(user => user.id === +prevState.userId),
+        user: users.find(user => +user.id === +prevState.userId),
         title: prevState.title,
         completed: false,
       });
@@ -36,7 +35,7 @@ class AddTodo extends React.Component {
 
     this.setState({
       title: '',
-      userId: '',
+      userId: 0,
     });
   };
 
@@ -59,7 +58,7 @@ class AddTodo extends React.Component {
     return (
       <form className="newTodo" onSubmit={this.handleFormSubmit}>
         <div>
-        <span>Add new todo:&ensp;</span>
+          <span> Add new todo:&ensp;</span>
             <input
               className="newTodo__title"
               type="text"
@@ -86,7 +85,7 @@ class AddTodo extends React.Component {
             value={userId}
             className="newTodo__user"
           >
-            <option value="0"></option>
+            <option value={0}></option>
 
             {users.map(user => (
               <option
