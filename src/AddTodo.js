@@ -19,7 +19,7 @@ class AddTodo extends React.Component {
         case (!prevState.title):
           errorsList.title = 'Enter the Todo';
 
-        case (!prevState.userId):
+        case (+prevState.userId === 0):
           errorsList.user = 'Select user first';
 
         case (Object.keys(errorsList).length > 0):
