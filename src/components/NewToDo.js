@@ -5,6 +5,8 @@ class NewToDo extends React.Component {
   state = {
     todoInput: '',
     selectedUserId: '',
+    errorTitle: false,
+    errorSelect: false,
   };
 
   preventDefault = (event) => {
@@ -16,6 +18,11 @@ class NewToDo extends React.Component {
     this.setState({
       todoInput: value,
     });
+    if(value !== ''){
+      this.setState({
+        errorTitle: false,
+      })
+    }
   };
 
   selectHandle = (event) => {
@@ -23,6 +30,11 @@ class NewToDo extends React.Component {
     this.setState({
       selectedUserId: userId,
     });
+    if(userId !== 0 || userId !== ''){
+      this.setState({
+        errorSelect: false,
+      })
+    }
   };
   
   clearForm = () => {
@@ -30,6 +42,29 @@ class NewToDo extends React.Component {
       selectedUserId: 0,
       todoInput: ''
     })
+  };
+  
+  checkIfFillForm = () => {
+    const { todoInput, selectedUserId } = this.state;
+    switch (true) {
+      case todoInput === '' && selectedUserId === '':
+        this.setState({
+          errorTitle: true,
+          errorSelect: true,
+        });
+        break;
+      case todoInput === '':
+        this.setState({
+          errorTitle: true,
+        });
+        break;
+      case selectedUserId === '':
+        this.setState({
+          errorSelect: true,
+        });
+        break;
+      default: this.saveTodo()
+    }
   };
 
   saveTodo = () => {
@@ -39,7 +74,10 @@ class NewToDo extends React.Component {
       title: todoInput,
       completed: false,
     };
-
+    this.setState({
+      errorTitle: false,
+      errorSelect: false,
+    });
     this.props.addUserAndTodo(todo);
     this.clearForm();
   };
@@ -52,33 +90,43 @@ class NewToDo extends React.Component {
       >
         <label
           htmlFor="title-input"
-          className="addTodoForm__title"
+          className={this.state.errorTitle !== true
+          ? 'addTodoForm__label'
+          : 'error-label'}
         >
-          title
+          Enter title
+        </label>
           <input
             id="title-input"
+            className={this.state.errorTitle !== true
+              ? 'addTodoForm__title'
+              : 'error-input'}
             type="text"
             value={this.state.todoInput}
             onChange={this.inputHandle}
           />
-        </label>
         <label
           htmlFor="user-select"
-          className="addTodoForm__user-select"
+          className={this.state.errorSelect !== true
+            ? 'addTodoForm__label'
+            : 'error-label'}
         >
-          user
+          Select user
+        </label>
           <select
             id="user-select"
+            className={this.state.errorSelect !== true
+              ? 'addTodoForm__user-select'
+              : 'error-input'}
             value={this.state.selectedUserId}
             onChange={this.selectHandle}
           >
-            <option value={0}> </option>
+            <option value={''}> </option>
             {this.props.users.map(item => (
               <option value={item.id}>{item.name}</option>
             ))}
           </select>
-        </label>
-        <button type="submit" onClick={this.saveTodo}>Save</button>
+        <button type="submit" onClick={this.checkIfFillForm}>Save</button>
       </form>
     );
   }
