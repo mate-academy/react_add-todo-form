@@ -24,6 +24,13 @@ class NewToDo extends React.Component {
       selectedUserId: userId,
     });
   };
+  
+  clearForm = () => {
+    this.setState({
+      selectedUserId: 0,
+      todoInput: ''
+    })
+  };
 
   saveTodo = () => {
     const { todoInput, selectedUserId } = this.state;
@@ -34,6 +41,7 @@ class NewToDo extends React.Component {
     };
 
     this.props.addUserAndTodo(todo);
+    this.clearForm();
   };
 
   render() {
@@ -61,9 +69,10 @@ class NewToDo extends React.Component {
           user
           <select
             id="user-select"
+            value={this.state.selectedUserId}
             onChange={this.selectHandle}
           >
-            <option />
+            <option value={0}> </option>
             {this.props.users.map(item => (
               <option value={item.id}>{item.name}</option>
             ))}
