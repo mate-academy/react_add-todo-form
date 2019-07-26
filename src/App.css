@@ -1,3 +1,42 @@
 .App {
   text-align: center;
+  background-color: antiquewhite;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.load {
+  display: block;
+  height: 40px;
+  width: 100px;
+  margin: auto;
+  background-color: rgb(161, 161, 207);
+  border-radius: 5%;
+  border: 2px;
+}
+
+.load:hover {
+  cursor: pointer;
+  background-color: rgb(245, 124, 239);
+  color: white;
+}
+
+button {
+  border-radius: 5%;
+  background-color: rgb(88, 196, 223);
+  border: 1px salmon;
+}
+
+.Todo {
+  background-color: rgb(112, 231, 162);
+}
+
+.error {
+  color: red;
+  font-size: 10px;
 }
