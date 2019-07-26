@@ -30,7 +30,7 @@ class NewToDo extends React.Component {
     this.setState({
       selectedUserId: userId,
     });
-    if(userId !== 0 || userId !== ''){
+    if(userId !== ''){
       this.setState({
         errorSelect: false,
       })
@@ -47,18 +47,18 @@ class NewToDo extends React.Component {
   checkIfFillForm = () => {
     const { todoInput, selectedUserId } = this.state;
     switch (true) {
-      case todoInput === '' && selectedUserId === '':
+      case todoInput.length === 0 && selectedUserId < 1:
         this.setState({
           errorTitle: true,
           errorSelect: true,
         });
         break;
-      case todoInput === '':
+      case todoInput.length === 0:
         this.setState({
           errorTitle: true,
         });
         break;
-      case selectedUserId === '':
+      case selectedUserId < 1:
         this.setState({
           errorSelect: true,
         });
