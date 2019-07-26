@@ -9,7 +9,7 @@ class App extends React.Component {
   state = {
     todos: todos.map(todo => ({
       ...todo,
-      user: users.find(u => u.id === todo.userId),
+      user: users.find(user => user.id === todo.userId),
     })),
   }
 
@@ -19,7 +19,7 @@ class App extends React.Component {
         ...state.todos,
         {
           userId: +currentUserId,
-          user: users.find(u => u.name === currentUserId),
+          user: users.find(user => user.name === currentUserId),
           id: state.todos.length + 1,
           title: currentTitle,
           completed: false,
@@ -37,7 +37,7 @@ class App extends React.Component {
           />
         </div>
         <div className="users-info">
-          {this.state.todos.map(todo => (
+          {todos.map(todo => (
 
             <div className="single-user">
               <div>

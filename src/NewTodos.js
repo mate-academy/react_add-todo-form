@@ -5,7 +5,7 @@ import TodoList from './TodoList';
 import users from './api/users';
 
 class NewTodos extends React.Component {
-  state= {
+  state = {
     currentValue: '',
     currentUser: '',
     errorUser: false,
@@ -26,23 +26,17 @@ class NewTodos extends React.Component {
         errorUser: false,
         errorValue: false,
       });
-    } else if (!currentUser && !currentValue) {
-      this.setState({
-        errorUser: true,
-        errorValue: true,
-      });
-    } else if (!currentUser || currentValue) {
-      this.setState({
-        errorUser: true,
-        errorValue: false,
-      });
-    } else if (currentUser || !currentValue) {
-      this.setState({
-        errorUser: false,
-        errorValue: true,
-      });
+    } else {
+      this.checkErrors(currentUser, currentValue);
     }
   };
+
+  checkErrors = (currentUser, currentValue) => {
+    this.setState({
+      errorUser: !currentUser,
+      errorValue: !currentValue,
+    });
+  }
 
   handleChange = (event) => {
     this.setState({
