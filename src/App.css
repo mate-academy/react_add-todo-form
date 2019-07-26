@@ -1,3 +1,54 @@
-.App {
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #52565c;
   text-align: center;
+  color: #ffffff;
+}
+
+form {
+  width: 90%;
+  margin: 0 auto 20px;
+}
+
+.errorSign {
+  color: yellow;
+}
+
+table {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 10px solid #fff;
+  border-radius: 10px;
+  border-spacing: 5px;
+}
+
+th {
+  background-color: #2c4060;
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.undone {
+  background-color: rgb(221, 230, 198);
+  color: #000;
+}
+
+.done {
+  background-color: rgb(201, 231, 212);
+  color: #000;
+}
+
+.tableFoot {
+  background-color: #2c4060;
+}
+
+.addTodoBtn {
+  width: 100px;
+  height: 30px;
+  margin: 10px 0;
 }
