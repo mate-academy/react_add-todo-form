@@ -15,7 +15,7 @@ const TodoList = ({ todos }) => (
     <tbody>
       {
         todos.map(todo => (
-          <tr>
+          <tr key={todo.id}>
             <td>{ todo.user.name }</td>
             <td>{ todo.title }</td>
             <td>{ todo.completed ? 'Completed' : 'Uncompleted' }</td>
@@ -40,8 +40,4 @@ const mapState = state => ({
   todos: state.todos,
 });
 
-const mapActions = {
-
-};
-
-export default connect(mapState, mapActions)(TodoList);
+export default connect(mapState)(TodoList);

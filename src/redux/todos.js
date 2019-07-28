@@ -33,11 +33,7 @@ const todosReducer = (state = [], action) => {
         user,
       };
 
-      const newTodos = [...state];
-
-      newTodos.push(todo);
-
-      return newTodos;
+      return [...state, todo];
     }
 
     default: return state;

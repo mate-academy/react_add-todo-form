@@ -24,12 +24,7 @@ class AddTodo extends React.Component {
     let newValue = value;
 
     if (name === 'title') {
-      newValue = value.match(/[a-zA-Z]|\s/g);
-      newValue = value
-        ? newValue
-          .join('')
-          .replace(/\s+/g, ' ')
-        : '';
+      newValue = newValue.replace(/\s+/g, ' ').replace(/[0-9]/g, '');
     }
 
     this.setState(prevState => ({
@@ -94,7 +89,6 @@ class AddTodo extends React.Component {
       <form
         className="add-person-form"
         onSubmit={this.handleFormSubmit}
-        action=""
       >
 
         {
