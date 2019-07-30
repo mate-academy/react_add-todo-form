@@ -2,7 +2,7 @@
 
 ## Demo link
 
-Add link here: `[DEMO](https://scandal0us.github.io/react_add-todo-form/)`
+`[DEMO](https://scandal0us.github.io/react_add-todo-form/)`
 
 
 ## Task
