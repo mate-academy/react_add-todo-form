@@ -9,3 +9,7 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.App__error--text {
+  color: red;
+}

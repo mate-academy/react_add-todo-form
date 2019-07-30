@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TodoItem({ items }) {
+function TodoItem({ item }) {
   return (
     <>
       <td>
-        {items.title}
+        {item.title}
       </td>
       <td>
         <input
           type="checkbox"
-          defaultChecked={items.completed}
+          defaultChecked={item.completed}
         />
       </td>
     </>
@@ -18,7 +18,7 @@ function TodoItem({ items }) {
 }
 
 TodoItem.propTypes = {
-  items: PropTypes.shape({
+  item: PropTypes.shape({
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
   }).isRequired,

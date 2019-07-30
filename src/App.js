@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: todos.map(todo => ({
+      preparedTodos: todos.map(todo => ({
         ...todo,
         user: users.find(user => user.id === todo.id),
       })),
@@ -39,7 +39,7 @@ class App extends React.Component {
     }
 
     return this.setState(prevState => ({
-      todos: [...prevState.todos, {
+      preparedTodos: [...prevState.preparedTodos, {
         id: prevState.counterId,
         title,
         completed: false,
@@ -52,11 +52,11 @@ class App extends React.Component {
   };
 
   render() {
-    const { errorTitle, errorUser } = this.state;
-    const result = this.state.todos.map(todo => (
+    const { errorTitle, errorUser, preparedTodos } = this.state;
+    const todoList = preparedTodos.map(todo => (
       <tr key={todo.id}>
         <User user={todo.user} />
-        <TodoItem items={todo} />
+        <TodoItem item={todo} />
       </tr>
     ));
 
@@ -64,8 +64,8 @@ class App extends React.Component {
       <div className="App">
         <h1>Static list of todos</h1>
         <span>Users: </span>
-        <p style={{ color: 'red' }}>{errorTitle}</p>
-        <p style={{ color: 'red' }}>{errorUser}</p>
+        <p className="App__error--text">{errorTitle}</p>
+        <p className="App__error--text">{errorUser}</p>
         <NewTodo addTodo={this.addTodo} users={users} />
         <table className="table">
           <thead>
@@ -77,7 +77,7 @@ class App extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {result}
+            {todoList}
           </tbody>
         </table>
       </div>

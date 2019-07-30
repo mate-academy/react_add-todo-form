@@ -8,23 +8,25 @@ class NewTodo extends React.Component {
       textField: '',
       userSelect: '',
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChangeSelect = (event) => {
+  handleUserSelect = (event) => {
+    const { users } = this.props;
     const { value } = event.target;
-    const user = this.props.users.find(userId => userId.id === +value);
+    const user = users.find(userId => userId.id === +value);
 
     this.setState({
       userSelect: user,
     });
   };
 
-  handleChange(event) {
+  handleTitleChange = (event) => {
+    const { value } = event.target;
+
     this.setState({
-      textField: event.target.value,
+      textField: value,
     });
-  }
+  };
 
   render() {
     const { textField, userSelect } = this.state;
@@ -33,7 +35,7 @@ class NewTodo extends React.Component {
     return (
       <form onSubmit={this.hadleSubmit}>
         <select
-          onChange={this.handleChangeSelect}
+          onChange={this.handleUserSelect}
           name="changeUser"
         >
           <option value="user">
@@ -53,12 +55,12 @@ class NewTodo extends React.Component {
         </select>
         <input
           type="text"
-          onChange={this.handleChange}
+          onChange={this.handleTitleChange}
           value={textField}
           name="textField"
         />
         <button
-          className="btn btn primary"
+          className="btn btn-primary"
           type="button"
           onClick={() => addTodo(textField, userSelect)}
         >
