@@ -15,10 +15,11 @@ import AddTodo from './AddTodo';
 
 class App extends React.Component {
   componentDidMount() {
-    const { setTodos: setNewTodos, setUsers: setNewUsers } = this.props;
+    // eslint-disable-next-line no-shadow
+    const { setTodos, setUsers } = this.props;
 
-    setNewTodos(todos, users);
-    setNewUsers(users);
+    setTodos({ todos, users });
+    setUsers({ users });
   }
 
   render() {

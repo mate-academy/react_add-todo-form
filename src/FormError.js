@@ -5,7 +5,7 @@ const FormError = ({ errors }) => (
   <ul className="errors">
     {
       errors.map(error => (
-        <li className="errors__item">{error}</li>
+        <li key={error} className="errors__item">{error}</li>
       ))
     }
   </ul>

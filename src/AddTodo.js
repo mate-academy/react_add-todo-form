@@ -90,7 +90,6 @@ class AddTodo extends React.Component {
         className="add-person-form"
         onSubmit={this.handleFormSubmit}
       >
-
         {
           errorsTitle && <FormError errors={errorsTitle} />
         }
