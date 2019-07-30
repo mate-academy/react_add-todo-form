@@ -1,3 +1,15 @@
-.App {
+#root {
+  display: block;
+  margin: 0 auto;
   text-align: center;
+}
+
+#root > div {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.App__error--text {
+  color: red;
 }
