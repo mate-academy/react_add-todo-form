@@ -15,11 +15,8 @@ import AddTodo from './AddTodo';
 
 class App extends React.Component {
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    const { setTodos, setUsers } = this.props;
-
-    setTodos({ todos, users });
-    setUsers({ users });
+    this.props.setTodos({ todos, users });
+    this.props.setUsers({ users });
   }
 
   render() {
