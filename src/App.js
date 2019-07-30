@@ -4,7 +4,6 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 import TodoItem from './components/TodoItem';
-import User from './components/User';
 import NewTodo from './components/NewTodo';
 
 class App extends React.Component {
@@ -38,7 +37,7 @@ class App extends React.Component {
       return false;
     }
 
-    return this.setState(prevState => ({
+    this.setState(prevState => ({
       preparedTodos: [...prevState.preparedTodos, {
         id: prevState.counterId,
         title,
@@ -49,21 +48,26 @@ class App extends React.Component {
       errorTitle: '',
       errorUser: '',
     }));
+
+    return true;
   };
 
   render() {
     const { errorTitle, errorUser, preparedTodos } = this.state;
     const todoList = preparedTodos.map(todo => (
-      <tr key={todo.id}>
-        <User user={todo.user} />
-        <TodoItem item={todo} />
-      </tr>
+      <TodoItem
+        key={todo.id}
+        item={todo}
+      />
     ));
 
     return (
       <div className="App">
-        <h1>Static list of todos</h1>
-        <span>Users: </span>
+        <h1 className="bg-primary">Todos form</h1>
+        <span>
+          Users:
+          { todoList.length }
+        </span>
         <p className="App__error--text">{errorTitle}</p>
         <p className="App__error--text">{errorUser}</p>
         <NewTodo addTodo={this.addTodo} users={users} />

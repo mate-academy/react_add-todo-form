@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import User from './User';
 
 function TodoItem({ item }) {
   return (
-    <>
+    <tr>
+      <User user={item.user} />
       <td>
         {item.title}
       </td>
@@ -13,7 +15,7 @@ function TodoItem({ item }) {
           defaultChecked={item.completed}
         />
       </td>
-    </>
+    </tr>
   );
 }
 
