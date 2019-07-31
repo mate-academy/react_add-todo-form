@@ -13,11 +13,11 @@ class NewTodo extends React.Component {
 
   addTodo = (event) => {
     event.preventDefault();
-    const check = /[0-9a-fA-F]+/g;
+    const check = /[!@#$%^&*(),.?":{}|<>]/g;
 
     if (
       this.state.title !== ''
-      && check.test(this.state.title.key)
+      && !check.test(this.state.title)
       && this.state.userId !== ''
     ) {
       const newTodoItem = {
@@ -34,12 +34,8 @@ class NewTodo extends React.Component {
         userId: '',
         completed: false,
       });
-    }
 
-    if (this.state.title === '' || check.test(this.state.title.key)) {
-      this.setState({
-        titleError: true,
-      });
+      return;
     }
 
     if (this.state.userId === '') {
@@ -47,21 +43,32 @@ class NewTodo extends React.Component {
         userError: true,
       });
     }
+
+    if (this.state.title === '' || !check.test(this.state.title)) {
+      this.setState({
+        titleError: true,
+      });
+    }
   };
 
   handleChange = (event) => {
-    const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const { name } = target;
+    const {
+      name, type, checked, value,
+    } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
 
     this.setState(prevState => ({
-      [name]: value,
+      [name]: newValue,
       titleError: name === 'title' ? false : prevState.titleError,
       userError: name === 'userId' ? false : prevState.userError,
     }));
   };
 
   render() {
+    const {
+      titleError, userError, userId, completed,
+    } = this.state;
+
     return (
       <form onSubmit={this.addTodo}>
         <h4>Add new TODO here</h4>
@@ -77,7 +84,7 @@ class NewTodo extends React.Component {
           />
         </label>
         {
-          this.state.titleError === true
+          titleError
             ? (<p className="err"> Please enter a valid TODO</p>)
             : ''
         }
@@ -88,7 +95,7 @@ class NewTodo extends React.Component {
             name="userId"
             id="selectUser"
             onChange={this.handleChange}
-            value={this.state.userId}
+            value={userId}
           >
             <option value="select">Select author</option>
             {users.map(user => (
@@ -96,7 +103,7 @@ class NewTodo extends React.Component {
             ))}
           </select>
           {
-            this.state.userError === true
+            userError
               ? (<p className="err"> Please select author of TODO</p>)
               : ''
           }
@@ -107,7 +114,7 @@ class NewTodo extends React.Component {
             type="checkbox"
             name="completed"
             onChange={this.handleChange}
-            value={this.state.completed}
+            value={completed}
           />
         </label>
         <button type="submit">Add</button>
