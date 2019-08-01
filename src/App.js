@@ -16,18 +16,18 @@ class App extends React.Component {
   }
 
   addTodo = (title, user) => {
-    this.setState(state => ({
-      todos: [...state.todos, {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, {
+        userId: user.id,
+        id: Math.floor(Math.random() * Math.floor(1000)),
         title,
-        user,
         completed: false,
-        id: state.todos.length + 1,
+        user,
       }],
     }));
   };
 
   render() {
-
     return (
       <div className="App">
         <h1>Add todo form</h1>

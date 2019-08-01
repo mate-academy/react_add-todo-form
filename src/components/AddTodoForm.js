@@ -25,15 +25,14 @@ class AddTodoForm extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { title, user } = this.state;
 
-    this.setState({
-      titleError: title ? '' : 'Please enter a title',
-      userError: user ? '' : 'Please choose a user',
-    });
+    this.setState(prevState => ({
+      titleError: prevState.title ? '' : 'Please enter a title',
+      userError: prevState.user ? '' : 'Please choose a user',
+    }));
 
-    if (title && user) {
-      this.props.onSubmit(title, user);
+    if (this.state.title && this.state.user) {
+      this.props.onSubmit(this.state.title, this.state.user);
       this.setState({ title: '', user: null });
     }
   };
@@ -53,7 +52,7 @@ class AddTodoForm extends React.Component {
             className={titleError ? 'error' : ''}
           />
           {titleError && (
-            <span style={{ color: 'red' }}>{titleError}</span>
+            <span className="error">{titleError}</span>
           )}
         </div>
         <div>
@@ -71,7 +70,7 @@ class AddTodoForm extends React.Component {
           </select>
 
           {userError && (
-            <span style={{ color: 'red' }}>{userError}</span>
+            <span className="error">{userError}</span>
           )}
         </div>
 
