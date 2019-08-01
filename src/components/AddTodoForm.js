@@ -5,6 +5,7 @@ class AddTodoForm extends React.Component {
   state = {
     title: '',
     user: null,
+    userId: 0,
     titleError: '',
     userError: '',
   };
@@ -33,12 +34,12 @@ class AddTodoForm extends React.Component {
 
     if (this.state.title && this.state.user) {
       this.props.onSubmit(this.state.title, this.state.user);
-      this.setState({ title: '', user: null });
+      this.setState({title: '', user: null});
     }
   };
 
   render() {
-    const { title, titleError, userError } = this.state;
+    const { title, userId, titleError, userError } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -58,6 +59,7 @@ class AddTodoForm extends React.Component {
         <div>
           <select
             name="user"
+            value={userId}
             onChange={this.handleUserChange}
             className={userError ? 'error' : ''}
           >
