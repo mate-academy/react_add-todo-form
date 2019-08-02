@@ -35,7 +35,7 @@ class AddTodoForm extends React.Component {
 
     if (this.state.title && this.state.user) {
       this.props.onSubmit(this.state.title, this.state.user);
-      this.setState({title: '', userId: 0});
+      this.setState({title: '', userId: 0, user: null });
     }
   };
 

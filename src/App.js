@@ -28,7 +28,7 @@ class App extends React.Component {
   };
 
   render() {
-console.log(this.state.todos)
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
