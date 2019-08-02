@@ -20,6 +20,7 @@ class AddTodoForm extends React.Component {
   handleUserChange = (event) => {
     this.setState({
       user: usersFromServer.find(user => user.id === +event.target.value),
+      userId: +event.target.value,
       userError: '',
     });
   };
@@ -34,7 +35,7 @@ class AddTodoForm extends React.Component {
 
     if (this.state.title && this.state.user) {
       this.props.onSubmit(this.state.title, this.state.user);
-      this.setState({title: '', user: null});
+      this.setState({title: '', userId: 0});
     }
   };
 
