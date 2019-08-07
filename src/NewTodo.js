@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class NewTodo extends React.Component {
   state = {
@@ -16,11 +17,22 @@ class NewTodo extends React.Component {
 
     this.setState({
       [name]: value,
+      errorsMap: {
+        title: '',
+        user: '',
+      },
+    });
+  }
+
+  clearForm = () => {
+    this.setState({
+      title: '',
+      user: '',
     });
   }
 
   handleSubmitForm = (event) => {
-    event.prevantDefault();
+    event.preventDefault();
 
     const errorsMap = {};
 
@@ -29,48 +41,80 @@ class NewTodo extends React.Component {
         errorsMap.title = 'Please, enter the task';
       }
 
-      if (prevstate.user === 'Select the user') {
-        errorsMap.title = 'Please, select the user';
+      if (!prevstate.user) {
+        errorsMap.user = 'Please, select the user';
       }
 
       if (Object.keys(errorsMap).length > 0) {
         return { errorsMap };
       }
 
+      const userForId = this.props.users.find(
+        user => user.name === prevstate.user
+      );
+
       this.props.addTodo({
+        userId: userForId.id,
         id: this.props.todos.length + 1,
-        user: this.state.user,
-        title: this.state.title,
+        title: prevstate.title,
         completed: false,
+        user: this.props.users.find(user => userForId.id === user.id),
       });
+
+      return '';
     });
+
+    this.clearForm();
   }
 
   render() {
+    const { errorsMap } = this.state;
+
     return (
       <form onSubmit={this.handleSubmitForm}>
-        <label htmlFor="inputField">
-          <input
-            type="text"
-            id="inputField"
-            name="title"
-            value={this.state.title}
-            placeholder="Enter your task"
+        <div className="formItem">
+          <label htmlFor="inputField">
+            <input
+              type="text"
+              id="inputField"
+              name="title"
+              value={this.state.title}
+              placeholder="Enter your task"
+              onChange={this.handleFieldChange}
+            />
+          </label>
+          {errorsMap.title && (
+            <div className="error">{errorsMap.title}</div>
+          )}
+        </div>
+        <div className="formItem">
+          <select
+            name="user"
+            id="selectField"
+            value={this.state.user}
             onChange={this.handleFieldChange}
-          />
-        </label>
-        <select
-          name="user"
-          value={this.state.user}
-          onChange={this.handleFieldChange}
-        >
-          <option>Select the user</option>
-          {this.props.users.map(user => (<option>{user.name}</option>))}
-        </select>
-        <button type="submit">Add</button>
+          >
+            <option>Select the user</option>
+            {this.props.users.map(
+              user => (<option key={user.id}>{user.name}</option>)
+            )}
+          </select>
+          {errorsMap.user && (<div className="error">{errorsMap.user}</div>)}
+        </div>
+        <div className="formItem">
+          <button type="submit">
+            Add
+          </button>
+        </div>
       </form>
     );
   }
 }
+
+NewTodo.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addTodo: PropTypes.func.isRequired,
+};
 
 export default NewTodo;

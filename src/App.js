@@ -16,7 +16,7 @@ class App extends React.Component {
     this.setState({
       todos: todos.map((todo, index) => ({
         ...todo,
-        ...users.find(user => user.id === todo.userId),
+        user: users.find(user => user.id === todo.userId),
         id: index + 1,
       })),
     });
@@ -36,7 +36,7 @@ class App extends React.Component {
           todos={this.state.todos}
           addTodo={this.addTodo}
         />
-        <table>
+        <table className="Table">
           <caption>The list of Todos</caption>
           <tbody>
             <tr>

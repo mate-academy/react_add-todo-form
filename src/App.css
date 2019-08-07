@@ -1,3 +1,28 @@
 .App {
   text-align: center;
 }
+
+.formItem {
+  display: flex;
+  position: relative;
+  left: 45%;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.Table {
+  width: 50%;
+  margin: auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td {
+  text-align: center;
+  border: 1px solid black;
+}
+
+.error {
+  color: red;
+  font-size: 12;
+}
