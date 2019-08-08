@@ -96,7 +96,7 @@ class NewTodo extends React.Component {
             value={this.state.user}
             onChange={this.handleFieldChange}
           >
-            <option>Select the user</option>
+            <option selected hidden>Select the user</option>
             {this.props.users.map(
               user => (<option key={user.id}>{user.name}</option>)
             )}
