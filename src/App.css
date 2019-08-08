@@ -5,9 +5,26 @@
 .formItem {
   display: flex;
   position: relative;
-  left: 45%;
+  left: 40%;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.formField {
+  width: 300px;
+  border: 1px solid rgb(148, 144, 144);
+  border-radius: 8px;
+  background: rgb(230, 227, 227);
+  padding: 6px 0 4px 10px;
+  font-size: 14;
+}
+
+.formButton {
+  background: rgb(39, 170, 94);
+  width: 70px;
+  height: 30px;
+  font-weight: 700;
+  color: rgb(230, 227, 227);
 }
 
 .Table {
@@ -17,9 +34,19 @@
   border-collapse: collapse;
 }
 
+.caption {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.headerTable {
+  background: rgb(230, 227, 227);
+}
+
 td {
   text-align: center;
   border: 1px solid black;
+  padding: 10px;
 }
 
 .error {

@@ -37,9 +37,9 @@ class App extends React.Component {
           addTodo={this.addTodo}
         />
         <table className="Table">
-          <caption>The list of Todos</caption>
+          <caption className="caption">The list of Todos</caption>
           <tbody>
-            <tr>
+            <tr className="headerTable">
               <th>#</th>
               <th>Todo</th>
               <th>Responsible</th>

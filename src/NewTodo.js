@@ -78,6 +78,7 @@ class NewTodo extends React.Component {
               type="text"
               id="inputField"
               name="title"
+              className="formField"
               value={this.state.title}
               placeholder="Enter your task"
               onChange={this.handleFieldChange}
@@ -91,6 +92,7 @@ class NewTodo extends React.Component {
           <select
             name="user"
             id="selectField"
+            className="formField"
             value={this.state.user}
             onChange={this.handleFieldChange}
           >
@@ -102,7 +104,10 @@ class NewTodo extends React.Component {
           {errorsMap.user && (<div className="error">{errorsMap.user}</div>)}
         </div>
         <div className="formItem">
-          <button type="submit">
+          <button
+            type="submit"
+            className="formButton"
+          >
             Add
           </button>
         </div>
