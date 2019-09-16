@@ -1,0 +1,29 @@
+.todo-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  padding: 20px;
+  border: 1px solid #f6f6f6;
+  border-radius: 3px;
+  box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.3);
+
+  &__title {
+    margin: 0 30px;
+    text-align: center;
+    text-transform: capitalize;
+    font: {
+      size: 1em;
+      width: 300;
+      style: italic;
+    }
+  }
+
+  &__check {
+    margin: 0;
+    color: darkolivegreen;
+    font-weight: 700;
+    font-size: 2em;
+  }
+}

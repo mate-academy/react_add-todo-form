@@ -1,0 +1,29 @@
+.user {
+  text-align: center;
+  margin-top: 15px;
+  padding: 15px 25px;
+  background-color: #f6f6f6;
+  border-radius: 8px;
+  box-shadow: inset 1px 1px 5px 0px rgba(0,0,0,0.75);
+
+  &__title {
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  &--nik {
+    color: darkblue;
+    font: {
+      style: italic;
+    }
+  }
+
+  &--email {
+    text-transform: none;
+    margin-top: 1em;
+    font: {
+      size: 0.8em;
+      weight: 300;
+    }
+  }
+}
