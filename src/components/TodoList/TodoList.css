@@ -1,0 +1,19 @@
+.todo-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 30px;
+  text-align: center;
+}
+
+.todo {
+  background-color: rgba(256, 0, 0, 0.2);
+}
+
+.element-of-form {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+}
