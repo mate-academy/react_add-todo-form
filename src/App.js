@@ -1,31 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 import users from './api/users';
 import todos from './api/todos';
 
 import TodoList from './components/TodoList/TodoList';
+import NewTodo from './components/NewTodo/NewTodo';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>List of todos with form</h1>
+export default class App extends Component {
+  state = {
+    todos,
+  };
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+  onNewTodoAdd = ({ userId, title }) => {
+    this.setState(prevState => ({
+      todos: [
+        ...prevState.todos,
+        {
+          userId,
+          id: prevState.todos.length + 1,
+          title,
+          completed: false,
+        },
+      ],
+    }));
+  };
 
-      <TodoList listOfTodo={getListOfTodoWithUsers(todos, users)} />
-    </div>
-  );
+  render() {
+    const { state, onNewTodoAdd } = this;
+
+    return (
+      <div className="App">
+        <h1>List of todos with form</h1>
+
+        <NewTodo onAdd={onNewTodoAdd} />
+        <TodoList listOfTodo={state.todos.map(todo => (
+          {
+            ...todo,
+            user: users.find(item => item.id === todo.userId),
+          }))}
+        />
+      </div>
+    );
+  }
 }
-
-function getListOfTodoWithUsers(todoArr, userArr) {
-  return todoArr.map(todo => ({
-    ...todo,
-    user: userArr.find(item => item.id === todo.userId),
-  }));
-}
-
-export default App;

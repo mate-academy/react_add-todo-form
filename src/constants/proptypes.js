@@ -20,3 +20,7 @@ export const TodoTypes = PropTypes.objectOf(TodoShape).isRequired;
 export const TodoListTypes = {
   listOfTodo: PropTypes.arrayOf(PropTypes.objectOf(TodoShape)).isRequired,
 };
+
+export const NewTodoTypes = {
+  onAdd: PropTypes.func.isRequired,
+};

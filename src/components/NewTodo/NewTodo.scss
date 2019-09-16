@@ -1,0 +1,18 @@
+@import "../../index";
+
+.input {
+  height: $input-heigth;
+  outline: none;
+  margin-left: 5px;
+  padding: 0 5px;
+}
+
+.select {
+  height: $input-heigth;
+  outline: none;
+  padding: 0 5px;
+}
+
+.button {
+  height: $input-heigth;
+}
