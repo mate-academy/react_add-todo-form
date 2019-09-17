@@ -70,19 +70,32 @@ class App extends React.Component {
   };
 
   render() {
+    const {
+      errorTitle,
+      errorUser,
+      todos,
+      selected,
+      title,
+    } = this.state;
+    const {
+      handleClick,
+      handleChange,
+      handleChangeSelect,
+    } = this;
+
     return (
       <div className="main">
         <div className="main-todos">
-          <TodoList todos={this.state.todos} />
+          <TodoList todos={todos} />
           <NewTodo
             users={users}
-            errorTitle={this.state.errorTitle}
-            errorUser={this.state.errorUser}
-            currentSelect={this.state.selected}
-            todoName={this.state.title}
-            handleClick={this.handleClick}
-            handleChange={this.handleChange}
-            handleChangeSelect={this.handleChangeSelect}
+            errorTitle={errorTitle}
+            errorUser={errorUser}
+            currentSelect={selected}
+            todoName={title}
+            handleClick={handleClick}
+            handleChange={handleChange}
+            handleChangeSelect={handleChangeSelect}
           />
         </div>
       </div>
