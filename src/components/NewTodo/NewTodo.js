@@ -42,7 +42,7 @@ export const NewTodo = ({
             <option value={i}>{user.name}</option>
           ))}
         </select>
-        {errorUser && <small className="font-italic">{errorTitle}</small>}
+        {errorUser && <small className="font-italic">{errorUser}</small>}
       </div>
       <button type="submit" className="btn btn-dark">Submit</button>
     </form>
