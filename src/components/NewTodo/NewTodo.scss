@@ -16,3 +16,9 @@
 .button {
   height: $input-heigth;
 }
+
+.error-message {
+  height: $input-heigth;
+  color: red;
+  margin: 10px 0 0;
+}

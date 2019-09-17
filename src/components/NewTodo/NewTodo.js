@@ -4,52 +4,101 @@ import users from '../../api/users';
 import { NewTodoTypes } from '../../constants/proptypes';
 
 const newTodoForm = {
-  title: {
+  newTitle: {
     htmlFor: 'title',
     label: 'Title:',
     placeholder: 'ToDo title',
+    default: '',
+    errorMessage: 'Empty title',
+    isError: titleText => !titleText,
   },
-  user: {
+  newUser: {
     htmlFor: 'user',
     placeholder: 'Select User',
     default: 0,
+    errorMessage: ' No user selected',
+    isError: userId => !userId,
   },
 };
+const { newTitle, newUser } = newTodoForm;
 
 export default class NewTodo extends Component {
+  state = {
+    errorMessage: '',
+    title: newTitle.default,
+    user: newUser.default,
+  };
+
   onFormSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    const { title, user } = newTodoForm;
 
-    this.props.onAdd({
-      userId: Number(data.get(user.htmlFor)),
-      title: data.get(title.htmlFor),
+    const titleText = data.get(newTitle.htmlFor);
+    const userId = Number(data.get(newUser.htmlFor));
+
+    if (newTitle.isError(titleText)) {
+      this.setState({ errorMessage: newTitle.errorMessage });
+    }
+
+    if (newUser.isError(userId)) {
+      this.setState(prevState => (
+        {
+          errorMessage: prevState.errorMessage + newUser.errorMessage,
+        }));
+    }
+
+    if (!newTitle.isError(titleText) && !newUser.isError(userId)) {
+      this.props.onAdd({
+        userId,
+        title: titleText,
+      });
+      this.setState({
+        user: newUser.default,
+        title: '',
+      });
+    }
+  };
+
+  onFormChange = (name, value) => {
+    this.setState({
+      [name]: value,
+      errorMessage: '',
     });
-    this.forceUpdate();
   };
 
   render() {
-    const { title, user } = newTodoForm;
+    const {
+      onFormSubmit,
+      onFormChange,
+      state: {
+        errorMessage,
+        title,
+        user,
+      },
+    } = this;
 
     return (
-      <form onSubmit={e => this.onFormSubmit(e)}>
-        <label className="label" htmlFor={title.htmlFor}>
-          {title.label}
+      <form onSubmit={e => onFormSubmit(e)}>
+        <label className="label" htmlFor={newTitle.htmlFor}>
+          {newTitle.label}
           <input
             className="input"
             type="text"
-            id={title.htmlFor}
-            name={title.htmlFor}
-            placeholder={title.placeholder}
+            id={newTitle.htmlFor}
+            name={newTitle.htmlFor}
+            placeholder={newTitle.placeholder}
+            value={title}
+            onChange={e => onFormChange(e.target.name, e.target.value)}
           />
         </label>
         <select
           className="select"
-          name={user.htmlFor}
+          name={newUser.htmlFor}
+          value={user}
+          onChange={e => onFormChange(e.target.name, e.target.value)}
         >
-          <option value={user.default} selected="true">
-            {user.placeholder}
+          <option selected="true">
+            {newUser.placeholder}
           </option>
           {users.map(userItem => (
             <option value={userItem.id}>
@@ -58,6 +107,7 @@ export default class NewTodo extends Component {
           ))}
         </select>
         <button className="button" type="submit">Add</button>
+        <p className="error-message">{errorMessage}</p>
       </form>
     );
   }
