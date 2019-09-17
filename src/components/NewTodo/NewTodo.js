@@ -9,15 +9,13 @@ const newTodoForm = {
     label: 'Title:',
     placeholder: 'ToDo title',
     default: '',
-    errorMessage: 'Empty title',
-    isError: titleText => !titleText,
+    isError: titleText => (!titleText ? 'Empty title' : ''),
   },
   newUser: {
     htmlFor: 'user',
     placeholder: 'Select User',
     default: 0,
-    errorMessage: ' No user selected',
-    isError: userId => !userId,
+    isError: userId => (!userId ? 'No user selected' : ''),
   },
 };
 const { newTitle, newUser } = newTodoForm;
@@ -31,30 +29,22 @@ export default class NewTodo extends Component {
 
   onFormSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
+    const { title, user } = this.state;
 
-    const titleText = data.get(newTitle.htmlFor);
-    const userId = Number(data.get(newUser.htmlFor));
+    const userId = Number(user);
 
-    if (newTitle.isError(titleText)) {
-      this.setState({ errorMessage: newTitle.errorMessage });
-    }
-
-    if (newUser.isError(userId)) {
-      this.setState(prevState => (
-        {
-          errorMessage: prevState.errorMessage + newUser.errorMessage,
-        }));
-    }
-
-    if (!newTitle.isError(titleText) && !newUser.isError(userId)) {
+    if (!newTitle.isError(title) && !newUser.isError(userId)) {
       this.props.onAdd({
         userId,
-        title: titleText,
+        title,
       });
       this.setState({
         user: newUser.default,
-        title: '',
+        title: newTitle.default,
+      });
+    } else {
+      this.setState({
+        errorMessage: `${newTitle.isError(title)} ${newUser.isError(userId)}`,
       });
     }
   };
