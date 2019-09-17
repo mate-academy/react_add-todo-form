@@ -92,7 +92,7 @@ export default class NewTodo extends Component {
             name={newTitle.htmlFor}
             placeholder={newTitle.placeholder}
             value={title}
-            onChange={e => onTitleChange(e.target, e.target)}
+            onChange={e => onTitleChange(e.target)}
           />
         </label>
         <select
@@ -110,10 +110,7 @@ export default class NewTodo extends Component {
             </option>
           ))}
         </select>
-        <button
-          className="button button-rounded-hover"
-          type="submit"
-        >
+        <button className="button" type="submit">
           Add
         </button>
         <p className="error-message">{errorMessage}</p>
