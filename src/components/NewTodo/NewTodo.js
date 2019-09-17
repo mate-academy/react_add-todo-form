@@ -9,6 +9,9 @@ const newTodoForm = {
     label: 'Title:',
     placeholder: 'ToDo title',
     default: '',
+    isLimited: titleText => (titleText.length > 20
+      ? 'Maximum length of Title'
+      : ''),
     isError: titleText => (!titleText ? 'Empty title' : ''),
   },
   newUser: {
@@ -47,17 +50,30 @@ export default class NewTodo extends Component {
     }
   };
 
-  onFormChange = (name, value) => {
+  onFormChange = ({ name, value }) => {
     this.setState({
       [name]: value,
       errorMessage: '',
     });
   };
 
+  onTitleChange = (target) => {
+    const { value } = target;
+
+    if (newTitle.isLimited(value)) {
+      this.setState({
+        errorMessage: newTitle.isLimited(value),
+      });
+    } else {
+      this.onFormChange(target);
+    }
+  };
+
   render() {
     const {
       onFormSubmit,
       onFormChange,
+      onTitleChange,
       state: {
         errorMessage,
         title,
@@ -76,14 +92,14 @@ export default class NewTodo extends Component {
             name={newTitle.htmlFor}
             placeholder={newTitle.placeholder}
             value={title}
-            onChange={e => onFormChange(e.target.name, e.target.value)}
+            onChange={e => onTitleChange(e.target, e.target)}
           />
         </label>
         <select
           className="select"
           name={newUser.htmlFor}
           value={user}
-          onChange={e => onFormChange(e.target.name, e.target.value)}
+          onChange={e => onFormChange(e.target)}
         >
           <option selected="true">
             {newUser.placeholder}
@@ -94,7 +110,12 @@ export default class NewTodo extends Component {
             </option>
           ))}
         </select>
-        <button className="button" type="submit">Add</button>
+        <button
+          className="button button-rounded-hover"
+          type="submit"
+        >
+          Add
+        </button>
         <p className="error-message">{errorMessage}</p>
       </form>
     );
