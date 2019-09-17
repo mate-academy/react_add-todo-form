@@ -31,11 +31,9 @@ export default class NewTodo extends Component {
     e.preventDefault();
     const { title, user } = this.state;
 
-    const userId = Number(user);
-
-    if (!newTitle.isError(title) && !newUser.isError(userId)) {
+    if (!newTitle.isError(title) && !newUser.isError(user)) {
       this.props.onAdd({
-        userId,
+        userId: Number(user),
         title,
       });
       this.setState({
@@ -44,7 +42,7 @@ export default class NewTodo extends Component {
       });
     } else {
       this.setState({
-        errorMessage: `${newTitle.isError(title)} ${newUser.isError(userId)}`,
+        errorMessage: `${newTitle.isError(title)} ${newUser.isError(user)}`,
       });
     }
   };
