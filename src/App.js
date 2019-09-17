@@ -1,19 +1,93 @@
 import React from 'react';
 import './App.css';
 
+import { TodoList } from './components/TodoList/TodoList';
+import { NewTodo } from './components/NewTodo/NewTodo';
+
 import users from './api/users';
+import todos from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+function getTodosWithUsers(todos, users) {
+  return todos.map(todo => ({
+    ...todo,
+    user: users.find(item => item.id === todo.userId),
+  }));
+}
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    todos: getTodosWithUsers(todos, users),
+    selected: null,
+    title: '',
+    errorTitle: null,
+    errorUser: null,
+  };
+
+  handleChange = (event) => {
+    this.setState({
+      title: event.target.value,
+      errorTitle: null,
+    });
+  };
+
+  handleChangeSelect = (event) => {
+    this.setState({
+      selected: event.target.value,
+      errorUser: null,
+    });
+  };
+
+  handleClick = (event) => {
+    event.preventDefault();
+    if (!event.target.username.value && event.target.title.value.length === 0) {
+      this.setState({
+        errorUser: 'You must choose a user',
+        errorTitle: 'You must write todo',
+      });
+    } else if (!event.target.username.value) {
+      this.setState({
+        errorUser: 'You must choose a user',
+      });
+    } else if (event.target.title.value.length === 0) {
+      this.setState({
+        errorTitle: 'You must write todo',
+      });
+    } else {
+      const newTodo = {
+        title: event.target.title.value,
+        user: users[event.target.username.value],
+        completed: false,
+        id: this.state.todos.length + 1,
+        userId: users[event.target.username.value].id,
+      };
+
+      this.setState(prevState => ({
+        todos: [...prevState.todos, newTodo],
+        title: '',
+        selected: '',
+      }));
+    }
+  };
+
+  render() {
+    return (
+      <div className="main">
+        <div className="main-todos">
+          <TodoList todos={this.state.todos} />
+          <NewTodo
+            users={users}
+            errorTitle={this.state.errorTitle}
+            errorUser={this.state.errorUser}
+            currentSelect={this.state.selected}
+            todoName={this.state.title}
+            handleClick={this.handleClick}
+            handleChange={this.handleChange}
+            handleChangeSelect={this.handleChangeSelect}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
