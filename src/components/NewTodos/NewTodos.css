@@ -1,3 +1,11 @@
+.todos__form {
+  width: 20%;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+
+}
+
 .form__input {
   display: block;
 }

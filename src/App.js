@@ -14,21 +14,51 @@ class App extends React.Component {
   state = {
     usersList: [...users],
     todosList: [...preparedTodos],
+    inputTitle: '',
+    selectedUser: '',
+    id: 3,
+    placeholder: 'Enter the title for TODO',
   };
 
-  handleChangeTitle = () => {
+  handleChangeTitle = (event) => {
+    this.setState({
+      inputTitle: event.target.value,
+    });
   };
 
-  handleClickbutton = () => {
+  handleChangeUser = (event) => {
+    this.setState({
+      selectedUser: event.target.value,
+    });
+  };
+
+  handleClickButton = () => {
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList,
+        {
+          userId: prevState.selectedUser.id,
+          title: prevState.inputTitle,
+          id: prevState.id,
+          user: prevState.usersList
+            .find(user => user.name === prevState.selectedUser),
+        },
+      ],
+
+      id: prevState.id + 1,
+      selectedUser: ' ',
+      inputTitle: '',
+    }));
   };
 
   render() {
-    const { usersList, todosList } = this.state;
+    const {
+      usersList, todosList, selectedUser, placeholder, inputTitle,
+    } = this.state;
 
     return (
       <>
         <h1 className="todos__title">
-          Todos for different users, todos length:
+          Todos length:
           {todosList.length}
         </h1>
 
@@ -37,7 +67,11 @@ class App extends React.Component {
           <NewTodos
             users={usersList}
             handleChangeTitle={this.handleChangeTitle}
-            handleClickbutton={this.handleClickbutton}
+            handleClickButton={this.handleClickButton}
+            selectedUser={selectedUser}
+            handleChangeUser={this.handleChangeUser}
+            placeholder={placeholder}
+            inputTitle={inputTitle}
           />
         </div>
       </>
