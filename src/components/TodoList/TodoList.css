@@ -1,0 +1,8 @@
+.todo-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ui.card .content {
+  padding: 10px;
+}
