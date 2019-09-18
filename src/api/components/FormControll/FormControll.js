@@ -1,58 +1,117 @@
 import React from 'react';
 import './FormControll.css';
 
-const FormControll = props => {
-  const {
-    users,
-    handleInput,
-    handleClick,
-    handleSelected,
-    textError,
-    inputValue,
-    selectedUser,
-  } = props;
+class FormControll extends React.Component {
+  state = {
+    selectedUser: 0,
+    inputValue: '',
+    textError: '',
+    users: this.props.users,
+  };
 
-  return (
-    <form className="form-add-todo">
-      <label htmlFor="title">
-        Todo:
-        <input
-          id="title"
-          className="input-title"
-          type="text"
-          value={inputValue}
-          onChange={handleInput}
-          placeholder="Input your task"
-        />
-      </label>
+  handleClick = () => {
+    const { selectedUser, inputValue } = this.state;
 
-      <label htmlFor="selected-user">
-        User:
-        <select
-          id="selected-user"
-          className="selected-user"
-          value={selectedUser}
-          onChange={handleSelected}
-        >
-          <option value={0}>Choose a user</option>
-          {users.map(user => (
-            <option value={user.id}>{user.name}</option>
-          ))}
-        </select>
-      </label>
+    if (!selectedUser && !inputValue) {
+      this.setState({
+        textError: 'Error: Please, input title task and select person',
+      });
+    } else if (!selectedUser && inputValue) {
+      this.setState({
+        textError: 'Error: Please, select person',
+      });
+    } else if (selectedUser && !inputValue) {
+      this.setState({
+        textError: 'Error: Please, input title task',
+      });
+    }
 
-      <button
-        className="button-add-user"
-        type="button"
-        onClick={handleClick}
-      >
-        Add
-      </button>
-      <p className="error">
-        {textError}
-      </p>
-    </form>
+    else {
+      if (inputValue.length < 15) {
+        this.setState({
+          textError: 'Error: The small length of task. Min length 15 symbol',
+        });
+      }
+
+      else {
+        const {
+          selectedUser,
+          inputValue,
+        } = this.state;
+
+        this.setState({
+          inputValue: '',
+          selectedUser: 0,
+          textError: '',
+        });
+
+        this.props.addNewTodo(selectedUser, inputValue);
+      }
+    }
+  }
+
+  handleInput = ({ target }) => (
+    this.setState({
+      inputValue: target.value,
+    })
   );
-};
+
+  handleSelected = ({ target }) => (
+    this.setState({
+      selectedUser: Number(target.value),
+    })
+  );
+
+  render() {
+    const {
+      selectedUser,
+      inputValue,
+      users,
+      textError
+    } = this.state;
+
+    return (
+      <form className="form-add-todo">
+        <label htmlFor="title">
+          Todo:
+          <input
+            id="title"
+            className="input-title"
+            type="text"
+            value={inputValue}
+            onChange={this.handleInput}
+            placeholder="Input your task"
+          />
+        </label>
+
+        <label htmlFor="selected-user">
+          User:
+          <select
+            id="selected-user"
+            className="selected-user"
+            value={selectedUser}
+            onChange={this.handleSelected}
+          >
+            <option value={0}>Choose a user</option>
+            {users.map(user => (
+              <option value={user.id}>{user.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <button
+          className="button-add-user"
+          type="button"
+          onClick={this.handleClick}
+        >
+          Add
+        </button>
+        <p className="error">
+          {textError}
+        </p>
+      </form>
+    );
+  }
+}
 
 export default FormControll;
