@@ -91,7 +91,7 @@ class App extends React.Component {
           selectedUser={selectedUser}
         />
 
-        < TodoList
+        <TodoList
           todos={testTodoList}
         />
 
