@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
   margin: 15px;
 }
@@ -19,4 +19,8 @@
   margin: 15px;
   border-radius: 4px;
   width: 240px;
+}
+
+.error {
+  color:  red;
 }
