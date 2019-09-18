@@ -1,0 +1,46 @@
+.card {
+  width: 100%;
+  max-height: 400px;
+  box-sizing: border-box;
+  padding: 10px 30px;
+  font-size: 16px;
+  transition: transform 0.3s;
+  border-radius: 30px;
+  border: 2px solid red;
+}
+
+.bg-green {
+  background-color: #98fb98;
+}
+
+.bg-yellow{
+  background-color: #fdfb8c;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card__title {
+  font-size: 22px;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid black;
+}
+
+.card div {
+  margin: 20px 0;
+}
+
+.checked {
+  color: green;
+}
+
+.unchecked {
+  color: red;
+}
+
+.icon {
+  font-size: 22px;
+  margin: 0 20px;
+}

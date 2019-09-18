@@ -1,0 +1,63 @@
+.form-add-todo {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-title {
+  font-size: inherit;
+  width: 300px;
+  height: 35px;
+  margin: 10px 10px;
+  border: 1px solid black;
+  outline: none;
+  cursor: pointer;
+  padding-left: 15px;
+  transition: 0.15s background-color;
+}
+
+.input-title:focus {
+  background-color: lightblue;
+}
+
+.selected-user {
+  font-size: inherit;
+  width: 305px;
+  height: 35px;
+  margin: 10px 10px;
+  padding-left: 15px;
+  border: 1px solid black;
+  outline: none;
+  cursor: pointer;
+  transition: 0.15s background-color;
+}
+
+.selected-user:focus {
+  background-color: lightblue;
+}
+
+.button-add-user {
+  font-size: inherit;
+  width: 200px;
+  line-height: 30px;
+  margin: 10px 10px;
+  background-color: aquamarine;
+  cursor: pointer;
+  border: 1px solid black;
+  outline: none;
+  transition: 0.4s;
+  transition-property: transform, background-color;
+}
+
+.button-add-user:hover {
+  transform: scale(1.1);
+}
+
+.button-add-user:focus {
+  background-color: lightblue;
+}
+
+.error {
+  color: red;
+}
