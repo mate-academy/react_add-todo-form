@@ -1,5 +1,16 @@
 import PropTypes from 'prop-types';
 
+const usersList = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  username: PropTypes.string,
+  email: PropTypes.string,
+});
+
+export const NewTodosProps = {
+  users: PropTypes.arrayOf(PropTypes.shape(usersList)).isRequired,
+};
+
 export const UserProps = {
   user: PropTypes.shape({
     name: PropTypes.string,

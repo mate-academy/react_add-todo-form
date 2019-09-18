@@ -10,15 +10,39 @@ import NewTodos from './components/NewTodos/NewTodos';
 
 const preparedTodos = getTodosWithUsers(todos, users);
 
-const App = () => (
-  <>
-    <h1 className="todos__title">Todos for different users</h1>
+class App extends React.Component {
+  state = {
+    usersList: [...users],
+    todosList: [...preparedTodos],
+  };
 
-    <div className="todo-content">
-      <TodoList todos={preparedTodos} />
-      <NewTodos />
-    </div>
-  </>
-);
+  handleChangeTitle = () => {
+  };
+
+  handleClickbutton = () => {
+  };
+
+  render() {
+    const { usersList, todosList } = this.state;
+
+    return (
+      <>
+        <h1 className="todos__title">
+          Todos for different users, todos length:
+          {todosList.length}
+        </h1>
+
+        <div className="todo-content">
+          <TodoList todos={todosList} />
+          <NewTodos
+            users={usersList}
+            handleChangeTitle={this.handleChangeTitle}
+            handleClickbutton={this.handleClickbutton}
+          />
+        </div>
+      </>
+    );
+  }
+}
 
 export default App;

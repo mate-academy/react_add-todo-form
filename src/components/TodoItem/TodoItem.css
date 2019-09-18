@@ -10,8 +10,7 @@
 }
 
 .ui.card:first-child {
-  margin-top: 1em;
-  margin-bottom: 0;
+  margin: 1em 10px 0 0;
 }
 
 .todo-item__id {
