@@ -1,5 +1,5 @@
 import React from 'react';
-// import { UserComponentProps } from '../PropTypes/PropTypes';
+import { UserComponentProps } from '../PropTypes/PropTypes';
 import './User.css';
 
 const UserComponent = ({ user }) => {
@@ -28,6 +28,6 @@ const UserComponent = ({ user }) => {
   );
 };
 
-// UserComponent.propTypes = UserComponentProps;
+UserComponent.propTypes = UserComponentProps;
 
 export default UserComponent;

@@ -48,7 +48,7 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
 - run `npm run lint` to check code style
 - When you finished add correct `homepage` to `package.json` and run `npm run deploy` 
 - Add links to your demo in readme.md.
-  - `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)` - this will be a 
+  - `[DEMO LINK](https://KseniiaMazan.github.io/react_add-todo-form/)` - this will be a 
   link to your index.html
 - Commit and push all recent changes.
 - Create `Pull Request` from forked repo `(<branch_name>)` to original repo 

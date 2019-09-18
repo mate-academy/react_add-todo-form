@@ -1,5 +1,5 @@
 import React from 'react';
-// import { TodoItemProps } from '../PropTypes/PropTypes';
+import { TodoItemProps } from '../PropTypes/PropTypes';
 import UserComponent from '../User/User';
 import './TodoItemStyles.css';
 
@@ -15,6 +15,6 @@ const TodoItem = ({ todo }) => {
   );
 };
 
-// TodoItem.propTypes = TodoItemProps;
+TodoItem.propTypes = TodoItemProps;
 
 export default TodoItem;

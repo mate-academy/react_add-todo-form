@@ -22,45 +22,69 @@ class App extends React.Component {
     users: [...apiUsers],
     todos: [...preparedTodos],
     id: 3,
-    inputTitle: null,
-    inputUser: null,
-    error: null,
+    inputTitle: '',
+    inputUser: '',
+    errorTitle: null,
+    errorUser: null,
   }
 
   handleInputTitleChange = (event) => {
     this.setState({
       inputTitle: event.target.value,
+      errorTitle: null,
     });
   }
 
   handleUserChange = (event) => {
     this.setState({
       inputUser: event.target.value,
+      errorUser: null,
     });
   }
 
   handleButtonSubmit = (event) => {
     event.preventDefault();
-    this.setState(prevState => ({
-      todos: [
-        ...prevState.todos,
-        {
-          userId: this.state.inputUser.id,
-          id: prevState.id,
-          title: prevState.inputTitle,
-          completed: false,
-          user: this.state.inputUser,
-        },
-      ],
-      id: prevState.id + 1,
-      inputUser: ' ',
-      inputTitle: '',
-    }));
+    if (!this.state.inputTitle && !this.state.inputUser) {
+      this.setState({
+        errorTitle: 'Write a title',
+        inputUser: '',
+        errorUser: 'Choose a user',
+        inputTitle: '',
+      });
+    } else if (!this.state.inputTitle) {
+      this.setState({
+        errorTitle: 'Write a title',
+        inputUser: '',
+      });
+    } else if (!this.state.inputUser) {
+      this.setState({
+        errorUser: 'Choose a user',
+        inputTitle: '',
+      });
+    } else {
+      this.setState(prevState => ({
+
+        todos: [
+          ...prevState.todos,
+          {
+            userId: prevState.inputUser.id,
+            id: prevState.id,
+            title: prevState.inputTitle,
+            completed: false,
+            user: prevState.users
+              .find(user => user.name === prevState.inputUser),
+          },
+        ],
+        id: prevState.id + 1,
+        inputUser: ' ',
+        inputTitle: '',
+      }));
+    }
   }
 
   render() {
     const {
-      users, todos, inputTitle, inputUser,
+      users, todos, inputTitle, inputUser, errorTitle, errorUser,
     } = this.state;
 
     return (
@@ -80,6 +104,8 @@ class App extends React.Component {
           onSubmitClick={this.handleButtonSubmit}
           inputUser={inputUser}
           inputTitle={inputTitle}
+          errorTitle={errorTitle}
+          errorUser={errorUser}
         />
         <TodoList todos={todos} />
       </>
