@@ -49,7 +49,9 @@ export default class NewTodo extends Component {
   }
 
   render() {
-    const { title, userId } = this.state;
+    const {
+      title, userId, titleError, userIdError,
+    } = this.state;
 
     return (
       <div>
@@ -92,22 +94,22 @@ export default class NewTodo extends Component {
           </button>
           <div
             className="error"
-            style={this.state.userIdError.length > 0
+            style={userIdError.length > 0
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }}
           >
-            {this.state.userIdError.length > 0
-              ? this.state.userIdError
+            {userIdError.length > 0
+              ? userIdError
               : 'default'}
           </div>
           <div
             className="error"
-            style={this.state.titleError.length > 0
+            style={titleError.length > 0
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }}
           >
-            {this.state.titleError.length > 0
-              ? this.state.titleError
+            {titleError.length > 0
+              ? titleError
               : 'default'}
           </div>
         </form>
