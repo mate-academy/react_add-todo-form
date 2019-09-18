@@ -89,9 +89,12 @@ class App extends React.Component {
     return (
       <>
         <h1 className="page-title">
-          Todos list consist from
-          {todosToRender.length}
-          todo
+          {'Todos list consist from'
+          + ' '
+          + todosToRender.length
+          + ' '
+          + 'todo'
+          }
         </h1>
 
         <FormControll
