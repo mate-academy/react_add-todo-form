@@ -71,18 +71,13 @@ export default class NewTodo extends Component {
 
   render() {
     const {
-      onFormSubmit,
-      onFormChange,
-      onTitleChange,
-      state: {
-        errorMessage,
-        title,
-        user,
-      },
-    } = this;
+      errorMessage,
+      title,
+      user,
+    } = this.state;
 
     return (
-      <form onSubmit={e => onFormSubmit(e)}>
+      <form onSubmit={this.onFormSubmit}>
         <label className="label" htmlFor={newTitle.htmlFor}>
           {newTitle.label}
           <input
@@ -92,14 +87,14 @@ export default class NewTodo extends Component {
             name={newTitle.htmlFor}
             placeholder={newTitle.placeholder}
             value={title}
-            onChange={e => onTitleChange(e.target)}
+            onChange={e => this.onTitleChange(e.target)}
           />
         </label>
         <select
           className="select"
           name={newUser.htmlFor}
           value={user}
-          onChange={e => onFormChange(e.target)}
+          onChange={e => this.onFormChange(e.target)}
         >
           <option selected="true">
             {newUser.placeholder}

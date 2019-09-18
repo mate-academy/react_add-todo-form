@@ -9,37 +9,35 @@ import NewTodo from './components/NewTodo/NewTodo';
 
 export default class App extends Component {
   state = {
-    todos,
+    listOfTodo: todos.map(todo => (
+      {
+        ...todo,
+        user: users.find(item => item.id === todo.userId),
+      })),
   };
 
   onNewTodoAdd = ({ userId, title }) => {
     this.setState(prevState => ({
-      todos: [
-        ...prevState.todos,
+      listOfTodo: [
+        ...prevState.listOfTodo,
         {
           userId,
-          id: prevState.todos.length + 1,
+          id: prevState.listOfTodo.length + 1,
           title,
           completed: false,
+          user: users.find(item => item.id === userId),
         },
       ],
     }));
   };
 
   render() {
-    const { state, onNewTodoAdd } = this;
-
     return (
       <div className="App">
         <h1>List of todos with form</h1>
 
-        <NewTodo onAdd={onNewTodoAdd} />
-        <TodoList listOfTodo={state.todos.map(todo => (
-          {
-            ...todo,
-            user: users.find(item => item.id === todo.userId),
-          }))}
-        />
+        <NewTodo onAdd={this.onNewTodoAdd} />
+        <TodoList listOfTodo={this.state.listOfTodo} />
       </div>
     );
   }
