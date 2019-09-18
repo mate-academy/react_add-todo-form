@@ -6,91 +6,77 @@ import TodoList from './components/TodoList/TodoList';
 import AddTodo from './components/AddTodo/AddTodo';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      listOfUsers: [...users],
-      listOfTodos: [...todos],
-      selectedUser: 0,
-      inputValue: '',
-      showErrorInput: false,
-      showErrorSelect: false,
-    };
+  state = {
+    listOfUsers: [...users],
+    listOfTodos: [...todos],
+    title: {
+      value: '',
+      showError: false,
+    },
+    selectedUser: {
+      value: 0,
+      showError: false,
+    },
   }
 
-  handleInputChange = (value) => {
+  handleInputChange = ({ name, value }) => {
     this.setState({
-      inputValue: value.replace(/[^\w\s]|^\s/g, ''),
-      showErrorInput: false,
-    });
-  }
-
-  changeSelectedUser = (value) => {
-    this.setState({
-      selectedUser: value,
-      showErrorSelect: false,
+      [name]: {
+        value: value.replace(/[^\w\s]|^\s/g, ''),
+        showError: false,
+      },
     });
   }
 
   addTodo = () => {
-    this.setState(prevState => (
-      prevState.inputValue && prevState.selectedUser !== 0
+    this.setState(({ listOfTodos, title, selectedUser }) => (
+      (title.value && selectedUser.value)
         ? {
-          inputValue: '',
-          selectedUser: 0,
-          listOfTodos: [
-            ...prevState.listOfTodos,
-            {
-              userId: prevState.selectedUser,
-              id: prevState.listOfTodos.length,
-              title: prevState.inputValue,
-              completed: false,
-            },
-          ],
+          listOfTodos: [...listOfTodos, {
+            userId: selectedUser.value,
+            id: listOfTodos.length + 1,
+            title: title.value,
+            completed: false,
+          }],
+          title: {
+            value: '',
+            showError: false,
+          },
+          selectedUser: {
+            value: 0,
+            showError: false,
+          },
         }
-        : !prevState.inputValue && prevState.selectedUser === 0
-          ? {
-            showErrorInput: true,
-            showErrorSelect: true,
-          }
-          : !prevState.inputValue
-            ? {
-              showErrorInput: true,
-            }
-            : {
-              showErrorSelect: true,
-            }
+        : {
+          title: {
+            value: title.value,
+            showError: !title.value,
+          },
+          selectedUser: {
+            value: selectedUser.value,
+            showError: !selectedUser.value,
+          },
+        }
     ));
   }
 
   render() {
     const {
-      handleInputChange,
-      changeSelectedUser,
-      addTodo,
-      state: {
-        listOfUsers,
-        listOfTodos,
-        selectedUser,
-        inputValue,
-        showErrorInput,
-        showErrorSelect,
-      },
-    } = this;
+      listOfUsers,
+      listOfTodos,
+      title,
+      selectedUser,
+    } = this.state;
 
     return (
       <div className="App">
         <h1>Static list of todos</h1>
         <AddTodo
-          inputValue={inputValue}
+          addTodo={this.addTodo}
+          handleInputChange={this.handleInputChange}
           listOfUsers={listOfUsers}
-          handleInputChange={handleInputChange}
+          title={title}
           selectedUser={selectedUser}
-          changeSelectedUser={changeSelectedUser}
-          addTodo={addTodo}
-          showErrorInput={showErrorInput}
-          showErrorSelect={showErrorSelect}
         />
         <TodoList listOfTodos={listOfTodos} />
       </div>
