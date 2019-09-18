@@ -1,0 +1,40 @@
+.form {
+  height:100px;
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.text-input {
+  height: 50px;
+  width: 200px;
+  margin-right: 15px;
+  padding-left: 10px;
+  background-color: rgb(247, 210, 226);
+  border: 1px solid rgb(2, 4, 72);
+  color: rgb(2, 4, 72);
+  border-radius: 10px;
+}
+
+.text-input::placeholder {
+  color: rgb(59, 61, 114);
+}
+
+.select-input {
+  background-color: rgb(247, 210, 226);
+  height: 55px;
+  width: 100px;
+  border: 1px solid rgb(2, 4, 72);
+  margin-right: 15px;
+  border-radius: 10px;
+
+}
+
+.submit-button {
+  background-color: rgb(247, 210, 226);
+  height: 55px;
+  border: 1px solid rgb(2, 4, 72);
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
