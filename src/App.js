@@ -15,9 +15,12 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todos: [...preparedTodos],
+    usersCopy: [...users],
   }
 
   addTodo = (todo) => {
+    const { usersCopy } = this.state;
+
     this.setState(prevState => ({
       todos: [...prevState.todos, {
         title: todo.title,
@@ -26,7 +29,7 @@ class App extends React.Component {
         userId: Number(todo.userId),
       }].map(currentTodo => ({
         ...currentTodo,
-        user: users.find(user => user.id === currentTodo.userId),
+        user: usersCopy.find(user => user.id === currentTodo.userId),
       })),
     }));
   }
