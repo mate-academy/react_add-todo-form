@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import users from './api/users';
-import FormControll from './api/components/FormControll/FormControll';
+import NewTodo from './api/components/NewTodo/NewTodo';
 import TodoList from './api/components/TodoList/TodoList';
 import todosWithUsers from './api/function/dataFromServer';
 
@@ -47,7 +47,7 @@ class App extends React.Component {
           }
         </h1>
 
-        <FormControll
+        <NewTodo
           users={users}
           todosToRender={todosToRender}
           addNewTodo={this.addNewTodo}

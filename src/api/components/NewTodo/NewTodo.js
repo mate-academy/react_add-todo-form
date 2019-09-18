@@ -1,7 +1,7 @@
 import React from 'react';
-import './FormControll.css';
+import './NewTodo.css';
 
-class FormControll extends React.Component {
+class NewTodo extends React.Component {
   state = {
     selectedUser: 0,
     inputValue: '',
@@ -94,7 +94,7 @@ class FormControll extends React.Component {
           >
             <option value={0}>Choose a user</option>
             {users.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
         </label>
@@ -114,4 +114,4 @@ class FormControll extends React.Component {
   }
 }
 
-export default FormControll;
+export default NewTodo;
