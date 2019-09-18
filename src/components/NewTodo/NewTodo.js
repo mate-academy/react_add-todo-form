@@ -5,7 +5,6 @@ export const NewTodo = ({
   users,
   handleClick,
   handleChange,
-  handleChangeSelect,
   currentSelect,
   todoName,
   errorTitle,
@@ -32,7 +31,7 @@ export const NewTodo = ({
           className="custom-select"
           name="username"
           id=""
-          onChange={handleChangeSelect}
+          onChange={handleChange}
           value={currentSelect}
         >
           <option selected disabled value="">

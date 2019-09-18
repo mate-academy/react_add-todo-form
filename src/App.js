@@ -23,42 +23,46 @@ class App extends React.Component {
     errorUser: null,
   };
 
-  handleChange = (event) => {
-    this.setState({
-      title: event.target.value,
-      errorTitle: null,
-    });
-  };
+  handleChange = ({ target }) => {
+    const { name, value } = target;
 
-  handleChangeSelect = (event) => {
-    this.setState({
-      selected: event.target.value,
-      errorUser: null,
-    });
+    if (name === 'title') {
+      this.setState({
+        title: value,
+        errorTitle: null,
+      });
+    } else if (name === 'username') {
+      this.setState({
+        selected: value,
+        errorUser: null,
+      });
+    }
   };
 
   handleClick = (event) => {
     event.preventDefault();
-    if (!event.target.username.value && event.target.title.value.length === 0) {
+    const { title, username } = event.target;
+
+    if (!username.value && title.value.length === 0) {
       this.setState({
         errorUser: 'You must choose a user',
         errorTitle: 'You must write todo',
       });
-    } else if (!event.target.username.value) {
+    } else if (!username.value) {
       this.setState({
         errorUser: 'You must choose a user',
       });
-    } else if (event.target.title.value.length === 0) {
+    } else if (title.value.length === 0) {
       this.setState({
         errorTitle: 'You must write todo',
       });
     } else {
       const newTodo = {
-        title: event.target.title.value,
-        user: users[event.target.username.value],
+        title: title.value,
+        user: users[username.value],
         completed: false,
         id: this.state.todos.length + 1,
-        userId: users[event.target.username.value].id,
+        userId: users[username.value].id,
       };
 
       this.setState(prevState => ({
@@ -77,11 +81,6 @@ class App extends React.Component {
       selected,
       title,
     } = this.state;
-    const {
-      handleClick,
-      handleChange,
-      handleChangeSelect,
-    } = this;
 
     return (
       <div className="main">
@@ -93,9 +92,8 @@ class App extends React.Component {
             errorUser={errorUser}
             currentSelect={selected}
             todoName={title}
-            handleClick={handleClick}
-            handleChange={handleChange}
-            handleChangeSelect={handleChangeSelect}
+            handleClick={this.handleClick}
+            handleChange={this.handleChange}
           />
         </div>
       </div>
