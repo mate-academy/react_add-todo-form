@@ -22,45 +22,49 @@ class App extends React.Component {
     selectError: null,
   };
 
-  handleInputChange = (event) => {
+  handleInputChange = ({ target }) => {
+    const { value } = target;
     this.setState({
-      title: event.target.value,
+      title: value,
       titleError: null,
     });
   };
 
-  handleSelectChange = (event) => {
+  handleSelectChange = ({ target }) => {
+    const { value } = target.value;
     this.setState({
-      user: event.target.value,
+      user: value,
       selectError: null,
     });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { title, userSelect } = event.target;
+
     if (
-      !event.target.userSelect.value
-      && event.target.title.value.length === 0
+      !userSelect.value
+      && title.value.length === 0
     ) {
       this.setState({
         selectError: 'You must choose a user',
         titleError: 'You must write todo',
       });
-    } else if (!event.target.userSelect.value) {
+    } else if (!userSelect.value) {
       this.setState({
         selectError: 'You must choose a user',
       });
-    } else if (event.target.title.value.length === 0) {
+    } else if (title.value.length === 0) {
       this.setState({
         titleError: 'You must write todo',
       });
     } else {
       const obj = {
-        title: event.target.title.value,
+        title: title.value,
         completed: false,
-        user: users[event.target.userSelect.value],
+        user: users[userSelect.value],
         id: this.state.todos.length + 1,
-        userId: users[event.target.userSelect.value].id,
+        userId: users[userSelect.value].id,
       };
 
       this.setState(prevState => ({
@@ -72,7 +76,6 @@ class App extends React.Component {
   };
 
   render() {
-    const { handleSubmit, handleInputChange, handleSelectChange } = this;
     const {
       todos, title, user, titleError, selectError,
     } = this.state;
@@ -83,11 +86,11 @@ class App extends React.Component {
         <main className="ui inverted segment">
           <NewTodo
             users={users}
-            handleSubmit={handleSubmit}
+            handleSubmit={this.handleSubmit}
             title={title}
             user={user}
-            handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
+            handleInputChange={this.handleInputChange}
+            handleSelectChange={this.handleSelectChange}
             titleError={titleError}
             selectError={selectError}
           />
