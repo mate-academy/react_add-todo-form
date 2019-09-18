@@ -13,6 +13,7 @@ const NewTodo = ({
   setNewTodo,
   giveError,
   errorNewTodo,
+  selectedUser,
 }) => (
   <form className="newtodo-form">
     <label>
@@ -35,13 +36,13 @@ const NewTodo = ({
     </label>
     <select
       className="newtodo-user"
-      value={selectedUserId}
+      value={selectedUser}
       onChange={event => setSelectedUser(event.target)}
     >
       <option value={selectedUserId}>{selectedUserId}</option>
       {
-        users.map((user, index) => (
-          <option key={user.id} value={index + 1}>{user.name}</option>
+        users.map(user => (
+          <option key={user.id} value={user.name}>{user.name}</option>
         ))
       }
     </select>
@@ -70,6 +71,7 @@ const NewTodo = ({
 NewTodo.propTypes = {
   selectedUserId: PropTypes.string.isRequired,
   newTodoText: PropTypes.string.isRequired,
+  selectedUser: PropTypes.string.isRequired,
   setSelectedUser: PropTypes.func.isRequired,
   setTodoText: PropTypes.func.isRequired,
   setNewTodo: PropTypes.func.isRequired,
