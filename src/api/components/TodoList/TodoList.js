@@ -1,15 +1,16 @@
 import React from 'react';
 import TodoItem from '../TodoItem/TodoItem';
-import '../TodoList/TodoList.css';
+import './TodoList.css';
 
 const TodoList = ({ todos: copyTodos }) => (
   <div className="container">
     { copyTodos.map(todo => (
       <TodoItem
         todo={todo}
-        key={todo.id} />
+        key={todo.id}
+      />
     ))}
-</div>
+  </div>
 );
 
 export default TodoList;

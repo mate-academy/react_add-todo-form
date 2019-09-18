@@ -1,19 +1,15 @@
-'use strict';
-
 import todos from '../todos';
 import users from '../users';
 
-const todosWithUsers = getTodosWithUsers(todos, users);
+const getTodosWithUsers = (todoList, userList) => (
+  todoList.map(todo => (
+    {
+      ...todo,
+      user: userList.find(user => user.id === todo.userId),
+    }
+  ))
+);
 
-function getTodosWithUsers(todoList, userList) {
-  return todoList.map(todo => {
-    return (
-      {
-        ...todo,
-        user: userList.find(user => user.id === todo.userId),
-      }
-    );
-  });
-}
+const todosWithUsers = getTodosWithUsers(todos, users);
 
 export default todosWithUsers;

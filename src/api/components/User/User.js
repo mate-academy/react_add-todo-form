@@ -18,6 +18,6 @@ const User = ({ person }) => (
       {person.phone}
     </div>
   </>
-)
+);
 
 export default User;

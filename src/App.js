@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      testTodoList: [...todosWithUsers],
+      todosToRender: [...todosWithUsers],
       users: [...users],
       selectedUser: 0,
       inputValue: '',
@@ -24,62 +24,74 @@ class App extends React.Component {
       this.setState({
         textError: 'Error: Please, input title task and select person',
       });
-    } else if (!selectedUser && inputValue ) {
+    } else if (!selectedUser && inputValue) {
       this.setState({
         textError: 'Error: Please, select person',
       });
-    } else if (selectedUser && !inputValue ) {
+    } else if (selectedUser && !inputValue) {
       this.setState({
         textError: 'Error: Please, input title task',
       });
     }
+
     if (inputValue.length < 15) {
       this.setState({
-        textError: 'Error: The small length of task',
-      })
-    } else {
-      this.setState((prevState) => {
-        return (
-          {
-            inputValue: '',
-            selectedUser: 0,
-            textError: '',
-            testTodoList: [
-              ...prevState.testTodoList,
+        textError: 'Error: The small length of task. Min length 15 symbol',
+      });
+    }
+
+    else {
+      this.setState((prevState) => (
+        {
+          inputValue: '',
+          selectedUser: 0,
+          textError: '',
+          todosToRender: [
+            ...prevState.todosToRender,
             {
               userId: prevState.selectedUser,
-              id: prevState.testTodoList.length + 1,
+              id: prevState.todosToRender.length + 1,
               title: prevState.inputValue,
               completed: true,
               user: prevState.users.find(person => (
                 person.id === prevState.selectedUser
-                )
-              )},
-            ]
-          }
-        )
-      })
+              )),
+            },
+          ],
+        }
+      ));
     }
   }
 
-
-  handleInput = ({target}) => (
+  handleInput = ({ target }) => (
     this.setState({
       inputValue: target.value,
     })
   );
 
-  handleSelected = ({target}) => (
+  handleSelected = ({ target }) => (
     this.setState({
       selectedUser: Number(target.value),
     })
   );
 
   render() {
-    const { inputValue, textError, selectedUser, testTodoList, users} = this.state;
+    const {
+      inputValue,
+      textError,
+      selectedUser,
+      todosToRender,
+      users,
+    } = this.state;
+
     return (
       <>
-        <h1 className="page-title">Todos list consist from {testTodoList.length} todo</h1>
+        <h1 className="page-title">
+          Todos list consist from
+          {todosToRender.length}
+          todo
+        </h1>
+
         <FormControll
           users={users}
           handleInput={this.handleInput}
@@ -88,15 +100,14 @@ class App extends React.Component {
           selectedUser={selectedUser}
           textError={textError}
           inputValue={inputValue}
-          selectedUser={selectedUser}
         />
 
         <TodoList
-          todos={testTodoList}
+          todos={todosToRender}
         />
 
       </>
-    )
+    );
   }
 }
 
