@@ -1,3 +1,16 @@
-.App {
+.app {
   text-align: center;
+  margin-right: 50px;
+  margin-left: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.newtodo__wrapper {
+  margin-bottom: 50px;
+}
+
+.todolist__wrapper {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 20px;
 }
