@@ -1,0 +1,39 @@
+.todo-item {
+  list-style: none;
+  max-width: 320px;
+  background-color: #eede77;
+  padding: 10px 5px 10px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: -10px 5px 10px rgba(0, 0, 0, 0.7);
+  font-family: Chilanka, sans-serif;
+}
+
+.todo-item:nth-child(even) {
+  transform: rotate(4deg);
+}
+
+.todo-item:nth-child(odd) {
+  transform: rotate(-5deg);
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.drawing-pin {
+  height: 70px;
+  width: 70px;
+  margin-top: 10px;
+}
+
+.drawing-pin img {
+  height: 100%;
+}
+
+.item-title {
+  font-size: 25px;
+  margin: 10px;
+  text-align: center;
+}
