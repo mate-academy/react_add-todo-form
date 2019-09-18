@@ -34,32 +34,34 @@ class App extends React.Component {
       });
     }
 
-    if (inputValue.length < 15) {
-      this.setState({
-        textError: 'Error: The small length of task. Min length 15 symbol',
-      });
-    }
-
     else {
-      this.setState((prevState) => (
-        {
-          inputValue: '',
-          selectedUser: 0,
-          textError: '',
-          todosToRender: [
-            ...prevState.todosToRender,
-            {
-              userId: prevState.selectedUser,
-              id: prevState.todosToRender.length + 1,
-              title: prevState.inputValue,
-              completed: true,
-              user: prevState.users.find(person => (
-                person.id === prevState.selectedUser
-              )),
-            },
-          ],
-        }
-      ));
+      if (inputValue.length < 15) {
+        this.setState({
+          textError: 'Error: The small length of task. Min length 15 symbol',
+        });
+      }
+
+      else {
+        this.setState((prevState) => (
+          {
+            inputValue: '',
+            selectedUser: 0,
+            textError: '',
+            todosToRender: [
+              ...prevState.todosToRender,
+              {
+                userId: prevState.selectedUser,
+                id: prevState.todosToRender.length + 1,
+                title: prevState.inputValue,
+                completed: true,
+                user: prevState.users.find(person => (
+                  person.id === prevState.selectedUser
+                )),
+              },
+            ],
+          }
+        ));
+      }
     }
   }
 
