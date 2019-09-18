@@ -25,7 +25,6 @@ class App extends React.Component {
     listTodos: [...preparedTodos],
     usersApi: [...users],
     selectedUserId: 'Choose a user',
-    selectedUser: '',
     newTodoText: '',
     todoId: 2,
     errorNewTodo: '',
@@ -45,7 +44,6 @@ class App extends React.Component {
         completed: false,
       }],
       selectedUserId: 'Choose a user',
-      selectedUser: 'Choose a user',
       newTodoText: '',
       todoId: todoId + 1,
       errorNewTodo: '',
@@ -61,11 +59,10 @@ class App extends React.Component {
   );
 
   setSelectedUser = ({ value }) => (
-    this.setState(prevState => ({
-      selectedUser: value,
-      selectedUserId: prevState.usersApi.find(user => user.name === value).id,
+    this.setState({
+      selectedUserId: value,
       errorNewTodo: '',
-    }))
+    })
   );
 
   setTodoText= ({ value }) => (
@@ -87,7 +84,6 @@ class App extends React.Component {
         selectedUserId,
         newTodoText,
         errorNewTodo,
-        selectedUser,
       },
     } = this;
 
@@ -99,7 +95,6 @@ class App extends React.Component {
             setSelectedUser={setSelectedUser}
             setTodoText={setTodoText}
             selectedUserId={selectedUserId}
-            selectedUser={selectedUser}
             newTodoText={newTodoText}
             setNewTodo={setNewTodo}
             giveError={giveError}
