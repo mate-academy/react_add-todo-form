@@ -33,11 +33,54 @@ class NewTodo extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    const { userId, title } = this.state;
     const { addTodo } = this.props;
     const formValue = this.getFormValue();
 
-    this.setState(initialState);
-    addTodo(formValue);
+    this.validateInput();
+    this.validateSelect();
+
+    if (title.value && userId.value > 0) {
+      addTodo(formValue);
+      this.setState(initialState);
+    }
+  }
+
+  validateInput = () => {
+    this.setState(({ title }) => (
+      (title.value !== '')
+        ? {
+          title: {
+            value: title.value,
+            error: '',
+          },
+        }
+        : {
+          title: {
+            value: title.value,
+            error: 'Field title is required',
+          },
+        }
+    ));
+  }
+
+  validateSelect = () => {
+    this.setState(({ userId }) => (
+      (userId.value > 0)
+        ? {
+          userId: {
+            value: userId.value,
+            error: '',
+          },
+        }
+        : {
+          userId: {
+            value: userId.value,
+            error: 'Choose a user',
+          },
+        }
+    ));
   }
 
   render() {
@@ -46,41 +89,62 @@ class NewTodo extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="new_todo">
-            New Todo:
+        <div className="field">
+          <label className="label">New Todo:</label>
+          <div className="control has-icons-right">
             <input
+              className={`input ${title.error ? 'is-danger' : ''}`}
               id="new_todo"
               type="text"
               name="title"
               placeholder="Add new todo"
               value={title.value}
-              onChange={this.handleChange}
+              onChange={(event) => {
+                this.handleChange(event);
+                this.validateInput();
+              }}
+              onBlur={this.validateInput}
             />
-          </label>
+            {title.error && (
+              <span className="icon is-small is-right">
+                <i className="fas fa-exclamation-triangle" />
+              </span>
+            )}
+          </div>
+          {title.error && (
+            <p className="help is-danger">{title.error}</p>
+          )}
         </div>
-        <div className="form-field">
-          <label htmlFor="user_select">
-            User:
-            <select
-              id="user_select"
-              name="userId"
-              value={userId.value}
-              onChange={this.handleChange}
-            >
-              <option value={0}>Choose a user</option>
-              {users.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
+
+        <div className="field">
+          <div className="control">
+            <div className={`select ${userId.error ? 'is-danger' : ''}`}>
+              <select
+                name="userId"
+                value={userId.value}
+                onChange={(e) => {
+                  this.handleChange(e);
+                  this.validateSelect();
+                }}
+                onBlur={this.validateSelect}
+              >
+                <option value={0}>Choose a user</option>
+                {users.map(user => (
+                  <option
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {userId.error && (
+            <p className="help is-danger">{userId.error}</p>
+          )}
         </div>
-        <button type="submit">Add</button>
+        <button type="submit" className="button is-primary">Add Todo</button>
       </form>
     );
   }

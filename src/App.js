@@ -36,7 +36,7 @@ class App extends Component {
 
   render() {
     const { todos } = this.state;
-    
+
     return (
       <div className="App">
         <h1>Static list of todos</h1>

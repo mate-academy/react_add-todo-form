@@ -4,7 +4,7 @@ import User from '../User/User';
 import './TodoItem.css';
 
 const TodoItem = ({ todo }) => (
-  <li className={todo.completed ? 'card green_bg' : 'card red_bg'}>
+  <li className={todo.completed ? 'card_item green_bg' : 'card_item red_bg'}>
     <div>
       <User data={todo.user} />
     </div>

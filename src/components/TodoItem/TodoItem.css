@@ -1,9 +1,9 @@
-.card {
+.card_item {
     transition: transform 0.3s;
     padding: 20px 10px;
 }
 
-.card:hover{
+.card_item:hover{
     transform: scale(1.1);
 }
 
