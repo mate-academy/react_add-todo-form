@@ -16,91 +16,30 @@ const preparedTodos = getTodosWithUsers(todos, users);
 
 class App extends React.Component {
   state = {
-    todosList: preparedTodos,
-    usersList: [...users],
-    titleValue: '',
-    userValue: 0,
-    isErrorTitle: false,
-    isErrorUser: false,
-  }
+    todosList: [...preparedTodos],
+  };
 
-  handleSubmitNewTodo = (event) => {
-    event.preventDefault();
-    const { title, user } = event.target;
-
-    if (title.value.length > 0 && +user.value !== 0) {
-      this.setState(prevState => ({
-        todosList: [
-          ...prevState.todosList,
-          {
-            userId: +user.value,
-            id: prevState.todosList.length + 1,
-            title: title.value,
-            completed: false,
-            user: prevState.usersList.find(u => u.id === +user.value),
-          },
-        ],
-        titleValue: '',
-        userValue: 0,
-      }));
-    }
-
-    if (title.value.length <= 0 && +user.value === 0) {
-      this.setState({
-        isErrorTitle: true,
-        isErrorUser: true,
-      });
-    }
-
-    if (title.value.length <= 0) {
-      this.setState({
-        isErrorTitle: true,
-      });
-    }
-
-    if (+user.value === 0) {
-      this.setState({
-        isErrorUser: true,
-      });
-    }
-  }
-
-  handleInputChange = (value) => {
-    this.setState({
-      titleValue: value.replace(/[^ \w]+/g, ''),
-      isErrorTitle: false,
-    });
-  }
-
-  handleSelectChange = (value) => {
-    this.setState({
-      userValue: +value,
-      isErrorUser: false,
-    });
-  }
+  handleAddTodo = ({ userId, title }) => {
+    this.setState(prevState => ({
+      todosList: [
+        ...prevState.todosList,
+        {
+          userId: +userId,
+          id: prevState.todosList.length + 1,
+          title,
+          completed: false,
+          user: users.find(u => u.id === +userId),
+        },
+      ],
+    }));
+  };
 
   render() {
-    const {
-      todosList,
-      usersList,
-      titleValue,
-      userValue,
-      isErrorTitle,
-      isErrorUser,
-    } = this.state;
+    const { todosList } = this.state;
 
     return (
       <div>
-        <NewTodo
-          users={usersList}
-          handleSubmitNewTodo={this.handleSubmitNewTodo}
-          handleInputChange={this.handleInputChange}
-          handleSelectChange={this.handleSelectChange}
-          titleValue={titleValue}
-          userValue={userValue}
-          isErrorTitle={isErrorTitle}
-          isErrorUser={isErrorUser}
-        />
+        <NewTodo onAdd={this.handleAddTodo} />
         <TodoList todos={todosList} />
       </div>
     );

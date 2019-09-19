@@ -109,6 +109,7 @@
 
 .hidden {
   visibility: hidden;
+  margin: 0;
 }
 
 @media (max-width: 1140px) {

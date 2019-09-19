@@ -1,32 +1,31 @@
 import PropTypes from 'prop-types';
 
+const UserObject = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  website: PropTypes.string.isRequired,
+};
+
+const TodoObject = {
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  user: PropTypes.shape(UserObject).isRequired,
+  completed: PropTypes.bool.isRequired,
+};
+
 export const TodoListPropTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape(TodoObject)).isRequired,
 };
 
 export const TodoItemPropTypes = {
-  todo: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    user: PropTypes.object,
-  }).isRequired,
+  todo: PropTypes.shape(TodoObject).isRequired,
 };
 
 export const UserPropTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
-    website: PropTypes.string,
-  }).isRequired,
+  user: PropTypes.shape(UserObject).isRequired,
 };
 
 export const NewTodoPropTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleSubmitNewTodo: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleSelectChange: PropTypes.func.isRequired,
-  titleValue: PropTypes.string.isRequired,
-  userValue: PropTypes.number.isRequired,
-  isErrorTitle: PropTypes.bool.isRequired,
-  isErrorUser: PropTypes.bool.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
