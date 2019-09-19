@@ -15,15 +15,14 @@ const usersList = usersListTodo(todos, users);
 
 class App extends React.Component {
   state = {
-    // usersToDo: usersList,
     usersSelected: users,
     selectUser: '',
     taskUser: '',
-    errorShow: '',
-    arrToDo: {
-      name: usersList.map(item => item.user.name),
-      task: usersList.map(item => item.title),
-    },
+    errorWhithOutUser: '',
+    errorWhithOutTasks: '',
+    names: usersList.map(item => item.user.name),
+    tasks: usersList.map(item => item.title),
+    id: usersList.length,
   };
 
   addUser = (event) => {
@@ -40,44 +39,60 @@ class App extends React.Component {
 
   buttonClick = (event) => {
     event.preventDefault();
-    if (this.state.taskUser.length > 0 && this.state.selectUser.length > 3) {
+    if ((this.state.taskUser.length === 0 || this.state.taskUser === ' ') && this.state.selectUser.length < 3) {
       this.setState({
-        task: this.state.arrToDo.task.push(this.state.taskUser),
-        name: this.state.arrToDo.name.push(this.state.selectUser),
+        errorWhithOutTasks: 'required to fill in the field',
+        errorWhithOutUser: 'required to fill in the field',
+      });
+    } else if (this.state.selectUser.length < 3) {
+      this.setState({
+        errorWhithOutUser: 'required to fill in the field',
+      });
+    } else if (this.state.taskUser.length === 0 || this.state.taskUser === ' ') {
+      this.setState({
+        errorWhithOutTasks: 'required to fill in the field',
+      });
+    } else if (this.state.taskUser.length > 0 && this.state.selectUser.length > 3) {
+      this.setState(prevState => ({
+        tasks: [...prevState.tasks, prevState.taskUser],
+        names: [...prevState.names, prevState.selectUser],
+        id: prevState.id + 1,
         selectUser: '',
         taskUser: '',
-        errorShow: '',
-      });
-    } else {
-      this.setState({
-        errorShow: 'type or choose',
-      });
+        errorWhithOutUser: '',
+        errorWhithOutTasks: '',
+      }));
     }
   };
 
   render() {
-
     return (
       <div className="App">
+          {console.log(usersList, this.state.id)}
+
         <h1>Static list of todos</h1>
         <span>ToDo: </span>
         <form onSubmit={this.buttonClick}>
-          <input type="text" onChange={this.addToDo} value={this.state.taskUser} />
-          <span>{this.state.errorShow}</span>
+          <input type="text" onChange={this.addToDo} value={this.state.taskUser} placeholder={this.state.errorWhithOutTasks} />
           <p>
             <span>Users:</span>
             <select onChange={this.addUser} value={this.state.selectUser}>
               <option>...</option>
               {this.state.usersSelected.map(item => <option>{item.name}</option>)}
             </select>
-            <span>{this.state.errorShow}</span>
+            <p className="error">{this.state.errorWhithOutUser}</p>
             <button type="submit">
               Add
             </button>
           </p>
         </form>
         <div>
-          {this.state.arrToDo.task.map((item, index) => <span><strong> Task: </strong> {item} <br />Name: {this.state.arrToDo.name[index]} <br /> <br /></span>)}
+          {this.state.tasks.map((item, index) =>
+          <div>
+            <span><strong> Task: </strong> {item}</span>
+            <span><strong> Name: </strong>{this.state.names[index]}</span>
+            <span><strong> ID: {index+1}</strong></span>
+          </div>)}
         </div>
       </div>
     );
