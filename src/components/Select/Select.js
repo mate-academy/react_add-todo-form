@@ -3,9 +3,7 @@ import React from 'react';
 import './Select.css';
 
 const Select = (props) => {
-  const { users, selectedByDefault = 0, onChange } = props;
-
-  console.log('props', props);
+  const { users, selectedByDefault, onChange } = props;
 
   const listToSelect = [...users];
 

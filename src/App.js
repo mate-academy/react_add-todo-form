@@ -27,12 +27,16 @@ class App extends Component {
       return;
     }
 
+    if (userId === 0) {
+      return;
+    }
+
     const newTodo = this.createTodoItem(text, userId);
 
     this.setState(prevState => ({
       todosData: [...prevState.todosData, newTodo],
     }));
-  }
+  };
 
   createTodoItem(value, userId) {
     return {

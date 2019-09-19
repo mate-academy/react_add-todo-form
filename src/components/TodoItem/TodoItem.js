@@ -9,8 +9,6 @@ const TodoItem = ({ todo }) => {
     title, completed = false, user, id,
   } = todo;
 
-  console.log('todo: ', todo);
-
   const classNames = !completed
     ? 'todo-list-item'
     : 'todo-list-item todo-list-item--done';

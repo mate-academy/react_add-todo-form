@@ -2,8 +2,25 @@
   width: 200px;
   margin: 0 auto;
   padding-bottom: 1em;
+  position: relative;
 }
 
 .form-control {
   margin-bottom: 30px;
+
+}
+
+.invalid-feedback.error {
+  display: block;
+  margin: 0;
+  position: absolute;
+  left: 0;
+}
+
+.invalid-feedback.error.error--select {
+  bottom: 55px;
+}
+
+.invalid-feedback.error.error--input {
+  bottom: 125px;
 }
