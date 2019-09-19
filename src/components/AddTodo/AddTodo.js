@@ -46,13 +46,12 @@ class AddTodo extends Component {
         changedUser: '0',
       });
     } else {
-      if (!cardTitle) {
-        this.setState({ errTitle: 'error title' });
-      }
-
-      if (changedUser === '0') {
-        this.setState({ errChangeUser: 'error change user' });
-      }
+      this.setState(prevState => ({
+        errTitle: !cardTitle ? 'error: type title' : prevState.errTitle,
+        errChangeUser: (changedUser === '0')
+          ? 'error: change name'
+          : prevState.errTitle,
+      }));
     }
   }
 
