@@ -1,0 +1,22 @@
+.card {
+    transition: transform 0.3s;
+    padding: 20px 10px;
+}
+
+.card:hover{
+    transform: scale(1.1);
+}
+
+.card-text {
+    padding-top: 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.green_bg {
+    background-color: rgba(119, 221, 119, 0.5);
+}
+
+.red_bg {
+    background-color: rgba(240, 122, 93, 0.5);
+}
