@@ -3,6 +3,7 @@ import NewTodo from './NewTodo/NewTodo';
 import TodoCounter from './Counters/TodoCounter';
 import UserCounter from './Counters/UserCounter';
 import getTodosWithUsers from './utils/getTodosWithUsers';
+import TodoList from './TodoList/TodoList';
 
 import './App.css';
 
@@ -13,27 +14,32 @@ const preparedTodos = getTodosWithUsers(todos, users);
 
 class App extends React.Component {
   state = {
-    todosCounter: todos.length,
+    todosList: preparedTodos,
   };
 
-  updateTodosCounter =() => {
-    this.setState(prevState => ({ todosCounter: prevState.todosCounter + 1 }));
+  handleAddTodo = (newTodo) => {
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, newTodo],
+    }));
   };
 
   render() {
-    const { todosCounter } = this.state;
+    const { todosList } = this.state;
 
     return (
-      <div className="App">
+      <div className="app">
         <h1>Static list of todos</h1>
-        <TodoCounter todos={todosCounter} />
+        <TodoCounter todos={todosList.length} />
         <UserCounter users={users} />
         <div className="container">
           <NewTodo
             users={users}
-            todos={preparedTodos}
-            todosCounter={this.updateTodosCounter}
+            todoID={todosList.length + 1}
+            onAdd={this.handleAddTodo}
           />
+          <div className="todo-list">
+            <TodoList todos={todosList} />
+          </div>
         </div>
       </div>
     );

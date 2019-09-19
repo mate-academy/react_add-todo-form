@@ -1,28 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TodoList from '../TodoList/TodoList';
 
 class NewTodo extends React.Component {
   static propTypes = {
-    todos: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        userId: PropTypes.number.isRequired,
-      }).isRequired,
-    ).isRequired,
+    todoID: PropTypes.number.isRequired,
     users: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
       }).isRequired,
     ).isRequired,
-    todosCounter: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
   };
 
   state = {
-    users: [...this.props.users],
-    todos: [...this.props.todos],
-    todoID: [...this.props.todos].length + 1,
+    todoID: this.props.todoID,
     userID: 0,
     task: '',
     errors: {
@@ -105,14 +97,9 @@ class NewTodo extends React.Component {
 
     if (user && todo) {
       this.setState(prevState => ({ todoID: prevState.todoID + 1 }));
-      this.setState(prevState => ({
-        todos: [...prevState.todos, {
-          userId: user.id, id: todoID, ...todo, user: { ...user },
-        }],
-      }));
-
-      this.props.todosCounter();
-
+      this.props.onAdd({
+        userId: user.id, id: todoID, ...todo, user: { ...user },
+      });
       this.setState({
         userID: 0,
         task: '',
@@ -123,9 +110,8 @@ class NewTodo extends React.Component {
   };
 
   render() {
-    const {
-      users, userID, task, errors, todos,
-    } = this.state;
+    const { userID, task, errors } = this.state;
+    const { users } = this.props;
 
     return (
       <>
@@ -170,9 +156,6 @@ class NewTodo extends React.Component {
             </div>
           </div>
         </form>
-        <div className="todo-list">
-          <TodoList todos={todos} />
-        </div>
       </>
     );
   }
