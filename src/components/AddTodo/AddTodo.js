@@ -40,7 +40,6 @@ class AddTodo extends Component {
         title: cardTitle,
         completed: false,
       });
-
       this.setState({
         cardTitle: '',
         changedUser: '0',
