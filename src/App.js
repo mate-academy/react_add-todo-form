@@ -1,19 +1,46 @@
 import React from 'react';
 import './App.css';
 
+import { TodoList } from './components/TodoList/TodoList';
+import { NewTodo } from './components/NewTodo/NewTodo';
+
 import users from './api/users';
+import todos from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+function getTodosWithUsers(todos, users) {
+  return todos.map(todo => ({
+    ...todo,
+    user: users.find(item => item.id === todo.userId),
+  }));
+}
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    todos: getTodosWithUsers(todos, users),
+  };
+
+  addTodo = (todo) => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, todo],
+    }));
+  };
+
+  render() {
+    const { todos } = this.state;
+
+    return (
+      <div className="main">
+        <div className="main-todos">
+          <TodoList todos={todos} />
+          <NewTodo
+            users={users}
+            todos={todos}
+            addTodo={this.addTodo}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;

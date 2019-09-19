@@ -1,3 +1,13 @@
-.App {
+body {
+  background-color: #f1fffd;
+}
+
+.main {
   text-align: center;
+  padding: 30px;
+}
+
+.main-todos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
 }
