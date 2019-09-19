@@ -4,15 +4,12 @@ import React, { Component } from 'react';
 import OptionsList from '../OptionsList/OptionsList';
 
 class AddTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      changedUser: '0',
-      cardTitle: '',
-      errTitle: '',
-      errChangeUser: '',
-    };
-  }
+  state = {
+    changedUser: '0',
+    cardTitle: '',
+    errTitle: '',
+    errChangeUser: '',
+  };
 
     handleNameChange = (event) => {
       const { value } = event.target;
