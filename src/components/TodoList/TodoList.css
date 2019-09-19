@@ -1,0 +1,7 @@
+.todolist {
+  border: 1px solid lightseagreen;
+  border-radius: 10px;
+  width: 700px;
+  min-height: 300px;
+  margin: 0 auto;
+}

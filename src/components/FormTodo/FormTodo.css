@@ -1,0 +1,27 @@
+.select-user {
+  background: transparent;
+  width: 268px;
+  padding: 5px;
+  font-size: 16px;
+  line-height: 1;
+  border: 1px solid lightseagreen;
+  outline: none;
+  border-radius: 5px;
+  height: 34px;
+  margin-top: 10px;
+}
+
+.formtodo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-button {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.input {
+  width: 400px;
+}
