@@ -7,65 +7,28 @@ import AddTodo from './components/AddTodo/AddTodo';
 
 class App extends Component {
   state = {
-    listOfUsers: [...users],
-    listOfTodos: [...todos],
-    title: {
-      value: '',
-      showError: false,
-    },
-    selectedUser: {
-      value: 0,
-      showError: false,
-    },
+    arrayOfUsers: [...users],
+    arrayOfTodos: [...todos],
   }
 
-  handleInputChange = ({ name, value }) => {
-    this.setState({
-      [name]: {
-        value: value.replace(/[^\w\s]|^\s/g, ''),
-        showError: false,
-      },
-    });
-  }
-
-  addTodo = () => {
-    this.setState(({ listOfTodos, title, selectedUser }) => (
-      (title.value && selectedUser.value)
-        ? {
-          listOfTodos: [...listOfTodos, {
-            userId: selectedUser.value,
-            id: listOfTodos.length + 1,
-            title: title.value,
-            completed: false,
-          }],
-          title: {
-            value: '',
-            showError: false,
-          },
-          selectedUser: {
-            value: 0,
-            showError: false,
-          },
-        }
-        : {
-          title: {
-            value: title.value,
-            showError: !title.value,
-          },
-          selectedUser: {
-            value: selectedUser.value,
-            showError: !selectedUser.value,
-          },
-        }
-    ));
+  addTodo = (titleValue, selectedUserValue) => {
+    this.setState(({ arrayOfTodos, title, selectedUser }) => ({
+      arrayOfTodos: [
+        ...arrayOfTodos,
+        {
+          userId: selectedUserValue,
+          id: arrayOfTodos.length + 1,
+          title: titleValue,
+          completed: false,
+        },
+      ],
+    }));
   }
 
   render() {
     const {
-      listOfUsers,
-      listOfTodos,
-      title,
-      selectedUser,
+      arrayOfUsers,
+      arrayOfTodos,
     } = this.state;
 
     return (
@@ -73,12 +36,9 @@ class App extends Component {
         <h1>Static list of todos</h1>
         <AddTodo
           addTodo={this.addTodo}
-          handleInputChange={this.handleInputChange}
-          listOfUsers={listOfUsers}
-          title={title}
-          selectedUser={selectedUser}
+          arrayOfUsers={arrayOfUsers}
         />
-        <TodoList listOfTodos={listOfTodos} />
+        <TodoList arrayOfTodos={arrayOfTodos} />
       </div>
     );
   }
