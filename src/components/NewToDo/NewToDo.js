@@ -83,7 +83,8 @@ class NewToDo extends Component {
         </label>
         { !validateUser
           ? <span className="alert">Please choose a user</span>
-          : ''}
+          : null
+        }
         <br />
         <button
           type="submit"

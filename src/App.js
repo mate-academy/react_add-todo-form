@@ -6,8 +6,10 @@ import users from './api/users';
 import TodoList from './components/TodoList/TodoList';
 
 function getTodosWithUser(listTasks, listUsers) {
-  return listTasks.map(item => (
-    { ...item, user: listUsers.find(person => person.id === item.userId) }));
+  return listTasks.map(item => ({
+    ...item,
+    user: listUsers.find(person => person.id === item.userId),
+  }));
 }
 
 const todosWithUser = getTodosWithUser(todos, users);
