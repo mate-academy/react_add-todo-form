@@ -39,20 +39,24 @@ class App extends React.Component {
 
   buttonClick = (event) => {
     event.preventDefault();
-    if ((this.state.taskUser.length === 0 || this.state.taskUser === ' ') && this.state.selectUser.length < 3) {
+    if (this.state.taskUser.length === 0
+      && this.state.selectUser.length < 4) {
       this.setState({
         errorWhithOutTasks: 'required to fill in the field',
         errorWhithOutUser: 'required to fill in the field',
       });
-    } else if (this.state.selectUser.length < 3) {
+    } else if (this.state.selectUser.length < 4 && this.state.taskUser.length > 0) {
       this.setState({
+        errorWhithOutTasks: '',
         errorWhithOutUser: 'required to fill in the field',
       });
-    } else if (this.state.taskUser.length === 0 || this.state.taskUser === ' ') {
+    } else if (this.state.taskUser.length === 0) {
       this.setState({
         errorWhithOutTasks: 'required to fill in the field',
+        errorWhithOutUser: '',
       });
-    } else if (this.state.taskUser.length > 0 && this.state.selectUser.length > 3) {
+    } else if (this.state.taskUser.length > 0
+      && this.state.selectUser.length > 3) {
       this.setState(prevState => ({
         tasks: [...prevState.tasks, prevState.taskUser],
         names: [...prevState.names, prevState.selectUser],
@@ -68,17 +72,21 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-          {console.log(usersList, this.state.id)}
-
         <h1>Static list of todos</h1>
         <span>ToDo: </span>
         <form onSubmit={this.buttonClick}>
-          <input type="text" onChange={this.addToDo} value={this.state.taskUser} placeholder={this.state.errorWhithOutTasks} />
+          <input
+            type="text"
+            onChange={this.addToDo}
+            value={this.state.taskUser}
+            placeholder={this.state.errorWhithOutTasks}
+          />
           <p>
             <span>Users:</span>
             <select onChange={this.addUser} value={this.state.selectUser}>
               <option>...</option>
-              {this.state.usersSelected.map(item => <option>{item.name}</option>)}
+              {this.state.usersSelected.map(item =>
+                <option>{item.name}</option>)}
             </select>
             <p className="error">{this.state.errorWhithOutUser}</p>
             <button type="submit">
@@ -88,11 +96,11 @@ class App extends React.Component {
         </form>
         <div>
           {this.state.tasks.map((item, index) =>
-          <div>
-            <span><strong> Task: </strong> {item}</span>
-            <span><strong> Name: </strong>{this.state.names[index]}</span>
-            <span><strong> ID: {index+1}</strong></span>
-          </div>)}
+            <div>
+              <span><strong> Task: </strong> {item}</span>
+              <span><strong> Name: </strong>{this.state.names[index]}</span>
+              <span><strong> ID: {index+1}</strong></span>
+            </div>)}
         </div>
       </div>
     );
