@@ -24,81 +24,30 @@ class App extends React.Component {
   state = {
     listTodos: [...preparedTodos],
     usersApi: [...users],
-    selectedUserId: 'Choose a user',
-    newTodoText: '',
-    todoId: 2,
-    errorNewTodo: '',
   }
 
-  setNewTodo = () => (
-    this.setState(({
-      listTodos,
-      newTodoText,
-      selectedUserId,
-      todoId,
-    }) => ({
+  addNewTodo = (newTodo) => {
+    this.setState(({ listTodos }) => ({
       listTodos: [...listTodos, {
-        userId: selectedUserId,
-        id: todoId + 1,
-        title: newTodoText,
-        completed: false,
-      }],
-      selectedUserId: 'Choose a user',
-      newTodoText: '',
-      todoId: todoId + 1,
-      errorNewTodo: '',
-    }))
-  )
-
-  giveError = () => (
-    this.setState(({ selectedUserId }) => ({
-      errorNewTodo: selectedUserId === 'Choose a user'
-        ? 'Please choose a user'
-        : 'Please enter the title',
-    }))
-  );
-
-  setSelectedUser = ({ value }) => (
-    this.setState({
-      selectedUserId: value,
-      errorNewTodo: '',
-    })
-  );
-
-  setTodoText= ({ value }) => (
-    this.setState({
-      newTodoText: value.replace(/[^ \w]+/g, ''),
-      errorNewTodo: '',
-    })
-  );
+        id: listTodos.length + 1,
+        ...newTodo,
+      },
+      ],
+    }));
+  };
 
   render() {
     const {
-      setSelectedUser,
-      setTodoText,
-      setNewTodo,
-      giveError,
-      state: {
-        listTodos,
-        usersApi,
-        selectedUserId,
-        newTodoText,
-        errorNewTodo,
-      },
-    } = this;
+      listTodos,
+      usersApi,
+    } = this.state;
 
     return (
       <div className="app">
         <div className="newtodo__wrapper">
           <NewTodo
             users={usersApi}
-            setSelectedUser={setSelectedUser}
-            setTodoText={setTodoText}
-            selectedUserId={selectedUserId}
-            newTodoText={newTodoText}
-            setNewTodo={setNewTodo}
-            giveError={giveError}
-            errorNewTodo={errorNewTodo}
+            addTodo={this.addNewTodo}
           />
         </div>
 
