@@ -1,0 +1,18 @@
+.app__table {
+  margin: 50px auto 20px;
+  border-collapse: collapse;
+  text-align: left;
+  overflow: hidden;
+  width: 70%;
+}
+
+.th__class {
+  text-align: center;
+  color: black;
+}
+
+.th__class,
+.td__class {
+  border: 1px solid black;
+  padding: 10px;
+}

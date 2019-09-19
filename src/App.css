@@ -1,3 +1,14 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  background: cadetblue;
+}
+
+.app {
   text-align: center;
+  width: 80%;
+  margin-left: 100px;
 }
