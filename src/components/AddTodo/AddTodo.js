@@ -10,92 +10,84 @@ class AddTodo extends Component {
     errChangeUser: '',
   };
 
-    handleNameChange = (event) => {
-      const { value } = event.target;
+  handleNameChange = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      cardTitle: value,
+      errTitle: '',
+    });
+  };
+
+  changeActiveUser = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      changedUser: value,
+      errChangeUser: '',
+    });
+  }
+
+  handleButtonSubmit = (event) => {
+    event.preventDefault();
+    const { cardTitle, changedUser } = this.state;
+    const { addTodos, todosListLength } = this.props;
+
+    if (cardTitle && changedUser !== '0') {
+      addTodos({
+        userId: Number(changedUser),
+        id: Number(todosListLength + 1),
+        title: cardTitle,
+        completed: false,
+      });
 
       this.setState({
-        cardTitle: value,
-        errTitle: '',
+        cardTitle: '',
+        changedUser: '0',
       });
-    };
+    } else {
+      if (!cardTitle) {
+        this.setState({ errTitle: 'error title' });
+      }
 
-    changeActiveUser = (event) => {
-      const { value } = event.target;
-
-      this.setState({
-        changedUser: value,
-        errChangeUser: '',
-      });
-    }
-
-    handleButtonSubmit = (event) => {
-      event.preventDefault();
-      const {
-        cardTitle,
-        changedUser,
-      } = this.state;
-
-      const {
-        addTodos,
-        todosListLength,
-      } = this.props;
-
-      if (cardTitle && changedUser !== '0') {
-        addTodos({
-          userId: Number(changedUser),
-          id: Number(todosListLength + 1),
-          title: cardTitle,
-          completed: false,
-        });
-
-        this.setState({
-          cardTitle: '',
-          changedUser: '0',
-        });
-      } else {
-        if (!cardTitle) {
-          this.setState({ errTitle: 'error title' });
-        }
-
-        if (changedUser === '0') {
-          this.setState({ errChangeUser: 'error change user' });
-        }
+      if (changedUser === '0') {
+        this.setState({ errChangeUser: 'error change user' });
       }
     }
+  }
 
-    render() {
-      const { users } = this.props;
-      const {
-        changedUser,
-        cardTitle,
-        errTitle,
-        errChangeUser,
-      } = this.state;
+  render() {
+    const { users } = this.props;
+    const {
+      changedUser,
+      cardTitle,
+      errTitle,
+      errChangeUser,
+    } = this.state;
 
-      return (
-        <div>
-          <h2>Add todo form</h2>
-          <form onSubmit={this.handleButtonSubmit}>
-            <input
-              value={cardTitle}
-              onChange={this.handleNameChange}
-            />
-            {errTitle}
-            <select
-              value={changedUser}
-              onChange={this.changeActiveUser}
-            >
-              <OptionsList users={users} />
-            </select>
-            {errChangeUser}
-            <button type="submit">
+    return (
+      <div>
+        <h2>Add todo form</h2>
+        <form onSubmit={this.handleButtonSubmit}>
+          <input
+            value={cardTitle}
+            onChange={this.handleNameChange}
+          />
+          {errTitle}
+          <select
+            value={changedUser}
+            onChange={this.changeActiveUser}
+          >
+            <OptionsList users={users} />
+          </select>
+          {errChangeUser}
+          <button type="submit">
             Add todo
-            </button>
-
-          </form>
-        </div>
-      );
-    }
+          </button>
+        </form>
+      </div>
+    );
+  }
 }
 
 AddTodo.propTypes = {
