@@ -14,67 +14,17 @@ class App extends React.Component {
   state = {
     usersList: [...users],
     todosList: [...preparedTodos],
-    inputTitle: '',
-    selectedUser: '',
-    id: 3,
-    placeholder: 'Enter the title for TODO',
-    errorTitle: '',
-    errorUser: '',
   };
 
-  handleChangeTitle = (event) => {
-    this.setState({
-      inputTitle: event.target.value,
-      errorTitle: null,
-    });
-  };
-
-  handleChangeUser = (event) => {
-    this.setState({
-      selectedUser: event.target.value,
-      errorUser: null,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (!this.state.selectedUser && !this.state.inputTitle) {
-      this.setState({
-        errorUser: 'Please, choose a user',
-        errorTitle: 'Title field cannot be a empty',
-      });
-    } else if (!this.state.inputTitle) {
-      this.setState({
-        errorTitle: 'Title field cannot be a empty',
-      });
-    } else if (!this.state.selectedUser) {
-      this.setState({
-        errorUser: 'Please, choose a user',
-      });
-    } else {
-      this.setState(prevState => ({
-        todosList: [...prevState.todosList,
-          {
-            userId: prevState.selectedUser.id,
-            title: prevState.inputTitle,
-            id: prevState.id,
-            user: prevState.usersList
-              .find(user => user.name === prevState.selectedUser),
-          },
-        ],
-
-        id: prevState.id + 1,
-        selectedUser: ' ',
-        inputTitle: '',
-      }));
-    }
-  };
+  addTodo = (newTodo) => {
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, newTodo],
+    }));
+  }
 
   render() {
     const {
-      usersList, todosList, selectedUser, placeholder,
-      inputTitle, errorTitle, errorUser,
+      usersList, todosList,
     } = this.state;
 
     return (
@@ -88,14 +38,8 @@ class App extends React.Component {
           <TodoList todos={todosList} />
           <NewTodos
             users={usersList}
-            handleChangeTitle={this.handleChangeTitle}
-            handleSubmit={this.handleSubmit}
-            selectedUser={selectedUser}
-            handleChangeUser={this.handleChangeUser}
-            placeholder={placeholder}
-            inputTitle={inputTitle}
-            errorTitle={errorTitle}
-            errorUser={errorUser}
+            todos={todosList}
+            addTodo={this.addTodo}
           />
         </div>
       </>
