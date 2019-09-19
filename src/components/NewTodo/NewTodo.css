@@ -1,0 +1,25 @@
+.positive.ui.button {
+}
+
+.ui.form .field {
+  margin-bottom: 65px;
+  position: relative;
+}
+
+.ui.form select {
+}
+
+.ui.error.message.input {
+  position: absolute;
+  top: 50px;
+}
+
+.select-container {
+  position: relative;
+  margin-bottom: 65px;
+}
+
+.ui.error.message.select {
+  position: absolute;
+  top: 30px;
+}

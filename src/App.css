@@ -1,3 +1,16 @@
-.App {
-  text-align: center;
+body {
+  background-color: #1b1c1d;
+}
+
+.ui.inverted.segment {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ui.selectable.inverted.table {
+  width: 70%;
+}
+
+.ui.inverted.form.error {
+  width: 25%;
 }
