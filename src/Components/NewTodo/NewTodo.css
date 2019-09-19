@@ -1,62 +1,86 @@
 .form {
-  height: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 30px auto;
+  margin: 150px auto;
 }
 
 .wrapper {
-  height: 100px;
+  height: 80px;
   display: flex;
   flex-direction: column;
 }
 
+.wrapper-bottom {
+  margin-bottom: 20px;
+}
+
 .error-msg {
-  color: crimson;
+  color: rgb(224, 58, 40);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 10px;
-  margin: 10px;
+  font-size: 18px;
+  margin: 5px;
 }
 
 .text-input {
+  box-sizing: border-box;
   height: 50px;
-  width: 200px;
+  width: 300px;
   margin-right: 15px;
   padding-left: 10px;
-  background-color: rgb(247, 210, 226);
-  border: 1px solid rgb(2, 4, 72);
-  color: rgb(2, 4, 72);
+  background-color: #fff;
+  opacity: 0.8;
+  border: 1px solid rgb(41, 60, 80);
+  color: rgb(41, 60, 80);
+  font-weight: bold;
+  font-size: 20px;
   border-radius: 10px;
+  font-family: Amatic SC, sans-serif;
 }
 
 .text-input-error {
-  border-color: crimson;
+  border: 2px solid rgb(224, 58, 40);
 }
 
 .text-input::placeholder {
-  color: rgb(59, 61, 114);
+  color: rgb(41, 60, 80);
+  font-weight: bold;
 }
 
 .select-input {
-  background-color: rgb(247, 210, 226);
-  height: 55px;
-  width: 100px;
-  border: 1px solid rgb(2, 4, 72);
-  margin-right: 15px;
+  background-color: #fff;
+  opacity: 0.8;
+  border: 1px solid rgb(41, 60, 80);
+  font-weight: bold;
+  font-size: 21px;
+  color: rgb(41, 60, 80);
   border-radius: 10px;
-
+  height: 50px;
+  width: 300px;
+  font-family: Amatic SC, sans-serif;
+  cursor: pointer;
 }
 
 .select-input-error {
-  border-color: crimson;
+  border: 2px solid rgb(224, 58, 40);
 }
 
 .submit-button {
-  background-color: rgb(247, 210, 226);
-  height: 55px;
-  border: 1px solid rgb(2, 4, 72);
+  background-color: rgb(69, 102, 135);
+  width: 300px;
+  height: 60px;
+  border: 1px solid #fff;
+  color: #fff;
   border-radius: 10px;
   font-weight: bold;
+  font-size: 28px;
+  opacity: 0.91;
   text-transform: uppercase;
+  font-family: Amatic SC, sans-serif;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: rgb(55, 81, 107);
 }
