@@ -16,69 +16,16 @@ function getTodosWithUsers(todos, users) {
 class App extends React.Component {
   state = {
     todos: getTodosWithUsers(todos, users),
-    title: '',
-    user: null,
-    titleError: null,
-    selectError: null,
   };
 
-  handleInputChange = ({ target }) => {
-    const { value } = target;
-    this.setState({
-      title: value,
-      titleError: null,
-    });
-  };
-
-  handleSelectChange = ({ target }) => {
-    const { value } = target.value;
-    this.setState({
-      user: value,
-      selectError: null,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { title, userSelect } = event.target;
-
-    if (
-      !userSelect.value
-      && title.value.length === 0
-    ) {
-      this.setState({
-        selectError: 'You must choose a user',
-        titleError: 'You must write todo',
-      });
-    } else if (!userSelect.value) {
-      this.setState({
-        selectError: 'You must choose a user',
-      });
-    } else if (title.value.length === 0) {
-      this.setState({
-        titleError: 'You must write todo',
-      });
-    } else {
-      const obj = {
-        title: title.value,
-        completed: false,
-        user: users[userSelect.value],
-        id: this.state.todos.length + 1,
-        userId: users[userSelect.value].id,
-      };
-
-      this.setState(prevState => ({
-        todos: [...prevState.todos, obj],
-        title: '',
-        user: '',
-      }));
-    }
+  addTodo = (todo) => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, todo],
+    }))
   };
 
   render() {
-    const {
-      todos, title, user, titleError, selectError,
-    } = this.state;
+    const { todos } = this.state;
 
     return (
       <>
@@ -86,13 +33,8 @@ class App extends React.Component {
         <main className="ui inverted segment">
           <NewTodo
             users={users}
-            handleSubmit={this.handleSubmit}
-            title={title}
-            user={user}
-            handleInputChange={this.handleInputChange}
-            handleSelectChange={this.handleSelectChange}
-            titleError={titleError}
-            selectError={selectError}
+            todos={todos}
+            addTodo={this.addTodo}
           />
           <table className="ui selectable inverted table">
             <thead>
