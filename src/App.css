@@ -1,3 +1,10 @@
-.App {
+body {
   text-align: center;
+  background-color: lightgrey;
+}
+
+.title {
+  font-size: 3em;
+  color: dimgrey;
+  font-style: oblique;
 }

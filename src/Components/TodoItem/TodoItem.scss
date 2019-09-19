@@ -1,0 +1,13 @@
+.item {
+  display: block;
+  width: 400px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  background-color: #b4a250;
+  margin: 10px;
+
+  &__title {
+    color: darkslateblue;
+    font-size: 2em;
+  }
+}
