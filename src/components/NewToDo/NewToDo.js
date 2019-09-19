@@ -4,45 +4,44 @@ import './NewToDo.css';
 
 class NewToDo extends Component {
   state = {
-    newTask: '',
+    title: '',
     userId: 0,
     validateTitle: true,
     validateUser: true,
   }
 
-  handleChangedInput = (event) => {
+  handleChangedInput = ({ target }) => {
     this.setState({
-      newTask: event.target.value.replace(/[^\w\s]/, ''),
+      title: target.value.replace(/[^\w\s]/, ''),
       validateTitle: true,
     });
   }
 
-  handleChangeSelect = (event) => {
+  handleChangeSelect = ({ target }) => {
     this.setState({
-      userId: Number(event.target.value),
+      userId: Number(target.value),
       validateUser: true,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { userId, newTask } = this.state;
+    const { userId, title } = this.state;
 
-    if (userId && newTask) {
-      this.props.addNewTodo(userId, newTask);
+    if (userId && title) {
+      this.props.addNewTodo(userId, title);
       this.setState({
-        newTask: '',
+        title: '',
         userId: 0,
-        validateTitle: true,
-        validateUser: true,
       });
     } else {
-      !newTask && this.setState({
-        validateTitle: false,
+      (!title || !userId) && this.setState({
+        validateTitle: !!title,
+        validateUser: !!userId,
       });
-      !userId && this.setState({
-        validateUser: false,
-      });
+      // !userId && this.setState({
+      //   validateUser: false,
+      // });
     }
   };
 
@@ -58,13 +57,13 @@ class NewToDo extends Component {
             type="text"
             placeholder="Add new task.."
             onChange={this.handleChangedInput}
-            value={this.state.newTask}
+            value={this.state.title}
             id="task"
           />
         </label>
         { !validateTitle
           ? <span className="alert">Please enter the title</span>
-          : ''
+          : null
         }
         <br />
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -75,7 +74,7 @@ class NewToDo extends Component {
             onChange={this.handleChangeSelect}
             id="user-select"
           >
-            <option value={0}>Choose a user ...</option>
+            <option value={0} disabled>Choose a user ...</option>
             {users
               .map(user => (
                 <option value={user.id} key={user.id}>
@@ -101,14 +100,14 @@ class NewToDo extends Component {
   }
 }
 
-const userhape = PropTypes.shape({
+const usershape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
 });
 
 NewToDo.propTypes = {
   addNewTodo: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(userhape).isRequired,
+  users: PropTypes.arrayOf(usershape).isRequired,
 };
 
 export default NewToDo;

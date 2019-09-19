@@ -6,8 +6,8 @@ import User from '../User/User';
 function TodoItem({ todo }) {
   const { completed, title, user } = todo;
   const classItem = completed
-    ? 'list-group-item disabled'
-    : 'list-group-item';
+    ? 'list-group-item li-title disabled'
+    : 'list-group-item li-title';
 
   return (
     <li className={classItem}>
@@ -20,14 +20,18 @@ function TodoItem({ todo }) {
 
 export default TodoItem;
 
-const shape = PropTypes.shape({
+const todoShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+  }).isRequired,
 });
 
 TodoItem.propTypes = {
-  todo: shape.isRequired,
+  todo: todoShape.isRequired,
 };

@@ -5,16 +5,16 @@ import todos from './api/todos';
 import users from './api/users';
 import TodoList from './components/TodoList/TodoList';
 
-function todosWithUser(listTasks, listUsers) {
+function getTodosWithUser(listTasks, listUsers) {
   return listTasks.map(item => (
     { ...item, user: listUsers.find(person => person.id === item.userId) }));
 }
 
-const fullList = todosWithUser(todos, users);
+const todosWithUser = getTodosWithUser(todos, users);
 
 class App extends Component {
   state = {
-    listOfTodos: [...fullList],
+    listOfTodos: [...todosWithUser],
     listOfUsers: [...users],
   }
 
@@ -28,11 +28,9 @@ class App extends Component {
         user: prevState.listOfUsers.find(person => person.id === userId),
       };
 
-      return (
-        {
-          listOfTodos: [...prevState.listOfTodos, newItem],
-        }
-      );
+      return ({
+        listOfTodos: [...prevState.listOfTodos, newItem],
+      });
     });
   }
 

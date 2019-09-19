@@ -3,34 +3,35 @@ import PropTypes from 'prop-types';
 import TodoItem from '../TodoItem/TodoItem';
 import NewToDo from '../NewToDo/NewToDo';
 
-const TodoList = props => (
+const TodoList = ({ users, addNewTodo, todos }) => (
   <>
     <NewToDo
-      users={props.users}
-      addNewTodo={props.addNewTodo}
+      users={users}
+      addNewTodo={addNewTodo}
     />
     <ul className="list-group">
-      {props.todos.map(item => <TodoItem todo={item} key={item.id} />)}
+      {todos.map(item => <TodoItem todo={item} key={item.id} />)}
     </ul>
   </>
 );
 
-const usershape = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+const userShape = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  email: PropTypes.string,
 });
 
-const shape = PropTypes.shape({
+const todoShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
+  user: userShape.isRequired,
 });
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(shape).isRequired,
-  users: PropTypes.arrayOf(usershape).isRequired,
+  todos: PropTypes.arrayOf(todoShape).isRequired,
+  users: PropTypes.arrayOf(userShape).isRequired,
   addNewTodo: PropTypes.func.isRequired,
 };
 
