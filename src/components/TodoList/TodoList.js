@@ -5,7 +5,7 @@ import TodoItem from '../TodoItem/TodoItem';
 import './TodoList.css';
 
 const TodoList = ({ todos }) => (
-  <div className="todo-list">
+  <div className="ui cards todo-list">
     {todos.map(todo => (
       <TodoItem todo={todo} key={todo.id} />
     ))}

@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   box-sizing: border-box;
   padding: 20px;
+  justify-content: flex-start;
 }
 
 .ui.card .content {

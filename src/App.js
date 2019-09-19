@@ -18,41 +18,63 @@ class App extends React.Component {
     selectedUser: '',
     id: 3,
     placeholder: 'Enter the title for TODO',
+    errorTitle: '',
+    errorUser: '',
   };
 
   handleChangeTitle = (event) => {
     this.setState({
       inputTitle: event.target.value,
+      errorTitle: null,
     });
   };
 
   handleChangeUser = (event) => {
     this.setState({
       selectedUser: event.target.value,
+      errorUser: null,
     });
   };
 
-  handleClickButton = () => {
-    this.setState(prevState => ({
-      todosList: [...prevState.todosList,
-        {
-          userId: prevState.selectedUser.id,
-          title: prevState.inputTitle,
-          id: prevState.id,
-          user: prevState.usersList
-            .find(user => user.name === prevState.selectedUser),
-        },
-      ],
+  handleSubmit = (event) => {
+    event.preventDefault();
 
-      id: prevState.id + 1,
-      selectedUser: ' ',
-      inputTitle: '',
-    }));
+    if (!this.state.selectedUser && !this.state.inputTitle) {
+      this.setState({
+        errorUser: 'Please, choose a user',
+        errorTitle: 'Title field cannot be a empty',
+      });
+    } else if (!this.state.inputTitle) {
+      this.setState({
+        errorTitle: 'Title field cannot be a empty',
+      });
+    } else if (!this.state.selectedUser) {
+      this.setState({
+        errorUser: 'Please, choose a user',
+      });
+    } else {
+      this.setState(prevState => ({
+        todosList: [...prevState.todosList,
+          {
+            userId: prevState.selectedUser.id,
+            title: prevState.inputTitle,
+            id: prevState.id,
+            user: prevState.usersList
+              .find(user => user.name === prevState.selectedUser),
+          },
+        ],
+
+        id: prevState.id + 1,
+        selectedUser: ' ',
+        inputTitle: '',
+      }));
+    }
   };
 
   render() {
     const {
-      usersList, todosList, selectedUser, placeholder, inputTitle,
+      usersList, todosList, selectedUser, placeholder,
+      inputTitle, errorTitle, errorUser,
     } = this.state;
 
     return (
@@ -67,11 +89,13 @@ class App extends React.Component {
           <NewTodos
             users={usersList}
             handleChangeTitle={this.handleChangeTitle}
-            handleClickButton={this.handleClickButton}
+            handleSubmit={this.handleSubmit}
             selectedUser={selectedUser}
             handleChangeUser={this.handleChangeUser}
             placeholder={placeholder}
             inputTitle={inputTitle}
+            errorTitle={errorTitle}
+            errorUser={errorUser}
           />
         </div>
       </>

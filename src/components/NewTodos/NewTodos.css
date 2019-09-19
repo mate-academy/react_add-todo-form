@@ -3,7 +3,6 @@
   box-sizing: border-box;
   padding: 20px;
   display: flex;
-
 }
 
 .form__input {
@@ -12,4 +11,9 @@
 
 .user-select {
   display: block;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
 }

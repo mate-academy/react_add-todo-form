@@ -4,31 +4,41 @@ import './NewTodos.css';
 import { NewTodosProps } from '../PropTypes/PropTypes';
 
 const NewTodos = ({
-  users, handleChangeTitle, handleChangeUser,
-  handleClickButton, selectedUser, placeholder, inputTitle,
+  inputTitle, selectedUser, errorTitle, errorUser, users, handleSubmit,
+  handleChangeTitle, handleChangeUser,
 }) => (
   <div className="todos__form">
-    <form>
-      <input
-        className="form__input"
-        type="text"
-        placeholder={placeholder}
-        onChange={handleChangeTitle}
-        value={inputTitle}
-      />
-      <select
-        className="user-select"
-        onChange={handleChangeUser}
-        value={selectedUser}
-      >
-        <option selected>Choose a user</option>
-        {users.map(user => <option>{user.name}</option>)}
-      </select>
+    <form
+      className="ui form"
+      onSubmit={handleSubmit}
+    >
+      <h2>Form for user add</h2>
+      <div className="field">
+        <input
+          className="form__input"
+          type="text"
+          onChange={handleChangeTitle}
+          value={inputTitle}
+          placeholder="Enter the title for TODO"
+        />
+        {errorTitle && <small className="error">{errorTitle}</small>}
+      </div>
+      <div className="field">
+        <select
+          className="user-select ui fluid dropdown"
+          onChange={handleChangeUser}
+          value={selectedUser}
+        >
+          <option selected>Choose a user</option>
+          {users.map(user => <option>{user.name}</option>)}
+        </select>
+        {errorUser && <span className="error">{errorUser}</span>}
+      </div>
       <button
-        type="button"
-        onClick={handleClickButton}
+        type="submit"
+        className="ui button"
       >
-          Add Todos
+        Add Todos
       </button>
     </form>
   </div>

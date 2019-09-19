@@ -9,8 +9,8 @@
   align-content: center;
 }
 
-.ui.card:first-child {
-  margin: 1em 10px 0 0;
+.ui.card {
+  margin-right: 10px;
 }
 
 .todo-item__id {
