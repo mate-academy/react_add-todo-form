@@ -13,13 +13,13 @@ class NewTodo extends React.Component {
 
   handleSubmitNewTodo = (event) => {
     event.preventDefault();
-    const { title, user } = event.target;
+    const { titleValue, userValue } = this.state;
     const { onAdd } = this.props;
 
-    if (title.value.length > 0 && +user.value !== 0) {
+    if (titleValue && +userValue) {
       const todo = {
-        userId: user.value,
-        title: title.value,
+        userId: userValue,
+        title: titleValue,
       };
 
       onAdd(todo);
@@ -28,24 +28,10 @@ class NewTodo extends React.Component {
         titleValue: '',
         userValue: 0,
       });
-    }
-
-    if (title.value.length <= 0 && +user.value === 0) {
-      this.setState({
-        isErrorTitle: true,
-        isErrorUser: true,
-      });
-    }
-
-    if (title.value.length <= 0) {
-      this.setState({
-        isErrorTitle: true,
-      });
-    }
-
-    if (+user.value === 0) {
-      this.setState({
-        isErrorUser: true,
+    } else {
+      (!titleValue || !userValue) && this.setState({
+        isErrorTitle: !titleValue,
+        isErrorUser: !userValue,
       });
     }
   }
