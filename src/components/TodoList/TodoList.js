@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoList.css';
 
-const TodoList = ({ arrayOfTodos }) => (
+const TodoList = ({ todos }) => (
   <div className="todo-list">
-    {arrayOfTodos.map(todo => (
+    {todos.map(todo => (
       <div
         className="todo"
         key={todo.id}
@@ -18,7 +18,7 @@ const TodoList = ({ arrayOfTodos }) => (
 );
 
 TodoList.propTypes = {
-  arrayOfTodos: PropTypes.arrayOf(
+  todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       userId: PropTypes.number,

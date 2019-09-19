@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
-import users from './api/users';
-import todos from './api/todos';
+import usersApi from './api/users';
+import todosApi from './api/todos';
 import TodoList from './components/TodoList/TodoList';
 import AddTodo from './components/AddTodo/AddTodo';
 
 class App extends Component {
   state = {
-    arrayOfUsers: [...users],
-    arrayOfTodos: [...todos],
+    users: [...usersApi],
+    todos: [...todosApi],
   }
 
   addTodo = (titleValue, selectedUserValue) => {
-    this.setState(({ arrayOfTodos, title, selectedUser }) => ({
-      arrayOfTodos: [
-        ...arrayOfTodos,
+    this.setState(({ todos, title, selectedUser }) => ({
+      todos: [
+        ...todos,
         {
           userId: selectedUserValue,
-          id: arrayOfTodos.length + 1,
+          id: todos.length + 1,
           title: titleValue,
           completed: false,
         },
@@ -26,19 +26,16 @@ class App extends Component {
   }
 
   render() {
-    const {
-      arrayOfUsers,
-      arrayOfTodos,
-    } = this.state;
+    const { users, todos } = this.state;
 
     return (
       <div className="App">
         <h1>Static list of todos</h1>
         <AddTodo
           addTodo={this.addTodo}
-          arrayOfUsers={arrayOfUsers}
+          users={users}
         />
-        <TodoList arrayOfTodos={arrayOfTodos} />
+        <TodoList todos={todos} />
       </div>
     );
   }

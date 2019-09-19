@@ -26,8 +26,9 @@ class AddTodo extends Component {
   handleSubmit = () => {
     const { props: { addTodo }, state: { title, selectedUser } } = this;
 
-    (title.value && selectedUser.value)
-      && addTodo(title.value, selectedUser.value);
+    if (title.value && selectedUser.value) {
+      addTodo(title.value, selectedUser.value);
+    }
 
     this.setState(({ title, selectedUser }) => (
       (title.value && selectedUser.value)
@@ -57,7 +58,7 @@ class AddTodo extends Component {
   render() {
     const {
       props: {
-        arrayOfUsers,
+        users,
       },
       state: {
         title,
@@ -96,7 +97,7 @@ class AddTodo extends Component {
               id="user"
             >
               <option value={0}>Choose a user</option>
-              {arrayOfUsers.map(user => (
+              {users.map(user => (
                 <option value={`${user.id}`}>{user.name}</option>
               ))}
             </select>
@@ -119,7 +120,7 @@ class AddTodo extends Component {
 }
 
 AddTodo.propTypes = {
-  arrayOfUsers: PropTypes.arrayOf(
+  users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
