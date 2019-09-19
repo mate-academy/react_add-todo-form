@@ -1,3 +1,26 @@
-.App {
+.app {
   text-align: center;
+  margin: 15px;
+}
+
+.form-todo {
+  max-width: 80%;
+  margin: auto;
+}
+
+.todos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.todos__item {
+  border: 1px solid grey;
+  margin: 15px;
+  border-radius: 4px;
+  width: 240px;
+}
+
+.error {
+  color: red;
 }
