@@ -1,0 +1,140 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  font-family: Merienda, sans-serif;
+  font-size: 55px;
+  background: #ffc;
+  position: relative;
+  width: 600px;
+  margin: 40px 60px;
+  padding: 10px 20px;
+  box-shadow: -10px 5px 10px rgba(0, 0, 0, 0.7);
+}
+
+.header::before {
+  content: "";
+  background: url(../../images/Drawing-Pin.png) no-repeat;
+  background-size: cover;
+  height: 45px;
+  width: 60px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.header::after {
+  content: "";
+  background: url(../../images/Drawing-Pin.png) no-repeat;
+  background-size: cover;
+  height: 45px;
+  width: 60px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.form-container {
+  background-color: #eede77;
+  box-shadow: -10px 5px 10px rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 150px;
+}
+
+.form-heading {
+  font-family: Chilanka, sans-serif;
+  margin: 0 0 10px;
+
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+}
+
+.form-item {
+  width: 100%;
+
+}
+
+.form-input {
+  background-color: #eede77;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  font-family: Chilanka, sans-serif;
+
+  width: 100%;
+}
+
+.form-input::placeholder {
+  font-family: Chilanka, sans-serif;
+}
+
+.form-select {
+  background-color: #eede77;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  font-family: Chilanka, sans-serif;
+
+  width: 100%;
+}
+
+.form-btn {
+  background-color: #eede77;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 1px 2px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  font-family: Chilanka, sans-serif;
+  width: 100px;
+  height: 30px;
+}
+
+.form-error {
+  margin: 0;
+  color: #f00;
+  font-style: italic;
+}
+
+.hidden {
+  visibility: hidden;
+  margin: 0;
+}
+
+@media (max-width: 1140px) {
+  .header {
+    margin: 40px 30px;
+  }
+}
+
+@media (max-width: 975px) {
+  .header {
+    margin: 0 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    display: block;
+  }
+
+  .header {
+    margin: 0 0 20px;
+    max-width: 570px;
+  }
+
+  .form-container {
+    margin: 0 auto;
+  }
+}
