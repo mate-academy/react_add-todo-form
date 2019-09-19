@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+import TodoList from './components/TodoList/TodoList';
+import AddTodo from './components/AddTodo/AddTodo';
+import getTodosWithUsers from './dataMappers';
 import todos from './api/todos';
 import users from './api/users';
-import TodoList from './components/TodoList/TodoList';
-import getTodosWithUsers from './dataMappers';
-import AddTodo from './components/AddTodo/AddTodo';
+import './App.css';
 
 class App extends Component {
   state = {

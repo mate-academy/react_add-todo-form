@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 function OptionsList(props) {
   const { users } = props;
@@ -21,5 +20,14 @@ function OptionsList(props) {
     </>
   );
 }
+
+OptionsList.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }).isRequired,
+  ).isRequired,
+};
 
 export default OptionsList;
