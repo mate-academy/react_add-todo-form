@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './App.css';
 import users from './api/users';
 import NewTodo from './api/components/NewTodo/NewTodo';
@@ -12,7 +13,11 @@ class App extends React.Component {
   };
 
   addNewTodo = (userId, newTask) => {
-    this.setState((prevState) => (
+    const user = this.state.users.find(person => (
+      person.id === userId
+    ));
+
+    return this.setState((prevState) => (
       {
         todosToRender: [
           ...prevState.todosToRender,
@@ -21,9 +26,7 @@ class App extends React.Component {
             id: prevState.todosToRender.length + 1,
             title: newTask,
             completed: true,
-            user: prevState.users.find(person => (
-              person.id === userId
-            )),
+            user: user,
           },
         ],
       }
@@ -31,10 +34,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      todosToRender,
-      users,
-    } = this.state;
+    const { todosToRender, users, } = this.state;
 
     return (
       <>
@@ -49,7 +49,6 @@ class App extends React.Component {
 
         <NewTodo
           users={users}
-          todosToRender={todosToRender}
           addNewTodo={this.addNewTodo}
         />
 

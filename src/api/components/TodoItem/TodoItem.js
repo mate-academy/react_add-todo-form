@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import User from '../User/User';
 import '../TodoItem/TodoItem.css';
 
@@ -19,5 +21,18 @@ const TodoItem = ({ todo }) => (
     />
   </div>
 );
+
+TodoItem.propTypes = {
+  todo: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+    }).isRequired
+  }).isRequired,
+};
+
 
 export default TodoItem;

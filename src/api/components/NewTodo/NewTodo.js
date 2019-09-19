@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './NewTodo.css';
 
 class NewTodo extends React.Component {
@@ -24,20 +25,13 @@ class NewTodo extends React.Component {
       this.setState({
         textError: 'Error: Please, input title task',
       });
-    }
-
-    else {
+    } else {
       if (inputValue.length < 15) {
         this.setState({
           textError: 'Error: The small length of task. Min length 15 symbol',
         });
-      }
-
-      else {
-        const {
-          selectedUser,
-          inputValue,
-        } = this.state;
+      } else {
+        const { selectedUser, inputValue, } = this.state;
 
         this.setState({
           inputValue: '',
@@ -113,5 +107,17 @@ class NewTodo extends React.Component {
     );
   }
 }
+
+NewTodo.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  addNewTodo: PropTypes.func.isRequired,
+};
 
 export default NewTodo;
