@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
+import usersApi from './api/users';
+import todosApi from './api/todos';
+import TodoList from './components/TodoList/TodoList';
+import AddTodo from './components/AddTodo/AddTodo';
 
-import users from './api/users';
+class App extends Component {
+  state = {
+    users: [...usersApi],
+    todos: [...todosApi],
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+  addTodo = (titleValue, selectedUserValue) => {
+    this.setState(({ todos, title, selectedUser }) => ({
+      todos: [
+        ...todos,
+        {
+          userId: selectedUserValue,
+          id: todos.length + 1,
+          title: titleValue,
+          completed: false,
+        },
+      ],
+    }));
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  render() {
+    const { users, todos } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Static list of todos</h1>
+        <AddTodo
+          addTodo={this.addTodo}
+          users={users}
+        />
+        <TodoList todos={todos} />
+      </div>
+    );
+  }
 }
 
 export default App;
