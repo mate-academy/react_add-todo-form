@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import users from '../../api/users';
 
 export default class NewTodo extends Component {
   state = {
