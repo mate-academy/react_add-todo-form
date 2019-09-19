@@ -1,0 +1,31 @@
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user__username {
+  font-size: 19px;
+  color: rgb(205, 202, 221);
+}
+
+.user__name {
+  font-size: 19px;
+  color: rgb(205, 202, 221);
+}
+
+.user__email {
+  font-size: 19px;
+  color: rgb(205, 202, 221);
+}
+
+.user__phone {
+  font-size: 19px;
+  color: rgb(205, 202, 221);
+}
+
+.user__website {
+  font-size: 18px;
+  color: rgb(205, 202, 221);
+  font-style: italic;
+}

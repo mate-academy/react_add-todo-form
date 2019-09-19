@@ -1,0 +1,23 @@
+.todo-item {
+  box-sizing: border-box;
+  font-size: 22px;
+  color: rgb(199, 195, 219);
+  text-decoration: none;
+  display: block;
+  width: 300px;
+  height: 450px;
+  background-color: rgb(20, 12, 95);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  padding-top: 5px;
+  margin: 0 auto 30px;
+}
+
+.todo-item__title {
+  text-align: center;
+  margin: 5px 0;
+  color: rgb(192, 193, 211);
+}
+
+.todo-item__main-title {
+  text-align: center;
+}
