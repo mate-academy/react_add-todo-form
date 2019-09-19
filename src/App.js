@@ -28,7 +28,7 @@ class App extends Component {
           id: prevState.todos.length + 1,
           title,
           completed: false,
-          user: users.find(u => u.id === +userId),
+          user: users.find(user => user.id === +userId),
         },
       ],
     }));
@@ -39,7 +39,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Static list of todos</h1>
+        <h1 className="title">Static list of todos</h1>
         <NewTodo users={users} addTodo={this.handleAddTodo} />
         <TodoList todos={todos} />
       </div>

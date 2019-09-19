@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './NewTodo.css';
 
 const initialState = {
   userId: {
@@ -88,7 +89,7 @@ class NewTodo extends Component {
     const { users } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="form">
         <div className="field">
           <label className="label">New Todo:</label>
           <div className="control has-icons-right">
