@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import users from '../../api/users';
+// import users from '../../api/users';
 
 export default class NewTodo extends Component {
   state = {
-    users: [...users],
     title: '',
     userId: 0,
     titleError: '',
@@ -52,6 +51,7 @@ export default class NewTodo extends Component {
     const {
       title, userId, titleError, userIdError,
     } = this.state;
+    const { users } = this.props;
 
     return (
       <div>
@@ -78,7 +78,7 @@ export default class NewTodo extends Component {
             name="userId"
           >
             <option value={0} disabled>Choose a user</option>
-            {this.state.users.map(user => (
+            {users.map(user => (
               <option value={user.id}>
                 {user.id}
                 {' '}
@@ -120,4 +120,5 @@ export default class NewTodo extends Component {
 
 NewTodo.propTypes = {
   addTodo: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
