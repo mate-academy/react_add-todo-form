@@ -39,9 +39,6 @@ class NewToDo extends Component {
         validateTitle: !!title,
         validateUser: !!userId,
       });
-      // !userId && this.setState({
-      //   validateUser: false,
-      // });
     }
   };
 
