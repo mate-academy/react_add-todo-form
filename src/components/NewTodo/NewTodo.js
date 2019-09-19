@@ -27,7 +27,7 @@ const NewTodo = ({
   return (
     <div className="container mb-5">
       <div className="row">
-        <form className="col-lg-6 mx-auto">
+        <form className="col-lg-6 mx-auto" onSubmit={addTodo}>
           <div className="form-group row">
             <label
               className="col-sm-3 col-form-label"
@@ -75,9 +75,8 @@ const NewTodo = ({
           <div className="form-group row justify-content-end">
             <div className="col-sm-9 text-right">
               <button
-                type="button"
+                type="submit"
                 className="btn btn-primary btn-block"
-                onClick={addTodo}
               >
                 Add
               </button>

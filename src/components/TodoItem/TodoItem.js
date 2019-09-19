@@ -1,6 +1,7 @@
 import React from 'react';
-import User from '../User/User';
 import classNames from 'classnames';
+
+import User from '../User/User';
 
 const TodoItem = ({ todo }) => {
   const { completed, title, id, user } = todo;

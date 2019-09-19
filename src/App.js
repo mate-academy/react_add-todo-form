@@ -1,8 +1,10 @@
 import React from 'react';
-import './App.css';
 
 import todos from './api/todos';
 import users from './api/users';
+
+import './App.css';
+
 import TodoList from './components/TodoList/TodoList';
 import Header from './components/Header/Header';
 import NewTodo from './components/NewTodo/NewTodo';
@@ -17,15 +19,18 @@ class App extends React.Component {
     selectUserError: false,
   }
 
-  addTodo = () => {
-    if (this.state.inputTodoValue && this.state.selectedUser !== 0) {
+  addTodo = (event) => {
+    event.preventDefault();
+    const { inputTodoValue, selectedUser, todosList } = this.state;
+
+    if (inputTodoValue && selectedUser !== 0) {
       this.setState({
         todosList: [
-          ...this.state.todosList,
+          ...todosList,
           {
-            userId: Number(this.state.selectedUser),
-            id: this.state.todosList.length + 1,
-            title: this.state.inputTodoValue,
+            userId: Number(selectedUser),
+            id: todosList.length + 1,
+            title: inputTodoValue,
             completed: false,
           },
         ],
@@ -34,8 +39,8 @@ class App extends React.Component {
       });
     } else {
       this.setState({
-        selectUserError: this.state.selectedUser === 0,
-        inputTodoError: !this.state.inputTodoValue,
+        selectUserError: selectedUser === 0,
+        inputTodoError: !inputTodoValue,
       });
     }
   }
