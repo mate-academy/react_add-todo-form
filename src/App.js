@@ -26,7 +26,7 @@ class App extends Component {
       <>
         <AddTodo
           addTodos={this.addTodos}
-          todosList={todosList}
+          todosListLength={todosList.length}
           users={users}
         />
         <TodoList todos={todosWithUsers} />

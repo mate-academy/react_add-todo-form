@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import OptionsList from '../OptionsList/OptionsList';
 
 class AddTodo extends Component {
@@ -38,13 +37,13 @@ class AddTodo extends Component {
 
       const {
         addTodos,
-        todosList,
+        todosListLength,
       } = this.props;
 
       if (cardTitle && changedUser !== '0') {
         addTodos({
           userId: Number(changedUser),
-          id: Number(todosList.length + 1),
+          id: Number(todosListLength + 1),
           title: cardTitle,
           completed: false,
         });
@@ -98,5 +97,16 @@ class AddTodo extends Component {
       );
     }
 }
+
+AddTodo.propTypes = {
+  addTodos: PropTypes.func.isRequired,
+  todosListLength: PropTypes.number.isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }).isRequired,
+  ).isRequired,
+};
 
 export default AddTodo;
