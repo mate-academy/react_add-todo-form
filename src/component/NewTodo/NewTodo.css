@@ -1,0 +1,55 @@
+.todo-item {
+  background-color: brown;
+}
+
+.newtodo-add {
+  border: none;
+  background-color: aquamarine;
+  width: 100px;
+  height: 50px;
+  margin: 0 40px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.newtodo-title {
+  position: absolute;
+  left: -50px;
+  top: 23px;
+  font-size: 20px;
+}
+
+.newtodo-error {
+  position: absolute;
+}
+
+.newtodo-error_user {
+  left: 40px;
+  bottom: -40px;
+  color: red
+}
+
+.newtodo-error_title {
+  color: red;
+  left: 110px;
+  bottom: 40px;
+}
+
+.newtodo-form {
+  width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.newtodo-text {
+  font-size: 18px;
+  height: 25px;
+  width: 310px;
+  margin: 40px 40px 40px 0;
+  padding-left: 15px;
+}
+
+.newtodo-user {
+  height: 30px;
+  font-size: 16px;
+}
