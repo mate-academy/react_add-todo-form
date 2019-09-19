@@ -1,0 +1,18 @@
+.App__table {
+  margin: 50px auto 20px;
+  border-collapse: collapse;
+  text-align: left;
+  overflow: hidden;
+  width: 70%;
+}
+
+th {
+  text-align: center;
+  color: black;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 10px;
+}
