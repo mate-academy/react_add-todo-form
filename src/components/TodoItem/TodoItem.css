@@ -1,0 +1,18 @@
+.todo-item {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.ui.card {
+  margin-right: 10px;
+}
+
+.todo-item__id {
+  margin-bottom: 20px;
+}

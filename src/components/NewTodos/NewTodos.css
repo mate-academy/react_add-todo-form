@@ -1,0 +1,19 @@
+.todos__form {
+  width: 20%;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+}
+
+.form__input {
+  display: block;
+}
+
+.user-select {
+  display: block;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
