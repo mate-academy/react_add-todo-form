@@ -27,22 +27,23 @@ class TodoList extends React.Component {
 
     return (
       <>
-        <table className="App__table">
+        <table className="app__table">
           <thead>
             <tr>
               {columns.map(column => (
-                <th key={column}>{column}</th>
+                <th key={column} className="th__class">{column}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {this.state.listOfTodos.length > 0 && (
+            { (
               this.state.listOfTodos.map(todo => (
                 <tr key={todo.id}>
-                  <td>{todo.id}</td>
-                  <td>{todo.title}</td>
-                  <td>{todo.completed ? '\u2714' : '\u2718'}</td>
-                  <td>{todo.user.username}</td>
+                  <td className="td__class">{todo.id}</td>
+                  <td className="td__class">{todo.title}</td>
+                  {/* eslint-disable-next-line max-len */}
+                  <td className="td__class">{todo.completed ? '\u2714' : '\u2718'}</td>
+                  <td className="td__class">{todo.user.username}</td>
                 </tr>
               ))
             )}

@@ -1,16 +1,16 @@
-.App__form {
+.app__form {
   display: flex;
   flex-direction: column;
   width: 50%;
   margin: 0 auto;
 }
 
-.App__form input,
+.app__form input,
 select {
   margin-bottom: 10px;
 }
 
-.App__form input,
+.app__form input,
 select,
 button {
   line-height: 30px;
@@ -21,17 +21,17 @@ button {
   border: 1px solid black;
 }
 
-.App__form button {
+.app__form button {
   cursor: pointer;
   background: deepskyblue;
 }
 
-.App__form button:hover {
+.app__form button:hover {
   cursor: pointer;
   background: steelblue;
 }
 
-.App__form span {
+.app__form span {
   margin-bottom: 10px;
   font-size: 12px;
   margin-top: -8px;

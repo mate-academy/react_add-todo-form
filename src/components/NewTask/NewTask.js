@@ -4,16 +4,16 @@ import './NewTask.css';
 
 class NewTask extends React.Component {
   state = {
-    newTaskText: '',
-    userOption: '',
+    titleTask: '',
+    userID: '',
     errors: {
       title: false,
       username: false,
     },
   };
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
+  handleChange = ({ target }) => {
+    const { name, value } = target;
 
     this.setState({ [name]: value });
   };
@@ -22,13 +22,7 @@ class NewTask extends React.Component {
     let titleField;
     let userField;
 
-    switch (event) {
-      case 'newTaskText':
-        titleField = false;
-        break;
-      default:
-        userField = false;
-    }
+    event === 'titleTask' ? titleField = false : userField = false;
 
     this.setState(prevState => ({
       ...prevState,
@@ -42,74 +36,74 @@ class NewTask extends React.Component {
   getNewTask = (event) => {
     event.preventDefault();
 
-    const { newTaskText, userOption } = this.state;
+    const { titleTask, userID } = this.state;
     const { users, addNewTask, listOfTodos } = this.props;
 
-    if (newTaskText.length < 1 || userOption.length < 1) {
+    if (titleTask.length < 1) {
       this.setState(prevState => ({
         ...prevState,
         errors: {
-          title: prevState.newTaskText.length < 1,
-          username: prevState.userOption.length < 1,
+          title: 'error title',
         },
       }));
+    } else if (userID.length < 1) {
+      this.setState(prevState => ({
+        ...prevState,
+        errors: {
+          username: 'error username',
+        },
+      }));
+    } else {
+      const newTask = {
+        title: titleTask,
+        user: users.find(user => user.username === userID),
+        id: listOfTodos.length + 1,
+      };
 
-      return;
+      this.setState({
+        titleTask: '',
+        userID: '',
+        errors: {
+          title: false,
+          username: false,
+        },
+      });
+
+      addNewTask(newTask);
     }
-
-    const newTask = {
-      title: newTaskText,
-      user: users.find(user => user.username === userOption),
-      id: listOfTodos.length + 1,
-    };
-
-    this.setState({
-      newTaskText: '',
-      userOption: '',
-      errors: {
-        title: false,
-        username: false,
-      },
-    });
-
-    addNewTask(newTask);
-  };
+  }
 
   render() {
-    const {
-      newTaskText,
-      userOption,
-      errors: { title, username },
-    } = this.state;
+    const { titleTask, userID, errors: { title, username } } = this.state;
 
     return (
-      <form onSubmit={this.getNewTask} className="App__form">
+      <form onSubmit={this.getNewTask} className="app__form">
         <input
           type="text"
           id="title"
           placeholder="Enter a task"
-          name="newTaskText"
-          value={newTaskText}
+          name="titleTask"
+          value={titleTask}
           onChange={this.handleChange}
-          onFocus={() => this.checkEditing('newTaskText')}
+          onFocus={() => this.checkEditing('titleTask')}
         />
 
-        <span className={title ? 'error' : 'hide-error'}>
+        <span className={title ? 'error title' : 'hide-error'}>
           Please enter a new task
         </span>
 
         <select
           onChange={this.handleChange}
-          onFocus={() => this.checkEditing('userOption')}
-          value={userOption}
-          name="userOption"
+          onFocus={() => this.checkEditing('userID')}
+          value={userID}
+          name="userID"
         >
           <option>Choose a user</option>
 
           {this.props.users.map(user => (
             <option
               value={user.username}
-              name="userOption"
+              name="userID"
               key={user.username}
             >
               {user.username}
@@ -117,7 +111,7 @@ class NewTask extends React.Component {
           ))}
         </select>
 
-        <span className={username ? 'error' : 'hide-error'}>
+        <span className={username ? 'error username' : 'hide-error'}>
           Please choose a user
         </span>
 
@@ -131,9 +125,14 @@ class NewTask extends React.Component {
   }
 }
 
+const usershape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+});
+
 NewTask.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  listOfTodos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(usershape).isRequired,
+  listOfTodos: PropTypes.arrayOf(usershape).isRequired,
   addNewTask: PropTypes.func.isRequired,
 };
 

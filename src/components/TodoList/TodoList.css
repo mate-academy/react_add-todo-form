@@ -1,4 +1,4 @@
-.App__table {
+.app__table {
   margin: 50px auto 20px;
   border-collapse: collapse;
   text-align: left;
@@ -6,13 +6,13 @@
   width: 70%;
 }
 
-th {
+.th__class {
   text-align: center;
   color: black;
 }
 
-th,
-td {
+.th__class,
+.td__class {
   border: 1px solid black;
   padding: 10px;
 }
