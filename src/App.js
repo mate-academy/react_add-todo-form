@@ -5,10 +5,10 @@ import NewTodo from './component/NewTodo/NewTodo';
 
 import './App.css';
 
-import users from './api/users';
-import todos from './api/todos';
+import usersApi from './api/users';
+import todosApi from './api/todos';
 
-const usersMap = users
+const usersMap = usersApi
   .reduce((acum, user) => ({ ...acum, [user.id]: user }), {});
 
 function getTodosWithUsers(todosArray) {
@@ -18,41 +18,37 @@ function getTodosWithUsers(todosArray) {
   }));
 }
 
-const preparedTodos = getTodosWithUsers(todos, users);
+const preparedTodos = getTodosWithUsers(todosApi, usersApi);
 
 class App extends React.Component {
   state = {
-    listTodos: [...preparedTodos],
-    usersApi: [...users],
+    todos: [...preparedTodos],
+    users: [...usersApi],
   }
 
   addNewTodo = (newTodo) => {
-    this.setState(({ listTodos }) => ({
-      listTodos: [...listTodos, {
-        id: listTodos.length + 1,
+    this.setState(({ todos }) => ({
+      todos: [...todos, {
+        id: todos.length + 1,
         ...newTodo,
-      },
-      ],
+      }],
     }));
   };
 
   render() {
-    const {
-      listTodos,
-      usersApi,
-    } = this.state;
+    const { todos, users } = this.state;
 
     return (
       <div className="app">
         <div className="newtodo__wrapper">
           <NewTodo
-            users={usersApi}
+            users={users}
             addTodo={this.addNewTodo}
           />
         </div>
 
         <div className="todolist__wrapper">
-          <TodoList todos={listTodos} />
+          <TodoList todos={todos} />
         </div>
       </div>
     );

@@ -1,30 +1,14 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-
 import './NewTodo.css';
 
-const primaryState = {
-  selectedUserId: 'Choose a user',
-  newTodoText: '',
-  errorNewTodoUser: 0,
-  errorNewTodoTitle: '',
-};
-
 class NewTodo extends React.Component {
-  state = primaryState;
-
-  setNewTodo = (event) => {
-    event.preventDefault();
-
-    const { addTodo } = this.props;
-    const todoValue = this.getTodoValue();
-
-    addTodo(...todoValue);
-
-    this.setState({
-      ...primaryState,
-    });
+  state = {
+    selectedUserId: 'Choose a user',
+    newTodoText: '',
+    errorNewTodoUser: '',
+    errorNewTodoTitle: '',
   }
 
   getTodoValue() {
@@ -37,23 +21,39 @@ class NewTodo extends React.Component {
     }];
   }
 
-  giveError = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
-    this.setState(({ selectedUserId, newTodoText }) => ({
-      errorNewTodoUser: selectedUserId === 'Choose a user'
-        ? 'Please choose a user'
-        : '',
-      errorNewTodoTitle: newTodoText === ''
-        ? 'Please enter the title'
-        : '',
-    }));
-  };
+    const { selectedUserId, newTodoText } = this.state;
+    const { addTodo } = this.props;
+    const todoValue = this.getTodoValue();
+
+    if (selectedUserId === 'Choose a user'
+    || newTodoText === '') {
+      return this.setState({
+        errorNewTodoUser: selectedUserId === 'Choose a user'
+          ? 'Please choose a user'
+          : '',
+        errorNewTodoTitle: newTodoText === ''
+          ? 'Please enter the title'
+          : '',
+      });
+    }
+
+    addTodo(...todoValue);
+
+    this.setState({
+      selectedUserId: 'Choose a user',
+      newTodoText: '',
+      errorNewTodoUser: '',
+      errorNewTodoTitle: '',
+    });
+  }
 
   handleChange = ({ target: { name, value } }) => {
-    this.setState(prevState => ({
+    this.setState({
       [name]: value.replace(/[^ \w]+/g, ''),
-    }));
+    });
   }
 
   render() {
@@ -69,12 +69,7 @@ class NewTodo extends React.Component {
     return (
       <form
         className="newtodo-form"
-        onSubmit={
-          selectedUserId === 'Choose a user'
-          || newTodoText === ''
-            ? this.giveError
-            : this.setNewTodo
-        }
+        onSubmit={this.handleSubmit}
       >
         <label>
           <p className="newtodo-title">ToDo:</p>
@@ -87,7 +82,7 @@ class NewTodo extends React.Component {
             value={newTodoText}
             onChange={this.handleChange}
           />
-          {errorNewTodoTitle === 'Please enter the title'
+          {errorNewTodoTitle
           && (
             <p className="newtodo-error newtodo-error_title">
               {errorNewTodoTitle}
@@ -108,7 +103,7 @@ class NewTodo extends React.Component {
             ))
           }
         </select>
-        {errorNewTodoUser === 'Please choose a user'
+        {errorNewTodoUser
           && (
             <p className="newtodo-error newtodo-error_user">
               {errorNewTodoUser}
