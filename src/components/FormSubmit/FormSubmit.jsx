@@ -118,7 +118,7 @@ class FormSubmit extends React.Component {
           </select>
           <div className="error-select">{selectedUser.error}</div>
         </div>
-        <input type="submit" value="Submit" />
+        <button type="submit" value="Submit">Submit</button>
 
       </form>
     );
