@@ -1,19 +1,11 @@
 import React from 'react';
 import './App.css';
+import TodoForm from './components/TodoForm';
 
-import users from './api/users';
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
-}
+const App = () => (
+  <div className="App">
+    <TodoForm />
+  </div>
+);
 
 export default App;
