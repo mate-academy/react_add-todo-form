@@ -26,21 +26,18 @@ class NewTodo extends React.Component {
   onUserSelected = ({ target }) => {
     const index = target.selectedIndex;
 
-    this.setState(prevState => ({
-      errors: {
-        ...prevState.errors,
-        userID: '',
-      },
-    }));
-
     if (target.value) {
-      this.setState({ userID: target.userID });
-      this.setState({
+      this.setState(prevState => ({
+        userID: target.userID,
         user: {
           id: +target.value,
           name: target[index].text,
         },
-      });
+        errors: {
+          ...prevState.errors,
+          userID: '',
+        },
+      }));
     } else {
       this.setState({
         userID: 0,
@@ -58,13 +55,11 @@ class NewTodo extends React.Component {
           ...prevState.errors,
           task: '',
         },
-      }));
-      this.setState({ task: todoValue });
-      this.setState({
+        task: todoValue,
         todo: {
           title: todoValue,
         },
-      });
+      }));
     } else {
       this.setState({
         task: '',
@@ -96,16 +91,16 @@ class NewTodo extends React.Component {
     }
 
     if (user && todo) {
-      this.setState(prevState => ({ todoID: prevState.todoID + 1 }));
       this.props.onAdd({
         userId: user.id, id: todoID, ...todo, user: { ...user },
       });
-      this.setState({
+      this.setState(prevState => ({
+        todoID: prevState.todoID + 1,
         userID: 0,
         task: '',
         user: null,
         todo: null,
-      });
+      }));
     }
   };
 
