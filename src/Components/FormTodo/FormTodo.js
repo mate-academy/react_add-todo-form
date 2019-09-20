@@ -1,71 +1,102 @@
-// import React from 'react';
+import React from 'react';
+import Todo from '../Todo/Todo';
 
+class FormTodo extends React.Component {
+  state = {
+    selectUser: '',
+    taskUser: '',
+    errorWhithOutUser: '',
+    errorWhithOutTasks: '',
+  };
 
+  addUser = (event) => {
+    this.setState({
+      selectUser: event.target.value,
+    });
+  }
 
-// class FormTodo extends React.Component {
-//   state = {
-//     usersSelected: users,
-//     selectUser: '',
-//     taskUser: '',
-//     errorShow: '',
-//     names: usersList.map(item => item.user.name),
-//     tasks: usersList.map(item => item.title),
-//   };
+  addToDo = (event) => {
+    this.setState({
+      taskUser: event.target.value,
+    });
+  }
 
-//   addUser = (event) => {
-//     this.setState({
-//       selectUser: event.target.value,
-//     });
-//   }
+  buttonClick = (event) => {
+    event.preventDefault();
+    const { addUserTask } = this.props;
 
-//   addToDo = (event) => {
-//     this.setState({
-//       taskUser: event.target.value,
-//     });
-//   }
+    if (this.state.taskUser.length === 0
+      && this.state.selectUser.length < 4) {
+      this.setState({
+        errorWhithOutTasks: 'required to fill in the field',
+        errorWhithOutUser: 'required to fill in the field',
+      });
+    } else if (this.state.selectUser.length < 4 && this.state.taskUser.length > 0) {
+      this.setState({
+        errorWhithOutTasks: '',
+        errorWhithOutUser: 'required to fill in the field',
+      });
+    } else if (this.state.taskUser.length === 0) {
+      this.setState({
+        errorWhithOutTasks: 'required to fill in the field',
+        errorWhithOutUser: '',
+      });
+    } else if (this.state.taskUser.length > 0
+      && this.state.selectUser.length > 3) {
+      this.setState({
+        selectUser: '',
+        taskUser: '',
+        errorWhithOutUser: '',
+        errorWhithOutTasks: '',
+      });
+      addUserTask(this.state.taskUser, this.state.selectUser);
+    }
+  };
 
-//   buttonClick = (event) => {
-//     event.preventDefault();
-//     if (this.state.taskUser.length > 0 && this.state.selectUser.length > 3) {
-//       this.setState(prevState => ({
-//         tasks: [...prevState.tasks, prevState.taskUser],
-//         names: [...prevState.names, prevState.selectUser],
-//         selectUser: '',
-//         taskUser: '',
-//         errorShow: '',
-//       }));
-//     } else {
-//       this.setState({
-//         errorShow: 'required to fill in the field',
-//       });
-//     }
-//   };
+  render() {
+    const {
+      errorWhithOutTasks,
+      errorWhithOutUser,
+      taskUser,
+      selectUser,
+    } = this.state;
+    const {
+      usersListShow,
+      id,
+      tasks,
+      names,
+    } = this.props;
 
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>Static list of todos</h1>
-//         <span>ToDo: </span>
-//         <form onSubmit={this.buttonClick}>
-//           <input type="text" onChange={this.addToDo} value={this.state.taskUser} placeholder={this.state.errorShow} />
-//           <p>
-//             <span>Users:</span>
-//             <select onChange={this.addUser} value={this.state.selectUser}>
-//               <option>...</option>
-//               {this.state.usersSelected.map(item => <option>{item.name}</option>)}
-//             </select>
-//             <p className="error">{this.state.errorShow}</p>
-//             <button type="submit">
-//               Add
-//             </button>
-//           </p>
-//         </form>
-//         <div>
-//           {this.state.tasks.map((item, index) => <div><span><strong> Task: </strong> {item} Name: {this.state.names[index]}</span></div>)}
-//         </div>
-//       </div>
-//     );
-//   }
-// }
+    return (
+      <>
+        <span>ToDo: </span>
+        <form onSubmit={this.buttonClick}>
+          <input
+            type="text"
+            onChange={this.addToDo}
+            value={taskUser}
+            placeholder={errorWhithOutTasks}
+          />
+          <p>
+            <span>Users:</span>
+            <select onChange={this.addUser} value={selectUser}>
+              <option>...</option>
+              {usersListShow.map(item => <option>{item.name}</option>)}
+            </select>
+            <p className="error">{errorWhithOutUser}</p>
+            <button type="submit">
+              Add
+            </button>
+          </p>
+        </form>
+        <Todo
+          tasks={tasks}
+          names={names}
+          id={id}
+        />
+      </>
+    );
+  }
+}
 
-// export default FormTodo;
+export default FormTodo;
