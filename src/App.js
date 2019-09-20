@@ -38,7 +38,7 @@ class App extends Component {
     const { todos } = this.state;
 
     return (
-      <div className="App">
+      <div className="app">
         <h1 className="title">Static list of todos</h1>
         <NewTodo users={users} addTodo={this.handleAddTodo} />
         <TodoList todos={todos} />

@@ -101,10 +101,7 @@ class NewTodo extends Component {
               name="title"
               placeholder="Add new todo"
               value={title.value}
-              onChange={(event) => {
-                this.handleChange(event);
-                this.validateInput();
-              }}
+              onChange={this.handleChange}
               onBlur={this.validateInput}
             />
             {title.error && (
@@ -124,10 +121,7 @@ class NewTodo extends Component {
               <select
                 name="userId"
                 value={userId.value}
-                onChange={(e) => {
-                  this.handleChange(e);
-                  this.validateSelect();
-                }}
+                onChange={this.handleChange}
                 onBlur={this.validateSelect}
               >
                 <option value={0}>Choose a user</option>
