@@ -7,30 +7,19 @@ import users from './api/users';
 
 import './App.css';
 
-function getTodosWithUsers(todosList, usersList) {
-  return todosList.map(todo => ({
-    ...todo,
-    user: usersList.find(user => user.id === todo.userId),
-  }));
-}
-
 class App extends Component {
-  maxId = 2;
-
   state = {
     todosData: [...todos],
     usersData: [...users],
   };
 
+  getTodosWithUsers = (todosList, usersList) => todosList
+    .map(todo => ({
+      ...todo,
+      user: usersList.find(user => user.id === todo.userId),
+    }));
+
   addTodo = (text, userId) => {
-    if (text === '' || text === ' ') {
-      return;
-    }
-
-    if (userId === 0) {
-      return;
-    }
-
     const newTodo = this.createTodoItem(text, userId);
 
     this.setState(prevState => ({
@@ -43,13 +32,13 @@ class App extends Component {
       title: value,
       completed: false,
       userId: Number(userId),
-      id: this.maxId += 1,
+      id: this.state.todosData.length + 1,
     };
   }
 
   render() {
     const { todosData, usersData } = this.state;
-    const preparedTodos = getTodosWithUsers(todosData, usersData);
+    const preparedTodos = this.getTodosWithUsers(todosData, usersData);
 
     return (
       <div className="App">
@@ -58,7 +47,6 @@ class App extends Component {
           <span>Todos: </span>
           {todosData.length}
         </p>
-
         <p>
           <span>Users: </span>
           {usersData.length}

@@ -7,45 +7,47 @@ import './NewTodo.css';
 class NewTodo extends Component {
   state = {
     value: '',
-    selectedByDefault: 0,
+    selected: 0,
     inputError: null,
     selectError: null,
   };
 
-  handleChange = (event) => {
+  handleChange = ({ target }) => {
     this.setState({
-      value: event.target.value,
+      value: target.value,
     });
   };
 
-  onClickSelect = (event) => {
-    this.setState({ selectedByDefault: event.target.value });
+  onClickSelect = ({ target }) => {
+    this.setState({ selected: target.value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.selectedByDefault === 0) {
+    if (this.state.selected < 1) {
       this.setState({
         selectError: 'Please select User',
       });
-    } else if (this.state.value === '' || this.state.value === ' ') {
+    } else if (this.state.value.length < 1) {
       this.setState({
         inputError: 'Please enter what needs Todo',
       });
+    } else {
+      this.props.onItemAdded(this.state.value, this.state.selected);
+      this.setState({
+        value: '',
+        selected: 0,
+        inputError: '',
+        selectError: '',
+      });
     }
-
-    this.props.onItemAdded(this.state.value, this.state.selectedByDefault);
-    this.setState({
-      value: '',
-      selectedByDefault: 0,
-    });
   };
 
   render() {
     const {
       value,
-      selectedByDefault,
+      selected,
       inputError,
       selectError,
     } = this.state;
@@ -71,7 +73,7 @@ class NewTodo extends Component {
           )}
           <Select
             users={users}
-            selectedByDefault={selectedByDefault}
+            selected={selected}
             onChange={this.onClickSelect}
           />
           {selectError !== null && (
