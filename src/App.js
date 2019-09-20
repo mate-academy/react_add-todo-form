@@ -7,10 +7,10 @@ import NewTodo from './Components/NewTodo/NewTodo';
 import TodoList from './Components/TodoList/TodoList';
 
 function getTodosWithUsers(todos, users) {
-  return todos.map(item => (
+  return todos.map(todo => (
     {
-      ...item,
-      user: users.find(user => user.id === item.userId),
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
     }
   ));
 }
