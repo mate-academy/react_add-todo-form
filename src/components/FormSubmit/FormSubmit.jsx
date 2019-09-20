@@ -32,15 +32,17 @@ class FormSubmit extends React.Component {
     }));
   };
 
-  validate = () => {
+  handleValidate = () => {
+    const { selectedUser, title } = this.state;
+
     let titleError = '';
     let selectedUserError = '';
 
-    if (!this.state.title.value) {
+    if (!title.value) {
       titleError = 'title is empty';
     }
 
-    if (!this.state.selectedUser.value) {
+    if (!selectedUser.value) {
       selectedUserError = 'user is not selected';
     }
 
@@ -71,7 +73,7 @@ class FormSubmit extends React.Component {
     event.preventDefault();
     const { onAdd } = this.props;
     const formValue = this.getFormValue();
-    const isValid = this.validate();
+    const isValid = this.handleValidate();
 
     if (isValid) {
       this.setState(prevState => initialState);
@@ -80,6 +82,8 @@ class FormSubmit extends React.Component {
   }
 
   render() {
+    const { title, selectedUser } = this.state;
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -90,16 +94,16 @@ class FormSubmit extends React.Component {
             placeholder="Todo Name"
             name="title"
             type="text"
-            value={this.state.title.value}
+            value={title.value}
             onChange={this.handleChange}
           />
-          <div className="error-name">{this.state.title.error}</div>
+          <div className="error-name">{title.error}</div>
         </div>
 
         <div>
           <select
             name="selectedUser"
-            value={this.state.selectedUser.value}
+            value={selectedUser.value}
             onChange={this.handleChange}
             id="pet-select"
           >
@@ -112,8 +116,7 @@ class FormSubmit extends React.Component {
               </option>
             ))}
           </select>
-          <div className="error-select">{this.state.selectedUser.error}</div>
-
+          <div className="error-select">{selectedUser.error}</div>
         </div>
         <input type="submit" value="Submit" />
 

@@ -28,10 +28,12 @@ class TodoForm extends React.Component {
   }
 
   render() {
+    const { users, todos } = this.state;
+
     return (
       <div className="TodoForm">
-        <FormSubmit onAdd={this.handlerSubmitForm} users={this.state.users} />
-        <TodosList todos={this.state.todos} />
+        <FormSubmit onAdd={this.handlerSubmitForm} users={users} />
+        <TodosList todos={todos} />
       </div>
     );
   }
