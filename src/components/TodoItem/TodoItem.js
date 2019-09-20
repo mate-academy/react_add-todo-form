@@ -1,5 +1,5 @@
 import React from 'react';
-// import { TodoItemProps } from '../constants/PropTypes';
+import PropTypes from 'prop-types';
 import User from '../User/User';
 import './TodoItem.css';
 
@@ -12,6 +12,19 @@ const TodoItem = ({ todo }) => (
   </li>
 );
 
-// TodoItem.propTypes = TodoItemProps;
+const userShape = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  email: PropTypes.string,
+}).isRequired;
+
+TodoItem.propTypes = {
+  todo: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    completed: PropTypes.bool,
+    user: PropTypes.shape(userShape),
+  }).isRequired,
+};
 
 export default TodoItem;

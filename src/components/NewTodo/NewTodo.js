@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './NewTodo.css';
 
 const initialState = {
@@ -150,5 +151,15 @@ class NewTodo extends Component {
     );
   }
 }
+
+const userShape = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+}).isRequired;
+
+NewTodo.propTypes = {
+  users: PropTypes.arrayOf(userShape).isRequired,
+  addTodo: PropTypes.func.isRequired,
+};
 
 export default NewTodo;
