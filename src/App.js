@@ -44,7 +44,7 @@ class App extends React.Component {
         </div>
         <NewTodo
           users={apiUsers}
-          onAdd={this.handleAddingNewTodo}
+          addNewTodo={this.handleAddingNewTodo}
         />
       </section>
     );

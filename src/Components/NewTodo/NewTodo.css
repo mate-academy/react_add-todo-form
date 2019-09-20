@@ -39,6 +39,11 @@
   font-family: Amatic SC, sans-serif;
 }
 
+.text-input:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+}
+
 .text-input-error {
   border: 2px solid rgb(224, 58, 40);
 }
@@ -62,6 +67,11 @@
   cursor: pointer;
 }
 
+.select-input:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+}
+
 .select-input-error {
   border: 2px solid rgb(224, 58, 40);
 }
@@ -81,6 +91,21 @@
   cursor: pointer;
 }
 
+.submit-button:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+  color: rgb(245, 132, 41);
+  background-color: #fff;
+}
+
+.submit-button:active {
+  background-color: rgb(207, 207, 207);
+
+}
+
 .submit-button:hover {
-  background-color: rgb(55, 81, 107);
+  background-color: #fff;
+  color: rgb(69, 102, 135);
+  border: 2px solid rgb(69, 102, 135);
+
 }

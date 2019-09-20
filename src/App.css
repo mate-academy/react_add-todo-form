@@ -1,5 +1,6 @@
 body {
   background-image: url(./images/background2.jpg);
+  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   font-family: Amatic SC, sans-serif;

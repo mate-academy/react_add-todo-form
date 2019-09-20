@@ -32,7 +32,7 @@ class NewTodo extends React.Component {
     const {
       inputTitle, inputUser, id, users,
     } = this.state;
-    const { onAdd } = this.props;
+    const { addNewTodo } = this.props;
 
     if (!inputTitle && !inputUser) {
       this.setState({
@@ -48,7 +48,7 @@ class NewTodo extends React.Component {
         errorUser: 'Choose a user',
       });
     } else {
-      onAdd({
+      addNewTodo({
         userId: inputUser.id,
         id,
         title: inputTitle,
