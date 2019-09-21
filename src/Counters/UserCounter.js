@@ -13,9 +13,6 @@ const UserCounter = ({ users }) => (
 );
 
 UserCounter.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,).isRequired,
+  users: PropTypes.number.isRequired,
 };
 export default UserCounter;

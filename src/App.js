@@ -30,7 +30,7 @@ class App extends React.Component {
       <div className="app">
         <h1>Static list of todos</h1>
         <TodoCounter todos={todosList.length} />
-        <UserCounter users={users} />
+        <UserCounter users={users.length} />
         <div className="container">
           <NewTodo
             users={users}
