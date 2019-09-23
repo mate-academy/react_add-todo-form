@@ -1,0 +1,50 @@
+.new-todo {
+  font-size: 1.3em;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#title {
+  height: 50px;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.title-label {
+  display: block;
+}
+
+.select {
+  margin: 20px 0 0;
+  height: 50px;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.submit {
+  width: 200px;
+  height: 50px;
+  margin: 20px auto 0;
+}
+
+.error-message {
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+  font-size: 12px;
+  color: #ac6a6a;
+  height: 0px;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.input.error-message, select.error-message{
+  border: 1px solid #ac6a6a;
+}
+

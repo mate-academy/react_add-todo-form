@@ -1,0 +1,33 @@
+.todo-item {
+  background: rgb(191, 245, 255);
+  width: 250px;
+  margin-top: 25px;
+  text-align: center;
+  font-family: monospace;
+  font-weight: 800;
+  border: 3px solid #e5e5e5;
+  transition: border 0.4s,
+    transform 0.2s;
+
+}
+.todo-item:hover {
+  transform: scale(1.04);
+  border: 3px solid #7a7a7a;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.45);
+-moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.45);
+box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.45);
+}
+.digit {
+  display: block;
+  transition: transform 0.4s;
+}
+.todo-item:hover .digit {
+  transform: rotate(360deg);
+}
+.todo-item__title {
+  background: #0000002b;
+  margin: 0;
+  padding: 10px 0;
+}
+
+
