@@ -55,11 +55,12 @@ export const TodoItemProps = {
 
 export const newTodoPropTypes = {
   users: PropTypes.arrayOf(PropTypes.shape(userShape)),
-  titleChange: PropTypes.func,
-  userChange: PropTypes.func,
-  submitClick: PropTypes.func,
-  inputUser: PropTypes.string,
-  inputTitle: PropTypes.string,
-  errorUser: PropTypes.string,
-  errorTitle: PropTypes.string,
+  // titleChange: PropTypes.func,
+  // userChange: PropTypes.func,
+  // submitClick: PropTypes.func,
+  // userChange: PropTypes.string,
+  // titleChange: PropTypes.string,
+  // errorUser: PropTypes.string,
+  // errorTitle: PropTypes.string,
+  onAdd: PropTypes.func,
 };
