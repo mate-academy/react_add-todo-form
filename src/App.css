@@ -1,3 +1,14 @@
-.App {
+.app {
   text-align: center;
+}
+
+.error{
+  color: red;
+  font-size: 12px;
+  margin: 0;
+}
+
+.task-field::placeholder {
+  color: red;
+  font-size: 12px;
 }
