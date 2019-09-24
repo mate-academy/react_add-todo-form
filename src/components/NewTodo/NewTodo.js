@@ -7,25 +7,45 @@ import './NewTodo.css';
 class NewTodo extends Component {
   state = {
     value: '',
-    selected: 0,
+    selectedUser: 0,
     inputError: null,
     selectError: null,
   };
 
   handleChange = ({ target }) => {
+    if (this.state.value.length < 1 || this.state.value[0] === ' ') {
+      this.setState({
+        inputError: 'Please enter what needs Todo',
+      });
+    } else {
+      this.setState({
+        inputError: '',
+      });
+    }
+
     this.setState({
-      value: target.value,
+      value: target.value.trimStart(),
     });
   };
 
   onClickSelect = ({ target }) => {
-    this.setState({ selected: target.value });
+    if (target.value < 1) {
+      console.log('target.value: ', target.value);
+      this.setState({
+        selectError: 'Please select User',
+      });
+    } else {
+      this.setState({
+        selectedUser: target.value,
+        selectError: '',
+      });
+    }
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.selected < 1) {
+    if (this.state.selectedUser < 1) {
       this.setState({
         selectError: 'Please select User',
       });
@@ -33,11 +53,15 @@ class NewTodo extends Component {
       this.setState({
         inputError: 'Please enter what needs Todo',
       });
+    } else if (this.state.value === ' ') {
+      this.setState({
+        inputError: 'Please enter what needs Todo',
+      });
     } else {
-      this.props.onItemAdded(this.state.value, this.state.selected);
+      this.props.onItemAdded(this.state.value, this.state.selectedUser);
       this.setState({
         value: '',
-        selected: 0,
+        selectedUser: 0,
         inputError: '',
         selectError: '',
       });
@@ -47,10 +71,11 @@ class NewTodo extends Component {
   render() {
     const {
       value,
-      selected,
+      selectedUser,
       inputError,
       selectError,
     } = this.state;
+
     const { users } = this.props;
 
     return (
@@ -73,7 +98,7 @@ class NewTodo extends Component {
           )}
           <Select
             users={users}
-            selected={selected}
+            selectedUser={selectedUser}
             onChange={this.onClickSelect}
           />
           {selectError !== null && (

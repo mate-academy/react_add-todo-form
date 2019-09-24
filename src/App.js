@@ -38,7 +38,6 @@ class App extends Component {
 
   render() {
     const { todosData, usersData } = this.state;
-    const preparedTodos = this.getTodosWithUsers(todosData, usersData);
 
     return (
       <div className="App">
@@ -52,7 +51,7 @@ class App extends Component {
           {usersData.length}
         </p>
         <NewTodo users={usersData} onItemAdded={this.addTodo} />
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={this.getTodosWithUsers(todosData, usersData)} />
       </div>
     );
   }

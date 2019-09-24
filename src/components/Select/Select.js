@@ -2,10 +2,10 @@ import React from 'react';
 
 import './Select.css';
 
-const Select = ({ users, selected, onChange }) => (
+const Select = ({ users, selectedUser, onChange }) => (
   <select
     className="users-select form-control"
-    value={selected}
+    value={selectedUser}
     onChange={event => onChange(event)}
   >
     <option value={0} />

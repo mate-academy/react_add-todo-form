@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import User from '../User/User';
 import { TodoItemProps } from '../../constants/proptypes';
 
@@ -9,12 +10,13 @@ const TodoItem = ({ todo }) => {
     title, completed = false, user, id,
   } = todo;
 
-  const classNames = !completed
-    ? 'todo-list-item'
-    : 'todo-list-item todo-list-item--done';
+  const classes = classNames({
+    'todo-list-item': true,
+    'todo-list-item todo-list-item--done': completed,
+  });
 
   return (
-    <span className={classNames}>
+    <span className={classes}>
       <span className="todo-list-item__id">{id}</span>
       <User user={user} />
       <span className="todo-list-item__name">{title}</span>
