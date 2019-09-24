@@ -21,10 +21,10 @@ class App extends React.Component {
     id: usersList.length,
   };
 
-  addUserTask = (names, tasks) => {
+  addUserTask = (tasks, names) => {
     this.setState(prevState => ({
-      tasks: [...prevState.tasks, names],
-      names: [...prevState.names, tasks],
+      tasks: [...prevState.tasks, tasks],
+      names: [...prevState.names, names],
       id: prevState.id + 1,
     }));
   }
@@ -37,7 +37,7 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <div className="App">
+      <div className="app">
         <h1>Static list of todos</h1>
         <FormTodo
           usersListShow={users}

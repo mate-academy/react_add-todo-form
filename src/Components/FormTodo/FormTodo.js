@@ -3,62 +3,67 @@ import Todo from '../Todo/Todo';
 
 class FormTodo extends React.Component {
   state = {
-    selectUser: '',
-    taskUser: '',
-    errorWhithOutUser: '',
-    errorWhithOutTasks: '',
+    selectedUser: '',
+    taskTitle: '',
+    errorWhithoutUser: '',
+    errorWhithoutTasks: '',
   };
 
   addUser = (event) => {
     this.setState({
-      selectUser: event.target.value,
+      selectedUser: event.target.value,
+      errorWhithoutUser: '',
     });
   }
 
   addToDo = (event) => {
     this.setState({
-      taskUser: event.target.value,
+      taskTitle: event.target.value,
     });
   }
 
-  buttonClick = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { addUserTask } = this.props;
+    const {
+      selectedUser,
+      taskTitle,
+    } = this.state;
 
-    if (this.state.taskUser.length === 0
-      && this.state.selectUser.length < 4) {
+    if ((taskTitle.length === 0 || taskTitle[0] === ' ')
+      && selectedUser.length === 0) {
       this.setState({
-        errorWhithOutTasks: 'required to fill in the field',
-        errorWhithOutUser: 'required to fill in the field',
+        taskTitle: '',
+        errorWhithoutTasks: 'field is required',
+        errorWhithoutUser: 'field is required',
       });
-    } else if (this.state.selectUser.length < 4 && this.state.taskUser.length > 0) {
+    } else if (selectedUser.length === 0 && taskTitle.length > 0) {
       this.setState({
-        errorWhithOutTasks: '',
-        errorWhithOutUser: 'required to fill in the field',
+        errorWhithoutTasks: '',
+        errorWhithoutUser: 'field is required',
       });
-    } else if (this.state.taskUser.length === 0) {
+    } else if (taskTitle.length === 0 || taskTitle[0] === ' ') {
       this.setState({
-        errorWhithOutTasks: 'required to fill in the field',
-        errorWhithOutUser: '',
+        taskTitle: '',
+        errorWhithoutTasks: 'field is required',
       });
-    } else if (this.state.taskUser.length > 0
-      && this.state.selectUser.length > 3) {
+    } else if (taskTitle.length > 0
+      && selectedUser.length > 0) {
       this.setState({
-        selectUser: '',
-        taskUser: '',
-        errorWhithOutUser: '',
-        errorWhithOutTasks: '',
+        selectedUser: '',
+        taskTitle: '',
+        errorWhithoutTasks: '',
       });
-      addUserTask(this.state.taskUser, this.state.selectUser);
+      addUserTask(taskTitle, selectedUser);
     }
   };
 
   render() {
     const {
-      errorWhithOutTasks,
-      errorWhithOutUser,
-      taskUser,
-      selectUser,
+      errorWhithoutTasks,
+      errorWhithoutUser,
+      taskTitle,
+      selectedUser,
     } = this.state;
     const {
       usersListShow,
@@ -70,20 +75,21 @@ class FormTodo extends React.Component {
     return (
       <>
         <span>ToDo: </span>
-        <form onSubmit={this.buttonClick}>
+        <form onSubmit={this.handleSubmit}>
           <input
             type="text"
+            className="task-field"
             onChange={this.addToDo}
-            value={taskUser}
-            placeholder={errorWhithOutTasks}
+            value={taskTitle}
+            placeholder={errorWhithoutTasks}
           />
           <p>
             <span>Users:</span>
-            <select onChange={this.addUser} value={selectUser}>
-              <option>...</option>
+            <select onChange={this.addUser} value={selectedUser}>
+              <option />
               {usersListShow.map(item => <option>{item.name}</option>)}
             </select>
-            <p className="error">{errorWhithOutUser}</p>
+            <p className="error">{errorWhithoutUser}</p>
             <button type="submit">
               Add
             </button>

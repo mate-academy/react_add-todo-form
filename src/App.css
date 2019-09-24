@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
 }
 
@@ -8,7 +8,7 @@
   margin: 0;
 }
 
-input::placeholder {
+.task-field::placeholder {
   color: red;
   font-size: 12px;
 }
