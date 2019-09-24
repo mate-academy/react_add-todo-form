@@ -56,13 +56,15 @@ class NewTodo extends React.Component {
         user: users
           .find(user => user.name === userChange),
       });
-      this.setState(prevState => ({
-        userChange: '',
-        titleChange: '',
-        id: prevState.id + 1,
-        errorUser: null,
-        errorTitle: null,
-      }));
+      this.setState((prevState) => {
+        return ({
+          userChange: '',
+          titleChange: '',
+          id: prevState.id + 1,
+          errorUser: null,
+          errorTitle: null,
+        });
+      });
     }
   }
 

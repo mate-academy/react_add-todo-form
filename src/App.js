@@ -7,25 +7,25 @@ import todos from './api/api-todos';
 import NewTodo from './Components/NewTodo/NewTodo';
 import TodoList from './Components/TodoList/TodoList';
 
-const preparedTodos = getTodosWithUsers(todos, users);
-
-function getTodosWithUsers(todos, usersList) {
+function getTodosWithUsers(todos, users) {
   return todos.map(todo => (
     {
       ...todo,
-      user: usersList.find(user => user.id === todo.userId),
+      user: users.find(user => user.id === todo.userId),
     }
   ));
 }
+
+const preparedTodos = getTodosWithUsers(todos, users);
 
 class App extends React.Component {
   state = {
     todos: [...preparedTodos],
   }
 
-  addNewTodo = (todo) => {
+  handleAddNewTodo = (todo) => {
     this.setState(prevState => ({
-      todos: [...prevState, todo],
+      todos: [...prevState.todos, todo],
     }));
   }
 
@@ -43,7 +43,7 @@ class App extends React.Component {
         </div>
         <NewTodo
           users={users}
-          addNewTodo={this.addNewTodo}
+          addNewTodo={this.handleAddNewTodo}
         />
         <TodoList todos={todos} />
       </>
