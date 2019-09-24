@@ -46,21 +46,27 @@ class FormSubmit extends React.Component {
       selectedUserError = 'user is not selected';
     }
 
-    if (titleError) {
-      this.setState({
-        title: {
-          error: titleError,
-        },
-      });
+    if (titleError || selectedUserError) {
+      this.setState((prevState) => {
+        if (titleError) {
+          return {
+            ...prevState,
+            title: {
+              error: titleError,
+            },
+          };
+        }
 
-      return false;
-    }
+        if (selectedUserError) {
+          return {
+            ...prevState,
+            selectedUser: {
+              error: selectedUserError,
+            },
+          };
+        }
 
-    if (selectedUserError) {
-      this.setState({
-        selectedUser: {
-          error: selectedUserError,
-        },
+        return true;
       });
 
       return false;
@@ -110,6 +116,7 @@ class FormSubmit extends React.Component {
             <option value="" selected disabled hidden>Select User</option>
             {this.props.users.map(user => (
               <option
+                key={user.id}
                 value={user.id}
               >
                 {user.name}

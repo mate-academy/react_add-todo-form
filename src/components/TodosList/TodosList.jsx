@@ -5,7 +5,7 @@ const TodosList = props => (
   <div className="todosList">
     <ul className="post-list">
       {props.todos.map(todo => (
-        <li className="post">
+        <li key={todo.id} className="post">
           <p className="user-title">{`Title: ${todo.title}`}</p>
           <p className="user-name">{todo.user.name}</p>
           <p className="user-nik">{todo.user.username}</p>
