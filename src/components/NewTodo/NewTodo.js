@@ -30,7 +30,6 @@ class NewTodo extends Component {
 
   onClickSelect = ({ target }) => {
     if (target.value < 1) {
-      console.log('target.value: ', target.value);
       this.setState({
         selectError: 'Please select User',
       });
