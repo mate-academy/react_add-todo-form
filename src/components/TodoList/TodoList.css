@@ -1,0 +1,8 @@
+.todo-list {
+    list-style: none;
+    margin: 50px 0;
+    padding: 0;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr) ) ;
+}
