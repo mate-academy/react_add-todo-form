@@ -27,10 +27,18 @@ class NewTodo extends Component {
   handleChange = ({ target: { name, value } }) => {
     this.setState(prevState => ({
       [name]: {
-        value,
+        value: name === 'userId' ? +value : value,
         error: prevState[name].error,
       },
     }));
+
+    if (name === 'title') {
+      this.validateInput();
+    }
+
+    if (name === 'userId') {
+      this.validateSelect();
+    }
   };
 
   handleSubmit = (event) => {
@@ -43,7 +51,7 @@ class NewTodo extends Component {
     this.validateInput();
     this.validateSelect();
 
-    if (title.value && userId.value > 0) {
+    if (title.value.replace(/\s/g, '') !== '' && userId.value > 0) {
       addTodo(formValue);
       this.setState(initialState);
     }
@@ -51,7 +59,7 @@ class NewTodo extends Component {
 
   validateInput = () => {
     this.setState(({ title }) => (
-      (title.value !== '')
+      (title.value.replace(/\s/g, '') !== '')
         ? {
           title: {
             value: title.value,

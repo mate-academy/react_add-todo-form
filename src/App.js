@@ -24,11 +24,11 @@ class App extends Component {
       todos: [
         ...prevState.todos,
         {
-          userId: +userId,
+          userId,
           id: prevState.todos.length + 1,
           title,
           completed: false,
-          user: users.find(user => user.id === +userId),
+          user: users.find(user => user.id === userId),
         },
       ],
     }));
