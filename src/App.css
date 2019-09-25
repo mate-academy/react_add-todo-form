@@ -4,6 +4,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: Amatic SC, sans-serif;
+  position: relative;
 }
 
 .section-wrapper {

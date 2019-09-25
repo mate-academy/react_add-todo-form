@@ -1,8 +1,10 @@
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 150px auto;
+  justify-content: flex-start;
+  margin: 0 auto;
+  padding-top: 150px;
+  height: 100vh;
 }
 
 .wrapper {
