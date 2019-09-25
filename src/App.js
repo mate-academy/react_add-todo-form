@@ -8,12 +8,11 @@ import TodoForm from './components/TodoForm/TodoForm';
 
 export default class App extends React.Component {
   state = {
-    todos: todos,
-    users: users,
+    todos,
+    users,
     text: '',
     selectedUser: 0,
     isError: false,
-    isInput: false,
   };
 
   handleChange = (event) => {
@@ -24,19 +23,19 @@ export default class App extends React.Component {
 
   handleSubmit = () => { 
     this.state.text && this.state.selectedUser 
-    ? this.setState((prevState) => ({
-      todos: [...prevState.todos, {
-        userId: prevState.selectedUser,
-        id: prevState.todos.length + 1,
-        title: prevState.text,
-        completed: false,
-      }],
-      text: '',
-      selectedUser: 0,
-    }))
-    : this.setState({
-      isError: true,
-    }) 
+      ? this.setState(prevState => ({
+        todos: [...prevState.todos, {
+          userId: prevState.selectedUser,
+          id: prevState.todos.length + 1,
+          title: prevState.text,
+          completed: false,
+        }],
+        text: '',
+        selectedUser: 0,
+      }))
+      : this.setState({
+        isError: true,
+      }) 
   };
 
   handleSelect = (event) => {
@@ -47,24 +46,28 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { todos, users, text, selectedUser, isError } = this.state;
+    const {
+      todos,
+      users,
+      text,
+      selectedUser,
+      isError} = this.state;
 
     return (
       <div>
-        <TodoList
-        todos={todos}
-        />
         <TodoForm 
-      users={users}
-      selectedUser={selectedUser}
-      handleSubmit={this.handleSubmit}
-      handleChange={this.handleChange}
-      handleSelect={this.handleSelect}
-      text={text}
-      isError={isError}
-       />
+          users={users}
+          selectedUser={selectedUser}
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          handleSelect={this.handleSelect}
+          text={text}
+          isError={isError}
+        />
+        <TodoList
+          todos={todos}
+        />
       </div>
     );
   }
 }
-  
