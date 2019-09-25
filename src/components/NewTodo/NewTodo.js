@@ -33,16 +33,22 @@ class NewTodo extends Component {
       this.setState({
         selectError: 'Please select User',
       });
-    } else {
-      this.setState({
-        selectedUser: target.value,
-        selectError: '',
-      });
     }
+
+    this.setState({
+      selectedUser: target.value,
+      selectError: '',
+    });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    if (this.state.value.length < 1) {
+      this.setState({
+        inputError: 'Please enter what needs Todo',
+      });
+    }
 
     if (this.state.selectedUser < 1) {
       this.setState({
@@ -53,6 +59,10 @@ class NewTodo extends Component {
         inputError: 'Please enter what needs Todo',
       });
     } else if (this.state.value === ' ') {
+      this.setState({
+        inputError: 'Please enter what needs Todo',
+      });
+    } else if (this.state.value === '') {
       this.setState({
         inputError: 'Please enter what needs Todo',
       });
