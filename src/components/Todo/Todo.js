@@ -1,3 +1,12 @@
 import React from 'react';
 
-export default props => <div>{props.text}</div>;
+const Todo = ({ text, id, completed }) => 
+(<div>
+  {text}
+  {id}
+  {completed 
+  ? 'true' 
+  : 'false'}
+</div>);
+
+export default Todo;

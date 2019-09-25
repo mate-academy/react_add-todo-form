@@ -1,38 +1,35 @@
 import React from 'react';
-// import Component from 'react';
 
-export default class TodoForm extends React.Component {
-  state = {
-    text: '',
-  };
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit({
-      text: this.state.text,
-    });
-    this.setState({
-      text: '',
-    });
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          name="text"
-          value={this.setState.text}
-          onChange={this.handleChange}
-          placeholder="i'm input"
-        />
-        <button type="button" onClick={this.handleSubmit}>add Todo</button>
-      </form>
-    );
-  }
+ const TodoForm = 
+ ({ users,
+    selectedUser,
+    handleSelect,
+    handleSubmit,
+    handleChange,
+    text,
+    isError,
+  }) => {
+  return (
+    <div>
+      <input
+        name="text"
+        value={text}
+        onChange={handleChange}
+        placeholder="i'm input"
+      />
+      <select
+        value={selectedUser}
+        onChange={(event) => handleSelect(event)}
+      >
+        <option value={0}>Chose User</option> 
+        {users.map(user => (
+          <option value={user.id}>{user.name}</option>
+        ))}
+      </select>
+      <button type="button" onClick={handleSubmit}>add Todo</button>
+      { isError && (<div>Chose User or write Todo</div>)}
+    </div>
+  );
 }
+
+export default TodoForm
