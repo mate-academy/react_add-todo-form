@@ -1,0 +1,27 @@
+.user {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.user__name {
+  color: rgb(255, 180, 118);
+  opacity: 1;
+  font-weight: bold;
+  font-size: 30px;
+  margin-right: 20px;
+}
+
+.details-wrapper {
+  height: 70px;
+}
+
+.user__email {
+  font-size: 14px;
+  color: #fff;
+}
+
+.user__phone {
+  font-size: 14px;
+  color: #fff;
+}

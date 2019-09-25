@@ -1,0 +1,113 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 auto;
+  padding-top: 150px;
+  height: 100vh;
+}
+
+.wrapper {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper-bottom {
+  margin-bottom: 20px;
+}
+
+.error-msg {
+  color: rgb(224, 58, 40);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin: 5px;
+}
+
+.text-input {
+  box-sizing: border-box;
+  height: 50px;
+  width: 300px;
+  margin-right: 15px;
+  padding-left: 10px;
+  background-color: #fff;
+  opacity: 0.8;
+  border: 1px solid rgb(41, 60, 80);
+  color: rgb(41, 60, 80);
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 10px;
+  font-family: Amatic SC, sans-serif;
+}
+
+.text-input:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+}
+
+.text-input-error {
+  border: 2px solid rgb(224, 58, 40);
+}
+
+.text-input::placeholder {
+  color: rgb(41, 60, 80);
+  font-weight: bold;
+}
+
+.select-input {
+  background-color: #fff;
+  opacity: 0.8;
+  border: 1px solid rgb(41, 60, 80);
+  font-weight: bold;
+  font-size: 21px;
+  color: rgb(41, 60, 80);
+  border-radius: 10px;
+  height: 50px;
+  width: 300px;
+  font-family: Amatic SC, sans-serif;
+  cursor: pointer;
+}
+
+.select-input:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+}
+
+.select-input-error {
+  border: 2px solid rgb(224, 58, 40);
+}
+
+.submit-button {
+  background-color: rgb(69, 102, 135);
+  width: 300px;
+  height: 60px;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 28px;
+  opacity: 0.91;
+  text-transform: uppercase;
+  font-family: Amatic SC, sans-serif;
+  cursor: pointer;
+}
+
+.submit-button:focus {
+  outline: none;
+  border: 2px solid rgb(245, 132, 41);
+  color: rgb(245, 132, 41);
+  background-color: #fff;
+}
+
+.submit-button:active {
+  background-color: rgb(207, 207, 207);
+
+}
+
+.submit-button:hover {
+  background-color: #fff;
+  color: rgb(69, 102, 135);
+  border: 2px solid rgb(69, 102, 135);
+
+}
