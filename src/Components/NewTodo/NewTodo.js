@@ -3,8 +3,20 @@ import './NewTodo.css';
 import cx from 'classnames';
 import { newTodoPropTypes } from '../PropTypes/PropTypes';
 
+// const initialState = {
+//   userId: {
+//     uservalue: 0,
+//     errorUser: '',
+//   },
+//   title: {
+//     titleValue: '',
+//     errorTitle: '',
+//   },
+// };
+
 class NewTodo extends React.Component {
-  state = {
+  state =
+  {
     users: [...this.props.users],
     id: 3,
     titleValue: '',
@@ -29,23 +41,24 @@ class NewTodo extends React.Component {
 
   handleButtonSubmit = (event) => {
     event.preventDefault();
+
     const {
       titleValue, userValue, id, users,
     } = this.state;
     const { addNewTodo } = this.props;
 
-    if (!titleValue && !userValue) {
+    if ((titleValue.length === 0 || titleValue[0] === ' ') && userValue.length === 0) {
       this.setState({
         errorTitle: 'Write a title',
         errorUser: 'Choose a user',
       });
-    } else if (!titleValue) {
-      this.setState({
-        errorTitle: 'Write a title',
-      });
-    } else if (!userValue) {
+    } else if (titleValue.length > 0 && userValue.length === 0) {
       this.setState({
         errorUser: 'Choose a user',
+      });
+    } else if (titleValue.length === 0 || titleValue[0] === ' ') {
+      this.setState({
+        errorTitle: 'Write a title',
       });
     } else {
       addNewTodo({
