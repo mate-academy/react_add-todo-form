@@ -7,22 +7,22 @@ class NewTodo extends React.Component {
   state = {
     users: [...this.props.users],
     id: 3,
-    titleChange: '',
-    userChange: '',
+    titleValue: '',
+    userValue: '',
     errorTitle: null,
     errorUser: null,
   }
 
-  handleTitleChange = ({ target }) => {
+  handletitleValue = ({ target }) => {
     this.setState({
-      titleChange: target.value,
+      titleValue: target.value,
       errorTitle: null,
     });
   }
 
-  handleUserChange = ({ target }) => {
+  handleuserValue = ({ target }) => {
     this.setState({
-      userChange: target.value,
+      userValue: target.value,
       errorUser: null,
     });
   }
@@ -30,36 +30,36 @@ class NewTodo extends React.Component {
   handleButtonSubmit = (event) => {
     event.preventDefault();
     const {
-      titleChange, userChange, id, users,
+      titleValue, userValue, id, users,
     } = this.state;
     const { addNewTodo } = this.props;
 
-    if (!titleChange && !userChange) {
+    if (!titleValue && !userValue) {
       this.setState({
         errorTitle: 'Write a title',
         errorUser: 'Choose a user',
       });
-    } else if (!titleChange) {
+    } else if (!titleValue) {
       this.setState({
         errorTitle: 'Write a title',
       });
-    } else if (!userChange) {
+    } else if (!userValue) {
       this.setState({
         errorUser: 'Choose a user',
       });
     } else {
       addNewTodo({
-        userId: userChange.id,
+        userId: userValue.id,
         id,
-        title: titleChange,
+        title: titleValue,
         completed: false,
         user: users
-          .find(user => user.name === userChange),
+          .find(user => user.name === userValue),
       });
       this.setState((prevState) => {
         return ({
-          userChange: '',
-          titleChange: '',
+          userValue: '',
+          titleValue: '',
           id: prevState.id + 1,
           errorUser: null,
           errorTitle: null,
@@ -70,7 +70,7 @@ class NewTodo extends React.Component {
 
   render() {
     const {
-      titleChange, userChange, errorTitle, errorUser, users,
+      titleValue, userValue, errorTitle, errorUser, users,
     } = this.state;
 
     const inputClass = cx('text-input', {
@@ -89,8 +89,8 @@ class NewTodo extends React.Component {
           <input
             className={inputClass}
             type="text"
-            onChange={this.handleTitleChange}
-            value={titleChange}
+            onChange={this.handletitleValue}
+            value={titleValue}
             maxLength={30}
             placeholder="Write title of your TODO"
           />
@@ -98,11 +98,11 @@ class NewTodo extends React.Component {
         </div>
         <div className="wrapper wrapper-bottom">
           <select
-            value={userChange}
+            value={userValue}
             className={selectClass}
             type="text"
             name="todo-name"
-            onChange={this.handleUserChange}
+            onChange={this.handleuserValue}
             placeholder="Write title"
           >
             <option value="">
