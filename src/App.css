@@ -1,3 +1,57 @@
 .App {
+  display: flex;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.container {
   text-align: center;
+  width: 80%;
+  position: relative;
+}
+
+.header {
+  height: 50px;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.add-button {
+  height: 40px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 13px;
+  background-color: #32acb3;
+  outline: none;
+  color: #fff;
+}
+
+.blur {
+  transition: 0.5s;
+  opacity: 0.2;
+}
+
+.addDialog {
+  border: 1px solid #cecece;
+  width: 33%;
+  position: fixed;
+  z-index: 2;
+  background-color: white;
+  box-shadow: 0 2px 5px #e2e2e2;
+  top: 0;
+  left: 33%;
+  animation-name: modal;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes modal {
+  0% {
+    top: -500px;
+  }
+  100% {
+    top: 0;
+  }
 }
