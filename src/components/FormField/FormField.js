@@ -1,5 +1,7 @@
 import React from 'react';
+
 import cx from 'classnames';
+import propTypes from 'prop-types';
 
 const FormField = (props) => {
   const {
@@ -10,10 +12,11 @@ const FormField = (props) => {
     type,
     placeholder,
     onChange,
-    } = props;
+  } = props;
 
   const inputClass = cx('input', { 'error-message': !!error });
 
+/* eslint-disable */
   return (
     <>
       <label htmlFor={name} className="label">Enter todo title:</label>
@@ -27,25 +30,27 @@ const FormField = (props) => {
         className={inputClass}
         onChange={onChange}
       />
-      {error && (<p className='error-message'>{error}</p>)}
+      {error && (<p className="error-message">{error}</p>)}
     </>
-  )
-}
+  );
+/* eslint-enable */
+};
 
-// FormField.propTypes = {
-//   label: propTypes.string.isRequired,
-//   value: propTypes.string.isRequired,
-//   name: propTypes.string.isRequired,
-//   onChange: propTypes.func.isRequired,
-//   placeholder: propTypes.stringisRequired,
-//   type: propTypes.string,
-//   email: propTypes.string,
-// };
+FormField.propTypes = {
+  label: propTypes.string,
+  value: propTypes.string.isRequired,
+  name: propTypes.string.isRequired,
+  onChange: propTypes.func.isRequired,
+  placeholder: propTypes.string,
+  type: propTypes.string,
+  error: propTypes.string,
+};
 
 FormField.defaultProps = {
+  label: '',
   error: '',
   type: 'text',
-  placeholder: 'Type text here'
-}
+  placeholder: 'Type text here',
+};
 
 export default FormField;

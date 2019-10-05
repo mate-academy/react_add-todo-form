@@ -9,28 +9,27 @@ import Form from './components/Form/Form';
 
 class App extends Component {
   state = {
-    todoList:todos.map(todo => ({
+    todoList: todos.map(todo => ({
       ...todo,
-      user: users.find(user => todo.userId === user.id)
-    }))
+      user: users.find(user => todo.userId === user.id),
+    })),
   }
 
   handleAddTodo = (todoFromForm) => {
-    this.setState(prevState => {
-
-      return({
+    this.setState(({ todoList }) => ({
       todoList: [
-        ...prevState.todoList,
+        ...todoList,
         {
-          id: prevState.todoList.length + 1,
+          id: todoList.length + 1,
           title: todoFromForm.title.value,
-          user: users.find(user => +todoFromForm.selectedUser.value === user.id)
-        }
-      ]
-    })})
+          user: users
+            .find(user => +todoFromForm.selectedUser.value === user.id),
+        },
+      ],
+    }));
   }
 
-  render(){
+  render() {
     const { todoList } = this.state;
 
     return (
@@ -38,7 +37,7 @@ class App extends Component {
         <Form handleAddTodo={this.handleAddTodo} users={users} />
         <TodoList todos={todoList} />
       </div>
-    )
+    );
   }
 }
 
