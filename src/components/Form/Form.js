@@ -20,9 +20,9 @@ class Form extends Component {
   state = initialState;
 
   handleChange = ({ target: { name, value } }) => {
-    this.setState(prevState => ({
-      [name]: { value, error: prevState[name].error },
-    }));
+    this.setState({
+      [name]: { value, error: null },
+    });
   }
 
   handleSubmit = (event) => {
@@ -94,10 +94,16 @@ class Form extends Component {
           onChange={this.handleChange}
           name="selectedUser"
           className={selectClass}
+          defaultValue="0"
         >
           <option value="0" selected disabled hidden>Select user</option>
           {users.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
+            <option
+              key={user.id}
+              value={user.id}
+            >
+              {user.name}
+            </option>
           ))}
         </select>
         {selectedUser.error
@@ -109,7 +115,7 @@ class Form extends Component {
   }
 }
 
-const required = (title, value) => (value
+const required = (title, value) => (value.trim()
   ? null
   : `${title} is required field`);
 
