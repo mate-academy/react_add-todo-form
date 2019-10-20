@@ -20,6 +20,10 @@
   width: 100%;
 }
 
+#title:focus {
+  outline: none;
+}
+
 .title-label {
   display: block;
 }
@@ -30,6 +34,20 @@
   padding: 15px;
   box-sizing: border-box;
   width: 100%;
+}
+
+.select option {
+  color: black;
+  border: none;
+}
+
+.default-color {
+  color: #747474;
+}
+
+.select:focus {
+  outline: none;
+  border: 1px solid rgb(107, 107, 107);
 }
 
 .submit {
@@ -53,8 +71,4 @@
 select.error-message,
 .error-select {
   border: 1px solid #ac6a6a;
-}
-
-.default-color {
-  color: #747474;
 }

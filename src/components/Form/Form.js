@@ -11,7 +11,7 @@ const initialState = {
     error: null,
   },
   selectedUser: {
-    value: '0',
+    value: '',
     error: null,
   },
 };
@@ -43,14 +43,13 @@ class Form extends Component {
 
         return Object.fromEntries(newState);
       });
+    } else {
+      handleAddTodo({
+        title,
+        selectedUser,
+      });
+      this.setState(initialState);
     }
-
-    handleAddTodo({
-      title,
-      selectedUser,
-    });
-
-    this.setState(initialState);
   }
 
   validate = () => {
@@ -75,7 +74,7 @@ class Form extends Component {
     const { users } = this.props;
     const { title, selectedUser } = this.state;
     const selectClass
-      = cx('select', { 'select error-select': !!selectedUser.error });
+      = cx('select ', { 'select error-select ': !!selectedUser.error });
 
     return (
       <form
@@ -94,11 +93,8 @@ class Form extends Component {
         <select
           onChange={this.handleChange}
           name="selectedUser"
-          className={
-            (+selectedUser.value && selectClass) || 'select default-color'
-          }
-          value={selectedUser.value}
-
+          className={selectClass + (selectedUser.value || 'default-color')}
+          value={selectedUser.value || '0'}
         >
           <option value="0" disabled hidden>Select user</option>
           {users.map(user => (
@@ -135,7 +131,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-  value: '0',
+  value: '',
 };
 
 export default Form;
