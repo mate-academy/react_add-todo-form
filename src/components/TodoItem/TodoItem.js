@@ -1,26 +1,38 @@
 import React from 'react';
 import './TodoItem.css';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const TodoItem = ({ todo }) => {
   const { id, title, user } = todo;
+  const {
+    name,
+    email,
+    phone,
+    website,
+  } = user;
 
   return (
     <li className="todo-item">
-      <p className="todo-item__title"><span className="digit">{id}</span></p>
-      <p className="todo-item__main-title">{title}</p>
+      <p className="todo-item__title">
+        <span className="digit">
+          {id}
+        </span>
+      </p>
+      <p className="todo-item__main-title">
+        {title}
+      </p>
       <div className="user">
         <p className="user__name">
-          {user.name}
+          {name}
         </p>
         <p className="user__email">
-          {user.email}
+          {email}
         </p>
         <p className="user__phone">
-          {user.phone}
+          {phone}
         </p>
         <p className="user__website">
-          {user.website}
+          {website}
         </p>
       </div>
     </li>
@@ -28,7 +40,7 @@ const TodoItem = ({ todo }) => {
 };
 
 TodoItem.propTypes = {
-  todo: propTypes.shape(TodoItem).isRequired,
+  todo: PropTypes.shape().isRequired,
 };
 
 export default TodoItem;

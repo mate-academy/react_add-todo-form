@@ -15,15 +15,17 @@ class App extends Component {
     })),
   }
 
-  handleAddTodo = (todoFromForm) => {
+  handleAddTodo = (todo) => {
+    const { selectedUser, title } = todo;
+
     this.setState(({ todoList }) => ({
       todoList: [
         ...todoList,
         {
           id: todoList.length + 1,
-          title: todoFromForm.title.value,
+          title: title.value,
           user: users
-            .find(user => +todoFromForm.selectedUser.value === user.id),
+            .find(user => +selectedUser.value === user.id),
         },
       ],
     }));

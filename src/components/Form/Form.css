@@ -54,3 +54,7 @@ select.error-message,
 .error-select {
   border: 1px solid #ac6a6a;
 }
+
+.default-color {
+  color: #747474;
+}

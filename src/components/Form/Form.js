@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import './Form.css';
 import FormField from '../FormField/FormField';
@@ -11,7 +11,7 @@ const initialState = {
     error: null,
   },
   selectedUser: {
-    value: '',
+    value: '0',
     error: null,
   },
 };
@@ -43,13 +43,14 @@ class Form extends Component {
 
         return Object.fromEntries(newState);
       });
-    } else {
-      handleAddTodo({
-        title,
-        selectedUser,
-      });
-      this.setState(initialState);
     }
+
+    handleAddTodo({
+      title,
+      selectedUser,
+    });
+
+    this.setState(initialState);
   }
 
   validate = () => {
@@ -93,10 +94,13 @@ class Form extends Component {
         <select
           onChange={this.handleChange}
           name="selectedUser"
-          className={selectClass}
-          defaultValue="0"
+          className={
+            (+selectedUser.value && selectClass) || 'select default-color'
+          }
+          value={selectedUser.value}
+
         >
-          <option value="0" selected disabled hidden>Select user</option>
+          <option value="0" disabled hidden>Select user</option>
           {users.map(user => (
             <option
               key={user.id}
@@ -125,9 +129,13 @@ const formValidators = {
 };
 
 Form.propTypes = {
-  value: propTypes.string.isRequired,
-  users: propTypes.shape(Form).isRequired,
-  handleAddTodo: propTypes.func.isRequired,
+  value: PropTypes.string,
+  users: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
+  handleAddTodo: PropTypes.func.isRequired,
+};
+
+Form.defaultProps = {
+  value: '0',
 };
 
 export default Form;

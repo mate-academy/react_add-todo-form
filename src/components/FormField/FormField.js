@@ -3,19 +3,16 @@ import React from 'react';
 import cx from 'classnames';
 import propTypes from 'prop-types';
 
-const FormField = (props) => {
-  const {
-    error,
-    label,
-    value,
-    name,
-    type,
-    placeholder,
-    onChange,
-  } = props;
-
+const FormField = ({
+  error,
+  label,
+  value,
+  name,
+  type,
+  placeholder,
+  onChange,
+}) => {
   const inputClass = cx('input', { 'error-message': !!error });
-
 /* eslint-disable */
   return (
     <>
