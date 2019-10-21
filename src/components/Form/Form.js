@@ -126,7 +126,9 @@ const formValidators = {
 
 Form.propTypes = {
   value: PropTypes.string,
-  users: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired).isRequired,
   handleAddTodo: PropTypes.func.isRequired,
 };
 
