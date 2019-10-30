@@ -54,7 +54,6 @@ class TodoList extends React.Component {
         newTodo: prev.tempInputText,
         todoId: prev.todoId + 1,
         error: null,
-        selectedPerson: 'select-person'
       }
     })
 
@@ -69,7 +68,8 @@ class TodoList extends React.Component {
         ...prev,
         todoHistory: [...prev.todoHistory, newTodo],
         tempInputText: '',
-        placeHolder: 'Write your new Todo for today'
+        placeHolder: 'Write your new Todo for today',
+        selectedPerson: 'select-person'
       }
     })
   }
