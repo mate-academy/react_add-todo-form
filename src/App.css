@@ -1,3 +1,20 @@
 .App {
   text-align: center;
 }
+
+.table {
+  border-collapse: collapse;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.cell {
+  border: 1px solid dimgray;
+  text-align: left;
+  padding: 8px;
+}
+
+.thead {
+  background-color: #444a4a;
+  color: white;
+}
