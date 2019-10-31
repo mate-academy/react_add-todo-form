@@ -15,10 +15,10 @@ class AddTodo extends Component {
   };
 
   titleInputChange = (event) => {
-    event.target.value = event.target.value.replace(/[^\w\s]/gi, '');
+    const eventVar = event.target.value.replace(/[^\w\s]/gi, '');
 
     this.setState({
-      title: event.target.value,
+      title: eventVar,
       titleError: null,
     });
   };
