@@ -5,11 +5,15 @@ import '../../App.css';
 
 class NewTodo extends PureComponent {
   state = {
-    users: this.props.users,
     title: '',
     userName: '',
-    selectMsg: 'Choose a user',
     titleError: null,
+    submit: false,
+    correctValue: null,
+    selectOptions: this.props.users.map(user => ({
+      text: user.name,
+      value: user.name,
+    })),
   }
 
   titleInputChange = (event) => {
@@ -23,19 +27,19 @@ class NewTodo extends PureComponent {
 
   usersSelectChange = (event) => {
     this.setState({
-      userName: event.target.value,
-      selectMsg: 'Choose a user',
+      userName: event.target.textContent,
+      submit: false,
+      correctValue: event.target.textContent,
     });
   }
 
   submitForm = (event) => {
     const { title, userName } = this.state;
-    console.log(userName);
 
     if (title.trim() === '' && (userName === '' || userName === 'Choose a user' || userName === 'Please choose a user')) {
       this.setState({
         titleError: `Please enter the title`,
-        selectMsg: 'Please choose a user',
+        submit: true,
       });
 
       return;
@@ -44,6 +48,7 @@ class NewTodo extends PureComponent {
     if (title.trim() === '') {
       this.setState({
         titleError: `Please enter the title`,
+        submit: true,
       });
 
       return;
@@ -51,7 +56,7 @@ class NewTodo extends PureComponent {
 
     if (userName === '' || userName === 'Choose a user' || userName === 'Please choose a user') {
       this.setState({
-        selectMsg: 'Please choose a user',
+        submit: true,
       });
 
       return;
@@ -62,8 +67,8 @@ class NewTodo extends PureComponent {
     this.setState({
       title: '',
       userName: '',
-      selectMsg: 'Choose a user',
       titleError: null,
+      correctValue: null,
     });
   }
 
@@ -89,12 +94,25 @@ class NewTodo extends PureComponent {
           )
           }
         </Form.Group>
-        <select onChange={this.usersSelectChange}>
-          <option>{this.state.selectMsg}</option>
-          {this.state.users.map(user => (
-            <option>{user.name}</option>
-          ))}
-        </select>
+        {
+          this.state.submit ? (
+            <Form.Select
+              options={this.state.selectOptions}
+              placeholder="Select user"
+              value={null}
+              onChange={this.usersSelectChange}
+              error
+            />
+          ) : (
+            <Form.Select
+              options={this.state.selectOptions}
+              placeholder="Select user"
+              onChange={this.usersSelectChange}
+              value={this.state.correctValue}
+            />
+          )
+        }
+
         <Button>Submit</Button>
       </Form>
     );
