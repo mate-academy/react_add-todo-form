@@ -17,8 +17,6 @@ export default class NewToDo extends Component {
 
     let err, errMessage;
 
-    let err, errMessage;
-
     if (isValidToDo) {
       err = ``;
       errMessage = ``;
