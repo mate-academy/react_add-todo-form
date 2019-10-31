@@ -1,0 +1,15 @@
+.todo-list {
+  width: 70%;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.todo-list td {
+  text-align: left;
+  border: 1px solid black;
+}
+
+.todo-list-head {
+  background-color: #ccc;
+}
