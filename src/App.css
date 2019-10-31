@@ -1,3 +1,30 @@
 .App {
   text-align: center;
 }
+body {
+  margin: 0;
+  padding: 0;
+  color: antiquewhite;
+  font-family: 'McLaren', cursive;
+}
+
+.todo_list {
+  background-image: url("./api/bg.jpg");
+  height: 100vh;
+  padding: 50px calc(50% - 110px);
+}
+
+.task_box {
+  background-color: beige;
+  color: black;
+  display: inline-block;
+  padding: 2%;
+  border-radius: 5%;
+}
+
+/*.input {*/
+
+span {
+  display: inline-block;
+  margin-top: 10px;
+}
