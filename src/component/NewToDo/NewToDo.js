@@ -14,13 +14,20 @@ export default class NewToDo extends Component {
             valid,
             isValidToDo
           } = this.props;
+    
+    let err, errMessage;
 
-    const err = isValidToDo ? `` : isValidToDo === false ? `err` : ``;
-
-    const errMessage = isValidToDo ? ``
-    : isValidToDo === false ? `Enter correct todo value`
-    : `Dont add todo nothing`;
-
+    if (isValidToDo) {
+      errMessage = ``;
+      err = ``;
+    } else if (isValidToDo === false) {
+      errMessage = `Enter correct todo value`;
+      err = `err`;
+    } else {
+      errMessage = `Dont add todo nothing`;
+      err = ``;
+    }
+    
     return (
       <form className="col-sm-12">
         <select className="form-control mb-3" onChange={select}>
