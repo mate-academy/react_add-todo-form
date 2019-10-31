@@ -5,7 +5,7 @@ function TodoItem({ todo }) {
   return (
     <tr>
       <td className="cell">{todo.title}</td>
-      <td className="cell">{todo.assignedTo}</td>
+      <td className="cell">{todo.newTodo}</td>
     </tr>
   );
 }
@@ -13,7 +13,7 @@ function TodoItem({ todo }) {
 TodoItem.propTypes = {
   todo: Proptypes.shape({
     title: Proptypes.string,
-    assignedTo: Proptypes.string,
+    newTodo: Proptypes.string,
   }).isRequired,
 };
 

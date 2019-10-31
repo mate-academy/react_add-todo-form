@@ -15,7 +15,6 @@ function NewTodo(
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        name="todoTitle"
         placeholder="Todo Title"
         onChange={handleTitleChange}
         value={title}
@@ -23,7 +22,6 @@ function NewTodo(
       />
       <select
         required
-        name="assignTo"
         value={selectedOption}
         onChange={handleSelectChange}
       >

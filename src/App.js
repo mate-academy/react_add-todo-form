@@ -40,7 +40,7 @@ class App extends React.Component {
         {
           id: prevState.id,
           title: prevState.title,
-          assignedTo: prevState.selectedOption,
+          newTodo: prevState.selectedOption,
         },
       ],
       title: '',
