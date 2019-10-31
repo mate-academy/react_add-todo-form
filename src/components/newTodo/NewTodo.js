@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Form,
@@ -102,5 +103,9 @@ class NewTodo extends Component {
     );
   }
 }
+
+NewTodo.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+};
 
 export default NewTodo;
