@@ -11,7 +11,6 @@ class TodoList extends React.Component {
     this.state = {
       todoHistory: [...this.props.todos],
       selectedPerson: 'select-person',
-      newTodo: '',
       tempInputText: '',
       placeHolder: 'Write your new Todo for today',
       errorStyle: false,
@@ -26,7 +25,8 @@ class TodoList extends React.Component {
 
   inputChange = (event) => {
     this.setState({
-      tempInputText: event.target.value, errorStyle: false
+      tempInputText: event.target.value,
+      errorStyle: false
     })
   }
 
@@ -43,7 +43,8 @@ class TodoList extends React.Component {
 
     if (this.state.tempInputText === '') {
       this.setState({
-        placeHolder: 'Please write your todo task for today', errorStyle: true
+        placeHolder: 'Please write your todo task for today',
+        errorStyle: true
       })
       return
     }
@@ -51,7 +52,6 @@ class TodoList extends React.Component {
     await this.setState(prev => {
       return {
         ...prev,
-        newTodo: prev.tempInputText,
         todoId: prev.todoId + 1,
         error: null,
       }
@@ -59,7 +59,7 @@ class TodoList extends React.Component {
 
     const newTodo = {
       name: this.state.selectedPerson,
-      title: this.state.newTodo,
+      title: this.state.tempInputText,
       id: this.state.todoHistory.length + 1
     };
 
