@@ -12,7 +12,8 @@ export default class App extends Component {
     currentUser: 0,
     currentValue: '',
     isCurrentUserValid: null,
-    isValidToDo: null
+    isValidToDo: null,
+    lastId: 3
   }
 
   selectUser = (event) => {
@@ -25,6 +26,7 @@ export default class App extends Component {
           isCurrentUserValid: false
         }
       }
+
       return {
         ...prevState,
         currentUser: userIndex,
@@ -36,6 +38,7 @@ export default class App extends Component {
   onChangeInput = (event) => {
     const inputValue = event.target.value;
     this.setState(({prevState}) => {
+
       return {
         ...prevState,
         currentValue: inputValue,
@@ -46,15 +49,20 @@ export default class App extends Component {
 
   addItem = (event) => {
     event.preventDefault();
+
     if (!this.state.isCurrentUserValid) return;
+
     if (!this.state.currentValue.match(/\w/g)) {
+
       this.setState(({prevState}) => {
+
         return {
           ...prevState,
           isValidToDo: false,
           currentValue: ''
         }
       })
+
       return;
     }
 
@@ -62,18 +70,22 @@ export default class App extends Component {
       userId: +this.state.currentUser,
       title: this.state.currentValue,
       completed: this.state.currentValue === 'todo nothing' ? true : false,
-      id: Math.max(...this.state.todolist.map(todo => todo.id)) + 1
+      id: this.state.lastId + 1
     }
+
     this.setState(({prevState}) => {
+
       return {
         ...prevState,
         todolist: [...this.state.todolist, newToDo],
         currentValue: '',
+        lastId: newToDo.id
       }
-    })
+    });
   }
 
   render() {
+
     return (
       <div className="App col-sm-10">
         <ToDoList users={this.state.users} todos={this.state.todolist} />

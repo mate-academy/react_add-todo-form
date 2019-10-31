@@ -12,19 +12,26 @@ export default class NewToDo extends Component {
             addItem,
             value,
             valid,
-            isValidToDo
+            isValidToDo,
           } = this.props;
 
-    const err = isValidToDo ? `` : isValidToDo === false ? `err` : ``;
+    let err, errMessage;
 
-    const errMessage = isValidToDo ? ``
-    : isValidToDo === false ? `Enter correct todo value`
-    : `Dont add todo nothing`;
+    if (isValidToDo) {
+      err = ``;
+      errMessage = ``;
+    } else if (isValidToDo === false) {
+      err = `err`;
+      errMessage = `Enter correct todo value`;
+    } else {
+      err = ``;
+      errMessage = `Dont add todo nothing`;
+    }
 
     return (
       <form className="col-sm-12">
         <select className="form-control mb-3" onChange={select}>
-          <option value="0">Choose a user</option>
+          <option value={0}>Choose a user</option>
           {users.map(user => <UserOption user={user.name} key={user.id} id={user.id}/>)}
         </select>
         <div className="input-group d-flex align-items-center">
