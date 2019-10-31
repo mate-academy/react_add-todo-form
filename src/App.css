@@ -1,3 +1,15 @@
 .App {
   text-align: center;
 }
+
+#root {
+  width: 600px;
+  text-align: center;
+  margin: 100px auto;
+}
+
+span {
+  text-align: center;
+  display: table;
+  margin: auto;
+}
