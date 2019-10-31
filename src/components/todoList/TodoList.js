@@ -5,7 +5,7 @@ import TodoItem from '../todoItem/TodoItem';
 class TodoList extends React.Component {
   render() {
     const { todosData} = this.props;
-    console.log(todosData)
+
     return (
       <div>
         <Table celled>
