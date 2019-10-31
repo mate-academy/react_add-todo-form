@@ -1,0 +1,20 @@
+.new-todo {
+  margin: 20px auto;
+  border: 1px solid black;
+  width: 70%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name-label,
+.select-label,
+.submit-button {
+  display: block;
+  margin: 5px;
+}
+
+.error {
+  color: red;
+}
