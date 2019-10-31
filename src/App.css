@@ -1,3 +1,10 @@
-.App {
-  text-align: center;
+body {
+  background: #fff;
+  color: #333;
+  font-family: Lato, sans-serif;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
 }
