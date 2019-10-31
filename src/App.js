@@ -1,18 +1,14 @@
 import React from 'react';
+import { Grid } from 'semantic-ui-react';
+import TodoList from './components/todoList/TodoList';
+import 'semantic-ui-css/semantic.min.css';
 import './App.css';
-
-import users from './api/users';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Static list of todos</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
+    <Grid container centered className="App">
+      <TodoList />
+    </Grid>
   );
 }
 
