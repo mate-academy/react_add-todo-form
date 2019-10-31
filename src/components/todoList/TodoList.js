@@ -36,7 +36,6 @@ class TodoList extends Component {
           completed: false,
         }],
     }));
-    console.log(this.state.todoList);
   }
 
   render() {

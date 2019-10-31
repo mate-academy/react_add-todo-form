@@ -4,7 +4,7 @@ import {
   Form,
   GridColumn,
   GridRow,
-  Input,
+  Input, Message,
   Select,
 } from 'semantic-ui-react';
 import users from '../../api/users';
@@ -16,6 +16,7 @@ class NewTodo extends Component {
     this.state = {
       title: '',
       userId: null,
+      error: null,
     };
 
     this.titleChanged = this.titleChanged.bind(this);
@@ -26,16 +27,26 @@ class NewTodo extends Component {
   titleChanged(evt) {
     this.setState({
       title: evt.target.value,
+      error: null,
     });
   }
 
   selectUser(evt, data) {
     this.setState({
       userId: data.value,
+      error: null,
     });
   }
 
   submitted(evt) {
+    if (this.state.title === '' || this.state.userId === null) {
+      this.setState({
+        error: 'NOT_FILLED',
+      });
+
+      return;
+    }
+
     this.props.onFormSubmit(this.state.title, this.state.userId);
     this.setState({
       title: '',
@@ -49,6 +60,7 @@ class NewTodo extends Component {
       text: user.name,
       value: user.id,
     }));
+    const { error } = this.state;
 
     return (
       <GridRow>
@@ -78,6 +90,13 @@ class NewTodo extends Component {
               </Button>
             </Input>
           </Form>
+          {error && (
+            <Message
+              floating
+              negative
+              content="All fields are required to fill"
+            />
+          )}
         </GridColumn>
       </GridRow>
     );
