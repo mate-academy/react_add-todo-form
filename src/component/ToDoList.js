@@ -15,9 +15,7 @@ export default class ToDoList extends Component {
         </tr>
       </thead>
       <tbody>
-        <>
-          {todos.map(todo => <TableRow users={users} todo={todo} key={todo.id}/>)}
-        </>
+        {todos.map(todo => <TableRow users={users} todo={todo} key={todo.id}/>)}
       </tbody>
     </table>
     );
