@@ -1,3 +1,21 @@
 .App {
   text-align: center;
 }
+
+form,
+input,
+select {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  display: flex;
+  color: red;
+  align-self: flex-start;
+}
+
+.ui.button {
+  margin: 20px;
+  width: 100px;
+}
