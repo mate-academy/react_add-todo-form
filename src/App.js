@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       title: '',
       selectedOption: 'Select a user',
-      id: 1,
+      id: 0,
       todos: [],
     };
   }
@@ -31,17 +31,18 @@ class App extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const newTodoItem = {
+      id: this.state.id,
+      title: this.state.title,
+      newTodo: this.state.selectedOption,
+    };
 
     this.setState(prevState => ({
       ...prevState,
       id: prevState.id + 1,
       todos: [
         ...prevState.todos,
-        {
-          id: prevState.id,
-          title: prevState.title,
-          newTodo: prevState.selectedOption,
-        },
+        newTodoItem,
       ],
       title: '',
       selectedOption: 'Select a user',
