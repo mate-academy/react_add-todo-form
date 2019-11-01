@@ -15,16 +15,16 @@ export default class NewToDo extends Component {
             isValidToDo,
           } = this.props;
 
-    let err, errMessage;
+    let errClassName, errMessage;
 
     if (isValidToDo) {
-      err = ``;
+      errClassName = ``;
       errMessage = ``;
     } else if (isValidToDo === false) {
-      err = `err`;
+      errClassName = `err`;
       errMessage = `Enter correct todo value`;
     } else {
-      err = ``;
+      errClassName = ``;
       errMessage = `Dont add todo nothing`;
     }
 
@@ -39,7 +39,7 @@ export default class NewToDo extends Component {
             Enter your "todo"
           </label>
           <input type="text" name="todoItem" id="todoItem"
-          className={`form-control col-sm-9 ${err}`}
+          className={`form-control col-sm-9 ${errClassName}`}
           placeholder={errMessage}
           onChange={changeInput}
           value={value}
