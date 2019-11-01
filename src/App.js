@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Table } from 'semantic-ui-react';
+import TodoList from './components/todoList/TodoList';
 import NewTodo from './components/newTodo/NewTodo';
 
 import users from './api/users';
@@ -28,42 +28,14 @@ class App extends Component {
     const { todos } = this.state;
 
     return (
-      <>
-        <main>
-          <NewTodo
-            users={users}
-            todos={todos}
-            addTodo={this.addTodo}
-          />
-          <Table celled selectable>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>#</Table.HeaderCell>
-                <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Todos</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            {todos.map(todo => (
-              <Table.Row>
-                <Table.Cell>{todo.id}</Table.Cell>
-                <Table.Cell>{todo.user.name}</Table.Cell>
-                <Table.Cell>{todo.title}</Table.Cell>
-                {todo.completed ? (
-                  <Table.Cell positive>
-                    Completed
-                  </Table.Cell>
-                ) : (
-                  <Table.Cell negative>
-                    In progress
-                  </Table.Cell>
-                )
-                }
-              </Table.Row>
-            ))}
-          </Table>
-        </main>
-      </>
+      <main>
+        <NewTodo
+          users={users}
+          todos={todos}
+          addTodo={this.addTodo}
+        />
+        <TodoList todos={todos} />
+      </main>
     );
   }
 }
