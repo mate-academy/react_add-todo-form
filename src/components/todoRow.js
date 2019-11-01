@@ -1,26 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class TodoRows extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
-
-  render() {
-    return (
-      <tr>
-        <td className="cell">{this.props.todo.textTodo}</td>
-        <td className="cell">{this.props.todo.selectName}</td>
-        <td className="negative">
-          <i className="icon close" />
-          {this.props.todo.complete.toString()}
-        </td>
-      </tr>
-    );
-  }
+function TodoRows({ todo }) {
+  return (
+    <tr>
+      <td className="cell">{todo.textTodo}</td>
+      <td className="cell">{todo.selectName}</td>
+      <td className="negative">
+        <i className="icon close" />
+        {todo.complete.toString()}
+      </td>
+    </tr>
+  );
 }
 
 TodoRows.propTypes = {
