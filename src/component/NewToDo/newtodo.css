@@ -1,0 +1,4 @@
+.err {
+  background-color: rgba(220, 50, 50, 0.5) !important;
+  transition: all .5s;
+}
