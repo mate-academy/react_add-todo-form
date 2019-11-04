@@ -37,7 +37,7 @@ function NewTodo({
   );
 }
 
-NewTodo.PropTypes = {
+NewTodo.propTypes = {
   onFormSubmit: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSelectChange: PropTypes.func.isRequired,

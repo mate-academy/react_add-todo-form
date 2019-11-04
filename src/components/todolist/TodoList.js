@@ -24,7 +24,7 @@ function TodoList({ todos }) {
   );
 }
 
-TodoList.PropTypes = {
+TodoList.propTypes = {
   todos: PropTypes.shape({
     id: PropTypes.number,
   }).isRequired,

@@ -11,7 +11,7 @@ function TodoItem({ todo: { id, title, user } }) {
   );
 }
 
-TodoItem.PropTypes = {
+TodoItem.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
