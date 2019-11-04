@@ -2,7 +2,7 @@
 
 ## Demo link
 
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+[DEMO LINK](https://olesyamogil.github.io/react_add-todo-form)
 
 
 ## Task
