@@ -74,6 +74,7 @@ select {
   border-radius: 6px;
   font-family: Lato, sans-serif;
   color: #888;
+  user-select: text;
 }
 
 select {
