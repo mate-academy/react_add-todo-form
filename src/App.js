@@ -69,7 +69,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="container">
         <TodoList todos={this.state.todoList} />
         <NewTodo
           onFormSubmit={this.onFormSubmit}
@@ -79,11 +79,12 @@ class App extends React.Component {
           selectedUser={this.state.selectedOption}
           title={this.state.title}
         />
-        {this.state.error ? (<span className="error-span">
-                              {this.state.error}
-                             </span>) : null
+        {this.state.error &&
+          (<span className="error-span">
+            {this.state.error}
+          </span>)
         }
-      </>
+      </div>
     );
   }
 }
