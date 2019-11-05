@@ -1,3 +1,10 @@
 .App {
   text-align: center;
 }
+
+span {
+  display: block;
+  font-size: 25px;
+  color: red;
+  margin: 15px auto;
+}
