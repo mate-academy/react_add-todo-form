@@ -27,7 +27,7 @@ class InputForm extends React.Component {
     });
   }
 
-  submitted = async(event) => {
+  submitted = async (event) => {
     event.preventDefault();
     if (this.state.task.trim() === '') {
       this.setState({
