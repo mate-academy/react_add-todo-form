@@ -3,8 +3,6 @@ import './App.css';
 
 import Input from './Input';
 import List from './List';
-// import users from './api/users';
-// import { threadId } from 'worker_threads';
 
 class App extends React.Component {
   constructor (props) {

@@ -28,11 +28,9 @@ class Input extends React.Component {
 
   render () {
     return (
-      <>
-        <form onSubmit={this.cliked}>
-          <input type='text' value={this.state.text} onChange={this.textChang} />
-        </form>
-      </>
+      <form onSubmit={this.cliked}>
+        <input type='text' value={this.state.text} onChange={this.textChang} />
+      </form>
     );
   }
 }
