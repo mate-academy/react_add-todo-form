@@ -14,13 +14,13 @@ class NewTodo extends PureComponent {
       text: user.name,
       value: user.name,
     })),
-  }
+  };
 
   titleInputChange = (event) => {
-    event.target.value = event.target.value.replace(/[^\w\s]/gi, '');
+    const { target } = event;
 
     this.setState({
-      title: event.target.value,
+      title: target.value.replace(/[^\w\s]/gi, ''),
       titleError: null,
     });
   };

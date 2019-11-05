@@ -25,7 +25,7 @@ class App extends React.PureComponent {
         completed: false,
         user: usersFromServer.find(user => user.name === userName),
       };
-      console.log(userName);
+
       return ({
         ...prevState,
         todosWithUser: [...prevState.todosWithUser, newTodo],
