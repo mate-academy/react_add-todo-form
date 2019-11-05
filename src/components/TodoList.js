@@ -11,11 +11,11 @@ const customMenu = users.map((item) => {
 });
 
 function getTodoWithUsers(todosAll, singleUser) {
-  return todosAll.map((todo) => {
-    const todoUsers = { ...todo, user: singleUser.find(user => user.id === todo.userId) };
-
-    return todoUsers;
-  });
+  return todosAll.map(todo => (
+    {
+      ...todo,
+      user: singleUser.find(user => user.id === todo.userId),
+    }));
 }
 
 const initialTodo = getTodoWithUsers(todos, users);
@@ -43,7 +43,7 @@ class TodoList extends Component {
 
   render() {
     return (
-      <div id="wrapper">
+      <div className="wrapper">
         <InputForm
           users={users}
           todos={this.state.todos}
@@ -52,9 +52,11 @@ class TodoList extends Component {
         />
         <table className="todo ui celled table">
           <thead className="thead">
-            <th>N</th>
-            <th>Task</th>
-            <th>User</th>
+            <tr>
+              <th>N</th>
+              <th>Task</th>
+              <th>User</th>
+            </tr>
           </thead>
           <tbody>
             {this.state.todos.map(todo => <TodoItem todo={todo} key={todo.id} />)}

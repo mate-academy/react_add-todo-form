@@ -50,10 +50,7 @@ class InputForm extends React.Component {
     }
 
     await this.setState(prev => ({
-      ...prev,
-      id: this.state.id + 1,
-      errorTask: null,
-      errorUser: null,
+      id: prev.id + 1,
     }));
 
     const newTodo = {
