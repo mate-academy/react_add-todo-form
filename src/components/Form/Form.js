@@ -8,10 +8,9 @@ class Form extends React.Component {
     selectUser: '',
     taskUser: '',
     error: '',
-    arrayToDo: {
-      name: this.props.listOfUsers.map(item => item.user.name),
-      task: this.props.listOfUsers.map(item => item.title),
-    }
+    name: this.props.listOfUsers.map(item => item.user.name),
+    task: this.props.listOfUsers.map(item => item.title),
+
   };
 
   addToDo = (event) => {
@@ -29,14 +28,14 @@ class Form extends React.Component {
   buttonClick = (event) => {
     event.preventDefault();
     if (this.state.selectUser.length > 3 && this.state.taskUser.length > 0) {
-      this.setState({
-        name: this.state.arrayToDo.name.push(this.state.selectUser),
-        task: this.state.arrayToDo.task.push(this.state.taskUser),
+      this.setState(prevState => ({
+        name: [...prevState.name, prevState.selectUser],
+        task: [...prevState.task, prevState.taskUser],
         selectUser: '',
         taskUser: '',
         error: '',
-      });
-    } else {
+      }));
+      } else {
       this.setState({
         error: 'type task and choose person',
       });
@@ -62,7 +61,7 @@ class Form extends React.Component {
             Add
           </button>
         </p>
-        <Todolist state={this.state}/>
+        <Todolist state={this.state} />
       </form>
 
     );
