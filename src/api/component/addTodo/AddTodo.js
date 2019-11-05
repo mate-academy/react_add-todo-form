@@ -29,7 +29,10 @@ const AddTodo = ({
       ))}
     </select>
 
-    <button type="submit">
+    <button
+      type="submit"
+      className="button"
+    >
         Додати
     </button>
   </form>

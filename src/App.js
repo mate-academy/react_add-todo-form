@@ -80,7 +80,7 @@ class App extends Component {
           selectRef={this.selectRef}
           id={this.state.id}
         />
-        {this.state.error ? <span>{this.state.error}</span> : null}
+        {this.state.error && <span>{this.state.error}</span>}
         <TodoList todo={this.state.todo} />
       </div>
     );
