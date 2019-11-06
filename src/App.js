@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import todos from './api/todos';
 import users from './api/users';
 import TodoList from './components/TodoList';
 import NewTask from './components/NewTask';
@@ -10,16 +9,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      todosList: this.usersTodo(),
+      todosList: [],
     };
   }
-
-  usersTodo = () => todos.map(todo => ({
-    ...todo,
-    userName: users.filter(user => user.id === todo.userId)
-      .map(user => user.name),
-
-  }));
 
   addTodo = (todo) => {
     this.setState(prevState => ({

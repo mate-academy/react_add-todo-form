@@ -62,7 +62,7 @@ label[htmlFor="select-user"] {
   text-transform: uppercase;
 }
 
-input[type="text"],
+input,
 select {
   margin: 0;
   font-size: 18px;
@@ -82,7 +82,7 @@ select {
   width: 390px;
 }
 
-input[type="text"]:focus {
+input:focus {
   color: #333;
 }
 
