@@ -12,6 +12,8 @@ function usersListTodo(todosArr, usersArr) {
 }
 
 const listOfUsers = usersListTodo(todos, users);
+const name = listOfUsers.map(item => item.user.name);
+const task = listOfUsers.map(item => item.title);
 
 class App extends React.Component {
   state = {
@@ -19,9 +21,8 @@ class App extends React.Component {
     selectUser: '',
     taskUser: '',
     error: '',
-    name: listOfUsers.map(item => item.user.name),
-    task: listOfUsers.map(item => item.title),
-
+    name,
+    task,
   };
 
   addToDo = (event) => {
@@ -58,14 +59,7 @@ class App extends React.Component {
         <h1>LIST OF TODOS</h1>
         <span>ToDo: </span>
         <Form
-          state={this.state}
-          listOfUsers={listOfUsers}
-          usersSelected={this.state.usersSelected}
-          selectUser={this.state.selectUser}
-          taskUser={this.state.taskUser}
-          error={this.state.error}
-          name={this.state.name}
-          task={this.state.task}
+          firstState={this.state}
           buttonClick={this.buttonClick}
           addUser={this.addUser}
           addToDo={this.addToDo}
