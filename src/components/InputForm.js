@@ -27,7 +27,7 @@ class InputForm extends React.Component {
     });
   }
 
-  submitted = async (event) => {
+  submitted = (event) => {
     event.preventDefault();
     if (this.state.task.trim() === '') {
       this.setState({
@@ -49,27 +49,22 @@ class InputForm extends React.Component {
       return;
     }
 
-    await this.setState(prev => ({
-      id: prev.id + 1,
-    }));
-
     const newTodo = {
       user: {
         name: this.state.userValue,
       },
       title: this.state.task,
-      id: this.state.id,
+      id: this.state.id + 1,
     };
 
     this.props.onSubmitted(newTodo);
 
     this.setState(prev => ({
-      ...prev,
       task: '',
-      todos: [...this.props.todos, newTodo],
       userValue: null,
       errorTask: null,
       errorUser: null,
+      id: prev.id + 1,
     }));
   }
 
