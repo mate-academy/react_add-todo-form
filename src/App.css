@@ -1,3 +1,133 @@
+body {
+  text-align: center;
+  background: #fff;
+  color: #333;
+  font-family: Lato, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: 40px;
+}
+
+tr {
+  border-bottom: 1px solid black;
+}
+
+h3 {
+  clear: both;
+  list-style: none;
+}
+
+input,
+select,
+button {
+  outline: none;
+}
+
+button {
+  background: none;
+  font-size: 15px;
+  width: 60px;
+  margin: 0 1px;
+  font-family: Lato, sans-serif;
+  cursor: pointer;
+  border-width: 2px;
+  border-radius: 0.25rem;
+  border-color: #4dc0b5;
+  color: #4dc0b5;
+  padding: 0.5rem;
+  transition: 0.5s;
+}
+
+button:hover {
+  color: white;
+  background-color: #4dc0b5;
+}
+
+thead {
+  color: white;
+  background-color: #4dc0b5;
+}
+
+h3,
+label[for="new-task"],
+label[htmlFor="select-user"] {
+  color: #333;
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 2px solid #333;
+  padding: 30px 0 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+input,
+select {
+  margin: 0;
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  font-family: Lato, sans-serif;
+  color: #888;
+  user-select: text;
+}
+
+select {
+  height: 40px;
+  width: 390px;
+}
+
+input:focus {
+  color: #333;
+}
+
+label[for="new-task"] {
+  display: block;
+  margin: 0 0 20px;
+}
+
+input#new-task {
+  float: left;
+  width: 310px;
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todo-list_wrapper {
+  display: block;
+  width: 400px;
+  margin: 100px auto 0;
+}
+
+.todo-list {
+  width: 50%;
+}
+
+.todo-list__row {
+  border: 1px solid black;
+  height: 40px;
+}
+
+.new-todo {
+  margin: 5px;
+}
+
+.error {
+  font-size: 18px;
+  color: red;
+  align-self: center;
+}
+
+.form {
+  padding-bottom: 25px;
 }
