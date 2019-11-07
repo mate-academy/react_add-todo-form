@@ -11,7 +11,6 @@ class InputForm extends React.Component {
       userValue: null,
       errorTask: null,
       errorUser: null,
-      id: this.props.todos.length,
     };
   }
 
@@ -54,7 +53,6 @@ class InputForm extends React.Component {
         name: this.state.userValue,
       },
       title: this.state.task,
-      id: this.state.id + 1,
     };
 
     this.props.onSubmitted(newTodo);

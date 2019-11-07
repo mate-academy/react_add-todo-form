@@ -35,9 +35,15 @@ class TodoList extends Component {
   }
 
   newItemSubmitted = (newItem) => {
+    const item = {
+      ...newItem,
+      id: this.state.todos.length + 1,
+    };
+
     this.setState(prev => ({
       ...prev,
-      todos: [...prev.todos, newItem],
+      todos: [
+        ...prev.todos, item],
     }));
   }
 
