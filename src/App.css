@@ -1,3 +1,24 @@
 .App {
   text-align: center;
 }
+
+td {
+  background-color: rgb(200, 200, 200);
+}
+
+.active {
+  background-color: green;
+}
+
+.non-active {
+  background-color: red;
+}
+
+.Todo {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.error {
+  color: red;
+}
