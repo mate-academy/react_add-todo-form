@@ -1,3 +1,17 @@
 .App {
   text-align: center;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.error {
+  color: #f00;
+}
+
+.error-box {
+  background-color: #ff724f;
+}
