@@ -1,0 +1,50 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+
+  &__text {
+    margin-bottom: 10px;
+    height: 40px;
+    border: 1px solid #DEDEDF;
+    padding-left: 10px;
+  }
+
+  &__select {
+    margin-bottom: 10px;
+    height: 40px;
+    border: 1px solid #DEDEDF;
+    cursor: pointer;
+    padding-left: 8px;
+  }
+
+  &__button {
+    display: block;
+    width: 140px;
+    height: 30px;
+    user-select: none;
+    color: rgb(0,0,0);
+    outline: none;
+    border: 1px solid rgba(0,0,0,.4);
+    border-top-color: rgba(0,0,0,.3);
+    border-radius: 2px;
+    background: linear-gradient(rgb(255,255,255), rgb(240,240,240));
+    box-shadow:
+     0 0 3px rgba(0,0,0,0) inset,
+     0 1px 1px 1px rgba(255,255,255,.2),
+     0 -1px 1px 1px rgba(0,0,0,0);
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+
+  &__button:active {
+    background: linear-gradient(rgb(250,250,250), rgb(235,235,235));
+    box-shadow:
+     0 0 3px rgba(0,0,0,.5) inset,
+     0 1px 1px 1px rgba(255,255,255,.4),
+     0 -1px 1px 1px rgba(0,0,0,.1);
+  }
+}
