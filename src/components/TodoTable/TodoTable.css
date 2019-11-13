@@ -1,0 +1,21 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.table__row {
+  width: 100%;
+}
+
+.table__cell {
+  text-align: left;
+  padding: 10px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.table__cell_upper {
+  background: #A1B9D5;
+}
+/*# sourceMappingURL=TodoTable.css.map */
