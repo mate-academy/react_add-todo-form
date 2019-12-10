@@ -1,0 +1,27 @@
+.post-list {
+  list-style-type: none;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  padding: 100px;
+}
+
+.post {
+  border: 1px solid black;
+}
+
+.user-title {
+  background: pink;
+}
+
+.user-name {
+  background: #4b4bff82;
+}
+
+.user-nik {
+  background: #fffb0082;
+}
+
+.user-email {
+  background: #40ff5e82;
+}
