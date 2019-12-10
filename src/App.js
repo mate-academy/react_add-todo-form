@@ -9,7 +9,7 @@ function App() {
       <h1>Static list of todos</h1>
 
       <p>
-        <span>Users: </span>
+        <span>Users : </span>
         {users.length}
       </p>
     </div>
