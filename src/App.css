@@ -1,3 +1,10 @@
 .App {
-  text-align: center;
+  text-align: justify;
+}
+
+.error {
+  display: inline-block;
+  /* width: 130px; */
+  color: red;
+  font-weight: bold;
 }
