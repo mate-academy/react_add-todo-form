@@ -1,3 +1,73 @@
-.App {
-  text-align: center;
+main {
+  max-width: 956px;
+  margin: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 600px;
+  margin: auto;
+}
+
+th {
+  padding: 4px;
+  border: 1px solid #eee;
+}
+
+td {
+  padding: 4px;
+  border: 1px solid #eee;
+  overflow: hidden;
+}
+
+.add-person-form {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 18px;
+}
+
+input[name="title"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-person-form__submit {
+  height: 20px;
+  background: dodgerblue;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.add-person-form__submit:disabled {
+  opacity: 0.2;
+}
+
+.add-person-form__submit:enabled:hover {
+  opacity: 0.9;
+}
+
+.errors {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: red;
+  font-size: 13px;
+  min-height: 15px;
+  height: auto;
+  display: flex;
+}
+
+.errors__item:after {
+  content: ",";
+}
+
+.errors__item:last-child:after {
+  content: "";
+}
+
+.errors__item + .errors__item {
+  margin-left: 5px;
 }
