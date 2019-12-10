@@ -1,3 +1,32 @@
 .App {
+  margin: 0 auto;
+}
+
+.rowOfTasks {
+  width: 25%;
+}
+
+.head {
+  background-color: #8e8ee3;
+  font-weight: bold;
+  height: 15vh;
+}
+
+.row:nth-child(even) {
+  background-color: lightgray;
+}
+
+.row:nth-child(odd) {
+  background-color: lightgreen;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
   text-align: center;
 }
