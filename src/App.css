@@ -1,3 +1,68 @@
 .App {
   text-align: center;
+  width: 500px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.todo__list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  font-size: 22px;
+}
+
+.item__user-id {
+  float: right;
+  color: rgb(36, 175, 89);
+  font-style: italic;
+}
+
+.todo__input {
+  padding: 10px;
+  padding-bottom: 0;
+  float: left;
+  display: block;
+  width: 100%;
+  font-style: italic;
+  font-size: 20px;
+  border: none;
+  border-bottom: 2px solid #000;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.todo__button {
+  padding: 10px 30px;
+  font-size: 18px;
+  background-color: #fff;
+  border: 3px solid rgb(36, 175, 89);
+  border-radius: 10px;
+  outline: none;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.todo__users {
+  padding: 10px;
+  font-size: 18px;
+  background-color: #fff;
+  border: 3px solid rgb(36, 175, 89);
+  border-radius: 10px;
+  outline: none;
+}
+
+.todo__text {
+  font-style: italic;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.todo__error {
+  display: block;
+  margin-top: 5px;
+  color: rgb(255, 0, 0);
+  font-style: italic;
 }
