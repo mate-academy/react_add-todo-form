@@ -1,7 +1,7 @@
 # React add TODO form
 
 ## Demo link
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+Add link here: `[DEMO LINK](https://YuliiaChupryna.github.io/react_add-todo-form/)`
 
 ## Task
 Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
