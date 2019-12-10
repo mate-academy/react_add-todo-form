@@ -1,3 +1,44 @@
-.App {
+.App,
+h1,
+td {
   text-align: center;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+tbody tr {
+  border-bottom: 1px solid grey;
+}
+
+tbody td:nth-child(3) {
+  padding-left: 10px;
+}
+
+th {
+  padding: 5px;
+}
+
+thead tr {
+  background-color: #ffd700;
+  color: white;
+}
+
+form {
+  width: max-content;
+  margin: 20px auto;
+}
+
+label {
+  margin-right: 10px;
+}
+
+.error {
+  display: inline;
+  color: red;
+  max-width: max-content;
+  margin: 0;
 }
