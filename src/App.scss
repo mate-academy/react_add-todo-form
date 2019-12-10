@@ -1,0 +1,97 @@
+body {
+  font-size: 16px;
+  color: darkslategrey;
+  background-color: whitesmoke;
+  font-family: Arial, sans-serif;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.App {
+  width: 500px;
+  margin: auto;
+  background-color: white;
+  padding: 10px 30px;
+  border-radius: 30px;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+
+  &__header {
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+.form {
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    height: 85px;
+  }
+
+  &__input {
+    height: 45px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    outline: none;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #e8eeef;
+    color: #8a97a0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin: 0 0 10px;
+
+    &::placeholder {
+      color: #8a97a0;
+    }
+  }
+
+  &__error {
+    color: red;
+    font-size: 0.8em;
+    padding: 0 0 10px 10px;
+  }
+}
+
+.button {
+  display: block;
+  padding: 20px 30px;
+  color: white;
+  background: #1abc9c;
+  font-size: 1.2em;
+  width: 100%;
+  border: 1px solid #16a085;
+  cursor: pointer;
+  margin-bottom: 40px;
+
+  &:hover {
+    background: #109177;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  border-radius: 4px;
+  padding: 0 10px;
+  width: 100%;
+  box-sizing: border-box;
+  background: cornsilk;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin: 0 0 10px;
+
+  &__name {
+    color: indianred;
+  }
+}
