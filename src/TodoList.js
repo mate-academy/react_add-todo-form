@@ -10,7 +10,9 @@ const TodoList = ({ todos }) => (
   </ul>
 );
 
-TodoList.propTypes
-  = { todos: PropTypes.oneOfType([PropTypes.array]).isRequired };
+TodoList.propTypes = {
+  todos: PropTypes
+    .arrayOf(PropTypes.object.isRequired).isRequired,
+};
 
 export default TodoList;

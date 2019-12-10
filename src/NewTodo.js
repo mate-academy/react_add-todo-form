@@ -111,7 +111,10 @@ class NewTodo extends React.Component {
 
 NewTodo.propTypes = {
   userList: PropTypes
-    .arrayOf(PropTypes.object).isRequired,
+    .arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    })).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
 
