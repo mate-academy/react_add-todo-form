@@ -1,3 +1,69 @@
-.App {
+body {
+  background-color: rgba(210, 199, 242, 0.4);
+}
+
+body * {
+  outline: none;
+}
+
+.todos {
   text-align: center;
+  width: 80%;
+  margin: 40px auto;
+}
+
+.todos__form-item {
+  background-color: rgba(210, 199, 242, 1);
+  display: block;
+  margin: 10px auto;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  transition: background-color 1s;
+}
+
+.todos__form-item:hover {
+  background-color: rgba(193, 177, 240, 1);
+}
+
+.todos__form-item--input {
+  min-width: 50%;
+}
+
+.todos__form-item--select {
+  min-width: 20%;
+  text-align-last: center;
+}
+
+.todos__form-item--submit {
+  min-width: 10%;
+}
+
+.todos__form-item--submit:hover {
+  cursor: pointer;
+}
+
+.todos__error {
+  color: red;
+}
+
+.table {
+  margin: 30px auto;
+  min-width: 50%;
+  border: 3px solid rgba(210, 199, 242, 1);
+  border-collapse: collapse;
+}
+
+.table__item,
+.table__heading {
+  padding: 5px;
+}
+
+.table__heading {
+  background-color: rgba(210, 199, 242, 0.6);
+}
+
+.table__item {
+  border: 1px solid rgba(210, 199, 242, 0.6);
 }

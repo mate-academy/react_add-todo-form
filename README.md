@@ -2,7 +2,7 @@
 
 ## Demo link
 
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+Add link here: `[DEMO LINK](https://YulliaChupryna.github.io/react_add-todo-form/)`
 
 
 ## Task
@@ -10,7 +10,7 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)  
 
 1. Create `App` components storing `todos` array and displaying it with `TodoList`
-2. Create `NewTodo` component with a form to add new TODOs 
+2. Create `TodoForm` component with a form to add new TODOs 
     - please add labels and placeholders where it is needed
     - each TODO show have a `title` and `userId` selected from a list of given `users` (`./src/api/users.js`)
     - show user names in `<select>`
