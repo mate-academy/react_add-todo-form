@@ -29,15 +29,15 @@ class NewTodo extends React.Component {
 
     this.setState(({ userSelected, titleInput, users }) => {
       if (!userSelected && !titleInput) {
-        return { titleError: true, userError: true, titleInput: '' };
+        return { titleError: true, userError: true };
       }
 
       if (!titleInput) {
-        return { titleError: true, titleInput: '' };
+        return { titleError: true };
       }
 
       if (!userSelected) {
-        return { userError: true, titleInput: '' };
+        return { userError: true };
       }
 
       const { addTodo } = this.props;
@@ -70,7 +70,7 @@ class NewTodo extends React.Component {
               type="text"
               value={titleInput}
               placeholder="What else needs to be done?"
-              maxLength={50}
+              maxLength={30}
               onChange={this.handleInputChange}
             />
             {titleError

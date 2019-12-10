@@ -49,6 +49,10 @@ ul {
     &::placeholder {
       color: #8a97a0;
     }
+
+    &:focus {
+      background: #d2d9dd;
+    }
   }
 
   &__error {
