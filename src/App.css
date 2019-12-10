@@ -1,3 +1,37 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: block;
+  margin: 5px auto;
+  width: 500px;
+  text-align: left;
+}
+
+.table {
+  margin: 10px auto;
+  border: 1px solid gray;
+  width: 500px;
+}
+
+.input-title {
+  margin: 5px;
+}
+
+.select-title {
+  margin: 0 36px 0 5px;
+}
+
+.input {
+  margin: 0 auto;
+  width: 162px;
+}
+
+.button {
+  margin: 0 0 0 5px;
+}
+
+.error {
+  color: red;
+}
