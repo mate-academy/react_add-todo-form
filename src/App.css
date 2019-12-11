@@ -1,3 +1,96 @@
 .App {
   text-align: center;
 }
+
+.todoList {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  margin: 16px auto;
+}
+
+.todoList__item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+}
+
+.todoList__item-todo {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.todoList__item-name {
+  margin: 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+.todoList__item-title {
+  margin: 0 15px 0 0;
+  font-weight: 400;
+}
+
+.todoList__item-check {
+  margin: 0;
+}
+
+.todoList__item-id {
+  margin: 0 15px 0 0;
+}
+
+.addTodoForm {
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+  padding: 5px 10px;
+  max-width: 50%;
+  margin: auto;
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addTodoForm__label {
+  color: #a3a3a3;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.addTodoForm__title {
+  margin: 0 15px 0 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+}
+
+.addTodoForm__user-select {
+  margin: 0 15px 0 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 5px;
+}
+
+.addTodoForm__title:focus,
+.addTodoForm__user-select:focus {
+  outline: none;
+}
+
+.error-label {
+  color: red;
+  font-weight: 400;
+}
+
+.error-input {
+  margin: 0 15px 0 10px;
+  border-radius: 5px;
+  border: 1px solid red;
+}
+
+.error-input:focus {
+  outline: red;
+}
