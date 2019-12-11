@@ -1,0 +1,19 @@
+@import "../../index";
+
+.todolist {
+  margin: 5px auto;
+  width: 80vw;
+  display: grid;
+  grid-gap: 50px;
+  grid-template-rows: auto;
+
+  grid-template-columns: 1fr;
+
+  @include for-tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include for-desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

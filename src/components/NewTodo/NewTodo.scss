@@ -1,0 +1,24 @@
+@import "../../index";
+
+.input {
+  height: $input-heigth;
+  outline: none;
+  margin-left: 5px;
+  padding: 0 5px;
+}
+
+.select {
+  height: $input-heigth;
+  outline: none;
+  padding: 0 5px;
+}
+
+.button {
+  height: $input-heigth;
+}
+
+.error-message {
+  height: $input-heigth;
+  color: red;
+  margin: 10px 0 0;
+}
