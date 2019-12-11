@@ -22,7 +22,7 @@ export default class TodoList extends Component {
               <span className="card-title">Todos Card</span>
               <p>
 
-USER ID:
+                USER ID:
                 {list.userId}
               </p>
               <p>

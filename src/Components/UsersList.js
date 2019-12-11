@@ -12,7 +12,7 @@ const UsersList = ({ usersList: user }) => (
       </p>
       <p>
 
-Username:
+        Username:
         <span className="info">{user.username}</span>
       </p>
       <p className="info phone">

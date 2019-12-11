@@ -34,6 +34,14 @@
     "extends": "react-app"
   },
   "lint-staged": {
+    "*.css": [
+      "stylelint",
+      "git add"
+    ],
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [

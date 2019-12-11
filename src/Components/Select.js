@@ -8,7 +8,7 @@ export default class Select extends Component {
     title: '',
   };
 
-  handleSetName =(e) => {
+  handleSetName = (e) => {
     const chooseName = e.target.value;
 
     this.setState({
@@ -81,7 +81,7 @@ export default class Select extends Component {
               name="action"
             >
 
-Submit
+              Submit
               <i className="material-icons right">send</i>
             </button>
           </form>
