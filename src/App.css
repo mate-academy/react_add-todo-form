@@ -1,3 +1,66 @@
-.App {
+body {
+  background: #fff;
+  font-family: Libre Baskerville, serif;
+}
+
+.form__input,
+.form__select {
+  font-family: Libre Baskerville, serif;
+}
+
+.block {
+  width: 50%;
   text-align: center;
+  margin: 60px auto;
+  border: 2px solid black;
+  border-radius: 20px;
+  box-shadow: -11px 11px 19px -3px rgba(115,115,115,0.89);
+  background: #bfefff;
+}
+
+.form {
+  padding: 30px;
+}
+
+.form__title {
+  font-family: Lilita One, cursive;
+  font-size: 48px;
+  margin: 20px 0 0;
+}
+
+.form__input,
+.form__button,
+.form__select {
+  padding: 15px 30px;
+  width: 50%;
+  font-size: 20px;
+  margin: 16px;
+  border-radius: 10px;
+  outline: none;
+  transition: 1s;
+}
+
+.form__input:hover,
+.form__button:hover,
+.form__select:hover {
+  opacity: 80%;
+}
+
+.form__button {
+  font-family: Lilita One, cursive;
+  font-size: 26px;
+  background: #ffb6c1;
+}
+
+.form__error {
+  color: red;
+  font-weight: 800;
+}
+
+.todo-block {
+  border-top: 2px solid black;
+}
+
+.todo-list__name {
+  color: #0000cd;
 }
