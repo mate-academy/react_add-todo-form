@@ -11,6 +11,7 @@ const UsersList = ({ usersList: user }) => (
         <span className="info">{user.name}</span>
       </p>
       <p>
+
 Username:
         <span className="info">{user.username}</span>
       </p>
