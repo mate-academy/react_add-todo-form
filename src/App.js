@@ -21,11 +21,11 @@ class App extends React.Component {
     todos: getTodosWithUsers(todosData, users),
   };
 
-  addTodo = (inputValue, selectedUser) => this.setState(PrevState => ({
+  addTodo = (inputValue, selectedUser) => this.setState(prevState => ({
     todos: [
-      ...PrevState.todos,
+      ...prevState.todos,
       {
-        id: PrevState.todos.length + 1,
+        id: prevState.todos.length + 1,
         title: inputValue,
         completed: 'false',
         user: users.find(user => user.id === selectedUser),
