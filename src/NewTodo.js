@@ -6,17 +6,17 @@ import todos from './api/todos';
 class NewTodo extends React.Component {
   state = {
     todoTitle: '',
-    buttonClickWithError: false,
+    ButtonWasClicked: false,
     personId: 1,
-    errorUser: true,
     todosId: todos.length,
     isDone: true,
+    userIsNotSelected: true,
   }
 
   addToList = () => {
-    const { errorUser, todoTitle } = this.state;
+    const { todoTitle, userIsNotSelected } = this.state;
 
-    if (!errorUser && todoTitle) {
+    if (todoTitle && !userIsNotSelected) {
       const { personId, isDone, todosId } = this.state;
 
       const newDo = {
@@ -29,25 +29,19 @@ class NewTodo extends React.Component {
       this.setState(state => ({
         todosId: state.todosId + 1,
         todoTitle: '',
+        ButtonWasClicked: false,
       }));
 
       this.props.addTodo(newDo);
     } else {
-      this.setState({ buttonClickWithError: true });
+      this.setState({ ButtonWasClicked: true });
     }
-  }
-
-  checkdone = (e) => {
-    const bool = e.target.value === 'true';
-
-    this.setState({ isDone: bool });
   }
 
   inputTitle = (e) => {
     this.setState({
       todoTitle: e.target.value,
-      buttonClickWithError: false,
-      personId: 1,
+      ButtonWasClicked: false,
     });
   }
 
@@ -57,69 +51,113 @@ class NewTodo extends React.Component {
 
       this.setState({
         personId: userId,
-        errorUser: false,
-        buttonClickWithError: false,
+        userIsNotSelected: false,
       });
     } else {
-      this.setState({ errorUser: true });
+      this.setState({ userIsNotSelected: true });
     }
   }
 
+  inProgress = () => {
+    this.setState({ isDone: false });
+  }
+
+  done = () => {
+    this.setState({ isDone: true });
+  }
+
   render() {
-    const { inputTitle, personSelect, checkdone, addToList } = this;
-    const { todoTitle, buttonClickWithError, errorUser } = this.state;
+    const {
+      inputTitle,
+      personSelect,
+      addToList,
+    } = this;
+    const {
+      todoTitle,
+      userIsNotSelected,
+      ButtonWasClicked,
+      isDone,
+    } = this.state;
 
     return (
       <>
         <form className="form">
-          <input
-            type="text"
-            name="title"
-            placeholder="title"
-            onChange={inputTitle}
-            value={todoTitle}
-          />
-          <select onChange={personSelect}>
-            <option>
-        Choose a user
-            </option>
+          <label htmlFor="inputId" className="formField">
+            <input
+              id="inputId"
+              type="text"
+              name="title"
+              placeholder="title"
+              onChange={inputTitle}
+              value={todoTitle}
+              className="inputTypes"
+            />
             {
-              users.map(user => (
-                <option key={user.id}>
-                  {
-                    user.name
-                  }
-                </option>
-              ))
+              (!todoTitle && ButtonWasClicked)
+                ? (
+                  <p className="error">
+                    Please enter the title
+                  </p>
+                )
+                : ''
             }
-          </select>
-      Is done:
-          <select onChange={checkdone}>
-            <option>true</option>
-            <option>false</option>
-          </select>
-          <button type="button" onClick={addToList}>
-      Add to the list
+          </label>
+          <label htmlFor="selectUser" className="formField">
+            <select
+              id="selectUser"
+              onChange={personSelect}
+              className="inputTypes"
+            >
+              <option>
+                Choose a user
+              </option>
+              {
+                users.map(user => (
+                  <option key={user.id}>
+                    {
+                      user.name
+                    }
+                  </option>
+                ))
+              }
+            </select>
+            {
+              (userIsNotSelected && ButtonWasClicked)
+                ? (
+                  <p className="error">
+                    Please choose a user
+                  </p>
+                )
+                : ''
+            }
+          </label>
+          <label className="radioZone" htmlFor="isDone">
+            is done
+            <input
+              type="radio"
+              name="checkDone"
+              id="isDone"
+              checked={isDone}
+              onChange={this.done}
+            />
+          </label>
+          <label className="radioZone" htmlFor="inProgress">
+            in progress
+            <input
+              type="radio"
+              name="checkDone"
+              id="inProgress"
+              onChange={this.inProgress}
+            />
+          </label>
+          <button
+            type="button"
+            onClick={addToList}
+            className="inputTypes"
+          >
+            Add to the list
           </button>
         </form>
-        {
-          (errorUser && buttonClickWithError)
-            ? (
-              <p className="error">
-        Please choose a user
-              </p>
-            )
-            : <p />
-        }
-        {
-          (!todoTitle && buttonClickWithError)
-            ? (
-              <p className="error">
-        Please enter the title
-              </p>
-            )
-            : <p />
-        }
       </>
     );
   }

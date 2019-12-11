@@ -30,3 +30,18 @@
   color: red;
   text-align: center;
 }
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.inputTypes {
+  height: 25px;
+  box-sizing: border-box;
+}
+
+.radioZone {
+  margin: 0 10px;
+}

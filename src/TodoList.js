@@ -6,11 +6,11 @@ import todos from './api/todos';
 import GetTodosWithUsers from './GetTodosWithUsers';
 
 class TodoList extends React.Component {
-  state = { getTodos: GetTodosWithUsers(todos, users) }
+  state = { Todos: GetTodosWithUsers(todos, users) }
 
  addTodo = (todo) => {
    this.setState(state => ({
-     getTodos: [...state.getTodos, {
+     Todos: [...state.Todos, {
        ...todo,
        user: users.find(user => user.id === todo.userId),
      }],
@@ -18,7 +18,7 @@ class TodoList extends React.Component {
  }
 
  render() {
-   const { getTodos } = this.state;
+   const { Todos } = this.state;
 
    return (
      <>
@@ -33,7 +33,7 @@ class TodoList extends React.Component {
            </tr>
          </thead>
          <tbody>
-           {getTodos.map(todo => (
+           {Todos.map(todo => (
              <TodoItem todo={todo} key={todo.id} />
            ))}
          </tbody>
