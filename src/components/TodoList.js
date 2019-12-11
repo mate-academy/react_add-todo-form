@@ -24,6 +24,13 @@ const TodoList = ({ todos }) => (
   </ul>
 );
 
-TodoList.propTypes = { todos: PropTypes.arrayOf(PropTypes.object).isRequired };
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    userId: PropTypes.number,
+    id: PropTypes.number,
+    title: PropTypes.string,
+    completed: PropTypes.bool,
+  })).isRequired,
+};
 
 export default TodoList;

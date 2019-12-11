@@ -70,9 +70,9 @@ class NewTodo extends React.Component {
               onChange={event => this.handleInput(event.target.value)}
             />
 
-            {titleError ? (
+            {titleError && (
               <p className="form__error">Please enter title</p>
-            ) : ''}
+            )}
           </label>
           <br />
 
@@ -82,7 +82,7 @@ class NewTodo extends React.Component {
               className="form__input"
               id="select"
               value={userId}
-              onChange={event => this.handleSelect(event.target.value)}
+              onChange={event => this.handleSelect(+event.target.value)}
             >
               <option value={0} disabled>Choose Name</option>
               {this.props.users.map(user => (
@@ -90,9 +90,11 @@ class NewTodo extends React.Component {
               ))}
             </select>
 
-            {userIdError ? (
-              <p className="form__error">Please choose a user</p>
-            ) : ''}
+            {userIdError && (
+              <p className="form__error form__error--select">
+                Please choose a user
+              </p>
+            )}
           </label>
           <br />
 
@@ -123,7 +125,16 @@ class NewTodo extends React.Component {
 
 NewTodo.propTypes = {
   addNew: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    username: PropTypes.string,
+    email: PropTypes.string,
+    address: PropTypes.object,
+    phone: PropTypes.string,
+    website: PropTypes.string,
+    company: PropTypes.object,
+  })).isRequired,
 };
 
 export default NewTodo;

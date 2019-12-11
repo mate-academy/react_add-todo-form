@@ -59,7 +59,7 @@ body {
 
   &__input {
     margin-left: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     padding: 8px 10px;
     outline: none;
     border: 2px solid beige;
@@ -84,11 +84,21 @@ body {
     background-color: beige;
     border-radius: 5px;
     outline: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__error {
     position: absolute;
-    top: 0;
+    top: 13px;
+    left: 87px;
     color: red;
+
+    &--select {
+      top: 10px;
+      left: 177px;
+    }
   }
 }

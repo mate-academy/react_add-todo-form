@@ -14,7 +14,7 @@ class App extends React.Component {
         ...state.todos,
         {
           userId,
-          id: state.todos.length + 1,
+          id: state.todos[state.todos.length - 1].id + 1,
           title,
           completed,
         },
