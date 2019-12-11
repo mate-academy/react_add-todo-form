@@ -1,3 +1,29 @@
 .App {
   text-align: center;
 }
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+.error {
+  color: red;
+}
+
+table {
+  background: aliceblue;
+  margin: 30px auto;
+}
+
+thead {
+  background: antiquewhite;
+}
+
+td {
+  padding: 10px;
+}
+
+input {
+  padding: 7px;
+}
