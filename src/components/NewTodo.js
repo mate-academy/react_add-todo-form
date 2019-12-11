@@ -11,7 +11,7 @@ class NewTodo extends Component {
 
   setTitle = (event) => {
     const title = event.target.value
-      .replace(/[^A-Za-zА-Яа-яі\s]/, '')
+      .replace(/[^A-Za-zА-Яа-яі0-9\s]/, '')
       .slice(0, 37);
 
     this.setState({
