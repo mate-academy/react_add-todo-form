@@ -1,0 +1,27 @@
+.list-style {
+  max-width: 500px;
+  padding: 20px;
+  background: #f4f7f8;
+  margin: 30px auto;
+  border-radius: 8px;
+  font-family: "Ubuntu", sans-serif;
+  list-style: none;
+}
+
+.item-style {
+  padding: 10px 20px;
+}
+
+.info {
+  display: block;
+  font-style: italic;
+  color: teal;
+}
+
+.user-info {
+  font-weight: bold;
+}
+
+.user-id {
+  display: block;
+}
