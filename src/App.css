@@ -1,3 +1,64 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans|Slabo+27px&display=swap");
+
 .App {
   text-align: center;
+}
+
+.todo__section {
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 50px;
+  margin-top: 100px;
+}
+
+.todo__input {
+  width: 200px;
+  outline: none;
+  max-width: 500px;
+  padding: 10px 12px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.todo__users {
+  width: 200px;
+  margin-right: 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.error {
+  font-family: "Josefin Sans", sans-serif;
+  color: #8c0412;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.button {
+  width: 200px;
+  border-radius: 5px;
+  outline: none;
+  background-color: #7eb9d6;
+  cursor: pointer;
+  font-size: 12px;
+  color: #e6e6e6;
+  font-weight: bold;
+}
+
+.todo__list {
+  list-style-type: none;
+  width: 400px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 0;
+}
+
+.todo__name {
+  font-family: "Slabo 27px", serif;
+  font-size: 16px;
+  line-height: 35px;
+  color: #0068b3;
 }
