@@ -1,3 +1,30 @@
 .App {
-  text-align: center;
+  font-size: 14px;
+}
+
+.Table {
+  width: 95%;
+  margin: auto;
+  font-family: Lato, Arial, sans-serif;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.Table thead {
+  background-color: #f9fafb;
+  font-weight: bold;
+  text-align: left;
+}
+
+.Table th,
+.Table td {
+  padding: 11px;
+}
+
+.Table tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.Table tr:nth-child(odd) {
+  /*background-color: #dadada;*/
 }
