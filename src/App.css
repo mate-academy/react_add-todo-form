@@ -1,3 +1,9 @@
-.App {
+.addTodo {
   text-align: center;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.error {
+  color: red;
 }
