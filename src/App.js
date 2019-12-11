@@ -1,19 +1,23 @@
 import React from 'react';
+import TodoList from './TodoList';
 import './App.css';
 
-import users from './api/users';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Static list of todos</h1>
+class App extends React.Component {
+  state ={ }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  render() {
+    return (
+      <div className="App">
+        <TodoList
+          todos={todosFromServer}
+          users={usersFromServer}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
