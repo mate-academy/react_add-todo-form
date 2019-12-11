@@ -10,7 +10,12 @@ const SelectOption = ({ user }) => (
 );
 
 SelectOption.propTypes = {
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
+  user: PropTypes.shape(
+    {
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }
+  ).isRequired,
 };
 
 export default SelectOption;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import TableHeaders from './TableHeaders';
-import TodoRaw from './TodoRaw';
+import TodoRow from './TodoRow';
 
 const TodoTable = ({ todos }) => {
   const tableHeaders = [
@@ -26,7 +26,7 @@ const TodoTable = ({ todos }) => {
       </thead>
       <tbody>
         {todos.map(todo => (
-          <TodoRaw
+          <TodoRow
             key={todo.id}
             todo={todo}
             headers={tableHeaders}

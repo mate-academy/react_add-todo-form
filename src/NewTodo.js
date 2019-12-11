@@ -13,37 +13,41 @@ class NewTodo extends React.Component {
     },
   };
 
-  handleSelectedUser = e => (
-    this.setState({
-      selectedUser: +e.target.value,
-      errors: {
-        userError: false,
-      },
-    })
-  );
-
-  handleInputChange = e => (
-    this.setState({
+  handleInputChange = (e) => {
+    e.persist();
+    this.setState(prevState => ({
       inputValue: e.target.value,
       errors: {
         titleError: false,
+        userError: prevState.errors.userError,
       },
-    })
-  );
+    }));
+  };
 
-  checkErrorsThenAdd = () => this.setState((prevState) => {
+  handleSelectedUser = (e) => {
+    e.persist();
+    this.setState(prevState => ({
+      selectedUser: +e.target.value,
+      errors: {
+        titleError: prevState.errors.titleError,
+        userError: false,
+      },
+    }));
+  };
+
+  validateForm = () => this.setState((prevState) => {
     const errors = {};
 
     errors.titleError = prevState.inputValue.trim().length === 0;
     errors.userError = prevState.selectedUser === 0;
 
     if (!errors.titleError && !errors.userError) {
-      this.setState({
+      this.props.addTodo(prevState);
+
+      return {
         inputValue: '',
         selectedUser: 0,
-      });
-
-      return this.props.addTodo(prevState);
+      };
     }
 
     return { errors };
@@ -102,7 +106,7 @@ class NewTodo extends React.Component {
         <button
           className={cn('form__button')}
           type="button"
-          onClick={this.checkErrorsThenAdd}
+          onClick={this.validateForm}
         >
           Add new TODO
         </button>
