@@ -5,46 +5,53 @@ class NewTodo extends React.Component {
   state = {
     newText: '',
     newUser: 0,
-    error: false,
+    errorText: false,
+    errorUser: false,
   };
 
   maxTextLen = 25;
 
   handleNewText = (event) => {
-    if (event.target.value.length >= this.maxTextLen) {
-      this.setState({ newText: event.target.value.slice(0, this.maxTextLen) });
+    const { value } = event.target;
+
+    if (value.length >= this.maxTextLen) {
+      this.setState({ newText: value.slice(0, this.maxTextLen) });
     } else {
-      this.setState({ newText: event.target.value });
+      this.setState({
+        newText: value,
+        errorText: false,
+      });
     }
   }
 
   handleNewUser = (event) => {
-    this.setState({ newUser: event.target.value });
+    this.setState({
+      newUser: event.target.value,
+      errorUser: false,
+    });
   }
 
   validateForm = (event) => {
     event.preventDefault();
 
-    if (!this.state.newText) {
-      this.setState({ error: 'Please enter the title' });
+    if (!this.state.newText || !this.state.newUser) {
+      this.setState({
+        errorText: true,
+        errorUser: true,
+      });
 
       return;
     }
 
-    if (!this.state.newUser) {
-      this.setState({ error: 'Please choose a user' });
-
-      return;
-    }
-
-    if (this.state.error) {
+    if (!this.state.errorText && !this.state.errorUser) {
       this.props.addTodo({
         title: this.state.newText,
         userId: +this.state.newUser,
       });
       this.setState({
         newText: '',
-        error: false,
+        errorText: false,
+        errorUser: false,
       });
     }
   }
@@ -59,6 +66,9 @@ class NewTodo extends React.Component {
           className="todo__input"
           placeholder="New TODO"
         />
+        <span className="todo__error">
+          {this.state.errorText ? 'Please enter the title' : ''}
+        </span>
         <span className="todo__text">
           Select User
         </span>
@@ -79,7 +89,7 @@ class NewTodo extends React.Component {
           ))}
         </select>
         <span className="todo__error">
-          {this.state.error ? this.state.error : ''}
+          {this.state.errorUser ? 'Please choose a user' : ''}
         </span>
         <input
           type="submit"

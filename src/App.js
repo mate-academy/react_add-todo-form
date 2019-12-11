@@ -8,7 +8,7 @@ import todos from './api/todos';
 
 class App extends React.Component {
   state = {
-    users: [...users],
+    usersData: [...users],
     todoList: [...todos],
   }
 
@@ -22,16 +22,18 @@ class App extends React.Component {
   )
 
   render() {
+    const { todoList, usersData } = this.state;
+
     return (
       <div className="App">
         <h1>Static list of todos</h1>
         <TodoList
-          todoList={this.state.todoList}
-          users={this.state.users}
+          todoList={todoList}
+          users={usersData}
         />
         <NewTodo
           addTodo={this.addTodo}
-          users={this.state.users}
+          users={usersData}
         />
       </div>
     );
