@@ -4,20 +4,40 @@ import PropTypes from 'prop-types';
 export default class TodoForm extends Component {
   state = {
     label: '',
-    userId: '',
+    userId: 0,
+    userError: false,
+    titleError: false,
   };
 
   onLabelChange = (e) => {
-    this.setState({ label: e.target.value });
+    this.setState({
+      label: e.target.value,
+      titleError: false,
+    });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onItemAdded(this.state.label, this.state.userId);
+    if (!this.state.userId || !this.state.label) {
+      this.setState(state => ({
+        titleError: !state.label,
+        userError: !state.userId,
+      }));
+
+      return;
+    }
+
+    this.props.onItemAdded(
+      this.state.label,
+      this.state.userId,
+    );
   };
 
   onUserChange = (value) => {
-    this.setState({ userId: value });
+    this.setState({
+      userId: value,
+      userError: false,
+    });
   };
 
   render() {
@@ -25,37 +45,50 @@ export default class TodoForm extends Component {
     const { userId } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          type="text"
-          onChange={this.onLabelChange}
-          placeholder="What needs to be done?"
-        />
-        <button type="submit">Add Item</button>
+      <>
+        <div>
+          {this.state.titleError && (
+            <span className="errors">please enter todo-task </span>
+          )}
 
-        <br />
+          <br />
+          {this.state.userError && (
+            <span className="errors">please choose user </span>
+          )}
+        </div>
+        <form onSubmit={this.onSubmit}>
+          <input
+            type="text"
+            onChange={this.onLabelChange}
+            placeholder="What needs to be done?"
+          />
 
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label htmlFor="user-selection">
-          Choose a user please:
-        </label>
-        <section>
-          <select
-            id="user-selection"
-            onChange={(event) => {
-              this.onUserChange(+event.target.value);
-            }}
-            value={userId}
-          >
-            <option>{' '}</option>
-            {users.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-        </section>
-      </form>
+          <button type="submit">Add Item</button>
+          <p>
+            {this.state.userError}
+            {this.state.titleError}
+          </p>
+
+          <div>Choose a user please:</div>
+
+          <section>
+            <select
+              id="user-selection"
+              onChange={(event) => {
+                this.onUserChange(+event.target.value);
+              }}
+              value={userId}
+            >
+              <option>{' '}</option>
+              {users.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </section>
+        </form>
+      </>
     );
   }
 }

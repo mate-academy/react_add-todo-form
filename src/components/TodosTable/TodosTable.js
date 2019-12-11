@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TodosTable = ({ todoList, userError, titleError }) => (
+const TodosTable = ({ todoList }) => (
   <>
-    <p className="errors">
-      {userError}
-      {titleError}
-    </p>
     <table>
       <thead>
         <tr>
@@ -32,8 +28,6 @@ TodosTable.propTypes = {
   todoList: PropTypes.arrayOf(
     PropTypes.object
   ).isRequired,
-  userError: PropTypes.string.isRequired,
-  titleError: PropTypes.string.isRequired,
 };
 
 export default TodosTable;
