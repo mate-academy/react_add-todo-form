@@ -1,0 +1,148 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: rgb(248, 244, 244);
+}
+
+.App {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+h1 {
+  color: #56433d;
+}
+
+table {
+  border-collapse: collapse;
+  border: 3px solid #56433d;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+th {
+  padding: 10px 20px;
+  background: #56433d;
+  color: #f9c941;
+  border: 3px solid #f9c941;
+  border-bottom: 3px solid #56433d;
+}
+
+td {
+  color: #2f4f4f;
+  vertical-align: middle;
+  line-height: 2.5;
+  font-size: 14px;
+  text-align: center;
+  border: 3px solid #56433d;
+}
+
+td:nth-child(2) {
+  padding: 0 10px;
+  text-align: left;
+}
+
+.form {
+  margin-bottom: 40px;
+  position: relative;
+
+  &__input,
+  &__select,
+  &__button {
+    border: 3px solid #f9c941;
+    outline: none;
+  }
+
+  &__input {
+    padding: 10px;
+    width: 220px;
+    margin-right: 60px;
+    color: #f9c941;
+
+    &::placeholder {
+      color: #f9c941;
+    }
+
+    &:focus {
+      color: green;
+      border-color: green;
+
+      &::placeholder {
+        color: green;
+      }
+    }
+  }
+
+  &__input-wrapper,
+  &__select-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+
+  &__select {
+    width: 200px;
+    padding: 10px 20px;
+    appearance: none;
+    color: #f9c941;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #f9c941 50%),
+      linear-gradient(135deg, #f9c941 50%, transparent 50%),
+      linear-gradient(to right, #f9c941, #f9c941);
+    background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+
+    &:focus {
+      color: green;
+      background-image:
+        linear-gradient(45deg, green 50%, transparent 50%),
+        linear-gradient(135deg, transparent 50%, green 50%),
+        linear-gradient(to right, green, green);
+      background-position:
+        calc(100% - 15px) 1em,
+        calc(100% - 20px) 1em,
+        calc(100% - 2.5em) 0.5em;
+      background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+      background-repeat: no-repeat;
+      border-color: green;
+    }
+  }
+
+  &__button {
+    color: #f9c941;
+    font-weight: bold;
+    padding: 10px;
+    margin-left: 60px;
+    width: 100px;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: white;
+
+    &:hover {
+      border-color: green;
+      color: green;
+    }
+  }
+
+  &__error {
+    color: red;
+    position: absolute;
+    bottom: -2em;
+    left: 14px;
+    font-size: 12px;
+  }
+}
