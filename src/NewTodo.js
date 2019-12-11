@@ -7,58 +7,54 @@ class NewTodo extends React.Component {
   state = {
     inputValue: '',
     selectedUser: 0,
-    errors: {
-      titleError: false,
-      userError: false,
-    },
+    titleError: false,
+    userError: false,
   };
 
   handleInputChange = (e) => {
-    e.persist();
-    this.setState(prevState => ({
+    this.setState({
       inputValue: e.target.value,
-      errors: {
-        titleError: false,
-        userError: prevState.errors.userError,
-      },
-    }));
+      titleError: false,
+    });
   };
 
   handleSelectedUser = (e) => {
-    e.persist();
-    this.setState(prevState => ({
+    this.setState({
       selectedUser: +e.target.value,
-      errors: {
-        titleError: prevState.errors.titleError,
-        userError: false,
-      },
-    }));
+      userError: false,
+    });
   };
 
-  validateForm = () => this.setState((prevState) => {
-    const errors = {};
+  validateForm = (e) => {
+    e.preventDefault();
 
-    errors.titleError = prevState.inputValue.trim().length === 0;
-    errors.userError = prevState.selectedUser === 0;
+    const errors = {};
+    const { inputValue, selectedUser } = this.state;
+
+    errors.titleError = inputValue.trim().length === 0;
+    errors.userError = selectedUser === 0;
 
     if (!errors.titleError && !errors.userError) {
-      this.props.addTodo(prevState);
+      this.props.addTodo(inputValue, selectedUser);
 
-      return {
+      this.setState({
         inputValue: '',
         selectedUser: 0,
-      };
+      });
+    } else {
+      this.setState(errors);
     }
-
-    return { errors };
-  });
+  };
 
   render() {
-    const { inputValue, selectedUser, errors } = this.state;
+    const { inputValue, selectedUser, titleError, userError } = this.state;
     const { users } = this.props;
 
     return (
-      <form className={cn('App__form', 'form')}>
+      <form
+        className={cn('App__form', 'form')}
+        onSubmit={this.validateForm}
+      >
         <section className={cn('form__section')}>
           <label
             className={cn('form__label')}
@@ -67,17 +63,17 @@ class NewTodo extends React.Component {
             Todo Title:
             <input
               className={
-                cn('form__input', { 'form__input--error': errors.titleError })
+                cn('form__input', { 'form__input--error': titleError })
               }
               id="newTodo"
-              onChange={e => this.handleInputChange(e)}
+              onChange={this.handleInputChange}
               type="text"
               placeholder="write todo here..."
               value={inputValue}
             />
           </label>
           {
-            errors.titleError
+            titleError
             && (
               <span className={cn('form--error')}>
                 Enter normal title dude!
@@ -85,28 +81,29 @@ class NewTodo extends React.Component {
             )
           }
         </section>
+
         <section className={cn('form__section')}>
           <select
             className={
-              cn('form__select', { 'form__select--error': errors.userError })
+              cn('form__select', { 'form__select--error': userError })
             }
             value={selectedUser}
-            onChange={e => this.handleSelectedUser(e)}
+            onChange={this.handleSelectedUser}
           >
             <option value="0">{}</option>
             {users.map(user => (<SelectOption key={user.id} user={user} />))}
           </select>
-          {errors.userError
+          {userError
           && (
             <span className={cn('form--error')}>
               User is not selected
             </span>
           )}
         </section>
+
         <button
           className={cn('form__button')}
-          type="button"
-          onClick={this.validateForm}
+          type="submit"
         >
           Add new TODO
         </button>
