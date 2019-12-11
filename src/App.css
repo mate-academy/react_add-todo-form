@@ -37,13 +37,6 @@ body {
   margin: 16px;
   border-radius: 10px;
   outline: none;
-  transition: 1s;
-}
-
-.form__input:hover,
-.form__button:hover,
-.form__select:hover {
-  opacity: 80%;
 }
 
 .form__button {
