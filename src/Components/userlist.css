@@ -1,0 +1,30 @@
+.info {
+  color: #ffab40;
+}
+
+.phone {
+  float: right;
+}
+
+.img {
+  width: 10vw;
+  height: 10vw;
+  border-radius: 50%;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+.wrap-img {
+  position: relative;
+}
+
+.main-wrapper {
+  position: relative;
+  width: 70vw;
+  margin: 0 auto;
+}
+
+.row {
+  width: 70vw;
+}
