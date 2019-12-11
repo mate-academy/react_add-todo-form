@@ -5,7 +5,7 @@ class NewTodo extends React.Component {
   state = {
     newText: '',
     newUser: 0,
-    error: '',
+    error: false,
   };
 
   maxTextLen = 25;
@@ -27,14 +27,25 @@ class NewTodo extends React.Component {
 
     if (!this.state.newText) {
       this.setState({ error: 'Please enter the title' });
-    } else if (!this.state.newUser) {
+
+      return;
+    }
+
+    if (!this.state.newUser) {
       this.setState({ error: 'Please choose a user' });
-    } else {
+
+      return;
+    }
+
+    if (this.state.error) {
       this.props.addTodo({
         title: this.state.newText,
         userId: +this.state.newUser,
       });
-      this.setState({ newText: '' });
+      this.setState({
+        newText: '',
+        error: false,
+      });
     }
   }
 
@@ -68,7 +79,7 @@ class NewTodo extends React.Component {
           ))}
         </select>
         <span className="todo__error">
-          {this.state.error}
+          {this.state.error ? this.state.error : ''}
         </span>
         <input
           type="submit"

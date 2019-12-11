@@ -16,7 +16,7 @@ class App extends React.Component {
     this.setState(state => ({
       todoList: [...state.todoList, {
         ...todo,
-        id: state.todoList.length + 1,
+        id: state.todoList.slice(-1)[0].id + 1,
       }],
     }))
   )
