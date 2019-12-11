@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TodoList from './TodoList';
 
 class NewTodo extends React.Component {
   state = {
-    todos: [...this.props.todos],
     inputValue: '',
-    selectUser: '',
+    selectUser: 0,
     userError: false,
     titleError: false,
   }
@@ -20,97 +18,81 @@ class NewTodo extends React.Component {
 
   addInputValue = (event) => {
     this.setState({
-      inputValue: event.target.value.replace(/[^\s\w]/g, ''),
+      inputValue: event.target.value.replace(/[^\w\s]/g, ''),
       titleError: false,
     });
   }
 
-  addTodo = () => {
-    if (this.state.selectUser === '' || this.state.inputValue === '') {
-      if (this.state.selectUser === '') {
-        this.setState({ userError: true });
-      }
-
-      if (this.state.inputValue === '') {
-        this.setState({ titleError: true });
-      }
-    } else {
-      const newTodo = {
-        userId: this.state.selectUser,
-        id: this.state.todos.length + 1,
-        title: this.state.inputValue,
-        completed: false,
-      };
-
-      this.setState(state => ({
-        todos: [
-          ...state.todos,
-          newTodo,
-        ],
-        inputValue: '',
-        selectUser: '',
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (!this.state.selectUser || !this.state.inputValue) {
+      this.setState(prevState => ({
+        userError: !prevState.selectUser,
+        titleError: !prevState.inputValue,
       }));
+
+      return;
     }
+
+    this.props.addTodo(this.state.selectUser, this.state.inputValue);
+
+    this.setState({
+      inputValue: '',
+      selectUser: 0,
+    });
   }
 
   render() {
     const { users } = this.props;
-    const { inputValue, selectUser, todos, userError, titleError } = this.state;
+    const { inputValue, selectUser, userError, titleError } = this.state;
 
     return (
-      <main>
-        <form className="form">
-          <span className="select-title">
-            User
-          </span>
-          <select
-            value={selectUser}
-            onChange={(event) => {
-              this.addUserId(+event.target.value);
-            }}
-          >
-            <option>Choose a user</option>
-            {users.map(user => (
-              <option value={user.id}>{user.name}</option>
-            ))}
-          </select>
-          <span className="error">
-            {userError ? 'Please choose a user' : ''}
-          </span>
-          <label className="form" htmlFor="title">
-            <span className="input-title">Todo title</span>
-            <input
-              id="title"
-              maxLength={20}
-              className="input"
-              type="text"
-              onChange={this.addInputValue}
-              value={inputValue}
-            />
-            <span className="error">
-              {titleError ? 'Please enter the title' : ''}
-            </span>
-          </label>
+      <form className="form" onSubmit={this.handleSubmit}>
 
-          <button
-            type="button"
-            onClick={this.addTodo}
-          >
-            Add
-          </button>
-        </form>
-        <TodoList
-          todos={todos}
-          users={users}
-        />
-      </main>
+        <span className="select-title">
+          User
+        </span>
+        <select
+          value={selectUser}
+          onChange={(event) => {
+            this.addUserId(+event.target.value);
+          }}
+        >
+          <option value="0">Choose a user</option>
+          {users.map(user => (
+            <option value={user.id} key={user.id}>{user.name}</option>
+          ))}
+        </select>
+
+        <span className="error">
+          {userError ? 'Please choose a user' : ''}
+        </span>
+        <label className="form" htmlFor="title">
+          <span className="input-title">Todo title</span>
+          <input
+            id="title"
+            maxLength={20}
+            className="input"
+            type="text"
+            onChange={this.addInputValue}
+            value={inputValue}
+          />
+          <span className="error">
+            {titleError ? 'Please enter the title' : ''}
+          </span>
+        </label>
+
+        <button type="submit">
+          Add
+        </button>
+      </form>
     );
   }
 }
 
 NewTodo.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
 
 export default NewTodo;
