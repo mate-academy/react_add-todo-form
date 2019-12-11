@@ -5,83 +5,43 @@ import users from './api/users';
 import TodoList from './TodoList';
 import NewTodo from './NewTodo';
 
+const todosWithUsers = todosFromServer.map(
+  todo => ({
+    ...todo,
+    user: users.find(user => user.id === todo.userId),
+  })
+);
+
 class App extends React.Component {
-  state = {
-    todos: [...todosFromServer],
-    inputValue: '',
-    selectedValue: '',
-    titleError: '',
-    userError: '',
-  }
+  state = { todos: [...todosWithUsers] }
 
-  addTodo = () => {
-    if (!this.state.inputValue) {
-      this.setState({ titleError: 'Please enter the title!' });
-
-      return;
-    }
-
-    if (!this.state.selectedValue) {
-      this.setState({ userError: 'Please choose a user!' });
-
-      return;
-    }
-
+  addTodo = (title, userId) => {
     this.setState(prevState => ({
       todos: [
         ...prevState.todos,
         {
-          userId: prevState.selectedValue,
+          userId,
           id: prevState.todos.length + 1,
-          title: prevState.inputValue,
+          title,
           completed: false,
+          user: users.find(user => user.id === userId),
         },
       ],
-      inputValue: '',
-      selectedValue: '',
     }));
   }
 
-  handleInputChange = (event) => {
-    this.setState({
-      inputValue: event.target.value,
-      titleError: '',
-    });
-  }
-
-  handleSelectChange = (event) => {
-    this.setState({
-      selectedValue: +event.target.value,
-      userError: '',
-    });
-  }
-
   render() {
-    const {
-      todos,
-      inputValue,
-      selectedValue,
-      titleError,
-      userError,
-    } = this.state;
-
     return (
       <div className="App">
         <h1>Static list of todos</h1>
         <NewTodo
           users={users}
           addTodo={this.addTodo}
-          inputValue={inputValue}
-          selectedValue={selectedValue}
-          inputChange={this.handleInputChange}
-          selectChange={this.handleSelectChange}
-          titleError={titleError}
-          userError={userError}
         />
-        <TodoList todos={todos} />
+        <TodoList todos={this.state.todos} />
         <p>
           <span>Todos in list: </span>
-          {todos.length}
+          {this.state.todos.length}
         </p>
       </div>
     );

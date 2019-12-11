@@ -2,9 +2,68 @@
   text-align: justify;
 }
 
+.App h1 {
+  text-align: center;
+}
+
+.newtodo {
+  border: 1px solid navy;
+  background-color: rgb(217, 227, 252);
+  width: 30%;
+  padding: 5px;
+  margin: auto;
+}
+
+section,
+button {
+  margin: 5px;
+}
+
+button {
+  display: block;
+  margin: 5px auto;
+  padding: 2px;
+}
+
 .error {
   display: inline-block;
-  /* width: 130px; */
+  margin-left: 10px;
   color: red;
   font-weight: bold;
+}
+
+.todolist {
+  width: 100%;
+  border-spacing: 2px;
+  margin-top: 20px;
+}
+
+.todolist--id {
+  width: 5%;
+}
+
+.todolist--title {
+  width: 65%;
+}
+
+.todolist--user {
+  width: 30%;
+}
+
+.todolist td {
+  padding: 3px;
+}
+
+.todolist tr:nth-child(even) {
+  background-color: rgb(217, 227, 252);
+}
+
+.todolist tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.todolist th {
+  padding: 5px;
+  color: white;
+  background-color: navy;
 }
