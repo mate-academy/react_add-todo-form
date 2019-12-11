@@ -1,3 +1,83 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  outline: none;
+}
+
 .App {
   text-align: center;
+}
+
+.wrapper {
+  width: 500px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  background: rgb(209, 202, 202);
+  border-radius: 6px;
+
+}
+
+.title {
+  color: gray;
+}
+
+.error {
+  color: red;
+  margin-left: 20px;
+}
+
+.input {
+  width: 500px;
+  padding: 15px 0;
+  background: lightblue;
+  color: gray;
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  border: none;
+}
+
+.select {
+  width: 500px;
+  padding: 10px 0;
+  margin: 30px 0;
+  background: lightblue;
+  color: gray;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.button {
+  width: 500px;
+  padding: 15px 0;
+  text-transform: uppercase;
+  background: lightblue;
+  border: 1px solid gray;
+  color: gray;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: gray;
+  color: lightblue;
+}
+
+.newTodo {
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.ol {
+  width: 480px;
+}
+
+.li {
+  margin-left: 25px;
 }
