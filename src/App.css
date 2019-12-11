@@ -1,3 +1,40 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form {
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: fit-content;
+}
+
+.form__input,
+.form__select {
+  margin-bottom: 20px;
+}
+
+.form__error {
+  color: red;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 500px;
+  font-size: 20px;
+}
+
+.list__user {
+  float: right;
+  color: blue;
+  text-align: right;
+}
+
+.list__item {
+  margin-bottom: 10px;
 }
