@@ -6,8 +6,7 @@ class NewTodo extends React.Component {
   state = {
     title: '',
     user: '',
-    titleError: null,
-    selectError: null,
+    error: null,
   };
 
   handleInputChange = ({ target }) => {
@@ -15,7 +14,7 @@ class NewTodo extends React.Component {
 
     this.setState({
       title: value,
-      titleError: null,
+      error: null,
     });
   };
 
@@ -24,7 +23,7 @@ class NewTodo extends React.Component {
 
     this.setState({
       user: value,
-      selectError: null,
+      error: null,
     });
   };
 
@@ -32,24 +31,25 @@ class NewTodo extends React.Component {
     event.preventDefault();
     const { title, userSelect } = event.target;
     const { todos, users, addTodo } = this.props;
+    const { error } = this.state;
 
-    if (
-      !userSelect.value
-      && title.value.length === 0
-    ) {
+    if (title.value.length === 0) {
       this.setState({
-        selectError: 'You must choose a user',
-        titleError: 'You must write todo',
+        error: 'You must write todo',
       });
-    } else if (!userSelect.value) {
+
+      return;
+    }
+
+    if (!userSelect.value) {
       this.setState({
-        selectError: 'You must choose a user',
+        error: 'You must choose a user',
       });
-    } else if (title.value.length === 0) {
-      this.setState({
-        titleError: 'You must write todo',
-      });
-    } else {
+
+      return;
+    }
+
+    if (!error) {
       const newTodo = {
         title: title.value,
         completed: false,
@@ -72,8 +72,7 @@ class NewTodo extends React.Component {
     const {
       title,
       user,
-      selectError,
-      titleError,
+      error,
     } = this.state;
 
     return (
@@ -88,11 +87,6 @@ class NewTodo extends React.Component {
               placeholder="Add title"
               value={title}
             />
-            {titleError && (
-              <div className="error">
-                <p>{titleError}</p>
-              </div>
-            )}
           </div>
           <div className="field">
             <select
@@ -106,8 +100,8 @@ class NewTodo extends React.Component {
                 <option value={i}>{userSelected.name}</option>
               ))}
             </select>
-            {selectError && (
-              <div className="error">{selectError}</div>
+            {error && (
+              <div className="error">{error}</div>
             )}
           </div>
           <button type="submit" className="ui button">Add</button>
