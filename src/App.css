@@ -50,15 +50,23 @@
 
 .todo__list {
   list-style-type: none;
-  width: 400px;
+  width: 500px;
   margin: 0 auto;
   text-align: left;
   padding: 0;
 }
 
-.todo__name {
+.todo__content {
   font-family: "Slabo 27px", serif;
-  font-size: 16px;
+  font-size: 19px;
   line-height: 35px;
   color: #0068b3;
+}
+
+.todo__name {
+  display: block;
+  font-family: "Slabo 27px", serif;
+  font-size: 16px;
+  padding-left: 20px;
+  color: #737373;
 }

@@ -6,10 +6,15 @@ const TodoList = ({ todos }) => (
   <ul className="todo__list">
     {todos.map(todo => (
       <li
-        className="todo__name"
+        className="todo__content"
         key={todo.id}
       >
         {` ✍️ ${todo.id}.  ${todo.title}`}
+        {''}
+        <span className="todo__name">
+        —
+          {todo.user.name}
+        </span>
       </li>
     ))}
   </ul>
