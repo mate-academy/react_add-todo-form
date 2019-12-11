@@ -14,8 +14,12 @@ class TodoList extends React.Component {
               className="li"
               key={text.id}
             >
+              Title:
               {text.title}
-              <p>{text.user.name}</p>
+              <p>
+              User:
+                {text.user.name}
+              </p>
               <hr />
             </li>
           ))}
