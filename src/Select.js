@@ -10,7 +10,7 @@ const Select = ({ defaultOption, handleSelectChange, users, error }) => (
         <option key={user.name} value={i + 1}>{user.name}</option>
       ))}
     </select>
-    {error ? (<p className="error">Please choose a user</p>) : ''}
+    {error && (<p className="error">Please choose a user</p>)}
   </label>
 );
 

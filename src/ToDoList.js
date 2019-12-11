@@ -18,6 +18,10 @@ const ToDoList = ({ todos }) => (
   </table>
 );
 
-ToDoList.propTypes = { todos: PropTypes.arrayOf(PropTypes.object).isRequired };
+ToDoList.propTypes = { todos: PropTypes.arrayOf(PropTypes.shape({
+  userId: PropTypes.number,
+  id: PropTypes.number,
+  title: PropTypes.string,
+})).isRequired };
 
 export default ToDoList;

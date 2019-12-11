@@ -1,16 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import User from './User';
 
-const ToDoItem = ({ todo: { title, user, completed } }) => (
+const ToDoItem = ({ todo: { title, user: { name } } }) => (
   <tr>
     <td>
       {title}
     </td>
-    <User userData={user} />
+    <td>
+      {name}
+    </td>
   </tr>
 );
 
-ToDoItem.propTypes = { todo: PropTypes.arrayOf(PropTypes.object).isRequired };
+ToDoItem.propTypes = {
+  todo: PropTypes.shape({
+    title: PropTypes.string,
+    user: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default ToDoItem;
