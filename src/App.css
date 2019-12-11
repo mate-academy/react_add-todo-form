@@ -1,3 +1,84 @@
+body {
+  background-image: url("./api/background.jpg");
+  font-family: "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.h1 {
+  font-size: 64px;
+}
+
+.ToDo {
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.input {
+  border: none;
+  width: 300px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: antiquewhite;
+  outline: none;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.select {
+  width: 200px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button {
+  border-radius: 10px;
+  height: 35px;
+  width: 50px;
+  margin-left: 10px;
+  border: none;
+  background-color: rgb(109, 23, 23);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: brown;
+}
+
+.taskList {
+  background-color: antiquewhite;
+  width: 300px;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.position_List {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  font-weight: 900;
+}
+
+.span {
+  font-weight: 900;
+}
+
+hr {
+  width: 70%;
 }
