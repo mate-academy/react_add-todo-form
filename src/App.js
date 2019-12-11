@@ -22,7 +22,7 @@ class App extends Component {
     this.setState(state => ({
       todosList: [...state.todosList, {
         ...todo,
-        id: state.todosList.length + 1,
+        id: state.todosList[state.todosList.length - 1].id + 1,
       }],
     }));
   };

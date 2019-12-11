@@ -7,11 +7,12 @@ class NewTodo extends Component {
     title: '',
     isEmptyUser: false,
     isEmptyTitle: false,
-    selectValue: '',
   };
 
   setTitle = (event) => {
-    const title = event.target.value.replace(/[^\w?\s]/, '').slice(0, 37);
+    const title = event.target.value
+      .replace(/[^A-Za-zА-Яа-яі\s]/, '')
+      .slice(0, 37);
 
     this.setState({
       title,
@@ -20,13 +21,9 @@ class NewTodo extends Component {
   }
 
   setUserId = (event) => {
-    const parts = event.target.value.split('.');
-    const id = parts[0];
-
     this.setState({
-      userId: +id,
+      userId: +event.target.value,
       isEmptyUser: false,
-      selectValue: parts.join('.'),
     });
   }
 
@@ -34,41 +31,31 @@ class NewTodo extends Component {
     event.preventDefault();
 
     this.setState(({ userId, title }) => {
-      if (!title && !userId) {
-        return { isEmptyTitle: true, isEmptyUser: true };
+      const errors = {};
+
+      errors.isEmptyTitle = title.trim() === '';
+      errors.isEmptyUser = userId === 0;
+
+      if (!errors.isEmptyTitle && !errors.isEmptyUser) {
+        this.props.addTodo({
+          userId,
+          title,
+          completed: false,
+        });
+
+        return {
+          title: '',
+          userId: 0,
+        };
       }
 
-      if (!title) {
-        return { isEmptyTitle: true };
-      }
-
-      if (!userId) {
-        return { isEmptyUser: true };
-      }
-
-      this.props.addTodo({
-        userId,
-        title,
-        completed: false,
-      });
-
-      return {
-        title: '',
-        selectValue: 'Choose a user',
-        userId: 0,
-      };
+      return errors;
     });
   }
 
   render = () => {
     const { users } = this.props;
-    const {
-      userId,
-      selectValue,
-      title,
-      isEmptyUser,
-      isEmptyTitle,
-    } = this.state;
+    const { userId, title, isEmptyUser, isEmptyTitle } = this.state;
 
     return (
       <form
@@ -76,10 +63,9 @@ class NewTodo extends Component {
         onSubmit={this.handleSubmit}
       >
         <div className="form__input-wrapper">
-          {isEmptyTitle
-            ? (
-              <span className="form__error">Please enter the title</span>
-            ) : ''}
+          {isEmptyTitle && (
+            <span className="form__error">Please enter the title</span>
+          )}
 
           <input
             className="form__input"
@@ -91,25 +77,24 @@ class NewTodo extends Component {
         </div>
 
         <div className="form__select-wrapper">
-          {isEmptyUser
-            ? (
-              <span
-                className="form__error"
-                emptyUser={userId}
-              >
-                Please choose a user
-              </span>
-            ) : ''}
+          {isEmptyUser && (
+            <span className="form__error">Please choose a user</span>
+          )}
 
           <select
             id="selectUser"
             className="form__select"
             onChange={this.setUserId}
-            value={selectValue}
+            value={userId}
           >
-            <option>Choose a user</option>
+            <option value={0}>Choose a user</option>
             {users.map(({ name, id }) => (
-              <option key={id}>{`${id}. ${name}`}</option>
+              <option
+                key={id}
+                value={id}
+              >
+                {`${id}. ${name}`}
+              </option>
             ))}
           </select>
         </div>
