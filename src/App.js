@@ -11,15 +11,16 @@ export default class App extends Component {
   };
 
   updateMainState = (id, todosText) => {
-    const currentTodos = this.state.todos;
+    this.setState((state) => {
+      const newTodo = {
+        userId: id,
+        id: this.state.todos.length + 1,
+        title: todosText,
+        completed: false,
+      };
 
-    currentTodos.push({
-      userId: id,
-      id: currentTodos.length + 1,
-      title: todosText,
-      completed: false,
+      return { todos: [...state.todos, newTodo] };
     });
-    this.setState(state => ({ todos: state.todos }));
   };
 
   render() {

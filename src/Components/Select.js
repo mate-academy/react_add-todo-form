@@ -3,40 +3,48 @@ import PropTypes from 'prop-types';
 
 export default class Select extends Component {
   state = {
-    chosenUser: 'Select a user',
     usedId: 0,
     title: '',
+    inputError: false,
+    selectError: false,
   };
 
   handleSetName = (e) => {
-    const chooseName = e.target.value;
-
     this.setState({
-      chosenUser: chooseName,
-      usedId: this.props.usersForSelection
-        .find(user => user.name === chooseName).id,
+      selectError: false,
+      usedId: +e.target.value,
     });
   };
 
   handleSetTodoItem = (e) => {
     const todoToAdd = e.target.value;
 
-    this.setState({ title: todoToAdd });
+    this.setState({
+      inputError: false,
+      title: todoToAdd,
+    });
   };
 
   handleFormSubmit = (e) => {
     e.preventDefault();
     const { usedId, title } = this.state;
 
-    if (!usedId) {
+    if (+usedId === 0) {
+      this.setState({ selectError: true });
+
+      return;
+    }
+
+    if (title === '') {
+      this.setState({ inputError: true });
+
       return;
     }
 
     this.props.updateMainState(usedId, title);
     this.setState({
-      chosenUser: 'Select a user',
       title: '',
-      usedId: 0,
+      usedId: '0',
     });
   };
 
@@ -46,6 +54,7 @@ export default class Select extends Component {
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(user => (
         <option
+          value={user.id}
           key={user.name}
         >
           {user.name}
@@ -53,41 +62,55 @@ export default class Select extends Component {
       ));
 
     return (
-      <div className="card blue-grey darken-1">
-        <div className="card-content white-text">
-          <span className="card-title">Choose a User</span>
-          <form onSubmit={this.handleFormSubmit} className="form">
-            <select
-              value={this.state.chosenUser}
-              onChange={this.handleSetName}
-              className="custom-select"
-            >
-              <option>Select a user</option>
-              {users}
-            </select>
-            <label htmlFor="Search">
-              <input
-                onChange={this.handleSetTodoItem}
-                value={this.state.title}
-                placeholder="input TODO for adding"
-                type="text"
-                name="name"
-                required
-              />
-            </label>
-            <button
-              className="btn waves-effect waves-light"
-              type="submit"
-              name="action"
-            >
-
-              Submit
-              <i className="material-icons right">send</i>
-            </button>
-          </form>
+      <div>
+        <div className="card blue-grey darken-1">
+          <div className="card-content white-text">
+            <span className="card-title">Choose a User</span>
+            <form onSubmit={this.handleFormSubmit} className="form">
+              {this.state.selectError && (
+                <span
+                  style={{ color: 'red' }}
+                >
+Please, select user
+                </span>
+              )}
+              <select
+                value={this.state.usedId}
+                onChange={this.handleSetName}
+                className="custom-select"
+              >
+                <option value="0">Select a user</option>
+                {users}
+              </select>
+              <label htmlFor="Search">
+                <input
+                  onChange={this.handleSetTodoItem}
+                  value={this.state.title}
+                  placeholder="input TODO for adding"
+                  type="text"
+                  name="name"
+                />
+              </label>
+              {this.state.inputError && (
+                <span
+                  style={{ color: 'red' }}
+                >
+Please, add Todo
+                </span>
+              )
+              }
+              <button
+                className="btn waves-effect waves-light"
+                type="submit"
+                name="action"
+              >
+                Submit
+                <i className="material-icons right">send</i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-
     );
   }
 }
