@@ -33,16 +33,16 @@ export default class TodoForm extends Component {
     );
   };
 
-  onUserChange = (value) => {
+  selectUser = (id) => {
     this.setState({
-      userId: value,
+      userId: id,
       userError: false,
     });
   };
 
   render() {
     const { users } = this.props;
-    const { userId } = this.state;
+    const { userId, userError, titleError } = this.state;
 
     return (
       <>
@@ -65,8 +65,8 @@ export default class TodoForm extends Component {
 
           <button type="submit">Add Item</button>
           <p>
-            {this.state.userError}
-            {this.state.titleError}
+            {userError}
+            {titleError}
           </p>
 
           <div>Choose a user please:</div>
@@ -75,7 +75,7 @@ export default class TodoForm extends Component {
             <select
               id="user-selection"
               onChange={(event) => {
-                this.onUserChange(+event.target.value);
+                this.selectUser(+event.target.value);
               }}
               value={userId}
             >
@@ -95,5 +95,10 @@ export default class TodoForm extends Component {
 
 TodoForm.propTypes = {
   onItemAdded: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };

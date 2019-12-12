@@ -26,7 +26,13 @@ const TodosTable = ({ todoList }) => (
 
 TodosTable.propTypes = {
   todoList: PropTypes.arrayOf(
-    PropTypes.object
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      user: PropTypes.shape(
+        { name: PropTypes.string }
+      ).isRequired,
+    })
   ).isRequired,
 };
 

@@ -18,21 +18,25 @@ export default class App extends Component {
 
   state = { todosList: getUsersNames(todos, users) };
 
-  addItem = (title, userId) => (
+  generateId = () => (
+    this.minId += 1
+  );
+
+  addItem = (title, userId) => {
     // eslint-disable-next-line no-return-assign
-    this.setState(state => ({
+    this.setState(({ todosList }) => ({
       todosList: [
-        ...state.todosList,
+        ...(todosList),
         {
           completed: false,
-          id: this.minId = this.minId + 1,
+          id: this.generateId(),
           title,
           userId,
           user: users.find(user => user.id === userId),
         },
       ],
-    }))
-  );
+    }));
+  };
 
   render() {
     const { todosList, titleError, userError } = this.state;
