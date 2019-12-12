@@ -1,3 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
   text-align: center;
+  font-size: 20px;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+input {
+  padding: 10px;
+}
+
+.form-error {
+  color: red;
+}
+
+table {
+  background: white;
+  margin: 50px auto;
+}
+
+thead {
+  background: white;
+}
+
+td {
+  padding: 10px;
 }
