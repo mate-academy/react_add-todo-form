@@ -68,7 +68,7 @@ class NewTodo extends React.Component {
         </select>
         <br />
         {hasTitleError && (
-          <span className="form-error">Please enter a person</span>
+          <span className="form-error">Please enter a title</span>
         )}
         <br />
         <input
@@ -80,7 +80,7 @@ class NewTodo extends React.Component {
         <button type="submit">save</button>
         <br />
         {hasNameError && (
-          <span className="form-error">Please select a title</span>
+          <span className="form-error">Please select a person</span>
         )}
       </form>
     );
