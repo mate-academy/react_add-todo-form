@@ -7,7 +7,7 @@ const TodoList = ({ todos }) => (
       <tr>
         <th>№</th>
         <th>TODO item</th>
-        <th>User</th>
+        <th>User Name</th>
       </tr>
     </thead>
     <tbody>
