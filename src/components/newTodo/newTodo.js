@@ -34,7 +34,8 @@ class NewTodo extends React.Component {
       return;
     }
 
-    addUser(this.state.newTodoName, this.state.selectedUserId);
+    addUser(newTodoName, selectedUserId);
+
     this.setState(() => (
       {
         newTodoName: '',

@@ -11,17 +11,19 @@ class App extends React.Component {
   };
 
   addUser = (title, id) => {
-    this.setState(state => ({
-      list: [...todosArr,
-        {
-          id: Math.random(),
-          title,
-          userId: id,
-          userName: users.find(user => user.id === id).name,
-        },
-      ],
-    }));
-  };
+    this.setState((state) => {
+      const myTodo = {
+        id: Math.random(),
+        title,
+        userId: id,
+        userName: users.find(user => user.id === id).name,
+      };
+
+      return {
+        list: [...state.list, myTodo],
+      };
+    });
+  }
 
   render() {
     const { list } = this.state;
