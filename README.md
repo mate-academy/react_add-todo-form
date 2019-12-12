@@ -2,7 +2,7 @@
 
 ## Demo link
 
-Add link here: `[DEMO LINK](https://art1shok.github.io/react_add-todo-form/)`
+Add link here: `[DEMO LINK](https://art1shok.github.io/react_add-todo-form)`
 
 
 ## Task
