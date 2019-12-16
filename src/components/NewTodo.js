@@ -66,8 +66,8 @@ class NewTodo extends React.Component {
           <p>Please, input the task!</p>
         )}
 
-        <select onChange={this.handleSelect}>
-          <option value={selectedUserId}>Select an user</option>
+        <select onChange={this.handleSelect} value={selectedUserId}>
+          <option value="0" disabled>Select a user</option>
           {this.props.users.map(user => (
             <option
               value={user.id}
