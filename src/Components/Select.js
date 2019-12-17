@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './Select.css';
 
 export default class Select extends Component {
   state = {
-    usedId: 0,
+    userId: 0,
     title: '',
     inputError: false,
     selectError: false,
@@ -12,7 +13,7 @@ export default class Select extends Component {
   handleSetName = (e) => {
     this.setState({
       selectError: false,
-      usedId: +e.target.value,
+      userId: +e.target.value,
     });
   };
 
@@ -26,10 +27,12 @@ export default class Select extends Component {
   };
 
   handleFormSubmit = (e) => {
-    e.preventDefault();
-    const { usedId, title } = this.state;
+    const { updateMainState } = this.props;
 
-    if (+usedId === 0) {
+    e.preventDefault();
+    const { userId, title } = this.state;
+
+    if (+userId === 0) {
       this.setState({ selectError: true });
 
       return;
@@ -41,15 +44,16 @@ export default class Select extends Component {
       return;
     }
 
-    this.props.updateMainState(usedId, title);
+    updateMainState(userId, title);
     this.setState({
       title: '',
-      usedId: '0',
+      userId: '0',
     });
   };
 
   render() {
     const { usersForSelection } = this.props;
+    const { selectError, userId, title, inputError } = this.state;
     const users = usersForSelection
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(user => (
@@ -67,15 +71,13 @@ export default class Select extends Component {
           <div className="card-content white-text">
             <span className="card-title">Choose a User</span>
             <form onSubmit={this.handleFormSubmit} className="form">
-              {this.state.selectError && (
-                <span
-                  style={{ color: 'red' }}
-                >
-Please, select user
+              {selectError && (
+                <span className="warning">
+                  Please, select user
                 </span>
               )}
               <select
-                value={this.state.usedId}
+                value={userId}
                 onChange={this.handleSetName}
                 className="custom-select"
               >
@@ -85,17 +87,17 @@ Please, select user
               <label htmlFor="Search">
                 <input
                   onChange={this.handleSetTodoItem}
-                  value={this.state.title}
+                  value={title}
                   placeholder="input TODO for adding"
                   type="text"
                   name="name"
                 />
               </label>
-              {this.state.inputError && (
+              {inputError && (
                 <span
                   style={{ color: 'red' }}
                 >
-Please, add Todo
+                  Please, add Todo
                 </span>
               )
               }

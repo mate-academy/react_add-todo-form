@@ -3,6 +3,7 @@ import TodoList from './Components/TodoList';
 import Select from './Components/Select';
 import Users from './api/users';
 import Todos from './api/todos';
+import './App.css';
 
 export default class App extends Component {
   state = {
@@ -14,7 +15,7 @@ export default class App extends Component {
     this.setState((state) => {
       const newTodo = {
         userId: id,
-        id: this.state.todos.length + 1,
+        id: state.todos.length + 1,
         title: todosText,
         completed: false,
       };

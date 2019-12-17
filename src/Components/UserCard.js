@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './userlist.css';
+import './UserCard.css';
 
-const UsersList = ({ usersList: user }) => (
+const UserCard = ({ usersInfo: user }) => (
   <div>
     <div>
       <p>
@@ -37,6 +37,9 @@ const UsersList = ({ usersList: user }) => (
 
 );
 
-UsersList.propTypes = { usersList: PropTypes.arrayOf(PropTypes).isRequired };
+UserCard.propTypes = {
+  usersInfo:
+  PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
-export default UsersList;
+export default UserCard;

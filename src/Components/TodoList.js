@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserList from './UsersList';
+import UserCard from './UserCard';
 
 export default class TodoList extends Component {
   getUserById(id) {
-    return this.props.users.find(item => item.id === id);
+    const { users } = this.props;
+
+    return users.find(item => item.id === id);
   }
 
   render() {
@@ -16,7 +18,7 @@ export default class TodoList extends Component {
             <img
               className="img"
               src="img/5a991c82be987_thumb900.png"
-              alt=""
+              alt="img"
             />
             <div className="card-content white-text">
               <span className="card-title">Todos Card</span>
@@ -33,9 +35,9 @@ export default class TodoList extends Component {
               <p>
                 <i className="fas fa-sync-alt" />
                 {' '}
-                {list.completed === false ? 'not completed' : 'completed'}
+                {!list.completed ? 'not completed' : 'completed'}
               </p>
-              <UserList usersList={this.getUserById(list.userId)} />
+              <UserCard usersInfo={this.getUserById(list.userId)} />
             </div>
           </div>
         </div>
