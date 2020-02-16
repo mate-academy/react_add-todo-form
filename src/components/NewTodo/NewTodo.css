@@ -1,0 +1,20 @@
+.error-message {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #f00;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.u-hidden {
+  display: none;
+}
+
+.form-group {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
