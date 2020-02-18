@@ -1,0 +1,19 @@
+.new-todo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+fieldset {
+  padding: 5px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 5px;
+  width: 380px;
+  text-align: start;
+}
