@@ -13,10 +13,11 @@ export class TodoList extends React.Component {
     title: '',
     userId: 0,
     id: 3,
+    errors: false,
   }
 
-    selecteduserId = (event) => {
-      const userId = event.target.value;
+    selectedUserId = (event) => {
+      const userId = Number(event.target.value);
 
       this.setState({
         userId,
@@ -33,24 +34,33 @@ export class TodoList extends React.Component {
 
     addTask = (event) => {
       event.preventDefault();
-      this.setState(prevState => ({
-        todos: [
-          ...prevState.todos,
-          {
-            id: prevState.id,
-            userId: prevState.userId,
-            title: prevState.title.trim(),
-            completed: false,
-          },
-        ],
-        title: '',
-        userId: 0,
-        id: prevState.id + 1,
-      }));
+      const { title, userId } = this.state;
+
+      if (title.length > 0 && userId > 0) {
+        this.setState(prevState => ({
+          todos: [
+            ...prevState.todos,
+            {
+              id: prevState.id,
+              userId: prevState.userId,
+              title: prevState.title.trim(),
+              completed: false,
+            },
+          ],
+          title: '',
+          userId: 0,
+          id: prevState.id + 1,
+          errors: false,
+        }));
+      } else {
+        this.setState({
+          errors: true,
+        });
+      }
     }
 
     render() {
-      const { todos, title, users, userId } = this.state;
+      const { todos, title, users, userId, errors } = this.state;
 
       return (
         <>
@@ -69,10 +79,11 @@ export class TodoList extends React.Component {
           <NewTodo
             addTask={this.addTask}
             handleChange={this.handleChange}
-            selecteduserId={this.selecteduserId}
+            selectedUserId={this.selectedUserId}
             title={title}
             userId={userId}
             users={users}
+            errors={errors}
           />
         </>
       );

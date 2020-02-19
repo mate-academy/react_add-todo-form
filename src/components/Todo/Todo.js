@@ -9,7 +9,7 @@ export const Todo = ({ todo }) => {
   return (
     <tr>
       <td className="tableCell">{id}</td>
-      <td className="tableCell">{title}</td>
+      <td className="tableCell tableCell-title">{title}</td>
       <td className="tableCell">{userId}</td>
     </tr>
   );
