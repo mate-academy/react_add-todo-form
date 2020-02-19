@@ -36,24 +36,27 @@ export default class TaskCreator extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { title, userId } = this.state;
+    let error = false;
 
-    if (title.length > 0 && userId > 0) {
-      this.props.onAddTask({ ...this.state });
-      this.setState({
-        title: '',
-        userId: 0,
-      });
-    }
-
-    if (title.length === 0) {
+    if (title.trim().length < 2 || title.trim().length > 40) {
+      error = true;
       this.setState({
         inputError: true,
       });
     }
 
     if (userId === 0) {
+      error = true;
       this.setState({
         selectError: true,
+      });
+    }
+
+    if (!error) {
+      this.props.onAddTask({ ...this.state });
+      this.setState({
+        title: '',
+        userId: 0,
       });
     }
   }
