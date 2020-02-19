@@ -46,6 +46,9 @@ export class NewTodo extends React.Component {
       this.props.addTodo(newTodo);
 
       this.setState(prevState => ({
+        title: '',
+        userId: 0,
+        id: prevState.id + 1,
         errors: false,
       }));
     } else {
