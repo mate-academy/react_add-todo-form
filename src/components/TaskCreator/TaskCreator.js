@@ -53,7 +53,16 @@ export default class TaskCreator extends Component {
     }
 
     if (!error) {
-      this.props.onAddTask({ ...this.state });
+      const { users } = this.props;
+
+      const user = users.find(person => person.id === userId);
+
+      this.props.onAddTask({
+        userId,
+        title,
+        user,
+      });
+
       this.setState({
         title: '',
         userId: 0,

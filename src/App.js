@@ -6,9 +6,14 @@ import tasks from './api/todos';
 import TaskCreator from './components/TaskCreator/TaskCreator';
 import TodoList from './components/TodoList/TodoList';
 
+const preparedTodos = tasks.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
+
 export default class App extends Component {
   state = {
-    todos: [...tasks],
+    todos: [...preparedTodos],
   }
 
   addTask = (todo) => {
@@ -25,10 +30,6 @@ export default class App extends Component {
 
   render() {
     const { todos } = this.state;
-    const preparedTodos = todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    }));
 
     return (
       <div className="App">
@@ -36,7 +37,7 @@ export default class App extends Component {
           users={users}
           onAddTask={this.addTask}
         />
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
