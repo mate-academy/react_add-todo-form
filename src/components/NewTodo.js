@@ -21,9 +21,9 @@ export function NewTodo(props) {
         className="todo-list__input"
       />
       <select
+        className="todo-list__select"
         value={selectedUser}
         onChange={handleSelectChange}
-        className="todo-list__select"
       >
         <option value="">Select a user</option>
         {users.map(user => (
