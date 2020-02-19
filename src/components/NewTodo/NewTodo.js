@@ -3,72 +3,114 @@ import PropTypes from 'prop-types';
 
 import './NewTodo.css';
 
-export const NewTodo = (
-  { errors,
-    addTask,
-    handleChange,
-    selectedUserId,
-    title,
-    userId,
-    users },
-) => (
-  <>
-    <form onSubmit={addTask} className="form">
-      <label htmlFor="search-query" className="form__label">
-        Task
-      </label>
-      <input
-        onChange={handleChange}
-        type="text"
-        id="search-query"
-        className="form__taskText"
-        maxlenght={50}
-        value={title}
-        placeholder="Type task"
-      />
-      <div className="selectSubmitWrapper">
-        <select
-          value={userId}
-          onChange={selectedUserId}
-          className="form__select"
-        >
-          <option disabled value={0}>Choose a user</option>
-          {users.map(user => (
-            <option key={user.username} value={user.id}>{user.name}</option>
-          ))}
-        </select>
-        <button
-          type="submit"
-          className="form__button"
-        >
-          Add
-        </button>
-      </div>
-      <div className={!errors ? 'errors_hidden' : 'errors'}>
-        <div className={
-          userId !== 0 ? 'errors__user-hidden' : 'errors__user'
-        }
-        >
-          Please choose a user
-        </div>
-        <div className={
-          title.length !== 0 ? 'errors__user-hidden' : 'errors__title'
-        }
-        >
-          Please enter the title
-        </div>
-      </div>
-    </form>
-  </>
-);
+export class NewTodo extends React.Component {
+  state = {
+    users: this.props.users,
+    title: '',
+    userId: 0,
+    id: 3,
+    errors: false,
+  }
+
+  selectedUserId = (event) => {
+    const userId = Number(event.target.value);
+
+    this.setState({
+      userId,
+    });
+  }
+
+  handleChange = (event) => {
+    const regExp = /^\s/;
+    const title = event.target.value.replace(regExp, '');
+
+    if (title.length < 50) {
+      this.setState({
+        title,
+      });
+    }
+  }
+
+  addTask = (event) => {
+    event.preventDefault();
+    const { id, title, userId } = this.state;
+
+    if (title.length > 0 && userId > 0) {
+      const newTodo = {
+        id,
+        userId,
+        title,
+        completed: false,
+      };
+
+      this.props.addTodo(newTodo);
+
+      this.setState(prevState => ({
+        errors: false,
+      }));
+    } else {
+      this.setState({
+        errors: true,
+      });
+    }
+  }
+
+  render() {
+    const { title, users, userId, errors } = this.state;
+
+    return (
+      <>
+        <form onSubmit={this.addTask} className="form">
+          <label htmlFor="search-query" className="form__label">
+            Task
+          </label>
+          <input
+            onChange={this.handleChange}
+            type="text"
+            id="search-query"
+            className="form__taskText"
+            value={title}
+            placeholder="Type task"
+          />
+          <div className="selectSubmitWrapper">
+            <select
+              value={userId}
+              onChange={this.selectedUserId}
+              className="form__select"
+            >
+              <option disabled value={0}>Choose a user</option>
+              {users.map(user => (
+                <option key={user.username} value={user.id}>{user.name}</option>
+              ))}
+            </select>
+            <button
+              type="submit"
+              className="form__button"
+            >
+              Add
+            </button>
+          </div>
+          <div className={!errors ? 'errors_hidden' : 'errors'}>
+            <div className={
+              userId !== 0 ? 'errors__user-hidden' : 'errors__user'
+            }
+            >
+              Please choose a user
+            </div>
+            <div className={
+              title.length !== 0 ? 'errors__user-hidden' : 'errors__title'
+            }
+            >
+              Please enter the title
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
+}
 
 NewTodo.propTypes = {
-  errors: PropTypes.bool.isRequired,
-  addTask: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  selectedUserId: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  userId: PropTypes.number.isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -76,4 +118,5 @@ NewTodo.propTypes = {
       username: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
