@@ -1,3 +1,80 @@
-.App {
+body {
+  margin: 0;
+  background-color: rgb(211, 255, 236);
+  font-family: "Kite One", sans-serif;
+}
+
+.todo-list {
+  width: 60%;
+  margin: 70px auto;
   text-align: center;
+}
+
+.todo-list__title {
+  margin: 0;
+  display: inline-block;
+  font-size: 36px;
+}
+
+.todo-list__icon {
+  display: inline-block;
+  width: 40px;
+  margin-left: 15px;
+}
+
+.todo-list__form {
+  padding: 10px 0 20px;
+}
+
+.todo-list__input,
+.todo-list__select {
+  display: block;
+  padding: 6px;
+  margin: 0 auto 10px;
+  width: 200px;
+  outline: none;
+  border: 2px solid rgb(125, 182, 157);
+  border-radius: 10px;
+  font-size: medium;
+  font-family: "Indie Flower", cursive;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.todo-list__select {
+  width: 215px;
+  padding: 4px;
+  font-family: "Kite One", sans-serif;
+}
+
+.todo-list__submit {
+  width: 100px;
+  padding: 6px;
+  background-color: rgb(125, 182, 157);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-family: "Kite One", sans-serif;
+  font-weight: bold;
+}
+
+.error {
+  margin-bottom: 20px;
+  color: red;
+}
+
+.todol-list__todos {
+  font-weight: bold;
+  text-align: left;
+  margin: 20px auto;
+}
+
+.todol-list__thead {
+  text-align: center;
+}
+
+.ceil {
+  padding-left: 5px;
+  padding-right: 10px;
 }
