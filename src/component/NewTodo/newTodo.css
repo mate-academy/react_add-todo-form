@@ -1,0 +1,15 @@
+.add-newTodo-wrapper {
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.newTodoInput {
+  width: 400px;
+  height: 40px;
+  box-sizing: border-box;
+
+}
+
+.addNewTodoButton {
+  height: 40px;
+}

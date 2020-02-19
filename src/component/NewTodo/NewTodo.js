@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './newTodo.css';
 
 export class NewTodo extends React.Component {
   state = {
     valueNewTodo: '',
     error: false,
+    errorMessage: 'error',
   };
 
   AddValueNewTodo = (e) => {
@@ -26,6 +28,16 @@ export class NewTodo extends React.Component {
     if (this.state.valueNewTodo.length < 1) {
       this.setState({
         error: true,
+        errorMessage: 'Error: Empty input, please write something',
+      });
+
+      return false;
+    }
+
+    if (selectedUser === -1) {
+      this.setState({
+        error: true,
+        errorMessage: 'Error: Please, selecat user',
       });
 
       return false;
@@ -38,16 +50,32 @@ export class NewTodo extends React.Component {
     });
     renderAddedTodo(UserTodos);
 
+    this.setState({
+      valueNewTodo: '',
+      error: false,
+    });
+
     return true;
   };
 
   render() {
     return (
-      <>
-        <input type="text" onChange={this.AddValueNewTodo} />
-        <button type="button" onClick={this.addNewTodo}>Add</button>
-        {this.state.error ? <p>Error</p> : ''}
-      </>
+      <div className="add-newTodo-wrapper">
+        <input
+          className="newTodoInput"
+          type="text"
+          onChange={this.AddValueNewTodo}
+          value={this.state.valueNewTodo}
+        />
+        <button
+          className="addNewTodoButton"
+          type="button"
+          onClick={this.addNewTodo}
+        >
+          Add
+        </button>
+        {this.state.error ? <p>{this.state.errorMessage}</p> : ''}
+      </div>
     );
   }
 }
