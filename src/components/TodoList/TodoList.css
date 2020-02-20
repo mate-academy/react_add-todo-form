@@ -1,0 +1,14 @@
+.todos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+}
+
+.todo {
+  width: 200px;
+  border: 1px solid goldenrod;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
