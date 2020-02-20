@@ -1,3 +1,8 @@
 .App {
   text-align: center;
 }
+
+.App__heading {
+  text-transform: uppercase;
+  color: #3282b8;
+}

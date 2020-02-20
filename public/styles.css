@@ -1,0 +1,16 @@
+html,
+body,
+h1,
+input,
+button,
+table,
+p,
+select {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Neucha", cursive;
+  font-size: 20px;
+}

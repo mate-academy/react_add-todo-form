@@ -1,0 +1,27 @@
+.table {
+  margin: auto;
+  width: 80%;
+  border: 2px solid #142850;
+  border-collapse: collapse;
+  border-radius: 15px;
+}
+
+th {
+  background-color: #bbe1fa;
+}
+
+th,
+td {
+  padding: 5px;
+  border-bottom: 2px solid #0f4c75;
+}
+
+.error--message {
+  display: block;
+  padding: 5px;
+
+}
+
+.error--hidden {
+  display: none;
+}
