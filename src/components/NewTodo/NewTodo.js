@@ -31,7 +31,7 @@ export class NewTodo extends React.Component {
     }
   }
 
-  addTask = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { id, title, userId } = this.state;
 
@@ -63,7 +63,7 @@ export class NewTodo extends React.Component {
 
     return (
       <>
-        <form onSubmit={this.addTask} className="form">
+        <form onSubmit={this.handleSubmit} className="form">
           <label htmlFor="search-query" className="form__label">
             Task
           </label>

@@ -1,15 +1,15 @@
-.tableWrapper {
+.table {
   margin: auto;
   border-collapse: collapse;
   margin-bottom: 20px;
   width: 600px;
 }
 
-.tableTitle {
+.table__title {
   background-color: #62989e;
 }
 
-.tableCell {
+.table__cell {
   border: 2px solid #192729;
   padding: 4px 8px;
 }

@@ -26,12 +26,12 @@ export class TodoList extends React.Component {
 
     return (
       <>
-        <table className="tableWrapper">
+        <table className="table">
           <thead>
-            <tr className="tableTitle">
-              <th className="tableCell">№</th>
-              <th className="tableCell">Task</th>
-              <th className="tableCell">User id</th>
+            <tr className="table__title">
+              <th className="table__cell">№</th>
+              <th className="table__cell">Task</th>
+              <th className="table__cell">User id</th>
             </tr>
           </thead>
           <tbody>
@@ -49,9 +49,18 @@ export class TodoList extends React.Component {
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
-    PropTypes.object.isRequired,
+    PropTypes.shape({
+      userId: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      completed: PropTypes.bull.isRequired,
+    }).isRequired,
   ).isRequired,
   users: PropTypes.arrayOf(
-    PropTypes.object.isRequired,
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
   ).isRequired,
 };
