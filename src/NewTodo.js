@@ -70,7 +70,7 @@ export class NewTodo extends Component {
         <input
           value={inputValue}
           onChange={this.handleInputValue}
-          type="search"
+          type="text"
           placeholder="write a title"
         />
         <span className="error">{selectError && 'Select User'}</span>
