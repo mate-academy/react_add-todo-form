@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Todo = ({ id, title, user }) => (
   <li key={id} className="todo">
-    <p className="title">{`${id} ${title}`}</p>
+    <p className="title">{`${title}`}</p>
     <p className="name">{user.name}</p>
   </li>
 );

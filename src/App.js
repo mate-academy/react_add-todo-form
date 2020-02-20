@@ -6,6 +6,8 @@ import tasks from './api/todos';
 import TaskCreator from './components/TaskCreator/TaskCreator';
 import TodoList from './components/TodoList/TodoList';
 
+const uuidv1 = require('uuid/v1');
+
 const preparedTodos = tasks.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
@@ -19,7 +21,7 @@ export default class App extends Component {
   addTask = (todo) => {
     const taskToAdd = {
       ...todo,
-      id: this.state.todos.length + 1,
+      id: uuidv1(),
       completed: false,
     };
 

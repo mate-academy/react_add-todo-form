@@ -57,7 +57,7 @@ body {
 }
 
 .list {
-  list-style: none;
+  font-weight: 700;
   display: flex;
   flex-wrap: wrap;
   margin: 0 50px;

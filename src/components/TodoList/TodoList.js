@@ -4,11 +4,11 @@ import Todo from '../Todo/Todo';
 import './todoList.css';
 
 const TodoList = ({ todos }) => (
-  <ul className="list">
+  <ol className="list">
     {todos.map(todo => (
       <Todo {...todo} key={todo.id} />
     ))}
-  </ul>
+  </ol>
 
 );
 
