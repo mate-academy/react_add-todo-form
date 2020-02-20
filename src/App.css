@@ -1,3 +1,13 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eee;
+}
+
+.app {
   text-align: center;
+  color: #ffdb25;
+  font-size: 20px;
 }

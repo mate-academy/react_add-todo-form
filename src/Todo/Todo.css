@@ -1,0 +1,11 @@
+.card__id {
+  font-size: 18px;
+  color: green;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card__title {
+  color: #ab7aff;
+  font-style: italic;
+}

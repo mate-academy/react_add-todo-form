@@ -1,0 +1,14 @@
+.card__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.card__item {
+  margin: 20px;
+  padding: 20px 0;
+  background-color: #2f2e2f;
+  width: 300px;
+}
