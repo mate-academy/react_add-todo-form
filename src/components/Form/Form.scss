@@ -1,0 +1,43 @@
+.form {
+  position: relative;
+  margin-top: 30px;
+
+  #select {
+    height: 40px;
+
+    background-color: white;
+    border-color: #dbdbdb;
+    border-width: 1px;
+    color: #363636;
+    cursor: pointer;
+
+    text-align: center;
+    white-space: nowrap;
+    font-size: 19px;
+  }
+
+  #select:hover {
+    background: grey;
+  }
+
+  &__button {
+    &:hover {
+      background: grey;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    color: red;
+
+    &-user {
+      top: 90px;
+      left: 35%;
+    }
+
+    &-title {
+      top: -20px;
+      left: 0;
+    }
+  }
+}
