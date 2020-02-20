@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { todos } from './api/todos';
+import { todosFromServer } from './api/todos';
 import { users } from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 import { NewTodo } from './components/NewTodo/NewTodo';
 
-const preparedTodos = todos.map(todo => ({
+const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
   user: users.find(person => person.id === todo.userId),
 }));
@@ -28,7 +28,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { todosList } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
@@ -37,7 +37,7 @@ class App extends React.PureComponent {
           users={users}
           addNewTodo={this.addNewTodo}
         />
-        <TodoList todos={todosList} />
+        <TodoList todos={todos} />
       </div>
     );
   }
