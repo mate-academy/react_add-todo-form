@@ -1,0 +1,15 @@
+.table {
+  margin-top: 30px;
+  border: 2px solid #8992b1;
+  border-collapse: collapse;
+}
+
+.table__column-head {
+  padding: 5px;
+  border: 2px solid #8992b1;
+  background-color: honeydew;
+}
+
+.table__row {
+  border: 2px solid #8992b1;
+}
