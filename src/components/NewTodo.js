@@ -6,7 +6,6 @@ export class NewTodo extends React.Component {
     users: this.props.users,
     id: 3,
     userId: 0,
-    selectedOption: 'Choose a user',
     title: '',
     errorMessage: false,
   }
@@ -46,7 +45,7 @@ export class NewTodo extends React.Component {
     }
   }
 
-  selectedUserId = ({ target }) => {
+  selectUserId = ({ target }) => {
     const id = +target.value;
 
     this.setState({
@@ -55,9 +54,9 @@ export class NewTodo extends React.Component {
   }
 
   render() {
-    const { title, users, userId, selectedOption } = this.state;
+    const { title, users, userId } = this.state;
     let { errorMessage } = this.state;
-    const { handleSubmit, handleChange, selectedUserId } = this;
+    const { handleSubmit, handleChange, selectUserId } = this;
 
     if (!errorMessage) {
       errorMessage = '';
@@ -79,10 +78,10 @@ export class NewTodo extends React.Component {
           />
           <select
             value={userId}
-            onChange={selectedUserId}
+            onChange={selectUserId}
             className="todo-list__select"
           >
-            <option value="">{selectedOption}</option>
+            <option value="">Choose a user</option>
             {users.map(user => (
               <option key={user.username} value={user.id}>{user.name}</option>
             ))}

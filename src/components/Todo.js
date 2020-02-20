@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function Todo({ todo, user }) {
+export function Todo({ todo }) {
   return (
     <tr>
       <td className="ceil">{todo.id}</td>
       <td className="ceil">{todo.title}</td>
-      <td className="ceil">{user.name}</td>
+      <td className="ceil">{todo.userId}</td>
     </tr>
   );
 }

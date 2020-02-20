@@ -6,8 +6,8 @@ import { Todo } from './Todo';
 
 export class TodoList extends React.Component {
   state = {
-    todos: this.props.todos,
-    users: this.props.users,
+    todos: [...this.props.todos],
+    users: [...this.props.users],
   }
 
   addTodo = (newTodo) => {
@@ -33,7 +33,7 @@ export class TodoList extends React.Component {
             <tr>
               <th>id</th>
               <th>todo</th>
-              <th>name</th>
+              <th>userID</th>
             </tr>
           </thead>
           <tbody>
@@ -41,7 +41,6 @@ export class TodoList extends React.Component {
               <Todo
                 todo={todo}
                 key={todo.title}
-                user={users.find(user => user.id === todo.userId)}
               />
             ))}
           </tbody>
