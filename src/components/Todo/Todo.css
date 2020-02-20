@@ -1,0 +1,8 @@
+.tableCell {
+  border: 2px solid #192729;
+  padding: 4px 8px;
+}
+
+.tableCell-title {
+  width: 80%;
+}
