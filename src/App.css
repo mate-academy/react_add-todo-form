@@ -1,3 +1,16 @@
 .App {
   text-align: center;
+
+}
+
+.todo {
+  max-width: 600px;
+  border: 1px solid black;
+  margin: 30px auto;
+  padding: 10px;
+}
+
+.error {
+  color: red;
+  margin: 10px;
 }
