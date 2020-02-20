@@ -1,3 +1,12 @@
+body {
+  background: #cecece;
+}
+
 .App {
+  margin: 40px auto;
   text-align: center;
+}
+
+.title {
+  margin-bottom: 40px;
 }
