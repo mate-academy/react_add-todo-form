@@ -2,18 +2,13 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import todos from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+import { TodoList } from './components/TodoList/TodoList';
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
-}
-
-export default App;
+export const App = () => (
+  <div className="App">
+    <h1 className="app__title">Todo form</h1>
+    <TodoList users={users} todos={todos} />
+  </div>
+);

@@ -1,0 +1,23 @@
+.todo-list {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.todo-list__table {
+  margin-top: 15px;
+  width: 100%;
+
+  border-collapse: collapse;
+  border: 5px solid #ffe3ed;
+  border-radius: 15px;
+}
+
+.table__head {
+  background-color: #beebe9;
+  color: #aaa;
+}
+
+.todo-list__cell {
+  padding: 15px;
+  border: 2px solid #ffe3ed;
+}
