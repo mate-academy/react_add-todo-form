@@ -1,0 +1,40 @@
+.form {
+  margin: 20px 0;
+  position: relative;
+}
+
+.form__item {
+  margin-right: 20px;
+  height: 30px;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  font-family: "Neucha", cursive;
+  font-size: 20px;
+}
+
+.form__input {
+  width: 350px;
+  padding-left: 10px;
+}
+
+.form__select {
+  width: 150px;
+  background-color: #bbe1fa;
+}
+
+.form__button {
+  width: 50px;
+}
+
+.error {
+  position: absolute;
+  z-index: 1;
+  font-size: 30px;
+  background-color: white;
+  border: 2px solid red;
+  padding: 10px;
+  border-radius: 15px;
+  top: -200%;
+  right: 30px;
+}
