@@ -1,0 +1,9 @@
+.todos {
+  list-style: none;
+}
+
+.todos__item {
+  display: flex;
+  margin: auto;
+  width: 500px;
+}

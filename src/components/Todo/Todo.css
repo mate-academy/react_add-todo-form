@@ -1,0 +1,8 @@
+.todo__title {
+  font-weight: bold;
+  margin-right: 30px;
+}
+
+.todo__name {
+  font-style: italic;
+}
