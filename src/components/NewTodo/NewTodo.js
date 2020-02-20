@@ -7,7 +7,7 @@ import './NewTodo.css';
 class NewTodo extends React.Component {
   state = {
     userId: 0,
-    tempTask: '',
+    title: '',
     selectErrorClassName: false,
     placeholder: '',
   }
@@ -24,16 +24,16 @@ class NewTodo extends React.Component {
     const matches = event.target.value.match(pattern);
 
     this.setState({
-      tempTask: matches ? matches.join('') : '',
+      title: matches ? matches.join('') : '',
       placeholder: '',
     });
   }
 
   validatedForm = (event) => {
     event.preventDefault();
-    const { tempTask, userId } = this.state;
+    const { title, userId } = this.state;
 
-    if (!tempTask) {
+    if (!title) {
       this.setState({
         placeholder: 'Please enter the title',
       });
@@ -49,13 +49,13 @@ class NewTodo extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { tempTask, userId } = this.state;
+    const { title, userId } = this.state;
     const { addTodo } = this.props;
 
-    addTodo(tempTask, userId);
+    addTodo(title, userId);
 
     this.setState({
-      tempTask: '',
+      title: '',
       userId: 0,
       placeholder: '',
       selectErrorClassName: false,
@@ -64,7 +64,7 @@ class NewTodo extends React.Component {
 
   render() {
     const { users } = this.props;
-    const { tempTask, userId, selectErrorClassName, placeholder } = this.state;
+    const { title, userId, selectErrorClassName, placeholder } = this.state;
 
     return (
       <form
@@ -72,14 +72,14 @@ class NewTodo extends React.Component {
           form: true, 'form__select-error': selectErrorClassName,
         })}
         onSubmit={
-          tempTask && userId ? this.handleSubmit : this.validatedForm
+          title && userId ? this.handleSubmit : this.validatedForm
         }
       >
         <input
           className="form__input"
           type="text"
           placeholder={placeholder}
-          value={tempTask}
+          value={title}
           onChange={this.handleTaskChange}
         />
         <select

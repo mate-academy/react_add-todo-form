@@ -9,12 +9,12 @@ class TodoList extends React.Component {
     todos: [...this.props.todos],
   }
 
-  addTodo = (tempTask, userId) => {
+  addTodo = (title, userId) => {
     const todosLength = this.state.todos.length;
 
     this.setState(prevState => ({
       todos: [...prevState.todos, {
-        id: todosLength + 1, title: tempTask, userId: +userId,
+        id: todosLength + 1, title, userId: +userId,
       }],
     }));
   }
@@ -26,15 +26,15 @@ class TodoList extends React.Component {
     return (
       <>
         <NewTodo users={users} addTodo={this.addTodo} />
-        <table>
-          <thead>
-            <tr>
-              <th>Numder</th>
-              <th>Task</th>
-              <th>User id</th>
+        <table className="table">
+          <thead className="table__head">
+            <tr className="table__row">
+              <th className="table__column-head">Numder</th>
+              <th className="table__column-head">Task</th>
+              <th className="table__column-head">User id</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="table__head">
             <Todo todos={todos} />
           </tbody>
         </table>
@@ -44,8 +44,15 @@ class TodoList extends React.Component {
 }
 
 TodoList.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape).isRequired,
-  todos: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    userId: PropTypes.number,
+  })).isRequired,
 };
 
 export default TodoList;

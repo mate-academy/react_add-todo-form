@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './Todo.css';
+
 const Todo = ({ todos }) => (
   <>
     {todos.map(todo => (
-      <tr key={todo.id}>
-        <td>{todo.id}</td>
-        <td>{todo.title}</td>
-        <td>{todo.userId}</td>
+      <tr className="table__row" key={todo.id}>
+        <td className="table__column-body">{todo.id}</td>
+        <td className="table__column-body">{todo.title}</td>
+        <td className="table__column-body">{todo.userId}</td>
       </tr>
     ))}
   </>
