@@ -1,0 +1,69 @@
+.task-adder {
+  display: flex;
+  flex-direction: column;
+}
+
+.adder-input {
+  background-color: transparent;
+  border-radius: 15px;
+  border: 2px solid #ffe3ed;
+  box-shadow: 0 0 #ffe3ed;
+
+  padding: 10px;
+  margin-bottom: 20px;
+
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.adder-input::placeholder {
+  color: #aaa;
+}
+
+.adder-input:focus,
+.adder-input:hover {
+  box-shadow: 0 0 5px 3px #ffe3ed;
+}
+
+.task-adder__user-select {
+  color: #aaa;
+}
+
+.task-adder__task-submit {
+  background-color: transparent;
+  border-radius: 15px;
+  border: 2px solid #ffe3ed;
+  padding: 10px;
+  color: #aaa;
+
+  transition: background-color 0.3s,
+    color 0.3s;
+  cursor: pointer;
+}
+
+.task-adder__task-submit:focus,
+.task-adder__task-submit:hover {
+  background-color: #ffe3ed;
+  color: #8ac6d1;
+}
+
+.errors {
+  text-align: center;
+  margin: 15px 0;
+  color: transparent;
+}
+
+.task-adder__errors--hidden .errors__user,
+.task-adder__errors--hidden .errors__title {
+  color: transparent;
+}
+
+.task-adder__errors .errors__user,
+.task-adder__errors .errors__title {
+  color: #8ac6d1;
+}
+
+.task-adder__errors .errors__user--hidden,
+.task-adder__errors .errors__title--hidden {
+  color: transparent;
+}
