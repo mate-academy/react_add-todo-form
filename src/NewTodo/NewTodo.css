@@ -4,16 +4,16 @@
   flex-direction: column;
 }
 
-.input {
+.form__input {
   margin-left: 15px;
 }
 
-.error {
+.form__error {
   color: red;
   font-size: 15px;
 }
 
-.button {
+.form__button {
   display: block;
   margin: 10px auto;
 }

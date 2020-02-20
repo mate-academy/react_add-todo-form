@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v4';
 
 import './NewTodo.css';
 
@@ -7,21 +8,25 @@ class NewTodo extends React.Component {
   state = {
     title: '',
     userId: 0,
-    errorMessage: false,
-    errorSelect: false,
+    isErrorMessage: false,
+    isErrorSelect: false,
   }
 
-  selectHandler = ({ target: { value } }) => {
+  selectHandler = ({ target }) => {
+    const { value } = target;
+
     this.setState({
       userId: Number(value),
-      errorSelect: false,
+      isErrorSelect: false,
     });
   }
 
-  inputTextHandler = ({ target: { value } }) => {
+  inputTextHandler = ({ target }) => {
+    const { value } = target;
+
     this.setState({
       title: value,
-      errorMessage: false,
+      isErrorMessage: false,
     });
   }
 
@@ -32,15 +37,17 @@ class NewTodo extends React.Component {
 
     if (this.state.title.trim() === '') {
       isError = true;
+
       this.setState({
-        errorMessage: true,
+        isErrorMessage: true,
       });
     }
 
     if (userId === 0) {
       isError = true;
+
       this.setState({
-        errorSelect: true,
+        isErrorSelect: true,
       });
     }
 
@@ -48,7 +55,7 @@ class NewTodo extends React.Component {
       const { users } = this.props;
 
       this.props.addTodo({
-        id: this.props.todos.length + 1,
+        id: uuid(),
         user: users.find(user => user.id === userId),
         title,
         completed: false,
@@ -63,11 +70,10 @@ class NewTodo extends React.Component {
 
   render() {
     const { users } = this.props;
-    const { title, userId, errorMessage, errorSelect } = this.state;
+    const { title, userId, isErrorMessage, isErrorSelect } = this.state;
 
     return (
       <form onSubmit={this.submitHandler} className="form">
-
         <label htmlFor="todo">
             Todo:
           <input
@@ -77,12 +83,12 @@ class NewTodo extends React.Component {
             placeholder="Your Task"
             onChange={this.inputTextHandler}
             value={title}
-            className="input"
+            className="form__input"
           />
         </label>
-        {errorMessage
+        {isErrorMessage
             && (
-              <div className="error">
+              <div className="form__error">
                 Enter Your Task
               </div>
             )}
@@ -92,7 +98,7 @@ class NewTodo extends React.Component {
           <select
             value={userId}
             onChange={this.selectHandler}
-            className="input"
+            className="form__input"
             id="user"
           >
             <option value={0} disabled>Choose User</option>
@@ -101,14 +107,14 @@ class NewTodo extends React.Component {
             ))}
           </select>
         </label>
-        {errorSelect
+        {isErrorSelect
           && (
-            <span className="error">
+            <span className="form__error">
               Choose User
             </span>
           )}
 
-        <button className="button" type="submit">Add</button>
+        <button className="form__button" type="submit">Add</button>
       </form>
     );
   }
@@ -116,16 +122,6 @@ class NewTodo extends React.Component {
 
 NewTodo.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  ).isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

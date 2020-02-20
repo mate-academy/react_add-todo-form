@@ -26,7 +26,6 @@ class App extends React.Component {
     return (
       <div className="app">
         <NewTodo
-          todos={this.state.todos}
           users={users}
           addTodo={this.addTodo}
         />
