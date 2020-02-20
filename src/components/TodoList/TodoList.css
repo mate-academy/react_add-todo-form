@@ -1,0 +1,10 @@
+.table {
+  width: 60vw;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.table--row {
+  border: 1px solid black;
+}
