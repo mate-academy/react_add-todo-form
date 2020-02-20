@@ -1,0 +1,21 @@
+.newtodo__select,
+.newtodo__input,
+.newtodo__button {
+  padding: 5px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
+.newtodo__input::placeholder {
+  color: red;
+  font-weight: 500;
+}
+
+.user__select-error::after {
+  display: block;
+  content: "Please choose a user";
+  color: #f00;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px;
+}
