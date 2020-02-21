@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Form.scss';
-// import 'bulma';
+import 'bulma';
 
 export class Form extends React.Component {
   state = {
@@ -32,8 +32,12 @@ export class Form extends React.Component {
     const { inputUser, id, inputTitle, users } = this.state;
     const { addTodo } = this.props;
     let error = false;
+    const pattern = /[^\d\s\w]/g;
 
-    if (inputTitle.trim().length < 3 || inputTitle.trim().length > 30) {
+    if (inputTitle.trim().length < 3
+      || inputTitle.trim().length > 30
+      || pattern.test(inputTitle)
+    ) {
       error = true;
       this.setState({
         inputError: true,
@@ -91,7 +95,9 @@ export class Form extends React.Component {
           </label>
           {inputError && (
             <span className="form__error form__error-title">
-            Please enter the title
+            Please enter a valid title( Allow entering`spaces`,
+              alphanumeric characters
+                and minimum length 3 characters).
             </span>
           )}
           <select
@@ -116,7 +122,7 @@ export class Form extends React.Component {
           </select>
           {selectError && (
             <span className="form__error form__error-user">
-            Please choose a user
+            Please choose a user.
             </span>
           )}
           <button

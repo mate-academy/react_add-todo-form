@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'bulma';
 import './ListTodo.scss';
-import { Todo } from '../Todo/Todo';
+import { Todo, todoTypes } from '../Todo/Todo';
 
-export const ListTodo = ({ filteredList }) => (
+export const ListTodo = ({ todos }) => (
   <>
     <table className="table is-hoverable">
       <thead className="thead">
@@ -15,16 +15,16 @@ export const ListTodo = ({ filteredList }) => (
           <th className="th">completed</th>
         </tr>
       </thead>
+
       <tbody className="tbody">
-        {filteredList.map(todo => (
-          <Todo key={todo.id} todo={todo} />
-        ))
-        }
+        {todos.map((todo, idx) => (
+          <Todo key={todo.id} todo={todo} idx={idx} />
+        ))}
       </tbody>
     </table>
   </>
 );
 
 ListTodo.propTypes = {
-  filteredList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape(todoTypes)).isRequired,
 };

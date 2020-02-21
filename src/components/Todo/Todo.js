@@ -4,12 +4,12 @@ import { User } from '../User/User';
 import 'bulma';
 import './Todo.scss';
 
-export const Todo = ({ todo }) => {
-  const { id, title, completed, user } = todo;
+export const Todo = ({ todo, idx }) => {
+  const { title, completed, user } = todo;
 
   return (
     <tr className="tr">
-      <td className="td">{id}</td>
+      <td className="td">{idx + 1}</td>
       <td className="td">{title}</td>
       <User user={user} />
       <td className={completed ? 'yes' : 'no'}>
@@ -19,13 +19,13 @@ export const Todo = ({ todo }) => {
   );
 };
 
-const objectTypes = {
-  id: PropTypes.string.isRequired,
+export const todoTypes = {
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 
 Todo.propTypes = {
-  todo: PropTypes.shape(objectTypes).isRequired,
+  todo: PropTypes.shape(todoTypes).isRequired,
+  idx: PropTypes.number.isRequired,
 };

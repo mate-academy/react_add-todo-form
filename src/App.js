@@ -5,37 +5,38 @@ import usersData from './api/users';
 import todosData from './api/todos';
 import { Form } from './components/Form/Form';
 
-const filteredList = todosData.map(todo => ({
+const filteredListTodos = todosData.map(todo => ({
   ...todo,
   user: usersData.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    listTodos: [...filteredList],
+    todos: [...filteredListTodos],
   };
 
   addTodo = (todo) => {
     this.setState(prevState => ({
-      listTodos: [...prevState.listTodos, todo],
+      todos: [...prevState.todos, todo],
     }));
   };
 
   render() {
-    const { listTodos } = this.state;
+    const { todos } = this.state;
 
     return (
       <>
         <div className="App">
-          <h1 className="title">Todo List</h1>
-          <div className="wrapper">
-            <ListTodo filteredList={listTodos} />
-            <Form
-              users={usersData}
-              addTodo={this.addTodo}
-            />
+          <div className="app">
+            <h1 className="title">Todo List</h1>
+            <div className="wrapper">
+              <ListTodo todos={todos} />
+              <Form
+                users={usersData}
+                addTodo={this.addTodo}
+              />
+            </div>
           </div>
-
         </div>
       </>
     );
