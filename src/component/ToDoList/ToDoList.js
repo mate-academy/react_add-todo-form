@@ -6,9 +6,8 @@ import './TodoList.css';
 export class ToDoList extends React.Component {
   state = {
     users: this.props.users,
-    UserTodos: this.props.UserTodos,
+    userTodos: this.props.userTodos,
     selectedUser: -1,
-    updateTodos: this.props.updateTodos,
   };
 
   changeSelectedUsers = (e) => {
@@ -19,20 +18,20 @@ export class ToDoList extends React.Component {
 
   renderAddedTodo = (value) => {
     this.setState({
-      UserTodos: value,
+      userTodos: value,
     });
-    this.state.updateTodos(this.state.UserTodos);
+    this.props.updateTodos(value);
   };
 
   render() {
-    const { users, UserTodos, selectedUser } = this.state;
+    const { users, userTodos, selectedUser } = this.state;
 
     return (
       <>
         <NewTodo
           users={users}
           selectedUser={selectedUser}
-          UserTodos={UserTodos}
+          userTodos={userTodos}
           renderAddedTodo={this.renderAddedTodo}
         />
 
@@ -52,7 +51,7 @@ export class ToDoList extends React.Component {
 
         <div>
           {
-            UserTodos.map(todo => (
+            userTodos.map(todo => (
               <div key={todo.id}>
                 <p className="todo-title-name">
                   {
@@ -72,7 +71,7 @@ export class ToDoList extends React.Component {
 }
 
 ToDoList.propTypes = {
-  UserTodos: PropTypes.arrayOf(PropTypes.shape({
+  userTodos: PropTypes.arrayOf(PropTypes.shape({
     userId: PropTypes.number,
     id: PropTypes.number,
     title: PropTypes.string,

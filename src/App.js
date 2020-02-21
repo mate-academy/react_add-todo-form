@@ -8,12 +8,12 @@ import todos from './api/todos';
 
 class App extends React.Component {
   state = {
-    UserTodos: todos,
+    userTodos: todos,
   };
 
   updateTodos = (value) => {
     this.setState({
-      UserTodos: value,
+      userTodos: value,
     });
   };
 
@@ -27,12 +27,12 @@ class App extends React.Component {
           {users.length}
 
           <span>Todos: </span>
-          {todos.length}
+          {this.state.userTodos.length}
         </p>
 
         <ToDoList
           users={users}
-          UserTodos={this.state.UserTodos}
+          userTodos={this.state.userTodos}
           updateTodos={this.updateTodos}
         />
       </div>

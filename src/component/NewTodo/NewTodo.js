@@ -23,7 +23,7 @@ export class NewTodo extends React.Component {
 
   addNewTodo = () => {
     const { valueNewTodo } = this.state;
-    const { UserTodos, selectedUser, renderAddedTodo } = this.props;
+    const { userTodos, selectedUser, renderAddedTodo } = this.props;
 
     if (this.state.valueNewTodo.length < 1) {
       this.setState({
@@ -43,12 +43,14 @@ export class NewTodo extends React.Component {
       return false;
     }
 
-    UserTodos.push({
-      title: valueNewTodo,
-      userId: selectedUser + 1,
-      id: UserTodos[UserTodos.length - 1].id + 1,
-    });
-    renderAddedTodo(UserTodos);
+    renderAddedTodo([
+      ...userTodos,
+      {
+        title: valueNewTodo,
+        userId: selectedUser + 1,
+        id: userTodos[userTodos.length - 1].id + 1,
+      },
+    ]);
 
     this.setState({
       valueNewTodo: '',
@@ -81,7 +83,7 @@ export class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  UserTodos: PropTypes.arrayOf(PropTypes.shape({
+  userTodos: PropTypes.arrayOf(PropTypes.shape({
     userId: PropTypes.number,
     id: PropTypes.number,
     title: PropTypes.string,
