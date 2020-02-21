@@ -29,12 +29,6 @@ class App extends React.Component {
     }));
   }
 
-  addTask = (task) => {
-    this.setState(prevState => ({
-      tasks: [...prevState.tasks, { ...task }],
-    }));
-  }
-
   render() {
     return (
       <>
