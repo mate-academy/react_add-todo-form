@@ -46,7 +46,6 @@ export class TodoList extends Component {
         </table>
         <NewTodo
           addTodo={this.addTodo}
-          todosLength={todos.length}
           users={users}
         />
       </>

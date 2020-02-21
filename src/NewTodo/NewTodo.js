@@ -6,7 +6,7 @@ import './NewTodo.css';
 export class NewTodo extends Component {
   state = {
     users: this.props.users,
-    id: this.props.todosLength,
+    id: 2,
     userId: 0,
     userName: '',
     value: '',
@@ -41,7 +41,6 @@ export class NewTodo extends Component {
     if (!(userName && value.trim())) {
       this.validateForm();
     } else {
-
       const newTodo = {
         id: id + 1,
         title: value,
@@ -78,7 +77,13 @@ export class NewTodo extends Component {
   }
 
   render() {
-    const { users, placeholder, value, userId, userSelectError } = this.state;
+    const {
+      users,
+      placeholder,
+      value,
+      userId,
+      userSelectError,
+    } = this.state;
 
     return (
       <form
@@ -92,7 +97,9 @@ export class NewTodo extends Component {
           onChange={this.selectUser}
           value={userId}
         >
-          <option disabled value="0">Choose a user</option>
+          <option disabled value="0">
+            Choose a user
+          </option>
           {users.map(user => (
             <option
               key={user.id}
@@ -122,7 +129,6 @@ export class NewTodo extends Component {
 
 NewTodo.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  todosLength: PropTypes.number.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
