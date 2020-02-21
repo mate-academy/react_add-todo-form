@@ -36,11 +36,12 @@ export class NewTodo extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { value, id, userId, userName } = this.state;
 
-    if (!(this.state.userName && this.state.value.trim())) {
+    if (!(userName && value.trim())) {
       this.validateForm();
     } else {
-      const { value, id, userId } = this.state;
+
       const newTodo = {
         id: id + 1,
         title: value,
