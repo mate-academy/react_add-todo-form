@@ -1,0 +1,46 @@
+.form {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.form__item {
+  margin: 0;
+}
+
+.form__input,
+.form__select,
+.form__button {
+  display: block;
+  margin-right: 40px;
+  border: 1px solid lightskyblue;
+  padding: 5px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.form__input:focus,
+.form__select:focus {
+  box-shadow: 0 0 3px lightslategray;
+}
+
+.form__select,
+.form__button {
+  cursor: pointer;
+}
+
+.form__button {
+  box-sizing: border-box;
+  padding: 5px;
+  height: 29px;
+}
+
+.form__error {
+  opacity: 0;
+  display: block;
+}
+
+.form__error--visible {
+  color: red;
+  opacity: 1;
+}
