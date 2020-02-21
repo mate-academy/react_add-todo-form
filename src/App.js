@@ -12,7 +12,13 @@ const preparedTodos = todosFromServer.map(todo => ({
 
 class App extends React.PureComponent {
   state = {
-    todos: [...preparedTodos],
+    todos: [],
+  }
+
+  componentDidMount() {
+    this.setState({
+      todos: [...preparedTodos],
+    });
   }
 
   addNewTodo = (todo) => {

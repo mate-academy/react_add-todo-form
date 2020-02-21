@@ -7,8 +7,8 @@ export class NewTodo extends React.Component {
   state = {
     title: '',
     userId: 0,
-    todoNotInput: false,
-    userNotSelect: false,
+    inputError: false,
+    selectError: false,
   }
 
   inputHandler = (evt) => {
@@ -16,7 +16,7 @@ export class NewTodo extends React.Component {
 
     this.setState({
       title: value.trim(),
-      todoNotInput: false,
+      inputError: false,
     });
   }
 
@@ -26,13 +26,13 @@ export class NewTodo extends React.Component {
 
     if (!title.length) {
       this.setState({
-        todoNotInput: true,
+        inputError: true,
       });
     }
 
     if (userId === 0) {
       this.setState({
-        userNotSelect: true,
+        selectError: true,
       });
     }
 
@@ -58,17 +58,17 @@ export class NewTodo extends React.Component {
 
     this.setState({
       userId: Number(value),
-      userNotSelect: false,
+      selectError: false,
     });
   }
 
   render() {
     const { users } = this.props;
-    const { title, userId, todoNotInput, userNotSelect } = this.state;
+    const { title, userId, inputError, selectError } = this.state;
 
-    const inputErrorClassName = (todoNotInput)
+    const inputErrorClassName = (inputError)
       ? 'form__error--visible' : 'form__error';
-    const selectErrorClassName = (userNotSelect)
+    const selectErrorClassName = (selectError)
       ? 'form__error--visible' : 'form__error';
 
     return (
