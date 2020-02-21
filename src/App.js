@@ -1,7 +1,5 @@
 import React from 'react';
-import { v4 } from 'uuid';
-import { Modal } from './components/Modal/Modal';
-import { ControlForm } from './components/ControlForm/ControlForm';
+import { NewTodo } from './components/NewTodo/NewTodo';
 import { TodoList } from './components/TodoList/TodoList';
 import 'bootswatch/dist/flatly/bootstrap.min.css';
 import './App.css';
@@ -15,105 +13,17 @@ const todosUsers = todos.map(item => ({
   user: users[item.userId],
 }));
 
-const errors = [
-  {
-    id: 666,
-    value: `Allowed entering spaces and alphanumeric characters.`,
-  },
-  {
-    id: 777,
-    value: `Task name is very long. Please, make it shorter.`,
-  },
-  {
-    id: 888,
-    value: `Please, select user.`,
-  },
-  {
-    id: 999,
-    value: `You forgot to write the task.`,
-  },
-];
-
 export class App extends React.Component {
   state = {
     todoList: [...todosUsers],
-    selectedUser: 'users',
-    newTask: '',
-    errorCode: 0,
-    isModalOpen: false,
   }
 
-  handleSelect = (e) => {
-    const { value } = e.target;
-
-    this.setState(prev => ({
-      errorCode: prev.errorCode !== 0 ? 0 : prev.errorCode,
-      isModalOpen: false,
-      selectedUser: value,
-    }));
-  };
-
-  handleInput = (e) => {
-    const { value } = e.target;
-    const pattern = /[^\d|\s|\w]/g;
-
-    if (pattern.test(value)) {
-      this.setState({
-        newTask: value,
-        errorCode: 666,
-        isModalOpen: true,
-      });
-    } else {
-      this.setState(prev => ({
-        errorCode: value.length >= 10
-          ? 777
-          : 0,
-        newTask: value,
-        isModalOpen: value.length > 10 && prev.errorCode,
-      }));
-    }
-  };
-
-  createNewItem = () => ({
-    userId: users.find(el => el.name === this.state.selectedUser).id,
-    id: v4().slice(0, 4),
-    title: this.state.newTask,
-    completed: false,
-    user: users.find(user => user.name === this.state.selectedUser),
-  })
-
-  handleSubmit = (e) => {
+  handleSubmit = (e, obj) => {
     e.preventDefault();
-    if (this.state.newTask.length < 1) {
-      this.setState({
-        errorCode: 999,
-        // errorCode: `You forgot to write the task.`,
-        isModalOpen: true,
-      });
-
-      return;
-    }
-
-    if (this.state.selectedUser === 'users') {
-      this.setState({
-        errorCode: 888,
-        // errorCode: `Please, select user.`,
-        isModalOpen: true,
-      });
-
-      return;
-    }
-
-    const newArr = [...this.state.todoList, this.createNewItem()];
-
-    if (!this.state.errorCode) {
-      this.setState(prevState => ({
-        todoList: [...newArr],
-        selectedUser: 'users',
-        newTask: '',
-        isModalOpen: false,
-      }));
-    }
+    this.setState(prevState => ({ todoList: [
+      ...prevState.todoList,
+      obj,
+    ] }));
   };
 
   handleCheck = (e) => {
@@ -139,13 +49,6 @@ export class App extends React.Component {
     });
   }
 
-  handleModalClose = () => {
-    this.setState(prevState => ({
-      errorCode: '',
-      isModalOpen: false,
-    }));
-  }
-
   handleDelete = () => {
     const notReadyTodos = this.state.todoList.filter(todo => !todo.completed);
 
@@ -155,29 +58,14 @@ export class App extends React.Component {
   }
 
   render() {
-    const {
-      todoList,
-      isModalOpen,
-      errorCode,
-      newTask,
-      selectedUser,
-    } = this.state;
+    const { todoList } = this.state;
 
     return (
       <div className="container App">
         <h1 className="title">Add todo form</h1>
-        {isModalOpen && (
-          <Modal onClose={this.handleModalClose}>
-            {errors.find(error => error.id === errorCode).value}
-          </Modal>
-        )}
-        <ControlForm
+        <NewTodo
           users={users}
-          newTask={newTask}
-          selectValue={selectedUser}
-          select={this.handleSelect}
-          input={this.handleInput}
-          submit={this.handleSubmit}
+          submit={(e, obj) => this.handleSubmit(e, obj)}
           deleteDone={this.handleDelete}
         />
         <TodoList todos={todoList} onCheck={this.handleCheck} />

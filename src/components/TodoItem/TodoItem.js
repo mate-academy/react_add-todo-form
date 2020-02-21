@@ -30,7 +30,8 @@ TodoItem.propTypes = {
   onCheck: PropTypes.func.isRequired,
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string,
+        PropTypes.number,]).isRequired,
       title: PropTypes.string.isRequired,
       user: PropTypes.shape({
         name: PropTypes.string.isRequired,
