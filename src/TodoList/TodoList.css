@@ -1,0 +1,14 @@
+.table {
+  display: inline-block;
+}
+
+.table__header {
+  font-weight: 600;
+  font-size: 22px;
+  background-color: #ccc;
+}
+
+.table__data {
+  border: 1px solid #000;
+  padding: 10px;
+}
