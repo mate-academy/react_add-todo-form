@@ -1,0 +1,19 @@
+table {
+  margin: 0 auto;
+}
+
+thead {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #eee;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 5px;
+  font-size: 18px;
+}
