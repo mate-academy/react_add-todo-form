@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 export class NewTodo extends React.Component {
   state = {
-    userId: 0,
+    id: 3,
     title: '',
+    userId: 0,
     errorInput: false,
     errorSelect: false,
   }
@@ -28,22 +29,20 @@ export class NewTodo extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, userId } = this.state;
+    const { id, title, userId } = this.state;
     const { addTodo } = this.props;
 
-    addTodo(title, userId);
+    if (title && userId) {
+      addTodo(id, title, userId);
 
-    this.setState({
-      title: '',
-      userId: 0,
-      errorInput: false,
-      errorSelect: false,
-    });
-  }
-
-  validateForm = (event) => {
-    event.preventDefault();
-    const { title, userId } = this.state;
+      this.setState({
+        id: id + 1,
+        title: '',
+        userId: 0,
+        errorInput: false,
+        errorSelect: false,
+      });
+    }
 
     if (!title) {
       this.setState({
@@ -80,9 +79,7 @@ export class NewTodo extends React.Component {
       <div className="field is-horizontal is-grouped">
         <form
           className="field-body"
-          onSubmit={
-            title && userId ? this.handleSubmit : this.validateForm
-          }
+          onSubmit={this.handleSubmit}
         >
           <div className="field has-addons">
             <div className="control is-expanded">

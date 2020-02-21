@@ -8,13 +8,11 @@ export class TodoList extends React.Component {
     todos: [...this.props.todos],
   }
 
-  addTodo = (title, userId) => {
-    const size = this.state.todos.length;
-
+  addTodo = (id, title, userId) => {
     this.setState(prevState => ({
       todos: [...prevState.todos, {
+        id,
         userId: +userId,
-        id: size + 1,
         title,
       }],
     }));
