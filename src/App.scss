@@ -1,0 +1,21 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.todo-list {
+  width: 500px;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 50px;
+  &__button {
+    width: 110px;
+    align-self: center;
+  }
+}
