@@ -32,20 +32,22 @@ class NewTodo extends React.Component {
     this.clearInput();
     this.clearSelect();
 
-    if (this.state.title === '') {
+    const { title, userId } = this.state;
+
+    if (title === '') {
       this.setState({
         placeholderValue: 'Please enter the title',
       });
     }
 
-    if (this.state.userId === 0) {
+    if (userId === 0) {
       this.setState({
         selectClass: 'select--error',
         isSelected: true,
       });
     }
 
-    if (!(this.state.userId === 0 || this.state.title === '')) {
+    if (!(userId === 0 || title === '')) {
       const { addTodo } = this.props;
 
       addTodo(this.addNewId());
@@ -74,11 +76,13 @@ class NewTodo extends React.Component {
 
   render() {
     const { users } = this.props;
-    const { title,
+    const {
+      title,
       userId,
       placeholderValue,
       isSelected,
-      selectClass } = this.state;
+      selectClass,
+    } = this.state;
 
     return (
       <>
