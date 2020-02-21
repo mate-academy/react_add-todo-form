@@ -1,0 +1,25 @@
+.input-todo::placeholder {
+  color: red;
+}
+
+.error-container {
+  height: 20px;
+}
+
+.error-text {
+  width: 200px;
+  margin: 0;
+  padding-left: 50%;
+  text-align: start;
+  font-size: 15px;
+  color: red;
+}
+
+.select {
+  margin-left: 30px;
+}
+
+.select--error {
+  border-color: red;
+  margin-left: 30px;
+}
