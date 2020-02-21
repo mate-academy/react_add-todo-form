@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './NewTodo.css';
 
 export class NewTodo extends React.Component {
   state = {
@@ -68,7 +69,7 @@ export class NewTodo extends React.Component {
 
     return (
       <>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} className="form">
           <input
             value={this.state.title}
             onChange={this.onChange}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NewTodo } from '../NewTodo/NewTodo';
+import './TodoList.css';
 
 export class TodoList extends React.Component {
   state = {
@@ -18,19 +19,19 @@ export class TodoList extends React.Component {
     return (
       <>
         <NewTodo users={this.state.users} addTodo={this.addTodo} />
-        <table>
+        <table className="table">
           <thead>
-            <tr>
+            <tr className="table__head">
               <th>Id</th>
               <th>Title</th>
               <th>User Id</th>
             </tr>
           </thead>
           {this.state.todos.map(todo => (
-            <tr>
-              <td>{todo.id}</td>
-              <td>{todo.title}</td>
-              <td>{todo.userId}</td>
+            <tr className="table__row">
+              <td className="table__cell">{todo.id}</td>
+              <td className="table__cell">{todo.title}</td>
+              <td className="table__cell">{todo.userId}</td>
             </tr>
           ))}
         </table>

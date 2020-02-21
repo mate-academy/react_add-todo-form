@@ -1,0 +1,31 @@
+* {
+  font-family: sans-serif;
+  color: #2e2526;
+  font-size: 20px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.form__input {
+  border: none;
+  outline: none;
+  border-bottom: solid 2px #2e2526;
+}
+
+.form__button {
+  cursor: pointer;
+  border: solid 2px #2e2526;
+  outline: none;
+  background-color: #fff;
+  border-radius: 10%;
+}
+
+.form__error {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
