@@ -3,15 +3,15 @@
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
-Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
+Implement ability to add TODOs to the `NewTodo` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
 
-1. Create `App` component storing `todos` array and displaying it with `TodoList`
+1. Create `NewTodo` component storing `todos` array and displaying it with `NewTodo`
 1. Create `NewTodo` component with a form to add new TODOs
     - please add labels and placeholders where it is needed
     - each TODO should have a `title` and `userId` selected from a list of given `users` (`./src/api/users.js`)
     - show user names in `<select>`
     - the `TODO` should be added to the list after clicking `Add` button
-    - `App` should add integer `id` to each TODO (starting from `1`)
+    - `NewTodo` should add integer `id` to each TODO (starting from `1`)
 1. Clear the form after adding a TODO
 1. Add validation to the form
     - add an empty option `Choose a user` to the users select
