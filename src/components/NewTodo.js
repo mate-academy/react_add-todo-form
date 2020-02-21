@@ -1,5 +1,6 @@
 import React from 'react';
 import './NewTodo.css';
+import PropTypes from 'prop-types';
 
 export class NewTodo extends React.Component {
   state = {
@@ -96,3 +97,12 @@ export class NewTodo extends React.Component {
     );
   }
 }
+
+NewTodo.propTypes = {
+  addNewTodo: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    phone: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  })).isRequired,
+};
