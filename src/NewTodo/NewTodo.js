@@ -15,54 +15,60 @@ export class NewTodo extends Component {
   }
 
   selectUser = (event) => {
-    const newTodoUser = this.props.users.find(
-      user => user.id === Number(event.target.value),
-    );
+    const { value } = event.target;
 
-    this.setState({
-      userName: newTodoUser.name,
-      userId: event.target.value,
+    this.setState(prevState => ({
+      userName: prevState.users.find(
+        user => user.id === Number(value),
+      ).name,
+      userId: value,
       userSelectError: false,
-    });
+    }));
   }
 
   handleChange = (event) => {
+    const { value } = event.target;
+
     this.setState({
-      value: event.target.value,
+      value,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { value, id, userId } = this.state;
-    const newTodo = {
-      id: id + 1,
-      title: value,
-      userId: Number(userId),
-    };
+    if (!(this.state.userName && this.state.value.trim())) {
+      this.validateForm();
+    } else {
+      const { value, id, userId } = this.state;
+      const newTodo = {
+        id: id + 1,
+        title: value,
+        userId: Number(userId),
+      };
 
-    this.props.addTodo(newTodo);
+      this.props.addTodo(newTodo);
 
-    this.setState({
-      id: id + 1,
-      value: '',
-      userName: '',
-      userId: 0,
-      placeholder: '',
-    });
+      this.setState({
+        id: id + 1,
+        value: '',
+        userName: '',
+        userId: 0,
+        placeholder: '',
+      });
+    }
   }
 
-  validateForm = (event) => {
-    event.preventDefault();
+  validateForm = () => {
+    const { userName, value } = this.state;
 
-    if (!this.state.userName) {
+    if (!userName) {
       this.setState({
         userSelectError: true,
       });
     }
 
-    if (!this.state.value.trim()) {
+    if (!value.trim()) {
       this.setState({
         value: '',
         placeholder: 'Please enter the title',
@@ -71,24 +77,22 @@ export class NewTodo extends Component {
   }
 
   render() {
+    const { users, placeholder, value, userId, userSelectError } = this.state;
+
     return (
       <form
         className={classNames({
-          'user__select-error': this.state.userSelectError,
+          'user__select-error': userSelectError,
         })}
-        onSubmit={
-          this.state.userName && this.state.value.trim()
-            ? this.handleSubmit
-            : this.validateForm
-        }
+        onSubmit={this.handleSubmit}
       >
         <select
           className="newtodo__select"
           onChange={this.selectUser}
-          value={this.state.userId}
+          value={userId}
         >
           <option disabled value="0">Choose a user</option>
-          {this.state.users.map(user => (
+          {users.map(user => (
             <option
               key={user.id}
               value={user.id}
@@ -101,8 +105,8 @@ export class NewTodo extends Component {
         <input
           className="newtodo__input"
           onChange={this.handleChange}
-          placeholder={this.state.placeholder}
-          value={this.state.value}
+          placeholder={placeholder}
+          value={value}
         />
         <button
           type="submit"
