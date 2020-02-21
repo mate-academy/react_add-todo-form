@@ -7,29 +7,33 @@ export class Form extends React.Component {
   state = {
     users: [...this.props.users],
     id: 3,
-    inputUser: '',
+    selectedUserId: 0,
     inputTitle: '',
     inputError: false,
     selectError: false,
   };
 
   inputTitleChange = (event) => {
+    const { target: { value } } = event;
+
     this.setState({
-      inputTitle: event.target.value,
+      inputTitle: value,
       inputError: false,
     });
   };
 
   selectChange = (event) => {
+    const { target: { value } } = event;
+
     this.setState({
-      inputUser: event.target.value,
+      selectedUserId: +value,
       selectError: false,
     });
   };
 
   buttonSubmit = (event) => {
     event.preventDefault();
-    const { inputUser, id, inputTitle, users } = this.state;
+    const { selectedUserId, id, inputTitle, users } = this.state;
     const { addTodo } = this.props;
     let error = false;
     const pattern = /[^\d\s\w]/g;
@@ -44,7 +48,7 @@ export class Form extends React.Component {
       });
     }
 
-    if (inputUser < 2) {
+    if (selectedUserId === 0) {
       error = true;
       this.setState({
         selectError: true,
@@ -53,14 +57,14 @@ export class Form extends React.Component {
 
     if (!error) {
       addTodo({
-        userId: inputUser.id,
+        userId: selectedUserId.id,
         id,
         title: inputTitle,
         completed: false,
-        user: users.find(user => user.name === inputUser),
+        user: users.find(user => user.id === selectedUserId),
       });
       this.setState(prevState => ({
-        inputUser: '',
+        selectedUserId: 0,
         inputTitle: '',
         id: prevState.id + 1,
         inputError: false,
@@ -72,7 +76,7 @@ export class Form extends React.Component {
   render() {
     const {
       users,
-      inputUser,
+      selectedUserId,
       inputTitle,
       inputError,
       selectError,
@@ -103,7 +107,7 @@ export class Form extends React.Component {
           <select
             id="select"
             className="form__select select"
-            value={inputUser}
+            value={selectedUserId}
             onChange={this.selectChange}
             placeholder="Write title"
           >
@@ -114,7 +118,7 @@ export class Form extends React.Component {
               <option
                 className="option"
                 key={user.id}
-                value={user.name}
+                value={user.id}
               >
                 {user.name}
               </option>
