@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid/v4';
-import users from '../../api/users';
 import './NewTodo.css';
 
 class NewTodo extends React.Component {
@@ -32,6 +31,7 @@ class NewTodo extends React.Component {
     event.preventDefault();
     this.clearInput();
     this.clearSelect();
+
     if (this.state.title === '') {
       this.setState({
         placeholderValue: 'Please enter the title',
@@ -43,6 +43,12 @@ class NewTodo extends React.Component {
         selectClass: 'select--error',
         isSelected: true,
       });
+    }
+
+    if (!(this.state.userId === 0 || this.state.title === '')) {
+      const { addTodo } = this.props;
+
+      addTodo(this.addNewId());
     }
   };
 
@@ -60,18 +66,14 @@ class NewTodo extends React.Component {
 
   addNewId = () => {
     const { userId, title } = this.state;
-    const tempState = {
-      userId, title,
-    };
 
     return {
-      id: uuid(),
-      ...tempState,
+      id: uuid(), userId, title,
     };
   };
 
   render() {
-    const { addTodo } = this.props;
+    const { users } = this.props;
     const { title,
       userId,
       placeholderValue,
@@ -87,6 +89,7 @@ class NewTodo extends React.Component {
             value={title}
             onChange={this.handleInput}
             type="text"
+            maxLength={20}
           />
           <select
             className={selectClass}
@@ -100,12 +103,7 @@ class NewTodo extends React.Component {
               <option key={user.name} value={user.id}>{user.name}</option>
             ))}
           </select>
-          <button
-            onClick={() => addTodo(this.addNewId())}
-            type="submit"
-          >
-            Add
-          </button>
+          <button type="submit">Add</button>
         </form>
         <div className="error-container">
           {
@@ -123,4 +121,8 @@ export default NewTodo;
 
 NewTodo.propTypes = {
   addTodo: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
 };

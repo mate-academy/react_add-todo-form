@@ -9,19 +9,18 @@ class TodoList extends React.Component {
   };
 
   addTodo = (newTodo) => {
-    if (!(newTodo.userId === 0 || newTodo.title === '')) {
-      this.setState(prevState => ({
-        todos: [...prevState.todos, newTodo],
-      }));
-    }
+    this.setState(prevState => ({
+      todos: [...prevState.todos, newTodo],
+    }));
   };
 
   render() {
     const { todos } = this.state;
+    const { users } = this.props;
 
     return (
       <div>
-        <NewTodo addTodo={this.addTodo} />
+        <NewTodo addTodo={this.addTodo} users={users} />
         <table className="table">
           <thead>
             <tr>
@@ -54,6 +53,10 @@ TodoList.propTypes = {
       completed: PropTypes.bool,
     }),
   ).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
 };
 
 export default TodoList;
