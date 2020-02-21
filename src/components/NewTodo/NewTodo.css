@@ -1,0 +1,38 @@
+.input {
+  padding: 5px;
+  height: 30px;
+  margin: 0 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 3px 5px 2px rgba(0,0,0,0.5);
+}
+
+.input-container {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+}
+
+.button {
+  border: 2px solid #d82121;
+  color: #d82121;
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 0 10px;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+
+.button:hover {
+  box-shadow: 0 2px 5px 2px #d8212180;
+}
+
+.error {
+  position: absolute;
+  top: 40px;
+  left: 5px;
+  color: #d82121;
+  font-size: small;
+}
