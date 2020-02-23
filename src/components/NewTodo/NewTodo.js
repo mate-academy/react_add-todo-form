@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 
 export class NewTodo extends React.Component {
    state = {
-     isErrorInput: false,
-     isErrorSelect: false,
      tempInputValue: '',
      tempSelectValue: 0,
+     errors: {
+       isErrorInput: false,
+       isErrorSelect: false,
+     },
    }
 
   handlerSubmit = (event) => {
@@ -36,15 +38,19 @@ export class NewTodo extends React.Component {
       this.props.handler(newTodo);
 
       this.setState({
-        isErrorInput: false,
-        isErrorSelect: false,
+        errors: {
+          isErrorInput: false,
+          isErrorSelect: false,
+        },
         tempInputValue: '',
         tempSelectValue: 0,
       });
     } else {
       this.setState({
-        isErrorInput: !isInputValidate,
-        isErrorSelect: !isSelectValidate,
+        errors: {
+          isErrorInput: !isInputValidate,
+          isErrorSelect: !isSelectValidate,
+        },
       });
     }
   }
@@ -52,14 +58,14 @@ export class NewTodo extends React.Component {
   handlerInput = (event) => {
     this.setState({
       tempInputValue: event.target.value.replace(/[^\s\w]/g, ''),
-      isErrorInput: false,
+      errors: { isErrorInput: false },
     });
   }
 
   handlerSelect = (event) => {
     this.setState({
       tempSelectValue: +event.target.value,
-      isErrorSelect: false,
+      errors: { isErrorSelect: false },
     });
   }
 
@@ -81,7 +87,10 @@ export class NewTodo extends React.Component {
                   maxLength={25}
                 />
                 <span className="error">
-                  {this.state.isErrorInput ? '!!! Please enter the task' : ''}
+                  {this.state.errors.isErrorInput
+                    ? '!!! Please enter the task'
+                    : ''
+                  }
                 </span>
               </div>
             </fieldset>
@@ -99,7 +108,10 @@ export class NewTodo extends React.Component {
                   ))}
                 </select>
                 <span className="error">
-                  {this.state.isErrorSelect ? '!!! Please choose a user' : ''}
+                  {this.state.errors.isErrorSelect
+                    ? '!!! Please choose a user'
+                    : ''
+                  }
                 </span>
               </div>
             </fieldset>

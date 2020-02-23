@@ -12,8 +12,9 @@ class App extends React.Component {
   }
 
   handlerNewTask = (newTodo) => {
-    this.state.todosList.push(newTodo);
-    this.setState({});
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, newTodo],
+    }));
   }
 
   render() {
