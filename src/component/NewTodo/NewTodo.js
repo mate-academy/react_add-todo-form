@@ -25,7 +25,10 @@ export class NewTodo extends React.Component {
     const { valueNewTodo } = this.state;
     const { userTodos, selectedUser, renderAddedTodo } = this.props;
 
-    if (this.state.valueNewTodo.length < 1) {
+    if (
+      this.state.valueNewTodo.length < 1
+      || !this.state.valueNewTodo.match(/[\w]+/gi)
+    ) {
       this.setState({
         error: true,
         errorMessage: 'Error: Empty input, please write something',
