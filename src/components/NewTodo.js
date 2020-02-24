@@ -51,8 +51,6 @@ export class NewTodo extends React.Component {
   render() {
     const { error, title, userId } = this.state;
 
-    console.log(error, title, userId);
-
     return (
       <form className="form-todo" onSubmit={this.validateForm}>
         <label htmlFor="form-input-label" className="form-todo__label">
