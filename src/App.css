@@ -1,3 +1,21 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: space-around;
+  width: 1200px;
+}
+
+@media screen and (max-width: 1200px) {
+  .App {
+    flex-direction: column;
+  }
+}
+
+.App__form {
+  width: 500px;
+}
+
+.App__table {
+  width: 650px;
+  margin-bottom: 20px;
 }

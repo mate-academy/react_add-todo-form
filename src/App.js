@@ -2,18 +2,38 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import todos from './api/todos';
+import { TodoList } from './components/TodoList/TodoList';
+import { NewTodo } from './components/NewTodo/NewTodo';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+class App extends React.Component {
+  state = {
+    todosList: todos,
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  handlerNewTask = (newTodo) => {
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, newTodo],
+    }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="App__table">
+          <h1>Table of tasks</h1>
+          <TodoList todos={this.state.todosList} users={users} />
+        </div>
+        <div className="App__form">
+          <NewTodo
+            users={users}
+            todos={this.state.todosList}
+            handler={this.handlerNewTask}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
