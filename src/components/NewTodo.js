@@ -13,7 +13,7 @@ export class NewTodo extends React.Component {
     event.preventDefault();
     const { title, userId } = this.state;
 
-    if (title && userId) {
+    if (title.length > 0 && userId > 0) {
       const newTask = {
         title,
         userId,
@@ -27,7 +27,7 @@ export class NewTodo extends React.Component {
         userId: 0,
         error: false,
       }));
-    } else if (!this.state.title || !this.state.user) {
+    } else {
       this.setState({
         error: true,
       });
@@ -51,22 +51,28 @@ export class NewTodo extends React.Component {
   render() {
     const { error, title, userId } = this.state;
 
+    console.log(error, title, userId);
+
     return (
-      <form onSubmit={this.validateForm}>
-        <label>
+      <form className="form-todo" onSubmit={this.validateForm}>
+        <label htmlFor="form-input-label" className="form-todo__label">
         Task:
-          <input
-            value={this.state.title}
-            placeholder="Enter your task"
-            onChange={this.handleInputChange}
-          />
         </label>
+        <input
+          id="form-input-label"
+          value={this.state.title}
+          placeholder="Enter your task"
+          onChange={this.handleInputChange}
+          className="form-todo__input"
+        />
+
         <select
+          className="form-todo__select"
           value={this.state.userId}
           placeholder="Choose a user"
           onChange={this.handleSelectChange}
         >
-          <option>Choose a user</option>
+          <option value="0">Choose a user</option>
           {this.props.users.map(user => (
             <option
               key={user.phone}
@@ -78,19 +84,25 @@ export class NewTodo extends React.Component {
         </select>
         <button
           type="submit"
+          className="form-todo__button"
         >
           Add task
         </button>
-        <div className={!error ? 'errors__show errors' : 'errors__hide errors'}>
+        <div className={error
+          ? 'errors-show' : 'errors-hide'}
+        >
           <div
-            className={!userId ? 'errors__show-user' : 'errors__hide-user'}
+            className={userId !== 0
+              ? 'errors__hide-user' : 'errors__show-user'}
           >
             Please choose a user
           </div>
           <div
-            className={!title ? 'errors__show-title' : 'errors__hide-title'}
+            className={title.length !== 0
+              ? 'errors__hide-title'
+              : 'errors__show-title'}
           >
-            Please enter the title
+         Please enter the title
           </div>
         </div>
       </form>
@@ -103,6 +115,6 @@ NewTodo.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
     phone: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
 };

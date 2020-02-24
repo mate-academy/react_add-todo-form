@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 export const Todo = ({ title, completed, id, userId }) => (
   <tr>
-    <td>{id}</td>
-    <td>{title}</td>
-    <td>{completed ? 'Done' : '-'}</td>
-    <td>{userId}</td>
+    <td className="todo-list__cell">{id}</td>
+    <td className="todo-list__cell">{title}</td>
+    <td className="todo-list__cell">{completed ? 'Done' : '-'}</td>
+    <td className="todo-list__cell">{userId}</td>
   </tr>
 );
 
