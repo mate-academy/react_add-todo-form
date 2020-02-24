@@ -17,7 +17,7 @@ export class NewTodo extends React.Component {
 
     const { userId, id, title } = this.state;
 
-    if (title === '') {
+    if (!title.length) {
       this.setState({
         errorTitle: true,
       });
@@ -38,16 +38,16 @@ export class NewTodo extends React.Component {
     };
 
     this.props.addTodo(todo);
-    this.setState({
+    this.setState(prevState => ({
       id: id + 1,
       title: '',
       userId: 0,
-    });
+    }));
   };
 
   onChange = (e) => {
     this.setState({
-      title: e.target.value,
+      title: e.target.value.trimLeft(),
     });
   };
 
@@ -65,13 +65,13 @@ export class NewTodo extends React.Component {
   }
 
   render() {
-    const { users } = this.state;
+    const { users, title, userId, errorTitle, errorUser } = this.state;
 
     return (
       <>
         <form onSubmit={this.onSubmit} className="form">
           <input
-            value={this.state.title}
+            value={title}
             onChange={this.onChange}
             onSelect={this.clearErrorTitle}
             type="text"
@@ -80,7 +80,7 @@ export class NewTodo extends React.Component {
           />
           <select
             onChange={this.onSelectName}
-            value={this.state.userId}
+            value={userId}
             className="form__select"
           >
             <option value={0} key={0} disabled> Choose the user</option>
@@ -100,13 +100,13 @@ export class NewTodo extends React.Component {
             Add
           </button>
         </form>
-        {this.state.errorTitle && (
+        {errorTitle && (
           <span className="form__error">
           Write the title of todo
           </span>
         )}
 
-        {this.state.errorUser && (
+        {errorUser && (
           <span className="form__error">
           Choose the user
           </span>

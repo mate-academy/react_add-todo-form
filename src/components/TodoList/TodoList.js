@@ -16,9 +16,11 @@ export class TodoList extends React.Component {
   }
 
   render() {
+    const { users, todos } = this.state;
+
     return (
       <>
-        <NewTodo users={this.state.users} addTodo={this.addTodo} />
+        <NewTodo users={users} addTodo={this.addTodo} />
         <table className="table">
           <thead>
             <tr className="table__head">
@@ -27,8 +29,8 @@ export class TodoList extends React.Component {
               <th>User Id</th>
             </tr>
           </thead>
-          {this.state.todos.map(todo => (
-            <tr className="table__row">
+          {todos.map(todo => (
+            <tr className="table__row" key={todo.id}>
               <td className="table__cell">{todo.id}</td>
               <td className="table__cell">{todo.title}</td>
               <td className="table__cell">{todo.userId}</td>
