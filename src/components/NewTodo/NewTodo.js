@@ -15,21 +15,14 @@ export class NewTodo extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { userId, id, title } = this.state;
+    const { userId, id, title, errorTitle, errorUser } = this.state;
 
-    if (!title.length) {
-      this.setState({
-        errorTitle: true,
-      });
+    this.setState({
+      errorTitle: title.length === 0,
+      errorUser: userId === 0,
+    });
 
-      return;
-    }
-
-    if (userId === 0) {
-      this.setState({
-        errorUser: true,
-      });
-
+    if (errorUser || errorTitle) {
       return;
     }
 
@@ -39,7 +32,7 @@ export class NewTodo extends React.Component {
 
     this.props.addTodo(todo);
     this.setState(prevState => ({
-      id: id + 1,
+      id: prevState.id + 1,
       title: '',
       userId: 0,
     }));
