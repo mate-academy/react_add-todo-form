@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import { Select } from './Select';
 
 export class NewTodo extends Component {
@@ -79,13 +80,24 @@ export class NewTodo extends Component {
           v Add
           </button>
         </form>
-        <div className={!errors ? 'errors--hiden' : 'errors'}>
+        <div className={cn({
+          'errors--hiden': !errors,
+          errors,
+        })}
+        >
           <div
-            className={inputedTitle !== '' ? 'errors--hiden' : 'errors'}
+            className={cn({
+              'errors--hiden': inputedTitle !== '',
+              errors,
+            })}
           >
               Please enter some !
           </div>
-          <div className={userId !== 0 ? 'errors--hiden' : 'errors'}>
+          <div className={cn({
+            'errors--hiden': userId !== 0,
+            errors,
+          })}
+          >
             ChooseUser
           </div>
         </div>
