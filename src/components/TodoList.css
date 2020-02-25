@@ -1,0 +1,20 @@
+table,
+td,
+th {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+
+.todo-list {
+  background-color: #66a4e4;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.todo-list__head {
+  background-color: #4086e6;
+}
+
+.todo-list__cell {
+  padding: 15px;
+}

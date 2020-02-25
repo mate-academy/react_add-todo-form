@@ -1,0 +1,57 @@
+.errors-hide .errors__show-user,
+.errors-hide .errors__show-title {
+  color: transparent;
+}
+
+.errors-show .errors__show-user,
+.errors-show .errors__show-title {
+  color: #000;
+}
+
+.errors-show .errors__hide-user,
+.errors-show .errors__hide-title {
+  color: transparent;
+}
+
+.errors-hide .errors__hide-user,
+.errors-hide .errors__hide-title {
+  color: transparent;
+}
+
+.form-todo {
+  margin: 0 auto;
+  border: 1px solid #b2b0f2;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 300px;
+  background-color: #ecbff5;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.form-todo__input,
+.form-todo__select {
+  width: 250px;
+  height: 30px;
+  padding-left: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #b2b0f2;
+}
+
+.form-todo__button {
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  background-color: #b2b0f2;
+}
+
+.form-todo__label {
+  font-size: 20px;
+  font-weight: bold;
+}
