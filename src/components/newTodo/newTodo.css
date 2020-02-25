@@ -1,0 +1,34 @@
+.form {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+  position: relative;
+}
+
+.form__input,
+.form__select,
+.form__btn {
+  border-radius: 5px;
+  font-size: 14px;
+  border: 1px solid gray;
+}
+
+.form__child:not(:last-child) {
+  margin-right: 30px;
+}
+
+.form__input-container,
+.form__select-container {
+  position: relative;
+}
+
+.form__btn {
+  padding: 5px 20px;
+}
+
+.error {
+  color: red;
+  position: absolute;
+  left: 0;
+  top: 30px;
+}
