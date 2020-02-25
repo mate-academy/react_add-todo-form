@@ -5,14 +5,14 @@ import usersData from './api/users';
 import todosData from './api/todos';
 import { Form } from './components/Form/Form';
 
-const filteredListTodos = todosData.map(todo => ({
+const filteredTodoList = todosData.map(todo => ({
   ...todo,
   user: usersData.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    todos: [...filteredListTodos],
+    todos: [...filteredTodoList],
   };
 
   addTodo = (todo) => {
@@ -25,20 +25,18 @@ class App extends React.Component {
     const { todos } = this.state;
 
     return (
-      <>
-        <div className="App">
-          <div className="app">
-            <h1 className="title">Todo List</h1>
-            <div className="wrapper">
-              <ListTodo todos={todos} />
-              <Form
-                users={usersData}
-                addTodo={this.addTodo}
-              />
-            </div>
+      <div className="App">
+        <div className="app">
+          <h1 className="title">Todo List</h1>
+          <div className="wrapper">
+            <ListTodo todos={todos} />
+            <Form
+              users={usersData}
+              addTodo={this.addTodo}
+            />
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

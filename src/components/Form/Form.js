@@ -33,29 +33,37 @@ export class Form extends React.Component {
 
   buttonSubmit = (event) => {
     event.preventDefault();
-    const { selectedUserId, id, inputTitle, users } = this.state;
+    const {
+      selectedUserId,
+      id,
+      inputTitle,
+      users,
+      inputError,
+      selectError,
+    } = this.state;
     const { addTodo } = this.props;
-    let error = false;
     const pattern = /[^\d\s\w]/g;
 
     if (inputTitle.trim().length < 3
       || inputTitle.trim().length > 30
       || pattern.test(inputTitle)
     ) {
-      error = true;
       this.setState({
         inputError: true,
       });
+
+      return;
     }
 
     if (selectedUserId === 0) {
-      error = true;
       this.setState({
         selectError: true,
       });
+
+      return;
     }
 
-    if (!error) {
+    if (!inputError && !selectError) {
       addTodo({
         userId: selectedUserId.id,
         id,
@@ -99,9 +107,9 @@ export class Form extends React.Component {
           </label>
           {inputError && (
             <span className="form__error form__error-title">
-            Please enter a valid title( Allow entering`spaces`,
-              alphanumeric characters
-                and minimum length 3 characters).
+              Please enter a valid title( Allow entering`spaces`,
+                alphanumeric characters
+                  and minimum length 3 characters).
             </span>
           )}
           <select
@@ -112,7 +120,7 @@ export class Form extends React.Component {
             placeholder="Write title"
           >
             <option value={0}>
-            Select user
+              Select user
             </option>
             {users.map(user => (
               <option
@@ -126,14 +134,14 @@ export class Form extends React.Component {
           </select>
           {selectError && (
             <span className="form__error form__error-user">
-            Please choose a user.
+              Please choose a user.
             </span>
           )}
           <button
             className="form__button button"
             type="submit"
           >
-          Add TODO
+            Add TODO
           </button>
         </form>
       </>
