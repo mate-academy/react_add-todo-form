@@ -19,3 +19,11 @@
     align-self: center;
   }
 }
+
+.errors {
+  display: block;
+  color: red;
+  &--hiden {
+    display: none;
+  }
+}

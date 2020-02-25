@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Table } from '../../node_modules/react-bootstrap';
 import { NewTodo } from './NewTodo';
 
 export class TodoList extends Component {
@@ -19,7 +20,7 @@ export class TodoList extends Component {
 
     return (
       <>
-        <table className="todo-list">
+        <Table striped bordered hover variant="dark" size="sm" responsive="sm">
           <thead>
             <tr>
               <th>№</th>
@@ -36,7 +37,7 @@ export class TodoList extends Component {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
         <NewTodo users={users} addNewTodo={this.addNewTodo} />
       </>
     );

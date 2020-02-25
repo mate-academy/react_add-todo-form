@@ -8,6 +8,7 @@ export class NewTodo extends Component {
     inputedTitle: '',
     id: 3,
     userId: 0,
+    errors: false,
   }
 
   titleTodo = (event) => {
@@ -24,24 +25,32 @@ export class NewTodo extends Component {
 
   addTodo = (event) => {
     event.preventDefault();
+    const { inputedTitle, userId } = this.state;
 
-    const newTodo = {
-      id: this.state.id,
-      title: this.state.inputedTitle,
-      userId: this.state.userId,
-    };
+    if (inputedTitle.length > 0 && userId > 0) {
+      const newTodo = {
+        id: this.state.id,
+        title: inputedTitle,
+        userId,
+      };
 
-    this.props.addNewTodo(newTodo);
+      this.props.addNewTodo(newTodo);
 
-    this.setState(prevState => ({
-      inputedTitle: '',
-      userId: 0,
-      id: prevState.id + 1,
-    }));
+      this.setState(prevState => ({
+        inputedTitle: '',
+        userId: 0,
+        id: prevState.id + 1,
+        errors: false,
+      }));
+    } else {
+      this.setState({
+        errors: true,
+      });
+    }
   }
 
   render() {
-    const { users, inputedTitle } = this.state;
+    const { users, inputedTitle, userId, errors } = this.state;
 
     return (
       <>
@@ -56,7 +65,7 @@ export class NewTodo extends Component {
             value={inputedTitle}
           />
           <Select
-            userId={this.state.userId}
+            userId={userId}
             users={users}
             selectUserId={this.selectUserId}
           />
@@ -67,6 +76,16 @@ export class NewTodo extends Component {
           v Add
           </button>
         </form>
+        <div className={!errors ? 'errors--hiden' : 'errors'}>
+          <div
+            className={inputedTitle !== '' ? 'errors--hiden' : 'errors'}
+          >
+              Please enter some !
+          </div>
+          <div className={userId !== 0 ? 'errors--hiden' : 'errors'}>
+            ChooseUser
+          </div>
+        </div>
       </>
     );
   }
