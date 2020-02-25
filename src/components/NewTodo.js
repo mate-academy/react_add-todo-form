@@ -53,7 +53,10 @@ export class NewTodo extends React.Component {
 
     return (
       <form className="form-todo" onSubmit={this.validateForm}>
-        <label htmlFor="form-input-label" className="form-todo__label">
+        <label
+          htmlFor="form-input-label"
+          className="form-todo__label"
+        >
         Task:
         </label>
         <input
@@ -86,9 +89,7 @@ export class NewTodo extends React.Component {
         >
           Add task
         </button>
-        <div className={error
-          ? 'errors-show' : 'errors-hide'}
-        >
+        <div className={error ? 'errors-show' : 'errors-hide'}>
           <div
             className={userId !== 0
               ? 'errors__hide-user' : 'errors__show-user'}
@@ -96,9 +97,11 @@ export class NewTodo extends React.Component {
             Please choose a user
           </div>
           <div
-            className={title.length !== 0
-              ? 'errors__hide-title'
-              : 'errors__show-title'}
+            className={
+              title.length !== 0
+                ? 'errors__hide-title'
+                : 'errors__show-title'
+            }
           >
          Please enter the title
           </div>

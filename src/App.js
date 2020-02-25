@@ -5,13 +5,6 @@ import users from './api/users';
 import { TodoList } from './components/TodoList';
 import { NewTodo } from './components/NewTodo';
 
-// const preparedTodos = todos.map(todo => ({
-//   ...todo,
-//   user: users.find(user => user.id === todo.userId),
-// }));
-
-// console.log(preparedTodos)
-
 class App extends React.Component {
   state = {
     todosFromServer: todos,

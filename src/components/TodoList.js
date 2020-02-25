@@ -14,7 +14,7 @@ export const TodoList = ({ todos }) => (
       </tr>
     </thead>
     <tbody>
-      {todos.map(item => <Todo key={item.id} {...item} />)}
+      {todos.map(item => <Todo key={item.id} item={item} />)}
     </tbody>
   </table>
 );
