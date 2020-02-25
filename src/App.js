@@ -20,16 +20,14 @@ class App extends React.Component {
   }
 
   addTask = (task) => {
-    const newTask = {
-      ...task,
-    };
-
     this.setState(prevState => ({
-      tasks: [...prevState.tasks, newTask],
+      tasks: [...prevState.tasks, { ...task }],
     }));
   }
 
   render() {
+    const { tasks } = this.state;
+
     return (
       <>
         <div className="App">
@@ -43,9 +41,9 @@ class App extends React.Component {
         <NewTodo
           users={users}
           addTask={this.addTask}
-          tasks={this.state.tasks}
+          tasks={tasks}
         />
-        <TodoList tasks={this.state.tasks} />
+        <TodoList tasks={tasks} />
       </>
     );
   }

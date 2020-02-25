@@ -16,12 +16,12 @@ const TodoList = (props) => {
         </tr>
       </thead>
       <tbody>
-        {tasks.map((task) => {
+        {tasks.map((task, index) => {
           const { id, title, user } = task;
 
           return (
             <tr key={id}>
-              <td>{id}</td>
+              <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{title}</td>
             </tr>
@@ -35,7 +35,10 @@ const TodoList = (props) => {
 TodoList.propTypes = {
   tasks: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
       title: PropTypes.string,
       user: PropTypes.object,
     }).isRequired,

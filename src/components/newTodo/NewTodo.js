@@ -2,6 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import './newTodo.css';
+import uuid from 'uuid';
 
 class NewTodo extends React.Component {
   state = {
@@ -12,8 +13,10 @@ class NewTodo extends React.Component {
   };
 
   handleNewTaskName = (event) => {
+    const { value } = event.target;
+
     this.setState({
-      title: event.target.value,
+      title: value,
       inputErrorMessage: false,
     });
   }
@@ -29,12 +32,6 @@ class NewTodo extends React.Component {
     event.preventDefault();
     const { title, userId } = this.state;
     let error = false;
-
-    this.setState({
-      userId: Number(event.target.value),
-      selectErrorMessage: false,
-    });
-
     const { users } = this.props;
 
     if (!title) {
@@ -54,15 +51,13 @@ class NewTodo extends React.Component {
     }
 
     if (!error) {
-      const { tasks } = this.props;
-
       this.setState({
         title: '',
         userId: 0,
       });
 
       this.props.addTask({
-        id: tasks[tasks.length - 1].id + 1,
+        id: uuid(),
         userId,
         user: users.find(user => user.id === userId),
         title,
@@ -122,9 +117,6 @@ class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape(),
-  ).isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
