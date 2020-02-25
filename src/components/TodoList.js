@@ -20,7 +20,14 @@ export class TodoList extends Component {
 
     return (
       <>
-        <Table striped bordered hover variant="dark" size="sm" responsive="sm">
+        <Table
+          striped
+          bordered
+          hover
+          variant="dark"
+          size="sm"
+          responsive="sm"
+        >
           <thead>
             <tr>
               <th>№</th>
@@ -45,6 +52,14 @@ export class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  users: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    userId: PropTypes.number,
+    id: PropTypes.number,
+    title: PropTypes.string,
+    completed: PropTypes.bool,
+  })).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
 };

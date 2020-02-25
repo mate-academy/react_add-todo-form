@@ -16,7 +16,10 @@ export const Select = ({ userId, users, selectUserId }) => (
 );
 
 Select.propTypes = {
-  users: PropTypes.arrayOf.isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
   selectUserId: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
 };

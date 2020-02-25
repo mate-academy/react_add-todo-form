@@ -12,8 +12,11 @@ export class NewTodo extends Component {
   }
 
   titleTodo = (event) => {
+    const regExp = /^\s/;
+    const title = event.target.value.replace(regExp, '');
+
     this.setState({
-      inputedTitle: event.target.value,
+      inputedTitle: title,
     });
   }
 
@@ -92,6 +95,9 @@ export class NewTodo extends Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
   addNewTodo: PropTypes.func.isRequired,
 };
