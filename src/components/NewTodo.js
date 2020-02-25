@@ -57,7 +57,7 @@ export class NewTodo extends React.Component {
           htmlFor="form-input-label"
           className="form-todo__label"
         >
-        Task:
+          Task:
         </label>
         <input
           id="form-input-label"
@@ -92,7 +92,9 @@ export class NewTodo extends React.Component {
         <div className={error ? 'errors-show' : 'errors-hide'}>
           <div
             className={userId !== 0
-              ? 'errors__hide-user' : 'errors__show-user'}
+              ? 'errors__hide-user'
+              : 'errors__show-user'
+            }
           >
             Please choose a user
           </div>
