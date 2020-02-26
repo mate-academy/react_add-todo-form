@@ -1,0 +1,12 @@
+.table {
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.table__head {
+  background-color: #efb27b;
+}
+
+.table__cell {
+  padding: 10px;
+}
