@@ -9,8 +9,8 @@ export class Form extends React.Component {
     id: 3,
     selectedUserId: 0,
     inputTitle: '',
-    inputError: false,
-    selectError: false,
+    inputError: null,
+    selectError: null,
   };
 
   inputTitleChange = (event) => {
@@ -18,7 +18,6 @@ export class Form extends React.Component {
 
     this.setState({
       inputTitle: value,
-      inputError: false,
     });
   };
 
@@ -27,8 +26,20 @@ export class Form extends React.Component {
 
     this.setState({
       selectedUserId: +value,
-      selectError: false,
     });
+  };
+
+  validateForm = () => {
+    const { inputTitle, selectedUserId } = this.state;
+    const pattern = /[^\d\s\w]/g;
+
+    this.setState(prevState => ({
+      ...prevState.state,
+      inputError: Boolean(inputTitle.trim() === '' || pattern.test(inputTitle)),
+      selectError: Boolean(selectedUserId === 0),
+    }));
+
+    return true;
   };
 
   buttonSubmit = (event) => {
@@ -41,31 +52,16 @@ export class Form extends React.Component {
       inputError,
       selectError,
     } = this.state;
-    const { addTodo } = this.props;
-    const pattern = /[^\d\s\w]/g;
 
-    if (inputTitle.trim().length < 3
-      || inputTitle.trim().length > 30
-      || pattern.test(inputTitle)
+    this.validateForm();
+
+    if (!inputError
+      && !selectError
+      && inputError !== null
+      && selectError !== null
     ) {
-      this.setState({
-        inputError: true,
-      });
-
-      return;
-    }
-
-    if (selectedUserId === 0) {
-      this.setState({
-        selectError: true,
-      });
-
-      return;
-    }
-
-    if (!inputError && !selectError) {
-      addTodo({
-        userId: selectedUserId.id,
+      this.props.addTodo({
+        userId: selectedUserId,
         id,
         title: inputTitle,
         completed: false,
@@ -75,8 +71,8 @@ export class Form extends React.Component {
         selectedUserId: 0,
         inputTitle: '',
         id: prevState.id + 1,
-        inputError: false,
-        selectError: false,
+        inputError: null,
+        selectError: null,
       }));
     }
   };
