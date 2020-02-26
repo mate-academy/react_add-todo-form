@@ -9,8 +9,8 @@ export class Form extends React.Component {
     id: 3,
     selectedUserId: 0,
     inputTitle: '',
-    inputError: null,
-    selectError: null,
+    inputError: false,
+    selectError: false,
   };
 
   inputTitleChange = (event) => {
@@ -18,6 +18,7 @@ export class Form extends React.Component {
 
     this.setState({
       inputTitle: value,
+      inputError: false,
     });
   };
 
@@ -26,55 +27,50 @@ export class Form extends React.Component {
 
     this.setState({
       selectedUserId: +value,
+      selectError: false,
     });
-  };
-
-  validateForm = () => {
-    const { inputTitle, selectedUserId } = this.state;
-    const pattern = /[^\d\s\w]/g;
-
-    this.setState(prevState => ({
-      ...prevState.state,
-      inputError: Boolean(inputTitle.trim() === '' || pattern.test(inputTitle)),
-      selectError: Boolean(selectedUserId === 0),
-    }));
-
-    return true;
   };
 
   buttonSubmit = (event) => {
     event.preventDefault();
-    const {
-      selectedUserId,
-      id,
-      inputTitle,
-      users,
-      inputError,
-      selectError,
-    } = this.state;
+    const pattern = /[^\s\d\w]/g;
 
-    this.validateForm();
+    this.setState(({ selectedUserId, inputTitle, users, id }) => {
+      if (selectedUserId === 0
+        && (pattern.test(inputTitle)
+        || inputTitle === '')
+      ) {
+        return {
+          inputError: true,
+          selectError: true,
+        };
+      }
 
-    if (!inputError
-      && !selectError
-      && inputError !== null
-      && selectError !== null
-    ) {
+      if (pattern.test(inputTitle)
+        || inputTitle === '') {
+        return { inputError: true };
+      }
+
+      if (selectedUserId === 0) {
+        return { selectError: true };
+      }
+
       this.props.addTodo({
         userId: selectedUserId,
         id,
         title: inputTitle,
         completed: false,
-        user: users.find(user => user.id === selectedUserId),
+        user: users.find(person => person.id === selectedUserId),
       });
-      this.setState(prevState => ({
-        selectedUserId: 0,
+
+      return {
         inputTitle: '',
-        id: prevState.id + 1,
-        inputError: null,
-        selectError: null,
-      }));
-    }
+        selectedUserId: '',
+        inputError: false,
+        selectError: false,
+        id: id + 1,
+      };
+    });
   };
 
   render() {
@@ -103,9 +99,7 @@ export class Form extends React.Component {
           </label>
           {inputError && (
             <span className="form__error form__error-title">
-              Please enter a valid title( Allow entering`spaces`,
-                alphanumeric characters
-                  and minimum length 3 characters).
+              Please enter a valid title.
             </span>
           )}
           <select
