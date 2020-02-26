@@ -15,27 +15,33 @@ export class NewTodo extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { userId, id, title, errorTitle, errorUser } = this.state;
+    const { userId, id, title } = this.state;
 
-    this.setState({
-      errorTitle: title.length === 0,
-      errorUser: userId === 0,
+    this.setState((prevState) => {
+      if (title.length === 0) {
+        return {
+          errorTitle: true,
+        };
+      }
+
+      if (userId === 0) {
+        return {
+          errorUser: true,
+        };
+      }
+
+      const todo = {
+        userId, id, title,
+      };
+
+      this.props.addTodo(todo);
+
+      return {
+        id: prevState.id + 1,
+        title: '',
+        userId: 0,
+      };
     });
-
-    if (errorUser || errorTitle) {
-      return;
-    }
-
-    const todo = {
-      userId, id, title,
-    };
-
-    this.props.addTodo(todo);
-    this.setState(prevState => ({
-      id: prevState.id + 1,
-      title: '',
-      userId: 0,
-    }));
   };
 
   onChange = (e) => {
