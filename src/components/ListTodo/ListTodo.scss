@@ -1,0 +1,9 @@
+.thead .th {
+  color: azure;
+}
+
+.tr {
+  &-head {
+    background: grey;
+  }
+}

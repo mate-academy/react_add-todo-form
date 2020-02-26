@@ -1,0 +1,14 @@
+.app {
+  text-align: center;
+  margin: 5vh auto;
+  width: 60vw;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  margin: 0 auto;
+}
