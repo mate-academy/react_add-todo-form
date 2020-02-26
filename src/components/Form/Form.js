@@ -31,46 +31,46 @@ export class Form extends React.Component {
     });
   };
 
+  submitValidation = () => {
+    const { inputTitle, selectedUserId } = this.state;
+    const pattern = /[^\s\d\w]/g;
+
+    return (selectedUserId === 0
+      || (pattern.test(inputTitle) || inputTitle === ''));
+  };
+
   buttonSubmit = (event) => {
     event.preventDefault();
     const pattern = /[^\s\d\w]/g;
+    const {
+      selectedUserId,
+      id,
+      inputTitle,
+      users,
+    } = this.state;
 
-    this.setState(({ selectedUserId, inputTitle, users, id }) => {
-      if (selectedUserId === 0
-        && (pattern.test(inputTitle)
-        || inputTitle === '')
-      ) {
-        return {
-          inputError: true,
-          selectError: true,
-        };
-      }
-
-      if (pattern.test(inputTitle)
-        || inputTitle === '') {
-        return { inputError: true };
-      }
-
-      if (selectedUserId === 0) {
-        return { selectError: true };
-      }
-
+    if (this.submitValidation()) {
+      this.setState(prevState => ({
+        ...prevState.state,
+        inputError: Boolean(pattern.test(inputTitle) || inputTitle === ''),
+        selectError: Boolean(selectedUserId === 0),
+      }));
+    } else {
       this.props.addTodo({
-        userId: selectedUserId,
+        userId: selectedUserId.id,
         id,
         title: inputTitle,
         completed: false,
-        user: users.find(person => person.id === selectedUserId),
+        user: users.find(user => user.id === selectedUserId),
       });
-
-      return {
+      this.setState(prevState => ({
+        selectedUserId: 0,
         inputTitle: '',
-        selectedUserId: '',
+        id: prevState.id + 1,
         inputError: false,
         selectError: false,
-        id: id + 1,
-      };
-    });
+      }));
+    }
   };
 
   render() {
