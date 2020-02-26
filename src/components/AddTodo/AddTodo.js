@@ -10,18 +10,14 @@ export class AddTodo extends Component {
     inputError: false,
   }
 
-  handleInputChange = ({ target: { name, value } }) => {
-    this.setState({
-      title: value,
-      inputError: false,
-    });
-  }
+  handleChange = ({ target: { name, value } }) => {
+    if (name === 'title') {
+      this.setState({ [name]: value });
 
-  handleSubmitChange = ({ target: { value } }) => {
-    this.setState({
-      userId: +value,
-      selectError: false,
-    });
+      return;
+    }
+
+    this.setState({ [name]: +value });
   }
 
   handleSubmitForm = (event) => {
@@ -75,7 +71,7 @@ export class AddTodo extends Component {
           <input
             name="title"
             type="text"
-            onChange={this.handleInputChange}
+            onChange={this.handleChange}
             value={title}
             placeholder="Enter the title"
           />
@@ -89,7 +85,7 @@ export class AddTodo extends Component {
         <label>
           <select
             name="userId"
-            onChange={this.handleSubmitChange}
+            onChange={this.handleChange}
             value={userId}
             error={selectError}
           >
