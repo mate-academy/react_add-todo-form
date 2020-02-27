@@ -65,11 +65,6 @@ export class AddTodo extends Component {
             placeholder="Enter the title"
           />
         </label>
-        {showError && (
-          <div>
-            Please enter the title
-          </div>
-        )}
 
         <label>
           <select
@@ -83,10 +78,7 @@ export class AddTodo extends Component {
             ))}
           </select>
         </label>
-        {showError && (
-          <div>Please, chose user name!</div>
-        )}
-
+        {showError && <p>please fill in all fields</p>}
         <button type="submit">
           Add
         </button>

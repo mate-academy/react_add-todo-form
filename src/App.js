@@ -17,7 +17,7 @@ export class App extends Component {
 
   addTodo = (todo) => {
     this.setState(prevState => ({
-      peparedTodos: [...prevState.peparedTodos, { ...todo }],
+      peparedTodos: [...prevState.peparedTodos, todo],
     }));
   }
 
