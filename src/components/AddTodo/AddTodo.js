@@ -6,43 +6,27 @@ export class AddTodo extends Component {
     id: 3,
     title: '',
     userId: 0,
-    selectError: false,
-    inputError: false,
+    showError: false,
   }
 
-  handleChange = ({ target: { name, value } }) => {
-    if (name === 'title') {
-      this.setState({ [name]: value });
+  handleSelect = ({ target: { value } }) => {
+    this.setState({
+      userId: +value,
+    });
+  };
 
-      return;
-    }
-
-    this.setState({ [name]: +value });
-  }
+  handleInput = ({ target: { value } }) => {
+    this.setState({
+      title: value.trim(),
+    });
+  };
 
   handleSubmitForm = (event) => {
     event.preventDefault();
-    const { id, title, userId, selectError, inputError } = this.state;
+    const { id, title, userId } = this.state;
+    const { users } = this.props;
 
-    if (title.trim() === '') {
-      this.setState({
-        inputError: true,
-      });
-
-      return;
-    }
-
-    if (userId === 0) {
-      this.setState({
-        selectError: true,
-      });
-
-      return;
-    }
-
-    if (!selectError && !inputError) {
-      const { users } = this.props;
-
+    if ((userId !== 0) && (title !== '')) {
       this.props.addTodo({
         id,
         user: users.find(user => user.id === userId),
@@ -54,12 +38,17 @@ export class AddTodo extends Component {
         id: id + 1,
         title: '',
         userId: 0,
+        showError: false,
+      });
+    } else {
+      this.setState({
+        showError: true,
       });
     }
   }
 
   render() {
-    const { userId, title, selectError, inputError } = this.state;
+    const { userId, title, showError } = this.state;
     const { users } = this.props;
 
     return (
@@ -71,12 +60,12 @@ export class AddTodo extends Component {
           <input
             name="title"
             type="text"
-            onChange={this.handleChange}
+            onChange={this.handleInput}
             value={title}
             placeholder="Enter the title"
           />
         </label>
-        {inputError && (
+        {showError && (
           <div>
             Please enter the title
           </div>
@@ -85,9 +74,8 @@ export class AddTodo extends Component {
         <label>
           <select
             name="userId"
-            onChange={this.handleChange}
+            onChange={this.handleSelect}
             value={userId}
-            error={selectError}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
@@ -95,7 +83,7 @@ export class AddTodo extends Component {
             ))}
           </select>
         </label>
-        {selectError && (
+        {showError && (
           <div>Please, chose user name!</div>
         )}
 
