@@ -12,12 +12,14 @@ export class NewTodo extends React.Component {
   handleTaskChange = ({ target: { value } }) => {
     this.setState({
       currentTask: value.trimStart(),
+      taskError: false,
     });
   }
 
   handleUserId = ({ target: { value } }) => {
     this.setState({
       currentUserId: Number(value),
+      userIdError: false,
     });
   }
 
