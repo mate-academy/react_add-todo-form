@@ -3,12 +3,12 @@ import './App.css';
 import { NewTodo } from './NewTodo/NewTodo';
 import { TodoList } from './TodoList/TodoList';
 
-import users from './api/users';
-import todos from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 class App extends React.Component {
   state = {
-    todos: [...todos],
+    todos: [...todosFromServer],
   }
 
   addTask = (newTask) => {
@@ -24,12 +24,12 @@ class App extends React.Component {
 
         <p>
           <span>Users: </span>
-          {users.length}
+          {todosFromServer.length}
         </p>
         <NewTodo
-          todosLength={this.state.todos.length}
+          todos={this.state.todos}
           addTask={this.addTask}
-          users={users}
+          users={usersFromServer}
         />
         <TodoList todos={this.state.todos} />
       </div>

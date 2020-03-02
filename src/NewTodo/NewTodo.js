@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 export class NewTodo extends React.Component {
   state = {
@@ -25,6 +26,7 @@ export class NewTodo extends React.Component {
 
   addTask = () => {
     const { currentUserId, currentTask } = this.state;
+    const { todos } = this.props;
 
     if (currentUserId === 0 || currentTask === '') {
       this.setState({
@@ -33,7 +35,8 @@ export class NewTodo extends React.Component {
       });
     } else {
       this.props.addTask({
-        id: this.props.todosLength + 1,
+        taskIndex: todos[todos.length - 1].taskIndex + 1,
+        id: uuidv4(),
         userId: currentUserId,
         title: currentTask,
       });
@@ -55,7 +58,7 @@ export class NewTodo extends React.Component {
     const { userIdError, taskError } = this.state;
 
     return (
-      <div className="newTodo">
+      <div className="new-todo">
         <input
           onChange={this.handleTaskChange}
           value={this.state.currentTask}
@@ -79,14 +82,14 @@ export class NewTodo extends React.Component {
         <div>
           {taskError ? (
             <span
-              className="errorMessage"
+              className="error-message"
             >
               {`Enter task `}
             </span>
           ) : ''}
           {userIdError ? (
             <span
-              className="errorMessage"
+              className="error-message"
             >
               {`Choose user `}
             </span>
@@ -103,5 +106,10 @@ NewTodo.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   addTask: PropTypes.func.isRequired,
-  todosLength: PropTypes.number.isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    taskIndex: PropTypes.number,
+    id: PropTypes.string,
+    title: PropTypes.string,
+    userId: PropTypes.number,
+  })).isRequired,
 };

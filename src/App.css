@@ -9,15 +9,15 @@
   padding: 5px;
 }
 
-p {
+.todo__item {
   margin: 5px;
 }
 
-.errorMessage {
+.error-message {
   color: red;
   font-weight: bold;
 }
 
-.newTodo {
+.new-todo {
   height: 50px;
 }
