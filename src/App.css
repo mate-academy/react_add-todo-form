@@ -1,3 +1,23 @@
 .App {
-  text-align: center;
+  width: 500px;
+  margin: auto;
+}
+
+.todo {
+  border: 2px solid gray;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.todo__item {
+  margin: 5px;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.new-todo {
+  height: 50px;
 }
