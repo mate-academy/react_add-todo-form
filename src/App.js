@@ -1,65 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-
 import users from './api/users';
 import todos from './api/todos';
-// import { getTodosWithUsers } from './getTodos';
-import TodoList from './components/TodoList/TodoList';
-// import { tsConstructorType } from '@babel/types';
+import { TodoList } from './components/TodoList/TodoList';
+import { getTodosWithUsers } from './getTodos';
 
-function getTodosWithUsers(todosArr, usersArr) {
-  return todosArr.map((todo) => {
-    const todoUser = usersArr.find(user => user.id === todo.userId);
-
-    return {
-      ...todo,
-      user: todoUser,
-    };
-  });
-}
-
-class App extends React.Component {
+export class App extends Component {
   state = {
     newTodos: [...todos],
     newUsers: [...users],
     text: '',
-    selectedOption: '',
+    selectedOption: 0,
+    textError: null,
+    selectError: null,
   }
 
-  handleSelect = (event) => {
+  handleSelect = ({ target }) => {
+    if (target.value !== 0) {
+      this.setState({
+        selectError: null,
+      });
+    }
     this.setState({
-      selectedOption: event.target.value,
-    });
-    //
-  }
-
-  addTodo = (todo) => {
-    this.setState(prevState => ({
-      newTodos: [todo, ...prevState.newTodos],
-    }));
-  }
-
-  // addTodo = todo => {
-  //   this.setState({
-  //     todos: [...this.state.todos, todo],
-  //   })
-  // }
-
-  handleChange = (event) => {
-    this.setState({
-      text: event.target.value,
-      [event.target.name]: event.target.value,
+      selectedOption: target.value,
     });
   }
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   this.onSubmit({
-  //     userId:
-  //     text: this.state.text,
-  //     complete: false,
-  //   });
-  // }
+  handleChange = ({ target }) => {
+    this.setState({
+      text: target.value.trimStart(),
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (this.state.selectedOption === 0) {
+      this.setState({
+        selectError: 'Please, select user',
+      });
+    // } else if () {
+    } else {
+      const newTodo = {
+        userId: Number(this.state.selectedOption),
+        id: this.state.newTodos.length + 1,
+        title: this.state.text,
+        completed: false,
+      };
+      this.setState(prevState => ({
+        newTodos: [...prevState.newTodos, newTodo],
+      }));
+
+      this.setState({
+        text: '',
+        selectedOption: 0,
+        selectError: null,
+      });
+    }
+  }
 
   render() {
     const preparedTodos = getTodosWithUsers(
@@ -72,6 +70,11 @@ class App extends React.Component {
           <span>Users: </span>
           {this.state.newUsers.length}
         </p>
+        <p>
+          <span>Todos: </span>
+          {this.state.newTodos.length}
+        </p>
+
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
@@ -79,31 +82,41 @@ class App extends React.Component {
             onChange={this.handleChange}
             placeholder="add a new task"
           />
+          <p>
+            {this.state.textError}
+          </p>
           <select
             className="select"
-            name="good-length"
-            id="selectedLength"
-            onChange={this.handleSelect}
             value={this.state.selectedOption}
+            onChange={event => this.handleSelect(event)}
           >
-            {this.state.newUsers.map(user => (
-              <option value={user.id}>{user.name}</option>))
-            }
+            <option value={0} />
+            {this.state.newUsers.map(({ id, name }) => (
+              <option
+                value={id}
+                key={id}
+              >
+                {name}
+              </option>
+            ))}
           </select>
-
-          <button
+          <p>
+            {this.state.selectError}
+          </p>
+          <input
             type="submit"
-            onClick={this.addTodo}
-          >
-            AddTodo
-          </button>
+            value="AddTodo"
+          />
         </form>
 
-        <TodoList todos={preparedTodos} />
-        {/* {JSON.stringify(this.state.newTodos)} */}
+        <p>
+          <span>just to check select: </span>
+          {this.state.selectedOption}
+          {' '}
+          {this.state.text}
+        </p>
+        <TodoList preparedTodos={preparedTodos} />
       </div>
     );
   }
 }
-
-export default App;
