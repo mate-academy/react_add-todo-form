@@ -27,6 +27,11 @@ export class App extends Component {
   }
 
   handleChange = ({ target }) => {
+    if (target.value !== 0) {
+      this.setState({
+        textError: null,
+      });
+    }
     this.setState({
       text: target.value.trimStart(),
     });
@@ -37,9 +42,12 @@ export class App extends Component {
 
     if (this.state.selectedOption === 0) {
       this.setState({
-        selectError: 'Please, select user',
+        selectError: 'Error! Please, select user',
       });
-    // } else if () {
+    } else if (this.state.text === '' || this.state.text === ' ') {
+      this.setState({
+        textError: 'Please enter the title',
+      });
     } else {
       const newTodo = {
         userId: Number(this.state.selectedOption),
@@ -90,7 +98,9 @@ export class App extends Component {
             value={this.state.selectedOption}
             onChange={event => this.handleSelect(event)}
           >
-            <option value={0} />
+            <option value={0}>
+              Choose a user
+            </option>
             {this.state.newUsers.map(({ id, name }) => (
               <option
                 value={id}
@@ -109,12 +119,6 @@ export class App extends Component {
           />
         </form>
 
-        <p>
-          <span>just to check select: </span>
-          {this.state.selectedOption}
-          {' '}
-          {this.state.text}
-        </p>
         <TodoList preparedTodos={preparedTodos} />
       </div>
     );
