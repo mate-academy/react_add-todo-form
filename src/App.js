@@ -15,38 +15,59 @@ export class App extends Component {
     selectError: null,
   }
 
-  handleSelect = ({ target }) => {
-    if (target.value !== 0) {
+  handleChange = ({ target }) => {
+    if (this.state.text.length < 0 || this.state.text[0] === ' ') {
       this.setState({
-        selectError: null,
+        textError: 'Please write a task',
+      });
+    } else {
+      this.setState({
+        textError: '',
       });
     }
+
     this.setState({
-      selectedOption: target.value,
+      text: target.value.trimStart(),
     });
   }
 
-  handleChange = ({ target }) => {
-    if (target.value !== 0) {
+  handleSelect = ({ target }) => {
+    if (target.value < 1) {
       this.setState({
-        textError: null,
+        selectError: 'Error! Please select a user',
       });
     }
+
     this.setState({
-      text: target.value.trimStart(),
+      selectedOption: target.value,
+      selectError: '',
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.selectedOption === 0) {
+    if (this.state.text.length < 1) {
       this.setState({
-        selectError: 'Error! Please, select user',
+        textError: 'Please enter what needs Todo',
       });
-    } else if (this.state.text === '' || this.state.text === ' ') {
+    }
+
+    if (this.state.selectedOption < 1) {
       this.setState({
-        textError: 'Please enter the title',
+        selectError: 'Please select User',
+      });
+    } else if (this.state.text.length < 1) {
+      this.setState({
+        textError: 'Please enter what needs Todo',
+      });
+    } else if (this.state.text === ' ') {
+      this.setState({
+        textError: 'Please enter what needs Todo',
+      });
+    } else if (this.state.text === '') {
+      this.setState({
+        textError: 'Please enter what needs Todo',
       });
     } else {
       const newTodo = {
@@ -58,11 +79,11 @@ export class App extends Component {
       this.setState(prevState => ({
         newTodos: [...prevState.newTodos, newTodo],
       }));
-
       this.setState({
         text: '',
         selectedOption: 0,
-        selectError: null,
+        textError: '',
+        selectError: '',
       });
     }
   }
@@ -118,7 +139,6 @@ export class App extends Component {
             value="AddTodo"
           />
         </form>
-
         <TodoList preparedTodos={preparedTodos} />
       </div>
     );
