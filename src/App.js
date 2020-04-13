@@ -49,28 +49,10 @@ export class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { text, selectedOption, todosFromServer } = this.state;
-
-    if (text.length < 1) {
+    if (selectedOption < 1 || text.length < 1) {
       this.setState({
-        textError: 'Please enter what needs Todo',
-      });
-    }
-
-    if (selectedOption < 1) {
-      this.setState({
-        selectError: 'Please select User',
-      });
-    } else if (text.length < 1) {
-      this.setState({
-        textError: 'Please enter what needs Todo',
-      });
-    } else if (text === ' ') {
-      this.setState({
-        textError: 'Please enter what needs Todo',
-      });
-    } else if (text === '') {
-      this.setState({
-        textError: 'Please enter what needs Todo',
+        selectError: selectedOption < 1 ? 'Please select User' : '',
+        textError: text.length < 1 ? 'Please enter what needs Todo' : '',
       });
     } else {
       const newTodo = {
@@ -81,13 +63,11 @@ export class App extends Component {
       };
       this.setState(prevState => ({
         todosFromServer: [...prevState.todosFromServer, newTodo],
-      }));
-      this.setState({
         text: '',
         selectedOption: 0,
         textError: '',
         selectError: '',
-      });
+      }));
     }
   }
 
