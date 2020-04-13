@@ -7,8 +7,8 @@ import { getTodosWithUsers } from './getTodos';
 
 export class App extends Component {
   state = {
-    newTodos: [...todos],
-    newUsers: [...users],
+    todosFromServer: [...todos],
+    usersFromServer: [...users],
     text: '',
     selectedOption: 0,
     textError: null,
@@ -16,7 +16,9 @@ export class App extends Component {
   }
 
   handleChange = ({ target }) => {
-    if (this.state.text.length < 0 || this.state.text[0] === ' ') {
+    const { text } = this.state;
+
+    if (text.length < 0 || text[0] === ' ') {
       this.setState({
         textError: 'Please write a task',
       });
@@ -46,38 +48,39 @@ export class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { text, selectedOption, todosFromServer } = this.state;
 
-    if (this.state.text.length < 1) {
+    if (text.length < 1) {
       this.setState({
         textError: 'Please enter what needs Todo',
       });
     }
 
-    if (this.state.selectedOption < 1) {
+    if (selectedOption < 1) {
       this.setState({
         selectError: 'Please select User',
       });
-    } else if (this.state.text.length < 1) {
+    } else if (text.length < 1) {
       this.setState({
         textError: 'Please enter what needs Todo',
       });
-    } else if (this.state.text === ' ') {
+    } else if (text === ' ') {
       this.setState({
         textError: 'Please enter what needs Todo',
       });
-    } else if (this.state.text === '') {
+    } else if (text === '') {
       this.setState({
         textError: 'Please enter what needs Todo',
       });
     } else {
       const newTodo = {
-        userId: Number(this.state.selectedOption),
-        id: this.state.newTodos.length + 1,
-        title: this.state.text,
+        userId: Number(selectedOption),
+        id: todosFromServer.length + 1,
+        title: text,
         completed: false,
       };
       this.setState(prevState => ({
-        newTodos: [...prevState.newTodos, newTodo],
+        todosFromServer: [...prevState.todosFromServer, newTodo],
       }));
       this.setState({
         text: '',
@@ -90,18 +93,18 @@ export class App extends Component {
 
   render() {
     const preparedTodos = getTodosWithUsers(
-      this.state.newTodos, this.state.newUsers
+      this.state.todosFromServer, this.state.usersFromServer
     );
 
     return (
       <div className="App">
         <p>
           <span>Users: </span>
-          {this.state.newUsers.length}
+          {this.state.usersFromServer.length}
         </p>
         <p>
           <span>Todos: </span>
-          {this.state.newTodos.length}
+          {this.state.todosFromServer.length}
         </p>
 
         <form onSubmit={this.handleSubmit}>
@@ -122,7 +125,7 @@ export class App extends Component {
             <option value={0}>
               Choose a user
             </option>
-            {this.state.newUsers.map(({ id, name }) => (
+            {this.state.usersFromServer.map(({ id, name }) => (
               <option
                 value={id}
                 key={id}
