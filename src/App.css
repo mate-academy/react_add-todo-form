@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
-  text-align: center;
+  background-color: #7395ae;
+  font-family: Courier;
+  color: #363638;
+  padding: 20px;
+  min-height: 100vh;
 }

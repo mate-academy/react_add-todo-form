@@ -4,6 +4,8 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { getTodosWithUsers } from './getTodos';
+import { Header } from './components/Header/Header';
+import { TodoForm } from './components/TodoForm/TodoForm';
 
 export class App extends Component {
   state = {
@@ -17,7 +19,6 @@ export class App extends Component {
 
   handleChange = ({ target }) => {
     const { text } = this.state;
-
     if (text.length < 0 || text[0] === ' ') {
       this.setState({
         textError: 'Please write a task',
@@ -27,7 +28,6 @@ export class App extends Component {
         textError: '',
       });
     }
-
     this.setState({
       text: target.value.trimStart(),
     });
@@ -46,9 +46,16 @@ export class App extends Component {
     });
   }
 
+  handleHandle = (ava) => {
+    this.setState(prevState => ({
+      todosFromServer: [...prevState.todosFromServer, ava],
+    }));
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     const { text, selectedOption, todosFromServer } = this.state;
+
     if (selectedOption < 1 || text.length < 1) {
       this.setState({
         selectError: selectedOption < 1 ? 'Please select User' : '',
@@ -61,6 +68,7 @@ export class App extends Component {
         title: text,
         completed: false,
       };
+
       this.setState(prevState => ({
         todosFromServer: [...prevState.todosFromServer, newTodo],
         text: '',
@@ -78,14 +86,16 @@ export class App extends Component {
 
     return (
       <div className="App">
-        <p>
-          <span>Users: </span>
-          {this.state.usersFromServer.length}
-        </p>
-        <p>
-          <span>Todos: </span>
-          {this.state.todosFromServer.length}
-        </p>
+        <Header
+          className="Header"
+          todoArr={this.state.todosFromServer}
+        />
+
+        <TodoForm
+          users={this.state.usersFromServer}
+          todos={this.state.todosFromServer}
+          addNewTodo={this.handleHandle}
+        />
 
         <form onSubmit={this.handleSubmit}>
           <input
@@ -122,6 +132,7 @@ export class App extends Component {
             value="AddTodo"
           />
         </form>
+
         <TodoList preparedTodos={preparedTodos} />
       </div>
     );

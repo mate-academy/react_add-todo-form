@@ -1,125 +1,98 @@
-// import React from 'react';
+/* eslint-disable react/prop-types */
+import React, { Component } from 'react';
 
-// export default class TodoForm extends React.Component {
-//   state = {
-//     text: '',
-//     selectedOption: 0,
-//     textError: null,
-//     selectError: null,
-//   };
+export class TodoForm extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      text: '',
+      selectedOption: 0,
+      textError: null,
+      selectError: null,
+    };
+  }
 
-//   handleChange = ({ target }) => {
-//     if (this.state.text.length < 0 || this.state.text[0] === ' ') {
-//       this.setState({
-//         textError: 'Please write a task',
-//       });
-//     } else {
-//       this.setState({
-//         textError: '',
-//       });
-//     }
+  handleChange = ({ target }) => {
+    this.setState({
+      text: target.value.trimStart(),
+    });
+  }
 
-//     this.setState({
-//       text: target.value.trimStart(),
-//     });
-//   }
+  handleSelect = (event) => {
+    this.setState({
+      selectedOption: event.target.value,
+    });
+  }
 
-//   handleSelect = ({ target }) => {
-//     if (target.value < 1) {
-//       this.setState({
-//         selectError: 'Error! Please select a user',
-//       });
-//     }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { selectedOption, text } = this.state;
+    if (selectedOption < 1 || text.length < 1) {
+      this.setState({
+        selectError: selectedOption < 1 ? 'Please select User' : '',
+        textError: text.length < 1 ? 'Please enter what needs Todo' : '',
+      });
+    } else {
+      const newTodo = {
+        userId: Number(selectedOption),
+        id: this.props.todos.length + 1,
+        title: text,
+        completed: false,
+      };
 
-//     this.setState({
-//       selectedOption: target.value,
-//       selectError: '',
-//     });
-//   }
+      this.props.addNewTodo(newTodo);
 
-//   handleSubmit = (event) => {
-//     event.preventDefault();
+      this.setState({
+        text: '',
+        selectedOption: 0,
+        textError: '',
+        selectError: '',
+      });
+    }
+  }
 
-//     if (this.state.text.length < 1) {
-//       this.setState({
-//         textError: 'Please enter what needs Todo',
-//       });
-//     }
-
-//     if (this.state.selectedOption < 1) {
-//       this.setState({
-//         selectError: 'Please select User',
-//       });
-//     } else if (this.state.text.length < 1) {
-//       this.setState({
-//         textError: 'Please enter what needs Todo',
-//       });
-//     } else if (this.state.text === ' ') {
-//       this.setState({
-//         textError: 'Please enter what needs Todo',
-//       });
-//     } else if (this.state.text === '') {
-//       this.setState({
-//         textError: 'Please enter what needs Todo',
-//       });
-//     } else {
-
-//       const newTodo = {
-//         userId: Number(this.state.selectedOption),
-//         id: this.state.newTodos.length + 1,
-//         title: this.state.text,
-//         completed: false,
-//       };
-//       this.setState(prevState => ({
-//         newTodos: [...prevState.newTodos, newTodo],
-//       }));
-//       this.setState({
-//         text: '',
-//         selectedOption: 0,
-//         textError: '',
-//         selectError: '',
-//       });
-
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <input
-//           type="text"
-//           value={this.state.text}
-//           onChange={this.handleChange}
-//           placeholder="add a new task"
-//         />
-//         <p>
-//           {this.state.textError}
-//         </p>
-//         <select
-//           className="select"
-//           value={this.state.selectedOption}
-//           onChange={event => this.handleSelect(event)}
-//         >
-//           <option value={0}>
-//             Choose a user
-//           </option>
-//           {this.state.newUsers.map(({ id, name }) => (
-//             <option
-//               value={id}
-//               key={id}
-//             >
-//               {name}
-//             </option>
-//           ))}
-//         </select>
-//         <p>
-//           {this.state.selectError}
-//         </p>
-//         <input
-//           type="submit"
-//           value="AddTodo"
-//         />
-//       </form>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input
+          className=""
+          type="text"
+          onChange={this.handleChange}
+          value={this.state.text}
+          placeholder="blabla"
+        />
+        <select
+          className=""
+          value={this.state.selectedOption}
+          onChange={event => this.handleSelect(event)}
+        >
+          <option value={0}>
+            choose a user
+          </option>
+          {this.props.users.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <p>
+          {this.state.textError}
+        </p>
+        <p>
+          {this.state.selectError}
+        </p>
+        <button type="submit">
+          Add what to do
+        </button>
+        <h2>
+          this is a new form with newtodo:
+          {this.state.text}
+        </h2>
+        <p>{this.state.selectedOption}</p>
+      </form>
+    );
+  }
+}
