@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import PropTypes from 'prop-types';
+import { usersType } from '../../types/types';
 
 export function Header({ todoArr }) {
   return (
@@ -12,16 +12,5 @@ export function Header({ todoArr }) {
 }
 
 Header.propTypes = {
-  todoArr: PropTypes.arrayOf(
-    PropTypes.shape({
-      userId: PropTypes.number,
-      id: PropTypes.number,
-      title: PropTypes.string,
-      completed: PropTypes.bool,
-    })
-  ).isRequired,
+  todoArr: usersType.isRequired,
 };
-
-// Header.propTypes = {
-//   todoArr: PropTypes.array.isRequired
-// }

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { allTodos } from '../../types/types';
 import { User } from '../User/User';
 
 export const TodoItem = ({ todo }) => (
@@ -11,12 +11,5 @@ export const TodoItem = ({ todo }) => (
 );
 
 TodoItem.propTypes = {
-  todo: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      userId: PropTypes.number,
-      title: PropTypes.string,
-      completed: PropTypes.bool,
-    })
-  ).isRequired,
+  todo: allTodos.isRequired,
 };

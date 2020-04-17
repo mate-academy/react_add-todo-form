@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { todosTypes, usersType, addNewTodoType } from '../../types/types';
 
 export class TodoForm extends Component {
   constructor(props) {
@@ -22,9 +22,16 @@ export class TodoForm extends Component {
   }
 
   handleSelect = (event) => {
-    this.setState({
-      selectedOption: event.target.value,
-    });
+    if (event.target.value === 0) {
+      this.setState({
+        selectError: 'Please select User',
+      });
+    } else {
+      this.setState({
+        selectedOption: event.target.value,
+        selectError: '',
+      });
+    }
   }
 
   handleSubmit = (event) => {
@@ -62,7 +69,7 @@ export class TodoForm extends Component {
           type="text"
           onChange={this.handleChange}
           value={this.state.text}
-          placeholder="blabla"
+          placeholder="please, write a task"
         />
         <select
           className=""
@@ -87,12 +94,13 @@ export class TodoForm extends Component {
         <button type="submit">
           Add what to do
         </button>
-        <h2>
-          this is a new form with newtodo:
-          {this.state.text}
-        </h2>
-        <p>{this.state.selectedOption}</p>
       </form>
     );
   }
 }
+
+TodoForm.propTypes = {
+  todos: todosTypes.isRequired,
+  users: usersType.isRequired,
+  addNewTodo: addNewTodoType.isRequired,
+};
