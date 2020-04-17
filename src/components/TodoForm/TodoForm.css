@@ -1,0 +1,22 @@
+.todo-form {
+  background-color: #5f88a5;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0;
+  display: grid;
+  grid-template-columns: 60% 20% 20%;
+  grid-template-rows: 2;
+}
+
+.error-text,
+.error-select {
+  color: #f57878;
+  font-size: 85%;
+}
+
+.form-button,
+.select-form,
+.input-form {
+  font-size: 120%;
+  line-height: 10%;
+}

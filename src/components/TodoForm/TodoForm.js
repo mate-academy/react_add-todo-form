@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './TodoForm.css';
 import { todosTypes, usersType, addNewTodoType } from '../../types/types';
 
 export class TodoForm extends Component {
@@ -7,6 +8,7 @@ export class TodoForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state = {
       text: '',
       selectedOption: 0,
@@ -36,7 +38,9 @@ export class TodoForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const { selectedOption, text } = this.state;
+
     if (selectedOption < 1 || text.length < 1) {
       this.setState({
         selectError: selectedOption < 1 ? 'Please select User' : '',
@@ -63,16 +67,16 @@ export class TodoForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="todo-form" onSubmit={this.handleSubmit}>
         <input
-          className=""
+          className="input-form"
           type="text"
           onChange={this.handleChange}
           value={this.state.text}
           placeholder="please, write a task"
         />
         <select
-          className=""
+          className="select-form"
           value={this.state.selectedOption}
           onChange={event => this.handleSelect(event)}
         >
@@ -85,15 +89,15 @@ export class TodoForm extends Component {
             </option>
           ))}
         </select>
-        <p>
-          {this.state.textError}
-        </p>
-        <p>
-          {this.state.selectError}
-        </p>
-        <button type="submit">
+        <button className="form-button" type="submit">
           Add what to do
         </button>
+        <p className="error-text">
+          {this.state.textError}
+        </p>
+        <p className="error-select">
+          {this.state.selectError}
+        </p>
       </form>
     );
   }

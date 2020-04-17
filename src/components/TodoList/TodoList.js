@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoList.css';
 import { allTodos } from '../../types/types';
 import { TodoItem } from '../TodoItem/TodoItem';
 
