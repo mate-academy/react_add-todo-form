@@ -3,19 +3,12 @@ import './TodoForm.css';
 import { todosTypes, usersType, addNewTodoType } from '../../types/types';
 
 export class TodoForm extends Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = {
+    state = {
       text: '',
       selectedOption: 0,
       textError: null,
       selectError: null,
     };
-  }
 
   handleChange = ({ target }) => {
     if (!target.value) {

@@ -8,15 +8,10 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList/TodoList';
 
 export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.state = {
+    state = {
       todosFromServer: [...todos],
       usersFromServer: [...users],
     };
-  }
 
   handleSubmit = (ava) => {
     this.setState(prevState => ({
