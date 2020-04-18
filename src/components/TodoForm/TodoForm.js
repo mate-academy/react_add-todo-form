@@ -18,15 +18,22 @@ export class TodoForm extends Component {
   }
 
   handleChange = ({ target }) => {
+    if (!target.value) {
+      this.setState({
+        textError: 'Please, enter what needs to do',
+      });
+    }
+
     this.setState({
       text: target.value.trimStart(),
+      textError: null,
     });
   }
 
   handleSelect = (event) => {
     if (event.target.value === 0) {
       this.setState({
-        selectError: 'Please select User',
+        selectError: 'Please, select a User',
       });
     } else {
       this.setState({
@@ -43,8 +50,8 @@ export class TodoForm extends Component {
 
     if (selectedOption < 1 || text.length < 1) {
       this.setState({
-        selectError: selectedOption < 1 ? 'Please select User' : '',
-        textError: text.length < 1 ? 'Please enter what needs Todo' : '',
+        selectError: selectedOption < 1 ? 'Please, select a User' : '',
+        textError: text.length < 1 ? 'Please, enter what needs to do' : '',
       });
     } else {
       const newTodo = {
@@ -69,14 +76,14 @@ export class TodoForm extends Component {
     return (
       <form className="todo-form" onSubmit={this.handleSubmit}>
         <input
-          className="input-form"
+          className="form-input"
           type="text"
           onChange={this.handleChange}
           value={this.state.text}
           placeholder="please, write a task"
         />
         <select
-          className="select-form"
+          className="form-select"
           value={this.state.selectedOption}
           onChange={event => this.handleSelect(event)}
         >
@@ -90,7 +97,7 @@ export class TodoForm extends Component {
           ))}
         </select>
         <button className="form-button" type="submit">
-          Add what to do
+          Add
         </button>
         <p className="error-text">
           {this.state.textError}

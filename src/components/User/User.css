@@ -1,0 +1,9 @@
+.user-info p {
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+}
+
+.user-email {
+  text-decoration: none;
+  color: #456f8c;
+}
