@@ -6,6 +6,7 @@ import { getTodosWithUsers } from './getTodos';
 import { Header } from './components/Header/Header';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList/TodoList';
+// import './1.jpg';
 
 export class App extends Component {
     state = {

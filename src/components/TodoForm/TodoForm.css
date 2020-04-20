@@ -1,6 +1,6 @@
 .todo-form {
   height: 80px;
-  background-color: #5f88a5;
+  /* background-color: #83b3be;#5f88a5; */
   border-radius: 10px;
   display: grid;
   grid-template-columns: 58% 20% 20%;
@@ -30,7 +30,7 @@
 
 .form-button,
 .form-select {
-  background-color: #bee0f8;
+  background-color: #c0e3ec;
   color: #505058;
 }
 

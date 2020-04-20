@@ -1,12 +1,15 @@
 body {
   margin: 0;
   padding: 0;
+  background-image: url("./1.jpg");
+  background-size: cover;
 }
 
 .App {
-  background-color: #5f88a5;
+  /* background-color: #88bdbc;#5f88a5; */
   font-family: Courier;
   color: #363638;
   padding: 20px;
-  min-height: 100vh;
+  min-height: 50vh;
+  /* background-image: url("./1.jpg"); */
 }
