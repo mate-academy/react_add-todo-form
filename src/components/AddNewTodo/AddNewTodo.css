@@ -1,3 +1,13 @@
 .AddNewTodo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
   width: 50%;
+  height: 100px;
+  padding: 50px;
+}
+
+.AddNewTodo > button {
+  width: 120px;
 }

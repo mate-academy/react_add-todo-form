@@ -16,6 +16,7 @@ export const AddNewTodo = (
   >
     <label>
       Title of todo:
+      {' '}
       <input
         type="text"
         maxLength="30"
@@ -28,6 +29,7 @@ export const AddNewTodo = (
 
     <label>
       Performer:
+      {' '}
       <select
         value={userId}
         onChange={handlePerformer}
@@ -48,6 +50,7 @@ export const AddNewTodo = (
 
     <label>
       Completed:
+      {' '}
       <select
         value={completed}
         onChange={handleCompleted}

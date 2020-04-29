@@ -10,6 +10,7 @@ export const TodoList = ({ todos, toggleCheckbox }) => (
         <h2>{todo.title}</h2>
         <p>
           completed:
+          {' '}
           <input
             type="checkbox"
             checked={todo.completed}
