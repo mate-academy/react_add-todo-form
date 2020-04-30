@@ -61,6 +61,13 @@ class NewTodo extends Component {
     }));
   };
 
+  handleBooleanFields =(field, value) => {
+    this.setState(state => ({
+      ...state,
+      [field]: value,
+    }));
+  };
+
   resetState = () => {
     this.setState({
       userId: 0,
@@ -103,7 +110,7 @@ class NewTodo extends Component {
           header="Completed"
           id="completed"
           checked={completed}
-          handler={this.handleFields}
+          handler={this.handleBooleanFields}
         />
 
         <button type="submit" className="todo__button">Submit</button>

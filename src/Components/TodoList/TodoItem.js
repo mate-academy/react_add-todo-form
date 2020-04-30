@@ -39,10 +39,10 @@ TodoItem.propTypes = {
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   setTodoStatus: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
