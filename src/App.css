@@ -63,3 +63,15 @@ input {
   font-size: 11px;
   font-family: Tahoma;
 }
+
+.error {
+  border: 1px solid red;
+}
+
+.error::after {
+  content: "cdcs";
+}
+
+.inputError {
+  color: red;
+}

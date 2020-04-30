@@ -8,6 +8,7 @@ state = {
   title: '',
   user: '',
   newtodos: [...this.props.todos],
+  inputError: false,
 }
 
 handleSubmit = (event) => {
@@ -16,7 +17,7 @@ handleSubmit = (event) => {
   const { saveChange } = this.props;
 
   if (this.state.tempTitle.split('').length === 0) {
-    alert('Please enter the title!');
+    this.setState({ inputError: true });
   } else if (this.state.tempUser.split('').length === 0) {
     alert('Please choose a user!');
   } else {
@@ -36,6 +37,7 @@ handleSubmit = (event) => {
 
 handleChange = (event) => {
   this.setState({ tempTitle: event.target.value });
+  this.setState({ inputError: false });
 }
 
 selectChange = (event) => {
@@ -49,7 +51,9 @@ render() {
   return (
     <form className="form" onSubmit={this.handleSubmit}>
       <label htmlFor="title">Please, write TODO:&nbsp;</label>
-      <input
+      <label htmlFor="title" className="inputError">{this.state.inputError ? "Please enter the title" : ""}</label>
+        <input
+        className={this.state.inputError && "error"}
         value={tempTitle}
         type="text"
         id="title"
