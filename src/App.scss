@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #24465c;
+  width: 100%;
+  border-radius: 30px;
+  &__header {
+    margin: 5px;
+  }
+  &__input {
+    border-radius: 5px;
+    border: none;
+    height: 3em;
+  }
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-sizing: border-box;
+    height: 70%;
+    width: 90%;
+    margin: 10px;
+  }
+  &__button {
+    display: block;
+  }
+
+}
+
+.list {
+  display: block;
+  width: 100%;
+  &__item {
+    border: 1px solid;
+    border-radius: 30px;
+    margin: 0 3px;
+    background-color: #031736;
+    &_task {
+      font-size: 1.3em;
+      font-style: italic;
+    }
+    &_person {
+      font-weight: bolder;
+    }
+    &_completed {
+      background-color: #03546f;
+      padding: 5px;
+      &-not {
+        background-color: #c35451;
+        padding: 5px;
+        animation: flickingOnFalse 1s infinite;
+      }
+    }
+
+  }
+}
+
+@keyframes flickingOnFalse {
+  0% {
+    background-color: #03546f;
+  }
+  50% {
+    background-color: #c30200;
+  }
+  100% {
+    background-color: #03546f;
+  }
+}
