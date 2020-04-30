@@ -85,13 +85,20 @@ input {
 .form {
   position: relative;
   &__wrap {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
   }
 
   &__hint {
     position: absolute;
-    bottom: 10px;
-    right: 75px;
+    bottom: 140px;
+    right: 60px;
     color: rgb(197, 10, 10);
+  }
+
+  &__hint2 {
+    color: rgb(197, 10, 10);
+    position: absolute;
+    right: 60px;
+    bottom: 35px;
   }
 }
