@@ -16,7 +16,9 @@ class App extends React.PureComponent {
       <div className="App">
         <h1>Add todo form</h1>
         <div className="wrapper">
-          <div className="form"><NewTodo user={userList} /></div>
+          <div className="form">
+            <NewTodo user={userList} todo={todoList} />
+          </div>
           <div className="list">
             {todoList.map(el => <List todo={el} user={userList} />)}
           </div>
