@@ -12,6 +12,7 @@ class App extends React.Component {
       ...todo,
       executant: users.find(user => user.id === todo.userId),
     })),
+    nextId: todos.length + 1,
   }
 
   changeStatusComplete = (todoId) => {
@@ -28,12 +29,15 @@ class App extends React.Component {
   }
 
   changeTodo = (todo) => {
-    this.setState(() => ({ todos: todo }));
+    this.setState((state) => ({
+      todos: [...state.todos, todo],
+      nextId: state.nextId + 1,
+    }));
   }
 
   render() {
-    const { todos, hiddenHint } = this.state;
-
+    const { todos, hiddenHint, nextId } = this.state;
+    console.log(todos);
     return (
       <div className="App todo">
         <TodoForm
@@ -41,8 +45,8 @@ class App extends React.Component {
           chooseUserName={this.chooseUserName}
           users={users}
           addNewTodo={this.addNewTodo}
-          todos={todos}
           changeTodo={this.changeTodo}
+          nextId={nextId}
         />
         <TodoList
           todos={todos}

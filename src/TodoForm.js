@@ -34,37 +34,27 @@ class TodoForm extends React.Component {
     this.setState({ currentChooseUserValue: selectUser.id });
   }
 
-  addNewTodo = () => {
+  resetState = () => {
+    this.setState(() => ({
+      currentValue: '',
+      currentChooseUserValue: '',
+      currentStatus: '',
+      hiddenHint: false,
+    }));
+  }
+
+  validation = () => {
     const {
       currentValue, currentChooseUserValue,
       currentStatus,
     } = this.state;
-    const { todos, users, changeTodo } = this.props;
-    const idForTask = todos[todos.length - 1].id + 1;
     let newCreateTask;
 
     if ((typeof currentValue === 'string'
       && currentValue.length >= 4)
       && (typeof currentChooseUserValue === 'number')
       && (typeof currentStatus === 'boolean')) {
-      newCreateTask = {
-        userId: currentChooseUserValue,
-        id: idForTask,
-        title: currentValue,
-        completed: currentStatus,
-        executant: users
-          .find(user => user.id === currentChooseUserValue),
-      };
-    } 
-
-    if (newCreateTask) {
-      this.setState(() => ({
-        currentValue: '',
-        currentChooseUserValue: '',
-        currentStatus: '',
-        hiddenHint: false,
-      }));
-      changeTodo([...todos, newCreateTask]);
+      this.addNewTodo()
     }
 
     if (!newCreateTask && (typeof currentValue !== 'string'
@@ -76,6 +66,25 @@ class TodoForm extends React.Component {
       || (typeof currentStatus !== 'boolean'))) {
       this.setState(() => ({ errorSelect: true }));
     }
+  }
+
+  addNewTodo = () => {
+    const {
+      currentValue, currentChooseUserValue,
+      currentStatus,
+    } = this.state;
+    const { users, changeTodo, nextId } = this.props;
+    let newCreateTask = {
+      userId: currentChooseUserValue,
+      id: nextId,
+      title: currentValue,
+      completed: currentStatus,
+      executant: users
+        .find(user => user.id === currentChooseUserValue),
+    };
+
+    this.resetState();
+    changeTodo(newCreateTask);
   }
 
   checkSelectError = () => {
@@ -143,7 +152,7 @@ class TodoForm extends React.Component {
         </div>
         <button
           type="button"
-          onClick={this.addNewTodo}
+          onClick={this.validation}
         >
           Add todo
         </button>
