@@ -1,3 +1,65 @@
 .App {
   text-align: center;
 }
+
+.list__userInfo {
+  display: inline-block;
+  width: 230px;
+  height: 150px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  list-style-type: none;
+}
+
+.article,
+.names {
+  display: inline;
+}
+
+.article {
+  color: black;
+  font-size: 12px;
+}
+
+.names {
+  color: blue;
+  font-size: 14px;
+}
+
+.app {
+  display: flex;
+}
+
+h5,
+h4 {
+  margin: 10px;
+}
+
+#root {
+  display: flex;
+}
+
+.form {
+  position: relative;
+  top: 50px;
+  left: 50px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+
+button,
+select,
+input {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  background: #fff !important;
+  outline: none;
+  height: 24px;
+  font-size: 11px;
+  font-family: Tahoma;
+}
