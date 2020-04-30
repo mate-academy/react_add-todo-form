@@ -4,12 +4,12 @@ class TodoForm extends React.Component {
   state = {
     currentValue: '',
     currentChooseUserValue: '',
-    currentStatus: '',
+    currentStatus: false,
     errorInput: false,
     errorSelect: false,
   }
 
-  newTask = (event) => {
+  handleInput = (event) => {
     const { errorInput, currentValue } = this.state;
 
     this.setState({ currentValue: event.target.value });
@@ -19,12 +19,8 @@ class TodoForm extends React.Component {
     }
   }
 
-  chooseStatusTodo = (event) => {
-    if (event.target.value === 'true') {
-      this.setState({ currentStatus: true });
-    } else {
-      this.setState({ currentStatus: false });
-    }
+  chooseStatusTodo = () => {
+    this.setState(state => ({currentStatus: !state.currentStatus}))
   }
 
   chooseUserName = (event) => {
@@ -107,7 +103,10 @@ class TodoForm extends React.Component {
     return (
       <form
         className="todo__form form"
-        onSubmit={e => e.preventDefault()}
+        onSubmit={e => {
+          e.preventDefault();
+          this.validation();
+        }}
       >
         <div className="form__wrap">
           <label htmlFor="newTask">Write a new task: </label>
@@ -115,7 +114,7 @@ class TodoForm extends React.Component {
             type="text"
             id="newTask"
             value={currentValue}
-            onChange={this.newTask}
+            onChange={this.handleInput}
           />
         </div>
         <div className="form__wrap">
@@ -140,15 +139,13 @@ class TodoForm extends React.Component {
         </div>
         <div className="form__wrap">
           <label htmlFor="chooseStatus">Select status for new todo: </label>
-          <select
+          <input
+            type="checkbox"
             id="chooseStatus"
-            value={`${currentStatus}`}
-            onChange={this.chooseStatusTodo}
-          >
-            <option value="" hidden>Choose here</option>
-            <option value="true">Done</option>
-            <option value="false">In process</option>
-          </select>
+            className="chooseStatus"
+            checked={currentStatus}
+            onClick={this.chooseStatusTodo}
+          />
         </div>
         <button
           type="button"
@@ -156,20 +153,16 @@ class TodoForm extends React.Component {
         >
           Add todo
         </button>
-        {errorInput
-          ? (
-            <p className="form__hint">
-              Please, write 4 or more symbols
-            </p>
-          )
-          : <p />}
-        {errorSelect
-          ? (
-            <p className="form__hint2">
-              Please, select both field
-            </p>
-          )
-          : <p />}
+        {errorInput && (
+          <p className="form__hint">
+            Please, write 4 or more symbols
+          </p>
+        )}
+        {errorSelect && (
+          <p className="form__hint2">
+            Please, select both field
+          </p>
+        )}
       </form>
     );
   }
