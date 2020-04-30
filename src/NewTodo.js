@@ -9,6 +9,7 @@ state = {
   user: '',
   newtodos: [...this.props.todos],
   inputError: false,
+  selectError: false
 }
 
 handleSubmit = (event) => {
@@ -19,7 +20,7 @@ handleSubmit = (event) => {
   if (this.state.tempTitle.split('').length === 0) {
     this.setState({ inputError: true });
   } else if (this.state.tempUser.split('').length === 0) {
-    alert('Please choose a user!');
+    this.setState({ selectError: true });
   } else {
     this.setState(prevState => ({ title: prevState.tempTitle }));
     this.setState(prevState => ({ user: prevState.tempUser }));
@@ -42,6 +43,7 @@ handleChange = (event) => {
 
 selectChange = (event) => {
   this.setState({ tempUser: event.target.value });
+  this.setState({ selectError: false });
 }
 
 render() {
@@ -59,7 +61,9 @@ render() {
         id="title"
         onChange={this.handleChange}
       />
+      <label htmlFor="select" className="inputError">{this.state.selectError ? "Please choose a user" : ""}</label>
       <select
+        id="select"
         value={tempUser}
         onChange={this.selectChange}
       >
