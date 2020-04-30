@@ -11,38 +11,10 @@ class App extends React.Component {
 state = {
   todos: [...todos],
   users: [...users],
-  title: '',
-  tempTitle: '',
-  user: '',
-  tempUser: '',
 }
 
-handleSubmit = (event) => {
-  event.preventDefault();
-  if (this.state.tempTitle.split('').length === 0) {
-    alert('Please enter the title!');
-  } else if (this.state.tempUser.split('').length === 0) {
-    alert('Please choose a user!');
-  } else {
-    this.setState(prevState => ({ title: prevState.tempTitle }));
-    this.setState(prevState => ({ user: prevState.tempUser }));
-    this.setState({ tempUser: '' });
-    this.setState({ tempTitle: '' });
-    this.setState(prevState => ({
-      todos,
-      ...todos.push({
-        userId: +prevState.user, title: prevState.title,
-      }),
-    }));
-  }
-}
-
-handleChange = (value) => {
-  this.setState({ tempTitle: value });
-}
-
-selectChange = (value) => {
-  this.setState({ tempUser: value });
+saveChange = (newtodos) => {
+  this.setState({ todos: newtodos });
 }
 
 render() {
@@ -58,11 +30,10 @@ render() {
       <TodoList preparedTodos={preparedTodos} />
       <NewTodo
         users={users}
-        handleChange={this.handleChange}
-        selectChange={this.selectChange}
-        handleSubmit={this.handleSubmit}
         tempUser={this.state.tempUser}
         tempTitle={this.state.tempTitle}
+        todos={todos}
+        saveChange={this.saveChange}
       />
     </div>
   );
