@@ -55,11 +55,7 @@ class TodoForm extends React.Component {
         executant: users
           .find(user => user.id === currentChooseUserValue),
       };
-    } else {
-      this.setState(() => ({
-        hiddenHint: true,
-      }));
-    }
+    } 
 
     if (newCreateTask) {
       this.setState(() => ({
