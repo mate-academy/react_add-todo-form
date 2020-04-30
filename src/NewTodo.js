@@ -4,7 +4,6 @@ import users from './api/users';
 
 class NewTodo extends React.PureComponent {
   state = {
-    todo: this.props.todo,
     users: this.props.user,
     userID: 1,
     taskDescription: '',
@@ -22,9 +21,9 @@ class NewTodo extends React.PureComponent {
 
   taskToAdd = (event) => {
     event.preventDefault();
-    this.state.todo.push({
+    this.props.addItem({
       userId: this.state.userID,
-      id: (this.state.todo.length + 1),
+      id: (this.props.todo.length + 1),
       title: this.state.taskDescription,
       completed: false,
     });
@@ -50,7 +49,7 @@ class NewTodo extends React.PureComponent {
           <button
             onClick={this.taskToAdd}
             type="submit"
-            lassName="form__button"
+            className="form__button"
           >
             Add
           </button>
@@ -61,6 +60,7 @@ class NewTodo extends React.PureComponent {
 }
 
 NewTodo.propTypes = {
+  addItem: PropTypes.func.isRequired,
   todo: PropTypes.arrayOf(
     PropTypes.shape({
       userId: PropTypes.number.isRequired,
