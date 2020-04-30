@@ -9,7 +9,8 @@ state = {
   user: '',
   newtodos: [...this.props.todos],
   inputError: false,
-  selectError: false
+  selectError: false,
+  longTitle: false,
 }
 
 handleSubmit = (event) => {
@@ -39,6 +40,11 @@ handleSubmit = (event) => {
 handleChange = (event) => {
   this.setState({ tempTitle: event.target.value });
   this.setState({ inputError: false });
+  if (this.state.tempTitle.split('').length > 10) {
+  this.setState({ longTitle: true });
+  } else {
+    this.setState({ longTitle: false });
+  }
 }
 
 selectChange = (event) => {
@@ -54,6 +60,7 @@ render() {
     <form className="form" onSubmit={this.handleSubmit}>
       <label htmlFor="title">Please, write TODO:&nbsp;</label>
       <label htmlFor="title" className="inputError">{this.state.inputError ? "Please enter the title" : ""}</label>
+      <label htmlFor="title" className="inputError">{this.state.longTitle ? "Very long title!" : ""}</label>
         <input
         className={this.state.inputError && "error"}
         value={tempTitle}
