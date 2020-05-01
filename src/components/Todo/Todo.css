@@ -9,7 +9,6 @@
 }
 
 .todo__item--done {
-  opacity: 70%;
   background-color: rgb(245, 245, 245);
 }
 

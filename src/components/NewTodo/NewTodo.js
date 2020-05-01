@@ -6,11 +6,31 @@ class NewTodo extends Component {
   state = {
     newTask: '',
     userId: 1,
+    messageText: '',
+    messageIsVisible: false,
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const { newTask, userId } = this.state;
+
+    if (newTask.length === 0) {
+      this.setState({
+        messageText: '*cannot be empty',
+        messageIsVisible: true,
+      });
+
+      return;
+    }
+
+    if (newTask.length < 10) {
+      this.setState({
+        messageText: '*min length is 10 symbols',
+        messageIsVisible: true,
+      });
+
+      return;
+    }
 
     this.props.newTodo(newTask, userId);
     this.setState({
@@ -20,6 +40,7 @@ class NewTodo extends Component {
   }
 
   handleNewTaskInput = (e) => {
+    this.setState({ messageIsVisible: false });
     this.setState({ newTask: e.target.value });
   }
 
@@ -29,7 +50,7 @@ class NewTodo extends Component {
 
   render() {
     const { users } = this.props;
-    const { newTask, userId } = this.state;
+    const { newTask, userId, messageText, messageIsVisible } = this.state;
 
     return (
       <>
@@ -46,12 +67,15 @@ class NewTodo extends Component {
               className="newtodo__item-input"
               type="text"
               placeholder="Enter task here"
+              size={37}
               maxLength={30}
-              minLength={10}
-              size={30}
-              required
             />
           </label>
+          {messageIsVisible && (
+            <div className="newtodo__item-message">
+              {messageText}
+            </div>
+          )}
           <div className="newtodo__item-name">
             <label>
               <span className="newtodo__item-subtitle">

@@ -10,14 +10,13 @@
 }
 
 .newtodo__item-name {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 18px;
 }
 
 .newtodo__item-task {
   font-size: 26px;
   font-weight: 600;
-  margin-bottom: 15px;
 }
 
 .newtodo__item-subtitle {
@@ -64,4 +63,11 @@
 .newtodo__item-input::placeholder {
   color: #a5a4a4;
   font-weight: 400;
+}
+
+.newtodo__item-message {
+  position: absolute;
+  font-size: 12px;
+  left: 95px;
+  color: #fe634e;
 }

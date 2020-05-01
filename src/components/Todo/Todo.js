@@ -17,7 +17,7 @@ class Todo extends PureComponent {
           {title}
         </div>
         <div className="todo__item-status">
-          {!completed
+          {completed
             ? <span className="todo__item-status-done">Done</span>
             : <span className="todo__item-status-inprocess">In process</span>}
         </div>
@@ -44,7 +44,7 @@ class Todo extends PureComponent {
           onClick={() => this.props.statusToggle(id)}
           type="button"
         >
-          {completed
+          {!completed
             ? 'Mark as complited'
             : 'Mark as in process'}
         </button>
