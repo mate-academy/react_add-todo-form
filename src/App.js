@@ -25,11 +25,14 @@ class App extends React.PureComponent {
   render() {
     return (
       <div className="App">
-        <h1>Add todo form</h1>
+        <h1 className="App__header">Add todo form</h1>
         <div className="wrapper">
           <div className="form">
-            {/* eslint-disable-next-line max-len */}
-            <NewTodo user={this.state.user} todo={this.state.todo} addItem={this.newTodo} />
+            <NewTodo
+              user={this.state.user}
+              todo={this.state.todo}
+              addItem={this.newTodo}
+            />
           </div>
           <div className="list">
             {this.state.todo

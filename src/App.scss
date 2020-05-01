@@ -1,27 +1,41 @@
 .App {
   text-align: center;
+  &__header {
+    font-size: 4em;
+    font-style: italic;
+  }
+}
+
+body {
+  background: linear-gradient(230deg, #3507f0, #07f0a0, #c1521c);
+  background-size: 300% 300%;
 }
 
 .wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-end;
   color: white;
+  z-index: 20;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   align-items: center;
-  background-color: #24465c;
-  width: 100%;
+  background-color: #03546f;
+  width: 20%;
   height: 300px;
   border-radius: 30px;
+  position: fixed;
+  top: 140px;
+  left: 0;
+  margin: 20px;
   &__validation {
     &_user,
     &_text {
-      display: none;
+      visibility: hidden;
       margin: 0;
       padding: 0;
       font-size: 0.8em;
@@ -30,10 +44,14 @@
         padding: 0;
         text-align: start;
         font-size: 0.8em;
-        display: initial;
+        visibility: initial;
         animation: flickingOnAlert 1s infinite;
       }
     }
+  }
+  &__selection {
+    text-align-last: center;
+    margin-top: 30px;
   }
 
   &__header {
@@ -42,14 +60,17 @@
     font-style: italic;
   }
   &__input {
-    border-radius: 5px;
+    border-radius: 20px;
     border: none;
     height: 3em;
+    text-align: center;
+    margin-top: 20px;
   }
   &__wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: flex-start;
     box-sizing: border-box;
     height: 100%;
     width: 90%;
@@ -57,14 +78,21 @@
   }
   &__button {
     display: block;
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    margin-top: 30px;
   }
 
 }
 
 .list {
   display: block;
-  width: 100%;
+  width: 80%;
   &__item {
+    display: inline-block;
+    width: 300px;
     border: 1px solid;
     border-radius: 30px;
     margin: 0 3px;
@@ -80,6 +108,7 @@
     &_completed {
       background-color: #03546f;
       padding: 5px;
+
       &-not {
         background-color: #c35451;
         padding: 5px;
@@ -119,3 +148,15 @@
     color: #c35451;
   }
 }
+
+//@keyframes AnimationName {
+//  0% {
+//    background-position: 0% 86%
+//  }
+//  50% {
+//    background-position: 100% 15%
+//  }
+//  100% {
+//    background-position: 0% 86%
+//  }
+//}

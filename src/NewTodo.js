@@ -17,7 +17,7 @@ class NewTodo extends React.PureComponent {
   )
 
   selectedUser = (event) => {
-    const i = this.state.users.find(el => el.name === event.target.value);
+    const i = this.state.users.find(el => el.name === event.target.value).id;
 
     this.setState(({ userID }) => ({
       userID: i,
