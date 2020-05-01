@@ -37,7 +37,7 @@ class Todo extends PureComponent {
         </button>
         <button
           className={
-            completed
+            !completed
               ? 'todo__item-toggle-btn todo__item-toggle-btn--active'
               : 'todo__item-toggle-btn'
           }
