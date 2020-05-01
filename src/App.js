@@ -10,7 +10,10 @@ import List from './List';
 class App extends React.PureComponent {
   state = {
     todo: [...todos],
-    user: [...users],
+    user: [{
+      id: 0,
+      name: '--Choose your hero--',
+    }, ...users],
   }
 
   newTodo = (el) => {

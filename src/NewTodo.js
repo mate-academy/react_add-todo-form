@@ -1,32 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import users from './api/users';
 
 class NewTodo extends React.PureComponent {
   state = {
     users: this.props.user,
-    userID: 1,
+    userID: 0,
     taskDescription: '',
+    taskValidation: 1,
+    userValidation: 1,
   }
 
+  createList = arr => (
+    arr.map(user => (
+      <option key={user.email}>{user.name}</option>
+    ))
+  )
+
   selectedUser = (event) => {
-    this.setState({
-      userID: users.find(el => el.name === event.target.value).id,
-    });
+    const i = this.state.users.find(el => el.name === event.target.value);
+
+    this.setState(({ userID }) => ({
+      userID: i,
+    }));
+
+    this.setState({ userValidation: 1 });
   }
 
   taskTitle = (event) => {
     this.setState({ taskDescription: event.target.value });
+    this.setState({ taskValidation: 1 });
   }
 
-  taskToAdd = (event) => {
+  selectedPersonValidation = () => (
+    this.state.userValidation !== 0
+      ? 'form__validation_user'
+      : 'form__validation_user_alert'
+  )
+
+  newTaskValidation = () => (
+    this.state.taskValidation !== 0
+      ? 'form__validation_text'
+      : 'form__validation_text_alert'
+  )
+
+  formValidation = (event) => {
     event.preventDefault();
-    this.props.addItem({
-      userId: this.state.userID,
-      id: (this.props.todo.length + 1),
-      title: this.state.taskDescription,
-      completed: false,
-    });
+    if (this.state.taskDescription === '') {
+      this.setState({ taskValidation: 0 });
+    } else if (this.state.userID === 0) {
+      this.setState({ userValidation: 0 });
+    } else {
+      this.props.addItem({
+        userId: this.state.userID,
+        id: (this.props.todo.length + 1),
+        title: this.state.taskDescription,
+        completed: false,
+      });
+    }
   }
 
   render() {
@@ -41,13 +71,21 @@ class NewTodo extends React.PureComponent {
             className="form__input"
             required
           />
+          <span
+            className={this.newTaskValidation()}
+          >
+            Please enter the title
+          </span>
           <select className="form__selection" onChange={this.selectedUser}>
-            {this.state.users.map((user, index) => (
-              <option key={user.email}>{user.name}</option>
-            ))}
+            {this.createList(this.state.users)}
           </select>
+          <span
+            className={this.selectedPersonValidation()}
+          >
+            Please choose a user
+          </span>
           <button
-            onClick={this.taskToAdd}
+            onClick={this.formValidation}
             type="submit"
             className="form__button"
           >
