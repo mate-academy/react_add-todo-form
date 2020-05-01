@@ -1,0 +1,67 @@
+.newtodo__item {
+  position: relative;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.2);
+  transition: box-shadow 300ms;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.newtodo__item-name {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.newtodo__item-task {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.newtodo__item-subtitle {
+  font-weight: 500;
+}
+
+.newtodo__button {
+  width: 100%;
+  border: 1px solid #007bff;
+  font-size: 20px;
+  background-color: #007bff;
+  margin-top: 40px;
+  border-radius: 5px;
+  color: #fff;
+  line-height: 50px;
+  outline: none;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  transition: background-color 200ms;
+}
+
+.newtodo__button:hover {
+  cursor: pointer;
+  background-color: #0266d1;
+}
+
+.newtodo__item-users {
+  outline-color: #007bff;
+  border-radius: 5px;
+  margin-left: 10px;
+  font-size: 18px;
+  padding: 5px;
+  color: #626262;
+}
+
+.newtodo__item-input {
+  margin-left: 10px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #626262;
+  border: transparent;
+  outline: none;
+}
+
+.newtodo__item-input::placeholder {
+  color: #a5a4a4;
+  font-weight: 400;
+}

@@ -1,3 +1,19 @@
-.App {
-  text-align: center;
+html {
+  font-family: Roboto, sans-serif;
+  color: #626262;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f8fd;
+}
+
+.app {
+  padding-top: 50px;
+  min-width: 600px;
+  margin: 0 auto;
+  width: calc(100% - 60%);
+  margin-bottom: 50px;
+
 }
