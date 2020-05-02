@@ -1,5 +1,4 @@
 .todo {
-  height: 150px;
   padding: 0 20px;
   border: 1px solid rgba(238, 238, 0, 1);
   border-radius: 5px;
@@ -15,5 +14,18 @@
   &--done {
     border: 1px solid rgba(0, 177, 106, 1);
     background-color: rgba(0, 177, 106, 0.2);
+  }
+
+  &__button {
+    height: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: transparent;
+    border-color: inherit;
+
+    &:focus {
+      outline: none;
+    }
   }
 }

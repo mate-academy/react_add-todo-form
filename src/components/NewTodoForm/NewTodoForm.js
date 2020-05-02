@@ -70,7 +70,7 @@ export class NewTodoForm extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <label>
-          <input
+          <textarea
             type="text"
             className={checkTitle
               ? 'form__item form__input form__error'

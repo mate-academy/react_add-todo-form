@@ -21,24 +21,40 @@
 
   &__input {
     padding: 5px 15px;
+    width: 150px;
+    height: 25px;
+    max-width: 190px;
+    max-height: 300px;
     border: none;
     border-bottom: 1px solid cornflowerblue;
     border-radius: 0;
     transition: all 0.2s;
 
     &::placeholder {
-      color: black;
+      text-align: center;
+      color: dimgray;
     }
   }
 
   &__select {
     height: 25px;
-    background-color: white;
+    color: dimgray;
+    background-color: rgba(100, 149, 237, 0.1);
+    cursor: pointer;
   }
 
   &__button {
     width: 80px;
     height: 30px;
+    color: white;
+    background-color: cornflowerblue;
+    cursor: pointer;
+    transition: all 0.4s;
+
+    &:hover {
+      color: cornflowerblue;
+      background-color: white;
+    }
   }
 
   &__error {
