@@ -12,17 +12,12 @@ export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
           : 'todo'}
       >
         <p>
-          <b>Name:</b>
-          {' '}
-          {todo.user.name}
+          <b>{todo.user.name}</b>
         </p>
         <p>
           <b>Todo:</b>
           {' '}
           {todo.title}
-        </p>
-        <p>
-          {/* {todo.completed ? 'Completed' : 'Pending'} */}
         </p>
         <button
           type="button"
