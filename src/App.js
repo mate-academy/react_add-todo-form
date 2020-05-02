@@ -2,18 +2,42 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import todos from './api/todos';
+import TodoList from './components/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+class App extends React.Component {
+  state = {
+    todos: todos.map(todo => ({
+      ...todo,
+      person: users.find(user => user.id === todo.userId),
+    })),
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  toggleComplete = (id) => {
+    this.setState(prevState => ({
+      todos: prevState.todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      }),
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <TodoList
+          todos={this.state.todos}
+          toggleComplete={this.toggleComplete}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
