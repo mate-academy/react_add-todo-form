@@ -93,7 +93,7 @@ export default class NewTodo extends React.Component {
 
           </div>
 
-          <button type="button" className="btn btn-success">
+          <button type="submit" className="btn btn-success">
             Add new task
           </button>
         </form>
