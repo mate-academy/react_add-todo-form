@@ -43,7 +43,7 @@ class NewTodo extends React.PureComponent {
       : 'form__validation_text_alert'
   )
 
-  formValidation = (event) => {
+  addNewTodo = (event) => {
     event.preventDefault();
     if (this.state.taskDescription === '') {
       this.setState({ taskValidation: 0 });
@@ -85,7 +85,7 @@ class NewTodo extends React.PureComponent {
             Please choose a user
           </span>
           <button
-            onClick={this.formValidation}
+            onClick={this.addNewTodo}
             type="submit"
             className="form__button"
           >

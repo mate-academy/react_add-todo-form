@@ -12,7 +12,7 @@ class App extends React.PureComponent {
     todo: [...todos],
     user: [{
       id: 0,
-      name: '--Choose your hero--',
+      name: '--Choose a user--',
     }, ...users],
   }
 
