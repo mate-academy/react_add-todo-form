@@ -1,0 +1,48 @@
+.form {
+  width: 250px;
+  padding: 15px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid cornflowerblue;
+  border-radius: 5px;
+
+  &__item {
+    margin: 10px 0;
+    border-radius: 5px;
+    border-color: cornflowerblue;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__input {
+    padding: 5px 15px;
+    border: none;
+    border-bottom: 1px solid cornflowerblue;
+    border-radius: 0;
+    transition: all 0.2s;
+
+    &::placeholder {
+      color: black;
+    }
+  }
+
+  &__select {
+    height: 25px;
+    background-color: white;
+  }
+
+  &__button {
+    width: 80px;
+    height: 30px;
+  }
+
+  &__error {
+    border: 1px solid red;
+    border-radius: 2px;
+  }
+}

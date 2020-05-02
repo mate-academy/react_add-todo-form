@@ -1,0 +1,19 @@
+.todo {
+  height: 150px;
+  padding: 0 20px;
+  border: 1px solid rgba(238, 238, 0, 1);
+  border-radius: 5px;
+  background-color: rgba(238, 238, 0, 0.2);
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    grid-gap: 20px;
+    justify-content: center;
+  }
+
+  &--done {
+    border: 1px solid rgba(0, 177, 106, 1);
+    background-color: rgba(0, 177, 106, 0.2);
+  }
+}

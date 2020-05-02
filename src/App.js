@@ -1,19 +1,44 @@
 import React from 'react';
-import './App.css';
+import { TodoList } from './components/TodoList/TodoList';
+import { NewTodoForm } from './components/NewTodoForm/NewTodoForm';
+import './App.scss';
 
+import todos from './api/todos';
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+class App extends React.Component {
+  state = {
+    todos: todos.map(todo => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
+    })),
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  setNewTodo = (todo) => {
+    this.setState(state => ({
+      todos: [...state.todos, todo],
+    }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+
+        <p>
+          <span>Users: </span>
+          {users.length}
+        </p>
+        <NewTodoForm
+          todos={this.state.todos}
+          users={users}
+          currentTodos={todos.length}
+          setNewTodo={this.setNewTodo}
+        />
+        <TodoList todos={this.state.todos} />
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,0 +1,11 @@
+@import "./components/NewTodoForm/NewTodoForm";
+@import "./components/TodoList/TodoList";
+
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  font-family: "Jost", sans-serif;
+  text-align: center;
+}
