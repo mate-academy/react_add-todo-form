@@ -1,0 +1,43 @@
+.navbar {
+  margin-bottom: 25px;
+  padding: 30px 20px;
+}
+
+.task-form {
+  display: flex;
+  width: 100%;
+}
+
+.form-inline .form-control {
+  width: 100%;
+  display: block;
+  min-height: 48px;
+}
+
+.select-item {
+  width: 270px;
+  margin-right: 20px;
+}
+
+.btn {
+  width: 150px;
+}
+
+.text-item {
+  width: calc(100% - 440px);
+  box-sizing: border-box;
+  padding-right: 20px;
+}
+
+.invalid {
+  position: absolute;
+  text-align: left;
+  color: tomato;
+  padding-top: 5px;
+  text-transform: initial;
+}
+
+.form-control {
+  width: 100%;
+  display: block;
+}
