@@ -49,7 +49,7 @@ class App extends React.Component {
       todos: [
         ...state.todos,
         {
-          id: todos.length + 1,
+          id: state.todos.length + 1,
           title: newTodoTitle,
           completed: false,
           person: users.find(user => user.id === +userId),
