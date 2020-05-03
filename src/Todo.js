@@ -10,10 +10,10 @@ const Todo = ({ title, user, userId, id }) => (
         &nbsp;
         {title}
       </h4>
-      <h5>
+      <p>
         TODOs id:&nbsp;
         {id}
-      </h5>
+      </p>
       <h5>
         User Id:
         &nbsp;

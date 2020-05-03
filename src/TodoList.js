@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
 
-const TodoList = ({ preparedTodos }) => (
+const TodoList = ({ todos }) => (
   <div className="list">
-    {preparedTodos.map(oneOfUsersInfo => (
-      <Todo {...oneOfUsersInfo} key={oneOfUsersInfo.id} />
+    {todos.map(todo => (
+      <Todo {...todo} key={todo.id} />
     ))}
   </div>
 );
 
 TodoList.propTypes = {
-  preparedTodos: PropTypes.arrayOf(
+  todos: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,

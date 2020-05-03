@@ -7,34 +7,27 @@ import NewTodo from './NewTodo';
 import users from './api/users';
 import todos from './api/todos';
 
+const preparedTodos = todos.map(item => ({
+  ...item,
+  user: users.find(user => user.id === item.userId),
+}));
+
 class App extends React.Component {
 state = {
-  todos: [...todos],
-  users: [...users],
+  todos: preparedTodos,
 }
 
-saveChange = (newtodos) => {
-  this.setState({ todos: newtodos });
+addTodo = (newtodos) => {
+  this.setState(prevState => ({ todos: [...prevState.todos, newtodos] }));
 }
 
 render() {
-  const { todos, users } = this.state;
-  const preparedTodos = todos.map((item, index) => ({
-    ...item,
-    id: index + 1,
-    user: users.find(user => user.id === item.userId),
-  }));
+  const { todos } = this.state;
 
   return (
     <div className="app">
-      <TodoList preparedTodos={preparedTodos} />
-      <NewTodo
-        users={users}
-        tempUser={this.state.tempUser}
-        tempTitle={this.state.tempTitle}
-        todos={todos}
-        saveChange={this.saveChange}
-      />
+      <TodoList todos={todos} />
+      <NewTodo saveChange={this.addTodo} users={users} length={todos.length} />
     </div>
   );
 }

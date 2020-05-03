@@ -5,51 +5,55 @@ class NewTodo extends React.Component {
 state = {
   tempTitle: '',
   tempUser: '',
-  title: '',
-  user: '',
-  newtodos: [...this.props.todos],
   inputError: false,
   selectError: false,
   longTitle: false,
+  activeButton: false,
 }
 
 handleSubmit = (event) => {
   event.preventDefault();
-  const { newtodos } = this.state;
-  const { saveChange } = this.props;
 
   if (this.state.tempTitle.split('').length === 0) {
     this.setState({ inputError: true });
   } else if (this.state.tempUser.split('').length === 0) {
     this.setState({ selectError: true });
   } else {
-    this.setState(prevState => ({ title: prevState.tempTitle }));
-    this.setState(prevState => ({ user: prevState.tempUser }));
-    this.setState({ tempUser: '' });
-    this.setState({ tempTitle: '' });
-    this.setState(prevState => ({
-      newtodos,
-      ...newtodos.push({
-        userId: +prevState.user, title: prevState.title,
-      }),
-    }));
-    this.setState(() => saveChange(newtodos));
+    this.setState({
+      tempUser: '', tempTitle: '',
+    });
+    this.props.saveChange({
+      userId: +this.state.tempUser,
+      title: this.state.tempTitle,
+      user: this.props.users.find(user => user.id === +this.state.tempUser),
+      id: this.props.length + 1,
+    });
   }
 }
 
 handleChange = (event) => {
-  this.setState({ tempTitle: event.target.value });
-  this.setState({ inputError: false });
+  this.setState({
+    tempTitle: event.target.value,
+    inputError: false,
+  });
   if (this.state.tempTitle.split('').length > 10) {
-  this.setState({ longTitle: true });
+    this.setState({
+      longTitle: true,
+      activeButton: true,
+    });
   } else {
-    this.setState({ longTitle: false });
+    this.setState({
+      longTitle: false,
+      activeButton: false,
+    });
   }
 }
 
 selectChange = (event) => {
-  this.setState({ tempUser: event.target.value });
-  this.setState({ selectError: false });
+  this.setState({
+    tempUser: event.target.value,
+    selectError: false,
+  });
 }
 
 render() {
@@ -59,16 +63,16 @@ render() {
   return (
     <form className="form" onSubmit={this.handleSubmit}>
       <label htmlFor="title">Please, write TODO:&nbsp;</label>
-      <label htmlFor="title" className="inputError">{this.state.inputError ? "Please enter the title" : ""}</label>
-      <label htmlFor="title" className="inputError">{this.state.longTitle ? "Very long title!" : ""}</label>
-        <input
-        className={this.state.inputError && "error"}
+      {this.state.inputError && (<span className="inputError">Please enter the title:</span>)}
+      {this.state.longTitle && (<span className="inputError">Very long title!</span>)}
+      <input
+        className={this.state.inputError ? 'error' : ''}
         value={tempTitle}
         type="text"
         id="title"
         onChange={this.handleChange}
       />
-      <label htmlFor="select" className="inputError">{this.state.selectError ? "Please choose a user" : ""}</label>
+      <label htmlFor="select" className="inputError">{this.state.selectError && (<span>Please choose a user!</span>)}</label>
       <select
         id="select"
         value={tempUser}
@@ -81,7 +85,7 @@ render() {
           </option>
         ))}
       </select>
-      <button type="submit">ADD</button>
+      <button disabled={this.state.activeButton} type="submit">ADD</button>
     </form>
   );
 }
@@ -97,13 +101,7 @@ NewTodo.propTypes = {
       PropTypes.object,
     ]).isRequired,
   ).isRequired,
-  todos: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.object,
-    ]).isRequired,
-  ).isRequired,
+  length: PropTypes.number.isRequired,
 };
 
 export default NewTodo;
