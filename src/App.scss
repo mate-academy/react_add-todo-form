@@ -40,8 +40,16 @@ body {
     opacity: 0;
   }
   to {
-    top: -30px;
+    top: -25px;
     opacity: 1;
   }
 
+}
+
+@media only screen and (max-width: 767px) {
+  .form {
+    &__inner.ui.container {
+      margin-top: 20px !important;
+    }
+  }
 }
