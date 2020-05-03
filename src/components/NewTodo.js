@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Container } from 'semantic-ui-react';
 import { userType } from '../typedefs/userType';
 
 class NewTodo extends Component {
@@ -10,22 +11,16 @@ class NewTodo extends Component {
     isEmptyTitle: false,
   };
 
-  setTitle = (event) => {
-    const title = event.target.value
-      .replace(/[^A-Za-zА-Яа-яі0-9\s]/, '')
-      .slice(0, 37);
+  handleChange = (event) => {
+    const { value, name } = event.target;
 
-    this.setState({
-      title,
-      isEmptyTitle: false,
-    });
-  }
+    if (name === 'title') {
+      const title = value.replace(/[^\w\s]/, '').slice(0, 30);
 
-  setUserId = (event) => {
-    this.setState({
-      userId: +event.target.value,
-      isEmptyUser: false,
-    });
+      this.setState({ title, isEmptyTitle: false });
+    } else {
+      this.setState({ [name]: +value, isEmptyUser: false });
+    }
   }
 
   handleSubmit = (event) => {
@@ -59,54 +54,41 @@ class NewTodo extends Component {
     const { userId, title, isEmptyUser, isEmptyTitle } = this.state;
 
     return (
-      <form
-        className="form"
-        onSubmit={this.handleSubmit}
-      >
-        <div className="form__input-wrapper">
-          {isEmptyTitle && (
-            <span className="form__error">Please enter the title</span>
-          )}
-
-          <input
-            className="form__input"
-            type="text"
-            placeholder="Add New Todo"
-            onChange={this.setTitle}
-            value={title}
-          />
-        </div>
-
-        <div className="form__select-wrapper">
-          {isEmptyUser && (
-            <span className="form__error">Please choose a user</span>
-          )}
-
-          <select
-            id="selectUser"
-            className="form__select"
-            onChange={this.setUserId}
-            value={userId}
-          >
-            <option value={0}>Choose a user</option>
-            {users.map(({ name, id }) => (
-              <option
-                key={id}
-                value={id}
-              >
-                {`${id}. ${name}`}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button
-          className="form__button"
-          type="submit"
-        >
-          Add
-        </button>
-      </form>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Button className="form__button" type="submit">Add</Form.Button>
+        <Form.Group widths="equal">
+          <Container className="form__inner">
+            {isEmptyTitle && (
+              <span className="form__error">Please enter the title</span>
+            )}
+            <Form.Field
+              control="input"
+              name="title"
+              placeholder="Add New Todo"
+              onChange={this.handleChange}
+              value={title}
+            />
+          </Container>
+          <Container className="form__inner">
+            {isEmptyUser && (
+              <span className="form__error">Please choose a user</span>
+            )}
+            <Form.Field
+              control="select"
+              name="userId"
+              onChange={this.handleChange}
+              value={userId}
+            >
+              <option value={0}>Choose a user</option>
+              {users.map(({ name, id }) => (
+                <option key={id} value={id}>
+                  {`${id}. ${name}`}
+                </option>
+              ))}
+            </Form.Field>
+          </Container>
+        </Form.Group>
+      </Form>
     );
   };
 }

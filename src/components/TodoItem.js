@@ -1,17 +1,18 @@
 import React from 'react';
+import { Table } from 'semantic-ui-react';
 import { todoType } from '../typedefs/todoType';
 
 const TodoItem = ({ item }) => {
   const { id, title, completed, user } = item;
 
   return (
-    <tr>
-      <td>{id}</td>
-      <td>{title}</td>
-      <td>{completed ? 'Yes' : 'No'}</td>
-      <td>{user.name}</td>
-      <td>{user.id}</td>
-    </tr>
+    <Table.Row warning>
+      <Table.Cell>{user.id}</Table.Cell>
+      <Table.Cell>{user.name}</Table.Cell>
+      <Table.Cell>{completed ? 'Complebitur' : 'In processus'}</Table.Cell>
+      <Table.Cell textAlign="left">{title}</Table.Cell>
+      <Table.Cell>{id}</Table.Cell>
+    </Table.Row>
   );
 };
 

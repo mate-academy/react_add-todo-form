@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Segment, Header } from 'semantic-ui-react';
 import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
@@ -23,11 +24,11 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <Segment inverted className="main">
+      <Header as="h1" color="blue">Add todo form</Header>
       <NewTodo users={users} addTodo={addTodo} />
       <TodoList {...{ list }} />
-    </div>
+    </Segment>
   );
 };
 

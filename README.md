@@ -1,8 +1,8 @@
 # React add TODO form
 - Replace `<your_account>` with your Github username in the links
 
-    - [DEMO LINK](https://andreas-just.github.io/react_static-list-of-todos/)
-    - [PULL REQUEST](https://github.com/mate-academy/react_static-list-of-todos/pull/179)
+    - [DEMO LINK](https://andreas-just.github.io/react_add-todo-form/)
+    - [PULL REQUEST](https://github.com/mate-academy/react_add-todo-form/pull/150)
 
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
