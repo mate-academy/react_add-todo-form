@@ -1,0 +1,15 @@
+.error {
+  color: red;
+}
+
+.form {
+  height: 250px;
+  width: 300px;
+  margin: 20px;
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
