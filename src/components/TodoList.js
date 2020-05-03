@@ -16,7 +16,7 @@ const TodoList = ({ list }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {list.map(todo => <TodoItem key={todo.id} item={todo} />)}
+      {list.map(todo => <TodoItem key={todo.id} {...todo} />)}
     </Table.Body>
   </Table>
 );
