@@ -14,8 +14,12 @@ const TodoItem = ({
 }) => (
   <li className={cn('todo__item', { 'todo__item--done': completed })}>
     <label htmlFor={id} className="todo__label">
-      <span className="todo__item-index">{`${index}. `}</span>
-      <span className="todo__item-title">{title}</span>
+      <span className="todo__item-index">
+        {`${index}. `}
+      </span>
+      <span className="todo__item-title">
+        {`${title} - #${id}`}
+      </span>
       <User {...user} />
       <button
         type="button"
@@ -39,10 +43,10 @@ TodoItem.propTypes = {
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   user: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   setTodoStatus: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,

@@ -49,13 +49,14 @@ class App extends React.Component {
       todoList: [
         ...state.todoList,
         {
+          userId: +userId,
           id: state.todoIdCounter,
-          user: {
-            id: userId,
-            name: users.find(user => user.id === +userId).name,
-          },
           title,
           completed,
+          user: {
+            id: +userId,
+            name: users.find(user => user.id === +userId).name,
+          },
         },
       ],
       todoIdCounter: state.todoIdCounter + 1,

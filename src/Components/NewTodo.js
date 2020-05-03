@@ -5,7 +5,7 @@ import Select from './Form/Select';
 import Checkbox from './Form/Checkbox';
 
 class NewTodo extends Component {
-  state={
+  state = {
     userId: 0,
     title: '',
     completed: false,
@@ -14,10 +14,11 @@ class NewTodo extends Component {
       title: false,
       userId: false,
     },
-    settings: {
-      maxTitleLength: 60,
-      pattern: /[^A_Za-z0-9.,:; ]/g,
-    },
+  }
+
+  settings = {
+    maxTitleLength: 60,
+    pattern: /[^A_Za-z0-9.,:; ]/g,
   }
 
   errorTexts={
@@ -44,7 +45,7 @@ class NewTodo extends Component {
   };
 
   handleFields = (field, value) => {
-    const { pattern, maxTitleLength } = this.state.settings;
+    const { pattern, maxTitleLength } = this.settings;
     let valueCleaned = value.replace(pattern, '');
 
     if (valueCleaned.length > maxTitleLength) {

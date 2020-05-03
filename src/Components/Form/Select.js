@@ -32,7 +32,7 @@ const Select = ({
 
 Select.propTypes = {
   header: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   options: PropTypes.arrayOf({
     id: PropTypes.number.isRequired,
