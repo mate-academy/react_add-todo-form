@@ -27,13 +27,13 @@ class NewTodo extends React.Component {
 
       <form onSubmit={e => updateTodosList(e, injectedTodo, choosenUser, isTaskComplete)}>
         <label>
-          <input type="text" value={this.state.injectedTodo} onChange={this.handleTaskInout} />
+          <input type="text" value={this.state.injectedTodo} onChange={this.handleTaskInout} placeholder="Please, enter the task" required/>
           Input task
         </label>
 
         <select value={choosenUser} onChange={this.handleChosenUser}>
-          <option>choose your name</option>
-          {usersList.map(user => <option>{user.name}</option>)}
+          <option value="" disabled selected>Choose your name</option>
+          {usersList.map(user => <option value={user.name}>{user.name}</option>)}
         </select>
         <label>
           is complete?
