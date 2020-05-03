@@ -3,12 +3,11 @@
 }
 
 ul {
-  /* width: 30%; */
   list-style-type: none;
   margin: 0 auto;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit,33%);
+  grid-template-columns: repeat(auto-fit, 33%);
 }
 
 .todo__item {
