@@ -5,11 +5,24 @@ const TodoList = ({ todos, toggleComplete }) => (
 
   <ul className="todo__list">
     {todos.map(todo => (
-      <li className="todo__item" key={todo.id}>
+      <li
+        className={
+          !todo.completed
+            ? 'todo__item'
+            : 'todo__item todo__item--done'
+        }
+        key={todo.id}
+      >
         <h2 className="todo__title">
+          {todo.id}
+          {'. '}
           {todo.title}
         </h2>
-        <p className="todo__personName">
+        <p>
+          Person
+          {' '}
+          {todo.person.id}
+          <br />
           {todo.person.name}
         </p>
         <input
@@ -17,6 +30,7 @@ const TodoList = ({ todos, toggleComplete }) => (
           checked={todo.complete}
           onChange={() => toggleComplete(todo.id)}
         />
+        <p>{todo.completed ? 'Done' : 'In Process'}</p>
       </li>
     ))}
   </ul>

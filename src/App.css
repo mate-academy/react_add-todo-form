@@ -6,9 +6,14 @@ ul {
   list-style-type: none;
 }
 
-li {
+.todo__item {
   padding: 8px;
   margin: 8px;
   border: 1px solid grey;
   border-radius: 4px;
+  background-color: lightgrey;
+}
+
+.todo__item--done {
+  background-color: lightblue;
 }
