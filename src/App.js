@@ -32,7 +32,6 @@ class App extends React.Component {
   handleTitleNewTodo = (event) => {
     this.setState({
       newTodoTitle: event.target.value,
-      // isTitle: event.target.value !== '',
     });
   };
 
@@ -56,10 +55,6 @@ class App extends React.Component {
           person: users.find(user => user.id === +userId),
         },
       ],
-      // newTodoTitle: '',
-      // userId: '',
-      // isTitle: true,
-      // userSelected: true,
     }));
   }
 
