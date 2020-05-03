@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class NewTodo extends React.Component {
   state = {
@@ -25,20 +27,35 @@ class NewTodo extends React.Component {
 
     return (
 
-      <form onSubmit={e => updateTodosList(e, injectedTodo, choosenUser, isTaskComplete)}>
+      <form
+        onSubmit={
+          e => updateTodosList(e, injectedTodo, choosenUser, isTaskComplete)
+        }
+      >
         <label>
-          <input type="text" value={this.state.injectedTodo} onChange={this.handleTaskInout} placeholder="Please, enter the task" required/>
+          <input
+            type="text"
+            value={this.state.injectedTodo}
+            onChange={this.handleTaskInout}
+            placeholder="Please, enter the task"
+            required
+          />
           Input task
         </label>
 
         <select value={choosenUser} onChange={this.handleChosenUser}>
           <option value="" disabled selected>Choose your name</option>
-          {usersList.map(user => <option value={user.name}>{user.name}</option>)}
+          {usersList.map(user => (
+            <option value={user.name}>{user.name}</option>
+          ))}
         </select>
         <label>
           is complete?
-
-          <input type="checkbox" checked={this.state.isTaskComplete} onChange={this.handleTaskStatus} />
+          <input
+            type="checkbox"
+            checked={this.state.isTaskComplete}
+            onChange={this.handleTaskStatus}
+          />
         </label>
 
         <input type="submit" value="submit" on />
@@ -46,5 +63,9 @@ class NewTodo extends React.Component {
     );
   }
 }
+
+NewTodo.propsType = {
+  updateTodosList: PropTypes.func.isRequired,
+};
 
 export default NewTodo;
