@@ -3,7 +3,12 @@
 }
 
 ul {
+  /* width: 30%; */
   list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,33%);
 }
 
 .todo__item {
@@ -16,4 +21,34 @@ ul {
 
 .todo__item--done {
   background-color: lightblue;
+}
+
+.form__newTodo {
+  width: 50%;
+  margin: 8px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid grey;
+  border-radius: 4px;
+}
+
+label {
+  margin: 8px;
+}
+
+.form__button {
+  width: 75px;
+  height: 35px;
+  cursor: pointer;
+  background-color: lightseagreen;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  margin: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.form__button:hover {
+  background-color: lightsteelblue;
 }

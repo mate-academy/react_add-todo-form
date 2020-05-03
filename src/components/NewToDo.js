@@ -9,7 +9,7 @@ const NewToDo = (
     handleChangeUser,
     handleSubmit },
 ) => (
-  <form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit} className="form__newTodo">
     <label>
       ToDo title:
       <input
