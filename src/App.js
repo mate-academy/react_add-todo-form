@@ -5,15 +5,17 @@ import users from './api/users';
 import todos from './api/todos';
 
 import NewTodo from './NewTodo';
-import List from './List';
+import TodoList from './TodoList';
+
+const defaultUserSelector = {
+  id: 0,
+  name: 'Executor',
+};
 
 class App extends React.PureComponent {
   state = {
     todo: [...todos],
-    user: [{
-      id: 0,
-      name: '--Choose a user--',
-    }, ...users],
+    user: [defaultUserSelector, ...users],
   }
 
   newTodo = (el) => {
@@ -24,8 +26,8 @@ class App extends React.PureComponent {
 
   render() {
     return (
-      <div className="App">
-        <h1 className="App__header">Add todo form</h1>
+      <div className="app">
+        <h1 className="app__header">Add todo form</h1>
         <div className="wrapper">
           <div className="form">
             <NewTodo
@@ -37,7 +39,7 @@ class App extends React.PureComponent {
           <div className="list">
             {this.state.todo
               .map(el => (
-                <List todo={el} user={this.state.user} />))}
+                <TodoList todo={el} user={this.state.user} />))}
           </div>
         </div>
       </div>

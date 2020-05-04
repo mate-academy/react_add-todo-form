@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 class NewTodo extends React.PureComponent {
   state = {
@@ -11,38 +12,22 @@ class NewTodo extends React.PureComponent {
     value: '',
   }
 
-  createList = arr => (
-    arr.map(user => (
-      <option key={user.email}>{user.name}</option>
-    ))
-  )
-
-  selectedUser = (event) => {
-    const i = this.state.users.find(el => el.name === event.target.value);
+  selectUser = (event) => {
+    const user = this.state.users.find(el => el.name === event.target.value);
 
     this.setState(({ userID, userValidation, value }) => ({
-      userID: i.id,
+      userID: user.id,
       userValidation: 1,
-      value: i.name,
+      value: user.name,
     }));
   }
 
   taskTitle = (event) => {
-    this.setState({ taskDescription: event.target.value });
-    this.setState({ taskValidation: 1 });
+    this.setState({
+      taskDescription: event.target.value,
+      taskValidation: 1,
+    });
   }
-
-  selectedPersonValidation = () => (
-    this.state.userValidation !== 0
-      ? 'form__validation_user'
-      : 'form__validation_user_alert'
-  )
-
-  newTaskValidation = () => (
-    this.state.taskValidation !== 0
-      ? 'form__validation_text'
-      : 'form__validation_text_alert'
-  )
 
   resetInputedData = () => {
     this.setState(({ value, taskDescription }) => ({
@@ -53,7 +38,7 @@ class NewTodo extends React.PureComponent {
 
   addNewTodo = (event) => {
     event.preventDefault();
-    if (this.state.taskDescription === '') {
+    if (this.state.taskDescription.trim() === '') {
       this.setState({ taskValidation: 0 });
     } else if (this.state.userID === 0) {
       this.setState({ userValidation: 0 });
@@ -82,19 +67,25 @@ class NewTodo extends React.PureComponent {
             required
           />
           <span
-            className={this.newTaskValidation()}
+            className={classNames(this.state.taskValidation !== 0
+              ? 'form__validation_text'
+              : 'form__validation_text_alert')}
           >
             Please enter the title
           </span>
           <select
             className="form__selection"
-            onChange={this.selectedUser}
+            onChange={this.selectUser}
             value={this.state.value}
           >
-            {this.createList(this.state.users)}
+            {this.state.users.map(user => (
+              <option key={user.email}>{user.name}</option>
+            ))}
           </select>
           <span
-            className={this.selectedPersonValidation()}
+            className={classNames(this.state.userValidation !== 0
+              ? 'form__validation_user'
+              : 'form__validation_user_alert')}
           >
             Please choose a user
           </span>
@@ -115,7 +106,6 @@ NewTodo.propTypes = {
   addItem: PropTypes.func.isRequired,
   todo: PropTypes.arrayOf(
     PropTypes.shape({
-      userId: PropTypes.number.isRequired,
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,

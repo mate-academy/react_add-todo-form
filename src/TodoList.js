@@ -1,39 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class List extends React.PureComponent {
+class TodoList extends React.PureComponent {
   state = {
     todo: this.props.todo,
     users: this.props.user,
-    checkboxStatus: false,
+    isTodoCompleted: false,
   }
 
-  handlerCB = () => {
-    this.setState(({ checkboxStatus }) => ({
-      checkboxStatus: !checkboxStatus,
+  handlerCheckBox = () => {
+    this.setState(({ isTodoCompleted }) => ({
+      isTodoCompleted: !isTodoCompleted,
     }));
   }
 
   render() {
     const executor = (this.state.users
-      .filter(user => user.id === this.state.todo.userId))[0].name;
+      .find(user => user.id === this.state.todo.userId)).name;
 
     return (
       <>
         <div className="list__item">
           <p className="list__item_task">{this.state.todo.title}</p>
-          <div className={this.state.checkboxStatus
+          <div className={this.state.isTodoCompleted
             ? 'list__item_completed'
             : 'list__item_completed-not'}
           >
-            <input type="checkbox" onChange={this.handlerCB} />
-            {this.state.checkboxStatus
+            <input type="checkbox" onChange={this.handlerCheckBox} />
+            {this.state.isTodoCompleted
               ? <span>  completed</span>
               : <span>  not completed</span>
             }
           </div>
           <p>
-            Executer:
+            Executor:
             <span> </span>
             <span className="list__item_person">{executor}</span>
           </p>
@@ -43,7 +43,7 @@ class List extends React.PureComponent {
   }
 }
 
-List.propTypes = {
+TodoList.propTypes = {
   todo: PropTypes.arrayOf(
     PropTypes.shape({
       userId: PropTypes.number.isRequired,
@@ -60,4 +60,4 @@ List.propTypes = {
   ).isRequired,
 };
 
-export default List;
+export default TodoList;

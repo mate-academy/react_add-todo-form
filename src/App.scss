@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
   &__header {
     font-size: 4em;
@@ -14,10 +14,8 @@ body {
 
 .wrapper {
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   color: white;
-  z-index: 20;
 }
 
 .form {
@@ -37,13 +35,8 @@ body {
     &_user,
     &_text {
       visibility: hidden;
-      margin: 0;
-      padding: 0;
       font-size: 0.8em;
       &_alert {
-        margin: 0;
-        padding: 0;
-        text-align: start;
         font-size: 0.8em;
         visibility: initial;
         animation: flickingOnAlert 1s infinite;
@@ -158,15 +151,3 @@ body {
     color: #c35451;
   }
 }
-
-//@keyframes AnimationName {
-//  0% {
-//    background-position: 0% 86%
-//  }
-//  50% {
-//    background-position: 100% 15%
-//  }
-//  100% {
-//    background-position: 0% 86%
-//  }
-//}
