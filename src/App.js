@@ -2,11 +2,11 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
-import todoss from './api/todos';
+import todos from './api/todos';
 import TodoList from './components/TodoList';
 import NewTodo from './components/NewTodo';
 
-const preparedTodos = todoss.map((todo) => {
+const preparedTodos = todos.map((todo) => {
   const user = users.find(curUser => curUser.id === todo.userId);
 
   return {
@@ -19,17 +19,17 @@ const lastId = (preparedTodos[preparedTodos.length - 1].id + 1);
 
 class App extends React.Component {
   state = {
-    todos: [...preparedTodos],
+    todosList: preparedTodos,
   }
 
   addTodos = (newTodo) => {
     this.setState(prev => (
-      { todos: [...prev.todos, newTodo] }
+      { todosList: [...prev.todosList, newTodo] }
     ));
   }
 
   render() {
-    const { todos } = this.state;
+    const { todosList } = this.state;
 
     return (
       <>
@@ -37,12 +37,12 @@ class App extends React.Component {
           <NewTodo
             users={users}
             addTodos={this.addTodos}
-            todos={todos}
+            todos={todosList}
             lastId={lastId}
           />
         </div>
         <div className="todo__container">
-          <TodoList todos={todos} />
+          <TodoList todos={todosList} />
         </div>
 
       </>

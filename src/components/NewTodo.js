@@ -7,12 +7,13 @@ class NewTodo extends React.Component {
     title: '',
     name: '',
     completed: '',
-    userId: 0,
+    userId: null,
     id: this.props.lastId,
+    status: '',
 
     checkTitle: false,
     checkUser: false,
-    checkCompleated: false,
+    checkCompleted: false,
   }
 
   addTodoText = (event) => {
@@ -43,19 +44,13 @@ class NewTodo extends React.Component {
   }
 
   statusTodo = (event) => {
-    if (event.target.value === 'true') {
-      this.setState({
-        completed: true,
-        checkCompleated: false,
-      });
-    }
+    const target = event.target.value;
 
-    if (event.target.value === 'false') {
-      this.setState({
-        completed: false,
-        checkCompleated: false,
-      });
-    }
+    this.setState({
+      completed: Boolean(+target),
+      status: target,
+      checkCompleted: false,
+    });
   }
 
   reset = () => {
@@ -64,45 +59,50 @@ class NewTodo extends React.Component {
         title: '',
         name: '',
         completed: '',
-        userId: 0,
+        userId: '',
         id: prev.id + 1,
-
+        status: '',
         checkTitle: false,
         checkUser: false,
-        checkCompleated: false,
+        checkCompleted: false,
       }
     ));
   }
 
   sendTodo = (event) => {
-    const { name, title, userId, id, completed } = this.state;
+    const { name, title, userId, id, completed, status } = this.state;
+    const { addTodos } = this.props;
 
     event.preventDefault();
-    if (title.length === 0) {
+    if (title.length === 0 || userId === null || status.length === 0) {
       this.setState({
         checkTitle: true,
-      });
-
-      return;
-    }
-
-    if (userId === 0) {
-      this.setState({
         checkUser: true,
+        checkCompleted: true,
       });
+
+      if (title) {
+        this.setState({
+          checkTitle: false,
+        });
+      }
+
+      if (userId) {
+        this.setState({
+          checkUser: false,
+        });
+      }
+
+      if (status) {
+        this.setState({
+          checkCompleted: false,
+        });
+      }
 
       return;
     }
 
-    if (completed.length === 0) {
-      this.setState({
-        checkCompleated: true,
-      });
-
-      return;
-    }
-
-    this.props.addTodos({
+    addTodos({
       name,
       title,
       userId,
@@ -118,8 +118,8 @@ class NewTodo extends React.Component {
       checkTitle,
       userId,
       checkUser,
-      completed,
-      checkCompleated } = this.state;
+      status,
+      checkCompleted } = this.state;
 
     return (
       <>
@@ -172,18 +172,18 @@ class NewTodo extends React.Component {
           <label htmlFor="selectStatus">
             Status of todo:
             <select
-              className={checkCompleated
+              className={checkCompleted
                 ? 'form__error'
                 : ''}
-              value={completed}
+              value={status}
               id="selectStatus"
               onChange={this.statusTodo}
             >
               <option value="" hidden>Chose status</option>
-              <option value>done</option>
-              <option value={false}>in process</option>
+              <option value={1}>done</option>
+              <option value={0}>in process</option>
             </select>
-            {checkCompleated
+            {checkCompleted
               && <p className="form__error--message">Please choose status</p>
             }
           </label>
