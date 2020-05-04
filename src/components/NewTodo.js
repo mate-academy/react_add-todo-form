@@ -32,7 +32,7 @@ class NewTodo extends React.Component {
       return;
     }
 
-    if (userId.length === 0) {
+    if (userId === 0) {
       this.setState({
         selectError: true,
       });
