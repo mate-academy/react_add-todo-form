@@ -1,3 +1,41 @@
 .App {
-  text-align: center;
+  text-align: left;
+}
+
+.new-user-form {
+  border: 1px solid black;
+  padding: 10px;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+}
+
+.new-user-form > input {
+  margin-top: 10px;
+  width: 200px;
+}
+
+.new-user-form > textarea {
+  width: 200px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  height: 100px;
+}
+
+.user-name-error {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+  position: absolute;
+  top: 60px;
+}
+
+.title-error {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+  position: absolute;
+  top: 215px;
 }
