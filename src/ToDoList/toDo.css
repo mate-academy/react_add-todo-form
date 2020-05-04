@@ -1,0 +1,25 @@
+.toDo {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  justify-items: start;
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+
+.toDo__item {
+  box-sizing: border-box;
+  text-align: start;
+  display: grid;
+  grid-row-gap: 10px;
+  width: 100%;
+  background-color: aquamarine;
+  padding: 20px;
+}
+
+.toDo__status {
+  color: red;
+}
+
+.toDo__statusTrue {
+  color: green;
+}

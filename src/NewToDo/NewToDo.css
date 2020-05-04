@@ -1,0 +1,16 @@
+.form {
+  background-color: gray;
+  width: 500px;
+  justify-items: start;
+  display: grid;
+  grid-row-gap: 10px;
+  padding: 20px;
+}
+
+.form__invalidText {
+  border-color: red;
+}
+
+.form__invalidUser {
+  border-color: red;
+}
