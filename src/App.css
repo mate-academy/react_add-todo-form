@@ -183,3 +183,31 @@ input[type="checkbox"] {
   width: 20px;
   height: 20px;
 }
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.delete-btn:before,
+.delete-btn:after {
+  background-color: rgba(255,255,255,0.8);
+  position: absolute;
+  top: 8px;
+  content: " ";
+  height: 16px;
+  width: 2px;
+}
+
+.delete-btn:before {
+  transform: rotate(45deg);
+}
+
+.delete-btn:after {
+  transform: rotate(-45deg);
+}

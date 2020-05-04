@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
 
-const TodoList = ({ todos, changeTodoStatus }) => (
+const TodoList = ({ todos, changeTodoStatus, deleteTask }) => (
   <>
     <ul>
       {todos.map(todo => (
@@ -10,6 +10,7 @@ const TodoList = ({ todos, changeTodoStatus }) => (
           {...todo}
           key={todo.id}
           changeTodoStatus={changeTodoStatus}
+          deleteTask={deleteTask}
         />
       ))}
     </ul>
@@ -18,6 +19,7 @@ const TodoList = ({ todos, changeTodoStatus }) => (
 
 TodoList.propTypes = {
   changeTodoStatus: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   todos: PropTypes.arrayOf.isRequired,
 };
 export default TodoList;

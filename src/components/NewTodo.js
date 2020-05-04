@@ -64,7 +64,7 @@ class NewTodo extends React.Component {
 
   writeDownTask = (e) => {
     this.setState({
-      newTitle: e.target.value.replace(/\W/g, ''),
+      newTitle: e.target.value.replace(/[^a-zA-ZА-Яа-я0-9\s]/g, ''),
       inputError: false,
     });
   }

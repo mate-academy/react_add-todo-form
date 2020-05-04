@@ -25,6 +25,20 @@ class App extends React.Component {
     }));
   }
 
+  deleteTask = (id) => {
+    this.setState(state => ({
+      todos: state.todos.filter(todo => todo.id !== id)
+        .map(item => (
+          (item.id > id)
+            ? {
+              ...item, id: item.id - 1,
+            }
+            : item
+        )),
+      newTodoId: state.todos.length,
+    }));
+  }
+
   changeTodoStatus = (id) => {
     this.setState(state => ({
       todos: state.todos.map(todo => (
@@ -50,6 +64,7 @@ class App extends React.Component {
         <TodoList
           todos={this.state.todos}
           changeTodoStatus={this.changeTodoStatus}
+          deleteTask={this.deleteTask}
         />
       </div>
     );
