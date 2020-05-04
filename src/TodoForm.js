@@ -10,7 +10,8 @@ class TodoForm extends React.Component {
   }
 
   handleInput = (event) => {
-    this.setState({ currentValue: event.target.value });
+    const letter = event.target.value.replace(/^ /, '')
+    this.setState({ currentValue: letter });
     this.validationCheck();
   }
 
