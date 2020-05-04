@@ -16,9 +16,15 @@ class NewTodo extends React.Component {
   }
 
   addTodoText = (event) => {
+    const target = event.target.value;
+
+    if (!/\w/g.test(target)) {
+      return;
+    }
+
     this.setState(
       {
-        title: event.target.value,
+        title: target,
         checkTitle: false,
       },
     );
@@ -143,7 +149,7 @@ class NewTodo extends React.Component {
               id="choseUser"
               onChange={e => this.addUser(e.target.value)}
             >
-              <option value={0} hidden>
+              <option value="" hidden>
                 Choose a user
               </option>
               {users.map(user => (
@@ -188,7 +194,7 @@ export default NewTodo;
 
 NewTodo.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
-    user: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   })).isRequired,
   lastId: PropTypes.number.isRequired,
