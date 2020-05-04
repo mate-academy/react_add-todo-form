@@ -22,16 +22,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
-        <div className="todo">
-          <NewTodo
-            users={users}
-            initialTodoId={todos.length}
-            saveTodo={this.addTodo}
-          />
-          <TodoList todos={this.state.todos} />
-        </div>
-      </>
+      <div className="todo">
+        <NewTodo
+          users={users}
+          initialTodoId={todos.length}
+          saveTodo={this.addTodo}
+        />
+        <TodoList todos={this.state.todos} />
+      </div>
     );
   }
 }

@@ -4,20 +4,25 @@ import { TodoType } from '../typedefs/todoType';
 
 const TodoList = ({ todos }) => (
   <ul className="todo__list">
-    {todos.map(todo => (
-      <li key={todo.id} className="todo__item">
-        <h2 className="todo__username">
-          {todo.user.name}
-        </h2>
-        <p className="todo__title">
-          {todo.title}
-        </p>
-        {todo.completed
-          ? <span className="todo__completed todo__completed--success" />
-          : <span className="todo__completed todo__completed--danger" />
-        }
-      </li>
-    ))}
+    {todos.map((todo) => {
+      const { id, user, title, completed } = todo;
+
+      return (
+        <li key={id} className="todo__item">
+          <h2 className="todo__username">
+            {user.name}
+          </h2>
+          <p className="todo__title">
+            {title}
+          </p>
+          {completed
+            ? <span className="todo__completed todo__completed--success" />
+            : <span className="todo__completed todo__completed--danger" />
+          }
+        </li>
+      );
+    })
+    }
   </ul>
 );
 
