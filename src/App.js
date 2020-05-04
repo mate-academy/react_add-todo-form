@@ -5,20 +5,27 @@ import users from './api/users';
 import NewTodo from './components/NewTodo';
 import TodoList from './components/TodoList';
 
+const todosWithUsers = todos.map(todo => ({
+  ...todo,
+  user: users.find(
+    user => user.id === todo.userId,
+  ),
+}));
+
 class App extends React.Component {
   state = {
-    todosFromServer: todos,
-    usersFromServer: users,
+    todosFromServer: todosWithUsers,
     id: 1,
   }
 
-  addTodo = (todo) => {
+  addTodo = (todo, usersFromServer) => {
     this.setState(prevState => ({
       todosFromServer: [
         ...prevState.todosFromServer,
         {
           ...todo,
           id: prevState.id,
+          usersFromServer,
         },
       ],
       id: prevState.id + 1,
@@ -26,11 +33,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { todosFromServer, usersFromServer } = this.state;
+    const { todosFromServer } = this.state;
 
     return (
       <div className="App">
-        <NewTodo addTodo={this.addTodo} users={usersFromServer} />
+        <NewTodo addTodo={this.addTodo} />
         <TodoList todos={todosFromServer} />
       </div>
     );

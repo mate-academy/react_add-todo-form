@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import users from '../api/users';
 
 class NewTodo extends React.Component {
   state = {
@@ -67,7 +68,7 @@ class NewTodo extends React.Component {
         </label>
         <input
           id="form-input-label"
-          value={this.state.title}
+          value={title}
           placeholder="Enter your task"
           onChange={this.handleChangeOnInput}
           className="form__input"
@@ -83,15 +84,15 @@ class NewTodo extends React.Component {
 
         <select
           className="form__select"
-          value={this.state.userId}
+          value={userId}
           placeholder="Choose a user"
           onChange={this.handleChangeOnSelect}
         >
-          <option value="0">Choose a user</option>
-          {this.props.users.map(user => (
+          <option value="">Choose a user</option>
+          {users.map(user => (
             <option
-              key={user.phone}
               value={user.id}
+              key={user.id}
             >
               {user.name}
             </option>
@@ -106,8 +107,8 @@ class NewTodo extends React.Component {
         <div className={error ? 'error--show' : 'error--hide'}>
           <p
             className={userId !== 0
-              ? 'error--hide-user'
-              : 'error--show-user'
+              ? 'error--hide'
+              : 'error--show'
             }
           >
             Choose user
@@ -115,8 +116,8 @@ class NewTodo extends React.Component {
           <p
             className={
               title.length !== 0
-                ? 'error--hide-title'
-                : 'errors--show-title'
+                ? 'error--hide'
+                : 'error--show'
             }
           >
             Enter the title
@@ -129,11 +130,6 @@ class NewTodo extends React.Component {
 
 NewTodo.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.shape({
-    phone: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
 };
 
 export default NewTodo;
