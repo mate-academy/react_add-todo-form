@@ -10,85 +10,75 @@ class NewTodo extends React.Component {
     user: {
       name: 'Choose a performer',
     },
-    titleError: '',
-    userError: '',
-    isValidated: true,
-  };
 
-  handleTitle = (event) => {
-    this.setState({
-      title: event.target.value,
-      titleError: '',
-      isValidated: true,
-    });
+    titleError: false,
+    userError: false,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.isValidated) {
-      this.props.addTodo(this.state.todo);
+    const todo = {
+      id: this.state.counterTodoId + 1,
+      completed: this.state.completed,
+      title: this.state.title,
+      user: { name: this.state.user.name },
+    };
+
+    if (this.hasError()) {
+      return;
     }
+
+    this.props.addTodo(todo);
+    this.clearTodo();
   };
 
-  handleUser = (event) => {
+  handleTitle = ({ target }) => {
     this.setState({
-      user: { name: event.target.value },
-      userError: '',
-      isValidated: true,
+      title: target.value.trim(),
+      titleError: false,
     });
   };
 
-  handleStatus = (event) => {
+  handleUser = ({ target }) => {
     this.setState({
-      completed: event.target.value,
+      user: { name: target.value },
+      userError: false,
+    });
+  };
+
+  handleStatus = ({ target }) => {
+    this.setState({
+      completed: target.value,
     });
   };
 
   hasError = () => {
-    if (!this.state.title && this.state.user.name !== 'Choose a performer') {
+    if (!this.state.title) {
       this.setState({
-        titleError: 'Please enter the title',
-        isValidated: false,
+        titleError: true,
       });
-
-      return true;
     }
 
-    if (this.state.title && this.state.user.name === 'Choose a performer') {
+    if (this.state.user.name === 'Choose a performer') {
       this.setState({
-        userError: 'Choose a performer',
-        isValidated: false,
+        userError: true,
       });
-
-      return true;
     }
 
-    if (!this.state.title && this.state.user.name === 'Choose a performer') {
-      this.setState({
-        titleError: 'Please enter the title',
-        userError: 'Choose a performer',
-        isValidated: false,
-      });
-
+    if (!this.state.title || this.state.user.name === 'Choose a performer') {
       return true;
     }
 
     return false;
   }
 
-  madeTodo = () => {
+  clearTodo = () => {
     if (this.hasError()) {
       return;
     }
 
     this.setState(prevState => ({
-      todo: {
-        id: prevState.counterTodoId + 1,
-        completed: prevState.completed,
-        title: prevState.title,
-        user: prevState.user,
-      },
       counterTodoId: prevState.counterTodoId + 1,
       title: '',
       completed: 'In process',
@@ -100,6 +90,8 @@ class NewTodo extends React.Component {
 
   render() {
     const { performers } = this.props;
+    const { titleError } = this.state;
+    const { userError } = this.state;
 
     return (
       <div className="wrapper">
@@ -117,10 +109,13 @@ class NewTodo extends React.Component {
               placeholder="task"
             />
           </label>
-          <div className="error">
-            {this.state.titleError}
-          </div>
-
+          { titleError
+            && (
+              <div className="error">
+                Please enter the title
+              </div>
+            )
+          }
           <label className="label">
             Choose a performer:
             <select
@@ -134,10 +129,14 @@ class NewTodo extends React.Component {
               ))}
             </select>
           </label>
-          <div className="error">
-            {this.state.userError}
-          </div>
-
+          {
+            userError
+            && (
+              <div className="error">
+                Choose a performer
+              </div>
+            )
+          }
           <label className="label">
             Select status for new todo:
             <select
@@ -164,7 +163,10 @@ class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  performers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  performers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
 

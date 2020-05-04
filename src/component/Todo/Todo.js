@@ -33,6 +33,5 @@ Todo.propTypes = {
   completed: PropTypes.bool.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.number,
   }).isRequired,
 };
