@@ -18,19 +18,23 @@ const TodoList = ({ todos, toggleComplete }) => (
           {'. '}
           {todo.title}
         </h2>
-        <p>
-          Person
-          {' '}
-          {todo.person.id}
-          <br />
+        <p className="todo_personName">
+          <span className="todo_personId">
+            Person#
+            {' '}
+            {todo.person.id}
+          </span>
           {todo.person.name}
         </p>
-        <input
-          type="checkbox"
-          checked={todo.complete}
-          onChange={() => toggleComplete(todo.id)}
-        />
-        <p>{todo.completed ? 'Done' : 'In Process'}</p>
+        <label>
+          <input
+            className="todo__checkbox"
+            type="checkbox"
+            checked={todo.complete}
+            onChange={() => toggleComplete(todo.id)}
+          />
+          {todo.completed ? 'Done' : 'In Process'}
+        </label>
       </li>
     ))}
   </ul>
