@@ -43,6 +43,13 @@ class NewTodo extends React.PureComponent {
       : 'form__validation_text_alert'
   )
 
+  resetInputedData = () => {
+    this.setState(({ userId, taskDescription }) => ({
+      userId: 0,
+      taskDescription: '',
+    }));
+  }
+
   addNewTodo = (event) => {
     event.preventDefault();
     if (this.state.taskDescription === '') {
@@ -56,6 +63,7 @@ class NewTodo extends React.PureComponent {
         title: this.state.taskDescription,
         completed: false,
       });
+      this.resetInputedData();
     }
   }
 
@@ -69,6 +77,7 @@ class NewTodo extends React.PureComponent {
             placeholder="Enter a new task"
             type="text"
             className="form__input"
+            value={this.state.taskDescription}
             required
           />
           <span
@@ -76,7 +85,11 @@ class NewTodo extends React.PureComponent {
           >
             Please enter the title
           </span>
-          <select className="form__selection" onChange={this.selectedUser}>
+          <select
+            className="form__selection"
+            onChange={this.selectedUser}
+            // value={this.state.userID}
+          >
             {this.createList(this.state.users)}
           </select>
           <span
