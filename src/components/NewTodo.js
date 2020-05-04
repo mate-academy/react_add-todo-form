@@ -5,7 +5,7 @@ import { UserType } from '../typedefs/userType';
 class NewTodo extends React.Component {
   state = {
     title: '',
-    userId: '',
+    userId: 0,
     completed: false,
     currentTodoId: this.props.initialTodoId,
     selectError: false,
@@ -69,7 +69,7 @@ class NewTodo extends React.Component {
   resetForm = () => {
     this.setState(state => ({
       title: '',
-      userId: '',
+      userId: 0,
       completed: false,
       currentTodoId: state.currentTodoId + 1,
     }));
