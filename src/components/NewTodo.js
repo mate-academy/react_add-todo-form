@@ -60,7 +60,7 @@ class NewTodo extends React.Component {
       return nextState;
     });
 
-    if (this.state.userId !== '' && this.state.title !== '') {
+    if (this.state.userId !== '' && this.state.title.trim() !== '') {
       this.props.addTodo(
         this.props.id,
         this.state.title,
