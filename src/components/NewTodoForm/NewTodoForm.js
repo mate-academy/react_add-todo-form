@@ -33,7 +33,7 @@ export class NewTodoForm extends React.Component {
       const { userId, id, title, completed } = state;
       const { users, setNewTodo } = this.props;
 
-      if (title.length === 0) {
+      if (title.length === 0 || title.trim() === '') {
         return { checkTitle: true };
       }
 
