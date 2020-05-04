@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 class TodoList extends React.PureComponent {
   state = {
@@ -22,9 +23,9 @@ class TodoList extends React.PureComponent {
       <>
         <div className="list__item">
           <p className="list__item_task">{this.state.todo.title}</p>
-          <div className={this.state.isTodoCompleted
+          <div className={classNames(this.state.isTodoCompleted
             ? 'list__item_completed'
-            : 'list__item_completed-not'}
+            : 'list__item_completed-not')}
           >
             <input type="checkbox" onChange={this.handlerCheckBox} />
             {this.state.isTodoCompleted

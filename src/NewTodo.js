@@ -22,7 +22,7 @@ class NewTodo extends React.PureComponent {
     }));
   }
 
-  taskTitle = (event) => {
+  createTaskTitle = (event) => {
     this.setState({
       taskDescription: event.target.value,
       taskValidation: 1,
@@ -59,7 +59,7 @@ class NewTodo extends React.PureComponent {
         <form className="form__wrapper">
           <p className="form__header">Todo blank form</p>
           <input
-            onChange={this.taskTitle}
+            onChange={this.createTaskTitle}
             placeholder="Enter a new task"
             type="text"
             className="form__input"
