@@ -18,13 +18,56 @@ class NewTodo extends Component {
 
   settings = {
     maxTitleLength: 60,
-    pattern: /[^A_Za-z0-9.,:; ]/g,
+    pattern: /[^A_Za-z0-9.,!?:; ]/g,
   }
 
   errorTexts={
     title: 'Please enter the title',
     user: 'Please choose a user',
   }
+
+  setTodoProp(key, value) {
+    this.setValid(key, value);
+    this.setState(state => ({
+      ...state,
+      [key]: value,
+    }));
+  }
+
+  setValid(key, value) {
+    if (key === 'title' && value.trim().length < 3) {
+      return;
+    }
+
+    if (key === 'userId' && Number(value) === 0) {
+      return;
+    }
+
+    this.setState(state => ({
+      ...state,
+      isValid: {
+        ...state.isValid,
+        [key]: true,
+      },
+    }));
+  }
+
+  handleFields = (field, value) => {
+    if (typeof value === 'boolean') {
+      this.setTodoProp(field, value);
+
+      return;
+    }
+
+    const { pattern, maxTitleLength } = this.settings;
+    let valueCleaned = value.replace(pattern, '').replace(/\s{2,}/g, ' ');
+
+    if (valueCleaned.length > maxTitleLength) {
+      valueCleaned = valueCleaned.slice(0, maxTitleLength);
+    }
+
+    this.setTodoProp(field, valueCleaned);
+  };
 
   addNewTodo = (e) => {
     e.preventDefault();
@@ -42,34 +85,9 @@ class NewTodo extends Component {
       this.props.addNewTodo(this.state);
       this.resetState();
     }
-  };
+  }
 
-  handleFields = (field, value) => {
-    const { pattern, maxTitleLength } = this.settings;
-    let valueCleaned = value.replace(pattern, '');
-
-    if (valueCleaned.length > maxTitleLength) {
-      valueCleaned = valueCleaned.slice(0, maxTitleLength);
-    }
-
-    this.setState(state => ({
-      ...state,
-      [field]: valueCleaned,
-      isValid: {
-        ...state.isValid,
-        [field]: Boolean(valueCleaned),
-      },
-    }));
-  };
-
-  handleBooleanFields =(field, value) => {
-    this.setState(state => ({
-      ...state,
-      [field]: value,
-    }));
-  };
-
-  resetState = () => {
+  resetState() {
     this.setState({
       userId: 0,
       title: '',
@@ -111,7 +129,7 @@ class NewTodo extends Component {
           header="Completed"
           id="completed"
           checked={completed}
-          handler={this.handleBooleanFields}
+          handler={this.handleFields}
         />
 
         <button type="submit" className="todo__button">Submit</button>
