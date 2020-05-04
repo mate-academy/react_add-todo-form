@@ -19,7 +19,7 @@ handleSubmit = (event) => {
     this.setState({ inputError: true });
   } else if (validation.test(this.state.tempTitle) === false) {
     this.setState({ inputError: true });
-  } else if (this.state.tempUser.split('').length === 0) {
+  } else if (this.state.tempUser.split('').length === 0 || this.state.tempUser === "Choose a user") {
     this.setState({ selectError: true });
   } else {
     this.setState({
@@ -62,6 +62,7 @@ selectChange = (event) => {
 render() {
   const { tempTitle, tempUser } = this.state;
   const { users } = this.props;
+  console.log(this.state.tempUser)
 
   return (
     <form className="form" onSubmit={this.handleSubmit}>

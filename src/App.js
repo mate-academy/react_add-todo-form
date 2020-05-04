@@ -27,7 +27,10 @@ render() {
   return (
     <div className="app">
       <TodoList todos={todos} />
-      <NewTodo saveChange={this.addTodo} users={users} length={todos.length} />
+      <NewTodo
+        saveChange={this.addTodo}
+        users={users}
+        length={todos.length} />
     </div>
   );
 }
