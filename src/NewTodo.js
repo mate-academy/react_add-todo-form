@@ -13,8 +13,11 @@ state = {
 
 handleSubmit = (event) => {
   event.preventDefault();
+  const validation = new RegExp(/\w/);
 
   if (this.state.tempTitle.split('').length === 0) {
+    this.setState({ inputError: true });
+  } else if (validation.test(this.state.tempTitle) === false) {
     this.setState({ inputError: true });
   } else if (this.state.tempUser.split('').length === 0) {
     this.setState({ selectError: true });
