@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 class NewTodo extends React.Component {
   state = {
-    id: this.props.id,
     title: '',
     completed: false,
     user: {},
@@ -45,28 +44,25 @@ class NewTodo extends React.Component {
   handleSubmit = (e) => { // form submit
     e.preventDefault();
 
-    if (this.state.title.length < 4) {
-      this.setState({
-        errorTitle:
-  <div className="todo__error">
-    Please enter the title
-  </div>,
-      });
-    }
+    this.setState((prev) => {
+      const nextState = {};
 
-    if (this.state.userId === '') {
-      this.setState({
-        errorUser: <div className="todo__error">Please choose a user</div>,
-      });
-    }
+      if (prev.title.trim() === '') {
+        nextState.errorTitle
+          = `Please enter the title`;
+      }
 
-    if (this.state.userId !== '' && this.state.title.length > 3) {
-      this.setState(prev => ({
-        id: prev.id + 1,
-      }));
+      if (prev.userId === '') {
+        nextState.errorUser
+          = `Please choose a user`;
+      }
 
+      return nextState;
+    });
+
+    if (this.state.userId !== '' && this.state.title !== '') {
       this.props.addTodo(
-        this.state.id,
+        this.props.id,
         this.state.title,
         this.state.completed,
         this.state.user,
@@ -95,7 +91,7 @@ class NewTodo extends React.Component {
           value={title}
           onChange={this.handleChangeTitle}
         />
-        {errorTitle}
+        {!'' && <div className="todo__error">{errorTitle}</div>}
         <br />
 
         <label htmlFor="todoCompleted">Complete status</label>
@@ -124,7 +120,7 @@ class NewTodo extends React.Component {
             </option>
           ))}
         </select>
-        {errorUser}
+        {!'' && <div className="todo__error">{errorUser}</div>}
         <br />
 
         <button type="submit">Add todo</button>
@@ -134,7 +130,11 @@ class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  })).isRequired,
   addTodo: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
 };

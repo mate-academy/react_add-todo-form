@@ -33,7 +33,7 @@ class App extends React.Component {
     const { todos } = this.state;
 
     return (
-      <div className="App">
+      <div className="app">
         <div className="todo__add">
           <NewTodo users={users} addTodo={this.addTodo} id={todos.length + 1} />
         </div>
