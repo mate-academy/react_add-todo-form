@@ -39,7 +39,7 @@ class NewTodo extends Component {
       return;
     }
 
-    if (key === 'userId' && Number(value) === 0) {
+    if (key === 'userId' && !Number(value)) {
       return;
     }
 
