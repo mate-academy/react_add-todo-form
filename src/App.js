@@ -6,7 +6,6 @@ import todos from './api/todos';
 
 import TodoList from './Components/TodoList/TodoList';
 import NewTodo from './Components/NewTodo/NewTodo';
-import FormError from './Components/FormError/FormError';
 
 const preparedToDos = todos.map(todo => ({
   ...todo,
@@ -17,16 +16,9 @@ class App extends React.Component {
   state = {
     preparedToDos: [...preparedToDos],
     usersList: [...users],
-    formErrors: {
-      user: '', task: '',
-    },
-    // tasklValid: false,
-    // userValid: false,
-    // formValid: false,
   }
 
   updateTodosList = (event, task, userName, taskStatus) => {
-    event.preventDefault();
     this.setState(state => ({ preparedToDos: [...state.preparedToDos, {
       completed: taskStatus,
       id: state.preparedToDos.length + 1,
@@ -46,9 +38,7 @@ class App extends React.Component {
           <span>Users: </span>
           {users.length}
         </p>
-        <div>
-          <FormError formErrors={this.state.formErrors} />
-        </div>
+
         <NewTodo
           usersList={this.state.usersList}
           updateTodosList={this.updateTodosList}

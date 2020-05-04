@@ -1,22 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-const FormError = ({ formErrors }) => (
-  <div>
-    {Object.keys(formErrors).map((errorField, i) => {
-      if (formErrors[errorField].length > 0) {
-        return (
-          <p>
-            {errorField}
-            {' '}
-            {formErrors[errorField]}
-          </p>
-        );
-      }
+const FormError = (props) => {
+  const errors = props;
 
-      return '';
-    })}
-  </div>
-);
+  return (
+    <div hidden={errors.isValidated}>
+      <p>{errors.userSelectionError}</p>
+      <p>{errors.toDoInputError}</p>
+    </div>
+  );
+};
 
 export default FormError;
