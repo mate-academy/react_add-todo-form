@@ -27,7 +27,7 @@ const TodoItem = ({ todo }) => {
       </p>
 
       <p className="user__id">
-        User id :
+        <strong>User id: </strong>
         {user.id}
       </p>
     </div>
