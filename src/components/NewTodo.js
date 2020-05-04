@@ -18,7 +18,7 @@ class NewTodo extends React.Component {
   addTodoText = (event) => {
     const target = event.target.value;
 
-    if (!/\w/g.test(target)) {
+    if (/^ /.test(target)) {
       return;
     }
 
@@ -136,8 +136,12 @@ class NewTodo extends React.Component {
               type="text"
             />
             {checkTitle
-              ? <p className="form__error--message">Please enter the title</p>
-              : <p className="form__error--message" />}
+              && (
+                <div className="form__error--message">
+                  Please enter the title
+                </div>
+              )
+            }
           </label>
           <label htmlFor="choseUser">
             Chose user:
@@ -162,8 +166,8 @@ class NewTodo extends React.Component {
               ))}
             </select>
             {checkUser
-              ? <p className="form__error--message">Please choose user</p>
-              : <p className="form__error--message" />}
+              && <p className="form__error--message">Please choose user</p>
+            }
           </label>
           <label htmlFor="selectStatus">
             Status of todo:
@@ -180,8 +184,8 @@ class NewTodo extends React.Component {
               <option value={false}>in process</option>
             </select>
             {checkCompleated
-              ? <p className="form__error--message">Please choose status</p>
-              : <p className="form__error--message" />}
+              && <p className="form__error--message">Please choose status</p>
+            }
           </label>
           <input type="submit" value="Submit" />
         </form>

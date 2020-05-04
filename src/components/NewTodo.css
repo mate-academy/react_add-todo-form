@@ -2,7 +2,7 @@ input,
 select {
   width: 100%;
   padding: 12px 20px;
-  margin: 8px 0;
+  margin: 20px 0;
   border-radius: 4px;
   box-sizing: border-box;
   border: 1px solid grey;
@@ -28,8 +28,9 @@ input[type="submit"]:hover {
 }
 
 .form__error--message {
+  position: absolute;
   font-size: 12px;
   color: red;
-  margin: 0 0 10px;
+  margin: -20px 10px 0;
   height: 14px;
 }
