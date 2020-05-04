@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import '../../App.scss';
 
 export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
@@ -7,18 +8,16 @@ export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
     {todos.map(todo => (
       <div
         key={todo.id}
-        className={todo.completed
-          ? 'todo todo--done'
-          : 'todo'}
+        className={classNames({
+          todo: true,
+          'todo--done': todo.completed,
+        })}
       >
-        <p>
-          <b>{todo.user.name}</b>
-        </p>
-        <p>
-          <b>Todo:</b>
-          {' '}
+        <p className="todo__paragraph">{todo.user.name}</p>
+        <div>
+          <span className="todo__paragraph">Todo:</span>
           {todo.title}
-        </p>
+        </div>
         <button
           type="button"
           className="todo__button"

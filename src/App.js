@@ -52,7 +52,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <h1>Add todo form</h1>
 
         <p>
@@ -62,7 +62,7 @@ class App extends React.Component {
         <NewTodoForm
           todos={this.state.todos}
           users={users}
-          currentTodos={todos.length}
+          todosLength={todos.length}
           setNewTodo={this.setNewTodo}
         />
         <TodoList

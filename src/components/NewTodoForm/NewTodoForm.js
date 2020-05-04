@@ -5,7 +5,7 @@ import '../../App.scss';
 export class NewTodoForm extends React.Component {
   state = {
     userId: '',
-    id: this.props.currentTodos,
+    id: this.props.todosLength,
     title: '',
     completed: false,
     checkTitle: false,
@@ -112,7 +112,7 @@ export class NewTodoForm extends React.Component {
 
 NewTodoForm.propTypes = {
   setNewTodo: PropTypes.func.isRequired,
-  currentTodos: PropTypes.number.isRequired,
+  todosLength: PropTypes.number.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
