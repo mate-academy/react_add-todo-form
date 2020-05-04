@@ -34,7 +34,7 @@ class TodoForm extends React.Component {
     this.setState(() => ({
       currentValue: '',
       currentChooseUserValue: '',
-      currentStatus: '',
+      currentStatus: false,
       hiddenHint: false,
     }));
   }
@@ -58,8 +58,7 @@ class TodoForm extends React.Component {
       this.setState(() => ({ errorInput: true }));
     }
 
-    if (!newCreateTask && (typeof currentChooseUserValue !== 'number'
-      || (typeof currentStatus !== 'boolean'))) {
+    if (!newCreateTask && (typeof currentChooseUserValue !== 'number')) {
       this.setState(() => ({ errorSelect: true }));
     }
   }
