@@ -8,6 +8,7 @@ class NewTodo extends React.PureComponent {
     taskDescription: '',
     taskValidation: 1,
     userValidation: 1,
+    value: '',
   }
 
   createList = arr => (
@@ -17,13 +18,13 @@ class NewTodo extends React.PureComponent {
   )
 
   selectedUser = (event) => {
-    const i = this.state.users.find(el => el.name === event.target.value).id;
+    const i = this.state.users.find(el => el.name === event.target.value);
 
-    this.setState(({ userID }) => ({
-      userID: i,
+    this.setState(({ userID, userValidation, value }) => ({
+      userID: i.id,
+      userValidation: 1,
+      value: i.name,
     }));
-
-    this.setState({ userValidation: 1 });
   }
 
   taskTitle = (event) => {
@@ -44,8 +45,8 @@ class NewTodo extends React.PureComponent {
   )
 
   resetInputedData = () => {
-    this.setState(({ userId, taskDescription }) => ({
-      userId: 0,
+    this.setState(({ value, taskDescription }) => ({
+      value: '',
       taskDescription: '',
     }));
   }
@@ -88,7 +89,7 @@ class NewTodo extends React.PureComponent {
           <select
             className="form__selection"
             onChange={this.selectedUser}
-            // value={this.state.userID}
+            value={this.state.value}
           >
             {this.createList(this.state.users)}
           </select>
