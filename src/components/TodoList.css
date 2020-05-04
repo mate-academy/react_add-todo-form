@@ -1,0 +1,24 @@
+.card {
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 4px;
+}
+
+.card__title {
+  height: 80px;
+  margin: 0;
+}
+
+.card__name {
+  margin: 0;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.card__status--ok {
+  color: #4caf50;
+}
+
+.card__status--no {
+  color: red;
+}

@@ -1,0 +1,35 @@
+input,
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 1px solid grey;
+}
+
+input[type="submit"] {
+  width: 70%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 15px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.form__error {
+  border: 1px solid red;
+}
+
+.form__error--message {
+  font-size: 12px;
+  color: red;
+  margin: 0 0 10px;
+  height: 14px;
+}
