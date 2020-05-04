@@ -1,0 +1,22 @@
+.user {
+  padding: 20px;
+  background-color: rgb(209, 226, 209);
+  border-radius: 10%;
+
+  &__completed-true {
+
+    padding: 0 20px;
+    background-color: rgb(152, 152, 218);
+
+  }
+
+  &__completed-false {
+    background-color: rgb(235, 145, 145);
+    padding: 0 20px;
+  }
+
+  &__name {
+    font-style: italic;
+  }
+
+}
