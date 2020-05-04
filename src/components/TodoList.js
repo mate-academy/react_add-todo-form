@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Todo from './Todo';
 import { TodoType } from '../typedefs/todoType';
 
 const TodoList = ({ todos }) => (
@@ -8,18 +9,12 @@ const TodoList = ({ todos }) => (
       const { id, user, title, completed } = todo;
 
       return (
-        <li key={id} className="todo__item">
-          <h2 className="todo__username">
-            {user.name}
-          </h2>
-          <p className="todo__title">
-            {title}
-          </p>
-          {completed
-            ? <span className="todo__completed todo__completed--success" />
-            : <span className="todo__completed todo__completed--danger" />
-          }
-        </li>
+        <Todo
+          key={id}
+          user={user}
+          title={title}
+          completed={completed}
+        />
       );
     })
     }
