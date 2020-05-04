@@ -91,7 +91,7 @@ class NewTodo extends React.Component {
           value={title}
           onChange={this.handleChangeTitle}
         />
-        {!'' && <div className="todo__error">{errorTitle}</div>}
+        {errorTitle && <div className="todo__error">{errorTitle}</div>}
         <br />
 
         <label htmlFor="todoCompleted">Complete status</label>
@@ -120,7 +120,7 @@ class NewTodo extends React.Component {
             </option>
           ))}
         </select>
-        {!'' && <div className="todo__error">{errorUser}</div>}
+        {errorUser && <div className="todo__error">{errorUser}</div>}
         <br />
 
         <button type="submit">Add todo</button>
