@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
-import PropTypes from 'prop-types';
 import NewToDo from './components/NewToDo';
-
+import todosFromServer from './api/todos';
 import users from './api/users';
 import TodoList from './components/TodoList';
 
 class App extends React.Component {
-  initialTodos = [...this.props.todos].map((item) => {
+  initialTodos = todosFromServer.map((item) => {
     const { id, title, completed } = item;
 
     return {
@@ -20,33 +19,39 @@ class App extends React.Component {
 
   state = {
     todos: this.initialTodos,
-    usersNames: [...users].map(user => user.name).sort(),
+    usersNames: users.map(user => user.name).sort(),
   }
 
   addToDoFunction = (toDoFromForm) => {
     this.setState(prevState => ({
       todos: [...prevState.todos, {
-        id: prevState.todos.length + 1, ...toDoFromForm,
+        id: prevState.todos.length + 1,
+        ...toDoFromForm,
       }],
-      usersNames: [...(new Set([
-        ...prevState.usersNames,
-        toDoFromForm.userName]))].sort(),
+      usersNames: [
+        ...(new Set([
+          ...prevState.usersNames,
+          toDoFromForm.userName,
+        ])),
+      ].sort(),
     }));
   }
 
   render() {
+    const { todos, usersNames } = this.state;
+
     return (
       <div className="App">
         <h1>Static list of todos</h1>
         <p>
           <span>Todos: </span>
-          {this.state.todos.length}
+          {todos.length}
         </p>
-        <TodoList preparedTodos={this.state.todos} />
+        <TodoList preparedTodos={todos} />
         <NewToDo
           addToDoFunction={this.addToDoFunction}
-          todos={this.state.todos}
-          usersNames={this.state.usersNames}
+          todos={todos}
+          usersNames={usersNames}
         />
 
         <p>
@@ -57,9 +62,5 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
 
 export default App;

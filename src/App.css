@@ -24,7 +24,7 @@
   height: 100px;
 }
 
-.userNameError {
+.user-Name-Error {
   color: red;
   font-weight: bold;
   font-style: italic;
@@ -32,7 +32,7 @@
   top: 60px;
 }
 
-.titleError {
+.title-Error {
   color: red;
   font-weight: bold;
   font-style: italic;

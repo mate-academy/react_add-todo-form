@@ -13,23 +13,27 @@ class NewToDo extends React.Component {
 
   handleSubmit = (event) => {
     let isWrongData = false;
+    let userNameError = ' \n ';
+    let titleError = '';
 
     event.preventDefault();
+
     if (this.state.userName === '') {
-      this.setState({
-        userNameError: 'You must enter User Name',
-      });
+      userNameError = 'You must enter User Name';
       isWrongData = true;
     }
 
     if (this.state.title === '') {
-      this.setState({
-        titleError: 'You must enter what should be done',
-      });
+      titleError = 'You must enter what should be done';
       isWrongData = true;
     }
 
     if (isWrongData) {
+      this.setState({
+        titleError,
+        userNameError,
+      });
+
       return;
     }
 
@@ -42,14 +46,18 @@ class NewToDo extends React.Component {
   }
 
   handleFormFieldChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]: event.target.value,
-      [`${event.target.name}Error`]: '',
+      [name]: value,
+      [`${name}Error`]: '',
 
     });
   }
 
   render() {
+    const { userName, userNameError, title, titleError } = this.state;
+
     return (
       <form className="new-user-form" onSubmit={this.handleSubmit}>
 
@@ -59,10 +67,10 @@ class NewToDo extends React.Component {
           list="users"
           name="userName"
           onChange={this.handleFormFieldChange}
-          value={this.state.userName}
+          value={userName}
           placeholder="Choose user name"
         />
-        <span className="userNameError">{this.state.userNameError}</span>
+        <span className="user-Name-Error">{userNameError}</span>
         <datalist id="users">
           {this.props.usersNames.map(name => (
             <option key={name}>{name}</option>
@@ -73,10 +81,10 @@ class NewToDo extends React.Component {
         <textarea
           name="title"
           onChange={this.handleFormFieldChange}
-          value={this.state.title}
+          value={title}
           placeholder="Input here, what should be done."
         />
-        <span className="titleError">{this.state.titleError}</span>
+        <span className="title-Error">{titleError}</span>
         <br />
         <button type="submit">submit</button>
       </form>
