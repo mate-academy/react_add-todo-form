@@ -24,8 +24,9 @@ class NewTodo extends React.Component {
 
     const { userId, currentTodoId, title, completed } = this.state;
 
-    if (title.length === 0) {
+    if (title.trim().length === 0) {
       this.setState({
+        title: '',
         inputError: true,
       });
 
