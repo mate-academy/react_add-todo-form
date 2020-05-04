@@ -22,38 +22,35 @@ class NewTodo extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.setState((state) => {
-      const { userId, currentTodoId, title, completed } = state;
+    const { userId, currentTodoId, title, completed } = this.state;
 
-      if (title.length === 0) {
-        return {
-          inputError: true,
-        };
-      }
+    if (title.length === 0) {
+      this.setState({
+        inputError: true,
+      });
 
-      if (userId.length === 0) {
-        return {
-          selectError: true,
-        };
-      }
+      return;
+    }
 
-      const newTodo = {
-        userId,
-        id: currentTodoId + 1,
-        title,
-        completed,
-        user: this.props.users.find(user => userId === user.id),
-      };
+    if (userId.length === 0) {
+      this.setState({
+        selectError: true,
+      });
 
-      this.props.saveTodo(newTodo);
+      return;
+    }
 
-      return {
-        title: '',
-        userId: '',
-        completed: false,
-        currentTodoId: currentTodoId + 1,
-      };
-    });
+    const newTodo = {
+      userId,
+      id: currentTodoId + 1,
+      title,
+      completed,
+      user: this.props.users.find(user => userId === user.id),
+    };
+
+    this.props.saveTodo(newTodo);
+
+    this.resetForm();
   }
 
   handleUserChange = (event) => {
@@ -66,6 +63,15 @@ class NewTodo extends React.Component {
   handleStatusChange = () => {
     this.setState(state => ({
       completed: !state.completed,
+    }));
+  }
+
+  resetForm = () => {
+    this.setState(state => ({
+      title: '',
+      userId: '',
+      completed: false,
+      currentTodoId: state.currentTodoId + 1,
     }));
   }
 
