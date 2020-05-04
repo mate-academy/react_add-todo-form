@@ -2,91 +2,93 @@ import React from 'react';
 
 class TodoForm extends React.Component {
   state = {
-    currentValue: '',
-    currentChooseUserValue: '',
+    currentValue: null,
+    currentUser: null,
     currentStatus: false,
     errorInput: false,
     errorSelect: false,
   }
 
   handleInput = (event) => {
+    this.setState({ currentValue: event.target.value });
+    this.validationCheck();
+  }
+
+  validationCheck = () => {
     const { errorInput, currentValue } = this.state;
 
-    this.setState({ currentValue: event.target.value });
-
-    if (errorInput && currentValue.length >= 3) {
+    if (errorInput && currentValue && currentValue.length >= 3) {
       this.setState({ errorInput: false });
     }
   }
 
   chooseStatusTodo = () => {
-    this.setState(state => ({currentStatus: !state.currentStatus}))
+    this.setState(state => ({ currentStatus: !state.currentStatus }));
   }
 
-  chooseUserName = (event) => {
+  choosePerformer = (event) => {
     const selectUser = this.props.users
       .find(user => user.id === +event.target.value);
 
-    this.setState({ currentChooseUserValue: selectUser.id });
+    this.setState({ currentUser: selectUser.id });
   }
 
   resetState = () => {
     this.setState(() => ({
-      currentValue: '',
-      currentChooseUserValue: '',
+      currentValue: null,
+      currentUser: null,
       currentStatus: false,
-      hiddenHint: false,
+      errorInput: false,
+      errorSelect: false,
     }));
   }
 
   validation = () => {
     const {
-      currentValue, currentChooseUserValue,
+      currentValue, currentUser,
       currentStatus,
     } = this.state;
-    let newCreateTask;
 
     if ((typeof currentValue === 'string'
       && currentValue.length >= 4)
-      && (typeof currentChooseUserValue === 'number')
+      && (typeof currentUser === 'number')
       && (typeof currentStatus === 'boolean')) {
-      this.addNewTodo()
+      this.addNewTodo();
     }
 
-    if (!newCreateTask && (typeof currentValue !== 'string'
-      || currentValue.length <= 3)) {
+    if (typeof currentValue !== 'string'
+      || currentValue.length <= 3) {
       this.setState(() => ({ errorInput: true }));
     }
 
-    if (!newCreateTask && (typeof currentChooseUserValue !== 'number')) {
+    if (typeof currentUser !== 'number') {
       this.setState(() => ({ errorSelect: true }));
     }
   }
 
   addNewTodo = () => {
     const {
-      currentValue, currentChooseUserValue,
+      currentValue, currentUser,
       currentStatus,
     } = this.state;
-    const { users, changeTodo, nextId } = this.props;
-    let newCreateTask = {
-      userId: currentChooseUserValue,
+    const { users, addTodo, nextId } = this.props;
+    const newCreateTask = {
+      userId: currentUser,
       id: nextId,
       title: currentValue,
       completed: currentStatus,
       executant: users
-        .find(user => user.id === currentChooseUserValue),
+        .find(user => user.id === currentUser),
     };
 
     this.resetState();
-    changeTodo(newCreateTask);
+    addTodo(newCreateTask);
   }
 
   checkSelectError = () => {
-    const { currentChooseUserValue, currentStatus, errorSelect } = this.state;
+    const { currentUser, errorSelect } = this.state;
 
-    if (errorSelect && currentChooseUserValue !== ''
-      && currentStatus !== '') {
+    if (errorSelect && currentUser !== null) {
       this.setState(() => ({ errorSelect: false }));
     }
   }
@@ -94,7 +96,8 @@ class TodoForm extends React.Component {
   render() {
     const { users } = this.props;
     const {
-      currentValue, currentChooseUserValue, currentStatus, errorSelect, errorInput,
+      currentValue, currentUser,
+      currentStatus, errorSelect, errorInput,
     } = this.state;
 
     this.checkSelectError();
@@ -102,7 +105,7 @@ class TodoForm extends React.Component {
     return (
       <form
         className="todo__form form"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           this.validation();
         }}
@@ -112,7 +115,7 @@ class TodoForm extends React.Component {
           <input
             type="text"
             id="newTask"
-            value={currentValue}
+            value={currentValue || ''}
             onChange={this.handleInput}
           />
         </div>
@@ -120,8 +123,8 @@ class TodoForm extends React.Component {
           <label htmlFor="chooseUser">Choose a user: </label>
           <select
             id="chooseUser"
-            value={currentChooseUserValue}
-            onChange={this.chooseUserName}
+            value={currentUser || ''}
+            onChange={this.choosePerformer}
           >
             <option value="" hidden>
               Choose here

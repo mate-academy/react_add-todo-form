@@ -28,24 +28,21 @@ class App extends React.Component {
     }));
   }
 
-  changeTodo = (todo) => {
-    this.setState((state) => ({
+  addTodo = (todo) => {
+    this.setState(state => ({
       todos: [...state.todos, todo],
       nextId: state.nextId + 1,
     }));
   }
 
   render() {
-    const { todos, hiddenHint, nextId } = this.state;
-    console.log(todos);
+    const { todos, nextId } = this.state;
+
     return (
       <div className="App todo">
         <TodoForm
-          hiddenHint={hiddenHint}
-          chooseUserName={this.chooseUserName}
           users={users}
-          addNewTodo={this.addNewTodo}
-          changeTodo={this.changeTodo}
+          addTodo={this.addTodo}
           nextId={nextId}
         />
         <TodoList
