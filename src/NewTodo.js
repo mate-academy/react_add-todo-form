@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './App.css';
 
 class NewTodo extends React.Component {
   state = {
@@ -22,6 +23,7 @@ class NewTodo extends React.Component {
   handleChangeTitle = (e) => {
     this.setState({
       title: e.target.value,
+      errorTitle: '',
     });
   }
 
@@ -78,27 +80,41 @@ class NewTodo extends React.Component {
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="todo__form" onSubmit={this.handleSubmit}>
+
         <label htmlFor="todoTitle">Add todo title</label>
         <input
+          className="todo__input"
           type="text"
           id="todoTitle"
           value={title}
           onChange={this.handleChangeTitle}
         />
+
         {errorTitle && <div className="todo__error">{errorTitle}</div>}
+
         <br />
-        <label htmlFor="todoCompleted">Complete status</label>
+        <label
+          className="todo__complete"
+          htmlFor="todoCompleted"
+        >
+          Complete status
+        </label>
         <input
           type="checkbox"
           id="todoCompleted"
           checked={completed}
           onChange={this.handleChangeCheckbox}
         />
-
         <br />
-        <label htmlFor="todoUser">Select user</label>
+        <label
+          className="todo__select-user"
+          htmlFor="todoUser"
+        >
+          Select user
+        </label>
         <select
+          className="todo__select"
           id="todoUser"
           value={userId}
           onChange={this.handleChangeUser}
@@ -116,7 +132,7 @@ class NewTodo extends React.Component {
         {errorUser && <div className="todo__error">{errorTitle}</div>}
         <br />
 
-        <button type="submit">Add todo</button>
+        <button className="button" type="submit">Add todo</button>
       </form>
     );
   }

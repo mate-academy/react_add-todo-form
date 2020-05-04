@@ -29,7 +29,7 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    completed: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
   })).isRequired,
 };
 
