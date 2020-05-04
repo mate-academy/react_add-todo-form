@@ -1,4 +1,4 @@
-.toDo {
+.todo {
   display: grid;
   grid-template-columns: repeat(3, 300px);
   justify-items: start;
@@ -6,7 +6,7 @@
   margin-top: 20px;
 }
 
-.toDo__item {
+.todo__item {
   box-sizing: border-box;
   text-align: start;
   display: grid;
@@ -16,10 +16,10 @@
   padding: 20px;
 }
 
-.toDo__status {
+.todo__status {
   color: red;
 }
 
-.toDo__statusTrue {
+.todo__statusTrue {
   color: green;
 }

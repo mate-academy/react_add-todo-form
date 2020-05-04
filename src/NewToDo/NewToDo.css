@@ -7,10 +7,14 @@
   padding: 20px;
 }
 
-.form__invalidText {
+.form__invalidtext {
   border-color: red;
 }
 
-.form__invalidUser {
+.form__invaliduser {
   border-color: red;
+}
+
+.form__error {
+  color: red;
 }

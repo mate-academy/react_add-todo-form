@@ -3,23 +3,23 @@ import PropTypes from 'prop-types';
 import './toDo.css';
 import ClassNames from 'classnames';
 
-const ToDoList = ({ toDos, callback }) => (
-  <div className="toDo">
+const ToDoList = ({ toDos, changeCompleted }) => (
+  <div className="todo">
     {toDos.map(toDo => (
-      <div key={toDo.id} className="toDo__item">
+      <div key={toDo.id} className="todo__item">
         <div>
           {`Performer: ${toDo.user}`}
         </div>
         <p>{toDo.title}</p>
         <label className={
-          ClassNames('toDo__status', { toDo__statusTrue: toDo.completed })
+          ClassNames('todo__status', { todo__statusTrue: toDo.completed })
         }
         >
           Task status:
           <input
             type="checkbox"
             checked={toDo.completed}
-            onChange={() => (callback(toDo.id))}
+            onChange={() => (changeCompleted(toDo.id))}
           />
         </label>
       </div>
@@ -36,7 +36,7 @@ ToDoList.propTypes = {
       completed: PropTypes.bool.isRequired,
     },
   )).isRequired,
-  callback: PropTypes.func.isRequired,
+  changeCompleted: PropTypes.func.isRequired,
 };
 
 export default ToDoList;

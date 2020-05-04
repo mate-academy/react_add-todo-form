@@ -18,7 +18,7 @@ class App extends React.Component {
     todos: [...newToDo],
   };
 
-  addToDo =(todo) => {
+  addToDo = (todo) => {
     this.setState(prevState => (
       {
         todos: [...prevState.todos, todo],
@@ -40,6 +40,7 @@ class App extends React.Component {
   };
 
   render() {
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -54,7 +55,10 @@ class App extends React.Component {
           addToDo={this.addToDo}
           toDoId={this.state.todos[this.state.todos.length - 1].id}
         />
-        <ToDoList toDos={this.state.todos} callback={this.changeCompleted} />
+        <ToDoList
+          toDos={this.state.todos}
+          changeCompleted={this.changeCompleted}
+        />
       </div>
     );
   }

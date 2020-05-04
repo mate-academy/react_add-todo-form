@@ -8,7 +8,7 @@ class NewToDo extends React.Component {
     userId: 1,
     id: this.props.toDoId + 1,
     title: '',
-    completed: false,
+    completed: true,
     user: 'select user',
     invalidTitle: false,
     invalidUser: false,
@@ -25,36 +25,43 @@ class NewToDo extends React.Component {
         userId: this.props.users.find(
           user => user.name === prevState.user,
         ).id,
-      }
-    ));
+      }));
   };
 
   changeTextArea = (event) => {
     this.setState(
       {
-        title: event.target.value,
+        title: event.target.value.replace(/\W{2,}/g, ' '),
       },
     );
   };
 
   taskStatus = (event) => {
-    this.setState(
-      {
-        complete: event.target.value,
-      },
-    );
+    if (event.target.value === 'true') {
+      this.setState(
+        {
+          completed: true,
+        },
+      );
+    } else {
+      this.setState(
+        {
+          completed: false,
+        },
+      );
+    }
   };
 
   submitForm = (event) => {
     event.preventDefault();
-    if (this.state.title.length > 7) {
+    if (this.state.title.length > 0 && this.state.title !== ' ') {
       this.setState({ invalidTitle: false });
       if (this.state.user !== 'select user') {
         this.props.addToDo(
           {
             userId: this.state.userId,
             id: this.state.id,
-            title: this.state.title,
+            title: this.state.title.trim(),
             completed: this.state.completed,
             user: this.state.user,
           },
@@ -63,6 +70,7 @@ class NewToDo extends React.Component {
           {
             title: '',
             id: prevState.id + 1,
+            user: 'select user',
             invalidUser: false,
           }
         ));
@@ -97,10 +105,15 @@ class NewToDo extends React.Component {
               value={title}
               placeholder="enter task please"
               className={
-                ClassNames({ form__invalidText: invalidTitle })
+                ClassNames({ form__invalidtext: invalidTitle })
               }
             />
           </label>
+          {invalidTitle && (
+            <span className="form__error">
+              Please, enter task
+            </span>
+          )}
           <label htmlFor="user" className="form__item">
             User:
             <select
@@ -108,15 +121,20 @@ class NewToDo extends React.Component {
               onChange={this.changeUser}
               id="user"
               className={
-                ClassNames({ form__invalidUser: invalidUser })
+                ClassNames({ form__invaliduser: invalidUser })
               }
             >
-              <option value="select user">select user</option>
+              <option value={user}>{user}</option>
               {users.map(user => (
                 <option key={user.id} value={user.name}>{user.name}</option>
               ))}
             </select>
           </label>
+          {invalidUser && (
+            <span className="form__error">
+              Please, choose user
+            </span>
+          )}
           <label htmlFor="status" className="form__item">
             Task status:
             <select
