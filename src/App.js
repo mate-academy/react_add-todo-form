@@ -7,10 +7,12 @@ import todos from './api/todos';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <>
+      <div className="App">
+        <h1>Add todo form</h1>
+      </div>
       <TodoList users={users} todos={todos} />
-    </div>
+    </>
   );
 }
 

@@ -9,13 +9,19 @@ class TodoList extends React.Component {
   }
 
   addTodo = (id, title, userId) => {
-    this.setState(prevState => ({
-      todos: [...prevState.todos, {
-        id,
-        userId,
-        title,
-      }],
-    }));
+    if (title.trim().length !== 0) {
+      this.setState(prevState => ({
+        todos: [...prevState.todos, {
+          id,
+          userId,
+          title,
+        }],
+      }));
+    } else {
+      this.setState(prevState => ({
+        todos: [...prevState.todos],
+      }));
+    }
   }
 
   render() {
@@ -25,8 +31,8 @@ class TodoList extends React.Component {
     return (
       <>
         <NewTodo users={users} addTodo={this.addTodo} />
-        <table className="table">
-          <thead className="head">
+        <table className="table table-striped">
+          <thead className="thead-dark">
             <tr>
               <th>№</th>
               <th>Task</th>

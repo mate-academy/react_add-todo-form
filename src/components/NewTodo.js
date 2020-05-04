@@ -10,7 +10,7 @@ class NewTodo extends React.Component {
     errorSelect: false,
   }
 
-  selectUserName = (event) => {
+  selectUser = (event) => {
     this.setState({
       userId: +event.target.value,
       errorSelect: false,
@@ -42,7 +42,7 @@ class NewTodo extends React.Component {
       });
     }
 
-    if (!title) {
+    if (!title || title.trim().length === 0) {
       this.setState({
         errorInput: true,
       });
@@ -74,28 +74,42 @@ class NewTodo extends React.Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Please enter the title of todo"
-          value={title}
-          onChange={this.handleChangeInput}
-        />
-        <p className="error">{errorMessageInput}</p>
-        <select
-          onChange={this.selectUserName}
-          value={userId}
-        >
-          <option disabled value="0">
-            Choose a User
-          </option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
-          ))}
-        </select>
-        <p className="error">{errorMessageSelect}</p>
-        <button type="submit">Add</button>
-      </form>
+      <div className="container-fluid">
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Please enter the title of todo"
+              className="form-control"
+              aria-describedby="inputText"
+              value={title}
+              onChange={this.handleChangeInput}
+            />
+            <small id="inputText" className="form-text text-danger">
+              {errorMessageInput}
+            </small>
+          </div>
+          <div className="form-group">
+            <select
+              onChange={this.selectUser}
+              value={userId}
+              className="selectbox"
+              aria-describedby="selectVal"
+            >
+              <option disabled value="0">
+                Choose a User
+              </option>
+              {users.map(user => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
+            </select>
+            <small id="selectVal" className="form-text text-danger">
+              {errorMessageSelect}
+            </small>
+          </div>
+          <button type="submit" className="btn btn-success">Add</button>
+        </form>
+      </div>
     );
   }
 }

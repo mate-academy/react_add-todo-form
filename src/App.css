@@ -2,18 +2,11 @@
   text-align: center;
 }
 
-.error {
-  color: red;
-  font-weight: bold;
+.selectbox {
+  width: 100%;
 }
 
-table,
-th,
-td {
-  border: 1px solid black;
-}
-
-.table {
-  margin: 50px auto;
-  border-collapse: collapse;
+.btn {
+  width: 20%;
+  margin: 15px 0 50px;
 }
