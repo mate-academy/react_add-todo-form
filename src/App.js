@@ -16,17 +16,16 @@ class App extends Component {
       })),
   }
 
-  NewTodo = (newTask, userId) => {
-    const newTodo = {
-      userId,
-      id: this.state.todoList.length + 1,
-      title: newTask,
-      completed: false,
-      user: users.find(user => user.id === userId),
-    };
-
+  addTodo = (newTodo) => {
     this.setState(state => ({
-      todoList: [...state.todoList, newTodo]
+      todoList: [
+        ...state.todoList,
+        {
+          ...newTodo,
+          id: state.todoList[0].id + 1,
+          user: users.find(user => user.id === newTodo.userId),
+        },
+      ]
         .sort((a, b) => b.id - a.id),
     }));
   }
@@ -62,7 +61,7 @@ class App extends Component {
         </p>
         <NewTodo
           users={users}
-          newTodo={this.NewTodo}
+          addTodo={this.addTodo}
         />
         <TodoList
           todoList={this.state.todoList}

@@ -5,6 +5,7 @@ import './Todo.css';
 class Todo extends PureComponent {
   render() {
     const { id, title, completed, user } = this.props.todo;
+    const { deleteTodo } = this.props;
 
     return (
       <li className={
@@ -29,7 +30,7 @@ class Todo extends PureComponent {
         </div>
         <button
           className="todo__item-delete-btn"
-          onClick={() => this.props.deleteTodo(id)}
+          onClick={() => deleteTodo(id)}
           type="button"
           title="Delete current task"
         >

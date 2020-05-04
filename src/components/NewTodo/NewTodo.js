@@ -5,52 +5,57 @@ import PropTypes from 'prop-types';
 class NewTodo extends Component {
   state = {
     newTask: '',
-    userId: 1,
-    messageText: '',
-    messageIsVisible: false,
+    userId: 0,
+    titleErrorMgs: '',
+    usersErrorMsg: '',
+
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const { newTask, userId } = this.state;
+    const newTodo = {
+      userId,
+      title: newTask,
+      completed: false,
+    };
 
     if (newTask.length === 0) {
       this.setState({
-        messageText: '*cannot be empty',
-        messageIsVisible: true,
+        titleErrorMgs: '*cannot be empty',
       });
 
       return;
     }
 
-    if (newTask.length < 10) {
+    if (userId === 0) {
       this.setState({
-        messageText: '*min length is 10 symbols',
-        messageIsVisible: true,
+        usersErrorMsg: '*choose a user for this task',
       });
 
       return;
     }
 
-    this.props.newTodo(newTask, userId);
+    this.props.addTodo(newTodo);
     this.setState({
       newTask: '',
-      userId: 1,
+      userId: 0,
     });
   }
 
-  handleNewTaskInput = (e) => {
-    this.setState({ messageIsVisible: false });
+  handleTitleInput = (e) => {
     this.setState({ newTask: e.target.value });
+    this.setState({ titleErrorMgs: '' });
   }
 
   handleUserIdInput = (e) => {
     this.setState({ userId: +e.target.value });
+    this.setState({ usersErrorMsg: '' });
   }
 
   render() {
     const { users } = this.props;
-    const { newTask, userId, messageText, messageIsVisible } = this.state;
+    const { newTask, userId, titleErrorMgs, usersErrorMsg } = this.state;
 
     return (
       <>
@@ -63,17 +68,18 @@ class NewTodo extends Component {
             </span>
             <input
               value={newTask}
-              onChange={this.handleNewTaskInput}
+              onChange={this.handleTitleInput}
               className="newtodo__item-input"
               type="text"
               placeholder="Enter task here"
               size={37}
               maxLength={30}
+              minLength={10}
             />
           </label>
-          {messageIsVisible && (
+          {titleErrorMgs && (
             <div className="newtodo__item-message">
-              {messageText}
+              {titleErrorMgs}
             </div>
           )}
           <div className="newtodo__item-name">
@@ -86,12 +92,18 @@ class NewTodo extends Component {
                 onChange={this.handleUserIdInput}
                 className="newtodo__item-users"
               >
+                <option value="0" defaultValue>Choose a user</option>
                 {users.map(user => (
                   <option key={user.id} value={user.id}>
                     {user.name}
                   </option>
                 ))}
               </select>
+              {usersErrorMsg && (
+                <div className="newtodo__item-message">
+                  {usersErrorMsg}
+                </div>
+              )}
             </label>
           </div>
           <button
@@ -107,7 +119,7 @@ class NewTodo extends Component {
 }
 
 NewTodo.propTypes = {
-  newTodo: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

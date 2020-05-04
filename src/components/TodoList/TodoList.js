@@ -6,9 +6,16 @@ import './TodoList.css';
 class TodoList extends PureComponent {
   render() {
     const { todoList, deleteTodo, statusToggle } = this.props;
+    const completedTodos = [];
+    const uncompletedTodos = [];
 
-    const completedTodos = todoList.filter(todo => todo.completed);
-    const uncompletedTodos = todoList.filter(todo => !todo.completed);
+    todoList.forEach((todo) => {
+      if (todo.completed) {
+        completedTodos.push(todo);
+      } else {
+        uncompletedTodos.push(todo);
+      }
+    });
 
     return (
       <>
