@@ -19,7 +19,7 @@ class App extends React.Component {
 
   state = {
     todos: this.initialTodos,
-    usersNames: users.map(user => user.name).sort(),
+    usersNames: [...users.map(user => user.name)].sort(),
   }
 
   addToDoFunction = (toDoFromForm) => {

@@ -18,12 +18,12 @@ class NewToDo extends React.Component {
 
     event.preventDefault();
 
-    if (this.state.userName === '') {
+    if (this.state.userName.trim() === '') {
       userNameError = 'You must enter User Name';
       isWrongData = true;
     }
 
-    if (this.state.title === '') {
+    if (this.state.title.trim() === '') {
       titleError = 'You must enter what should be done';
       isWrongData = true;
     }
@@ -70,7 +70,7 @@ class NewToDo extends React.Component {
           value={userName}
           placeholder="Choose user name"
         />
-        <span className="user-Name-Error">{userNameError}</span>
+        <span className="user-name-error">{userNameError}</span>
         <datalist id="users">
           {this.props.usersNames.map(name => (
             <option key={name}>{name}</option>
@@ -84,7 +84,7 @@ class NewToDo extends React.Component {
           value={title}
           placeholder="Input here, what should be done."
         />
-        <span className="title-Error">{titleError}</span>
+        <span className="title-error">{titleError}</span>
         <br />
         <button type="submit">submit</button>
       </form>
