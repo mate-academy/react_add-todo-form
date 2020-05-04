@@ -12,11 +12,6 @@ class App extends React.Component {
       ...todo,
       person: users.find(user => user.id === todo.userId),
     })),
-    errorTitle: false,
-    errorUser: false,
-    // errorTitle: '',
-    // errorUser: '',
-    // message: '',
   }
 
   toggleComplete = (id) => {
@@ -37,40 +32,36 @@ class App extends React.Component {
   handleTitleNewTodo = (event) => {
     this.setState({
       newTodoTitle: event.target.value,
-      errorTitle: false,
-      // errorTitle: '',
     });
   };
 
   handleChangeUser = (event) => {
     this.setState({
       userId: event.target.value,
-      errorUser: false,
-      // errorUser: '',
     });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { newTodoTitle, userId, errorTitle, errorUser } = this.state;
+    const { newTodoTitle, userId } = this.state;
 
-    if (!newTodoTitle) {
-      this.setState({
-        errorTitle: true,
-        // errorTitle: 'Please type your task',
-      });
+    // if (!newTodoTitle) {
+    //   this.setState({
+    //     errorTitle: true,
+    //     // errorTitle: 'Please type your task',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
-    if (!userId) {
-      this.setState({
-        // errorUser: true,
-        errorUser: 'Please choose the user',
-      });
+    // if (!userId) {
+    //   this.setState({
+    //     // errorUser: true,
+    //     errorUser: 'Please choose the user',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     // if (!errorUser || !errorTitle) {
     //   this.setState({
@@ -90,11 +81,10 @@ class App extends React.Component {
           person: users.find(user => user.id === +userId),
         },
       ],
-      errorTitle: !errorTitle ? 'Please type your task' : '',
-      errorUser: !errorUser ? 'Please choose the user' : '',
-      // errorTitle: false,
-      // errorUser: false,
-      // message: '',
+      newTodoTitle: '',
+      userId: '',
+      // errorTitle: !errorTitle ? 'Please type your task' : '',
+      // errorUser: !errorUser ? 'Please choose the user' : '',
     }));
   }
 
@@ -108,10 +98,6 @@ class App extends React.Component {
           handleTitleNewTodo={this.handleTitleNewTodo}
           handleChangeUser={this.handleChangeUser}
           handleSubmit={this.handleSubmit}
-          isTitle={this.isTitle}
-          errorTitle={this.errorTitle}
-          errorUser={this.errorUser}
-          // message={this.message}
         />
         <TodoList
           todos={this.state.todos}

@@ -7,7 +7,7 @@ const NewToDo = (
     newTodoTitle,
     handleTitleNewTodo,
     handleChangeUser,
-    handleSubmit, errorTitle, errorUser },
+    handleSubmit },
 ) => (
   <form onSubmit={handleSubmit} className="form__newTodo">
     <label>
@@ -18,8 +18,6 @@ const NewToDo = (
         maxLength={100}
         onChange={handleTitleNewTodo}
       />
-      {errorTitle}
-      {/* {!errorTitle && <div>Please type your task</div>} */}
     </label>
     <label>
       Person:
@@ -38,7 +36,7 @@ const NewToDo = (
           </option>
         ))}
       </select>
-      {!errorUser && <div>Please choose the user</div>}
+      {/* {!errorUser && <div>Please choose the user</div>} */}
     </label>
     <button type="submit" className="form__button">
       Add ToDo
@@ -53,8 +51,6 @@ NewToDo.propTypes = {
   handleTitleNewTodo: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
   handleChangeUser: PropTypes.func.isRequired,
-  errorTitle: PropTypes.bool.isRequired,
-  errorUser: PropTypes.bool.isRequired,
 };
 
 export default NewToDo;
