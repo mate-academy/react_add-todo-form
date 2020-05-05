@@ -16,19 +16,24 @@ class App extends React.Component {
   state = {
     preparedToDos: [...preparedToDos],
     usersList: [...users],
-  }
+  };
 
-  updateTodosList = (event, task, userName, taskStatus) => {
-    this.setState(state => ({ preparedToDos: [...state.preparedToDos, {
-      completed: taskStatus,
-      id: state.preparedToDos.length + 1,
-      title: task,
-      userId: (users.find(user => userName === user.name)).id,
-      user: {
-        ...users.find(user => userName === user.name),
-      },
-    }] }));
-  }
+  updateTodosList = (task, userName, taskStatus) => {
+    this.setState(state => ({
+      preparedToDos: [
+        ...state.preparedToDos,
+        {
+          completed: taskStatus,
+          id: state.preparedToDos.length + 1,
+          title: task,
+          userId: users.find(user => userName === user.name).id,
+          user: {
+            ...users.find(user => userName === user.name),
+          },
+        },
+      ],
+    }));
+  };
 
   render() {
     return (
@@ -38,12 +43,13 @@ class App extends React.Component {
           <span>Users: </span>
           {users.length}
         </p>
-
-        <NewTodo
-          usersList={this.state.usersList}
-          updateTodosList={this.updateTodosList}
-        />
-        <TodoList preparedToDos={this.state.preparedToDos} />
+        <main className="main">
+          <NewTodo
+            usersList={this.state.usersList}
+            updateTodosList={this.updateTodosList}
+          />
+          <TodoList preparedToDos={this.state.preparedToDos} />
+        </main>
       </div>
     );
   }

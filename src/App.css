@@ -1,3 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+html {
+  font-family: "Poppins", sans-serif;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+em {
+  font-size: 12px;
+  color: red;
+}
+
 .App {
   text-align: center;
+}
+
+.main {
+  margin: 0 auto;
+  width: 75vw;
 }

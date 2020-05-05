@@ -5,4 +5,10 @@
   border-radius: 10px;
   background-color: #cddcdc;
   padding: 20px;
+  &__status--done {
+    color: green;
+  }
+  &__status--undone {
+    color: coral;
+  }
 }

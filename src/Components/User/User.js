@@ -1,9 +1,13 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import './User.scss';
 
 const User = ({ userInfo }) => (
-  <h4 className="todo-card__user">{userInfo.user.name}</h4>
+  <h5 className="todo-card__user">{userInfo.name}</h5>
 );
+
+User.propTypes = {
+  userInfo: PropTypes.string.isRequired,
+};
 
 export default User;
