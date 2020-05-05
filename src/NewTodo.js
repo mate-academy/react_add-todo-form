@@ -8,22 +8,22 @@ class NewTodo extends React.Component {
     completed: false,
     user: {},
     userId: '',
-    errorTitle: '',
-    errorUser: '',
+    titleError: '',
+    userError: '',
   }
 
   handleChangeUser = (e) => {
     this.setState({
       user: this.props.users.find(user => user.id === e.target.value),
       userId: e.target.value,
-      errorUser: '',
+      userError: '',
     });
   }
 
   handleChangeTitle = (e) => {
     this.setState({
       title: e.target.value,
-      errorTitle: '',
+      titleError: '',
     });
   }
 
@@ -36,8 +36,8 @@ class NewTodo extends React.Component {
   resetForm = () => {
     this.setState({
       title: '',
-      completed: false,
       userId: '',
+      completed: false,
     });
   }
 
@@ -48,11 +48,11 @@ class NewTodo extends React.Component {
       const nextState = {};
 
       if (prev.title.trim() === '') {
-        nextState.errorTitle = `Enter the title`;
+        nextState.titleError = `Please enter the title`;
       }
 
       if (prev.userId === '') {
-        nextState.errorUser = `Enter the user`;
+        nextState.userError = `Please enter the user`;
       }
 
       return nextState;
@@ -75,8 +75,8 @@ class NewTodo extends React.Component {
       title,
       completed,
       userId,
-      errorTitle,
-      errorUser,
+      titleError,
+      userError,
     } = this.state;
 
     return (
@@ -91,7 +91,7 @@ class NewTodo extends React.Component {
           onChange={this.handleChangeTitle}
         />
 
-        {errorTitle && <div className="todo__error">{errorTitle}</div>}
+        {titleError && <div className="todo__error">{titleError}</div>}
 
         <br />
         <label
@@ -129,7 +129,7 @@ class NewTodo extends React.Component {
             </option>
           ))}
         </select>
-        {errorUser && <div className="todo__error">{errorTitle}</div>}
+        {userError && <div className="todo__error">{titleError}</div>}
         <br />
 
         <button className="button" type="submit">Add todo</button>
