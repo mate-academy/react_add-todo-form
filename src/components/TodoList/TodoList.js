@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './TodoList.scss';
 
 const TodoList = ({ list }) => (
   list.map(item => (
-    <div key={item.id}>
+    <div key={item.id} className="item">
       <h1>{`${item.title}`}</h1>
       <p>{item.user.name}</p>
       <p>{item.completed ? 'completed' : 'not completed'}</p>

@@ -19,6 +19,12 @@ class App extends Component {
   }
 
   addNewTask = (id) => {
+    if (!this.state.userTask.trim()) {
+      this.setState({ titleError: false });
+
+      return;
+    }
+
     if (!this.state.userId || !this.state.userTask) {
       if (this.state.userTask) {
         this.setState({ titleError: true });
