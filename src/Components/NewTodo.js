@@ -14,29 +14,29 @@ class NewTodo extends React.Component {
     statusError: false,
   }
 
-  handleChangeTitle = (event) => {
+  handleChangeTitle = ({ target }) => {
     this.setState({
-      title: event.target.value.replace(/[^a-z\s]/gi, ''),
+      title: target.value.replace(/[^a-z\s]/gi, ''),
       titleError: false,
     });
   }
 
-  handleChangeUser = (event) => {
+  handleChangeUser = ({ target }) => {
     this.setState({
-      userId: +event.target.value,
+      userId: +target.value,
       userError: false,
     });
   }
 
-  handleChangeStatus = (event) => {
-    if (event.target.value === '1') {
+  handleChangeStatus = ({ target }) => {
+    if (target.value === '1') {
       this.setState({
         completed: true,
         statusError: false,
       });
     }
 
-    if (event.target.value === '0') {
+    if (target.value === '0') {
       this.setState({
         completed: false,
         statusError: false,
