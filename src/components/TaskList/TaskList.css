@@ -1,0 +1,32 @@
+li {
+  list-style: none;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  width: 450px;
+  margin: 20px auto;
+}
+
+.task {
+  border: 1px solid gray;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 5px auto;
+
+}
+
+h2 {
+  color: darkslategray;
+  text-align: center;
+}
+
+p {
+  text-align: right;
+  font-weight: bolder;
+  color: gray;
+  margin-right: 30px;
+}
