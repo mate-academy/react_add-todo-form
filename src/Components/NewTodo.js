@@ -5,7 +5,7 @@ import './Form.scss';
 
 class NewTodo extends React.Component {
   state = {
-    userId: '',
+    userId: 0,
     title: '',
     completed: '',
     id: this.props.todoId,
