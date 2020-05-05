@@ -100,7 +100,6 @@ handleSubmit = (event) => {
 render() {
   const { title,
     userId,
-    completed,
     titleError,
     userError,
     statusError } = this.state;
@@ -137,7 +136,6 @@ render() {
       </label>
       <label>
         <select
-          value={completed}
           className="form__status"
           onChange={this.handleChangeStatus}
         >
