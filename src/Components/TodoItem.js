@@ -13,14 +13,16 @@ const TodoItem = ({ todo }) => {
         Todo №
         {id}
       </p>
-      <p className="user__name"><User {...user} /></p>
+      <p className="user__name">
+        <User {...user} />
+      </p>
       <p className="user__title">
         <strong>Title :</strong>
         {title}
       </p>
       <p>
         <strong>Status:</strong>
-        {completed
+        {completed === 'done'
           ? <span className="user__completed-true">done</span>
           : <span className="user__completed-false">in procces</span>
         }

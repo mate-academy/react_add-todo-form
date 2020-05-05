@@ -6,9 +6,7 @@ import './TodoList.scss';
 const TodoList = ({ todoList }) => (
   <div className="todo__list">
     {todoList.map(todo => (
-
       <TodoItem todo={todo} key={todo.id} />
-
     ))}
   </div>
 );

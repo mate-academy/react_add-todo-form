@@ -11,9 +11,7 @@ class App extends React.Component {
     todos: todos.map(todo => ({
       ...todo,
       user: users.find(user => user.id === todo.userId),
-
     })),
-
   }
 
   newTodo = (todo) => {
@@ -27,21 +25,16 @@ class App extends React.Component {
       <>
         <div className="App">
           <h1>Add todo form</h1>
-
           <p>
             <span>Users: </span>
             {users.length}
           </p>
         </div>
-
         <div>
           <NewTodo users={users} newTodo={this.newTodo} todoId={todos.length} />
           <TodoList todoList={this.state.todos} />
-
         </div>
-
       </>
-
     );
   }
 }

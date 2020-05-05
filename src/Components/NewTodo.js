@@ -5,13 +5,13 @@ import './Form.scss';
 
 class NewTodo extends React.Component {
   state = {
-    userId: '',
+    userId: 0,
     title: '',
     completed: '',
     id: this.props.todoId,
     titleError: false,
     userError: false,
-
+    statusError: false,
   }
 
   handleChangeTitle = (event) => {
@@ -28,39 +28,39 @@ class NewTodo extends React.Component {
     });
   }
 
+  handleChangeStatus = ({ target }) => {
+    if (target.value === 'done') {
+      this.setState({
+        completed: 'done',
+        statusError: false,
+      });
+    }
+
+    if (target.value === 'in process') {
+      this.setState({
+        completed: 'in procces',
+        statusError: false,
+      });
+    }
+  };
+
   resetForm = () => {
     this.setState(prev => (
       {
         title: '',
-        completed: '',
+        completed: 'false',
         userId: '',
         id: prev.id + 1,
-
       }
     ));
   }
-
-handleStatus = (event) => {
-  if (event.target.value === 'done') {
-    this.setState({
-      completed: 'done',
-
-    });
-  }
-
-  if (event.target.value === 'in procces') {
-    this.setState({
-      completed: 'in procces',
-    });
-  }
-};
 
 handleSubmit = (event) => {
   const { title, userId, completed, id } = this.state;
 
   event.preventDefault();
 
-  if (title.length === 0) {
+  if (!title.length) {
     this.setState({
       title: '',
       titleError: true,
@@ -72,6 +72,14 @@ handleSubmit = (event) => {
   if (userId < 1) {
     this.setState({
       userError: true,
+    });
+
+    return;
+  }
+
+  if (completed === 'false') {
+    this.setState({
+      statusError: true,
     });
 
     return;
@@ -89,11 +97,14 @@ handleSubmit = (event) => {
 }
 
 render() {
-  // const { users } = this.props;
-  const { title, userId, titleError, userError } = this.state;
+  const { title,
+    userId,
+    completed,
+    titleError,
+    userError,
+    statusError } = this.state;
 
   return (
-
     <form className="form" onSubmit={this.handleSubmit}>
       <label>
         <input
@@ -105,7 +116,6 @@ render() {
           onChange={this.handleChangeTitle}
         />
         {titleError && <p className="form__error"> Write new todo</p>}
-
       </label>
 
       <label>
@@ -123,39 +133,33 @@ render() {
         </select>
         <br />
         {userError && <p className="form__error">Choose a user</p>}
-
       </label>
-
-      <select
-        className="form__status"
-        onChange={this.handleStatus}
-      >
-        <option value="" hidden>Choose a status</option>
-        <option value="done">done</option>
-        <option value="in process">in process</option>
-      </select>
-      <br />
-
+      <label>
+        <select
+          value={completed}
+          className="form__status"
+          onChange={this.handleChangeStatus}
+        >
+          <option value="false">Choose a status</option>
+          <option value="done">done</option>
+          <option value="in process">in process</option>
+        </select>
+        <br />
+        {statusError && <p className="form__error">Choose a status</p>}
+      </label>
       <button
         type="submit"
         className="form__button"
       >
         Add
       </button>
-
     </form>
-
   );
 }
 }
-
 NewTodo.propTypes = {
   newTodo: PropTypes.func.isRequired,
   todoId: PropTypes.string.isRequired,
-  // users: PropTypes.arrayOf(PropTypes.shape({
-  //   id: PropTypes.number,
-  //   name: PropTypes.string,
-  // })).isRequired,
 };
 
 export default NewTodo;
