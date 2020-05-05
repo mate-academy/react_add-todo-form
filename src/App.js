@@ -53,20 +53,16 @@ class App extends Component {
   }
 
   changeTask = (e) => {
-    const str = !!e.target.value;
-
     this.setState({
       userTask: e.target.value,
-      titleError: str,
+      titleError: !!e.target.value,
     });
   }
 
   changeUserId = (e) => {
-    const person = !!+e.target.value;
-
     this.setState({
       userId: +e.target.value,
-      personError: person,
+      personError: !!+e.target.value,
     });
   }
 

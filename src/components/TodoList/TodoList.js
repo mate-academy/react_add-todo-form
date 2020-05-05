@@ -12,7 +12,16 @@ const TodoList = ({ list }) => (
 );
 
 TodoList.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape({
+    userId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    phone: PropTypes.string,
+    website: PropTypes.string,
+    company: PropTypes.object,
+  })).isRequired,
 };
 
 export default TodoList;

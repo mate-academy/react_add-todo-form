@@ -28,7 +28,11 @@ const TodoForm = (
     </label>
     {titleError || <span> Please enter the title </span>}
     <br />
-    <select onChange={changeUserId} value={value} className="form__person">
+    <select
+      onChange={changeUserId}
+      value={value}
+      className="form__person"
+    >
       <option value="0">Choose person</option>
       {usersList.map(item => (
         <option value={item.id} key={item.id}>{item.name}</option>
@@ -47,7 +51,14 @@ const TodoForm = (
 );
 
 TodoForm.propTypes = {
-  usersList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  usersList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    address: PropTypes.object.isRequired,
+
+  })).isRequired,
   changeTask: PropTypes.func.isRequired,
   changeUserId: PropTypes.func.isRequired,
   value: PropTypes.number.isRequired,
