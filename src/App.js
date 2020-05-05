@@ -6,7 +6,7 @@ import todos from './api/todos';
 import NewToDo from './NewToDo/NewToDo';
 import ToDoList from './ToDoList/ToDoList';
 
-const newToDo = todos.map(todo => (
+const todoList = todos.map(todo => (
   {
     ...todo,
     user: users.find(user => user.id === todo.userId).name,
@@ -15,7 +15,7 @@ const newToDo = todos.map(todo => (
 
 class App extends React.Component {
   state= {
-    todos: [...newToDo],
+    todos: [...todoList],
   };
 
   addToDo = (todo) => {
@@ -40,6 +40,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state)
 
     return (
       <div className="App">

@@ -6,7 +6,6 @@ import './NewToDo.css';
 class NewToDo extends React.Component {
   state = {
     userId: 1,
-    id: this.props.toDoId + 1,
     title: '',
     completed: true,
     user: 'select user',
@@ -15,16 +14,15 @@ class NewToDo extends React.Component {
   };
 
   changeUser = (event) => {
-    this.setState(
-      {
-        user: event.target.value,
-      },
-    );
+    const userName = event.target.value;
+
     this.setState(prevState => (
       {
+        user: userName,
         userId: this.props.users.find(
-          user => user.name === prevState.user,
+          user => user.name === userName,
         ).id,
+        invalidUser: false,
       }));
   };
 
@@ -32,11 +30,12 @@ class NewToDo extends React.Component {
     this.setState(
       {
         title: event.target.value.replace(/\W{2,}/g, ' '),
+        invalidTitle: false,
       },
     );
   };
 
-  taskStatus = (event) => {
+  isCompletedTask = (event) => {
     if (event.target.value === 'true') {
       this.setState(
         {
@@ -60,7 +59,7 @@ class NewToDo extends React.Component {
         this.props.addToDo(
           {
             userId: this.state.userId,
-            id: this.state.id,
+            id: this.props.toDoId + 1,
             title: this.state.title.trim(),
             completed: this.state.completed,
             user: this.state.user,
@@ -69,7 +68,6 @@ class NewToDo extends React.Component {
         this.setState(prevState => (
           {
             title: '',
-            id: prevState.id + 1,
             user: 'select user',
             invalidUser: false,
           }
@@ -139,7 +137,7 @@ class NewToDo extends React.Component {
             Task status:
             <select
               value={complete}
-              onChange={this.taskStatus}
+              onChange={this.isCompletedTask}
               id="status"
             >
               <option value="true">Done</option>
