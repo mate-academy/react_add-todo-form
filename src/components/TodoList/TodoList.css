@@ -1,0 +1,16 @@
+.todo__list {
+  width: 70%;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.todo__list-item {
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+
+.completed {
+  background-color: chartreuse;
+}
