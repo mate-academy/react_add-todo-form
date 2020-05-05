@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import '../../App.scss';
 
-export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
+export const TodoList = ({ todos, changeStatus }) => (
   <div className="todo__list">
     {todos.map(todo => (
       <div
@@ -21,7 +21,7 @@ export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
         <button
           type="button"
           className="todo__button"
-          onClick={() => changeStatusTrue(todo.id)}
+          onClick={() => changeStatus(todo.id, true)}
         >
           <span role="img" aria-label="check-mark">✅</span>
           {' '}
@@ -31,7 +31,7 @@ export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
         <button
           type="button"
           className="todo__button"
-          onClick={() => changeStatusFalse(todo.id)}
+          onClick={() => changeStatus(todo.id, false)}
         >
           <span role="img" aria-label="clock">🕑</span>
           {' '}
@@ -43,8 +43,7 @@ export const TodoList = ({ todos, changeStatusTrue, changeStatusFalse }) => (
 );
 
 TodoList.propTypes = {
-  changeStatusFalse: PropTypes.func.isRequired,
-  changeStatusTrue: PropTypes.func.isRequired,
+  changeStatus: PropTypes.func.isRequired,
   todos: PropTypes.arrayOf(PropTypes.shape({
     userId: PropTypes.number,
     id: PropTypes.number,

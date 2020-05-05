@@ -20,28 +20,13 @@ class App extends React.Component {
     }));
   }
 
-  changeStatusTrue = (id) => {
+  changeStatus = (id, status) => {
     this.setState(state => ({
       todos: state.todos.map((todo) => {
         if (todo.id === id) {
           return {
             ...todo,
-            completed: true,
-          };
-        }
-
-        return todo;
-      }),
-    }));
-  }
-
-  changeStatusFalse = (id) => {
-    this.setState(state => ({
-      todos: state.todos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            completed: false,
+            completed: status,
           };
         }
 
@@ -67,8 +52,7 @@ class App extends React.Component {
         />
         <TodoList
           todos={this.state.todos}
-          changeStatusTrue={this.changeStatusTrue}
-          changeStatusFalse={this.changeStatusFalse}
+          changeStatus={this.changeStatus}
         />
       </div>
     );
