@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Complited.css';
+import './Completed.css';
 
-export const Complited = ({ is }) => {
-  if (is === true) {
+export const Completed = ({ isCompleted }) => {
+  if (isCompleted === true) {
     return (
       <p className="done">
         Complete
@@ -18,6 +18,6 @@ export const Complited = ({ is }) => {
   );
 };
 
-Complited.propTypes = {
-  is: PropTypes.bool.isRequired,
+Completed.propTypes = {
+  isCompleted: PropTypes.bool.isRequired,
 };

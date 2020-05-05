@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { User } from '../User/User';
-import { Complited } from '../Complited/Complited';
+import { Completed } from '../Completed/Completed';
 
 export const Todo = ({ todo }) => (
   <>
     {todo.title}
-    <Complited is={todo.completed} />
+    <Completed isCompleted={todo.completed} />
     <User userInfo={todo.user} />
   </>
 );

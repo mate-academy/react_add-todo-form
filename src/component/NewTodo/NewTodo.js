@@ -12,20 +12,19 @@ export class NewTodo extends React.Component {
         title: '',
         id,
         userId: 1,
-        user: { name: 'notSelected' },
+        user: null,
         completed: false,
       },
-      isTitle: true,
-      userSelected: true,
+      isTitleEntered: true,
+      isUserSelected: true,
     };
   }
 
   handleTitleChange = (event) => {
     let val;
-    const forbiden = /[^\s\w]/g;
+    const forbiden = /[^\w]/g;
 
-    if (forbiden.test(event.target.value)
-      || event.target.value.length > 25) {
+    if (forbiden.test(event.target.value)) {
       val = this.state.todo.title;
     } else {
       val = event.target.value;
@@ -36,7 +35,7 @@ export class NewTodo extends React.Component {
         ...state.todo,
         title: val,
       },
-      isTitle: val !== '',
+      isTitleEntered: val !== '',
     }
     ));
   }
@@ -49,16 +48,17 @@ export class NewTodo extends React.Component {
       todo: {
         ...state.todo,
         user: userName === 'notSelected'
-          ? { name: 'notSelected' }
+          ? null
           : users.find(user => user.name === userName),
       },
-      userSelected: userName !== 'notSelected',
+      isUserSelected: userName !== 'notSelected',
     }
     ));
   }
 
   render() {
     const { users } = this.props;
+    const { todo, isTitleEntered, isUserSelected } = this.state;
 
     return (
       <form
@@ -66,43 +66,42 @@ export class NewTodo extends React.Component {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (this.state.todo.title === '') {
-            this.setState({ isTitle: false });
+          if (todo.title === '') {
+            this.setState({ isTitleEntered: false });
           }
 
-          if (this.state.todo.user.name === 'notSelected') {
-            this.setState({ userSelected: false });
+          if (!todo.user) {
+            this.setState({ isUserSelected: false });
           }
 
-          if (this.state.todo.title === ''
-            || this.state.todo.user.name === 'notSelected') {
+          if (todo.title === '' || !todo.user) {
             return;
           }
 
+          this.props.onSubmit({ ...todo });
           this.setState(state => ({ todo: {
             ...state.todo,
             title: '',
             id: state.todo.id + 1,
-            user: { name: 'notSelected' },
+            user: null,
           } }));
-
-          this.props.onSubmit({ ...this.state.todo });
         }}
       >
         <legend>
           Input your todo
         </legend>
         <input
+          maxLength="10"
           placeholder="todo..."
-          value={this.state.todo.title}
+          value={todo.title}
           onChange={this.handleTitleChange}
         />
         <span className="error-message">
-          {this.state.isTitle ? '' : 'Please enter the title'}
+          {isTitleEntered ? '' : 'Please enter the title'}
         </span>
         <br />
         <select
-          value={this.state.todo.user.name}
+          value={todo.user ? todo.user.name : 'notSelected'}
           onChange={this.handleSelectChange}
         >
           <option value="notSelected">Select user...</option>
@@ -113,7 +112,7 @@ export class NewTodo extends React.Component {
           ))}
         </select>
         <span className="error-message">
-          {this.state.userSelected ? '' : 'Please choose a user'}
+          {isUserSelected ? '' : 'Please choose a user'}
         </span>
         <br />
         <button type="submit">
