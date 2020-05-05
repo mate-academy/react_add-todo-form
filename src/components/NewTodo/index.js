@@ -77,7 +77,8 @@ export default class NewTodo extends React.Component {
             />
             {textError
               ? (<div className="invalid">Please enter the value</div>)
-              : null }
+              : null
+            }
           </div>
           <div className="select-item">
             <select
@@ -106,6 +107,11 @@ export default class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   addNewTask: PropTypes.func.isRequired,
 };

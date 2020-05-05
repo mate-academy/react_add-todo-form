@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './TodoItem.css';
 
 const TodoItem = ({ title, user, id, completed, handleCompleted }) => {
-  const todoItemClass = classNames('todo-item ', { completed });
+  const todoItemClass = classNames('todo-item', { completed });
 
   return (
     <button
