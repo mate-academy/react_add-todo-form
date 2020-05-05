@@ -50,6 +50,15 @@ handleFormSubmit = (event) => {
     return;
   }
 
+  if (newTaskTitle !== '') {
+    this.setState({
+      hasTitleError: false,
+
+    });
+
+    return;
+  }
+
   this.setState((state) => {
     const newTask = {
       id: +new Date(),

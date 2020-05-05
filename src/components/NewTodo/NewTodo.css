@@ -34,6 +34,10 @@ select {
   width: 180px;
 }
 
+textarea {
+  resize: unset;
+}
+
 .error {
   color: red;
   font-weight: bolder;
