@@ -37,7 +37,7 @@ class NewToDo extends React.Component {
 
     const { title, userId, id } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({
         errorTitle: true,
       });
