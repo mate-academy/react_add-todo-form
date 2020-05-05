@@ -43,6 +43,44 @@
 }
 
 .select {
-  padding-left: 50px;
+  padding-left: 10px;
   background-color: #fdd998;
+}
+
+.todoForm {
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: #ffecc7;
+  margin: 5px auto;
+  width: 500px;
+}
+
+.todoForm__element {
+  display: block;
+  margin: 5px;
+}
+
+.todoForm__button {
+  height: 40px;
+  width: 100px;
+  margin: 25px;
+  border-radius: 25px;
+  border: none;
+}
+
+.todoForm__btn-submit {
+  background-color: #baf1a1;
+}
+
+.todoForm__btn-reset {
+  background-color: #eb4559;
+}
+
+.todoForm__btn-status {
+  background-color: #639a67;
+  margin-top: -10px;
+}
+
+.error {
+  color: red;
 }
