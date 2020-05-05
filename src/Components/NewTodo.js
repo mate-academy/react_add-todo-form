@@ -48,7 +48,7 @@ class NewTodo extends React.Component {
     this.setState(prev => (
       {
         title: '',
-        completed: '',
+        completed: '1',
         userId: '',
         id: prev.id + 1,
 
