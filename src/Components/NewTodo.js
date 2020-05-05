@@ -27,29 +27,39 @@ class NewTodo extends Component {
   }
 
   setTodoProp(key, value) {
-    this.setValid(key, value);
+    this.checkValid(key, value);
     this.setState(state => ({
       ...state,
       [key]: value,
     }));
   }
 
-  setValid(key, value) {
-    if (key === 'title' && value.trim().length < 3) {
-      return;
-    }
+  setValid(key, status) {
+    this.setState(state => ({
+      ...state,
+      isValid: {
+        ...state.isValid,
+        [key]: status,
+      },
+    }));
+  }
 
-    if (key === 'userId' && !Number(value)) {
-      return;
-    }
+  addNewTodo = (e) => {
+    e.preventDefault();
+    const { isValid } = this.state;
 
     this.setState(state => ({
       ...state,
       isValid: {
         ...state.isValid,
-        [key]: true,
+        display: true,
       },
     }));
+
+    if (isValid.title && isValid.userId) {
+      this.props.addNewTodo(this.state);
+      this.resetState();
+    }
   }
 
   handleFields = (field, value) => {
@@ -69,22 +79,20 @@ class NewTodo extends Component {
     this.setTodoProp(field, valueCleaned);
   };
 
-  addNewTodo = (e) => {
-    e.preventDefault();
-    const { isValid } = this.state;
+  checkValid(key, value) {
+    if (key === 'title' && value.trim().length < 3) {
+      this.setValid(key, false);
 
-    this.setState(state => ({
-      ...state,
-      isValid: {
-        ...state.isValid,
-        display: true,
-      },
-    }));
-
-    if (isValid.title && isValid.userId) {
-      this.props.addNewTodo(this.state);
-      this.resetState();
+      return;
     }
+
+    if (key === 'userId' && !Number(value)) {
+      this.setValid(key, false);
+
+      return;
+    }
+
+    this.setValid(key, true);
   }
 
   resetState() {
