@@ -1,3 +1,9 @@
+body {
+  color: white;
+  font-family: "Nanum Gothic", sans-serif;
+  background-color: rgba(14, 78, 14, 0.863);
+}
+
 .App {
   text-align: center;
 }
