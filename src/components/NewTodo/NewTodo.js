@@ -50,9 +50,9 @@ handleFormSubmit = (event) => {
     return;
   }
 
-  if (newTaskTitle !== '') {
+  if (/^\s+$/.test(newTaskTitle)) {
     this.setState({
-      hasTitleError: false,
+      hasTitleError: true,
 
     });
 
