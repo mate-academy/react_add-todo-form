@@ -1,0 +1,44 @@
+button {
+  background: deepskyblue;
+  height: 35px;
+  width: 100px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: darkblue;
+  font-weight: bold;
+}
+
+button:hover {
+  background: cornflowerblue;
+}
+
+label {
+  display: block;
+  margin: 5px;
+  color: blue;
+  font-weight: bolder;
+  font-size: 18px;
+}
+
+input {
+  margin-left: 15px;
+  color: gray;
+  font-size: 14px;
+  height: 25px;
+}
+
+select {
+  color: gray;
+  font-size: 14px;
+  height: 35px;
+  width: 180px;
+}
+
+textarea {
+  resize: unset;
+}
+
+.error {
+  color: red;
+  font-weight: bolder;
+}

@@ -1,3 +1,14 @@
 .App {
   text-align: center;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+h1 {
+  color: deepskyblue;
+  font-style: italic;
+  text-decoration-line: underline;
 }
