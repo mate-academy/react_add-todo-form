@@ -36,12 +36,12 @@ class NewTodo extends React.Component {
     );
   }
 
-  statusTodo = (event) => {
-    const target = event.target.value;
+  checkStatusTodo = (event) => {
+    const statusValue = event.target.value;
 
     this.setState({
-      completed: Boolean(+target),
-      status: target,
+      completed: Boolean(+statusValue),
+      status: statusValue,
       showStatusError: false,
     });
   }
@@ -70,7 +70,7 @@ class NewTodo extends React.Component {
     title = title.trim();
 
     event.preventDefault();
-    if (title.length === 0) {
+    if (title.length === 0 || userId === null || status.length === 0) {
       this.setState({
         showTitleError: true,
         showUserError: true,
@@ -105,27 +105,27 @@ class NewTodo extends React.Component {
       id,
       completed,
     });
+
     this.reset();
   }
 
   render() {
     const { users } = this.props;
-    const { title,
+    const {
+      title,
       showTitleError,
       userId,
       showUserError,
       status,
-      showStatusError } = this.state;
+      showStatusError,
+    } = this.state;
 
     return (
       <>
         <form className="form" onSubmit={this.sendTodo}>
           <label className="form__item">
-            <span className="form__name">Todo title</span>
+            Todo title
             <input
-              className={showTitleError
-                ? 'form__error'
-                : ''}
               value={title}
               onChange={this.addTodoText}
               type="text"
@@ -138,13 +138,9 @@ class NewTodo extends React.Component {
               )
             }
           </label>
-          <br />
           <label className="form__item">
-            <span className="form__name">Chose user</span>
+            Chose user
             <select
-              className={showUserError
-                ? 'form__error'
-                : ''}
               value={userId}
               onChange={e => this.addUser(e.target.value)}
             >
@@ -161,36 +157,23 @@ class NewTodo extends React.Component {
               ))}
             </select>
             {showUserError
-              && (
-                <div className="form__error--message">
-                  Please choose user
-                </div>
-              )
+              && <p className="form__error--message">Please choose user</p>
             }
           </label>
-          <br />
           <label className="form__item">
-            <span className="form__name">Status</span>
+            Status of todo
             <select
-              className={showStatusError
-                ? 'form__error'
-                : ''}
               value={status}
-              onChange={this.statusTodo}
+              onChange={this.checkStatusTodo}
             >
               <option value="" hidden>Chose status</option>
               <option value={1}>completed</option>
               <option value={0}>not completed</option>
             </select>
             {showStatusError
-              && (
-                <div className="form__error--message">
-                  Please choose status
-                </div>
-              )
+              && <p className="form__error--message">Please choose status</p>
             }
           </label>
-          <br />
           <input type="submit" value="Submit" />
         </form>
       </>
