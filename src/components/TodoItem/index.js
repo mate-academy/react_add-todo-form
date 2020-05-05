@@ -1,42 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import users from '../../api/users';
 import './TodoItem.css';
 
-export default class TodoItem extends Component {
-  state = {
-    usersForTask: users,
-    completed: this.props.completed,
-  }
+const TodoItem = ({ title, user, id, completed, handleCompleted }) => {
+  const todoItemClass = classNames('todo-item ', { completed });
 
-  toogleCompleted = (e) => {
-    e.preventDefault();
-    this.setState(state => ({ completed: !state.completed }));
-  }
+  return (
+    <button
+      type="button"
+      className={todoItemClass}
+      onClick={() => handleCompleted(id)}
+    >
+      <span className="task-title">{title}</span>
+      <span className="task-user">{user.name}</span>
+    </button>
+  );
+};
 
-  render() {
-    const { title, userId = 0 } = this.props;
-    const { usersForTask, completed } = this.state;
-    const user = usersForTask.find(person => person.id === userId) || '';
-    const todoItemClass = classNames('todo-item ', { ' completed': completed });
-
-    return (
-      <button
-        type="button"
-        className={todoItemClass}
-        onClick={this.toogleCompleted}
-        onKeyDown={this.handleClick}
-      >
-        <span className="task-title">{title}</span>
-        <span className="task-user">{user.name}</span>
-      </button>
-    );
-  }
-}
+export default TodoItem;
 
 TodoItem.propTypes = {
   title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   completed: PropTypes.bool.isRequired,
-  userId: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  handleCompleted: PropTypes.func.isRequired,
 };

@@ -7,23 +7,25 @@ export default class NewTodo extends React.Component {
   state = {
     title: '',
     userId: 0,
+    user: {},
     textError: false,
     selectError: false,
   }
 
-  typingTask = (e) => {
+  handleTypingTask = (e) => {
     this.setState({
       title: e.target.value.replace(/\W/g, ''),
       textError: false,
     });
   }
 
-  handleChange =(e) => {
+  handleChangeSelect =(e) => {
     const userId = +e.target.value;
 
     this.setState(state => ({
-      userId,
+      user: this.props.users.find(user => user.id === userId),
       selectError: false,
+      userId,
     }));
   }
 
@@ -47,9 +49,10 @@ export default class NewTodo extends React.Component {
 
     this.props.addNewTask({
       title: this.state.title,
-      userId: this.state.userId,
+      user: this.state.user,
       completed: false,
     });
+
     this.setState({
       title: '',
       userId: 0,
@@ -65,7 +68,7 @@ export default class NewTodo extends React.Component {
         <form onSubmit={this.onSubmitForm} className="task-form">
           <div className="text-item">
             <input
-              onChange={this.typingTask}
+              onChange={this.handleTypingTask}
               value={this.state.title}
               maxLength={50}
               className={classNames('form-control ',
@@ -74,12 +77,12 @@ export default class NewTodo extends React.Component {
             />
             {textError
               ? (<div className="invalid">Please enter the value</div>)
-              : ('')}
+              : null }
           </div>
           <div className="select-item">
             <select
               value={this.state.userId}
-              onChange={this.handleChange}
+              onChange={this.handleChangeSelect}
               className="form-control btn btn-secondary"
             >
               <option disabled hidden value={0}>Select User</option>
@@ -103,6 +106,6 @@ export default class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf.isRequired,
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
   addNewTask: PropTypes.func.isRequired,
 };
