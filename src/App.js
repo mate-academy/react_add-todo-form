@@ -1,7 +1,13 @@
 import React from 'react';
 import './App.css';
 
+import todos from './api/todos';
 import users from './api/users';
+import NewTodo from './NewTodo';
+
+const preparedTodos = todos.map(item => ({
+  ...item, user: users.find(user => user.id === item.userId),
+}));
 
 function App() {
   return (
@@ -12,6 +18,7 @@ function App() {
         <span>Users: </span>
         {users.length}
       </p>
+      <NewTodo item={preparedTodos} />
     </div>
   );
 }
