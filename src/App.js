@@ -31,7 +31,11 @@ class App extends React.Component {
           </p>
         </div>
         <div>
-          <NewTodo users={users} newTodo={this.newTodo} todoId={todos.length} />
+          <NewTodo
+            users={users}
+            newTodo={this.newTodo}
+            todoId={todos.length}
+          />
           <TodoList todoList={this.state.todos} />
         </div>
       </>

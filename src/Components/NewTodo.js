@@ -5,7 +5,7 @@ import './Form.scss';
 
 class NewTodo extends React.Component {
   state = {
-    userId: 0,
+    userId: '',
     title: '',
     completed: '',
     id: this.props.todoId,
@@ -28,17 +28,17 @@ class NewTodo extends React.Component {
     });
   }
 
-  handleChangeStatus = ({ target }) => {
-    if (target.value === 'done') {
+  handleChangeStatus = (event) => {
+    if (event.target.value === '1') {
       this.setState({
-        completed: 'done',
+        completed: true,
         statusError: false,
       });
     }
 
-    if (target.value === 'in process') {
+    if (event.target.value === '0') {
       this.setState({
-        completed: 'in procces',
+        completed: false,
         statusError: false,
       });
     }
@@ -48,9 +48,10 @@ class NewTodo extends React.Component {
     this.setState(prev => (
       {
         title: '',
-        completed: 'false',
+        completed: '',
         userId: '',
         id: prev.id + 1,
+
       }
     ));
   }
@@ -77,7 +78,7 @@ handleSubmit = (event) => {
     return;
   }
 
-  if (completed === 'false') {
+  if (completed.length === 0) {
     this.setState({
       statusError: true,
     });
@@ -140,9 +141,9 @@ render() {
           className="form__status"
           onChange={this.handleChangeStatus}
         >
-          <option value="false">Choose a status</option>
-          <option value="done">done</option>
-          <option value="in process">in process</option>
+          <option value="" hidden>Choose a status</option>
+          <option value="1">done</option>
+          <option value="0">in process</option>
         </select>
         <br />
         {statusError && <p className="form__error">Choose a status</p>}
@@ -157,6 +158,7 @@ render() {
   );
 }
 }
+
 NewTodo.propTypes = {
   newTodo: PropTypes.func.isRequired,
   todoId: PropTypes.string.isRequired,

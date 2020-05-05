@@ -22,7 +22,7 @@ const TodoItem = ({ todo }) => {
       </p>
       <p>
         <strong>Status:</strong>
-        {completed === 'done'
+        {completed
           ? <span className="user__completed-true">done</span>
           : <span className="user__completed-false">in procces</span>
         }
