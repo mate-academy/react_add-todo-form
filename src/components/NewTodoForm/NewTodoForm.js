@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../App.scss';
+import classNames from 'classnames';
 
 export class NewTodoForm extends React.Component {
   state = {
@@ -72,20 +73,29 @@ export class NewTodoForm extends React.Component {
         <label>
           <textarea
             type="text"
-            className={checkTitle
-              ? 'form__item form__input form__error'
-              : 'form__item form__input'}
+            className={classNames({
+              form__item: true,
+              form__input: true,
+              form__error: checkTitle,
+            })}
             placeholder="Write todo title here..."
             onChange={this.setTitle}
             value={title}
           />
         </label>
+        {checkTitle && (
+          <span className="form__error-span">
+            Please, enter a title
+          </span>
+        )}
         <label>
           <select
             onChange={this.selectUser}
-            className={checkUser
-              ? 'form__item form__select form__error'
-              : 'form__item form__select'}
+            className={classNames({
+              form__item: true,
+              form__select: true,
+              form__error: checkUser,
+            })}
             value={userId}
           >
             <option value="" hidden>Select a user</option>
@@ -99,6 +109,11 @@ export class NewTodoForm extends React.Component {
             ))}
           </select>
         </label>
+        {checkUser && (
+          <span className="form__error-span">
+            Please, select a user
+          </span>
+        )}
         <button
           type="submit"
           className="form__item form__button"

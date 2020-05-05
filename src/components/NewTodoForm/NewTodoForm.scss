@@ -20,6 +20,7 @@
   }
 
   &__input {
+    margin: 10px 0 0;
     padding: 5px 15px;
     width: 150px;
     height: 25px;
@@ -37,6 +38,7 @@
   }
 
   &__select {
+    margin-bottom: 0;
     height: 25px;
     color: dimgray;
     background-color: rgba(100, 149, 237, 0.1);
@@ -60,5 +62,11 @@
   &__error {
     border: 1px solid red;
     border-radius: 2px;
+
+    &-span {
+      margin: 0 auto;
+      font-size: 14px;
+      color: red;
+    }
   }
 }
