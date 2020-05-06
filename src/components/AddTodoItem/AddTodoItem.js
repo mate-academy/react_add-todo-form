@@ -80,9 +80,11 @@ class AddTodoItem extends React.Component {
             maxLength={100}
             onChange={this.handleTitleNewTodo}
           />
-          {errorTitle
-            ? <div className="form__messageError">Add the title</div>
-            : ''}
+          {
+            errorTitle
+              ? <div className="form__messageError">Add the title</div>
+              : ''
+          }
         </label>
         <label className="form__label">
           PERFORMER:
@@ -101,9 +103,11 @@ class AddTodoItem extends React.Component {
               </option>
             ))}
           </select>
-          {errorUser
-            ? <div className="form__messageError">Choose the person</div>
-            : ''}
+          {
+            errorUser
+              ? <div className="form__messageError">Choose the person</div>
+              : ''
+          }
         </label>
         <button type="submit" className="form__button">
           ADD TASK
@@ -114,7 +118,9 @@ class AddTodoItem extends React.Component {
 }
 
 AddTodoItem.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
   addNewTodo: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
 };

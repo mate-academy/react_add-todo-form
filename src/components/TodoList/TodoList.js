@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const TodoList = ({ itemsTodo, toggleComplete }) => (
 
@@ -41,7 +41,11 @@ const TodoList = ({ itemsTodo, toggleComplete }) => (
 );
 
 TodoList.propTypes = {
-  itemsTodo: PropTypes.arrayOf(object).isRequired,
+  itemsTodo: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  })).isRequired,
   toggleComplete: PropTypes.func.isRequired,
 };
 
