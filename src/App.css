@@ -1,3 +1,158 @@
-.App {
+h1,
+h2,
+h3,
+ul,
+li,
+div,
+p {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background-color: rgba(211, 211, 211, 0.5);
+  font-size: 30px;
+  font-family: "Lucida Sans", Verdana, sans-serif;
+}
+
+.form__create-todo,
+.todo__item {
+  margin: 0 auto;
+  padding: 50px;
+  width: 700px;
+  border: none;
+  border-radius: 40px;
+  background-color: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.button {
+  text-transform: uppercase;
+  font-size: 26px;
+  width: 100%;
+  height: 70px;
+  border-radius: 20px;
+  background-color: rgb(0, 102, 255);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  border: 2px solid rgb(0, 102, 255);
+  color: white;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background: white;
+  color: rgb(0, 102, 255);
+  border: 2px solid rgb(0, 102, 255);
+  cursor: pointer;
+}
+
+.form__title {
+  height: 50px;
+  width: 100%;
+  font-size: 30px;
+  padding-left: 10px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.form__name {
+  background-color: rgb(0, 102, 255);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px 20px 0 0;
+}
+
+.form__select-title {
+  color: black;
+}
+
+.form__select {
+  height: 50px;
+  width: 100%;
+  font-size: 30px;
+  padding-left: 10px;
+  color: gray;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.todo__item {
+  list-style: none;
+  margin-bottom: 20px;
+  border: 2px solid red;
+}
+
+.todo__item--done {
+  border: 2px solid green;
+}
+
+.form__error {
+  color: red;
+  font-size: 14px;
+  margin-top: -30px;
+  margin-bottom: 30px;
+}
+
+.todo__header,
+.form__header,
+.todo-done__header {
+  color: gray;
+  font-size: 20px;
   text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.todo__title,
+.todo__number,
+.todo__status {
+  font-weight: bold;
+  color: rgb(0, 102, 255);
+  margin-bottom: 20px;
+}
+
+.todo__status {
+  margin: 0;
+}
+
+.todo__title-text,
+.todo__number-text {
+  font-weight: normal;
+  color: black;
+}
+
+.todo__status-text {
+  width: 30px;
+  height: 30px;
+}
+
+.todo__done,
+.todo__in-progress {
+  font-weight: normal;
+}
+
+.todo__done {
+  color: green;
+}
+
+.todo__in-progress {
+  color: red;
+}
+
+.todo__button-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 46%);
+  justify-content: space-between;
+}
+
+.todo__is-done {
+  color: white;
+  background-color: green;
+  margin-bottom: 20px;
+  font-weight: bold;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
