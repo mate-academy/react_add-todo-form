@@ -1,3 +1,77 @@
 .App {
   text-align: center;
 }
+
+body {
+  margin: 0;
+  font-family: "Lucida Sans", sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.form__newTodo {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 3px solid grey;
+  border-radius: 25px;
+  max-width: 700px;
+  background-color: rgb(153, 255, 255);
+}
+
+.form__label {
+  width: 200px;
+  margin: 15px;
+  padding: 5px;
+}
+
+.form__messageError {
+  position: absolute;
+  color: red;
+}
+
+.form__field {
+  width: 200px;
+}
+
+.form__button {
+  width: 200px;
+  height: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: royalblue;
+}
+
+.todo__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.todo__item {
+  margin: 15px;
+  text-align: center;
+  width: 350px;
+  border: 3px solid blue;
+  border-radius: 15px;
+  background-color: skyblue;
+}
+
+.todo__item--done {
+  background-color: rgb(57, 253, 57);
+}
+
+.todo__personName {
+  display: flex;
+  flex-direction: column;
+}
