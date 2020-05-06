@@ -7,7 +7,9 @@ const User = ({ userInfo }) => (
 );
 
 User.propTypes = {
-  userInfo: PropTypes.string.isRequired,
+  userInfo: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default User;

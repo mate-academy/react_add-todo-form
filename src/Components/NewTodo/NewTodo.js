@@ -28,10 +28,6 @@ class NewTodo extends React.Component {
 
     this.props.updateTodosList(injectedTodo, choosenUser, isTaskCompleted);
     this.clearFields();
-    this.setState({
-      hasUserError: false,
-      hasTaskInputError: false,
-    });
   };
 
   handleChosenUser = (event) => {
@@ -57,6 +53,8 @@ class NewTodo extends React.Component {
       injectedTodo: '',
       choosenUser: '',
       isTaskCompleted: false,
+      hasUserError: false,
+      hasTaskInputError: false,
     });
   };
 

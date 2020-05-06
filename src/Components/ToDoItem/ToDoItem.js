@@ -1,7 +1,7 @@
-/* eslint-disable max-len */
 import React from 'react';
 import './ToDoItem.scss';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import User from '../User/User';
 
 const ToDoItem = ({ todo }) => (
@@ -14,9 +14,15 @@ const ToDoItem = ({ todo }) => (
       Current task:&nbsp;
       {todo.title}
     </p>
-    {todo.completed
-      ? <p className="todo-card__status todo-card__status--done">Status: Completed</p>
-      : <p className="todo-card__status todo-card__status--undone">Status: Not Completed</p>}
+    <p className={cn({
+      'todo-card__status': true,
+      'todo-card__status--undone': !todo.completed,
+    })}
+    >
+      {todo.completed
+        ? 'Status: Completed'
+        : 'Status: Not Completed'}
+    </p>
 
     <User userInfo={todo.user} />
   </article>
