@@ -126,7 +126,7 @@ class NewTodo extends React.Component {
                   placeholder="Write a title"
                   className="form__title"
                   value={newTodoTitle}
-                  id=""
+                  id="titleOfTodo"
                   onChange={this.handleTitleChange}
                 />
                 {titleHasError && (
