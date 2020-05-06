@@ -2,14 +2,12 @@ import React from 'react';
 import './App.css';
 import PropTypes from 'prop-types';
 import users from './api/users';
-import TodoList from './TodoList';
 
 class NewTodo extends React.Component {
   state = {
-    ListOfUsers: [...this.props.item],
     newTitle: '',
     status: false,
-    Id: 0,
+    id: 0,
     hasTitleError: false,
     hasNameError: false,
   }
@@ -17,30 +15,30 @@ class NewTodo extends React.Component {
   handlNamechange = (event) => {
     this.setState({
       hasTitleError: false,
-      newTitle: event.target.value,
+      newTitle: event.target.value.trim(),
     });
   }
 
   handlStatuschange = () => {
-    this.setState({
-      status: true,
-    });
+    this.setState(item => ({
+      status: !item.status,
+    }));
   }
 
   handluserIdchange = (event) => {
     this.setState({
       hasNameError: false,
-      Id: +event.target.value,
+      id: +event.target.value,
     });
   }
 
   handlFormSubmit = (event) => {
     event.preventDefault();
 
-    if (!this.state.newTitle || !this.state.Id) {
+    if (!this.state.newTitle || !this.state.id) {
       this.setState(item => ({
         hasTitleError: !item.newTitle,
-        hasNameError: !item.Id,
+        hasNameError: !item.id,
       }));
 
       return;
@@ -48,18 +46,19 @@ class NewTodo extends React.Component {
 
     this.setState((state) => {
       const newTodo = {
-        userId: state.Id,
+        userId: state.id,
         id: +new Date(),
         title: state.newTitle,
         completed: state.status,
-        user: users.find(user => user.id === this.state.Id),
+        user: users.find(user => user.id === this.state.id),
       };
 
+      this.props.addTodo(newTodo);
+
       return {
-        ListOfUsers: [...state.ListOfUsers, newTodo],
         newTitle: '',
         status: false,
-        Id: 0,
+        id: 0,
         hasTitleError: false,
         hasNameError: false,
       };
@@ -87,7 +86,7 @@ class NewTodo extends React.Component {
           />
           <br />
           Chose the name
-          <select onChange={this.handluserIdchange} value={this.state.Id}>
+          <select onChange={this.handluserIdchange} value={this.state.id}>
             <option value="" hidden>Please Select a name</option>
             {users.map(item => (
               <option key={item.id} value={item.id}>{item.name}</option>
@@ -98,15 +97,13 @@ class NewTodo extends React.Component {
           <br />
           <button type="submit">ADD</button>
         </form>
-
-        <TodoList items={this.state.ListOfUsers} />
       </>
     );
   }
 }
 
 NewTodo.propTypes = {
-  item: PropTypes.string.isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
 
 export default NewTodo;
