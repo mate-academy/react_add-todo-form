@@ -6,7 +6,7 @@ export class FormToAdd extends React.Component {
     title: '',
     completed: false,
     user: null,
-    userId: '',
+    userId: 0,
     hasTitleError: false,
     hasUserError: false,
   };
@@ -34,7 +34,7 @@ export class FormToAdd extends React.Component {
     this.setState({
       title: '',
       completed: false,
-      userId: '',
+      userId: 0,
       hasTitleError: false,
       hasUserError: false,
       user: null,
@@ -98,9 +98,9 @@ export class FormToAdd extends React.Component {
             value={userId}
           >
             <option value="0" hidden>Please select a user</option>
-            {this.props.users.map(el => (
-              <option value={el.id} key={el.id}>
-                {el.name}
+            {this.props.users.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>

@@ -6,24 +6,6 @@ import { FormToAdd } from './components/FormToAdd';
 import users from './api/users';
 import apiTodos from './api/todos';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <h1>Add todo form</h1>
-//
-//       <p>
-//         <span>Users: </span>
-//         {users.length}
-//       </p>
-//
-//
-//
-//       <TodoList preparedTodos={preparedTodos} key={preparedTodos.id} />
-//
-//     </div>
-//   );
-// }
-
 class App extends React.Component {
   state = {
     todos: apiTodos.map(todo => ({

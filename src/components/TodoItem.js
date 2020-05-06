@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CN from 'classnames';
 import '../App.css';
-// import { User } from './User';
 
 export const TodoItem = ({ title, completed, user, id }) => (
-  <li className={completed ? 'item item--true' : 'item'}>
+  <li className={CN({
+    item: true,
+    'item--true': completed,
+  })}
+  >
     {user.name}
     <p>
       id:
