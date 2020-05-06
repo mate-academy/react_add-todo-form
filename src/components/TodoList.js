@@ -9,7 +9,7 @@ const TodoList = ({ todos, deleteTodo, todoDone }) => (
         <li className="todo__item" key={todo.id}>
           <p className="todo__number">
             Number of todo: &nbsp;
-            <span className="todo__number-text">{todo.userId}</span>
+            <span className="todo__number-text">{todo.id}</span>
           </p>
           <p className="todo__title">
             Title:&nbsp;

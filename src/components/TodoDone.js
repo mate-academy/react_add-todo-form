@@ -10,7 +10,7 @@ const TodoDone = ({ todosDone, deleteTodo, todoInProgress }) => (
           <div className="todo__is-done">done</div>
           <p className="todo__number">
             Number of todo: &nbsp;
-            <span className="todo__number-text">{todo.userId}</span>
+            <span className="todo__number-text">{todo.id}</span>
           </p>
           <p className="todo__title">
             Title:&nbsp;
