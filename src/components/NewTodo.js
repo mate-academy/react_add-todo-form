@@ -50,21 +50,6 @@ class NewTodo extends React.Component {
 
     this.props.updateTodosList(newTodoTitle, selectedExecutant);
     this.clearState();
-
-    // this.setState((state) => {
-    //   const newTodo = {
-    //     title: state.newTodoTitle,
-    //     id: state.preparedTodos.length + 1,
-    //     userId: +state.selectedExecutant,
-    //     user: users.find(user => (user.id === +state.selectedExecutant)),
-    //   };
-
-    //   return {
-    //     preparedTodos: [...state.preparedTodos, newTodo],
-    //     selectedExecutant: 0,
-    //     newTodoTitle: '',
-    //   };
-    // });
   }
 
   clearState = () => {
@@ -74,7 +59,7 @@ class NewTodo extends React.Component {
     });
   };
 
-  HandleFormReset = () => {
+  handleFormReset = () => {
     this.setState({
       selectedExecutant: 0,
       newTodoTitle: '',
