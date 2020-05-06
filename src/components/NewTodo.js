@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Todo from './Todo';
 
 import users from '../api/users';
 
 class NewTodo extends React.Component {
   state = {
-    preparedTodos: this.props.preparedTodos,
     selectedExecutant: 0,
     newTodoTitle: '',
     titleError: false,
@@ -44,26 +42,44 @@ class NewTodo extends React.Component {
       return;
     }
 
-    this.setState((state) => {
-      const newTodo = {
-        title: state.newTodoTitle,
-        id: state.preparedTodos.length + 1,
-        userId: +state.selectedExecutant,
-        user: users.find(user => (user.id === +state.selectedExecutant)),
-      };
+    if (newTodoTitle.trim() === '') {
+      this.setState({ titleError: true });
 
-      return {
-        preparedTodos: [...state.preparedTodos, newTodo],
-        selectedExecutant: 0,
-        newTodoTitle: '',
-      };
-    });
+      return;
+    }
+
+    this.props.updateTodosList(newTodoTitle, selectedExecutant);
+    this.clearState();
+
+    // this.setState((state) => {
+    //   const newTodo = {
+    //     title: state.newTodoTitle,
+    //     id: state.preparedTodos.length + 1,
+    //     userId: +state.selectedExecutant,
+    //     user: users.find(user => (user.id === +state.selectedExecutant)),
+    //   };
+
+    //   return {
+    //     preparedTodos: [...state.preparedTodos, newTodo],
+    //     selectedExecutant: 0,
+    //     newTodoTitle: '',
+    //   };
+    // });
   }
+
+  clearState = () => {
+    this.setState({
+      selectedExecutant: 0,
+      newTodoTitle: '',
+    });
+  };
 
   HandleFormReset = () => {
     this.setState({
       selectedExecutant: 0,
       newTodoTitle: '',
+      titleError: false,
+      executantError: false,
     });
   }
 
@@ -126,30 +142,13 @@ class NewTodo extends React.Component {
             </button>
           </form>
         </div>
-        <TodoList preparedTodos={this.state.preparedTodos} />
       </>
     );
   }
 }
 
-const TodoList = ({ preparedTodos }) => (
-  <ul className="list">
-    {preparedTodos.map(todo => (
-      <Todo {...todo} key={todo.id} />
-    ))}
-  </ul>
-);
-
 NewTodo.propTypes = {
-  preparedTodos: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  })).isRequired,
-};
-
-TodoList.propTypes = {
-  preparedTodos: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  })).isRequired,
+  updateTodosList: PropTypes.func.isRequired,
 };
 
 export default NewTodo;
