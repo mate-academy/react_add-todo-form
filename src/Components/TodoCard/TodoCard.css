@@ -1,0 +1,44 @@
+.todo__card {
+  border: 2px solid rgb(245, 239, 239);
+  border-radius: 25px;
+  list-style: none;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.todo__card li {
+  width: 100%;
+}
+
+.todo__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.todo__title * {
+  padding: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+.todo__title button {
+  width: 0;
+  height: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 25px;
+  padding-top: -10px;
+  padding-bottom: 22px;
+}
+
+.todo__heading.undone {
+  text-decoration: line-through;
+}

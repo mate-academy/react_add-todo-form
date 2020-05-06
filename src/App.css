@@ -1,3 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;1,100&display=swap");
+
+html,
+body {
+  font-family: "Jost", sans-serif;
+  margin: 0;
+}
+
+body {
+  background-color: rgba(149, 190, 206, 0.7);
+}
+
 .App {
   text-align: center;
+  background-color: transparent;
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.App__heading {
+  color: white;
+  font-size: 32px;
+  border-top: 3px solid white;
+  width: 13%;
+  margin: 0 auto;
+  margin-top: 30px;
 }
