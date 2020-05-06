@@ -25,6 +25,13 @@ export default TodoList;
 
 TodoList.propTypes = {
   list: PropTypes.arrayOf(
-    PropTypes.object.isRequired,
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      completed: PropTypes.bool.isRequired,
+      title: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   ).isRequired,
 };

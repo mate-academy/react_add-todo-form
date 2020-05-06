@@ -22,7 +22,7 @@ class App extends React.Component {
   handleTodoTitle = (event) => {
     this.setState({
       hasTitleError: false,
-      newTodoTitle: event.target.value,
+      newTodoTitle: event.target.value.trim(),
     });
   }
 
