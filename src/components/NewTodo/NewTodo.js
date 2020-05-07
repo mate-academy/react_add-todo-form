@@ -47,7 +47,7 @@ export class NewTodo extends React.Component {
       return;
     }
 
-    if (!(/^[\w\s]+$/).test(newTodoText)
+    if (!(/^[a-zA-z0-9а-яА-Я\s]+$/).test(newTodoText)
         || (/^\s*$/).test(newTodoText)) {
       this.setState({
         hasTextError: true,
