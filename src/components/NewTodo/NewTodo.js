@@ -31,11 +31,18 @@ export class NewTodo extends React.Component {
 
     const { newTodoText, selectedUserId } = this.state;
 
-    if (!selectedUserId || !newTodoText) {
-      this.setState({
-        hasUserError: true,
-        hasTextError: true,
-      });
+    if (!newTodoText || !selectedUserId) {
+      if (!newTodoText) {
+        this.setState({
+          hasTextError: true,
+        });
+      }
+
+      if (!selectedUserId) {
+        this.setState({
+          hasUserError: true,
+        });
+      }
 
       return;
     }
