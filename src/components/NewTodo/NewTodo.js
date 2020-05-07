@@ -1,71 +1,132 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import './NewTodo.css';
 
-export const NewTodo = ({
-  users,
-  newTodoText,
-  selectedUserId,
-  handleInputChange,
-  handleSelectChange,
-  handleFormSubmit,
-  hasUserError,
-  hasTextError,
-}) => (
-  <form className="form" onSubmit={handleFormSubmit}>
-    <div className="form__input">
-      <input
-        className="form__input_textarea"
-        type="text"
-        value={newTodoText}
-        onChange={handleInputChange}
-        maxLength={100}
-        placeholder="Add new task"
-      />
+export class NewTodo extends React.Component {
+  state = {
+    newTodoText: '',
+    selectedUserId: 0,
+    hasTextError: false,
+    hasUserError: false,
+  };
 
-      {hasTextError && (
-        <span className="form__error">Please add a new task</span>
-      )}
-    </div>
+  handleInputChange = (event) => {
+    this.setState({
+      hasTextError: false,
+      newTodoText: event.target.value,
+    });
+  }
 
-    <div className="form__select">
-      <select
-        className="form__select_values"
-        value={selectedUserId}
-        onChange={handleSelectChange}
-      >
-        <option value="0" hidden>
-          Select a user
-        </option>
-        {users.map(({ id, name }) => (
-          <option key={id} value={id}>
-            {name}
-          </option>
-        ))}
-      </select>
+  handleSelectChange = (event) => {
+    this.setState({
+      hasUserError: false,
+      selectedUserId: +event.target.value,
+    });
+  }
 
-      {hasUserError && (
-        <span className="form__error">Please select a user</span>
-      )}
-    </div>
+  handleFormSubmit = (event) => {
+    event.preventDefault();
 
-    <button type="submit" className="form__btn">
-      Add new task
-    </button>
-  </form>
-);
+    const { newTodoText, selectedUserId } = this.state;
+
+    if (!selectedUserId || !newTodoText) {
+      this.setState({
+        hasUserError: true,
+        hasTextError: true,
+      });
+
+      return;
+    }
+
+    if (!(/^[\w\s]+$/).test(newTodoText)
+        || (/^\s*$/).test(newTodoText)) {
+      this.setState({
+        hasTextError: true,
+      });
+
+      return;
+    }
+
+    const newTodo = {
+      title: newTodoText,
+      user: this.props.findUserById(this.state.selectedUserId),
+      completed: false,
+      id: this.props.lastTodoId + 1,
+    };
+
+    this.props.addNewTodo(newTodo);
+
+    this.setState({
+      selectedUserId: 0,
+      newTodoText: '',
+    });
+  }
+
+  render() {
+    const {
+      newTodoText,
+      selectedUserId,
+      hasTextError,
+      hasUserError,
+    } = this.state;
+
+    return (
+      <form className="form" onSubmit={this.handleFormSubmit}>
+        <div className="form__input">
+          <input
+            className={classNames('form__input_textarea',
+              { 'form__input_textarea--error': hasTextError })}
+            type="text"
+            value={newTodoText}
+            onChange={this.handleInputChange}
+            maxLength={100}
+            placeholder="Add new task"
+          />
+
+          {hasTextError && (
+            <span className="form__error">Please add a new task</span>
+          )}
+        </div>
+
+        <div className="form__select">
+          <select
+            className={classNames('form__select_values',
+              { 'form__select_values--error': hasUserError })}
+
+            value={selectedUserId}
+            onChange={this.handleSelectChange}
+          >
+            <option value="0" hidden>
+              Select a user
+            </option>
+            {this.props.users.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+
+          {hasUserError && (
+            <span className="form__error">Please select a user</span>
+          )}
+        </div>
+
+        <button type="submit" className="form__btn">
+          Add new task
+        </button>
+      </form>
+    );
+  }
+}
 
 NewTodo.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
-  newTodoText: PropTypes.string.isRequired,
-  selectedUserId: PropTypes.number.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleSelectChange: PropTypes.func.isRequired,
-  handleFormSubmit: PropTypes.func.isRequired,
-  hasUserError: PropTypes.bool.isRequired,
-  hasTextError: PropTypes.bool.isRequired,
+  addNewTodo: PropTypes.func.isRequired,
+  findUserById: PropTypes.func.isRequired,
+  lastTodoId: PropTypes.number.isRequired,
 };

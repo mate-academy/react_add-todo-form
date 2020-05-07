@@ -40,6 +40,11 @@
   box-shadow: 0 0 12px 6px rgba(37,174,96, 0.65);
 }
 
+.form__select_values--error,
+.form__input_textarea--error {
+  box-shadow: 0 0 12px 6px rgba(235,87,87, 0.65);
+}
+
 .form__error {
   position: absolute;
   top: 52px;
