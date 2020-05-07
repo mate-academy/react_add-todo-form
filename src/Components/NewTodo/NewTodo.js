@@ -30,7 +30,7 @@ class NewTodo extends React.Component {
   handleAddInput = (event) => {
     event.preventDefault();
     this.setState({
-      newTodo: event.target.value,
+      newTodo: event.target.value.trim(),
       isTodoInputed: true,
     });
   }
