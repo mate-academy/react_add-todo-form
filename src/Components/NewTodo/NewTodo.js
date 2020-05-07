@@ -11,16 +11,14 @@ class NewTodo extends React.Component {
       ...todo,
       user: this.props.users.find(user => user.id === todo.userId),
     })),
-    selectedUser: 0,
     newTodo: '',
-    userId: null,
+    userId: 0,
     isUserSelected: true,
     isTodoInputed: true,
   };
 
   handleSelect = (event) => {
     this.setState({
-      selectedUser: event.target.value,
       userId: this.props.users.find(user => (
         user.name === event.target.value)).id,
       isUserSelected: true,
@@ -36,11 +34,11 @@ class NewTodo extends React.Component {
   }
 
   handleSubmit = (event) => {
-    const { selectedUser, newTodo } = this.state;
+    const { userId, newTodo } = this.state;
 
     event.preventDefault();
 
-    if (selectedUser === 0) {
+    if (userId === 0) {
       this.setState({ isUserSelected: false });
     }
 
@@ -48,7 +46,7 @@ class NewTodo extends React.Component {
       this.setState({ isTodoInputed: false });
     }
 
-    if (selectedUser && newTodo) {
+    if (userId && newTodo) {
       this.setState(state => ({
         todos: [{
           userId: state.userId,
@@ -58,16 +56,15 @@ class NewTodo extends React.Component {
           user: this.props.users.find(user => user.id === state.userId),
         },
         ...state.todos],
-        selectedUser: 0,
         newTodo: '',
-        userId: null,
+        userId: 0,
         isUserSelected: true,
         isTodoInputed: true,
       }));
     }
   }
 
-  handleComplition = (id) => {
+  handleCompleteChange = (id) => {
     this.setState(state => ({
       todos: state.todos.map((todo) => {
         if (todo.id === id) {
@@ -85,19 +82,11 @@ class NewTodo extends React.Component {
   render() {
     const { todos,
       newTodo,
-      selectedUser,
+      userId,
       isUserSelected,
       isTodoInputed } = this.state;
 
     const { users } = this.props;
-
-    const seletedUserClassname = classNames('todo__choose-user', {
-      unchosen: !isUserSelected,
-    });
-
-    const seletedTodoClassname = classNames('todo__add-todo', {
-      unchosen: !isTodoInputed,
-    });
 
     return (
       <>
@@ -105,7 +94,7 @@ class NewTodo extends React.Component {
           <form className="todo__form" onSubmit={this.handleSubmit}>
 
             <div className="todo__select">
-              <select value={selectedUser} onChange={this.handleSelect}>
+              <select value={userId} onChange={this.handleSelect}>
                 <option value="0" disabled>choose user</option>
 
                 {users.map(({ id, name }) => (
@@ -113,7 +102,10 @@ class NewTodo extends React.Component {
                 ))}
               </select>
 
-              <span className={seletedUserClassname}>
+              <span className={classNames('todo__choose-user', {
+                unchosen: !isUserSelected,
+              })}
+              >
                 please choose user
               </span>
             </div>
@@ -125,7 +117,10 @@ class NewTodo extends React.Component {
                 value={newTodo.trim()}
                 onChange={this.handleAddInput}
               />
-              <span className={seletedTodoClassname}>
+              <span className={classNames('todo__add-todo', {
+                unchosen: !isTodoInputed,
+              })}
+              >
                 please add todo
               </span>
             </div>
@@ -145,7 +140,7 @@ class NewTodo extends React.Component {
 
         <TodoList
           todos={todos}
-          setStatus={this.handleComplition}
+          setStatus={this.handleCompleteChange}
         />
       </>
     );
