@@ -1,0 +1,49 @@
+.todos__item {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 24px;
+  padding: 24px 20px;
+  width: 520px;
+  box-sizing: border-box;
+
+  background-color: rgb(255,255,255);
+  box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  transition: all 0.35s;
+}
+
+.todos__item:hover {
+  background-color: rgb(254,254,254);
+}
+
+.todos__item-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.todos__item-text {
+  margin: 0 0 24px;
+  font-size: 26px;
+}
+
+.todos__item-autor {
+  margin: 0;
+  font-size: 18px;
+  color: grey;
+}
+
+.todos__item-status {
+  margin-right: 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.todos__item-status--true {
+  background-color: rgb(37,174,96);
+}
+
+.todos__item-status--false {
+  background-color: rgb(242,201,76);
+}
