@@ -41,11 +41,11 @@ class NewTodo extends React.Component {
     event.preventDefault();
 
     if (selectedUser === 0) {
-      this.setState(state => ({ isUserSelected: !state.isUserSelected }));
+      this.setState({ isUserSelected: false });
     }
 
     if (newTodo === '') {
-      this.setState(state => ({ isTodoInputed: !state.isTodoInputed }));
+      this.setState({ isTodoInputed: false });
     }
 
     if (selectedUser && newTodo) {
