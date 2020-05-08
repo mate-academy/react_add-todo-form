@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { TodoList } from '../TodoList/TodoList';
 import './NewTodo.css';
 
 class NewTodo extends React.Component {
@@ -137,11 +136,6 @@ class NewTodo extends React.Component {
         <p>
           <span>Todos: {todos.length}</span>
         </p>
-
-        <TodoList
-          todos={todos}
-          setStatus={this.handleCompleteChange}
-        />
       </>
     );
   }
