@@ -140,6 +140,13 @@ class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    userId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  })).isRequired,
+  addTodo: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

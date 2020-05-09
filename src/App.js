@@ -17,7 +17,7 @@ class App extends React.Component {
 
   handleCompleteChange = (id) => {
     this.setState(state => ({
-      todos: state.todos.map((todo) => {
+      todosList: state.todosList.map((todo) => {
         if (todo.id === id) {
           return {
             ...todo,
@@ -32,7 +32,7 @@ class App extends React.Component {
 
   handleAddTodo = (todo) => {
     const { todosList } = this.state;
-    console.log(todo);
+
     this.setState({
       todosList: [todo, ...todosList],
     });
