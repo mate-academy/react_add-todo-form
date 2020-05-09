@@ -7,44 +7,40 @@ import './NewTodo.css';
 class NewTodo extends React.Component {
   state = {
     userId: '',
-    id: null,
     title: '',
     completed: false,
     user: null,
-    isUserSelected: true,
-    isTodoInputed: true,
+    isUserSelected: false,
+    isTodoInputed: false,
   };
 
   handleSelect = (id) => {
     const { users } = this.props;
-    console.log(this.state);
 
     this.setState({
       userId: +id,
       user: users.find(user => (user.id === +id)),
-      isUserSelected: true,
+      isUserSelected: false,
     });
   }
 
   handleAddInput = (event) => {
     event.preventDefault();
-    console.log(this.state);
 
     this.setState({
       title: event.target.value.trim(),
-      isTodoInputed: true,
+      isTodoInputed: false,
     });
   }
 
   handleClearState = () => {
     this.setState({
       userId: '',
-      id: null,
       title: '',
       completed: false,
       user: null,
-      isUserSelected: true,
-      isTodoInputed: true,
+      isUserSelected: false,
+      isTodoInputed: false,
     });
   }
 
@@ -52,18 +48,17 @@ class NewTodo extends React.Component {
     const { userId, title, completed, user } = this.state;
     const { todos, addTodo } = this.props;
 
-    console.log(this.state);
     event.preventDefault();
 
-    if (!userId) {
-      this.setState({ isUserSelected: false });
+    if (userId === '') {
+      this.setState({ isUserSelected: true });
     }
 
-    if (!title) {
-      this.setState({ isTodoInputed: false });
+    if (title === '') {
+      this.setState({ isTodoInputed: true });
     }
 
-    if (userId && title) {
+    if (userId !== '' && title !== '') {
       addTodo({
         userId,
         id: todos.length + 1,
@@ -71,9 +66,9 @@ class NewTodo extends React.Component {
         completed,
         user,
       });
-    }
 
-    this.handleClearState();
+      this.handleClearState();
+    }
   }
 
   render() {
@@ -109,7 +104,7 @@ class NewTodo extends React.Component {
               </select>
 
               <span className={classNames('todo__choose-user', {
-                unchosen: !isUserSelected,
+                unchosen: isUserSelected,
               })}
               >
                 please choose user
@@ -124,7 +119,7 @@ class NewTodo extends React.Component {
                 onChange={this.handleAddInput}
               />
               <span className={classNames('todo__add-todo', {
-                unchosen: !isTodoInputed,
+                unchosen: isTodoInputed,
               })}
               >
                 please add todo
