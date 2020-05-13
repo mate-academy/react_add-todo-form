@@ -37,7 +37,7 @@ class NewTodo extends React.Component {
 
     const { title, userId, id } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({
         errorTitle: true,
       });
@@ -81,9 +81,15 @@ class NewTodo extends React.Component {
             maxLength={100}
             onChange={this.handleTitleNewTodo}
           />
-          {errorTitle
-            ? <div className="form__messageError">Please Enter The Title</div>
-            : ''}
+          {
+            errorTitle
+              ? (
+                <div className="form__messageError">
+                  Please Enter The Title
+                </div>
+              )
+              : ''
+          }
         </label>
 
         <label className="form__item">
@@ -116,7 +122,12 @@ class NewTodo extends React.Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    }).isRequired,
+  ).isRequired,
   addNewTodo: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
 };
