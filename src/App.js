@@ -18,15 +18,15 @@ class App extends React.Component {
     tasks: preparedTodos,
   }
 
-  addNewTask = (task, userId, status) => {
+  addNewTask = (task, userId, taskId) => {
     this.setState(prevState => ({
       tasks: [
         ...prevState.tasks,
         {
           title: task,
-          user: users.find(user => user.id === userId),
-          id: prevState.tasks.length,
-          completed: status,
+          user: users.find(user => user.id === +userId),
+          id: taskId,
+          completed: false,
         },
       ],
     }));
