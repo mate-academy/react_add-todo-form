@@ -21,3 +21,23 @@ ul {
   height: 150px;
   text-align: center;
 }
+
+.fieldset {
+  display: inline-block;
+}
+
+.fieldset__input,
+.fieldset__select {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  background-color: lightsalmon;
+  margin-top: -20px;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+}
