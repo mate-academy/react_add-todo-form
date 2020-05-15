@@ -1,0 +1,13 @@
+.done {
+  border: red 1px solid;
+}
+
+.normal {
+  display: none;
+  
+}
+
+.message {
+  display: block;
+  color: red;
+}
