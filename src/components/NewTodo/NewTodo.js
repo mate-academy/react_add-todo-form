@@ -22,7 +22,7 @@ export class NewTodo extends Component {
   }
 
   setValue = (key, value) => {
-    if (value.length <= 35 && /\w|\s/.test(value)) {
+    if (value.length <= 35 && (/\w|\s/.test(value) || value === '')) {
       this.setState(prevState => ({
         [key]: {
           value,
