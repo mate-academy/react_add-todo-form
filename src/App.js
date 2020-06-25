@@ -38,7 +38,7 @@ class App extends React.Component {
       return (
         this.setState(prevState => ({
           todosStates: [...prevState.todosStates, false],
-          todos: [...prevState.todos, prevState.todoToAdd],
+          todos: [...prevState.todos, { name: prevState.todoToAdd }],
           todoToAdd: '',
           selectedUser: 'Select User',
         })));

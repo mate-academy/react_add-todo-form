@@ -11,9 +11,9 @@ export const TodoItem = (props) => {
       <input
         checked={props.state}
         type="checkbox"
-        onChange={() => props.flag(props.index)}
+        onChange={() => props.flag(props.item.name)}
       />
-      <p style={{ textDecoration: decoration }}>{props.item}</p>
+      <p style={{ textDecoration: decoration }}>{props.item.name}</p>
     </li>
   );
 };

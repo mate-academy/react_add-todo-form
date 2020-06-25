@@ -2,6 +2,6 @@
   width: 500px;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 0.1px rgb(160, 155, 155) solid;
   background-color: aliceblue;
 }
