@@ -7,7 +7,6 @@ export const Select = props => (
   <select
     className="Select"
     value={props.selected}
-    defaultValue={props.selected}
     onChange={ev => props.toSelect(ev)}
   >
     <option>{(props.selected)}</option>

@@ -7,12 +7,10 @@ export const TodosList = props => (
   <ul className="TodoList">
     {
       props.todos.map(
-        (item, index) => (
+        item => (
           <TodoItem
-            key={item + Math.random()}
+            key={item.id}
             item={item}
-            index={index}
-            state={props.states[index]}
             flag={props.flag}
             required
           />

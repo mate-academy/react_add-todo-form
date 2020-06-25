@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #daaeae;
+  background-color: #eaf4f8;
   font-style: italic;
 }
 
@@ -16,7 +16,7 @@ body {
   align-items: center;
   border-radius: 15px;
   padding: 20px;
-  border: 0.1px black solid;
+  border: 0.1px rgb(165, 159, 159) solid;
   width: 500px;
   background-color: aliceblue;
   box-shadow: 0 2px 8px 4px rgba(19, 18, 18, 0.15);
@@ -26,7 +26,7 @@ body {
   padding: 15px;
   width: 450px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px 4px rgba(83, 79, 79, 0.15);
+  box-shadow: 0 2px 8px 4px rgba(197, 187, 187, 0.15);
   border-radius: 15px;
   border: none;
   outline: none;
@@ -36,7 +36,7 @@ body {
 .btn {
   box-shadow: 0 2px 8px 4px rgba(83, 79, 79, 0.15);
   padding: 10px;
-  background-color: rgb(228, 211, 211);
+  background-color: #eaf4f8;
   outline: none;
   border-radius: 10px;
   transition: transform 0.1s;

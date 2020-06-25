@@ -4,20 +4,21 @@ import React from 'react';
 import './App.css';
 import { Select } from './Select&Option/Select';
 import { TodosList } from './TodoList&TodoItem/TodosList';
-
 import users from './api/users';
+import todosStart from './api/todos';
 
 const usersNames = users.map(user => ({
   name: user.name,
   id: user.id,
 }));
 
+let todoId = todosStart.length;
+
 class App extends React.Component {
   state ={
-    todosStates: [],
     selectedUser: 'Select User',
     todoToAdd: '',
-    todos: [],
+    todos: [...todosStart],
   }
 
   selectUser = (ev) => {
@@ -31,14 +32,20 @@ class App extends React.Component {
   addTodo = (ev) => {
     ev.preventDefault();
     if (this.state.selectedUser === 'Select User') {
-      alert('you need to choose user');
-    } else if (this.state.todoToAdd.length < 3) {
-      alert('mon length 10 letters');
+      alert('You need to choose user');
+    } else if (this.state.todoToAdd.length < 10) {
+      alert('Min length 10 letters');
     } else {
+      todoId += 1;
+
       return (
         this.setState(prevState => ({
-          todosStates: [...prevState.todosStates, false],
-          todos: [...prevState.todos, prevState.todoToAdd],
+          todos: [...prevState.todos, {
+            name: prevState.todoToAdd,
+            userId: users.find(user => user.name === prevState.selectedUser).id,
+            id: todoId,
+            done: false,
+          }],
           todoToAdd: '',
           selectedUser: 'Select User',
         })));
@@ -53,31 +60,40 @@ class App extends React.Component {
     })));
   }
 
-  flag = i => (
+  putFlag = id => (
     this.setState(prevState => ({
-      todosStates: prevState.todosStates.map(
-        (state, index) => ((index === i) ? !state : state),
+      todos: prevState.todos.map(
+        todo => ((todo.id === id)
+          ? {
+            name: todo.name,
+            id: todo.id,
+            userId: todo.userId,
+            done: !(prevState.todos.find(user => user.id === id).done),
+          }
+          : todo),
       ),
     }))
   )
 
   render() {
+    const { selectedUser, todos, todoToAdd } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form className="Form">
+        <form className="Form" onSubmit={ev => this.addTodo(ev)}>
           <input
             className="input-text"
             placeholder="Add TODO"
             type="text"
             name="added_todo"
-            value={this.state.todoToAdd}
+            value={todoToAdd}
             onChange={ev => this.changedInput(ev)}
           />
 
           <Select
             toSelect={this.selectUser}
-            selected={this.state.selectedUser}
+            selected={selectedUser}
             users={usersNames}
           />
           <input
@@ -85,15 +101,19 @@ class App extends React.Component {
             type="submit"
             name="but"
             value="ADD NEW TODO"
-            onClick={ev => this.addTodo(ev)}
           />
-
         </form>
         <TodosList
-          states={this.state.todosStates}
-          todos={this.state.todos}
-          flag={this.flag}
+          todos={todos}
+          flag={this.putFlag}
         />
+        <p>
+          Total number of todos:&nbsp;
+          {todos.length}
+          &nbsp;&nbsp;
+          Completed:&nbsp;
+          {todos.filter(todo => todo.done).length}
+        </p>
       </div>
     );
   }

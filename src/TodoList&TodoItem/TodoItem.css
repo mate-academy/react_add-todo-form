@@ -1,11 +1,13 @@
 .TodoItem {
-  display: flex;
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 3fr 1fr;
   padding: 5px;
   box-shadow: 0 2px 8px 4px rgba(112, 109, 109, 0.15);
   border-radius: 4px;
   margin-bottom: 10px;
   list-style: none;
-  background-color: aliceblue;
+  background-color: #e9cbd7;
+  text-align: left;
 }
 
 .TodoItem:hover {

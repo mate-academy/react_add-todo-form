@@ -10,14 +10,14 @@ export const ShapeSelect = PropTypes.shape({
   selected: PropTypes.string.isRequired,
 });
 
-export const ShapePrevious = PropTypes.shape({
-  previous: PropTypes.func.isRequired,
-});
-
 export const ShapeTodoItem = PropTypes.shape({
-  item: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  done: PropTypes.bool.isRequired,
 });
 
 export const ShapeTodosList = PropTypes.shape({
   todos: PropTypes.arrayOf(ShapeTodoItem).isRequired,
+  flag: PropTypes.func.isRequired,
 });
