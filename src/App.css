@@ -1,3 +1,49 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  background-color: #d5dde7;
+  font-style: italic;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  padding: 20px;
+  border: 0.1px rgb(160, 155, 155) solid;
+  width: 500px;
+  background-color: aliceblue;
+  box-shadow: 0 2px 8px 4px rgba(19, 18, 18, 0.15);
+}
+
+.input-text {
+  padding: 15px;
+  width: 450px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px 4px rgba(83, 79, 79, 0.15);
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  background-color: aliceblue;
+}
+
+.btn {
+  box-shadow: 0 2px 8px 4px rgba(83, 79, 79, 0.15);
+  padding: 10px;
+  background-color: rgb(222, 233, 240);
+  outline: none;
+  border-radius: 10px;
+  transition: transform 0.1s;
+  border: 1px solid rgb(206, 201, 201);
+}
+
+.btn:hover {
+  cursor: pointer;
+  transform: scale(1.03);
 }

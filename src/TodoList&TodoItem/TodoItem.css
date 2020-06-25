@@ -1,0 +1,17 @@
+.TodoItem {
+  display: flex;
+  padding: 5px;
+  box-shadow: 0 2px 8px 4px rgba(112, 109, 109, 0.15);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  list-style: none;
+  background-color: aliceblue;
+}
+
+.TodoItem:hover {
+  box-shadow: 0 2px 8px 4px rgba(19, 18, 18, 0.15);
+}
+
+p {
+  margin: 0 10px;
+}
