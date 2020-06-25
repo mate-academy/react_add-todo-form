@@ -33,8 +33,6 @@ class App extends React.Component {
     ev.preventDefault();
     if (this.state.selectedUser === 'Select User') {
       alert('You need to choose user');
-    } else if (this.state.todoToAdd.length < 10) {
-      alert('Min length 10 letters');
     } else {
       todoId += 1;
 
@@ -88,6 +86,8 @@ class App extends React.Component {
             type="text"
             name="added_todo"
             value={todoToAdd}
+            minLength={10}
+            required
             onChange={ev => this.changedInput(ev)}
           />
 
