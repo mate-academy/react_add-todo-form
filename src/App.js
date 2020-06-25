@@ -86,7 +86,7 @@ class App extends React.Component {
             type="text"
             name="added_todo"
             value={todoToAdd}
-            minLength={10}
+            minLength={5}
             required
             onChange={ev => this.changedInput(ev)}
           />
