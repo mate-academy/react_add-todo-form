@@ -1,0 +1,8 @@
+.todo-list__key {
+  text-decoration: underline;
+}
+
+.todo-list__username {
+  font-size: 1.2em;
+  color: #444;
+}
