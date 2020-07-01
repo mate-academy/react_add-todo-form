@@ -1,0 +1,41 @@
+.form {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.form__input {
+  flex-grow: 1;
+}
+
+.form__item {
+  margin-right: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline-color: #219e51;
+}
+
+.form__button {
+  cursor: pointer;
+  text-transform: uppercase;
+  border: none;
+  background-color: #219e51;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 0;
+}
+
+.form__option {
+  display: block;
+  padding: 10px;
+}
+
+.form__error {
+  position: absolute;
+  top: -30px;
+  color: red;
+  text-transform: uppercase;
+}
