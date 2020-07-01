@@ -46,10 +46,6 @@ export class NewTodo extends React.Component {
       return false;
     }
 
-    this.setState(prevState => ({
-      maxId: prevState.maxId + 1,
-    }));
-
     createTodo({
       id: allTodos.length + 1,
       user: users.find(user => user.id === selectedUserId),
