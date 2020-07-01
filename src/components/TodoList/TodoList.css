@@ -1,0 +1,14 @@
+.wrapper {
+  width: 80%;
+  margin: 50px auto 0;
+  padding: 30px;
+
+  border: 2px solid orange;
+  border-radius: 50px;
+  background-color: #fff;
+}
+
+.form-control {
+  width: 500px;
+  margin-bottom: 20px;
+}

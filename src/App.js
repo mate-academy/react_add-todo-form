@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import { TodoList } from './components/TodoList/TodoList';
 
 import users from './api/users';
 
@@ -12,6 +13,7 @@ function App() {
         <span>Users: </span>
         {users.length}
       </p>
+      <TodoList users={users} />
     </div>
   );
 }
