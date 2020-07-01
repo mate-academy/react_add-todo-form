@@ -1,0 +1,16 @@
+.todo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-list__item:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.todo__done--true {
+  background-color: rgb(184, 247, 184);
+}
+
+.todo__done--false {
+  background-color: rgb(247, 171, 171);
+}
