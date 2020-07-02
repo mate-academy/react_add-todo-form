@@ -71,6 +71,7 @@ export class TodoList extends React.Component {
       return {
         todosList: prevState.todosList,
         currentTask: '',
+        defaultSelect: 'Choose a user',
       };
     });
   }
