@@ -2,7 +2,7 @@ import React from 'react';
 import { SelectionShapes } from '../../Shapes';
 
 export const Selection = ({ flag, change, users }) => (
-  <>
+  <div className="form-group">
     <select
       className={`form-control ${flag ? 'is-invalid' : ''}`}
       id="exampleSelect1"
@@ -20,7 +20,7 @@ export const Selection = ({ flag, change, users }) => (
     >
       Please, choose a user
     </div>
-  </>
+  </div>
 );
 
 Selection.propTypes = SelectionShapes.isRequired;

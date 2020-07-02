@@ -1,5 +1,6 @@
 import React from 'react';
 import { TaskInputShapes } from '../../Shapes';
+import './TaskInput.css';
 
 export const TaskInput = ({ flag, change }) => (
   <div className="form-group">
