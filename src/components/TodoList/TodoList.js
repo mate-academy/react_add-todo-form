@@ -117,12 +117,9 @@ export class TodoList extends React.Component {
             : ''}
           <label>
             <input
-              className={`
-                form-control
-                form-control-lg
-                ${errorContent
-        ? 'input-error'
-        : ''}`
+              className={`${errorContent
+                ? 'form-control form-control-lg input-error'
+                : 'form-control form-control-lg'}`
               }
               type="text"
               placeholder="Type task here"

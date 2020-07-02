@@ -21,11 +21,9 @@ export const UserSelect = (props) => {
         )
         : ''}
       <select
-        className={`
-        form-control
-        ${onUserError
-      ? 'select-error'
-      : ''}`
+        className={`${onUserError
+          ? 'form-control select-error'
+          : 'form-control'}`
         }
         id="exampleSelect1"
         name="select"
