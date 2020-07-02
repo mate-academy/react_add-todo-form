@@ -8,21 +8,30 @@
   background-color: #fff;
 }
 
-.form-control {
+.form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.title-input {
+  margin-top: 40px;
+}
+
+.form-control-lg {
   width: 500px;
   margin-bottom: 20px;
+
+  border: 2px solid #17a2b8;
 }
 
 .error {
-  color: red;
-  font-size: 18px;
   padding: 5px;
   position: absolute;
-  left: 130px;
-  top: 167px;
-}
+  left: calc(50% - 140px);
+  top: -15px;
 
-.input-error {
-  border: 2px solid red;
-  border-radius: 10px;
+  color: red;
+  font-size: 22px;
+  font-weight: bold;
 }

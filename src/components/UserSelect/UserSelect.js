@@ -8,23 +8,12 @@ export const UserSelect = (props) => {
     users,
     value,
     onChangeUser,
-    onUserError,
   } = props;
 
   return (
-    <>
-      {onUserError
-        ? (
-          <span className="error error__user">
-            Please choose a user
-          </span>
-        )
-        : ''}
+    <label>
       <select
-        className={`${onUserError
-          ? 'form-control select-error'
-          : 'form-control'}`
-        }
+        className="form-control"
         id="exampleSelect1"
         name="select"
         value={value}
@@ -32,7 +21,6 @@ export const UserSelect = (props) => {
         onChange={onChangeUser}
       >
         <option
-          disabled
           defaultValue
         >
           Choose a user
@@ -46,7 +34,7 @@ export const UserSelect = (props) => {
           </option>
         ))}
       </select>
-    </>
+    </label>
 
   );
 };
@@ -57,5 +45,4 @@ UserSelect.propTypes = {
   ).isRequired,
   value: PropTypes.string.isRequired,
   onChangeUser: PropTypes.func.isRequired,
-  onUserError: PropTypes.bool.isRequired,
 };

@@ -11,19 +11,17 @@ import { UserTypes } from '../Shape/ShapeTypes';
 export class TodoList extends React.Component {
   state = {
     todosList: [...todos],
-    defaultSelect: 'Choose a user',
-    currentTask: '',
-    currentId: '',
-    errorContent: false,
-    errorUser: false,
+    titleOfTask: '',
+    userId: '',
+    isValid: false,
   }
 
   getTask = (e) => {
     const task = e.target.value.replace(/\d/g, '');
 
     this.setState({
-      currentTask: task,
-      errorContent: false,
+      titleOfTask: task,
+      isValid: false,
     });
   }
 
@@ -31,26 +29,17 @@ export class TodoList extends React.Component {
     const id = e.target.value;
 
     this.setState({
-      currentId: id,
-      defaultSelect: id,
-      errorUser: false,
+      userId: id,
+      isValid: false,
     });
   }
 
   setTask = (e) => {
     e.preventDefault();
 
-    if (!this.state.currentTask) {
+    if (!this.state.titleOfTask || !this.state.userId) {
       this.setState({
-        errorContent: true,
-      });
-
-      return;
-    }
-
-    if (!this.state.currentId) {
-      this.setState({
-        errorUser: true,
+        isValid: true,
       });
 
       return;
@@ -59,9 +48,9 @@ export class TodoList extends React.Component {
     e.target.reset();
 
     const newTask = {
-      userId: this.state.currentId,
+      userId: this.state.userId,
       id: this.state.todosList.length + 1,
-      title: this.state.currentTask,
+      title: this.state.titleOfTask,
       completed: false,
     };
 
@@ -70,8 +59,8 @@ export class TodoList extends React.Component {
 
       return {
         todosList: prevState.todosList,
-        currentTask: '',
-        defaultSelect: 'Choose a user',
+        titleOfTask: '',
+        userId: '',
       };
     });
   }
@@ -98,42 +87,48 @@ export class TodoList extends React.Component {
   render() {
     const {
       todosList,
-      currentTask,
-      defaultSelect,
-      errorContent,
-      errorUser,
+      titleOfTask,
+      isValid,
+      isErrorUser,
     } = this.state;
+
+    let errorMessage;
+
+    if (!this.state.titleOfTask && !this.state.userId) {
+      errorMessage = 'Please type correct data';
+    } else if (!this.state.titleOfTask && this.state.userId) {
+      errorMessage = 'Please enter the title';
+    } else if (this.state.titleOfTask && !this.state.userId) {
+      errorMessage = 'Please choose a user';
+    }
 
     return (
       <div className="wrapper">
         <form
+          className="form"
           onSubmit={this.setTask}
         >
-          {errorContent
-            ? (
-              <span className="error">
-                Please enter the title
-              </span>
-            )
-            : ''}
-          <label>
+          <label className="title-input">
+            {isValid
+              ? (
+                <span className="error">
+                  {errorMessage}
+                </span>
+              )
+              : ''}
             <input
-              className={`${errorContent
-                ? 'form-control form-control-lg input-error'
-                : 'form-control form-control-lg'}`
-              }
+              className="form-control-lg"
               type="text"
               placeholder="Type task here"
               onChange={this.getTask}
-              value={currentTask}
+              value={titleOfTask}
               maxLength="30"
             />
           </label>
           <UserSelect
             users={this.props.users}
-            value={defaultSelect}
             onChangeUser={this.getCurrentUser}
-            onUserError={errorUser}
+            onUserError={isErrorUser}
           />
           <Button />
         </form>
