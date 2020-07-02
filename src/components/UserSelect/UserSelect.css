@@ -2,3 +2,8 @@
   margin: 0 auto;
   margin-bottom: 20px;
 }
+
+.select-error {
+  border: 2px solid red;
+  border-radius: 10px;
+}

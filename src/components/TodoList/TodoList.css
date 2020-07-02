@@ -12,3 +12,15 @@
   width: 500px;
   margin-bottom: 20px;
 }
+
+.error {
+  width: 500px;
+  margin: 0 auto 20px;
+
+  color: red;
+}
+
+.input-error {
+  border: 2px solid red;
+  border-radius: 10px;
+}
