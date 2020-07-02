@@ -4,17 +4,9 @@ import { User } from './User';
 import { ShapeTodo } from '../Shapes/ShapeTodo';
 
 export const Todo = ({ todoItem }) => (
-  <li className="todo-list__item">
-    <div className={`todo todo__done--${todoItem.completed}`}>
-      <input
-        className="todo__checkbox"
-        type="checkbox"
-        checked={todoItem.completed}
-        readOnly
-      />
-      <span className="todo__item">{todoItem.title}</span>
-      <User user={todoItem.user} />
-    </div>
+  <li className="list-group-item d-flex justify-content-around">
+    <span className="todo__item">{todoItem.title}</span>
+    <User user={todoItem.user} />
   </li>
 );
 

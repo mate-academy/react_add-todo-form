@@ -12,23 +12,36 @@ export class TodoList extends React.Component {
     todosList: [...this.props.preparedTodos],
     currentUserId: '',
     currentTodo: '',
+    wrongInput: false,
   }
 
   onChangeUser = (event) => {
     this.setState({
       currentUserId: +event.target.value,
+      wrongInput: false,
     });
   }
 
-  onChangeNewTodo = (event) => {
-    console.log(event.target.value);
+  onChangeNewTodo = (value) => {
+    const task = value.replace(/[^\w ]+/gi, '');
+
     this.setState({
-      currentTodo: event.target.value,
+      currentTodo: task,
+      wrongInput: false,
     });
   }
 
   onSubmitNewTodo = (event) => {
     event.preventDefault();
+
+    if (!this.state.currentUserId
+      || !this.state.currentTodo) {
+      this.setState(prevState => ({
+        wrongInput: true,
+      }));
+
+      return;
+    }
 
     const todo = {
       id: uuidv4(),
@@ -38,34 +51,44 @@ export class TodoList extends React.Component {
       user: this.props.users.find(user => user.id === this.state.currentUserId),
     };
 
-    console.log(todo.id);
-
     this.state.todosList.push(todo);
 
     this.setState(prevState => ({
       todosList: [...prevState.todosList],
       currentUserId: '',
       currentTodo: '',
+      wrongInput: false,
     }));
+
     event.target.reset();
   };
 
   render() {
     const { users } = this.props;
 
+    let errorMessage;
+
+    if (!this.state.currentUserId
+      && !this.state.currentTodo) {
+      errorMessage = 'Please type correct data';
+    } else if (!this.state.currentUserId) {
+      errorMessage = 'Please choose a user';
+    } else if (!this.state.currentTodo) {
+      errorMessage = 'Please enter the title';
+    }
+
     return (
       <>
         <NewTodo
           users={users}
-          currentUserId={this.onChangeUser}
-          currentTodo={this.onChangeNewTodo}
-          isActiveAdd={
-            (Boolean(this.state.currentUserId)
-              && Boolean(this.state.currentTodo))
-          }
+          onChangeUser={this.onChangeUser}
+          onChangeNewTodo={this.onChangeNewTodo}
+          wrongInput={this.state.wrongInput}
           onSubmit={this.onSubmitNewTodo}
+          errorMessage={errorMessage}
+          currentTitle={this.state.currentTodo}
         />
-        <ul className="todo-list">
+        <ul className="list-group">
           {this.state.todosList.map(todo => (
             <Todo key={todo.id} todoItem={todo} />
           ))}
