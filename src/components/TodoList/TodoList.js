@@ -111,9 +111,9 @@ export class TodoList extends React.Component {
         >
           {errorContent
             ? (
-              <h2 className="error">
+              <span className="error">
                 Please enter the title
-              </h2>
+              </span>
             )
             : ''}
           <label>

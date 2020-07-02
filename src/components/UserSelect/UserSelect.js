@@ -15,9 +15,9 @@ export const UserSelect = (props) => {
     <>
       {onUserError
         ? (
-          <h2 className="error">
+          <span className="error error__user">
             Please choose a user
-          </h2>
+          </span>
         )
         : ''}
       <select

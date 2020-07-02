@@ -14,10 +14,12 @@
 }
 
 .error {
-  width: 500px;
-  margin: 0 auto 20px;
-
   color: red;
+  font-size: 18px;
+  padding: 5px;
+  position: absolute;
+  left: 130px;
+  top: 167px;
 }
 
 .input-error {
