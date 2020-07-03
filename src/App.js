@@ -1,19 +1,95 @@
 import React from 'react';
 import './App.css';
-
 import users from './api/users';
+import todos from './api/todos';
+import { TodoList } from './component/TodoList/TodoList';
+import { Select } from './component/Select/Select';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const userName = users.map(user => ({
+  name: user.name,
+  id: user.id,
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+const todoList = [...todos];
+
+class App extends React.Component {
+  state = {
+    todo: [],
+    name: [],
+    userId: 0,
+    titleError: false,
+    userError: false,
+  }
+
+  change = (event) => {
+    this.setState({
+      todo: event.target.value,
+      titleError: false,
+    });
+  }
+
+  options = (event) => {
+    this.setState({
+      userId: event.target.value,
+      userError: false,
+    });
+  }
+
+  click = () => {
+    if (this.state.todo.length < 1) {
+      this.setState(prevState => ({ titleError: true }));
+    }
+
+    if (this.state.userId === 0) {
+      this.setState(prevState => ({ userError: true }));
+    }
+
+    if (this.state.todo.length >= 1 && this.state.userId !== 0) {
+      todoList.push({
+        title: this.state.todo,
+        name: this.state.name,
+        userId: this.state.userId,
+        completed: false,
+      });
+      this.setState(prevState => ({ todo: '' }));
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+        <form>
+          <input
+            type="text"
+            placeholder="Write your TODO"
+            onChange={this.change}
+            value={this.state.todo}
+          />
+          {this.state.titleError && (
+            <div className="todos__error">Please, enter todos text</div>
+          )}
+          <Select
+            options={this.options}
+            userName={userName}
+          />
+          <button
+            type="button"
+            onClick={this.click}
+          >
+            ADD
+          </button>
+          {this.state.userError && (
+            <div className="todos__error">Please, choose a user</div>
+          )}
+          <TodoList
+            toggle={this.toggle}
+            todoList={todoList}
+          />
+        </form>
+      </div>
+    );
+  }
 }
 
 export default App;

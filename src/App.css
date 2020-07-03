@@ -1,3 +1,28 @@
 .App {
   text-align: center;
 }
+
+.todo {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#check {
+  position: relative;
+  left: -200px;
+  top: 35px;
+}
+
+#check:checked + div {
+  text-decoration: line-through;
+  color: red;
+}
