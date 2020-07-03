@@ -5,12 +5,10 @@ export const TodoList = ({ todos }) => (
   <div className="TodoList">
     <ul>
       {todos.map(todo => (
-        <li key={todo.id}>
-          <div className="task">
-            <h2>{todo.title}</h2>
-            <p>{todo.name}</p>
-            <p>{todo.userName}</p>
-          </div>
+        <li key={todo.id} className="TodoList__todo">
+          <h2>{todo.title}</h2>
+          <p>{todo.name}</p>
+          <p>{todo.userName}</p>
         </li>
       ))}
     </ul>
@@ -18,5 +16,9 @@ export const TodoList = ({ todos }) => (
 );
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  todos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    userName: PropTypes.string,
+  })).isRequired,
 };
