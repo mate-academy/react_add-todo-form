@@ -44,7 +44,7 @@ export class NewTodo extends React.Component {
 
     const form = [...event.target];
 
-    form[0].value = 0;
+    form[0].value = '';
     form[1].value = '';
   }
 
