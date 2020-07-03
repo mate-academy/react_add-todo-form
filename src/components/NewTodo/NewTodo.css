@@ -1,0 +1,17 @@
+.NewTodo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.NewTodo__btn {
+  width: 100px;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.NewTodo__title {
+  resize: none;
+}

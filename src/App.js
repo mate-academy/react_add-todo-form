@@ -56,14 +56,16 @@ export class App extends React.Component {
           <span>Users: </span>
           {users.length}
         </p>
-        <NewTodo
-          todoTitle={todoTitle}
-          handleTitle={this.handleTitle}
-          todoUserId={todoUserId}
-          handleUser={this.handleUser}
-          onSubmit={this.onSubmit}
-        />
-        <TodoList todos={preparedTodos} />
+        <div className="App__todos">
+          <NewTodo
+            todoTitle={todoTitle}
+            handleTitle={this.handleTitle}
+            todoUserId={todoUserId}
+            handleUser={this.handleUser}
+            onSubmit={this.onSubmit}
+          />
+          <TodoList todos={preparedTodos} />
+        </div>
       </div>
     );
   }
