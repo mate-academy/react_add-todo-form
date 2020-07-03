@@ -28,17 +28,17 @@ export class App extends React.Component {
     });
   };
 
-  onSubmit = (event) => {
-    event.preventDefault();
+  onSubmit = (e) => {
+    e.preventDefault();
 
-    this.setState(prevState => ({
+    this.setState(({ preparedTodos, todoUserId, todoTitle }) => ({
       preparedTodos: [
-        ...prevState.preparedTodos,
+        ...preparedTodos,
         {
-          todoUserId: +prevState.todoUserId,
-          id: prevState.preparedTodos.length + 1,
-          title: prevState.todoTitle,
-          userName: users.find(user => user.id === +prevState.todoUserId).name,
+          todoUserId: +todoUserId,
+          id: preparedTodos.length + 1,
+          title: todoTitle,
+          userName: users.find(user => user.id === +todoUserId).name,
         },
       ],
       todoUserId: '',
@@ -52,7 +52,6 @@ export class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-
         <p>
           <span>Users: </span>
           {users.length}
@@ -69,5 +68,3 @@ export class App extends React.Component {
     );
   }
 }
-
-export default App;
