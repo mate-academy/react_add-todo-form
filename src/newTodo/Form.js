@@ -10,8 +10,13 @@ const Form = (props) => {
     <form onSubmit={saveTodos}>
       <h1>Add Todo:</h1>
 
-      <select onChange={selectUser} required>
-        <option />
+      <select
+        onChange={selectUser}
+        required
+        defaultValue=""
+      >
+        <option value="" disabled="disabled">Select a user</option>
+
         {users.map(user => (
           <React.Fragment key={user.id}>
             <AddUser {...user} />

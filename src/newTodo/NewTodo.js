@@ -41,6 +41,11 @@ export class NewTodo extends React.Component {
       this.state.title,
       this.state.user,
     );
+
+    const form = [...event.target];
+
+    form[0].value = 0;
+    form[1].value = '';
   }
 
   render() {
