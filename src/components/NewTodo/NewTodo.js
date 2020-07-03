@@ -9,41 +9,40 @@ export const NewTodo = (
     handleUser,
     onSubmit },
 ) => (
-  <>
-    <form onSubmit={onSubmit}>
-      <label htmlFor="newTodo">
-        Todo:
-      </label>
-      <textarea
-        id="newTodo"
-        rows="5"
-        cols="50"
-        placeholder="Enter Todo"
-        value={todoTitle}
-        onChange={handleTitle}
-        required
-      />
-      <br />
-      <label>
-        <select
-          value={todoUserId}
-          onChange={handleUser}
-          required
-        >
-          <option value="" hidden>Select User</option>
-          {users.map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <br />
-      <button type="submit">
-        Add
-      </button>
-    </form>
-  </>
+  <form className="NewTodo" onSubmit={onSubmit}>
+    <label htmlFor="newTodo">
+      Todo:
+    </label>
+    <br />
+    <textarea
+      className="NewTodo__title"
+      id="newTodo"
+      rows="5"
+      cols="50"
+      placeholder="Enter Todo"
+      value={todoTitle}
+      onChange={handleTitle}
+      required
+    />
+    <br />
+    <select
+      className="NewTodo__select"
+      value={todoUserId}
+      onChange={handleUser}
+      required
+    >
+      <option value="" hidden>Select User</option>
+      {users.map(({ id, name }) => (
+        <option key={id} value={id}>
+          {name}
+        </option>
+      ))}
+    </select>
+    <br />
+    <button className="NewTodo__btn" type="submit">
+      Add
+    </button>
+  </form>
 );
 
 NewTodo.propTypes = {
