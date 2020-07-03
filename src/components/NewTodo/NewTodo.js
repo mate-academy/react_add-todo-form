@@ -1,7 +1,7 @@
 import React from 'react';
-import users from '../api/users';
-import '../App.css';
-import { ShapeNewTodo } from './Shapes';
+import users from '../../api/users';
+import './NewTodo.css';
+import { ShapeNewTodo } from '../Shapes';
 
 export const NewTodo = (props) => {
   const { onImputChange,

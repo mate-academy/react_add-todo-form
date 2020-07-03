@@ -3,7 +3,7 @@ import './App.css';
 import todos from './api/todos';
 import users from './api/users';
 import TodoList from './components/TodoList';
-import { NewTodo } from './components/NewTodo';
+import { NewTodo } from './components/NewTodo/NewTodo';
 
 const searchId = currentTodo => ({
   ...currentTodo,

@@ -7,46 +7,6 @@
   margin: auto;
 }
 
-.input {
-  border-color: lightslategray;
-  border-radius: 8px;
-  padding: 5px 15px;
-  outline: none;
-}
-
-.input:focus {
-  border: 2px solid lightskyblue;
-}
-
-.input--error {
-  background-color: lightpink;
-}
-
-.select {
-  border: 2px solid lightslategray;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding: 5px 15px;
-  outline: none;
-}
-
-.select:focus {
-  border: 2px solid lightskyblue;
-  background-color: white;
-}
-
-.select--error {
-  background-color: lightpink;
-}
-
-button {
-  background-color: none;
-  text-transform: capitalize;
-  padding: 5px;
-  border-radius: 8px;
-  outline: none;
-}
-
 table {
   border-spacing: 15px;
   border: 2px solid grey;
@@ -62,10 +22,4 @@ td {
 
 .active {
   text-decoration: line-through;
-}
-
-.error {
-  height: 20px;
-  color: red;
-  font-weight: 600;
 }
