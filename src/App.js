@@ -38,7 +38,6 @@ export class App extends React.Component {
           todoUserId: +prevState.todoUserId,
           id: prevState.preparedTodos.length + 1,
           title: prevState.todoTitle,
-          completed: prevState.todoCompleted !== 'No',
           userName: users.find(user => user.id === +prevState.todoUserId).name,
         },
       ],

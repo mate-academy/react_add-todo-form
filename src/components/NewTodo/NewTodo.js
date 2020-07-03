@@ -22,18 +22,16 @@ export const NewTodo = (
         placeholder="Enter Todo"
         value={todoTitle}
         onChange={handleTitle}
+        required
       />
-      <>
-        <br />
-        <span>Title</span>
-      </>
       <br />
       <label>
         <select
           value={todoUserId}
           onChange={handleUser}
+          required
         >
-          <option value="0" hidden>User</option>
+          <option value="" hidden>Select User</option>
 
           {users.map(({ id, name }) => (
             <option key={id} value={id}>
