@@ -5,9 +5,9 @@ import users from '../api/users';
 export class TodoForm extends React.Component {
   state = {
     newTitle: '',
-    newUserId: 0,
-    titleError: false,
-    userError: false,
+    newUserId: '0',
+    titleError: true,
+    userError: true,
   };
 
   handleChange = ({ target: { value } }) => {
@@ -19,7 +19,7 @@ export class TodoForm extends React.Component {
 
   handleSelect = ({ target: { value } }) => {
     this.setState(prevState => ({
-      newUserId: value,
+      newUserId: Number(value),
       userError: false,
     }));
   };
@@ -38,7 +38,7 @@ export class TodoForm extends React.Component {
     if (this.state.newTitle && this.state.newUserId !== 0) {
       this.props.addTodo({
         title: this.state.newTitle,
-        userId: +this.state.userId,
+        userId: this.state.userId,
         completed: false,
         user: users.find(user => user.id === +this.state.newUserId),
       });
@@ -82,10 +82,10 @@ export class TodoForm extends React.Component {
                 {user.name}
               </option>
             ))}
-            {this.state.userError && (
-              <div>Please, choose a user</div>
-            )}
           </select>
+          {this.state.userError && (
+            <div className="todos__error">Please, choose a user</div>
+          )}
         </label>
         <button
           className="todos__button"
