@@ -14,4 +14,9 @@
 
 .NewTodo__title {
   resize: none;
+  border: 1px solid lightgray;
+}
+
+.NewTodo__select {
+  border: 1px solid lightgray;
 }
