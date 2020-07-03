@@ -39,3 +39,11 @@
   color: red;
   text-transform: uppercase;
 }
+
+.form__error--input {
+  left: 15px;
+}
+
+.form__error--select {
+  right: 120px;
+}

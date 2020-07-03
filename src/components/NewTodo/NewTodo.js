@@ -12,7 +12,7 @@ export class NewTodo extends React.Component {
 
   setTodoTitle = (value) => {
     this.setState({
-      title: value.replace(/\s/, ' '),
+      title: value.replace(/\s/, ' ').replace(/^\s/, ''),
       errorInput: false,
     });
   }
@@ -24,8 +24,8 @@ export class NewTodo extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
 
     const { title, selectedUserId } = this.state;
     const { createTodo, users, allTodos } = this.props;
@@ -68,7 +68,7 @@ export class NewTodo extends React.Component {
       <form className="form" onSubmit={this.handleSubmit}>
         {
           errorInput && (
-            <div className="form__error">
+            <div className="form__error form__error--input">
               Please add todo description
             </div>
           )
@@ -79,19 +79,19 @@ export class NewTodo extends React.Component {
           className="form__item form__input"
           placeholder="Write what do you need..."
           maxLength="100"
-          onChange={e => this.setTodoTitle(e.target.value)}
+          onChange={event => this.setTodoTitle(event.target.value)}
           value={title}
         />
         {
           errorSelect && (
-            <div className="form__error">
+            <div className="form__error form__error--select">
               Please chose a user
             </div>
           )
         }
         <select
           className="form__item"
-          onChange={e => this.setSelectUser(e.target.value)}
+          onChange={event => this.setSelectUser(event.target.value)}
           value={selectedUserId}
         >
           <option value={0}>Chose user</option>
