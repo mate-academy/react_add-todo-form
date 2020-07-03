@@ -13,12 +13,11 @@ export const NewTodo = (
     <form onSubmit={onSubmit}>
       <label htmlFor="newTodo">
         Todo:
-        {' '}
       </label>
       <textarea
         id="newTodo"
         rows="5"
-        cols="45"
+        cols="50"
         placeholder="Enter Todo"
         value={todoTitle}
         onChange={handleTitle}
@@ -32,7 +31,6 @@ export const NewTodo = (
           required
         >
           <option value="" hidden>Select User</option>
-
           {users.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}
