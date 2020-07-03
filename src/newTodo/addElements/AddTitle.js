@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export const AddTitle = ({ todosTitle }) => (
   <input
     required
-    maxLength={100}
+    maxLength={40}
     type="text"
     onChange={event => todosTitle(event.target.value)}
   />

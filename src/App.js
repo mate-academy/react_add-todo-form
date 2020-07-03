@@ -14,12 +14,10 @@ class App extends React.Component {
     this.setState(prev => ({
       list: prev.list.map((element) => {
         if (element.id === id) {
-          return (
-            {
-              ...element,
-              completed: !element.completed,
-            }
-          );
+          return ({
+            ...element,
+            completed: !element.completed,
+          });
         }
 
         return element;
