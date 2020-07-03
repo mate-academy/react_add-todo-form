@@ -1,3 +1,19 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  margin: 1px 50px;
+  list-style-type: none;
+
+}
+
+.text {
+  margin-left: 10px;
 }
