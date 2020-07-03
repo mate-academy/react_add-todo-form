@@ -10,14 +10,14 @@ import { UserTypes } from '../Shape/ShapeTypes';
 
 export class TodoList extends React.Component {
   state = {
-    todosList: [...todos],
+    todosList: todos,
     titleOfTask: '',
     userId: '',
     isValid: false,
   }
 
-  getTask = (e) => {
-    const task = e.target.value.replace(/\d/g, '');
+  getTitleOfTask = (event) => {
+    const task = event.target.value.replace(/\d/g, '');
 
     this.setState({
       titleOfTask: task,
@@ -25,8 +25,8 @@ export class TodoList extends React.Component {
     });
   }
 
-  getCurrentUser = (e) => {
-    const id = e.target.value;
+  getUserId = (event) => {
+    const id = event.target.value;
 
     this.setState({
       userId: id,
@@ -34,8 +34,8 @@ export class TodoList extends React.Component {
     });
   }
 
-  setTask = (e) => {
-    e.preventDefault();
+  onSubmit = (event) => {
+    event.preventDefault();
 
     if (!this.state.titleOfTask || !this.state.userId) {
       this.setState({
@@ -45,7 +45,7 @@ export class TodoList extends React.Component {
       return;
     }
 
-    e.target.reset();
+    event.target.reset();
 
     const newTask = {
       userId: this.state.userId,
@@ -54,19 +54,15 @@ export class TodoList extends React.Component {
       completed: false,
     };
 
-    this.setState((prevState) => {
-      prevState.todosList.push(newTask);
-
-      return {
-        todosList: prevState.todosList,
-        titleOfTask: '',
-        userId: '',
-      };
-    });
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, newTask],
+      titleOfTask: '',
+      userId: '',
+    }));
   }
 
-  toggleCheck = (e) => {
-    const id = e.target.value;
+  toggleCheck = (event) => {
+    const id = event.target.value;
 
     this.setState((prevState) => {
       const current = prevState.todosList.map((todo) => {
@@ -106,7 +102,7 @@ export class TodoList extends React.Component {
       <div className="wrapper">
         <form
           className="form"
-          onSubmit={this.setTask}
+          onSubmit={this.onSubmit}
         >
           <label className="title-input">
             {isValid
@@ -120,14 +116,14 @@ export class TodoList extends React.Component {
               className="form-control-lg"
               type="text"
               placeholder="Type task here"
-              onChange={this.getTask}
+              onChange={this.getTitleOfTask}
               value={titleOfTask}
               maxLength="30"
             />
           </label>
           <UserSelect
             users={this.props.users}
-            onChangeUser={this.getCurrentUser}
+            onChangeUser={this.getUserId}
             onUserError={isErrorUser}
           />
           <Button />
