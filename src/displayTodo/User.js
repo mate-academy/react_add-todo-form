@@ -5,6 +5,6 @@ export const User = props => (
   <sub>{props.name}</sub>
 );
 
-// User.propTypes = {
-//   name: PropTypes.string.isRequired,
-// };
+User.propTypes = {
+  name: PropTypes.string.isRequired,
+};

@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { AddUser } from './addElements/AddUser';
 import { AddTitle } from './addElements/AddTitle';
 
 const Form = (props) => {
-  const { selectUser, users, giveNameTodo, letId, addToList } = props;
+  const { selectUser, users, todosTitle, saveTodos } = props;
 
   return (
-    <form onSubmit={letId}>
+    <form onSubmit={saveTodos}>
       <h1>Add Todo:</h1>
 
       <select onChange={selectUser} required>
@@ -19,17 +20,24 @@ const Form = (props) => {
       </select>
 
       <AddTitle
-        giveName={giveNameTodo()}
+        todosTitle={todosTitle()}
       />
 
       <button
         type="submit"
-        onClick={addToList}
       >
         Save
       </button>
     </form>
-  )
-}
+  );
+};
 
 export default Form;
+
+Form.propTypes = {
+  getId: PropTypes.func.isRequired,
+  todosTitle: PropTypes.func.isRequired,
+  saveTodos: PropTypes.func.isRequired,
+  selectUser: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
