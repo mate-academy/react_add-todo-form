@@ -17,6 +17,12 @@ export class App extends React.Component {
   }
 
   handleTitle = (e) => {
+    if (!e.target.value || /^\s+$/.test(e.target.value)) {
+      e.target.setCustomValidity('Please enter a todo title');
+    } else {
+      e.target.setCustomValidity('');
+    }
+
     this.setState({
       todoTitle: e.target.value,
     });
