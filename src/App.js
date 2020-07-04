@@ -11,11 +11,19 @@ const preparedUsers = users.map(user => ({
   name: user.name,
 }));
 
-// sort by id cause we want add unique id for new todo
-const preparedTodos = todos.map(todo => ({
-  userName: preparedUsers.find(user => user.id === todo.userId).name,
-  ...todo,
-})).sort((a, b) => a.id - b.id);
+// searching max todoId
+let todoMaxId = 0;
+
+const preparedTodos = todos.map((todo) => {
+  if (todo.id > todoMaxId) {
+    todoMaxId = todo.id;
+  }
+
+  return {
+    userName: preparedUsers.find(user => user.id === todo.userId).name,
+    ...todo,
+  };
+});
 
 class App extends React.Component {
   state = {
@@ -24,6 +32,7 @@ class App extends React.Component {
     titleInputError: false,
     newUserId: 0,
     userSelectError: false,
+    todoMaxId,
   };
 
   handleInputChange = (event) => {
@@ -50,7 +59,7 @@ class App extends React.Component {
             userName: preparedUsers.find(
               user => user.id === prevState.newUserId,
             ).name,
-            id: prevState.todos[prevState.todos.length - 1].id + 1,
+            id: prevState.todoMaxId + 1,
             title: prevState.newTitle,
             completed: false,
           }],
@@ -58,6 +67,7 @@ class App extends React.Component {
           newUserId: 0,
           titleInputError: false,
           userSelectError: false,
+          todoMaxId: prevState.todoMaxId + 1,
         });
       }
 
