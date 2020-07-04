@@ -19,7 +19,7 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    todos: [...preparedTodos],
+    todos: preparedTodos,
     newTitle: '',
     titleInputError: false,
     newUserId: 0,
@@ -44,30 +44,26 @@ class App extends React.Component {
     event.preventDefault();
 
     this.setState((prevState) => {
-      const titleErrorStatus = !prevState.newTitle;
-      const userErrorStatus = !prevState.newUserId;
-
-      if (!titleErrorStatus && !userErrorStatus) {
+      if (prevState.newTitle && prevState.newUserId) {
         return ({
           todos: [...prevState.todos, {
             userName: preparedUsers.find(
               user => user.id === prevState.newUserId,
             ).name,
-            userId: prevState.newUserId,
             id: prevState.todos[prevState.todos.length - 1].id + 1,
             title: prevState.newTitle,
             completed: false,
           }],
           newTitle: '',
           newUserId: 0,
-          titleInputError: titleErrorStatus,
-          userSelectError: userErrorStatus,
+          titleInputError: false,
+          userSelectError: false,
         });
       }
 
       return ({
-        titleInputError: titleErrorStatus,
-        userSelectError: userErrorStatus,
+        titleInputError: !prevState.newTitle,
+        userSelectError: !prevState.newUserId,
       });
     });
   };
