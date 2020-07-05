@@ -2,11 +2,19 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import { preparedTodos } from './components/PreparedTodos';
+import { TodoList } from './components/TodoList/TodoList';
 
-function App() {
+export class App extends React.Component {
+state = {
+  // todos: preparedTodos,
+}
+
+render() {
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      <TodoList todolist={preparedTodos} />
 
       <p>
         <span>Users: </span>
@@ -15,5 +23,6 @@ function App() {
     </div>
   );
 }
+}
 
-export default App;
+// export default App;

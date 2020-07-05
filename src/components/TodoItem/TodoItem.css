@@ -1,0 +1,12 @@
+li {
+  text-align: left;
+  padding-bottom: 1em;
+}
+
+.task--done {
+  color: rgb(51, 105, 0);
+}
+
+.task--not-done {
+  color: rgb(105, 0, 0);
+}
