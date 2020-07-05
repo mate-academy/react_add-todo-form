@@ -1,3 +1,27 @@
-.App {
+.box {
+  margin: 0 auto;
   text-align: center;
+}
+
+.warning {
+  padding: 10px ;
+  font-weight: bold;
+  color: rgb(218, 21, 21);
+}
+
+.container {
+  width: 500px;
+  margin: 20px auto;
+}
+
+.add-title {
+  width: 400px;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.choose-user {
+  width: 200px;
+  text-align: center;
+  margin: 20px auto;
 }
