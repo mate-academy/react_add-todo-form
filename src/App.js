@@ -14,18 +14,29 @@ const preparedTodos = todos.map(todo => searchId(todo));
 
 class App extends React.Component {
   state = {
-    todoList: [...preparedTodos],
+    todoList: preparedTodos,
     tempTodo: '',
     tempUser: {},
     initIndex: '0',
-    titleError: '',
-    userError: '',
+    isTitleValid: true,
+    isUserSelected: true,
   }
 
   handleInput = (event) => {
     this.setState({
       tempTodo: event.target.value.replace(/[^\w\s]/g, ''),
-      titleError: '',
+      isTitleValid: true,
+    });
+  };
+
+  handleUserAdd = (event) => {
+    const { value } = event.target.options[event.target.selectedIndex];
+    const currentUser = users.find(user => user.name === value);
+
+    this.setState({
+      tempUser: currentUser,
+      initIndex: value,
+      isUserSelected: currentUser !== undefined,
     });
   };
 
@@ -33,49 +44,40 @@ class App extends React.Component {
     event.preventDefault();
 
     this.setState((prevState) => {
-      const items = prevState.todoList;
+      let items = prevState.todoList;
 
       if (prevState.tempTodo.length === 0) {
         return {
-          titleError: 'Please enter the title',
+          isTitleValid: false,
         };
       }
 
       if ((typeof prevState.tempUser === 'object'
-          && Object.keys(prevState.tempUser).length === 0)
-          || prevState.tempUser === undefined) {
+      && Object.keys(prevState.tempUser).length === 0)
+      || prevState.tempUser === undefined) {
         return {
-          userError: 'Please choose a user',
+          isUserSelected: false,
         };
       }
 
-      items.push(
-        {
-          userId: prevState.tempUser.id,
-          id: prevState.todoList.length + 1,
-          title: prevState.tempTodo,
-          completed: false,
-          user: prevState.tempUser,
-        },
+      const newItem = {
+        userId: prevState.tempUser.id,
+        id: prevState.todoList.length + 1,
+        title: prevState.tempTodo,
+        completed: false,
+        user: prevState.tempUser,
+      };
 
-      );
+      items = [...items, newItem];
 
       return {
         todoList: items,
         tempTodo: '',
         initIndex: '',
         tempUser: {},
+        isUserSelected: true,
+        isTitleValid: true,
       };
-    });
-  };
-
-  handleUserAdd = (event) => {
-    const { value } = event.target.options[event.target.selectedIndex];
-
-    this.setState({
-      tempUser: users.find(user => user.name === value),
-      initIndex: value,
-      userError: '',
     });
   };
 
@@ -110,13 +112,13 @@ class App extends React.Component {
         </p>
         <div className="content">
           <NewTodo
-            onImputChange={this.handleInput}
-            onTodoAdd={this.handleNewTodo}
-            onUserAdd={this.handleUserAdd}
+            handleInput={this.handleInput}
+            handleNewTodo={this.handleNewTodo}
+            handleUserAdd={this.handleUserAdd}
             value={this.state.tempTodo}
             index={this.state.initIndex}
-            error={this.state.titleError}
-            errorUser={this.state.userError}
+            isTitleValid={this.state.isTitleValid}
+            isUserSelected={this.state.isUserSelected}
           />
           <br />
           <TodoList

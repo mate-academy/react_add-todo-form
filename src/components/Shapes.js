@@ -33,11 +33,9 @@ export const ShapeTodo = {
 };
 
 export const ShapeNewTodo = {
-  onImputChange: PropTypes.func.isRequired,
-  onTodoAdd: PropTypes.func.isRequired,
-  onUserAdd: PropTypes.func.isRequired,
+  handleUserAdd: PropTypes.func.isRequired,
+  handleNewTodo: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   index: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
-  errorUser: PropTypes.string.isRequired,
 };

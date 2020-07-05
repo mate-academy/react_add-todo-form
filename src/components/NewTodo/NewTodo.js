@@ -4,34 +4,37 @@ import './NewTodo.css';
 import { ShapeNewTodo } from '../Shapes';
 
 export const NewTodo = (props) => {
-  const { onImputChange,
-    onTodoAdd,
-    onUserAdd,
+  const { handleInput,
+    handleNewTodo,
+    handleUserAdd,
     value,
     index,
-    error,
-    errorUser } = props;
+    isTitleValid,
+    isUserSelected } = props;
+
+  const titleErrorMessage = isTitleValid ? '' : 'Please enter the title';
+  const userSelectErrorMessage = isUserSelected ? '' : 'Please choose a user';
 
   return (
-    <form onSubmit={event => onTodoAdd(event)}>
+    <form onSubmit={event => handleNewTodo(event)}>
       <label>
         <h3>New ToDo:</h3>
         <input
-          className={(error.length === 0) ? 'input' : 'input input--error'}
+          className={(isTitleValid) ? 'input' : 'input input--error'}
           type="text"
           value={value}
           placeholder="New todo"
-          onChange={onImputChange}
+          onChange={handleInput}
         />
-        <div className="error">{error}</div>
+        <div className="error">{titleErrorMessage}</div>
       </label>
       <label>
         <h3>Select User:</h3>
         <select
-          className={(errorUser.length === 0)
+          className={(isUserSelected)
             ? 'select' : 'select select--error'}
           value={index}
-          onChange={event => onUserAdd(event)}
+          onChange={event => handleUserAdd(event)}
         >
           <>
             <option>Select User</option>
@@ -44,7 +47,7 @@ export const NewTodo = (props) => {
             ))}
           </>
         </select>
-        <div className="error">{errorUser}</div>
+        <div className="error">{userSelectErrorMessage}</div>
       </label>
       <br />
       <button type="submit">Add Todo</button>
