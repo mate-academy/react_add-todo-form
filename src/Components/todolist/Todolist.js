@@ -23,7 +23,7 @@ export class TodoList extends React.Component {
   }
 
   onChangeNewTodo = (value) => {
-    const task = value.replace(/[^\w ]+/gi, '');
+    const task = value.replace(/[^\w ]+|^[ ]+$/gi, '');
 
     this.setState({
       currentTodo: task,
