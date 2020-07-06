@@ -1,7 +1,7 @@
 import React from 'react';
 import './UserSelect.css';
 import PropTypes from 'prop-types';
-import { UserTypes } from '../Shape/ShapeTypes';
+import { UserTypes } from '../Shapes/ShapesTypes';
 
 export const UserSelect = (props) => {
   const {

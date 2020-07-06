@@ -30,13 +30,21 @@ export const UserTypes = PropTypes.shape({
   company: CompanyTypes,
 });
 
-export const NewTodoTypes = PropTypes.shape({
+export const NewTasksTypes = PropTypes.shape({
   userId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
 });
 
-export const ButtonTypes = {
-  addTask: PropTypes.func,
-};
+export const NewTodoTypes = PropTypes.shape({
+  users: PropTypes.arrayOf(
+    UserTypes,
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+  getTitleOfTask: PropTypes.func.isRequired,
+  getUserId: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+});

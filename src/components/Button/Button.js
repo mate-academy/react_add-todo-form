@@ -1,6 +1,5 @@
 import React from 'react';
 import './Button.css';
-import { ButtonTypes } from '../Shape/ShapeTypes';
 
 export const Button = () => (
   <button
@@ -10,5 +9,3 @@ export const Button = () => (
     Add
   </button>
 );
-
-Button.propTypes = ButtonTypes;
