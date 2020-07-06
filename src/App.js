@@ -14,8 +14,8 @@ let todoId = todosStart.length;
 
 class App extends React.Component {
   state ={
-    todoToAdd: '',
     selectedUser: '0',
+    todoToAdd: '',
     todos: [...todosStart],
     isDisabled: true,
     userWasSelected: false,
