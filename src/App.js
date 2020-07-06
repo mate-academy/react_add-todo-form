@@ -31,13 +31,13 @@ export class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.userName === 'Select a user') {
-      this.setState(prevState => ({
+      this.setState({
         userError: true,
-      }));
+      });
     } else if (this.state.todoTitle === '') {
-      this.setState(prevState => ({
+      this.setState({
         titleError: true,
-      }));
+      });
     } else {
       const selectedUser = users
         .find(user => user.name === this.state.userName);
