@@ -65,15 +65,16 @@ export class TodoList extends React.Component {
 
   render() {
     const { users } = this.props;
+    const { currentUserId, currentTodo } = this.state;
 
     let errorMessage;
 
-    if (!this.state.currentUserId
-      && !this.state.currentTodo) {
+    if (!currentUserId
+      && !currentTodo) {
       errorMessage = 'Please type correct data';
-    } else if (!this.state.currentUserId) {
+    } else if (!currentUserId) {
       errorMessage = 'Please choose a user';
-    } else if (!this.state.currentTodo) {
+    } else if (!currentTodo) {
       errorMessage = 'Please enter the title';
     }
 
