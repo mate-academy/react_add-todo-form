@@ -5,11 +5,13 @@ import './Select.css';
 
 export const Select = props => (
   <select
+    required
     className="Select"
     value={props.selected}
-    onChange={ev => props.toSelect(ev)}
+    defaultValue="0"
+    onChange={ev => props.toSelect(ev.target.value)}
   >
-    <option>{(props.selected)}</option>
+    <option value="0" disabled>Select user</option>
     {
       props.users.map(user => <Option key={user.id} name={user.name} />)
     }
