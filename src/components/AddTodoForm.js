@@ -20,8 +20,9 @@ export class AddTodoForm extends React.Component {
   handleFormChanges = ({ name, value }) => {
     let flagValue = false;
     const validatedValue = value.replace(/[^\w ]*/g, '');
+    const isOnlySpaces = value.replace(/\s/g, '').length > 0;
 
-    if (value !== '' && value !== '0') {
+    if (value !== '' && value !== '0' && isOnlySpaces) {
       flagValue = true;
     }
 
@@ -34,14 +35,6 @@ export class AddTodoForm extends React.Component {
       })
     );
   }
-
-  // handleAnyActivity = ({ name }) => (
-  //   this.setState({
-  //     [name]: {
-  //       error: '',
-  //       flag: false,
-  //     },
-  //   }));
 
   onSubmit = (event) => {
     event.preventDefault();
