@@ -4,53 +4,109 @@ import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { userShape } from '../../shapes/userShape';
 import './NewTodo.css';
 
-export const NewTodo = props => (
-  <form className="form" onSubmit={props.onFormSubmit}>
-    <div className="form__field">
-      <input
-        className={
-          `form__input ${props.titleInputError && 'form__input--error'}`
-        }
-        type="text"
-        placeholder="Enter your todo"
-        value={props.title}
-        maxLength={40}
-        onChange={props.onInputChange}
-      />
-      {
-        props.titleInputError
-        && <ErrorMessage message="Please enter the title" />
+export class NewTodo extends React.Component {
+  state = {
+    title: '',
+    titleInputError: false,
+    userId: 0,
+    userSelectError: false,
+    todoMaxId: this.props.maxId,
+  };
+
+  handleInputChange = (event) => {
+    this.setState({
+      titleInputError: false,
+      title: event.target.value.trimLeft().replace(/[^\s\w]/g, ''),
+    });
+  };
+
+  handleUserChange = (event) => {
+    this.setState({
+      userSelectError: false,
+      userId: +event.target.value,
+    });
+  };
+
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    this.setState((prevState) => {
+      if (prevState.title && prevState.userId) {
+        const { users } = this.props;
+
+        this.props.addTodo({
+          userName: users.find(
+            user => user.id === prevState.userId,
+          ).name,
+          id: prevState.todoMaxId + 1,
+          title: prevState.title,
+          completed: false,
+        });
+
+        return ({
+          title: '',
+          userId: 0,
+          titleInputError: false,
+          userSelectError: false,
+          todoMaxId: prevState.todoMaxId + 1,
+        });
       }
-    </div>
-    <div className="form__field">
-      <select
-        className={
-          `form__input ${props.userSelectError && 'form__input--error'}`
-        }
-        value={props.userId}
-        onChange={props.onUserChange}
-      >
-        <option value={0}>Choose a user</option>
-        {props.users.map(user => (
-          <option key={user.id} value={user.id}>{user.name}</option>
-        ))}
-      </select>
-      {
-        props.userSelectError
-        && <ErrorMessage message="Please choose a user" />
-      }
-    </div>
-    <button className="form__submit" type="submit">Add</button>
-  </form>
-);
+
+      return ({
+        titleInputError: !prevState.title,
+        userSelectError: !prevState.userId,
+      });
+    });
+  };
+
+  render() {
+    const { title, titleInputError, userId, userSelectError } = this.state;
+    const { users } = this.props;
+
+    return (
+      <form className="form" onSubmit={this.handleFormSubmit}>
+        <div className="form__field">
+          <input
+            className={
+              `form__input ${titleInputError && 'form__input--error'}`
+            }
+            type="text"
+            placeholder="Enter your todo"
+            value={title}
+            maxLength={40}
+            onChange={this.handleInputChange}
+          />
+          {
+            titleInputError
+            && <ErrorMessage message="Please enter the title" />
+          }
+        </div>
+        <div className="form__field">
+          <select
+            className={
+              `form__input ${userSelectError && 'form__input--error'}`
+            }
+            value={userId}
+            onChange={this.handleUserChange}
+          >
+            <option value={0}>Choose a user</option>
+            {users.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
+          </select>
+          {
+            userSelectError
+            && <ErrorMessage message="Please choose a user" />
+          }
+        </div>
+        <button className="form__submit" type="submit">Add</button>
+      </form>
+    );
+  }
+}
 
 NewTodo.propTypes = {
+  maxId: PropTypes.number.isRequired,
   users: PropTypes.arrayOf(userShape).isRequired,
-  title: PropTypes.string.isRequired,
-  userId: PropTypes.number.isRequired,
-  titleInputError: PropTypes.bool.isRequired,
-  userSelectError: PropTypes.bool.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-  onUserChange: PropTypes.func.isRequired,
-  onFormSubmit: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
