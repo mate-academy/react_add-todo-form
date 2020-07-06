@@ -8,7 +8,7 @@ export const SelectUser = ({ onChange, selectedUser }) => (
     value={selectedUser}
     onChange={onChange}
   >
-    <option value="Select a user">
+    <option value="Select a user" disabled>
       Select a user
     </option>
     {users.map(user => (
