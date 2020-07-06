@@ -3,73 +3,42 @@ import './App.css';
 import { NewTodo } from './components/NewTodo/NewTodo';
 import { TodoList } from './components/TodoList/TodoList';
 
-import { users as usersFromServer, users } from './api/users';
+import { users as usersFromServer } from './api/users';
+import { todos as todosFromServer } from './api/todos';
 
-const usersOptions = usersFromServer.map(({ name, id }) => ({
-  value: id,
-  label: name,
-}));
+const todosList = (todos) => {
+  const getUserById = userId => usersFromServer
+    .find(user => user.id === userId);
 
-usersOptions.unshift({
-  value: 0,
-  label: 'Select user...',
-  disabled: true,
-});
+  return todos.map(list => ({
+    ...list,
+    user: getUserById(list.userId),
+  }));
+};
 
 class App extends React.Component {
   state = {
-    todos: [],
-    userId: 0,
-    name: '',
+    todos: todosList(todosFromServer),
   }
 
-  handleChange = (value, name) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const { name, userId } = this.state;
-
-    this.setState((prevState) => {
-      const lastId = prevState.todos.reduce((biggestId, todo) => (
-        todo.id > biggestId ? todo.id : biggestId
-      ), -Infinity);
-
-      const newGood = {
-        id: lastId + 1,
-        name,
-        userId,
-      };
-
-      return {
-        todos: [
-          ...prevState.todos,
-          newGood,
-        ],
-        name: '',
-        userId: 0,
-      };
-    });
+  addTodo = (todo) => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, todo],
+    }));
   }
 
   render() {
-    const { todos, name, userId } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo app</h1>
         <NewTodo
-          name={name}
-          handleChange={this.handleChange}
-          userId={userId}
-          usersOptions={usersOptions}
-          handleSubmit={this.handleSubmit}
+          users={usersFromServer}
+          todos={todos}
+          addTodo={this.addTodo}
         />
-        <TodoList todos={todos} users={users} />
+        <TodoList todos={todos} />
       </div>
     );
   }
