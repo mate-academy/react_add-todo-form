@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Todo } from './Todo';
 
 export const TodoList = ({ list, setCompleted }) => (
-  <ul>
+  <ul className="taskList">
     {[...list].map(todo => (
       <Todo
         key={todo.id}

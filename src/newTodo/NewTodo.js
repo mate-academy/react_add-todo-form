@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { newTodoShape } from '../shape';
+
 import users from '../api/users';
 import Form from './Form';
 
@@ -42,10 +43,10 @@ export class NewTodo extends React.Component {
       this.state.user,
     );
 
-    const form = [...event.target];
+    const { target } = event;
 
-    form[0].value = '';
-    form[1].value = '';
+    target[0].value = '';
+    target[1].value = '';
   }
 
   render() {
@@ -54,7 +55,7 @@ export class NewTodo extends React.Component {
         <Form
           selectUser={event => this.selectUser(event)}
           users={this.props.users}
-          todosTitle={() => this.todosTitle}
+          todosTitle={this.todosTitle}
           getId={event => this.getId(event)}
           saveTodos={event => this.saveTodos(event)}
         />
@@ -63,8 +64,4 @@ export class NewTodo extends React.Component {
   }
 }
 
-NewTodo.propTypes = {
-  addToList: PropTypes.func.isRequired,
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+NewTodo.propTypes = newTodoShape.isRequired;

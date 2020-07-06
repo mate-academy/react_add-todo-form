@@ -1,16 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { AddUser } from './addElements/AddUser';
-import { AddTitle } from './addElements/AddTitle';
+import { formShape } from '../shape';
 
 const Form = (props) => {
   const { selectUser, users, todosTitle, saveTodos } = props;
 
   return (
-    <form onSubmit={saveTodos}>
+    <form
+      onSubmit={saveTodos}
+      className="todo-form"
+    >
       <h1>Add Todo:</h1>
 
       <select
+        className="todo-form__users"
         onChange={selectUser}
         required
         defaultValue=""
@@ -18,18 +20,26 @@ const Form = (props) => {
         <option value="" disabled="disabled">Select a user</option>
 
         {users.map(user => (
-          <React.Fragment key={user.id}>
-            <AddUser {...user} />
-          </React.Fragment>
+          <option
+            key={user.id}
+            value={user.id}
+          >
+            {user.name}
+          </option>
         ))}
       </select>
 
-      <AddTitle
-        todosTitle={todosTitle()}
+      <input
+        required
+        maxLength={40}
+        type="text"
+        onChange={event => todosTitle(event.target.value)}
+        className="todo-form__title"
       />
 
       <button
         type="submit"
+        className="todo-form__submit"
       >
         Save
       </button>
@@ -39,10 +49,4 @@ const Form = (props) => {
 
 export default Form;
 
-Form.propTypes = {
-  getId: PropTypes.func.isRequired,
-  todosTitle: PropTypes.func.isRequired,
-  saveTodos: PropTypes.func.isRequired,
-  selectUser: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+Form.propTypes = formShape.isRequired;
