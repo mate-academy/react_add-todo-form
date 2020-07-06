@@ -58,11 +58,3 @@ export const newTodoShape = PropTypes.shape({
   user: userShape,
   list: listShape,
 });
-
-// Shape
-// const userShape = PropTypes.shape({})
-
-// NewTodo.propTypes = {
-//   list: PropTypes.arrayOf(PropTypes.object).isRequired,
-//   users: PropTypes.arrayOf(PropTypes.object).isRequired,
-// };
