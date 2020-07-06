@@ -4,15 +4,11 @@ import { UserSelect } from './UserSelect';
 import { TaskList } from './TasksList';
 
 export class NewTodo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      todos: props.todosFromServer,
+    state = {
+      todos: this.props.todosFromServer,
       task: '',
       value: '',
     };
-  }
 
   addTodo = (event) => {
     this.setState({
