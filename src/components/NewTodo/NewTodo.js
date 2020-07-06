@@ -54,11 +54,21 @@ class NewTodo extends React.PureComponent {
     }
 
     if (this.state.inputTitle && this.state.selectUserId) {
-      this.props.handleSubmit(this.state.selectUserId, this.state.inputTitle);
+      const newTodo = {
+        userId: this.state.selectUserId,
+        id: this.props.todosLength + 1,
+        title: this.state.inputTitle,
+        completed: false,
+      };
+
+      this.props.handleSubmit(newTodo);
 
       this.setState({
+        selectUserId: 0,
         inputTitle: '',
       });
+
+      this.props.handleChange(0);
     }
   }
 
@@ -103,6 +113,7 @@ class NewTodo extends React.PureComponent {
 export default NewTodo;
 
 NewTodo.propTypes = {
+  todosLength: PropTypes.number.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

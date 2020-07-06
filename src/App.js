@@ -18,16 +18,11 @@ class App extends React.Component {
     }));
   }
 
-  handleSubmitTodo = (userId, title) => {
+  handleSubmitTodo = (newTodo) => {
     this.setState(state => ({
       todos: [
         ...state.todos,
-        {
-          userId,
-          id: state.todos.length + 1,
-          title,
-          completed: false,
-        },
+        newTodo,
       ],
     }));
   }
@@ -44,6 +39,7 @@ class App extends React.Component {
 
         {<TodoList todos={this.state.userTodos} />}
         {<NewTodo
+          todosLength={this.state.todos.length}
           users={users}
           handleChange={this.handleChangeTodos}
           handleSubmit={this.handleSubmitTodo}
