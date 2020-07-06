@@ -68,10 +68,12 @@ export class NewTodo extends React.Component {
   onChangeInput = ({ target }) => {
     const { value } = target;
 
-    this.setState({
-      title: value,
-      warning: null,
-    });
+    if (value[0] !== ' ') {
+      this.setState({
+        title: value,
+        warning: null,
+      });
+    }
   };
 
   render() {
