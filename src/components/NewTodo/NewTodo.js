@@ -75,25 +75,6 @@ export class NewTodo extends React.Component {
     });
   }
 
-  toggleCheck = (event) => {
-    const id = event.target.value;
-
-    this.setState((prevState) => {
-      const current = prevState.todosList.map((todo) => {
-        if (todo.id === +id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-
-        return todo;
-      });
-
-      return { todosList: current };
-    });
-  }
-
   render() {
     const {
       titleOfTask,

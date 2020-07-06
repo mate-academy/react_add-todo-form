@@ -18,6 +18,25 @@ export class TodoList extends React.Component {
     }));
   }
 
+  toggleCheck = (event) => {
+    const id = event.target.value;
+
+    this.setState((prevState) => {
+      const current = prevState.todosList.map((todo) => {
+        if (todo.id === +id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      });
+
+      return { todosList: current };
+    });
+  }
+
   render() {
     const { todosList } = this.state;
     const { users } = this.props;
@@ -25,8 +44,8 @@ export class TodoList extends React.Component {
     return (
       <div className="wrapper">
         <NewTodo
-          onNewTodo={this.addNewTodo}
           users={users}
+          onNewTodo={this.addNewTodo}
         />
         <NewTasks todoList={todosList} toggle={this.toggleCheck} />
       </div>
