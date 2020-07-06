@@ -20,4 +20,4 @@ export const UserSelect = ({ value, userChosen, users }) => (
   </>
 );
 
-UserSelect.propTypes = UserShape;
+UserSelect.propTypes = UserShape.isRequired;

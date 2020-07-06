@@ -1,18 +1,17 @@
 import React from 'react';
-import { UserShape, TodoShape } from './Shapes';
+import PropTypes, { arrayOf } from 'prop-types';
+import { UserShape } from './Shapes';
 import { UserSelect } from './UserSelect';
-import { TaskList } from './TasksList';
 
 export class NewTodo extends React.Component {
     state = {
-      todos: this.props.todosFromServer,
       task: '',
       value: '',
     };
 
-  addTodo = (event) => {
+  addTodoInput = (event) => {
     this.setState({
-      task: event.target.value.trim(),
+      task: event.target.value,
     });
   }
 
@@ -25,16 +24,16 @@ export class NewTodo extends React.Component {
     });
   }
 
+  removeWhiteSpaces = event => (
+    this.setState({
+      task: event.target.value.trim(),
+    })
+  )
+
   submitHandler = (event) => {
     event.preventDefault();
 
-    this.setState(prevState => ({
-      todos: prevState.todos.concat([{
-        title: prevState.task,
-        id: prevState.todos.length + 1,
-        userId: prevState.userId,
-      }]),
-    }));
+    this.props.addTodo(this.state);
 
     this.setState({
       task: '',
@@ -43,7 +42,7 @@ export class NewTodo extends React.Component {
   }
 
   render() {
-    const { task, todos, value } = this.state;
+    const { task, value } = this.state;
     const { users } = this.props;
 
     return (
@@ -65,7 +64,8 @@ export class NewTodo extends React.Component {
             name="task"
             placeholder="Task name"
             value={task}
-            onChange={this.addTodo}
+            onChange={this.addTodoInput}
+            onBlur={this.removeWhiteSpaces}
             required
           />
           <button
@@ -75,13 +75,12 @@ export class NewTodo extends React.Component {
             Add task
           </button>
         </form>
-        <TaskList todos={todos} />
       </>
     );
   }
 }
 
 NewTodo.propTypes = {
-  users: UserShape.isRequired,
-  todosFromServer: TodoShape.isRequired,
+  users: arrayOf(UserShape).isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
