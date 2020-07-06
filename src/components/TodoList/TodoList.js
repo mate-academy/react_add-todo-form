@@ -11,8 +11,10 @@ export class TodoList extends React.Component {
   }
 
   onChangeInput = (todoTitle) => {
+    const task = todoTitle.replace(/\s/g, '');
+
     this.setState({
-      todoTitle,
+      todoTitle: task,
       isInputEmpty: false,
     });
   }
@@ -50,12 +52,14 @@ export class TodoList extends React.Component {
       completed: false,
     };
 
-    this.setState({
-      todoTitle: '',
-      userId: 0,
-    });
+    this.setState((prevState) => {
+      prevState.todos.push(newTask);
 
-    this.setState(prevState => prevState.todos.push(newTask));
+      return {
+        todoTitle: '',
+        userId: 0,
+      };
+    });
 
     event.target.reset();
   }
