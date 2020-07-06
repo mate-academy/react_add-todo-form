@@ -30,29 +30,23 @@ export class TodoForm extends React.Component {
     const { addNewTodo } = this.props;
 
     if (!task) {
-      this.setState({
+      return this.setState({
         isValidInput: true,
       });
-
-      return false;
     }
 
     if (selectedUserId === 0) {
-      this.setState({
+      return this.setState({
         isValidSelect: true,
       });
-
-      return false;
     }
 
     addNewTodo(task, selectedUserId);
 
-    this.setState({
+    return this.setState({
       task: '',
       selectedUserId: 0,
     });
-
-    return true;
   }
 
   render() {
