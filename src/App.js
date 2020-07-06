@@ -31,13 +31,13 @@ class App extends React.Component {
 
   backgroundChanger = () => {
     const colors = [
-      '#FA8072',
-      '#1E90FF',
-      '#FFA500',
-      '#00FF00',
-      '#FF00FF',
-      '#483D8B',
-      '#FFE4E1',
+      '#ff7585',
+      '#ffa985',
+      '#fffcb0',
+      '#84e87b',
+      '#83c9f2',
+      '#8a94eb',
+      '#bf97de',
     ];
     const randomColor = colors.sort(() => Math.random() - 0.5);
 
