@@ -14,11 +14,11 @@ export class NewTodo extends React.Component {
     };
   }
 
-  addTodo = event => (
+  addTodo = (event) => {
     this.setState({
-      task: event.target.value,
-    })
-  )
+      task: event.target.value.trim(),
+    });
+  }
 
   userChosen = (event) => {
     this.setState({

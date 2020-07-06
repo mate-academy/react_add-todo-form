@@ -6,7 +6,7 @@ export const TaskList = ({ todos }) => (
   <div>
     Tasks:
     {todos.map(todo => (
-      <Task {...todo} />
+      <Task {...todo} key={todo.id} />
     ))}
   </div>
 );

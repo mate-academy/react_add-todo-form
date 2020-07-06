@@ -1,8 +1,8 @@
 import React from 'react';
 import { TodoShape } from './Shapes';
 
-export const Task = ({ id, title, userId }) => (
-  <div key={id}>
+export const Task = ({ title, userId }) => (
+  <div>
     <div>
       {title}
       <input type="checkbox" />
