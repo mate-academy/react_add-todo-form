@@ -17,7 +17,7 @@ export class Select extends React.PureComponent {
           onActive(event.target);
         }}
       >
-        <option value="0">Choose a manager</option>
+        <option value="0" disabled>Choose a manager</option>
         <Options data={options} />
       </select>
     );
