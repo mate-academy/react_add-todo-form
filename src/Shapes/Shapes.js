@@ -21,3 +21,9 @@ export const ShapeTodosList = PropTypes.shape({
   todos: PropTypes.arrayOf(ShapeTodoItem).isRequired,
   flag: PropTypes.func.isRequired,
 });
+
+export const ShapeNewTodo = PropTypes.shape({
+  usersNames: PropTypes.arrayOf(ShapeOption).isRequired,
+  addTodo: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+});
