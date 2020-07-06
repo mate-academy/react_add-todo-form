@@ -49,7 +49,7 @@ export class NewTodo extends React.Component {
   })))
 
   onBlur = (value) => {
-    if (value.length > 4) {
+    if (value.trim().length > 4) {
       return (this.setState(prevState => ({
         nameWasEntered: true,
         isDisabled: !prevState.userWasSelected,
