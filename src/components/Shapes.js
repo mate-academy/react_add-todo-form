@@ -33,9 +33,12 @@ export const ShapeTodo = {
 };
 
 export const ShapeNewTodo = {
-  handleUserAdd: PropTypes.func.isRequired,
-  handleNewTodo: PropTypes.func.isRequired,
-  handleInput: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  index: PropTypes.string.isRequired,
+  addTodo: PropTypes.func.isRequired,
+  todoList: PropTypes.arrayOf(PropTypes.shape({
+    userId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    user: ShapeUser,
+  })).isRequired,
 };

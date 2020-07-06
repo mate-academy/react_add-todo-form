@@ -6,14 +6,14 @@ import '../App.css';
 
 const TodoList = ({ preparedTodos, handleStatus }) => (
   <>
-    <table className="table">
+    <table className="todos">
       <caption>ToDo List</caption>
       <thead>
         <tr>
-          <th>Status</th>
-          <th>User id</th>
-          <th>Title</th>
-          <th>User</th>
+          <th className="todos__heading">Status</th>
+          <th className="todos__heading">User id</th>
+          <th className="todos__heading">Title</th>
+          <th className="todos__heading">User</th>
         </tr>
       </thead>
       <tbody>

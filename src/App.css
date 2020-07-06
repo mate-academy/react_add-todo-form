@@ -3,23 +3,21 @@
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.table {
+.todos {
   margin: auto;
-}
-
-table {
   border-spacing: 15px;
   border: 2px solid grey;
 }
 
-th {
+.todos__heading {
   border-bottom: 1px solid lightgrey;
 }
 
-td {
+.todos__title {
   text-align: left;
 }
 
-.active {
+.todos__title--active {
   text-decoration: line-through;
+  text-align: left;
 }

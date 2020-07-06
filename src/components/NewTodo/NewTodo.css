@@ -30,7 +30,7 @@
   background-color: lightpink;
 }
 
-button {
+.button {
   background-color: none;
   text-transform: capitalize;
   padding: 5px;

@@ -12,7 +12,7 @@ export const Todo = ({ todo, handleStatus, userId }) => (
       />
     </td>
     <td>{userId}</td>
-    <td className={todo.completed ? 'active' : ''}>
+    <td className={todo.completed ? 'todos__title--active' : 'todos__title'}>
       {todo.title[0].toUpperCase() + todo.title.substring(1)}
     </td>
     <User name={todo.user.name} />
