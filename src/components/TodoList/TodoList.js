@@ -1,10 +1,11 @@
 import React from 'react';
 import { TodoListShape } from '../Shapes/TodoListShape';
+import './TodoList.css';
 
 export const TodoList = ({ todos }) => (
   <div className="todo__list">
     {todos.map(todo => (
-      <div>
+      <div className="todo__item">
         <input type="checkbox" />
         <div>
           {todo.title}

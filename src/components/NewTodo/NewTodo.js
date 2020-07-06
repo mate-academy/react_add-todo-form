@@ -1,5 +1,6 @@
 import React from 'react';
 import { NewTodoShape } from '../Shapes/NewTodoShape';
+import './NewTodo.css';
 
 export class NewTodo extends React.Component {
   state = {
@@ -74,7 +75,7 @@ export class NewTodo extends React.Component {
   };
 
   render() {
-    const { users } = this.props;
+    const { users, backgroundChanger } = this.props;
     const {
       title,
       user,
@@ -83,7 +84,7 @@ export class NewTodo extends React.Component {
 
     return (
       <form name="addTodo" className="addTodo" onSubmit={this.handleSubmit}>
-        <label>
+        <label className="addTodo__label">
           Todo
           <input
             name="title"
@@ -95,7 +96,7 @@ export class NewTodo extends React.Component {
           />
         </label>
 
-        <label htmlFor="select">
+        <label htmlFor="select" className="addTodo__label">
           User
           <select
             name="selectedUser"
@@ -119,7 +120,11 @@ export class NewTodo extends React.Component {
           )}
         </label>
 
-        <button type="submit">
+        <button
+          type="submit"
+          className="btn btn-light"
+          onClick={backgroundChanger}
+        >
           Add Todo
         </button>
       </form>
