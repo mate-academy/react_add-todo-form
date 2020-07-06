@@ -9,7 +9,9 @@ export const Todo = ({ content }) => {
       <label>
         <input type="checkbox" />
         <span>{title}</span>
-        <span>{`id${userId}`}</span>
+        <span>
+          {` id${userId}`}
+        </span>
       </label>
     </div>
   );

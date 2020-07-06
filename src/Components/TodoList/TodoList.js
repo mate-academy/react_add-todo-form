@@ -8,13 +8,19 @@ export class TodoList extends Component {
     todos: this.props.list,
   }
 
+  addTodoHandler = (newTodo) => {
+    this.setState(prevState => (
+      { todos: [...prevState.todos, newTodo] }
+    ));
+  }
+
   render() {
     const { todos } = this.state;
     const { names } = this.props;
 
     return (
       <div>
-        <AddNewTodo names={names} />
+        <AddNewTodo names={names} addTodo={this.addTodoHandler} />
         <Todos todos={todos} />
 
       </div>

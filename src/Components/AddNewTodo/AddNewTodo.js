@@ -8,27 +8,44 @@ export class AddNewTodo extends Component {
     input: {
       value: '',
     },
+    select: {
+      value: 0,
+    },
   }
 
-  changeHandler = (text) => {
+  changeHandler = (name, text) => {
     this.setState({
-      input: {
+      [name]: {
         value: text,
       },
     });
   }
 
+  submitHandler = (event) => {
+    event.preventDefault();
+    this.props.addTodo({
+      title: this.state.input.value, userId: this.state.select.value,
+    });
+  }
+
   render() {
-    const { value } = this.state.input;
+    const { input, select } = this.state;
     const { names } = this.props;
 
     return (
-      <form>
+      <form onSubmit={this.submitHandler}>
         <Input
+          name="input"
           onChange={this.changeHandler}
-          value={value}
+          value={input.value}
         />
-        <Select users={names} />
+        <Select
+          name="select"
+          users={names}
+          onChange={this.changeHandler}
+          value={select.value}
+        />
+        <button type="submit">Add</button>
       </form>
     );
   }

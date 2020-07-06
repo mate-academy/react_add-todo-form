@@ -6,15 +6,15 @@ export class Input extends Component {
   }
 
   render() {
-    const { value, onChange } = this.props;
+    const { value, onChange, name } = this.props;
 
     return (
       <label>
         <input
           type="text"
-          name="name"
+          name={name}
           placeholder="What do you want to do ?"
-          onChange={({ target }) => onChange(target.value)}
+          onChange={({ target }) => onChange(target.name, target.value)}
           value={value}
         />
       </label>
@@ -29,4 +29,5 @@ Input.defaultProps = {
 Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
