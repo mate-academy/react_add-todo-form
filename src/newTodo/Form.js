@@ -30,6 +30,7 @@ const Form = (props) => {
       </select>
 
       <input
+        placeholder="Write the task"
         required
         maxLength={40}
         type="text"

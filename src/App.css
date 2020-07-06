@@ -1,3 +1,4 @@
+
 html {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -43,6 +44,14 @@ html {
   border: 2px solid slategrey;
 }
 
+.todo-form__title {
+  text-align: center;
+}
+
+.todo-form__title::placeholder {
+  color: rgb(75, 75, 75);
+}
+
 .todo-form__submit {
   background: lightslategray;
   margin: 2px;
@@ -51,7 +60,7 @@ html {
   font-size: 20px;
   font-weight: 600;
   border-radius: 15px;
-  text-align-last: center;
+  text-align: center;
   outline: none;
   border: none;
   transition: background 0.7s;
@@ -62,8 +71,8 @@ html {
 }
 
 .taskList {
+  margin: 0;
   margin-top: 50px;
-
 }
 
 .taskList__unit {
@@ -71,6 +80,6 @@ html {
   font-weight: 600;
   display: flex;
   justify-content: space-between;
-  margin: 1px 50px;
+  margin: 2px 0;
   list-style-type: none;
 }
