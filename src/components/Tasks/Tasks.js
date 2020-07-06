@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { NewTasksTypes } from '../Shapes/ShapesTypes';
+import { UserTypes } from '../Shapes/ShapesTypes';
 
-export const NewTasks = ({ todoList, toggle }) => (
+export const Tasks = ({ todoList, toggle }) => (
   <div>
     <table className="table table-hover">
       <thead>
@@ -36,9 +36,9 @@ export const NewTasks = ({ todoList, toggle }) => (
   </div>
 );
 
-NewTasks.propTypes = {
+Tasks.propTypes = {
   todoList: PropTypes.arrayOf(
-    NewTasksTypes,
+    UserTypes,
   ).isRequired,
   toggle: PropTypes.func.isRequired,
 };

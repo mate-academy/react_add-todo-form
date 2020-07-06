@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './TodoList.css';
 
 import todos from '../../api/todos';
-import { NewTasks } from '../NewTasks/NewTasks';
+import { Tasks } from '../Tasks/Tasks';
 import { NewTodo } from '../NewTodo/NewTodo';
 import { UserTypes } from '../Shapes/ShapesTypes';
 
@@ -47,7 +47,7 @@ export class TodoList extends React.Component {
           users={users}
           onNewTodo={this.addNewTodo}
         />
-        <NewTasks todoList={todosList} toggle={this.toggleCheck} />
+        <Tasks todoList={todosList} toggle={this.toggleCheck} />
       </div>
     );
   }

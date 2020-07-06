@@ -30,7 +30,7 @@ export const UserTypes = PropTypes.shape({
   company: CompanyTypes,
 });
 
-export const NewTasksTypes = PropTypes.shape({
+export const TasksTypes = PropTypes.shape({
   userId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
