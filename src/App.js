@@ -27,7 +27,6 @@ class App extends React.Component {
     selectedUser: value,
     userWasSelected: true,
     isDisabled: !prevState.nameWasEntered,
-
   })))
 
   onSubmit = (ev) => {
