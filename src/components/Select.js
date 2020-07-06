@@ -5,7 +5,7 @@ import { OptionsShape } from '../utils/Shapes';
 
 export class Select extends React.PureComponent {
   render() {
-    const { onChange, selectValue, options, onActive, isActive } = this.props;
+    const { onChange, selectValue, options, onActive } = this.props;
 
     return (
       <select
@@ -16,7 +16,6 @@ export class Select extends React.PureComponent {
           onChange(event.target.value);
           onActive(event.target);
         }}
-        onClick={event => isActive(event.target)}
       >
         <option value="0">Choose a manager</option>
         <Options data={options} />
@@ -29,6 +28,5 @@ Select.propTypes = {
   options: PropTypes.arrayOf(OptionsShape).isRequired,
   onChange: PropTypes.func.isRequired,
   onActive: PropTypes.func.isRequired,
-  isActive: PropTypes.func.isRequired,
   selectValue: PropTypes.string.isRequired,
 };

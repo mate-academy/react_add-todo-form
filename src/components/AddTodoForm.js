@@ -35,13 +35,13 @@ export class AddTodoForm extends React.Component {
     );
   }
 
-  handleAnyActivity = ({ name }) => (
-    this.setState({
-      [name]: {
-        error: '',
-        flag: false,
-      },
-    }));
+  // handleAnyActivity = ({ name }) => (
+  //   this.setState({
+  //     [name]: {
+  //       error: '',
+  //       flag: false,
+  //     },
+  //   }));
 
   onSubmit = (event) => {
     event.preventDefault();
@@ -98,7 +98,6 @@ export class AddTodoForm extends React.Component {
       <form className="form" onSubmit={this.onSubmit}>
         <InputArea
           inputError={inputError || ''}
-          onClick={this.handleAnyActivity}
           value={value || ''}
           onChange={onChange}
         />
@@ -108,7 +107,6 @@ export class AddTodoForm extends React.Component {
           selectValue={selectValue}
           onChange={selectOnChange}
           onActive={this.handleFormChanges}
-          isActive={this.handleAnyActivity}
         />
       </form>
     );

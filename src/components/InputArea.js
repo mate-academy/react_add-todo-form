@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const InputArea = (props) => {
-  const { inputError, onClick, value, onChange } = props;
+  const { inputError, value, onChange } = props;
 
   return (
     <div className="input_area">
@@ -10,7 +10,6 @@ export const InputArea = (props) => {
         {!!inputError && <div className="error">Wrong input</div>}
         <input
           className="input"
-          onClick={event => onClick(event.target)}
           placeholder="Make review PR "
           name="input"
           type="text"
@@ -25,7 +24,6 @@ export const InputArea = (props) => {
 
 InputArea.propTypes = {
   inputError: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };

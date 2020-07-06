@@ -9,7 +9,6 @@ export const SelectArea = (props) => {
     selectValue,
     onChange,
     onActive,
-    isActive,
   } = props;
 
   return (
@@ -21,7 +20,6 @@ export const SelectArea = (props) => {
           selectValue={selectValue}
           onChange={onChange}
           onActive={onActive}
-          isActive={isActive}
         />
         <div className="select_label">Make your choice</div>
       </div>
