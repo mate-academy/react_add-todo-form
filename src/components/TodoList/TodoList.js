@@ -8,7 +8,7 @@ export const TodoList = ({ todos }) => (
       {todos.map(todo => (
         <li key={todo.id} className="TodoList__todo">
           <h2>{todo.title}</h2>
-          <p>{todo.userName}</p>
+          <p>{todo.user.name}</p>
         </li>
       ))}
     </ul>
