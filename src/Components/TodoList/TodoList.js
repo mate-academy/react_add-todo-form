@@ -22,7 +22,6 @@ export class TodoList extends Component {
       <div>
         <AddNewTodo names={names} addTodo={this.addTodoHandler} />
         <Todos todos={todos} />
-
       </div>
     );
   }
