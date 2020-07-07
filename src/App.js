@@ -30,12 +30,6 @@ export class App extends Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-
-        <p>
-          <span>Users: </span>
-          {users.length}
-        </p>
-
         <AddNewTodo
           names={names}
           addTodo={this.addTodoHandler}
