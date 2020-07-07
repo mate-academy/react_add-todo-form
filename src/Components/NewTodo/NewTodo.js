@@ -1,59 +1,123 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { ShapeNewTodo, ShapeNewTodoDefault } from '../Shapes/ShapeNewTodo';
 
-export const NewTodo = (props) => {
-  const {
-    users,
-    onChangeUser,
-    onChangeNewTodo,
-    onSubmit,
-    wrongInput,
-    errorMessage,
-    currentTitle,
-  } = props;
+export class NewTodo extends React.Component {
+  state = {
+    currentUserId: '',
+    currentTodo: '',
+    wrongInput: false,
+    errorMessage: '',
+  }
 
-  return (
-    <div>
-      <form onSubmit={event => onSubmit(event)}>
-        {wrongInput && (
-          <div
-            className="alert alert-danger"
-            role="alert"
-          >
-            <strong>
-              Oh snap!
-            </strong>
-            {errorMessage}
-          </div>
-        )}
-        <select onChange={event => onChangeUser(event)}>
-          <option>Choose a user</option>
-          {users.map(user => (
-            <option
-              key={user.id}
-              value={user.id}
+  onChangeUser = (event) => {
+    this.setState({
+      currentUserId: +event.target.value,
+      wrongInput: false,
+    });
+  }
+
+  onChangeNewTodo = (value) => {
+    const task = value.replace(/[^\wа-яА-ЯёË ]+|^[ ]+$/gi, '');
+
+    this.setState({
+      currentTodo: task,
+      wrongInput: false,
+    });
+  }
+
+  onSubmitNewTodo = (event) => {
+    event.preventDefault();
+
+    const { currentUserId, currentTodo } = this.state;
+    const { onAdd } = this.props;
+
+    let errorMessage;
+
+    if (!currentUserId
+      && !currentTodo) {
+      errorMessage = 'Please type correct data';
+    } else if (!currentUserId) {
+      errorMessage = 'Please choose a user';
+    } else if (!currentTodo) {
+      errorMessage = 'Please enter the title';
+    }
+
+    if (!currentUserId
+      || !currentTodo) {
+      this.setState({
+        wrongInput: true,
+        errorMessage,
+      });
+
+      return;
+    }
+
+    const todo = {
+      id: uuidv4(),
+      userId: this.state.currentUserId,
+      title: this.state.currentTodo,
+      completed: false,
+      user: this.props.users.find(user => user.id === this.state.currentUserId),
+    };
+
+    onAdd(todo);
+
+    event.target.reset();
+  };
+
+  render() {
+    const {
+      wrongInput,
+      errorMessage,
+      currentTodo,
+    } = this.state;
+
+    const { users } = this.props;
+
+    return (
+      <div>
+        <form onSubmit={event => this.onSubmitNewTodo(event)}>
+          {wrongInput && (
+            <div
+              className="alert alert-danger"
+              role="alert"
             >
-              {user.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          value={currentTitle}
-          maxLength="25"
-          placeholder="Type todo"
-          onChange={event => onChangeNewTodo(event.target.value)}
-        />
-        <button
-          type="submit"
-        >
-          Add
-        </button>
-      </form>
+              <strong>
+                Oh snap!
+              </strong>
+              {errorMessage}
+            </div>
+          )}
+          <select onChange={event => this.onChangeUser(event)}>
+            <option>Choose a user</option>
+            {users.map(user => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={currentTodo}
+            maxLength="25"
+            placeholder="Type todo"
+            onChange={event => this.onChangeNewTodo(event.target.value)}
+          />
+          <button
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
 
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 NewTodo.defaultProps = ShapeNewTodoDefault;
 
