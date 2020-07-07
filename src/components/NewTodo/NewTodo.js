@@ -1,22 +1,85 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import users from '../../api/users';
+import './NewTodo.css';
 
 export class NewTodo extends React.Component {
   state = {
     userId: '',
+    todoName: '',
+    validInput: true,
+    validUser: true,
   }
 
   handleChange = ({ target: { name, value } }) => {
+    if (name === 'todoName'
+      && (value && value.search(/\w/) !== -1)) {
+      this.setState({
+        validInput: true,
+      });
+    }
+
+    if (name === 'userId'
+      && value !== '') {
+      this.setState({
+        validUser: true,
+      });
+    }
+
     this.setState({
       [name]: value,
-    // eslint-disable-next-line no-console
-    }, () => console.log(this.state));
+    });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const { addTodo, maxId } = this.props;
+    const newTodoItem = {
+      title: this.state.todoName,
+      userId: this.state.userId,
+    };
+    const newId = maxId + 1;
+    const newTodo = {
+      user: users.find(usr => usr.id === +newTodoItem.userId),
+      userId: newTodoItem.userId,
+      id: newId,
+      title: newTodoItem.title,
+      completed: false,
+    };
+
+    let validInput = true;
+    let validUser = true;
+    let validBoth = true;
+
+    if (newTodoItem.title && newTodoItem.title.search(/\w/) !== -1) {
+      validInput = true;
+    } else {
+      validInput = false;
+    }
+
+    if (newTodoItem.userId === '') {
+      validUser = false;
+    } else {
+      validUser = true;
+    }
+
+    validBoth = validUser && validInput;
+
+    if (validBoth) {
+      addTodo(newTodo, newId);
+    }
+
+    this.setState(prevState => ({
+      ...prevState,
+      validInput,
+      validUser,
+      userId: (!validBoth && validUser) ? prevState.userId : '',
+      todoName: (!validBoth && validInput) ? prevState.todoName : '',
+    }));
   };
 
   render() {
-    // eslint-disable-next-line react/prop-types
-    const { addTodo } = this.props;
-
     const options = users.map(user => (
       <option
         key={user.id}
@@ -26,18 +89,15 @@ export class NewTodo extends React.Component {
       </option>
     ));
 
-    const newTodo = {
-      title: this.state.todoName,
-      userId: this.state.userId,
-    };
-
     return (
       <form
         name="addTodo"
         className="form"
-        onSubmit={event => addTodo(event, newTodo)}
+        onSubmit={this.handleSubmit}
       >
-        <label>
+        <label
+          className={this.state.validInput ? '' : 'wrong-input'}
+        >
           Name of ToDo
           <input
             name="todoName"
@@ -46,12 +106,14 @@ export class NewTodo extends React.Component {
             className="input"
             placeholder="Type TODO title"
             onChange={this.handleChange}
-            value={this.state.todoTitle}
+            value={this.state.todoName}
           />
         </label>
         <br />
-        <label>
-          that user doing:
+        <label
+          className={this.state.validUser ? '' : 'not-chosen'}
+        >
+          Select user:
           <select
             name="userId"
             value={this.state.userId}
@@ -61,10 +123,18 @@ export class NewTodo extends React.Component {
             {options}
           </select>
         </label>
-        <button type="submit">
+        <br />
+        <button
+          type="submit"
+        >
           Add
         </button>
       </form>
     );
   }
 }
+
+NewTodo.propTypes = {
+  addTodo: PropTypes.func.isRequired,
+  maxId: PropTypes.number.isRequired,
+};
