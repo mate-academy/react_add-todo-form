@@ -44,7 +44,7 @@ export class NewTodo extends React.Component {
       user: users.find(usr => usr.id === +newTodoItem.userId),
       userId: newTodoItem.userId,
       id: newId,
-      title: newTodoItem.title,
+      title: newTodoItem.title.trim().replace(/\s+/g, ' '),
       completed: false,
     };
 
