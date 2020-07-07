@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Option } from '../Option/Option';
+import { NameShape, ValueShape } from '../../shapes/Shapes';
 
 export const Select = ({ users, onChange, name, value }) => (
   <select
@@ -20,7 +21,7 @@ export const Select = ({ users, onChange, name, value }) => (
     />
     {users.map(user => (
       <Option
-        key={user.id}
+        key={user.userId}
         text={user.name}
         value={user.userId}
       />
@@ -29,8 +30,8 @@ export const Select = ({ users, onChange, name, value }) => (
 );
 
 Select.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.string).isRequired,
+  users: PropTypes.arrayOf(NameShape).isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: ValueShape.isRequired,
 };

@@ -15,3 +15,8 @@ export const NameShape = PropTypes.shape({
 });
 
 export const NamesShape = PropTypes.arrayOf(NameShape);
+
+export const ValueShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+]);

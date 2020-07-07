@@ -5,7 +5,7 @@ import { TodosShape } from '../../shapes/Shapes';
 export const Todos = ({ todos }) => (
   <div>
     {
-      todos.map(todo => <Todo content={todo} />)
+      todos.map(todo => <Todo key={todo.id} content={todo} />)
     }
   </div>
 
