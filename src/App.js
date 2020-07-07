@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TodoForm } from './Component/TodoForm';
+import TodoList from './Component/TodoList';
 
 import todos from './api/todos';
 import users from './api/users';
@@ -28,29 +29,12 @@ export class App extends React.Component {
 
   render() {
     return (
-      <section>
+      <>
         <div className="App">
           <TodoForm addTodo={this.addTodo} />
         </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="table__heading">ID</th>
-              <th className="table__heading">Title</th>
-              <th className="table__heading">User</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.allTodos.map(todo => (
-              <tr>
-                <td className="table__item">{todo.id}</td>
-                <td className="table__item">{todo.title}</td>
-                <td className="table__item">{todo.user.name}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+        <TodoList todos={this.state.allTodos} />
+      </>
     );
   }
 }

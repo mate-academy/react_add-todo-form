@@ -5,14 +5,14 @@ import users from '../api/users';
 export class TodoForm extends React.Component {
   state = {
     newTitle: '',
-    newUserId: '0',
-    titleError: true,
-    userError: true,
+    newUserId: 0,
+    titleError: false,
+    userError: false,
   };
 
   handleChange = ({ target: { value } }) => {
     this.setState(prevState => ({
-      newTitle: value,
+      newTitle: value.replace(/\s/, ' '),
       titleError: false,
     }));
   };
@@ -27,7 +27,7 @@ export class TodoForm extends React.Component {
   saveHandler = (event) => {
     event.preventDefault();
 
-    if (!this.state.newTitle) {
+    if (this.state.newTitle.trim().length === 0) {
       this.setState(prevState => ({ titleError: true }));
     }
 
@@ -35,7 +35,7 @@ export class TodoForm extends React.Component {
       this.setState(prevState => ({ userError: true }));
     }
 
-    if (this.state.newTitle && this.state.newUserId !== 0) {
+    if (this.state.newTitle.trim().length !== 0 && this.state.newUserId !== 0) {
       this.props.addTodo({
         title: this.state.newTitle,
         userId: this.state.userId,
