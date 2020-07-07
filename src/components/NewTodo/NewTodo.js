@@ -124,7 +124,7 @@ export class NewTodo extends React.Component {
 
         <button
           type="submit"
-          className="btn btn-light"
+          className="btn btn-dark"
           onClick={backgroundChanger}
         >
           Add Todo
