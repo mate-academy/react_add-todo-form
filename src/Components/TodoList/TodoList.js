@@ -5,6 +5,7 @@ import styles from './TodoList.module.css';
 
 export const TodoList = ({ list }) => (
   <div className={styles.list}>
+    <h1>Todos</h1>
     <Todos todos={list} />
   </div>
 );

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './Error.module.css';
 
 export const Error = ({ message }) => (
   <div>
-    {message}
+    <p className={styles.message}>{message}</p>
   </div>
 );
 

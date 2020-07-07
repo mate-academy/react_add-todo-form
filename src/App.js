@@ -29,7 +29,6 @@ export class App extends Component {
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
         <AddNewTodo
           names={names}
           addTodo={this.addTodoHandler}

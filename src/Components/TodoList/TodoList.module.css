@@ -1,4 +1,7 @@
 .list {
+  padding-top: 2rem;
+  grid-row: 2;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
