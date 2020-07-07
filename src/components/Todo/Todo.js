@@ -5,7 +5,8 @@ import './Todo.css';
 
 const Todo = ({ todo }) => (
   <li className="TodoList__Todo Todo" hidden={todo.completed}>
-    {todo.title}
+    {`Title: ${todo.title} Id: ${todo.userId}`}
+
   </li>
 );
 

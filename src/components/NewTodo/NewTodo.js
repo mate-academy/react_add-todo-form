@@ -18,8 +18,6 @@ class NewTodo extends React.PureComponent {
       selectUserId: id,
       isErrorSelect: false,
     });
-
-    this.props.handleChange(id);
   }
 
   handleChangeTitle = (evt) => {
@@ -67,8 +65,6 @@ class NewTodo extends React.PureComponent {
         selectUserId: 0,
         inputTitle: '',
       });
-
-      this.props.handleChange(0);
     }
   }
 
@@ -124,6 +120,5 @@ NewTodo.propTypes = {
     website: PropTypes.string.isRequired,
     company: PropTypes.object.isRequired,
   }).isRequired).isRequired,
-  handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

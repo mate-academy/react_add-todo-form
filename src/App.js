@@ -9,13 +9,6 @@ import './App.css';
 class App extends React.Component {
   state = {
     todos,
-    userTodos: [],
-  }
-
-  handleChangeTodos = (id) => {
-    this.setState(state => ({
-      userTodos: state.todos.filter(todo => todo.userId === id),
-    }));
   }
 
   handleSubmitTodo = (newTodo) => {
@@ -37,11 +30,10 @@ class App extends React.Component {
           {users.length}
         </p>
 
-        {<TodoList todos={this.state.userTodos} />}
+        {<TodoList todos={this.state.todos} />}
         {<NewTodo
           todosLength={this.state.todos.length}
           users={users}
-          handleChange={this.handleChangeTodos}
           handleSubmit={this.handleSubmitTodo}
         />}
       </div>
