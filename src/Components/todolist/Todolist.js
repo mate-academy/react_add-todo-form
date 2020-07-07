@@ -24,7 +24,7 @@ export class TodoList extends React.Component {
   }
 
   onChangeNewTodo = (value) => {
-    const task = value.replace(/[^\w ]+/gi, '').trim();
+    const task = value.replace(/[^\wа-яА-ЯёË ]+/gi, '').trim();
 
     this.setState({
       currentTodo: task,
