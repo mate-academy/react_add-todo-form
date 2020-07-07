@@ -3,6 +3,7 @@ import { Input } from '../Input/Input';
 import { Select } from '../Select/Select';
 import { NamesShape } from '../../shapes/Shapes';
 import { Error } from '../Error/Error';
+import styles from './AddNewTodo.module.css';
 
 const initialState = {
   input: {
@@ -59,7 +60,10 @@ export class AddNewTodo extends Component {
     const { names } = this.props;
 
     return (
-      <form onSubmit={this.submitHandler} style={{ display: 'flex' }}>
+      <form
+        onSubmit={this.submitHandler}
+        className={styles.form}
+      >
         <div>
           {
             input.isValid

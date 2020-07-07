@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AddNewTodo } from '../AddNewTodo/AddNewTodo';
 import { Todos } from '../Todos/Todos';
 import { NamesShape } from '../../shapes/Shapes';
+import styles from './TodoList.module.css';
 
 export class TodoList extends Component {
   state = {
@@ -19,7 +20,7 @@ export class TodoList extends Component {
     const { names } = this.props;
 
     return (
-      <div>
+      <div className={styles.list}>
         <AddNewTodo names={names} addTodo={this.addTodoHandler} />
         <Todos todos={todos} />
       </div>
