@@ -1,11 +1,16 @@
-label {
+.label {
   display: block;
   margin-bottom: 30px;
 }
 
-input,
-select {
+.todoName,
+.todoUser {
   margin-left: 10px;
+}
+
+.checkbox {
+  margin-left: -30px;
+  margin-right: 5px;
 }
 
 .not-chosen,

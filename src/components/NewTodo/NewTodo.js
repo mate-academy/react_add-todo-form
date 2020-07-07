@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
+
 import users from '../../api/users';
 import './NewTodo.css';
 
@@ -12,15 +14,17 @@ export class NewTodo extends React.Component {
   }
 
   handleChange = ({ target: { name, value } }) => {
-    if (name === 'todoName'
-      && (value && value.search(/\w/) !== -1)) {
+    const isTodoNameValid
+      = name === 'todoName' && (value && value.search(/\w/) !== -1);
+    const isSelectValid = name === 'userId' && value !== '';
+
+    if (isTodoNameValid) {
       this.setState({
         validInput: true,
       });
     }
 
-    if (name === 'userId'
-      && value !== '') {
+    if (isSelectValid) {
       this.setState({
         validUser: true,
       });
@@ -35,16 +39,19 @@ export class NewTodo extends React.Component {
     event.preventDefault();
 
     const { addTodo, maxId } = this.props;
+    const newId = maxId + 1;
+
     const newTodoItem = {
       title: this.state.todoName,
       userId: this.state.userId,
     };
-    const newId = maxId + 1;
+
+    const goodTitle = newTodoItem.title.trim().replace(/\s+/g, ' ');
     const newTodo = {
       user: users.find(usr => usr.id === +newTodoItem.userId),
       userId: newTodoItem.userId,
       id: newId,
-      title: newTodoItem.title.trim().replace(/\s+/g, ' '),
+      title: goodTitle,
       completed: false,
     };
 
@@ -96,14 +103,14 @@ export class NewTodo extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <label
-          className={this.state.validInput ? '' : 'wrong-input'}
+          className={cn('label', { 'wrong-input': !this.state.validInput })}
         >
           Name of ToDo
           <input
             name="todoName"
             type="text"
             id="title"
-            className="input"
+            className="todoName"
             placeholder="Type TODO title"
             onChange={this.handleChange}
             value={this.state.todoName}
@@ -111,11 +118,12 @@ export class NewTodo extends React.Component {
         </label>
         <br />
         <label
-          className={this.state.validUser ? '' : 'not-chosen'}
+          className={cn('label', { 'not-chosen': !this.state.validUser })}
         >
           Select user:
           <select
             name="userId"
+            className="todoUser"
             value={this.state.userId}
             onChange={this.handleChange}
           >

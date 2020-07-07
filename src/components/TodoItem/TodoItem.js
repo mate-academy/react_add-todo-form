@@ -17,6 +17,7 @@ export function TodoItem({ todo, changeTaskStatus }) {
       <input
         type="checkbox"
         name="checkbox"
+        className="checkbox"
         checked={completed}
         onChange={() => changeTaskStatus(id)}
       />
