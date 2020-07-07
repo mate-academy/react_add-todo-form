@@ -8,7 +8,7 @@ export function TodoList(props) {
 
   return (
     <>
-      <h1>Static list of todos</h1>
+      <h1>List of todos</h1>
       <span>Todos: </span>
       {todolist.length}
       <ul className="tasks">
