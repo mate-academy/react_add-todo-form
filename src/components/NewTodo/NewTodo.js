@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TodoInput from '../TodoInput/TodoInput';
 import TodoNameBox from '../TodoNameBox/TodoNameBox';
 import TodoButton from '../TodoButton/TodoButton';
-import TodoList from '../TodoList/TodoList';
 import { UsersListShape } from '../Shapes/UsersListShape';
-import { TodosListShape } from '../Shapes/TodosListShape';
 import './NewTodo.css';
 
 class NewTodo extends React.Component {
@@ -12,7 +11,6 @@ class NewTodo extends React.Component {
     task: '',
     dynamicList: [],
     userId: '',
-    name: '',
   }
 
   handleTaskChange = (event) => {
@@ -24,28 +22,29 @@ class NewTodo extends React.Component {
   handleNameChange = (event) => {
     this.setState({
       userId: event.target.value,
-      name: this.props.usersList
-        .find(user => user.id === Number(event.target.value)).name,
     });
+  }
+
+  handleAddList = () => {
+    this.setState(prevState => ({
+      dynamicList: [{
+        task: prevState.task,
+        userId: Number(prevState.userId),
+        name: this.props.usersList
+          .find(user => user.id === Number(prevState.userId)).name,
+      }],
+      userId: '',
+      task: '',
+    }), () => this.props.handleUnify(this.state.dynamicList));
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState(prevState => ({
-      dynamicList: [...prevState.dynamicList, {
-        task: prevState.task,
-        userId: prevState.userId,
-        name: prevState.name,
-      }],
-      userId: '',
-      task: '',
-    }));
+    this.handleAddList();
   }
 
   render() {
-    const { todosList } = this.props;
     const { usersList } = this.props;
-    const { dynamicList } = this.state;
     const { userId } = this.state;
     const { task } = this.state;
 
@@ -60,15 +59,14 @@ class NewTodo extends React.Component {
           />
           <TodoButton />
         </form>
-        <TodoList dynamicList={dynamicList} todosList={todosList} />
       </div>
     );
   }
 }
 
 NewTodo.propTypes = {
-  usersList: UsersListShape.isRequired,
-  todosList: TodosListShape.isRequired,
+  usersList: PropTypes.arrayOf(UsersListShape).isRequired,
+  handleUnify: PropTypes.func.isRequired,
 };
 
 export default NewTodo;

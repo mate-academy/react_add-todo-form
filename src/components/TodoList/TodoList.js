@@ -1,18 +1,13 @@
 import React from 'react';
 import './TodoList.css';
 import PropTypes from 'prop-types';
-import { TodosListShape } from '../Shapes/TodosListShape';
 
 class TodoList extends React.Component {
-  constructor() {
-    super();
-    this.changeChecking = this.changeChecking.bind(this);
-    this.state = {
+    state = {
       checkBoxId: new Map(),
     };
-  }
 
-  changeChecking = (todoId, event) => {
+  handleChecked = (todoId, event) => {
     const updatedChecking = event;
 
     this.setState(prevState => ({
@@ -30,19 +25,14 @@ class TodoList extends React.Component {
 
   render() {
     const { checkBoxId } = this.state;
-    const { dynamicList } = this.props;
-    const changedTodos = [...this.props.todosList]
-      .map(todo => ({
-        userId: todo.userId,
-        task: todo.title,
-        name: todo.name,
-      }));
+    const { generalList } = this.props;
 
-    const usersList = [...changedTodos, ...dynamicList]
-      .map((userData, index) => ({
-        ...userData,
-        id: index,
-      }));
+    const usersList = [
+      ...generalList,
+    ].map((userData, index) => ({
+      ...userData,
+      id: index,
+    }));
 
     return (
       <ul className="Todo__list">
@@ -59,7 +49,7 @@ class TodoList extends React.Component {
               className="Todo__content todo__checkbox"
               checked={checkBoxId.get(todo.id) === true}
               onChange={(event) => {
-                this.changeChecking(todo.id, event.target.checked);
+                this.handleChecked(todo.id, event.target.checked);
               }}
             />
             <p className="Todo__content">{todo.name}</p>
@@ -78,10 +68,9 @@ class TodoList extends React.Component {
 }
 
 TodoList.propTypes = {
-  todosList: TodosListShape.isRequired,
-  dynamicList: PropTypes.arrayOf(PropTypes.shape({
+  generalList: PropTypes.arrayOf(PropTypes.shape({
     task: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
 };

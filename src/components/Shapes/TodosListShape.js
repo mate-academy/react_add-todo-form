@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 
-export const TodosListShape = PropTypes.arrayOf(PropTypes.shape({
-  completed: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
+export const TodosListShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  userId: PropTypes.number.isRequired,
-}));
+  task: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+});

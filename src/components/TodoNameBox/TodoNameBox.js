@@ -11,10 +11,9 @@ const TodoNameBox = ({ usersList, handleNameChange, userId }) => (
     required
   >
     <option value="" disabled>Choose a user</option>
-    { usersList.map(user => (
+    {usersList.map(user => (
       <option
         className="App__name"
-        name={user.name}
         value={user.id}
         key={user.id}
       >
@@ -25,7 +24,7 @@ const TodoNameBox = ({ usersList, handleNameChange, userId }) => (
 );
 
 TodoNameBox.propTypes = {
-  usersList: UsersListShape.isRequired,
+  usersList: PropTypes.arrayOf(UsersListShape).isRequired,
   handleNameChange: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
 };
