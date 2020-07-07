@@ -17,10 +17,10 @@ export class AddTodoForm extends React.Component {
     },
   }
 
-  handleFormChanges = ({ name, value }) => {
+  handleInputChanges = ({ target: { name, value } }) => {
     let flagValue = false;
     const validatedValue = value.replace(/[^\w ]*/g, '');
-    const isOnlySpaces = value.replace(/\s/g, '').length > 0;
+    const isOnlySpaces = value.trim().length > 0;
 
     if (value !== '' && value !== '0' && isOnlySpaces) {
       flagValue = true;
@@ -43,10 +43,13 @@ export class AddTodoForm extends React.Component {
     const { sendTodoData } = this.props;
 
     if (input.flag === false || select.flag === false) {
-      if (input.flag === false) {
+      if (input.flag === false && select.flag === false) {
         this.setState({
           input: {
             error: 'Please enter the title',
+          },
+          select: {
+            error: 'Please choose a user',
           },
         });
       }
@@ -55,6 +58,14 @@ export class AddTodoForm extends React.Component {
         this.setState({
           select: {
             error: 'Please choose a user',
+          },
+        });
+      }
+
+      if (input.flag === false) {
+        this.setState({
+          input: {
+            error: 'Please enter the title',
           },
         });
       }
@@ -85,21 +96,21 @@ export class AddTodoForm extends React.Component {
     const { value } = this.state.input;
     const inputError = this.state.input.error;
     const selectError = this.state.select.error;
-    const onChange = this.handleFormChanges;
+    const onInputChange = this.handleInputChanges;
 
     return (
       <form className="form" onSubmit={this.onSubmit}>
         <InputArea
           inputError={inputError || ''}
           value={value || ''}
-          onChange={onChange}
+          onChange={onInputChange}
         />
         <SelectArea
           selectError={selectError || ''}
           options={names}
           selectValue={selectValue}
           onChange={selectOnChange}
-          onActive={this.handleFormChanges}
+          onActive={this.handleInputChanges}
         />
       </form>
     );

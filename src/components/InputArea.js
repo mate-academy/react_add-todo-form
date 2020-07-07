@@ -14,7 +14,7 @@ export const InputArea = (props) => {
           name="input"
           type="text"
           value={value}
-          onChange={event => onChange(event.target)}
+          onChange={onChange}
         />
         <div className="input_label">Input task title here</div>
       </label>

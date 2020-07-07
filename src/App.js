@@ -10,12 +10,15 @@ const names = users.map(({ name, id }) => (
     name, id,
   }
 ));
+const initialNextId = todos.reduce(
+  (current, next) => (current.id > next.id ? current : next),
+).id + 1;
 
 class App extends React.Component {
   state = {
     todoList: todos,
     defaultSelectValue: '0',
-    nextTodoId: 3,
+    nextTodoId: initialNextId,
   }
 
   createId = (id) => {
@@ -43,7 +46,7 @@ class App extends React.Component {
     ));
   }
 
-  handleSelect = data => this.setState({ defaultSelectValue: data });
+  handleSelect = data => this.setState({ defaultSelectValue: data })
 
   render() {
     const { todoList, defaultSelectValue } = this.state;
