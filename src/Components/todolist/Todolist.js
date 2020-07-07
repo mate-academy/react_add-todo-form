@@ -9,10 +9,11 @@ import { ShapeUser } from '../Shapes/ShapeUser';
 
 export class TodoList extends React.Component {
   state = {
-    todosList: [...this.props.preparedTodos],
+    todosList: this.props.preparedTodos,
     currentUserId: '',
     currentTodo: '',
     wrongInput: false,
+    errorMessage: '',
   }
 
   onChangeUser = (event) => {
@@ -23,7 +24,7 @@ export class TodoList extends React.Component {
   }
 
   onChangeNewTodo = (value) => {
-    const task = value.replace(/[^\w ]+|^[ ]+$/gi, '');
+    const task = value.replace(/[^\w ]+/gi, '').trim();
 
     this.setState({
       currentTodo: task,
@@ -34,37 +35,6 @@ export class TodoList extends React.Component {
   onSubmitNewTodo = (event) => {
     event.preventDefault();
 
-    if (!this.state.currentUserId
-      || !this.state.currentTodo) {
-      this.setState(prevState => ({
-        wrongInput: true,
-      }));
-
-      return;
-    }
-
-    const todo = {
-      id: uuidv4(),
-      userId: this.state.currentUserId,
-      title: this.state.currentTodo,
-      completed: false,
-      user: this.props.users.find(user => user.id === this.state.currentUserId),
-    };
-
-    this.state.todosList.push(todo);
-
-    this.setState(prevState => ({
-      todosList: [...prevState.todosList],
-      currentUserId: '',
-      currentTodo: '',
-      wrongInput: false,
-    }));
-
-    event.target.reset();
-  };
-
-  render() {
-    const { users } = this.props;
     const { currentUserId, currentTodo } = this.state;
 
     let errorMessage;
@@ -78,19 +48,56 @@ export class TodoList extends React.Component {
       errorMessage = 'Please enter the title';
     }
 
+    if (!currentUserId
+      || !currentTodo) {
+      this.setState({
+        wrongInput: true,
+        errorMessage,
+      });
+
+      return;
+    }
+
+    const todo = {
+      id: uuidv4(),
+      userId: this.state.currentUserId,
+      title: this.state.currentTodo,
+      completed: false,
+      user: this.props.users.find(user => user.id === this.state.currentUserId),
+    };
+
+    this.setState(prevState => ({
+      todosList: [...prevState.todosList, todo],
+      currentUserId: '',
+      currentTodo: '',
+      wrongInput: false,
+    }));
+
+    event.target.reset();
+  };
+
+  render() {
+    const { users } = this.props;
+    const {
+      wrongInput,
+      errorMessage,
+      currentTodo,
+      todosList,
+    } = this.state;
+
     return (
       <>
         <NewTodo
           users={users}
           onChangeUser={this.onChangeUser}
           onChangeNewTodo={this.onChangeNewTodo}
-          wrongInput={this.state.wrongInput}
+          wrongInput={wrongInput}
           onSubmit={this.onSubmitNewTodo}
           errorMessage={errorMessage}
-          currentTitle={this.state.currentTodo}
+          currentTitle={currentTodo}
         />
         <ul className="list-group">
-          {this.state.todosList.map(todo => (
+          {todosList.map(todo => (
             <Todo key={todo.id} todoItem={todo} />
           ))}
         </ul>
