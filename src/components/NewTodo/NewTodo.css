@@ -3,6 +3,11 @@ label {
   margin-bottom: 30px;
 }
 
+input,
+select {
+  margin-left: 10px;
+}
+
 .not-chosen,
 .wrong-input {
   position: relative;
@@ -16,8 +21,8 @@ label {
   width: fit-content;
   background-color: #e76d6d;
   border-radius: 5px;
-  left: 60%;
-  top: 17px;
+  left: calc(50% + 100px);
+  top: 20px;
   padding: 2px;
   margin: 0;
 }
