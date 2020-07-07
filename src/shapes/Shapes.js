@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 export const TodoShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   userId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  completed: PropTypes.bool.isRequired,
 });
 
 export const TodosShape = PropTypes.arrayOf(TodoShape);

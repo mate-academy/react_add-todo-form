@@ -1,0 +1,11 @@
+.form {
+  display: flex ;
+  height: 100px;
+  align-items: center;
+
+}
+
+.form > * {
+  margin: auto;
+  height: 40px;
+}
