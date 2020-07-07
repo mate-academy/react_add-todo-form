@@ -12,7 +12,7 @@ export class NewTodo extends React.Component {
 
   onChangeUser = (event) => {
     this.setState({
-      currentUserId: +event.target.value,
+      currentUserId: Number(event.target.value),
       wrongInput: false,
     });
   }
@@ -30,7 +30,7 @@ export class NewTodo extends React.Component {
     event.preventDefault();
 
     const { currentUserId, currentTodo } = this.state;
-    const { onAdd } = this.props;
+    const { onAdd, users } = this.props;
 
     let errorMessage;
 
@@ -55,10 +55,10 @@ export class NewTodo extends React.Component {
 
     const todo = {
       id: uuidv4(),
-      userId: this.state.currentUserId,
-      title: this.state.currentTodo,
+      userId: currentUserId,
+      title: currentTodo,
       completed: false,
-      user: this.props.users.find(user => user.id === this.state.currentUserId),
+      user: users.find(user => user.id === currentUserId),
     };
 
     onAdd(todo);
