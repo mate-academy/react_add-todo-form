@@ -4,7 +4,7 @@ import './TodoList.css';
 import { TodoListShape } from './TodoListShape';
 
 export function TodoList(props) {
-  const { todolist } = props;
+  const { todolist, changeTaskStatus } = props;
 
   return (
     <>
@@ -13,7 +13,11 @@ export function TodoList(props) {
       {todolist.length}
       <ul className="tasks">
         {todolist.map(todo => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            changeTaskStatus={changeTaskStatus}
+          />
         ))}
       </ul>
     </>

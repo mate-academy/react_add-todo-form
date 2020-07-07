@@ -25,6 +25,21 @@ addTodo = (newTodoItem, newId) => {
   }));
 }
 
+changeTaskStatus = (id) => {
+  this.setState(prevState => ({
+    todos: prevState.todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+
+      return todo;
+    }),
+  }));
+}
+
 render() {
   return (
     <div className="App">
@@ -33,7 +48,10 @@ render() {
         addTodo={this.addTodo}
         maxId={this.state.maxTodoID}
       />
-      <TodoList todolist={this.state.todos} />
+      <TodoList
+        todolist={this.state.todos}
+        changeTaskStatus={this.changeTaskStatus}
+      />
       <p>
         <span>Users: </span>
         {users.length}

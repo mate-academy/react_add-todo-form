@@ -3,7 +3,7 @@ import React from 'react';
 import './TodoItem.css';
 import { TodoItemShape } from './TodoShape';
 
-export function TodoItem({ todo }) {
+export function TodoItem({ todo, changeTaskStatus }) {
   const { user, id, title, completed } = todo;
 
   return (
@@ -14,6 +14,12 @@ export function TodoItem({ todo }) {
           : 'task--not-done'
       }
     >
+      <input
+        type="checkbox"
+        name="checkbox"
+        checked={completed}
+        onChange={() => changeTaskStatus(id)}
+      />
       <strong>{`${id} ${title}`}</strong>
 
       <br />
