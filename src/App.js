@@ -16,29 +16,29 @@ const todoList = [...todos];
 
 class App extends Component {
   state = {
-    todo: [],
+    todo: '',
     name: [],
     userId: 0,
     todoTextError: false,
     userError: false,
   }
 
-  change = (event) => {
+  handleChange = ({ target: { value } }) => {
     this.setState({
-      todo: event.target.value,
+      todo: value.replace(/\s/, ' '),
       todoTextError: false,
     });
   }
 
-  options = (event) => {
+  handleSelect = ({ target: { value } }) => {
     this.setState({
-      userId: event.target.value,
+      userId: +value,
       userError: false,
     });
   }
 
-  click = () => {
-    if (this.state.todo.length < 1 || this.state.todo.trim().length < 1) {
+  handleClick = () => {
+    if (this.state.todo.trim().length === 0) {
       this.setState(prevState => ({ todoTextError: true }));
     }
 
@@ -46,7 +46,7 @@ class App extends Component {
       this.setState(prevState => ({ userError: true }));
     }
 
-    if (this.state.todo.length >= 1 && this.state.userId !== 0) {
+    if (this.state.todo.trim().length !== 0 && this.state.userId !== 0) {
       todoList.push({
         title: this.state.todo,
         name: this.state.name,
@@ -66,17 +66,17 @@ class App extends Component {
             type="text"
             className="input"
             placeholder="Write your text"
-            onChange={this.change}
+            onChange={this.handleChange}
             value={this.state.todo}
           />
           {this.state.todoTextError && <div>Enter text</div>}
           <Select
-            options={this.options}
+            options={this.handleSelect}
             userName={userName}
           />
           <button
             type="button"
-            onClick={this.click}
+            onClick={this.handleClick}
           >
             ADD
           </button>
