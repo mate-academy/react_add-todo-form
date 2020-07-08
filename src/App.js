@@ -4,9 +4,9 @@ import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './Components/todolist/Todolist';
 
-import { preparedTodosList } from './Components/preparedTodosList';
+import { getPreparedTodos } from './Components/getPreparedTodos';
 
-const preparedList = preparedTodosList(todos, users);
+const preparedList = getPreparedTodos(todos, users);
 
 const App = () => (
   <div className="App">

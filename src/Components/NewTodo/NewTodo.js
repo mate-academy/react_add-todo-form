@@ -17,7 +17,8 @@ export class NewTodo extends React.Component {
     });
   }
 
-  onChangeNewTodo = (value) => {
+  onChangeNewTodo = (event) => {
+    const { value } = event.target;
     const task = value.replace(/[^\wа-яА-ЯёË ]+|^[ ]+$/gi, '');
 
     this.setState({
@@ -30,12 +31,11 @@ export class NewTodo extends React.Component {
     event.preventDefault();
 
     const { currentUserId, currentTodo } = this.state;
-    const { onAdd, users } = this.props;
+    const { addNewTodo, users } = this.props;
 
     let errorMessage;
 
-    if (!currentUserId
-      && !currentTodo) {
+    if (!currentUserId && !currentTodo) {
       errorMessage = 'Please type correct data';
     } else if (!currentUserId) {
       errorMessage = 'Please choose a user';
@@ -43,8 +43,7 @@ export class NewTodo extends React.Component {
       errorMessage = 'Please enter the title';
     }
 
-    if (!currentUserId
-      || !currentTodo) {
+    if (!currentUserId || !currentTodo) {
       this.setState({
         wrongInput: true,
         errorMessage,
@@ -61,7 +60,7 @@ export class NewTodo extends React.Component {
       user: users.find(user => user.id === currentUserId),
     };
 
-    onAdd(todo);
+    addNewTodo(todo);
 
     this.setState({
       currentTodo: '',
@@ -81,7 +80,7 @@ export class NewTodo extends React.Component {
 
     return (
       <div>
-        <form onSubmit={event => this.onSubmitNewTodo(event)}>
+        <form onSubmit={this.onSubmitNewTodo}>
           {wrongInput && (
             <div
               className="alert alert-danger"
@@ -93,7 +92,7 @@ export class NewTodo extends React.Component {
               {errorMessage}
             </div>
           )}
-          <select onChange={event => this.onChangeUser(event)}>
+          <select onChange={this.onChangeUser}>
             <option>Choose a user</option>
             {users.map(user => (
               <option
@@ -109,7 +108,7 @@ export class NewTodo extends React.Component {
             value={currentTodo}
             maxLength="25"
             placeholder="Type todo"
-            onChange={event => this.onChangeNewTodo(event.target.value)}
+            onChange={this.onChangeNewTodo}
           />
           <button
             type="submit"

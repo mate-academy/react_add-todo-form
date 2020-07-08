@@ -11,7 +11,7 @@ export class TodoList extends React.Component {
     todosList: this.props.preparedTodos,
   }
 
-  onAddTodo = (todo) => {
+  addNewTodo = (todo) => {
     this.setState(prevState => ({
       todosList: [...prevState.todosList, todo],
     }));
@@ -25,7 +25,7 @@ export class TodoList extends React.Component {
       <>
         <NewTodo
           users={users}
-          onAdd={this.onAddTodo}
+          addNewTodo={this.addNewTodo}
         />
         <ul className="list-group">
           {todosList.map(todo => (
