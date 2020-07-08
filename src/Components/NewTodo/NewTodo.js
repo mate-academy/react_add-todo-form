@@ -63,6 +63,10 @@ export class NewTodo extends React.Component {
 
     onAdd(todo);
 
+    this.setState({
+      currentTodo: '',
+    });
+
     event.target.reset();
   };
 
