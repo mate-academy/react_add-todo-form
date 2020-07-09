@@ -11,7 +11,7 @@ export class TodoForm extends React.Component {
 
   handleInput = (value) => {
     this.setState({
-      task: value.replace(/\s/g, ''),
+      task: value.replace(/^\s/g, '').replace(/\s/g, ' '),
       inputIsValid: false,
     });
   }

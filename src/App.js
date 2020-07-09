@@ -7,7 +7,7 @@ import todos from './api/todos';
 import { TodoForm } from './Components/TodoForm';
 import { TodoList } from './Components/TodoList';
 
-const setTodos = todos.map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
@@ -19,7 +19,7 @@ const setUsers = users.map(user => ({
 
 class App extends React.Component {
   state = {
-    todoList: [...setTodos],
+    todoList: [...preparedTodos],
   }
 
   addNewTodo = (task, userId) => {
