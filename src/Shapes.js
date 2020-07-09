@@ -6,6 +6,6 @@ export const TodoListShape = PropTypes.shape({
 });
 
 export const SelectShape = PropTypes.shape({
-  userName: PropTypes.arrayOf(PropTypes.any).isRequired,
+  userNames: PropTypes.arrayOf(PropTypes.any).isRequired,
   options: PropTypes.func.isRequired,
 });

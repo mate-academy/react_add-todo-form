@@ -4,7 +4,7 @@ import { TodoListShape } from '../../Shapes';
 export const TodoList = ({ todoList, toggle }) => (
   <ul className="todoList">
     {todoList.map(item => (
-      <>
+      <React.Fragment>
         <input
           className="todoList__checkbox"
           type="checkbox"
@@ -19,7 +19,7 @@ export const TodoList = ({ todoList, toggle }) => (
             {item.userId}
           </p>
         </div>
-      </>
+      </React.Fragment>
     ))}
   </ul>
 );

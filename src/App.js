@@ -7,7 +7,7 @@ import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { Select } from './components/Select/Select';
 
-const userName = users.map(user => ({
+const userNames = users.map(user => ({
   name: user.name,
   id: user.id,
 }));
@@ -32,28 +32,36 @@ class App extends Component {
 
   handleSelect = ({ target: { value } }) => {
     this.setState({
-      userId: +value,
+      userId: Number(value),
       userError: false,
     });
   }
 
   handleClick = () => {
-    if (this.state.todo.trim().length === 0) {
-      this.setState(prevState => ({ todoTextError: true }));
+    const { todo, name, userId } = this.state;
+
+    if (todo.trim().length === 0) {
+      this.setState({
+        todoTextError: true,
+      });
     }
 
-    if (this.state.userId === 0) {
-      this.setState(prevState => ({ userError: true }));
+    if (userId === 0) {
+      this.setState({
+        userError: true,
+      });
     }
 
-    if (this.state.todo.trim().length !== 0 && this.state.userId !== 0) {
+    if (todo.trim().length !== 0 && userId !== 0) {
       todoList.push({
-        title: this.state.todo,
-        name: this.state.name,
-        userId: this.state.userId,
+        title: todo,
+        name,
+        userId,
         completed: false,
       });
-      this.setState(prevState => ({ todo: '' }));
+      this.setState({
+        todo: '',
+      });
     }
   }
 
@@ -72,7 +80,7 @@ class App extends Component {
           {this.state.todoTextError && <div>Enter text</div>}
           <Select
             options={this.handleSelect}
-            userName={userName}
+            userNames={userNames}
           />
           <button
             type="button"
