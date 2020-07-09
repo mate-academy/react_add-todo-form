@@ -21,7 +21,7 @@ class App extends React.Component {
     userError: false,
   }
 
-  change = (event) => {
+  handleChange = (event) => {
     this.setState({
       todo: event.target.value,
       titleError: false,
@@ -36,19 +36,21 @@ class App extends React.Component {
   }
 
   click = () => {
-    if (this.state.todo.length < 1) {
+    const { todo, userId, name } = this.state;
+
+    if (todo.length < 1) {
       this.setState(prevState => ({ titleError: true }));
     }
 
-    if (this.state.userId === 0) {
+    if (userId === 0) {
       this.setState(prevState => ({ userError: true }));
     }
 
-    if (this.state.todo.length >= 1 && this.state.userId !== 0) {
+    if (todo.length >= 1 && this.state.userId !== 0) {
       todoList.push({
-        title: this.state.todo,
-        name: this.state.name,
-        userId: this.state.userId,
+        title: todo,
+        name,
+        userId,
         completed: false,
       });
       this.setState(prevState => ({ todo: '' }));
@@ -63,7 +65,7 @@ class App extends React.Component {
           <input
             type="text"
             placeholder="Write your TODO"
-            onChange={this.change}
+            onChange={this.handleChange}
             value={this.state.todo}
           />
           {this.state.titleError && (
