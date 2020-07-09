@@ -11,8 +11,8 @@ class NewTodo extends React.PureComponent {
     isErrorSelect: false,
   }
 
-  handleChangeUser = (evt) => {
-    const id = Number(evt.target.value);
+  handleChangeUser = (event) => {
+    const id = Number(event.target.value);
 
     this.setState({
       selectUserId: id,
@@ -20,8 +20,8 @@ class NewTodo extends React.PureComponent {
     });
   }
 
-  handleChangeTitle = (evt) => {
-    const title = evt.target.value.match(/\w/g);
+  handleChangeTitle = (event) => {
+    const title = event.target.value.match(/\w|\s/g);
 
     if (!Object.is(null, title)) {
       this.setState({
@@ -36,30 +36,35 @@ class NewTodo extends React.PureComponent {
     }
   }
 
-  handleSubmitForm = (evt) => {
-    evt.preventDefault();
+  handleSubmitForm = (event) => {
+    event.preventDefault();
 
-    if (!this.state.inputTitle) {
+    const {
+      inputTitle,
+      selectUserId,
+    } = this.state;
+
+    if (!inputTitle) {
       this.setState({
         isErrorInput: true,
       });
     }
 
-    if (!this.state.selectUserId) {
+    if (!selectUserId) {
       this.setState({
         isErrorSelect: true,
       });
     }
 
-    if (this.state.inputTitle && this.state.selectUserId) {
+    if (inputTitle && selectUserId) {
       const newTodo = {
-        userId: this.state.selectUserId,
+        userId: selectUserId,
         id: this.props.todosLength + 1,
-        title: this.state.inputTitle,
+        title: inputTitle,
         completed: false,
       };
 
-      this.props.handleSubmit(newTodo);
+      this.props.addNewTodo(newTodo);
 
       this.setState({
         selectUserId: 0,
@@ -69,15 +74,22 @@ class NewTodo extends React.PureComponent {
   }
 
   render() {
+    const {
+      isErrorSelect,
+      selectUserId,
+      isErrorInput,
+      inputTitle,
+    } = this.state;
+
     return (
       <form className="App__Form Form" onSubmit={this.handleSubmitForm}>
-        <label className="Form__label" htmlFor="select">
-          {this.state.isErrorSelect ? 'Please choose a user' : ''}
+        <label className="form__label" htmlFor="select">
+          {isErrorSelect ? 'Please choose a user' : ''}
         </label>
         <select
-          className="Form__select"
+          className="form__select"
           id="select"
-          value={this.state.selectUserId}
+          value={selectUserId}
           onChange={this.handleChangeUser}
         >
           <option value={0}>Choose a user</option>
@@ -90,14 +102,14 @@ class NewTodo extends React.PureComponent {
             </option>
           ))}
         </select>
-        <label className="Form__label" htmlFor="input">
-          {this.state.isErrorInput ? 'Please enter the title' : ''}
+        <label className="form__label" htmlFor="input">
+          {isErrorInput ? 'Please enter the title' : ''}
         </label>
         <input
-          className="Form__input"
+          className="form__input"
           placeholder="Title"
           id="input"
-          value={this.state.inputTitle}
+          value={inputTitle}
           onChange={this.handleChangeTitle}
         />
         <button className="Form__button" type="submit">Add</button>
@@ -108,17 +120,19 @@ class NewTodo extends React.PureComponent {
 
 export default NewTodo;
 
+const usersShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  address: PropTypes.object.isRequired,
+  phone: PropTypes.string.isRequired,
+  website: PropTypes.string.isRequired,
+  company: PropTypes.object.isRequired,
+}).isRequired;
+
 NewTodo.propTypes = {
   todosLength: PropTypes.number.isRequired,
-  users: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    address: PropTypes.object.isRequired,
-    phone: PropTypes.string.isRequired,
-    website: PropTypes.string.isRequired,
-    company: PropTypes.object.isRequired,
-  }).isRequired).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(usersShape).isRequired,
+  addNewTodo: PropTypes.func.isRequired,
 };

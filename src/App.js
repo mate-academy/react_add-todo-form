@@ -11,7 +11,7 @@ class App extends React.Component {
     todos,
   }
 
-  handleSubmitTodo = (newTodo) => {
+  addNewTodo = (newTodo) => {
     this.setState(state => ({
       todos: [
         ...state.todos,
@@ -30,12 +30,12 @@ class App extends React.Component {
           {users.length}
         </p>
 
-        {<TodoList todos={this.state.todos} />}
-        {<NewTodo
+        <TodoList todos={this.state.todos} />
+        <NewTodo
           todosLength={this.state.todos.length}
           users={users}
-          handleSubmit={this.handleSubmitTodo}
-        />}
+          addNewTodo={this.addNewTodo}
+        />
       </div>
     );
   }
