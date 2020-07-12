@@ -1,5 +1,4 @@
 import React from 'react';
-import './TodoList.css';
 import PropTypes from 'prop-types';
 
 export const TodoList = (props) => {

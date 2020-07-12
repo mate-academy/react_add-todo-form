@@ -12,7 +12,7 @@ const preparedTodos = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId),
 }));
 
-const setUsers = users.map(user => ({
+const preparedUsers = users.map(user => ({
   id: user.id,
   name: user.name,
 }));
@@ -28,7 +28,7 @@ class App extends React.Component {
         ...prevState.todoList,
         {
           id: prevState.todoList.length + 1,
-          user: setUsers.find(user => user.id === userId),
+          user: preparedUsers.find(user => user.id === userId),
           title: task,
         },
       ],
@@ -42,7 +42,7 @@ class App extends React.Component {
       <div className="app">
         <h1 className="app__title">Add todo App</h1>
         <TodoForm
-          users={setUsers}
+          users={preparedUsers}
           addNewTodo={this.addNewTodo}
           todos={todoList}
         />
