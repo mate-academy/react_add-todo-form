@@ -1,8 +1,8 @@
 import React from 'react';
 import { SelectShape } from '../Shape';
 
-export const Select = ({ options, userName }) => (
-  <select onChange={options}>
+export const Select = ({ handleSelect, userName }) => (
+  <select onChange={handleSelect}>
     <option selected="selected" disabled>Choose a user</option>
     {userName.map(user => (
       <option

@@ -14,8 +14,8 @@ const todoList = [...todos];
 
 class App extends React.Component {
   state = {
-    todo: [],
-    name: [],
+    title: '',
+    name: '',
     userId: 0,
     titleError: false,
     userError: false,
@@ -23,22 +23,22 @@ class App extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      todo: event.target.value,
+      title: event.target.value,
       titleError: false,
     });
   }
 
-  options = (event) => {
+  handleSelect = (event) => {
     this.setState({
       userId: event.target.value,
       userError: false,
     });
   }
 
-  click = () => {
-    const { todo, userId, name } = this.state;
+  handleSubmit = () => {
+    const { title, userId, name } = this.state;
 
-    if (todo.length < 1) {
+    if (title.length < 1) {
       this.setState(prevState => ({ titleError: true }));
     }
 
@@ -46,14 +46,14 @@ class App extends React.Component {
       this.setState(prevState => ({ userError: true }));
     }
 
-    if (todo.length >= 1 && this.state.userId !== 0) {
+    if (title.length >= 1 && this.state.userId !== 0) {
       todoList.push({
-        title: todo,
+        title,
         name,
         userId,
         completed: false,
       });
-      this.setState(prevState => ({ todo: '' }));
+      this.setState(prevState => ({ title: '' }));
     }
   }
 
@@ -66,18 +66,18 @@ class App extends React.Component {
             type="text"
             placeholder="Write your TODO"
             onChange={this.handleChange}
-            value={this.state.todo}
+            value={this.state.title}
           />
           {this.state.titleError && (
             <div className="todos__error">Please, enter todos text</div>
           )}
           <Select
-            options={this.options}
+            handleSelect={this.handleSelect}
             userName={userName}
           />
           <button
             type="button"
-            onClick={this.click}
+            onClick={this.handleSubmit}
           >
             ADD
           </button>
@@ -85,7 +85,6 @@ class App extends React.Component {
             <div className="todos__error">Please, choose a user</div>
           )}
           <TodoList
-            toggle={this.toggle}
             todoList={todoList}
           />
         </form>

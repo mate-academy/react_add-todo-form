@@ -1,14 +1,13 @@
 import React from 'react';
 import { TodoListShape } from '../Shape';
 
-export const TodoList = ({ todoList, toggle }) => (
+export const TodoList = ({ todoList }) => (
   <ul>
     {todoList.map(item => (
       <>
         <input
           id="check"
           type="checkbox"
-          onChange={toggle}
           value={item.completed}
         />
         <div className="todo">
