@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NewTodo } from './NewTodo';
 import { Todo } from './Todo';
+import users from '../api/users';
 
 export class TodoList extends React.Component {
   state = {
@@ -31,7 +32,11 @@ export class TodoList extends React.Component {
             </li>
           ))}
         </ul>
-        <NewTodo todos={this.state.todos} addTodo={this.addTodo} />
+        <NewTodo
+          users={users}
+          todos={this.state.todos}
+          addTodo={this.addTodo}
+        />
       </>
     );
   }

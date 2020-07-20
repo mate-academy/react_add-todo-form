@@ -11,7 +11,9 @@ export class Todo extends React.Component {
   render() {
     return (
       <p>
-        {this.state.title}
+        {this.state.title.length < 40
+          ? this.state.title
+          : `${this.state.title.slice(0, 37)}...`}
         {` `}
         <span style={{ color: 'red' }}>
           {this.state.completed ? 'done' : 'not completed'}
