@@ -1,31 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class Todo extends React.Component {
-  state = {
-    title: this.props.title,
-    completed: this.props.completed,
-    username: this.props.username,
-  }
+const Todo = props => (
+  <p>
+    {props.title.length < 40
+      ? props.title
+      : `${props.title.slice(0, 37)}...`}
+    {` `}
+    <span style={{ color: 'red' }}>
+      {props.completed ? 'done' : 'not completed'}
+    </span>
+    {` `}
+    <span style={{ color: 'green' }}>
+      {props.username}
+    </span>
+  </p>
+);
 
-  render() {
-    return (
-      <p>
-        {this.state.title.length < 40
-          ? this.state.title
-          : `${this.state.title.slice(0, 37)}...`}
-        {` `}
-        <span style={{ color: 'red' }}>
-          {this.state.completed ? 'done' : 'not completed'}
-        </span>
-        {` `}
-        <span style={{ color: 'green' }}>
-          {this.state.username}
-        </span>
-      </p>
-    );
-  }
-}
+export default Todo;
 
 Todo.propTypes = {
   title: PropTypes.string.isRequired,
