@@ -1,0 +1,29 @@
+.todo {
+  height: 270px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  padding: 20px;
+  border: 1px solid #f6f6f6;
+  border-radius: 3px;
+  box-shadow: 2px 2px 17px 0 rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.status {
+  height: 50px;
+  width: 50px;
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT5Twd3-uzZFr9M09q8-Dgl5OHmdMETpSoDXQ&usqp=CAU") center no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.completed {
+  background: url("https://static9.depositphotos.com/1682899/1155/i/450/depositphotos_11558184-stock-photo-green-check-mark.jpg") center no-repeat;
+  background-size: 100%;
+}
