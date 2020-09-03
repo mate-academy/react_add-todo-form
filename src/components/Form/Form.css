@@ -1,0 +1,54 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  padding: 10%;
+  background: linear-gradient(#548df1, #9198e5);
+  box-shadow: 10px 5px 5px grey;
+  border-radius: 8px;
+}
+
+.Form__container {
+  display: grid;
+  grid-template-columns: 8fr 1fr 1fr;
+  width: 80%;
+  grid-column-gap: 20px;
+}
+
+.Form__btn-add {
+  width: 90px;
+  background-color: rgb(235, 102, 102);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.Form__btn-add:hover {
+  transform: scale(1.1);
+}
+
+.Form__task-input {
+  border-radius: 8px;
+  border: none;
+  padding: 20px;
+}
+
+.Form__select-user {
+  border-radius: 8px;
+  border: none;
+  padding: 2%;
+}
+
+.Form__error {
+  position: absolute;
+  top: 18%;
+  margin-left: 20px;
+  color: #fff;
+  padding: 0 10px;
+  background-color: rgb(235, 102, 102);
+  border-radius: 8px;
+  display: none;
+}

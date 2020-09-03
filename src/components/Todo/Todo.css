@@ -1,0 +1,13 @@
+.Todo {
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
+  padding: 0 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.Todo__checkbox:checked + .Todo__title {
+  text-decoration: line-through;
+}
