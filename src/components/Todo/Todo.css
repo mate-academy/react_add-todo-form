@@ -1,0 +1,15 @@
+.todo {
+  padding: 10px;
+  border: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #feefb3;
+  color: #9f6000;
+}
+
+.completed {
+  color: #270;
+  background-color: #dff2bf;
+}

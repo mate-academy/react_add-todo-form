@@ -1,0 +1,77 @@
+.form {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.select {
+  margin-bottom: 20px;
+  font: 17px "Helvetica Neue", sans-serif;
+  padding: 8px 24px 8px 10px;
+  border: none;
+  background-color: transparent;
+  align-self: start;
+  appearance: none;
+  box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+}
+
+.select:active,
+.select:focus {
+  outline: none;
+}
+
+.inputWrapper {
+  width: 100%;
+  display: flex;
+}
+
+.input {
+  width: 100%;
+  padding: 18px 16px 16px 60px;
+  background: #fff;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  font: 17px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.input::placeholder {
+  font: 17px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.input:active,
+.input:focus {
+  outline: none;
+}
+
+.button {
+  width: 130px;
+  margin-left: 10px;
+  background-color: #2a2a2a;
+  border: solid 1px #888;
+  padding: 8px 25px;
+  font-size: 20px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: #eee;
+  text-align: center;
+}
+
+.button:active,
+.button:focus {
+  outline: none;
+}
+
+.error {
+  width: 300px;
+  border-radius: 3px;
+  color: #d8000c;
+  font-size: 16px;
+  background-color: #ffbaba;
+  position: absolute;
+  bottom: -45px;
+  left: 0;
+}
