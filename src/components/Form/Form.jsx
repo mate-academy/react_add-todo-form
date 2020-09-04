@@ -24,8 +24,6 @@ export const Form = ({ users, sendForm }) => {
       return;
     }
 
-    error.textContent = '';
-
     if (newTodo && selectedUser) {
       sendForm(newTodo, selectedUser);
       form.todo.value = '';
@@ -48,7 +46,7 @@ export const Form = ({ users, sendForm }) => {
       >
         <option value="">Please choose a user</option>
         {users.map(user => (
-          <option value={user.name}>{user.name}</option>
+          <option key={user.id} value={user.name}>{user.name}</option>
         ))}
       </select>
 
