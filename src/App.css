@@ -1,3 +1,26 @@
+h1 {
+  margin: 0;
+}
+
+body {
+  margin-top: 0;
+}
+
 .App {
   text-align: center;
+}
+
+.error-message {
+  position: fixed;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 10px;
+  color: #fff;
+  background-color: red;
+  border-bottom-right-radius: 10px;
+}
+
+.error-message--hidden {
+  display: none;
 }
