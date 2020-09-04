@@ -19,7 +19,7 @@ class App extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      title: event.target.value,
+      title: event.target.value.trimStart(),
       titleError: false,
     });
   }
@@ -48,6 +48,7 @@ class App extends React.Component {
         name,
         userId,
         completed: false,
+        id: todoList.length + 1,
       });
       this.setState(prevState => ({ title: '' }));
     }
@@ -57,24 +58,31 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Todo form</h1>
-        <input
-          placeholder="Enter your todo"
-          onChange={this.handleChange}
-          value={this.state.title}
-        />
-        {this.state.titleError && (
-          <div className="todos__error">Please, enter todos text</div>
-        )}
-        <Select users={users} handleSelect={this.handleSelect} />
-        <button
-          type="button"
-          onClick={this.handleSubmit}
+        <form onSubmit={(e) => {
+          e.preventDefault();
+        }}
         >
-          ADD
-        </button>
-        {this.state.userError && (
-          <div className="todos__error">Please, choose a user</div>
-        )}
+          <label htmlFor="todo">TODO:</label>
+          <input
+            id="todo"
+            placeholder="Enter your todo"
+            onChange={this.handleChange}
+            value={this.state.title}
+          />
+          {this.state.titleError && (
+            <div className="todos__error">Please, enter todos text</div>
+          )}
+          <Select users={users} handleSelect={this.handleSelect} />
+          <button
+            type="button"
+            onClick={this.handleSubmit}
+          >
+            ADD
+          </button>
+          {this.state.userError && (
+            <div className="todos__error">Please, choose a user</div>
+          )}
+        </form>
         <TodoList todos={todoList} />
       </div>
     );

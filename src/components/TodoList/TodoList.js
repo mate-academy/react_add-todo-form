@@ -4,9 +4,10 @@ import { TodoListShape } from '../Shape';
 
 export const TodoList = ({ todos }) => (
   <ul className="todoList">
-    {todos.map(todo => (
-      <div className="todo">
+    {todos.map((todo, index) => (
+      <li className="todo" key={todo.id}>
         <input
+          id="check"
           className="todo__checkbox"
           type="checkbox"
           value={todo.completed}
@@ -19,7 +20,7 @@ export const TodoList = ({ todos }) => (
             {todo.userId}
           </p>
         </div>
-      </div>
+      </li>
     ))}
   </ul>
 );
