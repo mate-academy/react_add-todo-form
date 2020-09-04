@@ -15,9 +15,9 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
 1. Clear the form after adding a TODO
 1. Add validation to the form
     - add an empty option `Choose a user` to the users select
-    - before creating a user check if a `user` was selected, if not show an error message next to the `select` (Please choose a user)
-    - if a title is empty show an error message next to the `title` field (Please enter the title)
+    - before creating a todo check if a `user` was selected, if not show an error message next to the `select` (`Please choose a user`)
+    - if the `title` is empty show an error message next to the `title` field (`Please enter the title`)
     - errors should appear only after pressing `Add` button
-    - hide a message immediately after any change of a field with an error
+    - hide a message immediately after any change of the field with an error
 1. (* Optional) Limit characters displayed in the `title` field.
   Allow entering `spaces` and alphanumeric (`\w`) characters.
