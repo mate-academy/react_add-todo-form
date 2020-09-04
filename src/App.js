@@ -6,24 +6,24 @@ import { TodoList } from './components/TodoList/TodoList';
 import { Form } from './components/Form/Form';
 
 function App() {
-  const [todos, addTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(todosFromServer);
 
-  const addTodo = (todo, author) => {
+  const addTodo = (title, author) => {
     const selectedUser = users.find(user => user.name === author);
 
     const newTodo = {
       userId: selectedUser.id,
       id: todos.length + 1,
-      title: todo,
+      title,
       completed: false,
     };
 
-    addTodos([...todos, newTodo]);
+    setTodos([...todos, newTodo]);
   };
 
   return (
     <div className="App">
-      <Form users={users} sendForm={addTodo} />
+      <Form users={users} sendNewTodo={addTodo} />
       <TodoList todos={todos} />
     </div>
   );
