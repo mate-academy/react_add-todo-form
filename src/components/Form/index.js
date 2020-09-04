@@ -6,50 +6,63 @@ import Todo from '../Todo';
 
 function Form({ users, todos }) {
   const [todoList, setTodoList] = useState(todos);
+  const [error, setError] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [currentUser, setCurrentUser] = useState('Select user');
 
   function handleInput() {
-    const { value } = document.querySelector('.Form__task-input');
-    const userName = document.querySelector('.Form__select-user').value;
-    const errorForm = document.querySelector('.Form__error');
+    if (inputValue.length === 0) {
+      setError('Please enter your task');
+    } else if (currentUser === 'Select user') {
+      setError('Please select user');
+    } else {
+      const actualUser = users.find(user => user.name === currentUser);
 
-    if (value.length !== 0 && userName !== 'Select user') {
-      const actualUser = users.find(user => user.name === userName);
-
-      errorForm.style.display = 'none';
       setTodoList(
         [...todoList,
           {
-            title: value,
+            title: inputValue,
             user: actualUser,
             userId: actualUser.id,
             completed: false,
             id: todoList.length + 1,
           }],
       );
-    } else {
-      errorForm.style.display = 'block';
+      setInputValue('');
     }
   }
 
-  function hideError() {
-    const errorForm = document.querySelector('.Form__error');
+  function handleInputChange(target) {
+    setInputValue(target.value);
+    hideError();
+  }
 
-    errorForm.style.display = 'none';
+  function handleSelectChange(target) {
+    setCurrentUser(target.value);
+    hideError();
+  }
+
+  function hideError() {
+    setError('');
   }
 
   return (
     <div className="Form">
       <div className="Form__container">
-        <p className="Form__error">Task and User fields should not be empty</p>
+        <p className="Form__error">{error}</p>
         <input
           type="text"
           placeholder="Type your task here"
           id="taskInput"
           className="Form__task-input"
           maxLength={30}
-          onChange={hideError}
+          onChange={event => handleInputChange(event.target)}
+          value={inputValue}
         />
-        <select className="Form__select-user">
+        <select
+          className="Form__select-user"
+          onChange={event => handleSelectChange(event.target)}
+        >
           <option key="none">Select user</option>
           {users.map(user => <option key={user.name}>{user.name}</option>)}
         </select>
