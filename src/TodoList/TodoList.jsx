@@ -15,7 +15,7 @@ export const TodoList = React.memo(
       </thead>
       <tbody className="todo__body">
         {todos.map(todo => (
-          <tr className="todo__row" key={Math.random()}>
+          <tr className="todo__row" key={todo.id}>
 
             <Todo {...todo} />
           </tr>

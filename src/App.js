@@ -6,14 +6,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const currentTodos = todosFromServer.map((todo) => {
-  const user = usersFromServer.find(person => person.id === todo.userId);
+  const { name } = usersFromServer.find(person => person.id === todo.userId);
 
-  return (user)
-    ? {
-      ...user,
-      todoTitle: todo.title,
-    }
-    : '';
+  return {
+    ...todo,
+    name,
+  };
 });
 
 export class App extends PureComponent {
@@ -33,41 +31,39 @@ export class App extends PureComponent {
         noUserError: 'Please choose a user',
         noTodoError: 'Please enter the title',
       });
-    } else if (!this.state.todo) {
+    }
+
+    if (!this.state.todo) {
       this.setState({
         noTodoError: 'Please enter the title',
       });
-    } else if (!this.state.user) {
+    }
+
+    if (!this.state.user) {
       this.setState({
         noUserError: 'Please choose a user',
       });
     } else {
-      const selectedUser = usersFromServer.find(user => (
-        user.name === this.state.user
-      ));
+      const userId = usersFromServer
+        .find(user => user.name === this.state.user).id;
 
-      selectedUser.todoTitle = this.state.todo;
+      const name = this.state.user;
+      const id = this.state.todos.length + 1;
+      const title = this.state.todo;
 
       this.setState(state => ({
         todos: [
           ...state.todos,
-          selectedUser,
+          {
+            name,
+            id,
+            title,
+            userId,
+          },
         ],
         todo: '',
         user: '',
       }));
-    }
-  }
-
-  checkForInput = (input) => {
-    if (input) {
-      this.setState({ noTodoError: '' });
-    }
-  }
-
-  checkForUser = (input) => {
-    if (input) {
-      this.setState({ noUserError: '' });
     }
   }
 
@@ -84,8 +80,6 @@ export class App extends PureComponent {
         </p>
 
         <form
-          action="#"
-          method="get"
           className="form"
           onSubmit={(event) => {
             this.addSelection(event);
@@ -95,10 +89,10 @@ export class App extends PureComponent {
             className="form__select"
             value={user}
             onChange={(event) => {
-              const { value } = event.target;
-
-              this.setState({ user: value });
-              this.checkForUser(value);
+              this.setState({
+                user: event.target.value,
+                noUserError: '',
+              });
             }}
           >
             <option value="">Choose a user</option>
@@ -120,10 +114,10 @@ export class App extends PureComponent {
               name="todo"
               value={todo}
               onChange={(event) => {
-                const { value } = event.target;
-
-                this.setState({ todo: value.trim() });
-                this.checkForInput(value);
+                this.setState({
+                  todo: event.target.value.trim(),
+                  noTodoError: '',
+                });
               }}
             />
           </label>
