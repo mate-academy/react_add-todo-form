@@ -1,0 +1,74 @@
+.list {
+  padding: 0;
+}
+
+.list__item {
+  background-image: linear-gradient(to bottom,
+  rgb(186, 138, 123), rgb(181, 133, 118),
+  rgb(177, 129, 113), rgb(172, 124, 108),
+  rgb(167, 119, 103), rgb(163, 114, 98),
+  rgb(158, 110, 92), rgb(154, 105, 87),
+  rgb(149, 100, 82), rgb(144, 95, 77),
+  rgb(140, 91, 72), rgb(135, 86, 67));
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  row-gap: 20px;
+  justify-items: center;
+  align-items: center;
+
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.list__item:hover {
+  background-image: linear-gradient(to bottom,
+  rgb(186, 138, 123), rgb(167, 119, 103));
+}
+
+.newtodo {
+  display: grid;
+  row-gap: 30px;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.newtodo__name {
+  height: 50px;
+  padding-left: 15px;
+  border: 2px solid rgb(184, 136, 121, 0.8);
+  background: none;
+  color: #e5d8cd;
+}
+
+.newtodo__name::placeholder {
+  color: #e5d8cd;
+  font-weight: 700;
+}
+
+.newtodo__users {
+  height: 50px;
+  padding-left: 15px;
+  background-color: rgb(184, 136, 121, 0.7);
+  font-weight: 700;
+}
+
+.newtodo__add {
+  height: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: rgb(185, 135, 121);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.newtodo__add:hover {
+  background-color: rgb(223, 176, 163);
+}
+
+.newtodo__error {
+  color: rgb(226, 0, 38);
+  margin-top: -10px;
+  margin-bottom: -10px;
+}

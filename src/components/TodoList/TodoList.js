@@ -1,0 +1,127 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Todo } from '../Todo/Todo';
+import users from '../../api/users';
+
+import './TodoList.css';
+
+export class TodoList extends React.PureComponent {
+  state = {
+    todos: this.props.todos,
+    value: '',
+    userName: '',
+    isEmptyTitle: false,
+    isEmptyUser: false,
+  }
+
+  handleTodoInput = (event) => {
+    this.setState({ value: event.target.value.replace(/[^\w ]/gi, '') });
+  }
+
+  handleUserSelect = (event) => {
+    this.setState({ userName: event.target.value });
+  }
+
+  addTodo = () => {
+    this.setState(state => ({
+      todos: [
+        ...state.todos,
+        {
+          userId: state.userName
+            ? (users.find(user => state.userName === user.name).id)
+            : '',
+          id: state.todos.length + 1,
+          title: state.value,
+        },
+      ],
+    }));
+
+    if (!this.state.value || !this.state.userName) {
+      this.setState({
+        isEmptyTitle: true,
+        isEmptyUser: true,
+      });
+
+      return;
+    }
+
+    if (this.state.value && this.state.userName) {
+      this.setState({
+        isEmptyTitle: false,
+        isEmptyUser: false,
+      });
+    }
+
+    this.setState({
+      value: '',
+      userName: '',
+    });
+  }
+
+  render() {
+    const { todos, value, userName, isEmptyTitle, isEmptyUser } = this.state;
+
+    return (
+      <>
+        <form
+          className="newtodo"
+          onSubmit={event => (event.preventDefault())}
+        >
+          <input
+            type="text"
+            className="newtodo__name"
+            placeholder="What to do?"
+            value={value}
+            onChange={this.handleTodoInput}
+            maxLength="50"
+          />
+          {!value && isEmptyTitle && (
+            <span className="newtodo__error">Please enter the title</span>
+          )}
+          <select
+            value={userName}
+            className="newtodo__users"
+            onChange={this.handleUserSelect}
+          >
+            <option value="" className="newtodo__user">Choose a user</option>
+            {users.map(user => (
+              <option key={user.id} className="newtodo__user">
+                {user.name}
+              </option>
+            ))}
+          </select>
+          {!userName && isEmptyUser && (
+            <span className="newtodo__error">Please choose a user</span>
+          )}
+
+          <button
+            type="submit"
+            onClick={this.addTodo}
+            className="newtodo__add"
+          >
+            Add
+          </button>
+        </form>
+
+        <ul className="list">
+          {todos.map(todo => (
+            todo.title && todo.userId && (
+              <li className="list__item" key={todo.id}>
+                <Todo {...todo} />
+              </li>
+            )
+          ))}
+        </ul>
+      </>
+    );
+  }
+}
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+};
