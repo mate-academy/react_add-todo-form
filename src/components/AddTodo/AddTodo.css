@@ -1,7 +1,6 @@
 .addTodo {
   display: flex;
   flex-direction: column;
-  /*align-items: center;*/
   border: 2px solid cadetblue;
   border-radius: 10px;
   width: 200px;
