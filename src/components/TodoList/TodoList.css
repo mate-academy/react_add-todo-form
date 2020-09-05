@@ -27,8 +27,9 @@
 }
 
 .newtodo {
+  position: relative;
   display: grid;
-  row-gap: 30px;
+  row-gap: 40px;
   width: 400px;
   margin: 50px auto;
 }
@@ -68,7 +69,15 @@
 }
 
 .newtodo__error {
+  position: absolute;
+  top: 65px;
   color: rgb(226, 0, 38);
-  margin-top: -10px;
-  margin-bottom: -10px;
+}
+
+.newtodo__error_title {
+  top: 65px;
+}
+
+.newtodo__error_user {
+  top: 155px;
 }

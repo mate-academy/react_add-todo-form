@@ -16,7 +16,7 @@ export class TodoList extends React.PureComponent {
   }
 
   handleTodoInput = (event) => {
-    this.setState({ value: event.target.value.replace(/[^\w ]/gi, '') });
+    this.setState({ value: event.target.value.replace(/[^a-z0-9а-я ]/gi, '') });
   }
 
   handleUserSelect = (event) => {
@@ -77,7 +77,11 @@ export class TodoList extends React.PureComponent {
             maxLength="50"
           />
           {!value && isEmptyTitle && (
-            <span className="newtodo__error">Please enter the title</span>
+            <span
+              className="newtodo__error newtodo__error_title"
+            >
+              Please enter the title
+            </span>
           )}
           <select
             value={userName}
@@ -92,7 +96,11 @@ export class TodoList extends React.PureComponent {
             ))}
           </select>
           {!userName && isEmptyUser && (
-            <span className="newtodo__error">Please choose a user</span>
+            <span
+              className="newtodo__error newtodo__error_user"
+            >
+              Please choose a user
+            </span>
           )}
 
           <button
