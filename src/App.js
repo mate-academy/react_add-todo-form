@@ -28,13 +28,18 @@ export class App extends PureComponent {
   addSelection = (event) => {
     event.preventDefault();
 
-    if (!this.state.user) {
+    if (!this.state.user && !this.state.todo) {
       this.setState({
         noUserError: 'Please choose a user',
+        noTodoError: 'Please enter the title',
       });
     } else if (!this.state.todo) {
       this.setState({
         noTodoError: 'Please enter the title',
+      });
+    } else if (!this.state.user) {
+      this.setState({
+        noUserError: 'Please choose a user',
       });
     } else {
       const selectedUser = usersFromServer.find(user => (
