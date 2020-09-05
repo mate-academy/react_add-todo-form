@@ -6,6 +6,7 @@ html {
 body {
   background-image: url("./images/wooden-boards.jpg");
   background-size: contain;
+  overflow: hidden;
 }
 
 .App {
