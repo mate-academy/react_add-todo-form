@@ -1,7 +1,16 @@
+.done,
+.undone {
+  cursor: pointer;
+}
+
 .done {
   color: green;
 }
 
 .undone {
   color: red;
+}
+
+.status-check {
+  display: none;
 }
