@@ -30,7 +30,7 @@
   display: grid;
   row-gap: 30px;
   width: 400px;
-  margin: 0 auto;
+  margin: 50px auto;
 }
 
 .newtodo__name {
