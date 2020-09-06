@@ -1,0 +1,11 @@
+.todos-list {
+  width: 980px;
+  display: grid;
+  grid-template-columns: repeat(4, 245px);
+
+  &__item {
+    margin: 5px;
+    padding: 5px;
+    background: #ffc;
+  }
+}
