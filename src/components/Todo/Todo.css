@@ -1,0 +1,55 @@
+.todolist__item {
+  display: flex;
+  align-items: center;
+
+  padding-top: calc(var(--gap) / 2);
+  padding-bottom: calc(var(--gap) / 2);
+  margin-bottom: calc(var(--gap) / 2);
+
+  border-radius: 3px;
+  border-bottom: 1px solid rgb(212, 212, 212);
+  transition: background-color 0.15s,
+    opacity 0.15s;
+}
+
+.todolist__item:hover {
+  background-color: rgba(58, 58, 58, 0.05);
+}
+
+.todolist__item:last-child {
+  margin-bottom: 0;
+}
+
+.todolist__check {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-right: calc(var(--gap) * 2);
+}
+
+.todolist__title {
+  font-style: italic;
+  color: var(--mainTextColor);
+}
+
+.todolist__user {
+  position: absolute;
+  margin-right: var(--gap);
+  right: 0;
+}
+
+.todolist__user-name {
+  font-size: 18px;
+  color: rgba(121, 16, 16, 0.6);
+  margin-right: calc(var(--gap) / 2);
+}
+
+.todolist__user-id {
+  font-size: 12px;
+}
+
+.completed,
+.completed:hover {
+  background-color: rgba(131, 230, 131, 1);
+  opacity: 0.5;
+}
