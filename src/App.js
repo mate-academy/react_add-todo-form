@@ -13,9 +13,7 @@ const todosToRender = todos.map(todo => ({
 class App extends React.Component {
  state = {
    todo: '',
-   id: todosToRender.map(todo => todo.id).length > 0
-     ? todosToRender.map(todo => todo.id).length + 1
-     : 1,
+   id: todosToRender.map(todo => todo.id).length + 1,
    user: '',
    userError: false,
    titleError: false,
