@@ -1,3 +1,52 @@
-.App {
-  text-align: center;
+body {
+  margin: 50px auto;
+  max-width: 800px;
+  color: grey;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.todo-list {
+  width: 800px;
+  border: 1px solid gray;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 40px;
+
+  border-bottom: 1px solid gray;
+}
+
+.error {
+  color: red;
+}
+
+.add__form {
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 5px;
+
+  max-width: 350px;
+  margin-bottom: 20px;
+}
+
+.add__item {
+  border: 1px solid grey;
+  outline: none;
+  color: grey;
+}
+
+.add__button {
+  background-color: whitesmoke;
+}
+
+.add__button:hover {
+  background-color: gainsboro;
 }
