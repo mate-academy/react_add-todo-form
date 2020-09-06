@@ -1,0 +1,16 @@
+.form__field {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+}
+
+.form__eror {
+  display: block;
+  margin: 15px auto;
+  padding: 15px;
+  border: 2px solid red;
+  background-color: #fff;
+  color: red;
+  font-weight: 700;
+  width: fit-content;
+}
