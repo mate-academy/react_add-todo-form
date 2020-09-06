@@ -23,11 +23,17 @@ class App extends React.Component {
   };
 
   handleChanges = (event) => {
-    this.setState({ todo: event.target.value });
+    this.setState({
+      todo: event.target.value,
+      titleError: '',
+    });
   }
 
   handleSelect = (event) => {
-    this.setState({ user: event.target.value });
+    this.setState({
+      user: event.target.value,
+      userError: '',
+    });
   }
 
   handleSubmit = (event) => {
