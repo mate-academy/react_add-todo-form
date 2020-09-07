@@ -6,27 +6,19 @@ import './Todo.css';
 const Todo = ({ userId, id, title, completed, users }) => {
   const [done, isChecked] = useState(completed);
 
-  const handleChange = (event) => {
-    if (event.target.checked) {
-      isChecked(!done);
-    } else {
-      isChecked(!done);
-    }
-  };
-
   return (
     <div key={id} className={classes('todo', { completed: done })}>
       <label>
         <input
           type="checkbox"
           checked={done}
-          onChange={handleChange}
+          onClick={() => isChecked(!done)}
         />
       </label>
       {users.map(user => (
-        user.id === userId
-          ? <h4 key={user.id}>{user.name}</h4>
-          : null))}
+        (user.id === userId)
+          && (<h4 key={user.id}>{user.name}</h4>)
+      ))}
       <h4>Task:</h4>
       <p>{title}</p>
     </div>

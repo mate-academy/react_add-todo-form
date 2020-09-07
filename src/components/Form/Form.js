@@ -32,7 +32,7 @@ function Form({ users, todoAdd }) {
     event.target.reset();
   };
 
-  const isChange = (event) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
     if (name === 'title') {
@@ -47,7 +47,7 @@ function Form({ users, todoAdd }) {
   return (
     <form onSubmit={isSubmit} className="form">
       <p className="error">{error}</p>
-      <select className="select-users" name="person" onChange={isChange}>
+      <select className="select-users" name="person" onChange={handleChange}>
         <option value="">Please choose a user</option>
         {users.map(user => (
           <option
@@ -64,7 +64,7 @@ function Form({ users, todoAdd }) {
           type="text"
           name="title"
           placeholder="Write your task"
-          onChange={isChange}
+          onChange={handleChange}
         />
         <button className="button-submit" type="submit">Add</button>
       </div>

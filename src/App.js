@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 function App() {
   const [list, setList] = useState(todosFromServer);
 
-  const todoAdd = (title, person) => {
+  const addTodo = (title, person) => {
     const selectedUser = usersFromServer.find(user => (
       user.name === person));
 
@@ -28,7 +28,7 @@ function App() {
 
       <Form
         users={usersFromServer}
-        todoAdd={todoAdd}
+        todoAdd={addTodo}
       />
       <TodoList list={list} users={usersFromServer} />
     </div>
