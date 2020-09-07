@@ -73,9 +73,7 @@ class App extends React.Component {
        </p>
 
        <form onSubmit={this.addTodo}>
-         {userError
-         && <h3>Please choose a user</h3>
-         }
+         {userError && <h3>Please choose a user</h3>}
 
          <select
            name="user"
@@ -94,9 +92,7 @@ class App extends React.Component {
            ))}
          </select>
 
-         {titleError
-           && <h3>Please enter the title</h3>
-         }
+         {titleError && <h3>Please enter the title</h3>}
 
          <input
            type="text"
