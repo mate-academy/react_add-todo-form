@@ -1,0 +1,7 @@
+ul {
+  list-style: none;
+}
+
+.todo-list {
+  display: flex;
+}
