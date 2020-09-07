@@ -53,3 +53,7 @@
   font-size: 1.3em;
   color: red;
 }
+
+.error {
+  outline: 1px solid red;
+}

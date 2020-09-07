@@ -7,25 +7,27 @@ import users from './api/users';
 import { Todo } from './components/Todo/Todo';
 import { Form } from './components/Form/Form';
 
+const preparedTodos = todos.map(todo => (
+  {
+    ...users.find(current => current.id === todo.userId),
+    ...todo,
+  }
+));
+
 class App extends React.Component {
   state = {
-    preparedTodos: todos.map(todo => (
-      {
-        ...users.find(current => current.id === todo.userId),
-        ...todo,
-      }
-    )),
+    todos: preparedTodos,
     todosCounts: todos.length,
   }
 
-  todosAdder = (todo) => {
+  addTodo = (todo) => {
     const newTodo = todo;
 
     newTodo.id = this.state.todosCounts + 1;
 
     this.setState(currentState => ({
       todosCounts: currentState.todosCounts + 1,
-      preparedTodos: [...currentState.preparedTodos, newTodo],
+      todos: [...currentState.todos, newTodo],
     }));
   }
 
@@ -35,10 +37,10 @@ class App extends React.Component {
         <h1>List of todos</h1>
         <Form
           users={users}
-          clickHandler={this.todosAdder}
+          clickHandler={this.addTodo}
         />
         <div className="todolist">
-          {this.state.preparedTodos.map(todo => (
+          {this.state.todos.map(todo => (
             <Todo
               {...todo}
               key={todo.id}

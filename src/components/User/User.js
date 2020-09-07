@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 export const User = ({ name, username, email }) => (
   <div className="user">
     <div className="username">
-      &apos;
-      {username}
-      &apos;
+      {`'${username}'`}
     </div>
     <div className="name">{name}</div>
     <div className="email">{email}</div>
