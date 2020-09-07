@@ -15,7 +15,7 @@ export class AddForm extends React.Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.trim(),
     });
   }
 
@@ -57,6 +57,7 @@ export class AddForm extends React.Component {
 
   render() {
     const { user, newTodo, errorName, errorTitle } = this.state;
+    const { allUsers, allTodos } = this.props;
 
     return (
       <>
@@ -71,7 +72,7 @@ export class AddForm extends React.Component {
             onChange={this.handleChange}
           >
             <option value="">Choose user name</option>
-            {this.props.allUsers.map(person => (
+            {allUsers.map(person => (
               <option key={person.id} value={person.name}>
                 {person.name}
               </option>
@@ -106,7 +107,7 @@ export class AddForm extends React.Component {
             Add
           </button>
         </form>
-        <TodoList todosPrep={this.props.allTodos} />
+        <TodoList todosPrep={allTodos} />
       </>
     );
   }
