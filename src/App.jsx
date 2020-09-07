@@ -5,14 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-// import { AddTodo } from './components/AddTodo';
 
 const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find(user => user.id === todo.userId),
 }));
-
-console.log([...preparedTodos]);
 
 export class App extends Component {
   state = {
@@ -33,7 +30,6 @@ export class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(this.state);
 
     const { titleOfTodo, userName } = this.state;
 
@@ -72,8 +68,6 @@ export class App extends Component {
   };
 
   render() {
-    // console.log(this.state);
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -104,7 +98,7 @@ export class App extends Component {
             >
               <option value="">Choose a user</option>
 
-              {usersFromServer.map((user) => (
+              {usersFromServer.map(user => (
                 <option value={user.name} key={user.id}>
                   {user.name}
                 </option>
