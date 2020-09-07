@@ -53,6 +53,11 @@ class App extends React.Component {
         ...state.todos,
       ],
     }));
+
+    this.setState({
+      person: '',
+      title: '',
+    });
   }
 
   render() {
@@ -78,6 +83,7 @@ class App extends React.Component {
               className="add-todo__title_input"
               type="text"
               placeholder="todo..."
+              value={this.state.title}
               onChange={(event) => {
                 this.setState({ title: event.target.value });
               }}
