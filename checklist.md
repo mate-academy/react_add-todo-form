@@ -1,4 +1,5 @@
 - read the task carefully once more and check if you implemented everything that is required;
+- don't interact with DOM directly, use React as much as possible
 - make sure you can't add empty title with blank space;
 - make sure you described objects in propTypes;
 - don't generate key on render ([here](https://medium.com/blackrock-engineering/5-common-mistakes-with-keys-in-react-b86e82020052) is why)
