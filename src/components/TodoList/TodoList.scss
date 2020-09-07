@@ -1,0 +1,29 @@
+.todo {
+  &__list {
+    display: grid;
+    justify-content: center;
+    padding: 0;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    list-style: none;
+    padding: 10px 0;
+    color: #fff;
+    background-color: #484848;
+    border: 1px solid rgb(95, 93, 93);
+
+    &--main {
+      background-color: rgb(20, 20, 20);
+    }
+  }
+
+  &__item > * {
+    margin: 0;
+  }
+
+  &__status--completed {
+    color: rgb(196, 44, 44);
+  }
+}
