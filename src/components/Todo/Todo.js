@@ -3,8 +3,12 @@ import './Todo.css';
 import PropTypes from 'prop-types';
 import { User } from '../User/User';
 
-export const Todo = ({ title, completed, ...user }) => (
+export const Todo = ({ id, title, completed, ...user }) => (
   <div className="todo">
+    <div>
+      id:
+      {id}
+    </div>
     <div className="title">{title}</div>
 
     <button
@@ -20,6 +24,7 @@ export const Todo = ({ title, completed, ...user }) => (
 );
 
 Todo.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
 };

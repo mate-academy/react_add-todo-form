@@ -14,8 +14,8 @@
 }
 
 .status {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
   background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT5Twd3-uzZFr9M09q8-Dgl5OHmdMETpSoDXQ&usqp=CAU") center no-repeat;
   background-size: 100%;
   cursor: pointer;
