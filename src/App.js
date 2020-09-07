@@ -20,7 +20,7 @@ class App extends React.Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value.replace(/\ws+/gi, '').trim(),
+      [name]: value.replace(/\ws+/g, ''),
       userError: false,
       titleError: false,
     });
@@ -66,9 +66,11 @@ class App extends React.Component {
           <p hidden={!titleError}>
             Please enter the title
           </p>
+
           <p hidden={!userError}>
             Please choose a user
           </p>
+
           <label>
             User:
             <select
@@ -86,6 +88,7 @@ class App extends React.Component {
               ))}
             </select>
           </label>
+
           <label>
             TODO:
             <input
@@ -95,6 +98,7 @@ class App extends React.Component {
               value={title}
             />
           </label>
+
           <button type="submit">
             Add
           </button>
