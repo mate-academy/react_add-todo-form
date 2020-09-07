@@ -1,0 +1,49 @@
+.form {
+  display: grid;
+  grid-template-columns: 150px 200px 150px 50px;
+  grid-template-rows: 40px;
+  grid-gap: 5px;
+  position: relative;
+  width: 600px;
+  margin: 0 auto 25px;
+
+}
+
+.radio {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  width: 100px;
+  margin-left: 10px;
+  height: 30px;
+}
+
+.error {
+
+  font-size: 14px;
+  color: red;
+}
+
+.error-name {
+  position: absolute;
+  top: 30px;
+  left: 0;
+}
+
+.error-title {
+  position: absolute;
+  top: 30px;
+  left: 155px;
+}
+
+.error-status {
+  position: absolute;
+  top: 30px;
+  left: 360px;
+}
+
+.button {
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: rgb(34, 32, 32);
+}
