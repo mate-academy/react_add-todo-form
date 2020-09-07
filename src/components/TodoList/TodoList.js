@@ -16,7 +16,11 @@ export class TodoList extends React.PureComponent {
   }
 
   handleTodoInput = (event) => {
-    this.setState({ value: event.target.value.replace(/[^a-z0-9а-я ]/gi, '') });
+    this.setState({
+      value: event.target.value
+        .replace(/[^a-z0-9а-я ]/gi, '')
+        .trimLeft(),
+    });
   }
 
   handleUserSelect = (event) => {
