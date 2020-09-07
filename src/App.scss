@@ -1,0 +1,31 @@
+.list {
+  display: flex;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-todo {
+  width: 300px;
+  padding: 25px;
+  border-radius: 15px;
+  background-color: yellowgreen;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-right: 15px;
+
+    &_input {
+      margin-right: 50px;
+    }
+  }
+}
+
+.warning {
+  color: red;
+  text-transform: uppercase;
+}
