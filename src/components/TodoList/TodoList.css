@@ -1,0 +1,31 @@
+.todo {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 2px solid gray;
+  box-shadow: gray -2px 2px 2px;
+  border-radius: 10px;
+  font-size: 20px;
+  width: 90%;
+  margin: 10px auto;
+  transform: translate(10px);
+}
+
+.todo:hover {
+  cursor: pointer;
+  transform: translateY(2px);
+}
+
+.todo > :first-child {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(12, 26, 218);
+}
+
+.completed {
+  background-color: rgb(22, 222, 72);
+}
+
+.not_completed {
+  background-color: rgb(222, 122, 72);
+}
