@@ -9,6 +9,7 @@ export const ShowTodos = ({ todos }) => (
         className="todos__todo"
         key={todo.id}
       >
+        <div>{todo.id}</div>
         <p className="todos__head">
           User ID:
           {' '}
