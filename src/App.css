@@ -1,3 +1,50 @@
 .App {
   text-align: center;
+  font-family: sans-serif;
+}
+
+.select-user {
+  margin-bottom: 20px;
+  cursor: pointer;
+  width: 200px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.new-todo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.todo-text {
+  padding-left: 15px;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 40px;
+  font-size: 18px;
+}
+
+.todo-submit {
+  width: 50px;
+  height: 46px;
+  background-color: #fff;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: 600;
+  margin-left: 15px;
+  cursor: pointer;
+  transition: 0.6s all;
+}
+
+.todo-submit:hover {
+  background-color: black;
+  color: white;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
 }

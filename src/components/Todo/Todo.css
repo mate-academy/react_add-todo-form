@@ -1,0 +1,27 @@
+.todo-item {
+  width: 250px;
+  border: 2px solid coral;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: transform 0.4s;
+
+}
+
+.todo-item:hover {
+  transform: scale(1.1);
+  background-color: rgb(255, 255, 177);
+}
+
+.todo-item h3 {
+  margin: 10px;
+}
+
+.status {
+  color: red;
+  font-weight: 600;
+}
+
+.completed {
+  color: green;
+}
