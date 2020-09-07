@@ -37,9 +37,6 @@ export class App extends PureComponent {
         noUserError: 'Please choose a user',
       });
     } else if (this.state.todo && this.state.user) {
-      const userId = usersFromServer
-        .find(user => user.name === this.state.user).id;
-
       const name = this.state.user;
       const id = this.state.todos.length + 1;
       const title = this.state.todo;
@@ -51,7 +48,6 @@ export class App extends PureComponent {
             name,
             id,
             title,
-            userId,
           },
         ],
         todo: '',

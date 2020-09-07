@@ -8,9 +8,9 @@ export const TodoList = React.memo(
     <table className="todo">
       <thead>
         <tr className="todo__head-row">
+        <th className="todo__heading">Todo Id</th>
           <th className="todo__heading">Todo</th>
           <th className="todo__heading">User</th>
-          <th className="todo__heading">UserId</th>
         </tr>
       </thead>
       <tbody className="todo__body">
