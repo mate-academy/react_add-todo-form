@@ -6,7 +6,11 @@ import './TodoList.css';
 function TodoList({ todos }) {
   return (
     <ul className="TodoList">
-      {todos.map(todo => <li key={todo.id}><Todo {...todo} /></li>)}
+      {todos.map(todo => (
+        <li key={todo.id}>
+          <Todo {...todo} />
+        </li>
+      ))}
     </ul>
   );
 }

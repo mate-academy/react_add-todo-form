@@ -10,8 +10,8 @@ function Form({ users, todos }) {
   const [inputValue, setInputValue] = useState('');
   const [currentUser, setCurrentUser] = useState('Select user');
 
-  function handleInput() {
-    if (inputValue.length === 0) {
+  function handleSubmit() {
+    if (inputValue.trim().length === 0) {
       setError('Please enter your task');
     } else if (currentUser === 'Select user') {
       setError('Please select user');
@@ -50,6 +50,9 @@ function Form({ users, todos }) {
     <div className="Form">
       <div className="Form__container">
         <p className="Form__error">{error}</p>
+        <label htmlFor="taskInput">Choose task</label>
+        <label htmlFor="user-select">Choose user</label>
+        <span />
         <input
           type="text"
           placeholder="Type your task here"
@@ -62,14 +65,19 @@ function Form({ users, todos }) {
         <select
           className="Form__select-user"
           onChange={event => handleSelectChange(event.target)}
+          id="user-select"
         >
           <option key="none">Select user</option>
-          {users.map(user => <option key={user.name}>{user.name}</option>)}
+          {users.map(user => (
+            <option key={user.name}>
+              {user.name}
+            </option>
+          ))}
         </select>
         <button
           type="button"
           className="Form__btn-add"
-          onClick={handleInput}
+          onClick={handleSubmit}
         >
           Add
         </button>
