@@ -1,19 +1,34 @@
 import React from 'react';
 import './App.css';
-
+import todos from './api/todos';
 import users from './api/users';
+import { TodoList } from './components/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.PureComponent {
+  state = {
+    todos: [...preparedTodos],
+  };
+
+  addTodo = (todo) => {
+    this.setState(prev => (
+      {
+        todos: [...prev.todos, todo],
+      }
+    ));
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <TodoList todos={preparedTodos} users={users} />
+      </div>
+    );
+  }
 }
 
 export default App;
