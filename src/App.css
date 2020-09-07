@@ -51,6 +51,7 @@ h1 {
   font-size: 70px;
   font-weight: bold;
   font-style: italic;
+  user-select: none;
   color: rgba(121, 16, 16, 0.3);
 }
 

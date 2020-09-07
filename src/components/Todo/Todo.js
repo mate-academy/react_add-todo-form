@@ -29,6 +29,10 @@ export class Todo extends React.Component {
           onChange={this.handleComplete}
         />
 
+        <span className="todolist__id">
+          {`${todo.id}.`}
+        </span>
+
         <span className="todolist__title">
           {todo.title}
         </span>

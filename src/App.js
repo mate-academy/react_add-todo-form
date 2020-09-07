@@ -24,7 +24,7 @@ class App extends React.Component {
 
   addTodoTask = (event) => {
     this.setState({
-      task: event.target.value.replace(/[^A-Za-zА-Яа-яІіЇїЄє0-9 ]+/g, ''),
+      task: event.target.value.replace(/[^A-Za-z0-9 ]+/g, ''),
       taskNotAdded: false,
     });
   }
@@ -39,42 +39,51 @@ class App extends React.Component {
   addTodo = (event) => {
     event.preventDefault();
     const { task, userName, todoList } = this.state;
+    const trimmedTask = task.trim();
 
-    if (!task && (!userName || userName === 'default')) {
+    if (!trimmedTask && (!userName || userName === 'default')) {
       this.setState({
         taskNotAdded: true,
         userNotAdded: true,
       });
-    } else
-    if (!task) {
+
+      return;
+    }
+
+    if (!trimmedTask) {
       this.setState({
         taskNotAdded: true,
       });
-    } else
+
+      return;
+    }
+
     if (!userName || userName === 'default') {
       this.setState({
         userNotAdded: true,
       });
-    } else {
-      const newTodo = {
-        userId: users.find(user => user.name === userName).id,
-        id: todoList.length + 1,
-        title: task,
-        completed: false,
-        user: users.find(user => user.name === userName),
-      };
 
-      this.setState(state => ({
-        task: '',
-        userName: '',
-        todoList: [
-          ...state.todoList,
-          newTodo,
-        ],
-        taskNotAdded: false,
-        userNotAdded: false,
-      }));
+      return;
     }
+
+    const newTodo = {
+      userId: users.find(user => user.name === userName).id,
+      id: todoList.length + 1,
+      title: trimmedTask,
+      completed: false,
+      user: users.find(user => user.name === userName),
+    };
+
+    this.setState(state => ({
+      task: '',
+      userName: '',
+      todoList: [
+        ...state.todoList,
+        newTodo,
+      ],
+      taskNotAdded: false,
+      userNotAdded: false,
+    }));
   }
 
   render() {
