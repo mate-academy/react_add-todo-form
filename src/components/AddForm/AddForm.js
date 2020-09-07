@@ -71,7 +71,7 @@ export class AddForm extends React.Component {
             onChange={this.handleChange}
           >
             <option value="">Choose user name</option>
-            {[...this.props.allUsers].map(person => (
+            {this.props.allUsers.map(person => (
               <option key={person.id} value={person.name}>
                 {person.name}
               </option>
