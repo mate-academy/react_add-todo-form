@@ -1,0 +1,39 @@
+.todolist {
+  position: relative;
+  margin: auto;
+  width: 650px;
+  border: 1px solid black;
+
+  &__header {
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  &__item {
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    border: 1px solid blue;
+    margin-top: 5px;
+
+    &--uncompleted {
+      color: red;
+      cursor: pointer;
+    }
+
+    &--completed {
+      cursor: pointer;
+      color: green;
+    }
+  }
+}
+
+.status-check {
+  position: absolute;
+  cursor: pointer;
+  visibility: hidden;
+  // opacity: 0;
+  // display: none;
+  // z-index: -1;
+}

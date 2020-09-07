@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  // margin-top: 20px;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: auto;
+  // margin-top: 20px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+
+  &__error {
+    // position: absolute;
+  }
+}
