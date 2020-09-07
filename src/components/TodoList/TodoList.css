@@ -1,0 +1,22 @@
+.todoList {
+  display: grid;
+  grid-template-columns: repeat(3, 250px);
+  grid-gap: 50px;
+}
+
+.todo {
+  width: 250px;
+  border: 1px solid green;
+  list-style: none;
+}
+
+.todos__error {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: red;
+}
+
+.todo__checkbox:checked + .todo__text {
+  text-decoration: line-through;
+  color: red;
+}
