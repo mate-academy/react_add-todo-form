@@ -96,7 +96,7 @@ class App extends React.Component {
             value={this.state.person}
             onChange={this.handleChange}
           >
-            <option value="dafault">Choose user</option>
+            <option value="">Choose user</option>
             {usersFromServer.map(user => (
               <option
                 key={user.id}
