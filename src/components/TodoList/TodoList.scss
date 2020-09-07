@@ -1,0 +1,11 @@
+.list {
+  padding-left: 0;
+  width: 500px;
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f5f1da;
+    padding: 10px 20px;
+    border: 1px solid #f8bd7f;
+  }
+}

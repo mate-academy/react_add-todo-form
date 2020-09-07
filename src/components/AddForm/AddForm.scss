@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin: 0 auto;
+
+  &__selection {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  &__button {
+    width: 60px;
+    margin: 20px auto;
+  }
+
+  &__input {
+    margin-top: 20px;
+  }
+
+  &__error {
+    color: orange;
+    text-align: center;
+  }
+}
