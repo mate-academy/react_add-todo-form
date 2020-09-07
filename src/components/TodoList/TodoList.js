@@ -20,11 +20,15 @@ export class TodoList extends React.PureComponent {
       value: event.target.value
         .replace(/[^a-z0-9а-я ]/gi, '')
         .trimLeft(),
+      isEmptyTitle: false,
     });
   }
 
   handleUserSelect = (event) => {
-    this.setState({ userName: event.target.value });
+    this.setState({
+      userName: event.target.value,
+      isEmptyUser: false,
+    });
   }
 
   addTodo = () => {
@@ -34,27 +38,27 @@ export class TodoList extends React.PureComponent {
         {
           userId: state.userName
             ? (users.find(user => state.userName === user.name).id)
-            : '',
+            : 0,
           id: state.todos.length + 1,
           title: state.value,
         },
       ],
     }));
 
-    if (!this.state.value || !this.state.userName) {
+    if (!this.state.value) {
       this.setState({
         isEmptyTitle: true,
-        isEmptyUser: true,
       });
-
-      return;
     }
 
-    if (this.state.value && this.state.userName) {
+    if (!this.state.userName) {
       this.setState({
-        isEmptyTitle: false,
-        isEmptyUser: false,
+        isEmptyUser: true,
       });
+    }
+
+    if (!this.state.value || !this.state.userName) {
+      return;
     }
 
     this.setState({
@@ -80,7 +84,7 @@ export class TodoList extends React.PureComponent {
             onChange={this.handleTodoInput}
             maxLength="50"
           />
-          {!value && isEmptyTitle && (
+          {isEmptyTitle && (
             <span
               className="newtodo__error newtodo__error_title"
             >
@@ -99,7 +103,7 @@ export class TodoList extends React.PureComponent {
               </option>
             ))}
           </select>
-          {!userName && isEmptyUser && (
+          {isEmptyUser && (
             <span
               className="newtodo__error newtodo__error_user"
             >
@@ -118,7 +122,7 @@ export class TodoList extends React.PureComponent {
 
         <ul className="list">
           {todos.map(todo => (
-            todo.title && todo.userId && (
+            todo.title && todo.userId > 0 && (
               <li className="list__item" key={todo.id}>
                 <Todo {...todo} />
               </li>
