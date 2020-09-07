@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Todo.css';
 import { User } from '../User/User';
 
-export class Todo extends React.Component{
+export class Todo extends React.Component {
   state = {
     status: false,
   }
@@ -18,9 +18,9 @@ export class Todo extends React.Component{
         <p>{title}</p>
         <label
           htmlFor={`status-check-${id}`}
-          className={status ? 'done' : 'undone'}
+          className={status ? 'todo-completed' : 'todo-uncompleted'}
         >
-          {status ? 'Done' : 'Undone'}
+          {status ? 'Finished' : 'Not finished yet'}
         </label>
         <input
           type="checkbox"
@@ -40,7 +40,7 @@ export class Todo extends React.Component{
 
 Todo.propTypes = {
   title: PropTypes.string.isRequired,
-  completed: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,

@@ -60,10 +60,10 @@ export class AddTodo extends React.Component {
           type="text"
           name="title"
           id="title"
-          value={title.trim()}
+          value={title}
           onChange={(event) => {
             this.setState({
-              title: event.target.value,
+              title: event.target.value.trim(),
               titleError: false,
             });
           }

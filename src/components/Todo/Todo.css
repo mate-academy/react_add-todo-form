@@ -1,13 +1,13 @@
-.done,
-.undone {
+.todo-completed,
+.todo-uncompleted {
   cursor: pointer;
 }
 
-.done {
+.todo-completed {
   color: green;
 }
 
-.undone {
+.todo-uncompleted {
   color: red;
 }
 
