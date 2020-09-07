@@ -1,0 +1,20 @@
+.todo {
+  min-width: 360px;
+  max-width: 500px;
+  margin: auto;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &__title {
+    font-weight: bold;
+    max-width: 300px;
+  }
+
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+  }
+}
