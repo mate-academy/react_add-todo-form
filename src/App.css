@@ -1,3 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  background-color: rgb(209, 199, 208);
+}
+
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  margin-top: 100px;
+}
+
+input,
+select {
+  width: 500px;
+  height: 30px;
+  padding-left: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  color: rgb(88, 88, 88);
+
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 800px;
+  margin-bottom: 10px;
+  padding-left: 140px;
+}
+
+.error-message {
+  font-size: 12px;
+  color: rgb(241, 76, 54);
+}
+
+button {
+  display: block;
+  width: 500px;
+  height: 30px;
+  align-self: flex-start;
+  margin-left: 140px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: rgb(116, 116, 180);
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: rgb(100, 100, 161);
 }
