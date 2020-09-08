@@ -1,0 +1,36 @@
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.info {
+  text-align: center;
+}
+
+.form {
+  text-align: center;
+  margin: 20px;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  margin-left: 5px;
+}
+
+.addTitle {
+  padding: 5px 100px 5px 10px;
+  margin-bottom: 10px;
+}
+
+.addUser {
+  padding: 5px 100px 5px 5px;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 270px;
+  height: 40px;
+  background-color: rgb(201, 201, 201);
+  border-radius: 10px;
+}
