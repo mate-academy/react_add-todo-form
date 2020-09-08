@@ -2,7 +2,7 @@ import React from 'react';
 import './Todo.css';
 import { TodoShape } from './Shape';
 
-export const Todo = ({ id, title, completed, user }) => (
+export const Todo = ({ id, title, completed }) => (
   <li className="item">
     <span>
       {id}
