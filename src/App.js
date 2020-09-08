@@ -19,6 +19,22 @@ export const App = () => {
     setTodos([...todos, todo]);
   };
 
+  const toggleComplete = (id) => {
+    const completedTodos = [...todos]
+      .map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      });
+
+    setTodos(completedTodos);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -29,7 +45,7 @@ export const App = () => {
         addNewTodo={addNewTodo}
       />
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} toggleComplete={toggleComplete} />
     </div>
   );
 };

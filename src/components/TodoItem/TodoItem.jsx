@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-export const TodoItem = ({ id, title, person, completed }) => (
+export const TodoItem = ({ id, title, person, completed, toggleComplete }) => (
   <li
     className={classNames(
       'todo__item',
@@ -18,7 +18,15 @@ export const TodoItem = ({ id, title, person, completed }) => (
     <p className="todo_personName">
       {person.name}
     </p>
-    {completed ? 'Done' : 'In Process'}
+    <label className="checkbox-label">
+      <input
+        className="todo__checkbox"
+        type="checkbox"
+        checked={completed}
+        onChange={() => toggleComplete(id)}
+      />
+      {completed ? 'Done' : 'In Process'}
+    </label>
   </li>
 );
 
@@ -29,4 +37,5 @@ TodoItem.propTypes = {
   person: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  toggleComplete: PropTypes.func.isRequired,
 };
