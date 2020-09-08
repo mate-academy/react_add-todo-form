@@ -54,7 +54,7 @@ class App extends React.Component {
     return true;
   }
 
-  Add = (event) => {
+  add = (event) => {
     event.preventDefault();
 
     this.timeToShowError = true;
