@@ -14,6 +14,7 @@ li {
   width: 500px;
 
   &__item {
+    margin-bottom: 5px;
     border: 1px solid wheat;
     display: block;
     height: 40px;
@@ -25,5 +26,11 @@ li {
   &__button {
     border: 2px solid wheat;
     font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background-color: wheat;
+      color: black;
+    }
   }
 }
