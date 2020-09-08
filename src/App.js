@@ -13,7 +13,7 @@ class App extends React.Component {
   state = {
     todos: preparedTodos,
     todo: '',
-    user: '',
+    userId: 0,
     noTitle: false,
     noSelect: false,
   }
@@ -28,7 +28,7 @@ class App extends React.Component {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!this.state.todo && !this.state.user) {
+            if (!this.state.todo && !this.state.userId) {
               this.setState({
                 noTitle: true,
                 noSelect: true,
@@ -45,7 +45,7 @@ class App extends React.Component {
               return;
             }
 
-            if (!this.state.user) {
+            if (!this.state.userId) {
               this.setState({
                 noSelect: true,
               });
@@ -58,14 +58,14 @@ class App extends React.Component {
                 ...state.todos,
                 {
                   id: todos.length + 1,
-                  userId: users.find(user => user.name === state.user).id,
+                  userId: state.userId,
                   title: state.todo,
                   name: state.user,
                   completed: false,
                 },
               ],
               todo: '',
-              user: '',
+              userId: '',
             }));
           }}
         >
@@ -82,17 +82,17 @@ class App extends React.Component {
           <span>{this.state.noTitle && 'Please add a todo'}</span>
           <br />
           <select
-            value={this.state.user}
+            value={this.state.userId}
             onChange={(event) => {
               this.setState({
-                user: event.target.value,
+                userId: event.target.value,
                 noSelect: false,
               });
             }}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {users.map(user => (
-              <option key={user.id} value={user.name}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
