@@ -2,20 +2,25 @@
   position: relative;
   margin: auto;
   width: 650px;
-  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #fff;
 
   &__header {
     align-items: center;
     display: grid;
     grid-template-columns: repeat(3,1fr);
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #145374;
   }
 
   &__item {
     align-items: center;
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    border: 1px solid blue;
-    margin-top: 5px;
+    background-color: #bfdcae;
+    border-radius: 5px;
+    margin: 5px;
 
     &--uncompleted {
       color: red;

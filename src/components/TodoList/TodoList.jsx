@@ -35,11 +35,12 @@ export class TodoList extends React.Component {
               type="checkbox"
               id={`status-check-${todo.id}`}
               checked={status}
-              onChange={(event) => {
-                this.setState({
-                  status: event.target.checked,
-                });
-              }}
+              readOnly
+              // onChange={(event) => {
+              //   this.setState({
+              //     status: event.target.checked,
+              //   });
+              // }}
             />
           </div>
         ))}

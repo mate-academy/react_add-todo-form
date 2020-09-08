@@ -21,12 +21,10 @@ export class App extends Component {
   };
 
   handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
+    const { name, value } = event.target;
 
     this.setState({
-      [name]: type === 'checkbox' ? checked : value
-        .trimLeft()
-        .replace('  ', ' '),
+      [name]: value.trimLeft().replace(/\s{2,}/g, ' '),
       titleError: false,
       userError: false,
     });
@@ -34,26 +32,14 @@ export class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
     const { titleOfTodo, userName } = this.state;
 
-    if (!titleOfTodo) {
-      this.setState({
-        titleError: true,
-      });
-
-      // return;
-    }
-
-    if (!userName) {
-      this.setState({
-        userError: true,
-      });
-
-      // return;
-    }
-
     if (!titleOfTodo || !userName) {
+      this.setState({
+        titleError: !titleOfTodo,
+        userError: !userName,
+      });
+
       return;
     }
 
@@ -61,7 +47,7 @@ export class App extends Component {
       todos: [
         ...state.todos,
         {
-          id: state.todos.length + 1,
+          id: new Date(),
           title: state.titleOfTodo,
           user: usersFromServer.find(user => user.name === state.userName),
           completed: false,
@@ -70,14 +56,14 @@ export class App extends Component {
     }));
 
     this.setState({
-      user: '',
+      userName: '',
       titleOfTodo: '',
-      titleError: false,
-      userError: false,
     });
   };
 
   render() {
+    const { titleError, userError } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -88,6 +74,9 @@ export class App extends Component {
 
         <form className="form" onSubmit={this.handleSubmit}>
           <span className="item">
+            {titleError && (
+              <span className="form__error">Please enter the message</span>
+            )}
             <input
               type="text"
               name="titleOfTodo"
@@ -95,32 +84,28 @@ export class App extends Component {
               value={this.state.titleOfTodo}
               onChange={this.handleChange}
             />
-            {this.state.titleError && (
-              <span className="form__error">Please enter the message</span>
-            )}
           </span>
 
           <span className="item">
+            {userError && (
+              <span className="form__error">Please choose user</span>
+            )}
             <select
               name="userName"
-              value={this.state.user}
+              value={this.state.userName}
               onChange={this.handleChange}
             >
               <option value="">Choose a user</option>
-
               {usersFromServer.map(user => (
                 <option value={user.name} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
-            {this.state.userError && (
-              <span className="form__error">Please choose user</span>
-            )}
           </span>
 
           <span className="item">
-            <button type="submit" name="newTodo">
+            <button type="submit" className="button">
               Add new todo
             </button>
           </span>
