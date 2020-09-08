@@ -1,3 +1,9 @@
 .App {
   text-align: center;
 }
+
+body {
+  margin: auto;
+  font-size: 18px;
+  width: 50%;
+}
