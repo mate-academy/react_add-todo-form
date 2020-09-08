@@ -13,8 +13,9 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
+    newTodo: preparedTodos,
     todo: '',
-    id: preparedTodos.map(todo => todo.id).length + 1,
+    id: 0,
     userError: false,
     titleError: false,
   }
@@ -23,23 +24,28 @@ class App extends React.Component {
    const { name, value } = event.target;
 
    this.setState({
-     [name]: value.trimLeft(),
+     [name]: value.trim(),
      userError: false,
      titleError: false,
    });
  }
 
  handleSubmit = (event) => {
-   const { todo, id, user } = this.state;
+   const { todo, user } = this.state;
 
    event.preventDefault();
 
    if (user && todo) {
-     preparedTodos.push({
-       title: todo,
-       id,
-       user: users.find(usr => usr.name === this.state.user),
-     });
+     this.setState(state => ({
+       newTodo: [
+         ...state.newTodo,
+         {
+           title: state.todo,
+           id: state.newTodo.length + 1,
+           user: users.find(usr => usr.name === state.user),
+         },
+       ],
+     }));
    }
 
    if (!user) {
@@ -61,7 +67,7 @@ class App extends React.Component {
  }
 
  render() {
-   const { todo, user, userError, titleError } = this.state;
+   const { newTodo, todo, user, userError, titleError } = this.state;
 
    return (
      <div className="App">
@@ -106,7 +112,7 @@ class App extends React.Component {
          </button>
        </form>
 
-       <TodosList todosArray={preparedTodos} />
+       <TodosList todosArray={newTodo} />
      </div>
    );
  }
