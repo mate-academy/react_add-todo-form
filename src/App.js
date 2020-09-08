@@ -25,7 +25,7 @@ class App extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      inputValue: event.target.value,
+      inputValue: event.target.value.trim(),
       inputError: false,
     });
   }
@@ -48,8 +48,10 @@ class App extends React.Component {
         title: inputValue,
         completed: false,
       });
-      this.setState({ inputValue: '' });
-      this.setState({ inputError: '' });
+      this.setState({
+        inputValue: '',
+        inputError: '',
+      });
     }
   }
 
