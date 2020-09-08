@@ -96,7 +96,7 @@ class App extends React.Component {
         {usersFromServer.length}
       </p>
 
-      <form onSubmit={this.Add} id="formAdder">
+      <form onSubmit={this.add} id="formAdder">
         <input
           name="title"
           placeholder="title"
