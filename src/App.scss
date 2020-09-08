@@ -58,14 +58,19 @@ body {
     cursor: pointer;
   }
 
-  &__message {
+  &__message-title,
+  &__message-user {
     position: absolute;
-    top: -80px;
-    left: 70%;
+    top: -70px;
+    left: 10%;
     padding: 10px;
     color: #fff;
     font-size: 18px;
     background-color: rgb(216, 54, 54);
     border-radius: 5px;
+  }
+
+  &__message-user {
+    left: 70%;
   }
 }

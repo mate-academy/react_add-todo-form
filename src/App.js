@@ -19,25 +19,28 @@ class App extends React.Component {
     selectErrorIsVisible: false,
   };
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value,
-      inputErrorIsVisible: false,
-      selectErrorIsVisible: false,
-    });
-  };
-
   addTodo = () => {
+    if (!this.state.title.trim() && !this.state.username) {
+      this.setState({
+        inputErrorIsVisible: true,
+        selectErrorIsVisible: true,
+      });
+
+      return;
+    }
+
     if (!this.state.title.trim()) {
-      this.setState({ inputErrorIsVisible: true });
+      this.setState({
+        inputErrorIsVisible: true,
+      });
 
       return;
     }
 
     if (!this.state.username) {
-      this.setState({ selectErrorIsVisible: true });
+      this.setState({
+        selectErrorIsVisible: true,
+      });
 
       return;
     }
@@ -82,19 +85,29 @@ class App extends React.Component {
               className="form__input"
               placeholder="Title"
               value={this.state.title}
-              onChange={this.handleChange}
+              onChange={(event) => {
+                this.setState({
+                  title: event.target.value,
+                  inputErrorIsVisible: false,
+                });
+              }}
             />
           </label>
 
           {this.state.inputErrorIsVisible && (
-            <p className="form__message">Please enter the title</p>
+            <p className="form__message-title">Please enter the title</p>
           )}
 
           <select
             name="username"
             className="form__select"
             value={this.state.username}
-            onChange={this.handleChange}
+            onChange={(event) => {
+              this.setState({
+                username: event.target.value,
+                selectErrorIsVisible: false,
+              });
+            }}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
@@ -105,7 +118,7 @@ class App extends React.Component {
           </select>
 
           {this.state.selectErrorIsVisible && (
-            <p className="form__message">Please choose a user</p>
+            <p className="form__message-user">Please choose a user</p>
           )}
 
           <button
