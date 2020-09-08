@@ -76,7 +76,6 @@ class App extends React.Component {
       todos: [...prevState.todos, newTodo],
     }));
 
-    event.target.reset();
     this.timeToShowError = false;
   }
 
