@@ -28,14 +28,11 @@ class App extends React.Component {
     const { users, executor, todoList, titleTodo } = this.state;
     const selectedUser = users.find(user => user.name === executor);
 
-    if (!executor) {
-      this.setState({ visibilityExecutorAlert: true });
-
-      return;
-    }
-
-    if (!titleTodo) {
-      this.setState({ visibilityAddAlert: true });
+    if (!executor || !titleTodo) {
+      this.setState({
+        visibilityExecutorAlert: !executor,
+        visibilityAddAlert: !titleTodo,
+      });
 
       return;
     }
@@ -80,7 +77,12 @@ class App extends React.Component {
               visibilityExecutorAlert: false,
             })}
           >
-            <option>
+            <option
+              value={this.state.executor}
+              onChange={event => this.setState({
+                executor: '',
+              })}
+            >
               Choose a executor
             </option>
             {users.map(user => (
@@ -95,7 +97,7 @@ class App extends React.Component {
             type="text"
             value={this.state.titleTodo}
             onChange={event => this.setState({
-              titleTodo: event.target.value,
+              titleTodo: event.target.value.trimLeft(),
               visibilityAddAlert: false,
             })}
             placeholder="add task"
