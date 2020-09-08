@@ -29,17 +29,19 @@ class App extends React.Component {
     const { userId, title, todosToRender } = this.state;
 
     if (userId && title) {
-      todosToRender.push({
-        userId,
-        id: todosToRender.length + 1,
-        title,
-        completed: false,
-      });
-
-      this.setState({
+      this.setState(state => ({
+        todosToRender: [
+          ...state.todosToRender,
+          {
+            userId,
+            id: todosToRender.length + 1,
+            title,
+            completed: false,
+          },
+        ],
         userId: '',
         title: '',
-      });
+      }));
     }
 
     if (!title) {
