@@ -22,7 +22,6 @@ class App extends Component {
     showUserError: false,
     showMessageError: false,
     newTodo: '',
-    id: 3,
   };
 
   selectUser = (event) => {
@@ -34,20 +33,16 @@ class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { selectedUser, newTodo, users, id } = this.state;
+    const { selectedUser, newTodo, users, todos } = this.state;
 
     if (!selectedUser) {
-      this.setState(state => ({
-        showUserError: !state.showUserError,
-      }));
+      this.setState({ showUserError: true });
 
       return;
     }
 
     if (!newTodo) {
-      this.setState(state => ({
-        showMessageError: !state.showMessageError,
-      }));
+      this.setState({ showMessageError: true });
 
       return;
     }
@@ -57,12 +52,11 @@ class App extends Component {
       completed: false,
       userId: users.find(user => user.name === selectedUser).id,
       author: users.find(user => user.name === selectedUser),
-      id,
+      id: todos.length + 1,
     };
 
     this.setState(state => ({
       todos: [...state.todos, createTodo],
-      id: state.id + 1,
       newTodo: '',
     }));
   }
