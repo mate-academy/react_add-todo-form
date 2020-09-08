@@ -90,7 +90,7 @@ class App extends React.Component {
               });
             }}
           >
-            <option>Choose a user</option>
+            <option value="">Choose a user</option>
             {users.map(user => (
               <option key={user.id} value={user.name}>
                 {user.name}
