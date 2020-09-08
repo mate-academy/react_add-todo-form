@@ -1,19 +1,51 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
 
-import users from './api/users';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-function App() {
+import { TodoList } from './components/TodoList/TodoList';
+import { NewTodoForm } from './components/NewTodoForm/NewTodoForm';
+
+const todosWithUsers = todosFromServer.map(todo => ({
+  ...todo,
+  person: usersFromServer.find(user => user.id === todo.userId),
+}));
+
+export const App = () => {
+  const [todos, setTodos] = useState(todosWithUsers);
+
+  const addNewTodo = (todo) => {
+    setTodos([...todos, todo]);
+  };
+
+  const toggleComplete = (id) => {
+    const completedTodos = [...todos]
+      .map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      });
+
+    setTodos(completedTodos);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+      <NewTodoForm
+        users={usersFromServer}
+        todoId={todos.length + 1}
+        addNewTodo={addNewTodo}
+      />
+
+      <TodoList todos={todos} toggleComplete={toggleComplete} />
     </div>
   );
-}
-
-export default App;
+};
