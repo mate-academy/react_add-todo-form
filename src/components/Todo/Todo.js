@@ -3,46 +3,21 @@ import classNames from 'classnames';
 import { typeTodo } from '../../propTypes';
 import './Todo.css';
 
-export class Todo extends React.Component {
-  state = {
-    completed: this.props.completed,
-  }
-
-  handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-
-    this.setState({
-      [name]: checked,
-    });
-  }
-
-  render() {
-    const { title, userId } = this.props;
-    const { completed } = this.state;
-
-    return (
-      <div className={classNames({
-        todo: true,
-        'todo--completed': completed,
-      })}
-      >
-        <p>
-          User id:
-          {userId}
-        </p>
-        <p>
-          {'Status: '}
-          <input
-            type="checkbox"
-            name="completed"
-            checked={completed}
-            onChange={this.handleCheckboxChange}
-          />
-        </p>
-        <p>{title}</p>
-      </div>
-    );
-  }
-}
+export const Todo = ({ title, userId, completed }) => (
+  <div className={classNames({
+    todo: true,
+    'todo--completed': completed,
+  })}
+  >
+    <p>
+      User id:
+      {userId}
+    </p>
+    <p>
+      {`Status: ${completed ? 'done' : 'in progress'}`}
+    </p>
+    <p>{title}</p>
+  </div>
+);
 
 Todo.propTypes = typeTodo;
