@@ -17,18 +17,20 @@ export const Form = ({ startList, addTodo }) => {
     user: {
       name,
     },
+    usedID: '',
   };
 
   const newList = (event) => {
     event.preventDefault();
 
-    if (!name) {
+    if (!name || name === 'Choose a user') {
       setError('Choose your name, please');
     } else if (!title) {
       setError(`Write todo's title, please`);
     } else if (!status) {
       setError('Do you already complete?');
     } else {
+      obj.userID = users.find(user => user.name === name).id;
       addTodo([...startList, obj]);
       setName('');
       setTitle('');
@@ -63,7 +65,7 @@ export const Form = ({ startList, addTodo }) => {
         name="title"
         value={title}
         onChange={(event) => {
-          setTitle(event.target.value);
+          setTitle(event.target.value.trimLeft());
           setError('');
         }}
       />
@@ -93,7 +95,7 @@ export const Form = ({ startList, addTodo }) => {
       <button className="button" type="submit"> Add </button>
       <div className="error">
         {error && (
-          (!name && (
+          ((!name || name === 'Choose a user') && (
             <p className={classNames({
               'error-name': error === 'Choose your name, please',
             })}

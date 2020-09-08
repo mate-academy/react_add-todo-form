@@ -7,7 +7,7 @@ import { Todo } from '../Todo';
 export const TodoList = ({ list }) => {
   const listHtml = list.map(todo => (
     <li key={todo.id} className={`completed-${todo.completed}`}>
-      <User name={todo.user.name} />
+      <User name={todo.user.name} id={todo.id} />
       <Todo todo={todo} />
     </li>
   ));

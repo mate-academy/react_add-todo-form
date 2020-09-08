@@ -11,7 +11,7 @@ li span {
 
 li {
   display: grid;
-  grid-template-columns: 180px 400px 110px;
+  grid-template-columns: 50px 180px 400px 110px;
   border: 1px solid salmon;
   height: auto;
   line-height: 1.5em;
