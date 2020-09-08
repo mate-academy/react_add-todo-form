@@ -1,0 +1,20 @@
+.todoList {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    padding: 5px;
+    list-style: none;
+    border-radius: 20px;
+    text-align: center;
+    background: #E0E0E0;
+  }
+}

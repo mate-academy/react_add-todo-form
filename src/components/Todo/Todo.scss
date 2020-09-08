@@ -1,0 +1,17 @@
+.todo__completed {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &-done {
+    background-image: url("done.png");
+  }
+
+  &-notDone {
+    background-image: url("notDone.png");
+  }
+}
