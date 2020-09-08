@@ -1,19 +1,89 @@
 import React from 'react';
 import './App.css';
 
-import users from './api/users';
+import { Users } from './components/Users';
+import { Todos } from './components/Todos';
+import todos from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+export class App extends React.Component {
+  state = {
+    todoList: [...todos],
+    userId: null,
+    title: '',
+    error: '',
+    user: '',
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  submit = (event) => {
+    event.preventDefault();
+
+    const { todoList, userId, title } = this.state;
+    const id = todoList.length + 1;
+    const newTodo = {
+      userId,
+      id,
+      title,
+      completed: false,
+    };
+
+    if (!userId) {
+      this.setState({
+        error: 'Please choose a user',
+      });
+    } else if (!title) {
+      this.setState({
+        error: 'Please enter the title',
+      });
+    } else {
+      this.setState(state => ({
+        todoList: [...todoList, newTodo],
+        user: '',
+        title: '',
+      }));
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+        <form
+          className="form"
+          onSubmit={this.submit}
+        >
+          <select
+            name="name"
+            className="item"
+            value={this.state.user}
+            onChange={(event) => {
+              this.setState({
+                userId: event.target.value,
+                user: event.target.value,
+              });
+            }}
+          >
+            <Users />
+          </select>
+          <textarea
+            className="item"
+            value={this.state.title}
+            rows="5"
+            placeholder="Type here new TODO"
+            onChange={(event) => {
+              this.setState({
+                title: event.target.value,
+              });
+            }}
+          />
+          <button type="submit">
+            ADD
+          </button>
+          <p>{this.state.error}</p>
+        </form>
+        <div className="list">
+          <Todos todos={this.state.todoList} />
+        </div>
+      </div>
+    );
+  }
 }
-
-export default App;
