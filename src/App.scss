@@ -1,6 +1,6 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: dimgray;
+  background: rgb(214, 210, 210);
 }
 
 li {
@@ -8,7 +8,7 @@ li {
 }
 
 .form {
-  margin: auto;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
   width: 500px;
@@ -18,19 +18,27 @@ li {
     border: 1px solid wheat;
     display: block;
     height: 40px;
-    background-color: rgb(31, 30, 30);
+    background-color: rgb(168, 168, 168);
     border-radius: 5px;
     color: wheat;
   }
 
   &__button {
+    background-color: rgb(87, 87, 87);
     border: 2px solid wheat;
     font-weight: 700;
     cursor: pointer;
 
     &:hover {
+      border: 1px black solid;
       background-color: wheat;
       color: black;
     }
+  }
+
+  &__error {
+    color: rgb(245, 56, 56);
+    text-shadow: 1px 1px 5px rgb(255, 255, 255);
+    font-weight: 600;
   }
 }

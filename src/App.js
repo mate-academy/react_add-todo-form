@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'react';
 import './App.scss';
 
@@ -104,7 +103,7 @@ class App extends React.Component {
           </select>
 
           {userError && (
-            alert('Choose a user!')
+            <p className="form__error">Choose a user!</p>
           )}
 
           <input
@@ -117,8 +116,8 @@ class App extends React.Component {
           />
 
           {titleError && (
-            alert('Enter a title!'))
-          }
+            <p className="form__error">Enter a title!</p>
+          )}
 
           <button
             className="form__item form__button"
@@ -129,7 +128,7 @@ class App extends React.Component {
           </button>
 
           {error && (
-            alert('Choose a user and enter a title!')
+            <p className="form__error">Choose a user and enter a title!</p>
           )}
         </form>
 
