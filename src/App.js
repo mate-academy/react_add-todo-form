@@ -6,28 +6,27 @@ import todos from './api/todos';
 
 import { TodoList } from './components/TodoList';
 
-const todosToRender = [...todos];
-
 class App extends React.Component {
   state = {
     userId: '',
     title: '',
     titleError: false,
     userError: false,
+    todosToRender: [...todos],
   };
 
   handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value.replace(/\ws+/g, ''),
+      [name]: value.replace(/\ws+/g, '').trim(),
       userError: false,
       titleError: false,
     });
   }
 
   formsCheck = () => {
-    const { userId, title } = this.state;
+    const { userId, title, todosToRender } = this.state;
 
     if (userId && title) {
       todosToRender.push({
@@ -53,7 +52,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { title, userId, titleError, userError } = this.state;
+    const { title, userId, titleError, userError, todosToRender } = this.state;
 
     return (
       <div className="App">
