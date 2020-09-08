@@ -1,3 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
-  text-align: center;
+  width: 800px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #fcf9f5;
+  border-radius: 5px;
+  box-shadow: 0 0 8px 2px #c5c1ba;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.form-group {
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.todo-input,
+.user-select {
+  width: 280px;
+  height: 40px;
+  padding-left: 10px;
+  border: 1px solid #bbb6a1;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error-message {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  color: #ce4242;
+}
+
+button {
+  width: 150px;
+  height: 40px;
+  background-color: #f8f3da;
+  border: 1px solid #bbb6a1;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #f0e8c0;
 }
