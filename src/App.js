@@ -24,7 +24,7 @@ class App extends React.Component {
     event.preventDefault();
     const { title, userName } = this.state;
 
-    if (!title || !userName) {
+    if (!title || title.trim() !== title || !userName) {
       this.setState({
         hasTitleError: !title,
         hasUserError: !userName,
@@ -38,6 +38,7 @@ class App extends React.Component {
         id: state.todos.length + 1,
         title: state.title,
         userName: state.userName,
+        userId: users.find(item => item.name === userName).id,
       };
 
       return {
@@ -61,10 +62,10 @@ class App extends React.Component {
             <span>Users: </span>
             {users.length}
           </p>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} className="addedForm">
             <div>
               <input
-                className="enter-title"
+                className="addedForm__input-title"
                 type="text"
                 name="title"
                 placeholder="Title"
@@ -84,6 +85,7 @@ class App extends React.Component {
             </div>
             <div className="selectUser">
               <select
+                className="addedForm__select-user"
                 name="userName"
                 value={userName}
                 onChange={(event) => {
@@ -109,7 +111,7 @@ class App extends React.Component {
               )}
             </div>
             <div>
-              <button type="submit">
+              <button type="submit" className="addedForm__button">
                 Add todo
               </button>
             </div>

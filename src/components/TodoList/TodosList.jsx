@@ -10,6 +10,7 @@ export const TodosList = ({ todos }) => (
         <tr>
           <th>Title</th>
           <th>User</th>
+          <th>User id</th>
           <th>Completed</th>
         </tr>
       </thead>

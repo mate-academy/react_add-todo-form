@@ -1,5 +1,28 @@
 .table {
-  border: 2px solid rgb(0, 110, 255);
-  width: 50vw;
+  border-collapse: separate;
+  border-spacing: 4px;
+  width: 100%;
   margin: 40px;
+}
+
+tr {
+  color: #2847cfdc;
+  font-weight: bold;
+}
+
+thead {
+  border-radius: 4px 4px 0 0;
+  background: #6c83e6;
+  font-size: 18px;
+}
+
+td {
+  border: 1px solid #2e19e6;
+  border-radius: 4px;
+  background: #cbdfef;
+}
+
+td:hover {
+  background: #a2c3dd;
+  transition-duration: 0.2s;
 }
