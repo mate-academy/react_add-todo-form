@@ -40,7 +40,7 @@ export class App extends React.Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.trimStart(),
     });
   };
 
@@ -73,6 +73,7 @@ export class App extends React.Component {
         <h1>Todo app</h1>
         <form className="form" onSubmit={this.handleSubmit}>
           <select
+            className="form__username"
             name="username"
             value={this.state.username}
             onChange={this.handleChange}
@@ -89,15 +90,22 @@ export class App extends React.Component {
           <p className="form__error">{this.state.usernameError}</p>
 
           <input
+            className="form__text"
             type="text"
             name="todo"
             placeholder="What to do?"
+            autoComplete="off"
             value={this.state.todo}
             onChange={this.handleChange}
           />
           <p className="form__error">{this.state.todoError}</p>
 
-          <button type="submit">Add todo</button>
+          <button
+            type="submit"
+            className="form__button"
+          >
+            Add todo
+          </button>
         </form>
         <TodoList list={preparedTodos} />
       </div>

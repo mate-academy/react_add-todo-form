@@ -8,10 +8,26 @@
   padding: 30px 60px;
   border-radius: 50px;
   font-weight: 600;
+  cursor: pointer;
+
+  &__info {
+    margin-left: 20px;
+    width: 650px;
+    display: grid;
+    grid-template-columns: 2fr 4fr 0.5fr;
+  }
+
+  &__title {
+    font-weight: 500;
+  }
 
   &:last-child {
     margin-bottom: 40px;
   }
+}
+
+.todo__checkbox:checked + .todo__title {
+  color: red;
 }
 
 .done {

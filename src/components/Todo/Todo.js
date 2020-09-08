@@ -4,18 +4,20 @@ import { User } from '../User/User';
 import './Todo.scss';
 
 export const Todo = ({ title, completed, user, id }) => (
-  <div className="todo">
+  <label className="todo">
     <span>{id}</span>
-    <User {...user} />
-    <span>
-      {title}
-    </span>
-    {
-      completed
-        ? <span className="done">Done</span>
-        : <span className="inProgress">In progress</span>
-    }
-  </div>
+    <div className="todo__info">
+      <User {...user} />
+      <span className="todo__title">
+        {title}
+      </span>
+      <input
+        className="todo__checkbox"
+        type="checkbox"
+        value={completed}
+      />
+    </div>
+  </label>
 );
 
 Todo.propTypes = {
