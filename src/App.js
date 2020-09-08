@@ -36,13 +36,13 @@ class App extends React.Component {
   }
 
   handleSubmit = (event) => {
+    event.preventDefault();
+
     const { inputValue, selectValue } = this.state;
     const selectedUser = usersFromServer
       .find(user => user.name === selectValue);
 
-    event.preventDefault();
-
-    if (inputValue.trimLeft().length > 0 && selectValue.length > 0) {
+    if (inputValue.trim().length > 0 && selectValue.length > 0) {
       this.setState(state => ({
         todos: [
           ...state.todos,
@@ -60,7 +60,7 @@ class App extends React.Component {
       }));
     }
 
-    if (inputValue.trimLeft().length === 0) {
+    if (inputValue.trim().length === 0) {
       this.setState({ emptyTitleMessage: 'Please enter the title' });
     }
 
