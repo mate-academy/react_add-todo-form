@@ -7,7 +7,7 @@
 
   &__item {
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: 100px repeat(3, 300px);
     list-style: none;
     padding: 10px 0;
     color: #fff;

@@ -47,6 +47,7 @@ class App extends React.Component {
 
     this.setState(state => ({
       todos: [
+        ...state.todos,
         {
           userId: users.find(user => state.username === user.name).id,
           id: state.todos.length + 1,
@@ -54,7 +55,6 @@ class App extends React.Component {
           completed: false,
           user: users.find(user => state.username === user.name),
         },
-        ...state.todos,
       ],
     }));
 

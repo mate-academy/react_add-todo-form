@@ -7,6 +7,7 @@ export const TodoList = ({ todos }) => (
   <div className="todo">
     <ul className="todo__list">
       <li className="todo__item todo__item--main">
+        <p>Number</p>
         <p>Title</p>
         <p>Status</p>
         <p>User name</p>
