@@ -15,9 +15,9 @@ export class AddUser extends React.Component {
   sendNewTodo = () => {
     const { title, userId } = this.state;
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       this.setState({
-        titleError: !title,
+        titleError: !title.trim(),
         userError: !userId,
       });
 
