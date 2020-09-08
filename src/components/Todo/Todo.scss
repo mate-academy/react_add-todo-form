@@ -1,0 +1,30 @@
+.item {
+  margin-right: 20px;
+  padding: 20px;
+  width: 300px;
+  border-radius: 15px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  margin-bottom: 5px;
+  background-color: rgba(116, 99, 103, 0.36);
+
+  &__name {
+    margin-right: 10px;
+  }
+
+  &__status {
+    text-transform: uppercase;
+  }
+
+  &__ready {
+    color: green;
+  }
+
+  &__not-ready {
+    color: red;
+  }
+}
