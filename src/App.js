@@ -103,9 +103,6 @@ class App extends Component {
         </form>
 
         <p className="App__error">
-          <span className="App__blank">
-            E
-          </span>
           {errorMessage}
         </p>
 
