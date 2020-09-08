@@ -4,19 +4,56 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-const preparedTodos = todos.map(todo => ({
-  ...todo,
-  user: (users.find(user => user.id === todo.userId)),
-}));
-
 class App extends React.Component {
   state = {
-    todos: preparedTodos,
+    todos,
     todo: '',
     userId: 0,
     noTitle: false,
     noSelect: false,
   }
+
+  handleSubmit = () => {
+    if (!this.state.todo && !this.state.userId) {
+      this.setState({
+        noTitle: true,
+        noSelect: true,
+      });
+
+      return;
+    }
+
+    if (!this.state.todo) {
+      this.setState({
+        noTitle: true,
+      });
+
+      return;
+    }
+
+    if (!this.state.userId) {
+      this.setState({
+        noSelect: true,
+      });
+
+      return;
+    }
+
+    this.setState(state => ({
+      todos: [
+        ...state.todos,
+        {
+          userId: state.userId,
+          id: state.todos.length + 1,
+          title: state.todo,
+          name: state.user,
+          completed: false,
+        },
+      ],
+      todo: '',
+      userId: 0,
+    }));
+  };
 
   render() {
     return (
@@ -35,45 +72,7 @@ class App extends React.Component {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!this.state.todo && !this.state.userId) {
-              this.setState({
-                noTitle: true,
-                noSelect: true,
-              });
-
-              return;
-            }
-
-            if (!this.state.todo) {
-              this.setState({
-                noTitle: true,
-              });
-
-              return;
-            }
-
-            if (!this.state.userId) {
-              this.setState({
-                noSelect: true,
-              });
-
-              return;
-            }
-
-            this.setState(state => ({
-              todos: [
-                ...state.todos,
-                {
-                  userId: state.userId,
-                  id: state.todos.length + 1,
-                  title: state.todo,
-                  name: state.user,
-                  completed: false,
-                },
-              ],
-              todo: '',
-              userId: 0,
-            }));
+            this.handleSubmit();
           }}
         >
           <input
