@@ -24,7 +24,11 @@ export class App extends Component {
     const { name, value, type, checked } = event.target;
 
     this.setState({
-      [name]: type === 'checkbox' ? checked : value.replace('  ', ' '),
+      [name]: type === 'checkbox' ? checked : value
+        .trimLeft()
+        .replace('  ', ' '),
+      titleError: false,
+      userError: false,
     });
   };
 
@@ -37,12 +41,16 @@ export class App extends Component {
       this.setState({
         titleError: true,
       });
+
+      // return;
     }
 
     if (!userName) {
       this.setState({
         userError: true,
       });
+
+      // return;
     }
 
     if (!titleOfTodo || !userName) {
@@ -64,6 +72,8 @@ export class App extends Component {
     this.setState({
       user: '',
       titleOfTodo: '',
+      titleError: false,
+      userError: false,
     });
   };
 
