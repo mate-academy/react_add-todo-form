@@ -32,18 +32,14 @@ class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!this.state.title || !this.state.person) {
-      if (!this.state.title) {
-        this.setState({
-          titleError: true,
-        });
-      }
+    if (!this.state.title) {
+      this.setState({ titleError: true });
 
-      if (!this.state.person) {
-        this.setState({
-          personError: true,
-        });
-      }
+      return;
+    }
+
+    if (!this.state.person) {
+      this.setState({ personError: true });
 
       return;
     }
@@ -59,6 +55,11 @@ class App extends React.Component {
         ...state.todos,
       ],
     }));
+
+    this.setState({
+      person: '',
+      title: '',
+    });
   }
 
   render() {
