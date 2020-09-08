@@ -33,10 +33,17 @@ class App extends React.Component {
     event.preventDefault();
 
     if (!this.state.title || !this.state.person) {
-      this.setState({
-        titleError: true,
-        personError: true,
-      });
+      if (!this.state.title) {
+        this.setState({
+          titleError: true,
+        });
+      }
+
+      if (!this.state.person) {
+        this.setState({
+          personError: true,
+        });
+      }
 
       return;
     }
