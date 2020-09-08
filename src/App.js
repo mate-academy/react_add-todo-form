@@ -30,7 +30,7 @@ class App extends React.Component {
 
   addTodo = event => (
     this.setState({
-      todo: event.target.value,
+      todo: event.target.value.trimLeft(),
       titleError: '',
     })
   );
