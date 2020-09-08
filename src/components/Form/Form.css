@@ -1,0 +1,15 @@
+.todo {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  display: block;
+  padding-top: 10px;
+}
+
+.todo__add {
+  padding: 10px;
+  margin-left: 10px;
+}

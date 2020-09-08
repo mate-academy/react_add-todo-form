@@ -1,3 +1,8 @@
+ul,
+li {
+  list-style: none;
+}
+
 .App {
   text-align: center;
 }
