@@ -1,0 +1,31 @@
+.todo__item {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 0 15px black;
+  color: #121235;
+  transition: 0.5s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  & p:first-child {
+    font-weight: bold;
+  }
+
+  & p:last-child {
+    border-bottom: 2px solid black;
+  }
+
+  &--done {
+    background: aquamarine;
+  }
+
+  &--undone {
+    background: wheat;
+  }
+}
