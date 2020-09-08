@@ -1,0 +1,21 @@
+.list {
+  background-color: #2c2e2d;
+  margin: 0;
+  padding: 20px;
+
+  display: grid;
+  grid-template-rows: repeat(10, 100px);
+  grid-gap: 20px;
+  list-style-type: none;
+}
+
+.filters {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 5px 0;
+
+  font-size: 15px;
+  background-color: #2c2e2d;
+  color: #3f5950;
+}

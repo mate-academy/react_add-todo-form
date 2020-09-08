@@ -1,0 +1,15 @@
+.item {
+
+  background-color: #51795e;
+  border-radius: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  justify-content: center;
+}
+
+.item:hover {
+  background-color: #92b29d;
+  transition: 0.5s;
+}
