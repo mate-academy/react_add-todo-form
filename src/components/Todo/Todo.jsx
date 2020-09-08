@@ -11,7 +11,7 @@ export const Todo = ({ title, completed, user }) => (
       'todo__status--completed': !completed,
     })}
     >
-      {completed ? 'true' : 'false'}
+      {completed ? 'Completed' : 'In progress'}
     </p>
     <User {...user} />
   </>
