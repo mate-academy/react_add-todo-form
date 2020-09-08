@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ClassNames from 'classnames';
+import uuid from 'react-uuid';
 import { TodoList } from './componenets/TodoList';
 
 import usersFromServer from './api/users';
@@ -110,7 +111,7 @@ class App extends React.Component {
         >
           <option value="">Chose user</option>
           {usersFromServer.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
+            <option key={uuid()} value={user.id}>{user.name}</option>
           ))}
         </select>
         <button
