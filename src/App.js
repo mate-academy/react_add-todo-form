@@ -14,12 +14,19 @@ class App extends React.Component {
     })),
     isHidden: true,
     errorMessage: '',
+    titleValue: '',
+    selectValue: '',
   }
 
   timeToShowError = false;
 
   validation = (event) => {
     const form = event.target.closest('#formAdder');
+
+    this.setState({
+      titleValue: form.title.value,
+      selectValue: form.userSelect.value,
+    });
 
     if (!form.title.value && this.timeToShowError) {
       this.setState({
@@ -90,8 +97,17 @@ class App extends React.Component {
       </p>
 
       <form onSubmit={this.Add} id="formAdder">
-        <input name="title" placeholder="title" onChange={this.validation} />
-        <select name="userSelect" onChange={this.validation}>
+        <input
+          name="title"
+          placeholder="title"
+          onChange={this.validation}
+          value={this.state.titleValue}
+        />
+        <select
+          name="userSelect"
+          onChange={this.validation}
+          value={this.state.selectValue}
+        >
           <option value="">Chose user</option>
           {usersFromServer.map(user => (
             <option key={user.id} value={user.id}>{user.name}</option>
