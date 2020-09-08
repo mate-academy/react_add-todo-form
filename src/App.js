@@ -6,7 +6,7 @@ import todos from './api/todos';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  name: (users.find(user => user.id === todo.userId)).name,
+  user: (users.find(user => user.id === todo.userId)),
 }));
 
 class App extends React.Component {
@@ -23,7 +23,14 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
         {this.state.todos.map(todo => (
-          <div key={todo.id}>{todo.title}</div>
+          <div key={todo.id}>
+            {todo.title}
+            {' - added by '}
+            {users.find(user => +user.id === +todo.userId).name}
+            (
+            {todo.userId}
+            )
+          </div>
         ))}
         <form
           onSubmit={(event) => {
@@ -57,15 +64,15 @@ class App extends React.Component {
               todos: [
                 ...state.todos,
                 {
-                  id: todos.length + 1,
                   userId: state.userId,
+                  id: state.todos.length + 1,
                   title: state.todo,
                   name: state.user,
                   completed: false,
                 },
               ],
               todo: '',
-              userId: '',
+              userId: 0,
             }));
           }}
         >
