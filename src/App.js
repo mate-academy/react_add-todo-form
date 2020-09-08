@@ -20,27 +20,29 @@ class App extends React.Component {
   }
 
   handleChange = (event) => {
-    const { value } = event.target;
+    const { name, value } = event.target;
 
-    this.setState({ person: value });
+    this.setState({
+      [name]: value,
+      titleError: false,
+      personError: false,
+    });
   }
 
-  addTodo = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
+
     if (!this.state.title) {
       this.setState({ titleError: true });
 
       return;
     }
 
-    this.setState({ titleError: false });
-
     if (!this.state.person) {
       this.setState({ personError: true });
 
       return;
     }
-
-    this.setState({ personError: false });
 
     this.setState(state => ({
       todos: [
@@ -53,15 +55,16 @@ class App extends React.Component {
         ...state.todos,
       ],
     }));
-
-    this.setState({
-      person: '',
-      title: '',
-    });
   }
 
   render() {
-    const { todos, personError, titleError } = this.state;
+    const {
+      todos,
+      personError,
+      titleError,
+      title,
+      person,
+    } = this.state;
 
     return (
       <div className="App">
@@ -73,9 +76,7 @@ class App extends React.Component {
 
         <form
           className="add-todo"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
+          onSubmit={this.handleSubmit}
         >
           <label>
             <span className="add-todo__title">Title</span>
@@ -83,18 +84,26 @@ class App extends React.Component {
               className="add-todo__title_input"
               type="text"
               placeholder="todo..."
-              value={this.state.title}
+              value={title}
               onChange={(event) => {
-                this.setState({ title: event.target.value });
+                this.setState({
+                  title: event.target.value,
+                  titleError: false,
+                });
               }}
             />
             {titleError
-            && <span className="warning">Please, enter a title</span>
+              && <span className="warning">Please, enter a title</span>
             }
           </label>
           <select
-            value={this.state.person}
-            onChange={this.handleChange}
+            value={person}
+            onChange={(event) => {
+              this.setState({
+                person: event.target.value,
+                personError: false,
+              });
+            }}
           >
             <option value="">Choose user</option>
             {usersFromServer.map(user => (
@@ -107,11 +116,10 @@ class App extends React.Component {
             ))}
           </select>
           {personError
-          && <span className="warning">Please, choose a person</span>
+            && <span className="warning">Please, choose a person</span>
           }
           <button
             type="submit"
-            onClick={this.addTodo}
           >
             Add todo
           </button>
