@@ -10,15 +10,24 @@ export class Form extends React.Component {
     userName: '',
     hasTextError: false,
     hasUserError: false,
+    hasFirstSpace: false,
     users: [...users],
     todos: [...this.props.todos],
   }
 
   handleTodoAdd = (event) => {
     event.preventDefault();
-    const {textTodo, userName} = this.state;
+    const {textTodo, userName, hasFirstSpace} = this.state;
 
-    if (!textTodo || !userName) {
+    if (textTodo[0] === ' ') {
+      this.setState({
+        hasFirstSpace: true,
+      });
+
+      return ;
+    }
+
+    if (!textTodo || !userName ) {
       this.setState({
         hasTextError: !textTodo,
         hasUserError: !userName,
@@ -48,6 +57,7 @@ export class Form extends React.Component {
   render() {
     const {
       textTodo,
+      hasFirstSpace,
       todos,
       hasTextError,
       users,
@@ -76,14 +86,20 @@ export class Form extends React.Component {
               value={textTodo}
               onChange={(event) => {
                 this.setState({
-                  hasTextError: false, 
+                  hasTextError: false,
+                  hasFirstSpace: false,
                   textTodo: event.target.value,
                 });
               }}
             />
-            {hasTextError && (
-              <span className="error">Please enter your task</span>
+            {
+              hasTextError && (
+                <span className="error">Please enter your task</span>
             )}
+             {
+                hasFirstSpace && (
+                  <span className="error">Please enter correct text</span>
+              )}
           </div>
 
           <div>
@@ -110,6 +126,7 @@ export class Form extends React.Component {
             {hasUserError && (
               <span className="error">Please select a user</span>
             )}
+            
           </div>
           <button className="todo__add">Add todo</button>
         </form>
