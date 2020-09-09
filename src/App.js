@@ -86,7 +86,15 @@ class App extends React.Component {
                 placeholder="title"
                 value={title}
                 onChange={(event) => {
-                  this.setState({ title: event.target.value.trim() });
+                  ([...event.target.value]).every(elem => elem === ' ')
+                    ? this.setState({
+                      title: '',
+                      hasTitleError: '',
+                    })
+                    : this.setState({
+                      title: event.target.value,
+                      hasTitleError: '',
+                    });
                 }}
               />
             </div>
@@ -98,7 +106,10 @@ class App extends React.Component {
               id="userName"
               value={userName}
               onChange={(event) => {
-                this.setState({ userName: event.target.value });
+                this.setState({
+                  userName: event.target.value,
+                  hasPersonError: '',
+                });
               }}
             >
               <option>Choose a user</option>
@@ -109,7 +120,7 @@ class App extends React.Component {
               ))}
             </select>
             {hasPersonError
-             && <span className="warning"> Choose a person </span>}
+              && <span className="warning"> Choose a person </span>}
           </div>
           <button type="submit"> Add to do </button>
         </form>
