@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  width: 50%;
+  margin: 10px auto 0;
+  min-width: 600px;
+  text-align: center;
+}
+
+.todosForm {
+  display: grid;
+  justify-content: center;
+  row-gap: 10px;
+  padding: 10px 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+
+  &__inputContainer {
+    display: grid;
+    width: 90%;
+  }
+
+  &__inputField {
+    padding: 5px 8px;
+  }
+
+  &__addButton {
+    padding: 5px 10px;
+    justify-self: center;
+  }
+}
+
+.error {
+
+  font-weight: 600;
+  color: red;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
