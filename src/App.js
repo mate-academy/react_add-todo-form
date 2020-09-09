@@ -49,9 +49,9 @@ class App extends React.Component {
     event.preventDefault();
     const { title, id } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({
-        hasTitleError: !title,
+        hasTitleError: !title.trim(),
       });
 
       return;
