@@ -1,7 +1,6 @@
 .todo__form {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .error {
@@ -11,7 +10,7 @@
 }
 
 .todo__add {
-  padding: 10px;
+  height: 32px;
   margin-left: 10px;
 }
 
