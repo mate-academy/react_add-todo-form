@@ -15,11 +15,25 @@
 .list {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .todo {
   border: 2px solid black;
-  margin: 5px;
+  margin: 10px;
   padding: 10px;
   cursor: pointer;
+  min-width: 200px;
+  overflow: hidden;
+  background-color: rgb(209, 255, 41);
+}
+
+.error {
+  position: fixed;
+  top: 50px;
+  color: red;
+}
+
+.checked {
+  background-color: rgb(47, 245, 21);
 }

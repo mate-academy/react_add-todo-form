@@ -8,10 +8,9 @@ import todos from './api/todos';
 export class App extends React.Component {
   state = {
     todoList: [...todos],
-    userId: null,
+    userId: '',
     title: '',
     error: '',
-    user: '',
   }
 
   submit = (event) => {
@@ -26,6 +25,8 @@ export class App extends React.Component {
       completed: false,
     };
 
+    this.setState({ error: '' });
+
     if (!userId) {
       this.setState({
         error: 'Please choose a user',
@@ -37,7 +38,6 @@ export class App extends React.Component {
     } else {
       this.setState(state => ({
         todoList: [...todoList, newTodo],
-        user: '',
         title: '',
       }));
     }
@@ -54,11 +54,10 @@ export class App extends React.Component {
           <select
             name="name"
             className="item"
-            value={this.state.user}
+            value={this.state.userId}
             onChange={(event) => {
               this.setState({
                 userId: event.target.value,
-                user: event.target.value,
               });
             }}
           >
@@ -78,7 +77,7 @@ export class App extends React.Component {
           <button type="submit">
             ADD
           </button>
-          <p>{this.state.error}</p>
+          <p className="error">{this.state.error}</p>
         </form>
         <div className="list">
           <Todos todos={this.state.todoList} />
