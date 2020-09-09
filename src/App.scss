@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+.todo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  margin: 1%;
+  border-radius: 20px;
+  background-color: black;
+
+  &__title {
+    text-align: left;
+    color: azure;
+    padding-left: 5%;
+    text-transform: capitalize;
+  }
+  
+  &__doer {
+    color: yellow;
+  }
+  
+  &__completed {
+    color: rgb(7, 233, 7);
+    text-transform: uppercase;
+  }
+  
+  &__not-completed {
+    color: red;
+    text-transform: uppercase;
+  }
+}
+
+.form__error {
+  color: red;
+  font-size: 12px;
+}
