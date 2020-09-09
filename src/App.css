@@ -1,3 +1,13 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
 ul,
 li {
   list-style: none;
@@ -5,4 +15,7 @@ li {
 
 .App {
   text-align: center;
+  border: 1px solid blue;
+  padding-bottom: 50px;
+  background-color: pink;
 }

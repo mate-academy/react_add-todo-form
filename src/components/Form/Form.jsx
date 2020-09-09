@@ -56,19 +56,21 @@ export class Form extends React.Component {
     } = this.state;
     
     return (
-      <div>
+      <div className="todo">
         <TodoList
           todos={todos}
           users={users}
         />
         <form
-          className="todo"
+          className="todo__form"
           onSubmit={this.handleTodoAdd}
         >
           <div>
             <label htmlFor="task"></label>
             <input
+              className="task"
               type="text"
+              placeholder="Entet your task" 
               name="task"
               id="task"
               value={textTodo}
@@ -86,6 +88,7 @@ export class Form extends React.Component {
 
           <div>
             <select
+              className="user"
               name="user"
               value={userName}
               onChange={(event) => {

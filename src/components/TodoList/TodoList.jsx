@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Todo } from '../Todo/Todo';
+import '../TodoList/TodoList.css';
 
 export class TodoList extends React.Component {
-
   render() {
     const {todos} = this.props;
   
@@ -16,7 +14,7 @@ export class TodoList extends React.Component {
         ))
       }
       </ul>
-    )
-  }
-}
+    );
+  };
+};
 
