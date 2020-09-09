@@ -39,6 +39,7 @@ export class App extends React.Component {
       this.setState(state => ({
         todoList: [...todoList, newTodo],
         title: '',
+        userId: '',
       }));
     }
   }
