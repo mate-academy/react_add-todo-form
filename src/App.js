@@ -72,7 +72,7 @@ class App extends React.Component {
                 value={title}
                 onChange={(event) => {
                   this.setState({
-                    title: event.target.value,
+                    title: event.target.value.trimLeft(),
                     hasTitleError: false,
                   });
                 }}
