@@ -24,7 +24,7 @@ class App extends React.Component {
     event.preventDefault();
     const { title, userName } = this.state;
 
-    if (!title || title.trim() !== title || !userName) {
+    if (!title || !userName) {
       this.setState({
         hasTitleError: !title,
         hasUserError: !userName,
