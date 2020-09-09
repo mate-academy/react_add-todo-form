@@ -70,7 +70,7 @@ export class Form extends React.Component {
             <input
               className="task"
               type="text"
-              placeholder="Entet your task" 
+              placeholder="Enter your task" 
               name="task"
               id="task"
               value={textTodo}
@@ -82,7 +82,7 @@ export class Form extends React.Component {
               }}
             />
             {hasTextError && (
-              <span className="error">Please enter todo text</span>
+              <span className="error">Please enter your task</span>
             )}
           </div>
 
@@ -108,7 +108,7 @@ export class Form extends React.Component {
               }
             </select>
             {hasUserError && (
-              <span className="error">Please select a color</span>
+              <span className="error">Please select a user</span>
             )}
           </div>
           <button className="todo__add">Add todo</button>
