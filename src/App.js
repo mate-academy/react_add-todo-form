@@ -38,7 +38,7 @@ export class App extends React.Component {
     this.setState(state => (
       (state.todos).push(
         {
-          userId: state.user,
+          userId: +state.user,
           id: (state.todos).length + 1,
           title: state.title,
           completed: false,
@@ -117,7 +117,7 @@ export class App extends React.Component {
             Add
           </button>
         </form>
-        <TodoList todos={todosList} />
+        <TodoList todos={todosList} users={usersList} />
       </div>
     );
   }
