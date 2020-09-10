@@ -4,15 +4,36 @@ import PropTypes from 'prop-types';
 import { TodoList } from '../TodoList/TodoList';
 import '../Form/Form.css';
 
+const regx = 
+  /(?=^.{8,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
 export class Form extends React.Component {
   state = {
     textTodo: '',
     userName: '',
     hasTextError: false,
     hasUserError: false,
-    hasFirstSpace: false,
     users: [...users],
     todos: [...this.props.todos],
+  }
+
+  handleChange = (event) => {
+    event.preventDefault();
+    let {name, value} = event.target;
+    const { textTodo } = this.state;
+
+    if (value[0] === ' ') {
+      value = '';
+    }
+  
+    if (String(name) === "userName") {
+      this.setState({hasUserError: false});
+    }
+
+    if (String(name) === "textTodo") {
+      this.setState({hasTextError: false});
+    }
+
+    this.setState({ [name]: value});
   }
 
   handleTodoAdd = (event) => {
@@ -81,38 +102,23 @@ export class Form extends React.Component {
               className="task"
               type="text"
               placeholder="Enter your task" 
-              name="task"
+              name="textTodo"
               id="task"
               value={textTodo}
-              onChange={(event) => {
-                this.setState({
-                  hasTextError: false,
-                  hasFirstSpace: false,
-                  textTodo: event.target.value,
-                });
-              }}
+              onChange={this.handleChange}
             />
             {
               hasTextError && (
                 <span className="error">Please enter your task</span>
             )}
-             {
-                hasFirstSpace && (
-                  <span className="error">Please enter correct text</span>
-              )}
           </div>
 
           <div>
             <select
               className="user"
-              name="user"
+              name="userName"
               value={userName}
-              onChange={(event) => {
-                this.setState({
-                  hasUserError: false,
-                  userName: event.target.value,
-                })
-              }}
+              onChange={this.handleChange}
             >
               <option value="">Please choose user</option>
               {

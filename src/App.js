@@ -4,7 +4,7 @@ import todos from './api/todos';
 import { Form } from './components/Form/Form';
 
 function App() {
-  const todoList = todos.map(todo => todo);
+  const todoList = [...todos];
 
   return (
     <div className="App">
