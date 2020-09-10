@@ -5,7 +5,8 @@ class Form extends React.Component {
   state = {
     title: '',
     userId: '',
-    errorMessage: '',
+    errorTitle: false,
+    errorUser: false,
   }
 
   handleChange = (event) => {
@@ -13,46 +14,43 @@ class Form extends React.Component {
 
     this.setState({
       [name]: type === 'checkbox' ? checked : value,
-      errorMessage: '',
     });
   };
 
   onSubmit = () => {
-    this.setState(state => ({
-      ...state,
-      userId: '',
-      title: '',
-      errorMessage: '',
-    }));
+    this.setState(({
+      title,
+      userId,
+    }) => {
+      const newTodo = {
+        title,
+        id: +(this.props.id),
+        user: this.props.users.find(
+          user => user.id === +(this.state.userId),
+        ),
+      };
 
-    if (!this.state.title) {
-      this.setState({
-        errorMessage: 'please enter the task',
-      });
+      if (!title || !userId) {
+        return {
+          errorTitle: !title,
+          errorUser: !userId,
+        };
+      }
 
-      return;
-    }
+      this.props.addTodo(newTodo);
 
-    if (!this.state.userId) {
-      this.setState({
-        errorMessage: 'please select a user',
-      });
-
-      return;
-    }
-
-    const newTodo = {
-      ...this.state,
-      id: +(this.props.id),
-      user: this.props.users.find(user => user.id === +(this.state.userId)),
-    };
-
-    this.props.addTodo(newTodo);
+      return {
+        title: '',
+        userId: '',
+        errorTitle: false,
+        errorUser: false,
+      };
+    });
   }
 
   render() {
     const { users } = this.props;
-    const { title } = this.state;
+    const { title, errorUser, errorTitle } = this.state;
 
     return (
       <div>
@@ -64,6 +62,7 @@ class Form extends React.Component {
           value={title}
           onChange={this.handleChange}
         />
+        {errorTitle ? <span>enter a task</span> : ''}
 
         <br />
         <br />
@@ -82,11 +81,10 @@ class Form extends React.Component {
             </option>
           ))}
         </select>
+        {errorUser ? <span>select User</span> : ''}
 
         <br />
         <br />
-
-        <div>{this.state.errorMessage}</div>
 
         <button
           type="submit"
