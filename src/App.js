@@ -26,9 +26,11 @@ export class App extends React.Component {
   }
 
   addTodo = () => {
-    if (!this.state.title || !this.state.user) {
+    const { title, user } = this.state;
+
+    if (!title.trim() || !user) {
       this.setState(state => ({
-        titleError: !(state.title),
+        titleError: !(state.title.trim()),
         userError: !(state.user),
       }));
 
