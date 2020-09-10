@@ -21,25 +21,25 @@ export class App extends React.Component {
     const newTodo = {
       userId,
       id,
-      title,
+      title: title.trim(),
       completed: false,
     };
-
-    this.setState({ error: '' });
 
     if (!userId) {
       this.setState({
         error: 'Please choose a user',
       });
-    } else if (!title) {
+    } else if (!newTodo.title) {
       this.setState({
         error: 'Please enter the title',
+        title: '',
       });
     } else {
       this.setState(state => ({
         todoList: [...todoList, newTodo],
         title: '',
         userId: '',
+        error: '',
       }));
     }
   }
@@ -68,6 +68,7 @@ export class App extends React.Component {
             className="item"
             value={this.state.title}
             rows="5"
+            maxLength="200"
             placeholder="Type here new TODO"
             onChange={(event) => {
               this.setState({
