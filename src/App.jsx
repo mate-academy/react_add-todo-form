@@ -24,7 +24,7 @@ export class App extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value.trimLeft().replace(/\s{2,}/g, ' '),
+      [name]: value.replace(/\s{2,}/g, ' '),
       titleError: false,
       userError: false,
     });
