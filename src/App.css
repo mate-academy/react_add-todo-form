@@ -1,3 +1,50 @@
 .App {
   text-align: center;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  max-width: 960px;
+  margin: 20px auto;
+}
+
+li {
+  border: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+li div {
+  padding: 10px 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #000;
+}
+
+form label,
+form select,
+form input {
+  margin-bottom: 10px;
+}
+
+.error {
+  display: none;
+  color: #f00;
+  margin-bottom: 10px;
+}
+
+.visible {
+  display: flex;
+}
