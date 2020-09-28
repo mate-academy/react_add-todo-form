@@ -16,64 +16,15 @@ const preparedTodos = todos.map(
 
 class App extends React.Component {
   state = {
-    userState: '',
-    todoState: '',
     todosState: preparedTodos,
-    userError: false,
-    todoError: false,
   }
 
-  choseUser = (event) => {
-    this.setState({
-      userState: event.target.value,
-    });
-  }
-
-  handleChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const { userState, todoState } = this.state;
-
-    if (!userState) {
-      this.setState({ userError: true });
-    }
-
-    if (!todoState) {
-      this.setState({ todoError: true });
-    }
-
-    if (userState && todoState) {
-      this.setState(state => ({
-        todosState: [
-          ...state.todosState,
-          {
-            id: state.todosState.length + 1,
-            title: state.todoState,
-            user: users.find(user => state.userState === user.name),
-          },
-        ],
-        userState: '',
-        todoState: '',
-        userError: false,
-        todoError: false,
-      }));
-    }
-  }
+  addTodo = todo => this.setState(prevState => ({
+    todosState: [...prevState.todosState, todo],
+  }))
 
   render() {
-    const { todosState,
-      userState,
-      todoState,
-      userError,
-      todoError } = this.state;
+    const { todosState } = this.state;
 
     return (
       <div className="App">
@@ -86,14 +37,13 @@ class App extends React.Component {
 
         <Form
           users={users}
-          userState={userState}
-          todoState={todoState}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          userError={userError}
-          todoError={todoError}
+          addTodo={this.addTodo}
+          todosState={todosState}
         />
-        <TodoList todosState={todosState} />
+        <TodoList
+          todosState={todosState}
+          users={users}
+        />
       </div>
     );
   }
