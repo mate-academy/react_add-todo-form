@@ -19,6 +19,8 @@ export class App extends Component {
   }
 
   render() {
+    const { listOfTodos } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -27,14 +29,14 @@ export class App extends Component {
           users={users}
           todos={todos}
         />
-        <TodoList todos={this.state.listOfTodos.map(todo => ({
+        <TodoList todos={listOfTodos.map(todo => ({
           ...todo,
           user: users.find(user => user.id === todo.userId),
         }))}
         />
         <p>
           <span>Todos: </span>
-          {todos.length}
+          {listOfTodos.length}
         </p>
 
         <p>
