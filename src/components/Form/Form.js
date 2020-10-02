@@ -151,7 +151,7 @@ Form.propTypes = {
   ),
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      length: PropTypes.number.isRequired,
+      length: PropTypes.number,
     }),
   ),
 };
