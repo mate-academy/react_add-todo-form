@@ -1,3 +1,10 @@
 .App {
+  width: 50%;
+  margin: 0 auto;
+  min-width: 400px;
   text-align: center;
+}
+
+.itemForm {
+  margin-left: 15px;
 }
