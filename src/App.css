@@ -1,3 +1,13 @@
 .App {
-  text-align: center;
+  text-align: start;
+}
+
+.validator {
+  list-style-type: none;
+  color: red;
+}
+
+.user-error {
+  color: red;
+  padding-left: 40px;
 }
