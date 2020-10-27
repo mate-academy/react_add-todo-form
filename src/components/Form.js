@@ -54,7 +54,7 @@ export class Form extends React.PureComponent {
         className="form"
       >
         <label>
-          {`To do `}
+          To do (only letters and numbers allowed)
           <input
             placeholder="write a task"
             name="task"
@@ -62,7 +62,7 @@ export class Form extends React.PureComponent {
             value={this.state.task}
             onChange={(event) => {
               this.setState({
-                [event.target.name]: event.target.value,
+                [event.target.name]: event.target.value.replace(/[^\w ]/gi, ''),
                 titleError: false,
               });
             }}
@@ -75,7 +75,7 @@ export class Form extends React.PureComponent {
           : ''}
 
         <label>
-          {`Assign to `}
+          Assign to
           <select
             name="userName"
             value={this.state.userName}
