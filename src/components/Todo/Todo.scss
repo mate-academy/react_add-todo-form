@@ -1,0 +1,20 @@
+.item {
+  background: lightgoldenrodyellow;
+
+  &__title {
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.02vw;
+    line-height: 4vw;
+    margin-bottom: 4vw;
+
+    &--completed {
+      color: #43008d;
+    }
+  }
+
+  &--completed {
+    background: gainsboro;
+    text-decoration: line-through;
+  }
+}

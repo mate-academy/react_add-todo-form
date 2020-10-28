@@ -1,0 +1,24 @@
+html {
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+h1,
+h3,
+h5 {
+  margin: 0;
+}
+
+.app {
+  padding: 5vw;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 2vw;
+    color: #43008d;
+  }
+}
