@@ -12,10 +12,12 @@ export class AddToDo extends React.PureComponent {
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: type === 'text'
+        ? value.replace(/[^\w ]+/, '')
+        : value,
       [`${name}Error`]: false,
     });
   }
@@ -66,7 +68,7 @@ export class AddToDo extends React.PureComponent {
         <div className="form__title">
           <input
             type="text"
-            placeholder="Enter title"
+            placeholder="Enter title(Only spaces, letters and number)"
             className="form__input"
             name="title"
             value={title}
