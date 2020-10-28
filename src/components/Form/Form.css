@@ -1,0 +1,37 @@
+.App__form {
+  margin: 0 auto;
+  padding: 30px;
+  width: 500px;
+  border: 1px solid rgb(155, 153, 153);
+  border-radius: 5px;
+}
+
+.App__input {
+  width: 350px;
+  height: 22px;
+  font-size: 18px;
+  background: rgb(249, 246, 246);
+  border: 1px solid rgb(155, 153, 153);
+  border-radius: 5px;
+}
+
+.App__select {
+  width: 250px;
+  font-size: 20px;
+  border-radius: 5px;
+  background: rgb(249, 246, 246);
+  border: 1px solid rgb(155, 153, 153);
+}
+
+.App__button {
+  width: 100px;
+  font-size: 18px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.App__error {
+  height: 10px;
+  color: rgb(250, 125, 125);
+  font-size: 18px;
+}
