@@ -66,14 +66,17 @@ export class AddToDo extends React.PureComponent {
         className="form"
       >
         <div className="form__title">
-          <input
-            type="text"
-            placeholder="Enter title(Only spaces, letters and number)"
-            className="form__input"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
+          <label>
+            <p>Enter title:</p>
+            <input
+              type="text"
+              placeholder="(Only spaces, letters and number)"
+              className="form__input"
+              name="title"
+              value={title}
+              onChange={this.handleChange}
+            />
+          </label>
 
           {titleError
             && <p className="form__error">Please enter the title</p>}
