@@ -1,0 +1,13 @@
+.todos {
+  list-style: none;
+
+  &__todo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+    padding: 5px 30px;
+    background-color: rgb(216, 131, 158);
+    border-radius: 10px;
+  }
+}

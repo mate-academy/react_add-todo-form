@@ -1,0 +1,22 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Verdana, sans-serif;
+}
+
+body {
+  background-color: rgb(243, 249, 227);
+}
+
+.app {
+  display: flex;
+  justify-content: space-between;
+
+  &__todos {
+    flex-grow: 1;
+  }
+}
