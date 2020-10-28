@@ -9,7 +9,7 @@ export const AddTodoForm = (props) => {
     changeInputText,
     handleFocusInput,
     selectedUserId,
-    inputMessage,
+    inputWarnMessage,
   } = props;
 
   return (
@@ -17,7 +17,7 @@ export const AddTodoForm = (props) => {
       <input
         type="text"
         value={inputText}
-        className={inputMessage
+        className={inputWarnMessage
           ? 'AddTodoForm-input Error'
           : 'AddTodoForm-input'
         }
@@ -28,8 +28,11 @@ export const AddTodoForm = (props) => {
 
       <button
         type="submit"
-        disabled={!selectedUserId}
-        className="AddTodoForm-btn"
+        className={
+          !selectedUserId
+            ? 'AddTodoForm-btn disabled'
+            : 'AddTodoForm-btn'
+        }
       >
         +
       </button>
@@ -43,5 +46,5 @@ AddTodoForm.propTypes = {
   changeInputText: PropTypes.func.isRequired,
   handleFocusInput: PropTypes.func.isRequired,
   selectedUserId: PropTypes.number.isRequired,
-  inputMessage: PropTypes.string.isRequired,
+  inputWarnMessage: PropTypes.string.isRequired,
 };

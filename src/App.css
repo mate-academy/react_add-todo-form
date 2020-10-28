@@ -49,7 +49,7 @@ p {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.selectMessage {
+.selectWarnMessage {
   position: absolute;
   left: 65px;
   bottom: 4px;
@@ -60,7 +60,7 @@ p {
   letter-spacing: 1px;
 }
 
-.inputMessage {
+.inputWarnMessage {
   position: absolute;
   left: 305px;
   bottom: 4px;

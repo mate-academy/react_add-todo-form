@@ -6,29 +6,27 @@ export const reducer = (state, action) => {
       return {
         ...state,
         selectedUserId: action.payload,
-        selectMessage: '',
+        selectWarnMessage: '',
       };
 
-    case 'CLEAR_INPUT_MESSAGE':
+    case 'CLEAR_INPUT_WARN':
       return {
         ...state,
-        inputMessage: '',
+        inputWarnMessage: '',
       };
 
-    case 'SHOW_SELECT_MESSAGE':
+    case 'SHOW_WARN':
       return {
         ...state,
-        selectMessage: action.payload,
+        inputWarnMessage: !action.payload
+          ? 'Please Enter The Title'
+          : '',
+        selectWarnMessage: !state.selectedUserId
+          ? 'Please Choose a User'
+          : '',
       };
 
     case 'ADD_TODO':
-      if (!action.payload) {
-        return {
-          ...state,
-          inputMessage: 'Please Enter The Title',
-        };
-      }
-
       return {
         ...state,
         selectedUserId: 0,

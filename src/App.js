@@ -17,8 +17,8 @@ const fullTodos = todos.map(todo => ({
 const defaultState = {
   selectedUserId: 0,
   todoList: fullTodos,
-  selectMessage: '',
-  inputMessage: '',
+  selectWarnMessage: '',
+  inputWarnMessage: '',
 };
 
 function App() {
@@ -26,33 +26,33 @@ function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
 
   const changeInputText = (value) => {
-    if (state.selectMessage) {
-      setInputText('');
-    } else {
-      setInputText(value);
-    }
+    setInputText(value);
   };
 
   const addTodo = (e) => {
     e.preventDefault();
 
-    dispatch({
-      type: 'ADD_TODO', payload: inputText,
-    });
-    setInputText('');
+    if (!inputText || !state.selectedUserId) {
+      dispatch({
+        type: 'SHOW_WARN',
+        payload: inputText,
+      });
+    } else {
+      dispatch({
+        type: 'ADD_TODO',
+        payload: inputText,
+      });
+
+      setInputText('');
+    }
   };
 
   const handleFocusInput = () => {
     if (state.selectedUserId === 0) {
-      dispatch({
-        type: 'SHOW_SELECT_MESSAGE', payload: 'Please Choose a User',
-      });
-    } else {
-      dispatch({
-        type: 'SHOW_SELECT_MESSAGE', payload: '',
-      });
-      dispatch({ type: 'CLEAR_INPUT_MESSAGE' });
+      dispatch({ type: 'SHOW_WARN' });
     }
+
+    dispatch({ type: 'CLEAR_INPUT_WARN' });
   };
 
   const selectUser = (selectedUserId) => {
@@ -69,9 +69,9 @@ function App() {
           selectedUserId={state.selectedUserId}
           selectUser={selectUser}
           users={users}
-          selectMessage={state.selectMessage}
+          selectWarnMessage={state.selectWarnMessage}
         />
-        <div className="selectMessage">{state.selectMessage}</div>
+        <div className="selectWarnMessage">{state.selectWarnMessage}</div>
 
         <AddTodoForm
           addTodo={addTodo}
@@ -79,9 +79,9 @@ function App() {
           changeInputText={changeInputText}
           handleFocusInput={handleFocusInput}
           selectedUserId={state.selectedUserId}
-          inputMessage={state.inputMessage}
+          inputWarnMessage={state.inputWarnMessage}
         />
-        <div className="inputMessage">{state.inputMessage}</div>
+        <div className="inputWarnMessage">{state.inputWarnMessage}</div>
       </div>
 
       <TodoList todoList={state.todoList} />

@@ -33,7 +33,7 @@
   transition: transform 0.3s;
 }
 
-.AddTodoForm-btn:disabled {
+.AddTodoForm-btn.disabled {
   background-color: rgba(128, 128, 128, 0.5);
   color: #ccc;
 }

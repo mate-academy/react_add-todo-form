@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
 
 export const SelectUser = (props) => {
-  const { selectedUserId, selectUser, users, selectMessage } = props;
+  const { selectedUserId, selectUser, users, selectWarnMessage } = props;
 
   return (
     <select
       name="selectUser"
       className={
-        selectMessage
+        selectWarnMessage
           ? 'SelectUser Error'
           : 'SelectUser'
       }
@@ -33,5 +33,5 @@ SelectUser.propTypes = {
   selectedUserId: PropTypes.number.isRequired,
   selectUser: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape(UserShape)).isRequired,
-  selectMessage: PropTypes.string.isRequired,
+  selectWarnMessage: PropTypes.string.isRequired,
 };
