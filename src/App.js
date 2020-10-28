@@ -12,7 +12,7 @@ const preparedTodos = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId),
 }));
 
-export class App extends React.Component {
+export class App extends React.PureComponent {
   state = {
     todosList: preparedTodos,
   }
@@ -37,7 +37,6 @@ export class App extends React.Component {
 
     return (
       <div className="App">
-        <h2>Add new task</h2>
         <Form users={users} addTodo={this.addTodo} />
         <h1>List of todos</h1>
         <TodoList todos={todosList} />

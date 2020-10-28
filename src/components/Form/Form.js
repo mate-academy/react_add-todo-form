@@ -9,14 +9,14 @@ const initialState = {
   errorName: '',
 };
 
-export class Form extends React.Component {
+export class Form extends React.PureComponent {
   state = initialState;
 
   handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.replace(/[^\w\s]/, ''),
       errorTitle: '',
       errorName: '',
     });
