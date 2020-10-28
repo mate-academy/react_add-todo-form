@@ -1,18 +1,18 @@
 /* eslint-disable max-len */
 
-const todos = [
+const todosStart = [
   {
     userId: 1,
     id: 1,
-    title: 'delectus aut autem',
-    completed: false,
+    name: 'delectus aut autem',
+    done: false,
   },
   {
     userId: 1,
     id: 2,
-    title: 'quis ut nam facilis et officia qui',
-    completed: false,
+    name: 'quis ut nam facilis et officia qui',
+    done: false,
   },
 ];
 
-export default todos;
+export default todosStart;

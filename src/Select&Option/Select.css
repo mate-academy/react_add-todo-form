@@ -1,0 +1,11 @@
+.Select {
+  padding: 15px;
+  width: 200px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px 4px rgba(83, 79, 79, 0.15);
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  background-color: aliceblue;
+  font-style: italic;
+}
