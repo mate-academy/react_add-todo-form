@@ -43,8 +43,6 @@ export class Form extends React.PureComponent {
       this.setState({
         title: '',
         user: '',
-        hasUser: true,
-        hasTitle: true,
       });
     }
   }
