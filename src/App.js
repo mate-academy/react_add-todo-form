@@ -19,7 +19,7 @@ class App extends React.PureComponent {
   }
 
   addTodo = (newTodo) => {
-    if (!newTodo.title) {
+    if (!newTodo.title.trim()) {
       this.setState({
         errorMessage: 'Please enter the title',
       });
