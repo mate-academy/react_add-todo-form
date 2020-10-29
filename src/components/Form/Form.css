@@ -1,0 +1,20 @@
+.Form {
+  border-style: solid;
+}
+
+.field {
+  margin: 10px;
+}
+
+.header {
+  text-align: center;
+}
+
+.button {
+  text-align: center;
+}
+
+.error {
+  background-color: red;
+  color: white;
+}
