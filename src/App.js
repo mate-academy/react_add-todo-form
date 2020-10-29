@@ -13,14 +13,18 @@ class App extends PureComponent {
   }
 
   addTodo = (title, userId) => {
-    this.setState(state => ({
-      todos: [...state.todos, {
+    this.setState((state) => {
+      const newTodo = {
         userId,
         id: state.todos.length + 1,
         title,
         completed: false,
-      }],
-    }));
+      };
+
+      return {
+        todos: [...state.todos, newTodo],
+      };
+    });
   }
 
   render() {

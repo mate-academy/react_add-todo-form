@@ -1,0 +1,56 @@
+.form {
+  padding: 1vw 2vw;
+  margin-bottom: 2vw;
+  border-radius: 1vw;
+  box-shadow: 0 8px 6px -6px #c6c5c5;
+  position: relative;
+
+  &__input {
+    text-transform: uppercase;
+    letter-spacing: 0.02vw;
+    line-height: 2vw;
+    color: #43008d;
+    border-color: transparent;
+    width: 50%;
+    margin-right: 5%;
+
+    &:active,
+    &:focus {
+      background: transparent;
+      outline: none;
+      border-bottom: 0.01vw solid;
+    }
+  }
+
+  &__select {
+    font-size: 0.83em;
+    font-weight: bold;
+    line-height: 4vw;
+    color: darkorange;
+    width: 35%;
+    padding: 10px;
+    background: lightgoldenrodyellow;
+    border-radius: 20px;
+    border-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__btn {
+    font-size: 24px;
+    color: #43008d;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    background: lightgoldenrodyellow;
+    border-radius: 50%;
+    border-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
