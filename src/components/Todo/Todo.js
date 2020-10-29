@@ -1,5 +1,5 @@
 import React from 'react';
-import { TodoListShape } from '../../shapes/TodoListShape';
+import { TodoShape } from '../../shapes/TodoShape';
 import { User } from '../User/User';
 
 import './Todo.scss';
@@ -17,4 +17,4 @@ export const Todo = ({ title, completed, user }) => (
   </>
 );
 
-Todo.propTypes = TodoListShape;
+Todo.propTypes = TodoShape;
