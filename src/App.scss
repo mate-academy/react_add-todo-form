@@ -1,0 +1,135 @@
+html {
+  font-family: Poppins, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: lavender;
+  color: #222;
+}
+
+.App {
+  padding: 50px 100px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  max-width: 50vw;
+  margin: 0 auto;
+
+  &__select {
+    border: 0;
+    border-bottom: 2px solid gray;
+    outline: 0;
+    background: transparent;
+  }
+
+  &__text-input {
+    position: relative;
+    top: 17px;
+    border: 0;
+    border-bottom: 2px solid gray;
+    outline: 0;
+    padding: 5px 10px;
+    width: 300px;
+    background: transparent;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+  }
+
+  &__text-label {
+    position: relative;
+    top: -7px;
+    display: block;
+    transition: 0.2s;
+    letter-spacing: 0.1rem;
+    color: gray;
+    cursor: text;
+    opacity: 0.5;
+  }
+
+  &__button {
+    border: 0;
+    border-radius: 5px;
+    background-color: #7fdbfb;
+    width: 100px;
+    color: white;
+    font-size: 20px;
+    box-shadow: 1px 1px 4px black;
+    text-shadow: 2px 2px 3px black;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      text-shadow: 1px 1px 2px gray;
+      box-shadow: 1px 1px 4px silver;
+    }
+
+    &:focus {
+      box-shadow: 1px 1px 4px black;
+      text-shadow: 2px 2px 3px black;
+    }
+  }
+}
+
+.form__text-input:focus ~ .form__text-label {
+  top: -25px;
+  opacity: 0;
+}
+
+.list-container {
+  max-width: 50vw;
+  margin: 70px auto;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: lightblue;
+  box-shadow: 2px 2px 10px silver;
+}
+
+.heading {
+  color: white;
+  text-shadow: 1px 1px 2px gray;
+}
+
+.list {
+  padding: 10px;
+  list-style: none;
+  color: white;
+
+  &__item {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #7fdbfb;
+    box-shadow: 2px 2px 10px whitesmoke;
+  }
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &__user {
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+  }
+
+  &__title {
+    font-style: italic;
+  }
+
+  &__checkbox {
+    height: 30px;
+    width: 30px;
+    background-color: #222;
+  }
+}
+
+.error {
+  color: red;
+}
