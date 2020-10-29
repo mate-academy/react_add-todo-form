@@ -14,7 +14,7 @@ const preparedTodos = todosFromApi.map(todo => ({
 
 class App extends PureComponent {
   state = {
-    todos: [...preparedTodos],
+    todos: preparedTodos,
   }
 
   addTodo = (user, title) => {

@@ -74,16 +74,8 @@ class Form extends PureComponent {
           </div>
           <Button />
         </form>
-        {userError ? (
-          <p className="error">Please choose a user</p>
-        ) : (
-          ''
-        )}
-        {titleError ? (
-          <p className="error">Please enter the title</p>
-        ) : (
-          ''
-        )}
+        {userError && <p className="error">Please choose a user</p>}
+        {titleError && <p className="error">Please enter the title</p>}
       </>
     );
   }
