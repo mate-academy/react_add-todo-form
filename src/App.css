@@ -1,3 +1,19 @@
-.App {
-  text-align: center;
+body {
+  font-size: 14px;
+}
+
+.app {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 70px;
+}
+
+.app__todos {
+  width: 600px;
+}
+
+.app__form {
+  width: 500px;
+  padding: 30px;
 }
