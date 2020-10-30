@@ -7,37 +7,74 @@ import todos from '../../api/todos';
 import { FormSelect } from '../FormSelect';
 import { TodoList } from '../TodoList';
 
-export class TodoForm extends React.Component {
+export class TodoForm extends React.PureComponent {
   state = {
     todoList: todos,
     todoUserId: 0,
     todoTitle: '',
     todoId: todos.length,
     titleError: false,
+    usernameError: false,
+    username: '',
   }
 
   addTodoUserId = (id) => {
     this.setState({ todoUserId: Number(id) });
   }
 
+  handleChange = (target) => {
+    const { name, value } = target;
+
+    this.setState({
+      [name]: value,
+      [`${name}Error`]: false,
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    const { todoTitle, username } = this.state;
+
+    if (todoTitle === '') {
+      this.setState({
+        titleError: true,
+      });
+
+      return;
+    }
+
+    if (username === '') {
+      this.setState({
+        usernameError: true,
+      });
+
+      return;
+    }
+
+    this.addTodo();
+
+    this.setState({
+      todoTitle: '',
+      username: '',
+    });
+  }
+
   addTodo() {
     const { todoUserId, todoId, todoTitle } = this.state;
+    const newTodo = {
+      userId: todoUserId,
+      id: todoId + 1,
+      title: todoTitle,
+      completed: false,
+      defaultValue: 'choose',
+    };
 
-    if (todoTitle.length !== 0 && todoUserId !== 0) {
-      const newTodo = {
-        userId: todoUserId,
-        id: todoId + 1,
-        title: todoTitle,
-        completed: false,
-      };
-
-      this.setState(state => ({
-        todoList: [...state.todoList, newTodo],
-        todoId: state.todoId + 1,
-      }));
-    } else {
-      this.setState({ titleError: true });
-    }
+    this.setState(state => ({
+      todoList: [...state.todoList, newTodo],
+      todoTitle: '',
+      todoId: state.todoId + 1,
+    }));
   }
 
   render() {
@@ -45,10 +82,17 @@ export class TodoForm extends React.Component {
 
     return (
       <>
-        <form className="App__form form">
+        <form
+          className="App__form form"
+          onSubmit={event => (
+            this.onSubmit(event)
+          )}
+        >
           <FormSelect
+            username={this.state.username}
             addTodoUserId={this.addTodoUserId}
             addTodo={this.addTodo}
+            handleChange={this.handleChange}
             users={users}
           />
 
@@ -66,8 +110,7 @@ export class TodoForm extends React.Component {
 
           <button
             className="form__submit-button"
-            type="button"
-            onClick={() => this.addTodo()}
+            type="submit"
           >
             add
           </button>
@@ -75,7 +118,11 @@ export class TodoForm extends React.Component {
 
         <div>
           {this.state.titleError && (
-            <p>Please enter the title</p>
+            <p>Please fill a title</p>
+          )}
+
+          {this.state.usernameError && (
+            <p>Please choose a user</p>
           )}
         </div>
 

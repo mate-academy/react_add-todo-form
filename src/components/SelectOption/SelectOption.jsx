@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 export const SelectOption = ({ users }) => (
   <>
-    <option>Please choose a user</option>
+    <option value="">
+      Please choose a user
+    </option>
 
     {users.map(user => (
       <option
         key={user.id}
-        value={user.id}
+        value={user.name}
       >
         {user.name}
       </option>
