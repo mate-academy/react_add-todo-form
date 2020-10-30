@@ -1,3 +1,23 @@
+* {
+  background-color: #fafbfc;
+  font-family: Montserrat Alternates, sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.App > h1 {
+  font-weight: bold;
+}
+
+.App > h1 > span {
+  background-color: #7b68ee;
+  color: #fafbfc;
+  border-radius: 3px;
+}
+
+.App__todo-list {
+  list-style: none;
+  margin-top: 30px;
 }

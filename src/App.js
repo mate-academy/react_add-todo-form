@@ -3,17 +3,26 @@ import './App.css';
 
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+import { TodoForm } from './components/TodoForm';
 
-      <p>
-        <span>Users: </span>
+const App = () => (
+  <div className="App">
+    <h1>
+      to
+      <span>do</span>
+    </h1>
+
+    <p>
+      <span>
+        Users:
         {users.length}
-      </p>
-    </div>
-  );
-}
+      </span>
+    </p>
+
+    <TodoForm
+      users={users}
+    />
+  </div>
+);
 
 export default App;
