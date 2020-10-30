@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import todosFromServer from './api/todos';
 import users from './api/users';
-// import { TodoList } from './components/TodoList';
+import { SelectUser } from './components/SelectUser';
 
 class App extends Component {
   state = {
@@ -26,7 +26,7 @@ class App extends Component {
     const { value } = event.currentTarget;
 
     this.setState({
-      todoId: Number(value),
+      todoId: value === 'error' ? '' : Number(value),
       errorUser: '',
     });
   }
@@ -88,20 +88,12 @@ class App extends Component {
         </div>
 
         <div className="App__form">
-          <select
-            className="ui selection dropdown"
-            value={todoId}
-            onChange={this.handleSelect}
-          >
-            <option>---- Choose a user ----</option>
-            {
-              users.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))
-            }
-          </select>
+          <SelectUser
+            handleSelect={this.handleSelect}
+            todoId={todoId}
+            users={users}
+          />
+
           <span className="App__error">{errorUser}</span>
         </div>
 
