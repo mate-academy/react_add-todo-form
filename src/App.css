@@ -1,3 +1,23 @@
 .App {
   text-align: center;
 }
+
+.App__list {
+  width: 500px;
+}
+
+.App__title,
+.App__users {
+  display: flex;
+  flex-direction: column;
+  margin: 5px auto;
+  width: 300px;
+}
+
+.App__users {
+  text-align-last: center;
+}
+
+.App__error {
+  color: #fb4b3b;
+}
