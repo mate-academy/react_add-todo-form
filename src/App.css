@@ -18,3 +18,8 @@ ul {
   text-align: center;
   padding-bottom: 50px;
 }
+
+.App__red {
+  color: red;
+  font-weight: bold;
+}

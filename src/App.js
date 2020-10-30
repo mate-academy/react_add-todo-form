@@ -16,7 +16,8 @@ const preparedData = todos.map(todo => ({
 class App extends React.Component {
   state = {
     title: '',
-    selected: '',
+    selected: '-1',
+    btnSubmited: false,
   }
 
   handleChange = (event) => {
@@ -26,10 +27,11 @@ class App extends React.Component {
   }
 
   addTodo = () => {
-    const { selected } = this.state;
+    const { title, selected } = this.state;
 
-    if (this.state.title === '' || selected === '') {
-      // alert('all fields are required')
+    if (title === '' || selected === '-1') {
+      this.setState({ btnSubmited: true });
+
       return;
     }
 
@@ -37,7 +39,7 @@ class App extends React.Component {
       title: this.state.title,
       user: users[selected],
     });
-    this.setState({});
+    this.setState({ btnSubmited: false });
   }
 
   render() {
@@ -47,6 +49,8 @@ class App extends React.Component {
         <TodoList todos={preparedData} />
         <AddForm
           value={this.state.title}
+          selected={this.state.selected}
+          btnStatus={this.state.btnSubmited}
           changeHandler={this.handleChange}
           clickHandler={this.addTodo}
           users={users}
