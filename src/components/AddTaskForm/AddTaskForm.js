@@ -2,16 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TodoList } from '../TodoList';
-import './AddTaskForm.scss';
+import { TodoShape } from '../shapes/TodoShape';
 
-import todos from '../../api/todos';
+import './AddTaskForm.scss';
 
 export class AddTaskForm extends React.PureComponent {
   state = {
     selectedUser: 0,
     taskTitle: '',
     error: '',
-    todos,
+    todos: this.props.todos,
+  }
+
+  handleTitle = (event) => {
+    this.setState({
+      taskTitle: event.target.value,
+      error: '',
+    });
   }
 
   selectUser = (event) => {
@@ -21,7 +28,7 @@ export class AddTaskForm extends React.PureComponent {
     });
   }
 
-  createTask(event) {
+  createTask = (event) => {
     const { taskTitle, selectedUser } = this.state;
     const isTitle = !taskTitle.length;
 
@@ -52,13 +59,14 @@ export class AddTaskForm extends React.PureComponent {
   }
 
   render() {
-    const { taskTitle, selectedUser, error } = this.state;
+    const { state, handleTitle, selectUser, createTask, props } = this;
+    const { taskTitle, selectedUser, error, todos } = state;
 
     return (
       <>
         <form
           name="AddTaskForm"
-          onSubmit={event => this.createTask(event)}
+          onSubmit={createTask}
         >
           <div className="form-group sizing">
             <label htmlFor="newTaskTitle">
@@ -73,12 +81,7 @@ export class AddTaskForm extends React.PureComponent {
               type="text"
               name="newTask"
               value={taskTitle}
-              onChange={(event) => {
-                this.setState({
-                  taskTitle: event.target.value,
-                  error: '',
-                });
-              }}
+              onChange={handleTitle}
             />
           </div>
 
@@ -91,13 +94,13 @@ export class AddTaskForm extends React.PureComponent {
               className="form-control"
               id="usersSelector"
               value={selectedUser}
-              onChange={this.selectUser}
+              onChange={selectUser}
             >
               <option value="">
                 Choose a user
               </option>
 
-              {this.props.users.map(({ id, name }) => (
+              {props.users.map(({ id, name }) => (
                 <option key={id} value={id}>
                   {name}
                 </option>
@@ -132,7 +135,7 @@ export class AddTaskForm extends React.PureComponent {
           )}
         </form>
 
-        <TodoList tasks={this.state.todos} />
+        <TodoList tasks={todos} />
       </>
     );
   }
@@ -145,4 +148,9 @@ AddTaskForm.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  todos: PropTypes.arrayOf(TodoShape),
+};
+
+AddTaskForm.defaultProps = {
+  todos: [],
 };
