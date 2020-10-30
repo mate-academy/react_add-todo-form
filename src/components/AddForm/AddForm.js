@@ -26,7 +26,7 @@ export const AddForm = (
       onChange={changeHandler}
     />
     <Form.Label
-      className={selected === -1 && btnStatus ? 'App__red' : ''}
+      className={selected === '-1' && btnStatus ? 'App__red' : ''}
     >
       Select user
     </Form.Label>
