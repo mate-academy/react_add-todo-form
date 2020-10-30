@@ -7,7 +7,7 @@ export function ToDoList({ todos }) {
       <thead>
         <tr>
           <th>Title</th>
-          <th>User ID</th>
+          <th>User Name</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -18,7 +18,8 @@ export function ToDoList({ todos }) {
               {todo.title}
             </td>
             <td>
-              {todo.userId}
+              {/* {users.filter(user => user.id === todo.userId)} */}
+              {todo.user.name}
             </td>
             <td>
               {todo.completed ? 'competed' : 'not competed'}

@@ -46,9 +46,10 @@ export class NewToDoForm extends React.Component {
       return;
     }
 
-    const { onAdd } = this.props;
+    const { onAdd, users } = this.props;
+    const newUser = users.find(user => user.id === Number(selectedUserId));
 
-    onAdd(toDoTitle, selectedUserId);
+    onAdd(toDoTitle, newUser);
     this.setState({
       toDoTitle: '',
       selectedUserId: '',
