@@ -14,7 +14,6 @@ const initialTodos = todosInitial.map(todo => ({
 class App extends React.PureComponent {
   state = {
     todos: initialTodos,
-    todoId: todosInitial.length,
     errorMessage: '',
   }
 
@@ -32,10 +31,10 @@ class App extends React.PureComponent {
         todos: [...state.todos, {
           ...newTodo,
           userId: Number(newTodo.userId),
-          id: state.todoId + 1,
+          id: state.todos.length + 1,
+          completed: false,
           user: users.find(user => user.id === +newTodo.userId),
         }],
-        todoId: state.todoId + 1,
         errorMessage: '',
       }));
     }

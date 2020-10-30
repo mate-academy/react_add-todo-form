@@ -7,9 +7,7 @@ const Todo = ({ title, user, completed }) => (
     <div className="card-header">{user.name}</div>
     <div className="card-body">
       <p className="card-text">
-        Todo:
-        {' '}
-        {title}
+        {`Todo: ${title}`}
       </p>
 
       <label

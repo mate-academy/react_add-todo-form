@@ -5,9 +5,7 @@ import { UserShape } from '../shapes/userShape';
 class NewTodo extends React.Component {
   state = {
     userId: 0,
-    id: null,
     title: '',
-    completed: false,
   }
 
   handleChange = (e) => {
