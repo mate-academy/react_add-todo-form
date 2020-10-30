@@ -7,16 +7,16 @@ export class Form extends React.PureComponent {
   state = {
     title: '',
     user: '',
-    hasUser: true,
-    hasTitle: true,
+    hasuser: true,
+    hastitle: true,
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
-      [`has${name[0].toUpperCase() + name.slice(1)}`]: true,
+      [name]: value.trim(),
+      [`has${name}`]: true,
     });
   }
 
@@ -25,19 +25,19 @@ export class Form extends React.PureComponent {
 
     event.preventDefault();
 
-    if (user === '') {
+    if (!user) {
       this.setState({
-        hasUser: false,
+        hasuser: false,
       });
     }
 
-    if (title === '') {
+    if (!title) {
       this.setState({
-        hasTitle: false,
+        hastitle: false,
       });
     }
 
-    if (user !== '' && title !== '') {
+    if (user && title) {
       this.props.addTodo(this.findUser(user), title);
 
       this.setState({
@@ -51,7 +51,7 @@ export class Form extends React.PureComponent {
 
   render() {
     const {
-      state: { hasTitle, title, user, hasUser },
+      state: { hastitle, title, user, hasuser },
       handleChange,
       handleSubmit,
     } = this;
@@ -66,7 +66,7 @@ export class Form extends React.PureComponent {
             name="title"
             id="title"
             className={classNames('form-control', {
-              'is-invalid': !hasTitle,
+              'is-invalid': !hastitle,
             })}
             placeholder="Enter title"
             value={title}
@@ -82,7 +82,7 @@ export class Form extends React.PureComponent {
             name="user"
             id="user"
             className={classNames('form-control', {
-              'is-invalid': !hasUser,
+              'is-invalid': !hasuser,
             })}
             value={user}
             onChange={handleChange}
