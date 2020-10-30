@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #352f5b;
+}
+
+.container {
+  max-width: 90%;
+}
+
+input[type="text"],
+input[type="text"]:focus {
+  color: #495057;
+  border: none;
+}
+
+.todos li {
+  background: #423a6f;
+  list-style-type: none;
+  height: 50px;
+  line-height: 50px;
+}
