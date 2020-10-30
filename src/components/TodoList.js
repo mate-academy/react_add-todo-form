@@ -6,7 +6,10 @@ export const TodoList = ({ tasks }) => (
   <ul>
     {
       tasks.map(task => (
-        <Todo key={task.id} {...task} />
+        <Todo
+          key={task.id}
+          {...task}
+        />
       ))
     }
   </ul>
