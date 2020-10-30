@@ -28,7 +28,10 @@ class App extends React.Component {
       };
 
       return {
-        toDosList: [...state.toDosList, newTodo],
+        toDosList: [
+          ...state.toDosList,
+          newTodo,
+        ],
       };
     });
   }

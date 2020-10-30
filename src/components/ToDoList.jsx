@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export function ToDoList({ todos }) {
   return (
     <table className="ui celled table">
+
       <thead>
         <tr>
           <th>Title</th>
@@ -11,16 +12,18 @@ export function ToDoList({ todos }) {
           <th>Status</th>
         </tr>
       </thead>
+
       <tbody>
         {todos.map(todo => (
           <tr key={todo.id}>
             <td>
               {todo.title}
             </td>
+
             <td>
-              {/* {users.filter(user => user.id === todo.userId)} */}
               {todo.user.name}
             </td>
+
             <td>
               {todo.completed ? 'competed' : 'not competed'}
             </td>

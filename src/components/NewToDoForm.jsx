@@ -69,7 +69,10 @@ export class NewToDoForm extends React.Component {
     const { toDoTitle, inputError, selectError, selectedUserId } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className="ui input">
+      <form
+        onSubmit={this.handleSubmit}
+        className="ui input"
+      >
         <input
           type="text"
           placeholder="write todo title here"
@@ -86,9 +89,9 @@ export class NewToDoForm extends React.Component {
           onChange={this.handleChange}
         >
           <option defaultValue>Choose a user</option>
-          {this.props.users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.name}
+          {this.props.users.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
             </option>
           ))}
         </select>
@@ -96,7 +99,12 @@ export class NewToDoForm extends React.Component {
         {selectError
           && <b className="error">Please choose a user</b>}
 
-        <button className="ui button" type="submit">Add ToDo</button>
+        <button
+          className="ui button"
+          type="submit"
+        >
+          Add ToDo
+        </button>
       </form>
     );
   }
