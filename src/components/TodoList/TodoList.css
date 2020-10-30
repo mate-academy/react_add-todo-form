@@ -1,0 +1,11 @@
+.list__item {
+  background-color: #7b68ee;
+  color: white;
+  height: 40px;
+  width: 400px;
+  border-radius: 3px;
+
+  line-height: 40px;
+
+  margin: 0 auto 5px;
+}
