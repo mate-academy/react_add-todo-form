@@ -13,13 +13,12 @@ class App extends React.PureComponent {
 
   state = {
     todos: prepareTodos,
-    lastId: prepareTodos.length,
   }
 
   addTodo = (user, title) => {
     const newTodo = {
       userId: user.id,
-      id: this.state.lastId + 1,
+      id: this.state.todos.length + 1,
       title,
       completed: false,
       user,
@@ -27,7 +26,6 @@ class App extends React.PureComponent {
 
     this.setState(state => ({
       todos: [...state.todos, newTodo],
-      lastId: state.lastId + 1,
     }));
   }
 
