@@ -66,7 +66,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <ul className="App__list ui text container">
+        <ul className="ui text container">
           {
             todos.map(todo => (
               <div className="ui message" key={todo.id}>
@@ -76,7 +76,7 @@ class App extends Component {
           }
         </ul>
 
-        <div className="App__title">
+        <div className="App__form">
           <input
             className="ui selection dropdown"
             type="text"
@@ -87,7 +87,7 @@ class App extends Component {
           <span className="App__error">{errorTitle}</span>
         </div>
 
-        <div className="App__users">
+        <div className="App__form">
           <select
             className="ui selection dropdown"
             value={todoId}
