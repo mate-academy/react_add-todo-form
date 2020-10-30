@@ -38,7 +38,12 @@ export class Form extends PureComponent {
       return;
     }
 
-    this.props.addTodo(this.state.title, this.state.userId);
+    const { title, userId } = this.state;
+
+    this.props.addTodo({
+      title,
+      userId,
+    });
     this.setState({
       userId: 0,
       title: '',

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import { TodoShape } from '../../shapes/TodoShape';
 import { Todo } from '../Todo/Todo';
 
@@ -10,9 +11,8 @@ export const TodoList = ({ todoList }) => (
     {
       todoList.map(todo => (
         <li
-          className={todo.completed
-            ? 'list__item item item--completed'
-            : 'list__item item'
+          className={
+            classNames('list__item item', { 'item--completed': todo.completed })
           }
           key={todo.id}
         >
