@@ -3,11 +3,11 @@
   justify-content: space-between;
   font-size: 20px;
   font-weight: 600;
+}
 
-  &__text {
-    font-size: 16px;
-    font-weight: 500;
-  }
+.todo__text {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .badge {
