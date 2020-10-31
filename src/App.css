@@ -1,3 +1,23 @@
 .App {
   text-align: center;
+  font-family: "Verdana", sans-serif;
+
+  
+}
+
+.App__error {
+  color: red;
+  font-weight: bold;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  min-width: 360px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.form__input {
+  width: 100%;
 }
