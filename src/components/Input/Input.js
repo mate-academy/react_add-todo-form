@@ -1,9 +1,16 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { StateShape } from '../shapes/StateShape';
 import './Input.css';
 
 export const Input = ({ state, dispatch }) => {
+  const { inputText, selectedUserId, inputWarnMessage } = state;
+
+  const inputClasses = classNames('AddTodoForm-input', {
+    Error: inputWarnMessage,
+  });
+
   const changeInputText = (event) => {
     const { value } = event.target;
 
@@ -14,7 +21,7 @@ export const Input = ({ state, dispatch }) => {
   };
 
   const handleFocusInput = () => {
-    if (state.selectedUserId === 0) {
+    if (selectedUserId === 0) {
       dispatch({ type: 'SHOW_WARN' });
     }
 
@@ -25,16 +32,13 @@ export const Input = ({ state, dispatch }) => {
     <>
       <input
         type="text"
-        value={state.inputText}
-        className={state.inputWarnMessage
-          ? 'AddTodoForm-input Error'
-          : 'AddTodoForm-input'
-        }
+        value={inputText}
+        className={inputClasses}
         onChange={changeInputText}
         onFocus={handleFocusInput}
         placeholder="Write new task"
       />
-      <div className="inputWarnMessage">{state.inputWarnMessage}</div>
+      <div className="inputWarnMessage">{inputWarnMessage}</div>
     </>
   );
 };

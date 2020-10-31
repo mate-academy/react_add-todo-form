@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import classNames from 'classnames';
 import './AddTodoForm.css';
 import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
@@ -15,6 +16,10 @@ const defaultState = {
 
 export const AddTodoForm = ({ addTodo, users, lastTodoIndex }) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
+
+  const buttonClasses = classNames('AddTodoForm-btn', {
+    disabled: !(state.selectedUserId && state.inputText),
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -52,11 +57,7 @@ export const AddTodoForm = ({ addTodo, users, lastTodoIndex }) => {
 
         <button
           type="submit"
-          className={
-            state.selectedUserId && state.inputText
-              ? 'AddTodoForm-btn'
-              : 'AddTodoForm-btn disabled'
-          }
+          className={buttonClasses}
         >
           +
         </button>

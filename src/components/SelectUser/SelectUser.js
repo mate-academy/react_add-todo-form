@@ -1,11 +1,16 @@
 import React from 'react';
+import classNames from 'classnames';
 import './SelectUser.css';
 import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
 import { StateShape } from '../shapes/StateShape';
 
 export const SelectUser = ({ state, dispatch, users }) => {
-  const { selectedUserId } = state;
+  const { selectedUserId, selectWarnMessage } = state;
+
+  const selectClasses = classNames('SelectUser', {
+    Error: selectWarnMessage,
+  });
 
   const selectUser = (event) => {
     const selectedUser = event.target.value;
@@ -19,11 +24,7 @@ export const SelectUser = ({ state, dispatch, users }) => {
     <>
       <select
         name="selectUser"
-        className={
-          state.selectWarnMessage
-            ? 'SelectUser Error'
-            : 'SelectUser'
-        }
+        className={selectClasses}
         value={selectedUserId}
         onChange={selectUser}
       >
@@ -36,7 +37,7 @@ export const SelectUser = ({ state, dispatch, users }) => {
           ))
         }
       </select>
-      <div className="selectWarnMessage">{state.selectWarnMessage}</div>
+      <div className="selectWarnMessage">{selectWarnMessage}</div>
     </>
   );
 };
