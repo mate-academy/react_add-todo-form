@@ -12,10 +12,10 @@ export class TodoForm extends React.PureComponent {
     todoList: todos,
     todoUserId: 0,
     todoTitle: '',
+    username: '',
     todoId: todos.length,
     titleError: false,
     usernameError: false,
-    username: '',
   }
 
   addTodoUserId = (id) => {
@@ -23,11 +23,10 @@ export class TodoForm extends React.PureComponent {
   }
 
   handleChange = (target) => {
-    const { name, value } = target;
-
     this.setState({
-      [name]: value,
-      [`${name}Error`]: false,
+      username: target.value,
+      titleError: false,
+      usernameError: false,
     });
   }
 
@@ -35,6 +34,15 @@ export class TodoForm extends React.PureComponent {
     event.preventDefault();
 
     const { todoTitle, username } = this.state;
+
+    if (todoTitle === '' && username === '') {
+      this.setState({
+        usernameError: true,
+        titleError: true,
+      });
+
+      return;
+    }
 
     if (todoTitle === '') {
       this.setState({
@@ -72,13 +80,13 @@ export class TodoForm extends React.PureComponent {
 
     this.setState(state => ({
       todoList: [...state.todoList, newTodo],
-      todoTitle: '',
       todoId: state.todoId + 1,
     }));
   }
 
   render() {
     const { users } = this.props;
+    const { username, todoTitle, titleError, usernameError, todoList } = this.state;
 
     return (
       <>
@@ -89,7 +97,7 @@ export class TodoForm extends React.PureComponent {
           )}
         >
           <FormSelect
-            username={this.state.username}
+            username={username}
             addTodoUserId={this.addTodoUserId}
             addTodo={this.addTodo}
             handleChange={this.handleChange}
@@ -100,10 +108,10 @@ export class TodoForm extends React.PureComponent {
             className="form__input"
             type="text"
             placeholder="write task here"
-            value={this.state.todoTitle}
+            value={todoTitle}
             onChange={(event) => {
               this.setState({
-                todoTitle: event.target.value.replace(/[^\w\s]/gi, ''),
+                todoTitle: event.target.value.replace(/[^\w\s]/g, ''),
               });
             }}
           />
@@ -116,18 +124,17 @@ export class TodoForm extends React.PureComponent {
           </button>
         </form>
 
-        <div>
-          {this.state.titleError && (
-            <p>Please fill a title</p>
-          )}
+        {titleError && (
+          <p>Please fill a title</p>
+        )}
 
-          {this.state.usernameError && (
-            <p>Please choose a user</p>
-          )}
-        </div>
+        {usernameError && (
+          <p>Please choose a user</p>
+        )}
 
         <ul className="App__todo-list list">
-          <TodoList todoList={this.state.todoList} />
+          <TodoList
+            todoList={todoList} />
         </ul>
       </>
     );
