@@ -1,5 +1,3 @@
-import users from './api/users';
-
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'SELECT_USER':
@@ -15,6 +13,12 @@ export const reducer = (state, action) => {
         inputWarnMessage: '',
       };
 
+    case 'CHANGE_INPUT_TEXT':
+      return {
+        ...state,
+        inputText: action.payload,
+      };
+
     case 'SHOW_WARN':
       return {
         ...state,
@@ -26,24 +30,15 @@ export const reducer = (state, action) => {
           : '',
       };
 
-    case 'ADD_TODO':
+    case 'SET_INIT_STATE':
       return {
-        ...state,
         selectedUserId: 0,
-        todoList: [...state.todoList, createTodo(state, action)],
+        inputText: '',
+        selectWarnMessage: '',
+        inputWarnMessage: '',
       };
 
     default:
       throw new Error('Something went wrong');
   }
 };
-
-function createTodo(state, action) {
-  return {
-    userId: state.selectedUserId,
-    id: state.todoList.length + 1,
-    title: action.payload,
-    completed: false,
-    user: users.find(user => user.id === state.selectedUserId),
-  };
-}

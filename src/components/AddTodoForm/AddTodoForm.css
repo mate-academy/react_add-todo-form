@@ -3,21 +3,6 @@
   display: flex;
 }
 
-.AddTodoForm-input {
-  width: 90%;
-  margin-right: 15px;
-  padding: 15px 0;
-
-  background-color: inherit;
-  border: none;
-  border-bottom: 2px solid green;
-
-  color: #fff;
-  font-size: 18px;
-
-  outline: none;
-}
-
 .AddTodoForm-btn {
   width: 55px;
   height: 55px;

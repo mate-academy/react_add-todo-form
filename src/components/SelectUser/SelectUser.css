@@ -8,7 +8,7 @@
   font-size: 14px;
   letter-spacing: 1px;
 
-  background: inherit;
+  background: rgba(0, 0, 0, 0.5);
 
   outline: none;
   color: #ccc;
