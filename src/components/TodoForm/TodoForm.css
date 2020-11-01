@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form__select,
+.form__textarea,
+.form__button {
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: -6px -6px 16px rgba(255, 255, 255, 0.5),
+    6px 6px 16px rgba(209, 205, 199, 0.5);
+}
+
+.form__textarea {
+  height: 100px;
+}
+
+.form__button {
+  border: none;
+  background-color: #00a82f;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.form__button:hover {
+  background-color: #009129;
+}
+
+.form__error {
+  color: red;
+  margin-bottom: -10px;
+  font-size: 14px;
+}
