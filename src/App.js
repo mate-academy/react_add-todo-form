@@ -4,7 +4,7 @@ import users from './api/users';
 import todos from './api/todos';
 
 import { TodoList } from './components/TodoList';
-import { AddTodoForm } from './components/AddTodoForm';
+import { NewTodoForm } from './components/NewTodoForm';
 
 import './App.css';
 
@@ -13,7 +13,7 @@ const preparedTodos = todos.map(todo => ({
   user: users.find(person => person.id === todo.userId),
 }));
 
-class App extends React.PureComponent {
+class App extends React.Component {
   state = {
     visibletodos: preparedTodos,
   }
@@ -39,9 +39,9 @@ class App extends React.PureComponent {
       <div className="App container">
         <h1 className="app__title">Add todo form</h1>
 
-        <AddTodoForm
+        <NewTodoForm
           users={users}
-          addTodo={this.addTodo}
+          onAdd={this.addTodo}
         />
 
         <TodoList todos={visibletodos} />

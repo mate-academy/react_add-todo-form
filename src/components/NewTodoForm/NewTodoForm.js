@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './AddTodoForm.css';
+import './NewTodoForm.css';
 
-export class AddTodoForm extends React.PureComponent {
+export class NewTodoForm extends React.Component {
   state={
     username: 'Choose a user',
     title: '',
@@ -23,7 +23,7 @@ export class AddTodoForm extends React.PureComponent {
 
   handleSubmit = (event) => {
     const { title, username } = this.state;
-    const { addTodo, users } = this.props;
+    const { onAdd, users } = this.props;
 
     event.preventDefault();
 
@@ -47,7 +47,7 @@ export class AddTodoForm extends React.PureComponent {
         username: 'Choose a user',
       });
 
-      addTodo(title, foundUser);
+      onAdd(title, foundUser);
     }
   }
 
@@ -106,17 +106,22 @@ export class AddTodoForm extends React.PureComponent {
             }
           </div>
 
-          <button type="submit" className="btn btn-dark w-50">Add</button>
+          <button
+            type="submit"
+            className="btn btn-dark w-50"
+          >
+            Add
+          </button>
         </form>
       </div>
     );
   }
 }
 
-AddTodoForm.propTypes = {
+NewTodoForm.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired).isRequired,
-  addTodo: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
