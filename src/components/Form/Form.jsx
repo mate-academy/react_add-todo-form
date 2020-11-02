@@ -1,52 +1,101 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import users from '../../api/users';
-import { TodoShape } from '../shapes/TodoShape';
+import { Error } from '../Error';
 
-export const Form = (
-  { todos, onSelect, onInput, onAdd, newTodoTitle, selected },
-) => (
+export class Form extends React.Component {
+  state = {
+    userName: '',
+    newTodo: '',
+    errorHidden: true,
+  }
 
-  <form className="todo__form">
-    <div className="select">
-      <select
-        name="user-name"
-        onChange={onSelect}
-        value={selected}
+  onChange = (event) => {
+    const { value, name } = event.target;
+
+    this.setState({
+      [name]: value.replace(/[^\w ]/gi, ''),
+    });
+  }
+
+  addTodo = (event) => {
+    const { userName, newTodo } = this.state;
+    const { onAdd, todosLength } = this.props;
+    let newTodoItem;
+
+    event.preventDefault();
+
+    if (userName !== '' && newTodo !== '') {
+      newTodoItem = {
+        id: todosLength + 1,
+        title: newTodo,
+        completed: false,
+        user: users.find(person => person.name === userName),
+      };
+      newTodoItem.userId = newTodoItem.user.id;
+      this.setState({
+        userName: '',
+        newTodo: '',
+      });
+      onAdd(newTodoItem);
+    } else if (userName) {
+      this.setState({
+        error: 'title',
+        errorHidden: false,
+      });
+    } else {
+      this.setState({
+        error: 'user',
+        errorHidden: false,
+      });
+    }
+  }
+
+  render() {
+    const { userName, newTodo, error, errorHidden } = this.state;
+
+    return (
+      <form
+        className="todo__form"
+        onSubmit={this.addTodo}
       >
-        <option value="">
-          Choose name
-        </option>
-        {users.map(user => (
-          <option key={user.id} value={user.id}>
-            {user.name}
-          </option>
-        ))}
-      </select>
-    </div>
-    <input
-      type="text"
-      name="new-todo"
-      onChange={onInput}
-      value={newTodoTitle}
-      placeholder="Enter your task (letters, numbers and space only)"
-      className="input todo__input"
-    />
-    <button
-      type="submit"
-      onClick={onAdd}
-      className="button is-dark"
-    >
-      Add task
-    </button>
-  </form>
-);
+        <div className="select">
+          <select
+            name="userName"
+            onChange={this.onChange}
+            value={userName}
+          >
+            <option value="">
+              Choose name
+            </option>
+            {users.map(({ name, id }) => (
+              <option key={id} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <input
+          type="text"
+          name="newTodo"
+          onChange={this.onChange}
+          value={newTodo}
+          placeholder="Enter your task (letters, numbers and space only)"
+          className="input todo__input"
+        />
+        <button
+          type="submit"
+          className="button is-dark"
+        >
+          Add task
+        </button>
+        {errorHidden || <Error type={error} />}
+      </form>
+    );
+  }
+}
 
 Form.propTypes = {
-  todos: PropTypes.arrayOf(TodoShape).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onInput: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  newTodoTitle: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired,
+  todosLength: PropTypes.number.isRequired,
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { TodoShape } from '../shapes/TodoShape';
-import '../../images/checked.png';
 
 export const Todo = ({ todo }) => (
   <div className="todo columns">
