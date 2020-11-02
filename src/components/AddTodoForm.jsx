@@ -67,7 +67,7 @@ export class AddTodoForm extends React.PureComponent {
             id="userName"
             value={userName}
             onChange={this.handleChange}>
-            <option>
+            <option value="">
               Choose a user
             </option>
             {users.map(user => (
