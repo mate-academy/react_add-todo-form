@@ -23,7 +23,7 @@ export class Form extends React.PureComponent {
 
     const { title, username } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({
         titleError: true,
       });
