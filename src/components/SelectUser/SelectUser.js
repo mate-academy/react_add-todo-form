@@ -4,9 +4,13 @@ import './SelectUser.css';
 import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
 import { StateShape } from '../shapes/StateShape';
+import { Options } from '../Options/Options';
+
+import { actionTypes } from '../../reducer';
 
 export const SelectUser = ({ state, dispatch, users }) => {
   const { selectedUserId, selectWarnMessage } = state;
+  const { selectUserType } = actionTypes;
 
   const selectClasses = classNames('SelectUser', {
     Error: selectWarnMessage,
@@ -16,7 +20,7 @@ export const SelectUser = ({ state, dispatch, users }) => {
     const selectedUser = event.target.value;
 
     dispatch({
-      type: 'SELECT_USER', payload: Number(selectedUser),
+      type: selectUserType, payload: Number(selectedUser),
     });
   };
 
@@ -28,14 +32,7 @@ export const SelectUser = ({ state, dispatch, users }) => {
         value={selectedUserId}
         onChange={selectUser}
       >
-        <option value={0}>Choose a User</option>
-        {
-          users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))
-        }
+        <Options users={users} />
       </select>
       <div className="selectWarnMessage">{selectWarnMessage}</div>
     </>

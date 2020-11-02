@@ -2,10 +2,17 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { StateShape } from '../shapes/StateShape';
+import { actionTypes } from '../../reducer';
 import './Input.css';
 
 export const Input = ({ state, dispatch }) => {
   const { inputText, selectedUserId, inputWarnMessage } = state;
+
+  const {
+    changeInputTextType,
+    showWarnType,
+    clearInputWarnType,
+  } = actionTypes;
 
   const inputClasses = classNames('AddTodoForm-input', {
     Error: inputWarnMessage,
@@ -15,17 +22,17 @@ export const Input = ({ state, dispatch }) => {
     const { value } = event.target;
 
     dispatch({
-      type: 'CHANGE_INPUT_TEXT',
+      type: changeInputTextType,
       payload: value,
     });
   };
 
   const handleFocusInput = () => {
     if (selectedUserId === 0) {
-      dispatch({ type: 'SHOW_WARN' });
+      dispatch({ type: showWarnType });
     }
 
-    dispatch({ type: 'CLEAR_INPUT_WARN' });
+    dispatch({ type: clearInputWarnType });
   };
 
   return (

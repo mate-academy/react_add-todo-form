@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
 import { SelectUser } from '../SelectUser';
 import { Input } from '../Input';
-import { reducer } from '../../reducer';
+import { reducer, actionTypes } from '../../reducer';
 
 const defaultState = {
   selectedUserId: 0,
@@ -16,6 +16,7 @@ const defaultState = {
 
 export const AddTodoForm = ({ addTodo, users, lastTodoIndex }) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
+  const { showWarnType, setInitStateType } = actionTypes;
 
   const buttonClasses = classNames('AddTodoForm-btn', {
     disabled: !(state.selectedUserId && state.inputText),
@@ -26,7 +27,7 @@ export const AddTodoForm = ({ addTodo, users, lastTodoIndex }) => {
 
     if (!state.inputText || state.selectedUserId === 0) {
       dispatch({
-        type: 'SHOW_WARN',
+        type: showWarnType,
         payload: state.inputText,
       });
 
@@ -34,7 +35,7 @@ export const AddTodoForm = ({ addTodo, users, lastTodoIndex }) => {
     }
 
     addTodo(createTodo());
-    dispatch({ type: 'SET_INIT_STATE' });
+    dispatch({ type: setInitStateType });
   };
 
   const createTodo = () => ({

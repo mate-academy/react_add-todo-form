@@ -1,25 +1,33 @@
+export const actionTypes = {
+  selectUserType: 'SELECT_USER',
+  clearInputWarnType: 'CLEAR_INPUT_WARN',
+  changeInputTextType: 'CHANGE_INPUT_TEXT',
+  showWarnType: 'SHOW_WARN',
+  setInitStateType: 'SET_INIT_STATE',
+};
+
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'SELECT_USER':
+    case actionTypes.selectUserType:
       return {
         ...state,
         selectedUserId: action.payload,
         selectWarnMessage: '',
       };
 
-    case 'CLEAR_INPUT_WARN':
+    case actionTypes.clearInputWarnType:
       return {
         ...state,
         inputWarnMessage: '',
       };
 
-    case 'CHANGE_INPUT_TEXT':
+    case actionTypes.changeInputTextType:
       return {
         ...state,
         inputText: action.payload,
       };
 
-    case 'SHOW_WARN':
+    case actionTypes.showWarnType:
       return {
         ...state,
         inputWarnMessage: !action.payload
@@ -30,7 +38,7 @@ export const reducer = (state, action) => {
           : '',
       };
 
-    case 'SET_INIT_STATE':
+    case actionTypes.setInitStateType:
       return {
         selectedUserId: 0,
         inputText: '',
