@@ -1,19 +1,23 @@
 import React from 'react';
-import './App.css';
+import { TodoForm } from './components/TodoForm';
+import './App.scss';
 
 import users from './api/users';
+import todos from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => todo.userId === user.id),
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
-}
+const App = () => (
+  <div className="App">
+    <header>
+      <h1>Todo List</h1>
+    </header>
+
+    <TodoForm todos={preparedTodos} users={users} />
+  </div>
+);
 
 export default App;

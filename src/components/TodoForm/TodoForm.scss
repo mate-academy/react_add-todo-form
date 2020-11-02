@@ -1,0 +1,32 @@
+.form {
+  &__input {
+    margin-right: 20px;
+
+    width: 300px;
+    height: 20px;
+    padding: 10px;
+  }
+
+  &__select-user {
+    height: 40px;
+  }
+
+  &__add-button {
+    margin-left: 20px;
+
+    width: 70px;
+    height: 30px;
+
+    background-color: rgb(114, 114, 219);
+    border: transparent;
+    border-radius: 8px;
+    color: white;
+
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__error {
+    color: red;
+  }
+}
