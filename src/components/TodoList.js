@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Todo } from './Todo';
 import { TodoShape } from '../shapes/TodoShape';
 
-export const TodoList = ({ src }) => (
+export const TodoList = ({ tasksList }) => (
   <>
     {
-      src.map(task => (
+      tasksList.map(task => (
         <Todo {...task} key={task.id} />
       ))
     }
@@ -14,5 +14,5 @@ export const TodoList = ({ src }) => (
 );
 
 TodoList.propTypes = {
-  src: PropTypes.arrayOf(TodoShape).isRequired,
+  tasksList: PropTypes.arrayOf(TodoShape).isRequired,
 };

@@ -16,7 +16,7 @@ class App extends React.PureComponent {
     tasks: preparedTodos,
   }
 
-  addUser = (newUser, title) => {
+  addTodo = (newUser, title) => {
     const newTodo = {
       id: this.state.tasks.length + 1,
       title,
@@ -35,10 +35,10 @@ class App extends React.PureComponent {
       <div className="App">
         <h1>Static list of todos</h1>
         <div className="App__list">
-          <TodoList src={this.state.tasks} />
+          <TodoList tasksList={this.state.tasks} />
         </div>
 
-        <Form addUser={this.addUser} users={users} />
+        <Form addTodo={this.addTodo} users={users} />
       </div>
     );
   }

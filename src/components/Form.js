@@ -25,31 +25,54 @@ export class Form extends React.PureComponent {
     });
   }
 
+  handleSubmit = (event) => {
+    const { task, user, userName } = this.state;
+
+    event.preventDefault();
+    if (!task) {
+      this.callTitleError();
+    }
+
+    if (!userName || userName === 'Choose a user') {
+      this.callUserError();
+    }
+
+    if (task && userName && userName !== 'Choose a user') {
+      this.props.addTodo(user, task);
+      this.setState({
+        task: '',
+        userName: '',
+        user: '',
+      });
+    }
+  }
+
+  handleInputChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value.replace(/[^\w ]/gi, ''),
+      titleError: false,
+    });
+  }
+
+  handleSelectChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      userError: false,
+    });
+    this.setState(prevState => ({
+      user: this.props.users.find(userToFind => (
+        userToFind.name === prevState.userName
+      )),
+    }));
+  }
+
   render() {
-    const { addUser, users } = this.props;
-    const { task, user, userName, userError, titleError } = this.state;
+    const { users } = this.props;
+    const { task, userName, userError, titleError } = this.state;
 
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!task) {
-            this.callTitleError();
-          }
-
-          if (!userName || userName === 'Choose a user') {
-            this.callUserError();
-          }
-
-          if (task && userName && userName !== 'Choose a user') {
-            addUser(user, task);
-            this.setState({
-              task: '',
-              userName: '',
-              user: '',
-            });
-          }
-        }}
+        onSubmit={this.handleSubmit}
 
         className="form"
       >
@@ -59,13 +82,8 @@ export class Form extends React.PureComponent {
             placeholder="write a task"
             name="task"
             type="text"
-            value={this.state.task}
-            onChange={(event) => {
-              this.setState({
-                [event.target.name]: event.target.value.replace(/[^\w ]/gi, ''),
-                titleError: false,
-              });
-            }}
+            value={task}
+            onChange={this.handleInputChange}
             className="form-control"
           />
         </label>
@@ -78,19 +96,9 @@ export class Form extends React.PureComponent {
           Assign to
           <select
             name="userName"
-            value={this.state.userName}
+            value={userName}
             className="form-control"
-            onChange={(event) => {
-              this.setState({
-                [event.target.name]: event.target.value,
-                userError: false,
-              });
-              this.setState(prevState => ({
-                user: users.find(userToFind => (
-                  userToFind.name === prevState.userName
-                )),
-              }));
-            }}
+            onChange={this.handleSelectChange}
           >
             <option>Choose a user</option>
             {users.map(person => (
@@ -113,6 +121,6 @@ export class Form extends React.PureComponent {
 }
 
 Form.propTypes = {
-  addUser: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(UserShape).isRequired,
 };
