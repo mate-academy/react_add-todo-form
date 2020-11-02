@@ -6,14 +6,14 @@ import { SelectUser } from './components/SelectUser';
 
 class App extends Component {
   state = {
-    todos: [...todosFromServer],
+    todos: todosFromServer,
     todoTitle: '',
     todoId: '',
     errorTitle: '',
     errorUser: '',
   }
 
-  handleTitle = (event) => {
+  handleTitleChange = (event) => {
     const { value } = event.target;
 
     this.setState({
@@ -22,7 +22,7 @@ class App extends Component {
     });
   }
 
-  handleSelect = (event) => {
+  handleSelectChange = (event) => {
     const { value } = event.currentTarget;
 
     this.setState({
@@ -42,23 +42,25 @@ class App extends Component {
       this.setState({ errorTitle: 'Please enter the title' });
     }
 
-    if (todoTitle !== '' && todoId !== '') {
-      const userNew = {
-        userId: todoId,
-        id: this.state.todos.length + 1,
-        title: todoTitle,
-        completed: false,
-      };
-
-      this.setState(state => ({
-        todos: [
-          ...state.todos,
-          userNew,
-        ],
-        todoTitle: '',
-        todoId: '',
-      }));
+    if (todoTitle === '' || todoId === '') {
+      return;
     }
+
+    const userNew = {
+      userId: todoId,
+      id: this.state.todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    };
+
+    this.setState(state => ({
+      todos: [
+        ...state.todos,
+        userNew,
+      ],
+      todoTitle: '',
+      todoId: '',
+    }));
   }
 
   render() {
@@ -82,14 +84,12 @@ class App extends Component {
             type="text"
             placeholder="write here"
             value={todoTitle}
-            onChange={this.handleTitle}
+            onChange={this.handleTitleChange}
           />
           <span className="App__error">{errorTitle}</span>
-        </div>
 
-        <div className="App__form">
           <SelectUser
-            handleSelect={this.handleSelect}
+            handleSelect={this.handleSelectChange}
             todoId={todoId}
             users={users}
           />
