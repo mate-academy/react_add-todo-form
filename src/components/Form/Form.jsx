@@ -6,8 +6,6 @@ export class Form extends React.Component {
   state = {
     user: '',
     title: '',
-    userError: false,
-    titleError: false,
   }
 
   onSubmit = (event) => {
@@ -16,17 +14,17 @@ export class Form extends React.Component {
     const { user, title } = this.state;
     const { users } = this.props;
 
-    if (!user) {
+    if (user.length === 0) {
       this.setState({
-        userError: true,
+        userMessage: 'Please choose a user',
       });
 
       return;
     }
 
-    if (!title) {
+    if (title.length === 0) {
       this.setState({
-        titleError: true,
+        titleMessage: 'Please enter the title',
       });
 
       return;
@@ -37,11 +35,13 @@ export class Form extends React.Component {
     this.setState({
       user: '',
       title: '',
+      titleMessage: '',
+      userMessage: '',
     });
   }
 
   render() {
-    const { user, title, userError, titleError } = this.state;
+    const { user, title, userMessage, titleMessage } = this.state;
 
     return (
       <form
@@ -60,15 +60,14 @@ export class Form extends React.Component {
               });
             }}
           >
-            <option value="">Choose user</option>
+            <option value="">Please, choose user</option>
             {this.props.users.map(person => (
               <option value={person.name} key={person.id}>
                 {person.name}
               </option>
             ))}
           </select>
-          {userError
-          && <p className="message">Please choose a user</p>}
+          {userMessage ? <p className="message">{userMessage}</p> : ''}
         </label>
         <label>
           Title
@@ -83,8 +82,7 @@ export class Form extends React.Component {
               });
             }}
           />
-          {titleError
-          && <p className="message">Please enter the title</p>}
+          {titleMessage ? <p className="message">{titleMessage}</p> : ''}
         </label>
         <button
           type="submit"

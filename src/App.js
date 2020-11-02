@@ -14,21 +14,17 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    todosTotal: preparedTodos,
+    todo: preparedTodos,
   }
 
   addTodo = (user, title) => {
-    const { todosTotal } = this.state;
-
     this.setState(state => ({
-      todosTotal: [
-        ...state.todosTotal,
+      todo: [
+        ...state.todo,
         {
-          id: todosTotal.length + 1,
-          title,
-          completed: false,
           user,
-          userId: user.id,
+          title,
+          id: state.todo.length,
         },
       ],
     }));
@@ -39,7 +35,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Todo List</h1>
         <Form users={users} addTodo={this.addTodo} />
-        <TodoList todos={this.state.todosTotal} />
+        <TodoList todos={this.state.todo} />
       </div>
     );
   }
