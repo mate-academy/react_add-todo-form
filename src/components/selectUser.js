@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { usersProps } from './propsVars';
 
 export function SelectUser({
   users,
@@ -26,10 +27,7 @@ export function SelectUser({
 }
 
 SelectUser.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }).isRequired).isRequired,
+  users: usersProps.isRequired,
   handleChange: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
 };

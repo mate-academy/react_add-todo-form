@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AddTodosForm } from './components/addTodosForm';
+import { AddTodoForm } from './components/addTodoForm';
 import './App.css';
 
 import users from './api/users';
@@ -24,7 +24,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <AddTodosForm
+        <AddTodoForm
           users={users}
           todos={todosNew}
         />

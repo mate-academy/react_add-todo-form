@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TodoList } from './todoList';
 import { SelectUser } from './selectUser';
+import { usersProps, userShape } from './propsVars';
 import 'semantic-ui-css/semantic.min.css';
 
-export class AddTodosForm extends React.Component {
+export class AddTodoForm extends React.Component {
   state = {
     todosNew: this.props.todos,
     users: this.props.users,
@@ -30,16 +31,16 @@ export class AddTodosForm extends React.Component {
       task,
     } = this.state;
 
-    if (userName === ''
+    if (!userName
       || userName === '--choose a User--'
-      || task === '') {
-      if (userName === '' || userName === '--choose a User--') {
+      || !task) {
+      if (!userName || userName === '--choose a User--') {
         this.setState({
           nameEntered: true,
         });
       }
 
-      if (task === '') {
+      if (!task) {
         this.setState({
           taskEntered: true,
         });
@@ -73,10 +74,10 @@ export class AddTodosForm extends React.Component {
       nameEntered,
       taskEntered,
     } = this.state;
-    const nameControl = (userName === '' || userName === '--choose a User--')
+    const nameControl = (!userName || userName === '--choose a User--')
       ? nameEntered
       : false;
-    const taskControl = (task === '')
+    const taskControl = (!task)
       ? taskEntered
       : false;
 
@@ -113,18 +114,12 @@ export class AddTodosForm extends React.Component {
   }
 }
 
-AddTodosForm.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }).isRequired).isRequired,
+AddTodoForm.propTypes = {
+  users: usersProps.isRequired,
   todos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }).isRequired,
+    user: userShape.isRequired,
   })).isRequired,
 };

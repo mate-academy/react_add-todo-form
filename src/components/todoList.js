@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { userShape } from './propsVars';
 
 export function TodoList({ todoList }) {
   return (
@@ -23,9 +24,6 @@ TodoList.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }).isRequired,
+    user: userShape.isRequired,
   })).isRequired,
 };
