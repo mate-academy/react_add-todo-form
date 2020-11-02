@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { User } from './User';
 
 export const SelectUser = ({ handleSelect, todoId, users }) => (
   <select
@@ -8,6 +9,7 @@ export const SelectUser = ({ handleSelect, todoId, users }) => (
     onChange={handleSelect}
   >
     <option value="error">---- Choose a user ----</option>
+    <User users={users} />
     {
       users.map(user => (
         <option value={user.id} key={user.id}>
