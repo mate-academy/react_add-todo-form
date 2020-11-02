@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const User = ({ name }) => (
   <div className="App__name">
-    {name}
+    {`Name: ${name}`}
   </div>
 );
 

@@ -6,14 +6,10 @@ import './Todo.css';
 export const Todo = ({ title, user }) => (
   <div className="ui list">
     <div className="ui items">
-      Task:
-      {' '}
-      {title}
+      {`Task: ${title}`}
     </div>
     <div className="block">
       <div className="position">
-        Name
-        {' :'}
         <User {...user} />
       </div>
       <div className="completed">

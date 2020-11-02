@@ -5,7 +5,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 import users from './api/users';
 import todos from './api/todos';
-import { AddPerson } from './components/AddPerson';
+import { Todolist } from './components/Todolist';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
@@ -37,7 +37,7 @@ class App extends React.PureComponent {
         <h1>Static list of todos</h1>
         <Form addUser={this.addUser} users={users} />
         <div className="App__list">
-          <AddPerson todos={this.state.tasks} />
+          <Todolist todos={this.state.tasks} />
         </div>
       </div>
     );
