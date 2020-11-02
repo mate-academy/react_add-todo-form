@@ -7,8 +7,7 @@ export class Form extends React.Component {
     task: '',
     userName: '',
     user: '',
-    userError: false,
-    taskError: false,
+    error: false,
   };
 
   handleSubmit = (event) => {
@@ -16,17 +15,9 @@ export class Form extends React.Component {
     const { task, userName, user } = this.state;
     const { addUser } = this.props;
 
-    if (!task) {
+    if (!task || !userName) {
       this.setState({
-        taskError: true,
-      });
-
-      return;
-    }
-
-    if (!userName) {
-      this.setState({
-        userError: true,
+        error: true,
       });
 
       return;
@@ -36,12 +27,11 @@ export class Form extends React.Component {
     this.setState({
       task: '',
       userName: '',
-      userError: false,
-      taskError: false,
+      error: false,
     });
   }
 
-  handleSelect = (event) => {
+  handleChange = (event) => {
     const { users } = this.props;
 
     this.setState({
@@ -56,7 +46,7 @@ export class Form extends React.Component {
 
   render() {
     const { users } = this.props;
-    const { userName, task, userError, taskError } = this.state;
+    const { userName, task, error } = this.state;
 
     return (
       <form
@@ -70,11 +60,7 @@ export class Form extends React.Component {
           value={task}
           placeholder="Add your task"
           className="ui input"
-          onChange={(event) => {
-            this.setState({
-              task: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
         <div className="ui placeholder">
           <select
@@ -82,7 +68,7 @@ export class Form extends React.Component {
             id="userName"
             value={userName}
             className="ui placeholder"
-            onChange={this.handleSelect}
+            onChange={this.handleChange}
           >
             <option value="">Choose user</option>
             {users.map(person => (
@@ -91,7 +77,7 @@ export class Form extends React.Component {
               </option>
             ))}
           </select>
-          {userError || taskError
+          {error
             ? <p>Enter all data</p>
             : ''
           }

@@ -18,6 +18,7 @@ export const Todo = ({ title, user }) => (
     </div>
   </div>
 );
+
 Todo.propTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
