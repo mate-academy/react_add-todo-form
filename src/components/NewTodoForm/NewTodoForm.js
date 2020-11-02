@@ -7,18 +7,23 @@ export class NewTodoForm extends React.Component {
   state={
     username: '',
     title: '',
-    titleError: false,
-    usernameError: false,
+    errors: {
+      title: false,
+      username: false,
+    },
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
     const regExp = /[^\w ]+/;
 
-    this.setState({
+    this.setState(state => ({
       [name]: value.replace(regExp, ''),
-      [`${name}Error`]: false,
-    });
+      errors: {
+        ...state.errors,
+        [name]: false,
+      },
+    }));
   }
 
   handleSubmit = (event) => {
@@ -28,15 +33,21 @@ export class NewTodoForm extends React.Component {
     event.preventDefault();
 
     if (!title.trim()) {
-      this.setState({
-        titleError: true,
-      });
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          title: true,
+        },
+      }));
     }
 
     if (!username) {
-      this.setState({
-        usernameError: true,
-      });
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          username: true,
+        },
+      }));
     }
 
     if (title && username) {
@@ -52,7 +63,7 @@ export class NewTodoForm extends React.Component {
   }
 
   render() {
-    const { username, usernameError, title, titleError } = this.state;
+    const { errors, title, username } = this.state;
     const { users } = this.props;
 
     return (
@@ -82,7 +93,7 @@ export class NewTodoForm extends React.Component {
               ))}
             </select>
 
-            {usernameError
+            {errors.username
               && <p className="text-danger">Please, choose a user</p>
             }
           </div>
@@ -101,7 +112,7 @@ export class NewTodoForm extends React.Component {
               onChange={this.handleChange}
             />
 
-            {titleError
+            {errors.title
               && <p className="text-danger">Please, enter the title</p>
             }
           </div>
