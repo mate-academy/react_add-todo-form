@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import { UserShape } from '../../shapes/UserShape';
+import PropTypes from 'prop-types';
 import './Form.scss';
+import { Input } from '../Input/Input';
+import { Select } from '../Select/Select';
 
 export class Form extends PureComponent {
   state = {
@@ -51,41 +53,21 @@ export class Form extends PureComponent {
   }
 
   render() {
-    const { users } = this.props;
     const { userId, title, novalidateTitle, novalidateUser } = this.state;
 
     return (
       <>
         <form onSubmit={this.handleSubmit} className="form">
-          <label htmlFor="title">
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Enter new task"
-              value={title}
-              onChange={this.handleChange}
-              className="form__input"
-            />
-          </label>
-          <label htmlFor="userId">
-            <select
-              name="userId"
-              id="userId"
-              value={userId}
-              onChange={this.handleChange}
-              className="form__select"
-            >
-              <option key={0} value={0}>
-                Choose user
-              </option>
-              {users.map(({ name, id }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <Input
+            value={title}
+            name="title"
+            onChange={this.handleChange}
+          />
+          <Select
+            value={userId}
+            name="userId"
+            onChange={this.handleChange}
+          />
           <button type="submit" className="form__btn">
             +
           </button>
@@ -97,4 +79,6 @@ export class Form extends PureComponent {
   }
 }
 
-Form.propTypes = UserShape.isRequired;
+Form.propTypes = {
+  addTodo: PropTypes.func.isRequired,
+};

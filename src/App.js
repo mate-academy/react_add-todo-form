@@ -6,42 +6,42 @@ import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
+const preparedTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId),
+}));
+
 class App extends PureComponent {
   state = {
-    todos: todosFromServer,
-    users: usersFromServer,
+    todos: preparedTodos,
   }
 
   addTodo = (newTodoValues) => {
-    this.setState((state) => {
+    this.setState((prevState) => {
       const newTodo = {
         ...newTodoValues,
-        id: state.todos.length + 1,
+        id: prevState.todos.length + 1,
         completed: false,
+        user: usersFromServer.find(user => user.id === newTodoValues.userId),
       };
 
       return {
-        todos: [...state.todos, newTodo],
+        todos: [...prevState.todos, newTodo],
       };
     });
   }
 
   render() {
-    const { todos, users } = this.state;
-
-    const preparedTodos = todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    }));
+    const { todos } = this.state;
 
     return (
       <div className="app">
         <h1 className="app__title">List of todos</h1>
         <Form
-          users={users}
+          users={usersFromServer}
           addTodo={this.addTodo}
         />
-        <TodoList todoList={preparedTodos} />
+        <TodoList todoList={todos} />
       </div>
     );
   }

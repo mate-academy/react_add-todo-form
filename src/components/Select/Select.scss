@@ -1,0 +1,15 @@
+.select {
+  font-size: 0.83em;
+  font-weight: bold;
+  line-height: 4vw;
+  color: darkorange;
+  width: 35%;
+  padding: 10px;
+  background: lightgoldenrodyellow;
+  border-radius: 20px;
+  border-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}

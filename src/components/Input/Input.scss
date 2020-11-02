@@ -1,0 +1,16 @@
+.input {
+  text-transform: uppercase;
+  letter-spacing: 0.02vw;
+  line-height: 2vw;
+  color: #43008d;
+  border-color: transparent;
+  width: 50%;
+  margin-right: 5%;
+
+  &:active,
+  &:focus {
+    background: transparent;
+    outline: none;
+    border-bottom: 0.01vw solid;
+  }
+}
