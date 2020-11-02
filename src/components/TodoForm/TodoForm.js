@@ -4,10 +4,11 @@ import './TodoForm.css';
 
 import { Select } from '../Select/Select';
 import { Textarea } from '../Textarea/Textarea';
+import { UserShape } from '../shapes/UserShape';
 
 export class TodoForm extends React.PureComponent {
   state = {
-    user: { name: '' },
+    user: '',
     title: '',
     userError: false,
     titleError: false,
@@ -32,12 +33,13 @@ export class TodoForm extends React.PureComponent {
     });
   }
 
-  submit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
+
     const { addTodo } = this.props;
     const { title, user } = this.state;
 
-    if (user.name === '') {
+    if (!user.name) {
       this.setState({
         userError: true,
       });
@@ -66,7 +68,10 @@ export class TodoForm extends React.PureComponent {
     const { title, user, userError, titleError } = this.state;
 
     return (
-      <form className="form" onSubmit={this.submit}>
+      <form
+        className="form"
+        onSubmit={this.handleSubmit}
+      >
         {userError
           && (
             <div className="form__error">
@@ -76,7 +81,7 @@ export class TodoForm extends React.PureComponent {
         }
         <Select
           users={users}
-          user={user}
+          value={user.name}
           chooseUser={this.chooseUser}
         />
 
@@ -88,7 +93,7 @@ export class TodoForm extends React.PureComponent {
           )
         }
         <Textarea
-          titleError={title}
+          value={title}
           addTitle={this.addTitle}
         />
 
@@ -104,10 +109,6 @@ export class TodoForm extends React.PureComponent {
 }
 
 TodoForm.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  users: PropTypes.arrayOf(UserShape).isRequired,
   addTodo: PropTypes.func.isRequired,
 };

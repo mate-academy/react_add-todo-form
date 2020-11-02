@@ -7,14 +7,14 @@ import todos from './api/todos';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList/TodoList';
 
-const todosPrepared = todos.map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    todos: todosPrepared,
+    todos: preparedTodos,
   }
 
   addTodo = (title, user) => {

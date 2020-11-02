@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { UserShape } from '../shapes/UserShape';
 
 export const Option = ({ users }) => (
   <>
@@ -15,9 +16,5 @@ export const Option = ({ users }) => (
 );
 
 Option.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  users: PropTypes.arrayOf(UserShape).isRequired,
 };
