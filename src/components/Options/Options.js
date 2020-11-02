@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserShape } from '../shapes/UserShape';
 
-export const Option = ({ users }) => (
+export const Options = ({ users }) => (
   <>
     <option>
       Choose a user
@@ -15,6 +15,6 @@ export const Option = ({ users }) => (
   </>
 );
 
-Option.propTypes = {
+Options.propTypes = {
   users: PropTypes.arrayOf(UserShape).isRequired,
 };

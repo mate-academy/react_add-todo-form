@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Option } from '../Option/Option';
+import { Options } from '../Options/Options';
 import { UserShape } from '../shapes/UserShape';
 
 export const Select = ({ users, value, chooseUser }) => (
@@ -9,7 +9,7 @@ export const Select = ({ users, value, chooseUser }) => (
     value={value}
     onChange={chooseUser}
   >
-    <Option users={users} />
+    <Options users={users} />
   </select>
 );
 
