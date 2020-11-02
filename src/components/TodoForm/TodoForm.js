@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoForm.css';
 
+import { Select } from '../Select/Select';
+import { Textarea } from '../Textarea/Textarea';
+
 export class TodoForm extends React.PureComponent {
   state = {
     user: { name: '' },
@@ -29,7 +32,8 @@ export class TodoForm extends React.PureComponent {
     });
   }
 
-  clickAddTodoButton = () => {
+  submit = (event) => {
+    event.preventDefault();
     const { addTodo } = this.props;
     const { title, user } = this.state;
 
@@ -62,7 +66,7 @@ export class TodoForm extends React.PureComponent {
     const { title, user, userError, titleError } = this.state;
 
     return (
-      <form className="form">
+      <form className="form" onSubmit={this.submit}>
         {userError
           && (
             <div className="form__error">
@@ -70,21 +74,11 @@ export class TodoForm extends React.PureComponent {
             </div>
           )
         }
-
-        <select
-          className="form__select"
-          value={user.name}
-          onChange={this.chooseUser}
-        >
-          <option>
-            Choose a user
-          </option>
-          {users.map(person => (
-            <option key={person.id}>
-              {person.name}
-            </option>
-          ))}
-        </select>
+        <Select
+          users={users}
+          user={user}
+          chooseUser={this.chooseUser}
+        />
 
         {titleError
           && (
@@ -93,18 +87,14 @@ export class TodoForm extends React.PureComponent {
             </div>
           )
         }
-
-        <textarea
-          className="form__textarea"
-          placeholder="Enter your task"
-          value={title}
-          onChange={this.addTitle}
+        <Textarea
+          titleError={title}
+          addTitle={this.addTitle}
         />
 
         <button
-          type="button"
+          type="submit"
           className="form__button"
-          onClick={this.clickAddTodoButton}
         >
           Add task
         </button>
