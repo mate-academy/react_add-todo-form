@@ -25,7 +25,7 @@ export class NewToDoForm extends React.Component {
     const { todoTitle, selectedUserId } = this.state;
     const { onAdd, users } = this.props;
 
-    if (!todoTitle) {
+    if (!todoTitle.trim()) {
       this.setState({
         inputError: true,
       });
