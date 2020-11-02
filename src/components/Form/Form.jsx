@@ -9,8 +9,8 @@ export class Form extends React.PureComponent {
     titleError: false,
   }
 
-  onChange = (target) => {
-    const { name, value } = target;
+  onChange = (event) => {
+    const { name, value } = event.target;
 
     this.setState({
       [name]: value,
@@ -48,14 +48,12 @@ export class Form extends React.PureComponent {
   }
 
   render() {
-    const { title, username } = this.state;
+    const { title, username, titleError } = this.state;
 
     return (
       <form
         className="ui form inverted grey segment"
-        onSubmit={event => (
-          this.onSubmit(event)
-        )}
+        onSubmit={this.onSubmit}
       >
         <div className="field">
           <label htmlFor="title">
@@ -68,12 +66,10 @@ export class Form extends React.PureComponent {
             id="title"
             placeholder="Letters, numbers and spaces only"
             value={title}
-            onChange={event => (
-              this.onChange(event.target)
-            )}
+            onChange={this.onChange}
           />
 
-          {this.state.titleError && (
+          {titleError && (
             <p className="ui red pointing basic label">
               Please enter the title
             </p>
@@ -89,9 +85,7 @@ export class Form extends React.PureComponent {
             name="username"
             id="username"
             value={username}
-            onChange={event => (
-              this.onChange(event.target)
-            )}
+            onChange={this.onChange}
           >
             <option value="">
               Choose a user
