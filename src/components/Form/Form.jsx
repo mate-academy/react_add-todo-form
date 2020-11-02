@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormShape } from '../../shapes/FormShape';
+import { Title } from './Title';
+import { Select } from './Select';
 
 export class Form extends React.PureComponent {
   state = {
@@ -22,6 +24,7 @@ export class Form extends React.PureComponent {
     event.preventDefault();
 
     const { title, username } = this.state;
+    const { addTodo } = this.props;
 
     if (!title.trim()) {
       this.setState({
@@ -39,7 +42,7 @@ export class Form extends React.PureComponent {
       return;
     }
 
-    this.props.addTodo(title, username);
+    addTodo(title, username);
 
     this.setState({
       title: '',
@@ -48,64 +51,23 @@ export class Form extends React.PureComponent {
   }
 
   render() {
-    const { title, username, titleError } = this.state;
-
     return (
       <form
         className="ui form inverted grey segment"
         onSubmit={this.onSubmit}
       >
-        <div className="field">
-          <label htmlFor="title">
-            Task title:
-          </label>
+        <Title
+          value={this.state.title}
+          titleError={this.state.titleError}
+          onChange={this.onChange}
+        />
 
-          <input
-            type="text"
-            name="title"
-            id="title"
-            placeholder="Letters, numbers and spaces only"
-            value={title}
-            onChange={this.onChange}
-          />
-
-          {titleError && (
-            <p className="ui red pointing basic label">
-              Please enter the title
-            </p>
-          )}
-        </div>
-
-        <div className="field">
-          <label htmlFor="username">
-            User name:
-          </label>
-
-          <select
-            name="username"
-            id="username"
-            value={username}
-            onChange={this.onChange}
-          >
-            <option value="">
-              Choose a user
-            </option>
-            {this.props.users.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
-
-          {this.state.usernameError && (
-            <p className="ui red pointing basic label">
-              Please choose a user
-            </p>
-          )}
-        </div>
+        <Select
+          value={this.state.username}
+          usernameError={this.state.usernameError}
+          onChange={this.onChange}
+          users={this.props.users}
+        />
 
         <button
           type="submit"
