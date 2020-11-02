@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 500px;
+  height: 280px;
+  margin: 20px auto !important;
+  padding: 20px;
+}
+
+.form__input {
+  height: 85px !important;
+}
