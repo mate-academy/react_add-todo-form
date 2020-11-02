@@ -9,7 +9,7 @@
   }
 
   &__select {
-    margin-bottom: 5px;
+    margin: 0 0 18px;
     border: none;
     border-bottom: 2px solid black;
     outline: none;
@@ -23,11 +23,13 @@
     border: none;
     border-bottom: 2px solid black;
     outline: none;
+    margin-bottom: 19px;
   }
 }
 
 .select {
   &__error {
     color: red;
+    margin-top: -19px;
   }
 }

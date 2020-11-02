@@ -26,16 +26,17 @@ export class TodoForm extends React.PureComponent {
     event.preventDefault();
     const { title, userName } = this.state;
     const { addTodo, users } = this.props;
+    const trimTitle = title.trim();
 
-    if (!title.trim()) {
+    if (!trimTitle) {
       this.setState({ titleError: true });
     }
 
-    if (userName === 'Choose a user' || !userName) {
+    if (!userName) {
       this.setState({ userNameError: true });
     }
 
-    if (title.trim() && userName) {
+    if (trimTitle && userName) {
       const newUser = users.find(user => user.name === userName);
 
       this.setState({
@@ -77,10 +78,8 @@ export class TodoForm extends React.PureComponent {
           className="form__input"
         />
 
-        {
-          titleError
-            ? <span className="select__error">Please enter the title</span>
-            : ''
+        {titleError
+          && <span className="select__error">Please enter the title</span>
         }
 
         <label
