@@ -25,7 +25,7 @@ export function ToDoList({ todos }) {
             </td>
 
             <td>
-              {todo.completed ? 'competed' : 'not competed'}
+              {todo.completed ? 'completed' : 'not completed'}
             </td>
           </tr>
         ))}

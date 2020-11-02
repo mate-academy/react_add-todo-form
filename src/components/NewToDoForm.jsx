@@ -3,101 +3,94 @@ import PropTypes from 'prop-types';
 
 export class NewToDoForm extends React.Component {
   state = {
-    toDoTitle: '',
+    todoTitle: '',
     selectedUserId: '',
     selectError: false,
     inputError: false,
   }
 
-  addTitle = (event) => {
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    const errorType = (name === 'todoTitle') ? 'inputError' : 'selectError';
+
     this.setState({
-      toDoTitle: event.target.value,
-      inputError: false,
+      [name]: value,
+      [errorType]: false,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { toDoTitle, selectedUserId } = this.state;
-
-    if (!toDoTitle && !selectedUserId) {
-      this.setState({
-        inputError: true,
-        selectError: true,
-      });
-
-      return;
-    }
-
-    if (!toDoTitle && selectedUserId) {
-      this.setState({
-        inputError: true,
-      });
-
-      return;
-    }
-
-    if (toDoTitle && !selectedUserId) {
-      this.setState({
-        selectError: true,
-      });
-
-      return;
-    }
-
+    const { todoTitle, selectedUserId } = this.state;
     const { onAdd, users } = this.props;
-    const newUser = users.find(user => user.id === Number(selectedUserId));
 
-    onAdd(toDoTitle, newUser);
+    if (!todoTitle) {
+      this.setState({
+        inputError: true,
+      });
+
+      return;
+    }
+
+    if (!selectedUserId) {
+      this.setState({
+        selectError: true,
+      });
+
+      return;
+    }
+
+    const currentUser = users.find(user => user.id === Number(selectedUserId));
+
+    onAdd(todoTitle, currentUser);
+
     this.setState({
-      toDoTitle: '',
+      todoTitle: '',
       selectedUserId: '',
       selectError: false,
       inputError: false,
     });
   }
 
-  handleChange = (event) => {
-    this.setState({
-      selectedUserId: event.target.value,
-      selectError: false,
-    });
-  }
-
   render() {
-    const { toDoTitle, inputError, selectError, selectedUserId } = this.state;
+    const { todoTitle, inputError, selectError, selectedUserId } = this.state;
+    const { users } = this.props;
 
     return (
       <form
         onSubmit={this.handleSubmit}
-        className="ui input"
       >
-        <input
-          type="text"
-          placeholder="write todo title here"
-          value={toDoTitle}
-          onChange={this.addTitle}
-          maxLength="50"
-        />
-        {inputError
-          && <b className="error">Please enter the title</b>}
+        <div className="ui input input">
+          <input
+            type="text"
+            placeholder="write todo title here"
+            name="todoTitle"
+            value={todoTitle}
+            onChange={this.handleChange}
+            maxLength="50"
+          />
+          {inputError
+            && <b className="error">Please enter the title</b>}
+        </div>
 
-        <select
-          className="ui selection dropdown"
-          value={selectedUserId}
-          onChange={this.handleChange}
-        >
-          <option defaultValue>Choose a user</option>
-          {this.props.users.map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
-
-        {selectError
-          && <b className="error">Please choose a user</b>}
+        <div>
+          <select
+            className="ui selection dropdown"
+            value={selectedUserId}
+            name="selectedUserId"
+            onChange={this.handleChange}
+          >
+            <option value="" disabled selected>Choose a user</option>
+            {users.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+          {selectError
+            && <b className="error">Please choose a user</b>}
+        </div>
 
         <button
           className="ui button"
