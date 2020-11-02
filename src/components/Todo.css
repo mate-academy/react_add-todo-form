@@ -1,0 +1,16 @@
+.completed {
+  width: 150px;
+  border: 1px solid silver;
+  padding: 15px;
+  margin: 10px;
+}
+
+.block {
+  display: flex;
+  justify-content: space-around;
+}
+
+.position {
+  display: flex;
+  margin-top: 25px;
+}

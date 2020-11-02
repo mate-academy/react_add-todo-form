@@ -1,0 +1,23 @@
+.item {
+  margin-left: 33%;
+}
+
+.list {
+  border: 1px solid silver;
+  border-radius: 15px;
+}
+
+.sort {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.status {
+  padding: 10px;
+}
+
+.App__list {
+  width: 600px;
+  margin: 40px auto;
+}
