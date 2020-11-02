@@ -1,9 +1,0 @@
-.select {
-  border-color: #dbdbdb;
-  border-radius: 3px;
-  width: 250px;
-}
-
-.select:focus {
-  border: 2px solid #7b68ee;
-}

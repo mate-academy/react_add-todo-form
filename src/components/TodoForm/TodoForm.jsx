@@ -4,7 +4,7 @@ import './TodoForm.css';
 
 import todos from '../../api/todos';
 
-import { FormSelect } from '../FormSelect';
+import { SelectOption } from '../SelectOption';
 import { TodoList } from '../TodoList';
 
 export class TodoForm extends React.PureComponent {
@@ -65,6 +65,7 @@ export class TodoForm extends React.PureComponent {
     this.setState({
       todoTitle: '',
       username: '',
+      titleError: false,
     });
   }
 
@@ -86,23 +87,30 @@ export class TodoForm extends React.PureComponent {
 
   render() {
     const { users } = this.props;
-    const { username, todoTitle, titleError, usernameError, todoList } = this.state;
+    const { username,
+      todoTitle,
+      titleError,
+      usernameError,
+      todoList } = this.state;
 
     return (
       <>
         <form
           className="App__form form"
-          onSubmit={event => (
-            this.onSubmit(event)
-          )}
+          onSubmit={this.onSubmit}
         >
-          <FormSelect
-            username={username}
-            addTodoUserId={this.addTodoUserId}
-            addTodo={this.addTodo}
-            handleChange={this.handleChange}
-            users={users}
-          />
+          <select
+            className="form__select select"
+            name="username"
+            id="username"
+            value={username}
+            onChange={(event) => {
+              this.addTodoUserId(event.target.value);
+              this.handleChange(event.target);
+            }}
+          >
+            <SelectOption users={users} />
+          </select>
 
           <input
             className="form__input"
@@ -134,7 +142,8 @@ export class TodoForm extends React.PureComponent {
 
         <ul className="App__todo-list list">
           <TodoList
-            todoList={todoList} />
+            todoList={todoList}
+          />
         </ul>
       </>
     );
