@@ -10,7 +10,6 @@ export class Form extends Component {
     titleError: '',
     userError: '',
     tooLongError: '',
-    counter: 0,
   }
 
   validate = () => {
@@ -50,7 +49,6 @@ export class Form extends Component {
     const {
       todoTitle,
       userId,
-      counter,
     } = this.state;
 
     const {
@@ -72,12 +70,9 @@ export class Form extends Component {
         'Input less then 50 symbols!',
       });
     } else {
-      this.setState({
-        counter: counter + 1,
-      });
       const newTodo = {
         userId: users.find(user => user.name === userId).id,
-        id: counter,
+        id: new Date(),
         title: todoTitle,
         completed: false,
       };

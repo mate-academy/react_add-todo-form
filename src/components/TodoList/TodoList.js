@@ -2,6 +2,7 @@ import React from 'react';
 import './TodoList.css';
 import PropTypes from 'prop-types';
 
+
 import { Todo } from '../Todo';
 
 export const TodoList = ({ todos }) => (
@@ -15,7 +16,7 @@ export const TodoList = ({ todos }) => (
     </h3>
     <ul>
       {todos.map(todo => (
-        <li key={todo.id}>
+        <li key = {todo.id}>
           <Todo todo={todo} />
         </li>
       ))}
