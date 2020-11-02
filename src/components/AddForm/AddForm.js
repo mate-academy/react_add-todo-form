@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
+import { Select } from '../Select';
 
 export const AddForm = (
   { value,
@@ -26,22 +27,14 @@ export const AddForm = (
       onChange={changeHandler}
     />
     <Form.Label
-      className={selected === '-1' && btnStatus ? 'App__red' : ''}
+      className={selected === '0' && btnStatus ? 'App__red' : ''}
     >
       Select user
     </Form.Label>
-    <Form.Control
-      as="select"
-      onChange={changeHandler}
-      name="selected"
-    >
-      <option value={-1}> </option>
-      {users.map(user => (
-        <option key={user.id} value={user.id - 1}>
-          {user.name}
-        </option>
-      ))}
-    </Form.Control>
+    <Select
+      users={users}
+      changeHandler={changeHandler}
+    />
     <Button
       variant="outline-success"
       onClick={clickHandler}

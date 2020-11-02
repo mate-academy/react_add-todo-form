@@ -5,19 +5,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
 
-import users from './api/users';
+import usersFromServer from './api/usersFromServer';
 import todos from './api/todos';
 
 const preparedData = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId),
+  user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
+    movies: preparedData,
     title: '',
-    selected: '-1',
-    btnSubmited: false,
+    selected: '0',
+    isSubmited: false,
   }
 
   handleChange = (event) => {
@@ -29,32 +30,38 @@ class App extends React.Component {
   addTodo = () => {
     const { title, selected } = this.state;
 
-    if (title === '' || selected === '-1') {
-      this.setState({ btnSubmited: true });
+    if (title === '' || selected === '0') {
+      this.setState({ isSubmited: true });
 
       return;
     }
 
-    preparedData.push({
-      title: this.state.title,
-      user: users[selected],
-    });
-    this.setState({ btnSubmited: false });
+    this.setState(prev => ({
+      movies: [...prev.movies,
+        {
+          title: prev.title,
+          user: usersFromServer[selected - 1],
+        },
+      ],
+      isSubmited: false,
+    }));
   }
+
+  formObj = () => ({
+    value: this.state.title,
+    selected: this.state.selected,
+    btnStatus: this.state.isSubmited,
+    changeHandler: this.handleChange,
+    clickHandler: this.addTodo,
+    users: usersFromServer,
+  })
 
   render() {
     return (
       <div className="App">
         <h1 className="App__title"> Add Form</h1>
-        <TodoList todos={preparedData} />
-        <AddForm
-          value={this.state.title}
-          selected={this.state.selected}
-          btnStatus={this.state.btnSubmited}
-          changeHandler={this.handleChange}
-          clickHandler={this.addTodo}
-          users={users}
-        />
+        <TodoList todos={this.state.movies} />
+        <AddForm {...this.formObj()} />
       </div>
     );
   }
