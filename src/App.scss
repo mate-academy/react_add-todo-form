@@ -1,0 +1,32 @@
+.ui.form .fields {
+  flex-direction: column;
+}
+
+.ui.inverted.green.table {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ui.table td.warning, .ui.table tr.warning {
+  background-color: lightgrey !important;
+}
+
+.ui.form
+.field.form__button {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+input[name=title],
+select[name=userId] {
+  margin: 15px 0 !important;
+}
+
+.ui.container.form__inner {
+  position: relative;
+}
+
+.form__error {
+  position: absolute;
+  top: -5px;
+}
