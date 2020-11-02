@@ -17,16 +17,7 @@ export class App extends React.PureComponent {
     todosList: preparedTodos,
   }
 
-  addTodo = (newUser, title) => {
-    const selectedUser = users.find(user => user.name === newUser);
-    const newTodo = {
-      title,
-      user: selectedUser,
-      userId: selectedUser.id,
-      id: this.state.todosList.length + 1,
-      completed: false,
-    };
-
+  addTodo = (newTodo) => {
     this.setState(prevState => ({
       todosList: [...prevState.todosList, newTodo],
     }));
@@ -37,7 +28,11 @@ export class App extends React.PureComponent {
 
     return (
       <div className="App">
-        <Form users={users} addTodo={this.addTodo} />
+        <Form
+          users={users}
+          addTodo={this.addTodo}
+          todosList={todosList}
+        />
         <h1>List of todos</h1>
         <TodoList todos={todosList} />
       </div>

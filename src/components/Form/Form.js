@@ -51,14 +51,23 @@ export class Form extends React.PureComponent {
   }
 
   handleSubmit = (event) => {
-    const { addTodo } = this.props;
+    const { addTodo, users, todosList } = this.props;
     const { title, name } = this.state;
     const isValid = this.validate();
 
     event.preventDefault();
 
     if (isValid) {
-      addTodo(name, title);
+      const selectedUser = users.find(person => person.name === name);
+      const newTodo = {
+        title,
+        user: selectedUser,
+        userId: selectedUser.id,
+        id: todosList.length + 1,
+        completed: false,
+      };
+
+      addTodo(newTodo);
       this.setState(initialState);
     }
   }

@@ -3,6 +3,8 @@ import { TodoShape } from './TodoShape';
 import { User } from '../User';
 import './Todo.css';
 
+const classNames = require('classnames');
+
 export const Todo = React.memo(
   ({ title, completed, user }) => (
     <div className="App__list">
@@ -15,10 +17,13 @@ export const Todo = React.memo(
         <User {...user} />
       </div>
       <div>
-        {completed
-          ? <div className="App__positive" />
-          : <div className="App__negative" />
+        <div className={
+          classNames({
+            App__positive: completed,
+            App__negative: !completed,
+          })
         }
+        />
       </div>
     </div>
   ),
