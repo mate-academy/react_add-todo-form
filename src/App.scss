@@ -1,0 +1,55 @@
+body {
+  background-color: #1b1c1d;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 20px 80px;
+  text-align: center;
+  background-color: #1b1c1d;
+  color: rgba(255,255,255,0.9);
+}
+
+.form {
+  &__inner.ui.container {
+    position: relative;
+    width: 100% !important;
+    margin: 0 10px 10px !important;
+  }
+
+  &__error {
+    color: #54c8ff;
+    position: absolute;
+    left: 50%;
+    font-size: 16px;
+    transform: translateX(-50%);
+    animation: emergence 300ms forwards;
+  }
+
+  &__button .button,
+  &__button .button:focus {
+    padding: 0.75em 5.7em;
+    background-color: #2185d0;
+    color: #fff;
+  }
+}
+
+@keyframes emergence {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: -25px;
+    opacity: 1;
+  }
+
+}
+
+@media only screen and (max-width: 767px) {
+  .form {
+    &__inner.ui.container {
+      margin-top: 20px !important;
+    }
+  }
+}
