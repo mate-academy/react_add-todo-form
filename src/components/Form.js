@@ -19,6 +19,10 @@ export class Form extends React.Component {
         onSubmit={(event) => {
           event.preventDefault();
 
+          if (!task || !userName) {
+            return;
+          }
+
           addUser(user, task);
           this.setState({
             task: '',
