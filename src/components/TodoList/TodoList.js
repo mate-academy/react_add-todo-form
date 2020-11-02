@@ -5,25 +5,25 @@ import { Todo } from '../Todo';
 
 export const TodoList = ({ todos }) => (
   <ul className="list-group">
-    {
-      todos.map(todo => (
-        <li
-          key={todo.id}
-          className="list-group-item
-            list-group-item-action
-            list-group-item-secondary"
-        >
-          <Todo {...todo} />
-        </li>
-      ))
-    }
+    {todos.map(todo => (
+      <li
+        key={todo.id}
+        className="list-group-item
+          list-group-item-action
+          list-group-item-secondary"
+      >
+        <Todo {...todo} />
+      </li>
+    ))}
   </ul>
 );
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      completed: PropTypes.bool.isRequired,
     }),
   ).isRequired,
 };

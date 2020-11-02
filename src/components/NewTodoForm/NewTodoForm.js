@@ -5,19 +5,19 @@ import './NewTodoForm.css';
 
 export class NewTodoForm extends React.Component {
   state={
-    username: 'Choose a user',
+    username: '',
     title: '',
-    errortitle: false,
-    errorusername: false,
+    titleError: false,
+    usernameError: false,
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    const re = /[^\w ]+/;
+    const regExp = /[^\w ]+/;
 
     this.setState({
-      [name]: value.replace(re, ''),
-      [`error${name}`]: false,
+      [name]: value.replace(regExp, ''),
+      [`${name}Error`]: false,
     });
   }
 
@@ -29,22 +29,22 @@ export class NewTodoForm extends React.Component {
 
     if (!title.trim()) {
       this.setState({
-        errortitle: true,
+        titleError: true,
       });
     }
 
-    if (username === 'Choose a user') {
+    if (!username) {
       this.setState({
-        errorusername: true,
+        usernameError: true,
       });
     }
 
-    if (title && username !== 'Choose a user') {
+    if (title && username) {
       const foundUser = users.find(user => user.name === username);
 
       this.setState({
         title: '',
-        username: 'Choose a user',
+        username: '',
       });
 
       onAdd(title, foundUser);
@@ -52,7 +52,7 @@ export class NewTodoForm extends React.Component {
   }
 
   render() {
-    const { username, errorusername, title, errortitle } = this.state;
+    const { username, usernameError, title, titleError } = this.state;
     const { users } = this.props;
 
     return (
@@ -82,7 +82,7 @@ export class NewTodoForm extends React.Component {
               ))}
             </select>
 
-            {errorusername
+            {usernameError
               && <p className="text-danger">Please, choose a user</p>
             }
           </div>
@@ -101,7 +101,7 @@ export class NewTodoForm extends React.Component {
               onChange={this.handleChange}
             />
 
-            {errortitle
+            {titleError
               && <p className="text-danger">Please, enter the title</p>
             }
           </div>
