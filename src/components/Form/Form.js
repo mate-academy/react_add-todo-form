@@ -24,25 +24,15 @@ export class Form extends React.PureComponent {
 
   validate = () => {
     const { title, name } = this.state;
-    let errorTitle = '';
-    let errorName = '';
 
     if (!title) {
-      errorTitle = 'Please enter the title';
-    }
-
-    if (!name) {
-      errorName = 'Please choose a user';
-    }
-
-    if (errorTitle) {
-      this.setState({ errorTitle });
+      this.setState({ errorTitle: 'Please enter the title' });
 
       return false;
     }
 
-    if (errorName) {
-      this.setState({ errorName });
+    if (!name) {
+      this.setState({ errorName: 'Please choose a user' });
 
       return false;
     }
@@ -53,9 +43,9 @@ export class Form extends React.PureComponent {
   handleSubmit = (event) => {
     const { addTodo, users, todosList } = this.props;
     const { title, name } = this.state;
-    const isValid = this.validate();
 
     event.preventDefault();
+    const isValid = this.validate();
 
     if (isValid) {
       const selectedUser = users.find(person => person.name === name);
