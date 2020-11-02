@@ -1,0 +1,39 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  width: 250px;
+  height: 25px;
+  border: 1px solid #926654;
+  font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
+  outline: none;
+  background-color: #adbf94;
+}
+
+.message {
+  font-size: 15px;
+  color: red;
+}
+
+.button {
+  width: 130px;
+  height: 30px;
+  margin: 0 auto;
+  border: 2px solid #926654;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  background-color: #c8b67d;
+  cursor: pointer;
+  transition: 1s;
+  outline: none;
+}
+
+.button:hover {
+  background-color: #f9ebae;
+}
