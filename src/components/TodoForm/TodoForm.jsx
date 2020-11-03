@@ -8,19 +8,13 @@ export class TodoForm extends React.PureComponent {
   state = {
     todoTitle: '',
     username: '',
-    todoUserId: 0,
-    todoId: this.props.todoId,
     titleError: false,
     usernameError: false,
   }
 
-  addTodoUserId = (id) => {
-    this.setState({ todoUserId: Number(id) });
-  }
-
-  handleChange = (target) => {
+  handleChange = (value) => {
     this.setState({
-      username: target.value,
+      username: value,
       titleError: false,
       usernameError: false,
     });
@@ -30,15 +24,6 @@ export class TodoForm extends React.PureComponent {
     event.preventDefault();
 
     const { todoTitle, username } = this.state;
-
-    if (todoTitle === '' && username === '') {
-      this.setState({
-        usernameError: true,
-        titleError: true,
-      });
-
-      return;
-    }
 
     if (todoTitle === '') {
       this.setState({
@@ -56,26 +41,13 @@ export class TodoForm extends React.PureComponent {
       return;
     }
 
-    this.addTodo();
+    this.props.handleTodoList(todoTitle);
 
     this.setState({
       todoTitle: '',
       username: '',
       titleError: false,
     });
-  }
-
-  addTodo() {
-    const { todoUserId, todoId, todoTitle } = this.state;
-    const newTodo = {
-      userId: todoUserId,
-      id: todoId + 1,
-      title: todoTitle,
-      completed: false,
-      defaultValue: 'choose',
-    };
-
-    this.props.handleTodoList(newTodo);
   }
 
   render() {
@@ -97,8 +69,7 @@ export class TodoForm extends React.PureComponent {
             id="username"
             value={username}
             onChange={(event) => {
-              this.addTodoUserId(event.target.value);
-              this.handleChange(event.target);
+              this.handleChange(event.target.value);
             }}
           >
             <SelectOption users={users} />
@@ -143,6 +114,5 @@ TodoForm.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  todoId: PropTypes.number.isRequired,
   handleTodoList: PropTypes.func.isRequired,
 };

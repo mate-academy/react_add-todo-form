@@ -11,9 +11,20 @@ class App extends React.Component {
   state = {
     todoList: todos,
     todoId: todos.length,
+    todoUserId: 0,
   }
 
-  handleTodoList = (newTodo) => {
+  handleTodoList = (title) => {
+    const { todoUserId, todoId } = this.state;
+
+    const newTodo = {
+      userId: todoUserId,
+      id: todoId + 1,
+      title,
+      completed: false,
+      defaultValue: 'choose',
+    };
+
     this.setState(state => ({
       todoList: [...state.todoList, newTodo],
       todoId: state.todoId + 1,
