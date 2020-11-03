@@ -68,8 +68,6 @@ export class AddTodo extends React.Component {
   handleChange = (event) => {
     const { name, value, checked } = event.target;
 
-    this.validInputTitle(value);
-
     name === 'completed'
       ? this.setState(state => ({
         todo: {
@@ -111,7 +109,10 @@ export class AddTodo extends React.Component {
               maxLength={this.state.maxLengthTitle}
               value={this.state.todo.title}
               placeholder="Title"
-              onChange={this.handleChange}
+              onChange={(event) => {
+                this.validInputTitle(event.target.value);
+                this.handleChange(event);
+              }}
             />
             <div className="limit">
               <p>{Number(this.state.countLetters)}</p>
