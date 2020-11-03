@@ -15,13 +15,19 @@ export class TodoForm extends React.PureComponent {
 
   handleChange = (event) => {
     const { name, value, type } = event.target;
+    const errorName = `${name}Error`;
 
-    this.setState({
-      [name]: type === 'text'
-        ? value.replace(/[^\w ]+/, '')
-        : value,
-      [`${name}Error`]: false,
-    });
+    this.setState(state => (
+      {
+        [name]: type === 'text'
+          ? value.replace(/[^\w ]+/, '')
+          : value,
+        errors: {
+          ...state.errors,
+          [errorName]: false,
+        },
+      }
+    ));
   }
 
   handleSubmit = (event) => {
@@ -38,15 +44,6 @@ export class TodoForm extends React.PureComponent {
           },
         }
       ));
-    } else {
-      this.setState(state => (
-        {
-          errors: {
-            ...state.errors,
-            titleError: false,
-          },
-        }
-      ));
     }
 
     if (userName === 'Choose a user' || !userName) {
@@ -55,15 +52,6 @@ export class TodoForm extends React.PureComponent {
           errors: {
             ...state.errors,
             userNameError: true,
-          },
-        }
-      ));
-    } else {
-      this.setState(state => (
-        {
-          errors: {
-            ...state.errors,
-            userNameError: false,
           },
         }
       ));
