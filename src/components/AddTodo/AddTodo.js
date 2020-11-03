@@ -17,14 +17,14 @@ export class AddTodo extends React.Component {
     countLetters: 0,
     titleError: false,
     userIdError: false,
-    validInput: true,
+    validInput: false,
   }
 
   validInputTitle = (value) => {
     const regexp = /[^A-Za-z0-9 ]+/g;
 
     this.setState({
-      validInput: !value.match(regexp),
+      validInput: value.match(regexp),
     });
   }
 
@@ -61,7 +61,16 @@ export class AddTodo extends React.Component {
       countLetters: 0,
       titleError: false,
       userIdError: false,
-      validInput: true,
+      validInput: false,
+    }));
+  }
+
+  updateElementTodo = (name, value) => {
+    this.setState(state => ({
+      todo: {
+        ...state.todo,
+        [name]: value,
+      },
     }));
   }
 
@@ -69,23 +78,19 @@ export class AddTodo extends React.Component {
     const { name, value, checked } = event.target;
 
     name === 'completed'
-      ? this.setState(state => ({
-        todo: {
-          ...state.todo,
-          [name]: checked,
-        },
-      }))
-      : this.setState(state => ({
-        todo: {
-          ...state.todo,
-          [name]: name === 'title' ? value : Number(value),
-        },
-        countLetters: value.length,
-        titleError: name === 'title'
-          ? value === '' : state.titleError,
-        userIdError: name === 'userId'
-          ? Number(value) === 0 : state.userIdError,
-      }));
+      ? this.updateElementTodo(name, checked)
+      : this.updateElementTodo(
+        name,
+        name === 'title' ? value : Number(value),
+      );
+
+    this.setState(state => ({
+      countLetters: value.length,
+      titleError: name === 'title'
+        ? value === '' : state.titleError,
+      userIdError: name === 'userId'
+        ? Number(value) === 0 : state.userIdError,
+    }));
   }
 
   render() {
@@ -119,10 +124,9 @@ export class AddTodo extends React.Component {
             </div>
           </div>
           <div className="error-message">
-            {this.state.titleError ? 'Please enter the title' : ''}
+            {this.state.titleError && 'Please enter the title'}
             <br />
-            { this.state.validInput
-              ? '' : 'Special characters are not allowed'}
+            {this.state.validInput && 'Special characters are not allowed'}
           </div>
         </div>
 
@@ -143,9 +147,11 @@ export class AddTodo extends React.Component {
               </option>
             ))}
           </select>
-          <div className="error-message">
-            {this.state.userIdError ? 'Please choose a user' : ''}
-          </div>
+          {this.state.userIdError && (
+            <div className="error-message">
+              Please choose a user
+            </div>
+          )}
         </div>
 
         <div>
