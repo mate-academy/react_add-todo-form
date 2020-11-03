@@ -17,17 +17,19 @@ class App extends React.PureComponent {
   }
 
   addTodo = (title, userId) => {
-    const newTodo = {
-      title,
-      userId: Number(userId),
-      id: this.state.todos.length + 1,
-      completed: false,
-      user: users.find(user => user.id === +userId),
-    };
+    if (title.trim() && userId) {
+      const newTodo = {
+        title,
+        userId: Number(userId),
+        id: this.state.todos.length + 1,
+        completed: false,
+        user: users.find(user => user.id === +userId),
+      };
 
-    this.setState(prevState => ({
-      todos: [...prevState.todos, newTodo],
-    }));
+      this.setState(prevState => ({
+        todos: [...prevState.todos, newTodo],
+      }));
+    }
   };
 
   render() {
