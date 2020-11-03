@@ -2,18 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoForm.css';
 
-import todos from '../../api/todos';
-
 import { SelectOption } from '../SelectOption';
-import { TodoList } from '../TodoList';
 
 export class TodoForm extends React.PureComponent {
   state = {
-    todoList: todos,
-    todoUserId: 0,
     todoTitle: '',
     username: '',
-    todoId: todos.length,
+    todoUserId: 0,
+    todoId: this.props.todoId,
     titleError: false,
     usernameError: false,
   }
@@ -30,7 +26,7 @@ export class TodoForm extends React.PureComponent {
     });
   }
 
-  onSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const { todoTitle, username } = this.state;
@@ -79,10 +75,7 @@ export class TodoForm extends React.PureComponent {
       defaultValue: 'choose',
     };
 
-    this.setState(state => ({
-      todoList: [...state.todoList, newTodo],
-      todoId: state.todoId + 1,
-    }));
+    this.props.handleTodoList(newTodo);
   }
 
   render() {
@@ -90,14 +83,13 @@ export class TodoForm extends React.PureComponent {
     const { username,
       todoTitle,
       titleError,
-      usernameError,
-      todoList } = this.state;
+      usernameError } = this.state;
 
     return (
       <>
         <form
           className="App__form form"
-          onSubmit={this.onSubmit}
+          onSubmit={this.handleSubmit}
         >
           <select
             className="form__select select"
@@ -139,12 +131,6 @@ export class TodoForm extends React.PureComponent {
         {usernameError && (
           <p>Please choose a user</p>
         )}
-
-        <ul className="App__todo-list list">
-          <TodoList
-            todoList={todoList}
-          />
-        </ul>
       </>
     );
   }
@@ -157,4 +143,6 @@ TodoForm.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  todoId: PropTypes.number.isRequired,
+  handleTodoList: PropTypes.func.isRequired,
 };
