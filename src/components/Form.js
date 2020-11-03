@@ -1,74 +1,106 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Error } from './Error';
 import { UserShape } from '../shapes/UserShape';
+import { Input } from './Input';
+import { Select } from './Select';
+
+const initialState = {
+  task: '',
+  userName: '',
+  user: '',
+};
 
 export class Form extends React.PureComponent {
   state = {
-    task: '',
-    userName: '',
-    user: '',
-    userError: false,
-    titleError: false,
+    inputs: initialState,
+    errors: {
+      userError: false,
+      titleError: false,
+    },
   };
 
   callUserError = () => {
-    this.setState({
-      userError: true,
-    });
+    this.setState(prevState => ({
+      errors: {
+        ...prevState.errors,
+        userError: true,
+      },
+    }));
   }
 
   callTitleError = () => {
-    this.setState({
-      titleError: true,
-    });
+    this.setState(prevState => ({
+      errors: {
+        ...prevState.errors,
+        titleError: true,
+      },
+    }));
   }
 
   handleSubmit = (event) => {
-    const { task, user, userName } = this.state;
+    const { inputs } = this.state;
 
     event.preventDefault();
-    if (!task) {
+    if (!inputs.task) {
       this.callTitleError();
     }
 
-    if (!userName || userName === 'Choose a user') {
+    if (!inputs.userName || inputs.userName === 'Choose a user') {
       this.callUserError();
     }
 
-    if (task && userName && userName !== 'Choose a user') {
-      this.props.addTodo(user, task);
+    if (inputs.task && inputs.userName && inputs.userName !== 'Choose a user') {
+      this.props.addTodo(inputs.user, inputs.task);
       this.setState({
-        task: '',
-        userName: '',
-        user: '',
+        inputs: initialState,
       });
     }
   }
 
   handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value.replace(/[^\w ]/gi, ''),
-      titleError: false,
-    });
+    const targetName = event.target.name;
+    const targetValue = event.target.value;
+
+    this.setState(prevState => ({
+      inputs: {
+        ...prevState.inputs,
+        [targetName]: targetValue.replace(/[^\w ]/gi, ''),
+      },
+      errors: {
+        ...prevState.errors,
+        titleError: false,
+      },
+    }));
   }
 
   handleSelectChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      userError: false,
-    });
+    const targetName = event.target.name;
+    const targetValue = event.target.value;
+
     this.setState(prevState => ({
-      user: this.props.users.find(userToFind => (
-        userToFind.name === prevState.userName
-      )),
+      inputs: {
+        ...prevState.inputs,
+        [targetName]: targetValue,
+      },
+      errors: {
+        ...prevState.errors,
+        userError: false,
+      },
+    }));
+    this.setState(prevState => ({
+      inputs: {
+        ...prevState.inputs,
+        user: this.props.users.find(user => (
+          user.name === prevState.inputs.userName
+        )),
+      },
     }));
   }
 
   render() {
     const { users } = this.props;
-    const { task, userName, userError, titleError } = this.state;
+    const { inputs, errors } = this.state;
 
     return (
       <form
@@ -76,40 +108,18 @@ export class Form extends React.PureComponent {
 
         className="form"
       >
-        <label>
-          To do (only letters and numbers allowed)
-          <input
-            placeholder="write a task"
-            name="task"
-            type="text"
-            value={task}
-            onChange={this.handleInputChange}
-            className="form-control"
-          />
-        </label>
+        <Input
+          task={inputs.task}
+          onChange={this.handleInputChange}
+          titleError={errors.titleError}
+        />
 
-        {titleError
-          ? <Error text="Please enter the task" />
-          : ''}
-
-        <label>
-          Assign to
-          <select
-            name="userName"
-            value={userName}
-            className="form-control"
-            onChange={this.handleSelectChange}
-          >
-            <option>Choose a user</option>
-            {users.map(person => (
-              <option key={person.id}>{person.name}</option>
-            ))}
-          </select>
-        </label>
-
-        {userError
-          ? <Error text="Please choose a user" />
-          : ''}
+        <Select
+          userName={inputs.userName}
+          onChange={this.handleSelectChange}
+          users={users}
+          userError={errors.userError}
+        />
 
         <button type="submit" className="btn btn-dark">
           Add
