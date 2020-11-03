@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TodoList } from './todoList';
 import { SelectUser } from './selectUser';
-import { usersProps, userShape } from './propsVars';
+import { usersProps, todos } from './propsVars';
 import 'semantic-ui-css/semantic.min.css';
 
 export class AddTodoForm extends React.Component {
   state = {
-    todosNew: this.props.todos,
-    users: this.props.users,
     userName: '',
     task: '',
-    nameEntered: false,
-    taskEntered: false,
+    isNameEntered: false,
+    isTaskEntered: false,
   }
 
   handleChange = (event) => {
@@ -25,8 +22,6 @@ export class AddTodoForm extends React.Component {
 
   addTodo = (event) => {
     const {
-      users,
-      todosNew,
       userName,
       task,
     } = this.state;
@@ -36,13 +31,13 @@ export class AddTodoForm extends React.Component {
       || !task) {
       if (!userName || userName === '--choose a User--') {
         this.setState({
-          nameEntered: true,
+          isNameEntered: true,
         });
       }
 
       if (!task) {
         this.setState({
-          taskEntered: true,
+          isTaskEntered: true,
         });
       }
 
@@ -50,35 +45,34 @@ export class AddTodoForm extends React.Component {
     }
 
     const todo = {
-      userId: users.find(user => user.name === userName).id,
-      id: todosNew.length + 1,
+      userId: this.props.users.find(user => user.name === userName).id,
+      id: this.props.todos.length + 1,
       title: task,
-      user: users.find(user => user.name === userName),
+      user: this.props.users.find(user => user.name === userName),
     };
 
+    this.props.changeState(todo);
+
     this.setState(prev => ({
-      todosNew: [...prev.todosNew, todo],
       userName: '',
       task: '',
-      nameEntered: false,
-      taskEntered: false,
+      isNameEntered: false,
+      isTaskEntered: false,
     }));
   }
 
   render() {
     const {
-      todosNew,
-      users,
       userName,
       task,
-      nameEntered,
-      taskEntered,
+      isNameEntered,
+      isTaskEntered,
     } = this.state;
     const nameControl = (!userName || userName === '--choose a User--')
-      ? nameEntered
+      ? isNameEntered
       : false;
     const taskControl = (!task)
-      ? taskEntered
+      ? isTaskEntered
       : false;
 
     return (
@@ -87,7 +81,7 @@ export class AddTodoForm extends React.Component {
           {nameControl && ' Please choose a user ' }
           <br />
           <SelectUser
-            users={users}
+            users={this.props.users}
             userName={userName}
             handleChange={this.handleChange}
           />
@@ -108,7 +102,6 @@ export class AddTodoForm extends React.Component {
             add
           </button>
         </form>
-        <TodoList todoList={todosNew} />
       </>
     );
   }
@@ -116,10 +109,6 @@ export class AddTodoForm extends React.Component {
 
 AddTodoForm.propTypes = {
   users: usersProps.isRequired,
-  todos: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool,
-    user: userShape.isRequired,
-  })).isRequired,
+  changeState: PropTypes.func.isRequired,
+  todos: todos.isRequired,
 };

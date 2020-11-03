@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AddTodoForm } from './components/addTodoForm';
+import { TodoList } from './components/todoList';
 import './App.css';
 
 import users from './api/users';
@@ -16,6 +17,12 @@ class App extends React.Component {
     todosNew: [...preparedTodos],
   }
 
+  changeState = (todo) => {
+    this.setState(prev => ({
+      todosNew: [...prev.todosNew, todo],
+    }));
+  }
+
   render() {
     const {
       todosNew,
@@ -27,7 +34,9 @@ class App extends React.Component {
         <AddTodoForm
           users={users}
           todos={todosNew}
+          changeState={this.changeState}
         />
+        <TodoList todoList={todosNew} />
       </div>
     );
   }
