@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormShape } from './FormShape';
 import './Form.css';
+import { Input } from '../Input';
+import { Select } from '../Select';
 
 const initialState = {
   title: '',
@@ -67,58 +69,27 @@ export class Form extends React.PureComponent {
     const { title, name, errorTitle, errorName } = this.state;
 
     return (
-      <>
-        <form
-          className="App__form"
-          onSubmit={this.handleSubmit}
-        >
+      <form
+        className="App__form"
+        onSubmit={this.handleSubmit}
+      >
 
-          <label>
-            <span>
-              {`Task is `}
-            </span>
-            <input
-              className="App__input"
-              placeholder="write here"
-              name="title"
-              type="text"
-              value={title}
-              onChange={this.handleChange}
-            />
-          </label>
-          <div className="App__error">
-            {errorTitle}
-          </div>
-          <p>
-            <span>
-              {` for user `}
-            </span>
-            <label>
-              <select
-                className="App__select"
-                name="name"
-                value={name}
-                onChange={this.handleChange}
-              >
-                <option value="">
-                  Choose a user
-                </option>
-                {users.map(person => (
-                  <option key={person.id}>
-                    {person.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div className="App__error">
-              {errorName}
-            </div>
-          </p>
-          <button type="submit" className="App__button">
-            Add task!
-          </button>
-        </form>
-      </>
+        <Input
+          title={title}
+          callback={this.handleChange}
+          error={errorTitle}
+        />
+        <Select
+          name={name}
+          callback={this.handleChange}
+          error={errorName}
+          users={users}
+        />
+
+        <button type="submit" className="App__button">
+          Add task!
+        </button>
+      </form>
     );
   }
 }
