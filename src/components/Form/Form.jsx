@@ -15,10 +15,11 @@ export class Form extends React.Component {
 
     this.setState({
       [name]: value.replace(/[^\w ]/gi, ''),
+      errorHidden: true,
     });
   }
 
-  addTodo = (event) => {
+  handleSubmit = (event) => {
     const { userName, newTodo } = this.state;
     const { onAdd, todosLength } = this.props;
     let newTodoItem;
@@ -38,14 +39,9 @@ export class Form extends React.Component {
         newTodo: '',
       });
       onAdd(newTodoItem);
-    } else if (userName) {
-      this.setState({
-        error: 'title',
-        errorHidden: false,
-      });
     } else {
       this.setState({
-        error: 'user',
+        error: newTodo ? 'userName' : 'newTodo',
         errorHidden: false,
       });
     }
@@ -57,7 +53,7 @@ export class Form extends React.Component {
     return (
       <form
         className="todo__form"
-        onSubmit={this.addTodo}
+        onSubmit={this.handleSubmit}
       >
         <div className="select">
           <select

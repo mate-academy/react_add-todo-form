@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Error = ({ type }) => {
-  if (type === 'user') {
+  if (type === 'userName') {
     return <div className="error error--user">Please choose a user</div>;
   }
 
