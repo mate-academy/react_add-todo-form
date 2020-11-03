@@ -7,8 +7,10 @@ export class TodoForm extends React.PureComponent {
   state = {
     title: '',
     userName: '',
-    titleError: false,
-    userNameError: false,
+    errors: {
+      titleError: false,
+      userNameError: false,
+    },
   }
 
   handleChange = (event) => {
@@ -28,11 +30,43 @@ export class TodoForm extends React.PureComponent {
     const { addTodo, users } = this.props;
 
     if (!title.trim()) {
-      this.setState({ titleError: true });
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            titleError: true,
+          },
+        }
+      ));
+    } else {
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            titleError: false,
+          },
+        }
+      ));
     }
 
     if (userName === 'Choose a user' || !userName) {
-      this.setState({ userNameError: true });
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            userNameError: true,
+          },
+        }
+      ));
+    } else {
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            userNameError: false,
+          },
+        }
+      ));
     }
 
     if (title.trim() && userName) {
@@ -51,8 +85,7 @@ export class TodoForm extends React.PureComponent {
     const {
       title,
       userName,
-      titleError,
-      userNameError,
+      errors,
     } = this.state;
 
     return (
@@ -77,9 +110,11 @@ export class TodoForm extends React.PureComponent {
         />
 
         {
-          titleError
+          errors.titleError
             && (
-              <span className="alert alert-danger">Please enter the title</span>
+              <span className="alert alert-danger d-block">
+                Please enter the title
+              </span>
             )
         }
 
@@ -109,8 +144,12 @@ export class TodoForm extends React.PureComponent {
         </select>
 
         {
-          userNameError
-            && <span className="alert alert-danger">Please choose a user</span>
+          errors.userNameError
+            && (
+              <span className="alert alert-danger d-block">
+                Please choose a user
+              </span>
+            )
         }
 
         <button

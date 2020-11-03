@@ -6,8 +6,7 @@ import { TodoPropTypes } from '../propTypes/TodoPropTypes';
 export const Todo = ({ title, completed, user }) => (
   <div className="list-group-item">
     <h3>
-      {`Task: `}
-      {title}
+      {`Task: ${title}`}
     </h3>
 
     <div>
