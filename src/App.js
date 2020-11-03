@@ -21,7 +21,7 @@ class App extends React.Component {
         {
           ...todo,
           completed: false,
-          id: preparedTodos.length + 1,
+          id: prevState.listOfTodos.length + 1,
           user: users.find(user => todo.userId === user.id),
         },
         ...prevState.listOfTodos],
