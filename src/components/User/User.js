@@ -5,16 +5,14 @@ import classNames from 'classnames';
 import { UserShape } from '../../shapes/UserShape';
 
 export const User = ({ user }) => (
-  <>
-    <strong className={
-      classNames(
-        'userName',
-        { userName__done: user.completed },
-      )}
-    >
-      {user.name}
-    </strong>
-  </>
+  <strong className={
+    classNames(
+      'userName',
+      { userName__done: user.completed },
+    )}
+  >
+    {user.name}
+  </strong>
 );
 
 User.propTypes = {
