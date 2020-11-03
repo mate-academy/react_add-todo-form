@@ -7,8 +7,10 @@ export class TodoForm extends React.PureComponent {
   state = {
     title: '',
     userName: '',
-    titleError: false,
-    userNameError: false,
+    errors: {
+      titleError: false,
+      userNameError: false,
+    },
   }
 
   handleChange = (event) => {
@@ -29,11 +31,43 @@ export class TodoForm extends React.PureComponent {
     const trimTitle = title.trim();
 
     if (!trimTitle) {
-      this.setState({ titleError: true });
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            titleError: true,
+          },
+        }
+      ));
+    } else {
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            titleError: false,
+          },
+        }
+      ));
     }
 
     if (!userName) {
-      this.setState({ userNameError: true });
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            userNameError: true,
+          },
+        }
+      ));
+    } else {
+      this.setState(state => (
+        {
+          errors: {
+            ...state.errors,
+            userNameError: false,
+          },
+        }
+      ));
     }
 
     if (trimTitle && userName) {
@@ -52,8 +86,7 @@ export class TodoForm extends React.PureComponent {
     const {
       title,
       userName,
-      titleError,
-      userNameError,
+      errors,
     } = this.state;
 
     return (
@@ -78,7 +111,7 @@ export class TodoForm extends React.PureComponent {
           className="form__input"
         />
 
-        {titleError
+        {errors.titleError
           && <span className="select__error">Please enter the title</span>
         }
 
@@ -108,7 +141,7 @@ export class TodoForm extends React.PureComponent {
         </select>
 
         {
-          userNameError
+          errors.userNameError
             && <span className="select__error">Please choose a user</span>
         }
 
