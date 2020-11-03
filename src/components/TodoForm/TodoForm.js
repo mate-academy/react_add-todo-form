@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserShape } from '../../shapes/UserShape';
 import './TodoForm.scss';
+import { TitleInput } from './FormComponents/TitleInput';
+import { UserSelect } from './FormComponents/UserSelect';
+import { ButtonSubmit } from './FormComponents/ButtonSubmit';
 
 export class TodoForm extends React.PureComponent {
   state = {
@@ -50,58 +53,25 @@ export class TodoForm extends React.PureComponent {
 
   render() {
     const { users } = this.props;
-    const {
-      title,
-      userName,
-      titleError,
-      userNameError,
-    } = this.state;
+    const { titleError, title, userName, userNameError } = this.state;
 
     return (
       <form
         onSubmit={this.handleSubmit}
         className="form"
       >
-        <div className="form__title">
-          <input
-            type="text"
-            placeholder="Todo..."
-            className="form__input"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-          {titleError
-            && <p className="form__error">Please enter the title</p>}
-        </div>
-
-        <div className="form__user">
-          <select
-            name="userName"
-            value={userName}
-            onChange={this.handleChange}
-            className="form__select"
-          >
-            <option value="">
-              Choose name
-            </option>
-            {
-              users.map(user => (
-                <option value={user.name} key={user.id}>
-                  {user.name}
-                </option>
-              ))
-            }
-          </select>
-          {userNameError
-            && <p className="form__error">Please choose a user</p>}
-        </div>
-        <button
-          type="submit"
-          className="form__button"
-        >
-          Add todo
-        </button>
+        <TitleInput
+          title={title}
+          titleError={titleError}
+          handleChange={this.handleChange}
+        />
+        <UserSelect
+          userName={userName}
+          userNameError={userNameError}
+          handleChange={this.handleChange}
+          users={users}
+        />
+        <ButtonSubmit />
       </form>
     );
   }
