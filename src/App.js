@@ -6,50 +6,36 @@ import './App.css';
 import initialTodos from './api/initialTodos';
 import users from './api/users';
 
-const startedTodos = initialTodos.map(todo => ({
+const preparedTodos = initialTodos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
 
 class App extends React.PureComponent {
   state = {
-    todos: startedTodos,
-    errorMessage: '',
+    todos: preparedTodos,
   }
 
-  addTodo = (newTodo) => {
-    if (!newTodo.title.trim()) {
-      this.setState({
-        errorMessage: 'Enter the title',
-      });
-    }
+  addTodo = (title, userId) => {
+    const newTodo = {
+      title,
+      userId: Number(userId),
+      id: this.state.todos.length + 1,
+      completed: false,
+      user: users.find(user => user.id === +userId),
+    };
 
-    if (!newTodo.userId) {
-      this.setState({
-        errorMessage: 'Chose somebody',
-      });
-    }
-
-    if (newTodo.title.trim() && newTodo.userId) {
-      this.setState(prevState => ({
-        todos: [...prevState.todos, {
-          ...newTodo,
-          userId: Number(newTodo.userId),
-          id: prevState.todos.length + 1,
-          completed: false,
-          user: users.find(user => user.id === +newTodo.userId),
-        }],
-        errorMessage: '',
-      }));
-    }
+    this.setState(prevState => ({
+      todos: [...prevState.todos, newTodo],
+    }));
   };
 
   render() {
-    const { todos, errorMessage } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
-        <Form users={users} addTodo={this.addTodo} error={errorMessage} />
+        <Form users={users} addTodo={this.addTodo} />
         <TodoList todos={todos} />
       </div>
     );

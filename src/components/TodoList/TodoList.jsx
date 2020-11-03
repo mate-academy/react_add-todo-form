@@ -10,7 +10,8 @@ export const TodoList = ({ todos }) => (
 
     <ul className="list-group todos mx-auto text-light">
       {todos.map(todo => (
-        <li key={todo.id}>
+        /* eslint-disable-next-line */
+        <li key={todo.id} className="list-group-item d-flex justify-content-between align-items-center">
           <Todo
             title={todo.title}
             user={todo.user}

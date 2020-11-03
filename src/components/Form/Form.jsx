@@ -2,39 +2,63 @@ import React from 'react';
 import PropType from 'prop-types';
 import { userType } from '../propTypes/userType';
 
-export class Form extends React.Component {
+export class Form extends React.PureComponent {
   state = {
     title: '',
     userId: 0,
+    errorMessage: '',
+    error: false,
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
+  handleChange = (event) => {
+    const { name, value } = event.target;
 
     this.setState({
       [name]: value,
+      error: false,
+      errorMessage: '',
     });
   }
 
-  onSubmit = (e) => {
+  onSubmit = (event) => {
     const { title, userId } = this.state;
     const { addTodo } = this.props;
 
-    e.preventDefault();
+    event.preventDefault();
 
-    addTodo(this.state);
+    if (!title.trim()) {
+      this.setState({
+        errorMessage: 'Enter the title',
+        error: true,
+      });
+    }
+
+    if (!userId) {
+      this.setState({
+        errorMessage: 'Chose somebody',
+        error: true,
+      });
+    }
+
+    addTodo(title, userId);
 
     if (userId && title) {
       this.setState({
         title: '',
         userId: 0,
+        error: false,
+        errorMessage: '',
       });
     }
   }
 
   render() {
-    const { title, userId } = this.state;
-    const { users, error } = this.props;
+    const {
+      title,
+      userId,
+      errorMessage,
+      error,
+    } = this.state;
 
     return (
       <>
@@ -63,13 +87,14 @@ export class Form extends React.Component {
               onChange={this.handleChange}
             >
               <option>Choose your hero</option>
-              {users.map(user => (
+              {this.props.users.map(user => (
                 <option key={user.id} value={+user.id}>{user.name}</option>
               ))}
             </select>
           </div>
 
-          {error && <p className="text-danger">{error}</p>}
+          {/* eslint-disable-next-line */}
+          {error && <p className="text-danger">{errorMessage}</p>}
 
           <div>
             <button type="submit" className="btn btn-light">
@@ -84,10 +109,5 @@ export class Form extends React.Component {
 
 Form.propTypes = {
   users: PropType.arrayOf(PropType.shape(userType)).isRequired,
-  error: PropType.string,
   addTodo: PropType.func.isRequired,
-};
-
-Form.defaultProps = {
-  error: '',
 };
