@@ -31,8 +31,8 @@ class App extends React.PureComponent {
         user: selectedUser,
       };
 
-      this.setState(state => ({
-        todosList: [...state.todosList, newTodo],
+      this.setState(prevState => ({
+        todosList: [...prevState.todosList, newTodo],
       }));
     }
   };

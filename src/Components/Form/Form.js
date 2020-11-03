@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormShape } from '../../Shapes/FormShape';
 import './Form.css';
+import { Input } from '../Input';
+import { Select } from '../Select';
 
 export class Form extends React.PureComponent {
   state = {
@@ -18,18 +20,23 @@ export class Form extends React.PureComponent {
     this.props.addTodo(selectedUser, enteredTodo);
 
     this.setState({
-      errorOnSelect: selectedUser === 'Choose a user',
       errorOnInput: enteredTodo === '',
-      enteredTodo: '',
-      selectedUser: 'Choose a user',
+      errorOnSelect: selectedUser === 'Choose a user',
     });
+
+    if (selectedUser !== 'Choose a user' && enteredTodo !== '') {
+      this.setState({
+        selectedUser: 'Choose a user',
+        enteredTodo: '',
+      });
+    }
   }
 
   handleChangeOnInput = (event) => {
     const { name, value } = event.target;
 
     this.setState({
-      errorOnInput: !(value !== ''),
+      errorOnInput: value === '',
       [name]: value,
     });
   };
@@ -38,7 +45,7 @@ export class Form extends React.PureComponent {
     const { name, value } = event.target;
 
     this.setState({
-      errorOnSelect: !(value !== ''),
+      errorOnSelect: value === 'Choose a user',
       [name]: value,
     });
   };
@@ -58,40 +65,17 @@ export class Form extends React.PureComponent {
         className="form"
         onSubmit={this.handleSubmit}
       >
-        <label
-          className="form__label"
-          htmlFor="todo"
-        >
-          Task to do:
-        </label>
-        <input
-          className="form__input"
-          id="todo"
-          type="text"
-          name="enteredTodo"
-          value={enteredTodo}
-          onChange={this.handleChangeOnInput}
+        <Input
+          enteredTodo={enteredTodo}
+          errorOnInput={errorOnInput}
+          handleChangeOnInput={this.handleChangeOnInput}
         />
-        {errorOnInput
-          && <div className="form__error">Please enter the title</div>}
-        <select
-          className="form__select"
-          name="selectedUser"
-          value={selectedUser}
-          onChange={this.handleChangeOnSelect}
-        >
-          <option value="Choose a user">Choose a user</option>
-          {preparedUsers.map(user => (
-            <option
-              value={user}
-              key={user}
-            >
-              {user}
-            </option>
-          ))}
-        </select>
-        {errorOnSelect
-          && <div className="form__error">Please choose a user</div>}
+        <Select
+          selectedUser={selectedUser}
+          preparedUsers={preparedUsers}
+          errorOnSelect={errorOnSelect}
+          handleChangeOnSelect={this.handleChangeOnSelect}
+        />
         <button
           className="form__button"
           type="submit"
