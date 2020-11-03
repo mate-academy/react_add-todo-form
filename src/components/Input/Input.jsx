@@ -1,7 +1,7 @@
 import React from 'react';
-import { TitleShape } from '../Shapes/TitleShape';
+import { InputShape } from '../Shapes/InputShape';
 
-export const Title = ({ value, titleError, onChange }) => (
+export const Input = ({ value, titleError, onChange }) => (
   <div className="field">
     <label htmlFor="title">
       Task title:
@@ -24,4 +24,4 @@ export const Title = ({ value, titleError, onChange }) => (
   </div>
 );
 
-Title.propTypes = TitleShape;
+Input.propTypes = InputShape;

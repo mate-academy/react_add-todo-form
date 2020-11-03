@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormShape } from '../Shapes/FormShape';
-import { Title } from '../Title';
+import { Input } from '../Input';
 import { Select } from '../Select';
 
 export class Form extends React.PureComponent {
@@ -56,7 +56,7 @@ export class Form extends React.PureComponent {
         className="ui equal width form"
         onSubmit={this.onSubmit}
       >
-        <Title
+        <Input
           value={this.state.title}
           titleError={this.state.titleError}
           onChange={this.onChange}

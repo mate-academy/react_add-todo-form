@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import { SelectItemShape } from './SelectItemShape';
 
 export const SelectShape = {
   value: PropTypes.string.isRequired,
