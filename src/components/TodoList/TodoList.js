@@ -10,6 +10,7 @@ const TodoList = ({ todoList }) => (
 
 TodoList.propTypes = {
   todoList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string.isRequired,

@@ -5,32 +5,33 @@ import './Form.css';
 
 const Form = ({ users, onAdd }) => {
   const [title, setTitle] = useState('');
-  const [person, setPerson] = useState({});
+  const [userName, setUserName] = useState('');
   const [validTitle, setValidTitle] = useState(true);
   const [validPerson, setValidPerson] = useState(true);
 
   const addTask = (event) => {
     event.preventDefault();
 
-    if (title === '') {
+    if (!title.trim()) {
       setValidTitle(false);
     }
 
-    if (!person.name) {
+    if (!userName) {
       setValidPerson(false);
     }
 
-    if (title && person.name) {
+    if (title.trim() && userName) {
+      const user = users.find(person => person.name === userName);
       const todo = {
         title,
-        userId: person.id,
-        user: person,
+        userId: user.id,
+        user,
         completed: false,
       };
 
       onAdd(todo);
       setTitle('');
-      setPerson({});
+      setUserName('');
     }
   };
 
@@ -40,7 +41,7 @@ const Form = ({ users, onAdd }) => {
   };
 
   const changeUser = (event) => {
-    setPerson(JSON.parse(event.target.value));
+    setUserName(event.target.value);
     setValidPerson(true);
   };
 
@@ -63,21 +64,20 @@ const Form = ({ users, onAdd }) => {
           <span className="form__error">
             Please enter the title
           </span>
-        )
-        }
+        )}
       </div>
       <div className="form__input">
         <select
           name="name"
+          value={userName}
           onChange={changeUser}
-          value={JSON.stringify(person)}
           className="form__choose"
         >
-          <option value="{}">Choose person</option>
+          <option value="''">Choose person</option>
           {users.map(user => (
             <option
               key={user.id}
-              value={JSON.stringify(user)}
+              value={user.name}
             >
               {user.name}
             </option>
