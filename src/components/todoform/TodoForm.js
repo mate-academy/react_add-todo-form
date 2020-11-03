@@ -13,13 +13,11 @@ export class TodoForm extends React.PureComponent {
 
   handleChange = (event) => {
     const {
-      name, value, type,
+      name, value,
     } = event.target;
 
     this.setState({
-      [name]: type === 'text'
-        ? value.replace(/[^\w]+/, '')
-        : value,
+      [name]: value,
       [`${name}Error`]: false,
     });
   }
@@ -100,7 +98,7 @@ export class TodoForm extends React.PureComponent {
           onChange={this.handleChange}
           className="ui compact selection dropdown"
         >
-          <option>Choose a user</option>
+          <option value="">Choose a user</option>
           {users.map(user => (
             <option
               key={user.id}
