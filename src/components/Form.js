@@ -58,44 +58,34 @@ export class Form extends React.PureComponent {
     }
   }
 
-  handleInputChange = (event) => {
-    const targetName = event.target.name;
-    const targetValue = event.target.value;
+  changeHandler = (event, isTitle, isUser) => {
+    const { name, value } = event.target;
 
     this.setState(prevState => ({
       inputs: {
         ...prevState.inputs,
-        [targetName]: targetValue.replace(/[^\w ]/gi, ''),
+        [name]: isTitle
+          ? value.replace(/[^\w ]/gi, '')
+          : value,
+        user: isUser
+          ? (this.props.users.find(user => (
+            user.name === value
+          )))
+          : prevState.inputs.user,
       },
       errors: {
         ...prevState.errors,
-        titleError: false,
+        [isTitle ? 'titleError' : 'userError']: false,
       },
     }));
   }
 
-  handleSelectChange = (event) => {
-    const targetName = event.target.name;
-    const targetValue = event.target.value;
+  handleInputChange = (event) => {
+    this.changeHandler(event, true, false);
+  }
 
-    this.setState(prevState => ({
-      inputs: {
-        ...prevState.inputs,
-        [targetName]: targetValue,
-      },
-      errors: {
-        ...prevState.errors,
-        userError: false,
-      },
-    }));
-    this.setState(prevState => ({
-      inputs: {
-        ...prevState.inputs,
-        user: this.props.users.find(user => (
-          user.name === prevState.inputs.userName
-        )),
-      },
-    }));
+  handleSelectChange = (event) => {
+    this.changeHandler(event, false, true);
   }
 
   render() {
