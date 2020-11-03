@@ -6,14 +6,14 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
 
-const prepearedTodos = todosFromServer.map(todo => ({
+const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
 
 class App extends React.PureComponent {
   state = {
-    todos: prepearedTodos,
+    todos: preparedTodos,
   }
 
   addTodo = (title, user) => {
