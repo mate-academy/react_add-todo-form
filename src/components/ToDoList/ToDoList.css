@@ -1,0 +1,17 @@
+.container {
+  padding: 15px;
+  display: flex;
+  margin: 0;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 130px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #e25252;
+  border: 1px solid #dadada;
+  border-radius: 8px;
+}
