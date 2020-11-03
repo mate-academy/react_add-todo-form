@@ -10,13 +10,6 @@ export const SelectUser = ({ handleSelect, todoId, users }) => (
   >
     <option value="error">---- Choose a user ----</option>
     <User users={users} />
-    {
-      users.map(user => (
-        <option value={user.id} key={user.id}>
-          {user.name}
-        </option>
-      ))
-    }
   </select>
 );
 

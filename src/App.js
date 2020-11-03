@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import todosFromServer from './api/todos';
 import users from './api/users';
+import { InputForm } from './components/inputForm';
 import { SelectUser } from './components/SelectUser';
 
 class App extends Component {
@@ -78,13 +79,10 @@ class App extends Component {
           }
         </ul>
 
-        <div className="App__form">
-          <input
-            className="ui selection dropdown"
-            type="text"
-            placeholder="write here"
-            value={todoTitle}
-            onChange={this.handleTitleChange}
+        <form className="App__form">
+          <InputForm
+            inputValue={todoTitle}
+            addChange={this.handleTitleChange}
           />
           <span className="App__error">{errorTitle}</span>
 
@@ -93,9 +91,8 @@ class App extends Component {
             todoId={todoId}
             users={users}
           />
-
           <span className="App__error">{errorUser}</span>
-        </div>
+        </form>
 
         <button
           className="ui primary button"
