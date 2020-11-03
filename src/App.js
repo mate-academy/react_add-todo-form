@@ -22,7 +22,6 @@ class App extends React.Component {
       id: todoId + 1,
       title,
       completed: false,
-      defaultValue: 'choose',
     };
 
     this.setState(state => ({
