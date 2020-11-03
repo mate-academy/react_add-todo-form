@@ -10,6 +10,8 @@ const preparedTodos = todos.map(todo => ({
   users: users.find(user => user.id === todo.userId).name,
 }));
 
+const preparedUsers = users.map(user => user.name);
+
 class App extends React.Component {
   state = {
     usersData: preparedTodos,
@@ -17,23 +19,20 @@ class App extends React.Component {
 
   addNewTodo = (chosenUser, enteredTitle) => {
     const { usersData } = this.state;
+    const newTodo = {
+      userId: usersData.id,
+      id: this.state.usersData.length + 1,
+      title: enteredTitle,
+      completed: false,
+      users: chosenUser,
+    };
 
-    if (enteredTitle !== ''
-    && chosenUser !== 'Choose a user') {
-      const newTodo = {
-        id: usersData.length + 1,
-        title: enteredTitle,
-        completed: false,
-        users: chosenUser,
-      };
-
-      this.setState(prevState => ({
-        usersData: [
-          ...prevState.usersData,
-          newTodo,
-        ],
-      }));
-    }
+    this.setState(prevState => ({
+      usersData: [
+        ...prevState.usersData,
+        newTodo,
+      ],
+    }));
   }
 
   render() {
@@ -42,7 +41,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <TodoList todos={usersData} />
-        <Form users={users} addNewTodo={this.addNewTodo} />
+        <Form users={preparedUsers} addNewTodo={this.addNewTodo} />
       </div>
     );
   }

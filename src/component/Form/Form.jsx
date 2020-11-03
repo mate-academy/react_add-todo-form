@@ -32,14 +32,29 @@ export class Form extends React.Component {
     event.preventDefault();
 
     const { enteredTitle, chosenUser } = this.state;
+    const { addNewTodo } = this.props;
 
-    this.props.addNewTodo(chosenUser, enteredTitle);
+    if (!enteredTitle) {
+      this.setState({
+        titleError: true,
+      });
+
+      return;
+    }
+
+    if (!chosenUser) {
+      this.setState({
+        userError: true,
+      });
+
+      return;
+    }
+
+    addNewTodo(chosenUser, enteredTitle);
 
     this.setState({
-      userError: chosenUser === 'Please choose a user',
-      titleError: enteredTitle === '',
       enteredTitle: '',
-      chosenUser: 'Please choose a user',
+      chosenUser: '',
     });
   }
 
@@ -72,10 +87,11 @@ export class Form extends React.Component {
           value={chosenUser}
           onChange={this.handleChangeForUser}
         >
+          <option value=""> Select user</option>
 
           {
-            users.map(user => (
-              <option value={user.name} key={user.id}>{user.name}</option>
+            users.map(name => (
+              <option value={name} key={name}>{name}</option>
             ))
           }
 
