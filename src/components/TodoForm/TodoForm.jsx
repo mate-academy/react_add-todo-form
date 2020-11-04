@@ -8,55 +8,62 @@ export class TodoForm extends React.Component {
   state = {
     userName: '',
     todoTitle: '',
-    showEmptyNameMessage: false,
-    showEmptyTitleMessage: false,
+    isEmptyUser: false,
+    isEmptyTitle: false,
+    errors: {
+      emptyUser: 'Please choose a user',
+      emptyTitle: 'Please enter the title',
+    },
   }
 
-  setTodo = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const { userName, todoTitle } = this.state;
-    const selectedUser = users
-      .find(user => user.name === userName);
+    const trimmedTitle = todoTitle.trim();
 
-    if (userName !== '' && todoTitle.trim() !== '') {
-      this.props.addTodo(
+    if (userName !== '' && trimmedTitle !== '') {
+      const { addTodo, todoLength } = this.props;
+      const selectedUser = users
+        .find(user => user.name === userName);
+
+      addTodo(
         {
           userId: selectedUser.id,
-          id: this.props.todoLength + 1,
-          title: todoTitle.trim(),
+          id: todoLength + 1,
+          title: trimmedTitle,
           completed: false,
           user: selectedUser,
         },
       );
+
+      this.setState(() => ({
+        userName: '',
+        todoTitle: '',
+      }));
     }
 
+    this.setState(() => ({
+      isEmptyUser: userName === '',
+      isEmptyTitle: trimmedTitle === '',
+    }));
+  }
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState(() => {
-      if (userName !== '' && todoTitle.trim() !== '') {
+      if (name === 'userName') {
         return {
-          userName: '',
-          todoTitle: '',
+          [name]: value,
+          isEmptyUser: false,
         };
       }
 
       return {
-        showEmptyNameMessage: userName === '',
-        showEmptyTitleMessage: todoTitle.trim() === '',
+        [name]: value,
+        isEmptyTitle: false,
       };
-    });
-  }
-
-  setTitle = (event) => {
-    this.setState({
-      todoTitle: event.target.value,
-      showEmptyTitleMessage: false,
-    });
-  }
-
-  setUser = (event) => {
-    this.setState({
-      userName: event.target.value,
-      showEmptyNameMessage: false,
     });
   }
 
@@ -64,36 +71,39 @@ export class TodoForm extends React.Component {
     const {
       userName,
       todoTitle,
-      showEmptyNameMessage,
-      showEmptyTitleMessage,
+      isEmptyUser,
+      isEmptyTitle,
+      errors,
     } = this.state;
 
     return (
       <form
         className="form"
-        onSubmit={this.setTodo}
+        onSubmit={this.handleSubmit}
       >
         <div>
           <input
+            name="todoTitle"
             type="text"
             placeholder="Enter the title"
             className="form__input"
             autoComplete="off"
             value={todoTitle}
-            onChange={this.setTitle}
+            onChange={this.handleChange}
           />
 
           {
-            showEmptyTitleMessage
-            && <span className="form__message">Please enter the title</span>
+            isEmptyTitle
+            && <span className="form__message">{errors.emptyTitle}</span>
           }
         </div>
 
         <div>
           <select
+            name="userName"
             className="form__select"
             value={userName}
-            onChange={this.setUser}
+            onChange={this.handleChange}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
@@ -102,8 +112,8 @@ export class TodoForm extends React.Component {
           </select>
 
           {
-            showEmptyNameMessage
-            && <span className="form__message">Please choose a user</span>
+            isEmptyUser
+            && <span className="form__message">{errors.emptyUser}</span>
           }
         </div>
 
