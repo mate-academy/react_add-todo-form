@@ -1,3 +1,72 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Segoe UI", sans-serif;
+}
+
+body,
+ul,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
-  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+  padding-bottom: 30px;
+
+  background-image: url("https://i.pinimg.com/originals/b0/dc/17/b0dc175490ce3e2f947f733140c0dcce.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.App-title {
+  width: 70%;
+  margin: 0 auto 65px;
+  padding-top: 20px;
+
+  color: #fff;
+}
+
+.App-form {
+  position: relative;
+  display: flex;
+  width: 75%;
+  margin: 30px auto;
+
+  padding: 20px 20px 20px 60px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.selectWarnMessage {
+  position: absolute;
+  left: 65px;
+  bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+
+  color: red;
+  letter-spacing: 1px;
+}
+
+.inputWarnMessage {
+  position: absolute;
+  left: 305px;
+  bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+
+  color: red;
+  letter-spacing: 1px;
 }

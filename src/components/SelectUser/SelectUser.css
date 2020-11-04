@@ -1,0 +1,25 @@
+.SelectUser {
+  padding: 10px 15px;
+  margin-right: 20px;
+
+  border: none;
+  border-bottom: 1px solid green;
+  border-radius: 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  outline: none;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.SelectUser option {
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+}
+
+.Error {
+  border-color: red;
+}
