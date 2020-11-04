@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserPropTypes } from '../PropTypes/UserPropTypes';
 import './AddToDo.css';
+import InputDescription from './Input/InputDescription';
+import SelectName from './Input/SelectName';
 
 export class AddToDo extends React.PureComponent {
   state = {
@@ -66,45 +68,19 @@ export class AddToDo extends React.PureComponent {
         className="ui form inverted green segment"
       >
         <p className="title">Enter title:</p>
-        <label className="form__input">
-          <input
-            type="text"
-            placeholder="Only letters, number and spaces"
-            className="ui input"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
 
-          {titleError
-              && <p className="ui red pointing basic label">Enter the title</p>
-          }
-        </label>
+        <InputDescription
+          title={title}
+          handleChange={this.handleChange}
+          titleError={titleError}
+        />
 
-        <label className="form__input">
-          <select
-            name="userName"
-            value={userName}
-            onChange={this.handleChange}
-          >
-            <option
-              value=""
-            >
-              Choose name
-            </option>
-            {
-              users.map(user => (
-                <option value={user.name} key={user.id}>
-                  {user.name}
-                </option>
-              ))
-            }
-          </select>
-
-          {userNameError
-            && <p className="ui red pointing basic label">Please choose a user</p>
-          }
-        </label>
+        <SelectName
+          userName={userName}
+          handleChange={this.handleChange}
+          users={users}
+          userNameError={userNameError}
+        />
 
         <button
           type="submit"
