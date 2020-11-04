@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FormInput from '../forminput/FormInput';
+import FormSelect from '../formselect/FormSelect';
 
 import { UserShape } from '../shapes/UserShape';
 
@@ -62,69 +64,20 @@ export class TodoForm extends React.PureComponent {
         onSubmit={this.handleSubmit}
       >
 
-        <input
-          name="title"
-          id="title"
-          placeholder="Task"
-          type="text"
-          value={title}
-          onChange={this.handleChange}
-          className="ui input"
+        <FormInput
+          title={title}
+          handleChange={this.handleChange}
+          titleError={titleError}
         />
-
-        {
-          titleError
-            ? (
-              <span className="ui red pointing basic label">
-                Please enter the title
-              </span>
-            )
-            : (
-              <label
-                className="ui pointing label"
-                htmlFor="title"
-              >
-                Enter the title
-              </label>
-            )
-        }
 
         <div className="ui divider" />
 
-        <select
-          name="userName"
-          id="userName"
-          value={userName}
-          onChange={this.handleChange}
-          className="ui compact selection dropdown"
-        >
-          <option value="">Choose a user</option>
-          {users.map(user => (
-            <option
-              key={user.id}
-              value={user.name}
-            >
-              {user.name}
-            </option>
-          ))}
-        </select>
-
-        {
-          userNameError
-            ? (
-              <span className="ui red pointing basic label">
-                Please choose a user
-              </span>
-            )
-            : (
-              <label
-                className="ui pointing label"
-                htmlFor="userName"
-              >
-                Choose a user
-              </label>
-            )
-        }
+        <FormSelect
+          userName={userName}
+          handleChange={this.handleChange}
+          users={users}
+          userNameError={userNameError}
+        />
 
         <div className="ui divider" />
 
