@@ -26,12 +26,13 @@ export const SelectCreator = (
           {user.name}
         </option>
       ))}
-      {
-        userNameError
-          ? <span className="TodoForm__error">Please choose a user</span>
-          : ''
-      }
     </select>
+
+    {
+      userNameError
+        ? <span className="TodoForm__error">Please choose a user</span>
+        : ''
+    }
   </>
 );
 
