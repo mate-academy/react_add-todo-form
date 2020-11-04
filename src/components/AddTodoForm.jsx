@@ -5,7 +5,7 @@ export class AddTodoForm extends React.PureComponent {
   state = {
     title: '',
     userName: '',
-    taskTitleError: false,
+    titleError: false,
     userNameError: false,
   }
 
@@ -25,8 +25,8 @@ export class AddTodoForm extends React.PureComponent {
     const { title, userName } = this.state;
     const { addTodo, users } = this.props;
 
-    if (!title) {
-      this.setState({ taskTitleError: true });
+    if (!title.trim()) {
+      this.setState({ titleError: true });
     }
 
 
@@ -49,7 +49,7 @@ export class AddTodoForm extends React.PureComponent {
     const {
       title,
       userName,
-      taskTitleError,
+      titleError,
       userNameError,
     } = this.state;
 
@@ -76,11 +76,7 @@ export class AddTodoForm extends React.PureComponent {
               </option>
             ))}
           </select>
-          {
-            userNameError
-              ? <div className="ui red message">Please choose a user</div>
-              : ''
-          }
+          {userNameError && <div className="ui red message">Please choose a user</div>}
           </div>
           <div className="field">
             <label>Enter Title</label>
@@ -92,11 +88,7 @@ export class AddTodoForm extends React.PureComponent {
               value={title}
               onChange={this.handleChange}
             />
-              {
-                taskTitleError
-                  ? <div className="ui red message">Please enter the title</div>
-                  : ''
-              }
+              {titleError && <div className="ui red message">Please enter the title</div>}
           </div>
         </div>
         <button className="ui button primary" type="submit">Add Task</button>
