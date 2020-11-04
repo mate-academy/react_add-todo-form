@@ -1,0 +1,83 @@
+.form {
+  align-self: start;
+  width: 800px;
+  margin-bottom: 30px;
+}
+
+.form__input {
+  width: 600px;
+  height: 60px;
+  margin: 5px 0;
+  padding: 0 20px;
+
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 60px;
+  color: #fff;
+
+  background-color: rgb(158, 191, 253);
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  cursor: text;
+  transition: 0.3s;
+}
+
+.form__input::placeholder {
+  color: #fff;
+}
+
+.form__input:focus {
+  background-color: rgb(140, 172, 233);
+}
+
+.form__select {
+  width: 600px;
+  height: 60px;
+  margin: 5px 0;
+  padding: 0 20px;
+
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 60px;
+  color: #fff;
+
+  background-color: rgb(158, 191, 253);
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form__select:focus {
+  background-color: rgb(140, 172, 233);
+}
+
+.form__message {
+  margin-left: 30px;
+  color: coral;
+}
+
+.form__button {
+  width: 600px;
+  height: 60px;
+  margin: 5px 0;
+  padding: 0 20px;
+
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 60px;
+  color: #fff;
+
+  background-color: rgb(145, 118, 177);
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form__button:hover {
+  background-color: rgb(128, 101, 161);
+}

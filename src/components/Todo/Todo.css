@@ -1,0 +1,27 @@
+.todo__item {
+  display: grid;
+  grid-template-columns: 1fr 5fr 2fr 2fr;
+  width: 900px;
+  height: 60px;
+  margin: 5px 0;
+  padding: 0 20px;
+
+  font-weight: bold;
+  line-height: 60px;
+  color: #fff;
+
+  background-color: rgb(202, 158, 253);
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+.todo__item :nth-child(2) {
+  padding-left: 20px;
+
+  font-style: italic;
+  color: rgb(206, 240, 250);
+}
+
+.todo__item:hover {
+  background-color: rgb(173, 145, 206);
+}
