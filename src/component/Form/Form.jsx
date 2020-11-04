@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Form.css';
+import { Input } from '../Input/Input';
+import { Select } from '../Select/Select';
 
 export class Form extends React.Component {
   state = {
@@ -64,42 +66,17 @@ export class Form extends React.Component {
 
     return (
       <form className="ui form" name="addNewUser" onSubmit={this.handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input
-          id="title"
-          type="text"
-          name="enteredTitle"
+        <Input
           value={enteredTitle}
-          onChange={this.handleChangeForTitle}
+          error={titleError}
+          handleChange={this.handleChangeForTitle}
         />
-
-        {
-          titleError
-          && <div className="form__error">Please enter the title</div>
-        }
-
-        <label htmlFor="chooseUser">Choose a user</label>
-
-        <select
-          id="chooseUser"
-          name="chosenUser"
-          className="ui search dropdown"
+        <Select
           value={chosenUser}
-          onChange={this.handleChangeForUser}
-        >
-          <option value=""> Select user</option>
-
-          {
-            users.map(name => (
-              <option value={name} key={name}>{name}</option>
-            ))
-          }
-
-        </select>
-
-        {
-          userError && <div className="form__error">Please choose a user</div>
-        }
+          handleChange={this.handleChangeForUser}
+          users={users}
+          error={userError}
+        />
         <button className="ui primary button" type="submit">Add</button>
       </form>
     );
@@ -107,9 +84,6 @@ export class Form extends React.Component {
 }
 
 Form.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
-    user: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
+  users: PropTypes.arrayOf(PropTypes.string).isRequired,
   addNewTodo: PropTypes.func.isRequired,
 };
