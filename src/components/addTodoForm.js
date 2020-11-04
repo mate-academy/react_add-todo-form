@@ -4,13 +4,15 @@ import { SelectUser } from './selectUser';
 import { usersProps, todos } from './propsVars';
 import 'semantic-ui-css/semantic.min.css';
 
+const initialState = {
+  userName: '',
+  task: '',
+  isNoName: false,
+  isNoTask: false,
+};
+
 export class AddTodoForm extends React.Component {
-  state = {
-    userName: '',
-    task: '',
-    isNameEntered: false,
-    isTaskEntered: false,
-  }
+  state = { ...initialState }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,13 +33,13 @@ export class AddTodoForm extends React.Component {
       || !task) {
       if (!userName || userName === '--choose a User--') {
         this.setState({
-          isNameEntered: true,
+          isNoName: true,
         });
       }
 
       if (!task) {
         this.setState({
-          isTaskEntered: true,
+          isNoTask: true,
         });
       }
 
@@ -51,64 +53,57 @@ export class AddTodoForm extends React.Component {
       user: this.props.users.find(user => user.name === userName),
     };
 
-    this.props.changeState(todo);
+    this.props.addTodoCard(todo);
 
-    this.setState(prev => ({
-      userName: '',
-      task: '',
-      isNameEntered: false,
-      isTaskEntered: false,
-    }));
+    this.setState({ ...initialState });
   }
 
   render() {
     const {
       userName,
       task,
-      isNameEntered,
-      isTaskEntered,
+      isNoName,
+      isNoTask,
     } = this.state;
     const nameControl = (!userName || userName === '--choose a User--')
-      ? isNameEntered
+      ? isNoName
       : false;
     const taskControl = (!task)
-      ? isTaskEntered
+      ? isNoTask
       : false;
 
     return (
-      <>
-        <form className="ui form inverted segment">
-          {nameControl && ' Please choose a user ' }
-          <br />
-          <SelectUser
-            users={this.props.users}
-            userName={userName}
-            handleChange={this.handleChange}
-          />
-          {taskControl && ' Please enter the title '}
-          <textarea
-            className="field"
-            rows="3"
-            placeholder="add new task here"
-            name="task"
-            value={task}
-            onChange={this.handleChange}
-          />
-          <button
-            type="button"
-            className="ui inverted fluid white button"
-            onClick={this.addTodo}
-          >
-            add
-          </button>
-        </form>
-      </>
+      <form className="ui form inverted segment">
+        {nameControl && ' Please choose a user ' }
+        <br />
+        <SelectUser
+          users={this.props.users}
+          userName={userName}
+          handleChange={this.handleChange}
+        />
+        {taskControl && ' Please enter the title '}
+        <textarea
+          className="field"
+          rows="3"
+          placeholder="add new task here"
+          name="task"
+          value={task}
+          onChange={this.handleChange}
+        />
+        <button
+          type="button"
+          className="ui inverted fluid white button"
+          onClick={this.addTodo}
+        >
+          add
+        </button>
+      </form>
     );
   }
 }
 
 AddTodoForm.propTypes = {
   users: usersProps.isRequired,
-  changeState: PropTypes.func.isRequired,
+  addTodoCard: PropTypes.func.isRequired,
   todos: todos.isRequired,
 };

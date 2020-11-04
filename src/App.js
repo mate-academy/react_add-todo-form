@@ -7,25 +7,25 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-const preparedTodos = todos.map(todo => ({
+const prepareTodos = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    todosNew: [...preparedTodos],
+    preparedTodos: [...prepareTodos],
   }
 
-  changeState = (todo) => {
-    this.setState(prev => ({
-      todosNew: [...prev.todosNew, todo],
+  addTodoCard = (todo) => {
+    this.setState(prevState => ({
+      preparedTodos: [...prevState.preparedTodos, todo],
     }));
   }
 
   render() {
     const {
-      todosNew,
+      preparedTodos,
     } = this.state;
 
     return (
@@ -33,10 +33,10 @@ class App extends React.Component {
         <h1>Add todo form</h1>
         <AddTodoForm
           users={users}
-          todos={todosNew}
-          changeState={this.changeState}
+          todos={preparedTodos}
+          addTodoCard={this.addTodoCard}
         />
-        <TodoList todoList={todosNew} />
+        <TodoList todoList={preparedTodos} />
       </div>
     );
   }
