@@ -29,6 +29,7 @@ export const FormInput = (
 
 FormInput.propTypes = PropTypes.shape({
   handleChange: PropTypes.func.isRequired,
-  todoId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  titleError: PropTypes.bool.isRequired,
   users: PropTypes.arrayOf(UserShape).isRequired,
 }).isRequired;

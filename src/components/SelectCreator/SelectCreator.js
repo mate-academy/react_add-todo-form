@@ -37,6 +37,7 @@ export const SelectCreator = (
 
 SelectCreator.propTypes = PropTypes.shape({
   handleSelect: PropTypes.func.isRequired,
-  todoId: PropTypes.number.isRequired,
+  userName: PropTypes.string.isRequired,
+  userNameError: PropTypes.bool.isRequired,
   users: PropTypes.arrayOf(UserShape).isRequired,
 }).isRequired;
