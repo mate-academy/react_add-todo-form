@@ -12,12 +12,14 @@ export class TodoForm extends React.PureComponent {
     userNameError: false,
   }
 
+  valueFormatting = value => value.replace(/[^\w ]+/, '')
+
   handleChange = (event) => {
     const { name, value, type } = event.target;
 
     this.setState({
       [name]: type === 'text'
-        ? value.replace(/[^\w ]+/, '')
+        ? this.valueFormatting(value)
         : value,
       [`${name}Error`]: false,
     });
