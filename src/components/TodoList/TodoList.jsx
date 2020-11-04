@@ -1,19 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { TodoListShape } from '../../shapes/TodoListShape';
+import { Todo } from '../Todo';
 import './TodoList.scss';
 
 export const TodoList = ({ tasks }) => (
   <div className="todo-container">
     {tasks.map(item => (
-      <div key={item.id} className="todo-container__todo">
-        {item.user.name}
-        {':  '}
-        {item.title}
-      </div>
+      <Todo
+        key={item.id}
+        name={item.user.name}
+        title={item.title}
+      />
     ))}
   </div>
 );
 
-TodoList.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+TodoList.propTypes = TodoListShape;

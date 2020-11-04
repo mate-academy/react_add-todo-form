@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { TodoList } from '../TodoList';
+import { TodoFormInput } from '../TodoFormInput';
+import { Select } from '../Select';
 
 import './TodoForm.scss';
-
-let count = 2;
+import { TodoFormShape } from '../../shapes/TodoFormShape';
 
 export class TodoForm extends React.Component {
   state = {
@@ -12,7 +11,6 @@ export class TodoForm extends React.Component {
     name: '',
     errorText: '',
     errorSelect: '',
-    tasks: this.props.todos,
   };
 
   handleChange = (event) => {
@@ -44,73 +42,50 @@ export class TodoForm extends React.Component {
     return true;
   }
 
-  addTodo = (event) => {
+  onAdd = (event) => {
     event.preventDefault();
     const isValid = this.validate();
+    const { name, title } = this.state;
+    const { addTask } = this.props;
 
     if (isValid) {
-      count += 1;
-      this.setState(prevState => ({
+      addTask(title, name);
+      this.setState({
         title: '',
         name: '',
         errorText: '',
         errorSelect: '',
-        tasks: [
-          ...prevState.tasks,
-          {
-            title: prevState.title,
-            id: count,
-            completed: false,
-            user: {
-              name: prevState.name,
-            },
-          },
-        ],
-      }));
+      });
     }
   }
 
   render() {
     const { users } = this.props;
-    const { tasks } = this.state;
+    const {
+      title,
+      name,
+      errorText,
+      errorSelect,
+    } = this.state;
 
     return (
       <>
         <form
           className="form"
-          onSubmit={this.addTodo}
+          onSubmit={this.onAdd}
         >
-          <label htmlFor="name">
-            <input
-              type="text"
-              id="name"
-              name="title"
-              className="form__input"
-              placeholder="Enter todo"
-              value={this.state.title}
-              onChange={this.handleChange}
-            />
-          </label>
-          <p className="form__error">
-            {this.state.errorText}
-          </p>
+          <TodoFormInput
+            title={title}
+            handleChange={this.handleChange}
+            errorText={errorText}
+          />
 
-          <select
-            name="name"
-            className="form__select-user"
-            value={this.state.name}
-            onChange={this.handleChange}
-          >
-            <option value="">Select user</option>
-            {users.map(user => (
-              <option key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <p className="form__error">
-            {this.state.errorSelect}
-          </p>
+          <Select
+            users={users}
+            name={name}
+            handleChange={this.handleChange}
+            errorSelect={errorSelect}
+          />
 
           <button
             type="submit"
@@ -119,13 +94,9 @@ export class TodoForm extends React.Component {
             Add
           </button>
         </form>
-        <TodoList tasks={tasks} />
       </>
     );
   }
 }
 
-TodoForm.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+TodoForm.propTypes = TodoFormShape;
