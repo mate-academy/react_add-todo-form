@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoForm.scss';
-
+import { SelectCreator } from '../SelectCreator/SelectCreator';
+import { FormInput } from '../FormInput/FormInput';
 import { UserShape } from '../../shapes/UserShape';
 
 export class TodoForm extends React.PureComponent {
@@ -55,53 +56,19 @@ export class TodoForm extends React.PureComponent {
 
     return (
       <form className="TodoForm" onSubmit={this.handleSubmit}>
-        <label className="TodoForm__label" htmlFor="title">
-          Enter the title
-        </label>
 
-        <input
-          name="title"
-          id="title"
-          placeholder="Task"
-          type="text"
-          value={title}
-          onChange={this.handleChange}
-          className="TodoForm__field"
+        <FormInput
+          handleChange={this.handleChange}
+          titleError={titleError}
+          title={title}
         />
 
-        {
-          titleError
-            ? <span className="TodoForm__error">Please enter the title</span>
-            : ''
-        }
-
-        <label
-          className="TodoForm__label"
-          htmlFor="userName"
-        >
-          Choose a user
-        </label>
-
-        <select
-          name="userName"
-          id="userName"
-          value={userName}
-          onChange={this.handleChange}
-          className="TodoForm__field"
-        >
-          <option>Choose a user</option>
-          {users.map(user => (
-            <option key={user.id} value={user.name}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-
-        {
-          userNameError
-            ? <span className="TodoForm__error">Please choose a user</span>
-            : ''
-        }
+        <SelectCreator
+          handleChange={this.handleChange}
+          users={users}
+          userName={userName}
+          userNameError={userNameError}
+        />
 
         <button
           type="submit"
