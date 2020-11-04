@@ -1,11 +1,20 @@
 import React from 'react';
 import './Form.css';
 import PropTypes from 'prop-types';
+import { Select } from './Select';
+import { Input } from './Input';
+import { UsersShape } from '../shapes/UsersShape';
 
 export class Form extends React.Component {
   state = {
     user: '',
     title: '',
+  }
+
+  onChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value.trim(),
+    });
   }
 
   onSubmit = (event) => {
@@ -42,6 +51,7 @@ export class Form extends React.Component {
 
   render() {
     const { user, title, userMessage, titleMessage } = this.state;
+    const { users } = this.props;
 
     return (
       <form
@@ -49,41 +59,17 @@ export class Form extends React.Component {
         className="form"
         onSubmit={this.onSubmit}
       >
-        <label>
-          <select
-            className="input"
-            value={user}
-            name="user"
-            onChange={(event) => {
-              this.setState({
-                [event.target.name]: event.target.value.trim(),
-              });
-            }}
-          >
-            <option value="">Please, choose user</option>
-            {this.props.users.map(person => (
-              <option value={person.name} key={person.id}>
-                {person.name}
-              </option>
-            ))}
-          </select>
-          {userMessage ? <p className="message">{userMessage}</p> : ''}
-        </label>
-        <label>
-          Title
-          <input
-            className="input"
-            type="text"
-            name="title"
-            value={title}
-            onChange={(event) => {
-              this.setState({
-                [event.target.name]: event.target.value.trim(),
-              });
-            }}
-          />
-          {titleMessage ? <p className="message">{titleMessage}</p> : ''}
-        </label>
+        <Select
+          user={user}
+          onChange={this.onChange}
+          users={users}
+          userMessage={userMessage}
+        />
+        <Input
+          title={title}
+          titleMessage={titleMessage}
+          onChange={this.onChange}
+        />
         <button
           type="submit"
           className="button"
@@ -95,6 +81,6 @@ export class Form extends React.Component {
   }
 }
 Form.propTypes = {
-  users: PropTypes.arrayOf.isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape(UsersShape)).isRequired,
   addTodo: PropTypes.func.isRequired,
 };

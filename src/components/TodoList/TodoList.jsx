@@ -1,24 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import './TodoList.css';
+import { User } from './User';
+import { TodosShape } from '../shapes/TodosShape';
 
 export const TodoList = ({ todos }) => (
   <ul className="list">
     {todos.map(({ id, user, title }) => (
-      <li key={id}>
-        <span>
-          {user.name}
-          {` `}
-        </span>
-        <span>{title}</span>
-        <input
-          type="checkbox"
-        />
-      </li>
+      <User
+        id={id}
+        user={user}
+        title={title}
+      />
     ))}
   </ul>
 );
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf.isRequired,
+  todos: propTypes.arrayOf(propTypes.shape(TodosShape)).isRequired,
 };

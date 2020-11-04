@@ -18,13 +18,13 @@ class App extends React.Component {
   }
 
   addTodo = (user, title) => {
-    this.setState(state => ({
+    this.setState(prevState => ({
       todo: [
-        ...state.todo,
+        ...prevState.todo,
         {
           user,
           title,
-          id: state.todo.length,
+          id: prevState.todo.length,
         },
       ],
     }));
