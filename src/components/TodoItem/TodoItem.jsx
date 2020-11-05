@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
-import { todoShape } from './propTypes/todoShape';
+import { TodoPropTypes } from '../propTypes/TodoPropTypes';
 
 const TodoItem = ({ title, completed, user }) => (
   <Table.Row warning>
@@ -10,6 +10,6 @@ const TodoItem = ({ title, completed, user }) => (
   </Table.Row>
 );
 
-TodoItem.propTypes = todoShape.isRequired;
+TodoItem.propTypes = TodoPropTypes;
 
 export default TodoItem;

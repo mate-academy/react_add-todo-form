@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import TodoList from './components/TodoList';
-import NewTodo from './components/NewTodo';
+import TodoList from './components/TodoList/TodoList';
+import NewTodo from './components/NewTodo/NewTodo';
 import 'semantic-ui-css/semantic.min.css';
 import './App.scss';
 
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 
-const preparedTodo = todos.map(todo => ({
+const preparedTodo = todosFromServer.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
 
 const App = () => {
-  const [list, setTodos] = useState(preparedTodo);
+  const [todos, setTodos] = useState(preparedTodo);
   const addTodo = (todo) => {
     setTodos(state => (
       [...state, {
@@ -28,7 +28,7 @@ const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
       <NewTodo users={users} addTodo={addTodo} />
-      <TodoList {...{ list }} />
+      <TodoList {...{ todos }} />
     </div>
   );
 };

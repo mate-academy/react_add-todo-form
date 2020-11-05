@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import TodoItem from './TodoItem';
-import { todoShape } from './propTypes/todoShape';
+import TodoItem from '../TodoItem/TodoItem';
+import { TodoPropTypes } from '../propTypes/TodoPropTypes';
 
-const TodoList = ({ list }) => (
+const TodoList = ({ todos }) => (
   <Table inverted className="ui green inverted table" selectable>
     <Table.Header>
       <Table.Row>
@@ -14,13 +14,15 @@ const TodoList = ({ list }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {list.map(todo => <TodoItem key={todo.id} {...todo} />)}
+      {todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
     </Table.Body>
   </Table>
 );
 
 TodoList.propTypes = {
-  list: PropTypes.arrayOf(todoShape).isRequired,
+  todos: PropTypes.arrayOf(
+    PropTypes.shape(TodoPropTypes).isRequired,
+  ).isRequired,
 };
 
 export default TodoList;

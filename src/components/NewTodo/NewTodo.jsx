@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Container } from 'semantic-ui-react';
-import { userShape } from './propTypes/userShape'; // ?
+import { Form } from 'semantic-ui-react';
+import { UserPropTypes } from '../propTypes/UserPropTypes'; // ?
+import TodoInput from './TodoInput';
+import UserInput from './UserInput';
 
 class NewTodo extends Component {
   state = {
@@ -15,14 +17,16 @@ class NewTodo extends Component {
     const { value, name } = event.target;
 
     if (name === 'title') {
-      const title = value.replace(/[^\w\s]/, '').slice(0, 30);
+      const title = value.replace(/[^\w\s]/, '');
 
       this.setState({
-        title, isTitleUndefined: false,
+        title,
+        isTitleUndefined: false,
       });
     } else {
       this.setState({
-        [name]: +value, isUserUndefined: false,
+        [name]: +value,
+        isUserUndefined: false,
       });
     }
   }
@@ -61,36 +65,17 @@ class NewTodo extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Button className="form__button" type="submit">Add</Form.Button>
         <Form.Group widths="equal">
-          <Container className="form__inner">
-            {isTitleUndefined && (
-              <span className="form__error">Please enter the title</span>
-            )}
-            <Form.Field
-              control="input"
-              name="title"
-              placeholder="Add New Todo"
-              onChange={this.handleChange}
-              value={title}
-            />
-          </Container>
-          <Container className="form__inner">
-            {isUserUndefined && (
-              <span className="form__error">Please choose a user</span>
-            )}
-            <Form.Field
-              control="select"
-              name="userId"
-              onChange={this.handleChange}
-              value={userId}
-            >
-              <option value={0}>Choose a user</option>
-              {users.map(({ name, id }) => (
-                <option key={id} value={id}>
-                  {`${id}. ${name}`}
-                </option>
-              ))}
-            </Form.Field>
-          </Container>
+          <TodoInput
+            value={title}
+            isTitleUndefined={isTitleUndefined}
+            handleChange={this.handleChange}
+          />
+          <UserInput
+            userId={userId}
+            isUserUndefined={isUserUndefined}
+            handleChange={this.handleChange}
+            users={users}
+          />
         </Form.Group>
       </Form>
     );
@@ -98,7 +83,9 @@ class NewTodo extends Component {
 }
 
 NewTodo.propTypes = {
-  users: PropTypes.arrayOf(userShape).isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape(UserPropTypes).isRequired,
+  ).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
 
