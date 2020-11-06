@@ -1,3 +1,101 @@
-.App {
+h1,
+h3 {
   text-align: center;
+}
+
+.todoForm {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 200px;
+  grid-row-gap: 10px;
+  border: 3px dashed black;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+label {
+  font-size: 20px;
+  color: rgb(7, 111, 247);
+  font-weight: bold;
+}
+
+button {
+  width: 80px;
+  margin: auto;
+  background-color: rgb(7, 111, 247);
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  border: 2px solid black;
+}
+
+button:focus {
+  outline: none;
+}
+
+.error {
+  border: 1px dashed rgb(240, 25, 25);
+  border-radius: 1px;
+  width: 150px;
+  margin: auto;
+  background-color: yellow;
+  color: red;
+  text-align: center;
+  font-weight: bold;
+
+}
+
+.TodoList {
+  width: 710px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.todo {
+  display: inline-block;
+  width: 300px;
+  text-align: left;
+  padding: 5px;
+}
+
+span {
+  border: 1px solid rgb(7, 111, 247);
+  background-color: rgb(7, 111, 247);
+}
+
+.id {
+  width: 50px;
+  margin-left: -5px;
+}
+
+.userId {
+  width: 70px;
+}
+
+.checkbox {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.user {
+  width: 210px;
+}
+
+.title {
+  width: 260px;
+}
+
+li {
+  list-style: none;
+  margin-left: -40px;
+  margin-bottom: 10px;
+  color: white;
+
+}
+
+strong {
+  color: black;
 }
