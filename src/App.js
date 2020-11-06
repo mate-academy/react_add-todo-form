@@ -15,62 +15,26 @@ const todosPrepared = todos.map(
 export class App extends React.Component {
   state = {
     todos: todosPrepared,
-    title: '',
-    user: '',
-    titleError: true,
-    userError: true,
   };
 
-  addTodos = () => {
+  addTodos = (user, title) => {
     this.setState(state => ({
       todos: [
         ...state.todos,
         {
-          userId: users.find(item => item.name === state.user).id,
+          userId: users.find(item => item.name === user).id,
           id: state.todos.length + 1,
-          user: state.user,
-          title: state.title,
+          user,
+          title,
           components: false,
         },
       ],
-      title: '',
-      user: '',
     }));
-  }
-
-  handleChange = (e) => {
-    const { value, name } = e.target;
-
-    this.setState({
-      [name]: value.trim(),
-      [`${name}Error`]: true,
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { title, user } = this.state;
-
-    if (!title) {
-      this.setState({ titleError: false });
-    }
-
-    if (!user) {
-      this.setState({ userError: false });
-    }
-
-    if (!user || !title) {
-      return;
-    }
-
-    if (title || user) {
-      this.addTodos();
-    }
   }
 
   render() {
     // eslint-disable-next-line no-shadow
-    const { todos, title, user, titleError, userError } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
@@ -79,12 +43,7 @@ export class App extends React.Component {
         <h3>{`Todos: ${todos.length}`}</h3>
         <TodoForm
           users={users}
-          title={title}
-          user={user}
-          titleError={titleError}
-          userError={userError}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
+          addTodos={this.addTodos}
         />
         <TodoList todos={todos} />
       </div>
