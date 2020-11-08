@@ -30,11 +30,7 @@ export class TodoForm extends React.Component {
       this.setState({ userError: true });
     }
 
-    if (!user || !title) {
-      return;
-    }
-
-    if (title || user) {
+    if (title && user) {
       const { addTodos } = this.props;
 
       addTodos(user, title);
