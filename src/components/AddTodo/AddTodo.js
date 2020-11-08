@@ -29,9 +29,9 @@ export class AddTodo extends React.Component {
   }
 
   validate = () => {
-    this.setState(state => ({
-      titleError: !state.todo.title,
-      userIdError: !state.todo.userId,
+    this.setState(({ title, userId }) => ({
+      titleError: !title,
+      userIdError: !userId,
     }));
 
     if (!this.state.todo.title || !this.state.todo.userId) {
