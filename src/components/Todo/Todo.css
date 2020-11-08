@@ -1,0 +1,12 @@
+.todo {
+  text-align: center;
+  border: 1px solid rgb(202, 197, 197);
+  box-shadow: 5px 10px indianred;
+  margin: 15px;
+  padding: 5px;
+  height: fit-content;
+}
+
+p {
+  font-size: larger;
+}
