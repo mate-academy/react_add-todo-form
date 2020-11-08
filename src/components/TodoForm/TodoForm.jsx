@@ -21,24 +21,22 @@ export class TodoForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { title, user } = this.state;
+    const { addTodos } = this.props;
 
-    if (!title) {
-      this.setState({ titleError: true });
-    }
-
-    if (!user) {
-      this.setState({ userError: true });
-    }
-
-    if (title && user) {
-      const { addTodos } = this.props;
-
-      addTodos(user, title);
+    if (!title || !user) {
       this.setState({
-        title: '',
-        user: '',
+        titleError: !title,
+        userError: !user,
       });
+
+      return;
     }
+
+    addTodos(user, title);
+    this.setState({
+      title: '',
+      user: '',
+    });
   }
 
   render() {
