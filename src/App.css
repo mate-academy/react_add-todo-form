@@ -3,6 +3,12 @@ h3 {
   text-align: center;
 }
 
+p {
+  display: inline;
+  font-weight: bold;
+  color: black;
+}
+
 .todoForm {
   display: flex;
   flex-direction: column;

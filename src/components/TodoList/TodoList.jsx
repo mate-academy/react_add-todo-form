@@ -7,19 +7,19 @@ export const TodoList = ({ todos }) => (
       {todos.map(todo => (
         <li key={todo.id}>
           <span className="todo id">
-            <strong>id: </strong>
+            <p>id: </p>
             {todo.id}
           </span>
           <span className="todo userId">
-            <strong>user id: </strong>
+            <p>user id: </p>
             {todo.userId}
           </span>
           <span className="todo user">
-            <strong>user: </strong>
+            <p>user: </p>
             {todo.user}
           </span>
           <span className="todo title">
-            <strong>title: </strong>
+            <p>title: </p>
             {todo.title}
           </span>
           <input className="checkbox" type="checkbox" />

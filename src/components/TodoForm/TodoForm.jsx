@@ -13,7 +13,7 @@ export class TodoForm extends React.Component {
     const { value, name } = e.target;
 
     this.setState({
-      [name]: value.trim(),
+      [name]: value.trimStart(),
       [`${name}Error`]: false,
     });
   }
