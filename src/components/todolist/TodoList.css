@@ -1,0 +1,25 @@
+.todoList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoList__item {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-bottom: 10px;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: rgba(225, 230, 189, 0.7);
+  list-style: none;
+}
+
+.todoNumber {
+  font-size: 20;
+  font-weight: bold;
+  margin-right: 10px;
+  padding-right: 10px;
+  border-right: 5px double #000;
+}

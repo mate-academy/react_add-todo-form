@@ -1,0 +1,18 @@
+.todo__Title {
+  margin: auto;
+}
+
+.status {
+  width: 20%;
+}
+
+.status::before {
+  content: "Not completed";
+  margin-right: 15px;
+  color: rgb(190, 15, 15);
+}
+
+.status--completed::before {
+  content: "Comleted";
+  color: rgb(30, 255, 0);
+}
