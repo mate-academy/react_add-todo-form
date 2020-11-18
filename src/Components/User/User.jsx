@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import './StylesFromUser.scss';
 
 export const User = ({ username }) => (
-  <span className="user">
+  <>
     User name:
-    {' '}
-    {username}
-  </span>
+    <span className="user">{username}</span>
+  </>
+
 );
 
 User.propTypes = {

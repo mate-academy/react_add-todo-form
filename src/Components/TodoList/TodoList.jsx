@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Todo } from '../Todo/Todo';
 import './TodoList.scss';
 
-export const TodoList = ({ preparedTodos }) => (
+export const TodoList = ({ todoList }) => (
   <ul className="todoList">
-    {preparedTodos.map(todo => (
+    {todoList.map(todo => (
       <li key={todo.id} className="todoList__todo">
         <Todo {...todo} />
       </li>
@@ -14,11 +14,11 @@ export const TodoList = ({ preparedTodos }) => (
 );
 
 TodoList.propTypes = {
-  preparedTodos: PropTypes.arrayOf(PropTypes.shape({
+  todoList: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
   })),
 };
 
 TodoList.defaultProps = {
-  preparedTodos: [],
+  todoList: [],
 };
