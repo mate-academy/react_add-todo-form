@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Todo } from './Todo';
 
 export class TodoList extends React.PureComponent {
   render() {
@@ -8,24 +9,7 @@ export class TodoList extends React.PureComponent {
     return (
       <div className="todos_list">
         {todos.map(todo => (
-          <article
-            className="todo"
-            key={todo.id}
-          >
-            <h2
-              className="todo__title"
-            >
-              {todo.title}
-            </h2>
-            <p className="todo__subtitle">
-              <b>Completed:</b>
-              {todo.completed ? 'No' : 'Yes'}
-            </p>
-            <p className="todo__subtitle">
-              <b>User:</b>
-              {todo.user.name}
-            </p>
-          </article>
+          <Todo todo={todo} name={todo.user.name} key={todo.id} />
         ))}
       </div>
     );
@@ -35,8 +19,6 @@ export class TodoList extends React.PureComponent {
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
   })).isRequired,
 };
