@@ -12,23 +12,11 @@ export class NewTodoForm extends React.PureComponent {
   handleInput = (event) => {
     const { name, value } = event.target;
 
-    this.setState((prevstate) => {
-      if (!prevstate.user) {
-        this.setState({
-          errorUser: false,
-        });
-      }
-
-      if (!prevstate.title) {
-        this.setState({
-          errorTitle: false,
-        });
-      }
-
-      return {
-        [name]: value,
-      };
-    });
+    this.setState(prevstate => ({
+      [name]: value,
+      errorUser: prevstate.user && false,
+      errorTitle: prevstate.title && false,
+    }));
   }
 
   handleSubmit = (event) => {
