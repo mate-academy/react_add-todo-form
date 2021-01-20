@@ -12,11 +12,59 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state={
     todos: preparedTodos,
-    id: 3,
+    id: preparedTodos.length + 1,
     title: '',
     userId: 0,
     userEror: false,
     titleError: false,
+  }
+
+  addTask = () => {
+    if (this.state.userId > 0 && this.state.title.trim().length > 0) {
+      this.setState(state => (
+        {
+          todos: [...state.todos, {
+            userId: state.userId,
+            id: state.id,
+            title: state.title,
+            completed: false,
+            user: users.find(user => user.id === state.userId),
+          }],
+          id: state.todos.length + 2,
+        }
+      ));
+
+      this.setState({
+        userId: 0,
+        title: '',
+      });
+    } else {
+      if (this.state.userId <= 0) {
+        this.setState({
+          userEror: true,
+        });
+      }
+
+      if (this.state.title.trim().length === 0) {
+        this.setState({
+          titleError: true,
+        });
+      }
+    }
+  }
+
+  addTitle = (event) => {
+    this.setState({ title: event.target.value });
+    if (event.target.value.length > 0) {
+      this.setState({ titleError: false });
+    }
+  }
+
+  addUser = (event) => {
+    this.setState({ userId: +event.target.value });
+    if (+event.target.value > 0) {
+      this.setState({ userEror: false });
+    }
   }
 
   render() {
@@ -31,37 +79,7 @@ class App extends React.Component {
         </p>
         <form onSubmit={(event) => {
           event.preventDefault();
-          if (this.state.userId > 0 && this.state.title.length > 0) {
-            this.setState(state => (
-              {
-                todos: [...state.todos, {
-                  userId: state.userId,
-                  id: state.id,
-                  title: state.title,
-                  completed: false,
-                  user: users.find(user => user.id === state.userId),
-                }],
-                id: state.id + 1,
-              }
-            ));
-
-            this.setState({
-              userId: 0,
-              title: '',
-            });
-          } else {
-            if (this.state.userId <= 0) {
-              this.setState({
-                userEror: true,
-              });
-            }
-
-            if (this.state.title.length === 0) {
-              this.setState({
-                titleError: true,
-              });
-            }
-          }
+          this.addTask();
         }}
         >
           <input
@@ -69,24 +87,14 @@ class App extends React.Component {
             name="title"
             placeholder="title"
             value={this.state.title}
-            onChange={(event) => {
-              this.setState({ title: event.target.value });
-              if (event.target.value.length > 0) {
-                this.setState({ titleError: false });
-              }
-            }}
+            onChange={this.addTitle}
           />
           {this.state.titleError
           && <span className="titleError">Please enter the title</span>}
           <select
             name="user"
             value={this.state.userId}
-            onChange={(event) => {
-              this.setState({ userId: +event.target.value });
-              if (+event.target.value > 0) {
-                this.setState({ userEror: false });
-              }
-            }}
+            onChange={this.addUser}
           >
             <option value="">
               Secelct a User
