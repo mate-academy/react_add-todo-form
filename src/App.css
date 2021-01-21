@@ -1,3 +1,79 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
   text-align: center;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  margin-right: auto;
+  margin-left: auto;
+
+  width: 400px;
+
+  border: 2px solid #e973a0;
+  border-radius: 15px;
+}
+
+.input {
+  margin-bottom: 10px;
+  width: 350px;
+  height: 40px;
+  padding: 5px;
+
+  border: 1px solid #e973a0;
+  border-radius: 10px;
+  outline: none;
+}
+
+.users-list {
+
+  border: none;
+  outline: none;
+}
+
+.submit {
+  height: 40px;
+
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+
+  border: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  outline: none;
+
+  background: linear-gradient(90deg, #e25b72, #e973a0);
+}
+
+.selectError,
+.titleError {
+  position: absolute;
+  right: 0;
+
+  width: 200px;
+  height: 40px;
+
+  border-radius: 10px;
+
+  background-color: rgb(248, 0, 0);
+
+  line-height: 40px;
+  font-weight: bold;
+
+  color: white;
+}
+
+.selectError {
+  transform: translate(0%, 355%);
+}
+
+.titleError {
+  transform: translate(0%, 100%);
 }
