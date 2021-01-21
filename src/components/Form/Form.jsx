@@ -51,7 +51,7 @@ export class Form extends React.Component {
 
     const errors = {};
 
-    if (!task) {
+    if (!task.trim()) {
       errors.taskError = 'Please enter the title';
     }
 
@@ -75,9 +75,6 @@ export class Form extends React.Component {
 
     return (
       <form
-        // action="#"
-        // method="get"
-        className=""
         onSubmit={(event) => {
           event.preventDefault();
           this.handleSubmit();
