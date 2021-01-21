@@ -40,7 +40,7 @@ class App extends React.Component {
 
     const { user, taskId, newTodo } = this.state;
 
-    if (user && newTodo) {
+    if (user && newTodo.trim().length > 0) {
       const nextTodo = {
         userId: users.find(person => person.name === user).id,
         id: taskId + 1,
@@ -61,6 +61,7 @@ class App extends React.Component {
 
   render() {
     const { todoTasks, newTodo, addButtonPressed, user } = this.state;
+    const trimmedInputlength = newTodo.trim().length;
 
     return (
       <div className="App">
@@ -78,7 +79,7 @@ class App extends React.Component {
                 onChange={this.handleChange}
               />
               <br />
-              {addButtonPressed && !newTodo
+              {addButtonPressed && trimmedInputlength === 0
                 && (<span className="text-err">enter some text</span>)}
             </div>
 
