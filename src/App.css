@@ -1,3 +1,12 @@
-.App {
+/* .App {
   text-align: center;
+} */
+
+.hidden {
+  visibility: hidden;
+}
+
+.error-msg {
+  background-color: salmon;
+  width: 200px;
 }
