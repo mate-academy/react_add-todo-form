@@ -1,3 +1,84 @@
+body {
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.textarea {
+  padding: 5px;
+  border-radius: 10px;
+  resize: none;
+  outline: turquoise;
+  transform: translate(0, 2px);
+  color: chocolate;
+  font-family: sans-serif;
+}
+
+::placeholder {
+  color: chocolate;
+  font-family: sans-serif;
+}
+
+.form-wrapper {
+  margin: 0 auto;
+  max-width: 500px;
+  padding-bottom: 40px;
+}
+
+.form-body {
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.user-err {
+  position: absolute;
+  top: 50px;
+  right: 130px;
+  color: red;
+  text-transform: uppercase;
+}
+
+.text-err {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  color: red;
+  text-transform: uppercase;
+  font-family: sans-serif;
+
+}
+
+.form-select {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+  line-height: 1.3;
+  padding: 0.6em 1.4em 0.5em 0.8em;
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid #aaa;
+  box-shadow: 0 1px 0 1px rgba(0,0,0,0.04);
+  border-radius: 0.5em;
+}
+
+.button {
+  font-weight: 700;
+  border-radius: 7px;
+  border: transparent;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.3;
+  padding: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.button:hover {
+  background-color: turquoise;
 }

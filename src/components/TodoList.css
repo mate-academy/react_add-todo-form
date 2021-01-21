@@ -1,0 +1,25 @@
+.list {
+  max-width: 500px;
+  list-style: none;
+  flex-shrink: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.todo {
+  display: flex;
+  justify-content: space-between;
+  border: 5px solid darkcyan;
+  margin-bottom: 5px;
+  border-radius: 14px;
+}
+
+.todo-data {
+  padding: 15px;
+  background-color: lightcyan;
+  border-radius: 14px;
+}
+
+.todo-title {
+  padding: 15px;
+}
