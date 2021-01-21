@@ -51,7 +51,7 @@ class App extends React.Component {
           className="Form"
           onSubmit={((event) => {
             event.preventDefault();
-            if (title === '') {
+            if (title.trimLeft() === '') {
               this.setState(state => ({
                 isTitleErrorVisible: true,
               }));
@@ -95,7 +95,7 @@ class App extends React.Component {
               ${!this.state.isTitleErrorVisible && 'hidden'}`
             }
           >
-            Please enter the title
+            Please enter a task
           </p>
           <label className="Form__select Form__select--contractor">
             User:
