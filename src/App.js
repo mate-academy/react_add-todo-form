@@ -6,7 +6,7 @@ import { TodoList } from './components/TodoList/TodoList';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId),
+  user: users.find(user => user.id === todo.userId).name,
 }));
 
 class App extends React.Component {
@@ -28,9 +28,9 @@ class App extends React.Component {
             id: state.id,
             title: state.title,
             completed: false,
-            user: users.find(user => user.id === state.userId),
+            user: users.find(user => user.id === state.userId).name,
           }],
-          id: state.todos.length + 2,
+          id: state.id + 1,
         }
       ));
 
