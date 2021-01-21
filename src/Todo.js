@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Todo({ user, title, completed }) {
+  const text = completed ? 'yes' : 'no';
+
   return (
     <>
       <td>{user.name}</td>
       <td>{title}</td>
       <td>
-        { completed
-          ? <span style={{ color: 'green' }}>yes</span>
-          : <span style={{ color: 'red' }}>no</span> }
+        <span className={`${completed
+          ? 'completed'
+          : 'not-completed'}`}
+        >
+          {text}
+        </span>
       </td>
     </>
   );

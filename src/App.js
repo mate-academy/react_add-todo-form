@@ -13,6 +13,7 @@ class App extends React.Component {
   state = {
     enteredValue: '',
     selectedUser: '',
+    selectedUserValue: '',
     allTodos: preparedTodos,
     showErrorTitle: false,
     showErrorUser: false,
@@ -26,15 +27,18 @@ class App extends React.Component {
 
   handleChange = (event) => {
     const { value } = event.target;
-    const needUser = users.filter(item => item.id === +value);
+    const needUser = users.find(item => item.id === +value);
 
     this.setState({
-      selectedUser: needUser[0],
+      selectedUser: needUser,
+      selectedUserValue: needUser?.id,
+      showErrorUser: false,
     });
   }
 
   addTodo = () => {
-    if (this.state.enteredValue !== '' && this.state.selectedUser !== '') {
+    if (this.state.enteredValue.trim() !== ''
+      && this.state.selectedUser !== '') {
       this.setState(state => ({
         allTodos: [...state.allTodos, {
           title: state.enteredValue,
@@ -45,8 +49,8 @@ class App extends React.Component {
         }],
         enteredValue: '',
         selectedUser: '',
-        showErrorUser: false,
         showErrorTitle: false,
+        selectedUserValue: '',
       }));
     } else if (this.state.selectedUser === '') {
       this.setState(state => ({
@@ -54,7 +58,7 @@ class App extends React.Component {
       }));
     }
 
-    if (this.state.enteredValue === '') {
+    if (this.state.enteredValue.trim() === '') {
       this.setState(state => ({
         showErrorTitle: true,
       }));
@@ -63,7 +67,6 @@ class App extends React.Component {
 
   render() {
     const { showErrorUser,
-      selectedUser,
       enteredValue,
       showErrorTitle,
       allTodos } = this.state;
@@ -78,7 +81,7 @@ class App extends React.Component {
             event.preventDefault();
           }}
         >
-          {showErrorUser && selectedUser === ''
+          {showErrorUser
             ? <div className="error error-user">Please choose a user</div>
             : ''}
           <label>
@@ -92,7 +95,7 @@ class App extends React.Component {
             />
           </label>
 
-          {showErrorTitle && enteredValue === ''
+          {showErrorTitle && enteredValue.trim() === ''
             ? <div className="error error-title">Please enter the title</div>
             : ''}
           <div className="select">
@@ -100,6 +103,7 @@ class App extends React.Component {
               <select
                 id="user"
                 name="user"
+                value={this.state.selectedUserValue}
                 onChange={this.handleChange}
               >
                 <option
