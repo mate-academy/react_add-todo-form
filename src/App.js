@@ -24,23 +24,22 @@ class App extends React.Component {
     this.setState({ error: true });
   }
 
+  handleError = () => {
+    if (!this.state.todoName) {
+      this.setState({ errMes: 'Input the task! ' });
+    }
+
+    if (!this.state.userId) {
+      this.setState({
+        errMes: 'Select the user!',
+      });
+    }
+  }
+
   addTodo = (event) => {
     event.preventDefault();
     if (!this.state.todoName || !this.state.userId) {
-      if (!this.state.todoName) {
-        this.setState({ errMes: 'Input the task, please! ' });
-      }
-
-      if (!this.state.userId) {
-        this.setState({
-          errMes: 'Select the user!',
-        });
-      }
-
-      if (!this.state.todoName && !this.state.userId) {
-        // eslint-disable-next-line max-len
-        this.setState({ errMes: 'Input the task and select the user! ' });
-      }
+      this.handleError();
 
       this.showError();
       setTimeout(() => (
