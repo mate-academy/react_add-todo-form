@@ -1,3 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+}
+
+.App__header {
+  font-family: monospace;
+  font-size: 30px;
+  font-weight: bold;
+  color: green;
+
+}
+
+.List {
+  padding: 0;
+  list-style: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Item {
+  width: 700px;
+  margin: 10px auto;
+  padding: 20px;
+  text-align: left;
+  border: 1.5px solid green;
+  border-radius: 5px;
+}
+
+.Form {
+  width: 700px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 80px 80px;
+  grid-template-columns: 250px 250px 50px;
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
+  border: 1.5px solid green;
+  border-radius: 5px;
+}
+
+.Form__input--title {
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+
+.Form__select--contractor {
+  grid-row: 1/2;
+  grid-column: 2/3;
+}
+
+.Form__Error-message {
+  align-self: start;
+  margin: 0;
+}
+
+.Form__Error-message--title {
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.Form__Error-message--contractor {
+  grid-row: 2/3;
+  grid-column: 2/3;
+}
+
+.Form__submit-button {
+  grid-row: 1/2;
+  grid-column: 3/4;
+  cursor: pointer;
+  border: none;
+  background-color: green;
+  height: 50px;
+  width: 100px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.hidden {
+  visibility: hidden;
 }
