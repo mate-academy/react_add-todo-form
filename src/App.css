@@ -1,3 +1,43 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+
+  font-family: sans-serif;
+  color: #000;
+}
+
+.form__field {
+  display: flex;
+  position: relative;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.input__alert,
+.select__alert {
+  position: absolute;
+  color: red;
+  background: rgba(255,165,0, 0.4);
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 150px;
+  top: -35px;
+  left: 90px;
+}
+
+.select__alert {
+  left: 270px;
+}
+
+.input__alert::after,
+.select__alert::after {
+  position: absolute;
+  content: "";
+  bottom: -12px;
+  border: 6px solid transparent;
+  border-top: 6px solid rgba(255,165,0, 0.4);
 }

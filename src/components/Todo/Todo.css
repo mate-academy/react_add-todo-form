@@ -1,0 +1,18 @@
+.list__item {
+  display: grid;
+  grid-template-columns: 200px 550px 100px;
+
+  padding: 1.2rem;
+  background-color: rgb(245,245,245);
+
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.list__item:nth-child(even) {
+  background-color: rgb(235,235,235);
+}
+
+.list__item:hover {
+  background-color: rgb(195, 195, 195);
+}
