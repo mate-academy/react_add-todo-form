@@ -1,0 +1,11 @@
+.TodoList__table {
+  border-collapse: collapse;
+}
+
+.TodoList__row:nth-of-type(odd) {
+  background-color: rgb(253, 237, 165);
+}
+
+.TodoList__cell {
+  padding: 10px 20px;
+}
