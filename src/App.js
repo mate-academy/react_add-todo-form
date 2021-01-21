@@ -8,7 +8,7 @@ import todosFromApi from './api/todos';
 
 const preparedTodos = todosFromApi.map(todo => ({
   ...todo,
-  user: usersFromApi.find(user => user.userId === todo.id),
+  user: usersFromApi.find(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
@@ -56,7 +56,7 @@ class App extends React.Component {
         <h1>Add todo form</h1>
 
         <p>
-          <span>Users: </span>
+          <span>Todos: </span>
           {todos.length}
         </p>
 
@@ -82,6 +82,7 @@ class App extends React.Component {
                 id: todos.length + 1,
                 title: prevState.title,
                 completed: false,
+                user: usersFromApi[prevState.selectedUserId - 1],
               };
 
               return ({

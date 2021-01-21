@@ -1,23 +1,20 @@
 import React from 'react';
 import { TypeTodo } from '../../types';
 
-export const Todo = ({ id, userId, title, completed }) => (
+export const Todo = ({ user, id, title, completed }) => (
   <li>
     <div className="todo">
       <p>
-        USER ID =
-        {userId}
+        {`Name: ${user.name}`}
       </p>
       <p>
-        Title:
-        {title}
+        {`Title: ${title}`}
       </p>
       <p>
-        TODO ID =
-        {id}
+        {`todo id: ${id}`}
       </p>
       <p>
-        completed status:
+        status:
         {`${completed}`}
       </p>
     </div>

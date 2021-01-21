@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 
 export const TypeTodo = PropTypes.shape({
-  userId: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
