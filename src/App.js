@@ -29,8 +29,8 @@ export class App extends React.Component {
   handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === 'taskTitle' && value !== '') {
-      if (value.length > titleCharLimit || !value.match(/^\w+$/)) {
+    if (name === 'taskTitle') {
+      if (value.length > titleCharLimit || !value.match(/^[\w\s]*$/)) {
         return;
       }
     }
