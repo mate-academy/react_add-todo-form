@@ -1,5 +1,5 @@
 # React add TODO form
-[DEMO LINK](https://KirillLutsenko.github.io/react_add-todo-form/)
+
 
 ## Task
 Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
