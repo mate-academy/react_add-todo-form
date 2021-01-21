@@ -2,6 +2,8 @@ import React from 'react';
 import { TodoFormType } from '../../types';
 import './TodoForm.css';
 
+const taskLengthLimit = 32;
+
 export class TodoForm extends React.Component {
   state = {
     title: '',
@@ -14,6 +16,10 @@ export class TodoForm extends React.Component {
 
   handleChange = (event) => {
     const { name, value, type } = event.target;
+
+    if (value.length > taskLengthLimit) {
+      return;
+    }
 
     this.setState({
       [name]: type === 'text'
