@@ -71,7 +71,7 @@ class App extends React.Component {
 
           if (!title) {
             this.setState({
-              errorTitle: 'Please choose a user',
+              errorTitle: 'Please enter the title',
             });
           }
 
