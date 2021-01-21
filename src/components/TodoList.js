@@ -1,6 +1,7 @@
 import React from 'react';
 import { TypeTodoList } from '../types';
 import Todo from './Todo';
+import '../App.scss';
 
 const TodoList = ({ todos }) => (
   <ul className="todo__list">

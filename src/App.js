@@ -13,54 +13,145 @@ const preparedTodos = todos
 
 class App extends React.Component {
   state = {
-    visibleTodos: preparedTodos,
+    todoList: preparedTodos,
+    todoName: '',
+    userId: 0,
+    error: false,
+    errMes: '',
   }
 
-  addTodo = () => {
-    const newTodo = {
-      title: 'title',
-      id: 'random',
-      userId: this.user.id,
-      user: {
-        id: 'from preparedTodos',
-      },
-    };
+  showError = () => {
+    this.setState({ error: true });
+  }
 
-    this.setState(state => ({
-      visibleTodos: [
-        newTodo,
-        ...state.visibleTodos,
-      ],
+  addTodo = (event) => {
+    event.preventDefault();
+    if (!this.state.todoName || !this.state.userId) {
+      if (!this.state.todoName) {
+        this.setState({ errMes: 'Input the task, please! ' });
+      }
+
+      if (!this.state.userId) {
+        this.setState({
+          errMes: 'Select the user!',
+        });
+      }
+
+      if (!this.state.todoName && !this.state.userId) {
+        // eslint-disable-next-line max-len
+        this.setState({ errMes: 'Input the task and select the user! ' });
+      }
+
+      this.showError();
+      setTimeout(() => (
+        this.setState({ error: false })
+      ), 2000);
+
+      return;
     }
-    ));
+
+    this.setState((state) => {
+      const newTodo = {
+        title: state.todoName,
+        id: Math.trunc(Math.random() * 1000),
+        userId: state.userId,
+        user: users.find(user => user.id === state.userId),
+      };
+
+      return ({
+        todoList: [...state.todoList, newTodo],
+        todoName: '',
+        userId: 0,
+        error: false,
+        errMes: '',
+      });
+    });
   }
 
   render() {
     return (
       <div className="App">
-        <h1>ToDo</h1>
-        <p>
-          <span>Tasks: </span>
-          {todos.length}
-        </p>
-
-        <p>
-          <span>Users: </span>
-          {users.length}
-        </p>
-        <div className="add_todo">
-          <h3>Add new task</h3>
-          <form action="post">
-            <input type="text" />
-            <select name="user" id="">
-              <option value="value1">User 1</option>
-              <option value="value2" selected>User 2</option>
-              <option value="value3">User 3</option>
-            </select>
-            <button type="button" onClick={this.addTodo}>Add</button>
-          </form>
+        <div className="todo__top">
+          <h1 className="1">ToDo</h1>
         </div>
-        <TodoList todos={this.state.visibleTodos} />
+        <main className="todo__content">
+          <div className="todo__sidebar">
+            <div className="todo__info">
+              <span>
+                Tasks:&nbsp;
+                {this.state.todoList.length}
+              </span>
+              <br />
+              <span>
+                Users:&nbsp;
+                {users.length}
+              </span>
+            </div>
+            <div className="add_todo">
+              <h3>Add new task</h3>
+              <form
+                action="#"
+                method="POST"
+                onSubmit={this.addTodo}
+              >
+                <div className="form-field">
+                  <label htmlFor="select-user">User&nbsp;</label>
+                  <br />
+                  <select
+                    name="user"
+                    id="select-user"
+                    className="select-field"
+                    value={this.state.userId}
+                    onChange={(event) => {
+                      this.setState({ userId: +event.target.value });
+                    }}
+                  >
+                    <option value="0">
+                      Select User
+                    </option>
+                    {
+                      users.map(user => (
+                        <option
+                          value={user.id}
+                          key={user.id}
+                        >
+                          {user.name}
+                        </option>
+                      ))
+                    }
+                  </select>
+                </div>
+                <div className="form-field">
+                  <label htmlFor="new-todo-name">New task&nbsp;</label>
+                  <br />
+                  <input
+                    id="new-todo-name"
+                    type="text"
+                    name="todoName"
+                    className="input-text"
+                    placeholder="Enter the task"
+                    value={this.state.todoName}
+                    onChange={(event) => {
+                      this.setState({ todoName: event.target.value });
+                    }}
+                  />
+                  <br />
+                </div>
+                <button
+                  type="button"
+                  onClick={this.addTodo}
+                  className="btn"
+                >
+                  Add
+                </button>
+              </form>
+              <p className="notification">
+                {this.state.error && <p className="err">{this.state.errMes}</p>}
+              </p>
+            </div>
+          </div>
+          <TodoList todos={this.state.todoList} />
+        </main>
       </div>
     );
   }
