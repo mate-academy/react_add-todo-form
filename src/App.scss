@@ -1,0 +1,15 @@
+.App {
+  background-color: rgba(142, 208, 247, 0.25);
+  border: 1px solid transparent;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+
+  &__sum {
+    text-align: center;
+  }
+}
+
+h1 {
+  text-align: center;
+}
