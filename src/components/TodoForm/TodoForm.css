@@ -1,0 +1,70 @@
+.inform {
+  display: flex;
+  justify-content: center;
+}
+
+#users {
+  height: 40px;
+}
+
+.inputTodo {
+  height: 40px;
+}
+
+.todoAlert {
+  margin-top: 10px;
+  width: 182px;
+  padding: 12px;
+}
+
+.selectAlert {
+  margin-top: 10px;
+  width: 195px;
+}
+
+[data-tip] {
+  position: relative;
+
+}
+
+[data-tip]:before {
+  content: "";
+  display: none;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ffa500;
+  position: absolute;
+  top: 40px;
+  left: 35px;
+  z-index: 8;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+[data-tip]:after {
+  display: none;
+  content: attr(data-tip);
+  position: absolute;
+  top: 45px;
+  left: 0;
+  padding: 5px 8px;
+  background: #ffa500;
+  width: 182px;
+  color: #fff;
+  z-index: 9;
+  font-size: 1em;
+  height: 36px;
+  line-height: 18px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+  display: block;
+}
