@@ -52,7 +52,7 @@ class App extends React.Component {
 
     this.setState((state) => {
       const newTask = {
-        id: Math.random(),
+        id: state.todos.length + 1,
         title: taskTitle,
         completed: false,
         user: getUserById(userId),
