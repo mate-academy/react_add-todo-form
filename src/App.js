@@ -2,10 +2,10 @@ import React from 'react';
 import { TodoList } from './components/TodoList';
 import './App.css';
 import todosFromApi from './api/todos';
-import usersFromApi from './api/users';
+import users from './api/users';
 
 function getUserById(UserId) {
-  return usersFromApi.find(user => user.id === UserId);
+  return users.find(user => user.id === UserId);
 }
 
 const preparedTodos = todosFromApi.map(todo => ({
@@ -16,7 +16,6 @@ const preparedTodos = todosFromApi.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    users: usersFromApi,
     taskTitle: '',
     userId: 0,
     errorUser: false,
@@ -40,16 +39,20 @@ class App extends React.Component {
     });
 
     if (userId === 0) {
-      return this.setState({ errorUser: true });
+      this.setState({ errorUser: true });
+
+      return;
     }
 
     if (taskTitle.trim().length < 1) {
-      return this.setState({ errorTitle: true });
+      this.setState({ errorTitle: true });
+
+      return;
     }
 
-    return this.setState((state) => {
+    this.setState((state) => {
       const newTask = {
-        id: Math.random(),
+        id: state.todos[state.todos.length - 1].id + 1,
         title: taskTitle,
         completed: false,
         user: getUserById(userId),
@@ -66,7 +69,6 @@ class App extends React.Component {
 
   render() {
     const { todos,
-      users,
       taskTitle,
       userId,
       errorUser,
@@ -105,7 +107,9 @@ class App extends React.Component {
               <option value="0">Choose a user</option>
 
               {users.map(user => (
-                <option value={user.id} key={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
               ))}
             </select>
             <div className="input-group-append">
