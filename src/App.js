@@ -62,7 +62,6 @@ class App extends React.Component {
         todoName: '',
         userId: 0,
         error: false,
-        errMes: '',
       });
     });
   }
