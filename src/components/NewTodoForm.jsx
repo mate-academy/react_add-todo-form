@@ -48,7 +48,7 @@ export class NewTodoForm extends React.PureComponent {
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <input
           type="text"
           name="title"
@@ -76,15 +76,14 @@ export class NewTodoForm extends React.PureComponent {
           ))}
         </select>
         {this.state.errorUser && (
-          <p>Please choose user!</p>
+          <p className="error">Please choose user!</p>
         )}
         {this.state.errorTitle && (
-          <p>Please enter the title!</p>
+          <p className="error">Please enter the title!</p>
         )}
         <button
-          type="button"
+          type="submit"
           className="button"
-          onClick={this.handleSubmit}
         >
           Add new Todo!
         </button>
