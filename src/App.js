@@ -44,7 +44,7 @@ export class App extends React.Component {
   validateInputs = () => {
     const { selectedUser, taskTitle } = this.state;
     const userFail = !selectedUser;
-    const titleFail = !taskTitle;
+    const titleFail = !taskTitle.trim();
 
     if (userFail) {
       this.setState({
