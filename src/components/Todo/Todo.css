@@ -1,0 +1,14 @@
+.todo {
+  width: 100%;
+  text-align: left;
+}
+
+.completed {
+  color: #116100;
+  font-weight: 700;
+}
+
+.uncompleted {
+  color: #b9110c;
+  font-weight: 700;
+}
