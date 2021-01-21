@@ -21,6 +21,24 @@ export class TodoForm extends React.Component {
       return;
     }
 
+    if (value.length > 0) {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          titleError: false,
+        },
+      }));
+    }
+
+    if (value !== 'Choose a user') {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          userNameError: false,
+        },
+      }));
+    }
+
     this.setState({
       [name]: type === 'text'
         ? value.replace(/[^\w] +/, '')
