@@ -41,11 +41,11 @@ class App extends React.Component {
       this.setState({ userErr: true });
     }
 
-    if (this.state.task.length === 0) {
+    if (this.state.task.trim().length === 0) {
       this.setState({ taskErr: true });
     }
 
-    if (this.state.user.length && this.state.task.length > 0) {
+    if (this.state.user.length && this.state.task.trim().length > 0) {
       this.setState((state) => {
         const newTask = {
           id: state.id,
