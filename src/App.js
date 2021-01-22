@@ -19,6 +19,7 @@ class App extends React.Component {
     inValidLength: false,
     isTooLong: false,
     containsSymbols: false,
+    containsWords: true,
   }
 
   changeInSelect(e) {
@@ -28,9 +29,10 @@ class App extends React.Component {
     });
   }
 
-  formSubmit(e, user, todo, containsSymbols, isTooLong) {
+  formSubmit(e, user, todo, containsSymbols, isTooLong, containsWords) {
     e.preventDefault();
-    if (user.length > 0 && todo.length > 0 && !containsSymbols && !isTooLong) {
+    if (user.length > 0 && todo.length > 0
+      && !containsSymbols && !isTooLong && !containsWords) {
       this.setState({
         user: '',
         todo: '',
@@ -59,14 +61,26 @@ class App extends React.Component {
       });
     }
 
+    if (e.target.value.replace(/ /g, '').replace(/[0-9]/g, '').length === 0) {
+      this.setState({
+        containsWords: false,
+      });
+    } else {
+      this.setState({
+        containsWords: true,
+      });
+    }
+
     this.setState({
       todo: e.target.value,
       inValidLength: false,
     });
   }
 
-  clickOnButton(todo, user, listOfTodos, isTooLong, containsSymbols) {
-    if (user.length > 0 && todo.length > 0 && !isTooLong && !containsSymbols) {
+  clickOnButton(todo, user, listOfTodos, isTooLong,
+    containsSymbols, containsWords) {
+    if (user.length > 0 && todo.length > 0 && !isTooLong
+      && !containsSymbols && containsWords) {
       const targetUser = listOfTodos.find(person => (
         person.name === user
       ));
@@ -98,7 +112,7 @@ class App extends React.Component {
 
   render() {
     const { listOfTodos, user, todo, inValidSelect, inValidLength,
-      isTooLong, containsSymbols } = this.state;
+      isTooLong, containsSymbols, containsWords } = this.state;
 
     return (
       <div className="App">
@@ -109,7 +123,7 @@ class App extends React.Component {
             method="POST"
             action="/api/userTodo"
             onSubmit={e => this.formSubmit(e, user, todo,
-              containsSymbols, isTooLong)}
+              containsSymbols, isTooLong, containsWords)}
           >
             <select
               className="form__field"
@@ -142,12 +156,13 @@ class App extends React.Component {
               && <p>A Todo shouldn&apos;t be longer than 10 characters</p>}
             {containsSymbols
               && <p>A Todo should contain only latin characters or digits</p>}
+            {!containsWords && <p>Please, enter the words</p>}
             <button
               type="submit"
               className="form__field"
               onClick={() => (
                 this.clickOnButton(todo, user, listOfTodos,
-                  isTooLong, containsSymbols)
+                  isTooLong, containsSymbols, containsWords)
               )}
             >
               Add
