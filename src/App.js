@@ -24,38 +24,38 @@ class App extends React.Component {
     selectAlert: false,
   }
 
-  render() {
-    const dataChecking = () => {
-      if (this.state.title.length === 0) {
-        this.setState({ inputAlert: true });
+  dataChecking = () => {
+    if (this.state.title.length === 0) {
+      this.setState({ inputAlert: true });
 
-        return;
-      }
+      return;
+    }
 
-      if (this.state.userId === 0) {
-        this.setState({ selectAlert: true });
+    if (this.state.userId === 0) {
+      this.setState({ selectAlert: true });
 
-        return;
-      }
+      return;
+    }
 
-      this.setState((state) => {
-        const newTodo = {
-          id: 1 + Math.random(),
-          title: state.title,
-          userId: state.userId,
-          completed: state.completed,
-          user: getuserByID(state.userId),
-        };
+    this.setState((state) => {
+      const newTodo = {
+        id: 1 + Math.random(),
+        title: state.title,
+        userId: state.userId,
+        completed: state.completed,
+        user: getuserByID(state.userId),
+      };
 
-        return ({
-          todos:
-          [...state.todos, newTodo],
-          title: '',
-          userId: 0,
-        });
+      return ({
+        todos:
+        [...state.todos, newTodo],
+        title: '',
+        userId: 0,
       });
-    };
+    });
+  };
 
+  render() {
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -69,7 +69,7 @@ class App extends React.Component {
           onSubmit={(event) => {
             event.preventDefault();
 
-            dataChecking();
+            this.dataChecking();
           }}
         >
           <div className="form__field">
