@@ -1,3 +1,20 @@
 .App {
-  text-align: center;
+  width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.App__label {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.App__error {
+  display: inline-block;
+  background-color: red;
+  border-radius: 8%;
+  padding: 0 5px;
 }
