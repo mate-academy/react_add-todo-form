@@ -73,7 +73,7 @@ class App extends React.Component {
 
   addTitle = (event) => {
     this.setState({
-      todoTitle: event.target.value,
+      todoTitle: event.target.value.trim(),
       isTitleNotAdded: false,
     });
   }
