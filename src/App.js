@@ -24,14 +24,18 @@ class App extends React.Component {
     selectAlert: false,
   }
 
-  dataChecking = () => {
-    if (this.state.title.length === 0) {
+  dataChecking = (event) => {
+    event.preventDefault();
+
+    const { title, userId } = this.state;
+
+    if (title.length === 0) {
       this.setState({ inputAlert: true });
 
       return;
     }
 
-    if (this.state.userId === 0) {
+    if (userId === 0) {
       this.setState({ selectAlert: true });
 
       return;
@@ -47,15 +51,32 @@ class App extends React.Component {
       };
 
       return ({
-        todos:
-        [...state.todos, newTodo],
+        todos: [
+          ...state.todos,
+          newTodo],
         title: '',
         userId: 0,
       });
     });
   };
 
+  selectingUserId = (event) => {
+    this.setState({
+      userId: Number(event.target.value),
+      selectAlert: false,
+    });
+  }
+
+  updatingTitle = (event) => {
+    this.setState({
+      title: event.target.value.trim(),
+      inputAlert: false,
+    });
+  }
+
   render() {
+    const { title, userId, inputAlert, selectAlert } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -65,47 +86,31 @@ class App extends React.Component {
           {users.length}
         </p>
 
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            this.dataChecking();
-          }}
-        >
+        <form onSubmit={event => this.dataChecking(event)}>
           <div className="form__field">
             <label htmlFor="newTodo" className="text__input">
               New todo:
             </label>
 
-            {this.state.inputAlert
+            {inputAlert
               && <span className="input__alert">Please enter the title</span>}
 
             <input
               type="text"
               name="todo"
-              value={this.state.title}
-              onChange={(event) => {
-                this.setState({
-                  title: event.target.value.trim(),
-                  inputAlert: false,
-                });
-              }}
+              value={title}
+              onChange={event => this.updatingTitle(event)}
               id="newTodo"
               placeholder="Write your todo hear"
             />
 
-            {this.state.selectAlert
+            {selectAlert
               && <span className="select__alert">Please select the user</span>}
 
             <select
               name="userId"
-              value={this.state.userId}
-              onChange={(event) => {
-                this.setState({
-                  userId: Number(event.target.value),
-                  selectAlert: false,
-                });
-              }}
+              value={userId}
+              onChange={event => this.selectingUserId(event)}
             >
               <option>Please choose a user</option>
               {users.map(user => (
