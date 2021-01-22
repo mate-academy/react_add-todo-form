@@ -1,3 +1,46 @@
 .App {
+  margin-top: 50px;
   text-align: center;
+}
+
+.form {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  grid-gap: 15px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.title {
+  color: #c68c99;
+}
+
+.error {
+  position: absolute;
+  top: -40px;
+  width: 175px;
+  height: 30px;
+  color: white;
+  background-color: red;
+  opacity: 0.7;
+  border-radius: 4px;
+}
+
+.error-user {
+  left: 190px;
+  width: 230px;
+}
+
+.table {
+  margin: 20px auto 0;
+}
+
+.completed {
+  color: green;
+}
+
+.not-completed {
+  color: red;
 }
