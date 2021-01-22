@@ -85,7 +85,7 @@ export class App extends React.Component {
                   .split('')
                   .slice(0, maxLength)
                   .join('')
-                  .replace(/[^\w\-_]+$/i, ''),
+                  .replace(/[^ a-zA-Z]/g, ''),
                 completed: false,
                 user: getTodosUserId(prevState.userName),
               };
