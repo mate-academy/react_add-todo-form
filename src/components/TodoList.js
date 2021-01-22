@@ -16,7 +16,7 @@ export const TodoList = ({ todos }) => (
         ----
         <strong>User:</strong>
         {' '}
-        {todo.user.name}
+        {todo.user}
         ----
         <span className={classNames('todo', { done: todo.completed })}>
           {todo.completed ? 'Done' : 'In progress'}
@@ -31,9 +31,6 @@ TodoList.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool,
-    user: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+    user: PropTypes.string.isRequired,
   }).isRequired).isRequired,
 };

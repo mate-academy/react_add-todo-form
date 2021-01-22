@@ -12,7 +12,7 @@ function getUserById(userId) {
 
 const todosWithUser = todos.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(todo.userId).name,
 }));
 
 class App extends React.Component {
@@ -38,38 +38,39 @@ class App extends React.Component {
           onSubmit={(event) => {
             event.preventDefault();
 
-            this.setState((prevState) => {
-              if (prevState.todoTitle !== '' && prevState.todoUserId !== 0) {
+            this.setState((state) => {
+              if (state.todoTitle.trim() !== '' && state.todoUserId !== 0) {
                 const newTodo = {
-                  id: Math.random(),
-                  title: prevState.todoTitle,
-                  userId: prevState.todoUserId,
-                  user: getUserById(prevState.todoUserId),
+                  id: state.todosNew.length + 1,
+                  title: state.todoTitle,
+                  userId: state.todoUserId,
+                  user: getUserById(state.todoUserId).name,
                 };
 
                 return ({
-                  todosNew: [...prevState.todosNew, newTodo],
+                  todosNew: [...state.todosNew, newTodo],
                   todoTitle: '',
                   todoUserId: 0,
                 });
               }
 
-              if (prevState.todoTitle === '' && prevState.todoUserId === 0) {
+              if (state.todoTitle.trim() === ''
+                && state.todoUserId === 0) {
                 return ({
                   errorNoTitle: true,
                   errorNoUser: true,
                 });
               }
 
-              if (prevState.todoTitle === '') {
+              if (state.todoTitle.trim() === '') {
                 return ({ errorNoTitle: true });
               }
 
-              if (prevState.todoUserId === 0) {
+              if (state.todoUserId === 0) {
                 return ({ errorNoUser: true });
               }
 
-              return prevState;
+              return state;
             });
           }}
         >
