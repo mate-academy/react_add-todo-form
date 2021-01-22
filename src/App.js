@@ -29,14 +29,11 @@ class App extends React.Component {
 
     const { title, userId } = this.state;
 
-    if (title.length === 0) {
-      this.setState({ inputAlert: true });
-
-      return;
-    }
-
-    if (userId === 0) {
-      this.setState({ selectAlert: true });
+    if (!title || !userId) {
+      this.setState(state => ({
+        inputAlert: !state.title,
+        selectAlert: !state.userId,
+      }));
 
       return;
     }
@@ -69,7 +66,7 @@ class App extends React.Component {
 
   updatingTitle = (event) => {
     this.setState({
-      title: event.target.value.trim(),
+      title: event.target.value.replace(/[^ a-zA-Z0-9]/g, ''),
       inputAlert: false,
     });
   }
@@ -86,37 +83,37 @@ class App extends React.Component {
           {users.length}
         </p>
 
-        <form onSubmit={event => this.dataChecking(event)}>
+        <form onSubmit={this.dataChecking}>
           <div className="form__field">
             <label htmlFor="newTodo" className="text__input">
               New todo:
             </label>
 
-            {inputAlert
-              && <span className="input__alert">Please enter the title</span>}
-
             <input
               type="text"
               name="todo"
-              value={title}
-              onChange={event => this.updatingTitle(event)}
+              value={title.replace(/\s{2,}/g, ' ')}
+              onChange={this.updatingTitle}
               id="newTodo"
               placeholder="Write your todo hear"
             />
 
-            {selectAlert
-              && <span className="select__alert">Please select the user</span>}
+            {inputAlert
+              && <span className="input__alert">Please enter the title</span>}
 
             <select
               name="userId"
-              value={userId}
-              onChange={event => this.selectingUserId(event)}
+              value={userId || 0}
+              onChange={this.selectingUserId}
             >
               <option>Please choose a user</option>
               {users.map(user => (
                 <option key={user.id} value={user.id}>{user.name}</option>
               ))}
             </select>
+
+            {selectAlert
+              && <span className="select__alert">Please select the user</span>}
 
             <button type="submit">
               Add
