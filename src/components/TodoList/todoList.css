@@ -1,0 +1,69 @@
+.list {
+  margin-top: 20px;
+  padding: 0;
+
+  font-family: Arial, sans-serif;
+}
+
+.list-item {
+  position: relative;
+  max-width: 600px;
+  height: auto;
+
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 5px;
+
+  list-style-type: none;
+
+  background: linear-gradient(90deg, #e25b72, #e973a0);
+  border-radius: 20px;
+}
+
+.user {
+  width: fit-content;
+
+  margin: 10px;
+
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.text {
+  width: 60%;
+
+  margin: 10px;
+
+  font-size: 12px;
+  text-align: left;
+}
+
+.stateDone,
+.stateExecution {
+  position: absolute;
+  width: 35%;
+
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  padding-right: 10px;
+  padding-top: 15px;
+
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+}
+
+.stateDone {
+  background: linear-gradient(90deg, transparent, #2be007a2);
+}
+
+.stateExecution {
+  background: linear-gradient(90deg, transparent, #e0d107a2);
+}

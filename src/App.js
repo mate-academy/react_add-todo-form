@@ -32,7 +32,7 @@ export class App extends React.Component {
   addNewTask = (event) => {
     event.preventDefault();
 
-    if (this.state.titleValue.length === 0) {
+    if (this.state.titleValue.trim().length === 0) {
       this.setState({
         titleError: true,
       });
