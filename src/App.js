@@ -11,6 +11,7 @@ const preparedTodos = todos
     ...todo,
     user: getUserById(todo.userId).name,
   }));
+const symbols = /[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]/gu;
 
 class App extends React.Component {
   state = {
@@ -26,6 +27,13 @@ class App extends React.Component {
   }
 
   handleError = () => {
+    if (!this.state.todoName.match(symbols)) {
+      this.setState({
+        errMes: 'Invalid symbols!',
+        todoName: '',
+      });
+    }
+
     if (!this.state.todoName) {
       this.setState({ errMes: 'Input the task! ' });
     }
@@ -39,7 +47,8 @@ class App extends React.Component {
 
   addTodo = (event) => {
     event.preventDefault();
-    if (!this.state.todoName || !this.state.userId) {
+    // eslint-disable-next-line max-len
+    if (!this.state.todoName || !this.state.userId || !this.state.todoName.match(symbols)) {
       this.handleError();
 
       this.showError();
@@ -151,8 +160,8 @@ class App extends React.Component {
                   Add
                 </button>
               </form>
-              <p className="notification">
-                {this.state.error && <p className="err">{this.state.errMes}</p>}
+              <p className="err">
+                {this.state.error && this.state.errMes}
               </p>
             </div>
           </div>
