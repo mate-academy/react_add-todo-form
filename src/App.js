@@ -66,6 +66,14 @@ class App extends React.Component {
     });
   }
 
+  handleNameChange = (event) => {
+    this.setState({ userId: +event.target.value });
+  }
+
+  handleTaskChange = (event) => {
+    this.setState({ todoName: event.target.value });
+  }
+
   render() {
     return (
       <div className="App">
@@ -100,9 +108,7 @@ class App extends React.Component {
                     id="select-user"
                     className="select-field"
                     value={this.state.userId}
-                    onChange={(event) => {
-                      this.setState({ userId: +event.target.value });
-                    }}
+                    onChange={this.handleNameChange}
                   >
                     <option value="0">
                       Select User
@@ -129,9 +135,7 @@ class App extends React.Component {
                     className="input-text"
                     placeholder="Enter the task"
                     value={this.state.todoName}
-                    onChange={(event) => {
-                      this.setState({ todoName: event.target.value });
-                    }}
+                    onChange={this.handleTaskChange}
                   />
                   <br />
                 </div>
