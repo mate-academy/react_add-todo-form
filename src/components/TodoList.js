@@ -21,7 +21,7 @@ export function ToDoList({ todos }) {
             </td>
 
             <td>
-              {todo.user.name}
+              {todo.name}
             </td>
 
             <td>
