@@ -35,8 +35,6 @@ class App extends React.Component {
         userList: [...state.userList, newTodo],
         todoTitle: '',
         personName: '',
-        unwritten: false,
-        unselected: false,
       }));
 
       return;
@@ -95,6 +93,7 @@ class App extends React.Component {
                 onChange={(event) => {
                   this.setState({
                     todoTitle: event.target.value,
+                    unwritten: false,
                   });
                 }}
 
@@ -103,7 +102,7 @@ class App extends React.Component {
             {unwritten
               && (
                 <div className="App__message">
-                  add todo to the list, please
+                  add todo to the list
                 </div>
               )
             }
@@ -125,6 +124,7 @@ class App extends React.Component {
                 onChange={(event) => {
                   this.setState({
                     personName: event.target.value,
+                    unselected: false,
                   });
                 }}
               >
