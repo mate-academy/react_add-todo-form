@@ -139,7 +139,7 @@ class App extends React.Component {
             {unselected
               && (
                 <div className="App__message">
-                  chose someone, please
+                  choose someone, please
                 </div>
               )
             }
