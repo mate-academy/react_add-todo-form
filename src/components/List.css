@@ -1,0 +1,17 @@
+.list {
+  margin-top: 50px;
+  list-style: none;
+}
+
+.list__item {
+  width: 300px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  border: 1px solid;
+  text-align: start;
+}
+
+.list__status {
+  font-weight: bold;
+}
