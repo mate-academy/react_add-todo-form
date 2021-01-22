@@ -15,7 +15,6 @@ class App extends React.Component {
     listOfTodos: [...prepearedTodos],
     user: '',
     todo: '',
-    todoId: 0,
     inValidSelect: false,
     inValidLength: false,
     isTooLong: false,
@@ -66,7 +65,7 @@ class App extends React.Component {
     });
   }
 
-  clickOnButton(todo, user, todoId, listOfTodos, isTooLong, containsSymbols) {
+  clickOnButton(todo, user, listOfTodos, isTooLong, containsSymbols) {
     if (user.length > 0 && todo.length > 0 && !isTooLong && !containsSymbols) {
       const targetUser = listOfTodos.find(person => (
         person.name === user
@@ -75,16 +74,13 @@ class App extends React.Component {
       if (targetUser) {
         targetUser.todo.push({
           userId: targetUser.id,
-          id: todoId,
+          id: Math.floor(Math.random() * 100),
           title: todo,
           completed: false,
         });
       }
 
       this.forceUpdate();
-      this.setState({
-        todoId: Math.floor(Math.random() * 100),
-      });
     }
 
     if (user.length === 0) {
@@ -102,7 +98,7 @@ class App extends React.Component {
 
   render() {
     const { listOfTodos, user, todo, inValidSelect, inValidLength,
-      isTooLong, containsSymbols, todoId } = this.state;
+      isTooLong, containsSymbols } = this.state;
 
     return (
       <div className="App">
@@ -150,7 +146,7 @@ class App extends React.Component {
               type="submit"
               className="form__field"
               onClick={() => (
-                this.clickOnButton(todo, user, todoId, listOfTodos,
+                this.clickOnButton(todo, user, listOfTodos,
                   isTooLong, containsSymbols)
               )}
             >
