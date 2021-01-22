@@ -21,7 +21,7 @@ const Todo = ({ title, completed, user }) => (
       User:
     </span>
     {' '}
-    <User {...user} />
+    <User user={user} />
     <hr />
   </li>
 );

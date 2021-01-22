@@ -4,15 +4,11 @@ body {
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
 }
+
 input,
 select {
-  font-family: Roboto, sans-serif;;
+  font-family: Roboto, sans-serif;
 }
-//
-//label,
-//input {
-//  display: block;
-//}
 
 h1 {
   margin: 0;
@@ -25,7 +21,6 @@ form {
 
 .todo__top {
   padding: 20px 30px;
-  //height: 80px;
   background-color: #685454;
 }
 
@@ -48,7 +43,6 @@ form {
   display: block;
   height: 30px;
   width: 60px;
-  //line-height: 50px;
   border: 1px solid #685454;
   text-align: center;
   cursor: pointer;

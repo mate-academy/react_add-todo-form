@@ -5,10 +5,11 @@ import TodoList from './components/TodoList';
 import todos from './api/todos';
 import users from './api/users';
 
+const getUserById = userId => users.find(user => user.id === userId);
 const preparedTodos = todos
   .map(todo => ({
     ...todo,
-    user: users.find(user => user.id === todo.userId),
+    user: getUserById(todo.userId).name,
   }));
 
 class App extends React.Component {
@@ -50,11 +51,14 @@ class App extends React.Component {
     }
 
     this.setState((state) => {
+      const { userId, todoList } = this.state;
+      const lastId = todoList[todoList.length - 1].id;
+
       const newTodo = {
         title: state.todoName,
-        id: Math.trunc(Math.random() * 1000),
+        id: lastId + 1,
         userId: state.userId,
-        user: users.find(user => user.id === state.userId).name,
+        user: getUserById(userId).name,
       };
 
       return ({
