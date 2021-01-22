@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 import './Todo.css';
 
-import { User } from '../User';
-
 export const Todo = ({ title, completed, user }) => (
   <li className="list__item">
-    <User {...user} />
+    <span>{user}</span>
     <span>{title}</span>
     <span>{completed ? 'completed' : 'uncompleted'}</span>
   </li>
@@ -16,7 +14,5 @@ export const Todo = ({ title, completed, user }) => (
 Todo.propTypes = {
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  user: PropTypes.string.isRequired,
 };

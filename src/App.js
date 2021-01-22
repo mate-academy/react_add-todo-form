@@ -5,13 +5,13 @@ import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
 
-function getuserByID(userId) {
-  return users.find(user => user.id === userId);
+function getUserByID(userId) {
+  return users.find(user => user.id === userId).name;
 }
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: getuserByID(todo.userId),
+  user: getUserByID(todo.userId),
 }));
 
 class App extends React.Component {
@@ -29,9 +29,9 @@ class App extends React.Component {
 
     const { title, userId } = this.state;
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       this.setState(state => ({
-        inputAlert: !state.title,
+        inputAlert: !state.title.trim(),
         selectAlert: !state.userId,
       }));
 
@@ -40,11 +40,11 @@ class App extends React.Component {
 
     this.setState((state) => {
       const newTodo = {
-        id: 1 + Math.random(),
-        title: state.title,
+        id: state.todos.length + 1,
+        title: state.title.trim(),
         userId: state.userId,
         completed: state.completed,
-        user: getuserByID(state.userId),
+        user: getUserByID(state.userId),
       };
 
       return ({
