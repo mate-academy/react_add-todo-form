@@ -54,7 +54,7 @@ class App extends React.Component {
         title: state.todoName,
         id: Math.trunc(Math.random() * 1000),
         userId: state.userId,
-        user: users.find(user => user.id === state.userId),
+        user: users.find(user => user.id === state.userId).name,
       };
 
       return ({
