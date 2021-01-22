@@ -23,7 +23,7 @@ class App extends React.Component {
     event.preventDefault();
     const { userList, todoTitle, personName } = this.state;
 
-    if (todoTitle && personName) {
+    if (todoTitle.trim() && personName) {
       const newTodo = {
         title: todoTitle,
         complited: false,
@@ -40,9 +40,10 @@ class App extends React.Component {
       return;
     }
 
-    if (!todoTitle) {
+    if (!todoTitle.trim()) {
       this.setState({
         unwritten: true,
+        todoTitle: '',
       });
     }
 
@@ -128,7 +129,7 @@ class App extends React.Component {
                   });
                 }}
               >
-                <option>Choose a Person</option>
+                <option value="" disabled>Choose a Person</option>
                 {users.map(user => (
                   <option value={user.name} key={user.id}>
                     {user.name}
