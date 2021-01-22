@@ -1,0 +1,37 @@
+.Todo {
+  margin-top: 10px;
+  padding: 10px;
+  width: 300px;
+  border: 2px solid rgb(112, 68, 155);
+  border-radius: 5px;
+  box-shadow: 1px 3px 5px 1px rgb(49, 49, 49);
+  background-color: rgb(132, 109, 161);
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    padding: 5px;
+    width: 200px;
+    background: rgb(247, 231, 247);
+    border-radius: 5px;
+    text-decoration: underline;
+  }
+
+  &__process {
+    background-color: rgb(18, 199, 42);
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: inset 0 0 2px rgb(39, 39, 39);
+
+    &--not {
+      @extend .Todo__process;
+      background-color: rgb(255, 60, 0);
+    }
+  }
+}
