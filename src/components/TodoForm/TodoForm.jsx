@@ -55,7 +55,7 @@ export class TodoForm extends React.Component {
         ...state.values,
         [name]: type === 'select-one'
           ? +value
-          : value,
+          : value.replace(/[^ a-zA-Z]/g, '').replace(/\s{2,}/g, ' '),
       },
       errors: {
         ...state.errors,
