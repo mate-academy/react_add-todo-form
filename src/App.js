@@ -1,12 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './App.css';
+
+import TodoList from './Components/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
 
 function getTodosUserId(userId) {
-  return users.find(user => user.id === userId);
+  return users.find(user => user.id === userId).name;
 }
 
 const todosWithUserFromFile = todos.map(todo => ({
@@ -61,7 +62,7 @@ export class App extends React.Component {
               return;
             }
 
-            if (!todoName) {
+            if (!todoName.replace(/[^ a-zA-Z0-9]/g, '')) {
               this.setState({
                 noTitle: true,
               });
@@ -84,8 +85,7 @@ export class App extends React.Component {
                 title: prevState.todoName
                   .split('')
                   .slice(0, maxLength)
-                  .join('')
-                  .replace(/[^ a-zA-Z]/g, ''),
+                  .join(''),
                 completed: false,
                 user: getTodosUserId(prevState.userName),
               };
@@ -120,7 +120,7 @@ export class App extends React.Component {
               className="form__error"
             >
               {noTitle
-              && 'Please add a todo'}
+              && 'Please add alphanumeric todo'}
             </span>
             <br />
 
@@ -175,52 +175,5 @@ export class App extends React.Component {
     );
   }
 }
-
-const TodoList = ({ todosWithUser }) => (
-  <ul className="todo">
-    {todosWithUser.map(todoWithUser => (
-      <li
-        key={todoWithUser.id}
-      >
-        <div className="todo__user">
-          <div className="todo__user-task">
-            Task:
-            {' '}
-            {todoWithUser.title}
-          </div>
-
-          <div className="todo__user-name">
-            Name:
-            {' '}
-            {todoWithUser.user.name}
-          </div>
-
-          <div className={
-            todoWithUser.completed
-              ? 'todo__user-completed'
-              : 'todo__user-uncompleted'
-          }
-          >
-            {todoWithUser.completed
-              ? 'done'
-              : 'in process'
-            }
-          </div>
-        </div>
-      </li>
-    ))}
-  </ul>
-);
-
-TodoList.propTypes = { todosWithUser: PropTypes.arrayOf(
-  PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-) }.isRequired;
 
 export default App;
