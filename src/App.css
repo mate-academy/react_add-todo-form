@@ -1,3 +1,25 @@
 .App {
   text-align: center;
 }
+
+.warning {
+  color: red;
+}
+
+.title {
+  position: relative;
+  left: -25px;
+}
+
+.user {
+  position: relative;
+  left: 25px;
+}
+
+.form__select {
+  margin-left: 10px;
+}
+
+.form__button {
+  margin-left: 10px;
+}
