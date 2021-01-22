@@ -11,7 +11,7 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - each TODO should have a `title` and `userId` selected from a list of given `users` (`./src/api/users.js`)
     - show user names in `<select>`
     - the `TODO` should be added to the list after clicking `Add` button
-    - `App` should add integer `id` to each TODO (starting from `1`)
+    - the `id` of each new todo should be the next integer after the current maximal `id` in the array
 1. Clear the form after adding a TODO
 1. Add validation to the form
     - add an empty option `Choose a user` to the users select
