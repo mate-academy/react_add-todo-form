@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Potta+One&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+h1 {
+  margin: 0;
+}
+
+html {
+  font-family: "Potta One", cursive;
+  color: rgb(255, 254, 254);
+}
+
+.main {
+  /* stylelint-disable-next-line */
+  background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%), linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.25) 200%);
+  background-blend-mode: multiply;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-left: -150px;
+
+  &__title {
+    margin-top: 20px;
+    font-size: 36px;
+  }
+}
