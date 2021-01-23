@@ -26,8 +26,6 @@ class App extends React.Component {
     });
   };
 
-  isEmptyString = string => (string.trim().length > 0)
-
   render() {
     const { tasks, todo, employee } = this.state;
 
@@ -90,7 +88,7 @@ class App extends React.Component {
           <button
             type="submit"
             onClick={() => {
-              if (this.isEmptyString(todo.title)) {
+              if (todo.title === '') {
                 this.setState(state => ({
                   todo: {
                     ...state.todo,
@@ -99,7 +97,7 @@ class App extends React.Component {
                 }));
               }
 
-              if (this.isEmptyString(employee.title)) {
+              if (employee.title === '') {
                 this.setState(state => ({
                   employee: {
                     ...state.employee,
@@ -117,6 +115,8 @@ class App extends React.Component {
                   {
                     id: tasks.length + 1,
                     title: todo.title,
+                    // user: users
+                    //   .find(user => (user.name === employee.title)),
                     completed: false,
                     userId: users.find(user => user.name === employee.title).id,
                   }],

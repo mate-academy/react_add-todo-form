@@ -4,10 +4,6 @@ import './TodoList.css';
 import users from '../../api/users';
 
 export class TodoList extends React.Component {
-  // state = {
-  //   flag: true,
-  // }
-
   getUserById = userId => users.find(user => (userId === user.id));
 
   render() {
@@ -23,16 +19,6 @@ export class TodoList extends React.Component {
                 {' '}
               </span>
               {task.title}
-              {/* <input
-                type="checkbox"
-                name="complete"
-                onChange={() => {
-                  task.completed = !task.completed;
-                  this.setState(state => ({
-                    flag: !state.flag,
-                  }));
-                }}
-              /> */}
               <br />
               <span>
                 {`Employee: ${this.getUserById(task.userId).name}`}
