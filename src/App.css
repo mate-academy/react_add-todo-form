@@ -1,8 +1,6 @@
 .App {
   width: 500px;
   min-height: 90vh;
-  /* margin-left: auto; */
-  /* margin-right: auto; */
   margin: auto;
   border: solid black 2px;
   border-radius: 20px;

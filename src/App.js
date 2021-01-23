@@ -8,10 +8,12 @@ class App extends React.Component {
   state = {
     tasks: [...todos],
     todo: {
-      title: '', error: '',
+      title: '',
+      error: '',
     },
     employee: {
-      title: '', error: '',
+      title: '',
+      error: '',
     },
   }
 
@@ -115,8 +117,6 @@ class App extends React.Component {
                   {
                     id: tasks.length + 1,
                     title: todo.title,
-                    // user: users
-                    //   .find(user => (user.name === employee.title)),
                     completed: false,
                     userId: users.find(user => user.name === employee.title).id,
                   }],
