@@ -5,26 +5,21 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-const todosWithUsers = todos.map(todo => ({
-  ...todo,
-  user: findUser(todo.userId),
-}));
-
-function findUser(userId) {
-  return users.find(user => user.id === userId);
-}
-
 const titleCharLimit = 16;
 
 export class App extends React.Component {
   state = {
-    todosList: todosWithUsers,
-    nextId: todosWithUsers.length + 1,
+    todosList: todos,
+    nextId: todos.length + 1,
     selectedUser: '',
     taskTitle: '',
     selectedUserError: false,
     taskTitleError: false,
   }
+
+  getUserName = userId => (
+    users.find(user => user.id === userId).name
+  )
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -58,11 +53,7 @@ export class App extends React.Component {
       });
     }
 
-    if (userFail || titleFail) {
-      return false;
-    }
-
-    return true;
+    return !userFail && !titleFail;
   }
 
   addTask = (event) => {
@@ -75,7 +66,6 @@ export class App extends React.Component {
     this.setState(({ todosList, selectedUser, taskTitle, nextId }) => {
       const newTask = {
         userId: +selectedUser,
-        user: findUser(+selectedUser),
         title: taskTitle,
         completed: false,
         id: nextId,
@@ -138,6 +128,7 @@ export class App extends React.Component {
               type="text"
               name="taskTitle"
               id="taskTitle"
+              autoComplete="off"
               value={taskTitle}
               onChange={this.handleChange}
             />
@@ -157,7 +148,10 @@ export class App extends React.Component {
           </button>
         </form>
 
-        <TodoList todos={todosList} />
+        <TodoList
+          todos={todosList}
+          getUserName={this.getUserName}
+        />
       </div>
     );
   }
