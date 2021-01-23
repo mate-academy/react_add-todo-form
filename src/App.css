@@ -1,3 +1,36 @@
 .App {
-  text-align: center;
+  margin: 0 200px;
+}
+
+.app-title {
+  text-transform: uppercase;
+}
+
+.error {
+  margin-left: 10px;
+  margin-top: 10px;
+  color: red;
+  line-height: 45px;
+  text-transform: uppercase;
+}
+
+.table {
+  width: 600px;
+  margin-top: 45px;
+  border: 1px solid black;
+}
+
+.tbody {
+  margin: 100px;
+  border: 1px solid black;
+}
+
+tr {
+  margin: 10px;
+}
+
+.col-md-6 {
+  color: blue;
+  margin-right: 25px;
+  text-align: left;
 }
