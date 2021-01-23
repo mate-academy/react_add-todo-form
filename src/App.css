@@ -1,3 +1,44 @@
 .App {
   text-align: center;
 }
+
+.list {
+  list-style-type: none;
+}
+
+.list__item {
+  width: 300px;
+  margin: 20px auto;
+  font-family: "Roboto", sans-serif;
+  border: 3px solid rgb(146, 146, 230);
+}
+
+.list__text {
+  font-style: italic;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: underline;
+}
+
+.input-todo,
+.select-user {
+  height: 20px;
+  margin-bottom: 10px;
+  border: 2px solid rgb(146, 146, 230);
+  border-radius: 5px;
+  outline: none;
+}
+
+.button-submit {
+  height: 30px;
+  width: 70px;
+  margin: 10px 0;
+  background: rgb(146, 146, 230);
+  color: #fff;
+  border: 2px solid black;
+  border-radius: 10%;
+  outline: none;
+}
+
+.error-text {
+  color: rgb(247, 80, 80);
+}
