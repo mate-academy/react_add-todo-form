@@ -1,0 +1,8 @@
+.list {
+  list-style: none;
+}
+
+.list__item {
+  display: grid;
+  grid-template-columns: 200px 300px 80px;
+}

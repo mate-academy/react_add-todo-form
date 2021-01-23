@@ -1,3 +1,19 @@
-.App {
-  text-align: center;
+/* styles go here */
+
+.header {
+  margin-left: 40px;
+}
+
+.form {
+  margin-left: 40px;
+  line-height: 2.3em;
+}
+
+.form__title {
+  margin-top: 20px;
+}
+
+.form__warning {
+  margin-left: 20px;
+  color: red;
 }
