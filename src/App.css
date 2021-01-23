@@ -1,3 +1,60 @@
+* {
+  font-family: Georgia, serif;
+}
+
 .App {
+  padding: 20px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.App__list {
+  display: grid;
+  row-gap: 20px;
+}
+
+.App__task {
+  padding: 10px;
+  background-color: pink;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.App__task:hover {
+  box-shadow: 0 0 5px rgb(189, 187, 187);
+}
+
+.App__title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.App__status {
+  font-style: italic;
+  margin-top: 10px;
+  color: rgb(58, 58, 58);
+}
+
+.App__name {
+  margin-top: 5px;
+  color: rgb(58, 58, 58);
+}
+
+.error {
+  background-color: rgba(255, 0, 0, 0.75);
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
