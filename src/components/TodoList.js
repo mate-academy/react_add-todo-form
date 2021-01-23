@@ -8,7 +8,7 @@ export function ToDoList({ todos }) {
       <thead className="col-md-6">
         <tr>
           <th>Title</th>
-          <th>User Name</th>
+          <th>User Id</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -21,7 +21,7 @@ export function ToDoList({ todos }) {
             </td>
 
             <td>
-              {todo.name}
+              {todo.userId}
             </td>
 
             <td>
