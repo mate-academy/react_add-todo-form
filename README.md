@@ -1,6 +1,5 @@
 # React add TODO form
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/)
-- Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
+- [DEMO LINK](https://MaximZhuravlov.github.io/react_add-todo-form/)
 
 ## Task
 Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
