@@ -1,0 +1,41 @@
+.todo__form {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+label,
+.todo__form-input {
+  display: block;
+}
+
+.todo__form-input {
+  margin: 0 auto 30px;
+  padding: 10px;
+  outline: none;
+}
+
+.todo__form-select {
+  padding: 10px;
+  margin-bottom: 30px;
+  outline: none;
+}
+
+.todo__form-submit {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.todo__form-error {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+}
+
+.todo__form-error--todo {
+  top: 35%;
+}
+
+.todo__form-error--user {
+  top: 75%;
+}

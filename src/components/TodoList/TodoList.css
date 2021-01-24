@@ -1,0 +1,14 @@
+.todo__table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+th {
+  background-color: #ddd;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 10px;
+}

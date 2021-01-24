@@ -1,3 +1,13 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
