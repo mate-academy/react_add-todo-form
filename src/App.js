@@ -107,7 +107,7 @@ class App extends React.Component {
               name="selectUser"
               className="form__control form__control--select"
               id="selectUser"
-              value={this.state.UserID}
+              value={this.state.userId}
               onChange={this.handleSelectUser}
             >
               <option value="0">Select a user</option>
@@ -131,18 +131,5 @@ class App extends React.Component {
     );
   }
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <h1>Add todo form</h1>
-
-//       <p>
-//         <span>Users: </span>
-//         {users.length}
-//       </p>
-//     </div>
-//   );
-// }
 
 export default App;
