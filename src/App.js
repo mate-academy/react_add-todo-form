@@ -75,13 +75,22 @@ class App extends React.Component {
             });
           }
 
+          const trimedTitle = title.trim();
+
+          if (trimedTitle.length === 0) {
+            this.setState({
+              errorTitle: 'Please enter the title',
+            });
+
+            return;
+          }
+
           if (selectedUserId && title) {
             this.setState((prevState) => {
               const newGood = {
                 userId: prevState.selectedUserId,
                 id: todos.length + 1,
                 title: prevState.title,
-                completed: false,
                 user: usersFromApi[prevState.selectedUserId - 1],
               };
 

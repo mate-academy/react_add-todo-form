@@ -15,6 +15,7 @@ body {
 }
 
 .todo-list {
+  padding: 0;
   color: royalblue;
   list-style-type: none;
 }

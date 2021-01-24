@@ -1,7 +1,7 @@
 import React from 'react';
 import { TypeTodo } from '../../types';
 
-export const Todo = ({ user, id, title, completed }) => (
+export const Todo = ({ user, title }) => (
   <li>
     <div className="todo">
       <p>
@@ -11,11 +11,7 @@ export const Todo = ({ user, id, title, completed }) => (
         {`Title: ${title}`}
       </p>
       <p>
-        {`todo id: ${id}`}
-      </p>
-      <p>
-        status:
-        {`${completed}`}
+        {`User id: ${user.id}`}
       </p>
     </div>
   </li>

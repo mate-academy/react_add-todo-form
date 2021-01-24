@@ -6,7 +6,6 @@ export const TypeTodo = PropTypes.shape({
   }).isRequired,
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  completed: PropTypes.bool.isRequired,
 }).isRequired;
 
 export const TypeUser = PropTypes.shape({
