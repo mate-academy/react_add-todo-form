@@ -7,16 +7,7 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    todos: [],
-  }
-
-  componentDidMount() {
-    const preparedTodos = staticTodos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    }));
-
-    this.setState({ todos: preparedTodos });
+    todos: [...staticTodos],
   }
 
   addTodo = (task, userName) => {
@@ -27,7 +18,7 @@ class App extends React.Component {
         id: lastId + 1,
         title: task,
         completed: false,
-        user: users.find(user => user.name === userName),
+        userId: users.find(user => user.name === userName).id,
       }] });
     });
   }
@@ -46,7 +37,10 @@ class App extends React.Component {
 
         <Form users={users} onSubmit={this.addTodo} />
 
-        <TodoList todos={todos} />
+        <TodoList
+          todos={todos}
+          users={users}
+        />
       </div>
     );
   }
