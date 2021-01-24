@@ -1,22 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Container, Row } from 'react-bootstrap';
 import { TypeToDo } from '../../types';
-
 import { ToDo } from '../ToDo/ToDo';
 
 export const TodoList = ({ todos }) => (
-  <table>
-    <thead>
-      <tr>
-        <td>Task</td>
-        <td>User</td>
-        <td>Status</td>
-      </tr>
-    </thead>
-    <tbody>
+  <Container fluid>
+    <Row>
       {todos.map(todo => <ToDo key={todo.id} todo={todo} />)}
-    </tbody>
-  </table>
+    </Row>
+  </Container>
 );
 
 TodoList.propTypes = {
