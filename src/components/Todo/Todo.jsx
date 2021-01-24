@@ -1,9 +1,8 @@
 import React from 'react';
-import { User } from '../User/User';
 import { TodoType } from '../../types';
 import './Todo.css';
 
-export const Todo = ({ title, user }) => (
+export const Todo = ({ title, userName }) => (
   <div className="todo">
     <h3 className="todo__title">
       <b>Task</b>
@@ -12,7 +11,11 @@ export const Todo = ({ title, user }) => (
     </h3>
 
     <div className="todo__status">
-      <User {...user} />
+      <div className="user__name">
+        <b>Name</b>
+        {': '}
+        {`${userName}`}
+      </div>
 
       <input
         type="checkbox"

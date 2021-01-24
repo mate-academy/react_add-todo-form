@@ -5,7 +5,11 @@ import { TodoListType } from '../../types';
 export const TodoList = ({ todos }) => (
   <div>
     {todos.map(todo => (
-      <Todo key={todo.id} {...todo} />
+      <Todo
+        key={todo.id}
+        title={todo.title}
+        userName={todo.userName}
+      />
     ))}
   </div>
 );

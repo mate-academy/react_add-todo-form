@@ -8,7 +8,7 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 
 const preparedTodos = todosFromApi.map(todo => ({
   ...todo,
-  user: users.find(user => (todo.userId === user.id)),
+  userName: users.find(user => (todo.userId === user.id)).name,
 }));
 
 class App extends React.Component {
@@ -16,14 +16,14 @@ class App extends React.Component {
     todos: preparedTodos,
   }
 
-  addTodo = (title, user) => {
+  addTodo = (title, newUser) => {
     this.setState((state) => {
       const newTodo = {
-        userId: user.id,
+        userId: newUser.id,
         id: state.todos.length + 1,
         title,
         completed: false,
-        user,
+        userName: newUser.name,
       };
 
       return {
@@ -38,7 +38,7 @@ class App extends React.Component {
         <h1 className="app__title">Add todo form</h1>
 
         <div className="app__todos">
-          <TodoList todos={this.state.todos} />
+          <TodoList getUserName={this.getUserName} todos={preparedTodos} />
 
           <TodoForm users={users} addTodo={this.addTodo} />
         </div>

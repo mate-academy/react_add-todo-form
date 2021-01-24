@@ -26,3 +26,8 @@
   right: 30px;
   bottom: 24px;
 }
+
+.user__name {
+  padding: 0 0 20px 20px;
+}
+
