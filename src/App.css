@@ -1,3 +1,10 @@
-.App {
+.app {
   text-align: center;
+}
+
+.app__error {
+  font-size: 18px;
+  color: red;
+  font-weight: 900;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
