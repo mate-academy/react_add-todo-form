@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  background-color: rgba(142, 208, 247, 0.25);
+  border: 1px solid transparent;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+
+  &__sum {
+    text-align: center;
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+input,
+select {
+  outline: none;
+  width: 350px;
+  height: 40px;
+  margin: 10px;
+}
+
+button {
+  outline: none;
+  width: 150px;
+  height: 40px;
+  margin: 10px;
+}
+
+.error {
+  color: red;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+}
+
+.invalid {
+  border: 1px solid red;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
