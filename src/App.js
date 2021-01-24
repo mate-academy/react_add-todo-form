@@ -16,6 +16,68 @@ class App extends React.Component {
     todos: preparedTodos,
     todoTitle: '',
     userId: 0,
+    errors: {
+      todoTitle: false,
+      userId: false,
+    },
+  };
+
+  handleInput = (event) => {
+    event.persist();
+
+    this.setState(state => ({
+      todoTitle: event.target.value.toLowerCase().replace(/[^A-Za-z0-9 ]/g, ''),
+      errors: {
+        ...state.errors,
+        todoTitle: false,
+      },
+    }));
+  };
+
+  handleSelect = (event) => {
+    event.persist();
+
+    this.setState(state => ({
+      userId: +event.target.value,
+      errors: {
+        ...state.errors,
+        userId: false,
+      },
+    }));
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const { todoTitle, userId } = this.state;
+
+    if (!todoTitle || !userId) {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          todoTitle: !state.todoTitle,
+          userId: !state.userId,
+        },
+      }));
+
+      return;
+    }
+
+    this.setState((prevState) => {
+      const newTodo = {
+        userId: this.state.userId,
+        id: this.state.todos.length + 1,
+        title: prevState.todoTitle,
+        completed: false,
+        user: users.find(user => user.id === this.state.userId),
+      };
+
+      return ({
+        todos: [...prevState.todos, newTodo],
+        todoTitle: '',
+        userId: 0,
+      });
+    });
   };
 
   render() {
@@ -35,46 +97,43 @@ class App extends React.Component {
         <form
           action="#"
           method="POST"
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            this.setState((prevState) => {
-              const newTodo = {
-                userId: this.state.userId,
-                id: this.state.todos.length + 1,
-                title: prevState.todoTitle,
-                completed: false,
-                user: users.find(user => user.id === this.state.userId),
-              };
-
-              return ({
-                todos: [...prevState.todos, newTodo],
-                todoTitle: '',
-                userId: 0,
-              });
-            });
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="form__field">
-            <label htmlFor="todoTitle">Todo title</label>
+            <label htmlFor="todoTitle">Create new todo:</label>
+
+            {this.state.errors.todoTitle && (
+              <span className="error">
+                Please enter todo
+              </span>
+            )}
+
             <input
               type="text"
+              className={this.state.errors.todoTitle
+                ? 'invalid'
+                : ''}
               name="todoTitle"
               value={this.state.todoTitle}
-              onChange={(event) => {
-                this.setState({ todoTitle: event.target.value.toLowerCase() });
-              }}
+              onChange={this.handleInput}
               id="todoTitle"
-              placeholder="Please enter the name of the new task"
+              placeholder="Please enter a new task"
             />
+
+          </div>
+
+          <div className="form__field">
+            {this.state.errors.userId && (
+              <span className="error">
+                Please choose an executor
+              </span>
+            )}
 
             <select
               name="userId"
               id="userId"
               value={this.state.userId}
-              onChange={(event) => {
-                this.setState({ userId: +event.target.value });
-              }}
+              onChange={this.handleSelect}
             >
               <option>Please choose an executor</option>
               {users.map(user => (
