@@ -7,7 +7,7 @@ import users from './api/users';
 import todos from './api/todos';
 
 function getTodosUserId(userId) {
-  return users.find(user => user.id === userId).name;
+  return users.find(user => user.id === userId).id;
 }
 
 const todosWithUserFromFile = todos.map(todo => ({
@@ -19,7 +19,7 @@ export class App extends React.Component {
   state = {
     todosWithUser: todosWithUserFromFile,
     todoName: '',
-    userName: '',
+    userID: '',
     countId: todosWithUserFromFile.length,
     noTitle: false,
     noSelect: false,
@@ -36,7 +36,7 @@ export class App extends React.Component {
     const {
       todosWithUser,
       todoName,
-      userName,
+      userID,
       countId,
       noTitle,
       noSelect,
@@ -53,7 +53,7 @@ export class App extends React.Component {
           onSubmit={(event) => {
             event.preventDefault();
 
-            if (!todoName && !userName) {
+            if (!todoName && !userID) {
               this.setState({
                 noTitle: true,
                 noSelect: true,
@@ -62,7 +62,7 @@ export class App extends React.Component {
               return;
             }
 
-            if (!todoName.replace(/[^ a-zA-Z0-9]/g, '')) {
+            if (todoName.replace(/[^a-zA-Z0-9]/g, '').length === 0) {
               this.setState({
                 noTitle: true,
               });
@@ -70,7 +70,7 @@ export class App extends React.Component {
               return;
             }
 
-            if (!userName) {
+            if (!userID) {
               this.setState({
                 noSelect: true,
               });
@@ -81,19 +81,18 @@ export class App extends React.Component {
             this.setState((prevState) => {
               const newTodo = {
                 id: countId,
-                userId: prevState.userName,
+                userId: prevState.userID,
                 title: prevState.todoName
                   .split('')
                   .slice(0, maxLength)
                   .join(''),
                 completed: false,
-                user: getTodosUserId(prevState.userName),
               };
 
               return ({
                 todosWithUser: [...prevState.todosWithUser, newTodo],
                 todoName: '',
-                userName: '',
+                userID: '',
               });
             });
           }}
@@ -127,25 +126,25 @@ export class App extends React.Component {
           </div>
 
           <div className="form__filed">
-            <label htmlFor="user__name-new">
-              User name
+            <label htmlFor="user__id-new">
+              UserID
             </label>
 
             <select
-              name="userName"
-              id="user__name-new"
-              value={userName}
+              name="userID"
+              id="user__id-new"
+              value={userID}
               onChange={(event) => {
                 this.setState({
-                  userName: +event.target.value,
+                  userID: +event.target.value,
                   noSelect: false,
                 });
               }}
             >
-              <option>Choose User</option>
+              <option>Choose UserID</option>
               {users.map(user => (
                 <option value={user.id} key={user.id}>
-                  {user.name}
+                  {user.id}
                 </option>
               ))}
             </select>

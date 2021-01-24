@@ -12,13 +12,13 @@ const TodoList = ({ todosWithUser }) => (
           <div className="todo__user-task">
             Task:
             {' '}
-            {todoWithUser.title}
+            {(todoWithUser.title).replace(/[^\w\-_\s]/g, '')}
           </div>
 
           <div className="todo__user-name">
-            Name:
+            UserId:
             {' '}
-            {todoWithUser.user}
+            {todoWithUser.userId}
           </div>
 
           <div className={
