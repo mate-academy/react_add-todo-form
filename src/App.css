@@ -1,3 +1,21 @@
-.App {
+html {
+  background-color: rgb(41, 37, 37);
+}
+
+.app {
   text-align: center;
+  height: 100vh;
+  background-color: rgb(41, 37, 37);
+}
+
+.app__todos {
+  display: flex;
+  justify-content: center;
+}
+
+.app__title {
+  font-size: 25px;
+  margin: 50px 0;
+  font-weight: 700;
+  color: #00c4a7;
 }

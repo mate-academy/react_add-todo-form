@@ -1,0 +1,30 @@
+.app__form {
+  display: flex;
+  margin-left: 150px;
+}
+
+.title-error {
+  color: red;
+}
+
+.username-error {
+  color: red;
+}
+
+.button {
+  position: absolute;
+  margin-top: 80px;
+  width: 340px;
+}
+
+.field {
+  margin-bottom: 0;
+}
+
+.input-elements {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 10px;
+  color: #00c4a7;
+}
