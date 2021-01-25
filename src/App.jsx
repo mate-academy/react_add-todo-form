@@ -8,7 +8,7 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 
 const preparedTodos = todosFromApi.map(todo => ({
   ...todo,
-  user: users.find(user => (todo.userId === user.id)).id,
+  user: users.find(user => (todo.userId === user.id)),
 }));
 
 class App extends React.Component {
