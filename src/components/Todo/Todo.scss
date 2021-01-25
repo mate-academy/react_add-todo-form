@@ -1,0 +1,20 @@
+.todo {
+  &__Number {
+    margin-right: 50px;
+  }
+   
+  &__Title {
+    margin: auto;
+  }
+}
+
+.status::before {
+  content: "In process...";
+  color: red;
+  margin-right: 20px;
+}
+
+.status--completed::before {
+  content: "Done";
+  color: green;
+}
