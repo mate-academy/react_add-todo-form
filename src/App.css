@@ -1,3 +1,9 @@
 .App {
   text-align: center;
 }
+
+.table.ui.celled {
+
+  margin: 20px auto;
+  max-width: 700px;
+}
