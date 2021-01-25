@@ -18,19 +18,19 @@ export class TodoForm extends React.Component {
   changeHandler = (e) => {
     const { name, value } = e.target;
 
-    this.setState(state => ({
+    this.setState(prevState => ({
       newTodo: {
-        ...state.newTodo,
-        [name]: value,
+        ...prevState.newTodo,
+        [name]: value.trim(),
       },
     }));
   }
 
   validateNewTodo = (todo, user) => {
     if (!todo) {
-      this.setState(state => ({
+      this.setState(prevState => ({
         errors: {
-          ...state.errors,
+          ...prevState.errors,
           todoError: true,
         },
       }));
@@ -39,9 +39,9 @@ export class TodoForm extends React.Component {
     }
 
     if (!user) {
-      this.setState(state => ({
+      this.setState(prevState => ({
         errors: {
-          ...state.errors,
+          ...prevState.errors,
           userError: true,
         },
       }));

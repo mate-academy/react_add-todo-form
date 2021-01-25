@@ -19,10 +19,10 @@ class App extends React.Component {
   }
 
   addTodo = ({ todoTitle, userName }) => {
-    this.setState(state => ({
-      todosOnPage: [...state.todosOnPage, {
+    this.setState(prevState => ({
+      todosOnPage: [...prevState.todosOnPage, {
         completed: false,
-        id: state.todosOnPage[state.todosOnPage.length - 1].id + 1,
+        id: prevState.todosOnPage[prevState.todosOnPage.length - 1].id + 1,
         title: todoTitle,
         userName,
         userId: users.find(user => user.name === userName).id,
