@@ -2,20 +2,20 @@
   padding: 0 15px;
   background: hsl(10, 73%, 71%);
   transition: 0.3s ease-out;
-  
+
   &:hover {
     filter: brightness(120%);
   }
 }
 
 .todotext::after {
-  content: "todo for";
+  content: "todo for ";
   color: hsl(0, 67%, 25%);
   font-weight: 700;
 }
 
 .donetext::after {
-  content: "done by";
+  content: "done by ";
   color: whitesmoke;
   font-weight: normal;
 }
@@ -27,4 +27,9 @@
   & h2 {
     text-decoration: line-through;
   }
+}
+
+.user-name {
+  color: whitesmoke;
+  font-style: italic;
 }

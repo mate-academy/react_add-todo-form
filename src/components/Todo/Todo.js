@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { TodoType } from '../../types';
-import { User } from '../User';
 import './Todo.scss';
 
 export const Todo = (
@@ -17,8 +16,8 @@ export const Todo = (
       {title}
     </h2>
     <span className={classNames('todotext', { donetext: completed })} />
-    <span>
-      <User {...user} />
+    <span className="user-name">
+      {user.name || user}
     </span>
   </div>
 );

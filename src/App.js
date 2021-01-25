@@ -13,7 +13,6 @@ const preparedTodos = todos
 
 class App extends React.Component {
   state = {
-    userList: users,
     todoList: preparedTodos,
     newTask: '',
     selectedUser: '',
@@ -39,6 +38,15 @@ class App extends React.Component {
       return;
     }
 
+    if (this.state.newTask.trim() === '') {
+      this.setState({
+        titleFieldError: true,
+        newTask: '',
+      });
+
+      return;
+    }
+
     if (!this.state.selectedUser) {
       this.setState({ userFieldError: true });
 
@@ -50,10 +58,9 @@ class App extends React.Component {
         ...state.todoList,
         {
           id: state.todoList.length + 1,
-          userId: +state.selectedUser,
+          user: state.selectedUser,
           completed: false,
           title: state.newTask,
-          user: state.userList.find(user => user.id === +state.selectedUser),
         }],
       newTask: '',
       selectedUser: '',
@@ -101,7 +108,7 @@ class App extends React.Component {
             >
               <option value="">Select a user</option>
               {users.map(user => (
-                <option key={user.id} value={user.id}>{user.name}</option>
+                <option key={user.id}>{user.name}</option>
               ))}
             </select>
             {this.state.userFieldError && (
