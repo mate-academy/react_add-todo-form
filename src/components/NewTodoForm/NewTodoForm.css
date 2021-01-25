@@ -1,0 +1,8 @@
+.form {
+  margin: 0 auto 40px;
+  width: 400px;
+}
+
+.form__input {
+  height: 100px;
+}
