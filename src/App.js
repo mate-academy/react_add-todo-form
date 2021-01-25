@@ -7,25 +7,28 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 import users from './api/users';
 import todos from './api/todos';
 
-const prepearedtodos = todos.map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   userName: users.find(user => user.id === todo.userId).name,
 }));
 
 class App extends React.Component {
   state = {
-    todosOnPage: prepearedtodos,
+    todosOnPage: preparedTodos,
   }
 
   addTodo = ({ todoTitle, userName }) => {
+    const { todosOnPage } = this.state;
+    const newTodo = {
+      userId: users.find(user => user.name === userName).id,
+      id: todosOnPage[todosOnPage.length - 1].id + 1,
+      title: todoTitle,
+      completed: false,
+      userName,
+    };
+
     this.setState(prevState => ({
-      todosOnPage: [...prevState.todosOnPage, {
-        completed: false,
-        id: prevState.todosOnPage[prevState.todosOnPage.length - 1].id + 1,
-        title: todoTitle,
-        userName,
-        userId: users.find(user => user.name === userName).id,
-      }],
+      todosOnPage: [...prevState.todosOnPage, newTodo],
     }));
   }
 

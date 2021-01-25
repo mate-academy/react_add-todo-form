@@ -26,7 +26,24 @@ export class TodoForm extends React.Component {
     }));
   }
 
-  validateNewTodo = (todo, user) => {
+  submitHandler = (e) => {
+    e.preventDefault();
+
+    const { onAdd } = this.props;
+    const { newTodo: { todoTitle, userName } } = this.state;
+
+    if (this.isValidTodo(todoTitle, userName)) {
+      onAdd(this.state.newTodo);
+      this.setState({
+        newTodo: {
+          todoTitle: '',
+          userName: '',
+        },
+      });
+    }
+  }
+
+  isValidTodo = (todo, user) => {
     if (!todo) {
       this.setState(prevState => ({
         errors: {
@@ -65,24 +82,11 @@ export class TodoForm extends React.Component {
       errors: { todoError, userError },
     } = this.state;
 
-    const { onAdd } = this.props;
-
     return (
       <Form
         action=""
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (this.validateNewTodo(todoTitle, userName)) {
-            onAdd(this.state.newTodo);
-            this.setState({
-              newTodo: {
-                todoTitle: '',
-                userName: '',
-              },
-            });
-          }
-        }}
+        onSubmit={this.submitHandler}
       >
         <Form.Group>
           <Form.Label htmlFor="todo">
