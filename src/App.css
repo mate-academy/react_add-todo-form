@@ -1,3 +1,15 @@
-.App {
+.app {
   text-align: center;
+}
+
+.input {
+  margin-bottom: 15px;
+}
+
+.alert {
+  color: red;
+}
+
+.btn {
+  margin-top: 10px;
 }

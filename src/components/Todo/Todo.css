@@ -1,0 +1,14 @@
+.todo {
+  width: 100%;
+  text-align: left;
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}
+
+.uncompleted {
+  color: red;
+  font-weight: bold;
+}
