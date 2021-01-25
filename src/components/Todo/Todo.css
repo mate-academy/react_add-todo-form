@@ -1,0 +1,56 @@
+.todo {
+  display: grid;
+  grid-template-columns: 2fr 4fr 2fr;
+  gap: 60px;
+  padding: 20px 40px;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: -6px -6px 16px rgba(255, 255, 255, 0.5),
+    6px 6px 16px rgba(209, 205, 199, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s, border-radius 0.3s;
+}
+
+.todo:hover {
+  box-shadow: -16px -16px 36px 10px rgba(255, 255, 255, 0.3),
+    16px 16px 36px 10px rgba(209, 205, 199, 0.3);
+  border-radius: 15px;
+  transform: scale(1.02);
+}
+
+@media (max-width: 1000px) {
+  .todo {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.todo__title {
+  margin-bottom: 15px;
+  line-height: 19px;
+}
+
+@media (max-width: 1000px) {
+  .todo__title {
+    margin-bottom: 5px;
+  }
+}
+
+.todo__info {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  position: relative;
+}
+
+.todo__icon {
+  background: url(./image/completed.svg) no-repeat center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: -35px;
+}
+
+.todo__icon--not-completed {
+  background-image: url(./image/not_completed.svg);
+}
