@@ -1,0 +1,31 @@
+.TodoForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  min-width: 600px;
+  max-width: 1000px;
+
+  &__label {
+    margin-top: 20px;
+  }
+
+  &__field {
+    margin: 15px 0;
+    padding: 10px 15px;
+  }
+
+  &__submit {
+    margin-top: 20px;
+    padding: 10px;
+
+    &:hover {
+      color: white;
+      background-color: red;
+    }
+  }
+
+  &__error {
+    align-self: flex-start;
+    color: red;
+  }
+}
