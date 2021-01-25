@@ -4,7 +4,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import { TodoList } from './components/TodoList/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
-
 import users from './api/users';
 import todos from './api/todos';
 

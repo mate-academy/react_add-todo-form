@@ -87,7 +87,6 @@ export class TodoForm extends React.Component {
         <Form.Group>
           <Form.Label htmlFor="todo">
             What to do:
-            {' '}
           </Form.Label>
           {todoError && (
             <Alert variant="danger">
