@@ -1,3 +1,19 @@
-.App {
+h2 {
   text-align: center;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", sans-serif;
+}
+
+.app__todos {
+  width: 700px;
+  margin: 50px;
+}
+
+.app__form {
+  width: 450px;
+  margin: 50px;
 }
