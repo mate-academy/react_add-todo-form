@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    text-align: right;
+    margin: 10px 0 5px;
+    font-weight: 700;
+  }
+
+  &__select {
+    margin: 0 0 18px;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__input {
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    margin-bottom: 19px;
+  }
+}
+
+.select {
+  &__error {
+    color: red;
+    margin-top: -19px;
+  }
+}
