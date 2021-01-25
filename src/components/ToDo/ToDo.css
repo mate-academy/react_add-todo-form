@@ -1,0 +1,11 @@
+.todo__user {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.todo__task {
+  display: flex;
+  margin: 0 auto;
+  text-transform: uppercase;
+}
