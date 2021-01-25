@@ -16,20 +16,24 @@ class App extends React.Component {
   }
 
   addNewTodo = (title, name) => {
-    this.setState(prevState => ({
-      todos: [
-        ...prevState.todos,
-        {
-          userId: prevState.todos.length + 1,
-          id: prevState.todos.length + 1,
-          title,
-          completed: false,
-          user: {
-            name,
-          },
+    this.setState((prevState) => {
+      const newTodo = {
+        userId: name.id,
+        id: prevState.todos.length + 1,
+        title,
+        completed: false,
+        user: {
+          name,
         },
-      ],
-    }));
+      };
+
+      return {
+        todos: [
+          ...prevState.todos,
+          newTodo,
+        ],
+      };
+    });
   };
 
   render() {

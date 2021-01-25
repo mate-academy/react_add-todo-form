@@ -87,11 +87,7 @@ export class TodoForm extends React.Component {
         {/* eslint-disable-next-line max-len */}
         <button
           type="submit"
-          className="
-            mdl-button mdl-button--fab
-            mdl-js-ripple-effect
-            mdl-button--colored
-          "
+          className="btn"
         >
           <i className="material-icons">add</i>
         </button>
