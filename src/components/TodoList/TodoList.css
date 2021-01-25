@@ -1,0 +1,7 @@
+.todolist {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  grid-auto-rows: 200px;
+  grid-gap: 20px 30px;
+}
