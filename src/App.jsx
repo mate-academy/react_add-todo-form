@@ -16,14 +16,14 @@ class App extends React.Component {
     todos: preparedTodos,
   }
 
-  addTodo = (title, newUser) => {
+  addTodo = (title, selectedUser) => {
     this.setState((state) => {
       const newTodo = {
-        userId: newUser.id,
+        userId: selectedUser.id,
         id: state.todos.length + 1,
         title,
         completed: false,
-        userName: newUser.name,
+        userName: selectedUser.name,
       };
 
       return {
@@ -38,7 +38,7 @@ class App extends React.Component {
         <h1 className="app__title">Add todo form</h1>
 
         <div className="app__todos">
-          <TodoList getUserName={this.getUserName} todos={preparedTodos} />
+          <TodoList todos={preparedTodos} />
 
           <TodoForm users={users} addTodo={this.addTodo} />
         </div>
