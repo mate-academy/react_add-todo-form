@@ -1,3 +1,9 @@
 .App {
+  width: 700px;
+  margin: 0 auto;
   text-align: center;
+  background-color: #f9ebae;
+  color: #2b393a;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
 }
