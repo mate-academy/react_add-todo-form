@@ -35,11 +35,7 @@ class App extends React.Component {
     return (
       <Container className="App">
         <h1>Add todo form</h1>
-
-        <TodoForm
-          onAdd={this.addTodo}
-        />
-
+        <TodoForm onAdd={this.addTodo} />
         <TodoList todos={todosOnPage} />
       </Container>
     );
