@@ -7,7 +7,7 @@ import todos from './api/todos';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId),
+  userName: users.find(user => user.id === todo.userId).name,
 }));
 
 class App extends React.Component {
@@ -58,9 +58,9 @@ class App extends React.Component {
     this.setState((state) => {
       const newTask = {
         id: state.todos.length + 1,
-        title: state.taskName,
+        title: taskName,
         completed: false,
-        user: users.find(user => user.id === state.userId),
+        userName: users.find(user => user.id === userId).name,
       };
 
       return ({

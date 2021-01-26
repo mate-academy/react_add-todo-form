@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { User } from '../User/User';
 
-export const Todo = ({ user, title, completed }) => (
+export const Todo = ({ userName, title, completed }) => (
   <>
     <td className="table__row table__row--user">
-      <User {...user} />
+      {userName}
     </td>
     <td className="table__row table__row--task">
       {title}
@@ -17,9 +16,7 @@ export const Todo = ({ user, title, completed }) => (
 );
 
 Todo.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
 };
