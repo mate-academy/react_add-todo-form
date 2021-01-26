@@ -3,10 +3,10 @@ import './TodoList.css';
 
 import PropTypes from 'prop-types';
 
-export const TodoList = ({ preparedTodos }) => (
+export const TodoList = ({ todos }) => (
   <table className="TodoList__table">
     <tbody>
-      {preparedTodos.map(todo => (
+      {todos.map(todo => (
         <tr key={todo.id} className="TodoList__row">
           <td className="TodoList__cell">
             {todo.id}
@@ -35,7 +35,7 @@ export const TodoList = ({ preparedTodos }) => (
 );
 
 TodoList.propTypes = {
-  preparedTodos: PropTypes.arrayOf(PropTypes.shape({
+  todos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,

@@ -13,35 +13,42 @@ const preparedList = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    preparedTodos: [...preparedList],
-    usersSelect: '',
-    title: '',
+    todos: preparedList,
+    selectedUserId: '',
+    newTodoTitle: '',
     titleError: false,
     selectError: false,
   }
 
-  dataChange = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState(state => ({
       [name]: value.trimStart(),
-      titleError: state.title && false,
-      selectError: state.usersSelect && false,
+      // titleError: state.newTodoTitle && false,
+      // selectError: state.selectedUserId && false,
+      titleError: !state.newTodoTitle,
+      selectError: !state.selectedUserId,
     }));
   }
 
-  addTask = () => {
-    const { preparedTodos, title, usersSelect } = this.state;
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.addTask();
+  }
 
-    if (!title) {
+  addTask = () => {
+    // eslint-disable-next-line
+    const { todos, newTodoTitle, selectedUserId } = this.state;
+
+    if (!newTodoTitle) {
       this.setState({ titleError: true });
 
       return;
     }
 
-    if (!usersSelect) {
+    if (!selectedUserId) {
       this.setState({
-        titleError: false,
         selectError: true,
       });
 
@@ -51,23 +58,30 @@ class App extends React.Component {
     this.setState({
       titleError: false,
       selectError: false,
-      title: '',
-      usersSelect: '',
-      preparedTodos: [
-        ...preparedTodos,
+      newTodoTitle: '',
+      selectedUserId: '',
+      todos: [
+        ...todos,
         {
-          userId: +usersSelect,
-          id: preparedTodos.length + 1,
-          title,
+          userId: +selectedUserId,
+          id: todos.length + 1,
+          title: newTodoTitle,
           completed: false,
-          user: users[usersSelect - 1],
+          user: users.find(user => user.id === +selectedUserId),
         },
       ],
     });
   }
 
   render() {
-    const { preparedTodos, usersSelect, titleError, selectError } = this.state;
+    const {
+      // eslint-disable-next-line
+      todos,
+      newTodoTitle,
+      selectedUserId,
+      titleError,
+      selectError,
+    } = this.state;
 
     return (
       <div className="App">
@@ -80,19 +94,16 @@ class App extends React.Component {
 
         <form
           className="App__form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            this.addTask();
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="Arr__form-column">
             <label>
               <input
                 type="text"
-                name="title"
-                value={this.state.title}
+                name="newTodoTitle"
+                value={newTodoTitle}
                 placeholder="New task"
-                onChange={this.dataChange}
+                onChange={this.handleChange}
               />
             </label>
             {titleError && <p>empty value</p>}
@@ -101,9 +112,9 @@ class App extends React.Component {
           <div className="Arr__form-column">
             <select
               className="App__select"
-              name="usersSelect"
-              value={usersSelect}
-              onChange={this.dataChange}
+              name="selectedUserId"
+              value={selectedUserId}
+              onChange={this.handleChange}
             >
               <option value="">Choose a user</option>
               {users.map(user => (
@@ -121,7 +132,7 @@ class App extends React.Component {
           <button type="submit">Add task</button>
         </form>
 
-        <TodoList preparedTodos={preparedTodos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
