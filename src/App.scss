@@ -1,0 +1,71 @@
+@import "bulma/bulma.sass";
+
+* {
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.todo {
+  justify-content: space-between;
+
+  &__title {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 30px;
+  }
+
+  &__list {
+    width: 90%;
+    background-color: rgb(242, 246, 250);
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 5px;
+    text-align: left;
+  }
+
+  display: flex;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+
+  &__input {
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+.button,
+.input {
+  margin-left: 10px;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+
+  &--title {
+    left: 385px;
+  }
+
+  &--user {
+    left: 150px;
+  }
+}
+
+.checkbox {
+  text-align: center;
+}
