@@ -7,120 +7,120 @@ import todos from './api/todos';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId).name,
+  userName: users.find(user => user.id === todo.userId).name,
 }));
 
 class App extends React.Component {
   state = {
-    newTask: '',
-    chooseUser: '',
-    newTaskErr: false,
-    chooseUserErr: false,
-    renderList: preparedTodos,
+    task: '',
+    user: '',
+    taskErr: false,
+    userError: false,
+    todos: preparedTodos,
     id: preparedTodos.length + 1,
   }
 
-  handlerNewTask = (event) => {
+  newTaskHandler = (event) => {
     this.setState({
-      newTask: event.target.value,
-      newTaskErr: false,
+      task: event.target.value,
+      taskErr: false,
     });
   }
 
-  handlerChooseUser = (event) => {
+  chooseUser = (event) => {
     this.setState({
-      chooseUser: event.target.value,
-      chooseUserErr: false,
+      user: event.target.value,
+      userError: false,
     });
   }
 
   addNewTodoItem = (event) => {
     event.preventDefault();
 
-    if (!this.state.chooseUser.length) {
+    if (!this.state.user.length) {
       this.setState({
-        chooseUserErr: true,
+        userError: true,
       });
     }
 
-    if (!this.state.newTask.trim().length) {
+    if (!this.state.task.trim().length) {
       this.setState({
-        newTaskErr: true,
+        taskErr: true,
       });
     }
 
-    if (this.state.chooseUser.length && this.state.newTask.trim().length) {
+    if (this.state.user.length && this.state.task.trim().length) {
       this.setState((state) => {
         const newTodo = {
           id: state.id + 1,
-          title: state.newTask,
-          user: state.chooseUser,
+          title: state.task,
+          userName: state.user,
           completed: false,
         };
 
         return ({
           id: state.id + 1,
-          renderList: [...state.renderList, newTodo],
-          newTask: '',
-          chooseUser: '',
+          todos: [...state.todos, newTodo],
+          task: '',
+          user: '',
         });
       });
     }
   }
 
   render() {
-    const { newTask, chooseUser } = this.state;
+    const { task, user } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
         <form onSubmit={this.addNewTodoItem}>
-          <label htmlFor="newTask">
+          <label htmlFor="task">
             <p>
               Add task
               {' '}
-              {this.state.newTaskErr && (
-                <span>
+              {this.state.taskErr && (
+                <span className="tag is-danger">
                   Please enter the title
                   {' '}
                 </span>
               )}
               <input
                 type="text"
-                name="newTask"
-                id="newTask"
+                name="task"
+                id="task"
                 placeholder="Add new task"
-                value={newTask}
-                onChange={this.handlerNewTask}
+                value={task}
+                onChange={this.newTaskHandler}
               />
             </p>
           </label>
-          <label htmlFor="chooseUser">
+          <label htmlFor="user">
             <p>
               Choose user
               {' '}
-              {this.state.chooseUserErr && (
-                <span>
+              {this.state.userError && (
+                <span className="tag is-danger">
                   Please choose a user
                   {' '}
                 </span>
               )}
 
               <select
-                id="chooseUser"
-                name="chooseUser"
-                value={chooseUser}
-                onChange={this.handlerChooseUser}
+                id="user"
+                name="user"
+                value={user}
+                onChange={this.chooseUser}
               >
                 <option value="">
                   Choose a user
                 </option>
-                {users.map(user => (
+                {users.map(someUser => (
                   <option
-                    key={user.id}
+                    key={someUser.id}
                     value={user.name}
                   >
-                    {user.name}
+                    {someUser.name}
                   </option>
                 ))}
               </select>
@@ -134,7 +134,7 @@ class App extends React.Component {
           </button>
         </form>
         <ToDoList
-          todos={this.state.renderList}
+          todos={this.state.todos}
         />
       </div>
     );
