@@ -10,15 +10,11 @@ const TodoList = ({ todos }) => (
       >
         <div className="todo__user">
           <div className="todo__user-task">
-            Task:
-            {' '}
-            {(todo.title).replace(/[^\w\-_\s]/g, '')}
+            {`Task: ${(todo.title).replace(/[^\w\-_\s]/g, '')}`}
           </div>
 
           <div className="todo__user-name">
-            UserId:
-            {' '}
-            {todo.userId}
+            {`UserId: ${todo.id}`}
           </div>
 
           <div className={
@@ -27,9 +23,7 @@ const TodoList = ({ todos }) => (
               : 'todo__user-uncompleted'
           }
           >
-            {todo.completed
-              ? 'done'
-              : 'in process'
+            {todo.completed ? 'done' : 'in process'
             }
           </div>
         </div>
@@ -38,15 +32,13 @@ const TodoList = ({ todos }) => (
   </ul>
 );
 
-TodoList.propTypes = { todos: PropTypes.arrayOf(
-  PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+TodoList.propTypes = { todosWithUser: PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  completed: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
   }).isRequired,
-) }.isRequired;
+}).isRequired) }.isRequired;
 
 export default TodoList;

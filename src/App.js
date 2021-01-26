@@ -8,29 +8,27 @@ import todoss from './api/todos';
 
 const preparedTodos = todoss.map(todo => ({
   ...todo,
-  userID: users.find(user => user.id === todo.userId).id,
+  selectedUserId: users.find(user => user.id === todo.userId).id,
 }));
 
 export class App extends React.Component {
   state = {
     todos: preparedTodos,
-    todoName: '',
-    userID: '',
+    newTodoTitle: '',
+    selectedUserId: '',
     noTitle: false,
     noSelect: false,
-    maxLength: 30,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     const {
-      todoName,
-      userID,
-      maxLength,
+      newTodoTitle,
+      selectedUserId,
     } = this.state;
 
-    if (!todoName && !userID) {
+    if (!newTodoTitle && !selectedUserId) {
       this.setState({
         noTitle: true,
         noSelect: true,
@@ -39,7 +37,7 @@ export class App extends React.Component {
       return;
     }
 
-    if (todoName.replace(/[^a-zA-Z0-9]/g, '').length === 0) {
+    if (newTodoTitle.replace(/[^a-zA-Z0-9]/g, '').length === 0) {
       this.setState({
         noTitle: true,
       });
@@ -47,7 +45,7 @@ export class App extends React.Component {
       return;
     }
 
-    if (!userID) {
+    if (!selectedUserId) {
       this.setState({
         noSelect: true,
       });
@@ -58,27 +56,34 @@ export class App extends React.Component {
     this.setState((prevState) => {
       const newTodo = {
         id: prevState.todos.length + 1,
-        userId: prevState.userID,
-        title: prevState.todoName
-          .split('')
-          .slice(0, maxLength)
-          .join(''),
+        userId: prevState.selectedUserId,
+        title: prevState.newTodoTitle,
         completed: false,
       };
 
       return ({
         todos: [...prevState.todos, newTodo],
-        todoName: '',
-        userID: '',
+        newTodoTitle: '',
+        selectedUserId: '',
+        noTitle: false,
+        noSelect: false,
       });
     });
   }
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value,
+    });
+  };
+
   render() {
     const {
       todos,
-      todoName,
-      userID,
+      newTodoTitle,
+      selectedUserId,
       noTitle,
       noSelect,
     } = this.state;
@@ -99,15 +104,10 @@ export class App extends React.Component {
 
             <input
               type="text"
-              name="todoName"
-              value={todoName}
+              name="newTodoTitle"
+              value={newTodoTitle}
               id="todo__name-new"
-              onChange={(event) => {
-                this.setState({
-                  todoName: event.target.value,
-                  noTitle: false,
-                });
-              }}
+              onChange={this.handleChange}
               placeholder="Todo name"
             />
             <span
@@ -126,20 +126,15 @@ export class App extends React.Component {
             </label>
 
             <select
-              name="userID"
+              name="selectedUserId"
               id="user__id-new"
-              value={userID}
-              onChange={(event) => {
-                this.setState({
-                  userID: +event.target.value,
-                  noSelect: false,
-                });
-              }}
+              value={selectedUserId}
+              onChange={this.handleChange}
             >
               <option>Choose UserID</option>
               {users.map(user => (
                 <option value={user.id} key={user.id}>
-                  {user.id}
+                  {user.name}
                 </option>
               ))}
             </select>

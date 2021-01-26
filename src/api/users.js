@@ -2,7 +2,7 @@ const users = [
   {
     id: 1,
     name: 'Leanne Graham',
-    userID: 'Bret',
+    selectedUserId: 'Bret',
     email: 'Sincere@april.biz',
     address: {
       street: 'Kulas Light',
@@ -25,7 +25,7 @@ const users = [
   {
     id: 2,
     name: 'Ervin Howell',
-    userID: 'Antonette',
+    selectedUserId: 'Antonette',
     email: 'Shanna@melissa.tv',
     address: {
       street: 'Victor Plains',
@@ -48,7 +48,7 @@ const users = [
   {
     id: 3,
     name: 'Clementine Bauch',
-    userID: 'Samantha',
+    selectedUserId: 'Samantha',
     email: 'Nathan@yesenia.net',
     address: {
       street: 'Douglas Extension',
@@ -71,7 +71,7 @@ const users = [
   {
     id: 4,
     name: 'Patricia Lebsack',
-    userID: 'Karianne',
+    selectedUserId: 'Karianne',
     email: 'Julianne.OConner@kory.org',
     address: {
       street: 'Hoeger Mall',
@@ -94,7 +94,7 @@ const users = [
   {
     id: 5,
     name: 'Chelsey Dietrich',
-    userID: 'Kamren',
+    selectedUserId: 'Kamren',
     email: 'Lucio_Hettinger@annie.ca',
     address: {
       street: 'Skiles Walks',
@@ -117,7 +117,7 @@ const users = [
   {
     id: 6,
     name: 'Mrs. Dennis Schulist',
-    userID: 'Leopoldo_Corkery',
+    selectedUserId: 'Leopoldo_Corkery',
     email: 'Karley_Dach@jasper.info',
     address: {
       street: 'Norberto Crossing',
@@ -140,7 +140,7 @@ const users = [
   {
     id: 7,
     name: 'Kurtis Weissnat',
-    userID: 'Elwyn.Skiles',
+    selectedUserId: 'Elwyn.Skiles',
     email: 'Telly.Hoeger@billy.biz',
     address: {
       street: 'Rex Trail',
@@ -163,7 +163,7 @@ const users = [
   {
     id: 8,
     name: 'Nicholas Runolfsdottir V',
-    userID: 'Maxime_Nienow',
+    selectedUserId: 'Maxime_Nienow',
     email: 'Sherwood@rosamond.me',
     address: {
       street: 'Ellsworth Summit',
@@ -186,7 +186,7 @@ const users = [
   {
     id: 9,
     name: 'Glenna Reichert',
-    userID: 'Delphine',
+    selectedUserId: 'Delphine',
     email: 'Chaim_McDermott@dana.io',
     address: {
       street: 'Dayna Park',
@@ -209,7 +209,7 @@ const users = [
   {
     id: 10,
     name: 'Clementina DuBuque',
-    userID: 'Moriah.Stanton',
+    selectedUserId: 'Moriah.Stanton',
     email: 'Rey.Padberg@karina.biz',
     address: {
       street: 'Kattie Turnpike',
