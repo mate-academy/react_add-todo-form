@@ -18,7 +18,7 @@ class App extends React.Component {
   addNewTodo = (title, name) => {
     this.setState((prevState) => {
       const newTodo = {
-        userId: name.id,
+        userId: users.find(user => user.name === name).id,
         id: prevState.todos.length + 1,
         title,
         completed: false,

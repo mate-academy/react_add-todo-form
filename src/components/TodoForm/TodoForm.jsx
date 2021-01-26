@@ -11,17 +11,25 @@ export class TodoForm extends React.Component {
     noName: false,
   };
 
-  inputTitleField = (e) => {
-    this.setState({
-      title: e.target.value,
-    });
-  };
+  handleChange = (e) => {
+    const { value, name } = e.target;
 
-  selectNameField = (e) => {
     this.setState({
-      name: e.target.value,
+      [name]: value,
     });
-  };
+  }
+  //
+  // inputTitleField = (e) => {
+  //   this.setState({
+  //     title: e.target.value,
+  //   });
+  // };
+  //
+  // selectNameField = (e) => {
+  //   this.setState({
+  //     name: e.target.value,
+  //   });
+  // };
 
   addNewTodo = (e) => {
     e.preventDefault();
@@ -56,7 +64,8 @@ export class TodoForm extends React.Component {
           type="text"
           placeholder="type a new todo"
           value={this.state.title}
-          onChange={this.inputTitleField}
+          onChange={this.handleChange}
+          name="title"
         />
 
         {this.state.noTitle && this.state.title === ''
@@ -65,9 +74,9 @@ export class TodoForm extends React.Component {
 
         <select
           className="field"
-          name="user"
+          name="name"
           value={this.state.name}
-          onChange={this.selectNameField}
+          onChange={this.handleChange}
         >
           <option value="">Choose a user</option>
           {users.map(user => (
@@ -84,7 +93,6 @@ export class TodoForm extends React.Component {
           ? <span className="error">no user, please select a new one</span>
           : ''}
 
-        {/* eslint-disable-next-line max-len */}
         <button
           type="submit"
           className="btn"
