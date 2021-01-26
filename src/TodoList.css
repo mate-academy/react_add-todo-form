@@ -1,0 +1,12 @@
+.table {
+  margin-top: 50px;
+  border-collapse: collapse;
+}
+
+.table__row {
+  background-color: rgb(250, 250, 250);
+}
+
+.table__cell {
+  padding: 10px 20px;
+}
