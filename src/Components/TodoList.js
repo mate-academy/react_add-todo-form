@@ -2,32 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
 
-const TodoList = ({ todosWithUser }) => (
+const TodoList = ({ todos }) => (
   <ul className="todo">
-    {todosWithUser.map(todoWithUser => (
+    {todos.map(todo => (
       <li
-        key={todoWithUser.id}
+        key={todo.id}
       >
         <div className="todo__user">
           <div className="todo__user-task">
             Task:
             {' '}
-            {(todoWithUser.title).replace(/[^\w\-_\s]/g, '')}
+            {(todo.title).replace(/[^\w\-_\s]/g, '')}
           </div>
 
           <div className="todo__user-name">
             UserId:
             {' '}
-            {todoWithUser.userId}
+            {todo.userId}
           </div>
 
           <div className={
-            todoWithUser.completed
+            todo.completed
               ? 'todo__user-completed'
               : 'todo__user-uncompleted'
           }
           >
-            {todoWithUser.completed
+            {todo.completed
               ? 'done'
               : 'in process'
             }
@@ -38,7 +38,7 @@ const TodoList = ({ todosWithUser }) => (
   </ul>
 );
 
-TodoList.propTypes = { todosWithUser: PropTypes.arrayOf(
+TodoList.propTypes = { todos: PropTypes.arrayOf(
   PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,

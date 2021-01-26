@@ -4,43 +4,83 @@ import './App.css';
 import TodoList from './Components/TodoList';
 
 import users from './api/users';
-import todos from './api/todos';
+import todoss from './api/todos';
 
-function getTodosUserId(userId) {
-  return users.find(user => user.id === userId).id;
-}
-
-const todosWithUserFromFile = todos.map(todo => ({
+const preparedTodos = todoss.map(todo => ({
   ...todo,
-  user: getTodosUserId(todo.userId),
+  userID: users.find(user => user.id === todo.userId).id,
 }));
 
 export class App extends React.Component {
   state = {
-    todosWithUser: todosWithUserFromFile,
+    todos: preparedTodos,
     todoName: '',
     userID: '',
-    countId: todosWithUserFromFile.length,
     noTitle: false,
     noSelect: false,
     maxLength: 30,
   }
 
-  addOneId = () => {
-    this.setState(state => ({
-      countId: state.countId + 1,
-    }));
-  };
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const {
+      todoName,
+      userID,
+      maxLength,
+    } = this.state;
+
+    if (!todoName && !userID) {
+      this.setState({
+        noTitle: true,
+        noSelect: true,
+      });
+
+      return;
+    }
+
+    if (todoName.replace(/[^a-zA-Z0-9]/g, '').length === 0) {
+      this.setState({
+        noTitle: true,
+      });
+
+      return;
+    }
+
+    if (!userID) {
+      this.setState({
+        noSelect: true,
+      });
+
+      return;
+    }
+
+    this.setState((prevState) => {
+      const newTodo = {
+        id: prevState.todos.length + 1,
+        userId: prevState.userID,
+        title: prevState.todoName
+          .split('')
+          .slice(0, maxLength)
+          .join(''),
+        completed: false,
+      };
+
+      return ({
+        todos: [...prevState.todos, newTodo],
+        todoName: '',
+        userID: '',
+      });
+    });
+  }
 
   render() {
     const {
-      todosWithUser,
+      todos,
       todoName,
       userID,
-      countId,
       noTitle,
       noSelect,
-      maxLength,
     } = this.state;
 
     return (
@@ -50,52 +90,7 @@ export class App extends React.Component {
         <form
           action="/api/todos"
           method="POST"
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            if (!todoName && !userID) {
-              this.setState({
-                noTitle: true,
-                noSelect: true,
-              });
-
-              return;
-            }
-
-            if (todoName.replace(/[^a-zA-Z0-9]/g, '').length === 0) {
-              this.setState({
-                noTitle: true,
-              });
-
-              return;
-            }
-
-            if (!userID) {
-              this.setState({
-                noSelect: true,
-              });
-
-              return;
-            }
-
-            this.setState((prevState) => {
-              const newTodo = {
-                id: countId,
-                userId: prevState.userID,
-                title: prevState.todoName
-                  .split('')
-                  .slice(0, maxLength)
-                  .join(''),
-                completed: false,
-              };
-
-              return ({
-                todosWithUser: [...prevState.todosWithUser, newTodo],
-                todoName: '',
-                userID: '',
-              });
-            });
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="form__filed">
             <label htmlFor="todo__name-new">
@@ -160,7 +155,6 @@ export class App extends React.Component {
           <button
             type="submit"
             className="buttonAdd"
-            onClick={this.addOneId}
           >
             Add
           </button>
@@ -168,7 +162,7 @@ export class App extends React.Component {
         </form>
 
         <TodoList
-          todosWithUser={todosWithUser}
+          todos={todos}
         />
       </div>
     );
