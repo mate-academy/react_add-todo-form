@@ -54,7 +54,7 @@ class App extends React.Component {
         id: todos.length + 1,
         title: todoTitle,
         completed: false,
-        user: getUserById(+userId),
+        userName: getUserById(+userId).name,
       };
 
       return ({
