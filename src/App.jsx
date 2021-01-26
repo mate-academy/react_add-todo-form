@@ -2,37 +2,49 @@ import React from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 
-import todos from './api/todos';
-import users from './api/users';
+import todosFromApi from './api/todos';
+import usersFromApi from './api/users';
 
-const fullList = todos.map(todo => ({
-  user: users.find(user => todo.userId === user.id),
+const preparedTodos = todosFromApi.map(todo => ({
+  user: usersFromApi.find(user => todo.userId === user.id),
   ...todo,
 }));
 
 class App extends React.Component {
   state = {
-    userList: [...fullList],
+    todos: preparedTodos,
     todoTitle: '',
     personName: '',
-    unwritten: false,
-    unselected: false,
+    titleError: false,
+    userError: false,
   };
 
-  addTodo = (event) => {
+  handleChange = (event) => {
+    const { value, name } = event.target;
+    const errorName = name === 'todoTitle'
+      ? 'titleError'
+      : 'userError';
+
+    this.setState({
+      [name]: value,
+      [errorName]: false,
+    });
+  }
+
+  handleSubmit = (event) => {
     event.preventDefault();
-    const { userList, todoTitle, personName } = this.state;
+    const { todos, todoTitle, personName } = this.state;
 
     if (todoTitle.trim() && personName) {
       const newTodo = {
         title: todoTitle,
-        complited: false,
-        id: userList[userList.length - 1].id + 1,
-        user: users.find(user => personName === user.name),
+        completed: false,
+        id: todos[todos.length - 1].id + 1,
+        user: usersFromApi.find(user => personName === user.name),
       };
 
       this.setState(state => ({
-        userList: [...state.userList, newTodo],
+        todos: [...state.todos, newTodo],
         todoTitle: '',
         personName: '',
       }));
@@ -42,20 +54,20 @@ class App extends React.Component {
 
     if (!todoTitle.trim()) {
       this.setState({
-        unwritten: true,
+        titleError: true,
         todoTitle: '',
       });
     }
 
     if (!personName) {
       this.setState({
-        unselected: true,
+        userError: true,
       });
     }
   };
 
   render() {
-    const { userList, unwritten, unselected } = this.state;
+    const { todos, titleError, userError } = this.state;
 
     return (
 
@@ -64,11 +76,11 @@ class App extends React.Component {
         <div className="App__subtitle">
           <p>
             <span>Todos: </span>
-            {userList.length}
+            {todos.length}
           </p>
           <p>
             <span>Users: </span>
-            {users.length}
+            {usersFromApi.length}
           </p>
         </div>
 
@@ -76,9 +88,7 @@ class App extends React.Component {
           action="/api/todo"
           method="POST"
           className="App__form"
-          onSubmit={(event) => {
-            this.addTodo(event);
-          }}
+          onSubmit={this.handleSubmit}
         >
 
           <div>
@@ -91,16 +101,11 @@ class App extends React.Component {
                 className="App__inputs"
                 placeholder="whrite the todo here"
                 value={this.state.todoTitle}
-                onChange={(event) => {
-                  this.setState({
-                    todoTitle: event.target.value,
-                    unwritten: false,
-                  });
-                }}
+                onChange={this.handleChange}
 
               />
             </label>
-            {unwritten
+            {titleError
               && (
                 <div className="App__message">
                   add todo to the list
@@ -122,22 +127,17 @@ class App extends React.Component {
                 id="person-name"
                 className="App__inputs"
                 value={this.state.personName}
-                onChange={(event) => {
-                  this.setState({
-                    personName: event.target.value,
-                    unselected: false,
-                  });
-                }}
+                onChange={this.handleChange}
               >
                 <option value="" disabled>Choose a Person</option>
-                {users.map(user => (
+                {usersFromApi.map(user => (
                   <option value={user.name} key={user.id}>
                     {user.name}
                   </option>
                 ))}
               </select>
             </label>
-            {unselected
+            {userError
               && (
                 <div className="App__message">
                   choose someone, please
@@ -146,7 +146,7 @@ class App extends React.Component {
             }
           </div>
         </form>
-        <TodoList todos={userList} />
+        <TodoList todos={todos} />
       </div>
     );
   }
