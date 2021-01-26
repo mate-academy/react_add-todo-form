@@ -10,7 +10,7 @@ function getUserById(userId) {
 
 const todosWithUsers = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  userName: getUserById(todo.userId).name,
 }));
 
 class App extends React.Component {
@@ -18,8 +18,8 @@ class App extends React.Component {
     todos: todosWithUsers,
     todoTitle: '',
     userId: 0,
-    showErrorTitle: false,
-    showErrorUser: false,
+    showTitleError: false,
+    showUserError: false,
   };
 
   handleChange = (event) => {
@@ -28,23 +28,23 @@ class App extends React.Component {
     this.setState({ [name]: value });
   }
 
-  submitHandler = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { todos, todoTitle, userId } = this.state;
 
     this.setState({
-      showErrorTitle: false,
-      showErrorUser: false,
+      showTitleError: false,
+      showUserError: false,
     });
 
     if (!todoTitle) {
-      this.setState({ showErrorTitle: true });
+      this.setState({ showTitleError: true });
 
       return;
     }
 
     if (+userId === 0) {
-      this.setState({ showErrorUser: true });
+      this.setState({ showUserError: true });
 
       return;
     }
@@ -72,7 +72,7 @@ class App extends React.Component {
         <form
           action="./api/todo.js"
           method="POST"
-          onSubmit={this.submitHandler}
+          onSubmit={this.handleSubmit}
         >
           <div className="mb-3">
             <label
@@ -89,7 +89,7 @@ class App extends React.Component {
               value={this.state.todoTitle}
               onChange={this.handleChange}
             />
-            {this.state.showErrorTitle
+            {this.state.showTitleError
             && <p className="alert alert-warning">Please enter the title</p>}
           </div>
 
@@ -112,7 +112,7 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
-            {this.state.showErrorUser
+            {this.state.showUserError
             && <p className="alert alert-warning">Please choose a user</p>}
           </div>
 

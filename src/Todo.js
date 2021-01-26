@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Todo = ({ title, completed, user }) => (
+export const Todo = ({ title, completed, userName }) => (
   <>
     <h2>{title}</h2>
     <p>
@@ -9,14 +9,12 @@ export const Todo = ({ title, completed, user }) => (
       {' '}
       {completed ? 'completed' : 'uncompleted'}
     </p>
-    <p>{user.name}</p>
+    <p>{userName}</p>
   </>
 );
 
 Todo.propTypes = {
   title: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  userName: PropTypes.string.isRequired,
 };
