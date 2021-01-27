@@ -10,7 +10,11 @@ export class TodoList extends React.Component {
     return (
       <ol>
         {this.props.tasks.map(task => (
-          <li className="task" key={task.id} data-completed={task.completed}>
+          <li
+            className="task"
+            key={task.id}
+            data-completed={task.completed}
+          >
             <label>
               <span
                 className="task__title--not"

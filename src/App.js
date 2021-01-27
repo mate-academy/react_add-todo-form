@@ -28,6 +28,50 @@ class App extends React.Component {
     });
   };
 
+  addTodo = (task, empl) => {
+    if (task === '') {
+      this.setState(state => ({
+        todo: {
+          ...state.todo,
+          error: 'Please enter the title',
+        },
+      }));
+    }
+
+    if (empl === '') {
+      this.setState(state => ({
+        employee: {
+          ...state.employee,
+          error: 'Please choose an employee',
+        },
+      }));
+    }
+
+    if (task === '' || empl === '') {
+      return;
+    }
+
+    this.setState(state => ({
+      tasks: [...state.tasks,
+        {
+          id: state.tasks.length + 1,
+          title: state.todo.title,
+          completed: false,
+          userId: users.find(user => user.name === empl).id,
+        }],
+
+      employee: {
+        ...state.employee,
+        title: '',
+      },
+
+      todo: {
+        ...state.todo,
+        title: '',
+      },
+    }));
+  }
+
   render() {
     const { tasks, todo, employee } = this.state;
 
@@ -57,9 +101,7 @@ class App extends React.Component {
               value={todo.title}
               placeholder="Tape a task"
               maxLength="50"
-              onChange={
-                this.handleChange
-              }
+              onChange={this.handleChange}
             />
             <span className="error">{todo.error}</span>
           </label>
@@ -90,47 +132,7 @@ class App extends React.Component {
           <button
             type="submit"
             onClick={() => {
-              if (todo.title === '') {
-                this.setState(state => ({
-                  todo: {
-                    ...state.todo,
-                    error: 'Please enter the title',
-                  },
-                }));
-              }
-
-              if (employee.title === '') {
-                this.setState(state => ({
-                  employee: {
-                    ...state.employee,
-                    error: 'Please choose an employee',
-                  },
-                }));
-              }
-
-              if (todo.title === '' || employee.title === '') {
-                return;
-              }
-
-              this.setState(state => ({
-                tasks: [...tasks,
-                  {
-                    id: tasks.length + 1,
-                    title: todo.title,
-                    completed: false,
-                    userId: users.find(user => user.name === employee.title).id,
-                  }],
-
-                employee: {
-                  ...state.employee,
-                  title: '',
-                },
-
-                todo: {
-                  ...state.todo,
-                  title: '',
-                },
-              }));
+              this.addTodo(todo.title, employee.title);
             }}
           >
             Add
