@@ -15,7 +15,7 @@ const preparedList = todos.map(todo => ({
 class App extends React.Component {
   state = {
     preparedTodoList: [...preparedList],
-    usersSelect: '',
+    selectedUser: '',
     title: '',
     titleError: false,
     selectError: false,
