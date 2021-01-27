@@ -8,27 +8,26 @@ import TodoForm from './components/TodoForm';
 
 const todoFromServer = todos.map(todoList => ({
   ...todoList,
-  user: users.find(userList => userList.id === todoList.id),
+  user: users.find(userList => userList.id === todoList.userId),
 }));
 
 class App extends React.PureComponent {
   state = {
     todoList: todoFromServer,
-    userList: users,
   }
 
-  addTodo = (el) => {
+  addTodo = (newTodo) => {
     this.setState(prevState => ({
-      todoList: [...prevState.todoList, el],
+      todoList: [...prevState.todoList, newTodo],
     }));
   }
 
   render() {
-    const { todoList, userList } = this.state;
+    const { todoList } = this.state;
 
     return (
       <div className="App">
-        <TodoForm userList={userList} addTodo={this.addTodo} />
+        <TodoForm userList={users} addTodo={this.addTodo} />
         <TodoList todoList={todoList} />
       </div>
     );

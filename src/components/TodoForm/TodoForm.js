@@ -5,25 +5,27 @@ import './TodoForm.css';
 
 export class TodoForm extends React.PureComponent {
   state = {
-    enteredValue: '',
+    todoTitle: '',
     selectedUser: '',
     showValueError: false,
     showUserError: false,
-    userID: 3,
+    userID: this.props.userList.length,
   }
 
-  changeHandler = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
   }
 
-  addHandler = () => {
+  handleSubmit = (event) => {
     const { addTodo } = this.props;
-    const { enteredValue, selectedUser, userID } = this.state;
+    const { todoTitle, selectedUser, userID } = this.state;
 
-    if (!enteredValue.trim() || !selectedUser) {
-      if (!enteredValue.trim()) {
+    event.preventDefault();
+
+    if (!todoTitle.trim() || !selectedUser) {
+      if (!todoTitle.trim()) {
         this.setState({ showValueError: true });
         setTimeout(() => (this.setState({ showValueError: false })), 2000);
       }
@@ -37,7 +39,7 @@ export class TodoForm extends React.PureComponent {
     }
 
     this.setState(prevState => ({
-      enteredValue: '',
+      todoTitle: '',
       selectedUser: '',
       showValueError: false,
       showUserError: false,
@@ -47,7 +49,7 @@ export class TodoForm extends React.PureComponent {
     addTodo({
       userId: userID,
       id: userID,
-      title: enteredValue,
+      title: todoTitle,
       completed: false,
       user: {
         name: selectedUser,
@@ -58,7 +60,7 @@ export class TodoForm extends React.PureComponent {
   render() {
     const { userList } = this.props;
     const {
-      enteredValue,
+      todoTitle,
       selectedUser,
       showValueError,
       showUserError,
@@ -66,14 +68,14 @@ export class TodoForm extends React.PureComponent {
 
     return (
       <div>
-        <form className="form" onSubmit={event => event.preventDefault()}>
+        <form className="form">
           <label>
             <input
               type="text"
-              name="enteredValue"
+              name="todoTitle"
               placeholder="What to do?"
-              value={enteredValue}
-              onChange={this.changeHandler}
+              value={todoTitle}
+              onChange={this.handleChange}
             />
           </label>
 
@@ -84,7 +86,7 @@ export class TodoForm extends React.PureComponent {
               name="selectedUser"
               id="selectedUser"
               value={selectedUser}
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
             >
               <option>
                 Choose a user
@@ -97,7 +99,7 @@ export class TodoForm extends React.PureComponent {
 
           {showUserError && <div>User error</div>}
 
-          <button type="submit" onClick={this.addHandler}>
+          <button type="submit" onClick={this.handleSubmit}>
             Add
           </button>
         </form>

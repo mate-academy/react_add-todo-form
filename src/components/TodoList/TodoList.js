@@ -12,11 +12,11 @@ export const TodoList = ({ todoList }) => (
         </tr>
       </thead>
       <tbody>
-        {todoList.map(el => (
-          <tr key={el.id}>
-            <td>{el.title}</td>
-            <td>{el.user.name}</td>
-            <td>{el.completed ? 'Completed' : 'In progress'}</td>
+        {todoList.map(todo => (
+          <tr key={todo.id}>
+            <td>{todo.title}</td>
+            <td>{todo.user.name}</td>
+            <td>{todo.completed ? 'Completed' : 'In progress'}</td>
           </tr>
         ))}
       </tbody>
