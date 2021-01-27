@@ -15,7 +15,7 @@ class App extends React.Component {
     todos: preparedTodos,
     taskName: '',
     userId: 0,
-    errorUser: false,
+    userError: false,
     errorTask: false,
   }
 
