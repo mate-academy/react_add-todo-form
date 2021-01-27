@@ -18,7 +18,7 @@ class App extends React.Component {
     selectedUser: '',
     title: '',
     titleError: false,
-    selectError: false,
+    userError: false,
   }
 
   dataChange = (event) => {
