@@ -19,7 +19,7 @@ class App extends React.Component {
     taskError: false,
   }
 
-  handleOnChange = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
