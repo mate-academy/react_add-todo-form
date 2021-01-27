@@ -98,7 +98,7 @@ class App extends React.Component {
                 name="title"
                 value={this.state.title}
                 placeholder="New task"
-                onChange={this.dataChange}
+                onChange={this.сhangeData}
               />
             </label>
             {titleError && <p>Please enter a task</p>}
