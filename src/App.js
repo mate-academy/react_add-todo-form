@@ -16,7 +16,7 @@ class App extends React.Component {
     taskName: '',
     userId: 0,
     userError: false,
-    errorTask: false,
+    taskError: false,
   }
 
   handleOnChange = (event) => {
