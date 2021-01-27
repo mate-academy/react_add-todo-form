@@ -27,7 +27,7 @@ class App extends React.Component {
     });
   }
 
-  handleSelectUser = (event) => {
+  handleUserSelect = (event) => {
     this.setState({
       userId: +event.target.value,
     });
