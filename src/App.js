@@ -49,7 +49,7 @@ class App extends React.Component {
 
     this.setState((state) => {
       const newTodo = {
-        name: state.userName,
+        userName: state.userName,
         userId: users.find(user => user.name === state.userName).id,
         title: state.task,
         completed: false,
