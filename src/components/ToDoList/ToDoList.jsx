@@ -5,35 +5,17 @@ import { ToDo } from '../ToDo';
 import { TodoType } from '../../types';
 
 export function ToDoList({ listOfTodos }) {
+  console.log(listOfTodos)
   return (
     <div className="todo-list">
       <h2>To Do List:</h2>
-
-      {listOfTodos.map((user, index) => {
-        if (user.todo.length > 0) {
-          return (
-            <div
-              className="todo-list__todos"
-              key={user.id}
-            >
-              <p>
-                { 'User ' }
-                <span className="todo-list__username">
-                  {user.name}
-                  {' '}
-                </span>
-                needs to:
-              </p>
-              {listOfTodos[index].todo.map(item => (
-                <ToDo item={item} key={item.id} />
-              ))}
-            </div>
-          );
-        }
-
-        return false;
-      })}
-
+      <ol >
+      {listOfTodos.map(todo => (
+        <li>
+          <ToDo {...todo}/>
+        </li>
+      ))}
+      </ol>
     </div>
   );
 }

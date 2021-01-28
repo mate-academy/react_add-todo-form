@@ -2,15 +2,11 @@ import React from 'react';
 import { TodoType } from '../../types';
 import './todo.css';
 
-export function ToDo({ item }) {
+export function ToDo({ title, completed, user }) {
   return (
-    <p className="single-todo" key={item.id}>
-      <span>{item.title}</span>
-      <span>
-        User id:
-        {item.userId}
-      </span>
-    </p>
+    <>
+      {title}: <p> {completed === true ? 'done' : 'not done'} by {user[0]?.name} </p>
+    </>
   );
 }
 
@@ -21,3 +17,4 @@ ToDo.propTypes = {
 ToDo.defaultProps = {
   item: {},
 };
+

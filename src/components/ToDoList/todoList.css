@@ -1,9 +1,10 @@
 .todo-list {
-  max-width: 50%;
-  padding: 15px;
+  margin-left: 30px;
+  padding: 15px 30px;
   border: 2px solid rgb(163, 200, 106);
   border-radius: 5px;
   font-size: 25px;
+  
 }
 
 .todo-list__todos {

@@ -5,14 +5,15 @@ import { ToDoList } from './components/ToDoList';
 import users from './api/users';
 import todos from './api/todos';
 
-const prepearedTodos = users.map(user => ({
-  ...user,
-  todo: todos.filter(todo => user.id === todo.userId),
+const prepearedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.filter(user => user.id === todo.userId),
 }));
+
 
 class App extends React.Component {
   state = {
-    listOfTodos: [...prepearedTodos],
+    listOfTodos: prepearedTodos,
     user: '',
     todo: '',
     inValidSelect: false,
@@ -30,9 +31,12 @@ class App extends React.Component {
   }
 
   formSubmit(e, user, todo, containsSymbols, isTooLong, containsWords) {
+    /*console.log(user.length > 0 , todo.length > 0
+      , !containsSymbols , !isTooLong , !containsWords)*/
     e.preventDefault();
     if (user.length > 0 && todo.length > 0
       && !containsSymbols && !isTooLong && !containsWords) {
+        
       this.setState({
         user: '',
         todo: '',
@@ -41,16 +45,21 @@ class App extends React.Component {
   }
 
   changeInput(e) {
-    if (e.target.value.length > 10) {
+    
+    if (e.target.value.length >= 10) {
+      
+      
       this.setState({
         isTooLong: true,
       });
+      //console.log(this.state.isTooLong)
     } else {
       this.setState({
         isTooLong: false,
       });
     }
-
+    console.log(e.target.value.length);
+    console.log(this.state.isTooLong)
     if (/[^\w\s]/.test(e.target.value)) {
       this.setState({
         containsSymbols: true,
@@ -79,22 +88,27 @@ class App extends React.Component {
 
   clickOnButton(todo, user, listOfTodos, isTooLong,
     containsSymbols, containsWords) {
+      // console.log(todo, user)
+      // console.log('isTooLong',isTooLong)
     if (user.length > 0 && todo.length > 0 && !isTooLong
       && !containsSymbols && containsWords) {
-      const targetUser = listOfTodos.find(person => (
-        person.name === user
-      ));
 
-      if (targetUser) {
-        targetUser.todo.push({
-          userId: targetUser.id,
-          id: Math.floor(Math.random() * 100),
-          title: todo,
-          completed: false,
-        });
+      const newTodo = {
+        completed: false,
+        id: prepearedTodos.length + 1, 
+        title: todo,
+        user: [users.find(person => person.name === user)],
+        userId: users.find(person => person.name === user).id,
       }
+      this.setState((state) => {
+        return {
+          listOfTodos: [
+            newTodo,
+            ...state.listOfTodos
+          ]
+        }
+      })
 
-      this.forceUpdate();
     }
 
     if (user.length === 0) {
@@ -123,7 +137,8 @@ class App extends React.Component {
             method="POST"
             action="/api/userTodo"
             onSubmit={e => this.formSubmit(e, user, todo,
-              containsSymbols, isTooLong, containsWords)}
+              containsSymbols, isTooLong, containsWords)
+            }
           >
             <select
               className="form__field"
@@ -132,7 +147,7 @@ class App extends React.Component {
               onChange={e => this.changeInSelect(e)}
             >
               <option>Choose a user</option>
-              {listOfTodos.map(person => (
+              {users.map(person => (
                 <option
                   key={person.id}
                   value={person.name}
