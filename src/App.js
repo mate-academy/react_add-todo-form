@@ -41,7 +41,7 @@ class App extends React.Component {
       return;
     }
 
-    if (!userName) {
+    if (!userName || userName === 'Choose a user') {
       this.setState({ errorUser: true });
 
       return;
@@ -50,7 +50,7 @@ class App extends React.Component {
     this.setState((state) => {
       const newTodo = {
         name: state.userName,
-        userId: state.users.find(user => user.name === state.userName).id,
+        userId: users.find(user => user.name === state.userName).id,
         title: state.task,
         completed: false,
         id: state.id,
@@ -70,7 +70,6 @@ class App extends React.Component {
     const {
       task,
       todoList,
-      people,
       userName,
       errorUser,
       errorTask,
@@ -107,7 +106,7 @@ class App extends React.Component {
                 className="form__select"
               >
                 <option>Choose a user</option>
-                {people.map(user => (
+                {users.map(user => (
                   <option key={user.id}>{user.name}</option>
                 ))}
               </select>
