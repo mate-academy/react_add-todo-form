@@ -4,15 +4,4 @@
   border: 2px solid rgb(163, 200, 106);
   border-radius: 5px;
   font-size: 25px;
-  
-}
-
-.todo-list__todos {
-  background-color: rgb(215, 255, 252);
-  margin: 5px 0;
-  padding: 15px;
-}
-
-.todo-list__username {
-  font-weight: bold;
 }
