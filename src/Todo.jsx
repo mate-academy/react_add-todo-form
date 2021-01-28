@@ -6,14 +6,6 @@ export class Todo extends React.Component {
     title: this.props.todo.title,
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.todo.title !== this.props.todo.title) {
-  //     this.setState({
-  //       title: this.props.todo.title,
-  //     });
-  //   }
-  // }
-
   render() {
     const { todo, deleteTask, renameTask } = this.props;
 
@@ -28,7 +20,6 @@ export class Todo extends React.Component {
           >
             <textarea
               className="title-input"
-              type="text"
               value={this.state.title}
               onChange={(event) => {
                 this.setState({
@@ -56,9 +47,13 @@ export class Todo extends React.Component {
 }
 
 Todo.propTypes = {
-  todo: PropTypes.arrayOf(PropTypes.shape({
+  todo: PropTypes.shape({
     title: PropTypes.string.isRequired,
-  })).isRequired,
-  deleteTask: PropTypes.objectOf.isRequired,
-  renameTask: PropTypes.objectOf.isRequired,
+    name: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    id: PropTypes.number.isRequired,
+
+  }).isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  renameTask: PropTypes.func.isRequired,
 };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import users from '../api/users';
 
-export const UsersSelect = ({ user, addTasks, hasUserError }) => (
+export const UsersSelect = ({ user, addTasksOrUsers, hasUserError }) => (
   <div className="task-title">
     {hasUserError ? (
       <div className="title-error">
@@ -15,11 +15,11 @@ export const UsersSelect = ({ user, addTasks, hasUserError }) => (
       </label>
     )}
     <select
-      className="fild"
+      className="block-form"
       id="users"
       name="user"
       value={user}
-      onChange={addTasks}
+      onChange={event => addTasksOrUsers(event.target.name, event.target.value)}
     >
       <option className="select-user">Select User</option>
       {users.map(person => (
@@ -39,6 +39,6 @@ export const UsersSelect = ({ user, addTasks, hasUserError }) => (
 
 UsersSelect.propTypes = {
   user: PropTypes.objectOf.isRequired,
-  addTasks: PropTypes.objectOf.isRequired,
+  addTasksOrUsers: PropTypes.objectOf.isRequired,
   hasUserError: PropTypes.objectOf.isRequired,
 };

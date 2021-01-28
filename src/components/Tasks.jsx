@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export const Tasks = ({ title, addTasks, hasTitleError }) => (
+export const Tasks = ({ title, addTasksOrUsers, hasTitleError }) => (
   <div className="task-title">
     {hasTitleError ? (
       <div className="title-error">
@@ -19,19 +19,19 @@ export const Tasks = ({ title, addTasks, hasTitleError }) => (
       id="task"
       type="text"
       name="title"
-      className={classNames(`fild new-fild`, {
+      className={classNames(`block-form new-fild`, {
         error: hasTitleError === true,
         '': hasTitleError === false,
       })}
       placeholder="Enter the task"
       value={title}
-      onChange={addTasks}
+      onChange={event => addTasksOrUsers(event.target.name, event.target.value)}
     />
   </div>
 );
 
 Tasks.propTypes = {
   title: PropTypes.string.isRequired,
-  addTasks: PropTypes.objectOf.isRequired,
+  addTasksOrUsers: PropTypes.objectOf.isRequired,
   hasTitleError: PropTypes.objectOf.isRequired,
 };

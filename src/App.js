@@ -24,37 +24,22 @@ class App extends React.Component {
     event.preventDefault();
     const { user, title } = this.state;
 
-    if (!title) {
-      this.setState({
-        hasTitleError: true,
-      });
-    } else {
-      this.setState({
-        hasTitleError: false,
-      });
-    }
-
-    if (!user) {
-      this.setState({
-        hasUserError: true,
-      });
-    } else {
-      this.setState({
-        hasUserError: false,
-      });
-    }
+    this.setState({
+      hasUserError: !user,
+      hasTitleError: !title,
+    });
 
     if (!title || !user) {
       return;
     }
 
     this.setState((prevState) => {
+      const findUser = users.find(person => person.name === user);
+
       const newTodo = {
-        userId: users
-          .find(person => person.name === user).id,
+        userId: findUser.id,
         id: prevState.allTodos.length + 1,
-        name: users
-          .find(person => person.name === user).name,
+        name: findUser.name,
         title,
         completed: false,
       };
@@ -67,9 +52,7 @@ class App extends React.Component {
     });
   }
 
-  addTasks = (event) => {
-    const { name, value } = event.target;
-
+  addTasksOrUsers = (name, value) => {
     this.setState({
       [name]: value,
     });
@@ -112,16 +95,16 @@ class App extends React.Component {
 
             <Tasks
               title={this.state.title}
-              addTasks={this.addTasks}
+              addTasksOrUsers={this.addTasksOrUsers}
               hasTitleError={hasTitleError}
             />
 
             <UsersSelect
               user={this.state.user}
-              addTasks={this.addTasks}
+              addTasksOrUsers={this.addTasksOrUsers}
               hasUserError={hasUserError}
             />
-            <button type="submit" className="fild">
+            <button type="submit" className="block-form">
               Add
             </button>
           </form>
