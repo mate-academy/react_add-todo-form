@@ -7,12 +7,11 @@ import todos from './api/todos';
 
 const todosFromServer = todos.map(todo => ({
   ...todo,
-  name: users.find(user => user.id === todo.userId).name,
+  userName: users.find(user => user.id === todo.userId).name,
 }));
 
 class App extends React.Component {
   state = {
-    people: users,
     todoList: todosFromServer,
     task: '',
     userName: '',
@@ -21,7 +20,7 @@ class App extends React.Component {
     errorTask: false,
   };
 
-  handlerChange = (event) => {
+  handleChange = (event) => {
     const { value, name } = event.target;
 
     this.setState({
@@ -31,16 +30,18 @@ class App extends React.Component {
     });
   }
 
-  hendlerSubmit = (event) => {
+  hendleSubmit = (event) => {
     event.preventDefault();
 
-    if (!this.state.task) {
+    const { task, userName } = this.state;
+
+    if (!task) {
       this.setState({ errorTask: true });
 
       return;
     }
 
-    if (!this.state.userName || this.state.userName === 'Choose a user') {
+    if (!userName) {
       this.setState({ errorUser: true });
 
       return;
@@ -49,7 +50,7 @@ class App extends React.Component {
     this.setState((state) => {
       const newTodo = {
         name: state.userName,
-        userId: state.people.find(user => user.name === state.userName).id,
+        userId: state.users.find(user => user.name === state.userName).id,
         title: state.task,
         completed: false,
         id: state.id,
@@ -79,7 +80,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
         <div className="todolist">
-          <form className="form" onSubmit={this.hendlerSubmit}>
+          <form className="form" onSubmit={this.hendleSubmit}>
             <div>
               {errorTask && (
                 <p className="form__error">Please enter the title</p>)}
@@ -89,7 +90,7 @@ class App extends React.Component {
                   name="task"
                   id="input-task"
                   value={task}
-                  onChange={this.handlerChange}
+                  onChange={this.handleChange}
                   placeholder="Write task"
                   className="form__input"
                 />
@@ -102,7 +103,7 @@ class App extends React.Component {
               <select
                 name="userName"
                 value={userName}
-                onChange={this.handlerChange}
+                onChange={this.handleChange}
                 className="form__select"
               >
                 <option>Choose a user</option>
