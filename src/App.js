@@ -4,9 +4,14 @@ import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 
+const todosWithUser = todos.map(todo => ({
+  ...todo,
+  userName: users.find(user => (todo.userId === user.id)).name,
+}));
+
 class App extends React.Component {
   state = {
-    tasks: [...todos],
+    tasks: todosWithUser,
     todo: {
       title: '',
       error: '',
@@ -27,6 +32,8 @@ class App extends React.Component {
       },
     });
   };
+
+  getUser = finder => users.find(user => (user.name === finder));
 
   addTodo = (task, empl) => {
     if (task === '') {
@@ -57,7 +64,8 @@ class App extends React.Component {
           id: state.tasks.length + 1,
           title: state.todo.title,
           completed: false,
-          userId: users.find(user => user.name === empl).id,
+          userId: this.getUser(empl).id,
+          userName: this.getUser(empl).name,
         }],
 
       employee: {
@@ -89,10 +97,10 @@ class App extends React.Component {
           action="#"
           onSubmit={(event) => {
             event.preventDefault();
+            this.addTodo(todo.title, employee.title);
           }}
         >
           <label>
-            {' '}
             <span>Add a task</span>
             <br />
             <input
@@ -119,6 +127,7 @@ class App extends React.Component {
             <option value="">Choose an employee</option>
             {users.map(user => (
               <option
+                value={user.name}
                 key={user.id}
               >
                 {user.name}
@@ -129,17 +138,12 @@ class App extends React.Component {
           <br />
           <br />
 
-          <button
-            type="submit"
-            onClick={() => {
-              this.addTodo(todo.title, employee.title);
-            }}
-          >
+          <button type="submit">
             Add
           </button>
         </form>
 
-        <TodoList tasks={[...tasks].map(task => ({ ...task }))} />
+        <TodoList tasks={tasks} />
       </div>
     );
   }
