@@ -1,3 +1,16 @@
 .App {
+  width: 500px;
+  min-height: 90vh;
+  margin: auto;
+  border: solid black 2px;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.App__title {
   text-align: center;
+}
+
+.error {
+  color: red;
 }
