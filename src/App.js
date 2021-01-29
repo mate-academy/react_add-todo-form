@@ -1,21 +1,21 @@
 import React from 'react';
 import './App.css';
-import { ToDoList } from './components/ToDoList';
+import { TodoList } from './components/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
 
-const prepearedTodos = todos.map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   user: users.filter(user => user.id === todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    listOfTodos: prepearedTodos,
+    todos: preparedTodos,
     user: '',
-    todo: '',
-    inValidSelect: false,
+    todoTitle: '',
+    isValidSelect: false,
     isEmpty: false,
     isTooLong: false,
   }
@@ -23,23 +23,24 @@ class App extends React.Component {
   changeInSelect(e) {
     if (e.target.value === 'none') {
       this.setState({
-        inValidSelect: true,
+        isValidSelect: true,
+        user: '',
       });
     } else {
       this.setState({
         user: e.target.value,
-        inValidSelect: false,
+        isValidSelect: false,
       });
     }
   }
 
-  formSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    if (this.state.user.length > 0 && this.state.todo.length > 0
+    if (this.state.user.length > 0 && this.state.todoTitle.length > 0
       && !this.state.isTooLong) {
       this.setState({
         user: '',
-        todo: '',
+        todoTitle: '',
       });
     }
   }
@@ -56,13 +57,13 @@ class App extends React.Component {
     }
 
     this.setState({
-      todo: e.target.value,
+      todoTitle: e.target.value,
       isEmpty: false,
     });
   }
 
-  clickOnButton(todo, user) {
-    if (this.state.user.length > 0 && this.state.todo.length > 0
+  addTodo(todo, user) {
+    if (this.state.user.length > 0 && this.state.todoTitle.length > 0
       && !this.state.isTooLong) {
       const newTodo = {
         completed: false,
@@ -73,39 +74,33 @@ class App extends React.Component {
       };
 
       this.setState(state => ({
-        listOfTodos: [
+        todos: [
           newTodo,
-          ...state.listOfTodos,
+          ...state.todos,
         ],
       }));
     }
 
     if (user.length === 0) {
       this.setState({
-        inValidSelect: true,
-      });
-    }
-
-    if (todo.length === 0) {
-      this.setState({
-        isEmpty: true,
+        isValidSelect: true,
       });
     }
   }
 
   render() {
-    const { listOfTodos, user, todo, inValidSelect, isEmpty,
+    const { todos, user, todoTitle, isValidSelect, isEmpty,
       isTooLong } = this.state;
 
     return (
       <div className="App">
-        <div>
+        <div className="App__flex-wrapper">
           <h1>Add todo form</h1>
           <form
             className="form"
             method="POST"
             action="/api/userTodo"
-            onSubmit={e => this.formSubmit(e, user, todo)}
+            onSubmit={e => this.handleSubmit(e, user, todoTitle)}
           >
             <select
               className="form__field"
@@ -127,13 +122,13 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
-            {inValidSelect && <p>Please choose a user</p>}
+            {isValidSelect && <p>Please choose a user</p>}
             <label>
               <input
                 className="form__field form__field--wide"
-                name="todo"
+                name="todoTitle"
                 placeholder="Add something to do"
-                value={todo}
+                value={todoTitle}
                 onChange={e => this.changeInput(e)}
               />
             </label>
@@ -143,13 +138,13 @@ class App extends React.Component {
             <button
               type="submit"
               className="form__field"
-              onClick={() => (this.clickOnButton(todo, user))}
+              onClick={() => this.addTodo(todoTitle, user)}
             >
               Add
             </button>
           </form>
         </div>
-        <ToDoList listOfTodos={listOfTodos} />
+        <TodoList todos={todos} />
       </div>
     );
   }

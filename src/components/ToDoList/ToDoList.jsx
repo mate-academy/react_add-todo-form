@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './todoList.css';
-import { ToDo } from '../ToDo';
+import { Todo } from '../Todo';
 import { TodoType } from '../../types';
 
-export function ToDoList({ listOfTodos }) {
+export function TodoList({ todos }) {
   return (
     <div className="todo-list">
       <h2>To Do List:</h2>
       <ol>
-        {listOfTodos.map(todo => (
+        {todos.map(todo => (
           <li key={todo.id}>
-            <ToDo {...todo} />
+            <Todo {...todo} />
           </li>
         ))}
       </ol>
@@ -19,8 +19,8 @@ export function ToDoList({ listOfTodos }) {
   );
 }
 
-ToDoList.propTypes = {
-  listOfTodos: PropTypes.arrayOf(
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string,
@@ -31,6 +31,6 @@ ToDoList.propTypes = {
   ),
 };
 
-ToDoList.defaultProps = {
-  listOfTodos: [],
+TodoList.defaultProps = {
+  todos: [],
 };
