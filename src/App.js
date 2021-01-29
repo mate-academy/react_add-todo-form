@@ -16,13 +16,12 @@ class App extends React.Component {
     user: '',
     todo: '',
     inValidSelect: false,
-    inValidLength: false,
+    isEmpty: false,
     isTooLong: false,
-    containsSymbols: false,
-    containsWords: true,
   }
 
   changeInSelect(e) {
+    // console.log(this.state.user)
     this.setState({
       user: e.target.value,
       inValidSelect: false,
@@ -32,8 +31,7 @@ class App extends React.Component {
   formSubmit(e) {
     e.preventDefault();
     if (this.state.user.length > 0 && this.state.todo.length > 0
-      && !this.state.containsSymbols && !this.state.isTooLong
-      && this.state.containsWords) {
+      && !this.state.isTooLong) {
       this.setState({
         user: '',
         todo: '',
@@ -52,36 +50,15 @@ class App extends React.Component {
       });
     }
 
-    if (/[^\w\s]/.test(e.target.value)) {
-      this.setState({
-        containsSymbols: true,
-      });
-    } else {
-      this.setState({
-        containsSymbols: false,
-      });
-    }
-
-    if (e.target.value.replace(/ /g, '').replace(/[0-9]/g, '').length === 0) {
-      this.setState({
-        containsWords: false,
-      });
-    } else {
-      this.setState({
-        containsWords: true,
-      });
-    }
-
     this.setState({
       todo: e.target.value,
-      inValidLength: false,
+      isEmpty: false,
     });
   }
 
   clickOnButton(todo, user) {
     if (this.state.user.length > 0 && this.state.todo.length > 0
-      && !this.state.isTooLong && !this.state.containsSymbols
-      && this.state.containsWords) {
+      && !this.state.isTooLong) {
       const newTodo = {
         completed: false,
         id: prepearedTodos.length + 1,
@@ -106,14 +83,14 @@ class App extends React.Component {
 
     if (todo.length === 0) {
       this.setState({
-        inValidLength: true,
+        isEmpty: true,
       });
     }
   }
 
   render() {
-    const { listOfTodos, user, todo, inValidSelect, inValidLength,
-      isTooLong, containsSymbols, containsWords } = this.state;
+    const { listOfTodos, user, todo, inValidSelect, isEmpty,
+      isTooLong } = this.state;
 
     return (
       <div className="App">
@@ -151,12 +128,9 @@ class App extends React.Component {
                 onChange={e => this.changeInput(e)}
               />
             </label>
-            {inValidLength && <p>Please enter a Todo</p>}
+            {isEmpty && <p>Please enter a Todo</p>}
             {isTooLong
               && <p>A Todo shouldn&apos;t be longer than 10 characters</p>}
-            {containsSymbols
-              && <p>A Todo should contain only latin characters or digits</p>}
-            {!containsWords && <p>Please, enter the words</p>}
             <button
               type="submit"
               className="form__field"
