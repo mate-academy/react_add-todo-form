@@ -21,11 +21,16 @@ class App extends React.Component {
   }
 
   changeInSelect(e) {
-    // console.log(this.state.user)
-    this.setState({
-      user: e.target.value,
-      inValidSelect: false,
-    });
+    if (e.target.value === 'none') {
+      this.setState({
+        inValidSelect: true,
+      });
+    } else {
+      this.setState({
+        user: e.target.value,
+        inValidSelect: false,
+      });
+    }
   }
 
   formSubmit(e) {
@@ -61,7 +66,7 @@ class App extends React.Component {
       && !this.state.isTooLong) {
       const newTodo = {
         completed: false,
-        id: prepearedTodos.length + 1,
+        id: Math.random(),
         title: todo,
         user: [users.find(person => person.name === user)],
         userId: users.find(person => person.name === user)?.id,
@@ -108,7 +113,11 @@ class App extends React.Component {
               value={user}
               onChange={e => this.changeInSelect(e)}
             >
-              <option>Choose a user</option>
+              <option
+                value="none"
+              >
+                Choose a user
+              </option>
               {users.map(person => (
                 <option
                   key={person.id}
