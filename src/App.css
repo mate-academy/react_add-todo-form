@@ -1,3 +1,111 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-image: radial-gradient(mintcream 0%, gray 100%);
+  user-select: none;
+}
+
 .App {
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 500px;
+  margin: 20px auto;
+}
+
+.header {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 2px rgb(53, 50, 50) dashed;
+  background-image: linear-gradient(#687480 0%, #555b61 100%);
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
+  color: white;
+  box-shadow: inset 0 -2px 3px 2px rgba(0,0,0,0.4),
+    0 2px 2px 2px rgba(0,0,0,0.4);
+}
+
+.footer {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(#687480 0%, #3b4755 100%);
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  box-shadow: inset 0 -2px 3px 2px rgba(0,0,0,0.4),
+    0 2px 2px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+}
+
+.wrap-list {
+  box-shadow: inset 0 0 5px black;
+  background-image: linear-gradient(transparent 97%, gray 100%);
+  border-radius: 5px;
+}
+
+.list {
+  color: rgba(0,0,0,0.7);
+  padding: 20px;
+}
+
+.list li {
+  padding-left: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+.list li:nth-child(odd) {
+  background: rgba(0,0,50,0.1);
+}
+
+.list li:hover {
+  background: #ddd;
+  color: rgb(103, 31, 35);
+}
+
+.form {
+  padding: 15px;
+  display: flex;
+  box-shadow: inset 0 0 5px black;
+  background-image: linear-gradient(transparent 97%, gray 100%);
+  border-radius: 5px;
+}
+
+.error {
+  font-size: 18px;
+  padding: 6px 0 4px;
+  color: red;
+}
+
+.add {
+  width: 100px;
+  padding: 5px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-image: linear-gradient(#687480 0%, #3b4755 100%);
+  box-shadow: inset 0 -2px 3px 2px rgb(0,0,0/40%),
+    0 2px 2px 2px rgb(0,0,0 / 40%);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
