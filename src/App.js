@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import './App.css';
 import todosfromServer from './api/todos';
@@ -9,12 +10,15 @@ import { Form } from './components/Form';
 export class App extends React.Component {
   state = {
     todos: todosfromServer.map((todo) => {
-      const obj = {
-        ...todo,
-        name: usersfromServer.find(user => user.id === todo.userId).name,
-      };
+      const user = usersfromServer.find(person => person.id === todo.userId).name;
 
-      return obj;
+      if (typeof (user.id) === 'undefined') {
+        return todo;
+      }
+
+      return {
+        ...todo, name: user,
+      };
     }),
     users: usersfromServer,
   }

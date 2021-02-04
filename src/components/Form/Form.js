@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const [titleMsg, nameMsg, wrongMsg] = ['Please enter the title', 'Please choose a user', 'Incorrect input'];
+
 // eslint-disable-next-line react/prefer-stateless-function
 export class Form extends React.Component {
     state = {
@@ -47,27 +49,22 @@ export class Form extends React.Component {
 
     validateInput = () => {
       const { title, name } = this.state;
-      const [titleMsg, nameMsg, wrongMsg] = ['Please enter the title', 'Please choose a user', 'Incorrect input'];
       const errors = {};
-      const regex = new RegExp(/^[\w\s]+$/);
-      let isError = false;
+      const titleInput = new RegExp(/^[\w\s]+$/);
 
-      if (!regex.test(title)) {
+      if (!titleInput.test(title)) {
         errors.title = wrongMsg;
-        isError = true;
       }
 
       if (!title) {
         errors.title = titleMsg;
-        isError = true;
       }
 
       if (name === 'Choose a user') {
         errors.name = nameMsg;
-        isError = true;
       }
 
-      if (isError) {
+      if (Object.values(errors).length) {
         this.setState({ error: errors });
 
         return;
