@@ -1,3 +1,52 @@
 .App {
   text-align: center;
 }
+
+.errorMessage {
+  display: inline;
+  color: red;
+}
+
+.main {
+  width: 70%;
+  height: fit-content;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+  display: inline;
+}
+
+.left {
+  height: fit-content;
+  width: 20%;
+  display: inline-block;
+  color: rgb(28, 28, 75);
+  background-color: rgb(221, 221, 136);
+  position: relative;
+  
+}
+
+.middle {
+  height: fit-content;
+  width: 50%;
+  display: inline-block;
+  position: relative;
+  color: rgb(28, 28, 75);
+  background-color: rgb(221, 221, 136);
+  
+}
+
+.right {
+  height: fit-content;
+  width: 20%;
+  display: inline-block;
+  position: relative;
+  color: rgb(28, 28, 75);
+  background-color: rgb(221, 221, 136);
+  
+}
+
+li {
+  line-height: 1.5;
+  list-style-type: none;
+}
