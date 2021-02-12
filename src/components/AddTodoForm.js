@@ -11,7 +11,7 @@ export class AddTodoForm extends React.Component {
 
   setFormValidity = () => {
     this.setState(state => ({
-      isTitleValid: !!state.title,
+      isTitleValid: !!state.title.trim(),
       isUserValid: !!state.userId,
     }));
   }
