@@ -1,4 +1,3 @@
-/* eslint-disable react/self-closing-comp */
 import React from 'react';
 import './NewTodo.css';
 import { NewTodoType } from '../../types';
@@ -56,7 +55,7 @@ export class NewTodo extends React.Component {
 
     return (
       <>
-        <div className="ribbon"></div>
+        <div className="ribbon" />
         <div className="wrapper">
           <h1>Let&apos;s get started.</h1>
           <form
@@ -64,7 +63,7 @@ export class NewTodo extends React.Component {
           >
             <div className="input">
               <div className="blockinput">
-                <i className="icon-envelope-alt"></i>
+                <i className="icon-envelope-alt" />
 
                 <input
                   type="text"
