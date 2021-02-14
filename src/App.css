@@ -1,3 +1,20 @@
 .App {
   text-align: center;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.title {
+  font-size: 34px;
+  color: rgba(114,212,202,1);
+  text-shadow: 0 1px 1px #2d2020;
+}
+
+p {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.block_todo {
+  margin: 20px;
 }

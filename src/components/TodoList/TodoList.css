@@ -1,0 +1,29 @@
+th {
+  background: rgba(114,212,202,1);
+  color: white;
+  font-size: 16px;
+  text-shadow: 0 1px 1px #2d2020;
+  padding: 10px 20px;
+}
+
+th:first-child {
+  border-top-left-radius: 10px;
+}
+
+th:last-child {
+  border-top-right-radius: 10px;
+  border-right: none;
+}
+
+th:hover {
+  background: #39ca9f;
+  color: rgb(0, 0, 0);
+}
+
+tr:last-child td:first-child {
+  border-radius: 0 0 0 10px;
+}
+
+tr:last-child td:last-child {
+  border-radius: 0 0 10px;
+}

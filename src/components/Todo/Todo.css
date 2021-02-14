@@ -1,0 +1,28 @@
+table {
+  border-radius: 10px;
+  border-spacing: 0;
+  text-align: center;
+  margin: auto;
+}
+
+th,
+td {
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  border-color: white;
+}
+
+td {
+  font-size: 14px;
+  padding: 10px 20px;
+  background: #f8e391;
+}
+
+td:hover {
+  background: #f3af50;
+  color: #ffe;
+}
+
+.todo_completed {
+  font-weight: bold;
+}
