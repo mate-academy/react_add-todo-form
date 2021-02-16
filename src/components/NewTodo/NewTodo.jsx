@@ -24,6 +24,7 @@ export class NewTodo extends React.Component {
     e.preventDefault();
 
     const { title, user } = this.state;
+    const { addTodos } = this.props;
 
     if (!user) {
       this.setState({
@@ -41,7 +42,7 @@ export class NewTodo extends React.Component {
       return;
     }
 
-    this.props.addTodos(title, user);
+    addTodos(title, user);
 
     this.setState({
       title: '',
@@ -50,7 +51,7 @@ export class NewTodo extends React.Component {
   }
 
   render() {
-    const { title, user } = this.state;
+    const { title, user, titleError, userError } = this.state;
     const { users } = this.props;
 
     return (
@@ -73,7 +74,7 @@ export class NewTodo extends React.Component {
                   onChange={this.handleChange}
                 />
 
-                {this.state.titleError && (
+                {titleError && (
                   <p className="errorMessage">
                     Please enter the title
                   </p>
@@ -86,7 +87,7 @@ export class NewTodo extends React.Component {
                 value={user}
                 onChange={this.handleChange}
               >
-                <option value="">
+                <option value="" hidden>
                   Choose a user
                 </option>
                 {users.map(person => (
@@ -99,7 +100,7 @@ export class NewTodo extends React.Component {
                 ))}
               </select>
 
-              {this.state.userError && (
+              {userError && (
                 <p className="errorMessage">
                   Please choose a user
                 </p>

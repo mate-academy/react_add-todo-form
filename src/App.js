@@ -25,7 +25,7 @@ class App extends React.Component {
 
     const newTodo = {
       userId: user.id,
-      id: this.state.todos.length + 1,
+      id: Date.now(),
       user,
       title,
       completed: false,
