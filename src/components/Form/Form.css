@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background: #FFF2E3;
+}
+
+form {
+padding-top: 0;
+}
+
+.todo-form {
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto 0;
+  text-align: center;
+}
+
+.form-inner {
+  padding: 0 40px;
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 0 6px 1px rgba(0, 0, 0, .1);
+}
+.form-inner h2 {
+  font-family: 'Marck Script', cursive;
+  color: #898989;
+  margin-top: 5px;
+  font-weight: 300;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-family: 'Cormorant Garamond', serif;
+  padding-top: 30px;
+}
+.form-content {
+  position: relative;
+  margin: 30px -40px 0 -40px;
+  padding: 10px 40px 0 40px;
+  background: #FFF8F3;
+}
+.form-content:before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  border-bottom: 1px solid #DDDDDD;
+}
+.form-content label {
+  margin-top: 20px;
+  font-family: 'Marck Script', cursive;
+  font-size: 18px;
+  color: #898989;
+  font-weight: normal;
+}
+.form-content input, .form-content select {
+  width: 240px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  height: 38px;
+  line-height: 38px;
+  background: #ffffff;
+  border: 1px solid #DDDDDD;
+  font-size: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  color: #808080;
+  outline: none;
+}
+.form-content input {
+  width: 100%;
+}
+.form-content input:focus, .form-content select:focus {
+  border-color: #C44D58;
+}
+.form-content input[type="submit"] {
+  margin: 20px 0;
+  padding: 0 10px;
+  background: #FF6B6B;
+  color: #ffffff;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-width: 0;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: .2s linear
+}
+.form-content input[type="submit"]:hover {
+  background: #C44D58;
+}
+
+.add-btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 20px 30px;
+  margin: 10px 20px;
+  position: relative;
+  color: #898989;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .4);
+  background:  #CADFCF;
+  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  outline: none;
+  margin-top: 10px;
+}
+
+.add-btn:before, .addBtn:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  box-sizing: border-box;
+}
+.add-btn:before {
+  bottom: 0;
+  left: 0;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+  transition: 0s ease opacity .8s, .2s ease width .4s, .2s ease height .6s;
+}
+.add-btn:after {
+  top: 0;
+  right: 0;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  transition: 0s ease opacity .4s, .2s ease width, .2s ease height .2s;
+}
+.add-btn:hover:before, 
+.add-btn:hover:after {
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+}
+.add-btn:hover:before {
+  transition: 0s ease opacity 0s, .2s ease height, .2s ease width .2s;
+}
+.add-btn:hover:after {
+  transition: 0s ease opacity .4s, .2s ease height .4s, .2s ease width .6s;
+}
+.add-btn:hover {
+  background:  #FFF2E3;
+}
