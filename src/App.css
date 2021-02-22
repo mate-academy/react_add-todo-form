@@ -1,3 +1,18 @@
 .App {
   text-align: center;
 }
+
+h1 {
+  font-size: 30px;
+  color: #898989;
+  font-weight: bold;
+}
+
+p {
+  color: #898989;
+  font-size: 16px;
+}
+
+.container {
+  display: flex;
+}
