@@ -1,0 +1,13 @@
+.ErrorMessage {
+  display: contents;
+}
+
+.error {
+  margin-top: 0.5rem;
+  border: 2px solid;
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  background-color: red;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
