@@ -1,0 +1,48 @@
+
+.header {
+  text-align: center;
+}
+
+.inputHeader {
+  font-size: 15px;
+  margin: 0;
+  height: 30px;
+}
+
+input {
+  font-size: 13px;
+  height: 30px;
+}
+
+select {
+  font-size: 13px;
+  height: 35px;
+}
+
+.addForm {
+  font-size: 14px;
+  margin: 20px auto;
+  padding: 10px;
+  max-height: 1000px;
+  line-height: 40px;
+  border: 1px solid #a7a7a7;
+  background-color: #dcdcdc;
+  width: 350px;
+  text-align: left;
+}
+
+.wrnMessage {
+  color: #ff0202;
+  margin: 0;
+  height: 30px;
+}
+
+.btn {
+  font-size: 14px;
+  margin: 40px 0 0;
+  padding: 10px 30px;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  left: 35%;
+}
