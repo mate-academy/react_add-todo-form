@@ -10,6 +10,7 @@ export class AddTodo extends React.Component {
     user: '',
     titleCheck: true,
     userCheck: true,
+    idCounter: 3,
   }
 
   handleChange = (e) => {
@@ -19,17 +20,20 @@ export class AddTodo extends React.Component {
   }
 
   checkInputs = () => {
-    const { title, user } = this.state;
-    const { usersList, todosList, addTodo } = this.props;
+    const { title, user, idCounter } = this.state;
+    const { usersList, addTodo } = this.props;
     const selectedUser = usersList.find(userEl => userEl.name === user);
     const newTodo = {
       title: this.state.title,
-      id: todosList.length + 1,
+      id: idCounter,
       completed: false,
       user: selectedUser,
     };
 
     if (title && user) {
+      this.setState(state => ({
+        idCounter: state.idCounter + 1,
+      }));
       addTodo(newTodo);
       this.clearForm();
     }
@@ -74,7 +78,7 @@ export class AddTodo extends React.Component {
             Title of todo:
           </p>
           {!titleCheck && !title
-            && <p className="wrnMessage">Add a title, please</p>}
+            && <p className="warningMessage">Add a title, please</p>}
           <input
             type="text"
             name="title"
@@ -89,7 +93,7 @@ export class AddTodo extends React.Component {
             User of todo:
           </p>
           {!userCheck && !user
-            && <p className="wrnMessage">Select a user, please</p>}
+            && <p className="warningMessage">Select a user, please</p>}
           <select
             name="user"
             value={user}
@@ -107,7 +111,7 @@ export class AddTodo extends React.Component {
             type="submit"
             className="btn"
           >
-            To add
+            Add todo
           </button>
 
         </form>
@@ -119,10 +123,4 @@ export class AddTodo extends React.Component {
 AddTodo.propTypes = {
   usersList: PropTypes.arrayOf(prepearedTodosType.user).isRequired,
   addTodo: PropTypes.func.isRequired,
-  todosList: PropTypes.arrayOf(PropTypes.shape({
-    title: prepearedTodosType.title,
-    id: prepearedTodosType.id,
-    completed: prepearedTodosType.completed,
-    user: prepearedTodosType.user,
-  })).isRequired,
 };

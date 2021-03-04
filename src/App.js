@@ -31,7 +31,6 @@ class App extends React.Component {
       <div className="App">
 
         <AddTodo
-          todosList={todosList}
           usersList={users}
           addTodo={this.addTodo}
         />

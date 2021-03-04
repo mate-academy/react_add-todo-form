@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { User, prepearedTodosType } from '../UserFolder/User';
 import './Todo.css';
 
@@ -16,7 +17,11 @@ export function Todo({ title, completed, user }) {
       <p>
         Status:
         {' '}
-        <span className={completed ? 'completed' : 'notCompleted'}>
+        <span
+          className={classNames(
+            { completed },
+          )}
+        >
           {status}
         </span>
       </p>

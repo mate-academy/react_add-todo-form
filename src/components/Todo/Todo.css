@@ -5,10 +5,10 @@
   font-size: 20px;
 }
 
-.completed {
-  color: green;
+span {
+  color: red;
 }
 
-.notCompleted {
-  color: red;
+.completed {
+  color: green;
 }
