@@ -1,0 +1,9 @@
+.todo {
+  border: 1px solid #f0f0f0;
+  width: 200px;
+  height: 200px;
+}
+
+.todo--completed {
+  background-color: lightgreen;
+}
