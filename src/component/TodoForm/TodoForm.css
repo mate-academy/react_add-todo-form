@@ -1,0 +1,32 @@
+.TodoForm {
+  display: inline-grid;
+  width: 400px;
+  border: 2px solid;
+  border-radius: 50px;
+  padding: 1rem;
+  background-color: #f5deb3;
+}
+
+.TodoForm label {
+  margin-bottom: 0.5rem;
+}
+
+#select {
+  height: 25px;
+  width: 170px;
+  text-align-last: center;
+  color: grey;
+  font-weight: bold;
+}
+
+#input {
+  text-align-last: center;
+}
+
+#button {
+  padding: 2px 71.5px;
+}
+
+#button:hover {
+  background-color: #b0c4de;
+}

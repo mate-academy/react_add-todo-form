@@ -1,3 +1,17 @@
 .App {
   text-align: center;
+  margin: 5rem 4rem;
+  padding: 1rem;
+  background-color: #add8e6;
+  border-radius: 50px;
+  box-shadow: 5px 8px lightgrey;
+}
+
+.App h1 {
+  font-size: 3rem;
+  color: darkgray;
+}
+
+.navigation {
+  display: contents;
 }
