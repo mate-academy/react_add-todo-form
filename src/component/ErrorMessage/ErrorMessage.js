@@ -3,25 +3,29 @@ import PropTypes from 'prop-types';
 import './ErrorMessage.css';
 
 export const ErrorMessage = ({
-  selectErrorHidden,
-  titleErrorHidden,
-  titleLengthErrorHidden,
+  errors,
 }) => (
   <div className="ErrorMessage">
-    <div className="error" hidden={selectErrorHidden}>
-      Please choose a user
-    </div>
-    <div className="error" hidden={titleErrorHidden}>
-      Please enter the title
-    </div>
-    <div className="error" hidden={titleLengthErrorHidden}>
-      Todo must be at least 10 characters long
-    </div>
+    {errors === 'not specified user' && (
+      <div className="error">
+        Please choose a user
+      </div>
+    )}
+
+    {errors === 'not specified todo' && (
+      <div className="error">
+        Please enter the title
+      </div>
+    )}
+
+    {errors === 'to short todo' && (
+      <div className="error">
+        Todo must be at least 10 characters long
+      </div>
+    )}
   </div>
 );
 
 ErrorMessage.propTypes = {
-  selectErrorHidden: PropTypes.bool.isRequired,
-  titleErrorHidden: PropTypes.bool.isRequired,
-  titleLengthErrorHidden: PropTypes.bool.isRequired,
+  errors: PropTypes.string.isRequired,
 };

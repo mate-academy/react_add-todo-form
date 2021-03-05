@@ -4,7 +4,7 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-import { TodoNavigation } from './component/TodoNavigation';
+import { TodoForm } from './component/TodoForm';
 
 const preparedTodos = [...todos].map(todo => ({
   ...todo,
@@ -19,7 +19,10 @@ function App() {
         <h1>Add todo form</h1>
 
         <div className="navigation">
-          <TodoNavigation users={users} todos={preparedTodos} />
+          <TodoForm
+            users={users}
+            todos={[...preparedTodos]}
+          />
         </div>
       </div>
     </>
