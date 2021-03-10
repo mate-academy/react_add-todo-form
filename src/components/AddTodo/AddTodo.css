@@ -1,0 +1,18 @@
+.addTodo {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid cadetblue;
+  border-radius: 10px;
+  width: 200px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.addTodo__error {
+  color: red;
+  margin-bottom: 5px;
+}
+
+.addTodo__input {
+  margin-bottom: 5px;
+}

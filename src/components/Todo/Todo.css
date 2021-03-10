@@ -1,0 +1,16 @@
+.todo-completed,
+.todo-uncompleted {
+  cursor: pointer;
+}
+
+.todo-completed {
+  color: green;
+}
+
+.todo-uncompleted {
+  color: red;
+}
+
+.status-check {
+  display: none;
+}
