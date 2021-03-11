@@ -64,11 +64,11 @@ export class TodoForm extends React.Component {
     const { title, username } = this.state;
 
     if (!title.trim()) {
-      this.setState(state => ({ isTitleError: !state.isTitleError }));
+      this.setState({ isTitleError: true });
     }
 
     if (!username) {
-      this.setState(state => ({ isUsernameError: !state.isUsernameError }));
+      this.setState({ isUsernameError: true });
     }
   }
 
