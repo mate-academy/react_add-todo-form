@@ -1,0 +1,12 @@
+.App__item {
+  padding: 10px 0;
+  margin: 0 auto 10px;
+  width: 500px;
+
+  background-color: brown;
+}
+
+.App__text {
+  margin: 0;
+  color: aqua;
+}

@@ -1,3 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+}
+
+.App__form {
+  background-color: blueviolet;
+  margin: 0 auto 20px;
+  padding: 50px 20px;
+  width: 600px;
+  border-radius: 10px;
+}
+
+.App__select,
+.App__input {
+  background-color: whitesmoke;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.App__select {
+  width: 400px;
+}
+
+.select,
+.input {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: red;
+  opacity: 0;
+}
+
+.select__error,
+.input__warning {
+  opacity: 1;
+}
+
+.App__option {
+  background-color: lightgreen;
+}
+
+.App__option--accent {
+  background-color: lightsalmon;
+}
+
+.App__button {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: limegreen;
+  cursor: pointer;
+  border: 1px solid limegreen;
 }
