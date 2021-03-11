@@ -1,8 +1,9 @@
 import React from 'react';
+import './FormTodo.css';
 import PropTypes from 'prop-types';
 import { Form, Message } from 'semantic-ui-react';
 
-export class FormTodo extends React.PureComponent {
+export class FormTodo extends React.Component {
   state = {
     title: '',
     userId: 0,
@@ -11,7 +12,7 @@ export class FormTodo extends React.PureComponent {
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.currentTarget;
 
     this.setState({
       [name]: value,
@@ -20,10 +21,10 @@ export class FormTodo extends React.PureComponent {
   }
 
   handleUser = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
 
     this.setState({
-      [name]: +value,
+      userId: +value,
       isUser: true,
     });
   }
@@ -51,7 +52,7 @@ export class FormTodo extends React.PureComponent {
     const { userId, title, isUser, isTitle } = this.state;
     const { users } = this.props;
 
-    /* const options = users.map(user => ({
+    /* const options = [...users].map(user => ({
       key: user.id,
       value: user.id,
       text: user.name,
@@ -86,29 +87,30 @@ export class FormTodo extends React.PureComponent {
             maxLength="15"
 
           />
-          <select
-            className="select"
-            name="userId"
-            value={userId}
-            onChange={this.handleUser}
-          >
-            <option>
-              Choose a user
-            </option>
-            {users.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+          <div className="select">
+            <select
+              name="userId"
+              value={userId}
+              onChange={this.handleUser}
+            >
+              <option>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {users.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* <Form.Select
-            placeholder="Choose a user"
             label="User"
+            placeholder="Choose a user"
             name="userId"
             value={userId}
-            options={options}
             onChange={this.handleUser}
+            options={options}
           /> */}
         </Form.Group>
         <Form.Button>
