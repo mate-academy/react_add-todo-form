@@ -1,0 +1,52 @@
+.TodoForm {
+  margin: 1.25rem 10rem;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  background: green;
+  width: 15%;
+}
+
+select,
+input,
+button {
+  height: 3.25vh;
+  font-size: 1rem;
+  border-radius: 25px;
+  outline: 0;
+}
+
+select {
+  appearance: none;
+  background: transparent url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png") no-repeat 95% center;
+}
+
+.select:after {
+  grid-area: select;
+}
+
+select,
+input {
+  padding: 0 1.25rem;
+}
+
+input[type="checkbox"] {
+  width: 1.25rem;
+  vertical-align: middle;
+}
+
+label {
+  font-size: 1rem;
+  margin-left: 1.1rem;
+}
+
+.error {
+  margin-top: 1.25rem;
+  color: red;
+  font-size: 1rem;
+}
