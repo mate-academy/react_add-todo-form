@@ -19,9 +19,13 @@ export class TodoForm extends React.Component {
 
     event.persist();
 
+    const newValue = type === 'text' ? value.replace(/^\s/g, '') : value;
+
     this.setState(state => ({
-      [name]: type === 'checkbox' ? checked : value,
-      charsLeft: type === 'text' ? maxlength - value.length : state.charsLeft,
+      [name]: type === 'checkbox' ? checked : newValue,
+      charsLeft: type === 'text'
+        ? maxlength - newValue.length
+        : state.charsLeft,
       isTitleError: false,
       isUsernameError: false,
     }));
@@ -59,7 +63,7 @@ export class TodoForm extends React.Component {
   validationForm() {
     const { title, username } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState(state => ({ isTitleError: !state.isTitleError }));
     }
 
@@ -89,7 +93,9 @@ export class TodoForm extends React.Component {
               value={username}
               onChange={this.handleChange}
             >
-              <option>
+              <option
+                value=""
+              >
                 Please chose user
               </option>
               {users.map(user => (
