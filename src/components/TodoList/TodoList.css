@@ -1,0 +1,18 @@
+.todos {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 10rem;
+}
+
+.todos > div {
+  border-radius: 25px;
+  margin-bottom: 1.25rem;
+}
+
+.active {
+  background-color: burlywood;
+}
+
+.completed {
+  background-color: green;
+}
