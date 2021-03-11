@@ -40,7 +40,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
+        <h1>Add todo</h1>
         <FormTodo
           handleTodo={this.handleTodo}
           users={users}
