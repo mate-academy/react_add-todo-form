@@ -7,7 +7,7 @@ import './App.css';
 import { users } from './api/users';
 import { todos } from './api/todos';
 
-const preTodos = todos.map(
+const preparedTodos = todos.map(
   todo => ({
     ...todo,
     user: users.find(user => user.id === todo.id),
@@ -19,21 +19,21 @@ export class App extends Component {
     title: '',
     completed: false,
     user: '',
-    preparedTodos: preTodos,
-    isWarning: false,
-    isError: false,
+    renderedTodos: [...preparedTodos],
+    hasErrors: {
+      title: false,
+      user: false,
+    },
   };
 
   handleChange = (event) => {
     const { value, name } = event.target;
 
     this.setState({
-      isWarning: false,
-      isError: false,
-    });
-
-    this.setState({
       [name]: value,
+      hasErrors: {
+        [name]: false,
+      },
     });
   }
 
@@ -42,32 +42,38 @@ export class App extends Component {
     const { title, completed, user } = this.state;
     const foundUser = users.find(person => person.name === user);
 
-    if (title === '') {
-      this.setState({ isWarning: true });
+    if (!title) {
+      this.setState(prevState => ({
+        hasErrors: {
+          title: !prevState.title,
+        },
+      }));
 
       return;
     }
 
-    if (user === '') {
-      this.setState({ isError: true });
+    if (!user) {
+      this.setState(prevState => ({
+        hasErrors: {
+          user: !prevState.user,
+        },
+      }));
 
       return;
     }
 
     this.setState((prevState) => {
-      const id = prevState
-        .preparedTodos[prevState.preparedTodos.length - 1].id + 1;
+      const id = prevState.renderedTodos.length + 1;
+      const addUser = {
+        userId: foundUser.id,
+        id,
+        title,
+        completed,
+        user: foundUser,
+      };
 
       return ({
-        preparedTodos: [...prevState.preparedTodos,
-          {
-            userId: foundUser.id,
-            id,
-            title,
-            completed,
-            user: foundUser,
-          },
-        ],
+        renderedTodos: [...prevState.renderedTodos, addUser],
         user: '',
         title: '',
       });
@@ -75,13 +81,16 @@ export class App extends Component {
   }
 
   render() {
-    const { title, user, preparedTodos } = this.state;
+    const { title, user, renderedTodos, hasErrors } = this.state;
     const { handleChange, handleSubmit } = this;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <TodoList todos={preparedTodos} />
+        {renderedTodos.length
+          && (
+            <TodoList todos={renderedTodos} />)
+        }
         <p>
           <span>Users: </span>
           {users.length}
@@ -110,7 +119,7 @@ export class App extends Component {
             placeholder="title"
           />
           <div className={classNames(
-            'input', { input__warning: this.state.isWarning },
+            'input', { input__warning: hasErrors.title },
           )}
           >
             Please enter the title
@@ -138,7 +147,7 @@ export class App extends Component {
             ))}
           </select>
           <div className={classNames(
-            'select', { select__error: this.state.isError },
+            'select', { select__error: hasErrors.user },
           )}
           >
             Please choose a user
