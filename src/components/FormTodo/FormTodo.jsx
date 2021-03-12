@@ -16,6 +16,7 @@ export class FormTodo extends React.Component {
 
     this.setState({
       [name]: value,
+      isTitle: true,
     });
   }
 
@@ -24,6 +25,7 @@ export class FormTodo extends React.Component {
 
     this.setState({
       userId: +value,
+      isUser: true,
     });
   }
 
