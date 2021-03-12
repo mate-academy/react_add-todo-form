@@ -1,3 +1,67 @@
 .App {
   text-align: center;
 }
+
+.App__form {
+  margin-left: 100px;
+  margin-right: 100px;
+  padding-bottom: 20px;
+  border-bottom: black 1px solid;
+}
+
+.App__title {
+  font-family: Helvetica, sans-serif;
+  border-bottom: black 1px solid;
+}
+
+.form__input {
+  box-sizing: border-box;
+  height: 30px;
+  padding-left: 5px;
+
+  border-radius: 0;
+  border: black 1px solid;
+}
+
+.form__select {
+  height: 30px;
+  padding-left: 5px;
+
+  border-radius: 0;
+}
+
+.form__button {
+  height: 30px;
+  width: 80px;
+
+  background-color: white;
+  border-width: 1px;
+  border-radius: 0;
+}
+
+.form__button:hover {
+  background-color: rgb(173, 169, 169);
+}
+
+.App__input-error {
+  position: absolute;
+  right: 5px;
+  top: 2px;
+
+  width: 200px;
+
+  background-color: rgb(190, 158, 158);
+  border: black 1px solid;
+
+}
+
+.App__select-error {
+  position: absolute;
+  right: 5px;
+  top: 100px;
+
+  width: 200px;
+
+  border: black 1px solid;
+  background-color: rgb(190, 158, 158);
+}
