@@ -7,8 +7,8 @@ export class FormTodo extends React.Component {
   state = {
     title: '',
     userId: 0,
-    isTitle: false,
-    isUser: false,
+    isTitle: true,
+    isUser: true,
   }
 
   handleChange = (event) => {
@@ -16,7 +16,6 @@ export class FormTodo extends React.Component {
 
     this.setState({
       [name]: value,
-      isTitle: true,
     });
   }
 
@@ -25,7 +24,6 @@ export class FormTodo extends React.Component {
 
     this.setState({
       userId: +value,
-      isUser: true,
     });
   }
 
@@ -35,14 +33,19 @@ export class FormTodo extends React.Component {
     const { title, userId } = this.state;
 
     if (!title || !userId) {
+      this.setState({
+        isTitle: false,
+        isUser: false,
+      });
+
       return;
     }
 
     this.setState({
       title: '',
       userId: 0,
-      isUser: false,
-      isTitle: false,
+      isUser: true,
+      isTitle: true,
     });
 
     handleTodo(title, userId);
