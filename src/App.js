@@ -17,7 +17,7 @@ class App extends React.Component {
     todoList: preparedTodos,
     title: '',
     user: '',
-    errors: {
+    hasErrors: {
       title: false,
       user: false,
     },
@@ -28,7 +28,7 @@ class App extends React.Component {
 
     this.setState(state => ({
       [name]: value,
-      errors: {
+      hasErrors: {
         ...state.errors,
         [name]: false,
       },
@@ -40,10 +40,19 @@ class App extends React.Component {
 
     event.preventDefault();
 
-    if (!title || !user) {
+    if (!title) {
       this.setState(state => ({
-        errors: {
+        hasErrors: {
           title: !state.title,
+        },
+      }));
+
+      return;
+    }
+
+    if (!user) {
+      this.setState(state => ({
+        hasErrors: {
           user: !state.user,
         },
       }));
@@ -51,21 +60,25 @@ class App extends React.Component {
       return;
     }
 
-    this.setState(prevState => ({
-      todoList: [...prevState.todoList, {
+    this.setState((prevState) => {
+      const newTodo = {
         userId: users.find(person => person.name === prevState.user).id,
         id: prevState.todoList.length + 1,
         title: prevState.title,
         completed: false,
         user: users.find(person => person.name === prevState.user),
-      }],
-      title: '',
-      user: '',
-    }));
+      };
+
+      return {
+        todoList: [...prevState.todoList, newTodo],
+        title: '',
+        user: '',
+      };
+    });
   }
 
   render() {
-    const { title, user, errors, todoList } = this.state;
+    const { title, user, hasErrors, todoList } = this.state;
 
     return (
       <div className="App">
@@ -81,11 +94,13 @@ class App extends React.Component {
               id="title"
               placeholder="title"
               name="title"
-              className={classNames('form__input', { invalid: errors.title })}
+              className={classNames(
+                'form__input', { invalid: hasErrors.title },
+              )}
               value={title}
               onChange={this.changeHandler}
             />
-            {errors.title
+            {hasErrors.title
               && (
               <p className="form__notification">
                 Please enter the title
@@ -99,7 +114,7 @@ class App extends React.Component {
               name="user"
               value={user}
               onChange={this.changeHandler}
-              className={classNames('form__input', { invalid: errors.user })}
+              className={classNames('form__input', { invalid: hasErrors.user })}
             >
               <option value="">Please choose the user</option>
               {users.map(person => (
@@ -109,7 +124,7 @@ class App extends React.Component {
               ))}
             </select>
           </div>
-          {errors.user
+          {hasErrors.user
             && (
             <p className="form__notification">
               Please choose the user
