@@ -68,12 +68,16 @@ class App extends React.Component {
       {
         newUser: users.find(user => user.id === +userId),
         selectedUserId: userId,
+        selectErorr: false,
       },
     );
   }
 
   handleTitle = (event) => {
-    this.setState({ title: event.target.value });
+    this.setState({
+      title: event.target.value,
+      inputError: false,
+    });
   }
 
   render() {
