@@ -3,65 +3,86 @@ import './FormTodo.css';
 import PropTypes from 'prop-types';
 import { Form, Message } from 'semantic-ui-react';
 
+const initialTodo = {
+  title: '',
+  userId: 0,
+};
+
+const initialError = {
+  isTitle: true,
+  isUser: true,
+};
+
 export class FormTodo extends React.Component {
   state = {
-    title: '',
-    userId: 0,
-    isTitle: true,
-    isUser: true,
+    todo: {
+      title: '',
+      userId: 0,
+    },
+    error: {
+      isTitle: true,
+      isUser: true,
+    },
   }
 
   handleChange = (event) => {
-    const { name, value } = event.currentTarget;
+    const { name, value } = event.target;
 
-    this.setState({
-      [name]: value,
-      isTitle: true,
-    });
+    this.setState(prevState => ({
+      todo: {
+        ...prevState.todo,
+        [name]: value,
+      },
+      error: {
+        ...prevState.error,
+        isTitle: true,
+      },
+    }));
   }
 
-  handleUser = (event) => {
+  handleUserSelection = (event) => {
     const { value } = event.target;
 
-    this.setState({
-      userId: +value,
-      isUser: true,
-    });
+    this.setState(prevState => ({
+      todo: {
+        ...prevState.todo,
+        userId: +value,
+      },
+      error: {
+        ...prevState.error,
+        isUser: true,
+      },
+    }));
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { handleTodo } = this.props;
-    const { title, userId } = this.state;
+    const { addTodo } = this.props;
+    const { title, userId } = this.state.todo;
 
     if (!title || !userId) {
       this.setState({
-        isTitle: false,
-        isUser: false,
+        error: {
+          isTitle: false,
+          isUser: false,
+        },
       });
 
       return;
     }
 
     this.setState({
-      title: '',
-      userId: 0,
-      isUser: true,
-      isTitle: true,
+      todo: { ...initialTodo },
+      error: { ...initialError },
     });
 
-    handleTodo(title, userId);
+    addTodo(title, userId);
   }
 
   render() {
-    const { userId, title, isUser, isTitle } = this.state;
+    const { userId, title } = this.state.todo;
+    const { isUser, isTitle } = this.state.error;
     const { users } = this.props;
-
-    /* const options = [...users].map(user => ({
-      key: user.id,
-      value: user.id,
-      text: user.name,
-    })); */
 
     return (
       <Form
@@ -96,7 +117,7 @@ export class FormTodo extends React.Component {
             <select
               name="userId"
               value={userId}
-              onChange={this.handleUser}
+              onChange={this.handleUserSelection}
             >
               <option>
                 Choose a user
@@ -108,15 +129,6 @@ export class FormTodo extends React.Component {
               ))}
             </select>
           </div>
-
-          {/* <Form.Select
-            label="User"
-            placeholder="Choose a user"
-            name="userId"
-            value={userId}
-            onChange={this.handleUser}
-            options={options}
-          /> */}
         </Form.Group>
         <Form.Button>
           Submit
@@ -133,7 +145,7 @@ FormTodo.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
-  handleTodo: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
 
 FormTodo.defaultProps = {

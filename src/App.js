@@ -19,7 +19,7 @@ class App extends React.Component {
     todosData: preparedTodos,
   }
 
-  handleTodo = (title, userId) => {
+  addTodo = (title, userId) => {
     this.setState((prevState) => {
       const newTodo = {
         userId,
@@ -42,7 +42,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo</h1>
         <FormTodo
-          handleTodo={this.handleTodo}
+          addTodo={this.addTodo}
           users={users}
         />
         <TodoList todos={todosData} />
