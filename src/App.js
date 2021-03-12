@@ -40,41 +40,41 @@ class App extends React.Component {
 
     event.preventDefault();
 
+    if (title && user) {
+      this.setState((prevState) => {
+        const newTodo = {
+          userId: users.find(person => person.name === prevState.user).id,
+          id: prevState.todoList.length + 1,
+          title: prevState.title,
+          completed: false,
+          user: users.find(person => person.name === prevState.user),
+        };
+
+        return {
+          todoList: [...prevState.todoList, newTodo],
+          title: '',
+          user: '',
+        };
+      });
+    }
+
     if (!title) {
       this.setState(state => ({
         hasErrors: {
-          title: !state.title,
+          ...state.hasErrors,
+          title: true,
         },
       }));
-
-      return;
     }
 
     if (!user) {
       this.setState(state => ({
         hasErrors: {
-          user: !state.user,
+          ...state.hasErrors,
+          user: true,
         },
       }));
-
-      return;
     }
-
-    this.setState((prevState) => {
-      const newTodo = {
-        userId: users.find(person => person.name === prevState.user).id,
-        id: prevState.todoList.length + 1,
-        title: prevState.title,
-        completed: false,
-        user: users.find(person => person.name === prevState.user),
-      };
-
-      return {
-        todoList: [...prevState.todoList, newTodo],
-        title: '',
-        user: '',
-      };
-    });
   }
 
   render() {
