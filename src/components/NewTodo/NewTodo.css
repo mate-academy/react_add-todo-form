@@ -1,0 +1,37 @@
+.label {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.todoName,
+.todoUser {
+  margin-left: 10px;
+}
+
+.checkbox {
+  margin-left: -30px;
+  margin-right: 5px;
+}
+
+.not-chosen,
+.wrong-input {
+  position: relative;
+}
+
+.not-chosen::before,
+.wrong-input::before {
+  content: "please, choose a user!";
+  display: block;
+  position: absolute;
+  width: fit-content;
+  background-color: #e76d6d;
+  border-radius: 5px;
+  left: calc(50% + 100px);
+  top: 20px;
+  padding: 2px;
+  margin: 0;
+}
+
+.wrong-input::before {
+  content: "title can\'t be empty";
+}
