@@ -29,18 +29,30 @@ export class App extends Component {
   handleChange = (event) => {
     const { value, name } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
       [name]: value,
       hasErrors: {
+        ...prevState.hasErrors,
         [name]: false,
       },
-    });
+    }));
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
     const { title, completed, user } = this.state;
     const foundUser = users.find(person => person.name === user);
+
+    if (!title && !user) {
+      this.setState(prevState => ({
+        hasErrors: {
+          title: !prevState.title,
+          user: !prevState.user,
+        },
+      }));
+
+      return;
+    }
 
     if (!title) {
       this.setState(prevState => ({
