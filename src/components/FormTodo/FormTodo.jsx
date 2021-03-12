@@ -54,6 +54,17 @@ export class FormTodo extends React.Component {
     const { addTodo } = this.props;
     const { title, userId } = this.state.todo;
 
+    if (!title && !userId) {
+      this.setState(prevState => ({
+        error: {
+          isUser: false,
+          isTitle: false,
+        },
+      }));
+
+      return;
+    }
+
     if (!title) {
       this.setState(prevState => ({
         error: {
