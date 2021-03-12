@@ -1,0 +1,15 @@
+.list {
+  box-sizing: border-box;
+  width: 900px;
+  margin: auto;
+  padding-left: 200px;
+  padding-right: 200px;
+
+  list-style: none;
+  border-right: black 1px solid;
+  border-left: black 1px solid;
+}
+
+.list__item {
+  border: rgb(212, 210, 210) 0.1px solid;
+}
