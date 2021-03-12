@@ -25,6 +25,11 @@ export const TodosList = ({ todos }) => (
 
 TodosList.propTypes = {
   todos: PropTypes.arrayOf(
-    PropTypes.object,
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      completed: PropTypes.string.isRequired,
+    }),
   ).isRequired,
 };

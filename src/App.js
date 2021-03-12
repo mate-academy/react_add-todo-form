@@ -18,8 +18,8 @@ class App extends React.Component {
     selectedUserId: '',
     newUser: null,
     title: '',
-    selectErorr: false,
-    inputError: false,
+    hasSelectError: false,
+    hasInputError: false,
   }
 
   handleSubmit = (event) => {
@@ -42,41 +42,41 @@ class App extends React.Component {
           selectedUserId: '',
           title: '',
           newUser: null,
-          inputError: false,
-          selectErorr: false,
+          hasInputError: false,
+          hasSelectError: false,
         }
       ));
     }
 
     if (!title) {
       this.setState({
-        inputError: true,
+        hasInputError: true,
       });
     }
 
     if (!newUser) {
       this.setState({
-        selectErorr: true,
+        hasSelectError: true,
       });
     }
   }
 
-  handleChange = (event) => {
+  handleSelection = (event) => {
     const userId = event.target.value;
 
     this.setState(
       {
         newUser: users.find(user => user.id === +userId),
         selectedUserId: userId,
-        selectErorr: false,
+        hasSelectError: false,
       },
     );
   }
 
-  handleTitle = (event) => {
+  handleChange = (event) => {
     this.setState({
       title: event.target.value,
-      inputError: false,
+      hasInputError: false,
     });
   }
 
@@ -84,8 +84,8 @@ class App extends React.Component {
     const { fullTodos,
       selectedUserId,
       title,
-      inputError,
-      selectErorr } = this.state;
+      hasInputError,
+      hasSelectError } = this.state;
 
     return (
       <div className="App">
@@ -94,7 +94,7 @@ class App extends React.Component {
         >
           ADD TODO
         </h1>
-        {inputError
+        {hasInputError
         && (
         <div
           className="App__input-error"
@@ -104,7 +104,7 @@ class App extends React.Component {
         </div>
         )
         }
-        {selectErorr
+        {hasSelectError
         && (
         <div
           className="App__select-error"
@@ -123,12 +123,12 @@ class App extends React.Component {
             className="form__input"
             placeholder="Title"
             value={title}
-            onChange={this.handleTitle}
+            onChange={this.handleChange}
           />
           <select
             className="form__select"
             value={selectedUserId}
-            onChange={this.handleChange}
+            onChange={this.handleSelection}
           >
             <option>
               Choose a User
