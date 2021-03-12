@@ -15,14 +15,8 @@ const initialError = {
 
 export class FormTodo extends React.Component {
   state = {
-    todo: {
-      title: '',
-      userId: 0,
-    },
-    error: {
-      isTitle: true,
-      isUser: true,
-    },
+    todo: initialTodo,
+    error: initialError,
   }
 
   handleChange = (event) => {
@@ -60,13 +54,24 @@ export class FormTodo extends React.Component {
     const { addTodo } = this.props;
     const { title, userId } = this.state.todo;
 
-    if (!title || !userId) {
-      this.setState({
+    if (!title) {
+      this.setState(prevState => ({
         error: {
+          ...prevState.error,
           isTitle: false,
+        },
+      }));
+
+      return;
+    }
+
+    if (!userId) {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
           isUser: false,
         },
-      });
+      }));
 
       return;
     }
