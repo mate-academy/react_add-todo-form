@@ -1,3 +1,48 @@
+html {
+  font-family: Cambria, serif;
+  font-size: 16px;
+}
+
 .App {
   text-align: center;
+}
+
+.invalid {
+  border: 2px solid red;
+}
+
+.form__field {
+  margin: 10px 0;
+}
+
+.form__label {
+  padding-right: 15px;
+}
+
+.form__input {
+  padding: 5px;
+}
+
+.form__notification {
+  font-size: 18px;
+  color: red;
+  font-weight: 700;
+}
+
+.todo__list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo__item {
+  border: 1px solid #000;
+  margin: 10px 0;
+}
+
+.todo__title {
+  font-style: italic;
+}
+
+.todo__name {
+  font-weight: 700;
 }
