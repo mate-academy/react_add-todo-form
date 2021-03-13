@@ -1,0 +1,14 @@
+.error-message {
+  box-sizing: border-box;
+  margin: 10px auto;
+  width: 240px;
+  background-color: rgba(255, 0, 0, 0.5);
+  border-radius: 20px;
+  border: 2px solid red;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.error-message__header {
+  text-transform: uppercase;
+  font-size: 20px;
+}
