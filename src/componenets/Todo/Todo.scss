@@ -1,0 +1,35 @@
+.todo {
+  display: flex;
+  align-items: center;
+  border: 1px solid;
+  margin: 10px 0;
+  transition-duration: 0.5s;
+  
+  &--completed {
+    border-color: #008c00;
+    &:hover {
+      background-color: #81f081;
+    }
+  }
+
+  &--not-completed {
+    border-color: #f00;
+    &:hover {
+      background-color: #ffd1d1;
+    }
+  }
+
+  &__status {
+    flex-basis: 100px;
+    margin-right: 20px;
+    text-align: end;
+    
+    &--completed {
+      color: #008c00;
+    }
+
+    &--not-completed {
+      color: #f00;
+    }
+  }
+}
