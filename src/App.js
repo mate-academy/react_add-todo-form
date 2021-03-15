@@ -5,14 +5,14 @@ import { TodoList } from './components/Todolist/Todolist';
 import users from './api/users';
 import todos from './api/todos';
 
-const todoWithUsers = todos.map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   user: users.find(user => todo.userId === user.id),
 }));
 
 class App extends React.Component {
   state = {
-    todos: todoWithUsers,
+    todoList: preparedTodos,
     hasSelected: false,
     hasInput: false,
     selectedId: '',
@@ -27,7 +27,7 @@ class App extends React.Component {
     });
   }
 
-  handleSelected = (event) => {
+  handleSelect = (event) => {
     this.setState({
       newUser: users.find(user => user.id === +event.target.value),
       selectedId: event.target.value,
@@ -73,10 +73,12 @@ class App extends React.Component {
   }
 
   render() {
+    const { hasInput, hasSelected, title, selectedId, todoList } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {this.state.hasInput
+        {hasInput
         && (
           <div>
             <h3>error</h3>
@@ -84,7 +86,7 @@ class App extends React.Component {
           </div>
         )
         }
-        {this.state.hasSelected
+        {hasSelected
         && (
           <div>
             <h3>error</h3>
@@ -96,12 +98,12 @@ class App extends React.Component {
           <input
             type="text"
             placeholder="title"
-            value={this.state.title}
+            value={title}
             onChange={this.handleChange}
           />
           <select
-            value={this.state.selectedId}
-            onChange={this.handleSelected}
+            value={selectedId}
+            onChange={this.handleSelect}
           >
             <option>
               Choice user
@@ -119,7 +121,7 @@ class App extends React.Component {
             Submit
           </button>
         </form>
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={todoList} />
       </div>
     );
   }
