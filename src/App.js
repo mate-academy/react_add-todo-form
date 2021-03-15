@@ -16,12 +16,11 @@ function getId(item) {
 
 export class App extends React.Component {
   state = {
-    todoFromServer,
-    userForSelect: [...users],
-    selectValue: 0,
-    titleValue: '',
-    isTitle: false,
-    isUser: false,
+    todos: todoFromServer,
+    selectedUserId: 0,
+    title: '',
+    isTitleTrue: false,
+    isUserTrue: false,
   }
 
   titleHandler = (event) => {
@@ -29,7 +28,7 @@ export class App extends React.Component {
 
     this.setState({
       [name]: value,
-      isTitle: false,
+      isTitleTrue: false,
     });
   }
 
@@ -38,35 +37,19 @@ export class App extends React.Component {
 
     this.setState({
       [name]: +value,
-      isUser: false,
+      isUserTrue: false,
     });
   }
 
   addToList = (event) => {
-    const { titleValue, selectValue } = this.state;
+    const { title, selectedUserId, isTitleTrue, isUserTrue } = this.state;
 
     event.preventDefault();
 
-    if (!titleValue && selectValue === 0) {
+    if (!title || selectedUserId === 0) {
       this.setState({
-        isTitle: true,
-        isUser: true,
-      });
-
-      return;
-    }
-
-    if (!titleValue) {
-      this.setState({
-        isTitle: true,
-      });
-
-      return;
-    }
-
-    if (selectValue === 0) {
-      this.setState({
-        isUser: true,
+        isTitleTrue: !isTitleTrue,
+        isUserTrue: isUserTrue !== 0,
       });
 
       return;
@@ -74,31 +57,27 @@ export class App extends React.Component {
 
     this.setState((state) => {
       const newTodo = {
-        id: state.todoFromServer.length + 1,
-        title: titleValue,
+        id: state.todos.length + 1,
+        title,
         completed: false,
-        userId: selectValue,
-        user: getId(selectValue),
+        userId: selectedUserId,
+        user: getId(selectedUserId),
       };
 
-      this.setState({
-        selectValue: 0,
-        titleValue: '',
-      });
-
       return ({
-        todoFromServer: [...state.todoFromServer, newTodo],
+        selectedUserId: 0,
+        title: '',
+        todos: [...state.todos, newTodo],
       });
     });
   };
 
   render() {
     const {
-      isTitle,
-      isUser,
-      userForSelect,
-      selectValue,
-      titleValue,
+      isTitleTrue,
+      isUserTrue,
+      selectedUserId,
+      title,
     } = this.state;
 
     return (
@@ -108,20 +87,20 @@ export class App extends React.Component {
           <label>
             <input
               type="text"
-              name="titleValue"
+              name="title"
               placeholder="Please enter the title"
-              value={titleValue}
+              value={title}
               onChange={this.titleHandler}
             />
           </label>
           <label>
             <select
-              name="selectValue"
+              name="selectedUserId"
               onChange={this.selectHandler}
-              value={selectValue}
+              value={selectedUserId}
             >
               <option>Choose a user</option>
-              {userForSelect.map(user => (
+              {users.map(user => (
                 <option
                   key={user.id}
                   value={user.id}
@@ -138,12 +117,12 @@ export class App extends React.Component {
             Add
           </button>
         </form>
-        <TodoList todos={this.state.todoFromServer} />
-        {isTitle && (
-          <div className="isTitle">Dude, write some title</div>
+        <TodoList todos={this.state.todos} />
+        {isTitleTrue && (
+          <div className="isTitleTrue">Dude, write some title</div>
         )}
-        {isUser && (
-          <div className="isUser">Mate, u didnt choose user</div>
+        {isUserTrue && (
+          <div className="isUserTrue">Mate, u didnt choose user</div>
         )}
       </div>
     );
