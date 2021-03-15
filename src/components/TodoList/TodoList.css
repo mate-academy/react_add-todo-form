@@ -1,0 +1,11 @@
+.list__item {
+  padding: 10px;
+}
+
+.list__item:nth-child(2n) {
+  background: #0298bd;
+}
+
+.list__item:nth-child(2n + 1) {
+  background: #fffb28;
+}
