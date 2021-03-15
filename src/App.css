@@ -44,8 +44,8 @@ button:active {
   background-color: rgb(97, 91, 60);
 }
 
-.isTitleTrue,
-.isUserTrue {
+.isTitleWritten,
+.isUserWritten {
   width: 400px;
   height: 150px;
   margin: 20px 0;
