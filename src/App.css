@@ -1,3 +1,14 @@
+body {
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: wheat;
+    background-color: black;
+  }
 }
