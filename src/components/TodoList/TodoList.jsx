@@ -2,6 +2,7 @@ import React from 'react';
 import { Todo } from '../Todo/Todo';
 import './TodoList.css'
 import PropTypes from 'prop-types';
+import { TodoType } from '../../types'
 
 export const TodoList = ({ todos }) => {
   return (
@@ -10,6 +11,8 @@ export const TodoList = ({ todos }) => {
         <li key={todo.id} className="list__item">
           <Todo
             title={todo.title}
+            user={todo.user}
+            status={todo.completed}
           />
         </li>
     ))}
@@ -18,12 +21,7 @@ export const TodoList = ({ todos }) => {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-    }).isRequired
-  )
+  todos: PropTypes.arrayOf(TodoType)
 }
 
 TodoList.defaulProps = {

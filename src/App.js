@@ -47,6 +47,7 @@ class App extends React.Component {
       id: todos.length + 1,
       title,
       completed: false,
+      user: usersFromApi.find(user => user.id === userId),
     };
 
     this.setState(prevState => ({
