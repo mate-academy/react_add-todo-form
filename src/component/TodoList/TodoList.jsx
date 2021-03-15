@@ -4,7 +4,6 @@ import { Todo } from '../Todo';
 
 export class TodoList extends React.Component {
   state = {
-
   }
 
   render() {

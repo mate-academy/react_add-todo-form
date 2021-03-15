@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 export class Todo extends React.Component {
   state = {
-
   }
 
   render() {

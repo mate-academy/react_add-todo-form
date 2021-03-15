@@ -10,8 +10,8 @@ const todoFromServer = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId),
 }));
 
-function getId(item) {
-  return users.find(user => user.id === item);
+function findUserById(id) {
+  return users.find(user => user.id === id);
 }
 
 export class App extends React.Component {
@@ -19,37 +19,37 @@ export class App extends React.Component {
     todos: todoFromServer,
     selectedUserId: 0,
     title: '',
-    isTitleTrue: false,
-    isUserTrue: false,
+    isTitleWritten: false,
+    isUserWritten: false,
   }
 
-  titleHandler = (event) => {
+  changeTitleHandler = (event) => {
     const { name, value } = event.target;
 
     this.setState({
       [name]: value,
-      isTitleTrue: false,
+      isTitleWritten: false,
     });
   }
 
-  selectHandler = (event) => {
+  selectUserHandler = (event) => {
     const { name, value } = event.target;
 
     this.setState({
       [name]: +value,
-      isUserTrue: false,
+      isUserWritten: false,
     });
   }
 
   addToList = (event) => {
-    const { title, selectedUserId, isTitleTrue, isUserTrue } = this.state;
+    const { title, selectedUserId, isTitleWritten, isUserWritten } = this.state;
 
     event.preventDefault();
 
     if (!title || selectedUserId === 0) {
       this.setState({
-        isTitleTrue: !isTitleTrue,
-        isUserTrue: isUserTrue !== 0,
+        isTitleWritten: !isTitleWritten,
+        isUserWritten: isUserWritten !== 0,
       });
 
       return;
@@ -61,7 +61,7 @@ export class App extends React.Component {
         title,
         completed: false,
         userId: selectedUserId,
-        user: getId(selectedUserId),
+        user: findUserById(selectedUserId),
       };
 
       return ({
@@ -74,8 +74,8 @@ export class App extends React.Component {
 
   render() {
     const {
-      isTitleTrue,
-      isUserTrue,
+      isTitleWritten,
+      isUserWritten,
       selectedUserId,
       title,
     } = this.state;
@@ -90,13 +90,13 @@ export class App extends React.Component {
               name="title"
               placeholder="Please enter the title"
               value={title}
-              onChange={this.titleHandler}
+              onChange={this.changeTitleHandler}
             />
           </label>
           <label>
             <select
               name="selectedUserId"
-              onChange={this.selectHandler}
+              onChange={this.selectUserHandler}
               value={selectedUserId}
             >
               <option>Choose a user</option>
@@ -118,11 +118,11 @@ export class App extends React.Component {
           </button>
         </form>
         <TodoList todos={this.state.todos} />
-        {isTitleTrue && (
-          <div className="isTitleTrue">Dude, write some title</div>
+        {isTitleWritten && (
+          <div className="isTitleWritten">Dude, write some title</div>
         )}
-        {isUserTrue && (
-          <div className="isUserTrue">Mate, u didnt choose user</div>
+        {isUserWritten && (
+          <div className="isUserWritten">Mate, u didnt choose user</div>
         )}
       </div>
     );
