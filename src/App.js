@@ -13,9 +13,9 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todoList: preparedTodos,
-    hasSelected: false,
-    hasInput: false,
-    selectedId: '',
+    hasSelectedUserId: false,
+    hasTitle: false,
+    selectedUserId: '',
     title: '',
     newUser: null,
   }
@@ -23,15 +23,13 @@ class App extends React.Component {
   handleChange = (event) => {
     this.setState({
       title: event.target.value,
-      hasInput: false,
     });
   }
 
   handleSelect = (event) => {
     this.setState({
       newUser: users.find(user => user.id === +event.target.value),
-      selectedId: event.target.value,
-      hasSelected: false,
+      selectedUserId: event.target.value,
     });
   }
 
@@ -50,10 +48,10 @@ class App extends React.Component {
       };
 
       this.setState(state => ({
-        todos: [...state.todos, newTodo],
-        hasSelected: false,
-        hasInput: false,
-        selectedId: '',
+        todoList: [...state.todoList, newTodo],
+        hasSelectedUserId: false,
+        hasTitle: false,
+        selectedUserId: '',
         title: '',
         newUser: null,
       }));
@@ -61,24 +59,30 @@ class App extends React.Component {
 
     if (!title) {
       this.setState({
-        hasInput: true,
+        hasTitle: true,
       });
     }
 
     if (!newUser) {
       this.setState({
-        hasSelected: true,
+        hasSelectedUserId: true,
       });
     }
   }
 
   render() {
-    const { hasInput, hasSelected, title, selectedId, todoList } = this.state;
+    const {
+      hasTitle,
+      hasSelectedUserId,
+      title,
+      selectedUserId,
+      todoList,
+    } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {hasInput
+        {hasTitle
         && (
           <div>
             <h3>error</h3>
@@ -86,7 +90,7 @@ class App extends React.Component {
           </div>
         )
         }
-        {hasSelected
+        {hasSelectedUserId
         && (
           <div>
             <h3>error</h3>
@@ -102,7 +106,7 @@ class App extends React.Component {
             onChange={this.handleChange}
           />
           <select
-            value={selectedId}
+            value={selectedUserId}
             onChange={this.handleSelect}
           >
             <option>
