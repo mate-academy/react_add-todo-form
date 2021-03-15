@@ -1,35 +1,19 @@
 import React from 'react';
 import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm';
 import { ErrorMessage } from './components/ErrorMessage';
 import './App.css';
 
 import users from './api/users';
 import initialTodos from './api/todos';
 
-const todos = initialTodos.map((todo) => {
-  const todoCopy = Object.assign({}, todo);
-
-  todoCopy.user = findUser(todoCopy.userId);
-
-  return todoCopy;
-});
+const todos = initialTodos.map(todo => ({
+  ...todo,
+  user: findUser(todo.userId),
+}));
 
 function findUser(id) {
   return users.find(user => user.id === id);
-}
-
-function addTodo(title, userId) {
-  const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-  const todo = {
-    userId,
-    id: newTodoId,
-    title,
-    completed: false,
-    user: findUser(userId),
-  };
-
-  todos.push(todo);
 }
 
 class App extends React.Component {
@@ -72,7 +56,14 @@ class App extends React.Component {
     }
 
     if (isDataCorrect) {
-      addTodo(title, Number(userId));
+      todos.push({
+        userId: Number(userId),
+        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        title,
+        completed: false,
+        user: findUser(Number(userId)),
+      });
+
       this.clearForm();
     }
   }
@@ -108,55 +99,13 @@ class App extends React.Component {
           />
         )}
 
-        <form>
-          <label htmlFor="title" className="label">
-            <span className="label__text">Title:</span>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Your todo"
-              value={title}
-              onChange={this.handleChange}
-              className="input"
-            />
-          </label>
-
-          <br />
-
-          <label htmlFor="user" className="label">
-            <span className="label__text">User:</span>
-            <select
-              name="userId"
-              id="user"
-              value={userId}
-              onChange={this.handleChange}
-              className="input"
-            >
-              <option
-                value=""
-              >
-                Choose user
-              </option>
-              {users.map(user => (
-                <option
-                  value={user.id}
-                  key={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <button
-            type="submit"
-            onClick={this.formSubmitHandler}
-            className="button"
-          >
-            Add todo!
-          </button>
-        </form>
+        <TodoForm
+          title={title}
+          userId={userId}
+          users={users}
+          handleChange={this.handleChange}
+          formSubmitHandler={this.formSubmitHandler}
+        />
 
         <TodoList todos={todos} />
       </div>

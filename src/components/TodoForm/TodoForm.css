@@ -1,0 +1,34 @@
+.label__text {
+  display: inline-block;
+  margin: 10px;
+
+  font-size: 20px;
+  color: rgb(66, 66, 66);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+.button {
+  display: block;
+  margin: 20px auto;
+  margin-left: auto;
+  width: 150px;
+  height: 40px;
+
+  background-color: rgb(236, 235, 235);
+  border: 1px solid grey;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: rgb(218, 216, 216);
+}
