@@ -8,13 +8,6 @@ export class Form extends React.Component {
     userName: '',
     classValidTitle: '',
     classValidUser: '',
-    todoList: [],
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.todoList !== this.state.todoList) {
-      this.props.updateTodoList(this.state.todoList);
-    }
   }
 
   userNameHandler = (e) => {
@@ -42,18 +35,15 @@ export class Form extends React.Component {
       return;
     }
 
-    this.setState(state => ({
-      todoList: [
-        ...state.todoList,
-        {
-          title: state.title,
-          name: state.userName,
-          id: state.todoList.length + 1,
-        },
-      ],
+    this.props.updateTodoList({
+      title: this.state.title,
+      name: this.state.userName,
+    });
+
+    this.setState({
       title: '',
       userName: '',
-    }));
+    });
   }
 
   render() {

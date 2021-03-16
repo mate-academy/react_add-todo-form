@@ -11,7 +11,14 @@ export class App extends React.Component {
   }
 
   updateTodoList = (todos) => {
-    this.setState(({ todoList: [...todos] }));
+    this.setState(state => ({
+      todoList: [
+        ...state.todoList,
+        {
+          ...todos, id: state.todoList.length + 1,
+        },
+      ],
+    }));
   }
 
   render() {
