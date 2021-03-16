@@ -2,18 +2,36 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import { Form } from './api/components/Form';
+import { TodoList } from './api/components/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+export class App extends React.Component {
+  state = {
+    todoList: [],
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  updateTodoList = (todos) => {
+    this.setState(state => ({
+      todoList: [
+        ...state.todoList,
+        {
+          ...todos, id: state.todoList.length + 1,
+        },
+      ],
+    }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Form
+          users={users}
+          updateTodoList={this.updateTodoList}
+        />
+        <TodoList todoList={this.state.todoList} />
+      </div>
+    );
+  }
 }
 
 export default App;
