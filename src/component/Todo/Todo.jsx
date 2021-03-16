@@ -1,26 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class Todo extends React.Component {
-  state = {
-  }
-
-  render() {
-    const { todo } = this.props;
-
-    return (
-      <li>
-        <p>{todo.title}</p>
-        {todo.user.name && (
-          <p>
-            {todo.user.name}
-          </p>
-        )}
-        <p>{todo.completed.toString()}</p>
-      </li>
-    );
-  }
-}
+export const Todo = ({ todo }) => (
+  <li>
+    <p>{todo.title}</p>
+    {todo.user.name && (
+      <p>
+        {todo.user.name}
+      </p>
+    )}
+    <p>{todo.completed.toString()}</p>
+  </li>
+);
 
 Todo.propTypes = {
   todo: PropTypes.shape({

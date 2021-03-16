@@ -2,22 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Todo } from '../Todo';
 
-export class TodoList extends React.Component {
-  state = {
-  }
-
-  render() {
-    const { todos } = this.props;
-
-    return (
-      <ul>
-        {todos.map(todo => (
-          <Todo todo={todo} key={todo.id} />
-        ))}
-      </ul>
-    );
-  }
-}
+export const TodoList = ({ todos }) => (
+  <ul>
+    {todos.map(todo => (
+      <Todo todo={todo} key={todo.id} />
+    ))}
+  </ul>
+);
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
