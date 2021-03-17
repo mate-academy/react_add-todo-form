@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TodoList } from '../TodoList';
+import { Select } from '../Select';
 
 export class Form extends React.Component {
   state = {
@@ -80,23 +81,11 @@ export class Form extends React.Component {
               onChange={this.changeTitleHandler}
             />
           </label>
-          <label>
-            <select
-              name="selectedUserId"
-              onChange={this.selectUserHandler}
-              value={selectedUserId}
-            >
-              <option>Choose a user</option>
-              {this.props.users.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <Select
+            selectUserHandler={this.selectUserHandler}
+            selectedUserId={selectedUserId}
+            users={this.props.users}
+          />
           <button
             type="submit"
             onClick={this.addTodo}
