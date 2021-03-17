@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList/TodoList';
-// import { AddTodoForm } from './components/AddTodoForm/AddTodoForm'
+import { AddTodoForm } from './components/AddTodoForm/AddTodoForm';
 
 import usersFromApi from './api/users';
 import todosFromApi from './api/todos';
@@ -14,42 +14,17 @@ const preparedTodos = todosFromApi.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    title: '',
-    selectedUser: null,
-    selectedUserError: false,
-    titleError: false,
   }
 
-  userHandler = (e) => {
-    const { value } = e.target;
-    const foundedUser = usersFromApi.find(user => user.id === +value);
-
-    console.log(foundedUser);
-
-    this.setState({
-      selectedUser: foundedUser,
-      selectedUserError: false,
-    });
-  }
-
-  titleHandler = (e) => {
-    const { value } = e.target;
-
-    this.setState({
-      title: value,
-      titleError: false,
-    });
-  }
-
-  addTodo = () => {
-    const { title, todos, selectedUser } = this.state;
+  addTodo = (newUser) => {
+    const { selectedUser, title } = newUser;
 
     const newTodo = {
-      id: todos.length + 1,
+      id: this.state.todos.length + 1,
       title,
-      completed: false,
       user: selectedUser,
       userId: selectedUser.id,
+      completed: false,
     };
 
     this.setState(prevState => ({
@@ -57,78 +32,18 @@ class App extends React.Component {
     }));
   }
 
-  reset = () => {
-    this.setState({
-      selectedUser: '',
-      title: '',
-    });
-  }
-
   render() {
-    const {
-      selectedUser,
-      title,
-      todos,
-      selectedUserError,
-      titleError,
-    } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
 
-        {/* <AddTodoForm /> */}
-        <form onSubmit={(e) => {
-          e.preventDefault();
+        <AddTodoForm
+          onAdd={this.addTodo}
+          users={usersFromApi}
+        />
 
-          if (selectedUser === null) {
-            this.setState({ selectedUserError: true });
-          }
-
-          if (title === '') {
-            this.setState({ titleError: true });
-          }
-
-          if (selectedUser === null || title === '') {
-            return
-          }
-
-          this.addTodo();
-          this.reset();
-        }}
-        >
-          <span className="error">
-            {titleError && 'Please enter the title'}
-          </span>
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={this.titleHandler}
-          />
-          <select
-            name="selectedUser"
-            value={selectedUser && selectedUser.id}
-            onChange={this.userHandler}
-          >
-            <option >
-              Choose a user
-            </option>
-            {usersFromApi.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <span className="error">
-            {selectedUserError && 'Please choose a user'}
-            </span>
-          <div>
-            <button type="submit">
-              add
-            </button>
-          </div>
-        </form>
         <TodoList todos={todos} />
       </div>
     );
