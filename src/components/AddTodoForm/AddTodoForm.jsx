@@ -11,9 +11,7 @@ export class AddTodoForm extends React.Component {
 
   userHandler = (e) => {
     const { value } = e.target;
-    const foundedUser = this.props.users.find(user => user.name === name);
-
-    console.log(foundedUser);
+    const foundedUser = this.props.users.find(user => user.name === value);
 
     this.setState({
       selectedUser: foundedUser,
@@ -35,15 +33,12 @@ export class AddTodoForm extends React.Component {
       selectedUser: null,
       title: '',
     });
-    console.log(this.state.selectedUser);
   }
 
   onSubmitHandler = (e) => {
     e.preventDefault();
 
     const { selectedUser, title } = this.state;
-
-    console.log(this.state.selectedUser);
 
     if (selectedUser === null) {
       this.setState({ selectedUserError: true });
@@ -54,7 +49,7 @@ export class AddTodoForm extends React.Component {
     }
 
     if (selectedUser === null || title === '') {
-      return
+      return;
     }
 
     this.props.onAdd(this.state);
@@ -66,11 +61,13 @@ export class AddTodoForm extends React.Component {
       title,
       selectedUser,
       selectedUserError,
-      titleError
+      titleError,
     } = this.state;
+
+    const { users } = this.props;
+
     return (
-      <form onSubmit={this.onSubmitHandler}
-      >
+      <form onSubmit={this.onSubmitHandler}>
         <span className="error">
           {titleError && 'Please enter the title'}
         </span>
@@ -82,13 +79,13 @@ export class AddTodoForm extends React.Component {
         />
         <select
           name="selectedUser"
-          value={selectedUser ? selectedUser.name : ''}
+          value={selectedUser ? selectedUser.name : 'initial value'}
           onChange={this.userHandler}
         >
-          <option >
+          <option value="initial value" disabled>
             Choose a user
           </option>
-          {this.props.users.map(user => (
+          {users.map(user => (
             <option key={user.id} value={user.name}>
               {user.name}
             </option>
@@ -96,7 +93,7 @@ export class AddTodoForm extends React.Component {
         </select>
         <span className="error">
           {selectedUserError && 'Please choose a user'}
-          </span>
+        </span>
 
         <div>
           <button type="submit">
@@ -104,14 +101,16 @@ export class AddTodoForm extends React.Component {
           </button>
         </div>
       </form>
-    )
+    );
   }
 }
 
-AddTodoForm.PropTypes = {
+AddTodoForm.propTypes = {
   onAdd: PropTypes.func.isRequired,
-  users: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired
-}
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};
