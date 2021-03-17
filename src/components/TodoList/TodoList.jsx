@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { TodoType } from '../../types'
 
 export const TodoList = ({ todos }) => {
+
   return (
     <ol className="list">
       {todos.map(todo => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList/TodoList';
+// import { AddTodoForm } from './components/AddTodoForm/AddTodoForm'
 
 import usersFromApi from './api/users';
 import todosFromApi from './api/todos';
@@ -13,41 +14,42 @@ const preparedTodos = todosFromApi.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    selectedUser: '',
-    userId: null,
     title: '',
-    selectedUserError: '',
-    titleError: '',
+    selectedUser: null,
+    selectedUserError: false,
+    titleError: false,
   }
 
   userHandler = (e) => {
-    const { name, value } = e.target;
-    const foundedUser = usersFromApi.find(user => user.name === value);
+    const { value } = e.target;
+    const foundedUser = usersFromApi.find(user => user.id === +value);
+
+    console.log(foundedUser);
 
     this.setState({
-      [name]: value,
-      userId: foundedUser.id,
-      selectedUserError: '',
+      selectedUser: foundedUser,
+      selectedUserError: false,
     });
   }
 
   titleHandler = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
 
     this.setState({
-      [name]: value,
-      titleError: '',
+      title: value,
+      titleError: false,
     });
   }
 
   addTodo = () => {
-    const { userId, title, todos } = this.state;
+    const { title, todos, selectedUser } = this.state;
+
     const newTodo = {
-      userId,
       id: todos.length + 1,
       title,
       completed: false,
-      user: usersFromApi.find(user => user.id === userId),
+      user: selectedUser,
+      userId: selectedUser.id,
     };
 
     this.setState(prevState => ({
@@ -58,7 +60,6 @@ class App extends React.Component {
   reset = () => {
     this.setState({
       selectedUser: '',
-      userId: null,
       title: '',
     });
   }
@@ -67,7 +68,6 @@ class App extends React.Component {
     const {
       selectedUser,
       title,
-      userId,
       todos,
       selectedUserError,
       titleError,
@@ -77,50 +77,52 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
 
+        {/* <AddTodoForm /> */}
         <form onSubmit={(e) => {
           e.preventDefault();
 
-          if (selectedUser === '') {
-            this.setState({ selectedUserError: 'Please choose a user' });
+          if (selectedUser === null) {
+            this.setState({ selectedUserError: true });
           }
 
           if (title === '') {
-            this.setState({ titleError: 'Please enter the title' });
-
-            return;
+            this.setState({ titleError: true });
           }
 
-          if (userId === null) {
-            return;
+          if (selectedUser === null || title === '') {
+            return
           }
 
           this.addTodo();
           this.reset();
         }}
         >
-          <span className="error">{titleError}</span>
+          <span className="error">
+            {titleError && 'Please enter the title'}
+          </span>
           <input
             type="text"
-            name="title"
             placeholder="Title"
             value={title}
             onChange={this.titleHandler}
           />
           <select
             name="selectedUser"
-            value={selectedUser}
+            value={selectedUser && selectedUser.id}
             onChange={this.userHandler}
           >
-            <option>
+            <option >
               Choose a user
             </option>
             {usersFromApi.map(user => (
-              <option key={user.id}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          <span className="error">{selectedUserError}</span>
+          <span className="error">
+            {selectedUserError && 'Please choose a user'}
+            </span>
           <div>
             <button type="submit">
               add
