@@ -12,12 +12,11 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    todoList: preparedTodos,
-    hasSelectedUserId: false,
+    todos: preparedTodos,
     hasTitle: false,
     selectedUserId: '',
     title: '',
-    newUser: null,
+    selectedUser: null,
   }
 
   handleChange = (event) => {
@@ -28,7 +27,7 @@ class App extends React.Component {
 
   handleSelect = (event) => {
     this.setState({
-      newUser: users.find(user => user.id === +event.target.value),
+      selectedUser: users.find(user => user.id === +event.target.value),
       selectedUserId: event.target.value,
     });
   }
@@ -36,24 +35,23 @@ class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, newUser } = this.state;
+    const { title, selectedUser } = this.state;
 
-    if (title && newUser) {
+    if (title && selectedUser) {
       const newTodo = {
-        user: newUser,
-        userId: newUser.id,
+        user: selectedUser,
+        userId: selectedUser.id,
         id: title,
         title,
         completed: false,
       };
 
       this.setState(state => ({
-        todoList: [...state.todoList, newTodo],
-        hasSelectedUserId: false,
+        todos: [...state.todos, newTodo],
         hasTitle: false,
         selectedUserId: '',
         title: '',
-        newUser: null,
+        selectedUser: null,
       }));
     }
 
@@ -63,9 +61,9 @@ class App extends React.Component {
       });
     }
 
-    if (!newUser) {
+    if (!selectedUser) {
       this.setState({
-        hasSelectedUserId: true,
+        hasTitle: true,
       });
     }
   }
@@ -73,10 +71,8 @@ class App extends React.Component {
   render() {
     const {
       hasTitle,
-      hasSelectedUserId,
       title,
       selectedUserId,
-      todoList,
     } = this.state;
 
     return (
@@ -90,7 +86,7 @@ class App extends React.Component {
           </div>
         )
         }
-        {hasSelectedUserId
+        {hasTitle
         && (
           <div>
             <h3>error</h3>
@@ -125,7 +121,7 @@ class App extends React.Component {
             Submit
           </button>
         </form>
-        <TodoList todos={todoList} />
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
