@@ -10,19 +10,11 @@ const todoFromServer = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId),
 }));
 
-export class App extends React.Component {
-  state = {
-    todos: todoFromServer,
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <h1>Add todo form</h1>
-        <Form todos={this.state.todos} users={users} />
-      </div>
-    );
-  }
-}
+export const App = () => (
+  <div className="App">
+    <h1>Add todo form</h1>
+    <Form todos={todoFromServer} users={users} />
+  </div>
+);
 
 export default App;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TodoList } from '../TodoList';
 import PropTypes from 'prop-types';
+import { TodoList } from '../TodoList';
 
 export class Form extends React.Component {
   state = {
@@ -9,7 +9,6 @@ export class Form extends React.Component {
     isTitleWritten: false,
     isUserWritten: false,
     todos: this.props.todos,
-    users: this.props.users,
   }
 
   changeTitleHandler = (event) => {
@@ -50,7 +49,7 @@ export class Form extends React.Component {
         title,
         completed: false,
         userId: selectedUserId,
-        user: this.state.users.find(user => user.id === selectedUserId),
+        user: this.props.users.find(user => user.id === selectedUserId),
       };
 
       return ({
