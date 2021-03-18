@@ -13,7 +13,7 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    hasTitle: false,
+    hasError: false,
     selectedUserId: '',
     title: '',
     selectedUser: null,
@@ -48,7 +48,7 @@ class App extends React.Component {
 
       this.setState(state => ({
         todos: [...state.todos, newTodo],
-        hasTitle: false,
+        hasError: false,
         selectedUserId: '',
         title: '',
         selectedUser: null,
@@ -57,20 +57,20 @@ class App extends React.Component {
 
     if (!title) {
       this.setState({
-        hasTitle: true,
+        hasError: true,
       });
     }
 
     if (!selectedUser) {
       this.setState({
-        hasTitle: true,
+        hasError: true,
       });
     }
   }
 
   render() {
     const {
-      hasTitle,
+      hasError,
       title,
       selectedUserId,
     } = this.state;
@@ -78,7 +78,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {hasTitle
+        {hasError
         && (
           <div>
             <h3>error</h3>
@@ -86,7 +86,7 @@ class App extends React.Component {
           </div>
         )
         }
-        {hasTitle
+        {hasError
         && (
           <div>
             <h3>error</h3>
