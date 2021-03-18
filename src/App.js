@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TodoList } from './components/Todolist/Todolist';
-
+import { Form } from './components/Form/Form';
 import users from './api/users';
 import todos from './api/todos';
 
@@ -94,33 +94,14 @@ class App extends React.Component {
           </div>
         )
         }
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-          <select
-            value={selectedUserId}
-            onChange={this.handleSelect}
-          >
-            <option>
-              Choice user
-            </option>
-            {users.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <button type="submit">
-            Submit
-          </button>
-        </form>
+        <Form
+          title={title}
+          selectedUserId={selectedUserId}
+          users={users}
+          handleChange={this.handleChange}
+          handleSelect={this.handleSelect}
+          handleSubmit={this.handleSubmit}
+        />
         <TodoList todos={this.state.todos} />
       </div>
     );
