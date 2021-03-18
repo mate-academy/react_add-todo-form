@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select } from '../Select';
+import { SelectUser } from '../SelectUser';
 
 export const Form = (props) => {
   const {
@@ -24,7 +24,7 @@ export const Form = (props) => {
             onChange={changeTitleHandler}
           />
         </label>
-        <Select
+        <SelectUser
           selectUserHandler={selectUserHandler}
           selectedUserId={selectedUserId}
           users={users}

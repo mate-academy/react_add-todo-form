@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Select = ({
+export const SelectUser = ({
   selectUserHandler,
   selectedUserId,
   users,
@@ -25,7 +25,7 @@ export const Select = ({
   </label>
 );
 
-Select.propTypes = {
+SelectUser.propTypes = {
   selectUserHandler: PropTypes.func.isRequired,
   selectedUserId: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(
