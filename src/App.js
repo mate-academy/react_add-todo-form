@@ -16,8 +16,8 @@ class App extends React.Component {
     todos: preparedTodos,
   }
 
-  createTodo = (newUser) => {
-    const { selectedUser, title } = newUser;
+  createTodo = (todo) => {
+    const { selectedUser, title } = todo;
 
     const newTodo = {
       id: this.state.todos.length + 1,
@@ -30,9 +30,9 @@ class App extends React.Component {
     return newTodo;
   }
 
-  addTodo = (todo) => {
+  addTodo = (newTodo) => {
     this.setState(prevState => ({
-      todos: [...prevState.todos, todo],
+      todos: [...prevState.todos, newTodo],
     }));
   }
 
