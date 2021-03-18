@@ -9,7 +9,7 @@ export class AddTodoForm extends React.Component {
     titleError: false,
   }
 
-  userHandler = (e) => {
+  selectUserHandler = (e) => {
     const { value } = e.target;
     const foundedUser = this.props.users.find(user => user.name === value);
 
@@ -19,7 +19,7 @@ export class AddTodoForm extends React.Component {
     });
   }
 
-  titleHandler = (e) => {
+  changeTitleHandler = (e) => {
     const { value } = e.target;
 
     this.setState({
@@ -39,6 +39,7 @@ export class AddTodoForm extends React.Component {
     e.preventDefault();
 
     const { selectedUser, title } = this.state;
+    const { onAdd, onCreate } = this.props
 
     if (selectedUser === null) {
       this.setState({ selectedUserError: true });
@@ -52,7 +53,10 @@ export class AddTodoForm extends React.Component {
       return;
     }
 
-    this.props.onAdd(this.state);
+    const todo = onCreate(this.state);
+
+    onAdd(todo)
+
     this.reset();
   }
 
@@ -75,12 +79,12 @@ export class AddTodoForm extends React.Component {
           type="text"
           placeholder="Title"
           value={title}
-          onChange={this.titleHandler}
+          onChange={this.changeTitleHandler}
         />
         <select
           name="selectedUser"
           value={selectedUser ? selectedUser.name : 'initial value'}
-          onChange={this.userHandler}
+          onChange={this.selectUserHandler}
         >
           <option value="initial value" disabled>
             Choose a user
@@ -107,6 +111,7 @@ export class AddTodoForm extends React.Component {
 
 AddTodoForm.propTypes = {
   onAdd: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

@@ -16,7 +16,7 @@ class App extends React.Component {
     todos: preparedTodos,
   }
 
-  addTodo = (newUser) => {
+  createTodo = (newUser) => {
     const { selectedUser, title } = newUser;
 
     const newTodo = {
@@ -27,8 +27,12 @@ class App extends React.Component {
       completed: false,
     };
 
+    return newTodo;
+  }
+
+  addTodo = (todo) => {
     this.setState(prevState => ({
-      todos: [...prevState.todos, newTodo],
+      todos: [...prevState.todos, todo],
     }));
   }
 
@@ -40,6 +44,7 @@ class App extends React.Component {
         <h1>Add todo form</h1>
 
         <AddTodoForm
+          onCreate={this.createTodo}
           onAdd={this.addTodo}
           users={usersFromApi}
         />
