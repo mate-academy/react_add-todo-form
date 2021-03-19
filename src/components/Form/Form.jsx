@@ -4,24 +4,24 @@ import { UserType } from '../types/types';
 
 export class Form extends React.Component {
   state={
-    choiceSelect: '',
+    choiceSelectUser: '',
     title: '',
     selectedUser: null,
     hasError: false,
   }
 
-  handleChange = (event) => {
+  handleChangeTitle = (event) => {
     this.setState({
       title: event.target.value,
     });
   }
 
-  handleSelect = (event) => {
+  handleSelectUser = (event) => {
     const { users } = this.props;
 
     this.setState({
       selectedUser: users.find(user => user.id === +event.target.value),
-      choiceSelect: event.target.value,
+      choiceSelectUser: event.target.value,
     });
   }
 
@@ -43,7 +43,7 @@ export class Form extends React.Component {
       onAdd(newTodo);
       this.setState({
         hasError: false,
-        choiceSelect: '',
+        choiceSelectUser: '',
         title: '',
         selectedUser: null,
       });
@@ -63,37 +63,33 @@ export class Form extends React.Component {
   }
 
   render() {
-    const { choiceSelect, title, hasError } = this.state;
+    const { choiceSelectUser, title, hasError } = this.state;
     const { users } = this.props;
 
     return (
       <>
-        {hasError
-          && (
-            <div>
-              <h3>error</h3>
-              <p>Please enter the title</p>
-            </div>
-          )
-          }
-        {hasError
-          && (
-            <div>
-              <h3>error</h3>
-              <p>Please choose a user</p>
-            </div>
-          )
-          }
+        {hasError && (
+          <div>
+            <h3>error</h3>
+            <p>Please enter the title</p>
+          </div>
+        )}
+        {hasError && (
+          <div>
+            <h3>error</h3>
+            <p>Please choose a user</p>
+          </div>
+        )}
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
             placeholder="title"
             value={title}
-            onChange={this.handleChange}
+            onChange={this.handleChangeTitle}
           />
           <select
-            value={choiceSelect}
-            onChange={this.handleSelect}
+            value={choiceSelectUser}
+            onChange={this.handleSelectUser}
           >
             <option>
               Choice user

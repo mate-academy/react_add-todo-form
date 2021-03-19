@@ -13,7 +13,6 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-
   }
 
   addTodo = (todo) => {
