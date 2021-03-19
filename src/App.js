@@ -13,94 +13,23 @@ const preparedTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    hasError: false,
-    selectedUserId: '',
-    title: '',
-    selectedUser: null,
+
   }
 
-  handleChange = (event) => {
-    this.setState({
-      title: event.target.value,
-    });
-  }
-
-  handleSelect = (event) => {
-    this.setState({
-      selectedUser: users.find(user => user.id === +event.target.value),
-      selectedUserId: event.target.value,
-    });
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const { title, selectedUser } = this.state;
-
-    if (title && selectedUser) {
-      const newTodo = {
-        user: selectedUser,
-        userId: selectedUser.id,
-        id: title,
-        title,
-        completed: false,
-      };
-
-      this.setState(state => ({
-        todos: [...state.todos, newTodo],
-        hasError: false,
-        selectedUserId: '',
-        title: '',
-        selectedUser: null,
-      }));
-    }
-
-    if (!title) {
-      this.setState({
-        hasError: true,
-      });
-    }
-
-    if (!selectedUser) {
-      this.setState({
-        hasError: true,
-      });
-    }
+  addTodo = (todo) => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, todo],
+    }));
   }
 
   render() {
-    const {
-      hasError,
-      title,
-      selectedUserId,
-    } = this.state;
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {hasError
-        && (
-          <div>
-            <h3>error</h3>
-            <p>Please enter the title</p>
-          </div>
-        )
-        }
-        {hasError
-        && (
-          <div>
-            <h3>error</h3>
-            <p>Please choose a user</p>
-          </div>
-        )
-        }
         <Form
-          title={title}
-          selectedUserId={selectedUserId}
+          todos={this.state.todos}
           users={users}
-          handleChange={this.handleChange}
-          handleSelect={this.handleSelect}
-          handleSubmit={this.handleSubmit}
+          onAdd={this.addTodo}
         />
         <TodoList todos={this.state.todos} />
       </div>
