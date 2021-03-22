@@ -4,7 +4,6 @@ import { UserType } from '../types/types';
 
 export class Form extends React.Component {
   state = {
-    choiceSelectUser: '',
     title: '',
     selectedUser: null,
     hasErrors: {
@@ -21,10 +20,16 @@ export class Form extends React.Component {
 
   handleSelectUser = (event) => {
     const { users } = this.props;
+    const { value } = event.target;
+
+    const searchUser = users.find(user => user.id === +value);
 
     this.setState({
-      selectedUser: users.find(user => user.id === +event.target.value),
-      choiceSelectUser: event.target.value,
+      selectedUser: searchUser,
+      hasErrors: {
+        hasTitle: false,
+        hasSelectUser: false,
+      },
     });
   }
 
@@ -49,7 +54,7 @@ export class Form extends React.Component {
           hasTitle: false,
           hasSelectUser: false,
         },
-        choiceSelectUser: '',
+
         title: '',
         selectedUser: null,
       });
@@ -58,16 +63,16 @@ export class Form extends React.Component {
     if (!title) {
       this.setState(prevState => ({
         hasErrors: {
-          ...prevState.hasError,
+          ...prevState.hasErrors,
           hasTitle: true,
         },
       }));
     }
 
-    if (!selectedUser) {
+    if (selectedUser === null) {
       this.setState(prevState => ({
         hasErrors: {
-          ...prevState.hasError,
+          ...prevState.hasErrors,
           hasSelectUser: true,
         },
       }
@@ -76,7 +81,7 @@ export class Form extends React.Component {
   }
 
   render() {
-    const { choiceSelectUser, title, hasErrors } = this.state;
+    const { selectedUser, title, hasErrors } = this.state;
     const { hasTitle, hasSelectUser } = hasErrors;
     const { users } = this.props;
 
@@ -102,7 +107,8 @@ export class Form extends React.Component {
             onChange={this.handleChangeTitle}
           />
           <select
-            value={choiceSelectUser}
+            name="selectedUser"
+            value={selectedUser !== null ? selectedUser.name : 'initial value'}
             onChange={this.handleSelectUser}
           >
             <option>
