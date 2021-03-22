@@ -2,18 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserType } from '../types/types';
 
-// const initialState = {
-//   title: '',
-//   selectedUser: null,
-//   hasError: false,
-// }
-
 export class Form extends React.Component {
   state = {
     choiceSelectUser: '',
     title: '',
     selectedUser: null,
-    hasError: {
+    hasErrors: {
       hasTitle: false,
       hasSelectUser: false,
     },
@@ -51,7 +45,7 @@ export class Form extends React.Component {
 
       onAdd(newTodo);
       this.setState({
-        hasError: {
+        hasErrors: {
           hasTitle: false,
           hasSelectUser: false,
         },
@@ -62,27 +56,28 @@ export class Form extends React.Component {
     }
 
     if (!title) {
-      this.setState({
-        hasError: {
+      this.setState(prevState => ({
+        hasErrors: {
+          ...prevState.hasError,
           hasTitle: true,
-          hasSelectUser: false,
         },
-      });
+      }));
     }
 
     if (!selectedUser) {
-      this.setState({
-        hasError: {
-          hasTitle: false,
+      this.setState(prevState => ({
+        hasErrors: {
+          ...prevState.hasError,
           hasSelectUser: true,
         },
-      });
+      }
+      ));
     }
   }
 
   render() {
-    const { choiceSelectUser, title, hasError } = this.state;
-    const { hasTitle, hasSelectUser } = hasError;
+    const { choiceSelectUser, title, hasErrors } = this.state;
+    const { hasTitle, hasSelectUser } = hasErrors;
     const { users } = this.props;
 
     return (
