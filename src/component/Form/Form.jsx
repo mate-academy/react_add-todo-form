@@ -13,30 +13,28 @@ export const Form = (props) => {
   } = props;
 
   return (
-    <>
-      <form method="GET">
-        <label>
-          <input
-            type="text"
-            name="title"
-            placeholder="Please enter the title"
-            value={title}
-            onChange={changeTitleHandler}
-          />
-        </label>
-        <SelectUser
-          selectUserHandler={selectUserHandler}
-          selectedUserId={selectedUserId}
-          users={users}
+    <form method="GET">
+      <label>
+        <input
+          type="text"
+          name="title"
+          placeholder="Please enter the title"
+          value={title}
+          onChange={changeTitleHandler}
         />
-        <button
-          type="submit"
-          onClick={addTodo}
-        >
-          Add
-        </button>
-      </form>
-    </>
+      </label>
+      <SelectUser
+        selectUserHandler={selectUserHandler}
+        selectedUserId={selectedUserId}
+        users={users}
+      />
+      <button
+        type="submit"
+        onClick={addTodo}
+      >
+        Add
+      </button>
+    </form>
   );
 };
 
