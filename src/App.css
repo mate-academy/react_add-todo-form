@@ -1,3 +1,61 @@
 .App {
+  display: grid;
+  justify-items: center;
   text-align: center;
+  width: 600px;
+  margin: 0 auto;
+  font-family: sans-serif;
+
+}
+
+li {
+  list-style-type: none;
+  width: 500px;
+  height: 130px;
+  margin: 20px auto;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+input,
+select,
+button {
+  height: 40px;
+  margin-left: 15px;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+
+button {
+  width: 150px;
+  background-color: goldenrod;
+  font-weight: bold;
+  border: 3px solid goldenrod;
+}
+
+button:hover {
+  background-color: rgb(185, 143, 35);
+  color: rgb(65, 50, 50);
+}
+
+button:active {
+  transform: scale(0.9);
+  background-color: rgb(97, 91, 60);
+}
+
+.isTitleWritten,
+.isUserWritten {
+  width: 400px;
+  height: 150px;
+  margin: 20px 0;
+  background-color: rgb(148, 40, 40);
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: rgb(73, 18, 18);
 }
