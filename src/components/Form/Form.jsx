@@ -2,12 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserType } from '../types/types';
 
+// const initialState = {
+//   title: '',
+//   selectedUser: null,
+//   hasError: false,
+// }
+
 export class Form extends React.Component {
-  state={
+  state = {
     choiceSelectUser: '',
     title: '',
     selectedUser: null,
-    hasError: false,
+    hasError: {
+      hasTitle: false,
+      hasSelectUser: false,
+    },
   }
 
   handleChangeTitle = (event) => {
@@ -42,7 +51,10 @@ export class Form extends React.Component {
 
       onAdd(newTodo);
       this.setState({
-        hasError: false,
+        hasError: {
+          hasTitle: false,
+          hasSelectUser: false,
+        },
         choiceSelectUser: '',
         title: '',
         selectedUser: null,
@@ -51,30 +63,37 @@ export class Form extends React.Component {
 
     if (!title) {
       this.setState({
-        hasError: true,
+        hasError: {
+          hasTitle: true,
+          hasSelectUser: false,
+        },
       });
     }
 
     if (!selectedUser) {
       this.setState({
-        hasError: true,
+        hasError: {
+          hasTitle: false,
+          hasSelectUser: true,
+        },
       });
     }
   }
 
   render() {
     const { choiceSelectUser, title, hasError } = this.state;
+    const { hasTitle, hasSelectUser } = hasError;
     const { users } = this.props;
 
     return (
       <>
-        {hasError && (
+        {hasTitle && (
           <div>
             <h3>error</h3>
             <p>Please enter the title</p>
           </div>
         )}
-        {hasError && (
+        {hasSelectUser && (
           <div>
             <h3>error</h3>
             <p>Please choose a user</p>
