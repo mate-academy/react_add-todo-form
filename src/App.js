@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-// import { TodoForm } from './components/TodoForm';
 import { TodoList } from './components/TodoList';
 import usersFromApi from './api/users';
 import todosFromApi from './api/todos';
@@ -34,16 +33,19 @@ class App extends React.Component {
   }
 
   submitTodo = (event) => {
-    event.preventDefault();
     const { title, user } = this.state;
+
+    event.preventDefault();
 
     if (title && user) {
       this.setState((prevState) => {
         const newTodo = {
           title: prevState.title,
-          userId: +prevState.user,
-          user: usersFromApi.find(person => person.id === +prevState.user),
-          id: this.state.todos.length + 1,
+          userId: usersFromApi
+            .find(person => person.name === prevState.user).id,
+          user: usersFromApi
+            .find(person => person.name === prevState.user),
+          id: prevState.todos.length + 1,
           completed: ((Math.random() * 10) >= 5),
         };
 
@@ -83,28 +85,25 @@ class App extends React.Component {
         <h1>Add todo form</h1>
 
         <form
-          action="#"
-          method="POST"
           className="form"
           onSubmit={this.submitTodo}
         >
 
           <div className="form__field">
-
             {isErrorBlock.title && (
               <p className="error-text">
                 Please choose a user
               </p>
             )}
 
-            <label htmlFor="new-title">
+            <label htmlFor="title">
               Enter title
               <input
                 type="text"
                 name="title"
                 value={title}
                 onChange={this.changeValue}
-                id="new-title"
+                id="title"
                 className="todo__input"
                 placeholder="Enter title"
               />
@@ -112,7 +111,6 @@ class App extends React.Component {
           </div>
 
           <div className="form__field">
-
             {isErrorBlock.user && (
               <p className="error-text">
                 Please choose a user
@@ -128,10 +126,10 @@ class App extends React.Component {
                 value={user}
                 onChange={this.changeValue}
               >
-                <option>Please choose a user</option>
+                <option value="">Please choose a user</option>
                 {usersFromApi.map(person => (
                   <option
-                    value={person.id}
+                    value={person.name}
                     key={person.id}
                   >
                     {person.name}
