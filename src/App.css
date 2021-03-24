@@ -1,3 +1,23 @@
-.App {
+.todo {
   text-align: center;
+}
+
+.error-text {
+  color: red;
+}
+
+.todo__input,
+.todo__select {
+  margin-left: 10px;
+  height: 20px;
+}
+
+.todo__list {
+  margin-top: 60px;
+  padding: 0;
+  border: 1px solid;
+}
+
+.todo__item {
+  list-style: none;
 }
