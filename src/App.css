@@ -1,3 +1,40 @@
 .App {
   text-align: center;
 }
+
+.form__error {
+  display: flex;
+}
+
+.form__error__title,
+.form__error__select {
+  border: 3px solid red;
+  padding: 0 10px;
+  background-color: white;
+  position: absolute;
+}
+
+.form__error__title {
+  top: 10px;
+  left: 10px;
+}
+
+.form__error__select {
+  top: 10px;
+  right: 10px;
+}
+
+.list__element {
+  list-style: none;
+  border: 1px solid black;
+  margin: 15px;
+}
+
+.list__element__user,
+.list__element__title,
+.list__element__completed {
+  border: 1px solid black;
+  margin: 1px;
+  padding: 0 10px;
+  text-align: start;
+}

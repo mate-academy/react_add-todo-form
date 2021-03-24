@@ -74,27 +74,29 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.state.hasTitleError && (
-            <div>
-              <h3>
-                Error
-              </h3>
-              <p>
-                Please enter the title
-              </p>
-            </div>
-          )}
+          <div className="form__error">
+            {this.state.hasTitleError && (
+              <div className="form__error__title">
+                <h3>
+                  Error
+                </h3>
+                <p>
+                  Please enter the title
+                </p>
+              </div>
+            )}
 
-          {this.state.hasUserError && (
-            <div>
-              <h3>
-                Error
-              </h3>
-              <p>
-                Please choose a user
-              </p>
-            </div>
-          )}
+            {this.state.hasUserError && (
+              <div className="form__error__select">
+                <h3>
+                  Error
+                </h3>
+                <p>
+                  Please choose a user
+                </p>
+              </div>
+            )}
+          </div>
 
           <div>
             <input
@@ -128,14 +130,14 @@ class App extends React.Component {
 
         <ul>
           {this.state.todos.map(todo => (
-            <li key={todo.id}>
-              <div>
+            <li key={todo.id} className="list__element">
+              <div className="list__element__user">
                 {`User: ${todo.user.name}`}
               </div>
-              <div>
+              <div className="list__element__title">
                 {`Title: ${todo.title}`}
               </div>
-              <div>
+              <div className="list__element__completed">
                 {`Completed: ${todo.completed ? 'true' : 'false'}`}
               </div>
             </li>
