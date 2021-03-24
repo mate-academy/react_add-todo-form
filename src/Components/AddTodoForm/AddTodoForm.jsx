@@ -109,7 +109,7 @@ export class AddTodoForm extends Component {
             placeholder="Add title"
             value={this.state.title}
             onChange={this.handleChange}
-            pattern="[a-zA-Z0-9\s\w]+"
+            pattern="([^\s][A-z0-9À-ž\s]+)"
           />
 
           <select
