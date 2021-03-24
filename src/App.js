@@ -11,24 +11,38 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    user: '',
-    userID: '',
+    user: null,
+    userId: '',
     title: '',
     todos: preparedTodos,
+    hasTitleError: false,
+    hasUserError: false,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.setState(prevState => ({
-      todos: [...prevState.todos, {
-        user: prevState.user,
-        userID: prevState.user.id,
-        id: prevState.todos.length + 1,
-        title: prevState.title,
-        completed: false,
-      }],
-    }));
+    if (this.state.user && this.state.title !== '') {
+      this.setState(prevState => ({
+        todos: [...prevState.todos, {
+          userId: prevState.user.id,
+          id: prevState.todos.length + 1,
+          title: prevState.title,
+          user: prevState.user,
+          completed: false,
+          hasTitleError: false,
+          hasUserError: false,
+        }],
+      }));
+    }
+
+    if (this.state.title === '') {
+      this.setState({ hasTitleError: true });
+    }
+
+    if (!this.state.user) {
+      this.setState({ hasUserError: true });
+    }
   }
 
   handleSelection = (event) => {
@@ -37,7 +51,8 @@ class App extends React.Component {
     this.setState(
       {
         user: users.find(user => user.id === +userId),
-        userID: userId,
+        userId,
+        hasUserError: false,
       },
     );
   }
@@ -48,6 +63,10 @@ class App extends React.Component {
     this.setState({
       [name]: value,
     });
+
+    if (this.state.title !== '') {
+      this.setState({ hasTitleError: false });
+    }
   }
 
   render() {
@@ -55,31 +74,56 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Add title"
-            value={this.state.title}
-            onChange={this.handleChange}
-          />
+          {this.state.hasTitleError && (
+            <div>
+              <h3>
+                Error
+              </h3>
+              <p>
+                Please enter the title
+              </p>
+            </div>
+          )}
 
-          <select
-            name="user"
-            value={this.state.userID}
-            onChange={this.handleSelection}
-          >
-            <option>Select user</option>
-            {users.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+          {this.state.hasUserError && (
+            <div>
+              <h3>
+                Error
+              </h3>
+              <p>
+                Please choose a user
+              </p>
+            </div>
+          )}
 
-          <button type="submit">Add</button>
+          <div>
+            <input
+              type="text"
+              name="title"
+              placeholder="Add title"
+              value={this.state.title}
+              onChange={this.handleChange}
+              pattern="([^\s][A-z0-9À-ž\s]+)"
+            />
+
+            <select
+              name="user"
+              value={this.state.userId}
+              onChange={this.handleSelection}
+            >
+              <option>Select user</option>
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+
+            <button type="submit">Add</button>
+          </div>
         </form>
 
         <ul>
