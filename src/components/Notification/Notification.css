@@ -1,0 +1,18 @@
+.notification {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border-radius: 15px;
+  box-shadow: 1px 1px 4px black;
+
+  border: 5px solid rgb(182, 31, 31);
+
+  color: black;
+  margin: 10px auto;
+
+  width: 200px;
+  height: 50px;
+
+  background-color: #fff;
+}
