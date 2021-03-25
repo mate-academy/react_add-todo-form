@@ -1,3 +1,53 @@
 .App {
   text-align: center;
 }
+
+.form {
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin: 5px;
+  outline: none;
+  box-shadow: 5px 5px -5px rgba(34, 60, 80, 0.6);
+}
+
+.form__select,
+.form__button,
+.form__input {
+  height: 45px;
+}
+
+.form__input {
+  width: 200px;
+}
+
+.form__button {
+  background-color: chartreuse;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+
+}
+
+.error__message {
+  display: flex;
+  background-color: rgb(211, 59, 59);
+  box-sizing: border-box;
+  border-radius: 10px;
+  height: 70px;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  font-size: 18px;
+  color: white;
+}
+
+.list__item {
+  list-style: none;
+  box-sizing: border-box;
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
