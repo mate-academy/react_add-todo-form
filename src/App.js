@@ -7,7 +7,7 @@ import todos from './api/todos';
 
 const preparedActivities = todos.map(activity => ({
   ...activity,
-  userId: users.find(user => user.id === activity.userId),
+  user: users.find(user => user.id === activity.userId),
 }));
 
 class App extends React.Component {
