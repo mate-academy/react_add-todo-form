@@ -49,8 +49,6 @@ class App extends React.Component {
 
       userId: '',
       title: '',
-      noUserFlag: false,
-      noTitleFlag: false,
     }));
   };
 
@@ -61,6 +59,8 @@ class App extends React.Component {
 
     this.setState({
       [name]: value,
+      noUserFlag: false,
+      noTitleFlag: false,
     });
   };
 
