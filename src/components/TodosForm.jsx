@@ -15,6 +15,7 @@ export class TodosForm extends React.Component {
 
     this.setState({
       [name]: value,
+      titleError: false,
     });
   }
 
@@ -25,6 +26,7 @@ export class TodosForm extends React.Component {
     this.setState({
       [name]: value,
       user: users.find(user => user.name === value),
+      selectError: false,
     });
   }
 
@@ -42,19 +44,11 @@ export class TodosForm extends React.Component {
       this.setState({
         titleError: true,
       });
-    } else {
-      this.setState({
-        titleError: false,
-      });
     }
 
     if (selectedUser === '') {
       this.setState({
         selectError: true,
-      });
-    } else {
-      this.setState({
-        selectError: false,
       });
     }
 
@@ -68,11 +62,11 @@ export class TodosForm extends React.Component {
       };
 
       onSubmit(newTodo);
-    }
 
-    this.setState({
-      title: '', selectedUser: '',
-    });
+      this.setState({
+        title: '', selectedUser: '',
+      });
+    }
   }
 
   render() {
