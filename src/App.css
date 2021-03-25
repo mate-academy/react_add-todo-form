@@ -1,3 +1,36 @@
 .App {
   text-align: center;
 }
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+.list__item {
+  padding: 10px;
+  font-size: 20px;
+  line-height: 35px;
+}
+
+.list__item:nth-child(odd) {
+  background-color: rgba(229, 250, 42, 0.2);
+}
+
+.form-input,
+.form-select,
+.form-button {
+  margin-right: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(241, 197, 100);
+}
+
+.error-message {
+  width: 60%;
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: rgb(243, 138, 138);
+}
