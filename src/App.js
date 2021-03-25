@@ -5,7 +5,7 @@ import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './Components/TodoList';
 
-const prepairedTodos = todos.map(todo => ({
+const prepairedTodos = [...todos].map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId),
 }));
@@ -15,19 +15,19 @@ class App extends React.Component {
     todoList: prepairedTodos,
     userId: 0,
     todoTitle: '',
-    errorMessageOfName: false,
-    errorMessageOfTitle: false,
+    showErrorMessageOfName: false,
+    ShowErrorMessageOfTitle: false,
   }
 
   addTodo = (event) => {
     event.preventDefault();
 
     if (!this.state.userId) {
-      return this.setState({ errorMessageOfName: true });
+      return this.setState({ showErrorMessageOfName: true });
     }
 
     if (!this.state.todoTitle) {
-      return this.setState({ errorMessageOfTitle: true });
+      return this.setState({ ShowErrorMessageOfTitle: true });
     }
 
     return this.setState((prevState) => {
@@ -43,8 +43,8 @@ class App extends React.Component {
         todoList: [...prevState.todoList, prepearedTodoForPush],
         userId: 0,
         todoTitle: '',
-        errorMessageOfName: false,
-        errorMessageOfTitle: false,
+        showErrorMessageOfName: false,
+        ShowErrorMessageOfTitle: false,
       });
     });
   }
@@ -62,8 +62,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { todoTitle, userId } = this.state;
-    const { todoList, errorMessageOfName, errorMessageOfTitle } = this.state;
+    const {
+      userId,
+      todoTitle,
+      todoList,
+      showErrorMessageOfName,
+      ShowErrorMessageOfTitle,
+    } = this.state;
 
     return (
       <div className="App">
@@ -72,7 +77,6 @@ class App extends React.Component {
           <span>Todos: </span>
           {todoList.length}
         </p>
-
         <p>
           <span>Users: </span>
           {users.length}
@@ -83,7 +87,7 @@ class App extends React.Component {
           onSubmit={this.addTodo}
         >
           <div>
-            <p>{errorMessageOfName && 'Please choose a user'}</p>
+            <p>{showErrorMessageOfName && 'Please choose a user'}</p>
             <select
               value={userId}
               name="chooseUser"
@@ -105,15 +109,19 @@ class App extends React.Component {
             </select>
           </div>
           <div>
-            <lable>
-              <input
-                name="addTitle"
-                type="text"
-                value={todoTitle}
-                onChange={this.changeTitle}
-              />
-            </lable>
-            <p>{errorMessageOfTitle && 'Please enter the title'}</p>
+            <label htmlFor="title">
+              Add  title
+            </label>
+            <br />
+            <input
+              id="title"
+              name="addTitle"
+              type="text"
+              placeholder="&#9998; Write  title"
+              value={todoTitle}
+              onChange={this.changeTitle}
+            />
+            <p>{ShowErrorMessageOfTitle && 'Please enter the title'}</p>
             <button
               type="submit"
             >
