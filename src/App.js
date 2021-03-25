@@ -7,8 +7,10 @@ import todos from './api/todos';
 class App extends React.Component {
   state = {
     todoList: todos,
-    user: 'Chose User',
+    user: 'Choose User',
     title: '',
+    createTitleError: false,
+    createUserError: false,
   }
 
   handleSelectChange = (event) => {
@@ -25,19 +27,40 @@ class App extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-  }
+    if (this.state.title === '') {
+      this.setState({
+        createTitleError: true,
+      });
+    } else {
+      this.setState({
+        createTitleError: false,
+      });
+    }
 
-  handleClick = () => {
+    if (this.state.user === 'Choose User') {
+      this.setState({
+        createUserError: true,
+      });
+    } else {
+      this.setState({
+        createUserError: false,
+      });
+    }
+
+    if (this.state.user === 'Choose User' || this.state.title === '') {
+      return;
+    }
+
     const createdTodo = {
       userId: users.find(user => user.name === this.state.user).id,
       id: this.state.todoList.length + 1,
       title: this.state.title,
-      completed: true,
+      completed: false,
     };
 
     this.setState(prevState => ({
       todoList: [...prevState.todoList, createdTodo],
-      user: 'Chose User',
+      user: 'Choose User',
       title: '',
     }));
   }
@@ -46,6 +69,24 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
+        {
+          this.state.createTitleError
+            ? (
+              <p
+                className="error"
+              >
+                Warning: Please enter the title!!!
+              </p>
+            )
+            : ''
+          }
+        {
+          this.state.createUserError
+            ? (
+              <p className="error">Warning: Please choose a user</p>
+            )
+            : ''
+        }
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
@@ -59,15 +100,14 @@ class App extends React.Component {
             onChange={this.handleSelectChange}
           >
             <option>
-              Chose User
+              Choose User
             </option>
             {users.map(user => (
-              <option>{user.name}</option>
+              <option key={user.id}>{user.name}</option>
             ))}
           </select>
           <button
             type="submit"
-            onClick={this.handleClick}
           >
             Add
           </button>
