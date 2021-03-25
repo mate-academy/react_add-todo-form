@@ -17,12 +17,23 @@ class App extends React.Component {
     this.setState({
       user: event.target.value,
     });
+
+    if (event.target.value !== 'Choose User') {
+      this.setState({
+        createUserError: false,
+      });
+    }
   }
 
   handleInputChange = (event) => {
     this.setState({
       title: event.target.value,
     });
+    if (event.target.value !== '') {
+      this.setState({
+        createTitleError: false,
+      });
+    }
   }
 
   handleSubmit = (event) => {
@@ -31,19 +42,11 @@ class App extends React.Component {
       this.setState({
         createTitleError: true,
       });
-    } else {
-      this.setState({
-        createTitleError: false,
-      });
     }
 
     if (this.state.user === 'Choose User') {
       this.setState({
         createUserError: true,
-      });
-    } else {
-      this.setState({
-        createUserError: false,
       });
     }
 
