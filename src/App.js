@@ -3,28 +3,36 @@ import './App.css';
 import TodoList from './components/TodoList';
 
 import users from './api/users';
-import todos from './api/todos';
+import initialTodos from './api/todos';
+
+const preparedTodos = initialTodos.map((todo) => {
+  const user = users.find(person => person.id === todo.userId);
+
+  const copyOfTodo = Object.assign({}, todo);
+
+  copyOfTodo.user = user;
+
+  return copyOfTodo;
+});
 
 class App extends React.Component {
   state = {
-    listOfTodos: todos.map((todo) => {
-      const user = users.find(person => person.id === todo.userId);
-
-      todo.user = user;
-
-      return todo;
-    }),
+    todos: preparedTodos,
     potentialTitle: '',
     potentialName: '',
-    potentialCompleted: false,
-    enterTitleError: false,
-    selectUserError: false,
+    isCompleted: false,
+    isEnterTitleError: false,
+    isSelectUserError: false,
   }
 
   findMaxId = () => {
     let max = 0;
 
-    this.state.listOfTodos.map(todo => todo.id > max ? max = todo.id : '');
+    this.state.todos.forEach((todo) => {
+      if (todo.id > max) {
+        max = todo.id;
+      }
+    });
 
     return max + 1;
   }
@@ -32,40 +40,40 @@ class App extends React.Component {
   setUser = (event) => {
     this.setState({
       potentialName: event.target.value,
-      selectUserError: false,
+      isSelectUserError: false,
     });
   }
 
   setTitle = (event) => {
     this.setState({
       potentialTitle: event.target.value,
-      enterTitleError: false,
+      isEnterTitleError: false,
     });
   }
 
   setCompleted = (event) => {
     this.setState({
-      potentialCompleted: event.target.checked,
+      isCompleted: event.target.checked,
     });
   }
 
-  add = () => {
+  addTodo = () => {
     const {
-      listOfTodos,
+      todos,
       potentialName,
       potentialTitle,
-      potentialCompleted,
+      isCompleted,
     } = this.state;
 
     if (potentialName === '') {
       this.setState({
-        selectUserError: true,
+        isSelectUserError: true,
       });
     }
 
     if (potentialTitle === '') {
       this.setState({
-        enterTitleError: true,
+        isEnterTitleError: true,
       });
     }
 
@@ -73,30 +81,30 @@ class App extends React.Component {
       return;
     }
 
-    const newListOfTodos = [...listOfTodos];
+    const newtodos = [...todos];
     const todoOwner = users.find(user => user.name === potentialName);
 
-    const newItemInListOfTodos = {
+    const newTodo = {
       userId: todoOwner.id,
       id: this.findMaxId(),
       title: potentialTitle,
-      completed: potentialCompleted,
+      completed: isCompleted,
       user: todoOwner,
     };
 
-    newListOfTodos.push(newItemInListOfTodos);
+    newtodos.push(newTodo);
     this.setState({
-      listOfTodos: newListOfTodos,
+      todos: newtodos,
       potentialTitle: '',
       potentialName: '',
-      potentialCompleted: false,
+      isCompleted: false,
     });
   }
 
   render() {
     return (
       <div className="App">
-        <h1>Add todo form</h1>
+        <h1>addTodo todo form</h1>
         <select
           onChange={this.setUser}
           value={this.state.potentialName}
@@ -124,17 +132,17 @@ class App extends React.Component {
           <input
             type="checkbox"
             onChange={this.setCompleted}
-            checked={this.state.potentialCompleted}
+            checked={this.state.isCompleted}
           />
         </label>
         <button
           type="button"
-          onClick={this.add}
+          onClick={this.addTodo}
         >
-          Add
+          addTodo
         </button>
         {
-          this.state.enterTitleError && (
+          this.state.isEnterTitleError && (
             <p>
               <strong>
                 Error:
@@ -144,7 +152,7 @@ class App extends React.Component {
           )
         }
         {
-          this.state.selectUserError && (
+          this.state.isSelectUserError && (
             <p>
               <strong>
                 Error:
@@ -154,7 +162,7 @@ class App extends React.Component {
           )
         }
         <TodoList
-          todos={this.state.listOfTodos}
+          todos={this.state.todos}
         />
       </div>
     );
