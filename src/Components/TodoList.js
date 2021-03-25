@@ -5,16 +5,20 @@ import './TodoList.css';
 
 export const TodoList = ({ todos }) => (
   <table className="table">
-    <tr>
-      <th className="table__header">User</th>
-      <th className="table__header">Title</th>
-      <th className="table__header">Status</th>
-    </tr>
-    {todos.map(todo => (
-      <tr key={todo.id}>
-        <Todo {...todo} />
+    <thead>
+      <tr>
+        <th className="table__header">User</th>
+        <th className="table__header">Title</th>
+        <th className="table__header">Status</th>
       </tr>
-    ))}
+    </thead>
+    <tbody>
+      {todos.map(todo => (
+        <tr key={todo.id}>
+          <Todo {...todo} />
+        </tr>
+      ))}
+    </tbody>
   </table>
 );
 
@@ -22,7 +26,6 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
     }),
   ).isRequired,
