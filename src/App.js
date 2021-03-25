@@ -52,13 +52,19 @@ class App extends React.Component {
   changeName = (event) => {
     const { value } = event.target;
 
-    this.setState({ userId: value });
+    this.setState({
+      userId: value,
+      showErrorMessageOfName: false,
+    });
   }
 
   changeTitle = (event) => {
     const { value } = event.target;
 
-    this.setState({ todoTitle: value });
+    this.setState({
+      todoTitle: value,
+      ShowErrorMessageOfTitle: false,
+    });
   }
 
   render() {
