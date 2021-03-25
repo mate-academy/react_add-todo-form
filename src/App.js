@@ -16,12 +16,20 @@ export class App extends React.PureComponent {
     })),
 
     title: '',
-    selected: 0,
-    notify: false,
+    selected: '0',
+    notifSelect: false,
     notifyTitle: false,
   };
 
   render() {
+    const {
+      title,
+      selected,
+      notifSelect,
+      notifyTitle,
+      preparedTodod,
+    } = this.state;
+
     const UpdateUser = () => {
       this.setState(prevState => ({
         preparedTodod: [...prevState.preparedTodod,
@@ -38,6 +46,40 @@ export class App extends React.PureComponent {
       }));
     };
 
+    const handleChange = (event) => {
+      event.preventDefault();
+
+      if (title.length === 0) {
+        this.setState({
+          notifyTitle: true,
+        });
+      } else {
+        this.setState({
+          notifyTitle: false,
+        });
+      }
+
+      if (selected === '0') {
+        this.setState({
+          notifSelect: true,
+        });
+      } else {
+        this.setState({
+          notifSelect: false,
+        });
+      }
+
+      if (selected > 0 && title.length > 0) {
+        UpdateUser();
+        this.setState({
+          title: '',
+          selected: '0',
+          notifSelect: false,
+          notifyTitle: false,
+        });
+      }
+    };
+
     return (
       <div className="App">
         <h1 className="App__title">Add todo form</h1>
@@ -48,9 +90,7 @@ export class App extends React.PureComponent {
 
         <form
           className="form"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
+          onSubmit={handleChange}
         >
           <labe>
             <span className="form__description"> Title:</span>
@@ -58,7 +98,7 @@ export class App extends React.PureComponent {
               type="text"
               className="form__field"
               placeholder="Title"
-              value={this.state.title}
+              value={title}
               onChange={(inputHandler) => {
                 this.setState({
                   title: inputHandler.target.value,
@@ -73,14 +113,14 @@ export class App extends React.PureComponent {
               className="form__field"
               type="text"
               placeholder="User"
-              value={this.state.selected}
+              value={selected}
               onChange={(event) => {
                 this.setState({
                   selected: event.target.value,
                 });
               }}
             >
-              <option value={0}>
+              <option value="0">
                 Choose user
               </option>
               <UserNameList users={users} />
@@ -91,56 +131,20 @@ export class App extends React.PureComponent {
           <button
             className="form__submit"
             type="submit"
-            onClick={
-              () => {
-                if (this.state.title.length === 0) {
-                  this.setState({
-                    notifyTitle: true,
-                  });
-                } else {
-                  this.setState({
-                    notifyTitle: false,
-                  });
-                }
-
-                if (this.state.selected === 0) {
-                  this.setState({
-                    notify: true,
-                  });
-                } else {
-                  this.setState({
-                    notify: false,
-                  });
-                }
-
-                if (this.state.selected > 0 && this.state.title.length > 0) {
-                  UpdateUser();
-                  this.setState({
-                    title: '',
-                    selected: 0,
-                    notify: false,
-                    notifyTitle: false,
-                  });
-                }
-              }
-            }
           >
             Submit
           </button>
         </form>
 
         {
-        this.state.notify
-          ? <Notification notify="Please choose a user!" />
-          : null
-
+        notifSelect && (
+          <Notification notifSelect="Please choose a user!" />)
         }
         {
-        this.state.notifyTitle
-          ? <Notification notify="Please enter the title!" />
-          : null
+        notifyTitle && (
+        <Notification notifSelect="Please enter the title!" />)
         }
-        <TodoList list={this.state.preparedTodod} />
+        <TodoList list={preparedTodod} />
 
       </div>
     );
