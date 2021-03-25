@@ -14,7 +14,7 @@ class App extends React.Component {
     todos: preparedTodos,
     title: '',
     user: '',
-    isErrorBlock: {
+    hasErrors: {
       title: false,
       user: false,
     },
@@ -25,8 +25,8 @@ class App extends React.Component {
 
     this.setState(prevState => ({
       [name]: value,
-      isErrorBlock: {
-        ...prevState.isErrorBlock,
+      hasErrors: {
+        ...prevState.hasErrors,
         [name]: false,
       },
     }));
@@ -46,7 +46,7 @@ class App extends React.Component {
           user: usersFromApi
             .find(person => person.name === prevState.user),
           id: prevState.todos.length + 1,
-          completed: ((Math.random() * 10) >= 5),
+          completed: false,
         };
 
         return ({
@@ -59,8 +59,8 @@ class App extends React.Component {
 
     if (!title) {
       this.setState(prevState => ({
-        isErrorBlock: {
-          ...prevState.isErrorBlock,
+        hasErrors: {
+          ...prevState.hasErrors,
           title: true,
         },
       }));
@@ -68,8 +68,8 @@ class App extends React.Component {
 
     if (!user) {
       this.setState(prevState => ({
-        isErrorBlock: {
-          ...prevState.isErrorBlock,
+        hasErrors: {
+          ...prevState.hasErrors,
           user: true,
         },
       }));
@@ -78,7 +78,7 @@ class App extends React.Component {
 
   render() {
     const { todos } = this.state;
-    const { title, user, isErrorBlock } = this.state;
+    const { title, user, hasErrors } = this.state;
 
     return (
       <div className="todo">
@@ -90,7 +90,7 @@ class App extends React.Component {
         >
 
           <div className="form__field">
-            {isErrorBlock.title && (
+            {hasErrors.title && (
               <p className="error-text">
                 Please choose a user
               </p>
@@ -111,7 +111,7 @@ class App extends React.Component {
           </div>
 
           <div className="form__field">
-            {isErrorBlock.user && (
+            {hasErrors.user && (
               <p className="error-text">
                 Please choose a user
               </p>
