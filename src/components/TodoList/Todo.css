@@ -1,0 +1,14 @@
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+.list__item {
+  padding: 10px;
+  font-size: 20px;
+  line-height: 35px;
+}
+
+.list__item:nth-child(odd) {
+  background-color: rgba(229, 250, 42, 0.2);
+}

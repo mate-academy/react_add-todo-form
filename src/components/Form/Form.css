@@ -1,0 +1,17 @@
+.form-input,
+.form-select,
+.form-button {
+  margin-right: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(241, 197, 100);
+}
+
+.error-message {
+  width: 60%;
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: rgb(243, 138, 138);
+}
