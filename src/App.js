@@ -53,19 +53,11 @@ export class App extends React.PureComponent {
         this.setState({
           notifyTitle: true,
         });
-      } else {
-        this.setState({
-          notifyTitle: false,
-        });
       }
 
       if (selected === '0') {
         this.setState({
           notifSelect: true,
-        });
-      } else {
-        this.setState({
-          notifSelect: false,
         });
       }
 
@@ -103,6 +95,12 @@ export class App extends React.PureComponent {
                 this.setState({
                   title: inputHandler.target.value,
                 });
+
+                if (title.length > 0) {
+                  this.setState({
+                    notifyTitle: false,
+                  });
+                }
               }}
             />
           </labe>
@@ -118,6 +116,12 @@ export class App extends React.PureComponent {
                 this.setState({
                   selected: event.target.value,
                 });
+
+                if (event.target.value !== '0') {
+                  this.setState({
+                    notifSelect: false,
+                  });
+                }
               }}
             >
               <option value="0">
@@ -142,8 +146,9 @@ export class App extends React.PureComponent {
         }
         {
         notifyTitle && (
-        <Notification notifSelect="Please enter the title!" />)
+          <Notification notifSelect="Please enter the title!" />)
         }
+
         <TodoList list={preparedTodod} />
 
       </div>
