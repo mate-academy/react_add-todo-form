@@ -44,6 +44,7 @@ class App extends React.Component {
         title: prevState.title,
         completed: false,
         userId: Number(prevState.userId),
+        user: users.find(user => user.id === Number(prevState.userId)),
       },
       ],
 
