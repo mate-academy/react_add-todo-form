@@ -1,19 +1,50 @@
 import React from 'react';
-import './App.css';
-
+import todos from './api/todos';
 import users from './api/users';
+import './App.css';
+import { AddTodoForm } from './components/AddTodoForm';
+import { TodoList } from './components/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const { uuid } = require('uuidv4');
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+const convertTodo = listOfTodos => listOfTodos.map(todo => ({
+  title: todo.title,
+  completed: todo.completed,
+  name: users.find(user => user.id === todo.userId).name,
+}));
+
+class App extends React.Component {
+  state = {
+    todos,
+  }
+
+  addTodo = (title, userId) => {
+    const newTodo = {
+      userId,
+      id: uuid(),
+      title,
+      completed: false,
+    };
+
+    this.setState(prevState => ({
+      todos: [newTodo, ...prevState.todos],
+    }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+        <AddTodoForm
+          users={users}
+          addTodo={this.addTodo}
+        />
+        <TodoList
+          todos={convertTodo(this.state.todos)}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
