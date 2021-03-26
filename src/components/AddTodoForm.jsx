@@ -71,23 +71,17 @@ export class AddTodoForm extends React.Component {
           className="form"
         >
           <div className="error">
-            {
-            hasTitleError
-            && (
-            <div className="error__message">
-              Enter your title, please!
-            </div>
-            )
-            }
+            {hasTitleError && (
+              <div className="error__message">
+                Enter your title, please!
+              </div>
+            )}
 
-            {
-            hasUserIdError
-            && (
+            {hasUserIdError && (
             <div className="error__message">
               Choose user, please!
             </div>
-            )
-            }
+            )}
           </div>
 
           <input

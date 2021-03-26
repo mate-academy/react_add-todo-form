@@ -7,6 +7,12 @@ import { TodoList } from './components/TodoList';
 
 const { uuid } = require('uuidv4');
 
+const convertTodo = listOfTodos => listOfTodos.map(todo => ({
+  title: todo.title,
+  completed: todo.completed,
+  name: users.find(user => user.id === todo.userId).name,
+}));
+
 class App extends React.Component {
   state = {
     todos,
@@ -25,26 +31,20 @@ class App extends React.Component {
     }));
   }
 
-    convertTodo = listOfTodos => listOfTodos.map(todo => ({
-      title: todo.title,
-      completed: todo.completed,
-      name: users.find(user => user.id === todo.userId).name,
-    }))
-
-    render() {
-      return (
-        <div className="App">
-          <h1>Add todo form</h1>
-          <AddTodoForm
-            users={users}
-            addTodo={this.addTodo}
-          />
-          <TodoList
-            todos={this.convertTodo(this.state.todos)}
-          />
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+        <AddTodoForm
+          users={users}
+          addTodo={this.addTodo}
+        />
+        <TodoList
+          todos={convertTodo(this.state.todos)}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
