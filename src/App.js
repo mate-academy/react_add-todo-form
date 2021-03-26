@@ -14,32 +14,32 @@ class App extends React.Component {
   state = {
     todoList: prepairedTodos,
     userId: 0,
-    todoTitle: '',
-    showErrorMessageOfName: false,
-    ShowErrorMessageOfTitle: false,
+    title: '',
+    hasEmptyName: false,
+    hasEmptyTitle: false,
   }
 
   addTodo = (event) => {
     event.preventDefault();
 
-    if (!this.state.todoTitle && !this.state.userId) {
+    if (!this.state.title && !this.state.userId) {
       return this.setState({
-        showErrorMessageOfName: true,
-        ShowErrorMessageOfTitle: true,
+        hasEmptyName: true,
+        hasEmptyTitle: true,
       });
     }
 
     if (!this.state.userId) {
-      return this.setState({ showErrorMessageOfName: true });
+      return this.setState({ hasEmptyName: true });
     }
 
-    if (!this.state.todoTitle) {
-      return this.setState({ ShowErrorMessageOfTitle: true });
+    if (!this.state.title) {
+      return this.setState({ hasEmptyTitle: true });
     }
 
     return this.setState((prevState) => {
       const { userId } = this.state;
-      const prepearedTodoForPush = {
+      const newTodo = {
         userId: prevState.userId,
         title: prevState.todoTitle,
         id: prevState.todoList.length + 1,
@@ -47,11 +47,11 @@ class App extends React.Component {
       };
 
       return ({
-        todoList: [...prevState.todoList, prepearedTodoForPush],
+        todoList: [...prevState.todoList, newTodo],
         userId: 0,
-        todoTitle: '',
-        showErrorMessageOfName: false,
-        ShowErrorMessageOfTitle: false,
+        title: '',
+        hasEmptyName: false,
+        hasEmptyTitle: false,
       });
     });
   }
@@ -61,7 +61,7 @@ class App extends React.Component {
 
     this.setState({
       userId: value,
-      showErrorMessageOfName: false,
+      hasEmptyName: false,
     });
   }
 
@@ -69,18 +69,18 @@ class App extends React.Component {
     const { value } = event.target;
 
     this.setState({
-      todoTitle: value,
-      ShowErrorMessageOfTitle: false,
+      title: value,
+      hasEmptyTitle: false,
     });
   }
 
   render() {
     const {
       userId,
-      todoTitle,
+      title,
       todoList,
-      showErrorMessageOfName,
-      ShowErrorMessageOfTitle,
+      hasEmptyName,
+      hasEmptyTitle,
     } = this.state;
 
     return (
@@ -100,7 +100,7 @@ class App extends React.Component {
           onSubmit={this.addTodo}
         >
           <div>
-            <p>{showErrorMessageOfName && 'Please choose a user'}</p>
+            <p>{hasEmptyName && 'Please choose a user'}</p>
             <select
               value={userId}
               name="chooseUser"
@@ -131,10 +131,10 @@ class App extends React.Component {
               name="addTitle"
               type="text"
               placeholder="&#9998; Write  title"
-              value={todoTitle}
+              value={title}
               onChange={this.changeTitle}
             />
-            <p>{ShowErrorMessageOfTitle && 'Please enter the title'}</p>
+            <p>{hasEmptyTitle && 'Please enter the title'}</p>
             <button
               type="submit"
             >
