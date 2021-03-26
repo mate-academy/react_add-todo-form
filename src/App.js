@@ -4,28 +4,39 @@ import './App.css';
 import { TodoList } from './components/TodoList';
 
 import users from './api/users';
-import todos from './api/todos';
+import initialTodos from './api/todos';
 
-const preparedActivities = todos.map(activity => ({
+const preparedTodos = initialTodos.map(activity => ({
   ...activity,
   user: users.find(user => user.id === activity.userId),
 }));
 
+const { uuid } = require('uuidv4');
+
 class App extends React.Component {
   state = {
-    activitiesList: preparedActivities,
+    todos: preparedTodos,
     userId: null,
     title: '',
-    noUserFlag: false,
-    noTitleFlag: false,
+    isUserAbsent: false,
+    isTitleAbsent: false,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
+    if (!this.state.userId && !this.state.title) {
+      this.setState({
+        isUserAbsent: true,
+        isTitleAbsent: true,
+      });
+
+      return;
+    }
+
     if (!this.state.userId) {
       this.setState({
-        noUserFlag: true,
+        isUserAbsent: true,
       });
 
       return;
@@ -33,15 +44,15 @@ class App extends React.Component {
 
     if (!this.state.title) {
       this.setState({
-        noTitleFlag: true,
+        isTitleAbsent: true,
       });
 
       return;
     }
 
     this.setState(prevState => ({
-      activitiesList: [...prevState.activitiesList, {
-        id: prevState.activitiesList.length + 1,
+      todos: [...prevState.todos, {
+        id: uuid(),
         title: prevState.title,
         completed: false,
         userId: Number(prevState.userId),
@@ -54,36 +65,49 @@ class App extends React.Component {
     }));
   };
 
-  handleChange = (event) => {
+  handleChangeName = (event) => {
     const {
       name, value,
     } = event.target;
 
     this.setState({
       [name]: value,
-      noUserFlag: false,
-      noTitleFlag: false,
+      isUserAbsent: false,
+    });
+  };
+
+  handleChangeTitle = (event) => {
+    const {
+      name, value,
+    } = event.target;
+
+    this.setState({
+      [name]: value,
+      isTitleAbsent: false,
     });
   };
 
   render() {
     const {
-      activitiesList,
+      todos,
       userId,
       title,
-      noUserFlag,
-      noTitleFlag,
+      isUserAbsent,
+      isTitleAbsent,
     } = this.state;
 
     return (
       <div className="form">
-        <form onSubmit={!noUserFlag
-          && !noTitleFlag
+        <form onSubmit={!isUserAbsent
+          && !isTitleAbsent
           && this.handleSubmit}
         >
           <div className="activities">
             <p className="error">
-              {noUserFlag && 'Please choose a user'}
+              {isUserAbsent && 'Please choose a user'}
+            </p>
+            <p className="error">
+              {isTitleAbsent && 'Please enter a title'}
             </p>
             <label htmlFor="user">
               User:
@@ -93,7 +117,7 @@ class App extends React.Component {
               id="user"
               name="userId"
               value={userId}
-              onChange={this.handleChange}
+              onChange={this.handleChangeName}
             >
               <option value="">
                 Choose a user
@@ -118,11 +142,8 @@ class App extends React.Component {
               name="title"
               placeholder="Enter the title"
               value={title}
-              onChange={this.handleChange}
+              onChange={this.handleChangeTitle}
             />
-            <p className="error">
-              {this.state.noTitleFlag && 'Please enter a title'}
-            </p>
             <button
               type="submit"
               className="add"
@@ -131,7 +152,7 @@ class App extends React.Component {
             </button>
           </div>
         </form>
-        <TodoList activities={activitiesList} />
+        <TodoList activities={todos} />
       </div>
     );
   }
