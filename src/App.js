@@ -4,23 +4,25 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
+const { uuid } = require('uuidv4');
+
 class App extends React.Component {
   state = {
-    todoList: todos,
-    user: 'Choose User',
+    todos,
+    selectedUserName: 'Choose User',
     title: '',
-    createTitleError: false,
-    createUserError: false,
+    shouldCreateTitleError: false,
+    shouldCreateUserError: false,
   }
 
   handleSelectChange = (event) => {
     this.setState({
-      user: event.target.value,
+      selectedUserName: event.target.value,
     });
 
     if (event.target.value !== 'Choose User') {
       this.setState({
-        createUserError: false,
+        shouldCreateUserError: false,
       });
     }
   }
@@ -31,7 +33,7 @@ class App extends React.Component {
     });
     if (event.target.value !== '') {
       this.setState({
-        createTitleError: false,
+        shouldCreateTitleError: false,
       });
     }
   }
@@ -40,30 +42,31 @@ class App extends React.Component {
     event.preventDefault();
     if (this.state.title === '') {
       this.setState({
-        createTitleError: true,
+        shouldCreateTitleError: true,
       });
     }
 
-    if (this.state.user === 'Choose User') {
+    if (this.state.selectedUserName === 'Choose User') {
       this.setState({
-        createUserError: true,
+        shouldCreateUserError: true,
       });
     }
 
-    if (this.state.user === 'Choose User' || this.state.title === '') {
+    if (this.state.selectedUserName === 'Choose User'
+      || this.state.title === '') {
       return;
     }
 
     const createdTodo = {
-      userId: users.find(user => user.name === this.state.user).id,
-      id: this.state.todoList.length + 1,
+      userId: users.find(user => user.name === this.state.selectedUserName).id,
+      id: uuid(),
       title: this.state.title,
       completed: false,
     };
 
     this.setState(prevState => ({
-      todoList: [...prevState.todoList, createdTodo],
-      user: 'Choose User',
+      todos: [...prevState.todos, createdTodo],
+      selectedUserName: 'Choose User',
       title: '',
     }));
   }
@@ -73,7 +76,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
         {
-          this.state.createTitleError
+          this.state.shouldCreateTitleError
             ? (
               <p
                 className="error"
@@ -84,7 +87,7 @@ class App extends React.Component {
             : ''
           }
         {
-          this.state.createUserError
+          this.state.shouldCreateUserError
             ? (
               <p className="error">Warning: Please choose a user</p>
             )
@@ -99,7 +102,7 @@ class App extends React.Component {
             onChange={this.handleInputChange}
           />
           <select
-            value={this.state.user}
+            value={this.state.selectedUserName}
             onChange={this.handleSelectChange}
           >
             <option>
@@ -116,7 +119,7 @@ class App extends React.Component {
           </button>
         </form>
         <ul className="todolist">
-          {this.state.todoList.map(todo => (
+          {this.state.todos.map(todo => (
             <li key={todo.id}>
               <div className="todolist__card card">
                 <div>
