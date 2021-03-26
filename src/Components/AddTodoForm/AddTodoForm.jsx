@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './AddTodoForm.css';
+import { customAlphabet } from 'nanoid/non-secure';
+
+const nanoid = customAlphabet('1234567890', 3);
 
 export class AddTodoForm extends Component {
   state = {
@@ -15,12 +18,12 @@ export class AddTodoForm extends Component {
     event.preventDefault();
 
     const { user, title } = this.state;
-    const { todos, addTodo } = this.props;
+    const { addTodo } = this.props;
 
     if (user && title !== '') {
       const newTodo = {
         userId: user.id,
-        id: todos.length + 1,
+        id: +nanoid(),
         title,
         user,
         completed: false,
@@ -31,15 +34,15 @@ export class AddTodoForm extends Component {
       addTodo(newTodo);
     }
 
-    if (this.state.title === '') {
+    if (title === '') {
       this.setState({ hasTitleError: true });
     }
 
-    if (!this.state.user) {
+    if (!user) {
       this.setState({ hasUserError: true });
     }
 
-    if (this.state.user && this.state.title !== '') {
+    if (user && title !== '') {
       this.setState({
         user: null,
         userId: '',
@@ -137,14 +140,6 @@ export class AddTodoForm extends Component {
 
 AddTodoForm.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      user: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired,
-      id: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

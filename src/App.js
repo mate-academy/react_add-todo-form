@@ -28,7 +28,6 @@ class App extends Component {
       <div className="App">
         <h1>Add todo form</h1>
         <AddTodoForm
-          todos={this.state.todos}
           users={users}
           addTodo={this.addTodo}
         />

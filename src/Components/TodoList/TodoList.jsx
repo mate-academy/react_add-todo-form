@@ -25,10 +25,11 @@ export function TodoList({ todos }) {
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      user: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired,
       id: PropTypes.number.isRequired,
-    }),
+      title: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }),
+    }).isRequired,
   ).isRequired,
 };
