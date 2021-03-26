@@ -1,0 +1,14 @@
+.list__element {
+  list-style: none;
+  border: 1px solid black;
+  margin: 15px;
+}
+
+.list__element__user,
+.list__element__title,
+.list__element__completed {
+  border: 1px solid black;
+  margin: 1px;
+  padding: 0 10px;
+  text-align: start;
+}
