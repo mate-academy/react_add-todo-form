@@ -22,6 +22,13 @@ class App extends React.Component {
   addTodo = (event) => {
     event.preventDefault();
 
+    if (!this.state.userId && !this.state.todoTitle) {
+      return this.setState({
+        showErrorMessageOfName: true,
+        ShowErrorMessageOfTitle: true,
+      });
+    }
+
     if (!this.state.userId) {
       return this.setState({ showErrorMessageOfName: true });
     }
