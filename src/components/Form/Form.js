@@ -1,38 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TodoList } from '../TodoList';
 import './Form.css';
 
 export class Form extends React.Component {
   state = {
-    toDoList: [...this.props.todoList],
     title: null,
     userId: null,
-    tryToSend: false,
+    isTryToSend: false,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { users } = this.props;
 
     if (!this.state.title || !this.state.userId) {
       this.setState({
-        tryToSend: true,
+        isTryToSend: true,
       });
 
       return;
     }
 
-    this.setState(prevState => ({
-      toDoList: [...prevState.toDoList, {
-        id: prevState.toDoList.length + 1,
-        title: prevState.title,
-        user: users.find(user => user.id === prevState.userId),
-      }],
+    this.props.addToDo({
+      title: this.state.title,
+      userId: this.state.userId,
+    });
+
+    this.setState({
       title: null,
       userId: null,
-      tryToSend: false,
-    }));
+      isTryToSend: false,
+    });
   }
 
   handleChange = (event) => {
@@ -40,12 +37,12 @@ export class Form extends React.Component {
 
     this.setState({
       [name]: name === 'userId' ? parseInt(value, 10) : value,
-      tryToSend: false,
+      isTryToSend: false,
     });
   }
 
   render() {
-    const { title, userId, tryToSend } = this.state;
+    const { title, userId, isTryToSend } = this.state;
     const { users } = this.props;
 
     return (
@@ -81,7 +78,7 @@ export class Form extends React.Component {
         </form>
         <div>
           {
-            tryToSend && !title
+            isTryToSend && !title
               && (
               <span className="error-message">
                 Please, enter a title of todo...
@@ -89,7 +86,7 @@ export class Form extends React.Component {
               )
           }
           {
-            tryToSend && !userId
+            isTryToSend && !userId
               && (
               <span className="error-message">
                 Please, select a user...
@@ -97,26 +94,17 @@ export class Form extends React.Component {
               )
           }
         </div>
-        <TodoList todos={this.state.toDoList} />
       </>
     );
   }
 }
 
 Form.propTypes = {
-  todoList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-    }),
-  ).isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  addToDo: PropTypes.func.isRequired,
 };
