@@ -1,0 +1,17 @@
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  width: 350px;
+  height: 80px;
+
+  background-color: #ed3330a6;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.hidden {
+  display: none;
+}

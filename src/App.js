@@ -1,19 +1,142 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
+import TodoList from './components/TodoList/TodoList';
+import { ErrorMessage } from './components/ErrorMessage/ErrorMessage';
 
+import todos from './api/todos';
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const preparedTodos = todos.map((item) => {
+  const user = users.find(human => human.id === item.userId);
+  const todo = {
+    user,
+    ...item,
+  };
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  return todo;
+});
+
+export class App extends Component {
+  state = {
+    TODOs: preparedTodos,
+    title: '',
+    userID: 0,
+    value: '',
+    isTitleEmpty: true,
+    isSelectEmpty: true,
+  }
+
+  addTodo = (submitEvent) => {
+    submitEvent.preventDefault();
+    if (!this.state.title.trim()) {
+      this.setState({
+        isTitleEmpty: false,
+      });
+    }
+
+    if (this.state.userID === 0) {
+      this.setState({
+        isSelectEmpty: false,
+      });
+
+      return;
+    }
+
+    this.setState(prevState => ({
+      TODOs: [
+        ...prevState.TODOs,
+        {
+          id: prevState.TODOs.length + 1,
+          title: prevState.title,
+          user: users.find(user => user.id === +prevState.userID),
+          userId: prevState.userID,
+        },
+      ],
+      title: '',
+      userID: 0,
+      value: '',
+    }));
+  }
+
+  handleTyping = (typingEvent) => {
+    this.setState({
+      title: typingEvent.target.value,
+    });
+    if (typingEvent.target.value.length !== 0) {
+      this.setState({
+        isTitleEmpty: true,
+      });
+    }
+  }
+
+  handleSelect = (selectEvent) => {
+    this.setState({
+      userID: selectEvent.target.value,
+      value: selectEvent.target.value,
+    });
+    if (!this.state.userID !== 0) {
+      this.setState({
+        isSelectEmpty: true,
+      });
+    }
+  }
+
+  render() {
+    const { TODOs, title, value, isTitleEmpty, isSelectEmpty } = this.state;
+
+    return (
+      <div className="App">
+        <div>
+          <h1>List of todos</h1>
+
+          <form onSubmit={this.addTodo}>
+            <div className="inputs">
+              <label htmlFor="TODO-adder">
+                <div className="title">Add a title</div>
+                <input
+                  onChange={this.handleTyping}
+                  autoComplete="off"
+                  value={title}
+                  id="TODO-adder"
+                  placeholder="Here, please"
+                />
+              </label>
+
+              <div>
+                <select
+                  value={value}
+                  name="user"
+                  onChange={this.handleSelect}
+                  id="user-select"
+                >
+                  <option disabled value="">
+                    Choose a user
+                  </option>
+                  {users.map(user => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+            </div>
+            <button type="submit" id="add">Add</button>
+          </form>
+
+        </div>
+        <div>
+          <ErrorMessage
+            errorText="Please enter the title"
+            state={isTitleEmpty}
+          />
+          <ErrorMessage
+            errorText="Please choose a user"
+            state={isSelectEmpty}
+          />
+          <TodoList props={TODOs} />
+        </div>
+      </div>
+    );
+  }
 }
-
-export default App;
