@@ -1,0 +1,11 @@
+.list__item {
+  list-style: none;
+  font-family: Arial, Helvetica, sans-serif;
+
+  margin: 20px auto;
+  padding: 5px 10px;
+  width: 500px;
+  
+  border: 2px solid black;
+  border-radius: 5px;
+}
