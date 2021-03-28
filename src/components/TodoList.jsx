@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 
 import Todo from './Todo';
 
-function TodoList({ list }) {
+function TodoList({ todos }) {
   return (
     <>
       <ul className="todos__list">
-        {list.map(item => (
-          <li className="todos__item" key={item.id}>
-            <Todo {...item} />
+        {todos.map(todo => (
+          <li className="todos__item" key={todo.id}>
+            <Todo
+              title={todo.title}
+              completed={todo.completed}
+              user={todo.user}
+            />
           </li>
         ))}
       </ul>
@@ -20,7 +24,7 @@ function TodoList({ list }) {
 export default TodoList;
 
 TodoList.propTypes = {
-  list: PropTypes.arrayOf(
+  todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       title: PropTypes.string,

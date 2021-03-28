@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { uuid } from 'uuidv4';
 
 export class TodosForm extends React.Component {
   state = {
     title: '',
     selectedUser: '',
     user: null,
-    titleError: false,
-    selectError: false,
+    hasTitleError: false,
+    hasSelectError: false,
   };
 
   handleChange = (event) => {
@@ -15,25 +16,25 @@ export class TodosForm extends React.Component {
 
     this.setState({
       [name]: value,
-      titleError: false,
+      hasTitleError: false,
     });
   }
 
-  handleSection = (event) => {
+  handleSelection = (event) => {
     const { name, value } = event.target;
     const { users } = this.props;
 
     this.setState({
       [name]: value,
       user: users.find(user => user.name === value),
-      selectError: false,
+      hasSelectError: false,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { todo, onSubmit } = this.props;
+    const { onSubmit } = this.props;
     const {
       user,
       title,
@@ -42,20 +43,20 @@ export class TodosForm extends React.Component {
 
     if (title === '') {
       this.setState({
-        titleError: true,
+        hasTitleError: true,
       });
     }
 
     if (selectedUser === '') {
       this.setState({
-        selectError: true,
+        hasSelectError: true,
       });
     }
 
     if (title !== '' && selectedUser !== '') {
       const newTodo = {
         userId: user.id,
-        id: todo.length + 1,
+        id: uuid(),
         title,
         completed: false,
         user,
@@ -73,8 +74,8 @@ export class TodosForm extends React.Component {
     const {
       title,
       selectedUser,
-      titleError,
-      selectError,
+      hasTitleError,
+      hasSelectError,
     } = this.state;
     const { users } = this.props;
 
@@ -91,7 +92,7 @@ export class TodosForm extends React.Component {
           <select
             name="selectedUser"
             value={selectedUser}
-            onChange={this.handleSection}
+            onChange={this.handleSelection}
           >
             <option value="">
               Choose a user
@@ -111,12 +112,12 @@ export class TodosForm extends React.Component {
             Add
           </button>
         </form>
-        {titleError && (
+        {hasTitleError && (
           <div>
             <p>Please enter the title</p>
           </div>
         )}
-        {selectError && (
+        {hasSelectError && (
           <div>
             <p>Please choose a user</p>
           </div>
@@ -132,11 +133,6 @@ TodosForm.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-    }),
-  ).isRequired,
-  todo: PropTypes.arrayOf(
-    PropTypes.shape({
-      userId: PropTypes.number,
     }),
   ).isRequired,
 };

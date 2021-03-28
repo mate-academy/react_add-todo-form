@@ -30,10 +30,9 @@ export class App extends React.Component {
         <h1>Add todo form</h1>
         <TodosForm
           users={users}
-          todo={todo}
           onSubmit={this.addTodos}
         />
-        <TodoList list={todo} />
+        <TodoList todos={todo} />
         <p>
           <span>Users: </span>
           {users.length}

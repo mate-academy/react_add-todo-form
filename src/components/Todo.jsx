@@ -13,7 +13,9 @@ function Todo({ title, completed, user }) {
       >
         {title}
       </h2>
-      <User {...user} />
+      <User
+        name={user.name}
+      />
     </>
   );
 }
