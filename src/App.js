@@ -7,70 +7,95 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
+const preparedTodod = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
+
 export class App extends React.PureComponent {
   state = {
 
-    preparedTodod: todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    })),
+    preparedTodod,
 
     title: '',
-    selected: '0',
-    notifSelect: false,
-    notifyTitle: false,
+    userId: '0',
+    hasNotifySelect: false,
+    hasNotifyTitle: false,
   };
+
+  updateUser = () => {
+    this.setState(prevState => ({
+      preparedTodod: [...prevState.preparedTodod,
+        {
+          title: prevState.title,
+          userId: +prevState.userId,
+          completed: false,
+        },
+      ]
+        .map(todo => ({
+          ...todo,
+          user: users.find(user => user.id === todo.userId),
+        })),
+    }));
+  };
+
+  handleChange = (event) => {
+    event.preventDefault();
+
+    if (this.state.title.length === 0) {
+      this.setState({
+        hasNotifyTitle: true,
+      });
+    }
+
+    if (this.state.userId === '0') {
+      this.setState({
+        hasNotifySelect: true,
+      });
+    }
+
+    if (this.state.userId > 0 && this.state.title.length > 0) {
+      this.updateUser();
+      this.setState({
+        title: '',
+        userId: '0',
+        hasNotifySelect: false,
+        hasNotifyTitle: false,
+      });
+    }
+  };
+
+  titleHandle = (inputHandler) => {
+    this.setState({
+      title: inputHandler.target.value,
+    });
+
+    if (this.state.title.length > 0) {
+      this.setState({
+        hasNotifyTitle: false,
+      });
+    }
+  }
+
+  selectHandler = (selectHandler) => {
+    this.setState({
+      userId: selectHandler.target.value,
+    });
+
+    if (selectHandler.target.value !== '0') {
+      this.setState({
+        hasNotifySelect: false,
+      });
+    }
+  }
 
   render() {
     const {
       title,
-      selected,
-      notifSelect,
-      notifyTitle,
-      preparedTodod,
+      userId,
+      hasNotifySelect,
+      hasNotifyTitle,
     } = this.state;
-
-    const UpdateUser = () => {
-      this.setState(prevState => ({
-        preparedTodod: [...prevState.preparedTodod,
-          {
-            title: prevState.title,
-            userId: +prevState.selected,
-            completed: false,
-          },
-        ]
-          .map(todo => ({
-            ...todo,
-            user: users.find(user => user.id === todo.userId),
-          })),
-      }));
-    };
-
-    const handleChange = (event) => {
-      event.preventDefault();
-
-      if (title.length === 0) {
-        this.setState({
-          notifyTitle: true,
-        });
-      }
-
-      if (selected === '0') {
-        this.setState({
-          notifSelect: true,
-        });
-      }
-
-      if (selected > 0 && title.length > 0) {
-        UpdateUser();
-        this.setState({
-          title: '',
-          selected: '0',
-          notifSelect: false,
-          notifyTitle: false,
-        });
-      }
-    };
 
     return (
       <div className="App">
@@ -82,7 +107,7 @@ export class App extends React.PureComponent {
 
         <form
           className="form"
-          onSubmit={handleChange}
+          onSubmit={this.handleChange}
         >
           <labe>
             <span className="form__description"> Title:</span>
@@ -91,16 +116,8 @@ export class App extends React.PureComponent {
               className="form__field"
               placeholder="Title"
               value={title}
-              onChange={(inputHandler) => {
-                this.setState({
-                  title: inputHandler.target.value,
-                });
-
-                if (title.length > 0) {
-                  this.setState({
-                    notifyTitle: false,
-                  });
-                }
+              onChange={(event) => {
+                this.titleHandle(event);
               }}
             />
           </labe>
@@ -111,17 +128,9 @@ export class App extends React.PureComponent {
               className="form__field"
               type="text"
               placeholder="User"
-              value={selected}
+              value={userId}
               onChange={(event) => {
-                this.setState({
-                  selected: event.target.value,
-                });
-
-                if (event.target.value !== '0') {
-                  this.setState({
-                    notifSelect: false,
-                  });
-                }
+                this.selectHandler(event);
               }}
             >
               <option value="0">
@@ -141,15 +150,15 @@ export class App extends React.PureComponent {
         </form>
 
         {
-        notifSelect && (
+        hasNotifySelect && (
           <Notification notifSelect="Please choose a user!" />)
         }
         {
-        notifyTitle && (
+        hasNotifyTitle && (
           <Notification notifSelect="Please enter the title!" />)
         }
 
-        <TodoList list={preparedTodod} />
+        <TodoList list={this.state.preparedTodod} />
 
       </div>
     );
