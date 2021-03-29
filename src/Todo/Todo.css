@@ -1,0 +1,9 @@
+.list__title {
+  font-size: 25px;
+}
+
+.list__completed {
+  color: red;
+  font-weight: 700;
+  margin-left: 10px;
+}
