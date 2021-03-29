@@ -110,13 +110,15 @@ class App extends React.Component {
             }
           </select>
 
+          {errorTitle && <p className="error">Please enter the title</p>}
+
           <label htmlFor="title">
             {` Choose title `}
           </label>
           <input
             type="text"
             id="title"
-            placeholder={errorTitle && 'Please enter the title'}
+            placeholder={errorTitle && 'Enter the title here'}
             value={toDoTitle}
             onChange={this.changeTitle}
           />
