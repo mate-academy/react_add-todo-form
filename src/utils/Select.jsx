@@ -32,7 +32,8 @@ export class Select extends React.Component {
               >
                 <a
                   href="/#"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     onChange(user);
                     this.toggle();
                   }}
