@@ -39,7 +39,7 @@ class App extends React.Component {
         <h1 className="App__title">Add todo</h1>
         <TodoForm
           users={users}
-          addTodo={this.addTodo}
+          onAddTodo={this.addTodo}
         />
         <TodoList todos={todos} />
       </div>

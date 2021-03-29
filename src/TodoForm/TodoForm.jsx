@@ -33,7 +33,7 @@ export class TodoForm extends React.Component {
     event.preventDefault();
 
     const { title, userId } = this.state;
-    const { addTodo } = this.props;
+    const { onAddTodo } = this.props;
 
     if (!title) {
       this.setState({
@@ -48,7 +48,7 @@ export class TodoForm extends React.Component {
     }
 
     if (title && userId) {
-      addTodo(title, userId);
+      onAddTodo(title, userId);
 
       this.setState({
         title: '',
@@ -132,5 +132,5 @@ TodoForm.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  addTodo: PropTypes.func.isRequired,
+  onAddTodo: PropTypes.func.isRequired,
 };
