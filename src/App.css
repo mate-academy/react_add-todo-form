@@ -5,15 +5,15 @@
 .App__title {
   text-align: center;
   font-size: 35px;
-  color: red;
   text-transform: uppercase;
 }
 
 .App__error {
   text-align: center;
   font-size: 15px;
-  color: red;
   font-style: italic;
+  font-weight: 600;
+  color: red;
 }
 
 .App__error-title {
