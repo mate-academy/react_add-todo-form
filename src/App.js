@@ -42,15 +42,17 @@ export class App extends Component {
       return;
     }
 
+    const newTodo = {
+      id: this.state.TODOs.length + 1,
+      title: this.state.title,
+      user: users.find(user => user.id === +this.state.userID),
+      userId: this.state.userID,
+    };
+
     this.setState(prevState => ({
       TODOs: [
         ...prevState.TODOs,
-        {
-          id: prevState.TODOs.length + 1,
-          title: prevState.title,
-          user: users.find(user => user.id === +prevState.userID),
-          userId: prevState.userID,
-        },
+        newTodo,
       ],
       title: '',
       userID: 0,
