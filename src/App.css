@@ -9,6 +9,17 @@
   text-transform: uppercase;
 }
 
+.App__error {
+  text-align: center;
+  font-size: 15px;
+  color: red;
+  font-style: italic;
+}
+
+.App__error-title {
+  text-transform: uppercase;
+}
+
 .App__form {
   display: flex;
   justify-content: center;

@@ -88,12 +88,14 @@ class App extends React.Component {
         <h1 className="App__title">Add todo</h1>
         {hasTitleError && (
           <p className="App__error">
-            Error: Please enter the title
+            <span className="App__error-title">Error: </span>
+            Please enter the title
           </p>
         )}
         {hasUserIdError && (
           <p className="App__error">
-            Error: Please choose a user
+            <span className="App__error-title">Error: </span>
+            Please choose a user
           </p>
         )}
         <form
