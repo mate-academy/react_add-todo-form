@@ -4,6 +4,8 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
+import { Form } from './Form';
+
 const { uuid } = require('uuidv4');
 
 class App extends React.Component {
@@ -75,49 +77,24 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {
-          this.state.shouldCreateTitleError
-            ? (
-              <p
-                className="error"
-              >
-                Warning: Please enter the title!!!
-              </p>
-            )
-            : ''
-          }
-        {
-          this.state.shouldCreateUserError
-            ? (
-              <p className="error">Warning: Please choose a user</p>
-            )
-            : ''
-        }
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={this.state.title}
-            onChange={this.handleInputChange}
-          />
-          <select
-            value={this.state.selectedUserName}
-            onChange={this.handleSelectChange}
-          >
-            <option>
-              Choose User
-            </option>
-            {users.map(user => (
-              <option key={user.id}>{user.name}</option>
-            ))}
-          </select>
-          <button
-            type="submit"
-          >
-            Add
-          </button>
-        </form>
+        {this.state.shouldCreateTitleError && (
+          <p className="error">
+            Warning: Please enter the title!!!
+          </p>
+        )}
+        {this.state.shouldCreateUserError && (
+          <p className="error">
+            Warning: Please choose a user
+          </p>
+        )}
+        <Form
+          users={users}
+          onSubmit={this.handleSubmit}
+          title={this.state.title}
+          onInputChange={this.handleInputChange}
+          onSelectChange={this.handleSelectChange}
+          selectedUserName={this.state.selectedUserName}
+        />
         <ul className="todolist">
           {this.state.todos.map(todo => (
             <li key={todo.id}>
