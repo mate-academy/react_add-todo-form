@@ -5,8 +5,6 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-import { Form } from './Form';
-
 const { uuid } = require('uuidv4');
 
 class App extends React.Component {
