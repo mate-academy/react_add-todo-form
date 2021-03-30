@@ -31,6 +31,7 @@ export class Form extends React.Component {
         title: this.state.title,
         userId: +this.state.userId,
         completed: false,
+        user: this.props.users.find(user => user.id === +this.state.userId),
       });
       this.setState({
         title: '',

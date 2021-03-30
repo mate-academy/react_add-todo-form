@@ -18,11 +18,7 @@ export class App extends React.PureComponent {
 
   addTodo = (newTodo) => {
     this.setState(prevState => ({
-      todos: [...prevState.todos, newTodo]
-        .map(todo => ({
-          ...todo,
-          user: users.find(user => user.id === todo.userId),
-        })),
+      todos: [...prevState.todos, newTodo],
     }));
   };
 
