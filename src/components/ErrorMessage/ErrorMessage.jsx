@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './ErrorMessage.css';
 
 export const ErrorMessage = ({ errorText, state }) => (
-  <div className={ state ? 'hidden' : 'error'}>
+  <div className={ state ? 'error' : 'hidden'}>
     <h2>{ errorText }</h2>
   </div>
 );
