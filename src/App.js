@@ -16,7 +16,7 @@ export class App extends React.PureComponent {
     todos: preparedTodod,
   };
 
-  updateUser = (newTodo) => {
+  addTodo = (newTodo) => {
     this.setState(prevState => ({
       todos: [...prevState.todos, newTodo]
         .map(todo => ({
@@ -37,7 +37,7 @@ export class App extends React.PureComponent {
 
         <Form
           users={users}
-          updateUser={this.updateUser}
+          addTodo={this.addTodo}
         />
 
         <TodoList list={this.state.todos} />

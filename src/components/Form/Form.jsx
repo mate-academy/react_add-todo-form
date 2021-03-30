@@ -5,14 +5,13 @@ import { Notification } from '../Notification';
 
 export class Form extends React.Component {
   state = {
-
     title: '',
     userId: '0',
     hasNotifySelect: false,
     hasNotifyTitle: false,
   }
 
-  handleChange = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     if (this.state.title.length === 0) {
@@ -28,7 +27,7 @@ export class Form extends React.Component {
     }
 
     if (this.state.userId > 0 && this.state.title.length > 0) {
-      this.props.updateUser({
+      this.props.addTodo({
         title: this.state.title,
         userId: +this.state.userId,
         completed: false,
@@ -42,9 +41,9 @@ export class Form extends React.Component {
     }
   };
 
-  titleHandle = (inputHandler) => {
+  titleHandle = (event) => {
     this.setState({
-      title: inputHandler.target.value,
+      title: event.target.value,
     });
 
     if (this.state.title.length > 0) {
@@ -54,12 +53,12 @@ export class Form extends React.Component {
     }
   }
 
-  selectHandler = (selectHandler) => {
+  handleSelection = (event) => {
     this.setState({
-      userId: selectHandler.target.value,
+      userId: event.target.value,
     });
 
-    if (selectHandler.target.value !== '0') {
+    if (event.target.value !== '0') {
       this.setState({
         hasNotifySelect: false,
       });
@@ -80,7 +79,7 @@ export class Form extends React.Component {
       <>
         <form
           className="form"
-          onSubmit={this.handleChange}
+          onSubmit={this.handleSubmit}
         >
           <labe>
             <span className="form__description"> Title:</span>
@@ -103,7 +102,7 @@ export class Form extends React.Component {
               placeholder="User"
               value={userId}
               onChange={(event) => {
-                this.selectHandler(event);
+                this.handleSelection(event);
               }}
             >
               <option value="0">
@@ -135,7 +134,7 @@ export class Form extends React.Component {
 }
 
 Form.propTypes = {
-  updateUser: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
   users: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
