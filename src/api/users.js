@@ -21,6 +21,7 @@ const users = [
       catchPhrase: 'Multi-layered client-server neural-net',
       bs: 'harness real-time e-markets',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar2/large/kristy.png',
   },
   {
     id: 2,
@@ -44,6 +45,7 @@ const users = [
       catchPhrase: 'Proactive didactic contingency',
       bs: 'synergize scalable supply-chains',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/elliot.jpg',
   },
   {
     id: 3,
@@ -67,6 +69,7 @@ const users = [
       catchPhrase: 'Face to face bifurcated interface',
       bs: 'e-enable strategic applications',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/steve.jpg',
   },
   {
     id: 4,
@@ -90,6 +93,7 @@ const users = [
       catchPhrase: 'Multi-tiered zero tolerance productivity',
       bs: 'transition cutting-edge web services',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/helen.jpg',
   },
   {
     id: 5,
@@ -113,6 +117,7 @@ const users = [
       catchPhrase: 'User-centric fault-tolerant solution',
       bs: 'revolutionize end-to-end systems',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/daniel.jpg',
   },
   {
     id: 6,
@@ -136,6 +141,7 @@ const users = [
       catchPhrase: 'Synchronised bottom-line interface',
       bs: 'e-enable innovative applications',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/jenny.jpg',
   },
   {
     id: 7,
@@ -159,6 +165,7 @@ const users = [
       catchPhrase: 'Configurable multimedia task-force',
       bs: 'generate enterprise e-tailers',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/stevie.jpg',
   },
   {
     id: 8,
@@ -182,6 +189,7 @@ const users = [
       catchPhrase: 'Implemented secondary concept',
       bs: 'e-enable extensible e-tailers',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
   },
   {
     id: 9,
@@ -205,6 +213,7 @@ const users = [
       catchPhrase: 'Switchable contextually-based project',
       bs: 'aggregate real-time technologies',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar2/large/molly.png',
   },
   {
     id: 10,
@@ -228,6 +237,7 @@ const users = [
       catchPhrase: 'Centralized empowering task-force',
       bs: 'target end-to-end models',
     },
+    imgUrl: 'https://semantic-ui.com/images/avatar/large/veronika.jpg',
   },
 ];
 

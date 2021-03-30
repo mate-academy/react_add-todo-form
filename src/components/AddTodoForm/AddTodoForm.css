@@ -1,0 +1,10 @@
+.form {
+  margin: 0 auto;
+  text-align: center;
+  width: 290px;
+  padding-bottom: 50px;
+}
+
+.message {
+  margin-top: 10px !important;
+}
