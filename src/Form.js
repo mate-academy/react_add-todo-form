@@ -53,7 +53,7 @@ export class Form extends React.Component {
       return;
     }
 
-    const createdTodo = {
+    const todo = {
       userId: this.props.users.find(
         user => user.name === this.state.selectedUserName,
       ).id,
@@ -62,7 +62,7 @@ export class Form extends React.Component {
       completed: false,
     };
 
-    this.props.addTodo(createdTodo);
+    this.props.addTodo(todo);
 
     this.setState({
       selectedUserName: 'Choose User',
