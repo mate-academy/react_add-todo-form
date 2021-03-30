@@ -1,3 +1,42 @@
 .App {
   text-align: center;
 }
+
+.App__title {
+  text-transform: uppercase;
+  color: #424242;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__description {
+  display: inline-block;
+
+  margin: 10px;
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.form__field {
+  border: 1px solid black;
+  box-shadow: 1px 1px 2px black;
+
+  padding: 5px;
+}
+
+.form__submit {
+  cursor: pointer;
+
+  margin: 15px;
+  padding: 15px;
+
+  border: 1px solid black;
+  background: #fff;
+
+  width: 250px;
+}

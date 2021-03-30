@@ -1,0 +1,30 @@
+.list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list__item {
+  box-shadow: 1px 1px 8px black;
+  cursor: pointer;
+  border-radius: 15px;
+  border: 1px solid black;
+  width: 200px;
+  padding: 25px;
+  background: #f5f591;
+  margin: 15px;
+}
+
+.list__mark {
+  display: block;
+}
+
+.completed {
+  color: green;
+}
+
+.uncompleted {
+  color: red;
+}
