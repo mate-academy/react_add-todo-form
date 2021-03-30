@@ -1,3 +1,25 @@
 .App {
   text-align: center;
 }
+
+.todolist {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card,
+.error {
+  margin: 0 auto 10px;
+  padding: 5px;
+  max-width: 400px;
+  border: 2px solid aqua;
+  border-radius: 5px;
+}
+
+.error {
+  height: 40px;
+  line-height: 40px;
+  color: red;
+  border-color: red;
+  text-align: center;
+}
