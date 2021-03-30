@@ -17,7 +17,7 @@ class App extends React.Component {
     todos: [...preparedTodos],
   }
 
-  addTodo = ({ title, userId }) => {
+  addTodo = (title, userId) => {
     this.setState((prevState) => {
       const todo = {
         title,

@@ -4,3 +4,7 @@
   width: 290px;
   padding-bottom: 50px;
 }
+
+.message {
+  margin-top: 10px !important;
+}

@@ -6,6 +6,7 @@ export class AddTodoForm extends React.Component {
   state = {
     title: '',
     userId: '',
+    isValidationPassed: true,
   }
 
   submitHandler = (event) => {
@@ -14,10 +15,19 @@ export class AddTodoForm extends React.Component {
     const { addTodo } = this.props;
     const { title, userId } = this.state;
 
-    addTodo({
-      title,
-      userId,
-    });
+    if (title && userId) {
+      addTodo(title, userId);
+
+      this.setState({
+        title: '',
+        userId: '',
+        isValidationPassed: true,
+      });
+    } else {
+      this.setState({
+        isValidationPassed: false,
+      });
+    }
   }
 
   onChangeHandler = (event) => {
@@ -31,7 +41,7 @@ export class AddTodoForm extends React.Component {
   render() {
     const { submitHandler, onChangeHandler } = this;
     const { users } = this.props;
-    const { title, userId } = this.state;
+    const { title, userId, isValidationPassed } = this.state;
 
     return (
       <>
@@ -46,6 +56,11 @@ export class AddTodoForm extends React.Component {
               value={title}
               onChange={onChangeHandler}
             />
+            {!title && !isValidationPassed && (
+              <div className="ui negative message">
+                Please enter the title
+              </div>
+            )}
           </div>
           <div className="field">
             <select
@@ -64,6 +79,11 @@ export class AddTodoForm extends React.Component {
                 </option>
               ))}
             </select>
+            {!userId && !isValidationPassed && (
+              <div className="ui negative message">
+                Please choose a user
+              </div>
+            )}
             <br />
             <button type="submit" className="ui button">
               Add
