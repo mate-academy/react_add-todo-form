@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  text-align: center;
+  max-width: 760px;
+  margin: 15px auto;
+  background-color: rgb(243, 237, 237);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &__error-inner {
+    display: flex;
+    justify-content: space-around;
+    width: 570px;
+    height: 30px;
+  }
+
+  &__error-title {
+    width: 110%;
+    display: block;
+    color: red;
+    text-align: left;
+    padding-left: 15px;
+    white-space: nowrap;
+  }
+
+  &__error-user {
+    display: block;
+    color: red;
+    width: 100%;
+    text-align: right;
+    padding-right: 30px;
+  }
+}
