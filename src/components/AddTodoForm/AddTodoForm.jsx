@@ -6,66 +6,66 @@ import users from '../../api/users';
 
 export class AddTodoForm extends React.Component {
   state = {
-    selectedUser: '',
-    titletext: '',
-    hasEmptyName: false,
+    selectedUserId: '',
+    title: '',
+    hasEmptyUserId: false,
     hasEmptyTitle: false,
   }
 
   setUser = (event) => {
     this.setState({
-      selectedUser: event.target.value,
-      hasEmptyName: false,
+      selectedUserId: event.target.value,
+      hasEmptyUserId: false,
     });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!this.state.titletext && !this.state.selectedUser) {
+    if (!this.state.title && !this.state.selectedUserId) {
       this.setState({
         hasEmptyTitle: true,
-        hasEmptyName: true,
+        hasEmptyUserId: true,
       });
     }
 
-    if (!this.state.titletext) {
+    if (!this.state.title) {
       return this.setState({
         hasEmptyTitle: true,
       });
     }
 
-    if (!this.state.selectedUser) {
+    if (!this.state.selectedUserId) {
       return this.setState({
-        hasEmptyName: true,
+        hasEmptyUserId: true,
       });
     }
 
     const newTodo = {
-      userId: users.find(user => user.name === this.state.selectedUser).id,
+      userId: users.find(user => user.name === this.state.selectedUserId).id,
       id: this.props.todos.length + 1,
-      title: this.state.titletext,
+      title: this.state.title,
       completed: false,
-      user: users.find(user => user.name === this.state.selectedUser),
+      user: users.find(user => user.name === this.state.selectedUserId),
     };
 
     this.props.onAdd(newTodo);
 
     return this.setState(state => ({
-      selectedUser: '',
-      titletext: '',
+      selectedUserId: '',
+      title: '',
     }));
   }
 
   handleChange = (event) => {
     this.setState({
-      titletext: event.target.value,
+      title: event.target.value,
       hasEmptyTitle: false,
     });
   }
 
   render() {
-    const { titletext, selectedUser } = this.state;
+    const { title, selectedUserId } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -74,7 +74,7 @@ export class AddTodoForm extends React.Component {
         </span>
         <br />
         <span className="error">
-          {this.state.hasEmptyName && 'Choose the user'}
+          {this.state.hasEmptyUserId && 'Choose the user'}
         </span>
 
         <div className="input-size">
@@ -82,7 +82,7 @@ export class AddTodoForm extends React.Component {
             type="text"
             name="title"
             placeholder="Enter to do title"
-            value={titletext}
+            value={title}
             onChange={this.handleChange}
             className="input is-info"
           />
@@ -90,7 +90,7 @@ export class AddTodoForm extends React.Component {
 
         <div className="select is-link">
           <select
-            value={selectedUser}
+            value={selectedUserId}
             onChange={
               this.setUser
             }
