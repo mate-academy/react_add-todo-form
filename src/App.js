@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList';
-import { NewUserForm } from './components/NewUserForm/Index';
+import { AddTodoForm } from './components/AddTodoForm/Index';
 import todos from './api/todos';
 import 'bulma';
 
@@ -28,7 +28,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Add todo form</h1>
 
-        <NewUserForm
+        <AddTodoForm
           todos={this.state.todos}
           onAdd={this.addTodo}
         />

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './NewUserForm.css';
+import './AddTodoForm.css';
 
 import users from '../../api/users';
 
-export class NewUserForm extends React.Component {
+export class AddTodoForm extends React.Component {
   state = {
     selectedUser: '',
     titletext: '',
@@ -118,7 +118,7 @@ export class NewUserForm extends React.Component {
   }
 }
 
-NewUserForm.propTypes = {
+AddTodoForm.propTypes = {
   onAdd: PropTypes.func.isRequired,
   todos: PropTypes.arrayOf(
     PropTypes.shape(),
