@@ -1,0 +1,40 @@
+.todo-list {
+  margin: 25px 0 15px;
+  padding: 0;
+
+  &__item {
+    display: flex;
+    grid-template-columns: repeat(3, 240px);
+    overflow: hidden;
+    background-color: khaki;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+
+  &__title {
+    height: 100%;
+    justify-self: start;
+    margin-bottom: 15px;
+    white-space: inherit;
+    text-overflow: clip;
+    text-align: left;
+    width: 440px;
+  }
+
+  &__user {
+    width: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__completed {
+    width: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
