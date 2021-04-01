@@ -6,7 +6,7 @@ import './Form.css';
 export class Form extends Component {
   state = {
     title: '',
-    userID: 0,
+    userId: 0,
     value: '',
     isTitleCorrect: false,
     isUserIdCorrect: false,
@@ -14,8 +14,7 @@ export class Form extends Component {
 
   handleSubmit = (submitEvent) => {
     let isInputsCorrect = true;
-    let newTodo = {};
-    const { title, userID } = this.state;
+    const { title, userId } = this.state;
 
     submitEvent.preventDefault();
 
@@ -24,21 +23,20 @@ export class Form extends Component {
       isInputsCorrect = false;
     }
 
-    if (userID === 0) {
+    if (userId === 0) {
       this.setState({ isUserIdCorrect: true });
       isInputsCorrect = false;
     }
 
     if (isInputsCorrect) {
-      newTodo = {
+      this.props.onAdd({
         title,
-        userID,
-        user: this.props.users.find(user => user.id === +userID),
-      };
-      this.props.onAdd(newTodo, title, userID);
+        userId,
+        user: this.props.users.find(user => user.id === +userId),
+      });
       this.setState({
         title: '',
-        userID: 0,
+        userId: 0,
         value: '',
         isTitleCorrect: false,
         isUserIdCorrect: false,
@@ -60,7 +58,7 @@ export class Form extends Component {
 
   handleSelect = (selectEvent) => {
     this.setState({
-      userID: selectEvent.target.value,
+      userId: selectEvent.target.value,
       value: selectEvent.target.value,
     });
 

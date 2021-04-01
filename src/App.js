@@ -21,14 +21,10 @@ export class App extends Component {
     todos: preparedTodos,
   }
 
-  addTodo = (todo, formTitle, formUserID) => {
-    if (todo === undefined) {
-      return;
-    }
-
+  addTodo = (todo) => {
     const newTodo = {
-      id: this.state.todos.length + 1,
       ...todo,
+      id: this.state.todos.length + 1,
     };
 
     this.setState(prevState => ({
