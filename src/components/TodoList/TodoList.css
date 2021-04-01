@@ -1,0 +1,14 @@
+.todos__list {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 5px;
+  list-style: none;
+}
+
+.todos {
+  border: 2px dashed gray;
+  border-radius: 20px;
+  max-width: 800px;
+  padding: 10px;
+}
