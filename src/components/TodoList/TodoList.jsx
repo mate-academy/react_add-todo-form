@@ -8,8 +8,7 @@ export const TodoList = ({ todos }) => (
       <li key={todo.id} className="todos__list">
         Name:&nbsp;
         {todo.user.name}
-        {<br />}
-        {<br />}
+        <br />
         To do:&nbsp;
         {' '}
         {todo.title}

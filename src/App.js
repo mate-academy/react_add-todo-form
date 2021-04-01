@@ -35,8 +35,6 @@ class App extends React.Component {
 
         <div>
           <TodoList todos={this.state.todos} />
-          <span>Users: </span>
-          {users.length}
         </div>
       </div>
     );

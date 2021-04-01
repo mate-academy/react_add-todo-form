@@ -12,12 +12,19 @@ export class AddTodoForm extends React.Component {
     hasEmptyTitle: false,
   }
 
-  setUser = (event) => {
+  handleSelectUser = (event) => {
     this.setState({
       selectedUserId: event.target.value,
       hasEmptyUserId: false,
     });
   };
+
+  handleChangeTitle = (event) => {
+    this.setState({
+      title: event.target.value,
+      hasEmptyTitle: false,
+    });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -57,13 +64,6 @@ export class AddTodoForm extends React.Component {
     }));
   }
 
-  handleChange = (event) => {
-    this.setState({
-      title: event.target.value,
-      hasEmptyTitle: false,
-    });
-  }
-
   render() {
     const { title, selectedUserId } = this.state;
 
@@ -83,7 +83,7 @@ export class AddTodoForm extends React.Component {
             name="title"
             placeholder="Enter to do title"
             value={title}
-            onChange={this.handleChange}
+            onChange={this.handleChangeTitle}
             className="input is-info"
           />
         </div>
@@ -92,7 +92,7 @@ export class AddTodoForm extends React.Component {
           <select
             value={selectedUserId}
             onChange={
-              this.setUser
+              this.handleSelectUser
             }
           >
             <option value="">Choose a user</option>
