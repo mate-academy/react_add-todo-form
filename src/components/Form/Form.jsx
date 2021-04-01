@@ -7,16 +7,16 @@ export class Form extends Component {
   state = {
     title: '',
     userId: 0,
-    value: '',
+    selectId: '',
     isTitleCorrect: false,
     isUserIdCorrect: false,
   }
 
   handleSubmit = (submitEvent) => {
-    let isInputsCorrect = true;
-    const { title, userId } = this.state;
-
     submitEvent.preventDefault();
+
+    const { title, userId } = this.state;
+    let isInputsCorrect = true;
 
     if (title.trim().length === 0) {
       this.setState({ isTitleCorrect: true });
@@ -70,25 +70,31 @@ export class Form extends Component {
   }
 
   render() {
-    const { title, value, isTitleCorrect, isUserIdCorrect } = this.state;
+    const {
+      title,
+      selectId,
+      isTitleCorrect,
+      isUserIdCorrect
+    } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="inputs">
-          <label htmlFor="TODO-adder">
+          <label htmlFor="todo-adder">
             <div className="title">Add a title</div>
             <input
               onChange={this.handleTyping}
               autoComplete="off"
               value={title}
-              id="TODO-adder"
+              id="todo-adder"
+              className="todo-adder"
               placeholder="Here, please"
             />
           </label>
 
           <div>
             <select
-              value={value}
+              value={selectId}
               name="user"
               onChange={this.handleSelect}
               className="user-select"
