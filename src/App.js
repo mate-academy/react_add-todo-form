@@ -79,7 +79,9 @@ export class App extends React.Component {
         }
           {errorUser
           && (
-          <span className="app__error-user">
+          <span
+            className="app__error-user"
+          >
             Please choose a user
           </span>
           )}
