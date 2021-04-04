@@ -4,73 +4,77 @@ import users from '../../api/users';
 
 export class TodoForm extends Component {
   state = {
-    title: '',
-    userId: '',
-    selectedUser: null,
     selectedUserError: false,
     emptyTitleError: false,
+    todo: {
+      title: '',
+      completed: false,
+      user: null,
+    },
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, selectedUser } = this.state;
-    const { todoId, addTodo } = this.props;
+    const { todo } = this.state;
 
-    const titleStatus = this.isValidData('title');
-    const userStatus = this.isValidData('selectedUser');
+    const titleStatus = !todo.title;
+    const userStatus = !todo.user;
 
-    if (!titleStatus || !userStatus) {
+    if (titleStatus || userStatus) {
       this.setState({
-        emptyTitleError: !titleStatus,
-        selectedUserError: !userStatus,
+        emptyTitleError: titleStatus,
+        selectedUserError: userStatus,
       });
 
       return;
     }
 
-    addTodo(
+    this.props.addTodo(
       {
-        title,
-        userId: selectedUser.id,
-        id: todoId,
-        completed: false,
-        user: selectedUser,
+        ...todo,
+        id: this.props.todoId,
       },
     );
 
     this.setState({
-      title: '',
-      userId: '',
-      selectedUser: null,
       selectedUserError: false,
       emptyTitleError: false,
+      todo: {
+        title: '',
+        user: null,
+        completed: false,
+      },
     });
   };
 
-  isValidData = key => !!this.state[key];
-
   handleChange = (event) => {
-    const { value } = event.target;
+    const { name, value } = event.target;
 
-    this.setState({
-      title: value,
+    this.setState(prevState => ({
+      todo: {
+        ...prevState.todo,
+        [name]: value,
+      },
       emptyTitleError: false,
-    });
+    }));
   };
 
   handleSelectUser = (event) => {
     const userId = +event.target.value;
 
-    this.setState({
-      selectedUser: users.find(user => user.id === userId),
+    this.setState(prevState => ({
+      todo: {
+        ...prevState.todo,
+        user: users.find(user => user.id === userId),
+        userId,
+      },
       selectedUserError: false,
-      userId,
-    });
+    }));
   };
 
   render() {
-    const { title, userId, selectedUserError, emptyTitleError } = this.state;
+    const { todo, selectedUserError, emptyTitleError } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -82,11 +86,12 @@ export class TodoForm extends Component {
           id="inputTitle"
           type="text"
           placeholder="Enter todo's title"
-          value={title}
+          value={todo.title}
+          name="title"
           onChange={this.handleChange}
         />
         <select
-          value={userId}
+          value={todo.user ? todo.user.id : ''}
           onChange={this.handleSelectUser}
         >
           <option value="">
