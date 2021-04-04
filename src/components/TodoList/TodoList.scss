@@ -1,0 +1,30 @@
+@import "../../config";
+
+.todo {
+  &-list {
+    margin: 15px;
+    padding-left: 20px;
+    list-style-type: none;
+    &__item {
+      margin-top: 3px;
+      padding: 5px 10px;
+      background-color: $color_sand_light;
+      border-bottom: 1px dashed;
+      border-color: $color_sand_dark;
+      &-completed::after {
+        content: "✓";
+        position: absolute;
+        right: 40px;
+        margin-top: 50px;
+        width: 18px;
+        height: 18px;
+        color: $color_green;
+        font-size: 28px;
+      }
+      &-user {
+        color: $color_green;
+        font-weight: bold;
+      }
+    }
+  }
+}

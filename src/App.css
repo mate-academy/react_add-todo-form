@@ -1,3 +1,378 @@
-.App {
+html,
+body {
+  font-family: "Gill Sans",
+    "Gill Sans MT",
+    Calibri,
+    "Trebuchet MS",
+    sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+body {
+  background-color: #e4dfd3;
+}
+
+p,
+div,
+address,
+li,
+a,
+blockquote {
+  font-size: 1rem;
+}
+
+span,
+strong {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+h1,
+button {
+  color: inherit;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #344f10;
+  font-size: 2rem;
   text-align: center;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 22px;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+fieldset {
+  padding: 15px 0;
+  border: none;
+}
+
+label {
+  margin-right: 10px;
+  color: #828282;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button {
+  margin: 5px 0;
+  padding: 18px 1rem;
+  min-width: 280px;
+  color: #f2f2f2;
+  background-color: #333;
+  border: none;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+input {
+  margin-top: 20px;
+  padding: 5px 0;
+  color: #828282;
+  font-size: 14px;
+  background-color: transparent;
+  transition: 0.3s border-color;
+}
+
+input,
+input:focus {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+}
+
+input:focus {
+  border-color: #828282;
+}
+
+input[type="text"] {
+  min-width: 280px;
+}
+
+::-moz-input-placeholder {
+  color: #828282;
+  font-size: 14px;
+}
+
+::-ms-input-placeholder {
+  color: #828282;
+  font-size: 14px;
+}
+
+::-webkit-input-placeholder {
+  color: #828282;
+  font-size: 14px;
+}
+
+select {
+  width: 0;
+  border: none;
+}
+
+.theme-select {
+  display: inline-block;
+}
+
+.theme-select button {
+  margin: 0;
+  padding: 5px 0;
+  height: auto;
+  border-bottom: 1px solid #bdbdbd;
+  background-color: transparent;
+  color: #828282;
+  font-size: 14px;
+}
+
+.theme-select button:after {
+  position: absolute;
+  content: "";
+  margin-left: 65px;
+  margin-top: 2px;
+  width: 0;
+  height: 0;
+  border-width: 10px 5px 0;
+  border-color: #fff transparent transparent;
+  border-style: solid;
+}
+
+.theme-select .opened:after {
+  border-width: 0 5px 10px;
+  border-color: transparent transparent #fff;
+}
+
+.theme-select ul {
+  margin: 0;
+  padding: 0;
+  max-height: 178px;
+  background-color: #fff;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.theme-select ul li {
+  padding: 0 20px;
+  border: none;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.theme-select ul li a {
+  display: list-item;
+  line-height: 35px;
+}
+
+.theme-select ul li a,
+.theme-select ul li a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.theme-select ul li:not(:last-of-type) {
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.status {
+  margin-left: 8px;
+  padding: 0.25em 0.5rem;
+  color: #fff;
+}
+
+.error-message {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.status--completed {
+  background-color: #a8bb7c;
+}
+
+.status--not-completed {
+  background-color: #78b3de;
+}
+
+.App {
+  padding: 25px 15px;
+}
+
+.todo-list {
+  margin-top: 0;
+  margin-bottom: 35px;
+  padding: 35px 0;
+  border-bottom: 1px solid rgba(52, 79, 16, 0.5);
+  list-style-type: none;
+}
+
+.todo-list__item {
+  padding-bottom: 20px;
+}
+
+.todo-list__item-user {
+  font-weight: 600;
+}
+
+.d-none {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  p {
+    font-size: 18px;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+    font-size: 2.25rem;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  ::-moz-input-placeholder {
+    font-size: 18px;
+  }
+  
+  ::-ms-input-placeholder {
+    font-size: 18px;
+  }
+  
+  ::-webkit-input-placeholder {
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+
+  input {
+    padding: 7px 0;
+    font-size: 1rem;
+  }
+
+  button {
+    margin-bottom: 50px;
+    padding: 18px 1rem;
+    min-width: 280px;
+  }
+
+  .App {
+    padding: 50px 70px 100px;
+  }
+
+  .theme-select button {
+    padding: 7px 0;
+    font-size: 1rem;
+  }
+
+  .theme-select ul li {
+    font-size: 1rem;
+    line-height: 40px;
+  }
+
+  .todo-list {
+    margin-bottom: 50px;
+    padding: 50px 0;
+  }
+
+  .todo-list__item {
+    padding-bottom: 25px;
+  }
+
+  .error-message {
+    margin-top: 7px;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  p {
+    font-size: 20px;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    font-size: 3.75rem;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  ::-moz-input-placeholder {
+    font-size: 18px;
+  }
+  
+  ::-ms-input-placeholder {
+    font-size: 18px;
+  }
+  
+  ::-webkit-input-placeholder {
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 18px;
+  }
+
+  input {
+    padding: 10px 0;
+    font-size: 18px;
+  }
+
+  .theme-select button {
+    padding: 10px 0;
+    font-size: 18px;
+  }
+
+  .theme-select button:after {
+    margin-left: 57px;
+    border-width: 12px 6px 0;
+  }
+
+  .theme-select .opened:after {
+    border-width: 0 6px 12px;
+  }
+
+  .theme-select ul {
+    max-height: 215px;
+  }
+
+  .theme-select ul li {
+    font-size: 18px;
+  }
+
+  .App {
+    padding: 100px 150px 200px;
+  }
+
+  .todo-list {
+    margin-bottom: 70px;
+    padding: 70px 0;
+  }
+
+  .todo-list__item {
+    padding-bottom: 30px;
+  }
+
+  .error-message {
+    font-size: 18px;
+  }
 }

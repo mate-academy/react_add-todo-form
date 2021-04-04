@@ -1,19 +1,60 @@
 import React from 'react';
 import './App.css';
 
-import users from './api/users';
+import { TodoList } from './components/TodoList';
+import { Form } from './components/Form';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+import usersData from './api/users';
+import todosData from './api/todos';
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+function getUser(id) {
+  const user = usersData.find(elem => id === elem.id);
+
+  return {
+    userName: user.name,
+    userId: user.id,
+  };
+}
+
+class App extends React.Component {
+  state = {
+    todos: todosData.map(todo => ({
+      ...todo,
+      user: getUser(todo.userId),
+    })),
+    users: usersData.map(user => ({
+      id: user.id,
+      name: user.name,
+    })),
+  };
+
+  updateTodoList = (newItem) => {
+    this.setState(state => ({
+      todos: [...state.todos, newItem],
+    }));
+  }
+
+  render() {
+    const { users, todos } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+
+        <div className="panel">
+          <TodoList todos={todos} />
+        </div>
+
+        <div className="panel">
+          <Form
+            users={users}
+            addItem={this.updateTodoList}
+            newItemId={Date.now()}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
