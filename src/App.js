@@ -17,8 +17,22 @@ export class App extends React.Component {
     errorUser: false,
   }
 
-  handleChange = (human, title) => {
-    if (!title && !human) {
+  handleError = (name, value) => {
+    if (name === 'title' && value.length > 10) {
+      this.setState({
+        errorTitle: false,
+      });
+    }
+
+    if (name === 'user' && value) {
+      this.setState({
+        errorUser: false,
+      });
+    }
+  }
+
+  handleChange = (user, title) => {
+    if (title.length < 10 && !user) {
       this.setState({
         errorTitle: true,
         errorUser: true,
@@ -33,7 +47,7 @@ export class App extends React.Component {
       return;
     }
 
-    if (!human) {
+    if (!user) {
       this.setState({ errorUser: true });
 
       return;
@@ -41,11 +55,11 @@ export class App extends React.Component {
 
     this.setState(state => ({
       ...state.todoList.push({
-        userId: state.usersList.find(people => people.name === human).id,
+        userId: state.usersList.find(people => people.name === user).id,
         id: state.todoList.length + 1,
         title,
         completed: false,
-        name: human,
+        name: user,
       }),
       errorTitle: false,
       errorUser: false,
@@ -66,6 +80,7 @@ export class App extends React.Component {
         <TodoForm
           usersList={usersList}
           handleChange={this.handleChange}
+          handleError={this.handleError}
         />
         <section className="app__error-inner">
           {errorTitle

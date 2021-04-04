@@ -5,8 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export class TodoForm extends React.Component {
   state = {
-    human: '',
+    user: '',
     title: '',
+  }
+
+  handleTodos = ({ target }) => {
+    const { name, value } = target;
+
+    this.setState({
+      [name]: value,
+    });
+    this.props.handleError(name, value);
   }
 
   render() {
@@ -16,7 +25,7 @@ export class TodoForm extends React.Component {
     } = this.props;
 
     const {
-      human,
+      user,
       title,
     } = this.state;
 
@@ -28,21 +37,13 @@ export class TodoForm extends React.Component {
           name="title"
           placeholder="Please, enter the text"
           value={title}
-          onChange={({ target }) => {
-            this.setState({
-              title: target.value,
-            });
-          }}
+          onChange={this.handleTodos}
         />
         <select
           className="block-form__list-person"
-          name="person"
-          value={human}
-          onChange={({ target }) => {
-            this.setState({
-              human: target.value,
-            });
-          }}
+          name="user"
+          value={user}
+          onChange={this.handleTodos}
         >
           <option
             value=""
@@ -60,11 +61,13 @@ export class TodoForm extends React.Component {
           className="btn btn-outline-info"
           type="button"
           onClick={() => {
-            handleChange(human, title);
-            this.setState({
-              human: '',
-              title: '',
-            });
+            handleChange(user, title);
+            if (user && title.length > 10) {
+              this.setState({
+                user: '',
+                title: '',
+              });
+            }
           }}
         >
           Add todo
@@ -79,4 +82,5 @@ TodoForm.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleError: PropTypes.func.isRequired,
 };
