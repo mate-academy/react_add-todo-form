@@ -37,10 +37,10 @@ export class Form extends React.Component {
     this.setState({ [name]: type === 'checkbox' ? checked : value });
   };
 
-  selectUser = (user) => {
+  selectUser = (id, name) => {
     this.setState({
-      userId: user.id,
-      userName: user.name,
+      userId: id,
+      userName: name,
     });
   }
 
@@ -56,13 +56,7 @@ export class Form extends React.Component {
 
     if (this.validate()) {
       this.props.addItem(newItem);
-
-      this.setState({
-        title: '',
-        isValidTitle: true,
-        userId: '',
-        isUserSelected: true,
-      });
+      this.clearForm();
     }
   }
 
@@ -91,7 +85,26 @@ export class Form extends React.Component {
     return fieldsValid;
   }
 
+  clearForm() {
+    this.setState({
+      title: '',
+      isValidTitle: true,
+      userId: '',
+      userName: '',
+      isUserSelected: true,
+    });
+  }
+
   render() {
+    const {
+      title,
+      isValidTitle,
+      completed,
+      userId,
+      userName,
+      isUserSelected,
+    } = this.state;
+
     return (
       <form onSubmit={this.submitForm}>
         <fieldset>
@@ -102,10 +115,10 @@ export class Form extends React.Component {
             name="title"
             placeholder="Add title"
             maxLength="35"
-            value={this.state.title}
+            value={title}
             onChange={this.handleChange}
           />
-          {!this.state.isValidTitle && (
+          {!isValidTitle && (
             <p className="error-message">
               Please enter the title
             </p>
@@ -119,7 +132,7 @@ export class Form extends React.Component {
             id="completed"
             name="completed"
             placeholder="Complete status"
-            checked={this.state.completed}
+            checked={completed}
             onChange={this.handleChange}
           />
         </fieldset>
@@ -129,7 +142,7 @@ export class Form extends React.Component {
           <select
             id="userId"
             name="userId"
-            value={this.state.userId}
+            value={userId}
             onChange={this.handleChange}
           >
             <option value="">
@@ -143,10 +156,10 @@ export class Form extends React.Component {
           </select>
           <Select
             users={this.props.users}
-            userName={this.state.userName}
-            onChange={this.selectUser}
+            userName={userName}
+            changeUser={this.selectUser}
           />
-          {!this.state.isUserSelected && (
+          {!isUserSelected && (
             <p className="error-message">
               Please choose a user
             </p>

@@ -12,8 +12,17 @@ export class Select extends React.Component {
     }));
   }
 
+  handleClick = (e) => {
+    e.preventDefault();
+    this.toggle();
+    this.props.changeUser(
+      e.target.getAttribute('data-id'),
+      e.target.getAttribute('data-name'),
+    );
+  }
+
   render() {
-    const { users, userName, onChange } = this.props;
+    const { users, userName } = this.props;
 
     return (
       <div className="theme-select">
@@ -27,16 +36,12 @@ export class Select extends React.Component {
         {this.state.isOpen && (
           <ul>
             {users.map(user => (
-              <li
-                key={user.id}
-              >
+              <li key={user.id}>
                 <a
                   href="/#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onChange(user);
-                    this.toggle();
-                  }}
+                  data-id={user.id}
+                  data-name={user.name}
+                  onClick={this.handleClick}
                 >
                   {user.name}
                 </a>
@@ -55,5 +60,5 @@ Select.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   userName: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  changeUser: PropTypes.func.isRequired,
 };

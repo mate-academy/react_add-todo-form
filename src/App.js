@@ -8,11 +8,11 @@ import usersData from './api/users';
 import todosData from './api/todos';
 
 function getUser(id) {
-  const userObj = usersData.find(user => id === user.id);
+  const user = usersData.find(elem => id === elem.id);
 
   return {
-    userName: userObj.name,
-    userId: userObj.id,
+    userName: user.name,
+    userId: user.id,
   };
 }
 
@@ -35,19 +35,21 @@ class App extends React.Component {
   }
 
   render() {
+    const { users, todos } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
 
         <div className="panel">
-          <TodoList todos={this.state.todos} />
+          <TodoList todos={todos} />
         </div>
 
         <div className="panel">
           <Form
-            users={this.state.users}
+            users={users}
             addItem={this.updateTodoList}
-            newItemId={Math.max(...this.state.todos.map(todo => todo.id)) + 1}
+            newItemId={Date.now()}
           />
         </div>
       </div>
