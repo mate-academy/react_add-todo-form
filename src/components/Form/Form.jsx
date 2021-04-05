@@ -6,8 +6,7 @@ import './Form.css';
 export class Form extends Component {
   state = {
     title: '',
-    userId: 0,
-    selectId: '',
+    userId: '',
     isTitleCorrect: false,
     isUserIdCorrect: false,
   }
@@ -23,7 +22,7 @@ export class Form extends Component {
       isInputsCorrect = false;
     }
 
-    if (userId === 0) {
+    if (userId === '') {
       this.setState({ isUserIdCorrect: true });
       isInputsCorrect = false;
     }
@@ -36,8 +35,7 @@ export class Form extends Component {
       });
       this.setState({
         title: '',
-        userId: 0,
-        value: '',
+        userId: '',
         isTitleCorrect: false,
         isUserIdCorrect: false,
       });
@@ -59,7 +57,7 @@ export class Form extends Component {
   handleSelect = (selectEvent) => {
     this.setState({
       userId: selectEvent.target.value,
-      value: selectEvent.target.value,
+      selectId: selectEvent.target.value,
     });
 
     if (this.state.title.trim.length === 0) {
@@ -72,7 +70,7 @@ export class Form extends Component {
   render() {
     const {
       title,
-      selectId,
+      userId,
       isTitleCorrect,
       isUserIdCorrect
     } = this.state;
@@ -94,7 +92,7 @@ export class Form extends Component {
 
           <div>
             <select
-              value={selectId}
+              value={userId}
               name="user"
               onChange={this.handleSelect}
               className="user-select"
@@ -133,4 +131,5 @@ Form.propTypes = {
     }),
   ).isRequired,
   onAdd: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
