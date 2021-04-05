@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './todoForm.css';
+
 export class TodoForm extends React.Component {
   state = {
     isValidField: false,
@@ -37,33 +39,57 @@ export class TodoForm extends React.Component {
     } = this.props;
 
     return (
-      <div>
-        <select
-          value={selectValue}
-          onChange={this.handleSelectChange}
-        >
-          <option value="">
-            Select user
-          </option>
+      <div className="add">
+        <div className="select is-primary">
+          <select
+            id="select"
+            value={selectValue}
+            onChange={this.handleSelectChange}
+          >
+            <option value="">
+              Select user
+            </option>
+            {
+              usersList.map(user => (
+                <option key={user.id} value={user.name}>
+                  {user.name}
+                </option>
+              ))
+            }
+          </select>
           {
-            usersList.map(user => (
-              <option key={user.id}>
-                {user.name}
-              </option>
-            ))
+            isValidSelect
+              && (
+                <label
+                  className="tag is-warning"
+                  htmlFor="select"
+                >
+                  Please, choose user
+                </label>
+              )
           }
-        </select>
-        {
-          isValidSelect && <span>Choose user</span>
-        }
-        <input
-          type="text"
-          value={value}
-          onChange={this.handleInputChange}
-        />
-        { isValidField && <span>add todo</span> }
+        </div>
+        <div>
+          <input
+            id="description"
+            className="input is-primary"
+            value={value}
+            onChange={this.handleInputChange}
+          />
+          { isValidField
+            && (
+              <label
+                htmlFor="description"
+                className="tag is-warning"
+              >
+                Please, add text
+              </label>
+            )
+          }
+        </div>
         <button
           type="button"
+          className="button is-primary"
           onClick={() => {
             if (!value || !selectValue) {
               this.setState(state => ({

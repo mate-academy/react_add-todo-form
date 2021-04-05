@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './todoList.css';
+
 export const TodoList = ({ todoList }) => (
-  <ul>
+  <ul className="posts-list">
     {
       [...todoList].map(todo => (
-        <li key={todo.id}>
-          {todo.user.name}
-          {'-------------'}
-          {todo.title}
-          {'-------------'}
-          {
-            todo.completed
-              ? 'Completed'
-              : 'No completed'
-          }
+        <li key={todo.id} className="post">
+          <span className="post__author">
+            {todo.user.name}
+          </span>
+          <span className="post__description">
+            {todo.title}
+          </span>
+          <span className="post__complete-status">
+            {
+              todo.completed
+                ? 'Completed'
+                : 'No completed'
+            }
+          </span>
         </li>
       ))
     }
