@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  background-image: url(https://i.pinimg.com/564x/45/28/6e/45286e6cc0c05603623cc060adb04e1a.jpg);
+}
+
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

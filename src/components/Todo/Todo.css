@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap");
+
+.card {
+  margin: 10px;
+  background-color: rgba(229, 255, 0, 0.15);
+  border: 2px solid rgb(7, 61, 7);
+  border-radius: 5px;
+  width: 350px;
+
+  font-family: "Pinyon Script", cursive;
+  font-size: 20px;
+}
+
+h2,
+h3 {
+  margin: 10px;
+}
