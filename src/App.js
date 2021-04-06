@@ -17,15 +17,13 @@ export class App extends Component {
   }
 
   addTodo = (todo) => {
-    const newTodo = {
-      ...todo,
-      id: this.state.todos.length + 1,
-    };
-
     this.setState(prevState => ({
       todos: [
         ...prevState.todos,
-        newTodo,
+        {
+          ...todo,
+          id: prevState.todos.length + 1,
+        },
       ],
     }));
   }
@@ -39,12 +37,11 @@ export class App extends Component {
           <Form
             users={users}
             onSubmit={this.addTodo}
-            onAdd={this.addTodo}
           />
 
         </div>
         <div>
-          <TodoList props={this.state.todos} />
+          <TodoList todos={this.state.todos} />
         </div>
       </div>
     );

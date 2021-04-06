@@ -7,8 +7,8 @@ export class Form extends Component {
   state = {
     title: '',
     userId: '',
-    isTitleCorrect: false,
-    isUserIdCorrect: false,
+    hasTitleError: false,
+    hasUserIdError: false,
   }
 
   handleSubmit = (submitEvent) => {
@@ -18,17 +18,17 @@ export class Form extends Component {
     let isInputsCorrect = true;
 
     if (title.trim().length === 0) {
-      this.setState({ isTitleCorrect: true });
+      this.setState({ hasTitleError: true });
       isInputsCorrect = false;
     }
 
     if (userId === '') {
-      this.setState({ isUserIdCorrect: true });
+      this.setState({ hasUserIdError: true });
       isInputsCorrect = false;
     }
 
     if (isInputsCorrect) {
-      this.props.onAdd({
+      this.props.onSubmit({
         title,
         userId,
         user: this.props.users.find(user => user.id === +userId),
@@ -36,8 +36,8 @@ export class Form extends Component {
       this.setState({
         title: '',
         userId: '',
-        isTitleCorrect: false,
-        isUserIdCorrect: false,
+        hasTitleError: false,
+        hasUserIdError: false,
       });
     }
   }
@@ -49,7 +49,7 @@ export class Form extends Component {
 
     if (this.state.title.trim.length === 0) {
       this.setState({
-        isTitleCorrect: false,
+        hasTitleError: false,
       });
     }
   }
@@ -62,7 +62,7 @@ export class Form extends Component {
 
     if (this.state.title.trim.length === 0) {
       this.setState({
-        isUserIdCorrect: false,
+        hasUserIdError: false,
       });
     }
   }
@@ -71,8 +71,8 @@ export class Form extends Component {
     const {
       title,
       userId,
-      isTitleCorrect,
-      isUserIdCorrect
+      hasTitleError,
+      hasUserIdError
     } = this.state;
 
     return (
@@ -113,11 +113,11 @@ export class Form extends Component {
 
         <ErrorMessage
           errorText="Please enter the title"
-          state={isTitleCorrect}
+          hasError={hasTitleError}
         />
         <ErrorMessage
           errorText="Please choose a user"
-          state={isUserIdCorrect}
+          hasError={hasUserIdError}
         />
       </form>
     );
@@ -130,6 +130,5 @@ Form.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  onAdd: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
