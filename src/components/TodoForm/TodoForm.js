@@ -4,8 +4,8 @@ import users from '../../api/users';
 
 export class TodoForm extends Component {
   state = {
-    selectedUserError: false,
-    emptyTitleError: false,
+    isUserError: false,
+    isTitleError: false,
     todo: {
       title: '',
       completed: false,
@@ -18,28 +18,23 @@ export class TodoForm extends Component {
 
     const { todo } = this.state;
 
-    const titleStatus = !todo.title;
-    const userStatus = !todo.user;
+    const isTitleEmpty = !todo.title;
+    const noUserSelected = !todo.user;
 
-    if (titleStatus || userStatus) {
+    if (isTitleEmpty || noUserSelected) {
       this.setState({
-        emptyTitleError: titleStatus,
-        selectedUserError: userStatus,
+        isTitleError: isTitleEmpty,
+        isUserError: noUserSelected,
       });
 
       return;
     }
 
-    this.props.addTodo(
-      {
-        ...todo,
-        id: this.props.todoId,
-      },
-    );
+    this.props.addTodo(todo);
 
     this.setState({
-      selectedUserError: false,
-      emptyTitleError: false,
+      isUserError: false,
+      isTitleError: false,
       todo: {
         title: '',
         user: null,
@@ -56,7 +51,7 @@ export class TodoForm extends Component {
         ...prevState.todo,
         [name]: value,
       },
-      emptyTitleError: false,
+      isTitleError: false,
     }));
   };
 
@@ -69,12 +64,12 @@ export class TodoForm extends Component {
         user: users.find(user => user.id === userId),
         userId,
       },
-      selectedUserError: false,
+      isUserError: false,
     }));
   };
 
   render() {
-    const { todo, selectedUserError, emptyTitleError } = this.state;
+    const { todo, isUserError, isTitleError } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -107,13 +102,11 @@ export class TodoForm extends Component {
           ))}
         </select>
 
-        <button
-          type="submit"
-        >
+        <button type="submit">
           Add
         </button>
 
-        {emptyTitleError
+        {isTitleError
           && (
             <p className="App__error-message">
               Please enter the title
@@ -121,7 +114,7 @@ export class TodoForm extends Component {
           )
         }
 
-        {selectedUserError
+        {isUserError
           && (
             <p className="App__error-message">
               Please choose a user
@@ -134,6 +127,6 @@ export class TodoForm extends Component {
 }
 
 TodoForm.propTypes = {
-  todoId: PropTypes.number.isRequired,
+  // todoId: PropTypes.number.isRequired,
   addTodo: PropTypes.func.isRequired,
 };

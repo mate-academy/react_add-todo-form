@@ -13,9 +13,14 @@ export const Todo = ({
     {`task: ${title}`}
     <br />
     {`status: `}
-    <TaskStatus status={completed} />
+    <TaskStatus
+      status={completed}
+    />
     <br />
-    <User {...user} />
+    <User
+      name={user.name}
+      id={user.id}
+    />
   </>
 );
 

@@ -20,7 +20,10 @@ class App extends Component {
     this.setState(prevState => ({
       todos: [
         ...prevState.todos,
-        newTodo,
+        {
+          ...newTodo,
+          id: prevState.todos.length + 1,
+        },
       ],
     }));
   };
@@ -32,7 +35,6 @@ class App extends Component {
 
         <TodoForm
           addTodo={this.addTodo}
-          todoId={this.state.todos.length + 1}
         />
 
         <TodoList

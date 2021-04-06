@@ -6,7 +6,6 @@ export const User = ({ name, id }) => (
   <>
     {`user: `}
     <span className="user__name">{name}</span>
-    {/* <br /> */}
     {` id: ${id}`}
   </>
 );
