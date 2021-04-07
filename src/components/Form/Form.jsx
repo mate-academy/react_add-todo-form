@@ -7,7 +7,7 @@ export const Form = ({ users, handleChangeSelector,
   handleChangeText, valueSelector, valueText, add }) => (
     <form onSubmit={add} className="form">
       <select value={valueSelector} onChange={handleChangeSelector}>
-        <option value="Choose user">Choose user</option>
+        <option value="Choose user" disabled>Choose user</option>
         {users.map(user => (
           <option value={user.name} key={user.id}>{user.name}</option>
         ))}
