@@ -1,17 +1,12 @@
 import React from 'react';
 import './App.css';
-
-import users from './api/users';
+import goodsFromServer from './api/goods';
+import colors from './api/colors';
 
 function App() {
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+      <h1>React form</h1>
     </div>
   );
 }
