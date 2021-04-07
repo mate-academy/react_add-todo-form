@@ -1,0 +1,21 @@
+.list {
+  width: 530px;
+  margin: auto;
+}
+
+.list__item {
+  display: flex;
+  justify-content: space-between;
+  background-color: steelblue;
+  color: white;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.list__text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  margin-right: 10px;
+}

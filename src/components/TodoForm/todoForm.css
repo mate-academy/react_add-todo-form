@@ -1,0 +1,37 @@
+.form {
+  margin-bottom: 30px;
+}
+
+.form__input {
+  width: 250px;
+  height: 30px;
+  margin-right: 15px;
+  border: 2px solid steelblue;
+}
+
+.form__select {
+  width: 200;
+  margin-right: 20px;
+  height: 30px;
+  border: 2px solid steelblue;
+}
+
+.form__button {
+  border: 2px solid steelblue;
+  background-color: steelblue;
+  color: white;
+  height: 30px;
+}
+
+.form__validation {
+  display: flex;
+  width: 530px;
+  margin: auto;
+}
+
+.form__validation-text {
+  display: flex;
+  width: 265px;
+  height: 30px;
+  color: red;
+}
