@@ -16,28 +16,27 @@ const personalTodos = todos.map(todo => (
 class App extends React.Component {
   state = {
     usersList: users,
-    id: personalTodos.length,
+    id: 3,
     todoList: [...personalTodos],
   }
 
-  addTodo = (value, selectValue) => {
-    const title = value;
+  addTodo = (title, selectValue) => {
     const currentUser = users.find(user => (
       user.name === selectValue
     ));
 
     this.setState(state => ({
-      id: state.id + 1,
       todoList: [
         ...state.todoList,
         {
           userId: currentUser.id,
-          id: state.id + 1,
+          id: state.id,
           title,
           completed: false,
           user: currentUser,
         },
       ],
+      id: state.id + 1,
     }));
   }
 

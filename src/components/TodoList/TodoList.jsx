@@ -6,7 +6,7 @@ import './todoList.css';
 export const TodoList = ({ todoList }) => (
   <ul className="posts-list">
     {
-      [...todoList].map(todo => (
+      todoList.map(todo => (
         <li key={todo.id} className="post">
           <span className="post__author">
             {todo.user.name}

@@ -25,6 +25,25 @@ export class TodoForm extends React.Component {
     });
   }
 
+  createNewPost = (event) => {
+    event.preventDefault();
+
+    const { value, selectValue } = this.state;
+
+    if (!value || !selectValue) {
+      this.setState(state => ({
+        isValidField: !state.value,
+        isValidSelect: !state.selectValue,
+      }));
+    } else {
+      this.props.addTodo(value, selectValue);
+      this.setState({
+        value: '',
+        selectValue: '',
+      });
+    }
+  }
+
   render() {
     const {
       isValidField,
@@ -33,13 +52,13 @@ export class TodoForm extends React.Component {
       selectValue,
     } = this.state;
 
-    const {
-      usersList,
-      addTodo,
-    } = this.props;
+    const { usersList } = this.props;
 
     return (
-      <div className="add">
+      <form
+        className="add"
+        onSubmit={this.createNewPost}
+      >
         <div className="select is-primary">
           <select
             id="select"
@@ -58,15 +77,14 @@ export class TodoForm extends React.Component {
             }
           </select>
           {
-            isValidSelect
-              && (
-                <label
-                  className="tag is-warning"
-                  htmlFor="select"
-                >
-                  Please, choose user
-                </label>
-              )
+            isValidSelect && (
+              <label
+                className="tag is-warning"
+                htmlFor="select"
+              >
+                Please, choose user
+              </label>
+            )
           }
         </div>
         <div>
@@ -76,8 +94,8 @@ export class TodoForm extends React.Component {
             value={value}
             onChange={this.handleInputChange}
           />
-          { isValidField
-            && (
+          {
+            isValidField && (
               <label
                 htmlFor="description"
                 className="tag is-warning"
@@ -88,26 +106,12 @@ export class TodoForm extends React.Component {
           }
         </div>
         <button
-          type="button"
+          type="submit"
           className="button is-primary"
-          onClick={() => {
-            if (!value || !selectValue) {
-              this.setState(state => ({
-                isValidField: !state.value,
-                isValidSelect: !state.selectValue,
-              }));
-            } else {
-              addTodo(value, selectValue);
-              this.setState({
-                value: '',
-                selectValue: '',
-              });
-            }
-          }}
         >
           Add todo
         </button>
-      </div>
+      </form>
     );
   }
 }
