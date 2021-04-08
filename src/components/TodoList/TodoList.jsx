@@ -7,16 +7,9 @@ export const TodoList = ({ visibleList }) => (
   <ul className="list">
     {visibleList.map(todo => (
       <li key={todo.id}>
-        {todo.id}
-        .
-        {todo.user.name}
+        {`${todo.id}. ${todo.user.name}`}
         <br />
-        {todo.title}
-        :
-        {todo.completed
-          ? ' completed'
-          : ' not completed'
-        }
+        {`${todo.title}: ${todo.completed ? ' completed' : ' not completed'}`}
       </li>
     ))}
   </ul>
