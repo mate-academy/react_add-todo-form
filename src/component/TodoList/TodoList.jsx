@@ -12,7 +12,7 @@ export const TodoList = ({ todoList }) => (
         <span className="todo-list__title">{todo.title}</span>
         <span className="todo-list__user">{todo.name}</span>
         <span className="todo-list__completed">
-          {`Completed: ${(todo.completed) ? 'true' : 'false'}`}
+          {`Completed: ${todo.completed.toString()}`}
         </span>
       </li>
     ))}

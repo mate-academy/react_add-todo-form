@@ -4,15 +4,20 @@
   margin-top: 40px;
 
   &__text {
+    vertical-align: middle;
     width: 350px;
     height: 40px;
     resize: none;
     border: 1px solid green;
     border-radius: 5px;
+    padding-top: 5px;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
 
     &::-webkit-input-placeholder {
       height: 38px;
-      line-height: 38px;
       padding-left: 15px;
     }
 
