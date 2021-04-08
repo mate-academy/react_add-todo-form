@@ -17,12 +17,20 @@ export class TodoForm extends React.Component {
   inputHandler = (event) => {
     this.setState({
       inputValue: event.target.value,
+      isValidation: {
+        titleValidation: false,
+        userValidation: this.state.isValidation.userValidation,
+      },
     });
   }
 
   selectHandler = (event) => {
     this.setState({
       selectValue: event.target.value,
+      isValidation: {
+        titleValidation: this.state.isValidation.titleValidation,
+        userValidation: false,
+      },
     });
   }
 
@@ -124,7 +132,8 @@ export class TodoForm extends React.Component {
             </span>
             {' '}
             <span className="form__validation-text">
-              {isValidation.userValidation
+              {
+                isValidation.userValidation
                 && 'Please choose a user'
               }
             </span>
