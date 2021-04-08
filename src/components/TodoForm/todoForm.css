@@ -1,0 +1,10 @@
+.add {
+  display: flex;
+  gap: 30px;
+  width: 40%;
+  margin: 20px auto;
+  height: 100px;
+  border: 2px solid #00d1b2;
+  border-radius: 10px;
+  padding: 20px;
+}
