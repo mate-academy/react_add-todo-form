@@ -1,0 +1,24 @@
+.form {
+  align-items: center;
+  margin: 20px;
+}
+
+select {
+  margin-top: 15px;
+  width: 200px;
+}
+
+input {
+  width: 200px;
+}
+
+.btn {
+  margin-top: 30px;
+  width: 200px;
+}
+
+.error {
+  color: red;
+  padding: 5px;
+  font-size: 12px;
+}
