@@ -8,33 +8,29 @@ export class TodoForm extends React.Component {
     usersTodos: [...this.props.usersTodos],
     inputValue: '',
     selectValue: 'Choose a user',
-    isValidation: {
-      titleValidation: false,
-      userValidation: false,
-    },
+    titleValidation: false,
+    userValidation: false,
   }
 
   inputHandler = (event) => {
     this.setState({
       inputValue: event.target.value,
-      isValidation: {
-        titleValidation: false,
-        userValidation: this.state.isValidation.userValidation,
-      },
+      titleValidation: false,
+      userValidation: this.state.userValidation,
     });
   }
 
   selectHandler = (event) => {
     this.setState({
       selectValue: event.target.value,
-      isValidation: {
-        titleValidation: this.state.isValidation.titleValidation,
-        userValidation: false,
-      },
+      titleValidation: this.state.titleValidation,
+      userValidation: false,
     });
   }
 
-  buttonHandler = () => {
+  buttonHandler = (event) => {
+    event.preventDefault();
+
     const {
       usersTodos,
       inputValue,
@@ -57,31 +53,23 @@ export class TodoForm extends React.Component {
 
         inputValue: '',
         selectValue: 'Choose a user',
-        isValidation: {
-          titleValidation: false,
-          userValidation: false,
-        },
+        titleValidation: false,
+        userValidation: false,
       });
     } else if (inputValue.length === 0 && selectValue === 'Choose a user') {
       this.setState({
-        isValidation: {
-          titleValidation: true,
-          userValidation: true,
-        },
+        titleValidation: true,
+        userValidation: true,
       });
     } else if (inputValue.length === 0) {
       this.setState({
-        isValidation: {
-          titleValidation: true,
-          userValidation: false,
-        },
+        titleValidation: true,
+        userValidation: false,
       });
     } else if (selectValue === 'Choose a user') {
       this.setState({
-        isValidation: {
-          titleValidation: false,
-          userValidation: true,
-        },
+        titleValidation: false,
+        userValidation: true,
       });
     }
   }
@@ -91,12 +79,16 @@ export class TodoForm extends React.Component {
       usersTodos,
       inputValue,
       selectValue,
-      isValidation,
+      titleValidation,
+      userValidation
     } = this.state;
 
     return (
       <>
-        <form className="form">
+        <form
+          className="form"
+          onSubmit={this.buttonHandler}
+        >
           <input
             type="text"
             placeholder="Please enter the text"
@@ -118,22 +110,21 @@ export class TodoForm extends React.Component {
           </select>
           <button
             className="form__button"
-            type="button"
-            onClick={this.buttonHandler}
+            type="submit"
           >
             Add Todo
           </button>
           <div className="form__validation">
             <span className="form__validation-text">
               {
-                isValidation.titleValidation
+                titleValidation
                 && 'Please enter the title'
               }
             </span>
             {' '}
             <span className="form__validation-text">
               {
-                isValidation.userValidation
+                userValidation
                 && 'Please choose a user'
               }
             </span>
