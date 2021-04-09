@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 import usersFromServer from '../api/users';
+import todosFromServer from '../api/todos';
 import { TodoList } from './TodoList';
 import './todoForm.scss';
 
@@ -12,23 +13,26 @@ export class TodoForm extends React.Component {
     query: '',
     selectedName: '',
     todos: [...this.props.todos],
-    lastTodoId: this.props.todos.length,
+    lastTodoId: todosFromServer.length,
   }
 
-  addTodo = () => {
-    if (!this.state.query) {
-      this.setState(state => ({
+  addTodo = (event) => {
+    event.preventDefault();
+    const { query, selectedName } = this.state;
+
+    if (!query) {
+      this.setState({
         isTodoValid: false,
-      }));
+      });
     }
 
-    if (!this.state.selectedName) {
-      this.setState(state => ({
+    if (!selectedName) {
+      this.setState({
         isSelectValid: false,
-      }));
+      });
     }
 
-    if (this.state.query && this.state.selectedName) {
+    if (query && selectedName) {
       this.setState(state => ({
         query: '',
         selectedName: '',
@@ -59,9 +63,7 @@ export class TodoForm extends React.Component {
         <form
           className="inputs-panel"
           name="newTotoForm"
-          onSubmit={((event) => {
-            event.preventDefault();
-          })}
+          onSubmit={this.addTodo}
         >
           <label className="inputs-label">
             <input
@@ -117,7 +119,6 @@ export class TodoForm extends React.Component {
           <button
             type="submit"
             className="button"
-            onClick={this.addTodo}
           >
             Add
           </button>
