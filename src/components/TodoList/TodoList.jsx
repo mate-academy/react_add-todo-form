@@ -2,36 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './todoList.css';
 
-export const TodoList = ({ usersTodos }) => (
+export const TodoList = ({ todoList }) => (
   <ul className="list">
-    {
-      usersTodos.map(todo => (
-        <li
-          className="list__item"
-          key={todo.id}
-        >
-          <div className="list__text">{todo.title}</div>
-          <div className="list__text">{todo.user.name}</div>
-          <div className="list__text">
-            completed:
-            {' '}
-            {`${todo.completed}`}
-          </div>
-        </li>
-      ))
-    }
+    {todoList.map(todo => (
+      <li
+        className="list__item"
+        key={todo.id}
+      >
+        <span className="list__text">{todo.title}</span>
+        <span className="list__text">{todo.name}</span>
+        <span className="list__text">
+          {`Completed: ${todo.completed}`}
+        </span>
+      </li>
+    ))}
   </ul>
 );
 
 TodoList.propTypes = {
-  usersTodos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
-      todo: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
+  todoList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
 };

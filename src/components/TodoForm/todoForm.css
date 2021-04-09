@@ -1,5 +1,16 @@
 .form {
+  display: flex;
   margin-bottom: 30px;
+}
+
+.form__input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__select-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .form__input {
@@ -24,14 +35,5 @@
 }
 
 .form__validation {
-  display: flex;
-  width: 530px;
-  margin: auto;
-}
-
-.form__validation-text {
-  display: flex;
-  width: 265px;
-  height: 30px;
   color: red;
 }

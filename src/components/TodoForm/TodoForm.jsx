@@ -1,161 +1,168 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './todoForm.css';
-import { TodoList } from '../TodoList';
 
 export class TodoForm extends React.Component {
   state = {
-    usersTodos: [...this.props.usersTodos],
-    inputValue: '',
-    selectValue: 'Choose a user',
+    user: '',
+    title: '',
     titleValidation: false,
     userValidation: false,
   }
 
-  inputHandler = (event) => {
+  handleError = ({ target }) => {
+    const { name, value } = target;
+
     this.setState({
-      inputValue: event.target.value,
-      titleValidation: false,
-      userValidation: this.state.userValidation,
+      [name]: value,
     });
-  }
 
-  selectHandler = (event) => {
-    this.setState({
-      selectValue: event.target.value,
-      titleValidation: this.state.titleValidation,
-      userValidation: false,
-    });
-  }
-
-  buttonHandler = (event) => {
-    event.preventDefault();
-
-    const {
-      usersTodos,
-      inputValue,
-      selectValue,
-    } = this.state;
-
-    if (inputValue.length > 0 && selectValue !== 'Choose a user') {
+    if (name === 'title' && value.length > 10) {
       this.setState({
-        usersTodos: [
-          ...usersTodos,
-          {
-            id: usersTodos.length + 1,
-            title: inputValue,
-            user: {
-              name: selectValue,
-            },
-            completed: false,
-          },
-        ],
-
-        inputValue: '',
-        selectValue: 'Choose a user',
         titleValidation: false,
+      });
+    }
+
+    if (name === 'user' && value) {
+      this.setState({
         userValidation: false,
       });
-    } else if (inputValue.length === 0 && selectValue === 'Choose a user') {
+    }
+  }
+
+  handleTodos = ({ target }) => {
+    const { name, value } = target;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { title, user } = this.state;
+
+    if (title.length < 10 && !user) {
       this.setState({
         titleValidation: true,
         userValidation: true,
       });
-    } else if (inputValue.length === 0) {
+
+      return;
+    }
+
+    if (!title || title.length < 10) {
+      this.setState({ titleValidation: true });
+
+      return;
+    }
+
+    if (!user) {
+      this.setState({ userValidation: true });
+
+      return;
+    }
+
+    this.props.handleChange(user, title);
+
+    if (user && title.length > 10) {
       this.setState({
-        titleValidation: true,
-        userValidation: false,
-      });
-    } else if (selectValue === 'Choose a user') {
-      this.setState({
-        titleValidation: false,
-        userValidation: true,
+        user: '',
+        title: '',
       });
     }
   }
 
   render() {
     const {
-      usersTodos,
-      inputValue,
-      selectValue,
+      usersList,
+    } = this.props;
+
+    const {
+      user,
+      title,
       titleValidation,
-      userValidation
+      userValidation,
     } = this.state;
 
     return (
       <>
         <form
           className="form"
-          onSubmit={this.buttonHandler}
+          onSubmit={this.handleSubmit}
         >
-          <input
-            type="text"
-            placeholder="Please enter the text"
-            value={inputValue}
-            className="form__input"
-            onChange={this.inputHandler}
-          />
-          <select
-            value={selectValue}
-            className="form__select"
-            onChange={this.selectHandler}
-          >
-            <option value="Choose a user" disabled>Choose a user</option>
-            {
-              this.props.initialUsers.map(user => (
-                <option value={user.name} key={user.id}>{user.name}</option>
-              ))
+          <div className="form__input-wrapper">
+            <input
+              className="form__input"
+              type="text"
+              name="title"
+              placeholder="Please, enter the text"
+              value={title}
+              onChange={this.handleError}
+            />
+
+            {titleValidation
+              && (
+                <span
+                  className="form__validation"
+                >
+                  Please enter the title
+                  {' '}
+                  <br />
+                  {' '}
+                  (at least 10 characters)
+                </span>
+              )
             }
-          </select>
+          </div>
+
+          <div className="form__select-wrapper">
+            <select
+              className="form__select"
+              name="user"
+              value={user}
+              onChange={this.handleError}
+            >
+              <option
+                value=""
+                disabled
+              >
+                Please select a user
+              </option>
+              {
+                usersList.map(person => (
+                  <option key={person.name}>
+                    {person.name}
+                  </option>
+                ))
+              }
+            </select>
+
+            {userValidation
+              && (
+                <span
+                  className="form__validation"
+                >
+                  Please choose a user
+                </span>
+              )}
+          </div>
+
           <button
             className="form__button"
             type="submit"
           >
-            Add Todo
+            Add todo
           </button>
-          <div className="form__validation">
-            <span className="form__validation-text">
-              {
-                titleValidation
-                && 'Please enter the title'
-              }
-            </span>
-            {' '}
-            <span className="form__validation-text">
-              {
-                userValidation
-                && 'Please choose a user'
-              }
-            </span>
-          </div>
         </form>
-        <TodoList
-          usersTodos={usersTodos}
-        />
       </>
     );
   }
 }
 
 TodoForm.propTypes = {
-  usersTodos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
-      todo: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
-};
-
-TodoForm.propTypes = {
-  initialUsers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  usersList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
