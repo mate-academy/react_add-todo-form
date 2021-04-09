@@ -14,14 +14,18 @@ export class AddTodo extends React.Component {
   }
 
   handleSelect = (event) => {
+    const newValue = event.target.value;
     this.setState({
-      selectedUserId: event.target.value,
+      selectedUserId: newValue,
+      requireUserSelection: !newValue,
     });
-  }
+   }
 
   titleChanged = (event) => {
+    const newTitle = event.target.value;
     this.setState({
-      title: event.target.value,
+      title: newTitle,
+      requireTitle: !newTitle,
     });
   }
 
