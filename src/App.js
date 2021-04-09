@@ -19,6 +19,16 @@ export class App extends React.Component {
   handleTodo = (event) => {
     const { name, value } = event.target;
 
+    if (name === 'chosedUser') {
+      this.setState({
+        hasNameError: false,
+      });
+    } else if (name === 'newTodo') {
+      this.setState({
+        hasTodoError: false,
+      });
+    }
+
     this.setState({
       [name]: value,
     });
@@ -73,8 +83,8 @@ export class App extends React.Component {
                   <option key={user.id}>{user.name}</option>
                 ))}
               </select>
-              {this.state.hasTodoError && (
-                <span className="error">Please enter the title</span>
+              {this.state.hasNameError && (
+                <span className="nameError">Please chose a user</span>
               )}
             </div>
             <div className="input__container">
@@ -86,8 +96,8 @@ export class App extends React.Component {
                 value={this.state.newTodo}
                 onChange={this.handleTodo}
               />
-              {this.state.hasNameError && (
-                <span className="nameError">Please chose a user</span>
+              {this.state.hasTodoError && (
+                <span className="error">Please enter the title</span>
               )}
             </div>
             <button
