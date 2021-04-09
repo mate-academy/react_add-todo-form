@@ -4,16 +4,19 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-import { List } from './components';
+import { List } from './components/List';
+import { Form } from './components/Form';
+
+const todoList = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
 
 export class App extends React.Component {
   state = {
     newTodo: '',
     chosedUser: '',
-    userTodos: todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    })),
+    userTodos: todoList,
   }
 
   handleTodo = (event) => {
@@ -34,8 +37,9 @@ export class App extends React.Component {
     });
   }
 
-  submit = (event) => {
+  addTodo = (event) => {
     const { chosedUser, newTodo } = this.state;
+    const numbers = this.state.userTodos.map(todo => todo.id);
 
     event.preventDefault();
 
@@ -53,7 +57,7 @@ export class App extends React.Component {
       newTodo: '',
       userTodos: [...prev.userTodos, {
         userId: users.find(user => user.name === chosedUser).id,
-        id: prev.userTodos.length + 1,
+        id: Math.max(...numbers) + 1,
         title: newTodo,
         completed: false,
         user: {
@@ -64,52 +68,26 @@ export class App extends React.Component {
   }
 
   render() {
+    const {
+      newTodo,
+      userTodos,
+      hasNameError,
+      hasTodoError,
+    } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form
-          className="addTodo"
-          onSubmit={this.submit}
-        >
-          <div className="input__wrapper">
-            <div className="input__container">
-              <select
-                name="chosedUser"
-                className="form-select"
-                onChange={this.handleTodo}
-              >
-                <option>Choose a user</option>
-                {users.map(user => (
-                  <option key={user.id}>{user.name}</option>
-                ))}
-              </select>
-              {this.state.hasNameError && (
-                <span className="nameError">Please chose a user</span>
-              )}
-            </div>
-            <div className="input__container">
-              <input
-                type="text"
-                name="newTodo"
-                className="form-control form-control-lg"
-                placeholder="Please enter the title"
-                value={this.state.newTodo}
-                onChange={this.handleTodo}
-              />
-              {this.state.hasTodoError && (
-                <span className="error">Please enter the title</span>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="btn btn-primary"
-            >
-              Add
-            </button>
-          </div>
-        </form>
+        <Form
+          add={this.addTodo}
+          handleTodo={this.handleTodo}
+          newTodo={newTodo}
+          users={users}
+          hasNameError={hasNameError}
+          hasTodoError={hasTodoError}
+        />
         <div className="list__container">
-          <List list={this.state.userTodos} />
+          <List list={userTodos} />
         </div>
       </div>
     );

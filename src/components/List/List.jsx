@@ -1,5 +1,5 @@
 import React from 'react';
-import './List.css'
+import './List.css';
 import PropTypes from 'prop-types';
 
 
