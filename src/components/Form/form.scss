@@ -1,0 +1,87 @@
+$duration: 0.5s;
+
+.form {
+  position: relative;
+  font-size: 16px;
+
+  &__select {
+    border: 2px solid red;
+    height: 35px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: rgb(179, 250, 112);
+    transition: background-color $duration,
+      box-shadow $duration;
+
+    &:focus {
+      background-color: rgb(241, 252, 98);
+      outline: none;
+      border: 2px solid rgb(50, 235, 90);
+    }
+
+    &:hover {
+      box-shadow: 0 0 10px rgb(156, 74, 114);
+    }
+  }
+
+  &__warning-select {
+    position: absolute;
+    top: 40px;
+    left: 175px;
+    color: rgb(250, 146, 49);
+  }
+
+  &__input-block {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  &__input {
+    border: 2px solid red;
+    width: 190px;
+    height: 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: rgb(179, 250, 112);
+    transition: background-color $duration,
+      box-shadow $duration;
+
+    &:focus {
+      background-color: rgb(98, 252, 175);
+      outline: none;
+      border: 2px solid rgb(50, 235, 90);
+    }
+
+    &:hover {
+      box-shadow: 0 0 10px rgb(156, 74, 114);
+    }
+  }
+
+  &__warning-input {
+    position: absolute;
+    top: 40px;
+    left: 175px;
+    color: rgb(250, 146, 49);
+  }
+
+  &__submit {
+    color: #fff;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 40px;
+    background-color: rgb(4, 136, 70);
+    transition: transform $duration,
+      box-shadow $duration,
+      background-color $duration;
+
+    &:focus {
+      outline: none;
+      transform: scale(1.05);
+      background-color: rgb(134, 136, 4);
+    }
+
+    &:hover {
+      box-shadow: 0 0 15px rgb(161, 113, 49);
+    }
+  }
+}

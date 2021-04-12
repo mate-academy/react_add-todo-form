@@ -1,0 +1,19 @@
+.todoList {
+  margin-top: 30px;
+  font-size: 18px;
+
+  &__name {
+    color: rgb(84, 17, 146);
+  }
+
+  &__completed {
+    color: green;
+    text-decoration: underline;
+
+  }
+
+  &__failed {
+    color: red;
+    text-decoration: underline;
+  }
+}
