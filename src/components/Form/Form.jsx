@@ -1,57 +1,118 @@
 import React from 'react';
-import './Form.css';
+import PropTypes from 'prop-types';
+import usersFromServer from '../../api/users';
+import './Form.css'
 
-export const Form = ({
-  add,
-  handleTodo,
-  newTodo,
-  users,
-  hasNameError,
-  hasTodoError,
-}) => {
+export class Form extends React.Component {
+  state = {
+    newTitle: '',
+    selectedUserId: 0,
+    hasUserError: false,
+    hasTodoError: false,
+  }
 
-  return (
-    <form
+  handleUserChange = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      selectedUserId: +value,
+      hasUserError: false,
+    });
+  }
+
+  handleTodoChange = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      newTitle: value,
+      hasTodoError: false,
+    });
+  }
+
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    const { newTitle, selectedUserId } = this.state;
+
+    if (!newTitle || !selectedUserId) {
+      this.setState({
+        hasUserError: !selectedUserId,
+        hasTodoError: !newTitle,
+      });
+
+      return;
+    }
+
+    this.props.addTodo(newTitle, selectedUserId);
+
+    this.setState({
+      newTitle: '',
+      selectedUserId: 0,
+    });
+  }
+
+  render() {
+    const {
+      newTitle,
+      selectedUserId,
+      hasUserError,
+      hasTodoError } = this.state;
+
+    return (
+      <form
         className="addTodo"
-        onSubmit={add}
+        onSubmit={this.handleFormSubmit}
       >
         <div className="input__wrapper">
           <div className="input__container">
-            <select
-              name="chosedUser"
-              className="form-select"
-              onChange={handleTodo}
-            >
-              <option>Choose a user</option>
-              {users.map(user => (
-                <option key={user.id}>{user.name}</option>
-              ))}
-            </select>
-            {hasNameError && (
-              <span className="nameError">Please chose a user</span>
-            )}
-          </div>
-          <div className="input__container">
-            <input
-              type="text"
-              name="newTodo"
-              className="form-control form-control-lg"
-              placeholder="Please enter the title"
-              value={newTodo}
-              onChange={handleTodo}
-            />
-            {hasTodoError && (
-              <span className="error">Please enter the title</span>
-            )}
+          <select
+            className="form-select"
+            value={selectedUserId}
+            onChange={this.handleUserChange}
+          >
+            <option value="0">Choose user</option>
+            {usersFromServer.map(({ id, name }) => (
+              <option
+                key={id}
+                value={id}
+              >
+                {name}
+              </option>
+            ))}
+          </select>
+          <span
+            hidden={!hasUserError}
+            className="error"
+          >
+            Please choose a user
+          </span>
+        </div>
+        <div className="input__container">
+          <input
+            className="form-control form-control-lg"
+            placeholder="Enter the task"
+            value={newTitle}
+            onChange={this.handleTodoChange}
+          />
+          <span
+            hidden={!hasTodoError}
+            className="error"
+          >
+            Please enter the title
+          </span>
           </div>
           <button
-            type="submit"
             className="btn btn-primary"
+            type="submit"
           >
             Add
           </button>
         </div>
       </form>
-  )
+    );
+  }
 }
 
+Form.propTypes = {
+  addTodo: PropTypes.func.isRequired,
+};
