@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 
 import users from '../../api/users';
 
+
 export class Form extends React.Component {
   state = {
     todoTitle: '',
@@ -38,8 +39,8 @@ export class Form extends React.Component {
 
     if (!todoTitle || !selectedNameId) {
       this.setState({
-        todoError: !selectedNameId,
-        nameError: !todoTitle,
+        todoError: !todoTitle,
+        nameError: !selectedNameId,
       });
 
       return;
@@ -50,6 +51,8 @@ export class Form extends React.Component {
     this.setState({
       todoTitle: '',
       selectedNameId: 0,
+      todoError: false,
+      nameError: false,
     });
   }
 
