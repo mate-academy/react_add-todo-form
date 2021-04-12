@@ -1,19 +1,30 @@
 .todoList {
   margin-top: 30px;
   font-size: 18px;
+  list-style: none;
+  text-align: left;
 
   &__name {
     color: rgb(84, 17, 146);
   }
 
+  &__item {
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 5px;
+  }
+
+  &__content {
+    text-decoration: underline;
+  }
+
   &__completed {
     color: green;
-    text-decoration: underline;
-
   }
 
   &__failed {
     color: red;
-    text-decoration: underline;
   }
 }

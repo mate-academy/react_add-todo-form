@@ -5,27 +5,25 @@ import classNames from 'classnames';
 import './todoList.scss';
 
 export const TodoList = ({ todoList }) => (
-  <div className="todoList">
+  <ul className="todoList">
     {todoList.map(todo => (
-      <React.Fragment key={todo.id}>
+      <li key={todo.id} className="todoList__item">
         <span className="todoList__name">
-          Name:
-          {' '}
-          <strong>{todo.user.name}</strong>
+          Name: <strong>{todo.user.name}</strong>
         </span>
         <div
-          className={classNames(
+          className={ classNames('todoList__content',
             { todoList__completed: todo.completed },
             { todoList__failed: !todo.completed },
           )}
         >
+          {todo.title}
           {todo.completed && <span>&#9745; </span>}
           {!todo.completed && <span>&#10008; </span>}
-          {todo.title}
         </div>
-      </React.Fragment>
+      </li>
     ))}
-  </div>
+  </ul>
 );
 
 TodoList.propTypes = {
