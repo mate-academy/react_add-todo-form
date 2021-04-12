@@ -54,7 +54,7 @@ export class Form extends React.Component {
       selectValue,
     } = this.state;
 
-    const { usersList } = this.props;
+    const { userList } = this.props;
 
     return (
       <form
@@ -70,7 +70,7 @@ export class Form extends React.Component {
           <option value="" disabled>
             Choose a user
           </option>
-          {usersList.map(user => (
+          {userList.map(user => (
             <option
               key={user.id}
               value={user.name}
@@ -119,7 +119,7 @@ export class Form extends React.Component {
 
 Form.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  usersList: PropTypes.arrayOf(
+  userList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
