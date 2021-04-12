@@ -1,0 +1,17 @@
+.TodoList {
+  max-width: 350px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.error {
+  color: red;
+}
+
+.name {
+  color: rgb(206, 81, 69);
+}
+
+.todo {
+  color: rgb(4, 12, 37);
+}
