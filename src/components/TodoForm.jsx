@@ -2,8 +2,6 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 import usersFromServer from '../api/users';
-import todosFromServer from '../api/todos';
-import { TodoList } from './TodoList';
 import './todoForm.scss';
 
 export class TodoForm extends React.Component {
@@ -12,11 +10,9 @@ export class TodoForm extends React.Component {
     isSelectValid: true,
     query: '',
     selectedName: '',
-    todos: [...this.props.todos],
-    lastTodoId: todosFromServer.length,
   }
 
-  addTodo = (event) => {
+  createTodo = (event) => {
     event.preventDefault();
     const { query, selectedName } = this.state;
 
@@ -33,19 +29,13 @@ export class TodoForm extends React.Component {
     }
 
     if (query && selectedName) {
-      this.setState(state => ({
+      const { addTodo } = this.props;
+
+      addTodo(query, selectedName);
+      this.setState({
         query: '',
         selectedName: '',
-        lastTodoId: state.lastTodoId + 1,
-        todos: [...state.todos,
-          {
-            title: state.query,
-            completed: false,
-            user: { name: state.selectedName },
-            id: state.lastTodoId + 1,
-          },
-        ],
-      }));
+      });
     }
   }
 
@@ -55,7 +45,6 @@ export class TodoForm extends React.Component {
       isTodoValid,
       query,
       selectedName,
-      todos,
     } = this.state;
 
     return (
@@ -63,7 +52,7 @@ export class TodoForm extends React.Component {
         <form
           className="inputs-panel"
           name="newTotoForm"
-          onSubmit={this.addTodo}
+          onSubmit={this.createTodo}
         >
           <label className="inputs-label">
             <input
@@ -123,21 +112,11 @@ export class TodoForm extends React.Component {
             Add
           </button>
         </form>
-        <TodoList todos={todos} />
       </>
     );
   }
 }
 
 TodoForm.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
-      completed: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
