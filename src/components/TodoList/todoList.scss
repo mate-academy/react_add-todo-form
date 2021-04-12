@@ -1,8 +1,11 @@
+$duration: 0.5s;
+
 .todoList {
   margin-top: 30px;
   font-size: 18px;
   list-style: none;
   text-align: left;
+  padding: 0 20px;
 
   &__name {
     color: rgb(84, 17, 146);
@@ -10,10 +13,20 @@
 
   &__item {
     border: 1px solid black;
+    background-color: rgb(182, 208, 241);
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 5px;
     box-shadow: 0 0 5px;
+    transition: background-color $duration,
+    opacity $duration,
+    transform $duration;
+
+    &:hover {
+      background-color: rgb(101, 194, 140);
+      opacity: 0.8;
+      transform: scale(1.01);
+    }
   }
 
   &__content {
