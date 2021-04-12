@@ -82,7 +82,6 @@ export class Form extends React.Component {
           </select>
           <span
             hidden={!hasUserError}
-            className="error"
           >
             Please choose a user
           </span>
@@ -96,7 +95,6 @@ export class Form extends React.Component {
           />
           <span
             hidden={!hasTodoError}
-            className="error"
           >
             Please enter the title
           </span>

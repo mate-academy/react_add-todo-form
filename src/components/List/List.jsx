@@ -18,7 +18,7 @@ export class List extends React.PureComponent {
               className="list-group-item"
               key={todo.id}
             >
-              <span>{name}</span> <span>{title}</span>
+              <span className='list__item-span'>{name}</span> <span className='list__item-span'>{title}</span>
             </li>
           )
         })}
