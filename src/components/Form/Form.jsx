@@ -63,9 +63,10 @@ export class Form extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <Grid
             container
-            spacing={4}
+            direction="column"
             justify="center"
             alignItems="center"
+            spacing={2}
           >
             <TextField
               id="standard-basic"
