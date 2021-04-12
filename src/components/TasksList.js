@@ -13,16 +13,18 @@ const TasksList = ({ tasks }) => (
 );
 
 TasksList.propTypes = {
-  tasks: PropTypes.arrayOf({
-    userId: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      userId: PropTypes.number.isRequired,
       id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      completed: PropTypes.bool,
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+      }).isRequired,
     }),
-  }).isRequired,
+  ).isRequired,
 };
 
 export default TasksList;
