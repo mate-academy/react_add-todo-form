@@ -6,44 +6,47 @@ import users from './api/users';
 import { Form } from './components/Form';
 import { TodoList } from './components/TodoList';
 
-const matchId = id => (
+const findUserById = id => (
   users.find(user => user.id === id)
 );
 
 const userTodos = todos.map(todo => ({
   ...todo,
-  user: matchId(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
 export class App extends React.Component {
   state = {
-    tasks: [...userTodos],
+    todoList: [...userTodos],
   }
 
   addTodo = (todo, currentUser) => {
-    this.setState(({ tasks }) => {
+    this.setState(({ todoList }) => {
       const newTodo = {
         userId: currentUser,
-        id: tasks.length + 1,
+        id: todoList.length + 1,
         title: todo,
         completed: false,
-        user: matchId(currentUser),
+        user: findUserById(currentUser),
       };
 
       return {
-        tasks: [newTodo, ...tasks],
+        todoList: [newTodo, ...todoList],
       };
     });
   }
 
   render() {
-    const { tasks } = this.state;
+    const { todoList } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <Form addTodo={this.addTodo} />
-        <TodoList todos={tasks} />
+        <Form
+          addTodo={this.addTodo}
+          users={users}
+        />
+        <TodoList todoList={todoList} />
       </div>
     );
   }

@@ -1,16 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
+import propTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-export const TodoList = ({ todos }) => (
+export const TodoList = ({ todoList }) => (
   <List>
-    {todos.map(todo => (
+    {todoList.map(todo => (
       <ListItem
-        key={uuidv4()}
+        key={todo.id}
       >
         <ListItemText>
           {todo.user.name}
@@ -27,14 +26,11 @@ export const TodoList = ({ todos }) => (
 );
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf({
-    userId: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }),
-  }).isRequired,
+  todoList: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.number.isRequired,
+      title: propTypes.string.isRequired,
+      completed: propTypes.bool.isRequired,
+    }).isRequired,
+  ).isRequired,
 };
