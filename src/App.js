@@ -3,22 +3,54 @@ import './App.css';
 
 import users from './api/users';
 import todos from './api/todos';
-import { Form } from './components/Form';
 
-const todoList = todos.map(todo => ({
+const getUserById = userId => (
+  users.find(user => user.id === userId)
+);
+
+const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: users.find(person => person.id === todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export class App extends React.PureComponent {
   state = {
-    list: todoList,
+    todosList: preparedTodos,
+    newTitle: '',
+    userName: '',
+    hiddenName: true,
+    hiddenTitle: true,
   }
 
-  addNewUser = (userName, newTitle) => {
+  handleNewTitle = (event) => {
+    this.setState({
+      newTitle: event.target.value,
+    });
+  }
+
+  handleUserName = (event) => {
+    this.setState({
+      userName: event.target.value,
+    });
+  }
+
+  handleForm = (event) => {
+    event.preventDefault();
+
+    const { userName, newTitle } = this.state;
+
+    if (!newTitle || !userName) {
+      this.setState({
+        hiddenName: userName,
+        hiddenTitle: newTitle,
+      });
+
+      return;
+    }
+
     this.setState(prev => ({
-      list: [
-        ...prev.list,
+      todosList: [
+        ...prev.todosList,
         {
           id: +new Date(),
           title: newTitle,
@@ -28,19 +60,83 @@ export class App extends React.PureComponent {
           },
         },
       ],
+      userName: '',
+      newTitle: '',
+      hiddenName: true,
+      hiddenTitle: true,
     }));
   }
 
   render() {
-    const { list } = this.state;
+    const {
+      todosList,
+      newTitle,
+      userName,
+      hiddenTitle,
+      hiddenName,
+    } = this.state;
 
     return (
-      <>
-        <Form
-          list={list}
-          addNewUser={this.addNewUser}
+      <form onSubmit={this.handleForm}>
+        <select
+          value={userName}
+          onChange={this.handleUserName}
+        >
+          <option value="">Choose a user</option>
+          {users.map(user => (
+            <option
+              key={user.id}
+            >
+              {user.name}
+            </option>
+          ))}
+        </select>
+        <span
+          style={{ color: 'red' }}
+          hidden={hiddenName}
+        >
+          Please choose a user
+        </span>
+        <div>
+          <button type="submit">
+            Add
+          </button>
+        </div>
+        <input
+          placeholder="Please enter the title"
+          type="text"
+          className="form-control"
+          value={newTitle}
+          onChange={this.handleNewTitle}
         />
-      </>
+        <span
+          style={{ color: 'red' }}
+          hidden={hiddenTitle}
+        >
+          Please enter the title
+        </span>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Completed</th>
+              <th>Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            {todosList.map(todo => (
+              <tr key={todo.id}>
+                <th>{todo.user.name}</th>
+                <th>
+                  Completed :
+                  {`${todo.completed}`}
+                </th>
+                <th>{todo.title}</th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </form>
     );
   }
 }
