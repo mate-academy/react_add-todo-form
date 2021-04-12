@@ -14,93 +14,85 @@ const preparedTodos = [...todos].map(todo => ({
 class App extends React.Component {
   state = {
     usersTodos: preparedTodos,
-    chooseUser: '',
+    selectedUser: '',
     titleError: false,
     userError: false,
     title: '',
-    userId: 2,
   };
 
-  handleChenge = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
-    const { title, chooseUser } = this.state;
 
-    if (title === '') {
-      this.setState({ titleError: false });
-    }
-
-    if (chooseUser === '') {
-      this.setState({ userError: false });
-    }
-
-    this.setState({ [name]: value });
+    this.setState({ [name]: value.trim() });
   }
 
-  addTodos = () => {
-    const { chooseUser, title, userId, usersTodos } = this.state;
-
-    if (title && chooseUser) {
-      const newUser = {
-        userId,
-        id: usersTodos.length + 1,
-        title,
-        completed: false,
-        user: users.find(user => user.name === chooseUser),
-      };
-
-      this.setState(state => ({
-        userId: state.userId + 1,
-        usersTodos: [
-          ...state.usersTodos,
-          newUser,
-        ],
-      }));
-    }
-
-    if (title === '') {
-      this.setState({ titleError: true });
-    }
-
-    if (chooseUser === '') {
-      this.setState({ userError: true });
-    }
-
+  clearForm = () => {
     this.setState({
-      chooseUser: '',
+      selectedUser: '',
       title: '',
+      userError: false,
+      titleError: false,
     });
   }
 
-  render() {
-    const { chooseUser,
-      usersTodos,
+addTodo = () => {
+  const { selectedUser, title, usersTodos } = this.state;
+
+  if (title && selectedUser) {
+    const newUser = {
+      id: usersTodos.length + 1,
       title,
-      titleError,
-      userError }
+      completed: false,
+      user: users.find(user => user.name === selectedUser),
+    };
+
+    this.setState(state => ({
+      usersTodos: [
+        ...state.usersTodos,
+        newUser,
+      ],
+    }));
+    this.clearForm();
+  }
+
+  if (title === '') {
+    this.setState({ titleError: true });
+  }
+
+  if (selectedUser === '') {
+    this.setState({ userError: true });
+  }
+}
+
+render() {
+  const { selectedUser,
+    usersTodos,
+    title,
+    titleError,
+    userError }
       = this.state;
 
-    return (
-      <div className="App">
-        <h1>Add todo form</h1>
-        <AddForm
-          titleError={titleError}
-          title={title}
-          userError={userError}
-          chooseUser={chooseUser}
-          handleChenge={this.handleChenge}
-          addTodos={this.addTodos}
-        />
-        <TodoList
-          todos={usersTodos}
-          chooseUser={chooseUser}
-        />
-        <p>
-          <span>Users: </span>
-          {usersTodos.length}
-        </p>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <h1>Add todo form</h1>
+      <AddForm
+        titleError={titleError}
+        title={title}
+        userError={userError}
+        selectedUser={selectedUser}
+        handleChange={this.handleChange}
+        addTodo={this.addTodo}
+      />
+      <TodoList
+        todos={usersTodos}
+      />
+      <p>
+        <span>Users: </span>
+        {users.length}
+      </p>
+    </div>
+  );
+}
 }
 
 export default App;

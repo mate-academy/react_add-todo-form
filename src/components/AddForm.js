@@ -7,54 +7,57 @@ export const AddForm = ({
   titleError,
   title,
   userError,
-  chooseUser,
-  handleChenge,
-  addTodos,
+  selectedUser,
+  handleChange,
+  addTodo,
 }) => (
   <>
     <form
       className="form"
       onSubmit={(event) => {
         event.preventDefault();
+        addTodo();
       }}
-    />
-    <div className="error">
-      {titleError
-        ? `Please enter the title`
-        : null
-      }
-      {userError
-        ? `Please choose a user`
-        : null
-      }
-    </div>
-    <input
-      name="title"
-      type="text"
-      placeholder="Enter the title"
-      value={title}
-      onChange={handleChenge}
-    />
-    <select
-      name="chooseUser"
-      value={chooseUser}
-      onChange={handleChenge}
     >
-      <option value="">
-        Choose a user
-      </option>
-      {users.map(user => (
-        <option value={user.name} key={user.id}>
-          {user.name}
+      <input
+        name="title"
+        type="text"
+        placeholder="Enter the title"
+        value={title}
+        onChange={handleChange}
+      />
+      <div className="error">
+        {titleError
+          ? `Please enter the title`
+          : null
+        }
+      </div>
+      <select
+        name="selectedUser"
+        value={selectedUser}
+        onChange={handleChange}
+      >
+        <option value="">
+          Choose a user
         </option>
-      ))}
-    </select>
-    <button
-      type="submit"
-      onClick={addTodos}
-    >
-      Add
-    </button>
+        {users.map(user => (
+          <option value={user.name} key={user.id}>
+            {user.name}
+          </option>
+        ))}
+      </select>
+      <div className="error">
+        {userError
+          ? `Please choose a user`
+          : null
+        }
+      </div>
+      <button
+        type="submit"
+      >
+        Add
+      </button>
+    </form>
   </>
 );
 
@@ -62,7 +65,7 @@ AddForm.propTypes = {
   titleError: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   userError: PropTypes.bool.isRequired,
-  handleChenge: PropTypes.func.isRequired,
-  addTodos: PropTypes.func.isRequired,
-  chooseUser: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
+  selectedUser: PropTypes.string.isRequired,
 };
