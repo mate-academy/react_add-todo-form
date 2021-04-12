@@ -17,7 +17,7 @@ export class App extends React.Component {
     this.setState((state) => {
       const newTodo = {
         userId,
-        id: state.todos.length + 1,
+        id: +new Date(),
         title,
         completed: false,
         user: users.find(user => user.id === userId),
