@@ -22,6 +22,15 @@ class App extends React.Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    const { title, selectedUser } = this.state;
+
+    if (title === '') {
+      this.setState({ titleError: false });
+    }
+
+    if (selectedUser === '') {
+      this.setState({ userError: false });
+    }
 
     this.setState({ [name]: value.trim() });
   }
