@@ -9,23 +9,25 @@ export class AddTodo extends React.Component {
     users: this.props.users,
     selectedUserId: '',
     title: '',
-    requireUserSelection: false,
-    requireTitle: false,
+    isSelectionRequired: false,
+    isTitleRequired: false,
   }
 
   handleSelect = (event) => {
     const newValue = event.target.value;
+
     this.setState({
       selectedUserId: newValue,
-      requireUserSelection: !newValue,
+      isSelectionRequired: !newValue,
     });
-   }
+  }
 
   titleChanged = (event) => {
     const newTitle = event.target.value;
+
     this.setState({
       title: newTitle,
-      requireTitle: !newTitle,
+      isTitleRequired: !newTitle,
     });
   }
 
@@ -35,8 +37,8 @@ export class AddTodo extends React.Component {
 
     if (!selectedUserId || !title) {
       this.setState({
-        requireUserSelection: !selectedUserId,
-        requireTitle: !title,
+        isSelectionRequired: !selectedUserId,
+        isTitleRequired: !title,
       });
 
       return;
@@ -55,14 +57,14 @@ export class AddTodo extends React.Component {
       title,
       selectedUserId,
       users,
-      requireUserSelection,
-      requireTitle,
+      isSelectionRequired,
+      isTitleRequired,
     } = this.state;
 
     return (
       <form className="box" onSubmit={this.handleSubmit}>
         <div className={
-          classnames('select', { 'is-danger': requireUserSelection })
+          classnames('select', { 'is-danger': isSelectionRequired })
           }
         >
           <select
@@ -84,19 +86,19 @@ export class AddTodo extends React.Component {
             ;
           </select>
         </div>
-        {requireUserSelection && (
+        {isSelectionRequired && (
           <span className="requireUserLabel help is-danger">
             Please choose a user
           </span>
         )}
         <input
           type="text"
-          className={classnames(`input`, { 'is-danger': requireTitle })}
+          className={classnames(`input`, { 'is-danger': isTitleRequired })}
           value={title}
           onChange={this.titleChanged}
         />
-        {requireTitle && (
-          <span className="requireTitleLabel help is-danger">
+        {isTitleRequired && (
+          <span className="isTitleRequiredLabel help is-danger">
             Please enter the title
           </span>
         )}

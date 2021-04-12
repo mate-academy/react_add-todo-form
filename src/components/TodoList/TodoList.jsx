@@ -4,9 +4,9 @@ import classnames from 'classnames';
 import { TodoType } from '../../types';
 import './TodoList.css';
 
-export const TodoList = props => (
+export const TodoList = ({ todos }) => (
   <ul className="box">
-    {props.todos.map(todo => (
+    {todos.map(todo => (
       <div key={todo.id}>
         <li className={
           classnames('subtitle description is-3', { completed: todo.completed })
