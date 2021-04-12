@@ -2,24 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
 export const TodoList = ({ todos }) => (
-  <ol>
+  <List>
     {todos.map(todo => (
-      <li
+      <ListItem
         key={uuidv4()}
       >
-        <div>
+        <ListItemText>
           {todo.user.name}
-        </div>
-        <div>
+        </ListItemText>
+        <ListItemText>
           {todo.title}
-        </div>
-        <div>
+        </ListItemText>
+        <ListItemText>
           {todo.completed ? 'Done!' : 'Pending...'}
-        </div>
-      </li>
+        </ListItemText>
+      </ListItem>
     ))}
-  </ol>
+  </List>
 );
 
 TodoList.propTypes = {

@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 import users from '../../api/users';
 
 export class Form extends React.Component {
@@ -51,47 +57,58 @@ export class Form extends React.Component {
     const { todoTitle, selectedNameId, todoError, nameError } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          value={todoTitle}
-          placeholder="Enter the title"
-          onChange={this.handleTodo}
-        />
-        {todoError && (
-        <div className="error">
-          Please enter the title
-        </div>
-        )}
+        <form onSubmit={this.handleSubmit}>
+          <Grid
+            container
+            spacing={4}
+            justify="center"
+            alignItems="center"
+          >
+            <TextField
+              id="standard-basic"
+              type="text"
+              value={todoTitle}
+              placeholder="Enter the title"
+              onChange={this.handleTodo}
+            />
+            {todoError && (
+            <div className="error">
+              Please enter the title
+            </div>
+            )}
 
-        <select
-          value={selectedNameId}
-          onChange={this.handleName}
-        >
-          <option value="0">
-            Please choose a user
-          </option>
-          {users.map(({ id, name }) => (
-            <option
-              key={uuidv4()}
-              value={id}
+            <Select
+              id="demo-simple-select"
+              value={selectedNameId}
+              onChange={this.handleName}
             >
-              {name}
-            </option>
-          ))}
-        </select>
-        {nameError && (
-        <div className="error">
-          User not selected
-        </div>
-        )}
+              <MenuItem value="0">
+                Please choose a user
+              </MenuItem>
+              {users.map(({ id, name }) => (
+                <MenuItem
+                  key={uuidv4()}
+                  value={id}
+                >
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+            {nameError && (
+            <div className="error">
+              User not selected
+            </div>
+            )}
 
-        <button
-          type="submit"
-        >
-          Add
-        </button>
-      </form>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Add
+            </Button>
+          </Grid>
+        </form>
     );
   }
 }
