@@ -23,9 +23,11 @@ class App extends React.PureComponent {
 
   addTask = (taskName, selectedNameId) => {
     this.setState(({ tasks }) => {
+      const tempId = Math.max(...tasks.map(task => task.id));
+
       const newTask = {
         userId: selectedNameId,
-        id: tasks.length + 1,
+        id: tempId + 1,
         title: taskName,
         completed: false,
         user: getUserById(selectedNameId),
