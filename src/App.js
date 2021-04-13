@@ -41,7 +41,7 @@ export class App extends React.PureComponent {
     if (!newTitle || !userName) {
       this.setState({
         hiddenName: userName,
-        hiddenTitle: newTitle,
+        hiddenTitle: getUserById(users.id),
       });
 
       return;
@@ -51,7 +51,7 @@ export class App extends React.PureComponent {
       todosList: [
         ...prev.todosList,
         {
-          id: +new Date(),
+          id: prev.todosList.length + 1,
           title: newTitle,
           completed: false,
           user: {
