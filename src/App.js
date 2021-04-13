@@ -23,7 +23,7 @@ export class App extends React.Component {
     this.setState(({ allTodos }) => {
       const newTodo = {
         userId: selectedUserId,
-        id: allTodos.length + 1,
+        id: allTodos[allTodos.length - 1].id + 1,
         title: newTodoTitle,
         completed: false,
         user: getUserById(selectedUserId),
