@@ -35,13 +35,12 @@ export class App extends React.PureComponent {
 
   handleForm = (event) => {
     event.preventDefault();
-
     const { userName, newTitle } = this.state;
 
     if (!newTitle || !userName) {
       this.setState({
         hiddenName: userName,
-        hiddenTitle: getUserById(users.id),
+        hiddenTitle: newTitle,
       });
 
       return;
@@ -55,7 +54,7 @@ export class App extends React.PureComponent {
           title: newTitle,
           completed: false,
           user: {
-            name: userName,
+            name: users.find(user => user.name === userName).name,
           },
         },
       ],
