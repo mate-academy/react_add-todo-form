@@ -1,0 +1,110 @@
+p,
+h1,
+h2,
+h3,
+textarea,
+ul,
+body,
+html,
+input {
+  margin: 0;
+  padding: 0;
+}
+
+.todo {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 200px 0 0 50px;
+  }
+
+  &__added {
+    width: 400px;
+    height: 200px;
+    border: 1px solid #27496d;
+    border-radius: 25px;
+    margin: 0 15px 15px 0;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  &__title {
+    text-transform: capitalize;
+    font-size: 20px;
+    font-family: Trebuchet MS, Lucida Sans Unicode, sans-serif;
+  }
+
+  &__id {
+    font-size: 16px;
+  }
+
+  &__is-complete {
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 10px;
+  }
+
+  &__done--not {
+    color: rgb(230, 56, 56);
+  }
+
+  &__done {
+    color: rgb(25, 124, 25);
+  }
+
+  &__check-status {
+    margin-top: 35px;
+  }
+
+  &__checkbox {
+    position: relative;
+    top: 2px;
+    left: 3px;
+  }
+
+  &__executant {
+    margin-top: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+
+    &-name {
+      margin-left: 14px;
+      font-weight: bold;
+    }
+  }
+
+  &__form {
+    margin: 20px 0 0 50px;
+    border: 2px solid black;
+    padding: 15px;
+    width: 400px;
+    box-sizing: border-box;
+  }
+}
+
+.form {
+  position: relative;
+  &__wrap {
+    margin-bottom: 30px;
+  }
+
+  &__hint {
+    position: absolute;
+    bottom: 140px;
+    right: 60px;
+    color: rgb(197, 10, 10);
+  }
+
+  &__hint2 {
+    color: rgb(197, 10, 10);
+    position: absolute;
+    right: 60px;
+    bottom: 35px;
+  }
+}
+
+.chooseStatus {
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
