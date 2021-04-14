@@ -25,3 +25,7 @@ body {
   text-transform: uppercase;
   margin: 10px 0;
 }
+
+.user-name {
+  text-transform: none;
+}

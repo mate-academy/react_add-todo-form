@@ -3,40 +3,40 @@ import './App.css';
 
 import { Form } from './components/Form';
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 
 const getUserById = userId => (
   users.find(user => user.id === userId)
 );
 
-const todosWithUsers = todos.map(todo => ({
+const todosWithUsers = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export class App extends React.Component {
   state = {
-    allTodos: todosWithUsers,
+    todos: todosWithUsers,
   }
 
   addTodo = (newTodoTitle, selectedUserId) => {
-    this.setState(({ allTodos }) => {
+    this.setState(({ todos }) => {
       const newTodo = {
         userId: selectedUserId,
-        id: allTodos[allTodos.length - 1].id + 1,
+        id: todos[todos.length - 1].id + 1,
         title: newTodoTitle,
         completed: false,
         user: getUserById(selectedUserId),
       };
 
       return {
-        allTodos: [...allTodos, newTodo],
+        todos: [...todos, newTodo],
       };
     });
   }
 
   render() {
-    const { allTodos } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App">
@@ -45,12 +45,17 @@ export class App extends React.Component {
         <ul
           className="list"
         >
-          {allTodos.map(todo => (
+          {todos.map(todo => (
             <li
               key={todo.id}
               className="item"
             >
-              {todo.title}
+              <div>
+                {todo.title}
+              </div>
+              <div className="user-name">
+                {todo.user.name}
+              </div>
             </li>
           ))}
         </ul>
