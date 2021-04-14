@@ -1,0 +1,49 @@
+.form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 30px 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: rgb(199, 230, 218);
+  box-shadow: 0 7px 20px -10px rgba(34, 60, 80, 0.6);
+}
+
+.label {
+  align-self: start;
+  margin: 20px 0 10px;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 0 20px;
+  background-color: rgb(228, 228, 228);
+  border: 2px solid rgb(90, 87, 87);
+  border-radius: 10px;
+  transition: transform 200ms, box-shadow 200ms;
+}
+
+.input:hover {
+  transform: scale(1.02);
+  box-shadow: 0 7px 20px -7px rgba(34, 60, 80, 0.2);
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
+  margin-top: 30px;
+  background-color: rgb(180, 43, 173);
+  transition: transform 200ms;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.error {
+  color: red;
+}
