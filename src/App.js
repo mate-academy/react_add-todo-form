@@ -109,7 +109,7 @@ class App extends React.Component {
           <button
             type="submit"
           >
-            lol
+            Add todo
           </button>
         </form>
 
