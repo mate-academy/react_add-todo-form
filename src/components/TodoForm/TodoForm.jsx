@@ -8,8 +8,10 @@ export class TodoForm extends React.Component {
   state = {
     userId: '',
     userError: false,
+    userErrorMessage: 'Please select a user',
     title: '',
     titleError: false,
+    titleErrorMessage: 'Please enter the title',
   };
 
   handleChange = (e) => {
@@ -29,7 +31,7 @@ export class TodoForm extends React.Component {
 
     if (!title || !userId) {
       this.setState({
-        titleError: !title.length,
+        titleError: !title,
         userError: !userId,
       });
 
@@ -47,6 +49,7 @@ export class TodoForm extends React.Component {
   render() {
     const {
       userId, title, userError, titleError,
+      userErrorMessage, titleErrorMessage,
     } = this.state;
     const { users } = this.props;
 
@@ -64,7 +67,7 @@ export class TodoForm extends React.Component {
             className={cn(
               `TodoForm__field`, userError && 'TodoForm__field--error',
             )}
-            data-error="Please select a user"
+            data-error={userErrorMessage}
           >
             <select
               name="userId"
@@ -73,7 +76,7 @@ export class TodoForm extends React.Component {
               onChange={this.handleChange}
             >
               <option
-                key={0}
+                key={-1}
                 value=""
                 onChange={this.handleChange}
               >
@@ -95,7 +98,7 @@ export class TodoForm extends React.Component {
             className={
               `TodoForm__field ${titleError
                 ? 'TodoForm__field--error' : ''}`}
-            data-error="Please enter the title"
+            data-error={titleErrorMessage}
           >
             <input
               type="text"

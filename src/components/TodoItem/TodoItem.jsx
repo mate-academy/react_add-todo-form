@@ -38,6 +38,6 @@ TodoItem.defaultProps = {
   title: 'Todo item',
   checked: false,
   user: {
-    name: '',
+    name: 'User',
   },
 };

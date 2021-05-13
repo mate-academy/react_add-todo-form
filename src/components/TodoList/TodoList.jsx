@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './TodoList.css';
 import { TodoItem } from '../TodoItem';
+import './TodoList.css';
 
 export const TodoList = ({
   users, todos, onChange,
@@ -36,6 +36,7 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
+      userId: PropTypes.number,
       title: PropTypes.string,
       completed: PropTypes.bool,
     }),
