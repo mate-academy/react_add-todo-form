@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+.TodoForm {
+  width: 400px;
+  max-height: 400px;
+  overflow-y: scroll;
+  font-family: Roboto, sans-serif;
+  background-color: white;
+  box-shadow: 5px 5px 15px rgb(185, 186, 219);
+}
+
+.TodoForm__header {
+  background-color: rgb(159, 109, 216);
+  color: white;
+  font-size: 21px;
+  margin: 0;
+  padding: 0.75em 1em;
+  text-align: center;
+}
+
+.TodoForm__form {
+  height: 100%;
+  background-color: white;
+  color: rgb(113, 115, 153);
+  list-style: none;
+  padding: 1em 1.5em;
+  font-size: 16px;
+  margin: 0;
+}
+
+.TodoForm__field {
+  margin-top: 1em;
+}
+
+.TodoForm__field ::placeholder {
+  color: rgb(113, 115, 153);
+}
+
+.TodoForm__field--user,
+.TodoForm__field--title {
+  width: 100%;
+  color: rgb(113, 115, 153);
+  border: none;
+  border-bottom: 2px solid plum;
+  font-size: 18px;
+  padding: 0.5em 0.5em 0;
+}
+
+.TodoForm__field--error :first-child {
+  border: 1px solid red;
+}
+
+.TodoForm__field--error::after {
+  color: red;
+  font-size: 12px;
+  content: attr(data-error);
+  display: block;
+  margin: 5px 5px 0;
+  bottom: 0;
+  left: 0;
+}
+
+.TodoForm__button {
+  border: none;
+  background-color: rgb(159, 109, 216);
+  color: white;
+  box-shadow: 2px 2px 12px rgb(113, 115, 153);
+  padding: 0.5em 1em;
+  width: 100%;
+  font-size: 18px;
+  margin-top: 1.5em;
+}
+
+.TodoForm__button:hover {
+  background-color: rgb(166, 123, 212);
+}

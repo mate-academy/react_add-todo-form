@@ -1,0 +1,18 @@
+.TodoItem {
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  overflow: hidden;
+}
+
+.TodoItem:not(:last-child) {
+  margin-bottom: 0.75em;
+}
+
+.TodoItem__checkbox {
+  margin-right: 1em;
+}
+
+.TodoItem__checkbox:checked + .TodoItem__label {
+  text-decoration: line-through;
+}

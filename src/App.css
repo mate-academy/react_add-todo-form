@@ -1,3 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(221, 222, 250);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 1024px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-evenly;
 }
