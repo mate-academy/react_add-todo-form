@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+.TodoList {
+  max-width: 450px;
+  font-family: Roboto, sans-serif;
+  background-color: white;
+  box-shadow: 5px 5px 15px rgb(185, 186, 219);
+}
+
+.TodoList__header {
+  background-color: rgb(159, 109, 216);
+  color: white;
+  font-size: 21px;
+  margin: 0;
+  padding: 0.75em 1em;
+  text-align: center;
+}
+
+.TodoList__list {
+  height: 100%;
+  background-color: white;
+  color: rgb(113, 115, 153);
+  list-style: none;
+  font-size: 18px;
+  padding: 1em 1.5em;
+  margin: 0;
+}
