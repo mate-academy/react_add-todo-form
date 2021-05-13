@@ -41,11 +41,12 @@ class App extends React.Component {
 
   addTodo = (userId, title) => {
     this.setState({
-      titleValid: title,
+      titleValid: /^\w+$/.test(title),
       userIdValid: userId,
     });
 
-    if (this.state.title !== '' && this.state.userId !== '') {
+    if (this.state.title !== '' && this.state.userId !== ''
+    && /^\w+$/.test(title)) {
       this.setState(state => ({
         todoList: [
           ...state.todoList,
