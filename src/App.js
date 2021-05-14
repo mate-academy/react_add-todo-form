@@ -12,17 +12,19 @@ class App extends React.Component {
   }
 
   addTodo = addTodoForm => () => {
-    if (addTodoForm.state.todoTitle === '') {
+    if (!addTodoForm.state.todoTitle) {
       addTodoForm.setState({ err: 'You can\'t create todo without title' });
 
       return;
     }
 
-    if (addTodoForm.state.chosenUser === 0) {
+    if (!addTodoForm.state.chosenUser) {
       addTodoForm.setState({ err: 'Choose the user' });
 
       return;
     }
+
+    addTodoForm.setState({ err: '' });
 
     this.setState(state => ({
       todoList: [{
