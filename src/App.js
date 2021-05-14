@@ -21,7 +21,7 @@ class App extends React.Component {
       todoList: [
         ...state.todoList,
         {
-          title: title,
+          title,
           id: state.todoList.length + 1,
           user: users.find(user => user.id === parseFloat(userId)),
           userId: parseFloat(userId),
