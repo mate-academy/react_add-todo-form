@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 
 const preparedTodos = todos.map(
   todo => Object.assign(
-    todo, { user: users.filter(user => user.id === todo.userId)[0] },
+    todo, { user: users.find(user => user.id === todo.userId) },
   ),
 );
 
@@ -24,10 +24,8 @@ class App extends React.Component {
     event.preventDefault();
     const authorOfTodo
       = users.find(user => user.id === parseInt(this.state.userId, 10));
-    const newTodoId
-      = Math.max(...this.state.todosList.map(todo => todo.id)) + 1;
 
-    if (this.state.todo === '') {
+    if (this.state.todo.trim() === '') {
       this.setState({ showWriteTodoError: true });
 
       return;
@@ -43,25 +41,19 @@ class App extends React.Component {
 
     this.setState({ showChooseUserError: false });
 
-    this.setState((state) => {
-      const copyOfTodoList = [...state.todosList];
-
-      copyOfTodoList.push({
+    this.setState(state => ({
+      todosList: [...state.todosList, {
         completed: false,
         user: authorOfTodo,
-        id: newTodoId,
+        id: Date.now(),
         userId: authorOfTodo.id,
         title: state.todo,
-      });
-
-      return {
-        todosList: copyOfTodoList,
-        todo: '',
-        userId: 0,
-        showChooseUserError: false,
-        showWriteTodoError: false,
-      };
-    });
+      }],
+      todo: '',
+      userId: 0,
+      showChooseUserError: false,
+      showWriteTodoError: false,
+    }));
   }
 
   handleChange = (event) => {
@@ -73,10 +65,18 @@ class App extends React.Component {
   }
 
   changeStatusHandler = (id) => {
-    const changedTodo = this.state.todosList.find(todo => todo.id === id);
+    this.setState(state => ({
+      todosList: state.todosList.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
 
-    changedTodo.completed = !changedTodo.completed;
-    this.forceUpdate();
+        return todo;
+      }),
+    }));
   }
 
   render() {
