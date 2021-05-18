@@ -23,11 +23,9 @@ class App extends React.Component {
     this.setState((state) => {
       const newTodo = {
         title,
-        userId: initUsers
-          .find(person => person.name === selectedUser).id,
         user: initUsers
           .find(person => person.name === selectedUser),
-        id: state.todos.length + 1,
+        id: Date.now(),
       };
 
       return ({

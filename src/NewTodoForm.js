@@ -78,7 +78,7 @@ class NewTodoForm extends React.Component {
             />
           </label>
           {titleError && (
-            <div>
+            <div style={{ color: 'red' }}>
               Please enter the title
             </div>
           )}
@@ -106,7 +106,7 @@ class NewTodoForm extends React.Component {
             </select>
           </label>
           {userError && (
-            <div>
+            <div style={{ color: 'red' }}>
               Please select a user
             </div>
           )}
