@@ -1,3 +1,10 @@
-.App {
+body {
+  margin: 0;
+}
+
+.app {
+  padding: 1px;
   text-align: center;
+
+  background-color: #f2f2f2;
 }
