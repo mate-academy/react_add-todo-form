@@ -6,8 +6,8 @@ class Form extends React.Component {
   state = {
     title: '',
     userId: '',
-    titleValid: true,
-    userIdValid: true,
+    isTitleValid: true,
+    isUserIdValid: true,
   }
 
   handleChange = (event) => {
@@ -18,12 +18,12 @@ class Form extends React.Component {
     switch (name) {
       case 'title':
         this.setState({
-          titleValid: true,
+          isTitleValid: true,
         });
         break;
       case 'userId':
         this.setState({
-          userIdValid: true,
+          isUserIdValid: true,
         });
         break;
       default:
@@ -33,12 +33,11 @@ class Form extends React.Component {
 
   checkTodo = (userId, title) => {
     this.setState({
-      titleValid: /^\w+$/.test(title),
-      userIdValid: userId,
+      isTitleValid: /^\w+$/.test(title),
+      isUserIdValid: userId,
     });
 
-    if (this.state.title !== '' && this.state.userId !== ''
-    && /^\w+$/.test(title)) {
+    if (title.length > 0 && userId && /^\w+$/.test(title)) {
       this.setState({
         title: '',
         userId: '',
@@ -48,7 +47,8 @@ class Form extends React.Component {
   }
 
   render() {
-    const { titleValid, userIdValid, userId, title } = this.state;
+    const { isTitleValid, isUserIdValid, userId, title } = this.state;
+    const { users } = this.props;
 
     return (
       <form
@@ -65,9 +65,9 @@ class Form extends React.Component {
             value={title}
             onChange={this.handleChange}
           />
-          {!titleValid
-          && <span>Please, enter the title</span>
-          }
+          {!isTitleValid && (
+            <span>Please, enter the title</span>
+          )}
         </label>
         <label>
           Todo user:
@@ -77,15 +77,15 @@ class Form extends React.Component {
             onChange={this.handleChange}
           >
             <option value="">Choose user</option>
-            {this.props.users.map(user => (
+            {users.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          {!userIdValid
-          && <span>Please, choose user</span>
-          }
+          {!isUserIdValid && (
+            <span>Please, choose user</span>
+          )}
         </label>
         <button
           type="submit"
