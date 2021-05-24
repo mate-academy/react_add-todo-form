@@ -1,0 +1,22 @@
+.user {
+  font-size: 18px;
+  background-color: #f00;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 100%;
+  background-image: linear-gradient(
+    45deg,
+    #f00 33%,
+    #ff4500 33%,
+    #ff4500 40%,
+    #ff0 40%,
+    #ff0 47%,
+    #008000 47%,
+    #008000 54%,
+    #00bfff 54%,
+    #00bfff 61%,
+    #00f 61%,
+    #00f 68%,
+    #800080 68%);
+  animation: text-animate-rev 0.75s ease forwards;
+}
