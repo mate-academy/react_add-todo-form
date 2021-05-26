@@ -9,6 +9,7 @@ export class TodoForm extends Component {
     name: '',
     userId: 0,
     title: '',
+    maxTitleLength: 40,
     errorTitle: false,
     errorPersone: false,
     errorLength: false,
@@ -16,9 +17,11 @@ export class TodoForm extends Component {
   }
 
   handleTitleChange = ({ target }) => {
-    if (target.value.length > 40) {
+    const { maxTitleLength } = this.state;
+
+    if (target.value.length > maxTitleLength) {
       this.setState({
-        title: target.value.slice(0, 40),
+        title: target.value.slice(0, maxTitleLength),
         errorLength: true,
         errorTitle: false,
         errorNotValid: false,
@@ -120,21 +123,21 @@ export class TodoForm extends Component {
           />
           {errorTitle
           && (
-          <p className="TodoForm__error">
-            *Please enter the title
-          </p>
+            <p className="TodoForm__error">
+              *Please enter the title
+            </p>
           )}
           {errorLength
           && (
-          <p className="TodoForm__error">
-            *Maximum length exceeded
-          </p>
+            <p className="TodoForm__error">
+              *Maximum length exceeded
+            </p>
           )}
           {errorNotValid
           && (
-          <p className="TodoForm__error">
-            *Only letters and spaces are allowed
-          </p>
+            <p className="TodoForm__error">
+              *Only letters and spaces are allowed
+            </p>
           )}
           <label
             className="TodoForm__label"
@@ -143,7 +146,6 @@ export class TodoForm extends Component {
             Choose a persone:
           </label>
           <select
-            required
             name="personeName"
             id="personeName"
             className="TodoForm__personeSelect"
@@ -157,9 +159,9 @@ export class TodoForm extends Component {
           </select>
           {errorPersone
           && (
-          <p className="TodoForm__error">
-            *Please choose a user
-          </p>
+            <p className="TodoForm__error">
+              *Please choose a user
+            </p>
           )}
           <button
             className="TodoForm__button"
