@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
@@ -45,9 +44,13 @@ class App extends React.PureComponent {
     }
 
     this.setState((state) => {
+      const newId = Math.max(
+        ...state.currentTodosList.map(todo => todo.id),
+      ) + 1;
+
       const newTodo = {
         userId: +state.user,
-        id: uuidv4(),
+        id: newId,
         title: state.title,
         completed: false,
         user: findUser(users, +state.user),
@@ -70,15 +73,15 @@ class App extends React.PureComponent {
     const { name, value } = event.target;
     const { title, maxTitleLength } = this.state;
 
-    if (name === 'title' && title.length === maxTitleLength) {
-      // eslint-disable-next-line
-      alert('You already entered maximum length of title');
-
+    if (name === 'title'
+      && title.length === maxTitleLength
+      && event.nativeEvent.data !== null
+    ) {
       return;
     }
 
     this.setState({
-      [name]: value,
+      [name]: value.replace(/[^\s\w]/gi, ''),
       [`${name}Error`]: false,
     });
   }
@@ -87,6 +90,7 @@ class App extends React.PureComponent {
     const {
       currentTodosList,
       title,
+      maxTitleLength,
       user,
     } = this.state;
 
@@ -109,6 +113,12 @@ class App extends React.PureComponent {
             {this.state.titleError && (
               <span className="form__error">
                 Please enter the title
+              </span>
+            )}
+
+            {title.length === maxTitleLength && (
+              <span className="form__error">
+                You entered maximum length of title
               </span>
             )}
           </div>
