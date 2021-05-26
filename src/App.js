@@ -81,7 +81,7 @@ class App extends React.PureComponent {
     }
 
     this.setState({
-      [name]: value.replace(/[^\s\w]/gi, ''),
+      [name]: value.replace(/[^\sA-Za-zА-Яа-я]/gi, ''),
       [`${name}Error`]: false,
     });
   }
