@@ -9,7 +9,7 @@ export class TodoForm extends Component {
     name: '',
     userId: 0,
     title: '',
-    maxTitleLength: 40,
+    newID: Math.max(...this.props.todos.map(todo => todo.id)) + 1,
     errorTitle: false,
     errorPersone: false,
     errorLength: false,
@@ -17,7 +17,7 @@ export class TodoForm extends Component {
   }
 
   handleTitleChange = ({ target }) => {
-    const { maxTitleLength } = this.state;
+    const maxTitleLength = 40;
 
     if (target.value.length > maxTitleLength) {
       this.setState({
@@ -82,6 +82,7 @@ export class TodoForm extends Component {
         ],
         name: '',
         title: '',
+        newID: state.newID + 1,
         errorLength: false,
         errorNotValid: false,
       }));
@@ -89,11 +90,9 @@ export class TodoForm extends Component {
   }
 
   render() {
-    const { name, todos, title, errorTitle, errorPersone,
+    const { name, todos, title, newID, errorTitle, errorPersone,
       errorLength, errorNotValid } = this.state;
     const { users } = this.props;
-    const identifiers = todos.map(todo => todo.id);
-    const newID = Math.max(...identifiers) + 1;
     const preparedTodos = todos.map(todo => (
       {
         ...todo,
@@ -121,20 +120,17 @@ export class TodoForm extends Component {
             value={title}
             onChange={this.handleTitleChange}
           />
-          {errorTitle
-          && (
+          {errorTitle && (
             <p className="TodoForm__error">
               *Please enter the title
             </p>
           )}
-          {errorLength
-          && (
+          {errorLength && (
             <p className="TodoForm__error">
               *Maximum length exceeded
             </p>
           )}
-          {errorNotValid
-          && (
+          {errorNotValid && (
             <p className="TodoForm__error">
               *Only letters and spaces are allowed
             </p>
@@ -157,8 +153,7 @@ export class TodoForm extends Component {
               <option key={user.id}>{user.name}</option>
             ))}
           </select>
-          {errorPersone
-          && (
+          {errorPersone && (
             <p className="TodoForm__error">
               *Please choose a user
             </p>
