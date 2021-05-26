@@ -1,0 +1,22 @@
+.todoItem {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 0.5fr;
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.in-progress {
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.title {
+  color: rgb(114, 109, 109);
+  font-size: 30px;
+}
