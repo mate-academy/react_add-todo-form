@@ -18,12 +18,14 @@ const preparedTodos = todos.map(todo => (
   }
 ));
 
+const maxTitleLength = 20;
+
 class App extends React.PureComponent {
   state = {
     currentTodosList: preparedTodos,
-    maxTitleLength: 15,
     title: '',
     user: '',
+    prevMaxId: Math.max(...preparedTodos.map(todo => todo.id)),
     titleError: false,
     userError: false,
   }
@@ -44,9 +46,7 @@ class App extends React.PureComponent {
     }
 
     this.setState((state) => {
-      const newId = Math.max(
-        ...state.currentTodosList.map(todo => todo.id),
-      ) + 1;
+      const newId = state.prevMaxId + 1;
 
       const newTodo = {
         userId: +state.user,
@@ -63,6 +63,7 @@ class App extends React.PureComponent {
         ],
         title: '',
         user: '',
+        prevMaxId: newId,
         titleError: false,
         userError: false,
       };
@@ -71,7 +72,7 @@ class App extends React.PureComponent {
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    const { title, maxTitleLength } = this.state;
+    const { title } = this.state;
 
     if (name === 'title'
       && title.length === maxTitleLength
@@ -90,7 +91,6 @@ class App extends React.PureComponent {
     const {
       currentTodosList,
       title,
-      maxTitleLength,
       user,
     } = this.state;
 
