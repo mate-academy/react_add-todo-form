@@ -1,3 +1,21 @@
 .App {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  width: 40%;
   text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-left: 40px;
+  text-align: left;
+  border: 1px solid rgb(231, 231, 231);
+}
+
+.form > * {
+  width: 250px;
 }

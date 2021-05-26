@@ -1,0 +1,13 @@
+.task {
+  color: rgb(48, 48, 48);
+  padding: 20px 20px;
+
+  &__title {
+    text-transform: uppercase;
+    color: rgb(8, 8, 58);
+  }
+
+  &__state {
+    color: rgb(175, 29, 29);
+  }
+}

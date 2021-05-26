@@ -1,0 +1,15 @@
+.todo {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  &__item {
+    background-color: #fff;
+    border: 1px solid #b6b6b6;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  }
+}
