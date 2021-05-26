@@ -1,0 +1,57 @@
+.new-todo {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding-bottom: 40px;
+
+  &__title {
+    height: 30px;
+    padding-left: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &__error-message {
+    margin: 0 0 10px;
+
+    color: red;
+  }
+
+  &__user {
+    padding-left: 10px;
+
+    font-size: 16px;
+  }
+
+  &__button {
+    width: 100px;
+    align-self: center;
+
+    font-size: 16px;
+    background-color: cornflowerblue;
+    border-radius: 0.5em;
+  }
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.todo-list {
+  width: 50vw;
+  padding: 0;
+
+  list-style: none;
+
+  &__item {
+    display: grid;
+    grid-template-columns: 28% 67% 5%;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+
+    border: 3px solid cornflowerblue;
+    border-radius: 0.25em;
+  }
+}
