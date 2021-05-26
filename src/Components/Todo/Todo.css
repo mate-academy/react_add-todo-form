@@ -1,0 +1,18 @@
+.container {
+  font-size: 28px;
+  background-color: grey;
+  width: 80%;
+  border: 1px black solid;
+}
+
+.title {
+  color: yellow;
+}
+
+.completed {
+  color: green;
+}
+
+.not-completed {
+  color: red;
+}
