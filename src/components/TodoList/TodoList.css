@@ -1,0 +1,6 @@
+.TodoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+  padding-inline-start: 0;
+}
