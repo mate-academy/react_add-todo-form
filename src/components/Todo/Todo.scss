@@ -1,0 +1,35 @@
+.todo {
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr;
+
+  height: 80px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  border: 2px solid black;
+  overflow: hidden;
+
+  &-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+
+    background-color: lightgreen;
+
+    &__completed {
+      font-size: 22px;
+      background-color: green;
+    }
+  }
+
+  &-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 22px;
+
+    background-color: greenyellow;
+  }
+}
