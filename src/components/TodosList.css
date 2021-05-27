@@ -1,0 +1,17 @@
+.list {
+  margin-top: 40px;
+  list-style: none;
+  font-size: 20px;
+}
+
+.item {
+  width: 500px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid coral;
+  text-align: center;
+}
+
+.title {
+  font-weight: 500;
+}
