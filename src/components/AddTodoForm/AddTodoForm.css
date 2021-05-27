@@ -1,0 +1,20 @@
+.AddTodoForm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.AddTodoForm__input-wrap {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 8px;
+}
+
+.AddTodoForm__button {
+  height: 20px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
