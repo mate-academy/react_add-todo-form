@@ -1,0 +1,20 @@
+.form {
+  text-align: left;
+}
+
+.field {
+  margin: 0 10px 10px 40%;
+  border-radius: 5px;
+  height: 30px;
+  width: 200px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.field::placeholder {
+  font-size: 14px;
+}
+
+.error {
+  display: inline-block;
+  color: rgb(204, 8, 8);
+}
