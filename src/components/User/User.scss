@@ -1,0 +1,16 @@
+.user {
+  &__list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  &__item {
+    padding: 5px 25px;
+    border-bottom: 1px solid rgb(48, 48, 48);
+  }
+
+  &__item span:first-of-type {
+    padding-right: 15px;
+    color: rgb(75, 81, 102);
+  }
+}
