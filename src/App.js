@@ -34,18 +34,18 @@ class App extends React.Component {
         }),
       );
       event.target.reset();
-    } else if (userId === '' && title !== '') {
-      this.setState({
-        titleEntered: true, nameChoosed: false,
-      });
-    } else if (userId !== '' && title === '') {
-      this.setState({
-        titleEntered: false, nameChoosed: true,
-      });
+    }
+
+    if (title) {
+      this.setState({ titleEntered: true });
     } else {
-      this.setState({
-        titleEntered: false, nameChoosed: false,
-      });
+      this.setState({ titleEntered: false });
+    }
+
+    if (userId) {
+      this.setState({ nameChoosed: true });
+    } else {
+      this.setState({ nameChoosed: false });
     }
 
     event.preventDefault();
