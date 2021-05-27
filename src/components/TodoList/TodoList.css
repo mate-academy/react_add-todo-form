@@ -1,0 +1,31 @@
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  padding-top: 10px;
+}
+
+.userCard {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 500px;
+}
+
+.taskId {
+  font-size: 12px;
+  align-self: flex-end;
+}
+
+.todosListTitle {
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  flex-wrap: wrap;
+}
+
+.todosListWrapper {
+  padding-top: 10px;
+}
