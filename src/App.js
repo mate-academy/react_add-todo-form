@@ -36,15 +36,18 @@ class App extends React.Component {
 
     event.preventDefault();
     this.setState(state => ({
-      isCorrectTitle: !title,
       isCorrectUserName: !user,
     }));
 
-    if (!user) {
+    if (title.length < 3) {
+      this.setState({
+        isCorrectTitle: true,
+      });
+
       return;
     }
 
-    if (!title) {
+    if (!user) {
       return;
     }
 
@@ -84,7 +87,7 @@ class App extends React.Component {
             onChange={(event) => {
               this.setState({
                 title: event.target.value,
-                isCorrectTitle: (event.target.value.length < 3),
+                isCorrectTitle: false,
               });
             }}
           />
@@ -104,7 +107,7 @@ class App extends React.Component {
             onChange={(event) => {
               this.setState({
                 user: event.target.value,
-                isCorrectUserName: !event.target.value,
+                isCorrectUserName: false,
               });
             }}
           >
