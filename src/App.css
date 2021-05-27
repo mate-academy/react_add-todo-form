@@ -1,3 +1,8 @@
-.App {
-  text-align: center;
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  width: 50px;
 }
