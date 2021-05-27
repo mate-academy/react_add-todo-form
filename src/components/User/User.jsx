@@ -12,9 +12,5 @@ export function User({ name }) {
 }
 
 User.propTypes = {
-  name: PropTypes.string,
-};
-
-User.defaultProps = {
-  name: 'df',
+  name: PropTypes.string.isRequired,
 };
