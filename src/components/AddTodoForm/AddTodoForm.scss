@@ -1,0 +1,28 @@
+.add-todo {
+  padding: 20px 20px 0;
+  font-family: "Roboto", sans-serif;
+
+  &__container {
+    padding: 20px;
+    text-align: center;
+    background-color: antiquewhite;
+  }
+
+  &__field-wrap {
+    width: 660px;
+    height: 60px;
+    margin: 0 auto;
+  }
+
+  &__field {
+    width: 660px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  &__error {
+    font-size: 12px;
+    text-align: left;
+    color: red;
+  }
+}
