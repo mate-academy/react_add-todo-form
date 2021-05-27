@@ -5,6 +5,7 @@ const CompanyType = PropTypes.shape({
 });
 
 export const UserType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,

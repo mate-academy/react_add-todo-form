@@ -3,91 +3,44 @@ import './App.css';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
+import { AddTodoForm } from './components/AddTodoForm';
+
+const getUserById = id => users.find(user => user.id === id);
+
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 class App extends React.Component {
   state = {
-    user: '',
-    title: '',
-    preparedTodos: [],
+    todoList: preparedTodos,
   }
 
-  componentDidMount() {
-    const data = todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    }));
-
-    this.setState({ preparedTodos: data });
-  }
-
-  handleChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { user, title, preparedTodos } = this.state;
-    const userId = Number(user.split('*').shift());
+  addTodo = (userId, title) => {
+    const { todoList } = this.state;
 
     const newTodo = {
       userId,
-      id: preparedTodos.length + 1,
+      id: todoList.length + 1,
       title,
       completed: false,
-      user: users.find(person => person.id === userId),
+      user: getUserById(userId),
     };
 
-    this.setState({ preparedTodos: [
-      newTodo,
-      ...preparedTodos,
-    ] });
-
-    this.setState({
-      user: '',
-      title: '',
-    });
+    this.setState(state => ({
+      todoList: [newTodo, ...state.todoList],
+    }));
   }
 
   render() {
-    const { user, title, preparedTodos } = this.state;
+    const { todoList } = this.state;
 
     return (
       <div className="App">
-        <h1>Add a new task</h1>
-        <form
-          onSubmit={this.handleSubmit}
-          className="form"
-        >
-          <select
-            name="user"
-            value={user}
-            onChange={this.handleChange}
-          >
-            <option value="">
-              Select user
-            </option>
-            {users.map(({ id, name }) => (
-              <option key={id} value={`${id}*${name}`}>{name}</option>
-            ))}
-          </select>
-          <p hidden>Please choose a user</p>
-          <label htmlFor="title">Input todo title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-          <p hidden>Please enter the title</p>
-          <button type="submit">Create a task</button>
-        </form>
-
-        <TodoList list={preparedTodos} />
+        <h1>List of tasks</h1>
+        <AddTodoForm users={users} onAdd={this.addTodo} />
+        <TodoList list={todoList} />
       </div>
     );
   }
