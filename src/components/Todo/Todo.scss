@@ -1,0 +1,15 @@
+.todo {
+  padding: 10px;
+
+  &__status{
+    font-size: 20px;
+
+    &--completed {
+      color: rgb(43, 255, 43);
+    }
+
+    &--incompleted {
+      color:red;
+    }
+  }
+}

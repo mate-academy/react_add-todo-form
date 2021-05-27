@@ -1,0 +1,10 @@
+.todoList {
+  list-style: none;
+
+  &__item {
+    margin: 20px;
+    background-color: rgb(90, 155, 253);
+    border: 2px solid blue;
+    border-radius: 5px;
+  }
+}
