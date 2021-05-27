@@ -26,11 +26,13 @@ class AddTodosForm extends React.Component {
 
     const { users, todos, addTodo } = this.props;
     const { title: titleForm, user: userForm } = event.target.elements;
+    const titleValue = titleForm.value;
+    const userValue = userForm.value;
 
-    if (titleForm.value === '' || userForm.value === '') {
+    if (titleValue === '' || userValue === '') {
       this.setState({
-        isErrorTittle: titleForm.value === '',
-        isErrorUser: userForm.value === '',
+        isErrorTittle: titleValue === '',
+        isErrorUser: userValue === '',
       });
 
       return;
@@ -43,26 +45,24 @@ class AddTodosForm extends React.Component {
       userValue: '',
     });
 
-    const userId = +userForm.value;
+    const userId = +userValue;
     const user = users.find(man => man.id === userId);
     const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-    addTodo(new CreateTodo(newTodoId, titleForm.value, user));
+    addTodo(new CreateTodo(newTodoId, titleValue, user));
   };
 
   titleHandler = (event) => {
     const { value } = event.target;
-    const sym = value.length ? value[value.length - 1] : '';
+    const sym = value.length
+      ? value[value.length - 1]
+      : '';
 
     if (value.length > 48) {
       return;
     }
 
-    // eslint-disable-next-line no-restricted-globals
-    if (isNaN(parseFloat(sym)) && (
-      sym.toUpperCase() === sym.toLowerCase()
-      && (sym !== ' ' && sym !== ',' && sym !== '' && sym !== '.')
-    )) {
+    if (/[^\sA-Za-zА-Яа-я0-9]/i.test(sym)) {
       return;
     }
 

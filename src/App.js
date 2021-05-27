@@ -19,9 +19,13 @@ class App extends React.Component {
 
   changeStatus = (id) => {
     this.setState(state => ({
-      todos: state.todos.map(el => (el.id === id ? {
-        ...el, completed: !el.completed,
-      } : el)),
+      todos: state.todos.map(el => (
+        el.id === id
+          ? {
+            ...el, completed: !el.completed,
+          }
+          : el
+      )),
     }));
   }
 
