@@ -1,0 +1,38 @@
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 20px;
+  margin: 50px;
+  width: 600px;
+
+  text-align: center;
+
+  background-color: #c0c0c0;
+  border-radius: 10px;
+}
+
+.todo-form-input,
+.todo-form-select {
+  position: relative;
+
+  width: 400px;
+  height: 30px;
+  margin-bottom: 15px;
+}
+
+.todo-form-input-error,
+.todo-form-select-error {
+  outline: 3px solid red;
+}
+
+.todo-form-error {
+  color: red;
+  font-style: italic;
+}
+
+.todo-form-button {
+  width: 550px;
+  height: 40px;
+}

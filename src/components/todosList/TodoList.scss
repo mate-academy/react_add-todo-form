@@ -1,0 +1,45 @@
+.todos-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0;
+  margin: 50px;
+}
+
+.todo-item {
+  display: flex;
+  padding: 10px;
+  background-color: #c0c0c0;
+  border-radius: 10px;
+  align-items: center;
+  gap: 20px;
+
+  width: 100%;
+}
+
+.todo-item-id {
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f66;
+  
+  font-weight: bold;
+  &--done {
+    background-color: #6f6;
+  }
+}
+
+.todo-item-title {
+  text-transform: uppercase;
+}
+
+.todo-item-user {
+  margin-top: 5px;
+  font-style: italic;
+}
