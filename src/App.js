@@ -13,11 +13,12 @@ class App extends React.Component {
     titleEntered: true,
     nameChoosed: true,
     titleInput: '',
+    selectInput: '',
   }
 
   addTodo = (event) => {
-    const userId = event.target.elements.user.value;
-    const title = event.target.elements.title.value;
+    const userId = this.state.selectInput;
+    const title = this.state.titleInput;
 
     if (userId !== '' && title !== '') {
       const todo = {
@@ -58,6 +59,13 @@ class App extends React.Component {
     });
   }
 
+  selectHandler = (event) => {
+    this.setState({
+      nameChoosed: true,
+      selectInput: event.target.value,
+    });
+  }
+
   render() {
     const preparedTodos = this.state.todos.map(todo => ({
       ...todo,
@@ -91,7 +99,11 @@ class App extends React.Component {
               )}
           </p>
 
-          <select name="user" className="SelectUser">
+          <select
+            name="user"
+            className="SelectUser"
+            onChange={this.selectHandler}
+          >
             <option value="">Choose user</option>
             {users.map(user => (
               <option value={user.id} key={user.id}>{user.name}</option>
