@@ -1,3 +1,7 @@
+.form {
+  position: relative;
+}
+
 .label_input {
   display: flex;
   color: darkblue;
@@ -30,6 +34,6 @@
 
 .error {
   position: absolute;
-  right: 60px;
+  right: -170px;
   color: darkred;
 }
