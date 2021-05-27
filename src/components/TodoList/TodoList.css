@@ -1,0 +1,28 @@
+.data-list {
+  margin: 10px auto;
+  color: rgba(27, 19, 19, 0.73);
+  list-style: none;
+}
+
+.data-li {
+  margin: 0;
+  align-self: center;
+  width: 90%;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.status {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: black;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
