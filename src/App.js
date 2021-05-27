@@ -19,7 +19,7 @@ export class App extends React.Component {
   }
 
   addTodos = (newTitle, newName) => {
-    const newId = this.state.todos.length;
+    const newId = this.state.todos.length + 1;
     const newTodo = {
       id: newId,
       title: newTitle,

@@ -1,0 +1,27 @@
+.list {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.list__item {
+  display: flex;
+  justify-content: space-between;
+  width: 900px;
+  padding: 5px;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  border: 1px solid;
+  text-align: start;
+}
+
+.list__title {
+  margin: 0;
+  font-weight: normal;
+}
+
+.list__text {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}

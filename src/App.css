@@ -1,3 +1,8 @@
 .App {
+  box-sizing: border-box;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
