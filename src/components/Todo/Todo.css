@@ -1,0 +1,16 @@
+.todo {
+  max-width: 50%;
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.5);
+  margin: 15px auto;
+  padding: 10px;
+}
+
+.todo__title {
+  text-transform: uppercase;
+}
+
+.todo__status {
+  color: gray;
+}
