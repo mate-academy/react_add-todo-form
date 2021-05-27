@@ -1,3 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
-  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 20px;
+  width: 400px;
+}
+
+.form {
+  padding-left: 20px;
+}
+
+.form__wrapper-title {
+  display: flex;
+  align-items: center;
+}
+
+.form__wrapper-user {
+  display: flex;
+  align-items: center;
+}
+
+.form__title-todo {
+  margin-bottom: 5px;
+  width: 200px;
+  height: 25px;
+  font-size: 12px;
+}
+
+.form__select-user {
+  margin-bottom: 5px;
+  width: 200px;
+  height: 25px;
+  font-size: 12px;
+}
+
+.form__button-submit {
+  height: 25px;
+  border-radius: 2px;
+  border: 0.5px solid grey;
+  width: 100px;
+  background-color: #cde3ec;
+}
+
+.form__button-submit:hover {
+  background: #0000ff30;
+  border: 0.5px solid grey;
+  border-radius: 2px;
+}
+
+.error {
+  font-size: 14px;
+  color: red;
+  padding-left: 10px;
 }
