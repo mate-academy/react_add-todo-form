@@ -1,0 +1,46 @@
+.userName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: silver;
+
+  overflow: hidden;
+}
+
+.todo {
+  display: grid;
+  grid-template-columns: 1fr 5fr 2fr;
+
+  height: 40px;
+  margin-bottom: 3px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border: none;
+
+    background-color: lightcoral;
+
+    cursor: pointer;
+  }
+
+  &-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    background-color: lightslategrey;
+
+  }
+}
+
+.completed {
+  background-color: lightgreen;
+}
