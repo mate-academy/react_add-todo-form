@@ -1,0 +1,14 @@
+.list {
+  margin-top: 40px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+  height: 200px;
+  border: 5px solid darkblue;
+  color: white;
+}
