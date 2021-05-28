@@ -6,7 +6,7 @@ export class TodoList extends React.Component {
   state = {
     todos: this.props.todos,
     todo: '',
-    user: '',
+    user: 'Choose a user',
     todoError: false,
     userError: false,
   }
@@ -16,7 +16,7 @@ export class TodoList extends React.Component {
     if (this.state.todo !== '' && this.state.user !== '') {
       this.setState(prev => ({
         todo: '',
-        user: '',
+        user: 'Choose a user',
         todos: [
           ...prev.todos,
           {
@@ -37,7 +37,7 @@ export class TodoList extends React.Component {
       });
     }
 
-    if (this.state.user === '') {
+    if (this.state.user === 'Choose a user') {
       this.setState({
         userError: true,
       });
@@ -75,7 +75,7 @@ export class TodoList extends React.Component {
             value={this.state.user}
             onChange={this.handlerChange}
           >
-            <option />
+            <option disabled>Choose a user</option>
             {this.props.users.map(
               user => <option key={user.id}>{user.name}</option>,
             )}
