@@ -1,3 +1,31 @@
-.App {
-  text-align: center;
+.app {
+  text-align: left;
+}
+
+.error {
+  color: red;
+  margin-right: 54px;
+}
+
+.active {
+  visibility: hidden;
+}
+
+.form__input {
+  margin-right: 10px;
+  height: 20px;
+  width: 200px;
+}
+
+.form__select {
+  margin-right: 10px;
+  height: 26px;
+}
+
+.form__button {
+  height: 26px;
+}
+
+.todoList__item {
+  margin-bottom: 10px;
 }
