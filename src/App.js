@@ -12,7 +12,6 @@ const prepareTodos = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todosArray: [...prepareTodos],
-    // id: prepareTodos.length,
     name: '',
     title: '',
     todoError: false,
@@ -28,16 +27,25 @@ class App extends React.Component {
   };
 
   handleSubmit(event) {
+    event.preventDefault();
     if (this.state.title === '') {
       this.setState({ todoError: true });
+
+      // return;
     }
 
     if (this.state.name === '') {
       this.setState({ userError: true });
+
+      // return;
     }
 
     if (this.state.name !== '' && this.state.title !== '') {
       this.setState(state => ({
+        name: '',
+        title: '',
+        todoError: false,
+        userError: false,
         todosArray: [
           ...state.todosArray,
           {
@@ -47,13 +55,6 @@ class App extends React.Component {
           },
         ],
       }));
-      this.setState({
-        todoError: false,
-        userError: false,
-        name: '',
-        title: '',
-      });
-      event.preventDefault();
     }
   }
 
@@ -64,8 +65,6 @@ class App extends React.Component {
     return (
       <div className="App">
         <form
-          action="#"
-          method="GET"
           onSubmit={event => this.handleSubmit(event)}
         >
           {this.state.todoError && (
@@ -85,14 +84,12 @@ class App extends React.Component {
           )}
 
           {' '}
-          <select onChange={this.handleSelect}>
-            <option value="">{this.state.name}</option>
+          <select value={this.state.name} onChange={this.handleSelect}>
+            <option value="">Choose user</option>
             {users.map(user => (
-              <>
-                <option value={user.name} key={user.id}>
-                  {user.name}
-                </option>
-              </>
+              <option value={user.name} key={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
           {' '}
