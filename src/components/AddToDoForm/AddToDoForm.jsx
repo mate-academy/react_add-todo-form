@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './AddToDoForm.css';
 
 import users from '../../api/users';
@@ -29,7 +30,7 @@ export class AddToDoForm extends React.Component {
     event.preventDefault();
 
     this.setState(state => ({
-      titleError: !state.title,
+      titleError: state.title.trim().length === 0 ? true : false,
       userError: !state.userId,
     }));
 
@@ -116,4 +117,8 @@ export class AddToDoForm extends React.Component {
       </form>
     )
   }
-}
+};
+
+AddToDoForm.propTypes = {
+  onAdd: PropTypes.func.isRequired,
+};

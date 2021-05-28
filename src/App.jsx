@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 import { TodosList } from './components/TodosList';
 import { AddToDoForm } from './components/AddToDoForm';
 
