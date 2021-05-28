@@ -1,19 +1,142 @@
 import React from 'react';
 import './App.css';
+import { TodoList } from './components/TodoList';
 
+import todos from './api/todos';
 import users from './api/users';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => todo.userId === user.id),
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    todos: preparedTodos,
+    newTodoTitle: '',
+    newUserId: 0,
+    hasTitleError: false,
+    hasUserError: false
+  }
+
+  addTodo(todoTitle, userId) {
+    const newTodo = {
+      userId: userId,
+      id: +new Date(),
+      title: todoTitle,
+      completed: false,
+      user: users.find(user => user.id === userId)
+    }
+
+    console.log(newTodo); 
+  
+    this.setState({
+      todos: [...this.state.todos, newTodo ]
+    });
+  };
+
+  handleTitleChange = (event) => {
+    this.setState({
+      newTodoTitle: event.target.value
+    })
+  };
+
+  handleUserChange = (event) => {
+    this.setState({
+      newUserId: +event.target.value
+    })
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    const { newTodoTitle, newUserId } = this.state;
+
+    if (!newTodoTitle) {
+      this.setState({
+        hasTitleError: !newTodoTitle
+      });
+      return;
+    }
+
+    if (!newUserId) {
+      this.setState({
+        hasUserError: !newUserId
+      });
+      return;
+    }
+
+    this.addTodo(newTodoTitle, newUserId);
+    this.setState({
+      newTodoTitle: '',
+      newUserId: 0
+    });
+  }
+
+  render() {
+    const { 
+      todos,
+      newTodoTitle,
+      newUserId,
+      hasTitleError,
+      hasUserError
+    } = this.state;
+
+    return (
+      <div className="App">
+        <h1 className="app-title">Static list of todos</h1>
+        <form
+          onSubmit={this.handleFormSubmit}
+        >  
+          <div className="newTitle">
+            <input
+            type="text"
+            placeholder="Enter the title"
+            value={newTodoTitle}
+            onChange={this.handleTitleChange}
+            >
+            </input>
+
+            {hasTitleError && (
+              <span className="error">Please enter the title</span>
+            )}
+          </div>
+
+          <div className="newUser">
+            <select
+              value={newUserId}
+              onChange={this.handleUserChange}
+            >
+              <option
+                value="0"
+              >
+                Choose a user
+              </option>
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+
+            {hasUserError && (
+              <span className="error">Please choose a user</span>
+            )}
+          </div>
+
+          <button
+            className="addButton"
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
+        <TodoList todos={todos} />
+      </div>
+    );
+  }
 }
 
 export default App;
