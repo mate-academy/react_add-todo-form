@@ -5,17 +5,17 @@ import { TodoList } from './components/TodoList';
 import users from './api/users';
 import todosForUser from './api/todos';
 
-const getUserId = userId => users.find(user => user.id === userId);
+const getUserById = userId => users.find(user => user.id === userId);
 
 const preparedTodos = todosForUser.map(todo => ({
   ...todo,
-  user: getUserId(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    newTodo: '',
+    newTitle: '',
     userForTodo: 0,
     hasTodoError: false,
     hasUserError: false,
@@ -23,14 +23,14 @@ class App extends React.Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const { newTodo, userForTodo } = this.state;
+    const { newTitle, userForTodo } = this.state;
 
     this.setState({
-      hasTodoError: !newTodo,
+      hasTodoError: !newTitle,
       hasUserError: !userForTodo,
     });
 
-    if (!newTodo) {
+    if (!newTitle) {
       return;
     }
 
@@ -38,16 +38,16 @@ class App extends React.Component {
       return;
     }
 
-    this.addTodo(newTodo, userForTodo);
+    this.addTodo(newTitle, userForTodo);
     this.setState({
-      newTodo: '',
+      newTitle: '',
       userForTodo: 0,
     });
   }
 
   handleTodoChange = (event) => {
     this.setState({
-      newTodo: event.target.value,
+      newTitle: event.target.value,
     });
   }
 
@@ -58,22 +58,22 @@ class App extends React.Component {
   }
 
   addTodo(todo, userId) {
-    const newTodo = {
+    const newTitle = {
       id: +new Date(),
       title: todo,
       completed: false,
-      user: getUserId(userId),
+      user: getUserById(userId),
     };
 
     this.setState(state => ({
-      todos: [...state.todos, newTodo],
+      todos: [...state.todos, newTitle],
     }));
   }
 
   render() {
     const {
       todos,
-      newTodo,
+      newTitle,
       userForTodo,
       hasTodoError,
       hasUserError,
@@ -86,7 +86,7 @@ class App extends React.Component {
           <div className="inpTodo">
             <input
               type="text"
-              value={newTodo}
+              value={newTitle}
               onChange={this.handleTodoChange}
             />
             {hasTodoError && (

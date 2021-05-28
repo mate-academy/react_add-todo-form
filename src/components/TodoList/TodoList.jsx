@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { Todo } from '../Todo';
-import './TodoList.css';
+import '../TodoList/TodoList.css';
 
 export const TodoList = ({ todos }) => (
   <ul>
