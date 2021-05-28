@@ -56,6 +56,10 @@ class App extends React.Component {
 
     this.addTask(taskName, userId);
 
+    this.clearForm();
+  }
+
+  clearForm = () => {
     this.setState({
       taskName: '',
       userId: 0,
@@ -100,7 +104,7 @@ class App extends React.Component {
                 });
               }}
             >
-              <option>Choose a user</option>
+              <option disabled value="0">Choose a user</option>
               {users.map(user => (
                 <option key={user.id} value={user.id}>
                   {user.name}
