@@ -1,0 +1,32 @@
+.todo-list {
+  width: 60%;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px auto;
+}
+
+.todo-list-item {
+  background-color: beige;
+  padding: 20px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: brown;
+  margin: 0 20px;
+}
+
+.add-btn {
+  border: none;
+  background-color: lightseagreen;
+  margin: 0 20px;
+  padding: 5px 40px;
+  color: aliceblue;
+}
+
+.form-input {
+  margin: 0 20px;
+  border: 1px solid lightseagreen;
+  padding: 5px 10px;
+}
