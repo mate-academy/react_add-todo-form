@@ -10,7 +10,7 @@ export class TodoForm extends React.Component {
     userIdError: false,
   }
 
-  onSubmitHandler(event) {
+  onSubmitHandler = (event) => {
     event.preventDefault();
 
     this.setState(({ todo, userId }) => ({
@@ -37,14 +37,14 @@ export class TodoForm extends React.Component {
     );
   }
 
-  todoHandler(event) {
+  todoHandler = (event) => {
     this.setState({
       todoError: !event.target.value,
       todo: event.target.value,
     });
   }
 
-  userIdHandler(event) {
+  userIdHandler = (event) => {
     this.setState({
       userIdError: !event.target.value,
       userId: event.target.value,
@@ -56,16 +56,16 @@ export class TodoForm extends React.Component {
     const { todoError, userIdError } = this.state;
 
     return (
-      <form onSubmit={event => this.onSubmitHandler(event)}>
+      <form onSubmit={this.onSubmitHandler}>
         <input
           className="Todo_input"
           value={this.state.todo}
-          onChange={event => this.todoHandler(event)}
+          onChange={this.todoHandler}
         />
         {todoError && <span className="warning"> Please input Todo</span>}
         <select
           value={this.state.userId}
-          onChange={event => this.userIdHandler(event)}
+          onChange={this.userIdHandler}
         >
           <option>select user</option>
           {users.map(({ id, name }) => (
