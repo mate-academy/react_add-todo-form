@@ -19,8 +19,11 @@ class App extends React.Component {
   };
 
   addTodo = (todoName, userId) => {
+    const todoSortDown = [...this.state.todos]
+      .sort((a, b) => b.id - a.id);
+
     const newTodo = {
-      id: this.state.todos[this.state.todos.length - 1].id + 1,
+      id: todoSortDown[0].id + 1,
       title: todoName,
       userId,
       completed: false,
