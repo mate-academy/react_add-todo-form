@@ -1,3 +1,28 @@
-.App {
-  text-align: center;
+.error {
+  margin-left: 20px;
+  font-weight: bold;
+  color: red;
+}
+
+.formInput{
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.formSelect {
+  margin-bottom: 10px;
+  width: 308px;
+}
+
+.button {
+  margin-left: 100px;
+  width: 100px;
+
+  cursor: pointer;
+  transition: transform 0.4s;
+}
+
+.button:hover {
+  transform: scale(1.2);
+  transition: transform 0.4s;
 }
