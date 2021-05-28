@@ -43,7 +43,7 @@ export class Form extends React.Component {
 
     this.setState(state => ({
       errorSelect: !state.userName,
-      errorInput: !state.newTodo,
+      errorInput: !state.newTodo.trim(),
     }));
 
     if (!this.state.newTodo || !this.state.userName) {
