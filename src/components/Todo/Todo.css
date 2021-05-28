@@ -1,0 +1,43 @@
+.todo-block {
+  --colorFinished: purple;
+  --colorUnfinished: crimson;
+
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 25px;
+  align-items: center;
+  transition: 0.3s;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+.todo-block:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: indigo solid 1px;
+}
+
+.todo-block:hover {
+  background-color: var(--colorUnfinished);
+}
+
+.todo-block:hover > * {
+  color: white;
+}
+
+.doneBlock:hover {
+  background-color: var(--colorFinished);
+}
+
+.emptyCheckbox {
+  color: var(--colorUnfinished);
+  margin-right: 15px;
+}
+
+.done {
+  color: var(--colorFinished);
+}
