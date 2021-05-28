@@ -21,18 +21,20 @@ class App extends React.Component {
   };
 
   addTodo = (todoName, todoUserId) => {
-    this.setState((prevState) => {
-      const newTodo = {
-        id: todos.length + 1,
-        title: todoName,
-        userId: todoUserId,
-        user: getUserById(+todoUserId),
-      };
+    if (todoName.length && todoName.trim().length > 0) {
+      this.setState((prevState) => {
+        const newTodo = {
+          id: todos.length + 1,
+          title: todoName,
+          userId: todoUserId,
+          user: getUserById(+todoUserId),
+        };
 
-      return {
-        todos: [...prevState.todos, newTodo],
-      };
-    });
+        return {
+          todos: [...prevState.todos, newTodo],
+        };
+      });
+    }
   };
 
   render() {

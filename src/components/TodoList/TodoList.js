@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { User } from '../User';
 import './TodoList.css';
 
@@ -13,12 +14,12 @@ export const TodoList = ({ todos }) => (
           </p>
           <p>
             {`${todo.title} - `}
-            <span>
-              {todo.completed ? (
-                <span className="todo__status--done">Done</span>
-              ) : (
-                <span className="todo__status--doing">Doing</span>
-              )}
+            <span
+              className={classNames(`todo__status`, {
+                'todo__status--done': todo.completed,
+              })}
+            >
+              {todo.completed ? 'Done' : 'Doing'}
             </span>
           </p>
         </li>
