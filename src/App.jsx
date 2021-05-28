@@ -50,12 +50,14 @@ class App extends React.Component {
   handleTodoChange = (event) => {
     this.setState({
       newTitle: event.target.value,
+      hasTodoError: false,
     });
   }
 
   handleUserChange = (event) => {
     this.setState({
       userForTodo: +event.target.value,
+      hasUserError: false,
     });
   }
 
