@@ -1,0 +1,24 @@
+.todo {
+  padding-left: 10px;
+
+  &__title {
+    margin-top: 10px;
+    font-weight: 700;
+    color: #055;
+  }
+
+  &__task-name {
+    margin-left: 10px;
+    color: #033;
+  }
+
+  &__completed {
+    margin-left: 10px;
+    color: #080;
+  }
+
+  &__inprogress {
+    margin-left: 10px;
+    color: #800;
+  }
+}
