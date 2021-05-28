@@ -2,12 +2,12 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
-import todos from './api/todos';
+import todosApi from './api/todos';
 import TodoList from './components/TodoList/TodoList';
 
 const findUser = userId => users.find(user => user.id === userId);
 
-const preparedTodos = todos.map(todo => ({
+const preparedTodos = todosApi.map(todo => ({
   ...todo,
   user: findUser(todo.userId),
 }));
@@ -48,6 +48,10 @@ class App extends React.Component {
       return;
     }
 
+    if (newTitle.trim().length === 0) {
+      return;
+    }
+
     if (!newUserId) {
       return;
     }
@@ -61,8 +65,13 @@ class App extends React.Component {
   }
 
   render() {
-    //  eslint-disable-next-line
-    const { todos, newTitle, newUserId, titleError, userError } = this.state;
+    const {
+      todos,
+      newTitle,
+      newUserId,
+      titleError,
+      userError,
+    } = this.state;
 
     return (
       <div>
