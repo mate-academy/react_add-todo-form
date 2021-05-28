@@ -27,7 +27,7 @@ class TodoForm extends React.Component {
     const { newUserId, newTitle } = this.state;
 
     this.setState({
-      titleError: !newTitle,
+      titleError: !newTitle.replace(/\s/g, ''),
       userError: !newUserId,
     });
 
@@ -35,7 +35,7 @@ class TodoForm extends React.Component {
       return;
     }
 
-    if (!newTitle) {
+    if (!newTitle.replace(/\s/g, '')) {
       return;
     }
 
