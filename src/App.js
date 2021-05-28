@@ -40,13 +40,13 @@ class App extends React.Component {
     event.preventDefault();
 
     this.setState(state => ({
-      taskNameError: !state.taskName,
+      taskNameError: !state.taskName.trim(),
       userIdError: !state.userId,
     }));
 
     const { taskName, userId } = this.state;
 
-    if (!taskName) {
+    if (!taskName.trim()) {
       return;
     }
 
@@ -54,7 +54,7 @@ class App extends React.Component {
       return;
     }
 
-    this.addTask(taskName, userId);
+    this.addTask(taskName.trim(), userId);
 
     this.clearForm();
   }
