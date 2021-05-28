@@ -51,6 +51,10 @@ class App extends React.Component {
       return;
     }
 
+    if (newTodoTitle.replace(/\s+/g, '').length === 0) {
+      return;
+    }
+
     if (!newUserId) {
       return;
     }
