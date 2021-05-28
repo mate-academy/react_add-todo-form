@@ -1,0 +1,9 @@
+.todoList {
+  list-style: none;
+}
+
+.todoList__item {
+  border: 1px solid;
+  border-radius: 25px;
+  margin-bottom: 10px;
+}
