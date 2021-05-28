@@ -1,0 +1,22 @@
+.AddTodoForm {
+  margin: 0 auto;
+  padding: 20px 10px;
+  text-align: left;
+  width: 500px;
+
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.area {
+  margin-bottom: 10px;
+  width: 350px;
+  height: 25px;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+
+  cursor: pointer;
+}
