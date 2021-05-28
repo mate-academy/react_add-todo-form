@@ -13,12 +13,14 @@ export class TodosForm extends React.Component {
   handleTodoTitleChange = (event) => {
     this.setState({
       newTodoTitle: event.target.value,
+      hasTodoTitleError: false,
     });
   }
 
   handleUserIdChange = (event) => {
     this.setState({
       newUserId: +event.target.value,
+      hasUserIdError: false,
     });
   }
 
@@ -27,10 +29,10 @@ export class TodosForm extends React.Component {
 
     const { newTodoTitle, newUserId } = this.state;
 
-    this.setState({
-      hasTodoTitleError: !newTodoTitle,
-      hasUserIdError: !newUserId,
-    });
+    this.setState(state => ({
+      hasTodoTitleError: !state.newTodoTitle,
+      hasUserIdError: !state.newUserId,
+    }));
 
     if (!newTodoTitle) {
       return;
@@ -41,7 +43,12 @@ export class TodosForm extends React.Component {
     }
 
     this.props.onAdd(newTodoTitle, newUserId);
-  }
+
+    this.setState({
+      newTodoTitle: '',
+      newUserId: 0,
+    });
+  };
 
   render() {
     const {

@@ -10,14 +10,14 @@ const getUserById = userId => (
   users.find(user => user.id === userId).name
 );
 
-const usersWithTodos = todos.map(todo => ({
+const todosWithUsers = todos.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    tasks: usersWithTodos,
+    tasks: todosWithUsers,
   }
 
   addTodo = (todoTitle, userId) => {
