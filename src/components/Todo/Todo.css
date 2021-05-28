@@ -16,14 +16,11 @@
   margin: 5px;
   border-radius: 10px;
   padding: 5px;
-}
-
-.Todo__status--done {
-  background-color: green;
-}
-
-.Todo__status--not-done {
   background-color: red;
+}
+
+.--done {
+  background-color: green;
 }
 
 .Todo__user {
