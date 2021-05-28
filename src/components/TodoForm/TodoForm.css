@@ -1,0 +1,18 @@
+.todo__error {
+  color: red;
+}
+
+input,
+select {
+  margin: 5px;
+  width: 200px;
+  height: 20px;
+}
+
+.btn-add {
+  color: orange;
+  width: 100px;
+  height: 30px;
+  margin: 20px;
+  cursor: pointer;
+}
