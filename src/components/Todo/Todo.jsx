@@ -12,7 +12,7 @@ export const Todo = ({ title, completed, user }) => (
       <User {...user}/>
     <div className={classNames(
       'todo__status',
-      {'todo__status--completed': completed === true })}
+      {'todo__status--completed': completed})}
     >
       Status: {completed ? 'completed' : 'not completed'}
     </div>

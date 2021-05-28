@@ -11,21 +11,20 @@ const getUserById = (userId) => {
   return users.find(user => user.id === userId);
 };
 
-const preparedToDoes = todos.map(todo => ({
+const preparedToDos = todos.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 class App extends React.Component {
   state = {
-    todosList: preparedToDoes,
-    maxId: Math.max(...preparedToDoes.map(todo => todo.id)),
+    todosList: preparedToDos,
   };
 
   addTodo = (title, userId) => {
     const newTodo = {
       userId,
-      id: this.state.maxId + 1,
+      id: this.state.todosList.length + 1,
       title,
       completed: false,
       user: getUserById(userId),
@@ -33,7 +32,6 @@ class App extends React.Component {
 
     this.setState(state => ({
       todosList: [...state.todosList, newTodo],
-      maxId: state.maxId + 1,
     }));
   }
   

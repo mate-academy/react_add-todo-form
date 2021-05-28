@@ -30,7 +30,7 @@ export class AddToDoForm extends React.Component {
     event.preventDefault();
 
     this.setState(state => ({
-      titleError: state.title.trim().length === 0 ? true : false,
+      titleError: state.title.trim().length === 0,
       userError: !state.userId,
     }));
 
