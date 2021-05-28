@@ -1,0 +1,13 @@
+.todoTitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+}
+
+.todoTitleWrapper {
+  display: flex;
+}
+
+.todoStatus {
+  font-weight: 300;
+}

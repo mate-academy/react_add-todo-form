@@ -1,3 +1,84 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(56, 56, 56);
+  font-family: "Roboto", sans-serif;
+}
+
+.addTodoForm {
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  max-width: 500px ;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.addTodoFormTitle {
+  align-self: center;
+}
+
+.titleInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.titleInput {
+  width: 100%;
+  height: 30px;
+  border: transparent;
+  border-bottom: 1px solid;
+  outline: none;
+}
+
+.titleInput::placeholder {
+  color: rgb(180, 180, 180);
+}
+
+.titleInput:focus::-webkit-input-placeholder {
+  color: rgb(0, 0, 0);
+}
+
+.selectUserWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectUser {
+  width: 100%;
+  height: 30px;
+}
+
+.todoAddBtn {
+  width: 100px;
+  height: 40px;
+  background-color: rgb(66, 66, 66);
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.todoAddBtn:hover {
+  background-color: rgb(0, 0, 0);
+}
+
+.todoAddBtn:active {
+  background-color: rgb(66, 66, 66);
+}
+
+.error {
+  position: absolute;
+  top: -15px;
+  font-size: 12px;
+  color: rgb(255, 72, 72);
 }
