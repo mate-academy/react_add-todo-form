@@ -6,7 +6,7 @@ import './FormTodos.css';
 export class FormTodos extends React.Component {
   state = {
     newTitle: '',
-    choseName: 0,
+    choseName: '',
     hasNameError: false,
     hasTitleError: false,
   };
@@ -86,7 +86,7 @@ export class FormTodos extends React.Component {
             onChange={this.handleChoseName}
             className="select"
           >
-            <option value={0} className="option">
+            <option value='' className="option">
               Choes a user
             </option>
             {users.map(user => (
