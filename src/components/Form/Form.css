@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__error {
+  color: #f00;
+}
+
+.form__input {
+  margin-top: 10px;
+  outline: none;
+  width: 290px;
+  height: 40px;
+}
+
+.form__select {
+  margin-top: 10px;
+  outline: none;
+  width: 300px;
+  height: 40px;
+}
+
+.form__button {
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+  border: none;
+  align-self: center;
+
+  font-size: 16px;
+  background-color: red;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
