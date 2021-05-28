@@ -52,12 +52,12 @@ class App extends React.Component {
       return;
     }
 
+    this.addTodo(newTitle, +newUserId);
+
     this.setState({
       newTitle: '',
       newUserId: 0,
     });
-
-    this.addTodo(newTitle, +newUserId);
   }
 
   render() {
@@ -75,6 +75,7 @@ class App extends React.Component {
               onChange={(event) => {
                 this.setState({
                   newTitle: event.target.value,
+                  titleError: false,
                 });
               }}
             />
@@ -91,6 +92,7 @@ class App extends React.Component {
               onChange={(event) => {
                 this.setState({
                   newUserId: event.target.value,
+                  userError: false,
                 });
               }}
             >
