@@ -1,0 +1,12 @@
+.todo {
+  padding: 10px;
+
+  &__status{
+    font-size: 20px;
+    color:red;
+  }
+}
+
+.finished {
+  color:rgb(19, 233, 0);
+}
