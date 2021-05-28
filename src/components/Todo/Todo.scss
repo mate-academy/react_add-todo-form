@@ -1,0 +1,15 @@
+.todo {
+  &__title {
+    font-style: italic;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  &__item {
+    color: red;
+  }
+}
+
+.done {
+  color: #555300;
+}
