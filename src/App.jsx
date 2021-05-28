@@ -4,6 +4,7 @@ import './App.css';
 import { TodoList } from './components/TodoList';
 import users from './api/users';
 import todosForUser from './api/todos';
+import todos from './api/todos';
 
 const getUserById = userId => users.find(user => user.id === userId);
 
@@ -16,6 +17,7 @@ class App extends React.Component {
   state = {
     todos: preparedTodos,
     newTitle: '',
+    newId: Math.max(...todos.map(todo => todo.id)),
     userForTodo: 0,
     hasTodoError: false,
     hasUserError: false,
@@ -57,16 +59,18 @@ class App extends React.Component {
     });
   }
 
-  addTodo(todo, userId) {
+  addTodo(title, userId) {
     const newTitle = {
-      id: +new Date(),
-      title: todo,
+      userId: userId,
+      id: this.state.newId + 1,
+      title: title,
       completed: false,
       user: getUserById(userId),
     };
 
     this.setState(state => ({
       todos: [...state.todos, newTitle],
+      newId: state.newId + 1,
     }));
   }
 
