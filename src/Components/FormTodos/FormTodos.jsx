@@ -31,8 +31,8 @@ export class FormTodos extends React.Component {
     const { newTitle, choseName } = this.state;
 
     this.setState(state => ({
-      hasNameError: !state.newTitle,
-      hasTitleError: !state.choseName,
+      hasNameError: !state.choseName,
+      hasTitleError: !state.newTitle,
     }));
 
     if (!newTitle || !choseName) {
