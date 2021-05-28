@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
 import users from '../../api/users';
 import './AddTodoForm.css';
 
@@ -16,6 +18,7 @@ export class AddTodoForm extends React.Component {
   handleTitleChange = (event) => {
     this.setState({
       newTitle: event.target.value,
+      hasTitleError: false,
       newTodoId: this.props.lengthForId + 1,
     });
   }
@@ -23,6 +26,7 @@ export class AddTodoForm extends React.Component {
   handleUserChange = (event) => {
     this.setState({
       newUserId: +event.target.value,
+      hasUserError: false,
     });
   }
 
@@ -67,7 +71,9 @@ export class AddTodoForm extends React.Component {
         >
           <div>
             <input
-              className="area"
+              className={classNames(`area`, {
+                error: hasTitleError,
+              })}
               type="text"
               value={newTitle}
               placeholder="Write a todo"
@@ -80,7 +86,9 @@ export class AddTodoForm extends React.Component {
 
           <div>
             <select
-              className="area"
+              className={classNames(`area`, {
+                error: hasUserError,
+              })}
               value={newUserId}
               onChange={this.handleUserChange}
             >
