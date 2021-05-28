@@ -60,6 +60,8 @@ class App extends React.Component {
 
   render() {
     const {
+      // eslint-disable-next-line
+      todos,
       isTitle,
       isUserName,
     } = this.state;
