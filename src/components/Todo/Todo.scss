@@ -3,13 +3,10 @@
 
   &__status{
     font-size: 20px;
-
-    &--completed {
-      color: rgb(43, 255, 43);
-    }
-
-    &--incompleted {
-      color:red;
-    }
+    color:red;
   }
+}
+
+.finished {
+  color:rgb(19, 233, 0);
 }

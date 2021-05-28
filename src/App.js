@@ -15,15 +15,15 @@ class App extends React.Component {
     todos: preparedTodos,
     user: '',
     title: '',
-    isCorrectTitle: false,
-    isCorrectUserName: false,
+    isCorrectTitle: true,
+    isCorrectUserName: true,
   }
 
   addTodo = () => {
     this.setState(state => ({
       todos: [...state.todos, {
         userId: users.find(user => user.name === state.user).id,
-        id: state.todos[state.todos.length - 1].id + 1,
+        id: state.todos.length + 1,
         title: state.title,
         completed: false,
         user: users.find(user => user.name === state.user),
@@ -36,12 +36,12 @@ class App extends React.Component {
 
     event.preventDefault();
     this.setState(state => ({
-      isCorrectUserName: !user,
+      isCorrectUserName: user,
     }));
 
-    if (title.length < 3) {
+    if (title.trim().length < 3) {
       this.setState({
-        isCorrectTitle: true,
+        isCorrectTitle: false,
       });
 
       return;
@@ -87,11 +87,11 @@ class App extends React.Component {
             onChange={(event) => {
               this.setState({
                 title: event.target.value,
-                isCorrectTitle: false,
+                isCorrectTitle: true,
               });
             }}
           />
-          {isCorrectTitle && (
+          {!isCorrectTitle && (
             <span className="error">
               please enter a title longer than 3 characters
             </span>
@@ -107,7 +107,7 @@ class App extends React.Component {
             onChange={(event) => {
               this.setState({
                 user: event.target.value,
-                isCorrectUserName: false,
+                isCorrectUserName: true,
               });
             }}
           >
@@ -123,7 +123,7 @@ class App extends React.Component {
               </option>
             ))}
           </select>
-          {isCorrectUserName && (
+          {!isCorrectUserName && (
             <span className="error">
               please selected user
             </span>
