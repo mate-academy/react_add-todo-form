@@ -21,7 +21,7 @@ class App extends React.Component {
     hasUserError: false,
   }
 
-  hendelFormSubmit = (event) => {
+  hendleFormSubmit = (event) => {
     event.preventDefault();
 
     const { newTodoTitle, newTodoUserId } = this.state;
@@ -42,22 +42,24 @@ class App extends React.Component {
     this.addTodo(newTodoTitle, newTodoUserId);
   };
 
-  hendelTitleChange = (event) => {
+  hendleTitleChange = (event) => {
     this.setState({
-      newTodoTitle: event.target.value,
+      newTodoTitle: event.target.value.trimStart(),
+      hasTitleError: false,
     });
   }
 
-  hendelUserChange = (event) => {
+  hendleUserChange = (event) => {
     this.setState({
       newTodoUserId: +event.target.value,
+      hasUserError: false,
     });
   }
 
   addTodo(todoTitle, userId) {
     const { todos } = this.state;
     const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: todos.length + 1,
       title: todoTitle,
       userId,
       user: getUserById(userId),
@@ -87,14 +89,14 @@ class App extends React.Component {
         <h1>Add todo form</h1>
         <TodoList todos={todos} />
         <form
-          onSubmit={this.hendelFormSubmit}
+          onSubmit={this.hendleFormSubmit}
           className="form"
         >
           <div className="form__wrapper-title">
             <input
               type="text"
               value={newTodoTitle}
-              onChange={this.hendelTitleChange}
+              onChange={this.hendleTitleChange}
               placeholder="Enter title of todo"
               className="form__title-todo"
 
@@ -106,7 +108,7 @@ class App extends React.Component {
           <div className="form__wrapper-user">
             <select
               value={newTodoUserId}
-              onChange={this.hendelUserChange}
+              onChange={this.hendleUserChange}
               className="form__select-user"
 
             >
