@@ -28,7 +28,7 @@ class AddTodoForm extends React.Component {
     event.preventDefault();
 
     this.setState(state => ({
-      hasTodoError: !state.newTodoName,
+      hasTodoError: !state.newTodoName || state.newTodoName.startsWith(' '),
       hasUserError: !state.newTodoUserId,
     }));
 
@@ -38,7 +38,7 @@ class AddTodoForm extends React.Component {
       return;
     }
 
-    if (!newTodoName) {
+    if (!newTodoName || newTodoName.startsWith(' ')) {
       return;
     }
     // eslint-disable-next-line
