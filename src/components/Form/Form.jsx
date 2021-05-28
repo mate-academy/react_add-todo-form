@@ -42,8 +42,8 @@ export class Form extends React.Component {
     const { newTodo, userName } = this.state;
 
     this.setState(state => ({
-      errorSelect: !!state.newTodo,
-      errorInput: !!state.userName,
+      errorSelect: !state.userName,
+      errorInput: !state.newTodo,
     }));
 
     if (!this.state.newTodo || !this.state.userName) {
