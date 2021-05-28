@@ -36,7 +36,7 @@ export class AddToDoForm extends React.Component {
 
     const { title, userId } = this.state;
 
-    if (!title) {
+    if (title.trim().length === 0) {
       return;
     }
 
