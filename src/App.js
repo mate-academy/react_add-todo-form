@@ -23,12 +23,24 @@ class App extends React.Component {
     this.setState({
       title: event.target.value,
     });
+
+    if (event.target.value !== '') {
+      this.setState({
+        todoError: false,
+      });
+    }
   }
 
   handleChangeName = (event) => {
     this.setState({
       name: event.target.value,
     });
+
+    if (event.target.value !== '') {
+      this.setState({
+        userError: false,
+      });
+    }
   }
 
   handleFormSubmit = (event) => {
@@ -100,7 +112,7 @@ class App extends React.Component {
           </select>
 
           {this.state.userError && (
-            <span>userError</span>
+            <span>Please choose a user</span>
           )}
 
           <button type="submit" className="button">Add</button>
