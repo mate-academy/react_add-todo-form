@@ -10,13 +10,11 @@ export class TodoList extends React.Component {
     todoError: false,
     userError: false,
   }
-
+  // eslint-disable-next-line
   handlerSubmit = (event) => {
     event.preventDefault();
-    if (this.state.todo !== '' && this.state.user !== '') {
+    if (this.state.todo !== '' && this.state.user !== 'Choose a user') {
       this.setState(prev => ({
-        todo: '',
-        user: 'Choose a user',
         todos: [
           ...prev.todos,
           {
@@ -28,19 +26,16 @@ export class TodoList extends React.Component {
             user: this.props.users.find(user => user.name === prev.user),
           },
         ],
+        user: 'Choose a user',
+        todo: '',
       }));
     }
 
-    if (this.state.todo === '') {
-      this.setState({
-        todoError: true,
-      });
-    }
-
-    if (this.state.user === 'Choose a user') {
-      this.setState({
-        userError: true,
-      });
+    if (this.state.todo === '' || this.state.user === 'Choose a user') {
+      return this.setState(state => ({
+        todoError: !state.todo,
+        userError: state.user === 'Choose a user',
+      }));
     }
   }
 
@@ -49,8 +44,7 @@ export class TodoList extends React.Component {
 
     this.setState({
       [name]: value,
-      todoError: false,
-      userError: false,
+      [`${name}Error`]: false,
     });
   }
 
