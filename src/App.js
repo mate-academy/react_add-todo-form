@@ -6,10 +6,14 @@ import TodoList from './components/TodoList/TodoList';
 import todos from './api/todos';
 import users from './api/users';
 
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
+
 class App extends React.Component {
   state = {
-    todos,
-    users,
+    preparedTodos,
     titleEntered: true,
     nameChoosed: true,
     titleInput: '',
@@ -17,37 +21,32 @@ class App extends React.Component {
   }
 
   addTodo = (event) => {
-    const userId = this.state.selectInput;
-    const title = this.state.titleInput;
+    const { selectInput: userId, titleInput: title } = this.state;
 
-    if (userId !== '' && title !== '') {
+    if (userId !== 0 && title !== '') {
       const todo = {
-        id: this.state.todos.length + 1,
-        userId: Number(userId),
+        id: this.state.preparedTodos.length + 1,
+        userId,
         title,
+        user: users.find(user => user.id === userId),
       };
 
       this.setState(
         state => ({
-          todos: [...state.todos, todo],
+          preparedTodos: [...state.preparedTodos, todo],
           titleEntered: true,
           nameChoosed: true,
+          titleInput: '',
+          selectInput: '',
         }),
       );
       event.target.reset();
     }
 
-    if (title) {
-      this.setState({ titleEntered: true });
-    } else {
-      this.setState({ titleEntered: false });
-    }
-
-    if (userId) {
-      this.setState({ nameChoosed: true });
-    } else {
-      this.setState({ nameChoosed: false });
-    }
+    this.setState({
+      titleEntered: Boolean(title),
+      nameChoosed: Boolean(userId),
+    });
 
     event.preventDefault();
   }
@@ -62,16 +61,11 @@ class App extends React.Component {
   selectHandler = (event) => {
     this.setState({
       nameChoosed: true,
-      selectInput: event.target.value,
+      selectInput: Number(event.target.value),
     });
   }
 
   render() {
-    const preparedTodos = this.state.todos.map(todo => ({
-      ...todo,
-      user: this.state.users.find(user => user.id === todo.userId),
-    }));
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -89,8 +83,8 @@ class App extends React.Component {
           </label>
 
           <p className="TitleValidation">
-            {this.state.titleEntered
-              || <span>Please enter a title</span>}
+            {!this.state.titleEntered
+              && <span>Please enter a title</span>}
             {this.state.titleInput.length >= 10
               && (
               <span>
@@ -106,12 +100,14 @@ class App extends React.Component {
           >
             <option value="">Choose user</option>
             {users.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
 
-          {this.state.nameChoosed
-            || <span className="UserValidation">Please choose name</span>}
+          {!this.state.nameChoosed
+            && <span className="UserValidation">Please choose name</span>}
 
           <button type="submit" className="TodoAddButton">Add TODO</button>
         </form>
@@ -127,7 +123,7 @@ class App extends React.Component {
         <div>
           <span>
             Todos:
-            <TodoList preparedTodos={preparedTodos} />
+            <TodoList preparedTodos={this.state.preparedTodos} />
           </span>
 
         </div>
