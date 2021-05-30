@@ -8,41 +8,19 @@ import { AddTodoForm } from './components/AddTodoForm';
 
 class App extends React.Component {
   state = {
-    todoList: [...todos],
+    preparedTodos: todos.map(todo => ({
+      ...todo,
+      user: users.find(({ userId }) => users.id === userId),
+    })),
   }
-
-  addTodo = addTodoForm => () => {
-    if (!addTodoForm.state.todoTitle) {
-      addTodoForm.setState({ err: 'You can\'t create todo without title' });
-
-      return;
-    }
-
-    if (!addTodoForm.state.chosenUser) {
-      addTodoForm.setState({ err: 'Choose the user' });
-
-      return;
-    }
-
-    addTodoForm.setState({ err: '' });
-
-    this.setState(state => ({
-      todoList: [{
-        title: addTodoForm.state.todoTitle,
-        id: state.todoList[state.todoList.length - 1].id + 1,
-        userId: addTodoForm.state.chosenUser,
-      }, ...state.todoList],
-    }));
-  };
 
   render() {
     return (
       <>
         <div className="App">
-          <AddTodoForm addTodo={this.addTodo} />
+          <AddTodoForm app={this} />
           <TodoList
-            todos={this.state.todoList}
-            users={users}
+            preparedTodos={this.state.preparedTodos}
           />
         </div>
       </>

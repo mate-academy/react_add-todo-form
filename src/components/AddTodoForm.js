@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { shape } from 'prop-types';
 
 import users from '../api/users';
 
@@ -9,6 +9,33 @@ export class AddTodoForm extends React.Component {
     err: '',
     chosenUser: 0,
   }
+
+  addTodo = () => {
+    if (!this.state.todoTitle) {
+      this.setState({ err: 'You can\'t create todo without title' });
+
+      return;
+    }
+
+    if (!this.state.chosenUser) {
+      this.setState({ err: 'Choose the user' });
+
+      return;
+    }
+
+    this.props.app.setState(state => ({
+      preparedTodos: [{
+        title: this.state.todoTitle,
+        id: state.preparedTodos[state.preparedTodos.length - 1].id + 1,
+        user: users.find(user => +this.state.chosenUser === user.id),
+      }, ...state.preparedTodos],
+    }));
+
+    this.setState({
+      todoTitle: '',
+      err: '',
+    });
+  };
 
   render() {
     return (
@@ -28,7 +55,7 @@ export class AddTodoForm extends React.Component {
           <button
             type="button"
             className="addTodoButton"
-            onClick={this.props.addTodo(this)}
+            onClick={this.addTodo}
           >
             addTodo
           </button>
@@ -38,19 +65,18 @@ export class AddTodoForm extends React.Component {
             value={this.state.chosenUser}
             onChange={
               ({ target }) => {
-                this.setState({ chosenUser: +target.value });
+                this.setState({ chosenUser: target.value });
               }
             }
           >
             <option
-              key={0}
               value=""
             >
               choose the user
             </option>
             {users.map(user => (
               <option
-                key={`u${user.id}`}
+                key={user.id}
                 value={user.id}
               >
                 {user.name}
@@ -69,5 +95,5 @@ export class AddTodoForm extends React.Component {
 }
 
 AddTodoForm.propTypes = {
-  addTodo: PropTypes.func.isRequired,
+  app: shape().isRequired,
 };

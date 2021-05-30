@@ -1,18 +1,16 @@
 import React from 'react';
-import { arrayOf, number, shape, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Todo } from './todo';
 
-export const TodoList = ({ todos, users }) => (
+export const TodoList = ({ preparedTodos }) => (
   <ul className="TodoList">
-    {todos.map((todo, i) => (
+    {preparedTodos.map(todo => (
       <li
-        key={`todo${todo.id}`}
+        key={todo.id}
       >
         <Todo
           title={todo.title}
-          userName={users.find(user => (
-            user.id === todo.userId
-          )).name}
+          userName={todo.user.name}
           id={todo.id}
         />
       </li>
@@ -21,13 +19,9 @@ export const TodoList = ({ todos, users }) => (
 );
 
 TodoList.propTypes = {
-  todos: arrayOf(shape({
-    userId: number.isRequired,
-    title: string.isRequired,
-  })).isRequired,
-  users: arrayOf(shape({
-    username: string.isRequired,
-    id: number.isRequired,
-    email: string.isRequired,
+  preparedTodos: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    user: PropTypes.shape().isRequired,
   })).isRequired,
 };
