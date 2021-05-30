@@ -14,7 +14,7 @@ const TodosWithUsers = todos.map(todo => ({
 
 class App extends React.Component {
   state = {
-    renderList: TodosWithUsers,
+    renderList: [...TodosWithUsers],
     title: '',
     user: '',
     completed: false,
