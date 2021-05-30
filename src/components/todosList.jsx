@@ -3,7 +3,7 @@ import './todosList.css';
 
 import PropTypes from 'prop-types';
 
-export const TodosList = ({ todos }) => (
+export const TodosList = React.memo(({ todos }) => (
   <ul className="App__list">
     {todos.map(todo => (
       <li key={todo.id} className="App__item">
@@ -23,12 +23,12 @@ export const TodosList = ({ todos }) => (
                 Not completed
               </strong>
             )
-          }
+            }
         </p>
       </li>
     ))}
   </ul>
-);
+));
 
 TodosList.propTypes = {
   todos: PropTypes.arrayOf(
