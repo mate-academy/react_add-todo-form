@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+}
+
+.TodoForm {
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  grid-template-rows: repeat(2, 50px);
+  justify-items: left;
+  align-items: center;
+  grid-template-areas: "title_input select_user add_button "
+    "title_validtaion user_validtaion ..."
+  ;
+}
+
+.TodoResetButton,
+.TodoAddButton {
+  height: 50px;
+  width: 200px;
+}
+
+.TodoAddButton {
+  grid-area: add_button;
+}
+
+.TitleInput {
+  grid-area: title_input;
+  width: 400px;
+}
+
+.SelectUser {
+  grid-area: select_user;
+  width: 200px;
+}
+
+.TitleValidation {
+  grid-area: title_validtaion;
+  color: red;
+
+}
+
+.UserValidation {
+  grid-area: user_validtaion;
+  color: red;
+
+}
