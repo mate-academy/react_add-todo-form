@@ -19,7 +19,6 @@ export class AddTodoForm extends React.Component {
     this.setState({
       newTitle: event.target.value,
       hasTitleError: false,
-      newTodoId: this.props.lengthForId + 1,
     });
   }
 
@@ -37,6 +36,7 @@ export class AddTodoForm extends React.Component {
     this.setState(state => ({
       hasTitleError: !state.newTitle,
       hasUserError: !state.newUserId,
+      newTodoId: this.props.lengthForId + 1,
     }));
 
     if (!newTitle) {
@@ -95,7 +95,7 @@ export class AddTodoForm extends React.Component {
               <option>Choose a user</option>
               {users.map(user => (
                 <option
-                  key={Math.random()}
+                  key={user.id}
                   value={user.id}
                 >
                   {user.name}
