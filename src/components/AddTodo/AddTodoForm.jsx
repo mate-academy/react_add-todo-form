@@ -19,10 +19,16 @@ export class AddTodoForm extends React.Component {
     },
   }
 
+  changeTitleHandler = (event) => {
+    this.setState({ title: event.target.value });
+    this.changeErrorStatus('missingTitle', false);
+  }
+
   selectAuthorHandler = ({ target }) => {
     this.setState({
       selectedAuthor: target.value,
     });
+    this.changeErrorStatus('missingAuthor', false);
   }
 
   changeErrorStatus = (errorName, status) => {
@@ -84,7 +90,7 @@ export class AddTodoForm extends React.Component {
           value={this.state.title}
           style={errors.missingTitle ? { border: '1px solid red' } : null}
           onChange={(event) => {
-            this.setState({ title: event.target.value });
+            this.changeTitleHandler(event);
           }}
         />
         {
