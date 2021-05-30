@@ -4,6 +4,8 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
+import { TodosList } from './components/todosList';
+
 const TodosWithUsers = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId).name,
@@ -33,20 +35,21 @@ class App extends React.Component {
 
   addNewTask = (event) => {
     event.preventDefault();
+    const { title, user } = this.state;
 
-    if (!this.state.title) {
+    if (!title) {
       this.setState({ taskError: false });
     } else {
       this.setState({ taskError: true });
     }
 
-    if (!this.state.user) {
+    if (!user) {
       this.setState({ userError: false });
     } else {
       this.setState({ userError: true });
     }
 
-    if (this.state.title && this.state.user) {
+    if (title && user) {
       this.setState(state => ({
         renderList: [
           ...state.renderList,
@@ -66,6 +69,8 @@ class App extends React.Component {
   };
 
   render() {
+    const { renderList, title, user, userError, taskError } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -79,28 +84,28 @@ class App extends React.Component {
             type="text"
             name="title"
             placeholder="Enter a new task"
-            value={this.state.title}
+            value={title}
             onChange={this.eventTitleOnChange}
           />
 
-          {!this.state.taskError
+          {!taskError
             && <div className="App__error">Pls write a new task</div>}
 
           <select
             className="App__select"
-            value={this.state.user}
+            value={user}
             onChange={this.eventUserOnChange}
           >
             <option value="">Choose a user</option>
 
-            {users.map(user => (
-              <option key={user.id}>
-                {user.name}
+            {users.map(man => (
+              <option key={man.id}>
+                {man.name}
               </option>
             ))}
           </select>
 
-          {!this.state.userError
+          {!userError
             && <div className="App__error">Pls choose a user</div>}
 
           <button type="submit" className="App__button">
@@ -108,30 +113,7 @@ class App extends React.Component {
           </button>
         </form>
 
-        <ul className="App__list">
-          {this.state.renderList.map(todo => (
-            <li key={todo.id} className="App__item">
-              <h3>{todo.user}</h3>
-
-              <span>
-                {`Task: `}
-                <strong className="App__card-title">{todo.title}</strong>
-              </span>
-
-              <p>
-                {`Status: `}
-                {todo.completed
-                  ? <strong className="App__card-completed">Completed</strong>
-                  : (
-                    <strong className="App__card-notCompleted">
-                      Not completed
-                    </strong>
-                  )
-                }
-              </p>
-            </li>
-          ))}
-        </ul>
+        <TodosList todos={renderList} />
       </div>
     );
   }
