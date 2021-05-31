@@ -16,10 +16,6 @@ const preparedTodos = todos.map(todo => (
 class App extends React.Component {
   state = {
     todos: preparedTodos,
-    newTodoTitle: '',
-    newUserId: 0,
-    hasTodoTitleError: false,
-    hasUserIdError: false,
   }
 
   addTodo = (title, userId) => {
@@ -38,19 +34,6 @@ class App extends React.Component {
     }));
   }
 
-  changeState = (key, value) => {
-    this.setState({
-      [key]: value,
-    });
-  }
-
-  resetForm = () => {
-    this.setState({
-      newTodoTitle: '',
-      newUserId: 0,
-    });
-  }
-
   render() {
     return (
       <div className="App">
@@ -67,15 +50,7 @@ class App extends React.Component {
 
         <section className="form-wrapper">
           <AddTodoForm
-            users={users}
             onAddToTheList={this.addTodo}
-            onSaveInState={this.changeState}
-            onResetForm={this.resetForm}
-
-            newTodoTitle={this.state.newTodoTitle}
-            newUserId={this.state.newUserId}
-            hasTodoTitleError={this.state.hasTodoTitleError}
-            hasUserIdError={this.state.hasUserIdError}
           />
         </section>
 

@@ -1,58 +1,76 @@
 import React from 'react';
 import './AddTodoForm.css';
 import classNames from 'classnames';
-import allTypes from '../../types';
+import PropTypes from 'prop-types';
+import users from '../../api/users';
 
 export class AddTodoForm extends React.Component {
+  state = {
+    title: '',
+    userId: 0,
+    hasTitleError: false,
+    hasUserIdError: false,
+  }
+
+  resetForm = () => {
+    this.setState({
+      title: '',
+      userId: 0,
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { title, userId } = this.state;
+    const { onAddToTheList } = this.props;
+
+    this.setState(() => ({
+      hasTitleError: !title,
+      hasUserIdError: !userId,
+    }));
+
+    if (!title) {
+      return;
+    }
+
+    if (!userId) {
+      return;
+    }
+
+    onAddToTheList(title, userId);
+
+    this.resetForm();
+  }
+
   render() {
     const {
-      users,
-      onAddToTheList,
-      onSaveInState,
-      onResetForm,
-
-      newTodoTitle,
-      newUserId,
-      hasTodoTitleError,
+      title,
+      userId,
+      hasTitleError,
       hasUserIdError,
-    } = this.props;
+    } = this.state;
 
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          onSaveInState('hasTodoTitleError', !newTodoTitle);
-          onSaveInState('hasUserIdError', !newUserId);
-
-          if (!newTodoTitle) {
-            return;
-          }
-
-          if (!newUserId) {
-            return;
-          }
-
-          onAddToTheList(newTodoTitle, newUserId);
-
-          onResetForm();
-        }}
+        onSubmit={this.handleSubmit}
       >
         <div className="fieldWrapper">
           <input
             className={classNames('input', {
-              wrongField: hasTodoTitleError,
+              wrongField: hasTitleError,
             })}
             type="text"
             placeholder="Enter some task, please"
-            value={newTodoTitle}
+            value={title}
             onChange={(event) => {
-              onSaveInState('newTodoTitle', event.target.value);
-              onSaveInState('hasTodoTitleError', false);
+              this.setState({
+                title: event.target.value,
+                hasTitleError: false,
+              });
             }}
           />
 
-          {hasTodoTitleError
+          {hasTitleError
             && (
             <span
               className="fieldAlert"
@@ -68,10 +86,12 @@ export class AddTodoForm extends React.Component {
             className={classNames('sel', {
               wrongField: hasUserIdError,
             })}
-            value={newUserId}
+            value={userId}
             onChange={(event) => {
-              onSaveInState('newUserId', event.target.value);
-              onSaveInState('hasUserIdError', false);
+              this.setState({
+                userId: event.target.value,
+                hasUserIdError: false,
+              });
             }}
           >
 
@@ -113,4 +133,6 @@ export class AddTodoForm extends React.Component {
   }
 }
 
-AddTodoForm.propTypes = allTypes.AddTodoFormType;
+AddTodoForm.propTypes = {
+  onAddToTheList: PropTypes.func.isRequired,
+};

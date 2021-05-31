@@ -28,17 +28,4 @@ allTypes.todoType = PropTypes.shape({
   user: allTypes.userType.isRequired,
 });
 
-allTypes.AddTodoFormType = {
-  users: allTypes.userType.isRequired,
-
-  onAddToTheList: PropTypes.func.isRequired,
-  onSaveInState: PropTypes.func.isRequired,
-  onResetForm: PropTypes.func.isRequired,
-
-  newTodoTitle: PropTypes.string.isRequired,
-  newUserId: PropTypes.number.isRequired,
-  hasTodoTitleError: PropTypes.bool.isRequired,
-  hasUserIdError: PropTypes.bool.isRequired,
-};
-
 export default allTypes;
