@@ -28,10 +28,11 @@ class App extends React.Component {
       taskError: true,
     }));
 
-  eventUserOnChange = event => this.setState({
-    user: event.target.value,
-    userError: true,
-  });
+  eventUserOnChange = event => (
+    this.setState({
+      user: event.target.value,
+      userError: true,
+    }));
 
   addNewTask = (event) => {
     event.preventDefault();
@@ -39,14 +40,10 @@ class App extends React.Component {
 
     if (!title) {
       this.setState({ taskError: false });
-    } else {
-      this.setState({ taskError: true });
     }
 
     if (!user) {
       this.setState({ userError: false });
-    } else {
-      this.setState({ userError: true });
     }
 
     if (title && user) {
