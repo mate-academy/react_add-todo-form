@@ -6,10 +6,14 @@ import Users from '../../api/users';
 import Todos from '../../api/todos';
 
 const greaterId = Todos.sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
+const preparedTodos = Todos.map(todo => ({
+  ...todo,
+  ownerName: Users.find(user => user.id === todo.userId).name,
+}));
 
 export class App extends React.PureComponent {
   state = {
-    todos: Todos,
+    todos: preparedTodos,
     todoTitle: '',
     userName: '',
     userId: null,
@@ -17,7 +21,7 @@ export class App extends React.PureComponent {
     id: greaterId,
   }
 
-  sendData = () => {
+  addTodo = () => {
     this.setState(prevState => ({
       id: prevState.id + 1,
       todos: [
@@ -26,6 +30,8 @@ export class App extends React.PureComponent {
           title: prevState.todoTitle,
           userId: prevState.userId,
           id: prevState.id + 1,
+          ownerName: Users.find(user => user.id === prevState.userId).name,
+          completed: false,
         },
       ],
       todoTitle: '',
@@ -33,8 +39,19 @@ export class App extends React.PureComponent {
     }));
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ buttonClicked: true });
+
+    if (this.state.todoTitle === '' || this.state.userName === '') {
+      return;
+    }
+
+    this.addTodo();
+  }
+
   render() {
-    const { todos, todoTitle, userName, userId, buttonClicked } = this.state;
+    const { todoTitle, userName, buttonClicked } = this.state;
 
     return (
       <div className="App">
@@ -43,12 +60,9 @@ export class App extends React.PureComponent {
         <p>
           <span>{`Users: ${Users.length}`}</span>
         </p>
-
         <form
           method="GET"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
+          onSubmit={this.handleSubmit}
         >
           <select
             name="users"
@@ -64,7 +78,7 @@ export class App extends React.PureComponent {
               });
             }}
           >
-            <option value="">Choose user</option>
+            <option value="" disabled>Choose user</option>
 
             {Users.map(user => (
               <option key={user.id} value={user.name}>
@@ -105,29 +119,12 @@ export class App extends React.PureComponent {
 
           <button
             type="submit"
-            onClick={() => {
-              this.setState({ buttonClicked: true });
-
-              if (todoTitle === '' || userName === '') {
-                return;
-              }
-
-              this.sendData();
-            }}
           >
             Add
           </button>
         </form>
 
-        <ul>
-          {todos
-            .filter(todo => todo.userId === userId)
-            .map(todo => (
-              <li key={todo.id}>
-                <TodoList {...todo} />
-              </li>
-            ))}
-        </ul>
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
