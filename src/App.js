@@ -18,7 +18,7 @@ state = {
   titleError: false,
 }
 
-handleChange = (event) => {
+handleTitleChange = (event) => {
   this.setState({
     newTodo: event.target.value,
     titleError: false,
@@ -83,7 +83,7 @@ render() {
             type="text"
             value={this.state.newTodo}
             placeholder="Add new todo"
-            onChange={this.handleChange}
+            onChange={this.handleTitleChange}
           />
         </label>
         {this.state.titleError

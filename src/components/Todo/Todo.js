@@ -15,7 +15,7 @@ const Todo = ({ title, completed, user }) => {
       <p>
         {`Status: ${status}`}
       </p>
-      <User {...user} />
+      <User user={user} />
     </>
   );
 };
