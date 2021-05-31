@@ -54,7 +54,6 @@ handleSubmit = (event) => {
       completed: false,
       title: state.newTodo,
       user: users.find(person => person.name === state.user),
-      userId: users.find(person => person.name === state.user).id,
       id: state.todos.length + 1,
     },
     ...state.todos,
