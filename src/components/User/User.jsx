@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const User = ({ name }) => (
-  <p className="userName">{name}</p>
+export const User = ({ name, completed }) => (
+  <>
+    <p className="userName">{name}</p>
+    {completed ? <p>Completed</p> : <p>Not completed</p>}
+  </>
 );
 
 User.propTypes = {

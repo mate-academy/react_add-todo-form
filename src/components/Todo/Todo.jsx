@@ -9,7 +9,7 @@ export const Todo = ({
 }) => (
   <>
     <h3 className="todo-title">{title}</h3>
-    <User {...user} />
+    <User name={user.name} completed={completed} />
   </>
 );
 

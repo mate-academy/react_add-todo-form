@@ -16,23 +16,24 @@ class App extends React.Component {
     newTodoTitle: '',
     newUserId: 0,
     hasTitleError: false,
-    hasUserError: false
+    hasUserError: false,
+    prevId: Math.max(...preparedTodos.map(todo => todo.id))
   }
 
   addTodo(todoTitle, userId) {
     const newTodo = {
       userId: userId,
-      id: +new Date(),
+      id: this.state.prevId + 1,
       title: todoTitle,
       completed: false,
       user: users.find(user => user.id === userId)
     }
-
-    console.log(newTodo); 
   
     this.setState({
       todos: [...this.state.todos, newTodo ]
     });
+
+    console.log(newTodo);
   };
 
   handleTitleChange = (event) => {
@@ -68,7 +69,8 @@ class App extends React.Component {
     this.addTodo(newTodoTitle, newUserId);
     this.setState({
       newTodoTitle: '',
-      newUserId: 0
+      newUserId: 0,
+      prevId: this.state.prevId + 1
     });
   }
 
