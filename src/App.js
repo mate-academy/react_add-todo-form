@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import UserList from './Components/UserList/UserList';
+import TodoList from './Components/UserList/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
@@ -23,27 +23,17 @@ class App extends React.Component {
     this.setState({
       title: event.target.value,
     });
-
-    if (event.target.value !== '') {
-      this.setState({
-        todoError: false,
-      });
-    }
   }
 
   handleChangeName = (event) => {
     this.setState({
       name: event.target.value,
     });
-
-    if (event.target.value !== '') {
-      this.setState({
-        userError: false,
-      });
-    }
   }
 
   handleFormSubmit = (event) => {
+    event.preventDefault();
+
     if (this.state.title === '') {
       this.setState({ todoError: true });
     }
@@ -52,7 +42,7 @@ class App extends React.Component {
       this.setState({ userError: true });
     }
 
-    if (this.state.name !== '' && this.state.title !== '') {
+    if (this.state.name && this.state.title) {
       this.setState(state => ({
         todos: [
           ...state.todos,
@@ -73,8 +63,6 @@ class App extends React.Component {
         userError: false,
       });
     }
-
-    event.preventDefault();
   };
 
   render() {
@@ -96,6 +84,7 @@ class App extends React.Component {
           )}
 
           <select
+            value={this.state.name}
             onChange={this.handleChangeName}
             className="App__select"
           >
@@ -117,7 +106,7 @@ class App extends React.Component {
 
           <button type="submit" className="button">Add</button>
         </form>
-        <UserList userList={newTodo} />
+        <TodoList userList={newTodo} />
       </div>
     );
   }

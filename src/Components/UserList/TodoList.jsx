@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UserList = ({ userList }) => (
+const TodoList = ({ userList }) => (
   <ul>
     {userList.map(todo => (
       <li key={todo.id}>
@@ -15,7 +15,7 @@ const UserList = ({ userList }) => (
   </ul>
 );
 
-UserList.propTypes = {
+TodoList.propTypes = {
   userList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -26,4 +26,4 @@ UserList.propTypes = {
   ).isRequired,
 };
 
-export default UserList;
+export default TodoList;
