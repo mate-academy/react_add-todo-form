@@ -19,7 +19,7 @@ export class TodoList extends React.Component {
     });
   }
 
-  handleUserAdded = (event) => {
+  handleChangeUser = (event) => {
     this.setState({
       userName: event.target.value,
       isUserSelected: true,
@@ -32,8 +32,12 @@ export class TodoList extends React.Component {
     const { users } = this.props;
 
     this.setState(({ todos, title, userName }) => {
+      if(!title && !userName) {
+        return {  isTodoAdded: false, isUserSelected: false };
+      }
+
       if (!title) {
-        return { isTitleAdd: false };
+        return {  isTodoAdded: false };
       }
 
       if (!userName) {
@@ -41,12 +45,15 @@ export class TodoList extends React.Component {
       }
 
       return ({
-        todos: [...todos, {
-          id: todos.length + 1,
-          title,
-          completed: false,
-          user: users.find(user => user.name === userName),
-        }],
+        todos: [
+          ...todos,
+          {
+            id: todos.length + 1,
+            title,
+            completed: false,
+            user: users.find(user => user.name === userName),
+          }
+        ],
         title: '',
         userName: '',
       });
@@ -69,6 +76,7 @@ export class TodoList extends React.Component {
             name="newTodo"
             id="newTodo"
             placeholder="Add new todo"
+            value={this.state.title}
             onChange={this.handleChangeTitle}
           />
           <p className={
@@ -81,7 +89,7 @@ export class TodoList extends React.Component {
             name="users"
             onChange={this.handleChangeUser}
           >
-            <option disabled value="">Select user</option>
+            <option selected disabled>Select user</option>
             {users.map(({ id, name }) => (
               <option key={id}>
                 {name}

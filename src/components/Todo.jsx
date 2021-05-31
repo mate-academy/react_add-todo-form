@@ -22,4 +22,5 @@ Todo.propTypes = {
   completed: propTypes.bool.isRequired,
   user: propTypes.shape({}).isRequired,
 };
+
 export default Todo;
