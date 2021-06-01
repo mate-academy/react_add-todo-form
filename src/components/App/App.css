@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.error {
+  position: absolute;
+  margin-left: 10px;
+  color: red;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
