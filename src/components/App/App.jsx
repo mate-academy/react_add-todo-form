@@ -41,7 +41,10 @@ export class App extends React.PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ buttonClicked: true });
+    this.setState({
+      buttonClicked: true,
+      userName: '',
+    });
 
     if (this.state.todoTitle === '' || this.state.userName === '') {
       return;
@@ -88,9 +91,9 @@ export class App extends React.PureComponent {
           </select>
 
           {buttonClicked && userName === '' && (
-          <span className="error select-message">
-            Please choose a user
-          </span>
+            <span className="error select-message">
+              Please choose a user
+            </span>
           )}
 
           <br />
@@ -109,9 +112,9 @@ export class App extends React.PureComponent {
           />
 
           {buttonClicked && todoTitle === '' && (
-          <span className="error todo-message">
-            Please enter the title
-          </span>
+            <span className="error todo-message">
+              Please enter the title
+            </span>
           )}
 
           <br />
