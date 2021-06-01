@@ -21,11 +21,7 @@ class App extends React.Component {
       todoSelected: !state.todo,
     }));
 
-    if (!this.state.userName) {
-      return;
-    }
-
-    if (!this.state.todo) {
+    if (!this.state.userName || !this.state.todo) {
       return;
     }
 
