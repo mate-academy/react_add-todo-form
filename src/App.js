@@ -1,102 +1,112 @@
 import React from 'react';
-import { TodoList } from './components/TodoList';
 import './App.css';
+import TodoList from './components/TodoList';
 
 import users from './api/users';
+import todos from './api/todos';
+
+const list = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId).name,
+}));
 
 class App extends React.Component {
   state = {
-    userName: '',
-    todo: '',
-    todos: [],
-    userSelected: false,
-    todoSelected: false,
+    todos: [...list],
+    title: '',
+    name: '',
+    todoError: false,
+    userError: false,
   }
 
-  addTodo = (event) => {
+  handleChangeTitle = (event) => {
+    this.setState({
+      title: event.target.value,
+    });
+  }
+
+  handleChangeName = (event) => {
+    this.setState({
+      name: event.target.value,
+    });
+  }
+
+  handleFormSubmit = (event) => {
     event.preventDefault();
 
-    this.setState(state => ({
-      userSelected: !state.userName,
-      todoSelected: !state.todo,
-    }));
-
-    if (!this.state.userName || !this.state.todo) {
-      return;
+    if (this.state.title === '') {
+      this.setState({ todoError: true });
     }
 
-    this.setState(state => ({
-      todos: [...state.todos, {
-        name: state.userName,
-        todo: state.todo,
-        userId: users.find(user => user.name === state.userName).id,
-        id: state.todos.length + 1,
-      }],
-      userName: '',
-      todo: '',
-    }));
-  }
+    if (this.state.name === '') {
+      this.setState({ userError: true });
+    }
 
-  handleUserChange = (event) => {
-    this.setState({
-      userSelected: false,
-      userName: event.target.value,
-    });
-  }
+    if (this.state.name && this.state.title) {
+      this.setState(state => ({
+        todos: [
+          ...state.todos,
+          {
+            user: state.name,
+            title: state.title,
+            completed: false,
+            userId: users.find(user => user.name === state.name).id,
+            id: state.todos.length + 1,
+          },
+        ],
+      }));
 
-  handleTodoChange = (event) => {
-    this.setState({
-      todoSelected: false,
-      todo: event.target.value,
-    });
-  }
+      this.setState({
+        name: '',
+        title: '',
+        todoError: false,
+        userError: false,
+      });
+    }
+  };
 
   render() {
-    const { todo, userName, todos, userSelected, todoSelected } = this.state;
+    const newTodo = this.state.todos;
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
-        <form onSubmit={this.addTodo}>
-          <label>
-            <input
-              type="text"
-              name="todos"
-              placeholder="Add todo"
-              value={todo}
-              onChange={this.handleTodoChange}
-            />
-          </label>
-          {todoSelected
-            && <span className="error">Please enter the title</span>}
-          <br />
+        <form onSubmit={this.handleFormSubmit}>
+          <input
+            className="App__text"
+            type="text"
+            placeholder="Title"
+            value={this.state.title}
+            onChange={this.handleChangeTitle}
+          />
+
+          {this.state.todoError && (
+            <span>Please enter the title</span>
+          )}
+
           <select
-            name="user"
-            value={userName}
-            onChange={this.handleUserChange}
+            value={this.state.name}
+            onChange={this.handleChangeName}
+            className="App__select"
           >
-            <option value="">
+            <option
+              value=""
+            >
               Choose a user
             </option>
             {users.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
+              <option value={user.name} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          {userSelected
-            && <span className="error">Please choose a user</span>}
-          <br />
-          <button type="submit">Add</button>
+
+          {this.state.userError && (
+            <span>Please choose a user</span>
+          )}
+
+          <button type="submit" className="button">Add</button>
         </form>
-        <TodoList usersTodos={todos} />
-        <p>
-          <span>Users: </span>
-          {users.length}
-        </p>
+        <TodoList userList={newTodo} />
       </div>
     );
   }
