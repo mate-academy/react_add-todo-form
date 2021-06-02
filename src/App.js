@@ -8,19 +8,18 @@ import { AddTodoForm } from './components/AddTodo/AddTodoForm';
 
 class App extends React.Component {
   state = {
-    preparedTodos: todos.map(todo => ({
+    todos: todos.map(todo => ({
       ...todo,
       user: users.find(({ id }) => id === todo.userId),
     })),
-    authors: users,
   }
 
-  addTodoHandler = (title, author) => {
+  handleAddTodo = (title, author) => {
     this.setState(state => ({
-      preparedTodos: [
-        ...state.preparedTodos,
+      todos: [
+        ...state.todos,
         {
-          id: state.preparedTodos.length + 1,
+          id: state.todos.length + 1,
           title,
           user: users.find(({ name }) => name === author),
           completed: false,
@@ -30,12 +29,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { preparedTodos, authors } = this.state;
+    // eslint-disable-next-line
+    const { todos } = this.state;
 
     return (
       <div className="App">
-        <AddTodoForm authors={authors} addTodo={this.addTodoHandler} />
-        <TodoList todos={preparedTodos} />
+        <AddTodoForm addTodo={this.handleAddTodo} />
+        <TodoList todos={todos} />
       </div>
     );
   }

@@ -2,9 +2,11 @@ import React from 'react';
 import './AddTodoForm.css';
 import PropTypes from 'prop-types';
 
+import users from '../../api/users';
+
 export class AddTodoForm extends React.Component {
   state = {
-    authors: this.props.authors
+    authors: users
       .concat({
         id: Math.random(),
         name: 'Choose an author',
@@ -19,12 +21,12 @@ export class AddTodoForm extends React.Component {
     },
   }
 
-  changeTitleHandler = (event) => {
+  handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
     this.changeErrorStatus('missingTitle', false);
   }
 
-  selectAuthorHandler = ({ target }) => {
+  handleSelectAuthor = ({ target }) => {
     this.setState({
       selectedAuthor: target.value,
     });
@@ -40,7 +42,7 @@ export class AddTodoForm extends React.Component {
     }));
   }
 
-  submitHandler = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { title, selectedAuthor } = this.state;
     const { addTodo } = this.props;
@@ -73,9 +75,7 @@ export class AddTodoForm extends React.Component {
     return (
       <form
         className="AddTodoForm"
-        onSubmit={(event) => {
-          this.submitHandler(event);
-        }}
+        onSubmit={this.handleSubmit}
       >
         <label htmlFor="title" className="AddTodoForm__title">
           Type your todo title
@@ -89,9 +89,7 @@ export class AddTodoForm extends React.Component {
           placeholder="Title"
           value={this.state.title}
           style={errors.missingTitle ? { border: '1px solid red' } : null}
-          onChange={(event) => {
-            this.changeTitleHandler(event);
-          }}
+          onChange={this.handleChangeTitle}
         />
         {
           errors.missingTitle && (
@@ -105,9 +103,7 @@ export class AddTodoForm extends React.Component {
           name="authors"
           style={errors.missingAuthor ? { border: '1px solid red' } : null}
           value={selectedAuthor}
-          onChange={(event) => {
-            this.selectAuthorHandler(event);
-          }}
+          onChange={this.handleSelectAuthor}
           className="AddTodoForm__authorsSelect"
         >
           {authors.map(author => (
@@ -135,6 +131,5 @@ export class AddTodoForm extends React.Component {
 }
 
 AddTodoForm.propTypes = {
-  authors: PropTypes.arrayOf(PropTypes.object).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
