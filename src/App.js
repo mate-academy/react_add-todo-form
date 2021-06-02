@@ -38,13 +38,15 @@ class App extends React.Component {
 
   handleTitleChange = (event) => {
     this.setState({
-      newTodoTitle: event.target.value
+      newTodoTitle: event.target.value,
+      hasTitleError: false
     })
   };
 
   handleUserChange = (event) => {
     this.setState({
-      newUserId: +event.target.value
+      newUserId: +event.target.value,
+      hasUserError: false
     })
   };
 
@@ -52,7 +54,14 @@ class App extends React.Component {
     event.preventDefault();
     const { newTodoTitle, newUserId } = this.state;
 
-    if (!newTodoTitle) {
+    if (!newTodoTitle && !newUserId) {
+      this.setState({
+        hasTitleError: !newTodoTitle,
+        hasUserError: !newUserId
+      })
+    }
+
+    if (!newTodoTitle || !newTodoTitle.trim().length) {
       this.setState({
         hasTitleError: !newTodoTitle
       });
@@ -70,7 +79,9 @@ class App extends React.Component {
     this.setState({
       newTodoTitle: '',
       newUserId: 0,
-      prevId: this.state.prevId + 1
+      prevId: this.state.prevId + 1,
+      hasTitleError: false,
+      hasUserError: false
     });
   }
 
