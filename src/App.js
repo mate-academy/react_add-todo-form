@@ -14,23 +14,28 @@ class App extends React.Component {
     errorUser: false,
   };
 
-  handleChange = (event) => {
+  handleChangeInput = (event) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      input: event.target.value,
+      errorTodo: false,
+    });
+  };
+
+  handleChangeSelect = (event) => {
+    this.setState({
+      select: event.target.value,
+      errorUser: false,
     });
   };
 
   formSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.input === '') {
-      this.setState({ errorTodo: true });
-
-      return;
-    }
-
-    if (this.state.select === '') {
-      this.setState({ errorUser: true });
+    if (this.state.input === '' || this.state.select === '') {
+      this.setState(prevState => ({
+        errorTodo: prevState.input === '',
+        errorUser: prevState.select === '',
+      }));
 
       return;
     }
@@ -40,7 +45,7 @@ class App extends React.Component {
         ...prevState.todos,
         {
           userId: users.find(user => user.name === prevState.select).id,
-          id: prevState.length + 1,
+          id: prevState.todos.length + 1,
           title: prevState.input,
           completed: false,
         },
@@ -70,7 +75,7 @@ class App extends React.Component {
             className="label"
             type="text"
             name="input"
-            onChange={this.handleChange}
+            onChange={this.handleChangeInput}
             value={this.state.input}
             placeholder="Add a new TODO"
           />
@@ -79,7 +84,7 @@ class App extends React.Component {
           )}
           <select
             value={this.state.select}
-            onChange={this.handleChange}
+            onChange={this.handleChangeSelect}
             name="select"
           >
             <option value="">Choose a user</option>
