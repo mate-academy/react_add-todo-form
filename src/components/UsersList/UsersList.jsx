@@ -19,7 +19,7 @@ export const UsersList = React.memo(({ users, todos }) => {
 
           return (
             <li key={user.id}>
-              <Card user={user} todosList={userTodos} />
+              <Card user={user} userTodos={userTodos} />
             </li>
           );
         })

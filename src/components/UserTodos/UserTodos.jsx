@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 
 import { Todo } from '../Todo';
 
-import './TodosList.scss';
+import './UserTodos.scss';
 
-export const TodosList = React.memo(({ todosList, checkForCompleted }) => (
+export const UserTodos = ({ userTodos, statusToggle }) => (
 
   <ul className="todos">
-    {todosList.map(todo => (
+    {userTodos.map(todo => (
       <li key={todo.id} className="todos-list__item todo">
         <Todo
           todo={todo}
-          checkForCompleted={checkForCompleted}
+          statusToggle={statusToggle}
         />
       </li>
     ))}
   </ul>
-));
+);
 
-TodosList.propTypes = {
-  todosList: PropTypes.arrayOf(
+UserTodos.propTypes = {
+  userTodos: PropTypes.arrayOf(
     PropTypes.object.isRequired,
   ).isRequired,
-  checkForCompleted: PropTypes.func.isRequired,
+  statusToggle: PropTypes.func.isRequired,
 };

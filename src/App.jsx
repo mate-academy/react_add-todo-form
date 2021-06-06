@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 
-import todos from './api/todos';
-import users from './api/users';
+import todosApi from './api/todos';
+import usersApi from './api/users';
 
 import { UsersList } from './components/UsersList';
 
@@ -21,10 +21,10 @@ const TextAreaError = () => (
 
 class App extends React.Component {
   state = {
-    todos,
-    users,
+    todos: todosApi,
+    users: usersApi,
     error: '',
-    todoId: todos.length,
+    todoId: todosApi.length,
     userId: '',
     todoTitle: '',
   }
@@ -60,12 +60,19 @@ class App extends React.Component {
     };
 
     this.setState(state => ({
+      todos: [...state.todos, newTodo],
+    }));
+
+    this.resetState();
+  };
+
+  resetState = () => {
+    this.setState(state => ({
       userId: '',
       todoTitle: '',
       todoId: state.todoId + 1,
-      todos: [...state.todos, newTodo],
     }));
-  };
+  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -78,8 +85,8 @@ class App extends React.Component {
 
   render() {
     const {
-      users: usersList,
-      todos: todosList,
+      users,
+      todos,
       error,
       todoTitle,
       userId,
@@ -105,7 +112,7 @@ class App extends React.Component {
               >
                 <option>Choose a user</option>
                 {
-                  usersList.map(user => (
+                  users.map(user => (
                     <option key={user.id} value={user.id}>{user.name}</option>
                   ))
                 }
@@ -126,8 +133,8 @@ class App extends React.Component {
 
           <section className="board">
             <UsersList
-              users={usersList}
-              todos={todosList}
+              users={users}
+              todos={todos}
             />
           </section>
         </main>

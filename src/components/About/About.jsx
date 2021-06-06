@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './About.scss';
 
-export const About = React.memo(({ name, email, phone, address }) => (
+export const About = ({ name, email, phone, address }) => (
   <div className="user">
     <div className="name">
       {name}
@@ -24,7 +24,7 @@ export const About = React.memo(({ name, email, phone, address }) => (
     </div>
   </div>
 
-));
+);
 
 About.propTypes = {
   name: PropTypes.string.isRequired,

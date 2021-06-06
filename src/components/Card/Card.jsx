@@ -1,50 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { About } from '../About/About';
-import { TodosList } from '../TodosList';
+import { About } from '../About';
+import { UserTodos } from '../UserTodos';
 
 import './Card.scss';
 
-export class Card extends React.PureComponent {
-  state = {
-    ...this.props,
-  }
+export const Card = ({ user, userTodos }) => {
+  const [count, setCount] = useState(0);
 
-  checkForCompleted = (value) => {
-    const { todosList } = this.state;
+  const statusToggle = (event) => {
+    const chosenTodo = userTodos.find(todo => todo.id === +event.target.value);
+    const chosenTodoStatus = chosenTodo.completed;
 
-    const index = todosList.findIndex(todo => todo.id === value);
-    const todo = todosList.splice(index, 1)[0];
+    chosenTodo.completed = !chosenTodoStatus;
 
-    todosList.splice(index, 0, {
-      ...todo, completed: !todo.completed,
-    });
+    setCount(count + 1);
+  };
 
-    this.forceUpdate();
-  }
+  return (
 
-  handleComplededStatus() {
-    return this.state.todosList.every(todo => todo.completed);
-  }
+    <span
+      key={user.id}
+      className={classNames(
+        'card',
+        { 'card--is-completed': userTodos.every(todo => todo.completed) },
+      )}
+    >
+      <About {...user} />
+      <UserTodos
+        userTodos={userTodos}
+        statusToggle={statusToggle}
+      />
+    </span>
+  );
+};
 
-  render() {
-    const { user, todosList } = this.state;
-
-    return (
-      <span
-        key={user.id}
-        className={classNames(
-          'card',
-          { 'card--is-completed': this.handleComplededStatus() },
-        )}
-      >
-        <About {...user} />
-        <TodosList
-          todosList={todosList}
-          checkForCompleted={this.checkForCompleted}
-        />
-      </span>
-    );
-  }
-}
+Card.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+  userTodos: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
+};

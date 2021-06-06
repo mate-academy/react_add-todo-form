@@ -1,48 +1,41 @@
-/* eslint-disable react/prop-types */
+
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './Todo.scss';
 
-export class Todo extends React.Component {
-  state = {
-    ...this.props.todo,
-  };
+export const Todo = ({ todo, statusToggle }) => {
+  const { completed, title, id } = todo;
 
-  handleClick = (event) => {
-    this.setState(state => ({
-      completed: !state.completed,
-    }));
+  return (
+    <>
+      <p className={classNames(
+        'todo__title',
+        { 'todo__title--is-completed': completed },
+      )}
+      >
+        {title}
+      </p>
 
-    this.props.checkForCompleted(+event.target.value);
-  }
-
-  render() {
-    const { completed, title, id } = this.state;
-
-    return (
-
-      <>
-        <p className={classNames(
-          'todo__title',
-          { 'todo__title--is-completed': completed },
+      <button
+        type="button"
+        className={classNames(
+          'todo__status',
+          { 'todo__status--is-completed': completed },
         )}
-        >
+        value={id}
+        onClick={statusToggle}
+      />
+    </>
+  );
+};
 
-          {title}
-        </p>
-
-        <button
-          type="button"
-          className={classNames(
-            'todo__status',
-            { 'todo__status--is-completed': completed },
-          )}
-          value={id}
-          onClick={this.handleClick}
-        />
-
-      </>
-    );
-  }
-}
+Todo.propTypes = {
+  todo: PropTypes.shape({
+    completed: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+  statusToggle: PropTypes.func.isRequired,
+};
