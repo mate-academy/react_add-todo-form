@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,31 +7,44 @@ import { UserTodos } from '../UserTodos';
 
 import './Card.scss';
 
+function countTodosCompleted(todos) {
+  return todos.filter(todo => todo.completed).length;
+}
+
 export const Card = ({ user, userTodos }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(countTodosCompleted(userTodos));
+
+  useEffect(() => {
+    setCount(countTodosCompleted(userTodos));
+  });
 
   const statusToggle = (event) => {
-    const chosenTodo = userTodos.find(todo => todo.id === +event.target.value);
-    const chosenTodoStatus = chosenTodo.completed;
+    const { value } = event.target;
+    const chosenTodo = userTodos.find(todo => todo.id === value);
 
-    chosenTodo.completed = !chosenTodoStatus;
+    chosenTodo.completed = !chosenTodo.completed;
 
-    setCount(count + 1);
+    setCount(countTodosCompleted(userTodos));
   };
 
   return (
-
     <span
       key={user.id}
       className={classNames(
-        'card',
-        { 'card--is-completed': userTodos.every(todo => todo.completed) },
+        'box',
+        { 'box--is-completed': count === userTodos.length },
       )}
     >
       <About {...user} />
+
       <UserTodos
         userTodos={userTodos}
         statusToggle={statusToggle}
+      />
+      <progress
+        className="progress is-success"
+        value={count}
+        max={userTodos.length}
       />
     </span>
   );
@@ -42,7 +55,7 @@ Card.propTypes = {
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
+    address: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired,
   }).isRequired,
   userTodos: PropTypes.arrayOf(

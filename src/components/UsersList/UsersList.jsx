@@ -11,7 +11,6 @@ export const UsersList = React.memo(({ users, todos }) => {
   ));
 
   return (
-
     <ul className="users-list">
       {
         usersWithTodos.map((user) => {

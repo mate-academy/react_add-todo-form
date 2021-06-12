@@ -9,7 +9,7 @@ export const UserTodos = ({ userTodos, statusToggle }) => (
 
   <ul className="todos">
     {userTodos.map(todo => (
-      <li key={todo.id} className="todos-list__item todo">
+      <li key={todo.id}>
         <Todo
           todo={todo}
           statusToggle={statusToggle}

@@ -9,7 +9,7 @@ export const About = ({ name, email, phone, address }) => (
       {name}
     </div>
     <div className="user__about">
-      <p className="email">
+      <p>
         <span className="label">email:</span>
         {email}
       </p>

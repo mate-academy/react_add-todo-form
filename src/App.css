@@ -5,29 +5,7 @@
   list-style: none;
 }
 
-.error {
-  position: absolute;
-  display: block;
-  color: red;
-  text-align: center;
-  font-weight: 700;
-  top: -25px;
-  border-radius: 10px;
-  border-bottom: 3px solid red;
-  width: 300px;
-  font-size: 30px;
-}
-
-.error--select {
-  left: 5px;
-}
-
-.error--text-area {
-  left: 400px;
-}
-
 .App {
-  background: linear-gradient(145deg, #fee9e4, #d5e08e);
   box-shadow: 10px 10px 20px black;
   border: 1px solid #000;
   border-radius: 10px;
@@ -47,43 +25,10 @@
 }
 
 .main {
-  position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   gap: 20px;
 }
 
-.form {
-  position: relative;
-  display: flex;
-  height: 100px;
-  gap: 20px;
-}
-
-.wraper {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 10px;
-}
-
-.select {
-  flex-grow: 1;
-}
-
-.button-add {
-  flex-grow: 1;
-}
-
-.text-field {
-  resize: none;
-  flex-grow: 2;
-}
-
-.board {
-  box-shadow: inset 0 0 25px #878484;
-  background-color: #faf7e4;
-  padding: 30px;
-  flex-grow: 1;
-}
+/*# sourceMappingURL=App.css.map */
