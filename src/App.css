@@ -1,3 +1,50 @@
 .App {
   text-align: center;
 }
+
+.addTodoFormBlock {
+  max-width: 550px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.TodoList {
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  list-style: none;
+}
+
+.Todo {
+  word-wrap: break-word;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 500px;
+  box-shadow: 0 0 5px 3px rgb(233, 240, 243);
+}
+
+.addTodoButton {
+  width: auto;
+  border: solid 1px;
+  height: auto;
+  box-shadow: 0 0 5px 3px rgb(233, 240, 243);
+  background-color: white;
+}
+
+.addTodoButton:active {
+  box-shadow: 0 0 5px 3px inset rgb(233, 240, 243);
+  background-color: rgb(241, 238, 238);
+}
+
+.addTodoForm {
+  font-size: 25px;
+  width: 500px;
+  height: auto;
+}
+
+.ErrBlock {
+  background-color: rgba(255, 0, 0, 0.64);
+  color: rgb(255, 255, 255);
+}
