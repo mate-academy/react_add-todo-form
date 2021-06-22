@@ -14,11 +14,21 @@ class App extends React.Component {
     })),
   }
 
+  addTodo = (todo) => {
+    this.setState({
+      preparedTodos: [
+        todo,
+        ...this.state.preparedTodos]
+    })
+  }
+
   render() {
     return (
       <>
         <div className="App">
-          <AddTodoForm app={this} />
+          <AddTodoForm addTodo={this.addTodo} nextTodoId={
+            this.state.preparedTodos[this.state.preparedTodos.length - 1].id + 1
+          }/>
           <TodoList
             preparedTodos={this.state.preparedTodos}
           />

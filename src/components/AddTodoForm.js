@@ -23,13 +23,11 @@ export class AddTodoForm extends React.Component {
       return;
     }
 
-    this.props.app.setState(state => ({
-      preparedTodos: [{
-        title: this.state.todoTitle,
-        id: state.preparedTodos[state.preparedTodos.length - 1].id + 1,
-        user: users.find(user => +this.state.chosenUser === user.id),
-      }, ...state.preparedTodos],
-    }));
+    this.props.addTodo({
+      title: this.state.todoTitle,
+      id: this.props.nextTodoId,
+      user: users.find(user => +this.state.chosenUser === user.id),
+    });
 
     this.setState({
       todoTitle: '',
