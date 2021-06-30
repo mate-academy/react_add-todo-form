@@ -1,3 +1,28 @@
 .App {
   text-align: center;
 }
+
+.name-style {
+  color: rgb(0, 217, 255);
+  font-weight: bold;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.color__boolean {
+  color: blue;
+}
+
+.color__true {
+  color: green;
+}
+
+.color__false {
+  color: red;
+}
+
+.color__boolean,
+.color__true,
+.color__false {
+  font-weight: bold;
+}

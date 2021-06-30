@@ -1,19 +1,118 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
+import todos from './api/todos';
 import users from './api/users';
+import { TodoList } from './componets/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const todosCopy = [...todos];
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+export class App extends Component {
+  state = {
+    title: '',
+    userId: '',
+    preparedTodos: todosCopy.map(todo => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
+    })),
+    inputError: '',
+    selectError: '',
+  };
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({
+      [name]: value,
+      inputError: '',
+      selectError: '',
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!this.state.title) {
+      this.setState({ inputError: 'Please enter the title' });
+
+      return;
+    }
+
+    if (!this.state.userId) {
+      this.setState({ selectError: 'Please choose a user' });
+
+      return;
+    }
+
+    const todo = {
+      userId: +this.state.userId,
+      id: this.state.preparedTodos.length + 1,
+      title: this.state.title,
+      completed: false,
+      user: users.find(user => user.id === +this.state.userId),
+    };
+
+    this.setState(state => ({
+      title: '',
+      userId: '',
+      preparedTodos: [...state.preparedTodos, todo],
+    }));
+  }
+
+  render() {
+    const {
+      title,
+      userId,
+      preparedTodos,
+      inputError,
+      selectError,
+    } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Static list of todos</h1>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label>
+              {'Введите название дела: '}
+              <input
+                type="text"
+                name="title"
+                placeholder="Title"
+                value={title}
+                onChange={this.handleChange}
+              />
+            </label>
+            <span>{inputError}</span>
+          </div>
+
+          <div>
+            <label>
+              {'Выберите пользователя: '}
+              <select
+                name="userId"
+                value={userId}
+                onChange={this.handleChange}
+              >
+                <option>Choose a user</option>
+                {users.map(user => (
+                  <option
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <span>{selectError}</span>
+          </div>
+
+          <button type="submit">Add</button>
+        </form>
+
+        <TodoList todos={preparedTodos} />
+      </div>
+    );
+  }
 }
-
-export default App;
