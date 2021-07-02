@@ -32,13 +32,15 @@ export class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!this.state.title) {
+    const { title, userId } = this.state;
+
+    if (!title || title.trim().length === 0) {
       this.setState({ inputError: 'Please enter the title' });
 
       return;
     }
 
-    if (!this.state.userId) {
+    if (!userId) {
       this.setState({ selectError: 'Please choose a user' });
 
       return;
@@ -94,7 +96,7 @@ export class App extends Component {
                 value={userId}
                 onChange={this.handleChange}
               >
-                <option>Choose a user</option>
+                <option value="">Choose a user</option>
                 {users.map(user => (
                   <option
                     key={user.id}
