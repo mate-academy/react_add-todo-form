@@ -1,3 +1,54 @@
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background: antiquewhite;
+}
+
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 600px;
+  width: 800px;
+  overflow-y: auto;
+  border: 3px solid darkcyan;
+  border-radius: 20px;
+  background: cadetblue;
+}
+
+.App__form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.App__item {
+  width: 200px;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.App__item--select {
+  height: 34px;
+  width: 215px;
+}
+
+.App__error {
+  height: 20px;
+  padding: 0;
+  margin: 5px;
   text-align: center;
+  font-weight: bold;
+  color: #961c1c;
+}
+
+.App__submit {
+  width: 218px;
+  height: 34px;
 }
