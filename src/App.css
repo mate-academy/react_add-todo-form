@@ -1,3 +1,38 @@
 .App {
+  margin: 0;
+  display: grid;
+  justify-content: center;
   text-align: center;
+}
+
+.form-todo {
+  margin-bottom: 100px;
+}
+
+.todo-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 2px solid cornflowerblue;
+  border-radius: 10px;
+  background-color: bisque;
+}
+
+.todo-list__cell {
+  background-color: antiquewhite;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.error--show {
+  display: block;
+  width: 100px;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 0 auto;
+  color: burlywood;
+}
+
+.error--hide {
+  display: none;
+  background-color: transparent;
 }
