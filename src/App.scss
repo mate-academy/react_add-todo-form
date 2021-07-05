@@ -1,0 +1,153 @@
+.app {
+  text-align: center;
+  &__header {
+    font-size: 4em;
+    font-style: italic;
+  }
+}
+
+body {
+  height: 100vh;
+  background-image: linear-gradient(darksalmon, darkslateblue);
+  background-repeat: no-repeat;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  background-color: #03546f;
+  width: 200px;
+  height: 300px;
+  border-radius: 30px;
+  position: fixed;
+  top: 140px;
+  left: 0;
+  margin: 20px;
+  &__validation {
+    &_user,
+    &_text {
+      visibility: hidden;
+      font-size: 0.8em;
+      &_alert {
+        font-size: 0.8em;
+        visibility: initial;
+        animation: flickingOnAlert 1s infinite;
+      }
+    }
+  }
+  &__selection {
+    text-align-last: center;
+    margin-top: 30px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__header {
+    font-style: italic;
+    font-size: 2em;
+    margin: 0;
+  }
+  &__input {
+    border-radius: 20px;
+    border: none;
+    height: 3em;
+    text-align: center;
+    margin-top: 20px;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    height: 100%;
+    width: 90%;
+    margin: 10px;
+  }
+  &__button {
+    display: block;
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    margin-top: 30px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+}
+
+.list {
+  display: block;
+  width: 80%;
+  &__item {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid;
+    border-radius: 30px;
+    margin: 0 3px;
+    background-color: #031736;
+    overflow: hidden;
+    &_task {
+      font-size: 1.3em;
+      font-style: italic;
+    }
+    &_person {
+      font-weight: bolder;
+    }
+    &_completed {
+      background-color: #03546f;
+      padding: 5px;
+
+      &-not {
+        background-color: #c35451;
+        padding: 5px;
+        animation: flickingOnFalse 1s infinite;
+      }
+    }
+
+  }
+}
+
+@keyframes flickingOnFalse {
+  0% {
+    background-color: #03546f;
+  }
+  50% {
+    background-color: #c30200;
+  }
+  100% {
+    background-color: #03546f;
+  }
+}
+
+@keyframes flickingOnAlert {
+  0% {
+    color: #c35451;
+  }
+  30% {
+    color: white;
+  }
+  50% {
+    color: #c35451;
+  }
+  70% {
+    color: white;
+  }
+  100% {
+    color: #c35451;
+  }
+}
