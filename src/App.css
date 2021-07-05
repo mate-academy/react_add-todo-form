@@ -1,3 +1,42 @@
+body {
+  background: #9bc86a;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.form > * {
+  border-radius: 4px;
+}
+
+.form__select {
+  background-color: #ffe5d9;
+  margin: 10px;
+  border: 3px solid #9d8189;
+  padding: 5px;
+}
+
+.form__todo {
+  background-color: #ffe5d9;
+  height: 20px;
+  border: 3px solid #9d8189;
+  padding: 10px;
+  width: 300px;
+}
+
+.form__button {
+  margin: 10px;
+  line-height: 30px;
+  cursor: pointer;
+  width: 170px;
+  border: 3px solid #3d405b;
+  background-color: #81b29a;
+}
+
+.form__error {
+  font-weight: bold;
+  color: #ef233c;
+  margin: 10px;
 }
