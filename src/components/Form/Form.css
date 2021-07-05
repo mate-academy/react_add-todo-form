@@ -1,0 +1,31 @@
+.todo__form {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  display: block;
+  padding-top: 10px;
+}
+
+.todo__add {
+  height: 32px;
+  margin-left: 10px;
+}
+
+.task {
+  padding: 8px 20px;
+  border: none;
+  border-bottom: 1px solid blue;
+  outline: none;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+
+.user {
+  padding: 5px;
+  outline: none;
+  border: none;
+  padding-top: 11px;
+}

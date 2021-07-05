@@ -1,0 +1,7 @@
+.completed {
+  text-decoration: line-through;
+}
+
+.todo__item::first-letter {
+  text-transform: uppercase;
+}
