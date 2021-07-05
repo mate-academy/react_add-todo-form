@@ -1,3 +1,44 @@
+body {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0,
+  rgba(0, 0, 0, 0.15) 100%),
+    radial-gradient(at top center,
+  rgba(255, 255, 255, 0.4) 0,
+  rgba(0, 0, 0, 0.4) 120%) #989898;
+  background-blend-mode: multiply, multiply;
+}
+
 .App {
   text-align: center;
+}
+
+.formTodo {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.formItem,
+#title {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+li {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  justify-items: center;
+  color: black;
+  font-weight: bold;
+}
+
+.warning {
+  color: red;
+}
+
+ul {
+  width: 40%;
+  margin: 0 auto;
 }
