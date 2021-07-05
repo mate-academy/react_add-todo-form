@@ -1,3 +1,86 @@
 .App {
   text-align: center;
 }
+
+.App {
+  text-align: center;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: #ffecc7;
+  margin: 5px;
+  width: 300px;
+}
+
+.card__number {
+  display: block;
+  width: 20px;
+  border: 1px solid black;
+  background-color: #fdd998;
+  border-radius: 50%;
+  padding: 5px;
+  margin: 10px auto;
+}
+
+.todo__done {
+  color: green;
+}
+
+.todo__notDone {
+  color: red;
+}
+
+.user__name {
+  font-size: 20px;
+}
+
+.select {
+  padding-left: 10px;
+  background-color: #fdd998;
+}
+
+.todoForm {
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: #ffecc7;
+  margin: 5px auto;
+  width: 500px;
+}
+
+.todoForm__element {
+  display: block;
+  margin: 5px;
+}
+
+.todoForm__button {
+  height: 40px;
+  width: 100px;
+  margin: 25px;
+  border-radius: 25px;
+  border: none;
+}
+
+.todoForm__btn-submit {
+  background-color: #baf1a1;
+}
+
+.todoForm__btn-reset {
+  background-color: #eb4559;
+}
+
+.todoForm__btn-status {
+  background-color: #639a67;
+  margin-top: -10px;
+}
+
+.error {
+  color: red;
+}
