@@ -1,3 +1,21 @@
 .App {
   text-align: center;
 }
+
+#root {
+  display: flex;
+}
+
+.form__container {
+  max-width: 400px;
+  padding: 0 30px;
+}
+
+.todo__container {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-template-rows: repeat(4,1fr);
+  grid-gap: 20px;
+  padding-left: 30px;
+  border-left: 1px solid #000;
+}
