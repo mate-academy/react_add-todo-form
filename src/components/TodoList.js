@@ -16,15 +16,15 @@ export const TodoList = ({ todos }) => (
 const Todo = ({ todo }) => (
   <>
     <ul>
-      <li>
+      <li className="todoList">
         Title:
         {todo.title}
       </li>
-      <li>
+      <li className="todoList">
         Completed:
         {todo.completed ? 'true' : 'false'}
       </li>
-      <li>
+      <li className="todoList">
         User:
         <User user={todo.user} />
       </li>
@@ -34,7 +34,7 @@ const Todo = ({ todo }) => (
 
 const User = ({ user }) => (
   <>
-    <span className="userName">{user.name}</span>
+    <span className="userName">{user ? user.name : '0'}</span>
   </>
 );
 
