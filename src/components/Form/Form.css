@@ -1,0 +1,59 @@
+.Form {
+  height: 200px;
+  width: 700px;
+  padding: 25px;
+  border: 2px solid black;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-input {
+  height: 50px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5em;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.add-button {
+  height: 30px;
+  width: 100px;
+  background: transparent;
+  border: 2px solid red;
+  outline: none;
+  background-color: red;
+  border-radius: 20px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-button:hover {
+  background: transparent;
+  color: red;
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+
+.user-select {
+  height: 25px;
+  cursor: pointer;
+}
+
+.error-area {
+  height: 24px;
+  font-size: 1.3em;
+  color: red;
+}
+
+.error {
+  outline: 1px solid red;
+}

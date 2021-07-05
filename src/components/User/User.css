@@ -1,0 +1,22 @@
+.user {
+  height: 130px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #000 inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.username {
+  margin-top: 20px;
+}
+
+.name {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.email {
+  margin-top: 10px;
+}
