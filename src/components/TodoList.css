@@ -1,0 +1,9 @@
+.todo__list {
+  padding-left: 50px;
+  border-left: 1px solid #000;
+}
+
+.todo__item:not(:first-child) {
+  padding-top: 10px;
+  border-top: 1px solid #000;
+}

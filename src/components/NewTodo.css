@@ -1,0 +1,12 @@
+input,
+select {
+  margin-bottom: 10px;
+}
+
+.todo__add {
+  margin-right: 50px;
+}
+
+.todo__error {
+  color: red;
+}
