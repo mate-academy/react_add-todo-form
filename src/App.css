@@ -1,3 +1,61 @@
-.App {
+.app {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.todo__error {
+  color: darkorange;
+  grid-column-start: 2;
+  justify-self: center;
+}
+
+.todo__complete {
+  grid-column-start: 1;
+}
+
+.todo__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 90%;
+  margin: 0 auto;
+  gap: 10px;
+
+}
+
+.todo__label {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.button {
+  border: 1px solid cadetblue;
+  background: lightskyblue;
+  height: 30px;
+}
+
+.card {
+  border: 1px solid black;
+  background: beige;
   text-align: center;
+}
+
+.todo__select-user {
+  grid-column-start: 1;
+}
+
+.todo__input {
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid lightpink;
+  box-sizing: border-box;
+}
+
+.todo__select {
+  grid-column-start: 2;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid lightpink;
+  box-sizing: border-box;
+
 }
