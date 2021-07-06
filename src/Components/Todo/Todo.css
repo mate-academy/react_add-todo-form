@@ -1,0 +1,10 @@
+.todo {
+  height: 100px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.todo__item {
+  margin-top: 10px;
+}
