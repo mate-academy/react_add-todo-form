@@ -1,0 +1,10 @@
+.TodoList {
+  box-sizing: border-box;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  padding-left: 40px;
+  border-left: 1px solid black;
+  overflow: auto;
+}
