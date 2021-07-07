@@ -2,18 +2,56 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import todosInitial from './api/todos';
+import TodoList from './component/TodoList/TodoList';
+import NewTodo from './component/Form/Form';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const initialTodos = todosInitial.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.PureComponent {
+  state = {
+    todos: initialTodos,
+    errorMessage: '',
+  }
+
+  addTodo = (newTodo) => {
+    if (!newTodo.title.trim()) {
+      this.setState({
+        errorMessage: 'Please enter the title',
+      });
+    } else if (!newTodo.userId) {
+      this.setState({
+        errorMessage: 'Please choose a user',
+      });
+    } else {
+      this.setState(state => ({
+        todos: [...state.todos, {
+          ...newTodo,
+          userId: Number(newTodo.userId),
+          id: state.todos.length + 1,
+          completed: false,
+          user: users.find(user => user.id === +newTodo.userId),
+        }],
+        errorMessage: '',
+      }));
+    }
+  }
+
+  render() {
+    const { todos, errorMessage } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Todo App</h1>
+
+        <NewTodo users={users} addTodo={this.addTodo} error={errorMessage} />
+        <TodoList todos={todos} />
+      </div>
+    );
+  }
 }
 
 export default App;
