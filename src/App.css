@@ -1,3 +1,43 @@
 .App {
   text-align: center;
 }
+
+ul {
+  list-style: none;
+}
+
+.completed {
+  background-color: aquamarine;
+}
+
+.uncompleted {
+  background-color: coral;
+}
+
+.task {
+  /* display: inline-block; */
+  margin: 10px;
+  width: 200px;
+  height: 150px;
+  text-align: center;
+}
+
+.fieldset {
+  display: inline-block;
+}
+
+.fieldset__input,
+.fieldset__select {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  background-color: lightsalmon;
+  margin-top: -20px;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+}
