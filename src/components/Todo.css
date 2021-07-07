@@ -1,0 +1,20 @@
+.task {
+  display: flex;
+  margin: 0 10px 10px 0;
+  /* padding: 20px; */
+  /* border: 1px solid black;
+  border-radius: 20px; */
+}
+
+.task__title,
+.task__user,
+.task__isComplete {
+  text-align: left;
+  margin-right: 10px;
+}
+
+.task__title-completed {
+  text-decoration: line-through;
+  text-align: left;
+  margin-right: 10px;
+}

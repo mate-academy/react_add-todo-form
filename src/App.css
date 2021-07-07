@@ -1,3 +1,64 @@
 .App {
   text-align: center;
 }
+
+.form {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+.input_label,
+.select_label {
+  text-align: left;
+}
+
+.input_area {
+  position: relative;
+  display: inline-block;
+  height: 70px;
+  margin-right: 5px;
+  vertical-align: top;
+}
+
+.select_area {
+  position: relative;
+  display: inline-block;
+  height: 70px;
+  margin-right: 5px;
+  vertical-align: top;
+}
+
+.input {
+  margin-top: 20px;
+  position: relative;
+  height: 13px;
+}
+
+.select {
+  margin-top: 20px;
+  position: relative;
+}
+
+.error {
+  position: absolute;
+  text-align: left;
+  color: red;
+}
+
+.form_button {
+  position: absolute;
+  background-color: aqua;
+  border-style: none;
+  border-radius: 5px;
+  border: 1px solid black;
+  height: 19px;
+  top: 20px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.form_button:hover {
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
