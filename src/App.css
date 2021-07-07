@@ -1,3 +1,15 @@
 .App {
   text-align: center;
 }
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  margin: 5px auto;
+  width: 300px;
+  text-align-last: center;
+}
+
+.App__error {
+  color: #fb4b3b;
+}

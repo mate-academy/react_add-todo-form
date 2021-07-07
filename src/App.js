@@ -1,19 +1,109 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-
+import todosFromServer from './api/todos';
 import users from './api/users';
+import { InputForm } from './components/inputForm';
+import { SelectUser } from './components/SelectUser';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+class App extends Component {
+  state = {
+    todos: todosFromServer,
+    todoTitle: '',
+    todoId: '',
+    errorTitle: '',
+    errorUser: '',
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  handleTitleChange = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      todoTitle: value,
+      errorTitle: '',
+    });
+  }
+
+  handleSelectChange = (event) => {
+    const { value } = event.currentTarget;
+
+    this.setState({
+      todoId: value === 'error' ? '' : Number(value),
+      errorUser: '',
+    });
+  }
+
+  handleSubmit = () => {
+    const { todoTitle, todoId } = this.state;
+
+    if (todoId === '') {
+      this.setState({ errorUser: 'Please choose a user' });
+    }
+
+    if (todoTitle === '') {
+      this.setState({ errorTitle: 'Please enter the title' });
+    }
+
+    if (todoTitle === '' || todoId === '') {
+      return;
+    }
+
+    const userNew = {
+      userId: todoId,
+      id: this.state.todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    };
+
+    this.setState(state => ({
+      todos: [
+        ...state.todos,
+        userNew,
+      ],
+      todoTitle: '',
+      todoId: '',
+    }));
+  }
+
+  render() {
+    const { todos, todoTitle, todoId, errorTitle, errorUser } = this.state;
+
+    return (
+      <div className="App">
+        <ul className="ui text container">
+          {
+            todos.map(todo => (
+              <div className="ui message" key={todo.id}>
+                {todo.title}
+              </div>
+            ))
+          }
+        </ul>
+
+        <form className="App__form">
+          <InputForm
+            inputValue={todoTitle}
+            addChange={this.handleTitleChange}
+          />
+          <span className="App__error">{errorTitle}</span>
+
+          <SelectUser
+            handleSelect={this.handleSelectChange}
+            todoId={todoId}
+            users={users}
+          />
+          <span className="App__error">{errorUser}</span>
+        </form>
+
+        <button
+          className="ui primary button"
+          type="submit"
+          onClick={this.handleSubmit}
+        >
+          Add
+        </button>
+      </div>
+    );
+  }
 }
 
 export default App;
