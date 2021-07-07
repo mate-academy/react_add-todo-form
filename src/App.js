@@ -1,19 +1,28 @@
 import React from 'react';
 import './App.css';
+import todosFromServer from './api/todos';
+import { NewTodo } from './components/NewTodo';
+import { TodoList } from './components/TodoList';
 
-import users from './api/users';
+export class App extends React.Component {
+  state = {
+    todos: todosFromServer,
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+  addNewTodo = (newTodo) => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, newTodo],
+    }));
+  }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  render() {
+    return (
+      <div className="App">
+        <NewTodo addNewTodo={this.addNewTodo} />
+        <TodoList todos={this.state.todos} />
+      </div>
+    );
+  }
 }
 
 export default App;
