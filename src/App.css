@@ -1,3 +1,36 @@
-.App {
+body {
+  background-color: rgb(60, 255, 0);
+}
+
+h3 {
+  margin: 0;
+}
+
+p {
+  font-size: 20px;
+  margin: 5px;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.card {
+  border: 7px solid white;
+  color: white;
   text-align: center;
+  background-color: rgb(4, 61, 39);
+  padding: 10px;
+  margin: 10px;
+}
+
+.todo__form {
+  color: white;
+  font-size: 20px;
+  background-color: rgb(4, 61, 39);
+  border: 7px solid white;
+  padding: 10px;
+  margin: 10px;
 }
