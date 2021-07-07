@@ -1,3 +1,52 @@
+body {
+  background-color: rgb(210, 227, 247);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
   text-align: center;
+}
+
+.error {
+  color: rgb(228, 53, 0);
+  font-weight: bold;
+}
+
+.addedForm__input-title {
+  background-color: rgb(252, 252, 252);
+  height: 30px;
+  width: 200px;
+  border: 2px solid rgb(66, 66, 243);
+  margin: 20px;
+}
+
+.addedForm__select-user {
+  background-color: rgb(252, 252, 252);
+  height: 30px;
+  width: 200px;
+  border: 2px solid rgb(66, 66, 243);
+  margin: 20px;
+  font-size: 16px;
+}
+
+::placeholder {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.addedForm__button {
+  width: 200px;
+  height: 30px;
+  background-color: #6c83e6;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.5s;
+}
+
+.addedForm__button:hover {
+  background-color: #89b5d6;
 }
