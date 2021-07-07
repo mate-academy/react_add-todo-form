@@ -1,0 +1,17 @@
+.todoList {
+  padding: 0;
+  display: grid;
+  row-gap: 10px;
+  list-style: none;
+
+  &__todo {
+    padding: 10px 15px;
+    background-color: #eee;
+    border-radius: 5px;
+  }
+}
+
+.red {
+  color: #fff;
+  background-color: lightcoral;
+}
