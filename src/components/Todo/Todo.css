@@ -1,0 +1,84 @@
+.todo__item {
+  position: relative;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.2);
+  transition: box-shadow 300ms;
+  font-size: 20px;
+}
+
+.todo__item--done {
+  background-color: rgb(245, 245, 245);
+}
+
+.todo__item-name {
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.todo__item-status {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+}
+
+.todo__item-status-done {
+  color: #00cf91;
+}
+
+.todo__item-status-inprocess {
+  color: #fe634e;
+}
+
+.todo__item-task {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.todo__item-subtitle {
+  font-weight: 500;
+  margin-right: 5px;
+  color: rgb(134, 134, 134);
+}
+
+.todo__item-delete-btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  border-radius: 50%;
+  border: transparent;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  transition: box-shadow 300ms;
+}
+
+.todo__item-delete-btn:hover {
+  box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+  background-color: #ec5b48;
+  color: white;
+}
+
+.todo__item-toggle-btn {
+  margin-top: 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 10px 15px;
+  transition: background-color 300ms color 300ms;
+}
+
+.todo__item-toggle-btn:hover {
+  background-color: #ec5b48;
+  color: white;
+}
+
+.todo__item-toggle-btn--active:hover {
+  background-color: #00cf91;
+  color: white;
+}

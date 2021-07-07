@@ -4,14 +4,26 @@ const todos = [
   {
     userId: 1,
     id: 1,
-    title: 'delectus aut autem',
+    title: 'Make a sandwich',
     completed: false,
   },
   {
     userId: 1,
     id: 2,
-    title: 'quis ut nam facilis et officia qui',
-    completed: false,
+    title: 'Walk the dog',
+    completed: true,
+  },
+  {
+    userId: 4,
+    id: 3,
+    title: 'Go to the grocery store',
+    completed: true,
+  },
+  {
+    userId: 5,
+    id: 4,
+    title: 'Sit down 200 times',
+    completed: true,
   },
 ];
 
