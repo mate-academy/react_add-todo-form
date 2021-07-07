@@ -1,3 +1,41 @@
+p {
+  margin: 0;
+}
+
 .App {
+  margin: 0 auto;
   text-align: center;
+  width: 700px;
+}
+
+.list-item {
+  margin: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.error {
+  color: red;
+}
+
+.form {
+  margin: 40px 0;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  width: 200px;
+}
+
+.input {
+  height: 30px;
+  outline: none;
+}
+
+.select {
+  height: 30px;
 }
