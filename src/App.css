@@ -1,3 +1,59 @@
 .App {
   text-align: center;
+  width: 700px;
+  margin: 0 auto;
+}
+
+.form {
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(3, 1fr);
+  height: 70px;
+  margin: 20px 0;
+}
+
+.todo-form {
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 10px;
+  outline: none;
+}
+
+.user-form {
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 10px;
+
+}
+
+.btn {
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: #92b29d;
+  outline: none;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: #b4cebd;
+  transition: 0.5s;
+}
+
+.btn:active {
+  background-color: #6e947a;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 70px;
+  width: 50%;
+
+  background-color: rgb(201, 78, 78);
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: bold;
 }
