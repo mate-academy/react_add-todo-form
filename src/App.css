@@ -1,3 +1,57 @@
 .App {
   text-align: center;
 }
+
+.todoList {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 100px;
+
+}
+
+.todo {
+  width: 150px;
+  padding: 30px;
+  margin: 10px;
+  border: 1px solid grey;
+  border-radius: 20%;
+  background: linear-gradient(#8498af, #bad7c8);
+}
+
+.users {
+  font-size: small;
+  font-style: oblique;
+  color: darkslateblue;
+
+}
+
+.form {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  width: 400px;
+}
+
+.input {
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  width: 400px;
+  height: 20px;
+}
+
+.error {
+  color: red;
+  display: block;
+  font-size: 13px;
+}
+
+.button {
+  background: linear-gradient(#8498af, #bad7c8);
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  margin: 5px auto;
+  width: 100px;
+}
