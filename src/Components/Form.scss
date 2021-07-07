@@ -1,0 +1,49 @@
+.form {
+  padding-left: 90px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 250px;
+  width: 300px;
+  background-color: rgb(153, 172, 153);
+  display: block;
+
+  &__input {
+    margin-top: 20px;
+    width: 200px;
+    height: 30px;
+    font-size: 18px;
+  }
+
+  &__select {
+    margin-top: 20px;
+    height: 30px;
+    font-size: 16px;
+
+  }
+
+  &__status {
+    margin-top: 20px;
+    height: 30px;
+    font-size: 16px;
+
+  }
+
+  &__button {
+    margin-top: 20px;
+    font-size: 20px;
+
+  }
+
+  &__button:hover {
+    cursor: pointer;
+    background-color: rgb(190, 141, 141);
+    transition: background-color 0.3s;
+  }
+
+  &__error {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    color: red;
+  }
+}
