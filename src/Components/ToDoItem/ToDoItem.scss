@@ -1,0 +1,14 @@
+.todo-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  border-radius: 10px;
+  background-color: #cddcdc;
+  padding: 20px;
+  &__status {
+    color: green;
+  }
+  &__status--undone {
+    color: coral;
+  }
+}

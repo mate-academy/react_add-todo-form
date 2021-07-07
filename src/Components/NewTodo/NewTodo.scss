@@ -1,0 +1,20 @@
+.main__form {
+  border-radius: 10px;
+  margin: 10px 0;
+  &__fields {
+    margin: 10px;
+    padding: 5px;
+    width: 250px;
+  }
+  &__errors-wrapper {
+    height: 20px;
+  }
+  &-button {
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+  }
+}

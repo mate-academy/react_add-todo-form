@@ -1,0 +1,8 @@
+.main__container {
+  margin: 0 auto;
+  width: 75vw;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 10px;
+  border-radius: 10px;
+}

@@ -4,13 +4,13 @@ const todos = [
   {
     userId: 1,
     id: 1,
-    title: 'delectus aut autem',
+    title: 'go to the gym',
     completed: false,
   },
   {
     userId: 1,
     id: 2,
-    title: 'quis ut nam facilis et officia qui',
+    title: 'fix a car',
     completed: false,
   },
 ];
