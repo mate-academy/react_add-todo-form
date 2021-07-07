@@ -6,10 +6,9 @@ import users from '../api/users';
 export class Form extends React.Component {
   state = {
     newTitle: '',
-    userId: 0,
-    newUser: '',
-    titleValid: true,
-    userValid: true,
+    userId: '',
+    newTitleValid: true,
+    userIdValid: true,
   }
 
   handleSubmit = (e) => {
@@ -17,42 +16,49 @@ export class Form extends React.Component {
 
     e.preventDefault();
 
-    this.setState((state) => {
-      const newState = {};
+    const newState = {
+      newTitleValid: true,
+      userIdValid: true,
+    };
 
-      if (!newTitle.match(/^[\w\s]+$/i)) {
-        newState.titleValid = false;
-      } else {
-        newState.titleValid = true;
-      }
+    if (!newTitle.match(/^[\w\s]+$/i) || newTitle.trim().length === 0) {
+      newState.newTitleValid = false;
+    }
 
-      if (userId === 0) {
-        newState.userValid = false;
-      } else {
-        newState.userValid = true;
-      }
+    if (!userId) {
+      newState.userIdValid = false;
+    }
 
-      return newState;
-    }, () => {
-      const { titleValid, userValid } = this.state;
+    if (!newState.newTitleValid || !newState.userIdValid) {
+      this.setState({
+        newTitleValid: newState.newTitleValid,
+        userIdValid: newState.userIdValid,
+      });
 
-      if (titleValid && userValid) {
-        this.setState({
-          newUser: users.find(user => user.id === userId),
-        }, () => {
-          const { newUser } = this.state;
+      return;
+    }
 
-          this.props.addTodo(newTitle, userId, newUser);
-          this.setState({
-            newTitle: '',
-          });
-        });
-      }
+    this.props.addTodo(
+      newTitle,
+      userId,
+      users.find(user => user.id === userId),
+    );
+
+    this.setState({
+      newTitle: '',
+      userId: '',
+    });
+  }
+
+  setStateOnChange = (key, value) => {
+    this.setState({
+      [`${key}Valid`]: true,
+      [`${key}`]: value,
     });
   }
 
   render() {
-    const { titleValid, userValid } = this.state;
+    const { newTitle, userId, newTitleValid, userIdValid } = this.state;
 
     return (
       <>
@@ -60,23 +66,16 @@ export class Form extends React.Component {
           <input
             type="text"
             placeholder="Title"
-            value={this.state.newTitle}
-            onChange={(e) => {
-              this.setState({
-                newTitle: e.target.value,
-              });
-            }}
+            value={newTitle}
+            onChange={e => this.setStateOnChange('newTitle', e.target.value)}
           />
           {' '}
           <select
             name="username"
-            onChange={(e) => {
-              this.setState({
-                userId: +(e.target.value),
-              });
-            }}
+            value={userId}
+            onChange={e => this.setStateOnChange('userId', +(e.target.value))}
           >
-            <option value="0">Сhoose a user</option>
+            <option value="">Сhoose a user</option>
             {users.map(user => (
               <option value={user.id}>{user.name}</option>
             ))}
@@ -86,8 +85,12 @@ export class Form extends React.Component {
         </form>
 
         <div className="notification">
-          <h2>{!titleValid ? 'Please enter the title' : null}</h2>
-          <h2>{!userValid ? 'Please choose a user' : null}</h2>
+          <h2 className="notification__message">
+            {!newTitleValid && 'Please enter the title'}
+          </h2>
+          <h2 className="notification__message">
+            {!userIdValid && 'Please choose a user'}
+          </h2>
         </div>
       </>
     );

@@ -7,13 +7,12 @@ import { TodoList } from './components/TodoList';
 import { Form } from './components/Form';
 
 const prepTodos = todos.map((todo) => {
-  users.forEach((user) => {
-    if (todo.userId === user.id) {
-      todo.user = user;
-    }
-  });
+  const user = users.find(newUser => todo.userId === newUser.id);
 
-  return todo;
+  return {
+    ...todo,
+    user,
+  };
 });
 
 class App extends React.Component {

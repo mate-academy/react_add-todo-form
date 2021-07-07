@@ -25,7 +25,7 @@
   list-style: none;
 }
 
-h2 {
+.notification__message {
   padding: 5px;
   border-radius: 10px;
   color: red;
