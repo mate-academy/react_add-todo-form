@@ -1,0 +1,22 @@
+.todo__content {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 50px;
+  justify-items: start;
+  align-items: center;
+
+  margin: 5px 0;
+  padding-left: 20px;
+
+  font-size: 18px;
+  color: rgb(101, 101, 170);
+
+  background-color: #fff;
+  border-radius: 8px;
+
+  transition: 0.3s;
+}
+
+.todo__content:hover {
+  background-color: rgb(250, 227, 241);
+}
