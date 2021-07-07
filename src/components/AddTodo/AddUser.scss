@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+}
+
+.addUser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 30px;
+  background: darkgrey;
+
+  &__input {
+    border-width: 1px;
+    padding: 5px;
+    border-radius: 10px;
+    width: 250px;
+    resize: none;
+
+    &-error {
+      border: 1px solid red;
+
+      &__Message {
+        margin-top: 5px;
+        font-weight: bolder;
+        border-radius: 50px;
+        width: 100%;
+        background-color: lightcoral;
+      }
+    }
+  }
+
+  &__button {
+    width: 100%;
+    background: ghostwhite;
+    font-weight: bolder;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 10px;
+  }
+}
