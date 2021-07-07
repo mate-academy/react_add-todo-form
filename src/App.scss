@@ -1,0 +1,64 @@
+// styles go here
+body {
+  background-color: #f2dbb3;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+
+  &__username {
+    border-radius: 40px;
+    width: 400px;
+    height: 40px;
+    padding-left: 10px;
+    background-color: #e5d6bc;
+    outline: none;
+    font-style: italic;
+    font-size: 18px;
+    border: 1px solid #e8ad55;
+    cursor: pointer;
+  }
+
+  &__text {
+    border-radius: 40px;
+    width: 390px;
+    height: 35px;
+    padding-left: 10px;
+    background-color: #e5d6bc;
+    outline: none;
+    border: 1px solid #e8ad55;
+    font-style: italic;
+    font-size: 18px;
+
+    &::placeholder {
+      font-style: italic;
+      font-size: 17px;
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    background-color: #e8ad55;
+    width: 400px;
+    height: 40px;
+    border-radius: 40px;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: bold;
+    outline: none;
+
+    &:hover {
+      background-color: #ede5da;
+    }
+  }
+
+  &__error {
+    color: red;
+  }
+}
