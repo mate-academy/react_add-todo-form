@@ -1,3 +1,14 @@
 .App {
   text-align: center;
 }
+
+.form {
+	position: relative;
+}
+
+.error {
+	position: absolute;
+	right: 33vw;
+	color: red;
+	font-weight: bold;
+}
