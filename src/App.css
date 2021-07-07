@@ -1,3 +1,44 @@
 .App {
-  text-align: center;
+  display: grid;
+  justify-items: center;
+}
+
+.header {
+  font-size: 50px;
+}
+
+.addTodoForm {
+  position: relative;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.addTodoForm__name-selector {
+  height: 30px;
+  background-color: rgb(40, 231, 231);
+  align-self: center;
+  border-radius: 5px;
+}
+
+.addTodoForm__todoField {
+  height: 100px;
+  width: 300px;
+  resize: none;
+  border-radius: 5px;
+}
+
+.addTodoForm__submitBtn {
+  height: 30px;
+  align-self: center;
+  background-color: rgb(196, 231, 40);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.addTodoForm__reminder {
+  justify-self: end;
+  height: fit-content;
+  color: red;
 }
