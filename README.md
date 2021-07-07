@@ -1,5 +1,5 @@
 # React add TODO form
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://SerhiiAntonyshyn.github.io/react_add-todo-form/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
@@ -21,3 +21,4 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - hide a message immediately after any change of the field with an error
 1. (* Optional) Limit characters displayed in the `title` field.
   Allow entering `spaces` and alphanumeric (`\w`) characters.
+
