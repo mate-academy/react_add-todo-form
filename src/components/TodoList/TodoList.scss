@@ -1,0 +1,44 @@
+.todo {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(238, 238, 0, 1);
+  border-radius: 5px;
+  background-color: rgba(238, 238, 0, 0.2);
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    grid-gap: 20px;
+    justify-content: center;
+  }
+
+  &__paragraph {
+    font-weight: bolder;
+  }
+
+  &--done {
+    border: 1px solid rgba(0, 177, 106, 1);
+    background-color: rgba(0, 177, 106, 0.2);
+  }
+
+  &__button {
+    width: 110px;
+    height: 30px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: transparent;
+    border-color: inherit;
+
+    &:last-child {
+      margin-top: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
