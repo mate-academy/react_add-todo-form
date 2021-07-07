@@ -1,3 +1,16 @@
 .App {
   text-align: center;
 }
+
+.TodoList__title {
+  margin: auto 25px;
+}
+
+.TodoList__item {
+  display: flex;
+  justify-content: center;
+}
+
+.complete {
+  background-color: green;
+}
