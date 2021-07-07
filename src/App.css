@@ -1,3 +1,23 @@
 .App {
   text-align: center;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.todos {
+  margin: auto;
+  border-spacing: 15px;
+  border: 2px solid grey;
+}
+
+.todos__heading {
+  border-bottom: 1px solid lightgrey;
+}
+
+.todos__title {
+  text-align: left;
+}
+
+.todos__title--active {
+  text-decoration: line-through;
+  text-align: left;
 }
