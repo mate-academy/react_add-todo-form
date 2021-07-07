@@ -1,3 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+p,
+ul,
+li {
+  margin: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+body {
+  background-color: #e3dfc8;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App__title {
+  display: flex;
+  justify-content: center;
+  line-height: 200%;
+  color: #00416d;
 }
