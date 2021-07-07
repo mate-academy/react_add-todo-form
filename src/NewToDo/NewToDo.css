@@ -1,0 +1,20 @@
+.form {
+  background-color: gray;
+  width: 500px;
+  justify-items: start;
+  display: grid;
+  grid-row-gap: 10px;
+  padding: 20px;
+}
+
+.form__invalidtext {
+  border-color: red;
+}
+
+.form__invaliduser {
+  border-color: red;
+}
+
+.form__error {
+  color: red;
+}
