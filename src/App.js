@@ -1,19 +1,20 @@
 import React from 'react';
 import './App.css';
 
-import users from './api/users';
+import todosFromServer from './api/todos';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+import { TodoList } from './components/TodoList/TodoList';
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+class App extends React.PureComponent {
+  render() {
+    return (
+      <div className="App">
+        <h1 className="App__header">Add todo form</h1>
+
+        <TodoList todos={todosFromServer} />
+      </div>
+    );
+  }
 }
 
 export default App;

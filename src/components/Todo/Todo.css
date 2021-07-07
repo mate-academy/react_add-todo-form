@@ -1,0 +1,21 @@
+.todo {
+  margin-right: 25px;
+}
+
+.todo__title {
+  text-align: center;
+}
+
+.todo__toggler {
+  display: none;
+}
+
+.todo__completeness {
+  color: #513002;
+  cursor: pointer;
+}
+
+.todo__completeness_completed {
+  color: #f6b65c;
+  cursor: pointer;
+}
