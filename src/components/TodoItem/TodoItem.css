@@ -1,0 +1,31 @@
+button:focus {
+  outline: none;
+}
+
+.todo-item {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  width: 100%;
+  background: transparent;
+}
+
+.todo-item:hover {
+  text-decoration: none;
+  border: 1px solid rgb(75, 191, 115);
+}
+
+.completed {
+  background: rgb(75, 191, 115, 0.35);
+}
+
+.task-user {
+  font-weight: 700;
+}
+
+.task-title {
+  font-size: 1.2em;
+}
