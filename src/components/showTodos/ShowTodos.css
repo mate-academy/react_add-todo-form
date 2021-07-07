@@ -1,0 +1,33 @@
+.todos {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  flex-wrap: wrap;
+}
+
+.todos__todo {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 200px;
+  margin: 10px 25px;
+  padding: 20px;
+  background-color: #eee;
+}
+
+.todos__head {
+  font-weight: 300;
+  font-size: 16px;
+  font-style: italic;
+  margin: 25px;
+}
+
+.todos__value {
+  font-weight: 600;
+  font-size: 24px;
+  font-style: normal;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid black;
+  margin: 5px;
+}
