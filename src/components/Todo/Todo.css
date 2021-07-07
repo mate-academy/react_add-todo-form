@@ -1,0 +1,27 @@
+.App__list {
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+  margin: 10px auto;
+  padding: 30px;
+  background: rgb(249, 246, 246);
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.App__positive {
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: green;
+}
+
+.App__negative {
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: red;
+}
