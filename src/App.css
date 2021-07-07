@@ -1,3 +1,18 @@
-.App {
+.app__title {
   text-align: center;
+}
+
+.todo__form {
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.todo__list {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: center;
+  margin-top: 30px;
 }
