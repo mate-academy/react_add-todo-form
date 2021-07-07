@@ -1,0 +1,13 @@
+.App__button {
+  width: 100px;
+  height: 50px;
+  font-family: inherit;
+  font-size: 15px;
+  text-transform: uppercase;
+  outline: none;
+  border: none;
+  background-color: #da0e33;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}

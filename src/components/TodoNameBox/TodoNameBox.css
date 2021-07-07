@@ -1,0 +1,21 @@
+.App__box {
+  outline: none;
+  width: 200px;
+  height: 50px;
+  font-size: 15px;
+  border: 1px solid #b2b3b4;
+  border-radius: 5px;
+  color: #112027;
+  font-weight: 600;
+}
+
+.App__box:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.App__name {
+  font-weight: inherit;
+  font-size: 13px;
+  color: #112027;
+}

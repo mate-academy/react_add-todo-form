@@ -1,0 +1,18 @@
+.App__input {
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #b2b3b4;
+  color: #112027;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.App__input:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
+}
