@@ -66,6 +66,8 @@ class App extends React.Component {
   };
 
   handleChange = ({ target }) => {
+    const value = target.value.replace(/\W/g, '');
+
     if (target.type === 'checkbox') {
       return this.setState({ [target.id]: target.checked });
     }
@@ -81,7 +83,7 @@ class App extends React.Component {
     }
 
     return this.setState({
-      [target.id]: target.value,
+      [target.id]: value,
       [validStateInput]: true,
     });
   };
