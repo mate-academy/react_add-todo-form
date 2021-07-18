@@ -1,0 +1,61 @@
+.todosForm {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.todoTitle,
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #607d8b;
+  color: white;
+  padding: 10px 20px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 20px;
+  font-family: Verdana, sans-serif;
+  transition: 0.1s ease-in;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.45);
+
+  &:active {
+    box-shadow: inset 0 4px 7px rgba(0, 0, 0, 0.45);
+  }
+}
+
+label {
+  color: #009688;
+  font-size: 15px;
+  font-weight: bolder;
+  font-family: Verdana, sans-serif;
+}
+
+.todoTitle::placeholder {
+  color: black;
+}
+
+.error {
+  border-color: red;
+  color: red;
+  outline: none;
+  &:focus {
+    border: 1px solid red;
+  }
+}
+
+.error::placeholder {
+  color: red;
+}
+
+.nextOptions {
+  color: black;
+}
