@@ -12,7 +12,8 @@ export class AddTodo extends React.Component {
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
     let flag;
 
     switch (name) {
@@ -29,6 +30,10 @@ export class AddTodo extends React.Component {
       default: {
         break;
       }
+    }
+
+    if (name === 'title') {
+      value = value.replace(/[^A-Za-z0-9 ]/g, '');
     }
 
     this.setState({
