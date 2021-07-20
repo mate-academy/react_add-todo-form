@@ -17,7 +17,6 @@ class App extends React.Component {
     task: '',
     errorSelect: '',
     errorTask: '',
-
   }
 
   handleChange = (event) => {
@@ -45,7 +44,7 @@ class App extends React.Component {
 
     const todo = {
       user: users.find(user => (
-        user.username.localeCompare(this.state.username) === 0
+        user.username === this.state.username
       )),
       id: this.state.todos.length + 1,
       title: this.state.task,
@@ -71,6 +70,7 @@ class App extends React.Component {
         <h1>Add todo form</h1>
         <form onSubmit={(event) => {
           event.preventDefault();
+          this.addTask();
         }}
         >
           <div className="errorMessage">{this.state.errorSelect}</div>
@@ -103,7 +103,6 @@ class App extends React.Component {
 
           <button
             type="submit"
-            onClick={this.addTask}
           >
             Add
           </button>
