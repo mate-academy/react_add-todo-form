@@ -36,6 +36,13 @@ export class TodoForm extends React.Component {
     } = this.state;
     const newTodoUser = users.find(user => user.name === selectedUser);
 
+    if (newTodoUser === undefined && newTaskName.length === 0) {
+      this.setState({ showSelectError: true });
+      this.setState({ showInputError: true });
+
+      return;
+    }
+
     if (newTodoUser === undefined) {
       this.setState({ showSelectError: true });
 
