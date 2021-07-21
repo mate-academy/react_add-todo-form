@@ -18,14 +18,12 @@ class TodoForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  findUser = (array, userName, event) => {
-    this.setState({ id: this.props.todos.length + 1 });
-
+  findUser = (userName) => {
     if (this.state.name === '') {
       return 0;
     }
 
-    return array.find(user => user.name === userName).id;
+    return this.props.users.find(user => user.name === userName).id;
   }
 
   cleanState = () => {
@@ -53,7 +51,7 @@ class TodoForm extends React.Component {
       return 0;
     }
 
-    this.props.getToUpdate(createTodo);
+    this.props.addTodo(createTodo);
     this.cleanState();
   }
 
@@ -65,11 +63,19 @@ class TodoForm extends React.Component {
     return true;
   }
 
+  getUserId = () => {
+    this.setState(prevState => ({
+      userId: this.findUser(prevState.name),
+      isButtonCliked: true,
+      id: this.props.todos.length + 1,
+    }));
+  }
+
   render() {
     return (
       <form
         className="formTodo"
-        method=""
+        method="POST"
         onSubmit={this.addTodoAfterSubmit}
       >
         <select
@@ -79,7 +85,7 @@ class TodoForm extends React.Component {
         >
           <option>Choose User</option>
           {this.props.users.map(user => (
-            <option id={user.id} value={user.name}>
+            <option id={user.id} value={user.name} key={user.name}>
               {user.name}
             </option>
           ))}
@@ -98,6 +104,7 @@ class TodoForm extends React.Component {
           placeholder="Write new todo..."
           value={this.state.title}
           onChange={this.handleChange}
+          required
         />
         { !this.checkInputs(this.state.title)
         && (
@@ -109,10 +116,7 @@ class TodoForm extends React.Component {
         <button
           type="submit"
           className="formBtn"
-          onClick={() => this.setState(prevState => ({
-            userId: this.findUser(this.props.users, prevState.name),
-            isButtonCliked: true,
-          }))}
+          onClick={this.getUserId}
         >
           Add task
         </button>
@@ -124,7 +128,7 @@ class TodoForm extends React.Component {
 TodoForm.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   todos: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  getToUpdate: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
 
 export default TodoForm;

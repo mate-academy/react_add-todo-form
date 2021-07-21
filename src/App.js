@@ -11,22 +11,41 @@ class App extends React.Component {
     todos: [...todos],
   }
 
-  getToUpdate = (todo) => {
+  addTodo = (todo) => {
     this.setState(prevState => (
       prevState.todos.push(todo)
     ));
+  }
+
+  getUserName = (todo) => {
+    const findUser = users.find(user => user.id === todo.userId);
+
+    return findUser.name;
+  }
+
+  preperTodo = () => {
+    const updateTodo = this.state.todos.map((todo) => {
+      const userName = this.getUserName(todo);
+      const changeTodo = {
+        ...todo,
+        userName,
+      };
+
+      return changeTodo;
+    });
+
+    return updateTodo;
   }
 
   render() {
     return (
       <div className="wraper">
         <TodoList
-          users={users}
-          todos={this.state.todos}
+          todos={this.preperTodo()}
         />
         <TodoForm
           todos={this.state.todos}
-          getToUpdate={this.getToUpdate}
+          addTodo={this.addTodo}
           users={users}
         />
       </div>
