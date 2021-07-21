@@ -1,6 +1,6 @@
 import React from 'react';
 import { TodoList } from './components/TodoList/TodoList';
-import { AddTodo } from './components/AddTodo/AddTodo';
+import { TodoForm } from './components/TodoForm/TodoForm';
 import './App.css';
 
 import todos from './api/todos';
@@ -21,16 +21,12 @@ class App extends React.Component {
   }
 
   addTodo(todo) {
-    this.setState((state) => {
-      const newTodos = [...state.todos];
-
-      newTodos.push(todo);
-      newTodos[newTodos.length - 1].id = newTodos.length;
-
-      return {
-        todos: newTodos,
-      };
-    });
+    this.setState(state => ({
+      todos: [...state.todos, {
+        id: state.todos.length + 1,
+        ...todo,
+      }],
+    }));
   }
 
   render() {
@@ -41,7 +37,7 @@ class App extends React.Component {
         <h1>Add todo form</h1>
 
         <TodoList todos={visibleTodos} />
-        <AddTodo
+        <TodoForm
           users={users}
           addTodo={(todo) => {
             this.addTodo(todo);

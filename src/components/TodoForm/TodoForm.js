@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { UserType } from '../../types';
-import './AddTodo.css';
+import './TodoForm.css';
 
-export class AddTodo extends React.Component {
+export class TodoForm extends React.Component {
   state = {
     title: '',
     userId: '',
@@ -55,9 +55,10 @@ export class AddTodo extends React.Component {
       return;
     }
 
-    const user = this.props.users.find(todoUser => todoUser.id === +userId);
+    const user = this.props.users
+      .find(todoUser => todoUser.id === Number(userId));
     const todo = {
-      userId: +userId,
+      userId: Number(userId),
       title,
       completed: false,
       user,
@@ -77,14 +78,14 @@ export class AddTodo extends React.Component {
   }
 
   checkInputs = (title, userId) => {
-    let check = true;
+    let isInputsValid = true;
 
     if (title === '') {
       this.setState({
         isTitleValid: false,
       });
 
-      check = false;
+      isInputsValid = false;
     }
 
     if (userId === '') {
@@ -92,13 +93,16 @@ export class AddTodo extends React.Component {
         isUserValid: false,
       });
 
-      check = false;
+      isInputsValid = false;
     }
 
-    return check;
+    return isInputsValid;
   };
 
   render() {
+    const { users } = this.props;
+    const { isUserValid, title, isTitleValid, userId } = this.state;
+
     return (
       <form
         className="addTodoForm"
@@ -115,12 +119,12 @@ export class AddTodo extends React.Component {
             type="text"
             id="title"
             name="title"
-            value={this.state.title}
+            value={title}
             placeholder="Title"
             maxLength={30}
             onChange={this.handleChange}
           />
-          {(this.state.isTitleValid
+          {(isTitleValid
             ? ''
             : (
               <span
@@ -139,21 +143,21 @@ export class AddTodo extends React.Component {
           <select
             name="userId"
             id="userId"
-            value={this.state.userId}
+            value={userId}
             onChange={this.handleChange}
           >
             <>
               <option value="">
                 Choose a user
               </option>
-              {this.props.users.map(user => (
+              {users.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </>
           </select>
-          {(this.state.isUserValid
+          {(isUserValid
             ? ''
             : (
               <span
@@ -175,7 +179,7 @@ export class AddTodo extends React.Component {
   }
 }
 
-AddTodo.propTypes = {
+TodoForm.propTypes = {
   users: PropTypes.arrayOf(UserType).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
