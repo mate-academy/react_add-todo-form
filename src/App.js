@@ -10,7 +10,7 @@ const preparedTodos = todos.map((todo) => {
   const preparedTodo = { ...todo };
   const todoUser = users.find(user => user.id === todo.userId);
 
-  preparedTodo.user = { ...todoUser };
+  preparedTodo.user = todoUser;
 
   return preparedTodo;
 });
@@ -25,6 +25,7 @@ class App extends React.Component {
       const newTodos = [...state.todos];
 
       newTodos.push(todo);
+      newTodos[newTodos.length - 1].id = newTodos.length;
 
       return {
         todos: newTodos,
@@ -33,17 +34,18 @@ class App extends React.Component {
   }
 
   render() {
-    const visibleTodos = [...this.state.todos];
+    const visibleTodos = this.state.todos;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
 
-        <TodoList preparedTodos={visibleTodos} />
+        <TodoList todos={visibleTodos} />
         <AddTodo
           users={users}
-          todos={visibleTodos}
-          app={this}
+          addTodo={(todo) => {
+            this.addTodo(todo);
+          }}
         />
       </div>
     );

@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UserType, PreparedTodoType } from '../../types';
+import { UserType } from '../../types';
 import './AddTodo.css';
 
 export class AddTodo extends React.Component {
   state = {
     title: '',
     userId: '',
-    validUser: true,
-    validTitle: true,
+    isUserValid: true,
+    isTitleValid: true,
+    titlePattern: /[A-Za-z0-9 ]/,
   }
 
   handleChange = (event) => {
@@ -18,12 +19,12 @@ export class AddTodo extends React.Component {
 
     switch (name) {
       case 'title': {
-        flag = 'validTitle';
+        flag = 'isTitleValid';
         break;
       }
 
       case 'userId': {
-        flag = 'validUser';
+        flag = 'isUserValid';
         break;
       }
 
@@ -33,7 +34,10 @@ export class AddTodo extends React.Component {
     }
 
     if (name === 'title') {
-      value = value.replace(/[^A-Za-z0-9 ]/g, '');
+      value = value
+        .split('')
+        .filter(char => this.state.titlePattern.test(char))
+        .join('');
     }
 
     this.setState({
@@ -51,19 +55,15 @@ export class AddTodo extends React.Component {
       return;
     }
 
-    const todoId = this.props.todos.reduce((id, todo) => (
-      id > todo.id ? id : todo.id
-    ), Number.NEGATIVE_INFINITY) + 1;
     const user = this.props.users.find(todoUser => todoUser.id === +userId);
     const todo = {
       userId: +userId,
-      id: todoId,
       title,
       completed: false,
       user,
     };
 
-    this.props.app.addTodo(todo);
+    this.props.addTodo(todo);
     this.reset();
   };
 
@@ -71,8 +71,8 @@ export class AddTodo extends React.Component {
     this.setState({
       title: '',
       userId: '',
-      validUser: true,
-      validTitle: true,
+      isUserValid: true,
+      isTitleValid: true,
     });
   }
 
@@ -81,7 +81,7 @@ export class AddTodo extends React.Component {
 
     if (title === '') {
       this.setState({
-        validTitle: false,
+        isTitleValid: false,
       });
 
       check = false;
@@ -89,7 +89,7 @@ export class AddTodo extends React.Component {
 
     if (userId === '') {
       this.setState({
-        validUser: false,
+        isUserValid: false,
       });
 
       check = false;
@@ -120,7 +120,7 @@ export class AddTodo extends React.Component {
             maxLength={30}
             onChange={this.handleChange}
           />
-          {(this.state.validTitle
+          {(this.state.isTitleValid
             ? ''
             : (
               <span
@@ -153,7 +153,7 @@ export class AddTodo extends React.Component {
               ))}
             </>
           </select>
-          {(this.state.validUser
+          {(this.state.isUserValid
             ? ''
             : (
               <span
@@ -177,8 +177,5 @@ export class AddTodo extends React.Component {
 
 AddTodo.propTypes = {
   users: PropTypes.arrayOf(UserType).isRequired,
-  todos: PropTypes.arrayOf(PreparedTodoType).isRequired,
-  app: PropTypes.shape({
-    addTodo: PropTypes.func.isRequired,
-  }).isRequired,
+  addTodo: PropTypes.func.isRequired,
 };
