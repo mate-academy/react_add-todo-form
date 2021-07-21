@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const InputForTitle = ({ onChange, value }) => (
+export const InputForTitle = ({ onChange, value, inputValidation }) => (
   <label>
     <strong>
       Title:
@@ -9,12 +9,16 @@ export const InputForTitle = ({ onChange, value }) => (
     <input
       type="text"
       maxLength="40"
-      required
       name="todoTitle"
       placeholder="title"
       onChange={onChange}
       value={value}
     />
+    { inputValidation
+    && <strong>
+      Please enter the title
+    </strong>
+    }
   </label>
 );
 

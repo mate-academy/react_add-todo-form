@@ -3,34 +3,38 @@ import PropTypes from 'prop-types';
 import { Option } from './Option';
 
 export const SelectUser = ({
-  namesForOptions,
   onChange,
   valueForSelect,
+  selectValidation,
+  names
 }) => (
-  <select
-
-    name="userNames"
-    required
-    onChange={onChange}
-    value={valueForSelect}
-  >
-    <option
-      value=""
+  <>
+    <select
+      name="userNames"
+      onChange={onChange}
+      value={valueForSelect}
     >
-      Select user
-    </option>
-    {namesForOptions.map(name => (
-      <Option
-        name={name}
-        key={name}
-      />
-    ))}
-  </select>
+      <option
+        value=""
+      >
+        Select user
+      </option>
+      {names.map(name => (
+        <Option
+          name={name}
+          key={name}
+        />
+      ))}
+    </select>
+    {selectValidation 
+      && <strong>
+        Please choose a user
+      </strong>}
+  </>
+
 );
 
 SelectUser.propTypes = {
-  namesForOptions:
-    PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   onChange: PropTypes.func.isRequired,
   valueForSelect: PropTypes.string.isRequired,
 };
