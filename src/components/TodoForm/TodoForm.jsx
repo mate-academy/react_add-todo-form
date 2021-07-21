@@ -76,7 +76,6 @@ class TodoForm extends React.Component {
           name="name"
           value={this.state.name}
           onChange={this.handleChange}
-          required
         >
           <option>Choose User</option>
           {this.props.users.map(user => (
@@ -99,7 +98,6 @@ class TodoForm extends React.Component {
           placeholder="Write new todo..."
           value={this.state.title}
           onChange={this.handleChange}
-          required
         />
         { !this.checkInputs(this.state.title)
         && (
