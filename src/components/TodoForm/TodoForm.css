@@ -1,0 +1,33 @@
+.formTodo {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.formInput {
+  padding: 30px 5px 0;
+  margin: 20px 0;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.formBtn {
+  padding: 10px 5px;
+  min-width: 150px;
+  margin: 0 auto;
+  border-radius: 10px;
+  transition-duration: 1s;
+  color: aliceblue;
+  background: rgb(102, 111, 236);
+  font-weight: 500;
+  border: 1px solid rgb(102, 111, 236) ;
+}
+
+.formBtn:hover {
+  transform: scale(120%);
+  border: 1px solid rgb(208, 208, 214) ;
+}
