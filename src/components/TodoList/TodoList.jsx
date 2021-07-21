@@ -6,7 +6,7 @@ const TodoList = ({ users, todos }) => (
   <div className="todosList">
     {todos.map((todo) => {
 
-      const findUser = users.find(user => user.id === todo.id);
+      const findUser = users.find(user => user.id === todo.userId);
 
       return (
         <div className="todo">
