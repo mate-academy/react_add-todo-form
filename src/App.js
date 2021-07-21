@@ -3,7 +3,7 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
-import FormToAddTodo from './components/FormToAddTodo';
+import FormToAddTodo from './components/TodoForm';
 
 const todosWithUsersName = todos.map((todo) => {
   const userName = users.find(user => user.id === todo.userId).name;
@@ -15,7 +15,7 @@ const todosWithUsersName = todos.map((todo) => {
   return copyTodo;
 });
 
-const namesForSelect = users.map(user => user.name);
+const userNames = users.map(user => user.name);
 
 class App extends Component {
   state = {
@@ -38,9 +38,9 @@ render() {
         todos={this.state.todos}
       />
       <FormToAddTodo
-        names={namesForSelect}
-        todos={this.state.todos}
-        onSubmit={this.addNewTodo}
+        names={userNames}
+        todos={this.state.todos.length}
+        addTodo={this.addNewTodo}
       />
     </div>
   );

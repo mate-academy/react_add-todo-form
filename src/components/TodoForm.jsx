@@ -5,7 +5,7 @@ import { AddButton } from './AddButton';
 import { SelectUser } from './SelectUser';
 import './FormToAddTodo.css';
 
-export default class FormToAddTodo extends React.Component {
+export default class TodoForm extends React.Component {
   state = {
     todoTitle: '',
     userName: '',
@@ -41,10 +41,10 @@ export default class FormToAddTodo extends React.Component {
           title: prevState.todoTitle,
           completed: false,
           userId: prevState.userId,
-          id: this.props.todos.length + 1,
+          id: this.props.todos + 1,
         },
       }),
-      () => this.props.onSubmit(this.state.newTodo));
+      () => this.props.addTodo(this.state.newTodo));
     }
   
     if(!this.state.userName) {
@@ -90,13 +90,7 @@ export default class FormToAddTodo extends React.Component {
   }
 }
 
-FormToAddTodo.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  todos: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    id: PropTypes.number.isRequired,
-    userId: PropTypes.number.isRequired,
-  }).isRequired).isRequired,
+TodoForm.propTypes = {
+  addTodo: PropTypes.func.isRequired,
+  todos: PropTypes.number.isRequired,
 };

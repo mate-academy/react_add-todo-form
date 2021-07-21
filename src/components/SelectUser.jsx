@@ -14,12 +14,7 @@ export const SelectUser = ({
       onChange={onChange}
       value={valueForSelect}
     >
-      <option
-        value=""
-      >
-        Select user
-      </option>
-      {names.map(name => (
+      {['Select user', ...names].map(name => (
         <Option
           name={name}
           key={name}
