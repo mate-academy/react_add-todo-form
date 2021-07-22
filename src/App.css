@@ -1,4 +1,9 @@
 .App {
+  margin: 0 auto;
+  display: flex;
+  max-width: 1200px;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
 }
 
