@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usersShape } from '../../types';
+import { UsersShape } from '../../types';
 
 export const Select = ({ value, action, users }) => (
   <select
@@ -19,5 +19,5 @@ export const Select = ({ value, action, users }) => (
 Select.propTypes = {
   value: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(usersShape).isRequired,
+  users: PropTypes.arrayOf(UsersShape).isRequired,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '../User';
-import { todoShape } from '../../types';
+import { TodoShape } from '../../types';
 
 export const Todo = ({ todo }) => (
   <>
@@ -14,5 +14,5 @@ export const Todo = ({ todo }) => (
 );
 
 Todo.propTypes = {
-  todo: todoShape.isRequired,
+  todo: TodoShape.isRequired,
 };

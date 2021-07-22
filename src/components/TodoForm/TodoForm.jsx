@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoForm.css';
-import { todoShape, usersShape } from '../../types';
+import { TodoShape, UsersShape } from '../../types';
 import { TodoList } from '../TodoList';
 import { Select } from '../Select';
 import { Input } from '../Input';
@@ -120,6 +120,6 @@ export class TodoForm extends React.Component {
 }
 
 TodoForm.propTypes = {
-  todos: PropTypes.arrayOf(todoShape).isRequired,
-  users: PropTypes.arrayOf(usersShape).isRequired,
+  todos: PropTypes.arrayOf(TodoShape).isRequired,
+  users: PropTypes.arrayOf(UsersShape).isRequired,
 };
