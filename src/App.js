@@ -12,12 +12,12 @@ class App extends React.Component {
   }
 
   addTodo = (todo) => {
-    this.setState({
-      todos: [...todos, {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, {
         id: todos.length + 1,
         ...todo,
       }],
-    });
+    }));
   }
 
   getUserName = (todo) => {
@@ -26,19 +26,15 @@ class App extends React.Component {
     return findUser.name;
   }
 
-  prepereTodos = (todosToUpdate) => {
-    const result = todosToUpdate.map((todo) => {
-      const userName = this.getUserName(todo);
-      const changeTodo = {
-        ...todo,
-        userName,
-      };
+  prepereTodos = todosToUpdate => todosToUpdate.map((todo) => {
+    const userName = this.getUserName(todo);
+    const changeTodo = {
+      ...todo,
+      userName,
+    };
 
-      return changeTodo;
-    });
-
-    return result;
-  }
+    return changeTodo;
+  })
 
   render() {
     return (

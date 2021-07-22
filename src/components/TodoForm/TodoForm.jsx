@@ -8,7 +8,7 @@ class TodoForm extends React.Component {
     title: '',
     name: '',
     userId: 0,
-    isValidCorect: false,
+    isValidationHasError: false,
   }
 
   handleChange = (event) => {
@@ -31,7 +31,7 @@ class TodoForm extends React.Component {
       title: '',
       name: '',
       userId: null,
-      isValidCorect: false,
+      isValidationHasError: false,
     });
   }
 
@@ -45,7 +45,7 @@ class TodoForm extends React.Component {
     event.preventDefault();
 
     if (this.state.name === '') {
-      return 0;
+      return;
     }
 
     this.props.addTodo(createTodo);
@@ -53,7 +53,7 @@ class TodoForm extends React.Component {
   }
 
   checkInputs = (value) => {
-    if (value.length === 0 && this.state.isValidCorect === true) {
+    if (value.length === 0 && this.state.isValidationHasError === true) {
       return false;
     }
 
@@ -63,7 +63,7 @@ class TodoForm extends React.Component {
   getUserId = () => {
     this.setState(prevState => ({
       userId: this.findUser(prevState.name),
-      isValidCorect: true,
+      isValidationHasError: true,
     }));
   }
 
