@@ -9,7 +9,6 @@ class TodoForm extends React.Component {
     name: '',
     userId: 0,
     isValidationHasError: false,
-    maxInputLength: 50,
   }
 
   handleChange = (event) => {
@@ -17,7 +16,6 @@ class TodoForm extends React.Component {
 
     this.setState(prevState => ({
       [name]: value,
-      maxInputLength: prevState.maxInputLength - 1,
     }));
   };
 
@@ -36,7 +34,6 @@ class TodoForm extends React.Component {
       name: '',
       userId: null,
       isValidationHasError: false,
-      maxInputLength: 50,
     });
   }
 
@@ -79,13 +76,6 @@ class TodoForm extends React.Component {
         method="POST"
         onSubmit={this.addTodoAfterSubmit}
       >
-        <p>
-          You can enter
-          {' '}
-          {this.state.maxInputLength}
-          {' '}
-          charecter more
-        </p>
         <select
           name="name"
           value={this.state.name}
