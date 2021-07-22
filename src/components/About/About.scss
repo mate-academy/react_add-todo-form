@@ -1,0 +1,32 @@
+.user {
+  display: flex;
+
+  &__about {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 0 0 5px #000;
+    border-radius: 5px;
+    padding: 10px 0 10px 40px;
+    gap: 5px;
+  }
+}
+
+.name {
+  margin: auto;
+  text-decoration: underline;
+  text-align: center;
+  font-weight: 700;
+  font-size: 25px;
+  width: 300px;
+}
+
+.label {
+  display: inline;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.phone {
+  font-style: italic;
+}

@@ -1,0 +1,25 @@
+.form {
+  position: relative;
+  display: flex;
+  gap: 20px;
+}
+
+.wraper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+.button {
+  font-size: 25px;
+}
+
+.control {
+  flex-grow: 2;
+}
+
+.textarea {
+  resize: none;
+}

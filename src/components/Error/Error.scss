@@ -1,0 +1,16 @@
+
+.error {
+  position: absolute;
+  display: block;
+  color: red;
+  text-align: center;
+  top: -25px;
+}
+
+.error--select {
+  left: 25px;
+}
+
+.error--text-area {
+  left: 370px;
+}

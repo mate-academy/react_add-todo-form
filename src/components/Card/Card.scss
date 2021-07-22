@@ -1,0 +1,12 @@
+
+.box {
+  box-shadow:inset 0 0 30px rgb(249, 215, 215);
+
+  &--is-completed {
+    box-shadow: inset 0 0 30px rgb(177, 238, 184);
+  }
+}
+
+.progress {
+  margin: 20px 0;
+}

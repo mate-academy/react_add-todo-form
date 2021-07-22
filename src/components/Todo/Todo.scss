@@ -1,0 +1,44 @@
+.title {
+  color: black;
+}
+
+.todo {
+  display: flex;
+  gap: 10px;
+  border-radius: 5px;
+
+  &__status {
+    align-self: center;
+    background-image: url("https://png.pngtree.com/png-clipart/20190921/original/pngtree-true-and-false-symbols-accept-rejected-for-evaluation-vector-simple-png-image_4723246.jpg");
+    cursor: pointer;
+    border: 1px solid #ff98987e;
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    transition: 0.1s;
+
+    &--is-completed {
+      background-image: url("https://png.pngtree.com/png-clipart/20210311/original/pngtree-true-and-false-symbols-accept-rejected-for-evaluation-png-image_6020182.jpg");
+      border: 2px solid rgb(145, 203, 152);
+    }
+
+    &:hover {
+      border-radius: 25%;
+      width: 90px;
+      height: 90px;
+    }
+
+    &:active {
+      width: 70px;
+      height: 70px;
+      box-shadow: 0 0 5px #000;
+    }
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+}
+
