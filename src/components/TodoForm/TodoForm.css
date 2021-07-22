@@ -1,0 +1,11 @@
+.addTodoForm {
+  border: 1px solid black;
+}
+
+.addTodoForm__label {
+  display: block;
+}
+
+.addTodoForm__label-message {
+  margin-left: 10px;
+}
