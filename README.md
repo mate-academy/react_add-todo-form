@@ -21,4 +21,4 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - errors should appear only after pressing `Add` button
     - hide a message immediately after any change of the field with an error
 1. (* Optional) Limit characters displayed in the `title` field.
-  Allow entering `spaces` and alphanumeric (`\w`) characters.
+  Allow entering letters (`ru` and `en`), digits and `spaces`.
