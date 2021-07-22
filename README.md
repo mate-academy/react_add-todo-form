@@ -7,6 +7,7 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
 
 1. Create `App` component storing `todos` array and displaying it using `TodoList`
 1. Create a form to add new TODOs
+    - DON'T create a separate component for a form
     - please add labels and placeholders where they are needed
     - each TODO should have a `title` and `userId` selected from a list of given `users` (`./src/api/users.js`)
     - show user names in `<select>`
