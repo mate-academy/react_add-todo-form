@@ -10,7 +10,7 @@ export const InputForTitle = ({ onChange, value, inputValidation }) => (
       type="text"
       maxLength="40"
       name="todoTitle"
-      placeholder="title"
+      placeholder="only English"
       onChange={onChange}
       value={value}
     />

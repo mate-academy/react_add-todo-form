@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Option } from './Option';
 
-export const SelectUser = ({
+export const Select = ({
   onChange,
-  valueForSelect,
+  value,
   selectValidation,
   names
 }) => (
@@ -12,7 +12,7 @@ export const SelectUser = ({
     <select
       name="userNames"
       onChange={onChange}
-      value={valueForSelect}
+      value={value}
     >
       {['Select user', ...names].map(name => (
         <Option
@@ -29,7 +29,9 @@ export const SelectUser = ({
 
 );
 
-SelectUser.propTypes = {
+Select.propTypes = {
   onChange: PropTypes.func.isRequired,
-  valueForSelect: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  selectValidation: PropTypes.bool.isRequired,
+  names:PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };

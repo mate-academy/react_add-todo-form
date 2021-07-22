@@ -8,8 +8,8 @@ export const TodoList = ({ todos }) => (
       <Todo
         key={todo.id}
         userName={todo.name}
-        todoTitle={todo.title}
-        todoState={todo.completed}
+        title={todo.title}
+        state={todo.completed}
       />
     ))}
   </ul>

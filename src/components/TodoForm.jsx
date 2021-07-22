@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { InputForTitle } from './InputForTitle';
 import { AddButton } from './AddButton';
-import { SelectUser } from './SelectUser';
+import { Select } from './SelectUser';
 import './FormToAddTodo.css';
 
 export default class TodoForm extends React.Component {
@@ -20,9 +20,8 @@ export default class TodoForm extends React.Component {
     inputValidation: (event.target.value.length < 0),
   })
   
-  changeUserNameAndUserId = event => this.setState({
+  changeUserName = event => this.setState({
     userName: event.target.value,
-    userId: (this.props.names.indexOf(event.target.value) + 1),
     selectValidation: (event.target.value.length < 0),
   })
 
@@ -78,10 +77,10 @@ export default class TodoForm extends React.Component {
           value={todoTitle}
           inputValidation={inputValidation}
         />
-        <SelectUser
-        names={this.props.names}
-          valueForSelect={userName}
-          onChange={this.changeUserNameAndUserId}
+        <Select
+          names={this.props.names}
+          value={userName}
+          onChange={this.changeUserName}
           selectValidation={selectValidation}
         />
         <AddButton />
@@ -92,5 +91,5 @@ export default class TodoForm extends React.Component {
 
 TodoForm.propTypes = {
   addTodo: PropTypes.func.isRequired,
-  todos: PropTypes.number.isRequired,
+  names: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };

@@ -4,16 +4,16 @@ import './Todo.css';
 
 export const Todo = ({
   userName,
-  todoTitle,
-  todoState,
+  title,
+  state,
 }) => (
   <>
     <p>
-      {todoTitle}
+      {title}
     </p>
     <p>
       <strong>Status: </strong>
-      {todoState ? 'Completed' : 'Not completed yet'}
+      {state ? 'Completed' : 'Not completed yet'}
     </p>
     <p className="user">
       {userName}
@@ -24,6 +24,6 @@ export const Todo = ({
 
 Todo.propTypes = {
   userName: PropTypes.string.isRequired,
-  todoTitle: PropTypes.string.isRequired,
-  todoState: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  state: PropTypes.bool.isRequired,
 };

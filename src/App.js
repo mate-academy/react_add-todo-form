@@ -3,7 +3,7 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
-import FormToAddTodo from './components/TodoForm';
+import TodoForm from './components/TodoForm';
 
 const todosWithUsersName = todos.map((todo) => {
   const userName = users.find(user => user.id === todo.userId).name;
@@ -23,7 +23,11 @@ class App extends Component {
   }
 
 addNewTodo = newTodo => this.setState(state => ({
-  todos: [...state.todos, newTodo],
+  todos: [...state.todos,
+    {
+      ...newTodo,
+      id: state.todos.length + 1,
+    }],
 }));
 
 render() {
@@ -37,9 +41,8 @@ render() {
       <TodoList
         todos={this.state.todos}
       />
-      <FormToAddTodo
+      <TodoForm
         names={userNames}
-        todos={this.state.todos.length}
         addTodo={this.addNewTodo}
       />
     </div>
