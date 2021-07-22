@@ -96,8 +96,6 @@ class TodoForm extends React.Component {
         )
         }
         <input
-          autoComplete="off"
-          maxLength="50"
           className="formInput"
           type="text"
           name="title"
