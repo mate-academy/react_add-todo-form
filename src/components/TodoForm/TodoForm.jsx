@@ -8,8 +8,7 @@ class TodoForm extends React.Component {
     title: '',
     name: '',
     userId: 0,
-    id: null,
-    isButtonCliked: false,
+    isValidCorect: false,
   }
 
   handleChange = (event) => {
@@ -32,14 +31,12 @@ class TodoForm extends React.Component {
       title: '',
       name: '',
       userId: null,
-      id: null,
-      isButtonCliked: false,
+      isValidCorect: false,
     });
   }
 
   addTodoAfterSubmit = (event) => {
     const createTodo = {
-      id: this.state.id,
       userId: this.state.userId,
       title: this.state.title,
       completed: this.state.completed,
@@ -56,7 +53,7 @@ class TodoForm extends React.Component {
   }
 
   checkInputs = (value) => {
-    if (value.length === 0 && this.state.isButtonCliked === true) {
+    if (value.length === 0 && this.state.isValidCorect === true) {
       return false;
     }
 
@@ -66,8 +63,7 @@ class TodoForm extends React.Component {
   getUserId = () => {
     this.setState(prevState => ({
       userId: this.findUser(prevState.name),
-      isButtonCliked: true,
-      id: this.props.todos.length + 1,
+      isValidCorect: true,
     }));
   }
 
@@ -127,7 +123,6 @@ class TodoForm extends React.Component {
 
 TodoForm.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  todos: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   addTodo: PropTypes.func.isRequired,
 };
 

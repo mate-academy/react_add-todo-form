@@ -12,9 +12,12 @@ class App extends React.Component {
   }
 
   addTodo = (todo) => {
-    this.setState(prevState => (
-      prevState.todos.push(todo)
-    ));
+    this.setState({
+      todos: [...todos, {
+        id: todos.length + 1,
+        ...todo,
+      }],
+    });
   }
 
   getUserName = (todo) => {
@@ -23,8 +26,8 @@ class App extends React.Component {
     return findUser.name;
   }
 
-  preperTodo = () => {
-    const updateTodo = this.state.todos.map((todo) => {
+  prepereTodos = (todosToUpdate) => {
+    const result = todosToUpdate.map((todo) => {
       const userName = this.getUserName(todo);
       const changeTodo = {
         ...todo,
@@ -34,17 +37,14 @@ class App extends React.Component {
       return changeTodo;
     });
 
-    return updateTodo;
+    return result;
   }
 
   render() {
     return (
       <div className="wraper">
-        <TodoList
-          todos={this.preperTodo()}
-        />
+        <TodoList todos={this.prepereTodos(this.state.todos)} />
         <TodoForm
-          todos={this.state.todos}
           addTodo={this.addTodo}
           users={users}
         />
