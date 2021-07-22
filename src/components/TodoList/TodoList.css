@@ -1,0 +1,16 @@
+.todosList {
+  display: flex;
+  height: 500px;
+  flex-wrap: wrap;
+  max-height: 600px;
+  padding: 0 80px;
+}
+
+.todo {
+  background: rgb(197, 197, 226);
+  width: 250px;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 20px;
+  max-height: 150px;
+}
