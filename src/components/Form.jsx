@@ -41,6 +41,7 @@ export class Form extends PureComponent {
         },
       }),
       () => this.props.addTodo(this.state.newTodo));
+      this.resetForm();
     }
 
     if (!this.state.todoTitle.trim()) {
@@ -50,8 +51,6 @@ export class Form extends PureComponent {
     if (!this.state.userName) {
       this.setState({ isValidSelect: true });
     }
-
-    this.resetForm();
   }
 
   render() {
