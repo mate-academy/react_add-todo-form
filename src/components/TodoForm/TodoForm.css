@@ -1,0 +1,13 @@
+.input-error {
+  bottom: -100%;
+  left: 0;
+  position: absolute;
+  background-color: red;
+}
+
+.select-error {
+  bottom: -100%;
+  right: 0;
+  position: absolute;
+  background-color: red;
+}
