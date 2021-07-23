@@ -16,12 +16,11 @@ export const UsersShape = PropTypes.shape({
 }).isRequired;
 
 export const TodoFormShape = {
-  taskNameMaxLength: PropTypes.number.isRequired,
-  newTaskName: PropTypes.string.isRequired,
-  inputAction: PropTypes.func.isRequired,
-  showInputError: PropTypes.bool.isRequired,
-  selectedUser: PropTypes.string.isRequired,
-  selectAction: PropTypes.func.isRequired,
-  showSelectError: PropTypes.bool.isRequired,
-  addButtonAction: PropTypes.func.isRequired,
+  currentTodos: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }),
+  users: PropTypes.arrayOf(UsersShape).isRequired,
+  changeCurrentTodos: PropTypes.func.isRequired,
 };
