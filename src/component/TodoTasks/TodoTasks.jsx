@@ -19,7 +19,10 @@ export const TodoTasks = ({ todos, users }) => (
         >
           <td>{todo.id}</td>
           <td>{users.find(user => user.id === todo.userId).name}</td>
-          <td>{todo.title}</td>
+          <td>
+            {todo.title.slice(0, 30)}
+            {todo.title.length > 30 ? '...' : ''}
+          </td>
         </tr>
       ))}
     </tbody>
