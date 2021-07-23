@@ -1,0 +1,11 @@
+.todo {
+  font-size: 20px;
+}
+
+.todo__completed {
+  color: green;
+}
+
+.todo__uncompleted {
+  color: red;
+}
