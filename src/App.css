@@ -1,3 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+}
+
+.titleEntered {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.titleNotEnetred {
+  margin-bottom: 10px;
+  transition: opacity 1s;
+  opacity: 1;
+}
+
+.userSelected {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.userNotSelected {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.todoList {
+  margin: 15px 0;
+  width: 100%;
+  border: 5px solid rgb(97, 56, 56);
+  background-color: rgb(182, 125, 125);
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+}
+
+.completed {
+  color: rgb(0, 255, 0);
+}
+
+.notCompleted {
+  color: rgb(255, 0, 0);
 }
