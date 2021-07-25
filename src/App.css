@@ -1,3 +1,17 @@
-.App {
-  text-align: center;
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.App__text {
+  display: block;
+}
+
+.App__select {
+  display: block;
+}
+
+.button {
+  display: block;
 }
