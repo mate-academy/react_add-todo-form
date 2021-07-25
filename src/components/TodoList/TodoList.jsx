@@ -12,7 +12,6 @@ export class TodoList extends React.Component {
     userName: '',
     todoTitleError: false,
     userNameError: false,
-    nextId: this.props.todos.length,
   };
 
   handleChange = (event) => {
@@ -26,7 +25,6 @@ export class TodoList extends React.Component {
 
   handleSubmit = (event) => {
     const {
-      nextId,
       todoTitle,
       userName,
       todoTitleError,
@@ -34,11 +32,12 @@ export class TodoList extends React.Component {
 
     event.preventDefault();
 
-    if (!userName
-      || !todoTitle
-      || todoTitleError
-      || !todoTitle.match(/^[\w\s]+$/i)
-    ) {
+    const isValid = userName
+    && todoTitle
+    && !todoTitleError
+    && todoTitle.match(/^[\w\s]+$/i);
+
+    if (!isValid) {
       this.setState({
         userNameError: !userName,
         todoTitleError: todoTitleError || !todoTitle,
@@ -46,13 +45,12 @@ export class TodoList extends React.Component {
     } else {
       const newObj = {
         userId: userName,
-        id: nextId + 1,
+        id: Date.now(),
         title: todoTitle,
         completed: Math.random() > 0.5,
       };
 
       this.setState(state => ({
-        nextId: state.nextId + 1,
         todos: [...state.todos, newObj],
         todoTitle: '',
         userName: '',
@@ -61,8 +59,11 @@ export class TodoList extends React.Component {
   };
 
   render() {
-    const { users, todos, todoTitle, userName, todoTitleError, userNameError }
-      = this.state;
+    const {
+      users, todos, todoTitle,
+      userName, todoTitleError,
+      userNameError,
+    } = this.state;
 
     return (
       <div className="todosForm">
