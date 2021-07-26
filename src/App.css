@@ -1,3 +1,13 @@
 .App {
-  text-align: center;
+  margin: 0 200px;
+}
+
+.app-title {
+  text-transform: uppercase;
+}
+
+.error {
+  color: red;
+  line-height: 38px;
+  text-transform: uppercase;
 }
