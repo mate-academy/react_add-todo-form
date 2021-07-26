@@ -1,0 +1,23 @@
+.form {
+  padding: 1vw 2vw;
+  margin-bottom: 2vw;
+  border-radius: 1vw;
+  box-shadow: 0 8px 6px -6px #c6c5c5;
+  position: relative;
+
+  &__btn {
+    font-size: 24px;
+    color: #43008d;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    background: lightgoldenrodyellow;
+    border-radius: 50%;
+    border-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

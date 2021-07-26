@@ -1,0 +1,9 @@
+.list {
+  &__item {
+    list-style: none;
+    padding: 1vw 2vw;
+    margin-bottom: 2vw;
+    border-radius: 1vw;
+    box-shadow: 0 8px 6px -6px #c6c5c5;
+  }
+}
