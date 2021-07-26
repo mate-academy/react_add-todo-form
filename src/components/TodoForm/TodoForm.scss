@@ -1,0 +1,47 @@
+.TodoForm {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 500px;
+
+  &__label {
+    margin-top: 20px;
+  }
+
+  &__field {
+    margin: 15px 0;
+
+    padding: 10px 15px;
+
+    border:none;
+    border-bottom: 1px solid black;
+    outline: none;
+
+    &:focus {
+      padding-bottom: 9px;
+      border-width: 2px;
+      border-color: #5148B7;
+    }
+  }
+
+  &__submit {
+    margin-top: 20px;
+    padding: 10px;
+
+    background-color: white;
+    color: rgb(51, 36, 32);
+    border: 1px solid rgb(51, 36, 32);
+
+    transition: color 0.5s, background-color 0.5s;
+
+    &:hover {
+      color: white;
+      background-color: rgb(51, 36, 32);
+    }
+  }
+
+  &__error {
+    align-self: flex-start;
+    color:  rgba(234, 48, 8, 0.8);
+  }
+}

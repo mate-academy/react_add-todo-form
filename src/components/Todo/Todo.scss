@@ -1,0 +1,29 @@
+.Todo {
+  width: 600px;
+
+  padding: 10px 20px;
+
+  border: 1px solid rgb(51, 36, 32);
+  background-color: rgba(51, 36, 32, 0.1);
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgba(51, 36, 32, 0.2);
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__status {
+    padding: 10px 20px;
+    background-color: rgba(234, 48, 8, 0.8);
+    border-radius: 5px;
+
+    &--completed {
+      background-color: rgba(30, 179, 5, 0.8);
+    }
+  }
+}
