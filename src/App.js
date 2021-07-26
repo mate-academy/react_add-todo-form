@@ -15,12 +15,45 @@ class App extends React.Component {
     todos: [...todos],
   }
 
-  render() {
-    const usersWithTodos = users.map(user => ({
-      ...user,
-      todos: this.state.todos.filter(todo => todo.userId === user.id),
-    }));
+  onChange = (event) => {
+    const { name, value } = event.target;
 
+    if (name === 'userId') {
+      this.setState({
+        [name]: +value,
+      });
+    } else {
+      this.setState({
+        [name]: value,
+      });
+    }
+  }
+
+  addTodo = () => {
+    const { id, title, completed, userId } = this.state;
+
+    if (title !== '' && userId !== '') {
+      this.state.todos.push({
+        userId,
+        id,
+        title,
+        completed,
+      });
+
+      this.setState(state => ({
+        id: state.id + 1,
+        userId: '',
+        title: '',
+      }));
+    }
+  }
+
+  usersWithTodos = () => (users.map(user => ({
+    ...user,
+    todos: this.state.todos.filter(todo => todo.userId === user.id),
+  })))
+
+  render() {
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -42,13 +75,7 @@ class App extends React.Component {
               name="title"
               value={this.state.title}
               required
-              onChange={(event) => {
-                const { name, value } = event.target;
-
-                this.setState({
-                  [name]: value,
-                });
-              }}
+              onChange={this.onChange}
             />
 
             <div className={classNames(this.state.title
@@ -63,13 +90,7 @@ class App extends React.Component {
             <select
               name="userId"
               value={this.state.userId}
-              onChange={(event) => {
-                const { name, value } = event.target;
-
-                this.setState({
-                  [name]: +value,
-                });
-              }}
+              onChange={this.onChange}
               required
             >
               <option value="" disabled>
@@ -77,7 +98,7 @@ class App extends React.Component {
               </option>
 
               {users.map(user => (
-                <option value={user.id} required>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
@@ -93,30 +114,13 @@ class App extends React.Component {
 
           <button
             type="submit"
-            onClick={() => {
-              const { id, title, completed, userId } = this.state;
-
-              if (title !== '' && userId !== '') {
-                this.state.todos.push({
-                  userId,
-                  id,
-                  title,
-                  completed,
-                });
-
-                this.setState(state => ({
-                  id: state.id + 1,
-                  userId: '',
-                  title: '',
-                }));
-              }
-            }}
+            onClick={this.addTodo}
           >
             Add
           </button>
         </form>
 
-        <TodoList usersWithTodos={usersWithTodos} />
+        <TodoList usersWithTodos={this.usersWithTodos()} />
       </div>
     );
   }

@@ -6,15 +6,17 @@ import { UserType } from '../../Types';
 export const TodoList = ({ usersWithTodos }) => (
   <table className="todoList">
     <thead className="todoList__header">
-      <td>ID</td>
-      <td>Description of TODO</td>
-      <td>Status</td>
-      <td>User name</td>
+      <tr>
+        <td>ID</td>
+        <td>Description of TODO</td>
+        <td>Status</td>
+        <td>User name</td>
+      </tr>
     </thead>
 
     <tbody className="todoList__body">
       {usersWithTodos.map(user => (
-        <Todo user={user} />
+        <Todo user={user} key={user.id} />
       ))}
     </tbody>
   </table>

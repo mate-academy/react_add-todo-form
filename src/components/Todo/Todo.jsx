@@ -9,7 +9,7 @@ export const Todo = ({ user }) => {
   return (
     <>
       {todos.map(todo => (
-        <tr className="todoList__row">
+        <tr className="todoList__row" key={todo.id}>
           <td className="todoList__item">
             {todo.id}
           </td>
