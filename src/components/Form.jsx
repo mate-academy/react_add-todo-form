@@ -9,15 +9,17 @@ export class Form extends PureComponent {
     isValidSelect: false,
   }
 
-  changeTitle = event => this.setState({
-    todoTitle: event.target.value,
-    isValidInput: !event.target.value.length,
-  })
+  changeHandler = (event) => {
+    const { name, value } = event.target;
+    const validator = name === 'userName'
+      ? 'isValidSelect'
+      : 'isValidInput';
 
-  changeUserName = event => this.setState({
-    userName: event.target.value,
-    isValidSelect: !event.target.value.length,
-  })
+    this.setState({
+      [name]: value,
+      [validator]: !value.length,
+    });
+  }
 
   resetForm = () => this.setState({
     todoTitle: '',
@@ -28,6 +30,7 @@ export class Form extends PureComponent {
 
   addNewTodo = (event) => {
     event.preventDefault();
+    const { addTodo } = this.props;
 
     if (this.state.userName && this.state.todoTitle.trim()) {
       this.setState(prevState => ({
@@ -40,7 +43,7 @@ export class Form extends PureComponent {
           },
         },
       }),
-      () => this.props.addTodo(this.state.newTodo));
+      () => addTodo(this.state.newTodo));
       this.resetForm();
     }
 
@@ -60,7 +63,7 @@ export class Form extends PureComponent {
           type="text"
           id="title"
           name="todoTitle"
-          onChange={this.changeTitle}
+          onChange={this.changeHandler}
           value={this.state.todoTitle}
           placeholder="Enter the title"
         />
@@ -68,8 +71,8 @@ export class Form extends PureComponent {
           {this.state.isValidInput && <b>Please enter the title</b>}
         </label>
         <select
-          name="userNames"
-          onChange={this.changeUserName}
+          name="userName"
+          onChange={this.changeHandler}
           value={this.state.userName}
         >
           <option value="0">Choose a user</option>
