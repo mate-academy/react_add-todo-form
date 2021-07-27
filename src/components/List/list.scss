@@ -1,0 +1,20 @@
+.todo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100vw;
+  padding: 0;
+  list-style: none;
+  gap: 20px;
+
+  &__item {
+    padding: 18px;
+    background-color: #a3a3a3;
+    border-radius: 18px;
+  }
+
+  &__user {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+}
