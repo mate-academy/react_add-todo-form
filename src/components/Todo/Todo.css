@@ -1,0 +1,27 @@
+.todo {
+  display: grid;
+  grid-template-columns: 5fr 2fr 2fr;
+
+  height: 50px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 1px solid rgb(7, 165, 33);
+}
+
+.todo__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+  
+.todo__status {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo__status--completed {
+  color: green;
+}

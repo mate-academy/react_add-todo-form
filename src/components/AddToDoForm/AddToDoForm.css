@@ -1,0 +1,16 @@
+.form {
+  background-color: rgb(226, 226, 226);
+  width: max-content;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.form__input-wrapper {
+  margin-bottom: 30px;
+}
+
+.form__error {
+  display: block;
+  color: red;
+}
