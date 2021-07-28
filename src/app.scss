@@ -1,0 +1,23 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+
+  &__title {
+    color: rgb(8, 102, 243);
+    font-size: 36px;
+    border-bottom: 1px solid rgb(17, 15, 15);
+    box-shadow: 0 2px 30px 50px rgb(3, 104, 129);
+  }
+
+  &__text {
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #fff;
+  }
+}
