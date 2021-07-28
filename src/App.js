@@ -23,7 +23,7 @@ class App extends Component {
 
     const { title, newUser } = this.state;
 
-    if (title && newUser) {
+    if (title.trim() && newUser) {
       const newTodo = {
         user: newUser,
         userId: newUser.id,
@@ -44,7 +44,7 @@ class App extends Component {
       ));
     }
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({
         todoSelected: true,
       });
