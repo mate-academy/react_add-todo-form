@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import { ToDo } from '../../types';
 
 export function Todo({ title, status, name }) {
   return (
@@ -18,8 +18,4 @@ export function Todo({ title, status, name }) {
   );
 }
 
-Todo.propTypes = {
-  title: propTypes.string.isRequired,
-  status: propTypes.bool.isRequired,
-  name: propTypes.string.isRequired,
-};
+Todo.propTypes = ToDo;
