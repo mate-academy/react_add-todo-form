@@ -1,0 +1,41 @@
+.form {
+  height: 250px;
+  margin-top: 30px;
+  background-color: black;
+  border-radius: 100px;
+
+  &__field {
+    background-color: rgba(128, 128, 128, 0.6);
+    color: white;
+    border-radius: 12px;
+    font-size: 20px;
+    height: 30px;
+    width: max-content;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  &__error {
+    margin-bottom: 50px;
+    color: red;
+    font-weight: bold;
+  }
+
+  &__button {
+    margin-top: 15px;
+    width: max-content;
+    font-size: 22px;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 12px;
+    height: 30px;
+
+    &:active {
+      background-color: green;
+    }
+  }
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
