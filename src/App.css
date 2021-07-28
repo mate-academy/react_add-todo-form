@@ -1,3 +1,21 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.todoList {
+  width: fit-content;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.todoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
