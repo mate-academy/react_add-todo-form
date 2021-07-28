@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { User } from '../User/User';
-// console.log(this.prop)
 export const Todo = ({
   title,
   completed,
