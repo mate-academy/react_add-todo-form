@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { todosType, usersType } from '../../types';
 
 export const Form = ({ selectedUser, enteredTodo,
-  todos, addTodo, onChange, users }) => (
+  todos, addTodo, onChange, users, setDefaultState }) => (
     <form
       action="post"
       onSubmit={(event) => {
@@ -15,6 +15,8 @@ export const Form = ({ selectedUser, enteredTodo,
           title: enteredTodo,
           completed: false,
         });
+
+        setDefaultState();
       }}
     >
       <input
@@ -22,6 +24,7 @@ export const Form = ({ selectedUser, enteredTodo,
         required
         placeholder="Title"
         maxLength="20"
+        value={enteredTodo}
         onChange={onChange}
       />
       <select
@@ -59,4 +62,5 @@ Form.propTypes = {
   users: PropTypes.arrayOf(usersType).isRequired,
   addTodo: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  setDefaultState: PropTypes.func.isRequired,
 };

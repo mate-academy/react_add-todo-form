@@ -27,9 +27,16 @@ export class App extends React.Component {
     }));
   }
 
+  setDefaultState = () => {
+    this.setState({
+      selectedUser: '',
+      enteredTodo: '',
+    });
+  }
+
   render() {
     const { enteredTodo, selectedUser, todos, users } = this.state;
-    const { onChange, addTodo } = this;
+    const { onChange, addTodo, setDefaultState } = this;
 
     return (
       <div className="app">
@@ -42,6 +49,7 @@ export class App extends React.Component {
           enteredTodo={enteredTodo}
           addTodo={addTodo}
           onChange={onChange}
+          setDefaultState={setDefaultState}
         />
 
         <List
