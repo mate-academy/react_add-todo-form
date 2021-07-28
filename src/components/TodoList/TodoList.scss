@@ -1,0 +1,47 @@
+.todo {
+
+  &__list {
+    box-sizing: border-box;
+    list-style: none;
+    backdrop-filter: blur(13px) saturate(169%);
+    -webkit-backdrop-filter: blur(13px) saturate(169%);
+    background-color: rgba(241, 241, 241, 0.69);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  &__item {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid white;
+    }
+  }
+
+  &__text {
+    font-family: Arial, Helvetica, sans-serif;
+    color: inherit;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+
+  &__completed {
+    min-width: max-content;
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding-left: 5px;
+  }
+
+  &__no-complete {
+    min-width: max-content;
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding-left: 5px;
+  }
+}
