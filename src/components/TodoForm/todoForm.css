@@ -1,0 +1,39 @@
+.form {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.form__input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__select-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__input {
+  width: 250px;
+  height: 30px;
+  margin-right: 15px;
+  border: 2px solid steelblue;
+}
+
+.form__select {
+  width: 200;
+  margin-right: 20px;
+  height: 30px;
+  border: 2px solid steelblue;
+}
+
+.form__button {
+  border: 2px solid steelblue;
+  background-color: steelblue;
+  color: white;
+  height: 30px;
+}
+
+.form__validation {
+  color: red;
+}
