@@ -91,7 +91,10 @@ class App extends React.Component {
             value={this.state.currentUser}
             onChange={this.handleChange}
           >
-            <option value="" hidden>
+            <option
+              value=""
+              hidden
+            >
               Choose user
             </option>
             {this.state.userList.map(
