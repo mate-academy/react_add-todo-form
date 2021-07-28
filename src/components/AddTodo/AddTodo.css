@@ -1,0 +1,13 @@
+.box {
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+
+.select {
+  margin-bottom: 20px;
+}
+
+.input {
+  margin-bottom: 20px;
+}
