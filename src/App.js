@@ -1,12 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Massege from './api/Components/Massege/Massege';
 import './App.css';
 import TodoList from './api/Components/TodoList/TodoList';
 import todos from './api/todos';
 import users from './api/users';
+import { MainForm } from './api/Components/Form/Form';
 
 class App extends React.PureComponent {
   state = {
@@ -76,49 +74,16 @@ class App extends React.PureComponent {
           {users.length}
         </p>
         <TodoList todos={this.state.newTodos} />
-        <Form
-          className="form"
-          onSubmit={event => event.preventDefault()}
-        >
-          <div>
-            <Form.Control
-              maxlength="30"
-              type="text"
-              placeholder="Title (Max length : 30 characters)"
-              onChange={this.inputChange}
-              value={this.state.dataFromInput.title}
-            />
-          </div>
-          <Form.Select
-            onChange={this.selectChange}
-            value={this.state.dataFromInput.name}
-          >
-            <option>Choose name</option>
-            {users.map(item => (
-              <option
-                key={item.id}
-              >
-                {item.name}
-              </option>
-            ))}
-          </Form.Select>
-          <div>
-            <Button
-              onClick={this.submitIt}
-              type="submit"
-              variant="info"
-              size="md"
-              className="button"
-            >
-              Attempt
-            </Button>
-          </div>
-          <Massege
-            checkedLengthWord={this.state.checkedLengthWord}
-            isChoosen={this.state.isChoosen}
-            titleLength={this.state.dataFromInput.title.length}
-          />
-        </Form>
+        <MainForm
+          onInputChange={this.inputChange}
+          onSelectChange={this.selectChange}
+          inputValue={this.state.dataFromInput.title}
+          selectValue={this.state.dataFromInput.name}
+          onClick={this.submitIt}
+          checkedLengthWord={this.state.checkedLengthWord}
+          isChoosen={this.state.isChoosen}
+          titleLength={this.state.dataFromInput.title.length}
+        />
       </div>
     );
   }
