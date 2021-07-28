@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 40px;
+  padding-top: 40px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 60px;
+}
+
+.addTodoForm {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 10px;
+  padding: 20px;
+  border: 4px solid lightgray;
+  border-radius: 20px;
+  box-shadow: 0 10px 5px lightgray;
+
+  &__title {
+    font-weight: bold;
+    font-size: 36px;
+    text-decoration: underline;
+  }
+
+  &__title-input,
+  &__select-user {
+    width: 90%;
+    height: 30px;
+    font-size: 16px;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+  }
+
+  &__submit-button {
+    width: 90%;
+    height: 30px;
+    border-radius: 10px;
+    background-color: yellow;
+  }
+}
+
+.hideError {
+  opacity: 0;
+  cursor: default;
+  transition: opacity 500ms;
+}
+
+.showError {
+  opacity: 1;
+  color: #f00;
+  cursor: default;
+  transition: opacity 500ms;
+}
