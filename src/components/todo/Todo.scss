@@ -1,0 +1,11 @@
+.toDoItem {
+  width: 250px;
+  border: 1px solid darkgrey;
+  border-radius: 20px;
+  padding-left: 10px;
+
+  &__userName {
+    text-transform: uppercase;
+    font-style: italic;
+  }
+}
