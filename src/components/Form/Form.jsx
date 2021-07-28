@@ -1,45 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
-import users from '../../api/users';
+import { todosType, usersType } from '../../types';
 
-export const Form = ({ handleSubmit, onChange, selectedUser }) => (
-  <form onSubmit={handleSubmit}>
-    <label>
+export const Form = ({ selectedUser, enteredTodo,
+  todos, addTodo, onChange, users }) => (
+    <form
+      action="post"
+      onSubmit={(event) => {
+        event.preventDefault();
+
+        addTodo({
+          userId: +selectedUser,
+          id: todos.length + 1,
+          title: enteredTodo,
+          completed: false,
+        });
+      }}
+    >
       <input
-        name="toDo"
+        name="enteredTodo"
         required
         placeholder="Title"
         maxLength="20"
         onChange={onChange}
       />
-    </label>
-    <select
-      required
-      name="selectedUser"
-      value={selectedUser}
-      onChange={onChange}
-    >
-      <option value="">
-        Choose a user
-      </option>
-      {users.map(user => (
-        <option
-          key={nanoid()}
-          value={user.name}
-        >
-          {user.name}
+      <select
+        required
+        name="selectedUser"
+        value={selectedUser}
+        onChange={onChange}
+      >
+        <option value="">
+          Choose a user
         </option>
-      ))
-      }
-    </select>
+        {users.map(user => (
+          <option
+            key={user.id}
+            value={user.id}
+          >
+            {user.name}
+          </option>
+        ))
+        }
+      </select>
 
-    <button type="submit">Submit</button>
-  </form>
+      <button
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
 );
 
 Form.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
   selectedUser: PropTypes.string.isRequired,
+  enteredTodo: PropTypes.string.isRequired,
+  todos: PropTypes.arrayOf(todosType).isRequired,
+  users: PropTypes.arrayOf(usersType).isRequired,
+  addTodo: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

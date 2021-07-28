@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-export const todos = [
+export const todosFromServer = [
   {
     userId: 1,
     id: 1,

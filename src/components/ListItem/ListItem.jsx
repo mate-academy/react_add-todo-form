@@ -1,18 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { usersType, todosType } from '../../types';
 
-export const ListItem = ({ user, toDo, progress }) => (
+export const ListItem = ({ users, todo }) => (
   <>
-    <p className="todo__user">{user}</p>
-    <p>{toDo}</p>
-    <p className="todo__status">
-      Status:
-      {progress ? ' Completed' : ' In progress'}
+    <p className="todo__user">
+      {users.find(user => user.id === todo.userId).name}
+    </p>
+    <p>{todo.title}</p>
+    <p>
+      Progress:
+      {todo.completed ? ' Completed' : ' In progress'}
     </p>
   </>
 );
 
 ListItem.propTypes = {
-  user: PropTypes.string.isRequired,
-  toDo: PropTypes.string.isRequired,
+  todo: PropTypes.arrayOf(todosType).isRequired,
+  users: PropTypes.arrayOf(usersType).isRequired,
 };

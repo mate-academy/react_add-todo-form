@@ -1,51 +1,52 @@
 import React from 'react';
-import './App.scss';
+import { todosFromServer } from './api/todos';
+import usersFromServer from './api/users';
 import { Form } from './components/Form/Form';
 import { List } from './components/List/List';
+import './App.scss';
 
 export class App extends React.Component {
   state = {
     selectedUser: '',
-    toDo: '',
-
-    usersArray: [],
-    toDoArr: [],
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    this.setState(state => ({
-      usersArray: [...state.usersArray, state.selectedUser],
-      toDoArr: [...state.toDoArr, state.toDo],
-    }));
+    enteredTodo: '',
+    todos: todosFromServer,
+    users: usersFromServer,
   }
 
   onChange = (event) => {
-    const { value, name } = event.target;
+    const { name, value } = event.target;
 
     this.setState({
       [name]: value,
     });
   }
 
+  addTodo = (createdTodo) => {
+    this.setState(state => ({
+      todos: [...state.todos, createdTodo],
+    }));
+  }
+
   render() {
-    const { selectedUser, usersArray, toDoArr } = this.state;
-    const { handleSubmit, onChange } = this;
+    const { enteredTodo, selectedUser, todos, users } = this.state;
+    const { onChange, addTodo } = this;
 
     return (
-      <div className="App">
-        <h1>Add todo form</h1>
+      <div className="app">
+        <h1>Add todo</h1>
 
         <Form
-          handleSubmit={handleSubmit}
-          onChange={onChange}
+          todos={todos}
+          users={users}
           selectedUser={selectedUser}
+          enteredTodo={enteredTodo}
+          addTodo={addTodo}
+          onChange={onChange}
         />
 
         <List
-          usersArray={usersArray}
-          toDoArr={toDoArr}
+          todos={todos}
+          users={users}
         />
       </div>
     );

@@ -1,41 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
-import { todos } from '../../api/todos';
-import users from '../../api/users';
 import { ListItem } from '../ListItem/ListItem';
+import { usersType, todosType } from '../../types';
 import './list.scss';
 
-export const List = ({ usersArray, toDoArr }) => (
-  <ol className="todo">
+export const List = ({ todos, users }) => (
+  <ul className="todo">
     {todos.map(todo => (
       <li
         className="todo__item"
-        key={nanoid()}
+        key={todo.id}
       >
         <ListItem
-          user={users.find(user => (user.id === todo.userId)).name}
-          toDo={todo.title}
-          progress={todo.completed}
+          users={users}
+          todo={todo}
         />
       </li>
     ))}
-
-    {usersArray.map((user, index) => (
-      <li
-        className="todo__item"
-        key={nanoid()}
-      >
-        <ListItem
-          toDo={toDoArr[index]}
-          user={user}
-        />
-      </li>
-    ))}
-  </ol>
+  </ul>
 );
 
 List.propTypes = {
-  usersArray: PropTypes.arrayOf(PropTypes.string).isRequired,
-  toDoArr: PropTypes.arrayOf(PropTypes.string).isRequired,
+  todos: PropTypes.arrayOf(todosType).isRequired,
+  users: PropTypes.arrayOf(usersType).isRequired,
 };
