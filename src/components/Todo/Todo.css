@@ -1,0 +1,21 @@
+.container {
+  border: 2px solid;
+  margin: 10px;
+  padding: 0 10px;
+}
+
+.title {
+  display: inline-block;
+}
+
+.completed {
+  display: inline-block;
+  color: green;
+  font-size: 20px;
+}
+
+.uncompleted {
+  display: inline-block;
+  color: red;
+  font-size: 20px;
+}
