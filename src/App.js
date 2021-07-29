@@ -163,7 +163,7 @@ export default class App extends PureComponent {
                 Todos quantity:
                 {' '}
                 <span>
-                  {todos.length}
+                  {selectedTodos.length}
                 </span>
               </p>
 
