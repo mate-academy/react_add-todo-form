@@ -13,30 +13,32 @@ export class Form extends Component {
   handleTitleChange = (event) => {
     this.setState({
       newTodoTitle: event.target.value,
+      hasTitleError: false,
     });
   }
 
   handleUserChange = (event) => {
     this.setState({
       newUserName: event.target.value,
+      hasUserError: false,
     });
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const { addTodo } = this.props;
+    const { newTodoTitle, newUserName } = this.state;
 
-    if (this.state.newUserName && this.state.newTodoTitle) {
-      this.setState(prevState => ({
-        newTodo: {
-          title: prevState.newTodoTitle,
-          completed: false,
-          user: {
-            name: prevState.newUserName,
-            userId: prevState.userId,
-          },
+    if (newUserName && newTodoTitle) {
+      const newTodo = {
+        title: newTodoTitle,
+        completed: false,
+        user: {
+          name: newUserName,
         },
-      }), () => addTodo(this.state.newTodo));
+      };
+
+      this.props.addTodo(newTodo);
+
       this.setState({
         newTodoTitle: '',
         newUserName: '',
@@ -62,6 +64,8 @@ export class Form extends Component {
       hasUserError,
     } = this.state;
 
+    const { users } = this.props;
+
     return (
       <form onSubmit={this.handleFormSubmit}>
         <input
@@ -80,7 +84,7 @@ export class Form extends Component {
             value={newUserName}
           >
             <option value="John Doe">Choose a user</option>
-            {this.props.users.map(user => (
+            {users.map(user => (
               <option
                 key={user.id}
                 value={user.name}
