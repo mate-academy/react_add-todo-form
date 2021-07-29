@@ -6,63 +6,19 @@ import todos from './api/todos';
 import users from './api/users';
 import { MainForm } from './api/Components/Form/Form';
 
+const newTodos = todos.map(item => ({
+  ...item,
+  name: users.find(value => value.id === item.userId).name,
+}
+));
+
 class App extends React.PureComponent {
   state = {
-    checkedLengthWord: false,
-    isChoosen: false,
-    newTodos: [...todos].map(item => ({
-      ...item,
-      name: users.find(value => value.id === item.userId).name,
-    }
-    )),
-    dataFromInput: {
-      title: '',
-      name: 'Choose name',
-      id: todos.length + 1,
-    },
+    newTodos,
   }
 
-  selectChange = ({ target }) => {
-    if (target.value !== 'Choose name') {
-      this.setState(prev => ({
-        ...prev,
-        dataFromInput: {
-          ...prev.dataFromInput,
-          name: target.value,
-        },
-      }));
-    }
-  }
-
-  submitIt = () => {
-    this.setState(prev => ({
-      isChoosen: (prev.dataFromInput.name === 'Choose name') && true,
-      checkedLengthWord: (prev.dataFromInput.title.length === 0) && true,
-    }));
-    const { name, title } = this.state.dataFromInput;
-
-    if (name !== 'Choose name' && title.length) {
-      this.setState(prev => ({
-        newTodos: [
-          ...prev.newTodos,
-          prev.dataFromInput,
-        ],
-        dataFromInput: {
-          title: '',
-          name: 'Choose name',
-          id: prev.dataFromInput.id + 1,
-        },
-      }));
-    }
-  };
-
-  inputChange = ({ target }) => {
-    this.setState(prev => ({
-      dataFromInput: {
-        ...prev.dataFromInput,
-        title: target.value,
-      },
-    }));
+  addNewPerson = (person) => {
+    this.setState(prev => ({ newTodos: [...prev.newTodos, person] }));
   }
 
   render() {
@@ -75,14 +31,8 @@ class App extends React.PureComponent {
         </p>
         <TodoList todos={this.state.newTodos} />
         <MainForm
-          onInputChange={this.inputChange}
-          onSelectChange={this.selectChange}
-          inputValue={this.state.dataFromInput.title}
-          selectValue={this.state.dataFromInput.name}
-          onClick={this.submitIt}
-          checkedLengthWord={this.state.checkedLengthWord}
-          isChoosen={this.state.isChoosen}
-          titleLength={this.state.dataFromInput.title.length}
+          addNewPerson={this.addNewPerson}
+          todosLength={this.state.newTodos.length}
         />
       </div>
     );
