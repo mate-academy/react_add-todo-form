@@ -49,6 +49,8 @@ export default class App extends PureComponent {
     this.setState({
       textInput: '',
       selectedUserId: 0,
+      isUserEmptyError: false,
+      isTextEmptyError: false,
     });
   }
 
