@@ -1,3 +1,42 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+form {
+  padding: 12px;
+  background-color: lightpink;
+}
+
+table {
+  width: 100%;
+}
+
+thead {
+  background-color: lightsteelblue;
+}
+
+tr,
+th {
+  border: 1px solid grey;
+  margin: auto;
+}
+
+th {
+  padding: 10px;
+}
+
+tr:hover {
+  background-color: lightpink;
+}
+
+.alert {
+  padding: 6px;
+  border: 2px red solid;
+  color: red;
+  width: max-content;
+  border-radius: 20px;
+  margin: auto;
 }
