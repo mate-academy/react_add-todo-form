@@ -1,0 +1,12 @@
+.toDoList {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.toDoItem {
+  background-color: yellowgreen;
+  padding: 50px 25px;
+  width: 250px;
+}
