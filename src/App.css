@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+
+.input {
+  width: max-content;
+}
+
+.error {
+  color: brown;
+}
