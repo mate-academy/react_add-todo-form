@@ -3,8 +3,9 @@ import { PreparedTodosType } from '../../types/PreparedTodosTypes';
 import { User } from '../User';
 import './Todo.css';
 
+
 export const Todo = ({ task }) => (
-  <div className="card todo">
+  <div className="card todo" >
     <h4 className="card-title">
       task:
       <strong>{task.title.toUpperCase()}</strong>

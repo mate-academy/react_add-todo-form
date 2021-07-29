@@ -14,6 +14,9 @@ class App extends React.Component {
   state = {
     name: '',
     task: '',
+    hiddenTaskMessage: '',
+    hiddenNameMessage: '',
+
   }
 
   handleChange = (event) => {
@@ -21,12 +24,25 @@ class App extends React.Component {
 
     this.setState({
       [name]: event.target.value,
+      hiddenNameMessage: '',
+      hiddenTaskMessage: '',
     });
-    this.setState({});
   };
 
   addTodo = () => {
     const { task, name } = this.state;
+
+    if (task === '') {
+      this.setState({
+        hiddenTaskMessage: 'Enter task please',
+      });
+    }
+
+    if (name === '') {
+      this.setState({
+        hiddenNameMessage: 'Select user please',
+      });
+    }
 
     if (name && task) {
       preparedTodos.push(
@@ -39,11 +55,9 @@ class App extends React.Component {
         },
       );
     }
-
-    return null;
   }
 
-  handleSubmit=(event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.setState({
       task: '',
@@ -53,7 +67,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { task, name } = this.state;
+    const { task, name, hiddenNameMessage, hiddenTaskMessage } = this.state;
 
     return (
       <div className="App">
@@ -71,15 +85,21 @@ class App extends React.Component {
             placeholder="Type task"
             onChange={this.handleChange}
             value={task}
-            required
           />
+          {hiddenTaskMessage && (
+            <span
+              className="alert alert-danger"
+              role="alert"
+            >
+              Please choose a user!
+            </span>
+          )}
           <select
             className="form-select"
             aria-label="Default select example"
             name="name"
             onChange={this.handleChange}
             value={name}
-            required
           >
             <option value="" disabled>Please choose a user</option>
             {
@@ -90,6 +110,14 @@ class App extends React.Component {
               ))
             }
           </select>
+          {hiddenNameMessage && (
+            <span
+              className="alert alert-danger"
+              role="alert"
+            >
+              Please choose a user!
+            </span>
+          )}
           <button type="submit" className="btn btn-secondary">Add</button>
         </form>
         <TodoList preparedTodos={preparedTodos} />
