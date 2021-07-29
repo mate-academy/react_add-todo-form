@@ -1,3 +1,32 @@
 .App {
   text-align: center;
 }
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 300px;
+  margin-top: 45px;
+  min-height: 50px;
+  margin-right: 55px;
+  padding: 0 16px;
+  box-sizing: border-box;
+
+  top: 10px;
+  right: 10px;
+
+  text-align: center;
+}
+
+.todoList {
+  list-style: none;
+}
+
+.notification__message {
+  padding: 5px;
+  border-radius: 10px;
+  color: red;
+}
