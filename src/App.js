@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import './App.css';
 
 import users from './api/users';
@@ -70,6 +71,12 @@ class App extends React.Component {
               required
               onChange={this.onChange}
             />
+            <div className={classNames(this.state.title
+              ? 'is-invisible'
+              : 'is-size-6')}
+            >
+              Please enter the title
+            </div>
           </label>
 
           <label>
@@ -89,6 +96,12 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
+            <div className={classNames(this.state.userId
+              ? 'is-invisible'
+              : 'is-size-6')}
+            >
+              Please choose a user
+            </div>
           </label>
 
           <button
