@@ -6,8 +6,7 @@ import todos from './api/todos';
 
 class App extends React.Component {
   state = {
-    currentUser: 0,
-    userList: [...users],
+    currentUserId: 0,
     todoText: '',
     todoList: [...todos],
     invalidTodo: false,
@@ -23,7 +22,7 @@ class App extends React.Component {
   };
 
   addTodo = () => {
-    const { currentUser, todoText, todoList } = this.state;
+    const { currentUserId, todoText, todoList } = this.state;
 
     if (!todoText) {
       this.setState({
@@ -33,7 +32,7 @@ class App extends React.Component {
       return;
     }
 
-    if (!currentUser) {
+    if (!currentUserId) {
       this.setState({
         invalidUser: true,
       });
@@ -42,7 +41,7 @@ class App extends React.Component {
     }
 
     const newTodo = {
-      userId: +currentUser,
+      userId: Number(currentUserId),
       id: todoList.length + 1,
       title: todoText,
       completed: false,
@@ -51,23 +50,37 @@ class App extends React.Component {
     this.setState(prevState => ({
       todoList: [...prevState.todoList, newTodo],
       todoText: '',
-      currentUser: 0,
+      currentUserId: 0,
       invalidTodo: false,
       invalidUser: false,
     }));
   }
 
+  findRequiredUser = (todo) => {
+    const foundUser = users.find(
+      user => user.id === todo.userId,
+    );
+
+    return foundUser.name;
+  }
+
   render() {
+    const { currentUserId,
+      todoText,
+      todoList,
+      invalidTodo,
+      invalidUser } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
         {
-          this.state.invalidTodo
+          invalidTodo
             ? <span>Specify correct todo</span>
             : <></>
         }
         {
-          this.state.invalidUser
+          invalidUser
             ? <span>Choose user</span>
             : <></>
         }
@@ -75,6 +88,7 @@ class App extends React.Component {
           onSubmit={
           (event) => {
             event.preventDefault();
+            this.addTodo();
           }
         }
           className="form"
@@ -83,21 +97,21 @@ class App extends React.Component {
             name="todoText"
             type="text"
             placeholder="Add ToDo"
-            value={this.state.todoText}
+            value={todoText}
             onChange={this.handleChange}
           />
           <select
-            name="currentUser"
-            value={this.state.currentUser}
+            name="currentUserId"
+            value={currentUserId}
             onChange={this.handleChange}
           >
             <option
-              value=""
+              value="0"
               hidden
             >
               Choose user
             </option>
-            {this.state.userList.map(
+            {users.map(
               user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
@@ -107,14 +121,13 @@ class App extends React.Component {
           </select>
           <button
             type="submit"
-            onClick={this.addTodo}
           >
             Confirm
           </button>
         </form>
         <div>
           <ul className="todoList">
-            {this.state.todoList.map(
+            {todoList.map(
               todo => (
                 <li key={todo.id} className="todoItem">
                   <div>
@@ -125,11 +138,7 @@ class App extends React.Component {
                   <div>
                     User:
                     {' '}
-                    {
-                      this.state.userList.find(
-                        user => user.id === todo.userId,
-                      ).name
-                    }
+                    {this.findRequiredUser(todo)}
                   </div>
                   <div>
                     Completed:
