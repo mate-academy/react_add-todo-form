@@ -85,7 +85,7 @@ class App extends React.PureComponent {
           </div>
 
           {!title && submitsCount > 0 ? (
-            <p className="inputs-error">please choose a user</p>
+            <p className="inputs-error">please enter title</p>
           ) : (<></>)}
 
           <div className="field select is-fullwidth">
