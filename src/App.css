@@ -1,3 +1,18 @@
 .App {
   text-align: center;
 }
+
+.table {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: lightsteelblue;
+  border-radius: 5px;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+}
