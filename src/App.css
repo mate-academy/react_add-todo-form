@@ -1,3 +1,17 @@
+
 .App {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  gap: 20px;
+
+  font-size: 1.5em;
+  background-color: rgb(203, 203, 243);
+}
+
+.App__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4px;
 }
