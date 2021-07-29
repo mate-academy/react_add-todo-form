@@ -15,70 +15,79 @@ const preparedTodos = todos.map((todo) => {
 
 export class App extends React.Component {
   state = {
-    allTodos: preparedTodos,
+    toDos: preparedTodos,
     title: '',
-    name: '',
-    isTitle: false,
-    isName: false,
+    userName: '',
+    isTitleValid: false,
+    isNameValid: false,
   }
 
-  handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    const { title, isTitle } = this.state;
+  handleChangeInput = (event) => {
+    const { title, isTitleValid } = this.state;
 
     this.setState({
-      [name]: type === 'checkbox'
-        ? checked
-        : value,
+      title: event.target.value,
     });
 
-    if (title || isTitle === true) {
-      this.setState({ isTitle: false });
+    if (title || isTitleValid) {
+      this.setState({ isTitleValid: false });
+    }
+  }
+
+  handleChangeSelect = (event) => {
+    const { userName, isNameValid } = this.state;
+
+    this.setState(({
+      userName: event.target.value,
+    }));
+
+    if (userName || isNameValid) {
+      this.setState({ isNameValid: false });
     }
   }
 
   addTodo = (event) => {
     event.preventDefault();
 
-    const { title, name, allTodos } = this.state;
+    const { title, userName, toDos } = this.state;
 
-    if (title.trim() && name.trim()) {
+    if (title.trim() && userName.trim()) {
       const newTodo = {
         title,
-        user: { name },
-        id: allTodos.length + 1,
+        user: { name: userName },
+        id: toDos.length + 1,
       };
 
       this.setState(state => ({
-        allTodos: [...allTodos, newTodo],
+        toDos: [...toDos, newTodo],
         title: '',
-        name: '',
-        isTitle: false,
-        isName: false,
+        userName: '',
+        isTitleValid: false,
+        isNameValid: false,
       }));
     }
 
     if (!title.trim()) {
       this.setState({
-        isTitle: true,
+        isTitleValid: true,
       });
     }
 
-    if (!name.trim()) {
+    if (!userName.trim()) {
       this.setState({
-        isName: true,
+        isNameValid: true,
       });
     }
   }
 
   render() {
-    const { allTodos, title, name, isTitle, isName } = this.state;
+    const { toDos, title, userName, isTitleValid, isNameValid } = this.state;
 
     return (
       <div className="App">
         <h1 className="App__title">Add ToDo form</h1>
         <form className="App__form" onSubmit={this.addTodo}>
-          {isTitle
+          {isTitleValid
           && (
             <span style={{ color: 'red' }}>Write your ToDo:</span>
           )}
@@ -87,17 +96,17 @@ export class App extends React.Component {
             name="title"
             placeholder="What u wanna ToDo?"
             value={title}
-            onChange={this.handleChange}
+            onChange={this.handleChangeInput}
             className="form-control"
           />
-          {isName
+          {isNameValid
             && (
               <span style={{ color: 'red' }}>Select SomeOne: </span>
             )}
           <select
-            name="name"
-            value={name}
-            onChange={this.handleChange}
+            name="userName"
+            value={userName}
+            onChange={this.handleChangeSelect}
             className="form-select form-select-lg mb-3"
           >
             <option value="">
@@ -113,7 +122,7 @@ export class App extends React.Component {
             Add Todo
           </button>
         </form>
-        <TodoList todos={allTodos} />
+        <TodoList todos={toDos} />
       </div>
     );
   }
