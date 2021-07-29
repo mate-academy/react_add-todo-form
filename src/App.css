@@ -1,3 +1,52 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
 .App {
-  text-align: center;
+  margin: 0;
+  width: 100%;
+  padding: 50px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 700px;
+  margin: 20px;
+}
+
+.form__task {
+  padding: 10px;
+}
+
+.form__user {
+  padding: 10px;
+}
+
+.form__add {
+  padding: 20px;
+  align-self: center;
+  text-transform: uppercase;
+  width: 500px;
+}
+
+.todos {
+  border: 1px solid grey;
+}
+
+.todo--isntComplete {
+  background-color: rgb(229, 143, 143);
+}
+
+.todo--complete {
+  background-color: rgb(121, 223, 121);
 }
