@@ -1,0 +1,8 @@
+.row {
+  padding: 10px;
+  background-color: #ddd;
+}
+
+.even {
+  background-color: #bbb;
+}

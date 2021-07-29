@@ -1,0 +1,14 @@
+
+.title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+span {
+  color: red;
+}
+
+.completed {
+  color: green;
+}
