@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-form__submit {
+  width: 200px;
+}
+
+.form__alert {
+  display: block;
+  margin-top: 10px;
+  width: 300px;
+  color: #fff;
+  border-radius: 10px;
+  background-color: red;
+}
