@@ -1,3 +1,46 @@
 .App {
   text-align: center;
 }
+
+.title {
+  margin: 16px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.input-container {
+  width: 300px;
+}
+
+.message {
+  color: rgb(219, 17, 17);
+  line-height: 50px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.message--visible {
+  opacity: 1;
+}
+
+.btn {
+  margin-bottom: 24px;
+}
+
+.list-group-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.status-completed {
+  color: rgb(12, 177, 12);
+}
+
+.status-in-progress {
+  color: rgb(219, 17, 17);
+}
