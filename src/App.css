@@ -36,6 +36,16 @@
   padding: 5px;
 }
 
-.select {
+.select,
+.text {
+  height: 40px;
   outline: none;
+}
+
+.selector,
+.title {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 } 

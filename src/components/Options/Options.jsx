@@ -9,6 +9,7 @@ export const Options = () => (
       value={user.name}
     >
       {user.name}
+      {}
     </option>
   ))
 );

@@ -11,49 +11,73 @@ export const Form = ({
   length,
   onChange,
   isCompleted,
-}) => (
-  <form
-    className="form"
-    onSubmit={(event) => {
-      event.preventDefault();
+  inputError,
+  selectError,
+  callSelectError,
+  callInputError,
+}) => {
+  const submit = (event) => {
+    event.preventDefault();
+    if (person === '') {
+      callSelectError();
+    }
+
+    if (value === '') {
+      callInputError();
+    } else {
       addTodo({
         completed: isCompleted,
         user: person,
         title: value,
         id: length + 1,
       });
-    }}
-  >
-    <Select
-      person={person}
-      change={change}
-    />
-    <input
-      className="title"
-      type="text"
-      name="title"
-      placeholder="write here"
-      value={value}
-      onChange={onChange}
-    />
-    <IsCompleted
-      isCompleted={isCompleted}
-      change={change}
-    />
-    <button
-      className="button"
-      type="submit"
+    }
+  };
+
+  return (
+    <form
+      className="form"
+      onSubmit={submit}
     >
-      Add
-    </button>
-  </form>
-);
+      <Select
+        person={person}
+        change={change}
+        selectError={selectError}
+      />
+      <div className="title">
+        <input
+          className="text"
+          type="text"
+          name="title"
+          placeholder="write here"
+          value={value}
+          onChange={onChange}
+        />
+        {inputError && <span style={{ color: 'red' }}>Write title</span>}
+      </div>
+      <IsCompleted
+        isCompleted={isCompleted}
+        change={change}
+      />
+      <button
+        className="button"
+        type="submit"
+      >
+        Add
+      </button>
+    </form>
+  );
+};
 
 Form.propTypes = {
   change: Proptypes.func.isRequired,
   addTodo: Proptypes.func.isRequired,
   onChange: Proptypes.func.isRequired,
+  callSelectError: Proptypes.func.isRequired,
+  callInputError: Proptypes.func.isRequired,
   isCompleted: Proptypes.bool.isRequired,
+  inputError: Proptypes.bool.isRequired,
+  selectError: Proptypes.bool.isRequired,
   person: Proptypes.string.isRequired,
   length: Proptypes.number.isRequired,
   value: Proptypes.string.isRequired,

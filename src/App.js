@@ -5,7 +5,6 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodosList } from './components/TodosList';
 import { Form } from './components/Form';
-// import { Tabs } from 'boo'
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
@@ -18,6 +17,8 @@ class App extends React.Component {
     value: '',
     user: '',
     completed: false,
+    selectError: false,
+    inputError: false,
   }
 
   addTodo = newTodo => this.state.user
@@ -33,8 +34,18 @@ class App extends React.Component {
   }
   ));
 
+  callInputError = () => {
+    this.setState({ inputError: true });
+  }
+
+  callSelectError = () => {
+    this.setState({ selectError: true });
+  }
+
   onChange = (event) => {
-    this.setState({ value: event.target.value });
+    this.setState({
+      value: event.target.value, inputError: false,
+    });
   }
 
   handleChange = (event) => {
@@ -51,12 +62,21 @@ class App extends React.Component {
 
     this.setState({
       [name]: value,
+      selectError: false,
     });
   }
 
   render() {
-    const { todosList, value, user, completed } = this.state;
-    const { handleChange, addTodo, onChange } = this;
+    const {
+      todosList,
+      value,
+      user,
+      completed,
+      selectError,
+      inputError,
+    } = this.state;
+    const { handleChange, addTodo, onChange, callSelectError, callInputError }
+    = this;
 
     return (
       <div className="App">
@@ -74,6 +94,10 @@ class App extends React.Component {
           person={user}
           length={todosList.length}
           isCompleted={completed}
+          selectError={selectError}
+          inputError={inputError}
+          callInputError={callInputError}
+          callSelectError={callSelectError}
         />
       </div>
     );
