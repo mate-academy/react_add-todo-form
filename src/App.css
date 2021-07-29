@@ -1,3 +1,51 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
+
+.theadDark {
+  text-transform: uppercase;
+  background-color: darkgray;
+}
+
+.radioBotton {
+  display: none;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  gap: 10px;
+}
+
+.button {
+  width: 80px;
+}
+
+.radio {
+  display: flex;
+  gap: 10px;
+}
+
+.radioOption {
+  line-height: 28px;
+  width: max-content;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.select,
+.text {
+  height: 40px;
+  outline: none;
+}
+
+.selector,
+.title {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+} 
