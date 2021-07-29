@@ -1,0 +1,17 @@
+.list {
+  margin: 0 auto;
+  width: 50vw;
+
+  &__item {
+    background-color: pink;
+    list-style-type: none;
+    border: 1px solid black;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+}

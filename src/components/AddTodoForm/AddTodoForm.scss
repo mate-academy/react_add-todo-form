@@ -1,0 +1,25 @@
+.input {
+  margin: 15px;
+  width: 50vw;
+  height: 30px;
+  border: 1px solid silver;
+  border-radius: 5px;
+}
+
+.div {
+  padding: 0 0 0 40px;
+}
+
+.button {
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.error {
+  display: block;
+  color: red;
+}
