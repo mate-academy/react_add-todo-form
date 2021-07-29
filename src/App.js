@@ -26,7 +26,7 @@ class App extends React.Component {
       id: todos.length + 1,
       title: currentTask,
       completed: false,
-      user: users[currentUser],
+      user: users[currentUser - 1],
     };
 
     this.setState({
@@ -53,7 +53,7 @@ class App extends React.Component {
 
   handleUserChange = (event) => {
     this.setState({
-      currentUser: event.target.value,
+      currentUser: +event.target.value,
     });
   }
 
@@ -95,7 +95,7 @@ class App extends React.Component {
               value={currentUser}
               onChange={this.handleUserChange}
             >
-              <option>
+              <option value="0" disabled>
                 Choose a user
               </option>
               {users.map(user => (
