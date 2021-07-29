@@ -5,7 +5,7 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
-export class App extends React.Component {
+export class App extends React.PureComponent {
   state = {
     todos: [...todos],
     buttonIsPressedWithEmptyInput: false,
@@ -53,6 +53,8 @@ export class App extends React.Component {
       }),
     );
 
+    const { buttonIsPressedWithEmptyInput, title, userId } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -70,11 +72,10 @@ export class App extends React.Component {
                 id="title"
                 placeholder="Write title here"
                 name="title"
-                value={this.state.title}
+                value={title}
                 onChange={this.handleChange('title')}
               />
-              {this.state.buttonIsPressedWithEmptyInput
-                && this.state.title === ''
+              {buttonIsPressedWithEmptyInput && title === ''
                 ? <span style={{ color: 'red' }}>Please enter a title</span>
                 : null
               }
@@ -85,7 +86,7 @@ export class App extends React.Component {
               <select
                 name="userId"
                 id="userId"
-                value={this.state.userId}
+                value={userId}
                 onChange={this.handleChange('userId')}
               >
                 <option value="">Choose a user</option>
@@ -98,8 +99,7 @@ export class App extends React.Component {
                   </option>
                 ))}
               </select>
-              {this.state.buttonIsPressedWithEmptyInput
-                && this.state.userId === ''
+              {buttonIsPressedWithEmptyInput && userId === ''
                 ? <span style={{ color: 'red' }}>Please choose a user</span>
                 : null
               }
