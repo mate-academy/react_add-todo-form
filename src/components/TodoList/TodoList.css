@@ -1,0 +1,17 @@
+.card {
+  list-style-type: none;
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  background-color: rosybrown;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+}
