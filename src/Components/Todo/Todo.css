@@ -1,0 +1,10 @@
+.todo {
+  border: solid black;
+  background-color: rgb(235, 240, 214);
+  margin: 5px;
+  padding: 5px;
+}
+
+hr {
+  height: 3px;
+}

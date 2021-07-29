@@ -1,0 +1,13 @@
+.form--new-Todo {
+  margin: 10px;
+  background-color: rgb(183, 196, 221);
+  border: 10px solid rgb(53, 53, 53);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.form--error {
+  color: brown;
+  font-size: 20px;
+  border: 1px solid brown;
+}
