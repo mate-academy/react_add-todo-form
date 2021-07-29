@@ -58,6 +58,13 @@ export default class App extends React.PureComponent {
     }
   }
 
+  resetState = () => {
+    this.setState({
+      title: '',
+      userName: '',
+    });
+  }
+
   render() {
     const { todosToShow, title, userName,
       titleErrorMessage, nameErrorMessage } = this.state;
@@ -69,10 +76,7 @@ export default class App extends React.PureComponent {
         <form onSubmit={(event) => {
           event.preventDefault();
           this.addTodo();
-          this.setState({
-            title: '',
-            userName: '',
-          });
+          this.resetState();
         }}
         >
           <input
