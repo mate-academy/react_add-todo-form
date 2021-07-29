@@ -1,4 +1,4 @@
-const users = [
+const usersfromServer = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -231,4 +231,4 @@ const users = [
   },
 ];
 
-export default users;
+export default usersfromServer;
