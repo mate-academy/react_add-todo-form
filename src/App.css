@@ -1,3 +1,28 @@
 .App {
+  margin: 0 50px;
+}
+
+.App__title {
   text-align: center;
+  font-size: 35px;
+  text-transform: uppercase;
+}
+
+.App__error {
+  text-align: center;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 600;
+  color: red;
+}
+
+.App__error-title {
+  text-transform: uppercase;
+}
+
+.App__form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
 }
