@@ -15,10 +15,11 @@ const preparedTodos = todos.map(todo => ({
 
 export default class App extends React.PureComponent {
   state = {
+    todosToShow: preparedTodos,
     title: '',
     userName: '',
-    titleHint: ' ',
-    nameHint: ' ',
+    titleErrorMessage: ' ',
+    nameErrorMessage: ' ',
   }
 
   handleChange = (event) => {
@@ -26,8 +27,8 @@ export default class App extends React.PureComponent {
 
     this.setState({
       [name]: value,
-      titleHint: ' ',
-      nameHint: ' ',
+      titleErrorMessage: ' ',
+      nameErrorMessage: ' ',
     });
   }
 
@@ -36,35 +37,35 @@ export default class App extends React.PureComponent {
 
     if (title === '') {
       this.setState({
-        titleHint: ' Please enter the title ',
+        titleErrorMessage: ' Please enter the title ',
       });
     }
 
     if (userName === '') {
       this.setState({
-        nameHint: ' Choose a user ',
+        nameErrorMessage: ' Choose a user ',
       });
     }
 
     if (title !== '' && userName !== '') {
-      preparedTodos.push({
-        title,
-        completed: false,
-        user: users.find(user => user.name === userName),
-        id: preparedTodos[preparedTodos.length - 1].id + 1,
-      });
+      this.setState(state => (
+        { todosToShow: [...state.todosToShow, {
+          title,
+          completed: false,
+          user: users.find(user => user.name === userName),
+          id: preparedTodos[preparedTodos.length - 1].id + 1,
+        }] }));
     }
-
-    this.forceUpdate();
   }
 
   render() {
-    const { title, userName, titleHint, nameHint } = this.state;
+    const { todosToShow, title, userName,
+      titleErrorMessage, nameErrorMessage } = this.state;
 
     return (
       <div className="App">
         <h1>List of todos</h1>
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={todosToShow} />
         <form onSubmit={(event) => {
           event.preventDefault();
           this.addTodo();
@@ -82,7 +83,7 @@ export default class App extends React.PureComponent {
             placeholder="enter the task"
             onChange={this.handleChange}
           />
-          <span>{titleHint}</span>
+          <span>{titleErrorMessage}</span>
           <select
             name="userName"
             className="App__input"
@@ -98,7 +99,7 @@ export default class App extends React.PureComponent {
               </option>
             ))}
           </select>
-          <span>{nameHint}</span>
+          <span>{nameErrorMessage}</span>
           <button type="submit">
             Add a Task
           </button>
