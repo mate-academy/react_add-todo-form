@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import './App.css';
 
 import users from './api/users';
@@ -13,6 +12,8 @@ class App extends React.Component {
     title: '',
     completed: false,
     todos: [...todos],
+    userSelectedError: false,
+    todoSelected: false,
   }
 
   onChange = (event) => {
@@ -21,10 +22,12 @@ class App extends React.Component {
     if (name === 'userId') {
       this.setState({
         [name]: +value,
+        userSelectedError: true,
       });
     } else {
       this.setState({
         [name]: value,
+        todoSelected: true,
       });
     }
   }
@@ -34,7 +37,12 @@ class App extends React.Component {
   }
 
   addTask = () => {
-    const { id, title, completed, userId } = this.state;
+    const {
+      id,
+      title,
+      completed,
+      userId,
+    } = this.state;
 
     if (title !== '' && userId !== '') {
       this.state.todos.push({
@@ -48,6 +56,8 @@ class App extends React.Component {
         id: state.id + 1,
         userId: '',
         title: '',
+        todoSelected: !state.todoSelected,
+        userSelectedError: !state.userSelectedError,
       }));
     }
   }
@@ -71,12 +81,13 @@ class App extends React.Component {
               required
               onChange={this.onChange}
             />
-            <div className={classNames(this.state.title
-              ? 'is-invisible'
-              : 'is-size-6')}
-            >
-              Please enter the title
-            </div>
+            {this.state.todoSelected
+            || (
+              <div>
+                <span className="is-size-6">Please enter the title</span>
+              </div>
+            )
+          }
           </label>
 
           <label>
@@ -96,12 +107,13 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
-            <div className={classNames(this.state.userId
-              ? 'is-invisible'
-              : 'is-size-6')}
-            >
-              Please choose a user
-            </div>
+            {this.state.userSelectedError
+            || (
+              <div>
+                <span className="is-size-6">Please choose a user</span>
+              </div>
+            )
+          }
           </label>
 
           <button
