@@ -1,0 +1,9 @@
+.todoList {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  justify-content: space-between;
+  list-style: none;
+  padding: 30px;
+}
