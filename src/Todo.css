@@ -1,0 +1,18 @@
+.todo {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    border: solid black 1px;
+    background-color: blanchedalmond;
+  }
+  
+  .todo__item {
+    display: flex;
+    width: 33%;
+    padding: 5px;
+  }
+  
+  .todo__title {
+    margin-right: 10px;
+  }
+  
