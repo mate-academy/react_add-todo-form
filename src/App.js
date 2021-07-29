@@ -5,6 +5,7 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodosList } from './components/TodosList';
 import { Form } from './components/Form';
+// import { Tabs } from 'boo'
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
@@ -54,7 +55,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { todosList, value, user } = this.state;
+    const { todosList, value, user, completed } = this.state;
+    const { handleChange, addTodo, onChange } = this;
 
     return (
       <div className="App">
@@ -65,14 +67,13 @@ class App extends React.Component {
         </p>
         <TodosList list={todosList} />
         <Form
-          change={this.handleChange}
-          addTodo={this.addTodo}
-          onChange={this.onChange}
+          change={handleChange}
+          addTodo={addTodo}
+          onChange={onChange}
           value={value}
           person={user}
           length={todosList.length}
-
-          isCompleted={this.state.completed}
+          isCompleted={completed}
         />
       </div>
     );

@@ -2,46 +2,22 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  min-width: 800px;
 }
 
-.table {
-  color: azure;
-  font-size: 24px;
-  background-color: rgb(23, 32, 23);
-  border-color: rgb(56, 126, 53);
-}
-
-.thead {
+.theadDark {
   text-transform: uppercase;
-  background-color: red;
+  background-color: darkgray;
 }
 
-.tbody {
-  background-color: blueviolet;
+.radioBotton {
+  display: none;
 }
 
 .form {
   display: flex;
+  justify-content: center;
   height: 40px;
-  min-width: 600px;
-}
-
-.form > :nth-child(n) {
-  font-size: 20px;
-  color: azure;
-  background-color: red;
-  border: 3px solid rgb(23, 32, 23);
-  border-top: transparent;
-}
-
-.title {
-  flex-grow: 1;
-}
-
-.title::placeholder {
-  color: azure;
-  text-align: center;
+  gap: 10px;
 }
 
 .button {
@@ -49,11 +25,17 @@
 }
 
 .radio {
-  flex-shrink: 0;
-  line-height: 35px;
-  width: 230px;
+  display: flex;
+  gap: 10px;
+}
+
+.radioOption {
+  line-height: 28px;
+  width: max-content;
+  border: 1px solid black;
+  padding: 5px;
 }
 
 .select {
   outline: none;
-}
+} 

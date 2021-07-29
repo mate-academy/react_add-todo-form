@@ -7,7 +7,7 @@ export const TodosList = ({ list }) => {
 
   return (
     <table className="table" border={1} cellPadding={5}>
-      <thead className="thead">
+      <thead className="theadDark">
         <tr>
           {header.map(title => (
             <th key={title}>
