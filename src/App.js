@@ -17,6 +17,8 @@ export class App extends React.Component {
     tasks: tasksWithUsers,
     selectedUserId: 0,
     isComplited: false,
+    hasTitleError: false,
+    hasUserError: false,
   }
 
   addTodo = (task) => {
@@ -30,6 +32,18 @@ export class App extends React.Component {
 
     const { tasks, selectedUserId, textInput, isComplited } = this.state;
 
+    if (textInput === '') {
+      this.setState({ hasTitleError: true });
+
+      return;
+    }
+
+    if (selectedUserId === 0) {
+      this.setState({ hasUserError: true });
+
+      return;
+    }
+
     const task = {
       id: tasks.length + 1,
       userId: selectedUserId,
@@ -42,11 +56,19 @@ export class App extends React.Component {
     this.setState({
       selectedUserId: 0,
       textInput: '',
+      hasTitleError: false,
+      hasUserError: false,
     });
   };
 
   render() {
-    const { tasks, textInput, selectedUserId } = this.state;
+    const {
+      tasks,
+      textInput,
+      selectedUserId,
+      hasTitleError,
+      hasUserError,
+    } = this.state;
 
     return (
       <>
@@ -64,6 +86,10 @@ export class App extends React.Component {
                 this.setState({ textInput: event.target.value });
               }}
             />
+            {hasTitleError
+              ? <div style={{ color: 'red' }}>Please enter a title</div>
+              : null
+            }
             <select
               className="form__user"
               value={selectedUserId}
@@ -78,6 +104,10 @@ export class App extends React.Component {
                 </option>
               ))}
             </select>
+            {hasUserError
+              ? <div style={{ color: 'red' }}>Please choose a user</div>
+              : null
+            }
             <button type="submit" className="form__add">Add</button>
           </form>
           <table className="todos">
