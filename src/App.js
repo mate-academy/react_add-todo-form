@@ -11,7 +11,7 @@ const copyTodos = todos.map(todo => ({
 }));
 
 export class App extends React.Component {
-  state={
+  state = {
     todos: copyTodos,
     title: '',
     isTitleValid: true,
@@ -19,7 +19,7 @@ export class App extends React.Component {
     isUserNameValid: true,
   }
 
-  inputTitle = (event) => {
+  handleTitleChange = (event) => {
     this.setState({
       title: event.target.value,
       isTitleValid: true,
@@ -52,13 +52,15 @@ export class App extends React.Component {
     if (title !== '' && userName !== 'default') {
       const foundUser = users.find(user => user.name === this.state.userName);
 
-      this.state.todos.push({
-        title: this.state.title,
-        user: foundUser,
-        completed: false,
-        userId: foundUser.id,
-        id: copyTodos.length + 1,
-      });
+      this.setState(prevState => ({
+        todos: [...prevState.todos, {
+          title: prevState.title,
+          user: foundUser,
+          completed: false,
+          userId: foundUser.id,
+          id: copyTodos.length + 1,
+        }],
+      }));
 
       this.setState({
         title: '',
@@ -82,7 +84,7 @@ export class App extends React.Component {
             className="input"
             placeholder="Type the name of ToDo"
             value={this.state.title}
-            onChange={this.inputTitle}
+            onChange={this.handleTitleChange}
           />
           {!this.state.isTitleValid && 'Please enter the title'}
           <NamesList
