@@ -20,13 +20,3 @@ List.propTypes = {
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
-
-/* {
-    completed: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
-    user: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-  }), */
