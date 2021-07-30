@@ -1,0 +1,15 @@
+.completed {
+  color: greenyellow;
+}
+
+.notCompleted {
+  color: red;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.completionStatus {
+  text-decoration: underline;
+}
