@@ -26,11 +26,17 @@ export class App extends React.Component {
   };
 
   handleInput = (event) => {
-    this.setState({ createdTitle: event.target.value });
+    this.setState({
+      createdTitle: event.target.value,
+      isTitleValid: false,
+    });
   }
 
   handleSelect = (event) => {
-    this.setState({ userId: Number(event.target.value) });
+    this.setState({
+      userId: Number(event.target.value),
+      isUserValid: false,
+    });
   }
 
   handleSubmit = (event) => {
