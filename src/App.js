@@ -9,7 +9,7 @@ import { TodoList } from './components/TodoList/TodoList';
 const preparedTodos = todos.map(
   todo => ({
     ...todo,
-    user: users.find(human => human.id === todo.userId),
+    user: users.find(person => person.id === todo.userId),
   }),
 );
 
@@ -53,6 +53,9 @@ class App extends Component {
 
     this.setState(state => ({
       initialTodos: [...state.initialTodos, newTodo],
+      userId: '',
+      title: '',
+      id: state.id + 1,
     }));
   }
 
