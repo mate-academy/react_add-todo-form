@@ -29,6 +29,7 @@ class App extends React.PureComponent {
     }));
   }
 
+  // eslint-disable-next-line consistent-return
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -52,8 +53,6 @@ class App extends React.PureComponent {
         todo,
       ],
     }));
-
-    return 0;
   }
 
   render() {
@@ -84,9 +83,11 @@ class App extends React.PureComponent {
             />
           </div>
 
-          {!title && submitsCount > 0 ? (
-            <p className="inputs-error">please enter title</p>
-          ) : (<></>)}
+          {
+            !title && submitsCount > 0 && (
+              <p className="inputs-error">please enter title</p>
+            )
+          }
 
           <div className="field select is-fullwidth">
             <select
@@ -98,16 +99,18 @@ class App extends React.PureComponent {
                 Choose a user
               </option>
               {users.map(user => (
-                <option key={user.id}>
+                <option key={user.id} value={user.id}>
                   {user.username}
                 </option>
               ))}
             </select>
           </div>
 
-          {username === 'Choose a user' && submitsCount > 0 ? (
-            <p className="inputs-error">please choose a user</p>
-          ) : (<></>)}
+          {
+            username === 'Choose a user' && submitsCount > 0 && (
+              <p className="inputs-error">please choose a user</p>
+            )
+          }
 
           <div className="buttons is-centered">
             <button
