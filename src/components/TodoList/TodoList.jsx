@@ -4,27 +4,32 @@ import './TodoList.css';
 
 export const TodoList = ({ todos }) => (
   <>
-    <ul>
-      {todos.map(todo => (
-        <li key={todo.id} className="list__item">
-          <p>
-            <strong>
-              Title:
-            </strong>
-            {todo.title}
-          </p>
-          <p>
-            <strong>
-              Author:
-            </strong>
-            {`${todo.user.name} (${todo.userId})`}
-          </p>
-          <p>
-            <strong>Completed:</strong>
-            {todo.completed ? 'done' : 'in progress'}
-          </p>
-        </li>
-      ))}
+    <ul className="list">
+      {todos.map((todo) => {
+        const { id, title, userId, user, completed } = todo;
+
+        return (
+          <li key={id} className="list__item">
+            <p>
+              <strong>
+                Title:
+              </strong>
+              {title}
+            </p>
+            <p>
+              <strong>
+                Author:
+              </strong>
+              {`${user.name} (${userId})`}
+            </p>
+            <p>
+              <strong>Completed:</strong>
+              {completed ? 'done' : 'in progress'}
+            </p>
+          </li>
+        );
+      })
+      }
     </ul>
   </>
 );

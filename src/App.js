@@ -62,32 +62,42 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={this.onSubmit}>
-          <input
-            type="text"
-            name="title"
-            onChange={this.onChange}
-            placeholder="title"
-            value={title}
-          />
-          <select
-            onChange={this.onChange}
-            name="userId"
-            value={userId}
-          >
-            <option>
-              Choose a user
-            </option>
-            {users.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
+        <form className="form" onSubmit={this.onSubmit}>
+          <label>
+            <span><strong>Add Your Todo:</strong></span>
+            <input
+              type="text"
+              name="title"
+              onChange={this.onChange}
+              placeholder="Title"
+              value={title}
+              className="form__input"
+            />
+          </label>
+
+          <label>
+            <span><strong>Choose a user:</strong></span>
+            <select
+              onChange={this.onChange}
+              name="userId"
+              value={userId}
+              className="form__input"
+            >
+              <option>
+                Choose a user
               </option>
-            ))}
-          </select>
-          <button type="submit">Add</button>
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button className="form__button" type="submit">Add</button>
         </form>
         <TodoList todos={initialTodos} />
       </div>
