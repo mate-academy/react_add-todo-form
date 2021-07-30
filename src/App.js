@@ -15,34 +15,42 @@ const todosList = todos.map(todo => ({
 class App extends React.Component {
   state = {
     todos: todosList,
-    newTitleForUsers: '',
-    newUserIdForUsers: 0,
+    newTitleForRodo: '',
+    newIdForTodo: 0,
     titleSubmitError: false,
     userSubmitError: false,
   }
 
   formSubmit = (event) => {
     event.preventDefault();
-    const { newTitleForUsers, newUserIdForUsers } = this.state;
+    const { newTitleForRodo, newIdForTodo } = this.state;
 
     this.setState({
-      titleSubmitError: !newTitleForUsers,
-      userSubmitError: !newUserIdForUsers,
+      titleSubmitError: !newTitleForRodo,
+      userSubmitError: !newIdForTodo,
     });
 
-    if (!newTitleForUsers) {
+    if (!newTitleForRodo || !newIdForTodo) {
       return;
     }
 
-    if (!newUserIdForUsers) {
-      return;
-    }
-
-    this.addTodo(newTitleForUsers, +newUserIdForUsers);
+    this.addTodo(newTitleForRodo, +newIdForTodo);
 
     this.setState({
-      newTitleForUsers: '',
-      newUserIdForUsers: 0,
+      newTitleForRodo: '',
+      newIdForTodo: 0,
+    });
+  }
+
+  inputChange = (event) => {
+    this.setState({
+      newTitleForRodo: event.target.value, titleSubmitError: false,
+    });
+  }
+
+  selectChange = (event) => {
+    this.setState({
+      newIdForTodo: event.target.value, userSubmitError: false,
     });
   }
 
@@ -62,8 +70,8 @@ class App extends React.Component {
 
   render() {
     const {
-      newTitleForUsers,
-      newUserIdForUsers,
+      newTitleForRodo,
+      newIdForTodo,
       titleSubmitError,
       userSubmitError,
     } = this.state;
@@ -84,12 +92,8 @@ class App extends React.Component {
               className="input"
               type="text"
               placeholder="title"
-              value={newTitleForUsers}
-              onChange={(event) => {
-                this.setState({
-                  newTitleForUsers: event.target.value, titleSubmitError: false,
-                });
-              }}
+              value={newTitleForRodo}
+              onChange={this.inputChange}
             />
             {titleSubmitError && (
               <span className="error">Please enter the title</span>
@@ -99,12 +103,8 @@ class App extends React.Component {
           <div>
             <select
               className="select"
-              value={newUserIdForUsers}
-              onChange={(event) => {
-                this.setState({
-                  newUserIdForUsers: event.target.value, userSubmitError: false,
-                });
-              }}
+              value={newIdForTodo}
+              onChange={this.selectChange}
             >
               <option value="">
                 Choose a user
