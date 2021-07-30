@@ -20,9 +20,21 @@
   padding: 10px;
 }
 
+.form__label {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  gap: 10px;
+}
+
 .form__input {
   width: 200px;
   height: 30px;
+}
+
+.form__warn {
+  font-weight: bold;
+  color: red;
 }
 
 .form__button {

@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React, { Component } from 'react';
 import './App.css';
 
@@ -30,17 +29,12 @@ class App extends Component {
     });
   }
 
-  // eslint-disable-next-line consistent-return
   onSubmit = (event) => {
     event.preventDefault();
     const { id, userId, title, completed } = this.state;
 
-    if (!title) {
-      return alert('Please enter a title');
-    }
-
-    if (!userId) {
-      return alert('Please choose a user');
+    if (!userId || !title) {
+      return;
     }
 
     const newTodo = {
@@ -66,7 +60,7 @@ class App extends Component {
       <div className="App">
         <h1>Add todo form</h1>
         <form className="form" onSubmit={this.onSubmit}>
-          <label>
+          <label className="form__label">
             <span><strong>Add Your Todo:</strong></span>
             <input
               type="text"
@@ -76,9 +70,12 @@ class App extends Component {
               value={title}
               className="form__input"
             />
+            <span className="form__warn">
+              {!title && ' Please, enter a title'}
+            </span>
           </label>
 
-          <label>
+          <label className="form__label">
             <span><strong>Choose a user:</strong></span>
             <select
               onChange={this.onChange}
@@ -98,6 +95,9 @@ class App extends Component {
                 </option>
               ))}
             </select>
+            <span className="form__warn">
+              {!userId && ' Please, choose a user'}
+            </span>
           </label>
 
           <button className="form__button" type="submit">Add</button>
