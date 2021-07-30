@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Roboto, sans-serif;
+  background-color: #eee;
+  padding: 0 10px;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  text-align: center;
+}
+
+input,
+select {
+  width: 150px;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+
+input,
+select,
+button {
+  min-height: 27px;
+  font-family: inherit;
+}
