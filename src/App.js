@@ -84,7 +84,7 @@ class App extends Component {
               value={userId}
               className="form__input"
             >
-              <option>
+              <option value="">
                 Choose a user
               </option>
               {users.map(user => (
