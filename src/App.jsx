@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { TodoList } from './components/TodoList';
+import { Users } from './components/Users';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -120,17 +121,7 @@ export default class App extends PureComponent {
                 }}
                 className="custom-select"
               >
-                <option value="0">
-                  Choose a user
-                </option>
-                {users.map(user => (
-                  <option
-                    key={user.id}
-                    value={user.id}
-                  >
-                    {user.name}
-                  </option>
-                ))}
+                <Users users={users} />
               </select>
             </div>
             <div>
