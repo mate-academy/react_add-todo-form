@@ -9,9 +9,9 @@ import { TodoList } from './components/TodoList';
 import './App.css';
 
 const preparedTodos = todosFromServer.map(
-  item => ({
-    ...item,
-    user: usersFromServer.find(person => (person.id === item.userId)),
+  todo => ({
+    ...todo,
+    user: usersFromServer.find(person => (person.id === todo.userId)),
   }),
 );
 
@@ -71,7 +71,7 @@ class App extends React.Component {
 
     this.setState(
       {
-        newUser: usersFromServer.find(user => user.id === +userId),
+        newUser: usersFromServer.find(user => user.id === Number(userId)),
         selectedUserId: userId,
         isSelectedUserEmpty: false,
       },
