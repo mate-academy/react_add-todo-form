@@ -13,15 +13,6 @@ export const preparedTodos = todos.map(
   }),
 );
 
-export const preparedUsers = users.map(user => (
-  <option
-    key={user.id}
-    value={user.id}
-  >
-    {user.name}
-  </option>
-));
-
 export default class App extends PureComponent {
   state = {
     selectedTodos: preparedTodos,
