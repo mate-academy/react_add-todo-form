@@ -26,12 +26,14 @@ class App extends React.Component {
   handleTodoChanger = (event) => {
     this.setState({
       todoInput: event.target.value,
+      isAddedTodo: true,
     });
   }
 
   handleUserChanger = (event) => {
     this.setState({
       selectedUserId: Number(event.target.value),
+      isSelectedUser: true,
     });
   }
 
@@ -83,7 +85,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { todoInput, selectedUserId, isSelectedUser } = this.state;
+    const { todoInput, selectedUserId, isSelectedUser, isAddedTodo }
+    = this.state;
 
     return (
       <div className="App container">
@@ -97,7 +100,7 @@ class App extends React.Component {
               value={todoInput}
               onChange={this.handleTodoChanger}
             />
-            {this.state.isAddedTodo || <p>Please enter the title</p>}
+            {isAddedTodo || <p>Please enter the title</p>}
           </div>
           <div className="mb-3 col">
             <select
