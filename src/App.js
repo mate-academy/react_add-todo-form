@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 
 class App extends React.Component {
   state = {
     currentUserId: 0,
     todoText: '',
-    todoList: [...todos],
+    todos: todosFromServer,
     invalidTodo: false,
     invalidUser: false,
   };
@@ -22,7 +22,7 @@ class App extends React.Component {
   };
 
   addTodo = () => {
-    const { currentUserId, todoText, todoList } = this.state;
+    const { currentUserId, todoText, todos } = this.state;
 
     if (!todoText) {
       this.setState({
@@ -42,13 +42,13 @@ class App extends React.Component {
 
     const newTodo = {
       userId: Number(currentUserId),
-      id: todoList.length + 1,
+      id: todos.length + 1,
       title: todoText,
       completed: false,
     };
 
     this.setState(prevState => ({
-      todoList: [...prevState.todoList, newTodo],
+      todos: [...prevState.todos, newTodo],
       todoText: '',
       currentUserId: 0,
       invalidTodo: false,
@@ -64,33 +64,25 @@ class App extends React.Component {
     return foundUser.name;
   }
 
+  submitChanges = (event) => {
+    event.preventDefault();
+    this.addTodo();
+  }
+
   render() {
     const { currentUserId,
       todoText,
-      todoList,
+      todos,
       invalidTodo,
       invalidUser } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        {
-          invalidTodo
-            ? <span>Specify correct todo</span>
-            : <></>
-        }
-        {
-          invalidUser
-            ? <span>Choose user</span>
-            : <></>
-        }
+        { invalidTodo && <span>Specify correct todo</span> }
+        { invalidUser && <span>Choose user</span> }
         <form
-          onSubmit={
-          (event) => {
-            event.preventDefault();
-            this.addTodo();
-          }
-        }
+          onSubmit={this.submitChanges}
           className="form"
         >
           <input
@@ -127,7 +119,7 @@ class App extends React.Component {
         </form>
         <div>
           <ul className="todoList">
-            {todoList.map(
+            {todos.map(
               todo => (
                 <li key={todo.id} className="todoItem">
                   <div>
