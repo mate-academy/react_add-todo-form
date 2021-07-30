@@ -7,7 +7,7 @@ import { Form, Button } from 'react-bootstrap';
 import ErrorModal from '../ErrorModal/ErrorModal';
 
 export default class TodoForm extends Component {
-  state={
+  state = {
     userList: this.props.userList,
     userName: '',
     textareaInput: '',

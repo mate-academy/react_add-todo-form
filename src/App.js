@@ -6,9 +6,9 @@ import { Card } from 'react-bootstrap';
 import TodoList from './components/TodoList/TodoList';
 import TodoForm from './components/TodoForm/TodoForm';
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 
-const prepearedTodos = todos.map(todo => ({
+const prepearedTodos = todosFromServer.map(todo => ({
   id: todo.id,
   title: todo.title,
   name: users.find(user => user.id === todo.id).name,
@@ -16,20 +16,19 @@ const prepearedTodos = todos.map(todo => ({
 
 export default class App extends Component {
   state={
-    todoList: [...prepearedTodos],
-    userList: [...users],
+    todos: [...prepearedTodos],
   }
 
   addUser = (name, title) => {
     this.setState((prevState) => {
       const newUser = {
-        id: prevState.todoList.length + 1,
+        id: prevState.todos.length + 1,
         title,
         name,
       };
 
       return {
-        todoList: [...prevState.todoList, newUser],
+        todos: [...prevState.todos, newUser],
       };
     });
   }
@@ -39,9 +38,9 @@ export default class App extends Component {
       <div className="App">
         <Card>
           <Card.Body>
-            <TodoList todoList={this.state.todoList} />
+            <TodoList todoList={this.state.todos} />
             <TodoForm
-              userList={this.state.userList}
+              userList={users}
               onAdd={this.addUser}
             />
           </Card.Body>
