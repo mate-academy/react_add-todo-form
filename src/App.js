@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 
 class App extends React.Component {
   state = {
-    userId: '',
+    userId: 0,
     id: todos.length + 1,
     title: '',
     completed: false,
@@ -81,13 +81,14 @@ class App extends React.Component {
               required
               onChange={this.onChange}
             />
-            {this.state.todoSelected
-            || (
-              <div>
-                <span className="is-size-6">Please enter the title</span>
-              </div>
-            )
-          }
+            {!this.state.todoSelected || this.state.title === ''
+              ? (
+                <div>
+                  <span className="is-size-6">Please enter the title</span>
+                </div>
+              )
+              : null
+            }
           </label>
 
           <label>
@@ -107,12 +108,13 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
-            {this.state.userSelectedError
-            || (
-              <div>
-                <span className="is-size-6">Please choose a user</span>
-              </div>
-            )
+            {!this.state.userSelectedError || this.state.userId === 0
+              ? (
+                <div>
+                  <span className="is-size-6">Please choose a user</span>
+                </div>
+              )
+              : null
           }
           </label>
 
