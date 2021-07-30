@@ -25,6 +25,14 @@ export class App extends React.Component {
     }));
   };
 
+  handleInput = (event) => {
+    this.setState({ createdTitle: event.target.value });
+  }
+
+  handleSelect = (event) => {
+    this.setState({ userId: Number(event.target.value) });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -52,6 +60,10 @@ export class App extends React.Component {
     };
 
     this.addTodo(todo);
+    this.setState({
+      createdTitle: '',
+      userId: 0,
+    });
   };
 
   render() {
@@ -66,9 +78,7 @@ export class App extends React.Component {
               type="text"
               placeholder="Title"
               value={this.state.createdTitle}
-              onChange={(event) => {
-                this.setState({ createdTitle: event.target.value });
-              }}
+              onChange={this.handleInput}
             />
             {this.state.isTitleValid
               && <span className="error"> Please enter the title.</span>}
@@ -77,9 +87,7 @@ export class App extends React.Component {
             <select
               required
               value={this.state.userId}
-              onChange={(event) => {
-                this.setState({ userId: Number(event.target.value) });
-              }}
+              onChange={this.handleSelect}
             >
               <option value="0">Choose a user</option>
               {users.map(user => (
