@@ -55,17 +55,18 @@ class App extends Component {
 
   render() {
     const { initialTodos, userId, title } = this.state;
+    const { onSubmit, onChange } = this;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form className="form" onSubmit={this.onSubmit}>
+        <form className="form" onSubmit={onSubmit}>
           <label className="form__label">
             <span><strong>Add Your Todo:</strong></span>
             <input
               type="text"
               name="title"
-              onChange={this.onChange}
+              onChange={onChange}
               placeholder="Title"
               value={title}
               className="form__input"
@@ -78,7 +79,7 @@ class App extends Component {
           <label className="form__label">
             <span><strong>Choose a user:</strong></span>
             <select
-              onChange={this.onChange}
+              onChange={onChange}
               name="userId"
               value={userId}
               className="form__input"
