@@ -1,3 +1,53 @@
 .App {
   text-align: center;
+  border: 2px solid black;
+}
+
+.addForm {
+  color: aquamarine;
+}
+
+.input {
+  margin-left: 30px;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  border: 1px solid #39c;
+}
+
+.select {
+  margin-top: 10px;
+  margin-left: 30px;
+  color: darkblue;
+}
+
+.button {
+  margin-top: 20px;
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background-color: lightblue;
+  animation: spin 0.5s linear 1s;
+}
+
+.button:hover {
+  background-color: lightcoral;
+}
+
+.error {
+  position: absolute;
+  right: 270px;
+  margin-top: 5px;
+  color: darkred;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
