@@ -5,7 +5,7 @@ import { usersType, todosType } from '../../types';
 export const ListItem = ({ users, todo }) => (
   <>
     <p className="todo__user">
-      {users.find(user => user.id === todo.userId).name}
+      {todo.userName}
     </p>
     <p>{todo.title}</p>
     <p>

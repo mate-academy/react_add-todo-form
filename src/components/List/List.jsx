@@ -1,4 +1,5 @@
 import React from 'react';
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import { ListItem } from '../ListItem/ListItem';
 import { usersType, todosType } from '../../types';
@@ -8,8 +9,8 @@ export const List = ({ todos, users }) => (
   <ul className="todo">
     {todos.map(todo => (
       <li
+        key={nanoid()}
         className="todo__item"
-        key={todo.id}
       >
         <ListItem
           users={users}

@@ -1,66 +1,106 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { todosType, usersType } from '../../types';
+import { usersType } from '../../types';
 
-export const Form = ({ selectedUser, enteredTodo,
-  todos, addTodo, onChange, users, setDefaultState }) => (
-    <form
-      action="post"
-      onSubmit={(event) => {
-        event.preventDefault();
+export class Form extends React.Component {
+  state = {
+    enteredTodo: '',
+    name: '',
+    userId: 0,
+    completed: false,
+  }
 
-        addTodo({
-          userId: +selectedUser,
-          id: todos.length + 1,
-          title: enteredTodo,
-          completed: false,
-        });
+  onChange = (event) => {
+    const { name, value } = event.target;
 
-        setDefaultState();
-      }}
-    >
-      <input
-        name="enteredTodo"
-        required
-        placeholder="Title"
-        maxLength="20"
-        value={enteredTodo}
-        onChange={onChange}
-      />
-      <select
-        required
-        name="selectedUser"
-        value={selectedUser}
-        onChange={onChange}
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  findUser = (userName) => {
+    if (this.state.name === '') {
+      return 0;
+    }
+
+    return this.props.users.find(user => user.name === userName).id;
+  }
+
+  cleanState = () => {
+    this.setState({
+      completed: false,
+      enteredTodo: '',
+      name: '',
+    });
+  }
+
+  addTodoAfterSubmit = (event) => {
+    const createTodo = {
+      userId: this.state.userId,
+      title: this.state.enteredTodo,
+      completed: this.state.completed,
+    };
+
+    event.preventDefault();
+
+    if (this.state.name === '') {
+      return;
+    }
+
+    this.props.addTodo(createTodo);
+    this.cleanState();
+  }
+
+  getUserId = () => {
+    this.setState(prevState => ({
+      userId: this.findUser(prevState.name),
+    }));
+  }
+
+  render() {
+    const { getUserId, addTodoAfterSubmit, onChange } = this;
+    const { enteredTodo, name } = this.state;
+    const { users } = this.props;
+
+    return (
+      <form
+        action="post"
+        onSubmit={addTodoAfterSubmit}
       >
-        <option value="">
-          Choose a user
-        </option>
-        {users.map(user => (
-          <option
-            key={user.id}
-            value={user.id}
-          >
-            {user.name}
-          </option>
-        ))
-        }
-      </select>
+        <select
+          name="name"
+          value={name}
+          onChange={onChange}
+        >
+          <option>Choose User</option>
+          {users.map(user => (
+            <option id={user.id} value={user.name} key={user.name}>
+              {user.name}
+            </option>
+          ))}
+        </select>
 
-      <button
-        type="submit"
-      >
-        Submit
-      </button>
-    </form>
-);
+        <input
+          type="text"
+          name="enteredTodo"
+          placeholder="Title"
+          value={enteredTodo}
+          onChange={this.onChange}
+          required
+        />
+
+        <button
+          type="submit"
+          onClick={getUserId}
+        >
+          Add task
+        </button>
+      </form>
+    );
+  }
+}
 
 Form.propTypes = {
-  selectedUser: PropTypes.string.isRequired,
-  enteredTodo: PropTypes.string.isRequired,
-  todos: PropTypes.arrayOf(todosType).isRequired,
   users: PropTypes.arrayOf(usersType).isRequired,
   addTodo: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  setDefaultState: PropTypes.func.isRequired,
 };

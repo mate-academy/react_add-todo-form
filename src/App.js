@@ -7,10 +7,7 @@ import './App.scss';
 
 export class App extends React.Component {
   state = {
-    selectedUser: '',
-    enteredTodo: '',
     todos: todosFromServer,
-    users: usersFromServer,
   }
 
   onChange = (event) => {
@@ -27,34 +24,36 @@ export class App extends React.Component {
     }));
   }
 
-  setDefaultState = () => {
-    this.setState({
-      selectedUser: '',
-      enteredTodo: '',
-    });
-  }
+  getUserName = todo => (
+    usersFromServer.find(user => user.id === todo.userId).name
+  )
+
+  prepareTodos = todosToUpdate => todosToUpdate.map((todo) => {
+    const userName = this.getUserName(todo);
+    const changeTodo = {
+      ...todo,
+      userName,
+    };
+
+    return changeTodo;
+  })
 
   render() {
-    const { enteredTodo, selectedUser, todos, users } = this.state;
-    const { onChange, addTodo, setDefaultState } = this;
+    const { todos } = this.state;
+    const { addTodo, prepareTodos } = this;
 
     return (
       <div className="app">
         <h1>Add todo</h1>
 
         <Form
-          todos={todos}
-          users={users}
-          selectedUser={selectedUser}
-          enteredTodo={enteredTodo}
+          users={usersFromServer}
           addTodo={addTodo}
-          onChange={onChange}
-          setDefaultState={setDefaultState}
         />
 
         <List
-          todos={todos}
-          users={users}
+          todos={prepareTodos(todos)}
+          users={usersFromServer}
         />
       </div>
     );
