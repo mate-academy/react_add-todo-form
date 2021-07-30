@@ -132,7 +132,14 @@ export default class App extends PureComponent {
                 <option value="0">
                   Choose a user
                 </option>
-                {preparedUsers}
+                {users.map(user => (
+                  <option
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
