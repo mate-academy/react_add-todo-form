@@ -32,12 +32,12 @@ export class TodoForm extends React.PureComponent {
   handlerButton = () => {
     const { selectedUser, titleText, completedTodo }
       = this.state;
-    const { todos } = this.props;
+    const { todos, setTodos } = this.props;
 
     this.setState({ buttonWasClicked: true });
 
     if (selectedUser && titleText) {
-      this.props.setTodos({
+      setTodos({
         userId: +selectedUser,
         id: todos.length + 1,
         title: titleText,
@@ -88,7 +88,7 @@ export class TodoForm extends React.PureComponent {
           id="title"
           placeholder="Write title"
           value={this.state.titleText}
-          onChange={event => this.handleChange(event)}
+          onChange={this.handleChange}
         />
 
         { ((this.state.buttonWasClicked && !this.state.titleText)
@@ -105,7 +105,7 @@ export class TodoForm extends React.PureComponent {
             type="checkbox"
             id="flexSwitchCheckChecked"
             checked={this.state.completedTodo}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
           />
           <label
             className="form-check-label"
@@ -118,7 +118,7 @@ export class TodoForm extends React.PureComponent {
         <button
           type="button"
           className="btn btn-primary btn-lg"
-          onClick={() => this.handlerButton()}
+          onClick={this.handlerButton}
         >
           Add
         </button>
