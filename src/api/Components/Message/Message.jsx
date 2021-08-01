@@ -2,30 +2,30 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
 
-const Massege = ({ titleLength, isChoosen, checkedLengthWord }) => (
+const Message = ({ titleLength, isChoosen, checkedLengthWord }) => (
   <div className="card__container">
     <Card.Text
-      className="warning1"
+      className="card__warning-title"
     >
       {(checkedLengthWord) && 'Enter the title!!! '}
     </Card.Text>
     <Card.Text
-      className="warning2"
+      className="card__warning-name"
     >
       {(isChoosen) && 'Choose the name!!! '}
     </Card.Text>
     <Card.Text
-      className="warning3"
+      className="card__warning-title_length"
     >
       {(titleLength === 30) && 'Max lenght is 30 !!!'}
     </Card.Text>
   </div>
 );
 
-Massege.propTypes = {
+Message.propTypes = {
   isChoosen: PropTypes.bool.isRequired,
   titleLength: PropTypes.number.isRequired,
   checkedLengthWord: PropTypes.bool.isRequired,
 };
 
-export default Massege;
+export default Message;

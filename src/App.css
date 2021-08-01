@@ -23,7 +23,7 @@
   width: 300px;
 }
 
-.warning1 {
+.card__warning-title {
   margin: 0 auto;
   position: absolute;
   width: 300px;
@@ -33,7 +33,7 @@
   background-color: rgb(255, 92, 92);
 }
 
-.warning2 {
+.card__warning-name {
   top: 40px;
   margin: 0 auto;
   position: absolute;
@@ -44,7 +44,7 @@
   background-color: rgb(255, 92, 92);
 }
 
-.warning3 {
+.card__warning-title_length {
   bottom: 70px;
   right: -155px;
   margin: 0 auto;
