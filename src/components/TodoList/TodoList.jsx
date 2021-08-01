@@ -1,27 +1,23 @@
 import React from 'react';
-import propTypes, { arrayOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Todo } from '../Todo';
-import { UserType } from '../../Types';
+import { PreparedTodos } from '../../Types';
 
-export const TodoList = ({ usersWithTodos }) => (
-  <table className="table is-bordered is-striped is-narrow is-hoverable">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>User</th>
-        <th>Task</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {usersWithTodos.map(user => (
-        <Todo user={user} key={user.id} />
-      ))}
-    </tbody>
-  </table>
+export const TodoList = ({ listOfTodods }) => (
+  <ul className="table">
+    {listOfTodods.map(todo => (
+      <li key={todo.id}>
+        <Todo
+          title={todo.title}
+          completed={todo.completed}
+          user={todo.user}
+        />
+      </li>
+    ))
+    }
+  </ul>
 );
 
 TodoList.propTypes = {
-  usersWithTodos: arrayOf(propTypes.shape(UserType)).isRequired,
+  listOfTodods: PropTypes.arrayOf(PreparedTodos).isRequired,
 };

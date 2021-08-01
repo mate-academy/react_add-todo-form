@@ -5,128 +5,131 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId),
+}));
+
 class App extends React.Component {
   state = {
-    userId: 0,
-    id: todos.length + 1,
-    title: '',
-    completed: false,
-    todos: [...todos],
-    userSelectedError: false,
-    todoSelected: false,
+    todosList: preparedTodos,
+    newTodo: '',
+    selectedUserId: 0,
+    errorTitle: false,
+    errorUser: false,
   }
 
-  onChange = (event) => {
-    const { name, value } = event.target;
+  addTodo = (newTodo, selectedUserId) => {
+    const { todosList } = this.state;
 
-    if (name === 'userId') {
-      this.setState({
-        [name]: +value,
-        userSelectedError: true,
-      });
-    } else {
-      this.setState({
-        [name]: value,
-        todoSelected: true,
-      });
-    }
+    const newTask = {
+      user: users.find(person => person.id === selectedUserId),
+      id: todosList.length + 1,
+      title: newTodo,
+      completed: false,
+    };
+
+    this.setState(state => ({
+      todosList: [...state.todosList, newTask],
+    }));
   }
 
-  onSubmit = (event) => {
+  handleFormSubmit = (event) => {
     event.preventDefault();
-  }
 
-  addTask = () => {
-    const {
-      id,
-      title,
-      completed,
-      userId,
-    } = this.state;
+    const { newTodo, selectedUserId } = this.state;
 
-    if (title !== '' && userId !== '') {
-      this.state.todos.push({
-        userId,
-        id,
-        title,
-        completed,
-      });
+    this.setState({
+      errorTitle: !newTodo,
+      errorUser: !selectedUserId,
+    });
 
-      this.setState(state => ({
-        id: state.id + 1,
-        userId: '',
-        title: '',
-        todoSelected: !state.todoSelected,
-        userSelectedError: !state.userSelectedError,
-      }));
+    if (!newTodo) {
+      return;
     }
+
+    if (!selectedUserId) {
+      return;
+    }
+
+    this.addTodo(newTodo, selectedUserId);
+
+    this.setState({
+      newTodo: '',
+      selectedUserId: 0,
+    });
   }
 
-  usersWithTodos = () => (users.map(user => ({
-    ...user,
-    todos: this.state.todos.filter(todo => todo.userId === user.id),
-  })))
+  handleInputChange = (event) => {
+    this.setState({
+      newTodo: event.target.value,
+      errorTitle: false,
+    });
+  }
+
+  handleSelectChange = (event) => {
+    this.setState({
+      selectedUserId: Number(event.target.value),
+      errorUser: false,
+    });
+  }
 
   render() {
+    const {
+      todosList,
+      newTodo,
+      selectedUserId,
+      errorTitle,
+      errorUser,
+    } = this.state;
+
     return (
       <div className="App">
-        <h1>Add todo form</h1>
-        <form onSubmit={this.onSubmit} className="App__form">
-          <label>
+        <h1>
+          Add todo form
+        </h1>
+
+        <form
+          onSubmit={this.handleFormSubmit}
+          className="App__form"
+        >
+          <div>
             <input
-              type="text"
-              placeholder="Title"
-              name="title"
-              value={this.state.title}
-              required
-              onChange={this.onChange}
+              name="todo"
+              placeholder="Please enter the title"
+              className="input is-primary is-large"
+              value={newTodo}
+              onChange={this.handleInputChange}
             />
-            {!this.state.todoSelected || this.state.title === ''
-              ? (
-                <div>
-                  <span className="is-size-6">Please enter the title</span>
-                </div>
-              )
-              : null
-            }
-          </label>
-
-          <label>
+            {errorTitle && (
+              <p className="error mb-4">Please enter the title</p>
+            )}
+          </div>
+          <div className="select is-medium">
             <select
-              name="userId"
-              value={this.state.userId}
-              onChange={this.onChange}
-              required
+              value={selectedUserId}
+              onChange={this.handleSelectChange}
             >
-              <option value="0">
-                Choose user
+              <option>
+                Choose a user
               </option>
-
               {users.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
-            {!this.state.userSelectedError || this.state.userId === 0
-              ? (
-                <div>
-                  <span className="is-size-6">Please choose a user</span>
-                </div>
-              )
-              : null
-          }
-          </label>
 
-          <button
-            type="submit"
-            className="button is-primary"
-            onClick={this.addTask}
-          >
+            {errorUser && (
+              <p className="error mb-4">Please choose a user</p>
+            )}
+          </div>
+          <button type="submit" className="button is-primary">
             Add
           </button>
         </form>
-        <TodoList usersWithTodos={this.usersWithTodos()} />
+
+        <TodoList listOfTodods={todosList} />
       </div>
     );
   }
