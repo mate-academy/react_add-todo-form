@@ -17,7 +17,18 @@ class App extends React.PureComponent {
     todosWithUsers: [...preparedTodos],
     title: '',
     username: 'Choose a user',
-    submitsCount: 0,
+    isTitleEntered: true,
+    isUserSelected: true,
+  }
+
+  componentDidUpdate() {
+    const { title, username } = this.state;
+
+    // eslint-disable-next-line react/no-did-update-set-state
+    this.setState({
+      isTitleEntered: !!title,
+      isUserSelected: username !== 'Choose a user',
+    });
   }
 
   handleChange = (event) => {
@@ -33,18 +44,30 @@ class App extends React.PureComponent {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.setState({ submitsCount: 1 });
+    const { todosWithUsers, title, username } = this.state;
 
-    if (!this.state.title || this.state.username === 'Choose a user') {
+    if (!title || username === 'Choose a user') {
+      if (!title) {
+        this.setState({ isTitleEntered: false });
+      }
+
+      if (username === 'Choose a user') {
+        this.setState({ isUserSelected: false });
+      }
+
       return 0;
     }
 
+    const selectedUser = users.find(
+      user => user.username === username,
+    );
+
     const todo = {
-      title: this.state.title,
-      id: this.state.todosWithUsers.length + 1,
+      title,
+      id: todosWithUsers.length + 1,
       completed: false,
-      userId: users.find(user => user.username === this.state.username).id,
-      user: users.find(user => user.username === this.state.username),
+      user: selectedUser,
+      userId: selectedUser.id,
     };
 
     this.setState(state => ({
@@ -56,7 +79,11 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { todosWithUsers, username, title, submitsCount } = this.state;
+    const {
+      todosWithUsers,
+      isUserSelected,
+      isTitleEntered,
+    } = this.state;
 
     return (
       <div className="App">
@@ -84,7 +111,7 @@ class App extends React.PureComponent {
           </div>
 
           {
-            !title && submitsCount > 0 && (
+            !isTitleEntered && (
               <p className="inputs-error">please enter title</p>
             )
           }
@@ -99,7 +126,7 @@ class App extends React.PureComponent {
                 Choose a user
               </option>
               {users.map(user => (
-                <option key={user.id} value={user.id}>
+                <option key={user.id} value={user.username}>
                   {user.username}
                 </option>
               ))}
@@ -107,7 +134,7 @@ class App extends React.PureComponent {
           </div>
 
           {
-            username === 'Choose a user' && submitsCount > 0 && (
+            !isUserSelected && (
               <p className="inputs-error">please choose a user</p>
             )
           }
