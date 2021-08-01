@@ -19,6 +19,8 @@ class App extends Component {
     userId: '',
     title: '',
     completed: false,
+    isTitleValid: true,
+    isUserValid: true,
   }
 
   onChange = (event) => {
@@ -31,9 +33,25 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { id, userId, title, completed } = this.state;
 
-    if (!userId || !title) {
+    const {
+      id,
+      userId,
+      title,
+      completed,
+      isTitleValid,
+      isUserValid,
+    } = this.state;
+
+    if (!userId) {
+      this.setState({ isUserValid: false });
+    }
+
+    if (!title) {
+      this.setState({ isTitleValid: false });
+    }
+
+    if (isUserValid && isTitleValid) {
       return;
     }
 
@@ -50,11 +68,18 @@ class App extends Component {
       userId: '',
       title: '',
       id: state.id + 1,
+      isTitleValid: true,
+      isUserValid: true,
     }));
   }
 
   render() {
-    const { initialTodos, userId, title } = this.state;
+    const {
+      initialTodos,
+      userId, title,
+      isTitleValid,
+      isUserValid,
+    } = this.state;
     const { onSubmit, onChange } = this;
 
     return (
@@ -72,7 +97,7 @@ class App extends Component {
               className="form__input"
             />
             <span className="form__warn">
-              {!title && ' Please, enter a title'}
+              {isTitleValid || ' Please, enter a title'}
             </span>
           </label>
 
@@ -97,7 +122,7 @@ class App extends Component {
               ))}
             </select>
             <span className="form__warn">
-              {!userId && ' Please, choose a user'}
+              {isUserValid || ' Please, choose a user'}
             </span>
           </label>
 
