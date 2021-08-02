@@ -2,20 +2,7 @@
   text-align: center;
 }
 
-.selected {
-  opacity: 0;
-}
-
 .not-selected {
-  opacity: 100;
-  color: red;
-}
-
-.title-selected {
-  opacity: 0;
-}
-
-.title-not-selected {
   opacity: 100;
   color: red;
 }

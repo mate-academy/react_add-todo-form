@@ -13,6 +13,11 @@ class App extends React.Component {
     isUser: false,
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.todoTitleIntoArray();
+  }
+
   handleChange = (event) => {
     const { name, value } = event.target;
     const limitedValue = value.slice(0, 16);
@@ -22,7 +27,7 @@ class App extends React.Component {
     });
   }
 
-  todoTitleIntoArray() {
+  todoTitleIntoArray = () => {
     const { todos, todoTitle, selectedUserId } = this.state;
 
     if (todoTitle && selectedUserId) {
@@ -66,37 +71,34 @@ class App extends React.Component {
       isUser,
     } = this.state;
 
+    const { handleSubmit, handleChange } = this;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          this.todoTitleIntoArray();
-        }}
-        >
+        <form onSubmit={handleSubmit}>
           <div>
             <input
               type="text"
               placeholder="Title max 16 characters"
               name="todoTitle"
               value={todoTitle}
-              onChange={this.handleChange}
+              onChange={handleChange}
             />
-            <span
-              className={
-                isTitle && !todoTitle
-                  ? 'not-selected'
-                  : 'selected'}
-            >
-              Please enter the title
-            </span>
+            {isTitle && !todoTitle
+              ? (
+                <span className="not-selected">
+                  Please enter the title
+                </span>
+              )
+              : ''}
           </div>
 
           <div>
             <select
               name="selectedUserId"
               value={selectedUserId}
-              onChange={this.handleChange}
+              onChange={handleChange}
             >
               <option value="">Choose user</option>
               {users.map(user => (
@@ -108,15 +110,13 @@ class App extends React.Component {
                 </option>
               ))}
             </select>
-            <span
-              className={
-                isUser && !selectedUserId
-                  ? 'not-selected'
-                  : 'selected'
-            }
-            >
-              Please choose a user
-            </span>
+            { isUser && !selectedUserId
+              ? (
+                <span className="not-selected">
+                  Please choose a user
+                </span>
+              )
+              : ''}
           </div>
           <button type="submit">Add todo</button>
         </form>
