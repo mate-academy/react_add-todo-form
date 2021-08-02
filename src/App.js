@@ -28,6 +28,7 @@ class App extends Component {
 
     this.setState({
       [name]: value,
+      [name === 'title' ? 'isTitleValid' : 'isUserValid']: true,
     });
   }
 
@@ -39,8 +40,6 @@ class App extends Component {
       userId,
       title,
       completed,
-      isTitleValid,
-      isUserValid,
     } = this.state;
 
     if (!userId) {
@@ -51,26 +50,24 @@ class App extends Component {
       this.setState({ isTitleValid: false });
     }
 
-    if (isUserValid && isTitleValid) {
-      return;
+    if (userId.length > 0 && title.length > 0) {
+      const newTodo = {
+        id,
+        userId,
+        title,
+        completed,
+        user: users.find(person => person.id === Number(userId)),
+      };
+
+      this.setState(state => ({
+        initialTodos: [...state.initialTodos, newTodo],
+        userId: '',
+        title: '',
+        id: state.id + 1,
+        isTitleValid: true,
+        isUserValid: true,
+      }));
     }
-
-    const newTodo = {
-      id,
-      userId,
-      title,
-      completed,
-      user: users.find(person => person.id === Number(userId)),
-    };
-
-    this.setState(state => ({
-      initialTodos: [...state.initialTodos, newTodo],
-      userId: '',
-      title: '',
-      id: state.id + 1,
-      isTitleValid: true,
-      isUserValid: true,
-    }));
   }
 
   render() {
