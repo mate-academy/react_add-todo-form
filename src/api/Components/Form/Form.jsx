@@ -11,7 +11,6 @@ export class MainForm extends React.PureComponent {
     isNameChoosen: false,
     title: '',
     name: 'Choose name',
-    id: this.props.todosLength + 1,
   }
 
   onInputChange = (value) => {
@@ -26,14 +25,14 @@ export class MainForm extends React.PureComponent {
 
   handleSubmit = () => {
     this.setState(prev => ({
-      isNameChoosen: (prev.name === 'Choose name') && true,
-      checkedLengthWord: (prev.title.length === 0) && true,
+      isNameChoosen: (prev.name === 'Choose name'),
+      checkedLengthWord: (prev.title.length === 0),
     }));
-    const { name, title, id } = this.state;
+    const { name, title } = this.state;
 
     if (name !== 'Choose name' && title.length) {
       const todo = {
-        title, name, id,
+        title, name, id: this.props.todosLength + 1,
       };
 
       this.props.addNewTodo(todo);
@@ -89,7 +88,7 @@ export class MainForm extends React.PureComponent {
         </div>
         <Message
           checkedLengthWord={this.state.checkedLengthWord}
-          isChoosen={this.state.isNameChoosen}
+          isItChoosen={this.state.isNameChoosen}
           titleLength={this.state.title.length}
         />
       </Form>
