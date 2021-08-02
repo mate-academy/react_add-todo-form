@@ -9,8 +9,8 @@ class App extends React.Component {
     todos: todosFromServer,
     todoTitle: '',
     selectedUserId: '',
-    isTitle: '',
-    isUser: '',
+    isTitle: false,
+    isUser: false,
   }
 
   handleChange = (event) => {
@@ -58,7 +58,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { todos, todoTitle, selectedUserId, isTitle, isUser } = this.state;
+    const {
+      todos,
+      todoTitle,
+      selectedUserId,
+      isTitle,
+      isUser,
+    } = this.state;
 
     return (
       <div className="App">
@@ -71,7 +77,7 @@ class App extends React.Component {
           <div>
             <input
               type="text"
-              placeholder="Title"
+              placeholder="Title max 16 characters"
               name="todoTitle"
               value={todoTitle}
               onChange={this.handleChange}
@@ -80,8 +86,7 @@ class App extends React.Component {
               className={
                 isTitle && !todoTitle
                   ? 'not-selected'
-                  : 'selected'
-            }
+                  : 'selected'}
             >
               Please enter the title
             </span>
@@ -113,7 +118,6 @@ class App extends React.Component {
               Please choose a user
             </span>
           </div>
-
           <button type="submit">Add todo</button>
         </form>
 
