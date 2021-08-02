@@ -9,50 +9,39 @@ export class MainForm extends React.PureComponent {
   state = {
     checkedLengthWord: false,
     isNameChoosen: false,
-    todo: {
-      title: '',
-      name: 'Choose name',
-      id: this.props.todosLength + 1,
-    },
+    title: '',
+    name: 'Choose name',
+    id: this.props.todosLength + 1,
   }
 
-  inputChange = (value) => {
-    this.setState(prev => ({
-      todo: {
-        ...prev.todo,
-        title: value,
-      },
-    }));
+  onInputChange = (value) => {
+    this.setState({ title: value });
   }
 
-  selectChange = (target) => {
+  onSelectChange = (target) => {
     if (target.value !== 'Choose name') {
-      this.setState(prev => ({
-        ...prev,
-        todo: {
-          ...prev.todo,
-          name: target.value,
-        },
-      }));
+      this.setState({ name: target.value });
     }
   }
 
   handleSubmit = () => {
     this.setState(prev => ({
-      isNameChoosen: (prev.todo.name === 'Choose name') && true,
-      checkedLengthWord: (prev.todo.title.length === 0) && true,
+      isNameChoosen: (prev.name === 'Choose name') && true,
+      checkedLengthWord: (prev.title.length === 0) && true,
     }));
-    const { name, title } = this.state.todo;
+    const { name, title, id } = this.state;
 
     if (name !== 'Choose name' && title.length) {
-      this.props.addNewPerson(this.state.todo);
+      const todo = {
+        title, name, id,
+      };
+
+      this.props.addNewTodo(todo);
 
       this.setState(prev => ({
-        todo: {
-          title: '',
-          name: 'Choose name',
-          id: prev.todo.id + 1,
-        },
+        title: '',
+        name: 'Choose name',
+        id: prev.id + 1,
       }));
     }
   };
@@ -71,13 +60,13 @@ export class MainForm extends React.PureComponent {
             maxLength="30"
             type="text"
             placeholder="Title (Max length : 30 characters)"
-            onChange={({ target }) => this.inputChange(target.value)}
-            value={this.state.todo.title}
+            onChange={({ target }) => this.onInputChange(target.value)}
+            value={this.state.title}
           />
         </div>
         <Form.Select
-          onChange={({ target }) => this.selectChange(target)}
-          value={this.state.todo.name}
+          onChange={({ target }) => this.onSelectChange(target)}
+          value={this.state.name}
         >
           <option>Choose name</option>
           {users.map(item => (
@@ -101,7 +90,7 @@ export class MainForm extends React.PureComponent {
         <Message
           checkedLengthWord={this.state.checkedLengthWord}
           isChoosen={this.state.isNameChoosen}
-          titleLength={this.state.todo.title.length}
+          titleLength={this.state.title.length}
         />
       </Form>
     );

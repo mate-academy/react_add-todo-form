@@ -6,7 +6,7 @@ import todos from './api/todos';
 import users from './api/users';
 import { MainForm } from './api/Components/Form/Form';
 
-const newTodos = todos.map(item => ({
+const copyTodos = todos.map(item => ({
   ...item,
   name: users.find(value => value.id === item.userId).name,
 }
@@ -14,11 +14,11 @@ const newTodos = todos.map(item => ({
 
 class App extends React.PureComponent {
   state = {
-    newTodos,
+    copyTodos,
   }
 
-  addNewPerson = (person) => {
-    this.setState(prev => ({ newTodos: [...prev.newTodos, person] }));
+  addNewTodo = (todo) => {
+    this.setState(prev => ({ copyTodos: [...prev.copyTodos, todo] }));
   }
 
   render() {
@@ -29,10 +29,10 @@ class App extends React.PureComponent {
           <span>Users: </span>
           {users.length}
         </p>
-        <TodoList todos={this.state.newTodos} />
+        <TodoList todos={this.state.copyTodos} />
         <MainForm
-          addNewPerson={this.addNewPerson}
-          todosLength={this.state.newTodos.length}
+          addNewTodo={this.addNewTodo}
+          todosLength={this.state.copyTodos.length}
         />
       </div>
     );
