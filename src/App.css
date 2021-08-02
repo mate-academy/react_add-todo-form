@@ -1,3 +1,23 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input {
+  height: 20px;
+  width: 250px;
+  padding-left: 20px;
+  margin-left: 10px;
+  position: relative;
+}
+
+.select {
+  height: 26px;
+  width: 250px;
+  padding-left: 20px;
+  position: relative;
+}
