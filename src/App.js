@@ -15,7 +15,7 @@ class App extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.addTodoIntoArray();
+    this.addTodo();
   }
 
   handleChange = (event) => {
@@ -27,7 +27,7 @@ class App extends React.Component {
     });
   }
 
-  addTodoIntoArray = () => {
+  addTodo = () => {
     const { todos, todoTitle, selectedUserId } = this.state;
 
     if (todoTitle && selectedUserId) {
