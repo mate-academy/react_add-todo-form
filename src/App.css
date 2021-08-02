@@ -21,18 +21,3 @@
   padding-left: 20px;
   position: relative;
 }
-
-.error {
-  display: flex;
-}
-
-.input-error {
-  position: absolute;
-  left: 200px
-}
-
-.select-error {
-
-  position: absolute;
-  right: 610px;
-}

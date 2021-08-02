@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { User } from './User';
+import { User } from '../User/User';
 import './Todo.css';
 
 export const Todo = ({ title, completed, user }) => (
+
   <div className="todo">
 
     <span className="todo__item">
