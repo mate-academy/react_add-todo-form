@@ -23,7 +23,7 @@ class App extends Component {
     isUserValid: true,
   }
 
-  onChange = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
@@ -32,7 +32,7 @@ class App extends Component {
     });
   }
 
-  onSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const {
@@ -77,18 +77,18 @@ class App extends Component {
       isTitleValid,
       isUserValid,
     } = this.state;
-    const { onSubmit, onChange } = this;
+    const { handleSubmit, handleChange } = this;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form className="form" onSubmit={onSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
           <label className="form__label">
             <span><strong>Add Your Todo:</strong></span>
             <input
               type="text"
               name="title"
-              onChange={onChange}
+              onChange={handleChange}
               placeholder="Title"
               value={title}
               className="form__input"
@@ -101,7 +101,7 @@ class App extends Component {
           <label className="form__label">
             <span><strong>Choose a user:</strong></span>
             <select
-              onChange={onChange}
+              onChange={handleChange}
               name="userId"
               value={userId}
               className="form__input"
