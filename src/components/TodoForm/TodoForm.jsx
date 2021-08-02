@@ -8,7 +8,6 @@ import ErrorModal from '../ErrorModal/ErrorModal';
 
 export default class TodoForm extends Component {
   state = {
-    userList: this.props.userList,
     userName: '',
     textareaInput: '',
     setError: '',
@@ -34,7 +33,7 @@ export default class TodoForm extends Component {
     if (this.state.userName.length === 0
       || this.state.textareaInput.trim().length === 0) {
       this.setState({
-        setError: 'Please fill up all filds',
+        setError: 'Please fill up all fields',
       });
 
       return;
@@ -48,11 +47,6 @@ export default class TodoForm extends Component {
   }
 
   render() {
-    const userListWithKey = this.state.userList.map(user => ({
-      key: uuidv4(),
-      ...user,
-    }));
-
     return (
       <div>
         <h2>Select a user</h2>
@@ -95,10 +89,10 @@ export default class TodoForm extends Component {
               }}
             >
               <option value="0">Choose a user</option>
-              {userListWithKey.map(({ key, name }) => (
+              {this.props.userList.map(({ userId, name }) => (
                 <option
                   value={name}
-                  key={key}
+                  key={userId}
                 >
                   {name}
                 </option>

@@ -8,7 +8,7 @@ import TodoForm from './components/TodoForm/TodoForm';
 import users from './api/users';
 import todosFromServer from './api/todos';
 
-const prepearedTodos = todosFromServer.map(todo => ({
+const preparedTodos = todosFromServer.map(todo => ({
   id: todo.id,
   title: todo.title,
   name: users.find(user => user.id === todo.id).name,
@@ -16,19 +16,19 @@ const prepearedTodos = todosFromServer.map(todo => ({
 
 export default class App extends Component {
   state={
-    todos: [...prepearedTodos],
+    todos: [...preparedTodos],
   }
 
   addUser = (name, title) => {
     this.setState((prevState) => {
-      const newUser = {
+      const createUser = {
         id: prevState.todos.length + 1,
         title,
         name,
       };
 
       return {
-        todos: [...prevState.todos, newUser],
+        todos: [...prevState.todos, createUser],
       };
     });
   }
