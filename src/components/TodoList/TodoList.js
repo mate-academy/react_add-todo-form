@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Todo } from './Todo';
+import { Todo } from '../Todo/Todo';
 
 export const TodoList = ({ todos }) => (
   <table className="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -15,12 +15,7 @@ export const TodoList = ({ todos }) => (
     <tbody>
       {todos.map(todo => (
         <tr key={todo.id}>
-          <Todo
-            id={todo.id}
-            title={todo.title}
-            completed={todo.completed}
-            user={todo.user}
-          />
+          <Todo {...todo} />
         </tr>
       ))}
     </tbody>
@@ -31,6 +26,9 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      completed: PropTypes.bool.isRequired,
+      user: PropTypes.objectOf(PropTypes.string.isRequired),
     }),
   ),
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
@@ -14,21 +14,11 @@ const preparedTodos = todos.map(
 
 class App extends React.PureComponent {
   state = {
-    todosWithUsers: [...preparedTodos],
+    preparedTodos,
     title: '',
     username: 'Choose a user',
     isTitleEntered: true,
     isUserSelected: true,
-  }
-
-  componentDidUpdate() {
-    const { title, username } = this.state;
-
-    // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({
-      isTitleEntered: !!title,
-      isUserSelected: username !== 'Choose a user',
-    });
   }
 
   handleChange = (event) => {
@@ -40,11 +30,10 @@ class App extends React.PureComponent {
     }));
   }
 
-  // eslint-disable-next-line consistent-return
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { todosWithUsers, title, username } = this.state;
+    const { preparedTodos: todosWithUsrers, title, username } = this.state;
 
     if (!title || username === 'Choose a user') {
       if (!title) {
@@ -55,7 +44,7 @@ class App extends React.PureComponent {
         this.setState({ isUserSelected: false });
       }
 
-      return 0;
+      return;
     }
 
     const selectedUser = users.find(
@@ -64,15 +53,15 @@ class App extends React.PureComponent {
 
     const todo = {
       title,
-      id: todosWithUsers.length + 1,
+      id: todosWithUsrers.length + 1,
       completed: false,
       user: selectedUser,
       userId: selectedUser.id,
     };
 
     this.setState(state => ({
-      todosWithUsers: [
-        ...state.todosWithUsers,
+      preparedTodos: [
+        ...state.preparedTodos,
         todo,
       ],
     }));
@@ -80,7 +69,7 @@ class App extends React.PureComponent {
 
   render() {
     const {
-      todosWithUsers,
+      preparedTodos: todosWithUsers,
       isUserSelected,
       isTitleEntered,
     } = this.state;
@@ -143,6 +132,14 @@ class App extends React.PureComponent {
             <button
               className="button is-success is-outlined"
               type="submit"
+              onClick={() => {
+                const { title, username } = this.state;
+
+                this.setState({
+                  isTitleEntered: !!title,
+                  isUserSelected: username !== 'Choose a user',
+                });
+              }}
             >
               Add
             </button>
