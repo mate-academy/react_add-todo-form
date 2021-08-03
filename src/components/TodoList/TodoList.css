@@ -1,0 +1,7 @@
+.todo-list {
+  width: 40%;
+  border: hotpink solid 3px;
+  list-style-type: none;
+  padding: 15px;
+  border-radius: 25px;
+}

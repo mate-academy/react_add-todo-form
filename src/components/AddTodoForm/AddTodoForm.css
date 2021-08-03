@@ -1,0 +1,71 @@
+.fieldWrapper {
+  position: relative;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.input {
+  color: white;
+  background-color: purple;
+  border: white double 3px;
+  outline: none;
+  min-width: 600px;
+  min-height: 40px;
+  font-size: 15px;
+  border-radius: 24px;
+  text-align: center;
+  margin: 0;
+}
+
+.input::-webkit-input-placeholder {
+  color: rgb(48, 10, 35);
+}
+
+.sel {
+  background-color: purple;
+  color: white;
+  min-height: 40px;
+  border-radius: 24px;
+  border: 3px solid white;
+}
+
+.wrongField {
+  background-color: crimson;
+}
+
+.button {
+  color: white;
+  background-color: purple;
+  border-radius: 24px;
+  border: 3px solid white;
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.button:hover {
+  color: purple;
+  background: white;
+}
+
+.buttonWrap {
+  margin: 20px;
+  width: 30px;
+}
+
+.fieldAlert {
+  position: absolute;
+  border-radius: 24px;
+  color: white;
+  background-color: crimson;
+  font-size: 20px;
+  font-weight: 800;
+  font-family: "Courier New", Courier, monospace;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
