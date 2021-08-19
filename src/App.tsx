@@ -3,7 +3,7 @@ import './App.css';
 
 import users from './api/users';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -14,6 +14,6 @@ function App() {
       </p>
     </div>
   );
-}
+};
 
 export default App;
