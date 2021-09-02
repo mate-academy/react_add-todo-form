@@ -1,0 +1,120 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    width: 500px;
+    border: 1px solid black;
+    border-radius: 5px;
+
+    .control {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+
+      .inputTitle {
+        padding: 0 5px;
+        margin-right: 5px;
+        border-radius: 5px;
+        height: 30px;
+        font-size: 15px;
+        width: 60%;
+        box-sizing: border-box;
+      }
+
+      .selectUser {
+        border-radius: 5px;
+        font-size: 15px;
+        margin-right: 5px;
+        width: 30%;
+      }
+
+      .button {
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .button:hover {
+        cursor: pointer;
+      }
+
+      .error {
+        border: 1px solid black;
+        border-radius: 3px;
+        color: red;
+        padding: 0 5px;
+        font-weight: 600;
+      }
+
+      .errorTitle {
+        position: absolute;
+        left: 0;
+        top: -38px;
+      }
+
+      .errorUser {
+        position: absolute;
+        left: 304px;
+        top: -38px;
+      }
+
+      .hiden {
+        display: none;
+      }
+    }
+
+    .todoListContainer {
+      text-align: left;
+  
+      .todoList {
+        padding-left: 0;
+  
+        .todo {
+          list-style-type: none;
+          border: 1px solid black;
+          border-radius: 5px;
+          margin-bottom: 5px;
+        }
+    
+        .title {
+          margin: 5px 5px 0;
+          font-weight: 700;
+          text-transform: lowercase;
+        }
+        
+        .title::first-letter {
+          text-transform: uppercase;
+        }
+
+        .name {
+          margin: 0 5px 5px;
+        }
+      }
+  }
+
+    // .todo {
+    //   list-style-type: none;
+    //   border: 1px solid black;
+    // }
+
+    // .title {
+    //   font-weight: 700;
+    //   text-transform: lowercase;
+    // }
+    
+    // .title::first-letter {
+    //   text-transform: uppercase;
+    //   // color: red;
+    // }
+    
+    // .name strong {
+    //   color: blue;
+    // }
+  }
+}
