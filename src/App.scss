@@ -1,0 +1,57 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.todos__form {
+  max-width: 600px;
+  margin: 40px auto 20px;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  &__input {
+    margin-left: 10px;
+  }
+
+  &__alert {
+    position: absolute;
+    width: 150px;
+    top: -35px;
+    left: 25%;
+    padding: 5px;
+    color: red;
+    background: rgba(255,165,0, 0.4);
+    border-radius: 5px;
+
+    &::after {
+      position: absolute;
+      content: "";
+      bottom: -12px;
+      right: 10px;
+      border: 6px solid transparent;
+      border-top: 6px solid rgba(255,165,0, 0.4);
+    }
+
+    &--select {
+      left: 55%;
+    }
+  }
+
+  &__button {
+    align-self: center;
+    height: 30px;
+    background-color: rgb(93, 190, 29);
+    color: seashell;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
