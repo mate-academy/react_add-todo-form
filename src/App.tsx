@@ -179,7 +179,6 @@ class App extends React.Component<{}, State> {
                 <button
                   type="submit"
                   className="btn btn-outline-primary"
-                  onClick={this.showForm}
                 >
                   Add todo
                 </button>
