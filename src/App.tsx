@@ -17,17 +17,13 @@ class App extends React.Component {
     todoNotif: false,
     todosState: [...todos],
     inputTodo: '',
-    choiceOfWorker: 'Choose a user',
-    todoId: todos[todos.length - 1].id + 1,
+    choiceOfWorker: null,
     idOfUser: 0,
   };
 
   onChange = (event: { target: { name: string; value: string; }; }) => {
     const { name, value } = event.target;
     const { idOfUser, todoNotif, userNotif } = this.state;
-
-    // eslint-disable-next-line no-console
-    console.log(event.target);
 
     this.setState({
       [name]: value,
@@ -43,34 +39,31 @@ class App extends React.Component {
 
   addTodo = () => {
     const {
-      todoId, inputTodo, idOfUser, choiceOfWorker,
+      idOfUser, inputTodo, todosState, choiceOfWorker,
     } = this.state;
 
     const todoBlank: Todo = {
       userId: idOfUser,
-      id: todoId,
+      id: todosState.length + 1,
       title: inputTodo,
       completed: false,
     };
 
     this.setState({
-      userNotif: (choiceOfWorker === 'Choose a user'),
+      userNotif: (choiceOfWorker === 'Choose a user' || choiceOfWorker == null),
       todoNotif: (inputTodo.length === 0),
 
       choiceOfWorker: (inputTodo.length > 0 && choiceOfWorker !== 'Choose a user')
         ? 'Choose a user'
         : choiceOfWorker,
 
-      inputTodo: (inputTodo.length > 0 && choiceOfWorker !== 'Choose a user')
+      inputTodo: (inputTodo.length > 0 && choiceOfWorker !== 'Choose a user' && choiceOfWorker !== null)
         ? ''
         : inputTodo,
     });
 
-    if (choiceOfWorker !== 'Choose a user' && inputTodo.length > 0) {
-      const { todosState } = this.state;
-
+    if (choiceOfWorker !== 'Choose a user' && choiceOfWorker !== null && inputTodo.length > 0) {
       this.setState({
-        todoId: todoId + 1,
         todosState: [
           ...todosState,
           todoBlank,
@@ -125,7 +118,7 @@ class App extends React.Component {
               <select
                 className="input_choice"
                 name="choiceOfWorker"
-                value={this.state.choiceOfWorker}
+                value={!this.state.choiceOfWorker ? '' : this.state.choiceOfWorker}
                 onChange={this.onChange}
               >
                 <option>
