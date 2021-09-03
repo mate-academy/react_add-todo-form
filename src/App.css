@@ -1,3 +1,48 @@
-.App {
-  text-align: center;
+.App__header {
+  margin-bottom: 20px;
+}
+
+form {
+  max-width: 250px;
+  margin: 10px auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  width: 100%;
+}
+
+label span {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.btn {
+  display: block;
+  margin: 10px auto;
+}
+
+.alert {
+  margin: 0 auto;
+  max-width: max-content;
+}
+
+.alert-danger {
+  margin-top: 2px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.close {
+  padding: 0;
+  margin-left: 10px;
+  background-color: transparent;
+  border: 0;
+}
+
+.close:hover {
+  color: #fff;
 }
