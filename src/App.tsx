@@ -1,12 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
-import styles from './App.scss';
+import './App.scss';
 import { TodoList } from './components/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
-
-const cx = classNames.bind(styles);
 
 interface State {
   visualisedTodos: any,
@@ -31,8 +28,8 @@ class App extends React.Component<{}, State> {
     userName: '',
     todoTitle: '',
     isDisabled: false,
-    errorTitle: true,
-    errorUser: true,
+    errorTitle: false,
+    errorUser: false,
   };
 
   componentDidMount() {
@@ -48,18 +45,20 @@ class App extends React.Component<{}, State> {
     });
   }
 
-  setUser = (event: any) => {
+  setUser = ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      userName: event.target.value,
+      userName: target.value,
       isDisabled: true,
-      errorUser: true,
+      errorUser: false,
     });
   };
 
-  setTodo = (event: any) => {
+  setTodo = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const value = target.value.replace(/[^0-9a-zа-яё\s]/gi, '');
+
     this.setState({
-      todoTitle: event.target.value.replace(/[^0-9a-zа-яё\s]/gi, ''),
-      errorTitle: true,
+      todoTitle: value,
+      errorTitle: false,
     });
   };
 
@@ -71,29 +70,23 @@ class App extends React.Component<{}, State> {
     } = this.state;
 
     this.setState({
-      errorTitle: !!todoTitle,
-      errorUser: !!userName,
+      errorTitle: !todoTitle,
+      errorUser: !userName,
     });
 
     if (userName && todoTitle) {
       const userId: any = users.find(({ name }) => name === userName)?.id;
 
-      const todosId: any = visualisedTodos.map(({ id }) => +id);
-
       const newTodo: Todo = {
         userId: +userId,
-        id: Math.max(...todosId) + 1,
+        id: Date.now(),
         title: todoTitle,
         completed: false,
         user: users.find(user => user.id === userId),
       };
 
-      const updateTodos: any = [...visualisedTodos];
-
-      updateTodos.push(newTodo);
-
       this.setState({
-        visualisedTodos: updateTodos,
+        visualisedTodos: [...visualisedTodos, newTodo],
         userName: '',
         todoTitle: '',
         isDisabled: false,
@@ -111,18 +104,6 @@ class App extends React.Component<{}, State> {
       errorUser,
     } = this.state;
 
-    const classNameErrorTitle = cx({
-      error: true,
-      errorTitle: true,
-      hiden: errorTitle,
-    });
-
-    const classNameErrorUser = cx({
-      error: true,
-      errorUser: true,
-      hiden: errorUser,
-    });
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -134,13 +115,17 @@ class App extends React.Component<{}, State> {
 
         <div className="container">
           <div className="control">
-            <p className={classNameErrorTitle}>
-              Please enter the title
-            </p>
+            {errorTitle && (
+              <p className="error errorTitle">
+                Please enter the title
+              </p>
+            )}
 
-            <p className={classNameErrorUser}>
-              Please choose a user
-            </p>
+            {errorUser && (
+              <p className="error errorUser">
+                Please choose a user
+              </p>
+            )}
 
             <input
               type="text"
@@ -156,8 +141,13 @@ class App extends React.Component<{}, State> {
               onChange={this.setUser}
             >
               <option disabled={isDisabled}>Choose a user</option>
-              {users.map(({ name }) => (
-                <option value={name}>{name}</option>
+              {users.map(({ name, id }) => (
+                <option
+                  key={id}
+                  value={name}
+                >
+                  {name}
+                </option>
               ))}
             </select>
 

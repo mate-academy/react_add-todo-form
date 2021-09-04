@@ -63,10 +63,6 @@
         left: 304px;
         top: -38px;
       }
-
-      .hiden {
-        display: none;
-      }
     }
 
     .todoListContainer {
@@ -96,25 +92,6 @@
           margin: 0 5px 5px;
         }
       }
-  }
-
-    // .todo {
-    //   list-style-type: none;
-    //   border: 1px solid black;
-    // }
-
-    // .title {
-    //   font-weight: 700;
-    //   text-transform: lowercase;
-    // }
-    
-    // .title::first-letter {
-    //   text-transform: uppercase;
-    //   // color: red;
-    // }
-    
-    // .name strong {
-    //   color: blue;
-    // }
+    }
   }
 }
