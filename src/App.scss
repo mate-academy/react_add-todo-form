@@ -5,27 +5,11 @@ li {
   padding: 0;
 }
 
-body {
-  height: 100vh !important;
-}
-
 li {
   list-style: none;
 }
 
-.container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
 .App {
-  display: flex;
-  flex-direction: column;
-  gap: 100px;
-  height: 100vh;
-
   &__form {
     display: flex;
     justify-content: center;
