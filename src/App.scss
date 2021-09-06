@@ -5,15 +5,20 @@ li {
   padding: 0;
 }
 
+body {
+  height: 100vh;
+}
+
 li {
   list-style: none;
 }
 
-.list-group {
-  margin-top: 100px;
-}
-
 .App {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  height: 100vh;
+
   &__form {
     display: flex;
     justify-content: center;
