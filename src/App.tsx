@@ -1,18 +1,22 @@
 import React from 'react';
 import './App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import classNames from 'classnames';
+
 import { TodoList } from './components/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
 
 const RegEx = /^[a-zA-Za-åa-ö-w-я 0-9]/g;
+const tasks = [...todos];
 
 class App extends React.Component<{}, State> {
   state = {
     title: '',
-    taskId: todos[todos.length - 1].id + 1,
+    taskId: tasks[tasks.length - 1].id + 1,
     userId: 0,
-    preparedTasks: todos
+    preparedTasks: tasks
       .map(task => ({
         ...task,
         user: users.find(person => person.id === task.userId) || null,
@@ -48,7 +52,7 @@ class App extends React.Component<{}, State> {
     return false;
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  handleChange = (event: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value } = event.currentTarget;
 
     this.setState(state => ({
@@ -62,7 +66,7 @@ class App extends React.Component<{}, State> {
     const isValid = this.validate();
 
     if (isValid) {
-      todos.push({
+      tasks.push({
         userId: this.state.userId,
         id: this.state.taskId,
         title: this.state.title,
@@ -71,7 +75,7 @@ class App extends React.Component<{}, State> {
 
       this.setState((state) => ({
         taskId: state.taskId + 1,
-        preparedTasks: todos
+        preparedTasks: tasks
           .map(task => ({
             ...task,
             user: users.find(person => person.id === task.userId) || null,
@@ -99,49 +103,66 @@ class App extends React.Component<{}, State> {
     } = this.state;
 
     return (
-      <div className="App">
+      <div className="App container">
         <form
+          className="form-inline form-row App__form"
           id="addTask"
           onSubmit={this.addTask}
         >
-          <select
-            name="userId"
-            value={userId}
-            onChange={this.handleChange}
+          <label
+            className="sr-only col-sm-3"
+            htmlFor="inlineFormCustomSelect"
           >
-            <option value={0}>
-              Choose a user
-            </option>
-            {users.map(person => (
-              <option key={person.id} value={person.id}>
-                {person.name}
+            <select
+              id="inlineFormCustomSelect"
+              className="form-select"
+              name="userId"
+              value={userId}
+              onChange={this.handleChange}
+            >
+              <option value={0}>
+                Choose a user
               </option>
-            ))}
-          </select>
-          {noUserError && !userId && (
-            <p>
-              {noUserError}
+              {users.map(person => (
+                <option key={person.id} value={person.id}>
+                  {person.name}
+                </option>
+              ))}
+            </select>
+            <p className={classNames('App__alert alert alert-danger', {
+              'App__alert--shown': noUserError && userId === 0,
+            })}
+            >
+              {noUserError && userId === 0 && (noUserError)}
             </p>
-          )}
-          <input
-            type="text"
-            placeholder="Write your task here"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-          {noTitleError && !title && (
-            <p>
-              {noTitleError}
-            </p>
-          )}
+          </label>
 
-          {nonValidTitle && title && !title.match(RegEx) && (
-            <p>
-              {nonValidTitle}
+          <label htmlFor="inlineFormInputGroup" className="col-sm-3">
+            <input
+              id="inlineFormInputGroup"
+              className="form-control"
+              type="text"
+              placeholder="Write your task here"
+              name="title"
+              value={title}
+              onChange={this.handleChange}
+            />
+
+            <p className={classNames('App__alert alert alert-danger', {
+              'App__alert--shown': (noTitleError && !title)
+              || (nonValidTitle && !title.match(RegEx) && title),
+            })}
+            >
+              {(noTitleError && !title && (
+                noTitleError
+              )) || (nonValidTitle && !title.match(RegEx) && title && (
+                nonValidTitle
+              ))}
             </p>
-          )}
+          </label>
+
           <button
+            className="btn btn-primary col-sm-3 App__button"
             type="submit"
             form="addTask"
           >

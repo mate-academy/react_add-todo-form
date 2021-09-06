@@ -10,16 +10,30 @@ li {
 }
 
 .App {
-  margin: 0 auto;
-  width: 50%;
-  
-  &__list {
-    background-color: bisque;
+  &__form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+  }
+
+  &__alert {
+    position: absolute;
+    margin-top: 20px;
+    visibility: hidden;
+
+    &--shown {
+      visibility: visible;
+    }
   }
 
   &__item {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
+    &--container {
+      transform: translateY(10%);
+    }
+  }
+
+  &__button {
+    height: min-content;
   }
 }
