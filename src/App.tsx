@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 import users from './api/users';
 import todos from './api/todos';
 
-const RegEx = /^[a-zA-Za-åa-ö-w-я 0-9]/g;
+const RegEx = /^[a-zA-Za-åa-ö-w-я 0-9 ]+$/g;
 const tasks = [...todos];
 
 class App extends React.Component<{}, State> {
@@ -26,39 +26,36 @@ class App extends React.Component<{}, State> {
     noUserError: '',
   };
 
+  resetState = () => {
+    this.setState({
+      title: '',
+      userId: 0,
+      noTitleError: '',
+      nonValidTitle: '',
+      noUserError: '',
+    });
+  };
+
   validate = () => {
     const { title, userId } = this.state;
-    let falseFlag = true;
+    let validFlag = true;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({ noTitleError: 'Please enter the title' });
-      falseFlag = false;
+      validFlag = false;
     }
 
     if (!title.match(RegEx)) {
       this.setState({ nonValidTitle: 'Please use letters, digits and spaces only' });
-      falseFlag = false;
+      validFlag = false;
     }
 
     if (!userId) {
       this.setState({ noUserError: 'Please choose a user' });
-      falseFlag = false;
+      validFlag = false;
     }
 
-    if (falseFlag) {
-      return true;
-    }
-
-    return false;
-  };
-
-  handleChange = (event: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void => {
-    const { name, value } = event.currentTarget;
-
-    this.setState(state => ({
-      ...state,
-      [name]: !(+value) ? value : +value,
-    }));
+    return validFlag;
   };
 
   addTask = (event: React.FormEvent<EventTarget>): void => {
@@ -82,13 +79,7 @@ class App extends React.Component<{}, State> {
           })),
       }));
 
-      this.setState({
-        title: '',
-        userId: 0,
-        noTitleError: '',
-        nonValidTitle: '',
-        noUserError: '',
-      });
+      this.resetState();
     }
   };
 
@@ -103,7 +94,7 @@ class App extends React.Component<{}, State> {
     } = this.state;
 
     return (
-      <div className="App container">
+      <div className="App container vh-100 d-flex flex-column justify-content-between">
         <form
           className="form-inline form-row App__form"
           id="addTask"
@@ -118,7 +109,11 @@ class App extends React.Component<{}, State> {
               className="form-select"
               name="userId"
               value={userId}
-              onChange={this.handleChange}
+              onChange={(event) => {
+                this.setState({
+                  userId: +event.target.value,
+                });
+              }}
             >
               <option value={0}>
                 Choose a user
@@ -129,12 +124,14 @@ class App extends React.Component<{}, State> {
                 </option>
               ))}
             </select>
-            <p className={classNames('App__alert alert alert-danger', {
-              'App__alert--shown': noUserError && userId === 0,
-            })}
-            >
-              {noUserError && userId === 0 && (noUserError)}
-            </p>
+            {noUserError && (
+              <p className={classNames('App__alert alert alert-danger', {
+                'App__alert--shown': noUserError && userId === 0,
+              })}
+              >
+                {noUserError}
+              </p>
+            )}
           </label>
 
           <label htmlFor="inlineFormInputGroup" className="col-sm-3">
@@ -145,19 +142,20 @@ class App extends React.Component<{}, State> {
               placeholder="Write your task here"
               name="title"
               value={title}
-              onChange={this.handleChange}
+              onChange={(event) => {
+                this.setState(state => ({
+                  title: event.target.value,
+                  noTitleError: event.target.value.trim() ? '' : state.noTitleError,
+                  nonValidTitle: event.target.value.match(RegEx) ? '' : state.nonValidTitle,
+                }));
+              }}
             />
 
             <p className={classNames('App__alert alert alert-danger', {
-              'App__alert--shown': (noTitleError && !title)
-              || (nonValidTitle && !title.match(RegEx) && title),
+              'App__alert--shown': noTitleError || nonValidTitle,
             })}
             >
-              {(noTitleError && !title && (
-                noTitleError
-              )) || (nonValidTitle && !title.match(RegEx) && title && (
-                nonValidTitle
-              ))}
+              {noTitleError || nonValidTitle}
             </p>
           </label>
 

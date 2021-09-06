@@ -11,7 +11,7 @@ export const TodoList: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ul className="App__list list-group">
+      <ul className="App__list list-group mb-5">
         {tasks.map(task => (
           <li key={task.id} className="App__item list-group-item list-group-item-action flex-column">
             {task.user && (
