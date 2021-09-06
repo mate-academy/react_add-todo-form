@@ -6,11 +6,18 @@ li {
 }
 
 body {
-  height: 100vh;
+  height: 100vh !important;
 }
 
 li {
   list-style: none;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .App {
