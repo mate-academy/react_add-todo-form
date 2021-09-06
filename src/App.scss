@@ -1,0 +1,25 @@
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.App {
+  margin: 0 auto;
+  width: 50%;
+  
+  &__list {
+    background-color: bisque;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+}
