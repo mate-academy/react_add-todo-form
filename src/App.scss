@@ -27,6 +27,10 @@ li {
     }
   }
 
+  &__list {
+    margin-top: 100px;
+  }
+
   &__item {
     &--container {
       transform: translateY(10%);
