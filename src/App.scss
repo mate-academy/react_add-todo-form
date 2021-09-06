@@ -9,6 +9,10 @@ li {
   list-style: none;
 }
 
+.list-group {
+  margin-top: 100px;
+}
+
 .App {
   &__form {
     display: flex;
@@ -25,10 +29,6 @@ li {
     &--shown {
       visibility: visible;
     }
-  }
-
-  &__list {
-    margin-top: 100px;
   }
 
   &__item {
