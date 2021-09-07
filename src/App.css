@@ -30,7 +30,6 @@ tbody :hover {
 .table {
   background-color: rgb(233, 241, 220);
   margin: 10px auto;
-  /* width: 900px; */
   border-collapse: collapse;
   width: 80%;
 }
@@ -72,7 +71,7 @@ tbody :hover {
   margin-right: 30px;
 }
 
-.bottom {
+.button {
   background-color: rgb(227, 240, 193);
   border-radius: 10px;
   padding: 10px;

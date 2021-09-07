@@ -13,57 +13,43 @@ interface Todo {
 
 class App extends React.Component {
   state = {
-    userNotif: false,
-    todoNotif: false,
+    formSubmitted: false,
     todosState: [...todos],
-    inputTodo: '',
-    choiceOfWorker: null,
-    idOfUser: 0,
+    title: '',
+    user: null,
   };
 
   onChange = (event: { target: { name: string; value: string; }; }) => {
     const { name, value } = event.target;
-    const { idOfUser, todoNotif, userNotif } = this.state;
 
     this.setState({
       [name]: value,
-
-      idOfUser: name === 'choiceOfWorker'
-        ? users.find(user => user.name === value)?.id
-        : idOfUser,
-
-      userNotif: (userNotif && event.target.name === 'inputTodo'),
-      todoNotif: (todoNotif && event.target.name === 'choiceOfWorker'),
     });
   };
 
   addTodo = () => {
     const {
-      idOfUser, inputTodo, todosState, choiceOfWorker,
+      todosState,
+      title,
+      user,
     } = this.state;
 
     const todoBlank: Todo = {
-      userId: idOfUser,
-      id: todosState.length + 1,
-      title: inputTodo,
+      userId: (users.find(person => person.name === user)?.id) || 0,
+      id: Date.now(),
+      title: this.state.title,
       completed: false,
     };
 
     this.setState({
-      userNotif: (choiceOfWorker === 'Choose a user' || choiceOfWorker == null),
-      todoNotif: (inputTodo.length === 0),
-
-      choiceOfWorker: (inputTodo.length > 0 && choiceOfWorker !== 'Choose a user')
-        ? 'Choose a user'
-        : choiceOfWorker,
-
-      inputTodo: (inputTodo.length > 0 && choiceOfWorker !== 'Choose a user' && choiceOfWorker !== null)
-        ? ''
-        : inputTodo,
+      formSubmitted: true,
     });
 
-    if (choiceOfWorker !== 'Choose a user' && choiceOfWorker !== null && inputTodo.length > 0) {
+    if (user !== 'Choose a user' && user && title.length > 0) {
       this.setState({
+        formSubmitted: false,
+        user: null,
+        title: '',
         todosState: [
           ...todosState,
           todoBlank,
@@ -73,14 +59,19 @@ class App extends React.Component {
   };
 
   render() {
-    const { todosState } = this.state;
+    const {
+      todosState,
+      formSubmitted,
+      title,
+      user,
+    } = this.state;
 
     return (
       <div className="App">
 
         <div className="form">
 
-          {this.state.userNotif && (
+          {formSubmitted && !user && (
             <div
               className="notification"
             >
@@ -90,7 +81,7 @@ class App extends React.Component {
             </div>
           )}
 
-          {this.state.todoNotif && (
+          {formSubmitted && !title && (
             <div
               className="notification"
             >
@@ -103,34 +94,34 @@ class App extends React.Component {
           <form
             onSubmit={event => {
               event.preventDefault();
+              this.addTodo();
             }}
           >
             <div className="inpuField">
               <input
                 type="text"
-                name="inputTodo"
+                name="title"
                 className="input_todo"
                 placeholder="Add new todo"
-                value={this.state.inputTodo}
+                value={this.state.title}
                 onChange={this.onChange}
               />
 
               <select
                 className="input_choice"
-                name="choiceOfWorker"
-                value={!this.state.choiceOfWorker ? '' : this.state.choiceOfWorker}
+                name="user"
+                value={!this.state.user ? '' : this.state.user}
                 onChange={this.onChange}
               >
                 <option>
                   Choose a user
                 </option>
-                {users.map(user => <option key={user.id}>{user.name}</option>)}
+                {users.map(person => <option key={person.id}>{person.name}</option>)}
               </select>
 
               <button
-                className="bottom"
-                type="button"
-                onClick={this.addTodo}
+                className="button"
+                type="submit"
               >
                 Add
               </button>
