@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { TodoInfo } from '../TodoInfo';
-import './TodoList.scss';
 
 interface Props {
   todos: Todo[];
@@ -11,8 +10,8 @@ export const TodoList: React.FC<Props> = (props) => {
   const { todos } = props;
 
   return (
-    <table className="todo-table">
-      <thead className="todo-table__head">
+    <table className="table table-hover table-bordered text-center">
+      <thead>
         <tr>
           <th>Name</th>
           <th>Email</th>
@@ -24,8 +23,10 @@ export const TodoList: React.FC<Props> = (props) => {
         {todos.map(todo => (
           <tr
             className={
-              classNames('todo-table__body-row--undone',
-                { 'todo-table__body-row--done': todo.completed })
+              classNames({
+                'table-success': todo.completed,
+                'table-danger': !todo.completed,
+              })
             }
             key={todo.id}
           >

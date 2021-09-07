@@ -84,38 +84,53 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <div className="todos">
-          <h1>Add todo form</h1>
-          <form onSubmit={this.addNewTodo} className="todos__form form">
+        <div className="todos text-center">
+          <h1 className="mb-4">Add todo form</h1>
+          <form
+            onSubmit={this.addNewTodo}
+            className="row justify-content-center g-3 needs-validation"
+            noValidate
+          >
+            <h4>You can add a new task by filling in the form:</h4>
 
-            <label htmlFor="newTask">
-              Add new todo:
+            <div className="col-4">
               <input
-                className="form__input"
+                className="form-control"
                 type="text"
                 name="newTask"
                 id="newTask"
                 value={title}
                 onChange={this.addNewTask}
                 placeholder="Enter new task here"
+                required
               />
-            </label>
-            {isTitleEmpty
-              && <span className="form__alert">Please enter the title!</span>}
+              {isTitleEmpty
+                && <span className="alert">Please enter the title!</span>}
+            </div>
 
-            <select onChange={this.selectUser} value={this.state.userId}>
-              <option value={0}>Choose a user</option>
-              {users.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-            {isUserEmpty
-              && <span className="form__alert form__alert--select">Please choose a user!</span>}
-            <button type="submit" className="form__button">
-              Add
-            </button>
+            <div className="col-4">
+              <select
+                className="form-select"
+                onChange={this.selectUser}
+                value={this.state.userId}
+                required
+              >
+                <option value={0}>Choose a user</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+              {isUserEmpty
+                && <span className="alert">Please choose a user!</span>}
+            </div>
+
+            <div className="col-12 mb-4">
+              <button type="submit" className="btn btn-primary">
+                Add
+              </button>
+            </div>
 
           </form>
           <TodoList todos={todos} />
