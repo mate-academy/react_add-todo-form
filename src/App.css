@@ -1,3 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.form__label {
+  width: 70%;
+}
+
+.form__todo_input {
+  width: 300px;
+}
+
+.form__alert {
+  margin-bottom: 10px;
+  padding: 0;
+  color: red;
+  font-weight: bold;
 }

@@ -1,0 +1,48 @@
+.table {
+  width: 80vw;
+  margin: 0 auto;
+
+  &__top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin-bottom: 15px;
+    background-color: lightsalmon;
+    list-style: none;
+    display: grid;
+    grid-template-columns:repeat(3, 0.6fr) 1fr 0.6fr auto;
+    grid-template-rows: 70px;
+    justify-items: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  &__body {
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(3, 0.6fr) 1fr 0.6fr;
+    grid-template-rows: 70px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: lightyellow;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    transition:transform 0.3s;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &__item_done {
+    background-color: lightgreen;
+  }
+
+}
