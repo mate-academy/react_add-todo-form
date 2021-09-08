@@ -1,0 +1,31 @@
+.table {
+  border-collapse: collapse;
+  width: 85%;
+
+  &__head {
+    background-color: #0d4745;
+    color: aliceblue;
+    font-size: 28px;
+    font-family: sans-serif;
+    font-weight: lighter;
+  }
+
+  &__item {
+    &--done {
+      background-color: #bcceac;
+    }
+    &--undone {
+      background-color: #96a8a0;
+    }
+  }
+
+}
+
+th, td {
+  padding: 20px;
+  border: 1px solid #0d4745;
+  font-size: 26px;
+}
+tr {
+  color: #1a252b;
+}
