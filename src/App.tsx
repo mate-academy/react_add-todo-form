@@ -47,7 +47,7 @@ class App extends React.Component<{}, State> {
   addTodo = () => {
     const { id, userId, todoTitle } = this.state;
 
-    if (todoTitle.length !== 0) {
+    if (todoTitle.trim().length !== 0) {
       this.setState({ isTodoInclude: false });
     } else {
       this.setState({ isTodoInclude: true });
