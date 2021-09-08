@@ -4,8 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
 
 import users from './api/users';
+import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
+
+const preparedTodos: Todo[] = todos.map(todo => {
+  const user = users.find(person => person.id === todo.userId) || null;
+
+  return { user, ...todo };
+});
 
 type State = {
   id: number;
@@ -20,7 +27,7 @@ class App extends React.Component<{}, State> {
   state: State = {
     id: 1,
     todoTitle: '',
-    currentTodos: [],
+    currentTodos: preparedTodos,
     userId: '0',
     isUserChoosed: false,
     isTodoInclude: false,
