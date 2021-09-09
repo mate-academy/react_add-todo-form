@@ -4,7 +4,7 @@ type State = {
   title: string;
   taskId: number,
   userId: number;
-  preparedTasks: Pick<Task>[];
+  tasks: Pick<Task>[];
   noTitleError: string | null;
   nonValidTitle: string | null;
   noUserError: string | null;

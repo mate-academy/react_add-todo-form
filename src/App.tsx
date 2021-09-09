@@ -9,18 +9,17 @@ import users from './api/users';
 import todos from './api/todos';
 
 const RegEx = /^[a-zA-Za-åa-ö-w-я 0-9 ]+$/g;
-const tasks = [...todos];
+const preparedTasks = todos.map(task => ({
+  ...task,
+  user: users.find(person => person.id === task.userId) || null,
+}));
 
 class App extends React.Component<{}, State> {
-  state = {
+  state: State = {
     title: '',
-    taskId: tasks[tasks.length - 1].id + 1,
+    taskId: preparedTasks[preparedTasks.length - 1].id + 1,
     userId: 0,
-    preparedTasks: tasks
-      .map(task => ({
-        ...task,
-        user: users.find(person => person.id === task.userId) || null,
-      })),
+    tasks: preparedTasks,
     noTitleError: '',
     nonValidTitle: '',
     noUserError: '',
@@ -63,20 +62,17 @@ class App extends React.Component<{}, State> {
     const isValid = this.validate();
 
     if (isValid) {
-      tasks.push({
+      const newTask = {
         userId: this.state.userId,
         id: this.state.taskId,
         title: this.state.title,
         completed: false,
-      });
+        user: users.find(person => person.id === this.state.userId) || null,
+      };
 
       this.setState((state) => ({
         taskId: state.taskId + 1,
-        preparedTasks: tasks
-          .map(task => ({
-            ...task,
-            user: users.find(person => person.id === task.userId) || null,
-          })),
+        tasks: [...state.tasks, newTask],
       }));
 
       this.resetState();
@@ -87,7 +83,7 @@ class App extends React.Component<{}, State> {
     const {
       title,
       userId,
-      preparedTasks,
+      tasks,
       noTitleError,
       nonValidTitle,
       noUserError,
@@ -167,7 +163,7 @@ class App extends React.Component<{}, State> {
             Add
           </button>
         </form>
-        <TodoList tasks={preparedTasks} />
+        <TodoList tasks={tasks} />
       </div>
     );
   }
