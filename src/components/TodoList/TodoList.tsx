@@ -19,7 +19,7 @@ export const TodoList: React.FC<Props> = ({ todoList }) => {
           })}
           key={todo.id}
         >
-          <TodoInfo todoData={todo}/>
+          <TodoInfo todoData={todo} />
         </li>
       ))}
     </ul>

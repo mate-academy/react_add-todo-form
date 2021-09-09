@@ -6,6 +6,12 @@ import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 
 const addedTodos = [...todos];
+const preparedTodos = addedTodos.map(todo => {
+  return {
+    ...todo,
+    user: users.find(user => todo.userId === user.id) || null,
+  };
+});
 
 type State = {
   title: string;
@@ -15,7 +21,6 @@ type State = {
     name: string;
     user: string;
   }
-  preparedTodos: PreparedTodo[] | [];
 };
 
 class App extends React.Component<{}, State> {
@@ -27,22 +32,6 @@ class App extends React.Component<{}, State> {
       name: '',
       user: '',
     },
-    preparedTodos: [],
-  };
-
-  componentDidMount() {
-    this.prepareTodos();
-  }
-
-  prepareTodos = () => {
-    this.setState({
-      preparedTodos: addedTodos.map(todo => {
-        return {
-          ...todo,
-          user: users.find(user => todo.userId === user.id) || null,
-        };
-      }),
-    });
   };
 
   addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,20 +70,17 @@ class App extends React.Component<{}, State> {
     const newTodo = {
       title,
       id,
-      userId,
+      user: users.find(user => userId === user.id) || null,
       completed: false,
     };
 
-    if (newTodo.title && newTodo.userId) {
-      addedTodos.push(newTodo as Todo);
+    if (newTodo.title && newTodo.user) {
+      preparedTodos.push(newTodo as PreparedTodo);
       this.clearState();
-      this.prepareTodos();
     }
   };
 
   render() {
-    const { preparedTodos } = this.state;
-
     return (
       <div className="App">
         <div className="add">
