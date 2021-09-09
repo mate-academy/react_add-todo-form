@@ -1,0 +1,9 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__card-todo {
+    width: 300px;
+    margin-right: 20px;
+  }
+}
