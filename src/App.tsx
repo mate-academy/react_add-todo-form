@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
+import { TodoList } from './components/TodoList/TodoList';
 
 const addedTodos = [...todos];
 
@@ -10,6 +11,11 @@ type State = {
   title: string;
   userId: number | '';
   id: number;
+  errors: {
+    name: string;
+    user: string;
+  }
+  preparedTodos: PreparedTodo[] | [];
 };
 
 class App extends React.Component<{}, State> {
@@ -17,6 +23,42 @@ class App extends React.Component<{}, State> {
     title: '',
     userId: '',
     id: addedTodos.length + 1,
+    errors: {
+      name: '',
+      user: '',
+    },
+    preparedTodos: [],
+  };
+
+  componentDidMount() {
+    this.prepareTodos();
+  }
+
+  prepareTodos = () => {
+    this.setState({
+      preparedTodos: addedTodos.map(todo => {
+        return {
+          ...todo,
+          user: users.find(user => todo.userId === user.id) || null,
+        };
+      }),
+    });
+  };
+
+  addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ title: event.target.value });
+  };
+
+  validation = () => {
+    if (!this.state.title) {
+      this.setState({ errors: { name: 'Please enter the title', user: '' } });
+
+      return;
+    }
+
+    if (!this.state.userId) {
+      this.setState({ errors: { name: '', user: 'Please choose a user' } });
+    }
   };
 
   clearState = () => {
@@ -25,6 +67,10 @@ class App extends React.Component<{}, State> {
         title: '',
         userId: '',
         id: currentState.id + 1,
+        errors: {
+          name: '',
+          user: '',
+        },
       };
     });
   };
@@ -39,65 +85,77 @@ class App extends React.Component<{}, State> {
       completed: false,
     };
 
-    addedTodos.push(newTodo as Todo);
-    this.clearState();
-  };
-
-  addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ title: event.target.value });
+    if (newTodo.title && newTodo.userId) {
+      addedTodos.push(newTodo as Todo);
+      this.clearState();
+      this.prepareTodos();
+    }
   };
 
   render() {
+    const { preparedTodos } = this.state;
+
     return (
       <div className="App">
-        <h1>Add todo</h1>
+        <div className="add">
+          <h1>Add todo</h1>
 
-        <form onSubmit={this.saveTodo}>
+          <form onSubmit={this.saveTodo}>
 
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={this.state.title}
-            pattern="[A-Za-zа-яА-ЯЁё0-9]+"
-            onChange={this.addTitle}
-            required
-          />
-          <br />
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={this.state.title}
+              pattern="[A-Za-zа-яА-ЯЁё0-9 ]+"
+              onChange={this.addTitle}
+              className="form-control"
+            />
+            <br />
+            {this.state.errors.name && <p className="error">{this.state.errors.name}</p>}
+            <br />
 
-          <select
-            name="user"
-            value={this.state.userId}
-            onChange={(event) => {
-              this.setState({ userId: +event.target.value });
-            }}
-            required
-          >
-            <option
-              value=""
-              disabled
+            <select
+              className="form-select"
+              name="user"
+              value={this.state.userId}
+              onChange={(event) => {
+                this.setState({ userId: +event.target.value });
+              }}
             >
-              Choose a user
-            </option>
-            {
-              users.map(user => (
-                <option
-                  value={user.id}
-                  key={user.id}
-                >
-                  {user.name}
-                </option>
-              ))
-            }
+              <option
+                value=""
+                disabled
+              >
+                Choose a user
+              </option>
+              {
+                users.map(user => (
+                  <option
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))
+              }
 
-          </select>
-          <br />
+            </select>
+            <br />
 
-          <button type="submit">
-            Add
-          </button>
+            {this.state.errors.user && <p className="error">{this.state.errors.user}</p>}
 
-        </form>
+            <button
+              type="submit"
+              onClick={this.validation}
+              className="btn btn-primary"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+
+        <TodoList todoList={preparedTodos} />
       </div>
     );
   }
