@@ -1,0 +1,9 @@
+.UserInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: max-content;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: rgb(129, 229, 247);
+}

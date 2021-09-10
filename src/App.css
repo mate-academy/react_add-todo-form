@@ -1,3 +1,39 @@
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
+}
+
+.input-field {
+  height: 24px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 60px;
+  align-items: center;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+}
+
+.alert {
+  padding: 6px;
+  border-radius: 3px;
+  background-color: rgb(228, 135, 135);
 }
