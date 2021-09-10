@@ -48,18 +48,11 @@ export class TodoForm extends React.Component<Props, State> {
     const { id, userId, todoTitle } = this.state;
     const { users } = this.props;
 
-    if (todoTitle.trim().length !== 0) {
-      this.setState({ isTodoInclude: false });
-    } else {
-      this.setState({ isTodoInclude: true });
-
-      return;
-    }
-
-    if (+userId !== 0) {
-      this.setState({ isUserChoosed: false });
-    } else {
-      this.setState({ isUserChoosed: true });
+    if (+userId === 0 || todoTitle.trim().length === 0) {
+      this.setState(state => ({
+        isUserChoosed: !+state.userId,
+        isTodoInclude: !+state.todoTitle.trim().length,
+      }));
 
       return;
     }
