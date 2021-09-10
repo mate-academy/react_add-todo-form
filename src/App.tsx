@@ -50,7 +50,7 @@ class App extends React.Component<{}, State> {
 
     if (name === 'rememberUser') {
       this.setState(prevState => ({
-        rememberUser: !prevState.rememberUser,
+        rememberUser: !!prevState.rememberUser,
       }));
     }
 
