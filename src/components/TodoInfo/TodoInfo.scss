@@ -1,0 +1,15 @@
+.todo__li {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+  background-color: #BC8F8F;
+  border-radius: 20px;
+  transition: 0.5s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

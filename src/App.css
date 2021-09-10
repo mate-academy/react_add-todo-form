@@ -1,3 +1,18 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.select {
+  width: 200px;
+}
+
+.button {
+  width: 50px;
+  border-radius: 10px;
+}
