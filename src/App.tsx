@@ -17,7 +17,7 @@ const preparedUsers: User[] = usersFromServer.map(person => ({
 interface State {
   todos: Todo[];
   users: User[];
-  userId: string;
+  userId: number;
   todoTitle: string;
   rememberUser: boolean;
   doesHaveTitle: boolean,
@@ -29,7 +29,7 @@ class App extends React.Component<{}, State> {
   state: State = {
     todos: preparedTodos,
     users: preparedUsers,
-    userId: '0',
+    userId: 0,
     todoTitle: '',
     rememberUser: false,
     doesHaveTitle: true,
@@ -41,15 +41,18 @@ class App extends React.Component<{}, State> {
     const {
       value,
       name,
-      type,
     } = event.target;
 
     this.setState(prevState => ({
       ...prevState,
-      [name]: type === 'checkbox'
-        ? !prevState.rememberUser
-        : value,
+      [name]: name === 'userId' ? Number(value) : value,
     }));
+
+    if (name === 'rememberUser') {
+      this.setState(prevState => ({
+        rememberUser: !prevState.rememberUser,
+      }));
+    }
 
     if (name === 'todoTitle') {
       this.setState(prevState => ({
@@ -71,10 +74,10 @@ class App extends React.Component<{}, State> {
       rememberUser,
     } = this.state;
 
-    if (!todoTitle || userId === '0') {
+    if (!todoTitle || !userId) {
       this.setState({
         doesHaveTitle: !!todoTitle,
-        doesHaveUser: Boolean(Number(userId)),
+        doesHaveUser: !!userId,
       });
 
       return;
@@ -83,7 +86,7 @@ class App extends React.Component<{}, State> {
     const todoToAdd = this.createNewTodo(userId, todoTitle);
 
     this.setState(prevState => ({
-      userId: rememberUser ? prevState.userId : '0',
+      userId: rememberUser ? prevState.userId : 0,
       todoTitle: '',
       doesHaveTitle: true,
       doesHaveUser: true,
@@ -95,16 +98,15 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  createNewTodo = (userId: string, title: string): Todo => {
-    const normalizedUserId = Number(userId);
+  createNewTodo = (userId: number, title: string): Todo => {
     const { maxTodoId, users } = this.state;
 
     return {
-      userId: normalizedUserId,
+      userId,
       id: maxTodoId + 1,
       title,
       completed: false,
-      user: users.find(user => user.id === normalizedUserId) || null,
+      user: users.find(user => user.id === userId) || null,
     };
   };
 
