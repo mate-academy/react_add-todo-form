@@ -14,6 +14,8 @@ export const TodoList: React.FC<Props> = (props) => {
       {todos.map((todo: Todo) => (
         <>
           <div className="row Todo" key={todo.userId}>
+            ID:
+            <div className="col Todo__id">{todo.id && todo.id}</div>
             Todo:
             <div className="col Todo__title">{todo.title}</div>
             User:

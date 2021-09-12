@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import { TodoList } from './components/TodosList';
+import { AddTodoForm } from './components/AddTodoForm';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -30,12 +31,14 @@ class App extends React.Component {
   handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       selectedUser: event.target.value,
+      userError: false,
     });
   };
 
   handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       newTodo: event.target.value,
+      titleError: false,
     });
   };
 
@@ -43,16 +46,18 @@ class App extends React.Component {
     event.preventDefault();
 
     if (this.state.newTodo === '') {
-      this.state.titleError = true;
-      this.forceUpdate();
+      this.setState({
+        titleError: true,
+      });
 
       return;
     }
 
     if (this.state.selectedUser === '0') {
-      this.state.titleError = false;
-      this.state.userError = true;
-      this.forceUpdate();
+      this.setState({
+        titleError: false,
+        userError: true,
+      });
 
       return;
     }
@@ -88,42 +93,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form className="row gx-3 gy-2 align-items-center" onSubmit={this.addTodo}>
-          <div className="col-auto">
-            <input
-              className="form-control"
-              placeholder="Enter a title"
-              type="text"
-              name="todoInput"
-              value={newTodo}
-              onChange={this.handleChangeInput}
-              pattern="^[A-Za-zА-Яа-яЁё0-9\s]+$"
-            />
-          </div>
-          <div className="col-auto">
-            <select
-              className="form-select"
-              value={selectedUser}
-              onChange={this.handleChangeSelect}
-            >
-              <option value="">
-                Choose a user
-              </option>
-              {usersFromServer.map((user) => (
-                <option key={user.id} value={user.name}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="Error">
-            {titleError && <div className="Error__message">Please enter the title</div>}
-            {userError && <div className="Error__message">Please chose a user</div>}
-          </div>
-          <div className="col-auto">
-            <button className="btn btn-primary btn-lg" type="submit">Add</button>
-          </div>
-        </form>
+        <AddTodoForm
+          addTodo={this.addTodo}
+          handleChangeSelect={this.handleChangeSelect}
+          handleChangeInput={this.handleChangeInput}
+          newTodo={newTodo}
+          selectedUser={selectedUser}
+          titleError={titleError}
+          userError={userError}
+          usersFromServer={usersFromServer}
+        />
         <div className="Todolist">
           <TodoList todos={todos} />
         </div>
