@@ -1,0 +1,40 @@
+.table {
+  width: 100%;
+
+  border: 3px solid #000;
+  text-align: center;
+  border-collapse: collapse;
+
+  &__head {
+    background-color: rgb(179, 173, 173);
+  }
+
+  &__body {
+    &-completed--done {
+      & :last-child {
+        background-color: rgb(153, 221, 151);
+      }
+    }
+  
+    &-completed--undone {
+      & :last-child {
+        background-color: rgb(216, 142, 133);
+      }
+    }
+
+    &-row:hover {
+      background-color: rgb(223, 217, 217);
+    }
+  }
+}
+
+td {
+  padding: 14px;
+  border: 1px solid rgb(22, 21, 21);
+}
+
+th {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid rgb(22, 21, 21);
+}
