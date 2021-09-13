@@ -4,6 +4,7 @@ import './App.css';
 import users from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './Components/Todo/TodoList';
+import { AddNewTodo } from './Components/Form/AddNewTodo';
 
 const preparedTodos = todosFromServer.map(todo => {
   const user = users.find(({ id }) => id === todo.userId)
@@ -35,11 +36,12 @@ class App extends React.Component<{}, State> {
         <div className="App">
           <h1>Add todo form</h1>
         </div>
-        <TodoList
+        <AddNewTodo
           addTodo={this.addNewTask}
-          tasks={todos}
           users={users}
+          tasks={todos}
         />
+        <TodoList tasks={todos} />
       </>
     );
   }
