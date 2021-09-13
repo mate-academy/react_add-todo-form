@@ -11,8 +11,7 @@ const prepearedTodo = todosFromServer.map(todo => ({
   ...todo,
   id: uuid(),
   user: usersFromServer.find(user => user.id === todo.userId),
-}
-));
+}));
 
 interface State {
   todos: Todo[];
@@ -88,9 +87,6 @@ class App extends React.Component {
       titleError,
       userError,
     } = this.state;
-
-    /* eslint-disable-next-line  */
-    console.log(todos);
 
     return (
       <div className="App">
