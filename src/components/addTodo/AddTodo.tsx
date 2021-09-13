@@ -110,7 +110,7 @@ export class AddTodo extends React.Component<Props, State> {
             value={userId}
             onChange={this.handleSelectChange}
           >
-            <option value="" selected>
+            <option value="">
               Choose name
             </option>
             {users.map(user => (

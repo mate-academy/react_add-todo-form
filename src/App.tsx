@@ -35,9 +35,7 @@ class App extends React.Component<{}, State> {
           users={users}
           todos={this.state.todos}
         />
-        <p>
-          <TodoList todos={this.state.todos} />
-        </p>
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
