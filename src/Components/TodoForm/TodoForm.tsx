@@ -1,4 +1,5 @@
 import React from 'react';
+import { uuid } from 'uuidv4';
 import { Todo } from '../../react-app-env';
 
 import users from '../../api/users';
@@ -64,6 +65,7 @@ export class TodoForm extends React.Component<Props, State> {
 
     if (inputTitle && selectedName) {
       const newTodo = {
+        id: uuid(),
         title: inputTitle,
         user: users.find(user => user.name === selectedName),
       } as Todo;
@@ -110,10 +112,7 @@ export class TodoForm extends React.Component<Props, State> {
               Choose a user
             </option>
             {users.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
+              <option key={user.id} value={user.name}>
                 {user.name}
               </option>
             ))}

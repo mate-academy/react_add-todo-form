@@ -2,7 +2,7 @@
 
 interface Todo {
   userId: number;
-  id: string;
+  id: number | string;
   title: string;
   completed: boolean;
   user: User;
