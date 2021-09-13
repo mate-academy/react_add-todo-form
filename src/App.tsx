@@ -1,4 +1,5 @@
 import React from 'react';
+import { uuid } from 'uuidv4';
 import './App.scss';
 
 import users from './api/users';
@@ -6,18 +7,18 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { NewTodo } from './components/NewTodo';
 
-const preparedTodos: Todo[] = todosFromServer.map(todo => {
-  const user = users.find(person => person.id === todo.userId) || null;
-
-  return { user, ...todo };
-});
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  id: uuid(),
+  user: users.find(person => person.id === todo.userId) || null,
+}));
 
 interface State {
   todos: Todo[];
 }
 
 class App extends React.Component<{}, State> {
-  state = {
+  state: State = {
     todos: preparedTodos,
   };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { uuid } from 'uuidv4';
 
 interface Props {
   onAdd: (todo: Todo) => void;
@@ -40,7 +41,7 @@ export class NewTodo extends React.Component<Props, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { userId, title } = this.state;
-    const { users, todos, onAdd } = this.props;
+    const { users, onAdd } = this.props;
 
     if (!userId || !title.trim()) {
       this.setState(prevState => ({
@@ -55,7 +56,7 @@ export class NewTodo extends React.Component<Props, State> {
       const newTodo = {
         user: users.find(user => user.id === userId) || null,
         userId,
-        id: todos.length + 1,
+        id: uuid(),
         title,
         completed: prevState.completed,
       };
@@ -98,8 +99,9 @@ export class NewTodo extends React.Component<Props, State> {
             placeholder="Enter new task here"
             required
           />
-          {isTitleEmpty
-            && <span className="alert">Please enter the title!</span>}
+          {isTitleEmpty && (
+            <span className="alert">Please enter the title!</span>
+          )}
         </div>
 
         <div className="col-4">
