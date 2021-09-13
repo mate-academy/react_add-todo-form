@@ -2,10 +2,10 @@
 
 interface Todo  {
   userId: number;
-  id: V4Options | number;
+  id: uuid | number;
   title: string;
   completed: boolean;
-  user?: User | undefined;
+  user: User;
 };
 
 type User =  {

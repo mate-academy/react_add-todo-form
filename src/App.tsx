@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { v4 as uuidv4 } from 'uuid';
+import { uuid } from 'uuidv4';
 import { TodoList } from './components/TodosList';
 import { AddTodoForm } from './components/AddTodoForm';
 
@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 
 const prepearedTodo = todosFromServer.map(todo => ({
   ...todo,
-  id: uuidv4(),
+  id: uuid(),
   user: usersFromServer.find(user => user.id === todo.userId),
 }
 ));
@@ -73,7 +73,7 @@ class App extends React.Component {
         ...prevState.todos,
         {
           title: prevState.newTodo,
-          id: uuidv4(),
+          id: uuid(),
           user: usersFromServer.find((user) => user.name === prevState.selectedUser),
         },
       ],
