@@ -1,3 +1,31 @@
-.App {
+html {
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
   text-align: center;
+}
+
+.app__todo-list {
+  margin: 0 auto;
+  width: 400px;
+}
+
+.form-control {
+  display: inline-block;
+  width: 200px;
+}
+
+.input {
+  margin: 0 auto;
+}
+
+.errors {
+  display: inline;
+  color: rgb(186, 100, 100);
 }
