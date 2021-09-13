@@ -1,0 +1,37 @@
+.users {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0 auto;
+
+  &__info {
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 30px 0;
+      list-style: none;
+      background-color: #a9a9a9;
+      border-radius: 20px;
+    }
+
+    &-item {
+      font-family: sans-serif;
+      color: #fff;
+    }
+  }
+
+  &__table {
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 50px 0;
+      list-style: none;
+      background-color: #fff8dc;
+      border-radius: 20px;
+    }
+
+    &-item {
+      font-family: sans-serif;
+    }
+  }
+}
