@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import classNames from 'classnames';
 
 interface Props {
   todos: Todo[];
@@ -27,17 +25,9 @@ export class TodoList extends React.Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
-    if (name === 'title') {
-      this.setState({
-        [name]: value,
-      });
-    }
-
-    if (name === 'name') {
-      this.setState({
-        [name]: value,
-      });
-    }
+    this.setState({
+      [name]: value,
+    } as Pick<State, 'title' | 'name'>);
   };
 
   clearState = () => {
@@ -53,9 +43,7 @@ export class TodoList extends React.Component<Props, State> {
     event.preventDefault();
 
     const { users, todos } = this.props;
-    const {
-      name, title,
-    } = this.state;
+    const { name, title } = this.state;
 
     if (!title) {
       this.setState({ isTitle: true });
@@ -65,7 +53,7 @@ export class TodoList extends React.Component<Props, State> {
       this.setState({ isName: true });
     }
 
-    const maxID = Math.max.apply(null, todos.map(item => item.id));
+    const maxID = Math.max.apply(null, todos.map(item => item.id)) + 1;
     const relevantUser = users.find(user => user.name === name) || null;
     const relevantUserID = relevantUser ? relevantUser.id : null;
 
