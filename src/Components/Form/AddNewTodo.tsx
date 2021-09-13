@@ -64,13 +64,26 @@ export class AddNewTodo extends React.Component<Props, State> {
 
     const newTodo = {
       userId,
-      id: this.props.tasks.length + 1,
+      id: this.getMaxId(),
       title,
       user: this.props.users.find(user => user.id === this.state.userId),
     };
 
     this.props.addTodo(newTodo);
     this.resetForm();
+  };
+
+  getMaxId = () => {
+    const { tasks } = this.props;
+    let max = tasks[0].id;
+
+    tasks.forEach((todo) => {
+      if (todo.id > max) {
+        max = todo.id;
+      }
+    });
+
+    return max + 1;
   };
 
   render() {
