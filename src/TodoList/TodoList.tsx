@@ -30,14 +30,12 @@ export class TodoList extends React.Component<Props, State> {
     if (name === 'title') {
       this.setState({
         [name]: value,
-        isTitle: true,
       });
     }
 
     if (name === 'name') {
       this.setState({
         [name]: value,
-        isName: true,
       });
     }
   };
@@ -59,12 +57,11 @@ export class TodoList extends React.Component<Props, State> {
       name, title,
     } = this.state;
 
-    if (title !== '') {
-      console.log('123');
+    if (!title) {
       this.setState({ isTitle: true });
     }
 
-    if (name !== '') {
+    if (!name) {
       this.setState({ isName: true });
     }
 
@@ -72,20 +69,18 @@ export class TodoList extends React.Component<Props, State> {
     const relevantUser = users.find(user => user.name === name) || null;
     const relevantUserID = relevantUser ? relevantUser.id : null;
 
-    if (!title || !name) {
-      return;
+    if (title && name) {
+      const todo = {
+        title,
+        id: maxID,
+        userId: relevantUserID,
+        completed: false,
+        user: relevantUser,
+      };
+
+      this.props.addTodo(todo);
+      this.clearState();
     }
-
-    const todo = {
-      title,
-      id: maxID,
-      userId: relevantUserID,
-      completed: false,
-      user: relevantUser,
-    };
-
-    this.props.addTodo(todo);
-    this.clearState();
   };
 
   render() {
@@ -93,9 +88,6 @@ export class TodoList extends React.Component<Props, State> {
     const {
       title, name, isName, isTitle,
     } = this.state;
-
-    const classNameForTitle = isTitle ? 'd-none' : 'd-block';
-    const classNameForName = isName ? 'd-none' : 'd-block';
 
     return (
       <div>
@@ -114,7 +106,7 @@ export class TodoList extends React.Component<Props, State> {
             className="w-50 mb-2 py-2 border rounded"
           />
           {isTitle && (
-            <p className={classNameForTitle}>*Please enter the title</p>
+            <p>*Please enter the title</p>
           )}
 
           <select
@@ -136,7 +128,7 @@ export class TodoList extends React.Component<Props, State> {
             ))}
           </select>
           {isName && (
-            <p className={classNameForName}>*Choose a user</p>
+            <p>*Choose a user</p>
           )}
 
           <button
