@@ -19,15 +19,7 @@ export class TodoList extends React.Component<Props, State> {
     name: '',
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value,
-    } as Pick<State, keyof State>);
-  };
-
-  handleChangeForSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
     this.setState({
@@ -36,7 +28,7 @@ export class TodoList extends React.Component<Props, State> {
   };
 
   clearState = () => {
-    this.setState({ title: '' });
+    this.setState({ title: '', name: '' });
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -86,10 +78,10 @@ export class TodoList extends React.Component<Props, State> {
             required
             name="name"
             value={name}
-            onChange={this.handleChangeForSelect}
+            onChange={this.handleChange}
             className="w-50 mb-2 py-2 border rounded"
           >
-            <option value="">
+            <option value="" disabled>
               Choose a user
             </option>
             {users.map(user => (
