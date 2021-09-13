@@ -1,0 +1,13 @@
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+
+  &__user {
+    list-style-type: none;
+    color: #fff;
+    margin-right: 20px;
+    padding: 20px;
+    background-color:palevioletred;
+    border-radius: 10px;
+  }
+}
