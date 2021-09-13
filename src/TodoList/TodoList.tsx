@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -42,18 +43,18 @@ export class TodoList extends React.Component<Props, State> {
     event.preventDefault();
 
     const { users, todos } = this.props;
-    const { name } = this.state;
+    const { name, title } = this.state;
 
     const maxID = Math.max.apply(null, todos.map(item => item.id));
-    const relevantUser = users.find(user => user.id === maxID) || null;
+    const relevantUser = users.find(user => user.name === name) || null;
     const relevantUserID = relevantUser ? relevantUser.id : null;
 
     const todo = {
-      title: this.state.title,
+      title,
       id: maxID,
       userId: relevantUserID,
       completed: false,
-      user: users.find(user => user.name === name) || null,
+      user: relevantUser,
     };
 
     this.props.addTodo(todo);
