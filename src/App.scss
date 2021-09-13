@@ -1,7 +1,6 @@
 %placeholder {
   top: 110%;
   position: absolute;
-  content: 'Please choose a user';
   display: block;
   color: red;
   padding: 5px 20px;
@@ -9,8 +8,7 @@
   border-radius: 5px;  
 }
 
-.App {
-  height: 100vh;
+body {
   background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(233,190,96,1) 100%);
 }
 .todo {
@@ -18,6 +16,7 @@
     position: relative;
 
     &.invalid::after {
+      content: 'Please choose a user';
       @extend %placeholder;
     }
   }
@@ -26,6 +25,7 @@
     position: relative;
 
     &.invalid::after {
+      content: 'Please enter the title';
       @extend %placeholder;
     }
   }
