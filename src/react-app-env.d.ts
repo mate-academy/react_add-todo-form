@@ -1,16 +1,8 @@
 /// <reference types="react-scripts" />
 
-export type AppState = {
-  inputTitle: string,
-  selectedName: string,
-  userTodos: Todo[],
-  isTitle: boolean,
-  isName: boolean,
-};
-
-export interface Todo {
+interface Todo {
   userId: number;
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
   user: User;

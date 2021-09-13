@@ -22,6 +22,22 @@ export class TodoForm extends React.Component<Props, State> {
     isName: false,
   };
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+
+    if (name === 'inputTitle') {
+      this.setState({
+        [name]: value,
+      });
+    }
+
+    if (name === 'selectedName') {
+      this.setState({
+        [name]: value,
+      });
+    }
+  };
+
   submitTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {
@@ -66,9 +82,7 @@ export class TodoForm extends React.Component<Props, State> {
             pattern="[A-Za-zа-яА-ЯЁё0-9]+"
             required
             value={this.state.inputTitle}
-            onChange={(event) => (
-              this.setState({ inputTitle: event.target.value })
-            )}
+            onChange={this.handleChange}
           />
           {this.state.isTitle && <p className="alert alert-danger">Please enter the title</p>}
         </label>
@@ -80,9 +94,7 @@ export class TodoForm extends React.Component<Props, State> {
             id="users"
             required
             value={this.state.selectedName}
-            onChange={(event) => {
-              this.setState({ selectedName: event.target.value });
-            }}
+            onChange={this.handleChange}
           >
             <option value="" disabled>
               Choose a user

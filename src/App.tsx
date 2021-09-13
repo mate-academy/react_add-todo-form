@@ -1,4 +1,5 @@
 import React from 'react';
+import { uuid } from 'uuidv4';
 import { TodoForm } from './Components/TodoForm';
 import { TodoTable } from './Components/TodoTable';
 import { Todo } from './react-app-env';
@@ -9,6 +10,7 @@ import users from './api/users';
 
 const preparedTodos = [...todos].map(todo => ({
   ...todo,
+  id: uuid(),
   user: users.find(user => user.id === todo.userId),
 })) as Todo[];
 
@@ -24,7 +26,7 @@ export class App extends React.Component<{}, AppState> {
   addTodo = (todo: Todo) => {
     const newTodo = {
       ...todo,
-      id: this.state.userTodos.length + 1,
+      id: uuid(),
     };
 
     this.setState((currentState) => ({

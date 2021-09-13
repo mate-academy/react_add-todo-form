@@ -3,7 +3,9 @@
 }
 
 ul,
-li {
+li,
+p,
+label {
   margin: 0;
   padding: 0;
 }
@@ -35,6 +37,15 @@ body {
   left: -10px;
   position: absolute;
   color: red;
+}
+
+.alert {
+  margin: 0;
+  padding: 0;
+}
+
+.alert-danger {
+  height: 25px;
 }
 
 .table {
