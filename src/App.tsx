@@ -31,12 +31,19 @@ class App extends React.Component<{}, State> {
   render() {
     const { currentTodos } = this.state;
 
+    // eslint-disable-next-line no-console
+    console.log(currentTodos);
+
     return (
       <div className="App">
         <h1>
           List of todos
         </h1>
-        <TodoForm users={users} setNewTodo={this.setNewTodo} />
+        <TodoForm
+          users={users}
+          setNewTodo={this.setNewTodo}
+          length={currentTodos.length}
+        />
         <TodoList todos={currentTodos} />
       </div>
     );

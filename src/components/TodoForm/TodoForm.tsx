@@ -7,7 +7,7 @@ import { User } from '../../types/User';
 type State = {
   id: number;
   todoTitle: string;
-  userId: string;
+  userId: number;
   isUserChoosed: boolean;
   isTodoInclude: boolean;
 };
@@ -15,13 +15,14 @@ type State = {
 type Props = {
   users: User[];
   setNewTodo: (todo: Todo) => void;
+  length: number;
 };
 
 export class TodoForm extends React.Component<Props, State> {
   state: State = {
-    id: 1,
+    id: this.props.length + 1,
     todoTitle: '',
-    userId: '0',
+    userId: 0,
     isUserChoosed: false,
     isTodoInclude: false,
   };
@@ -30,7 +31,7 @@ export class TodoForm extends React.Component<Props, State> {
     const { value } = event.target;
 
     this.setState({
-      userId: value,
+      userId: +value,
       isUserChoosed: false,
     });
   };
@@ -48,18 +49,18 @@ export class TodoForm extends React.Component<Props, State> {
     const { id, userId, todoTitle } = this.state;
     const { users } = this.props;
 
-    if (+userId === 0 || todoTitle.trim().length === 0) {
+    if (userId === 0 || todoTitle.trim().length === 0) {
       this.setState(state => ({
-        isUserChoosed: !+state.userId,
-        isTodoInclude: !+state.todoTitle.trim().length,
+        isUserChoosed: !state.userId,
+        isTodoInclude: !state.todoTitle.trim().length,
       }));
 
       return;
     }
 
     const todo: Todo = {
-      user: users.find(user => user.id === +userId) || null,
-      userId: +userId,
+      user: users.find(user => user.id === userId) || null,
+      userId,
       id,
       title: todoTitle.toLocaleUpperCase(),
       completed: false,
@@ -71,7 +72,7 @@ export class TodoForm extends React.Component<Props, State> {
       {
         id: state.id + 1,
         todoTitle: '',
-        userId: '',
+        userId: 0,
         isUserChoosed: false,
         isTodoInclude: false,
       }
