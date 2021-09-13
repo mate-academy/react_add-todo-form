@@ -1,0 +1,19 @@
+.App {
+  padding: 30px;
+}
+
+.hide {
+  display: none;
+}
+
+.Error {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 5px;
+
+  &__message {
+    background: #f2f2f2;
+    color: #ff0000;
+  }
+}
