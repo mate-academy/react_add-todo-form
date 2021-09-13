@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import { v4 as uuidv4 } from 'uuid';
 import { TodoList } from './components/TodosList';
 import { AddTodoForm } from './components/AddTodoForm';
 
@@ -8,6 +9,7 @@ import todosFromServer from './api/todos';
 
 const prepearedTodo = todosFromServer.map(todo => ({
   ...todo,
+  id: uuidv4(),
   user: usersFromServer.find(user => user.id === todo.userId),
 }
 ));
@@ -42,7 +44,7 @@ class App extends React.Component {
     });
   };
 
-  addTodo = (event: React.SyntheticEvent) => {
+  addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (this.state.newTodo === '') {
@@ -71,7 +73,7 @@ class App extends React.Component {
         ...prevState.todos,
         {
           title: prevState.newTodo,
-          id: prevState.todos[prevState.todos.length - 1].id + 1,
+          id: uuidv4(),
           user: usersFromServer.find((user) => user.name === prevState.selectedUser),
         },
       ],
