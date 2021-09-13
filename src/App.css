@@ -1,3 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+ul,
+li,
+p,
+label {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+
+  background: rgb(228, 228, 228);
+}
+
 .App {
   text-align: center;
+}
+
+.App__form {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.App__label {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.App__label::before {
+  content: " *";
+  left: -10px;
+  position: absolute;
+  color: red;
+}
+
+.alert {
+  margin: 0;
+  padding: 0;
+}
+
+.alert-danger {
+  height: 25px;
+}
+
+.table {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.btn {
+  height: 36px;
+}
+
+.btn-secondary {
+  width: 200px;
 }
