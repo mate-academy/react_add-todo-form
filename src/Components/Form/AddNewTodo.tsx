@@ -81,12 +81,11 @@ export class AddNewTodo extends React.Component<Props, State> {
       isTitleEmpty,
       isSelectUser,
     } = this.state;
-    const { getValueFromForm, handleChange, handleSelectChange } = this;
 
     return (
       <div className="container d-flex flex-column">
         <div className="row mb-3">
-          <form className="form-todo" onSubmit={getValueFromForm}>
+          <form className="form-todo" onSubmit={this.getValueFromForm}>
             <div className="input-group d-flex justify-content-evenly">
               <div className="col-sm-5 mr-3">
                 <input
@@ -96,7 +95,7 @@ export class AddNewTodo extends React.Component<Props, State> {
                   name="title"
                   id="titleTodo"
                   value={title}
-                  onChange={handleChange}
+                  onChange={this.handleChange}
                 />
                 {isTitleEmpty
                   && <span className="error">Please enter the title!</span>}
@@ -106,7 +105,7 @@ export class AddNewTodo extends React.Component<Props, State> {
                   className="form-select"
                   name="userId"
                   value={userId}
-                  onChange={handleSelectChange}
+                  onChange={this.handleSelectChange}
                 >
                   <option value="">Choose a user</option>
                   {users.map(user => (
