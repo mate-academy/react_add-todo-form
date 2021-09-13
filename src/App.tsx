@@ -1,19 +1,52 @@
 import React from 'react';
-import './App.css';
+import { uuid } from 'uuidv4';
 
+import './App.scss';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+
+import todos from './api/todos';
 import users from './api/users';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const preparedTodos: Todo[] = todos.map((todo) => {
+  const user = users.find((person) => person.id === todo.userId) || null;
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+  return {
+    ...todo,
+    user,
+    uuid: uuid(),
+  };
+});
+
+type State = {
+  todos: Todo[];
 };
+
+class App extends React.Component<{}, State> {
+  state: State = {
+    todos: preparedTodos,
+  };
+
+  addTodo = (newTodo: Todo) => {
+    this.setState((currentState) => {
+      return {
+        todos: [...currentState.todos, newTodo],
+      };
+    });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Static list of todos</h1>
+        <TodoList
+          addTodo={this.addTodo}
+          todos={this.state.todos}
+          users={users}
+        />
+      </div>
+    );
+  }
+}
 
 export default App;
