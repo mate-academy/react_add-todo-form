@@ -4,68 +4,121 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { PreparedTodo } from './types/PreparedTodo';
 
-interface Todo {
-  userId: number,
-  id: number,
-  title: string,
-  completed: boolean,
-}
+const preparedTodos: PreparedTodo[] = [...todosFromServer].map(todo => {
+  const user = usersFromServer.find(person => person.id === todo.userId) || null;
+  const preparedTodo = { ...todo, user };
+
+  return preparedTodo;
+});
 
 interface State {
   userId: number;
   title: string;
   updatedTodos: Todo[];
-  visibleTitleError: string;
-  visibleUserError: string;
+  titleError: string;
+  userError: string;
+  counter: number;
 }
 
 export class App extends React.Component<{}, State> {
   state = {
     userId: 0,
     title: '',
-    updatedTodos: [...todosFromServer],
-    visibleTitleError: '',
-    visibleUserError: '',
+    updatedTodos: [...preparedTodos],
+    titleError: '',
+    userError: '',
+    counter: Math.max(...usersFromServer.map(user => user.id)),
   };
 
+  getValidData() {
+    const { title, userId } = this.state;
+
+    if (!title) {
+      this.setState({
+        titleError: 'Please enter the title',
+      });
+
+      return false;
+    }
+
+    if (!userId) {
+      this.setState({
+        userError: 'Please choose a user',
+      });
+
+      return false;
+    }
+
+    if (/[^A-Za-zА-Яа-яёЁ0-9\s]/.test(title)) {
+      this.setState({
+        titleError: 'Your title should have only cyrillic\'s and latin\'s letters and digits',
+      });
+
+      return false;
+    }
+
+    if (title.length > 30) {
+      this.setState({
+        titleError: 'Your title so long',
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
+  setCleanState() {
+    this.setState({
+      userId: 0,
+      title: '',
+      titleError: '',
+      userError: '',
+    });
+  }
+
   getUpdatTodos() {
+    const { userId, title, counter } = this.state;
+
     const todo = {
-      userId: this.state.userId,
-      id: this.state.updatedTodos.length + 1,
-      title: this.state.title,
+      userId,
+      id: counter,
+      title,
       completed: false,
+      user: usersFromServer.find(user => (
+        user.id === userId
+      )),
     };
 
-    if (!this.state.title) {
-      this.setState({ visibleTitleError: 'Please enter the title' });
-    }
+    this.setState((currentState) => ({
+      counter: currentState.counter + 1,
+    }));
 
-    if (!this.state.userId) {
-      this.setState({ visibleUserError: 'Please choose a user' });
-    }
-
-    if (this.state.title && this.state.userId) {
+    if (this.getValidData()) {
       this.setState((currentState) => ({
         updatedTodos: [...currentState.updatedTodos, todo],
-        userId: 0,
-        title: '',
-        visibleTitleError: '',
-        visibleUserError: '',
       }));
+      this.setCleanState();
     }
   }
 
+  setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      title: event.target.value,
+      titleError: '',
+    });
+  };
+
+  setUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({
+      userId: +event.target.value,
+      userError: '',
+    });
+  };
+
   render() {
     const { title, userId } = this.state;
-
-    const preparedTodos: PreparedTodo[] = this.state.updatedTodos.map(todo => {
-      const user = usersFromServer.find(person => person.id === todo.userId) || null;
-      const preparedTodo = { ...todo, user };
-
-      return preparedTodo;
-    });
 
     return (
       <div className="App">
@@ -84,17 +137,12 @@ export class App extends React.Component<{}, State> {
               name="title"
               placeholder="add TODO"
               value={title}
-              onChange={(event) => {
-                this.setState({
-                  title: event.target.value,
-                  visibleTitleError: '',
-                });
-              }}
+              onChange={this.setTitle}
             />
-            {this.state.visibleTitleError
+            {this.state.titleError
               && (
-                <div>
-                  {this.state.visibleTitleError}
+                <div className="error">
+                  {this.state.titleError}
                 </div>
               )}
           </div>
@@ -103,34 +151,24 @@ export class App extends React.Component<{}, State> {
               className="form__select"
               name="userId"
               value={userId}
-              onChange={(event) => {
-                this.setState({
-                  userId: +event.target.value,
-                  visibleUserError: '',
-                });
-              }}
+              onChange={this.setUser}
             >
-              <option
-                value=""
-                selected
-              >
+              <option>
                 Choose a user
               </option>
               {usersFromServer.map((user) => (
-                <>
-                  <option
-                    key={user.id}
-                    value={user.id}
-                  >
-                    {user.username}
-                  </option>
-                </>
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.username}
+                </option>
               ))}
             </select>
-            {this.state.visibleUserError
+            {this.state.userError
             && (
-              <div>
-                {this.state.visibleUserError}
+              <div className="error">
+                {this.state.userError}
               </div>
             )}
           </div>
@@ -141,7 +179,7 @@ export class App extends React.Component<{}, State> {
             Add
           </button>
         </form>
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={this.state.updatedTodos} />
       </div>
     );
   }

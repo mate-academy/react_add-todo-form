@@ -12,7 +12,7 @@ body {
 
 .form {
   background-color: darksalmon;
-  width: 500px;
+  width: 600px;
   height: 200px;
   border-radius: 10px;
   display: flex;
@@ -52,4 +52,10 @@ body {
 .select {
   display: flex;
   align-items: center;
+}
+
+.error {
+  background-color:firebrick;
+  padding: 3px;
+  border-radius: 10px;
 }

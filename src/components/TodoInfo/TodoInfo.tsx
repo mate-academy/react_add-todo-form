@@ -1,5 +1,3 @@
-import { PreparedTodo } from '../../types/PreparedTodo';
-
 import './TodoInfo.scss';
 
 type Props = {

@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodoInfo } from '../TodoInfo';
-import { PreparedTodo } from '../../types/PreparedTodo/PreparedTodo';
 
 import './TodoList.scss';
 
