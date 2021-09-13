@@ -1,0 +1,32 @@
+.TodoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 80vw;
+
+  &__item {
+    width: 250px;
+    margin-bottom: 1.5em;
+    border: 1px solid black;
+    border-radius: 6px;
+    height: 2em;
+    padding: 5px;
+  }
+
+  &__button {
+    border: 1px solid black;
+    border-radius: 6px;
+    margin-bottom: 1.5em;
+    height: 2em;
+  }
+}
+
+.validation-message {
+  position: absolute;
+  transform: translateY(-1.3em);
+}
+
+.little-red-star {
+  color: red;
+}
