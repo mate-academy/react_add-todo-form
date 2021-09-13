@@ -8,19 +8,19 @@ import './App.css';
 import todos from './api/todos';
 import users from './api/users';
 
-const preparedTodos = [...todos].map(todo => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   id: uuid(),
   user: users.find(user => user.id === todo.userId),
 })) as Todo[];
 
-type AppState = {
-  userTodos: Todo[],
+type State = {
+  todos: Todo[],
 };
 
-export class App extends React.Component<{}, AppState> {
-  state: AppState = {
-    userTodos: preparedTodos,
+export class App extends React.Component<{}, State> {
+  state: State = {
+    todos: preparedTodos,
   };
 
   addTodo = (todo: Todo) => {
@@ -30,15 +30,15 @@ export class App extends React.Component<{}, AppState> {
     };
 
     this.setState((currentState) => ({
-      userTodos: [
-        ...currentState.userTodos,
+      todos: [
+        ...currentState.todos,
         newTodo,
       ],
     }));
   };
 
   render() {
-    const { userTodos } = this.state;
+    const { todos: userTodos } = this.state;
 
     return (
       <div className="App">
@@ -46,7 +46,7 @@ export class App extends React.Component<{}, AppState> {
 
         <TodoForm addTodo={this.addTodo} />
 
-        <TodoTable userTodos={userTodos} />
+        <TodoTable todos={userTodos} />
       </div>
     );
   }

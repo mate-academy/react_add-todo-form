@@ -15,7 +15,7 @@ interface State {
 }
 
 export class TodoForm extends React.Component<Props, State> {
-  state = {
+  state: State = {
     inputTitle: '',
     selectedName: '',
     isTitle: false,
@@ -38,6 +38,15 @@ export class TodoForm extends React.Component<Props, State> {
     }
   };
 
+  clearState = () => {
+    this.setState({
+      inputTitle: '',
+      selectedName: '',
+      isTitle: false,
+      isName: false,
+    });
+  };
+
   submitTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {
@@ -45,8 +54,13 @@ export class TodoForm extends React.Component<Props, State> {
       selectedName,
     } = this.state;
 
-    this.setState(() => ({ isTitle: !inputTitle }));
-    this.setState(() => ({ isName: !selectedName }));
+    if (!inputTitle) {
+      this.setState({ isTitle: true });
+    }
+
+    if (!selectedName) {
+      this.setState({ isName: true });
+    }
 
     if (inputTitle && selectedName) {
       const newTodo = {
@@ -55,13 +69,7 @@ export class TodoForm extends React.Component<Props, State> {
       } as Todo;
 
       this.props.addTodo(newTodo);
-
-      this.setState(() => ({
-        inputTitle: '',
-        selectedName: '',
-        isTitle: false,
-        isName: false,
-      }));
+      this.clearState();
     }
   };
 
@@ -84,7 +92,9 @@ export class TodoForm extends React.Component<Props, State> {
             value={this.state.inputTitle}
             onChange={this.handleChange}
           />
-          {this.state.isTitle && <p className="alert alert-danger">Please enter the title</p>}
+          {this.state.isTitle && (
+            <p className="alert alert-danger">Please enter the title</p>
+          )}
         </label>
 
         <label htmlFor="users" className="App__label">
@@ -108,8 +118,9 @@ export class TodoForm extends React.Component<Props, State> {
               </option>
             ))}
           </select>
-          {this.state.isName
-            && <p className="alert alert-danger">Please choose a user</p>}
+          {this.state.isName && (
+            <p className="alert alert-danger">Please choose a user</p>
+          )}
         </label>
 
         <button type="submit" className="btn btn-secondary">ADD</button>

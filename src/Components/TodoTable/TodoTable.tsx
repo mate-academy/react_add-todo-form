@@ -2,11 +2,11 @@ import React from 'react';
 import { Todo } from '../../react-app-env';
 
 interface Props {
-  userTodos: Todo[]
+  todos: Todo[]
 }
 
 export const TodoTable: React.FC<Props> = (props) => {
-  const { userTodos } = props;
+  const { todos } = props;
 
   return (
     <table className="table table-dark">
@@ -17,7 +17,7 @@ export const TodoTable: React.FC<Props> = (props) => {
           <th>Email</th>
         </tr>
       </thead>
-      {userTodos && userTodos.map(person => (
+      {todos && todos.map(person => (
         <tbody key={person.id}>
           <tr>
             <td>{person.user.name}</td>
