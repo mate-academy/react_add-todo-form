@@ -35,12 +35,14 @@ export class TodoList extends React.Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
+      isTitleValid: false,
     });
   };
 
   handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       name: event.target.value,
+      isNameSelected: false,
     });
   };
 
