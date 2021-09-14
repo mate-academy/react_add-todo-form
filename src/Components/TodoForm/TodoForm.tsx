@@ -25,6 +25,7 @@ export class TodoForm extends React.Component<Props, State> {
   handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: +event.target.value,
+      userError: false,
     });
   };
 
