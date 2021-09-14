@@ -72,12 +72,14 @@ class App extends React.Component<{}, State> {
   checkFields = () => {
     const { userId, title } = this.state;
 
-    if (userId === 0) {
-      this.setState({ userSelected: false });
+    if (title.length === 0) {
+      this.setState({
+        titleSelected: false,
+      });
     }
 
-    if (title.length === 0) {
-      this.setState({ titleSelected: false });
+    if (userId === 0) {
+      this.setState({ userSelected: false });
     }
   };
 
@@ -89,13 +91,9 @@ class App extends React.Component<{}, State> {
         <form onSubmit={this.addTodo}>
 
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">
-              Enter title
-            </label>
 
             <input
               type="text"
-              id="title"
               className="form-control"
               name="title"
               onChange={this.addTitle}
@@ -113,9 +111,9 @@ class App extends React.Component<{}, State> {
               value={this.state.userId}
               onChange={this.selectUser}
             >
-              <option value="">Please choose a user</option>
+              <option value="">Choose a user</option>
 
-              {[...users].map((user) => (
+              {users.map((user) => (
                 <option
                   value={user.id}
                   key={user.id}
@@ -140,7 +138,7 @@ class App extends React.Component<{}, State> {
         </form>
 
         <div>
-          <TodoList todos={preparedData} />
+          <TodoList todos={this.state.todos} />
         </div>
 
       </div>
