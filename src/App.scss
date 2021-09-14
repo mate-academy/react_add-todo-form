@@ -1,0 +1,13 @@
+.App {
+  &__form {
+    display: grid;
+    gap: 10px;
+    width: 50%;
+    margin: 40px 0;
+  }
+
+  &__title {
+    margin-top: 20px;
+    text-align: center;
+  }
+}
