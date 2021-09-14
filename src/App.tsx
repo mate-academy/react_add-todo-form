@@ -24,8 +24,6 @@ class App extends React.Component<{}, State> {
     todoListWithUsers: todosWithUsers,
   };
 
-  selectList = users.map(user => user.name);
-
   addTodoItem = (item: Todo) => {
     this.setState((state) => (
       {
@@ -44,7 +42,6 @@ class App extends React.Component<{}, State> {
         </h1>
         <TodoForm
           addTodoItem={this.addTodoItem}
-          selectList={this.selectList}
         />
         <TodoList todoList={todoListWithUsers} />
       </div>

@@ -5,7 +5,6 @@ import './TodoForm.scss';
 
 type Props = {
   addTodoItem: (item: Todo) => void;
-  selectList: string[];
 };
 
 type State = {
@@ -24,7 +23,10 @@ export class TodoForm extends React.Component<Props, State> {
   };
 
   makeStateDefault = () => {
-    this.setState({ selectedUser: '', todo: '' });
+    this.setState({
+      selectedUser: '',
+      todo: '',
+    });
   };
 
   findSelectedUser = () => {
@@ -53,36 +55,45 @@ export class TodoForm extends React.Component<Props, State> {
     return value === '';
   };
 
-  render() {
-    const { selectList, addTodoItem } = this.props;
+  formHandleSubmit = (event: React.FormEvent) => {
+    const { addTodoItem } = this.props;
     const { selectedUser, todo } = this.state;
+
+    event.preventDefault();
+
+    this.setState(
+      {
+        isInput: this.isValid(todo),
+        isSelect: this.isValid(selectedUser),
+      },
+    );
+
+    if (todo !== '' && selectedUser !== '') {
+      addTodoItem(
+        {
+          userId: this.findSelectedUser()?.id || 0,
+          id: v4(),
+          title: todo,
+          completed: false,
+          user: this.findSelectedUser(),
+        },
+      );
+      this.makeStateDefault();
+    }
+  };
+
+  render() {
+    const {
+      selectedUser,
+      todo,
+      isSelect,
+      isInput,
+    } = this.state;
 
     return (
       <form
         className="TodoForm App__TodoForm"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          this.setState(
-            {
-              isInput: this.isValid(todo),
-              isSelect: this.isValid(selectedUser),
-            },
-          );
-
-          if (todo !== '' && selectedUser !== '') {
-            addTodoItem(
-              {
-                userId: this.findSelectedUser()?.id || 0,
-                id: v4(),
-                title: todo,
-                completed: false,
-                user: this.findSelectedUser(),
-              },
-            );
-            this.makeStateDefault();
-          }
-        }}
+        onSubmit={this.formHandleSubmit}
       >
         <div>
           <select
@@ -93,17 +104,17 @@ export class TodoForm extends React.Component<Props, State> {
             <option value="" disabled>
               Choose a user
             </option>
-            {selectList.map(nameOfUser => (
+            {users.map(user => (
               <option
-                value={nameOfUser}
-                key={nameOfUser}
+                value={user.name}
+                key={user.name}
               >
-                {nameOfUser}
+                {user.name}
               </option>
             ))}
           </select>
 
-          {this.state.isSelect && (
+          {isSelect && (
             <div className="validation-message">
               <span className="little-red-star">*</span>
               Please, choose a user
@@ -120,7 +131,7 @@ export class TodoForm extends React.Component<Props, State> {
             onChange={this.inputHandleChange}
           />
 
-          {this.state.isInput && (
+          {isInput && (
             <div className="validation-message">
               <span className="little-red-star">*</span>
               Please, enter the title
