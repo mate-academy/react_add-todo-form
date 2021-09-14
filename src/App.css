@@ -1,3 +1,25 @@
-.App {
-  text-align: center;
+.app__form {
+  display: flex;
+  justify-content: space-around;
+  width: 600px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.app__button {
+  height: 50px;
+  width: 100px;
+}
+
+.form-select,
+.form-control,
+.alert {
+  font-size: 14px;
+  width: 200px;
+  height: 50px;
+}
+
+.app__list {
+  width: 700px;
+  margin: 20px auto 0;
 }
