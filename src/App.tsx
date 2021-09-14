@@ -47,8 +47,6 @@ class App extends React.Component<{}, State> {
             todoList={this.state.todos}
           />
           <TodoList
-            addTodo={this.addTodo}
-            usersList={users}
             todoList={this.state.todos}
           />
         </div>
