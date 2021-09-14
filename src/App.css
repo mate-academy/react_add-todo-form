@@ -1,3 +1,21 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+body,
+ul,
+p,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
 .App {
+  margin: 0 50px;
   text-align: center;
 }
