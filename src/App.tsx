@@ -28,11 +28,9 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = (newTodo: Todo) => {
-    this.setState((currentState) => {
-      return {
-        todos: [...currentState.todos, newTodo],
-      };
-    });
+    this.setState((currentState) => ({
+      todos: [...currentState.todos, newTodo],
+    }));
   };
 
   render() {

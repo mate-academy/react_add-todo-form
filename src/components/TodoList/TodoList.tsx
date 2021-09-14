@@ -20,7 +20,7 @@ interface State {
 }
 
 export class TodoList extends React.Component<Props, State> {
-  state = {
+  state: State = {
     title: '',
     name: '',
     isValidInput: true,
