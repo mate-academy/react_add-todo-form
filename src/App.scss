@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.App {
+  &__form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+  }
+
+  &__alert {
+    position: absolute;
+    margin-top: 20px;
+    visibility: hidden;
+
+    &--shown {
+      visibility: visible;
+    }
+  }
+
+  &__item {
+    &--container {
+      transform: translateY(10%);
+    }
+  }
+
+  &__button {
+    height: min-content;
+  }
+}
