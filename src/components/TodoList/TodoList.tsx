@@ -35,9 +35,6 @@ export class TodoList extends React.Component<Props, State> {
   handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    // eslint-disable-next-line no-console
-    console.log(value); // select value
-
     this.setState({
       userId: +value,
       isUserChoose: true,
@@ -80,9 +77,6 @@ export class TodoList extends React.Component<Props, State> {
       user: this.props.users.find(user => (
         user.id === this.state.userId)) || null,
     };
-
-    // eslint-disable-next-line no-console
-    console.log('submit', newTodo);
 
     this.props.addTodo(newTodo);
     this.clearForm();
