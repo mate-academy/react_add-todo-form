@@ -1,3 +1,78 @@
-.App {
+.Add__todo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  font-size: 25px;
+}
+
+button {
+  font-size: 25px;
+}
+
+input {
+  font-size: 25px;
+}
+
+select {
+  font-size: 25px;
+}
+
+.form {
+  box-sizing: border-box;
+  height: 100px;
+}
+
+.form__name {
+  width: 450px;
+}
+
+.form__title {
+  margin: 30px;
+}
+
+.warningName {
+  color: red;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   text-align: center;
+}
+
+.name,
+.task,
+.email,
+.status {
+  border: 1px solid black;
+  margin: 1px;
+  background-color: rgb(255, 254, 172);
+}
+
+.name {
+  width: 20%;
+}
+
+.email {
+  width: 20%;
+}
+
+.task {
+  width: 50%;
+}
+
+.status {
+  width: 10%;
+}
+
+ul {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
 }
