@@ -23,34 +23,25 @@ class App extends React.Component<{}, State> {
     todos: preparedData,
     title: '',
     userId: 0,
-    userSelected: false,
-    titleSelected: false,
+    userSelected: true,
+    titleSelected: true,
   };
 
   addTodo = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const { userId, title } = this.state;
 
-    if (userId === 0) {
-      this.setState({ userSelected: false });
-
-      return;
-    }
-
-    if (title.length === 0) {
-      this.setState({ titleSelected: false });
-
-      return;
-    }
-
     this.setState(prevState => {
       const createdTodo = {
         user: users.find(user => user.id === userId) || null,
         userId,
-        id: prevState.todos.length + 1,
+        id: Math.max(...prevState.todos.map(item => item.id)) + 1,
         title,
         completed: false,
       };
+
+      // eslint-disable-next-line no-console
+      console.log(createdTodo);
 
       return {
         todos: [...prevState.todos, createdTodo],
@@ -76,6 +67,18 @@ class App extends React.Component<{}, State> {
       userId: +value,
       userSelected: true,
     });
+  };
+
+  checkFields = () => {
+    const { userId, title } = this.state;
+
+    if (userId === 0) {
+      this.setState({ userSelected: false });
+    }
+
+    if (title.length === 0) {
+      this.setState({ titleSelected: false });
+    }
   };
 
   render() {
@@ -125,7 +128,11 @@ class App extends React.Component<{}, State> {
             {!this.state.userSelected
               && <p className="alert">Please choose a user!</p>}
 
-            <button type="submit" className="btn btn-outline-primary">
+            <button
+              type="submit"
+              onClick={this.checkFields}
+              className="btn btn-outline-primary"
+            >
               Add
             </button>
           </div>
