@@ -57,24 +57,19 @@ export class TodoList extends React.Component<Props, State> {
       this.setState({ isNameSelected: true });
     }
 
-    const actualUser = this.props.users.find(user => user.name === name) || null;
-    const actualUserID = actualUser ? actualUser.id : null;
-
     if (title && name) {
+      const actualUser = this.props.users.find(user => user.name === name) || null;
+      const actualUserID = actualUser ? actualUser.id : null;
+
       this.props.addTodo({
         uuid: uuid(),
         title: this.state.title,
         userId: actualUserID,
         user: actualUser,
       });
+
+      this.clearState();
     }
-
-    // eslint-disable-next-line no-console
-    console.log(this.state.isTitleValid);
-    // eslint-disable-next-line no-console
-    console.log(this.state.isNameSelected);
-
-    this.clearState();
   };
 
   render() {
