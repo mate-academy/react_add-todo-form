@@ -12,7 +12,26 @@
   width: 200px;
 }
 
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
 .button {
   width: 50px;
   border-radius: 10px;
+}
+
+.error {
+  border-color: red;
+}
+
+.error_title,
+.error_select {
+  position: absolute;
+  color: red;
+  border: 3px solid red;
+  border-radius: 3px;
+  transform: translateY(-100%);
+  width: 200px;
 }
