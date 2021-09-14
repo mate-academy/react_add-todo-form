@@ -71,8 +71,8 @@ class App extends React.Component<{}, State> {
       <div className="App">
         <h1>Add todo form</h1>
         <form onSubmit={(event) => event.preventDefault()}>
-          <select onChange={this.selectId} className="input__select">
-            <option key={0} value={0} selected disabled hidden>Choose a user</option>
+          <select onChange={this.selectId} value={this.state.userId} className="input__select">
+            <option key={0} value={0} selected disabled>Choose a user</option>
             {users.map(user => (
               <option
                 key={user.id}
