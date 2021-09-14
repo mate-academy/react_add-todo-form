@@ -28,11 +28,18 @@ class App extends React.Component<{}, State> {
     ));
   };
 
-  render() {
+  setMaxId = () => {
     const { currentTodos } = this.state;
 
-    // eslint-disable-next-line no-console
-    console.log(currentTodos);
+    const currentID = currentTodos.reduce((acc: number[], curr: Todo) => {
+      return [...acc, curr.id];
+    }, []);
+
+    return Math.max(...currentID);
+  };
+
+  render() {
+    const { currentTodos } = this.state;
 
     return (
       <div className="App">
@@ -42,7 +49,7 @@ class App extends React.Component<{}, State> {
         <TodoForm
           users={users}
           setNewTodo={this.setNewTodo}
-          length={currentTodos.length}
+          length={this.setMaxId()}
         />
         <TodoList todos={currentTodos} />
       </div>
