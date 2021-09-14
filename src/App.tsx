@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import './Todo.scss';
 import { v4 as uuidv4 } from 'uuid';
