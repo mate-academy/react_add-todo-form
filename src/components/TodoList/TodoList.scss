@@ -1,0 +1,20 @@
+.todoList {
+  width: 80%;
+  margin: 30px auto;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 330px);
+  grid-gap: 25px;
+
+  &__item {
+    box-sizing: border-box;
+    padding: 30px;
+    background-color: rgba(252, 249, 249, 0.3);
+    border: 1px solid rgb(194, 193, 193);
+    border-radius: 5%;
+
+    &--completed {
+      background-color: rgba(161, 204, 161, 0.7);
+    }
+  }
+}

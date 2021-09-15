@@ -1,0 +1,29 @@
+// normalise
+
+body {
+  margin: 0;
+}
+
+ul, h1, h2, h3, h4 {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none !important;
+}
+
+//app
+
+.todoApp {
+  font-family: Helvetica, sans-serif;
+  color: rgb(56, 56, 56);
+}
+.error {
+  color: red !important;
+}
+
+.add {
+  width: 50%;
+  margin: 0 auto;
+}
