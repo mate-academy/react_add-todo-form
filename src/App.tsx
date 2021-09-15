@@ -43,6 +43,7 @@ export class App extends React.Component<{}, State> {
     event.preventDefault();
     this.setState({
       selectedUserId: +event.target.value,
+      isUserChoosed: false,
     });
   };
 
@@ -50,6 +51,7 @@ export class App extends React.Component<{}, State> {
     event.preventDefault();
     this.setState({
       title: event.target.value,
+      isTodoInclude: false,
     });
   };
 
@@ -78,8 +80,6 @@ export class App extends React.Component<{}, State> {
         title: '',
         selectedUserId: 0,
         todoList: [...state.todoList, newTodo],
-        isUserChoosed: false,
-        isTodoInclude: false,
       };
     });
   };
