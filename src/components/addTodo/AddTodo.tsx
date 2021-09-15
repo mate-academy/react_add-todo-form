@@ -35,12 +35,14 @@ export class AddTodo extends React.Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
+      titleError: '',
     });
   };
 
   handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: +event.target.value,
+      userError: '',
     });
   };
 
