@@ -8,11 +8,7 @@ type Props = {
   userName: string,
 };
 
-type State = {
-  todosCLone: Todo[],
-};
-
-export class UserInfo extends React.PureComponent<Props, State> {
+export class UserInfo extends React.PureComponent<Props, {}> {
   render() {
     const {
       handleChange,
