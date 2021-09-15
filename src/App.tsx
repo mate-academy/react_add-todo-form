@@ -6,12 +6,10 @@ import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 
 const addedTodos = [...todos];
-const preparedTodos = addedTodos.map(todo => {
-  return {
-    ...todo,
-    user: users.find(user => todo.userId === user.id) || null,
-  };
-});
+const preparedTodos = addedTodos.map(todo => ({
+  ...todo,
+  user: users.find(user => todo.userId === user.id) || null,
+}));
 
 type State = {
   title: string;
@@ -27,7 +25,7 @@ class App extends React.Component<{}, State> {
   state: State = {
     title: '',
     userId: '',
-    id: addedTodos.length + 1,
+    id: Math.max(...addedTodos.map(todo => todo.id)) + 1,
     errors: {
       name: '',
       user: '',
@@ -51,17 +49,15 @@ class App extends React.Component<{}, State> {
   };
 
   clearState = () => {
-    this.setState(currentState => {
-      return {
-        title: '',
-        userId: '',
-        id: currentState.id + 1,
-        errors: {
-          name: '',
-          user: '',
-        },
-      };
-    });
+    this.setState(currentState => ({
+      title: '',
+      userId: '',
+      id: currentState.id + 1,
+      errors: {
+        name: '',
+        user: '',
+      },
+    }));
   };
 
   saveTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +77,7 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
+    const {title, errors, userId} = this.state;
     return (
       <div className="App">
         <div className="add">
@@ -92,19 +89,19 @@ class App extends React.Component<{}, State> {
               type="text"
               name="title"
               placeholder="Title"
-              value={this.state.title}
+              value={title}
               pattern="[A-Za-zа-яА-ЯЁё0-9 ]+"
               onChange={this.addTitle}
               className="form-control"
             />
             <br />
-            {this.state.errors.name && <p className="error">{this.state.errors.name}</p>}
+            {errors.name && <p className="error">{errors.name}</p>}
             <br />
 
             <select
               className="form-select"
               name="user"
-              value={this.state.userId}
+              value={userId}
               onChange={(event) => {
                 this.setState({ userId: +event.target.value });
               }}
@@ -129,7 +126,7 @@ class App extends React.Component<{}, State> {
             </select>
             <br />
 
-            {this.state.errors.user && <p className="error">{this.state.errors.user}</p>}
+            {errors.user && <p className="error">{errors.user}</p>}
 
             <button
               type="submit"
