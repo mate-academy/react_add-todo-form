@@ -8,7 +8,11 @@ type Props = {
   userName: string,
 };
 
-export class UserInfo extends React.PureComponent<Props, {}> {
+type State = {
+  todosCLone: Todo[],
+};
+
+export class UserInfo extends React.PureComponent<Props, State> {
   render() {
     const {
       handleChange,
@@ -36,7 +40,7 @@ export class UserInfo extends React.PureComponent<Props, {}> {
               value="chose user"
               disabled
             >
-              Chose user
+              Choose a user
             </option>
             {users.map(user => {
               return (

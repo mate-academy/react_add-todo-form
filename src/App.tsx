@@ -63,11 +63,11 @@ class App extends React.PureComponent<{}, State> {
     }
 
     if (!this.validateInput()) {
-      this.setState({ inputError: 'Error input' });
+      this.setState({ inputError: 'Please enter the title' });
     }
 
     if (!this.validateSelect()) {
-      this.setState({ selectError: 'Error select' });
+      this.setState({ selectError: 'Please choose a user' });
     }
   };
 
