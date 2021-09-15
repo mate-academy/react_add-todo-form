@@ -3,11 +3,11 @@ import './App.css';
 import classNames from 'classnames';
 import { TodoList } from './components/TodoList';
 
-import users from './api/users';
-import todos from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-const preparedTodos: Todo[] = todos.map(todo => {
-  const user = users.find(person => person.id === todo.userId) || null;
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
+  const user = usersFromServer.find(person => person.id === todo.userId) || null;
 
   return { ...todo, user };
 });
@@ -35,24 +35,29 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       [name]: value,
-    } as any);
+    } as unknown as Pick<State, keyof State>);
 
     if (name === 'query') {
       this.setState({
         titleAdded: true,
-      } as any);
+      } as Pick<State, keyof State>);
     } else {
       this.setState({
         userSelected: true,
-      } as any);
+      } as Pick<State, keyof State>);
     }
   };
 
-  handleSubmit = (event: any) => {
+  addNewTodo = (todo: Todo) => {
+    this.state.todos.push(todo);
+  };
+
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    let newTodoList = [];
 
     const {
-      users: u,
+      users: selectedUser,
       query,
     } = this.state;
 
@@ -64,33 +69,41 @@ class App extends React.Component<{}, State> {
       return;
     }
 
-    if (u === '') {
+    if (selectedUser === '') {
       this.setState({
         userSelected: false,
       });
 
       return;
-    }
-
-    if (u !== '') {
-      this.state.todos.push({
-        user: users[users.findIndex(user => user.name === this.state.users)],
-        userId: users[users.findIndex(user => user.name === this.state.users)].id,
+    // eslint-disable-next-line no-else-return
+    } else {
+      newTodoList = [...this.state.todos, {
+        user: usersFromServer[usersFromServer.findIndex(user => user.name === this.state.users)],
+        userId: usersFromServer[usersFromServer.findIndex(user => (
+          user.name === this.state.users
+        ))].id,
         id: preparedTodos.length,
         title: this.state.query,
         completed: false,
-      });
+      }];
     }
 
-    this.setState(state => ({
-      todos: [...state.todos],
+    this.setState({
+      todos: [...newTodoList],
       query: '',
       users: '',
-    }));
-    this.forceUpdate();
+    });
   };
 
   render() {
+    const {
+      query,
+      titleAdded,
+      userSelected,
+      users,
+      todos,
+    } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -99,24 +112,24 @@ class App extends React.Component<{}, State> {
             <input
               type="text"
               name="query"
-              value={this.state.query}
+              value={query}
               onChange={this.handleChange}
               placeholder="Add your todo"
-              className={classNames('select', !this.state.titleAdded && 'error')}
+              className={classNames('select', !titleAdded && 'error')}
             />
-            {!this.state.titleAdded && (
+            {!titleAdded && (
               <div className="error_title">*Please enter the title</div>
             )}
           </div>
           <div className="section">
             <select
               name="users"
-              value={this.state.users}
+              value={users}
               onChange={this.handleChange}
-              className={classNames('select', !this.state.userSelected && 'error')}
+              className={classNames('select', !userSelected && 'error')}
             >
               <option value="">Choose a user</option>
-              {users.map(user => (
+              {usersFromServer.map(user => (
                 <option value={user.name} key={user.id}>
                   {user.name}
                 </option>
@@ -130,7 +143,7 @@ class App extends React.Component<{}, State> {
         </form>
 
         <div>
-          <TodoList todos={this.state.todos} />
+          <TodoList todos={todos} />
         </div>
       </div>
     );
