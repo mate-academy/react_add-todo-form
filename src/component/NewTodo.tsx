@@ -28,12 +28,14 @@ export class NewTodo extends React.Component<Props, State> {
 
     this.setState({
       title: value,
+      isTitleEmpty: false,
     });
   };
 
   selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: +event.target.value,
+      isUserEmpty: false,
     });
   };
 
@@ -41,11 +43,11 @@ export class NewTodo extends React.Component<Props, State> {
     event.preventDefault();
     const { userId, title, completed } = this.state;
 
-    if (!title || !userId) {
-      this.setState({
-        isTitleEmpty: true,
-        isUserEmpty: true,
-      });
+    if (!userId || !title.trim()) {
+      this.setState(prevState => ({
+        isUserEmpty: !prevState.userId,
+        isTitleEmpty: !prevState.title.trim(),
+      }));
 
       return;
     }
