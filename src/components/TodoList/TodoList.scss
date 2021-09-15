@@ -1,0 +1,23 @@
+.table {
+
+  &__thead {
+    background-color: lightgray;
+  }
+
+  &__row:hover {
+    cursor: pointer;
+    background-color: yellow;
+  }
+
+  &__completed--yes {
+    background-color: greenyellow;
+  }
+
+  &__completed--no {
+    background-color: orangered;
+  }
+}
+
+td {
+  text-align: center;
+}
