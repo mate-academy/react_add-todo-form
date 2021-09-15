@@ -3,12 +3,11 @@ import './TodoList.scss';
 import { TodoItem } from '../TodoItem';
 
 type Props = {
-  todos: Todos[];
-  users: Users[];
+  preparedToDos:PreparedToDo[]
 };
 
 export const TodoList:React.FC<Props> = (props) => {
-  const { todos, users } = props;
+  const { preparedToDos } = props;
 
   return (
     <div className="TodoList_container">
@@ -20,15 +19,11 @@ export const TodoList:React.FC<Props> = (props) => {
       </div>
       <ul className="TodoList">
         {
-          todos.map(
+          preparedToDos.map(
             todo => {
-              const user = users.find(userItem => userItem.id === todo.userId);
-              const userEmail = user !== undefined ? user.email : 'No Email';
-              const userName = user !== undefined ? user.name : 'No User Name';
-
               return (
                 <li key={todo.id}>
-                  <TodoItem todo={todo} email={userEmail} name={userName} />
+                  <TodoItem todo={todo} />
                 </li>
               );
             },

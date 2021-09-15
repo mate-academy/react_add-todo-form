@@ -2,13 +2,17 @@ import React from 'react';
 import './TodoItem.scss';
 
 type Props = {
-  todo: Todos;
-  email: string;
-  name: string;
+  todo: PreparedToDo;
 };
 
 export const TodoItem:React.FC<Props> = (props) => {
-  const { todo, email, name } = props;
+  const { todo } = props;
+  const {
+    email,
+    name,
+    status,
+    tittle,
+  } = todo;
 
   return (
     <div className="TodoItem">
@@ -19,10 +23,10 @@ export const TodoItem:React.FC<Props> = (props) => {
         {email}
       </p>
       <p className="TodoItem__taskName">
-        {todo.title}
+        {tittle}
       </p>
       <p className="TodoItem__Status">
-        {todo.completed ? 'Completed' : 'In progress'}
+        {status ? 'Completed' : 'In progress'}
       </p>
     </div>
   );

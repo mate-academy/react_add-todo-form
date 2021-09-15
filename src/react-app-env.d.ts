@@ -34,3 +34,11 @@ type UserAddress = {
    catchPhrase: string;
    bs: string;
  };
+
+ type PreparedToDo = {
+   name:string;
+   email:string;
+   tittle: string;
+   status: boolean;
+   id:number;
+ };

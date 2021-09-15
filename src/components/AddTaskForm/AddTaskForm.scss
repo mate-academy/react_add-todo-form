@@ -1,0 +1,49 @@
+.AddTaskForm {
+  box-sizing: border-box;
+  height: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.FormFieldsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ErrorMessage {
+  color: red;
+}
+
+.FormSelector,
+.FormTextInput {
+  width: 80%;
+  padding: 10px 25px;
+  font-size: 1.3rem;
+  margin: 0 auto;
+  border: none;
+  background-color: plum;
+  border-radius: 10px;
+  color: white;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: white;
+  }
+}
+
+.AddButton {
+  align-self: center;
+  width: 30%;
+  padding: 15px 25px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  border: none;
+  background-color: plum;
+  color: white;
+  font-weight: bold;
+}
