@@ -1,15 +1,15 @@
 /// <reference types="react-scripts" />
 interface Todo {
-  userId: number | string;
-  id: number | string;
-  title: string;
-  completed: boolean;
-  user: User | null;
+  userId: number | null,
+  id?: number,
+  uuid: string,
+  title: string,
+  user: User | null,
 }
 
 interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
+  id: number,
+  name: string,
+  username: string,
+  email: string,
 }

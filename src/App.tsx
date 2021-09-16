@@ -1,149 +1,53 @@
-import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Component } from 'react';
 import './App.scss';
 import { uuid } from 'uuidv4';
-import { TodoList } from './components/TodoList';
-import { UserList } from './components/UserList';
 
-import todos from './api/todos';
 import users from './api/users';
+import todos from './api/todos';
 
-const prepearedTodos: Todo[] = todos.map(todo => ({
+import { TodoList } from './components/TodoList';
+
+const findUser = (userId: number) => {
+  return users.find((user) => user.id === userId) || null;
+};
+
+const userTodos: Todo[] = todos.map((todo) => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId) || null,
+  uuid: uuid(),
+  user: findUser(todo.userId),
 }));
 
 interface State {
-  todos: Todo[];
-  todoTitle: string;
-  selected: string;
-  isFilled: boolean;
-  isSelected: boolean;
+  usersFromServer: User[];
+  todoList: Todo[];
 }
 
-class App extends Component<{}, State> {
-  state = {
-    todos: prepearedTodos,
-    users,
-    todoTitle: '',
-    selected: '',
-    isFilled: true,
-    isSelected: true,
+export class App extends Component<{}, State> {
+  state: State = {
+    usersFromServer: users,
+    todoList: userTodos,
   };
 
-  handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-
-    this.setState({
-      todoTitle: value,
-      isFilled: true,
+  addTodo = (newTodo: Todo) => {
+    this.setState((currentState: State) => {
+      return {
+        todoList: [...currentState.todoList, newTodo],
+      };
     });
-  };
-
-  handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.currentTarget;
-
-    this.setState({
-      selected: value,
-      isSelected: true,
-    });
-  };
-
-  clear = () => {
-    this.setState(({
-      todoTitle: '',
-      selected: '',
-    }));
-  };
-
-  handleChangeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const { selected, todoTitle } = this.state;
-
-    if (todoTitle === '') {
-      this.setState({
-        isFilled: false,
-      });
-    }
-
-    if (selected === '') {
-      this.setState({
-        isSelected: false,
-      });
-    }
-
-    if (!todoTitle || !selected) {
-      return;
-    }
-
-    const rightUser = this.state.users.find(user => user.name === selected);
-
-    this.setState(currentState => ({
-      todos: [
-        ...currentState.todos,
-        {
-          userId: uuid(),
-          id: uuid(),
-          title: currentState.todoTitle,
-          completed: false,
-          user: rightUser || null,
-        },
-      ],
-    }));
-
-    this.clear();
   };
 
   render() {
+    const { usersFromServer, todoList } = this.state;
+
     return (
-      <div className="App container-lg">
-        <h1
-          className="App__title"
-        >
-          Add todo form
-        </h1>
-        <form
-          className="App__form"
-          action="#"
-          onSubmit={this.handleChangeSubmit}
-        >
-          <p>
-            {!this.state.isFilled ? 'Please enter the title' : null}
-          </p>
-          <input
-            className="form-control form-control-lg"
-            type="text"
-            name="todo"
-            value={this.state.todoTitle}
-            placeholder="Title"
-            onChange={this.handleChangeInput}
-          />
-          <p>
-            {!this.state.isSelected ? 'Please choose a user' : null}
-          </p>
-          <select
-            className="form-select form-select-lg mb-3"
-            name="selectUser"
-            id="1"
-            value={this.state.selected}
-            onChange={this.handleChangeSelect}
-          >
-            <UserList users={this.state.users} />
-          </select>
-          <button
-            className="btn btn-success"
-            type="submit"
-          >
-            Add
-          </button>
-        </form>
-        <ul className="list-group list-group-flush">
-          <TodoList todos={this.state.todos} />
-        </ul>
+      <div className="center">
+        <h1>Add todo form</h1>
+        <TodoList
+          addTodo={this.addTodo}
+          todos={todoList}
+          users={usersFromServer}
+        />
       </div>
     );
   }
 }
-
-export default App;

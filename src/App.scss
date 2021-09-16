@@ -1,13 +1,7 @@
-.App {
-  &__form {
-    display: grid;
-    gap: 10px;
-    width: 50%;
-    margin: 40px 0;
-  }
+.center {
+  text-align: center;
 
-  &__title {
-    margin-top: 20px;
-    text-align: center;
+  &__button {
+    margin: 20px 0;
   }
 }
