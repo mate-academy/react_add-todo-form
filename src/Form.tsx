@@ -28,15 +28,15 @@ export class Form extends React.Component<Props, State> {
     const { users, todos, addTodo } = this.props;
 
     if (userId === 0) {
-      this.setState({
-        isSelected: false,
-      });
+      this.setState({ isSelected: false });
+
+      return;
     }
 
-    if (title.length > 0) {
-      this.setState({
-        hasTitle: false,
-      });
+    if (title.length === 0) {
+      this.setState({ hasTitle: false });
+
+      return;
     }
 
     this.setState(() => {
