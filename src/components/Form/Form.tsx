@@ -57,6 +57,7 @@ export class Form extends React.Component<Props, State> {
 
       return ({
         userId: 0,
+        name: '',
         title: '',
         isName: true,
         isTitle: true,
