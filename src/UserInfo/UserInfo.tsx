@@ -33,7 +33,7 @@ export class UserInfo extends React.PureComponent<Props, {}> {
             onChange={handleChange}
           >
             <option
-              value="chose user"
+              value="Choose a user"
               disabled
             >
               Choose a user

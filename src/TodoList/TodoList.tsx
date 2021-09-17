@@ -14,12 +14,12 @@ export class TodoList extends React.PureComponent<Props, {}> {
       <>
         { todosCLone.map(todoCLone => {
           const {
-            completed, title, id, idForFront,
+            completed, title, id, uuid,
           } = todoCLone;
 
           return (
             <ul
-              key={todoCLone.idForFront}
+              key={todoCLone.uuid}
               className={classNames('Todo__list', {
                 Todo__completed: completed === true,
                 Todo__working: completed === false,
@@ -57,7 +57,7 @@ export class TodoList extends React.PureComponent<Props, {}> {
                 {id}
               </li>
               <li className="Todo__item">
-                {idForFront}
+                {uuid}
               </li>
             </ul>
           );

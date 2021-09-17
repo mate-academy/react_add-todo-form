@@ -4,5 +4,5 @@ interface Todo {
   id: number,
   title: string,
   completed: boolean,
-  idForFront: string,
+  uuid: string,
 }

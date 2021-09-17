@@ -16,11 +16,11 @@ type State = {
 
 class App extends React.PureComponent<{}, State> {
   state:State = {
-    userName: 'chose user',
+    userName: 'Choose a user',
     todosCLone: todos.map(todo => {
       return {
         ...todo,
-        idForFront: uuidv4(),
+        uuid: uuidv4(),
       };
     }),
     newTodo: '',
@@ -52,7 +52,7 @@ class App extends React.PureComponent<{}, State> {
           id: this.newId,
           title: newTodo,
           completed: false,
-          idForFront: uuidv4(),
+          uuid: uuidv4(),
         };
 
         return {
