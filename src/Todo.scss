@@ -1,0 +1,33 @@
+@import "~bootstrap/scss/bootstrap";
+.Todo {
+  width: 30%;
+  padding: 30px;
+  &__list {
+    list-style: none;
+    padding: 0;
+    border-radius: 10px;
+  }
+  &__item {
+  padding: 5px;
+  }
+  &__user-info {
+    color: blue;
+  }
+  &__user-business {
+    display: block;
+    margin-bottom: 10px;
+  }
+  &__user-name {
+    display: block;
+    margin-bottom: 10px;
+  }
+  &__button {
+    margin-bottom: 10px;
+  }
+  &__completed {
+    background-color: greenyellow;
+  }
+  &__working {
+    background-color: red;
+  }
+}

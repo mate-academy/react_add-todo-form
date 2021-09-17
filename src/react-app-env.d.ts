@@ -1,1 +1,8 @@
 /// <reference types="react-scripts" />
+interface Todo {
+  userId: number,
+  id: number,
+  title: string,
+  completed: boolean,
+  uuid: string,
+}
