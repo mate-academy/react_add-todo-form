@@ -29,26 +29,30 @@ class App extends React.Component<{}, State> {
 
   addTodo = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    const { userId, title } = this.state;
+    const {
+      userId, title, userSelected, titleSelected,
+    } = this.state;
 
-    this.setState(prevState => {
-      const createdTodo = {
-        user: users.find(user => user.id === userId) || null,
-        userId,
-        id: Math.max(...prevState.todos.map(item => item.id)) + 1,
-        title,
-        completed: false,
-      };
+    if (userSelected && titleSelected) {
+      this.setState(prevState => {
+        const createdTodo = {
+          user: users.find(user => user.id === userId) || null,
+          userId,
+          id: Math.max(...prevState.todos.map(item => item.id)) + 1,
+          title,
+          completed: false,
+        };
 
-      // eslint-disable-next-line no-console
-      console.log(createdTodo);
+        // eslint-disable-next-line no-console
+        console.log(createdTodo);
 
-      return {
-        todos: [...prevState.todos, createdTodo],
-        userId: 0,
-        title: '',
-      };
-    });
+        return {
+          todos: [...prevState.todos, createdTodo],
+          userId: 0,
+          title: '',
+        };
+      });
+    }
   };
 
   addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
