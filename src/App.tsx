@@ -16,6 +16,7 @@ interface State {
   personId: number;
   title: string;
   copyPrepared: Todo[];
+  hint: boolean;
 }
 
 class App extends React.PureComponent<{}, State> {
@@ -23,6 +24,7 @@ class App extends React.PureComponent<{}, State> {
     personId: -1,
     title: '',
     copyPrepared: preparedTodos,
+    hint: false,
   };
 
   formSubmit = () => {
@@ -46,6 +48,13 @@ class App extends React.PureComponent<{}, State> {
     this.forceUpdate();
     this.state.title = '';
     this.state.personId = -1;
+    this.state.hint = false;
+  };
+
+  handleClick = () => {
+    if (!this.state.hint) {
+      this.setState({ hint: true });
+    }
   };
 
   render() {
@@ -68,7 +77,7 @@ class App extends React.PureComponent<{}, State> {
               }}
             />
 
-            {!this.state.title && (
+            {!this.state.title && this.state.hint && (
               <p
                 className="alert alert-danger"
               >
@@ -99,7 +108,7 @@ class App extends React.PureComponent<{}, State> {
 
             </select>
 
-            {(this.state.personId === -1) && (
+            {(this.state.personId === -1) && this.state.hint && (
               <p
                 className="alert alert-danger"
               >
@@ -111,6 +120,7 @@ class App extends React.PureComponent<{}, State> {
           <button
             className="btn btn-primary app__button"
             type="submit"
+            onClick={this.handleClick}
           >
             Add
           </button>
