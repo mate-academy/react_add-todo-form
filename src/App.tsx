@@ -6,7 +6,7 @@ import { TodoList } from './components/TodoList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
-let preparedTodos = todosFromServer.map(
+const preparedTodos = todosFromServer.map(
   todo => {
     const user = usersFromServer
       .find(person => (person.id === todo.userId)) || null;
@@ -19,6 +19,7 @@ let preparedTodos = todosFromServer.map(
 );
 
 interface State {
+  todos: Todo[];
   userId: number;
   title: string;
   validatedInput: boolean;
@@ -26,23 +27,22 @@ interface State {
 }
 
 export class App extends React.Component<{}, State> {
-  latestId = 1;
-
   state: State = {
-    userId: 1,
+    todos: preparedTodos,
+    userId: 0,
     title: '',
     validatedInput: true,
     validatedSelect: true,
   };
 
-  chooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleChooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: +(event.target.value),
       validatedSelect: true,
     });
   };
 
-  inputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     this.setState({
@@ -83,17 +83,19 @@ export class App extends React.Component<{}, State> {
     }
 
     const newTodo = {
-      id: this.latestId + 1,
-      user: usersFromServer.find(person => person.id === userId) || null,
+      id: userId + 1,
+      user: usersFromServer.find(user => user.id === userId) || null,
       userId,
       title,
       completed: false,
     };
 
-    preparedTodos = [
-      ...preparedTodos,
-      newTodo,
-    ];
+    this.setState((state) => ({
+      todos: [
+        ...state.todos,
+        newTodo,
+      ],
+    }));
 
     this.setState({
       userId: 0,
@@ -103,6 +105,7 @@ export class App extends React.Component<{}, State> {
 
   render() {
     const {
+      todos,
       userId,
       title,
       validatedInput,
@@ -130,7 +133,7 @@ export class App extends React.Component<{}, State> {
               placeholder="Title"
               autoComplete="off"
               value={title}
-              onChange={this.inputTitle}
+              onChange={this.handleChangeTitle}
             />
 
             {!validatedInput && (
@@ -153,7 +156,7 @@ export class App extends React.Component<{}, State> {
               className="form-select"
               aria-label="Default select example"
               value={userId}
-              onChange={this.chooseUser}
+              onChange={this.handleChooseUser}
             >
               <option value="0" disabled>
                 Choose a user
@@ -190,7 +193,7 @@ export class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
