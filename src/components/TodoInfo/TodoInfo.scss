@@ -1,0 +1,17 @@
+.todo {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  grid-gap: 5px;
+  gap: 5px;
+  text-align: center;
+  padding: 10px;
+
+  &__title,
+  &__status {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

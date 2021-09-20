@@ -1,0 +1,27 @@
+.list {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  grid-gap: 15px;
+  gap: 15px;
+
+  &__item {
+    display: flex;
+    padding: 10px;
+    min-height: 100px;
+
+    border: 5px solid rgba(206, 157, 101, 0.69);
+    border-radius: 10px;
+
+    &:hover {
+      transition: transform 0.3s;
+      transform: scale(1.1);
+    }
+
+    &--done {
+      background-color: rgb(30, 216, 139);
+    }
+  }
+}
