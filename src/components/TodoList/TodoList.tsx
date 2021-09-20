@@ -15,34 +15,35 @@ interface Props {
 interface State {
   title: string;
   name: string;
-  isTitle: boolean;
-  isName: boolean;
+  titleValid: boolean;
+  nameValid: boolean;
 }
 
 export class TodoList extends React.Component<Props, State> {
-  state = {
+  state: State = {
     title: '',
     name: '',
-    isTitle: false,
-    isName: false,
+    titleValid: false,
+    nameValid: false,
   };
 
   clearState = () => {
     this.setState({
       title: '',
       name: '',
-      isTitle: false,
-      isName: false,
+      titleValid: false,
+      nameValid: false,
     });
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
-    const key: keyof State = name as keyof State;
 
-    this.setState({
-      [key]: value,
-    } as Pick<State, 'title' | 'name'>);
+    this.setState((currentState) => ({
+      ...currentState,
+      [name]: value,
+      [`${name}Valid`]: true,
+    }));
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -53,13 +54,13 @@ export class TodoList extends React.Component<Props, State> {
 
     if (!title) {
       this.setState({
-        isTitle: true,
+        titleValid: false,
       });
     }
 
     if (!name) {
       this.setState({
-        isTitle: true,
+        nameValid: false,
       });
     }
 
@@ -87,8 +88,8 @@ export class TodoList extends React.Component<Props, State> {
     const {
       title,
       name,
-      isTitle,
-      isName,
+      titleValid,
+      nameValid,
     } = this.state;
 
     return (
@@ -105,7 +106,7 @@ export class TodoList extends React.Component<Props, State> {
             type="text"
             value={title}
           />
-          {isTitle && (
+          {!titleValid && (
             <p>Please enter the title</p>
           )}
 
@@ -127,7 +128,7 @@ export class TodoList extends React.Component<Props, State> {
               </option>
             ))}
           </select>
-          {isName && (
+          {!nameValid && (
             <p>Please choose a user</p>
           )}
           <button
