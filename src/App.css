@@ -1,3 +1,97 @@
 .App {
   text-align: center;
 }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.todo__body {
+  padding: 5px;
+  border-radius: 10px;
+  background-color: azure;
+}
+
+.todo__title {
+  display: block;
+  width: fit-content;
+  font-weight: bold;
+  font-size: larger;
+  background-color: 204, 255, 255;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.todo__title:hover {
+  background-color: rgb(255, 255, 255);
+  transform: scale(1.1, 1.1);
+  transition: 300ms ease-in-out;
+  border: solid azure 4px;
+  position: relative;
+}
+
+.todo {
+  width: 25%;
+  border-radius: 10px;
+  border: solid black 2px;
+  padding: 10px;
+  background-color: azure;
+  margin-bottom: 10px;
+}
+
+.todo__list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.active {
+  background-color: rgba(73, 233, 73, 0.58);
+}
+
+.criterium__field {
+  font-size: smaller;
+}
+
+.criterium__field--name {
+  font-style: italic;
+  font-size: larger;
+}
+
+.criterium__field--email {
+  color: blue;
+  text-decoration: underline;
+}
+
+.user__info {
+  margin-bottom: 10px;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+}
+
+.notification {
+  padding: 10px;
+  width: 200px;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.warning {
+  background-color: rgb(241, 123, 123);
+  border-radius: 5px;
+  font-size: larger;
+  width: 20%;
+}
+
+.add__todo {
+  background-color: rgb(112, 187, 145);
+}
+
+.field {
+  margin: 10px;
+}

@@ -1,19 +1,124 @@
 import React from 'react';
 import './App.css';
-
+import { TodoList } from './components/TodoList';
+import todos from './api/todos';
 import users from './api/users';
+import { Todo } from './types/TodoType';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+export const preparedTodos = todos.map(todo => ({
+  ...todo,
+  user: users.find(person => person.id === todo.userId),
+}));
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+type State = {
+  todosFromState: Todo[];
+  newName: number;
+  newTitle: string;
+  showTitleAlert: boolean;
+  showUserAlert: boolean;
 };
+
+class App extends React.Component<{}, State> {
+  state: State = {
+    todosFromState: [...todos],
+    newName: 0,
+    newTitle: '',
+    showTitleAlert: false,
+    showUserAlert: false,
+  };
+
+  validateForm = () => {
+    if (this.state.newName < 1) {
+      this.setState({ showUserAlert: true });
+    } else if (this.state.newTitle.length < 1) {
+      this.setState({ showTitleAlert: true });
+    }
+  };
+
+  addTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.validateForm();
+    if (this.state.newTitle.length > 0 && this.state.newName > 0) {
+      const { newTitle, newName, todosFromState } = this.state;
+
+      const newTodo = {
+        userId: newName,
+        id: todosFromState.length + 1,
+        title: newTitle,
+        completed: false,
+      };
+
+      this.setState((prevState) => {
+        return { todosFromState: [...prevState.todosFromState, newTodo], newName: 0, newTitle: '' };
+      });
+
+      event.target.reset();
+    }
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <div className="heading">
+          <div
+            hidden={!this.state.showTitleAlert}
+            className="warning notification"
+          >
+            Please enter the title
+          </div>
+          <div
+            hidden={!this.state.showUserAlert}
+            className="warning notification"
+          >
+            Choose a user
+          </div>
+          <div
+            className="add__todo notification"
+          >
+            Add a new Todo
+          </div>
+        </div>
+        <form
+          action="POST"
+          onSubmit={this.addTodo}
+        >
+          <input
+            className="field"
+            type="text"
+            name="newTitle"
+            placeholder="Title"
+            onChange={(event) => {
+              this.setState({ newTitle: event.target.value, showTitleAlert: false });
+            }}
+          />
+          <select
+            className="field"
+            name="userID"
+            id="userID"
+            onChange={(event) => {
+              this.setState({ newName: +event.target.value, showUserAlert: false });
+            }}
+          >
+            <option>
+              Choose a user
+            </option>
+            {users.map(user => {
+              return (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              );
+            })}
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+        <TodoList todos={this.state.todosFromState} />
+      </div>
+    );
+  }
+}
 
 export default App;
