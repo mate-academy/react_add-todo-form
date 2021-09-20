@@ -28,27 +28,27 @@ class App extends React.PureComponent<{}, State> {
   };
 
   formSubmit = () => {
-    this.state.copyPrepared.push({
+    const newTodo = {
       id: 1,
       uuid: uuid(),
       title: this.state.title,
       user: users[this.state.personId],
-    });
+    };
+
+    this.setState(prevState => ({
+      copyPrepared: [...prevState.copyPrepared, newTodo],
+    }));
   };
 
   handleChange = (event: React.FormEvent) => {
-    if (!this.state.title || this.state.personId === -1) {
-      event.preventDefault();
+    event.preventDefault();
 
+    if (!this.state.title || this.state.personId === -1) {
       return;
     }
 
-    event.preventDefault();
     this.formSubmit();
-    this.forceUpdate();
-    this.state.title = '';
-    this.state.personId = -1;
-    this.state.hint = false;
+    this.setState({ title: '', personId: -1, hint: false });
   };
 
   handleClick = () => {
