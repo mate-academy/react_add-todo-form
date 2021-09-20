@@ -1,0 +1,16 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+
+  &-title {
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  &__card-todo {
+    width: 300px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}

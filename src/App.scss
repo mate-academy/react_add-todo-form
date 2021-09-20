@@ -1,0 +1,39 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+
+  &__title {
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #0d6efd;
+  }
+}
+
+.todo-form {
+  margin-bottom: 15px;
+
+  &__label:first-child {
+    margin-right: 20px;
+  }
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.button {
+  height: 38px;
+  width: 100px;
+  margin-left: 20px;
+}
+
+.alert {
+  height: 38px;
+  padding: 5px;
+  text-align: center;
+}
