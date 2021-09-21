@@ -15,7 +15,7 @@ type State = {
 };
 
 class App extends React.Component<{}, State> {
-  state:State = {
+  state: State = {
     todos: todos.map(todo => ({
       ...todo,
       user: users.find(user => user.id === todo.userId),
@@ -29,7 +29,7 @@ class App extends React.Component<{}, State> {
   addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (this.state.title.length === 0) {
+    if (this.state.title.trim().length === 0) {
       this.setState({ noTitleEntered: true });
 
       return;
@@ -44,12 +44,11 @@ class App extends React.Component<{}, State> {
     this.setState((prevState) => ({
       todos: [...prevState.todos, {
         userId: prevState.userId,
-        id: Math.max(...prevState.todos.map(todo => todo.id)) + 1,
+        id: Date.now(),
         title: prevState.title,
         completed: false,
         user: users.find(userToFind => userToFind.id === prevState.userId),
       }],
-      // noTitleEntered: prevState.title.length === 0,
     }));
     this.setState({
       userId: 0,
@@ -64,7 +63,7 @@ class App extends React.Component<{}, State> {
 
   handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => this.setState({
     userId: +event.target.value,
-    noUserSelected: false,
+    noUserSelected: +event.target.value === 0,
   });
 
   render() {
@@ -86,7 +85,7 @@ class App extends React.Component<{}, State> {
             />
             <span
               hidden={!this.state.noTitleEntered}
-              style={{ color: 'red' }}
+              className="warning_message"
             >
               Please enter the title
             </span>
@@ -101,14 +100,14 @@ class App extends React.Component<{}, State> {
                 Choose a user
               </option>
               {users.map(user => (
-                <option value={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
             <span
               hidden={!this.state.noUserSelected}
-              style={{ color: 'red' }}
+              className="warning_message"
             >
               Please choose a user
             </span>

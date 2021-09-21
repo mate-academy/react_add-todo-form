@@ -11,7 +11,7 @@ export const Todo:React.FC<TodoType> = ({ title, completed, user }) => (
       {'completed - '}
       {(completed) ? 'true' : 'false'}
     </div>
-    <User user={user} />
+    <User {...user} />
     <hr />
   </li>
 );
