@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-const todos = [
+const todos: Todo[] = [
   {
     userId: 1,
     id: 1,
