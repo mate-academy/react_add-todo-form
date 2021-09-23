@@ -30,7 +30,7 @@ class App extends React.Component<{}, State> {
   validateForm = () => {
     if (this.state.newName < 1) {
       this.setState({ showUserAlert: true });
-    } else if (this.state.newTitle.length < 1) {
+    } else if (this.state.newTitle.trim().length < 1) {
       this.setState({ showTitleAlert: true });
     }
   };
@@ -38,12 +38,12 @@ class App extends React.Component<{}, State> {
   addTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.validateForm();
-    if (this.state.newTitle.length > 0 && this.state.newName > 0) {
-      const { newTitle, newName, todosFromState } = this.state;
+    const { newTitle, newName } = this.state;
 
+    if (newTitle.trim().length > 0 && newName > 0) {
       const newTodo = {
         userId: newName,
-        id: todosFromState.length + 1,
+        id: +(new Date()),
         title: newTitle,
         completed: false,
       };
