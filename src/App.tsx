@@ -48,25 +48,27 @@ class App extends React.Component<{}, State> {
   handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
-    this.setState((state) => {
-      const maxId = Math.max(...state.todos.map(todo => todo.id));
+    if (this.state.userId !== 0 && this.state.title !== '') {
+      this.setState((state) => {
+        const maxId = Math.max(...state.todos.map(todo => todo.id));
 
-      return {
-        todos: [
-          ...state.todos,
-          {
-            title: state.title,
-            id: maxId + 1,
-            userId: state.userId,
-            completed: false,
-          },
-        ],
-        userId: 0,
-        title: '',
-        userChange: false,
-        titleChange: false,
-      };
-    });
+        return {
+          todos: [
+            ...state.todos,
+            {
+              title: state.title,
+              id: maxId + 1,
+              userId: state.userId,
+              completed: false,
+            },
+          ],
+          userId: 0,
+          title: '',
+          userChange: false,
+          titleChange: false,
+        };
+      });
+    }
 
     if (this.state.userId === 0) {
       this.setState({ userChange: true });
