@@ -1,3 +1,17 @@
+body {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
 .App {
+  display: flex;
   text-align: center;
+  justify-content: center;
+}
+
+.todos {
+  width: 700px;
 }
