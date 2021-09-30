@@ -1,0 +1,20 @@
+.TodoList {
+  &__table {
+    width: 90vw;
+    max-width: 1024px;
+    border-collapse: separate;
+    border: 1px solid black;
+    border-radius: 6px;
+    margin: 0 auto;
+    background-color: silver;
+  }
+}
+
+th, td {
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 4px;
+  height: 3em;
+  padding: 5px;
+  background-color: #fff;
+}

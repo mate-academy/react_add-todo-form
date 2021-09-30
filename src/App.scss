@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.App {
+  &__title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2.5em;
+  }
+}
