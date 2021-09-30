@@ -1,0 +1,38 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 300px;
+  margin: 0 auto;
+
+  &__name {
+    padding: 10px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+  }
+
+  &__title {
+    padding: 10px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+  }
+
+  &__button {
+    padding: 10px;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 1px 25px -2px rgba(34, 60, 80, 0.2);
+    }
+  }
+
+  &__error {
+    padding: 15px;
+    font-family: sans-serif;
+    color: #fff;
+    background-color: #fa8072;
+    border-radius: 10px;
+  }
+}
