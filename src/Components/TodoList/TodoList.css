@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.table {
+  padding: 5px;
+  width: 50%;
+  border: 2px solid darkblue;
+}
+
+.table-thead {
+  background-color: lightskyblue;
+}
+
+td,
+th {
+  border: 1px solid black;
+}
