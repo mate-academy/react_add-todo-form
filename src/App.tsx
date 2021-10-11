@@ -79,23 +79,30 @@ class App extends React.Component<{}, State> {
 
   setErrors = () => {
     const { title, user } = this.state;
+    const emptyTitle = title === '';
+    const noUserSelected = user === '';
 
     this.setState((state) => {
       return {
         ...state,
         errors: {
-          emptyTitle: title === '',
-          noUserSelected: user === '',
+          emptyTitle,
+          noUserSelected,
         },
       };
     });
+
+    return {
+      emptyTitle,
+      noUserSelected,
+    };
   };
 
   addTodo = () => {
-    this.setErrors();
+    const { emptyTitle, noUserSelected } = this.setErrors();
     const { todos, title, user } = this.state;
 
-    if (title === '' || user === '') {
+    if (emptyTitle || noUserSelected) {
       return;
     }
 
