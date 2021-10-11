@@ -1,0 +1,15 @@
+.form {
+  & > * {
+    margin-bottom: 10px;
+  };
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.error-message {
+  margin-left: 10px;
+  color:red;
+  text-transform: uppercase;
+}
