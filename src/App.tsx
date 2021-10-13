@@ -37,7 +37,7 @@ class App extends React.Component<{}, State> {
   };
 
   setTitle: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (this.validateCharacter(e.currentTarget.value)) {
+    if (this.validateCharacter(e.currentTarget.value) || e.currentTarget.value === '') {
       this.setState({ title: e.currentTarget.value });
     }
   };
