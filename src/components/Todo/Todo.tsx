@@ -11,7 +11,7 @@ const Todo: React.FC<TypeTodo> = ({ title, completed, user }) => {
         {'Completed: '}
         {completed ? 'yes' : 'no'}
         <br />
-        <span className="user">{user}</span>
+        <span className="user">{user.name}</span>
       </span>
     </>
   );

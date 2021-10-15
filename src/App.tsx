@@ -6,16 +6,10 @@ import { TypeTodo } from './types';
 import users from './api/users';
 import todosFromServer from './api/todos';
 
-const enAlph = 'abcdefghijklmnopqrstuvwxyz';
-const ruAlph = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
-const numbers = '0123456789';
-const space = ' ';
-const alphabet = enAlph + ruAlph + numbers + space;
-
 type State = {
   title: string,
   titleLength: number,
-  user: string,
+  userName: string,
   todos: TypeTodo[],
   errors: {
     emptyTitle: boolean,
@@ -25,17 +19,19 @@ type State = {
 
 const preparedTodos = todosFromServer.map((todo) => {
   const user = users.find(person => person.id === todo.userId);
-  let name = '';
 
   if (user) {
-    name = user.name;
-  } else {
-    name = 'Name not found';
+    return {
+      ...todo,
+      user,
+    };
   }
 
   return {
     ...todo,
-    user: name,
+    user: {
+      name: 'User Not Found',
+    },
   };
 });
 
@@ -43,7 +39,7 @@ class App extends React.Component<{}, State> {
   state = {
     title: '',
     titleLength: 16,
-    user: '',
+    userName: '',
     todos: preparedTodos,
     errors: {
       emptyTitle: false,
@@ -53,10 +49,10 @@ class App extends React.Component<{}, State> {
 
   setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const newSymbol = value.charAt(value.length - 1).toLowerCase();
+    const doesMatchFormatting = value.toLowerCase().match(/^[а-яa-z0-9 ]*$/);
 
     if (value.length > this.state.titleLength
-      || !alphabet.includes(newSymbol)) {
+      || !doesMatchFormatting) {
       return;
     }
 
@@ -73,14 +69,15 @@ class App extends React.Component<{}, State> {
 
   setUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      user: event.target.value,
+      userName: event.target.value,
     });
   };
 
   setErrors = () => {
-    const { title, user } = this.state;
-    const emptyTitle = title === '';
-    const noUserSelected = user === '';
+    const { title, userName } = this.state;
+    const titleWithoutSpaces = title.replace(/\s/g, '');
+    const emptyTitle = titleWithoutSpaces === '';
+    const noUserSelected = userName === '';
 
     this.setState((state) => {
       return {
@@ -100,9 +97,10 @@ class App extends React.Component<{}, State> {
 
   addTodo = () => {
     const { emptyTitle, noUserSelected } = this.setErrors();
-    const { todos, title, user } = this.state;
+    const { todos, title, userName } = this.state;
+    const user = users.find(person => person.name === userName);
 
-    if (emptyTitle || noUserSelected) {
+    if (!user || emptyTitle || noUserSelected) {
       return;
     }
 
@@ -116,7 +114,7 @@ class App extends React.Component<{}, State> {
     this.setState((state) => {
       return {
         title: '',
-        user: '',
+        userName: '',
         todos: [
           ...state.todos,
           newTodo,
@@ -132,35 +130,43 @@ class App extends React.Component<{}, State> {
       <div>
         <div>
           <form className="form">
-            {/* eslint-disable-next-line */}
-            <label htmlFor="todo-title"> Title</label>
-            {' '}
-            <input
-              id="todo-title"
-              type="text"
-              value={this.state.title}
-              onChange={this.setTitle}
-            />
+
+            <label htmlFor="todo-title">
+              Title
+              {' '}
+              <input
+                id="todo-title"
+                type="text"
+                value={this.state.title}
+                onChange={this.setTitle}
+              />
+            </label>
+
             {emptyTitle && (
               <span className="error-message">
                 Please enter a title
               </span>
             )}
+
             <br />
-            {/* eslint-disable-next-line */}
-            <label htmlFor="todo-title-length">Title character limit:</label>
-            {' '}
-            <input
-              id="todo-title-length"
-              type="number"
-              min={10}
-              max={20}
-              value={this.state.titleLength}
-              onChange={this.setTitleLength}
-            />
+
+            <label htmlFor="todo-title-length">
+              Title character limit:
+              {' '}
+              <input
+                id="todo-title-length"
+                type="number"
+                min={10}
+                max={20}
+                value={this.state.titleLength}
+                onChange={this.setTitleLength}
+              />
+            </label>
+
             <br />
+
             <select
-              value={this.state.user}
+              value={this.state.userName}
               onChange={this.setUser}
             >
               <option value="">Select a user</option>
@@ -168,12 +174,15 @@ class App extends React.Component<{}, State> {
                 <option key={user.name}>{user.name}</option>
               ))}
             </select>
+
             {noUserSelected && (
               <span className="error-message">
                 Please select a user
               </span>
             )}
+
             <br />
+
             <button
               type="button"
               onClick={this.addTodo}
