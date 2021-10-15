@@ -6,9 +6,10 @@ import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 type Props = {
   todos: ToDo[];
+  removeTodo(id: number): void;
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => (
+export const TodoList: React.FC<Props> = ({ todos, removeTodo }) => (
   <ul className="todo-list">
     {todos.map(({
       id,
@@ -21,6 +22,15 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
           key={id}
           className="todo-list__item item"
         >
+          <button
+            className="remove-button"
+            type="button"
+            onClick={() => {
+              removeTodo(id);
+            }}
+          >
+            X
+          </button>
           <TodoInfo title={title} completed={completed} />
           <UserInfo
             name={user.name}

@@ -25,6 +25,12 @@ class App extends React.Component<{}, State> {
     isTitleValid: true,
   };
 
+  removeTodo = (idToDelete: number) => {
+    this.setState(event => ({
+      todosList: event.todosList.filter((todo: ToDo) => todo.id !== idToDelete),
+    }));
+  };
+
   inputFilter(e: ChangeEvent<HTMLTextAreaElement>) {
     const re = /^[a-zA-Z0-9\u0400-\u04FF ]*$/;
 
@@ -151,7 +157,7 @@ class App extends React.Component<{}, State> {
         >
           {buttonContent}
         </button>
-        {isListVisible && <TodoList todos={preparedTodos} />}
+        {isListVisible && <TodoList removeTodo={this.removeTodo} todos={preparedTodos} />}
       </div>
     );
   }
