@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+.App {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.selector,
+.input {
+  height: 30px;
+  width: 250px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  position: absolute;
+  background-color: rgb(228, 30, 30);
+  color: #fff;
+  padding: 40px 50px;
+  opacity: 0.9;
+  border-radius: 10px;
+}
+
+.title-error {
+  top: 50%;
+}
+
+.user-error {
+  top: 30%;
+}
+
+.length-error {
+  color: red;
+  max-height: 15px;
+  margin: 0;
+}
