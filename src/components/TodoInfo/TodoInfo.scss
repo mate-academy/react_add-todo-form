@@ -1,0 +1,26 @@
+.task {
+  &__title {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  &__description {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  &__status {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    height: 40px;
+    width: 40px;
+    background-image: url("../../img/inprocess.png");
+    background-size: cover;
+    background-position: center;
+
+    &--completed {
+      background-image: url("../../img/ready.jpg");
+    }
+  }
+}

@@ -1,0 +1,87 @@
+p {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.showList-button {
+  width: 100px;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.newTodo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: max-content;
+
+  &__title {
+    margin: 10px 0 0;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  &__submit {
+    width: max-content;
+    border-radius: 16px;
+    padding: 10px;
+  }
+}
+
+.textarea-set {
+  display: flex;
+  flex-direction: column;
+  height: 105px;
+  gap: 5px;
+
+  &__textarea {
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 16px;
+    height: 80px;
+    width: 300px;
+    resize: none;
+    outline: none;
+  }
+
+  &__error {
+    color: red;
+    font-weight: bold;
+  }
+}
+
+.select-set {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 65px;
+  gap: 5px;
+
+  &__select {
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 16px;
+    height: 40px;
+    width: max-content;
+  }
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
