@@ -1,3 +1,35 @@
 .App {
   text-align: center;
 }
+
+.todo {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.todo__item {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+form {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.Error {
+  background: red;
+  transform: translateY(100%);
+  position: absolute;
+  width: 100%;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  position: relative;
+}
