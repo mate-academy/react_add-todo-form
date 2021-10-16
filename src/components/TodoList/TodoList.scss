@@ -1,0 +1,14 @@
+.TodoList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.TodoList__tittles_wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid dodgerblue;
+  border-radius: 15px;
+}

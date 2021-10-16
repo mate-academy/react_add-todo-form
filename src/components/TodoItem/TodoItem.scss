@@ -1,0 +1,25 @@
+.TodoItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+  justify-content: space-around;
+  background-color: gainsboro;
+  margin: 20px 0;
+  border-radius: 25px;
+  padding: 15px 0;
+}
+
+.TodoItem__Name {
+  margin: 0;
+}
+
+.TodoItem__Email {
+  margin: 0;
+}
+
+.TodoItem__taskName {
+  margin: 0;
+}
+
+.TodoItem__Status {
+  margin: 0;
+}
