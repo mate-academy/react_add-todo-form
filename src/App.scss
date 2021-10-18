@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #c0e8fa;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  margin: 10px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+}
+
+.app {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__list {
+    list-style: none;
+    width: 150%;
+    transform: translateX(-15%);
+    
+    &-item {
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 10px 0;
+      background-color: #70b4ec;
+      color: #fff;
+    }
+  }
+}
+
+.field {
+  &-task,
+  &-user {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    
+  }
+
+  &-add {
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  &-error {
+    text-align: center;
+    color: #f00;
+  }
+}
