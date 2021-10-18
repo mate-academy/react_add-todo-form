@@ -11,45 +11,29 @@ li {
 }
 
 .form {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 15px;
 }
 
 .selector,
 .input {
   height: 30px;
   width: 250px;
+  margin-bottom: 10px;
 }
 
 .main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
 .error {
-  position: absolute;
-  background-color: rgb(228, 30, 30);
-  color: #fff;
-  padding: 40px 50px;
-  opacity: 0.9;
-  border-radius: 10px;
-}
-
-.title-error {
-  top: 50%;
-}
-
-.user-error {
-  top: 30%;
-}
-
-.length-error {
   color: red;
-  max-height: 15px;
   margin: 0;
+  max-height: 15px;
+  margin-bottom: 10px;
 }

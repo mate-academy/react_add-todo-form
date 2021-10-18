@@ -11,5 +11,5 @@ interface Todo {
   id: number,
   title: string,
   completed: boolean,
-  users: User | null,
+  user: User | null,
 }

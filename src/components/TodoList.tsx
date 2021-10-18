@@ -10,13 +10,16 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
     <>
       {todos.map((todo) => {
         const {
-          users, id, title, completed,
+          user,
+          id,
+          title,
+          completed,
         } = todo;
 
         return (
           <li className="todo-list__item" key={id}>
-            <h2>{users?.name}</h2>
-            <p>{title}</p>
+            <h2>{user?.name}</h2>
+            <p className="item-title">{title}</p>
             <p>
               {completed ? 'complete' : 'in progress'}
             </p>

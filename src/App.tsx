@@ -6,38 +6,42 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const prepearedTodos = todosFromServer.map(todo => {
-  const users = usersFromServer.find((user) => user.id === todo.userId) || null;
+  const user = usersFromServer.find((person) => person.id === todo.userId) || null;
 
-  return { ...todo, users };
+  return { ...todo, user };
 });
 
 type State = {
-  maxLength: boolean,
   title: string,
   userId: number,
-  selectTitle: boolean,
-  selectUser: boolean,
-  todos: Todo[]
+  todos: Todo[],
+  setFormSubmitted: boolean,
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
-    maxLength: true,
     title: '',
     userId: 0,
-    selectTitle: true,
-    selectUser: true,
     todos: [...prepearedTodos],
+    setFormSubmitted: false,
   };
 
   handleSubmit = (event: any) => {
     event.preventDefault();
 
     const {
-      userId, title, todos, maxLength,
+      userId,
+      title,
+      todos,
     } = this.state;
 
-    if (userId !== 0 && title !== '' && maxLength !== false) {
+    if (!title.trim() || !userId) {
+      this.setState({
+        setFormSubmitted: true,
+      });
+    }
+
+    if (userId && title.trim() && title.length <= 30) {
       const maxId = Math.max(...todos.map(todo => todo.id));
 
       const newTodo = {
@@ -45,60 +49,38 @@ class App extends React.Component<{}, State> {
         id: maxId + 1,
         title,
         completed: false,
-        users: usersFromServer.find((user) => user.id === userId) || null,
+        user: usersFromServer.find((user) => user.id === userId) || null,
       };
 
       this.setState((state) => ({
         userId: 0,
         title: '',
-        selectTitle: true,
-        selectUser: true,
         todos: [
           ...state.todos,
           newTodo],
+        setFormSubmitted: false,
       }));
-    }
-
-    if (userId === 0) {
-      this.setState({
-        selectUser: false,
-      });
-    }
-
-    if (title === '') {
-      this.setState({
-        selectTitle: false,
-      });
     }
   };
 
   titleChange = (event: any) => {
-    if (event.target.value.length > 30) {
-      this.setState({
-        maxLength: false,
-      });
-    } else {
-      this.setState({
-        maxLength: true,
-      });
-    }
-
     this.setState({
-      selectTitle: true,
       title: event.target.value,
     });
   };
 
   userChange = (event: any) => {
     this.setState({
-      selectUser: true,
       userId: +event.target.value,
     });
   };
 
   render() {
     const {
-      maxLength, todos, title, userId, selectTitle, selectUser,
+      todos,
+      title,
+      userId,
+      setFormSubmitted,
     } = this.state;
 
     return (
@@ -111,10 +93,16 @@ class App extends React.Component<{}, State> {
             value={title}
             onChange={this.titleChange}
           />
-          {!maxLength
+          {!title.trim() && setFormSubmitted
             && (
-              <p className="length-error">
-                Max length is 50  symbols
+              <p className="error">
+                Please enter the title
+              </p>
+            )}
+          {title.length > 30
+            && (
+              <p className="error">
+                Max length is 30  symbols
               </p>
             )}
           <select
@@ -132,7 +120,13 @@ class App extends React.Component<{}, State> {
               </option>
             ))}
           </select>
-          <button type="submit">
+          {!userId && setFormSubmitted
+            && (
+              <p className="error">
+                Please choose a user
+              </p>
+            )}
+          <button className="btn" type="submit">
             Add
           </button>
         </form>
@@ -140,18 +134,6 @@ class App extends React.Component<{}, State> {
           <ul className="todo-list">
             <TodoList todos={todos} />
           </ul>
-          {!selectUser
-            && (
-              <div className="error user-error">
-                <strong>Please choose a user</strong>
-              </div>
-            )}
-          {!selectTitle
-            && (
-              <div className="error title-error">
-                <strong>Please enter the title</strong>
-              </div>
-            )}
         </main>
       </div>
     );
