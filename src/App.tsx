@@ -9,7 +9,6 @@ import users from './api/users';
 type State = {
   todosTask: TodoType[];
   name: string;
-  currentUser: string;
   title: string;
   error: string;
 };
@@ -18,25 +17,12 @@ export class App extends React.Component<{}, State> {
   state = {
     todosTask: [...todos],
     name: '',
-    currentUser: '',
     title: '',
-    error: '',
+    error: 'Please enter valid value!',
   };
 
   addTodo = () => {
     const { name, title } = this.state;
-
-    if (!users.some(user => user.name === name)) {
-      this.setState({
-        currentUser: 'Please choose user!',
-      });
-    }
-
-    if (!title) {
-      this.setState({
-        error: 'Please enter your task!',
-      });
-    }
 
     if (
       users.some(user => name === user.name) && title
@@ -53,9 +39,6 @@ export class App extends React.Component<{}, State> {
 
         return {
           todosTask: [...state.todosTask, newTodo],
-          currentUser: '',
-          title: '',
-          error: '',
         };
       });
     }
@@ -66,7 +49,6 @@ export class App extends React.Component<{}, State> {
       todosTask,
       title,
       name,
-      currentUser,
       error,
     } = this.state;
 
@@ -88,7 +70,6 @@ export class App extends React.Component<{}, State> {
                   value={name}
                   onChange={(event) => this.setState({
                     name: event.target.value,
-                    currentUser: '',
                   })}
                 >
                   <option>Choose name</option>
@@ -102,8 +83,7 @@ export class App extends React.Component<{}, State> {
                 </select>
               </div>
               <div>
-                {currentUser
-                  && currentUser}
+                {error && error}
               </div>
             </div>
             <div>
@@ -116,14 +96,12 @@ export class App extends React.Component<{}, State> {
                   onChange={(event) => {
                     this.setState({
                       title: event.target.value,
-                      error: '',
                     });
                   }}
                 />
               </div>
               <div className="field-error">
-                {error
-                  && error}
+                {error && error}
               </div>
             </div>
             <div>
