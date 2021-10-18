@@ -104,8 +104,7 @@ class App extends React.Component<{}, State> {
               </select>
             </div>
             <div className="App__select-error">
-              {isTitleError
-                && 'Please enter a text'}
+              {isTitleError && 'Please enter a text'}
             </div>
             <div className="App__input-box">
               <input
@@ -121,8 +120,7 @@ class App extends React.Component<{}, State> {
               />
             </div>
             <div className="App__input-error">
-              {isError
-                && 'Please enter the title'}
+              {isError && 'Please enter the title'}
             </div>
             <div className="App__button-box">
               <button
