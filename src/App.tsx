@@ -14,8 +14,8 @@ type State = {
   todos: TodoTypes[];
   title: string;
   name: string;
-  choosenUser: string;
-  errorTitle: string;
+  isError: boolean;
+  isTitleError: boolean;
 };
 
 class App extends React.Component<{}, State> {
@@ -23,8 +23,8 @@ class App extends React.Component<{}, State> {
     todos: [...todos],
     title: '',
     name: '',
-    choosenUser: '',
-    errorTitle: '',
+    isError: false,
+    isTitleError: false,
   };
 
   addTodo = () => {
@@ -32,13 +32,13 @@ class App extends React.Component<{}, State> {
 
     if (!title) {
       this.setState({
-        errorTitle: 'Please enter the title',
+        isError: true,
       });
     }
 
     if (!users.some(user => name === user.name)) {
       this.setState({
-        choosenUser: 'Please choose a user',
+        isTitleError: true,
       });
     }
 
@@ -59,8 +59,6 @@ class App extends React.Component<{}, State> {
         return {
           todos: [...selectState.todos, newTodo],
           title: '',
-          errorTitle: '',
-          choosenUser: '',
         };
       });
     }
@@ -71,8 +69,8 @@ class App extends React.Component<{}, State> {
       todos,
       title,
       name,
-      choosenUser,
-      errorTitle,
+      isError,
+      isTitleError,
     } = this.state;
 
     return (
@@ -93,7 +91,6 @@ class App extends React.Component<{}, State> {
                 className="App__select"
                 onChange={(event) => this.setState({
                   name: event.target.value,
-                  choosenUser: '',
                 })}
               >
                 <option className="App__select-item">Choose a user</option>
@@ -107,8 +104,8 @@ class App extends React.Component<{}, State> {
               </select>
             </div>
             <div className="App__select-error">
-              {choosenUser
-                && choosenUser}
+              {isTitleError
+                && 'Please enter a text'}
             </div>
             <div className="App__input-box">
               <input
@@ -119,14 +116,13 @@ class App extends React.Component<{}, State> {
                 onChange={(event) => {
                   this.setState({
                     title: event.target.value,
-                    errorTitle: '',
                   });
                 }}
               />
             </div>
             <div className="App__input-error">
-              {errorTitle
-                && errorTitle}
+              {isError
+                && 'Please enter the title'}
             </div>
             <div className="App__button-box">
               <button
