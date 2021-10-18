@@ -1,15 +1,15 @@
 import React from 'react';
 
-import usersAPI from './api/users';
-import todosAPI from './api/todos';
+import usersFromAPI from './api/users';
+import todosFromAPI from './api/todos';
 
 import Todo from './types/Todo';
 
 import 'bulma/css/bulma.min.css';
 import { TodoList } from './components/TodoList';
 
-const initialTodos: Todo[] = todosAPI.map(todo => {
-  const user = usersAPI.find(({ id }) => id === todo.userId);
+const initialTodos: Todo[] = todosFromAPI.map(todo => {
+  const user = usersFromAPI.find(({ id }) => id === todo.userId);
 
   return {
     ...todo,
@@ -21,7 +21,7 @@ interface State {
   todos: Todo[];
   userId: number;
   title: string;
-  isErrorOccured: boolean;
+  hasErrorOccured: boolean;
 }
 
 class App extends React.Component<{}, State> {
@@ -29,7 +29,7 @@ class App extends React.Component<{}, State> {
     todos: initialTodos,
     userId: 0,
     title: '',
-    isErrorOccured: false,
+    hasErrorOccured: false,
   };
 
   setUser: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -37,7 +37,7 @@ class App extends React.Component<{}, State> {
   };
 
   setTitle: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (this.validateCharacter(e.currentTarget.value) || e.currentTarget.value === '') {
+    if (this.validateCharacter(e.currentTarget.value)) {
       this.setState({ title: e.currentTarget.value });
     }
   };
@@ -46,20 +46,20 @@ class App extends React.Component<{}, State> {
     const { userId, title, todos } = this.state;
 
     if (!userId || !title.trim()) {
-      this.setState({ isErrorOccured: true });
+      this.setState({ hasErrorOccured: true });
     } else {
-      const id = todos[todos.length - 1].id + 1;
-      const user = usersAPI.find(usr => userId === usr.id);
+      const id = todos.length + 1;
+      const user = usersFromAPI.find(usr => userId === usr.id);
 
       const newTodo = {
         id,
-        title,
+        title: title.trim(),
         user,
-        completed: true,
+        completed: false,
       } as Todo;
 
       if (user) {
-        this.setState({ todos: [newTodo, ...todos] });
+        this.setState({ todos: [...todos, newTodo] });
       }
 
       this.resetTodo();
@@ -70,7 +70,7 @@ class App extends React.Component<{}, State> {
 
   resetTodo = () => {
     this.setState({
-      isErrorOccured: false,
+      hasErrorOccured: false,
       title: '',
       userId: 0,
     });
@@ -78,12 +78,14 @@ class App extends React.Component<{}, State> {
 
   validateCharacter = (c: string) => {
     const lastCharCode = c.toLowerCase().charCodeAt(c.length - 1);
+
     const englishChars = lastCharCode >= 97 && lastCharCode <= 122;
     const russianChars = lastCharCode >= 1072 && lastCharCode <= 1103;
     const numbers = lastCharCode >= 48 && lastCharCode <= 57;
     const space = lastCharCode === 32;
+    const emptyChar = c === '';
 
-    return englishChars || russianChars || numbers || space;
+    return englishChars || russianChars || numbers || space || emptyChar;
   };
 
   render() {
@@ -91,7 +93,7 @@ class App extends React.Component<{}, State> {
       todos,
       title,
       userId,
-      isErrorOccured,
+      hasErrorOccured: isErrorOccured,
     } = this.state;
 
     return (
@@ -131,7 +133,7 @@ class App extends React.Component<{}, State> {
                     value={userId}
                   >
                     <option value="">Choose a user</option>
-                    {usersAPI.map(({ id, name }) => (
+                    {usersFromAPI.map(({ id, name }) => (
                       <option key={id} value={id}>{name}</option>
                     ))}
                   </select>
