@@ -21,11 +21,13 @@ h1 {
 }
 
 .todoForm {
+  position: relative;
+  left: -7%;
   display: grid;
   grid-template-columns: 1.7fr 7fr 1fr;
   justify-content: center;
   align-items: center;
-  width: 70vw;
+  width: 85vw;
 }
 
 .todoForm__elements {
