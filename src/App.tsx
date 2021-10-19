@@ -4,34 +4,34 @@ import './App.scss';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
-import { ToDo } from './types/ToDo';
+import { Todo } from './types/Todo';
 
 type State = {
   title: string;
   userId: number;
-  todosList: ToDo[];
+  todosList: Todo[];
   isListVisible: boolean;
   isUserSelected: boolean;
   isTitleValid: boolean;
 };
 
 class App extends React.Component<{}, State> {
-  state = {
+  state: State = {
     userId: 0,
     title: '',
-    todosList: todos,
+    todosList: [...todos],
     isListVisible: false,
     isUserSelected: true,
     isTitleValid: true,
   };
 
-  removeTodo = (idToDelete: number) => {
+  removeTodo = (todoId: number) => {
     this.setState(event => ({
-      todosList: event.todosList.filter((todo: ToDo) => todo.id !== idToDelete),
+      todosList: event.todosList.filter((todo: Todo) => todo.id !== todoId),
     }));
   };
 
-  inputFilter(e: ChangeEvent<HTMLTextAreaElement>) {
+  addTitle(e: ChangeEvent<HTMLTextAreaElement>) {
     const re = /^[a-zA-Z0-9\u0400-\u04FF ]*$/;
 
     if (e.target.value.length <= 80 && re.test(e.target.value)) {
@@ -39,31 +39,19 @@ class App extends React.Component<{}, State> {
     }
   }
 
-  formValidation() {
+  isFormValid() {
     const { title, userId } = this.state;
-    let isValid = true;
 
-    if (title.length === 0) {
-      isValid = false;
-      this.setState({ isTitleValid: false });
-    } else {
-      this.setState({ isTitleValid: true });
-    }
+    this.setState({ isTitleValid: !!title.length });
+    this.setState({ isUserSelected: !!userId });
 
-    if (userId === 0) {
-      isValid = false;
-      this.setState({ isUserSelected: false });
-    } else {
-      this.setState({ isUserSelected: true });
-    }
-
-    return isValid;
+    return title.length && userId;
   }
 
   submitForm() {
     const { userId, title } = this.state;
 
-    if (this.formValidation()) {
+    if (this.isFormValid()) {
       this.setState(state => ({
         todosList: [
           ...state.todosList,
@@ -82,12 +70,19 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      isListVisible, todosList, title, userId, isTitleValid, isUserSelected,
+      isListVisible,
+      todosList,
+      title,
+      userId,
+      isTitleValid,
+      isUserSelected,
     } = this.state;
-    const preparedTodos: ToDo[] = todosList.map((todo) => ({
+
+    const preparedTodos: Todo[] = todosList.map((todo) => ({
       ...todo,
-      user: users.find(({ id }) => id === todo.userId) || null,
+      user: users.find(({ id }) => id === todo.userId),
     }));
+
     const buttonContent = isListVisible ? 'Hide task\'s' : 'Show task\'s';
 
     return (
@@ -108,7 +103,7 @@ class App extends React.Component<{}, State> {
                 value={title}
                 placeholder="Enter task"
                 onChange={(event) => {
-                  this.inputFilter(event);
+                  this.addTitle(event);
                 }}
               />
               {!isTitleValid && (<span className="error">Cannot be empty!</span>)}

@@ -1,11 +1,11 @@
 import React from 'react';
-import { ToDo } from '../../types/ToDo';
+import { Todo } from '../../types/Todo';
 import './TodoList.scss';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 type Props = {
-  todos: ToDo[];
+  todos: Todo[];
   removeTodo(id: number): void;
 };
 
@@ -25,20 +25,12 @@ export const TodoList: React.FC<Props> = ({ todos, removeTodo }) => (
           <button
             className="remove-button"
             type="button"
-            onClick={() => {
-              removeTodo(id);
-            }}
+            onClick={() => removeTodo(id)}
           >
             X
           </button>
           <TodoInfo title={title} completed={completed} />
-          <UserInfo
-            name={user.name}
-            username={user.username}
-            email={user.email}
-            phone={user.phone}
-            company={user.company}
-          />
+          <UserInfo {...user} />
         </li>
       );
     })}
