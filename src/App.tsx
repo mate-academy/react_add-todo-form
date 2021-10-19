@@ -47,7 +47,7 @@ class App extends React.Component<{}, State> {
     if (todoUserId !== 0 && todoTitle !== '') {
       const newTodo: Todo = {
         userId: todoUserId,
-        id: [...todos].sort((t1, t2) => t1.id - t2.id)[0].id + 1,
+        id: [...todos].sort((t1, t2) => t2.id - t1.id)[0].id + 1,
         title: todoTitle,
         completed: false,
         user: users.find(person => person.id === todoUserId),
@@ -119,7 +119,7 @@ class App extends React.Component<{}, State> {
                 value={todoUserId}
                 onChange={event => (
                   this.setState({
-                    todoUserId: parseInt(event.target.value, 10),
+                    todoUserId: +event.target.value,
                     userErrorVisible: false,
                   }))}
               >

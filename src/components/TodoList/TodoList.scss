@@ -1,0 +1,34 @@
+.todo-list {
+  width: 70vw;
+  margin: 0 auto;
+  padding: 0;
+
+  &__item {
+    display: flex;
+    height: 10vh;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 1vh;
+    padding: 2vh;
+    background-color: #fff;
+    border-radius: 1em;
+
+    span {
+      display: inline-block;
+      width: 23%;
+    }
+  }
+
+  &__item-status {
+    width: 2em;
+    height: 2em;
+    border: gray 0.1em solid;
+    border-radius: 10%;
+    
+    &--completed {
+      background-image: url(./vcsnormal_93488.svg);
+      background-size: cover;
+    }
+  }
+}
