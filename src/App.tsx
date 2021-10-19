@@ -31,6 +31,8 @@ interface State {
   todos: Todo[]
   userId: number,
   title: string
+  userError: boolean,
+  titleError: boolean,
 }
 
 class App extends React.Component<{}, State> {
@@ -38,49 +40,77 @@ class App extends React.Component<{}, State> {
     todos: [...preparedTodos],
     userId: 0,
     title: '',
+    userError: false,
+    titleError: false,
   };
 
   setTodo: React.FormEventHandler = (event): void => {
     const { userId, title, todos } = this.state;
-    const newTodo = {
-      userId,
-      id: todos.length,
-      title,
-      completed: false,
-      user: usersFromApi.find(user => user.id === this.state.userId),
-    } as Todo;
 
-    this.setState({
-      todos: [...todos, newTodo],
-      userId: 0,
-      title: '',
-    });
+    if (!userId) {
+      this.setState({ userError: true });
+    } else {
+      this.setState({ userError: false });
+    }
+
+    if (!title) {
+      this.setState({ titleError: true });
+    } else {
+      this.setState({ titleError: false });
+    }
+
+    if (title && userId) {
+      const newTodo = {
+        userId,
+        id: todos.length + 1,
+        title,
+        completed: false,
+        user: usersFromApi.find(user => user.id === this.state.userId),
+      } as Todo;
+
+      this.setState({
+        todos: [...todos, newTodo],
+        userId: 0,
+        title: '',
+        userError: false,
+        titleError: false,
+      });
+    }
 
     event.preventDefault();
   };
 
   render() {
-    const { todos, userId, title } = this.state;
+    const {
+      todos,
+      userId,
+      title,
+      titleError,
+      userError,
+    } = this.state;
 
     return (
       <div className="App">
         <h1>Add todo form</h1>
 
-        <form onSubmit={this.setTodo}>
+        <form onSubmit={this.setTodo} className="todo-form">
           <input
             type="text"
             value={title}
+            placeholder="Title"
             onChange={(event) => {
               this.setState({ title: event.target.value });
             }}
           />
+          {titleError && (
+            <p>This title is invalid</p>
+          )}
           <select
             name="user"
             value={userId}
             onChange={(event) => {
               this.setState({ userId: +event.target.value });
             }}
-            required
           >
             <option value="">Choose a user</option>
             {usersFromApi.map(user => {
@@ -89,6 +119,9 @@ class App extends React.Component<{}, State> {
               );
             })}
           </select>
+          {userError && (
+            <p>Choose a user</p>
+          )}
           <button type="submit">Add</button>
         </form>
         <ul className="todo-list">

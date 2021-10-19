@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+  margin: 0 auto;
+}
+
 .todo-list {
   list-style: none;
 
