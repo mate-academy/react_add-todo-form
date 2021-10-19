@@ -17,7 +17,7 @@ export const TodoList: React.FC<Props> = ({ todos, removeTodo }) => (
       completed,
       user,
     }) => {
-      return user && (
+      return (
         <li
           key={id}
           className="todo-list__item item"
@@ -30,7 +30,7 @@ export const TodoList: React.FC<Props> = ({ todos, removeTodo }) => (
             X
           </button>
           <TodoInfo title={title} completed={completed} />
-          <UserInfo {...user} />
+          {user && <UserInfo {...user} />}
         </li>
       );
     })}
