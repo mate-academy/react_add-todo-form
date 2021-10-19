@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.todo-list {
+  list-style: none;
+
+  &__item {
+    background: red;
+
+    &--done {
+      background: green;
+    }
+  }
+}
