@@ -3,21 +3,8 @@ import './App.scss';
 import classnames from 'classnames';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface TodoWithoutUser {
-  title: string;
-  id: number;
-  userId: number;
-}
-
-interface Todo extends TodoWithoutUser {
-  user: User | null;
-}
+import { User, Todo } from './types/TodoType';
+import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -157,23 +144,7 @@ class App extends React.Component<{}, State> {
             <button type="submit">Add todo</button>
           </form>
 
-          <ul className="todoList">
-            {todos.map((todo) => (
-              todo.user
-              && (
-                <li
-                  className="todoList__item"
-                  key={todo.id}
-                >
-                  {todo.user.name}
-
-                  <div className="todoList__todo-title">
-                    {todo.title}
-                  </div>
-                </li>
-              )
-            ))}
-          </ul>
+          <TodoList tasks={todos} />
         </div>
       </div>
     );
