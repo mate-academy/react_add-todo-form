@@ -1,0 +1,88 @@
+.App {
+  width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+
+  &-Title {
+    margin: 0;
+    color: #fb4a4a;
+    letter-spacing: 3px;
+    font-size: 48px;
+    margin-bottom: 24px;
+  }
+
+  &-AddForm {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  &-AddText {
+    width: 60%;
+    box-sizing: border-box;
+    font-size: inherit;
+    padding: 8px 16px;
+    border: 1px solid #0006;
+    border-radius: 5px;
+  }
+
+  &-AddSelect {
+    width: 20%;
+    padding: 8px 0;
+    box-sizing: border-box;
+    font-size: inherit;
+    border: 1px solid #0006;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  &-AddOption {
+    padding: 0;
+  }
+
+  &-AddButton {
+    width: 20%;
+    padding: 8px 0;
+    box-sizing: border-box;
+    font-size: inherit;
+    border: 1px solid #0006;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  &-Errors {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+  }
+
+  &-TextError {
+    margin: 0;
+    width: 60%;
+    height: 24px;
+    box-sizing: border-box;
+    font-size: inherit;
+    font-weight: bold;
+    animation: redPulse 1s linear infinite alternate;
+  }
+
+  &-UserError {
+    margin: 0;
+    width: 20%;
+    height: 24px;
+    box-sizing: border-box;
+    font-size: inherit;
+    font-weight: bold;
+    animation: redPulse 1s linear infinite alternate 0.5s;
+  }
+
+  @keyframes redPulse {
+    from {
+      color: #000;
+    }
+    to {
+      color: #f00;
+    }
+  }
+}
+
+

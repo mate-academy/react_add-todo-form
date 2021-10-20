@@ -1,0 +1,52 @@
+.ToDoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &-Item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border: 1px solid #0006;
+    border-radius: 5px;
+    font-size: 24px;
+
+    &:first-child {
+      position: sticky;
+      top: 0;
+      background-color: #fb4a4a;
+      color: #fff;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+  }
+
+  &-Title {
+    margin: 0;
+    width: 60%;
+    text-align: left;
+    font-size: 1em;
+    font-weight: normal;
+
+    &_First {
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  &-User {
+    margin: 0;
+    width: 20%;
+  }
+
+  &-Status {
+    margin: 0;
+    width: 20%;
+  }
+}
