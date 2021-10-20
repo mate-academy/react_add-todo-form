@@ -1,3 +1,28 @@
 .App {
   text-align: center;
 }
+
+li {
+  list-style: none;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  line-height: 40px;
+  width: 500px;
+  background-color: #ccc;
+  border-radius: 8px;
+}
+
+.error {
+  color: red;
+  position: absolute;
+  margin-left: -150px;
+}
+
+.field-error {
+  border-color: red;
+  position: relative;
+}
