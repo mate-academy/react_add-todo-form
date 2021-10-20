@@ -3,31 +3,7 @@ import './App.css';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-  address: {
-    street: string,
-    suite: string,
-    city: string,
-    zipcode: string,
-    geo: {
-      lat: string,
-      lng: string,
-    },
-  }
-}
-
-interface NewTodo {
-  userId: number,
-  id: number,
-  title:string,
-  completed: boolean,
-  user: User | null,
-}
+import { NewTodo, State } from './type/Types';
 
 const newTodos: NewTodo[] = todosFromServer.map(todo => (
   {
@@ -36,17 +12,21 @@ const newTodos: NewTodo[] = todosFromServer.map(todo => (
   }
 ));
 
-type State = {
-  todos: NewTodo[],
-  newTodoName: string,
-  newTodoPerformer: number,
-};
-
 class App extends React.Component<{}, State> {
   state: State = {
     todos: newTodos,
     newTodoName: '',
     newTodoPerformer: 0,
+    isTodoNameEmpty: false,
+    isTodoPerformerEmpty: false,
+  };
+
+  clickOnTodos = () => {
+    this.setState({ isTodoNameEmpty: false });
+  };
+
+  clickOnPerformer = () => {
+    this.setState({ isTodoPerformerEmpty: false });
   };
 
   inputTodoName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +43,21 @@ class App extends React.Component<{}, State> {
 
   addInTodoList = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!this.state.newTodoName
+        || !this.state.newTodoPerformer
+        || this.state.newTodoPerformer === -1) {
+      if (!this.state.newTodoName) {
+        this.setState({ isTodoNameEmpty: true });
+      }
+
+      if (!this.state.newTodoPerformer
+          || this.state.newTodoPerformer === -1) {
+        this.setState({ isTodoPerformerEmpty: true });
+      }
+
+      return;
+    }
 
     const maxTodoId = Math.max(...this.state.todos.map(todo => todo.id));
 
@@ -87,7 +82,13 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { todos, newTodoName, newTodoPerformer } = this.state;
+    const {
+      todos,
+      newTodoName,
+      newTodoPerformer,
+      isTodoNameEmpty,
+      isTodoPerformerEmpty,
+    } = this.state;
 
     return (
       <div className="App">
@@ -98,19 +99,28 @@ class App extends React.Component<{}, State> {
           onSubmit={this.addInTodoList}
         >
           <input
-            className="form__element"
+            className={
+              (!isTodoNameEmpty)
+                ? 'form__element'
+                : 'form__element alarm'
+            }
             type="text"
             placeholder="Enter todo"
-            required
+            onClick={this.clickOnTodos}
             onChange={this.inputTodoName}
-            value={newTodoName}
+            value={!isTodoNameEmpty ? newTodoName : 'Please enter todo'}
           />
 
           <select
-            className="form__element"
+            className={
+              (!isTodoPerformerEmpty)
+                ? 'form__element'
+                : 'form__element alarm'
+            }
             name="users"
             id="users"
             value={newTodoPerformer}
+            onClick={this.clickOnPerformer}
             onChange={this.inputTodoPerformer}
           >
             <option value="0">Select performer</option>

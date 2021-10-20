@@ -30,3 +30,9 @@
 .form__element:hover {
   background-color: #adf;
 }
+
+.alarm {
+  background-color: #f00;
+  color: #fff;
+  font-weight: 700;
+}
