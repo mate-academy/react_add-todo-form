@@ -1,0 +1,55 @@
+.App {
+  width: 400px;
+  border: 1px solid black;
+}
+
+h1 {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.error {
+  margin-left: 10px;
+  color: red;
+}
+
+.field-error {
+  border-color: red;
+}
+
+.form {
+  box-sizing: border-box;
+  margin-left: 15px;
+}
+
+input {
+  width: 200px;
+  height: 25px;
+  padding: 0;
+  margin-bottom: 3px;
+}
+
+select {
+  width: 204px;
+  height: 29px;
+  margin-bottom: 3px;
+}
+
+.todoList {
+  list-style: none;
+  padding: 0;
+  &__item {
+    padding: 5px;
+    margin: 15px;
+    border: 1px solid green;
+    border-radius: 5px;
+    color: indigo;
+    font-weight: normal;
+  }
+
+  &__todo-title {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #f5e;
+  }
+}
