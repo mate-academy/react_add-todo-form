@@ -1,3 +1,51 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: #679;
+}
+
 .App {
+  margin: 0;
+  padding: 20px;
   text-align: center;
+}
+
+.title {
+  margin: 0 0 10px 10px;
+  width: 200px;
+  height: 30px;
+  font-size: large;
+  color: #679;
+  border-color: #56a;
+  border-radius: 10px;
+}
+
+.user {
+  margin: 0 0 10px 10px;
+  width: 300px;
+  height: 30px;
+  font-size: large;
+  color: #679;
+  text-align: center;
+  border-color: #56a;
+  border-radius: 10px;
+}
+
+.todoList {
+  list-style: none;
+}
+
+.todoList__Item {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 20px;
+  background-color: #ff9;
+  border-radius: 10px;
+}
+
+.error {
+  color: #f00;
 }
