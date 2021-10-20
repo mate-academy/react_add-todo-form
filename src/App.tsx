@@ -21,9 +21,16 @@ export default class App extends React.Component<{}, State> {
     error: 'Please enter a valid value!',
   };
 
+
+  clearInputs = () => {
+      this.setState({
+        userName: '',
+        todoItem: '',
+      })
+  }
+
   addTodo = () => {
     const { userName, todoItem } = this.state;
-
     if (
       // if inputs are not empty
       users.some(user => userName === user.name) && todoItem
@@ -42,6 +49,7 @@ export default class App extends React.Component<{}, State> {
           allTodos: [...prevState.allTodos, newTodo],
         };
       });
+      this.clearInputs()
     }
   };
 
