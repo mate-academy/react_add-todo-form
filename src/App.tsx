@@ -64,12 +64,14 @@ class App extends React.PureComponent<{}, State> {
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       newTitle: event.target.value,
+      hasTitleError: false,
     });
   };
 
   handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       newName: event.target.value,
+      hasNameError: false,
     });
   };
 
