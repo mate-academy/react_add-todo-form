@@ -83,13 +83,13 @@ class App extends React.Component<{}, State> {
               type="text"
               name="title"
               placeholder="Title"
-              maxLength={10}
+              maxLength={20}
               value={this.state.title}
               pattern="^[0-9a-zA-ZА-Яа-яЁё\s]+$"
               className="input-title"
               onChange={(event) => {
                 this.setState({
-                  title: event.target.value,
+                  title: event.target.value.trimLeft(),
                   isTitleValid: true,
                 });
               }}
