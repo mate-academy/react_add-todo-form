@@ -1,0 +1,14 @@
+.list__item {
+  padding: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: #e0526a;
+  border: solid 1px #e0526a;
+  border-radius: 5px;
+  list-style-type: none;
+
+  &--done {
+    background-color: #80ff00b7;
+    border-color: #80ff00b7;
+  }
+}
