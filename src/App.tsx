@@ -7,14 +7,14 @@ import { TodoList } from './TodoList';
 
 class App extends React.Component<{}, {}> {
   state = {
-    todosSecond: todos,
+    todosSecond: [...todos],
     newTodo: '',
-    userForNewTodo: '0',
+    userForNewTodo: 0,
     isChoosedUser: true,
     isWritedTitle: true,
   };
 
-  changeuserForNewTodo = (value: string) => {
+  changeuserForNewTodo = (value: number) => {
     this.setState({
       userForNewTodo: value,
       isChoosedUser: true,
@@ -26,28 +26,28 @@ class App extends React.Component<{}, {}> {
       todosSecond, newTodo, userForNewTodo,
     } = this.state;
 
-    if (newTodo.length === 0 && userForNewTodo === '0') {
+    if (newTodo.length === 0 && userForNewTodo === 0) {
       this.setState({
         isChoosedUser: false,
         isWritedTitle: false,
       });
     }
 
-    if (newTodo.length !== 0 && userForNewTodo === '0') {
+    if (newTodo.length !== 0 && userForNewTodo === 0) {
       this.setState({
         isChoosedUser: false,
 
       });
     }
 
-    if (newTodo.length === 0 && userForNewTodo !== '0') {
+    if (newTodo.length === 0 && userForNewTodo !== 0) {
       this.setState({
 
         isWritedTitle: false,
       });
     }
 
-    if (newTodo.length !== 0 && userForNewTodo !== '0') {
+    if (newTodo.length !== 0 && userForNewTodo !== 0) {
       this.setState(() => {
         todosSecond.push({
           userId: +userForNewTodo,
@@ -58,14 +58,26 @@ class App extends React.Component<{}, {}> {
       });
       this.setState({
         newTodo: '',
-        userForNewTodo: '0',
+        userForNewTodo: 0,
         isChoosedUser: true,
         isWritedTitle: true,
       });
     }
   };
 
+  changeOnInput = (value: string) => {
+    this.setState({
+      newTodo: value,
+      isWritedTitle: true,
+    });
+  };
+
+  changeOnSelect = () => [
+
+  ];
+
   render() {
+    const { userForNewTodo } = this.state;
     const todoToRender = this.state.todosSecond.map(todo => {
       const userTodo = users.find(user => user.id === todo.userId) || null;
 
@@ -90,23 +102,24 @@ class App extends React.Component<{}, {}> {
                 required
                 value={this.state.newTodo}
                 onChange={(event) => {
-                  this.setState({
-                    newTodo: event.target.value,
-                    isWritedTitle: true,
-                  });
+                  this.changeOnInput((event.target.value));
                 }}
               />
             </label>
-            {!this.state.isWritedTitle && <p className="error">Please enter the title</p>}
+            {!this.state.isWritedTitle && (
+              <p className="error">
+                Please enter the title
+              </p>
+            )}
           </div>
           <div>
             <label htmlFor="chooseUser">
               <select
                 name="user"
                 id="chooseUser"
-                value={this.state.userForNewTodo}
+                value={userForNewTodo}
                 onChange={(event) => {
-                  this.changeuserForNewTodo(event.target.value);
+                  this.changeuserForNewTodo(+(event.target.value));
                 }}
               >
                 <option value="0">Choose a user</option>
@@ -119,10 +132,20 @@ class App extends React.Component<{}, {}> {
                 })}
               </select>
             </label>
-            {!this.state.isChoosedUser && <p className="error">Please choose a user</p>}
+            {!this.state.isChoosedUser && (
+              <p className="error">
+                Please choose a user
+              </p>
+            )}
           </div>
         </div>
-        <button type="button" onClick={this.addTodo} className="button">Add Todo</button>
+        <button
+          type="button"
+          onClick={this.addTodo}
+          className="button"
+        >
+          Add Todo
+        </button>
         <div>
           <h1>Todos:</h1>
           <TodoList todos={todoToRender} />
