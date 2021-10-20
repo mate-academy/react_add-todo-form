@@ -1,0 +1,19 @@
+.UserInfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: inset 5px 5px 15px 5px #0002;
+
+  background-color: #47476b;
+  border-radius: 15px;
+
+  &__name {
+    margin-right: 150px;
+  }
+
+  &__email {
+    text-decoration: none;
+    color: #fff;
+    text-transform: lowercase;
+  }
+}

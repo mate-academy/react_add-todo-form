@@ -1,0 +1,17 @@
+.TodolistInfo {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px;
+
+  &__task--done {
+    text-decoration: line-through;
+    color: #aaad;
+  }
+
+  &__task--todo {
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+}
