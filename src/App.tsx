@@ -141,12 +141,10 @@ class App extends React.Component<{}, State> {
                 <th className="tableBody__line">{todo.title}</th>
                 {todo.completed
                   ? <th className="tableBody__line">Done</th>
-                  : <th className="tableBody__line">To perform</th>
-                }
+                  : <th className="tableBody__line">To perform</th>}
                 {todo.user
                   ? <th className="tableBody__line">{todo.user.name}</th>
-                  : <th className="tableBody__line">No performer</th>
-                }
+                  : <th className="tableBody__line">No performer</th>}
               </tr>
             ))}
           </tbody>
