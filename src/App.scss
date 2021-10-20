@@ -11,7 +11,7 @@ body {
 }
 
 .app {
-  margin-top: 100px;
+  margin-top: 50px;
 
   &__main-title {
     text-align: center;
@@ -65,4 +65,11 @@ body {
       cursor: pointer;
     }
   }
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  color: red;
+  height: 30px;
 }

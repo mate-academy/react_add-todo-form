@@ -18,19 +18,26 @@ export default class App extends React.Component<{}, State> {
     allTodos: [...todos],
     userName: '',
     todoItem: '',
-    error: 'Please enter a valid value!',
+    error: '',
   };
 
-
   clearInputs = () => {
-      this.setState({
-        userName: '',
-        todoItem: '',
-      })
-  }
+    this.setState({
+      userName: '',
+      todoItem: '',
+      error: '',
+    });
+  };
 
-  addTodo = () => {
+  addError = () => {
+    this.setState({
+      error: 'Please enter a valid value',
+    });
+  };
+
+  addTodo = ():any => {
     const { userName, todoItem } = this.state;
+
     if (
       // if inputs are not empty
       users.some(user => userName === user.name) && todoItem
@@ -49,7 +56,9 @@ export default class App extends React.Component<{}, State> {
           allTodos: [...prevState.allTodos, newTodo],
         };
       });
-      this.clearInputs()
+      this.clearInputs();
+    } else {
+      this.addError();
     }
   };
 
@@ -65,7 +74,7 @@ export default class App extends React.Component<{}, State> {
       <div className="app">
         <h1 className="app__main-title">Todo list</h1>
         <form
-          onSubmit={(event) => {
+          onSubmit={event => {
             event.preventDefault();
             this.addTodo();
           }}
@@ -89,8 +98,8 @@ export default class App extends React.Component<{}, State> {
               })}
             </select>
           </div>
-          <div>
-            { error }
+          <div className="field-error">
+            {!userName ? error : ''}
           </div>
 
           <div>
@@ -109,7 +118,7 @@ export default class App extends React.Component<{}, State> {
             </div>
 
             <div className="field-error">
-              {error}
+              {!todoItem ? error : ''}
             </div>
           </div>
 
