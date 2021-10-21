@@ -1,3 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap");
+
+body,
+h1 {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+h1 {
+  padding: 2vh;
+}
+
 .App {
+  height: 100vh;
+  background-color: rgba(74, 221, 160, 0.57);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todoForm {
+  position: relative;
+  left: -7%;
+  display: grid;
+  grid-template-columns: 1.7fr 7fr 1fr;
+  justify-content: center;
+  align-items: center;
+  width: 85vw;
+}
+
+.todoForm__elements {
+  display: flex;
+  flex-direction: column;
+}
+
+.todoForm__element {
+  position: relative;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 3px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.todoForm__errors {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.todoForm__error {
+  color: red;
+  width: 100%;
+  padding: 12px 0;
+  margin: 3px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: rgb(51, 172, 51);
+  color: white;
+  height: 5rem;
+  border-radius: 2rem;
+  margin-left: 1rem;
 }

@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 
-const todos = [
+const initialTodos = [
   {
     userId: 1,
     id: 1,
     title: 'delectus aut autem',
-    completed: false,
+    completed: true,
   },
   {
     userId: 1,
@@ -15,4 +15,4 @@ const todos = [
   },
 ];
 
-export default todos;
+export default initialTodos;
