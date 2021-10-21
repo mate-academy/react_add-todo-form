@@ -1,0 +1,42 @@
+.todo {
+  background-color: azure;
+}
+
+.todo__list {
+  padding: 0;
+  margin: 0 15px;
+  list-style: none;
+}
+
+.todo__info-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px 10px;
+}
+
+.todo__field-info {
+  display: inline-block;
+  width: 20%;
+}
+
+.todo__field-info--title {
+  width: 60%;
+  padding-left: 10px;
+}
+
+.todo__item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  height: 50px;
+  background-color: pink;
+}
+
+.todo__item--done {
+  background-color: yellowgreen;
+}
+
+.todo__item--title {
+  display: inline-block;
+  width: 40%;
+}
