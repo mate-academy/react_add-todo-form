@@ -46,8 +46,10 @@ export class App extends React.Component<{}, State> {
         };
       }
 
+      const maxId = Math.max(...prevState.todos.map(todo => todo.id));
+
       const newTodo: Todo = {
-        id: todosFromServer.length + 1,
+        id: maxId + 1,
         title: prevState.newTitle,
         userId: prevState.newUserId,
         user: getUserById(prevState.newUserId),
@@ -97,56 +99,57 @@ export class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <div className="App__container">
-          <h1>Add todo form</h1>
-          <form className="App__form" onSubmit={handleFormSubmit}>
-            <div>
-              <input
-                type="text"
-                placeholder="Task"
-                value={newTitle}
-                onChange={handleTitleChange}
-                className={classNames('App__input', {
-                  'field-error': hasTitleError,
-                })}
-              />
-              {hasTitleError && (
-                <span className="error">
-                  Please enter a title
-                </span>
-              )}
-            </div>
-            <div>
-              <select
-                value={newUserId}
-                onChange={handleUserIdChange}
-                className={classNames('App__select', {
-                  'field-error': hasNameError,
-                })}
+        <h1>Add todo form</h1>
+        <form
+          className="App-form"
+          onSubmit={handleFormSubmit}
+        >
+          <input
+            type="text"
+            placeholder="Task"
+            value={newTitle}
+            onChange={handleTitleChange}
+            className={classNames('App-input', {
+              'field-error': hasTitleError,
+            })}
+          />
+          {hasTitleError && (
+            <span className="App-error">
+              Please enter a title
+            </span>
+          )}
+          <select
+            value={newUserId}
+            onChange={handleUserIdChange}
+            className={classNames('App-select', {
+              'field-error': hasNameError,
+            })}
+          >
+            <option>Choose name</option>
+            {users.map(user => (
+              <option
+                value={user.id}
+                key={user.id}
+                className="App-select"
               >
-                <option>Choose name</option>
-                {users.map(user => (
-                  <option value={user.id} key={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </select>
-              {hasNameError && (
-                <span className="error">
-                  Please select a name
-                </span>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="App__button"
-            >
-              Add
-            </button>
-          </form>
+                {user.name}
+              </option>
+            ))}
+          </select>
+          {hasNameError && (
+            <span className="App-error">
+              Please select a name
+            </span>
+          )}
+          <button
+            type="submit"
+            className="App-button"
+          >
+            Add
+          </button>
+        </form>
 
-          <TodoList todos={todos} />
-        </div>
+        <TodoList todos={todos} />
       </div>
     );
   }
