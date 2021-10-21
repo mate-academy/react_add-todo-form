@@ -1,0 +1,17 @@
+@import "bulma/css/bulma.css";
+
+.todo {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__user {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__user-email {
+    margin-left: 30px;
+  }
+}
