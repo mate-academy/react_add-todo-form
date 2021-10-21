@@ -77,7 +77,10 @@ class App extends React.Component<{}, State> {
           Add todo:
         </h1>
         <form
-          onSubmit={this.addTodo}
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.addTodo();
+          }}
           action="#"
           className="todoForm"
         >
