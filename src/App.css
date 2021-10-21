@@ -1,3 +1,23 @@
-.App {
+.cover {
+  margin: 0 auto;
+  width: 300px;
   text-align: center;
+}
+
+.insideForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorPhrase {
+  color: red;
+  margin: 0 auto;
+}
+
+.nameTitleBlock {
+  width: 300px;
+  margin-top: 5px;
+  text-align: center;
+  border: 1px solid rgb(190, 247, 255);
 }
