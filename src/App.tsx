@@ -111,7 +111,7 @@ class App extends React.Component<{}, State> {
 
           <div>
             <label htmlFor="todo" className="form-label">
-              <div>New todo</div>
+              <span className="input-info">New Todo</span>
               <input
                 type="text"
                 placeholder="Enter todo"
@@ -120,16 +120,15 @@ class App extends React.Component<{}, State> {
                 value={newTodoTitle}
                 onChange={this.handleTodoChange}
               />
+              {newTodoTitleError && (
+                <div className="error">
+                  Please enter the title
+                </div>
+              )}
             </label>
-
-            {newTodoTitleError && (
-              <div className="error">
-                Please enter the title
-              </div>
-            )}
           </div>
 
-          <button type="button" className="btn btn-primary">Add todo</button>
+          <button type="submit" className="btn btn-primary">Add todo</button>
         </form>
         <TodoList todos={todos} />
       </div>

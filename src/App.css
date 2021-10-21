@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.input-info {
+  margin-bottom: 8px;
+}
+
 .todo-undone {
   background-color: rgb(155, 36, 36);
 }
