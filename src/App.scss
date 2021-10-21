@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    border: 5px solid #c04d00;
+    border-radius: 10px;
+    background-color: #71aaff;
+  }
+
+  &__title {
+    text-align: center;
+  }
+
+  &__form {
+    width: 200px;
+    
+  }
+
+  &__select-box {
+    width: 200px;
+    margin-bottom: 5px;
+  }
+
+  &__select {
+    width: 200px;
+    background-color: #ffcf33;
+    border: 1px solid #c04d00;
+    border-radius: 5px;
+  }
+
+  &__select-error {
+    color: #f00;
+  }
+
+  &__input-box {
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    width: 194px;
+    background-color: #ffcf33;
+    border: 1px solid #c04d00;
+    border-radius: 5px;
+
+    &::placeholder {
+      color: #5f5b5b;
+    }
+  }
+
+  &__input-error {
+    color: red;
+  }
+
+  &__button-box {
+    text-align: center;
+  }
+
+  &__button {
+    padding: 5px 20px;
+    background-color: #ffcf33;
+    border: 1px solid #c04d00;
+    border-radius: 5px;
+    transition: background-color, 0.3s;
+
+    &:hover {
+      background-color: #c04d00;
+    }
+  }
+
+  &__list {
+    width: 300px;
+    padding: 10px;
+    border: 5px solid #c04d00;
+    border-radius: 5px;
+    background-color: #fff;
+    list-style: none;
+  }
+
+  &__item {
+    border-bottom: 1px solid #000;
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__name {
+    margin: 0;
+    color: #c04d00;
+  }
+}
