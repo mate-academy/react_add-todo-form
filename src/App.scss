@@ -1,0 +1,37 @@
+p {
+  margin: 0;
+}
+
+.App {
+  margin: 0 auto;
+  width: 550px;
+
+  &__todo {
+    text-align: center;
+  }
+
+  &__user {
+    text-align: center;
+  }
+}
+
+.error {
+  margin-left: 5px;
+  color: red;
+}
+
+.field {
+  height: 30px;
+  width: 401px;
+  margin-bottom: 15px;
+}
+
+.choose {
+  height: 35px;
+  width: 408px;
+  margin-bottom: 15px;
+}
+
+.field--error {
+  border: 1px solid red;
+}

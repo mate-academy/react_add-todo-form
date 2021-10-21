@@ -1,0 +1,19 @@
+.list {
+  list-style: none;
+  padding: 0;
+
+  &__item {
+    background-color: rgb(184, 233, 106);
+    margin-bottom: 15px;
+    padding: 10px 25px;
+    border-radius: 20px;
+  }
+
+  &__item--completed {
+    background-color: rgb(87, 223, 193);
+  }
+}
+
+.content {
+  width: 550px;
+}
