@@ -1,3 +1,53 @@
 .App {
   text-align: center;
 }
+
+.App__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.App__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  gap: 30px;
+}
+
+.inputs {
+  height: 30px;
+  width: 250px;
+  border: 1px solid #3c3c3c;
+}
+
+.App__input {
+  box-sizing: border-box;
+  padding: 3px 4px;
+}
+
+.App__button {
+  width: 60px;
+  height: 40px;
+}
+
+.list__item {
+  width: 500px;
+  background-color: #ff7f7f;
+  padding: 10px 20px;
+}
+
+.list__item--done {
+  background-color: green;
+}
+
+.error {
+  color: red;
+}
