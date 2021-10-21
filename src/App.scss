@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  background-color: lightslategrey;
+  color: #fff;
+}
+
+.todos {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &__title {
+    font-size: 65px;
+    margin: 10px;
+  }
+}
+
+.header {
+  width: 1200px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  border: 2px solid #fff;
+  margin: 0;
+  padding: 10px 0;
+  border-radius: 5px;
+
+  &__item {
+    font-size: 20px;
+    text-align: center;
+    width: 400px;
+  }
+}
+
+.err {
+  color: red;
+}
