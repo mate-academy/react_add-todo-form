@@ -1,3 +1,60 @@
-.App {
-  text-align: center;
+body {
+  background-color: #d6d6d6;
+  margin: 0;
+  padding: 0;
+}
+
+.todo__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.todo__fields {
+  display: flex;
+  width: 40%;
+  margin: 0 auto;
+}
+
+.text-field {
+  border: 1px solid rgb(50, 180, 255);
+  height: 18px;
+  margin: 12px auto 8px;
+  padding: 8px 24px;
+  width: 80%;
+}
+
+.select-field {
+  border: 1px solid rgb(50, 180, 255);
+  height: 32px;
+  font-size: 16px;
+  margin: 8px auto 16px;
+  width: 87%;
+}
+
+.error {
+  display: block;
+  position: absolute;
+  right: 20%;
+  border: 2px solid rgb(255, 0, 0);
+  height: 18px;
+  width: 135px;
+  margin: 8px 6px;
+  padding: 6px 24px;
+}
+
+.field-error {
+  border: 2px solid rgb(255, 0, 0);
+}
+
+.btn {
+  height: 36px;
+  margin: 0 auto;
+  padding: 8px 24px;
+  width: 35%;
+}
+
+.todo-list {
+  padding: 0;
+  margin: 0 auto;
+  width: 60%;
 }

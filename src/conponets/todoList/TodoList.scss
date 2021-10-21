@@ -1,0 +1,19 @@
+.todo-list {
+  margin: 0 auto;
+  width: 60%;
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    height: 36px;
+    margin: 5px;
+    background-color: #e6e6e6;
+  }
+
+  &__user-info {
+    display: block;
+    width: 500px;
+  }
+}
