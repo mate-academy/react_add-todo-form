@@ -6,17 +6,14 @@ import { UserInfo } from '../UserInfo';
 
 export const TodoList: React.FC<{ todos: Todo[] }> = ({ todos }) => {
   return (
-    <ul
-      className="todo-list"
-    >
-
+    <ul className="todo-list">
       {todos.map(({
         id,
         completed,
         title,
         user,
       }) => {
-        return user && (
+        return (
           <li
             key={id}
             className="todo-list__item"
@@ -25,9 +22,7 @@ export const TodoList: React.FC<{ todos: Todo[] }> = ({ todos }) => {
               title={title}
               status={completed}
             />
-            <UserInfo
-              user={user}
-            />
+            {user && <UserInfo user={user} />}
           </li>
         );
       })}

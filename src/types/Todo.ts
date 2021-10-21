@@ -5,5 +5,5 @@ export interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  user: Required<User> | undefined;
+  user?: User;
 }

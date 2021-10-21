@@ -33,37 +33,38 @@ class App extends React.Component<{}, State> {
     const {
       todoTitle,
       todoUserId,
-      todos,
     } = this.state;
 
-    if (todoTitle === '') {
+    if (!todoTitle) {
       this.setState({ titleErrorVisible: true });
     }
 
-    if (todoUserId === 0) {
+    if (!todoUserId) {
       this.setState({ userErrorVisible: true });
     }
 
-    if (todoUserId !== 0 && todoTitle !== '') {
-      const newTodo: Todo = {
-        userId: todoUserId,
-        id: [...todos].sort((t1, t2) => t2.id - t1.id)[0].id + 1,
-        title: todoTitle,
-        completed: false,
-        user: users.find(person => person.id === todoUserId),
-      };
+    if (todoUserId && todoTitle) {
+      this.setState(state => {
+        const newTodo: Todo = {
+          userId: todoUserId,
+          id: [...state.todos].sort((t1, t2) => t2.id - t1.id)[0].id + 1,
+          title: todoTitle,
+          completed: false,
+          user: users.find(person => person.id === todoUserId),
+        };
 
-      this.setState(state => (
-        {
+        return ({
           todos: [...state.todos, newTodo],
           todoTitle: '',
           todoUserId: 0,
-        }));
+        });
+      });
     }
   };
 
   render() {
     const {
+      todos,
       todoTitle,
       todoUserId,
       titleErrorVisible,
@@ -76,6 +77,7 @@ class App extends React.Component<{}, State> {
           Add todo:
         </h1>
         <form
+          onSubmit={this.addTodo}
           action="#"
           className="todoForm"
         >
@@ -103,9 +105,7 @@ class App extends React.Component<{}, State> {
               value={todoTitle}
               onChange={event => {
                 this.setState({ todoTitle: event.target.value });
-                if (todoTitle !== '') {
-                  this.setState({ titleErrorVisible: false });
-                }
+                this.setState({ titleErrorVisible: false });
               }}
             />
 
@@ -130,7 +130,10 @@ class App extends React.Component<{}, State> {
                 {users.map(user => {
                   return (
                     <>
-                      <option value={user.id}>
+                      <option
+                        value={user.id}
+                        key={user.id}
+                      >
                         {user.name}
                       </option>
                     </>
@@ -141,14 +144,13 @@ class App extends React.Component<{}, State> {
           </div>
 
           <button
-            type="button"
-            onClick={this.addTodo}
+            type="submit"
           >
             Add
           </button>
         </form>
         <h1>List of todos</h1>
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
