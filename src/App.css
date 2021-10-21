@@ -1,3 +1,38 @@
 .App {
   text-align: center;
 }
+
+.table {
+  margin: 0 auto;
+  padding: 5px;
+  background-color: #444;
+  border: 1px solid #000;
+}
+
+.tableHeader__line {
+  margin: 0;
+  padding: 5px;
+  background-color: #44d;
+}
+
+.tableBody__line {
+  margin: 0;
+  padding: 5px;
+  background-color: #ddd;
+}
+
+.form__element {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #000;
+}
+
+.form__element:hover {
+  background-color: #adf;
+}
+
+.alarm {
+  background-color: #f00;
+  color: #fff;
+  font-weight: 700;
+}
