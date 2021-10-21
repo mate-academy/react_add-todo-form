@@ -76,7 +76,8 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      newTask,
+      // eslint-disable-next-line
+      newTask, users, todos,
       inputError,
       selectError,
       newUserId,
