@@ -5,13 +5,13 @@ import classnames from 'classnames';
 import users from './api/users';
 import todos from './api/todos';
 
-type Todo = {
+interface Todo {
   userId?: number,
   id: number,
   title: string,
   completed?: boolean,
   name: string | null,
-};
+}
 
 interface State {
   todos: Todo[],
@@ -29,7 +29,7 @@ const preparedTodos: Todo[] = todos.map(todo => ({
 
 export class App extends React.Component<{}, State> {
   state: State = {
-    todos: preparedTodos,
+    todos: [...preparedTodos],
     newTitle: '',
     userName: '',
     hasNameError: false,
@@ -39,32 +39,34 @@ export class App extends React.Component<{}, State> {
   handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const { userName, newTitle } = this.state;
+
     this.setState(state => ({
       hasNameError: state.userName === '',
       hasFieldError: state.newTitle === '',
     }));
 
-    if (!this.state.userName) {
+    if (!userName) {
       this.setState({
         hasNameError: true,
       });
     }
 
-    if (!this.state.newTitle) {
+    if (!newTitle) {
       this.setState({
         hasFieldError: true,
       });
     }
 
-    if (this.state.newTitle.length > 0 && this.state.userName.length > 0) {
-      const obj: Todo = {
-        name: this.state.userName,
-        title: this.state.newTitle,
-        id: this.state.todos.length + 1,
+    if (newTitle && userName) {
+      const newTodo: Todo = {
+        name: userName,
+        title: newTitle,
+        id: todos.length + 1,
       };
 
       this.setState(state => ({
-        todos: [...state.todos, obj],
+        todos: [...state.todos, newTodo],
         newTitle: '',
         userName: '',
       }));
@@ -137,9 +139,7 @@ export class App extends React.Component<{}, State> {
               Please choose a user
             </span>
           )}
-          <button
-            type="submit"
-          >
+          <button type="submit">
             Add
           </button>
         </form>
