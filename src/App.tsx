@@ -46,10 +46,8 @@ export class App extends React.Component<{}, State> {
         };
       }
 
-      const maxId = Math.max(...prevState.todos.map(todo => todo.id));
-
       const newTodo: Todo = {
-        id: maxId + 1,
+        id: todosFromServer.length + 1,
         title: prevState.newTitle,
         userId: prevState.newUserId,
         user: getUserById(prevState.newUserId),
