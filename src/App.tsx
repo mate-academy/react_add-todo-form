@@ -34,7 +34,7 @@ class App extends React.Component<{}, State> {
     event.preventDefault();
 
     this.setState(prevState => {
-      if (prevState.employeeId === 0) {
+      if (!prevState.employeeId) {
         return {
           ...prevState,
           errorEmployee: true,
