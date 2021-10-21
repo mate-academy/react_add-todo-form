@@ -18,11 +18,19 @@ li {
 
 .error {
   color: red;
-  position: absolute;
-  margin-left: -150px;
+  margin-top: 40px;
+  margin-left: -130px;
+}
+
+.todo__form {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .field-error {
   border-color: red;
-  position: relative;
+  margin-right: 10px;
 }

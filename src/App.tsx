@@ -39,6 +39,11 @@ export class App extends React.Component<{}, State> {
   handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    this.setState(state => ({
+      hasNameError: state.userName === '',
+      hasFieldError: state.newTitle === '',
+    }));
+
     if (!this.state.userName) {
       this.setState({
         hasNameError: true,
@@ -77,7 +82,10 @@ export class App extends React.Component<{}, State> {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={this.handleFormSubmit}>
+        <form
+          onSubmit={this.handleFormSubmit}
+          className="todo__form"
+        >
 
           <input
             className={classnames({
