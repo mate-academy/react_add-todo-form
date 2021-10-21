@@ -1,0 +1,78 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px auto;
+  text-align: center;
+  width: 90%;
+
+  &__form-element {
+    align-items: center;
+    margin: 10px auto;
+    text-align: left;
+  }
+
+  &__label {
+    margin-right: 20px;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 28px;
+    border-radius: 5px;
+    text-align: left;
+  }
+
+  &__field {
+    float: right;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 5px;
+
+
+    &--error {
+      padding: 5px;
+      font-size: 18px;
+      border-radius: 5px;
+      margin-left: 5px;
+      border: 1px solid red;
+    }
+  }
+
+  &__btn {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 18px;
+  }
+
+  &__table {
+    margin: 10px;
+  }
+
+}
+
+.error {
+  font-size: 18px;
+  line-height: 28px;
+  color: red;
+}
+
+thead {
+  margin: 0;
+  height: 35px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+td {
+  width: max-content;
+  height: 25px;
+  line-height: 25px;
+  font-size: 18px;
+  text-align: center;
+  padding: 3px;
+  background-color: rgb(150, 206, 238);
+}
+
+thead td {
+  background-color: rgb(134, 199, 104);
+}
