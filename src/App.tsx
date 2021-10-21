@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 
-import users from './api/users';
-import todos from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 import { TodoList } from './components/todoList/TodoList';
 import { User } from './Types/UserTypes';
@@ -19,29 +19,33 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    users,
-    todos,
+    users: usersFromServer,
+    todos: todosFromServer,
     inputError: false,
     selectError: false,
     newTask: '',
     newUserId: 0,
   };
 
-  handleInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    this.setState({
-      newTask: event.target.value,
-      inputError: false,
-    });
+  handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const re = /^[a-zA-Z0-9\u0400-\u04FF ]*$/;
+
+    if (re.test(event.target.value) && event.target.value.length < 100) {
+      this.setState({
+        newTask: event.target.value,
+        inputError: false,
+      });
+    }
   };
 
-  handleSelectId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       newUserId: +event.target.value,
       selectError: false,
     });
   };
 
-  handleButtonAdd = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     this.setState(prevState => {
@@ -53,7 +57,7 @@ class App extends React.Component<{}, State> {
         };
       }
 
-      const newId = Math.max(...todos.map(({ id }) => id));
+      const newId = Math.max(...prevState.todos.map(({ id }) => id));
       const newTask: Todo = {
         userId: prevState.newUserId,
         id: newId + 1,
@@ -76,8 +80,9 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      // eslint-disable-next-line
-      newTask, users, todos,
+      newTask,
+      users,
+      todos,
       inputError,
       selectError,
       newUserId,
@@ -89,7 +94,7 @@ class App extends React.Component<{}, State> {
 
         <form
           className="box"
-          onSubmit={this.handleButtonAdd}
+          onSubmit={this.handleSubmit}
         >
           <label
             className="label"
@@ -104,7 +109,7 @@ class App extends React.Component<{}, State> {
               value={newTask}
               className="input is-normal"
               placeholder="Write new task here"
-              onChange={this.handleInput}
+              onChange={this.handleChange}
             />
             {inputError && (
               <span className="tag is-danger is-medium mt-1">
@@ -123,7 +128,7 @@ class App extends React.Component<{}, State> {
               className="select is-fullwidth"
               id="select"
               value={newUserId}
-              onChange={this.handleSelectId}
+              onChange={this.handleSelect}
             >
               <option value="0">Choose the user</option>
               {users.map(({ id, name }) => (
