@@ -14,61 +14,75 @@ const prepareTodos = () => {
 };
 
 type State = {
-  preparedTodos: Todo[],
-  employee: number,
+  todos: Todo[],
+  employeeId: number,
   task: string,
-  errorEployee: boolean,
+  errorEmployee: boolean,
   errorTask: boolean,
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
-    preparedTodos: prepareTodos(),
-    employee: 0,
+    todos: prepareTodos(),
+    employeeId: 0,
     task: '',
-    errorEployee: false,
+    errorEmployee: false,
     errorTask: false,
   };
 
-  fakeSubmit = (event: React.FormEvent) => {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     this.setState(prevState => {
-      if (!prevState.employee || !prevState.task) {
+      if (prevState.employeeId === 0) {
         return {
           ...prevState,
-          errorEployee: true,
+          errorEmployee: true,
+        };
+      }
+
+      if (!prevState.task) {
+        return {
+          ...prevState,
           errorTask: true,
         };
       }
 
-      const maxId = Math.max(...prevState.preparedTodos.map(todo => todo.id));
+      if (!prevState.employeeId && !prevState.task) {
+        return {
+          ...prevState,
+          errorEmployee: true,
+          errorTask: true,
+        };
+      }
+
+      const maxId = Math.max(...prevState.todos.map(todo => todo.id));
 
       todosCopy.push({
         id: maxId + 1,
         title: prevState.task,
-        userId: prevState.employee,
+        userId: prevState.employeeId,
         completed: false,
       });
 
       return {
-        employee: 0,
+        employeeId: 0,
         task: '',
-        errorEployee: false,
+        errorEmployee: false,
         errorTask: false,
-        preparedTodos: prepareTodos(),
+        todos: prepareTodos(),
       };
     });
   };
 
-  employeeValueChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleEmployeeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      employee: +event.target.value,
-      errorEployee: false,
+      employeeId: +event.target.value,
+      errorEmployee: false,
     });
   };
 
-  taskValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleTaskChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       task: event.target.value,
       errorTask: false,
@@ -81,7 +95,7 @@ class App extends React.Component<{}, State> {
         <h1>Boss simulator</h1>
         <form
           className="form"
-          onSubmit={this.fakeSubmit}
+          onSubmit={this.handleSubmit}
         >
           <p>
             Give some tasks for employees
@@ -90,8 +104,8 @@ class App extends React.Component<{}, State> {
           <select
             name="employee"
             id="employee"
-            value={this.state.employee}
-            onChange={this.employeeValueChange}
+            value={this.state.employeeId}
+            onChange={this.handleEmployeeChange}
           >
             <option
               value="0"
@@ -110,7 +124,7 @@ class App extends React.Component<{}, State> {
           </select>
 
           <p className="error">
-            {this.state.errorEployee && 'You need to pick somebody!'}
+            {this.state.errorEmployee && 'You need to pick somebody!'}
           </p>
 
           <input
@@ -119,18 +133,18 @@ class App extends React.Component<{}, State> {
             id="task"
             placeholder="Give task to a lazy employee"
             value={this.state.task}
-            onChange={this.taskValueChange}
+            onChange={this.handleTaskChange}
           />
 
           <p className="error">
-            {this.state.errorEployee && 'You need to give task!'}
+            {this.state.errorTask && 'You need to give task!'}
           </p>
 
           <button type="submit">
             Add task
           </button>
         </form>
-        <TodoList todos={this.state.preparedTodos} />
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
