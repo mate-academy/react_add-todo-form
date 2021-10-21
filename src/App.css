@@ -1,3 +1,16 @@
 .App {
   text-align: center;
 }
+
+.TasksList {
+  list-style: none;
+}
+
+.TasksList__item {
+  border: 1px dotted black;
+}
+
+.error {
+  color: white;
+  background-color: red;
+}
