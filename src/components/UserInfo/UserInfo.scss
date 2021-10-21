@@ -1,0 +1,43 @@
+.user {
+  display: flex;
+  justify-content: space-between;
+
+  &__avatar {
+    height: 30px;
+    width: 30px;
+    background-image: url("../../img/user.png");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+.info {
+  &__title {
+    font-size: 20px;
+    margin-top: 0;
+  }
+
+  &__description {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.company {
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-top: 0;
+  }
+}
