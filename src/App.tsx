@@ -9,18 +9,18 @@ import { TodoTypes } from './types/TodoTypes';
 
 type State = {
   todos: TodoTypes[],
-  name: string,
+  id: number,
   title: string,
-  hasNameError: boolean,
+  hasIdError: boolean,
   hasTitleError: boolean;
 };
 
 class App extends React.Component<{}, State> {
   state = {
     todos: todosFromServer,
-    name: '',
+    id: 0,
     title: '',
-    hasNameError: false,
+    hasIdError: false,
     hasTitleError: false,
   };
 
@@ -28,25 +28,24 @@ class App extends React.Component<{}, State> {
     event.preventDefault();
 
     this.setState((prevState) => {
-      if (!prevState.name || !prevState.title) {
+      if (!prevState.id || !prevState.title) {
         return {
           ...prevState,
-          hasNameError: !prevState.name,
+          hasIdError: !prevState.id,
           hasTitleError: !prevState.title,
         };
       }
 
       const maxId = Math.max(...prevState.todos.map(todo => todo.id));
-      const currUserIndex = users.findIndex((user) => prevState.name === user.name);
 
       const newTodo = {
         id: maxId + 1,
         title: prevState.title,
-        userId: users[currUserIndex].id,
+        userId: prevState.id,
       };
 
       return {
-        name: '',
+        id: 0,
         title: '',
         todos: [
           newTodo,
@@ -56,10 +55,10 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      name: event.target.value,
-      hasNameError: false,
+      id: +event.target.value,
+      hasIdError: false,
     });
   };
 
@@ -74,34 +73,43 @@ class App extends React.Component<{}, State> {
     const {
       todos,
       title,
-      name,
-      hasNameError,
+      id,
+      hasIdError,
       hasTitleError,
     } = this.state;
+
+    const {
+      handleFormSubmit,
+      handleUserIdChange,
+      handleTitleChange,
+    } = this;
 
     return (
       <div className="App">
         <div className="App__container">
           <h1>Add todo form</h1>
-          <form className="App__form" onSubmit={this.handleFormSubmit}>
+          <form className="App__form" onSubmit={handleFormSubmit}>
             <div>
               <select
-                value={name}
-                onChange={this.handleNameChange}
+                value={id}
+                onChange={handleUserIdChange}
                 className={classNames('App__select', {
-                  'field-error': hasNameError,
+                  'field-error': hasIdError,
                 })}
               >
-                <option>Choose name</option>
+                <option> Choose name </option>
                 {users.map(user => {
                   return (
-                    <option>
+                    <option
+                      value={user.id}
+                      key={user.id}
+                    >
                       {user.name}
                     </option>
                   );
                 })}
               </select>
-              {hasNameError && (
+              {hasIdError && (
                 <span className="error">
                   Please select a name
                 </span>
@@ -112,7 +120,7 @@ class App extends React.Component<{}, State> {
                 type="text"
                 placeholder="..."
                 value={title}
-                onChange={this.handleTitleChange}
+                onChange={handleTitleChange}
                 className={classNames('App__input', {
                   'field-error': hasTitleError,
                 })}
