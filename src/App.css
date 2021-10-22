@@ -1,7 +1,42 @@
-.App {
-  text-align: center;
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Nunito Sans, sans-serif;
 }
 
-.todo-completed {
-  color: red;
+ul {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  cursor: pointer;
+
+}
+
+a {
+  border: 1px solid transparent;
+}
+
+.active {
+  border: 1px solid #ebecf1;
+  border-bottom: 0;
+}
+
+.container {
+  padding: 30px;
+}
+
+.content {
+  padding: 15px;
+
+  background-color: #ebecf1;
+}
+
+.d-none {
+  display: none;
 }

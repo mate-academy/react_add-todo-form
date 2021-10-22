@@ -93,52 +93,65 @@ class App extends React.Component<{}, State> {
     } = this.state;
 
     return (
-      <div className="App">
-        <h1>Add todo form</h1>
-        <form className="todo-form" onSubmit={this.handleFormSubmit}>
-          <label htmlFor="todo-title">
-            Type a title -&gt;
-            {' '}
-            <input
-              type="text"
-              placeholder="Type here..."
-              id="todo-title"
-              value={newTodoTitle}
-              onChange={this.handleTitleChange}
-            />
-          </label>
-          {hasTitleError && (
-            <div className="error">
-              Please enter the title
-            </div>
-          )}
-          <label htmlFor="todo-select">
-            <select
-              id="todo-select"
-              value={newTodoUserId}
-              onChange={this.handleUserChange}
-            >
-              <option
-                value="0"
-                defaultValue={0}
-                disabled
+      <>
+        <div className="p-8 max-w-md mx-auto pb-0">
+          <form
+            onSubmit={this.handleFormSubmit}
+            className="p-4 shadow-md rounded-md text-left pt-6 text-base leading-6 font-bold"
+            style={{ width: 400 }}
+          >
+            <h1 className="text-center">Add todo form</h1>
+            <label className="block" htmlFor="title">
+              <span className="text-gray-700">Title</span>
+              <input
+                value={newTodoTitle}
+                onChange={this.handleTitleChange}
+                className="form-input mt-1 block w-full"
+                placeholder="Type here..."
+                id="title"
+              />
+              { hasTitleError && (
+                <span className="absolute flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                  Invalid title!
+                </span>
+              )}
+            </label>
+            <label htmlFor="select" className="block mt-5">
+              <span className="text-gray-700">User</span>
+              <select
+                value={newTodoUserId}
+                onChange={this.handleUserChange}
+                id="select"
+                className="form-select mt-1 block w-full text-gray-800"
               >
-                Choose a user
-              </option>
-              {users.map(user => (
-                <option value={user.id} key={user.id}>{ user.name }</option>
-              ))}
-            </select>
-          </label>
-          {hasUserError && (
-            <div className="error">
-              Please select a user
+                <option
+                  value="0"
+                  defaultValue={0}
+                  disabled
+                >
+                  Choose a user
+                </option>
+                {users.map(user => (
+                  <option value={user.id} key={user.id}>{ user.name }</option>
+                ))}
+              </select>
+              { hasUserError && (
+                <span className="absolute flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                  Choose a user!
+                </span>
+              )}
+            </label>
+            <div className="block flex p-4 pt-8">
+              <button type="submit" className="w-full bg-purple-500 text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">Add todo</button>
             </div>
-          )}
-          <button type="submit" className="btn btn-form">Add todo</button>
-        </form>
-        <TodoList todos={this.state.todos} />
-      </div>
+          </form>
+        </div>
+
+        <div className="container mx-auto">
+          <TodoList todos={this.state.todos} />
+        </div>
+      </>
+
     );
   }
 }
