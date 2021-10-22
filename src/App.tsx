@@ -28,8 +28,9 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = (title: string, userId: number) => {
+    const { todos } = this.state;
     const todoUser = users.find(({ id }) => id === userId);
-    const maxId = Math.max(...this.state.todos.map(good => good.id));
+    const maxId = Math.max(...todos.map(good => good.id));
 
     const newTodo = {
       id: maxId + 1,
@@ -66,22 +67,16 @@ class App extends React.Component<{}, State> {
 
   handleTodoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      newTodoTitle: event.currentTarget.value,
+      newTodoTitle: event.target.value,
+      newTodoTitleError: false,
     });
-
-    this.setState(state => ({
-      newTodoTitleError: state.newTodoTitle === '',
-    }));
   };
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       newTodoUserId: +event.currentTarget.value,
+      newTodoUserError: false,
     });
-
-    this.setState(state => ({
-      newTodoUserError: state.newTodoUserId === 0,
-    }));
   };
 
   render() {
