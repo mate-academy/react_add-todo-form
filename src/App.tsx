@@ -15,13 +15,12 @@ function getUserById(userId: number): User | null {
       || null;
 }
 
-const TodosWithUser: Todo[] = todosFromServer.map(todo => ({
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 type State = {
-  users: User[],
   todos: Todo[],
 
   hasTitleError: boolean,
@@ -33,8 +32,7 @@ type State = {
 
 class App extends React.PureComponent {
   state: State = {
-    users: usersFromServer,
-    todos: TodosWithUser,
+    todos: preparedTodos,
 
     hasTitleError: false,
     title: '',
@@ -43,7 +41,7 @@ class App extends React.PureComponent {
     newUserId: 0,
   };
 
-  handleNameChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+  handleIdChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     this.setState({
       newUserId: +event.target.value,
       hasUserError: false,
@@ -95,9 +93,9 @@ class App extends React.PureComponent {
 
   render() {
     const {
+      todos,
       title,
       newUserId,
-      users,
       hasTitleError,
       hasUserError,
     } = this.state;
@@ -131,12 +129,12 @@ class App extends React.PureComponent {
               <select
                 className="user"
                 value={newUserId}
-                onChange={this.handleNameChange}
+                onChange={this.handleIdChange}
               >
                 <option key={0} value={0}>
                   Choose a name...
                 </option>
-                {users.map(user => (
+                {usersFromServer.map(user => (
                   <option key={user.id} value={user.id}>
                     {user.name}
                   </option>
@@ -157,7 +155,7 @@ class App extends React.PureComponent {
             Submit
           </button>
         </form>
-        <TodoList todoList={this.state.todos} />
+        <TodoList todoList={todos} />
       </div>
     );
   }
