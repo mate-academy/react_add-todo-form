@@ -48,8 +48,8 @@ class App extends React.Component<{}, State> {
     const { newTodoTitle, newTodoUserId } = this.state;
 
     this.setState(state => ({
-      newTodoTitleError: state.newTodoTitle === '',
-      newTodoUserError: state.newTodoUserId === 0,
+      newTodoTitleError: !state.newTodoTitle,
+      newTodoUserError: !state.newTodoUserId,
     }));
 
     if (!newTodoTitle || !newTodoUserId) {
@@ -86,7 +86,11 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      todos, newTodoTitle, newTodoUserId, newTodoTitleError, newTodoUserError,
+      todos,
+      newTodoTitle,
+      newTodoUserId,
+      newTodoTitleError,
+      newTodoUserError,
     } = this.state;
 
     return (
@@ -98,9 +102,9 @@ class App extends React.Component<{}, State> {
             value={newTodoUserId}
             onChange={this.handleUserChange}
           >
-            <option value="0" disabled>Choose a user</option>
+            <option value="0" key="0" disabled>Choose a user</option>
             {users.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
           {newTodoUserError && (
