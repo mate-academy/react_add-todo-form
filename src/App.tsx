@@ -25,34 +25,34 @@ class App extends React.Component<{}, State> {
   };
 
   handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { todos, id, title } = this.state;
+
     event.preventDefault();
 
-    this.setState((prevState) => {
-      if (!prevState.id || !prevState.title) {
-        return {
-          ...prevState,
-          hasIdError: !prevState.id,
-          hasTitleError: !prevState.title,
-        };
-      }
-
-      const maxId = Math.max(...prevState.todos.map(todo => todo.id));
-
+    if (!id || !title) {
+      this.setState({
+        hasIdError: !id,
+        hasTitleError: !title,
+      });
+    } else {
+      const maxId = Math.max(...todos.map(todo => todo.id));
       const newTodo = {
         id: maxId + 1,
-        title: prevState.title,
-        userId: prevState.id,
+        title,
+        userId: id,
       };
 
-      return {
-        id: 0,
-        title: '',
-        todos: [
-          newTodo,
-          ...prevState.todos,
-        ],
-      };
-    });
+      this.setState((prevState) => {
+        return {
+          id: 0,
+          title: '',
+          todos: [
+            newTodo,
+            ...prevState.todos,
+          ],
+        };
+      });
+    }
   };
 
   handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
