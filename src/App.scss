@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-color: tan;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+
+  &__select,
+  &__input {
+    background-color: bisque;
+    border-radius: 5px;
+    border: 1px solid rgb(198, 148, 84);
+    height: 30px;
+    width: 200px;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: rgb(243, 176, 87);
+    }
+  }
+
+  &__button {
+    background-color: bisque;
+    border-radius: 5px;
+    border: 1px solid rgb(198, 148, 84);
+    height: 30px;
+    width: 40px;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: rgb(231, 159, 64);
+    }
+  }
+}
+
+.titleErr,
+.nameErr {
+  color: red;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,13 @@
+.todo {
+  list-style: none;
+
+  &__item {
+    border: 1px solid rgb(198, 148, 84);
+    width: 550px;
+    height: 70px;
+    text-align: center;
+    border-radius: 5px;
+    margin: 0 auto 10px;
+    background-color: bisque;
+  }
+}
