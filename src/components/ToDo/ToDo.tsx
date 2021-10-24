@@ -8,9 +8,9 @@ type Props = {
   todo: ToDoItem,
 };
 
-const ToDo:React.FC<Props> = ({ todo }) => {
+const ToDo: React.FC<Props> = ({ todo }) => {
   return (
-    <div className="ToDoItem">
+    <div className="ToDoItem" key={todo.id}>
       <div className="ToDoItem__name">
         {todo?.user?.name}
         @

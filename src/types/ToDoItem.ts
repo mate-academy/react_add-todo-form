@@ -5,7 +5,7 @@ interface ToDoItem {
   id: number,
   title: string,
   completed: boolean,
-  user?: User,
+  user?: User | null,
 }
 
 export default ToDoItem;
