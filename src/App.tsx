@@ -14,11 +14,10 @@ type State = {
   hasUserError: boolean;
 };
 
-const preparedTodos = todosFromServer.map(todo => {
-  const u = users.find(user => user.id === todo.userId) || null;
-
-  return { ...todo, user: u };
-});
+const preparedTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId) || null,
+}));
 
 export class App extends React.Component<{}, State> {
   state: State = {
@@ -78,13 +77,9 @@ export class App extends React.Component<{}, State> {
       newUserId: +event.target.value,
       hasUserError: false,
     });
-    // console.log(this.state.newUserId);
   };
 
   render() {
-    // const todosList = [...this.state.todos];
-    // console.log(todosList);
-
     return (
       <div className="App">
         <h1>
@@ -99,7 +94,11 @@ export class App extends React.Component<{}, State> {
           Text:
           {/* eslint-disable-next-line */}
           <label htmlFor="">
-            <input type="text" value={this.state.newTitleName} onChange={this.handleTitleChange} />
+            <input
+              type="text"
+              value={this.state.newTitleName}
+              onChange={this.handleTitleChange}
+            />
           </label>
           {this.state.hasTitleError ? <div>Error</div> : null}
           <select value={this.state.newUserId} onChange={this.handleUserChange}>
@@ -108,7 +107,7 @@ export class App extends React.Component<{}, State> {
               <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
-          {this.state.hasUserError ? <div>Error</div> : null}
+          {this.state.hasUserError && <div>Error</div>}
           <button type="submit">Add task</button>
         </form>
         <div>
