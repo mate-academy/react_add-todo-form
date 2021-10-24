@@ -2,79 +2,79 @@ import React from 'react';
 import './App.scss';
 import classNames from 'classnames';
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import TodoList from './components/Todolist';
 
 type State = {
-  todd: Todo[],
-  name: string,
+  todos: Todo[],
+  id: number,
   title: string,
-  nameErr: boolean,
-  titleErr: boolean,
+  IdError: boolean,
+  TitleError: boolean;
 };
 
-class App extends React.Component <{}, State> {
-  state: State = {
-    todd: [...todos],
-    name: '',
+class App extends React.Component<{}, State> {
+  state = {
+    todos: todosFromServer,
+    id: 0,
     title: '',
-    nameErr: false,
-    titleErr: false,
+    IdError: false,
+    TitleError: false,
   };
 
   handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { todos, id, title } = this.state;
+
     event.preventDefault();
 
-    this.setState(prevState => {
-      if (!prevState.name || !prevState.title) {
-        return {
-          ...prevState,
-          nameErr: !prevState.name,
-          titleErr: !prevState.title,
-        };
-      }
-
-      const maxId = Math.max(...prevState.todd.map(todo => todo.id));
-      const currUserIndex = users.findIndex((user) => prevState.name === user.name);
-
+    if (!id || !title) {
+      this.setState({
+        IdError: !id,
+        TitleError: !title,
+      });
+    } else {
+      const maxId = Math.max(...todos.map(todo => todo.id));
       const newTodo = {
         id: maxId + 1,
-        title: prevState.title,
-        userId: users[currUserIndex].id,
+        title,
+        userId: id,
       };
 
-      return {
-        name: '',
-        title: '',
-        todd: [
-          newTodo,
-          ...prevState.todd,
-        ],
-      };
-    });
+      this.setState((prevState) => {
+        return {
+          id: 0,
+          title: '',
+          todos: [
+            newTodo,
+            ...prevState.todos,
+          ],
+        };
+      });
+    }
   };
 
-  handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      name: event.target.value,
-      nameErr: false,
+      id: +event.target.value,
+      IdError: false,
     });
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
-      titleErr: false,
+      TitleError: false,
     });
   };
 
   render() {
     const {
+      todos,
       title,
-      name,
-      nameErr,
-      titleErr,
+      id,
+      IdError,
+      TitleError,
     } = this.state;
 
     return (
@@ -83,21 +83,21 @@ class App extends React.Component <{}, State> {
         <form className="form" onSubmit={this.handleFormSubmit}>
           <div className="input">
             <select
-              value={name}
-              onChange={this.handleNameChange}
+              value={id}
+              onChange={this.handleIdChange}
               className={classNames('form__select', {
-                'field-error': nameErr,
+                'field-error': IdError,
               })}
             >
               <option>Choose name</option>
               {users.map(user => {
                 return (
-                  <option>{user.name}</option>
+                  <option value={user.id} key={user.id}>{user.name}</option>
                 );
               })}
               ;
             </select>
-            {nameErr && (
+            {IdError && (
               <span className="nameErr">
                 Please choose name
               </span>
@@ -110,9 +110,9 @@ class App extends React.Component <{}, State> {
               value={title}
               onChange={this.handleTitleChange}
               className={classNames('form__input',
-                { 'field-error': titleErr })}
+                { 'field-error': TitleError })}
             />
-            {titleErr && (
+            {TitleError && (
               <span className="titleErr">
                 Please enter a title
               </span>
@@ -129,7 +129,9 @@ class App extends React.Component <{}, State> {
           <TodoList todos={todos} />
         </p>
       </div>
+
     );
   }
 }
+
 export default App;
