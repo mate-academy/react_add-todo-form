@@ -1,3 +1,25 @@
 .App {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.App__error {
+  color: #f00;
+}
+
+.App__error_field {
+  border: 1px solid #f00;
+}
+
+.App__select,
+.App__input,
+.App__button {
+  height: 50px;
 }
