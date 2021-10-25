@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './ToDo.scss';
-
 import ToDoItem from '../../types/ToDoItem';
 
 type Props = {

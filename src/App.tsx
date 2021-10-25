@@ -1,5 +1,3 @@
-/* eslint-disable import/no-duplicates */
-
 import React from 'react';
 import classNames from 'classnames';
 
