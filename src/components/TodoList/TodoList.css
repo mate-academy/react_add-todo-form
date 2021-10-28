@@ -1,0 +1,15 @@
+.list {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+}
+
+.list__item {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
