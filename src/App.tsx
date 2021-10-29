@@ -89,7 +89,7 @@ class App extends React.Component<{}, State> {
               className="input-title"
               onChange={(event) => {
                 this.setState({
-                  title: event.target.value,
+                  title: event.target.value.trim(),
                   isTitleValid: true,
                 });
               }}
