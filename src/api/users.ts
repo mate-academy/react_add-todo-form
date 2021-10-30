@@ -93,9 +93,9 @@ const users = [
   },
   {
     id: 5,
-    name: 'Chelsey Dietrich',
+    name: 'Maksim Lysak',
     username: 'Kamren',
-    email: 'Lucio_Hettinger@annie.ca',
+    email: 'big@boss.ua',
     address: {
       street: 'Skiles Walks',
       suite: 'Suite 351',

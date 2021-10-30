@@ -1,0 +1,40 @@
+.todo-list {
+  margin-top: 50px;
+  list-style: none;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+ }
+
+ td, th {
+  border: 1px solid #333;
+  padding: 3px;
+ }
+
+ thead, tfoot {
+  background: #f0f0f0;
+ }
+
+.error {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  position: absolute;
+  text-align: center;
+  color: red;
+}
+
+.btn-add {
+  width: 80px;
+  height: 25px;
+  margin-left: 25px;
+}
+
+.input-title {
+  margin-right: 20px;
+  width: 250px;
+  height: 25px;
+}
