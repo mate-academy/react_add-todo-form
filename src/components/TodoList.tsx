@@ -1,8 +1,7 @@
-import React from "react";
-import users from "../api/users";
-import { Todo } from "../types/Todo";
-
+import React from 'react';
 import classNames from 'classnames';
+import users from '../api/users';
+import { Todo } from '../types/Todo';
 
 type Props = {
   todos: Todo[],
@@ -16,7 +15,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
       return (
         <li
           key={todo.id}
-          className={classNames({'list__item': true, 'list__item--done': todo.completed})}
+          className={classNames({ list__item: true, 'list__item--done': todo.completed })}
         >
           {newUser?.name}
           <br />

@@ -14,7 +14,6 @@ type State = {
   hasTitleError: boolean,
 };
 
-
 class App extends React.Component<{}, State> {
   state: State = {
     todos: [...todosFromServer],
@@ -68,10 +67,14 @@ class App extends React.Component<{}, State> {
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-      hasTitleError: false,
-    });
+    if (event.target.value === ' ') {
+      return;
+    } else {
+      this.setState({
+        title: event.target.value,
+        hasTitleError: false,
+      });
+    }
   };
 
   render() {
@@ -100,7 +103,9 @@ class App extends React.Component<{}, State> {
               >
                 <option value="">Select user</option>
                 {users.map(user => (
-                  <option>
+                  <option
+                    key={user.id}
+                  >
                     {user.name}
                   </option>
                 ))}
