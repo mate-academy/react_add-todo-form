@@ -67,17 +67,10 @@ class App extends React.Component<{}, State> {
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value === ' ') {
-      this.setState({
-        title: '',
-        hasTitleError: false,
-      });
-    } else {
-      this.setState({
-        title: event.target.value,
-        hasTitleError: false,
-      });
-    }
+    this.setState({
+      title: event.target.value.trimStart(),
+      hasTitleError: false,
+    });
   };
 
   render() {
