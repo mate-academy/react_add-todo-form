@@ -15,6 +15,7 @@ type State = {
   todoUserId: number;
   todoUserError: string,
   todoTitleError: string,
+  maxLengthInput: number,
 };
 
 const preparedTodos = todosFromServer.map((todo) => {
@@ -31,6 +32,7 @@ class App extends React.Component<{}, State> {
     todoUserId: 0,
     todoUserError: '',
     todoTitleError: '',
+    maxLengthInput: 15,
   };
 
   getMaxId = () => {
@@ -49,7 +51,12 @@ class App extends React.Component<{}, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { users, todoUserId, todoTitle } = this.state;
+    const {
+      users,
+      todoUserId,
+      todoTitle,
+      maxLengthInput,
+    } = this.state;
 
     if (todoUserId === 0) {
       this.setState({ todoUserError: 'Please choose a user' });
@@ -59,6 +66,12 @@ class App extends React.Component<{}, State> {
 
     if (todoTitle.length === 0) {
       this.setState({ todoTitleError: 'Please enter the title' });
+
+      return;
+    }
+
+    if (todoTitle.length > maxLengthInput) {
+      this.setState({ todoTitleError: `Maximum number of characters ${maxLengthInput}. You - ${todoTitle.length}` });
 
       return;
     }
