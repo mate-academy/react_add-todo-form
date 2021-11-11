@@ -1,0 +1,64 @@
+:root {
+  background-color: #ebe8d6;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    width: 40vw;
+
+    padding: 20px;
+
+    border: 1px solid burlywood;
+    border-radius: 20px;
+    box-shadow: 0 0 5px burlywood;
+  }
+
+  &__container {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__label {
+    font-size: large;
+  }
+
+  &__button {
+    width: 70px;
+    height: 40px;
+    border-radius: 20px;
+
+    transition: transform 0.5s;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+
+  &__toDoList {
+    list-style: none;
+
+    padding: 0;
+  }
+
+  &__todoInfo {
+    width: 40vw;
+  
+    padding: 0 20px 20px;
+    margin-bottom: 20px;
+  
+    border: 1px solid grey;
+    border-radius: 5px;
+  
+    background-color: #eee8aa;
+  }
+}
