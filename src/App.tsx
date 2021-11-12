@@ -30,31 +30,41 @@ class App extends React.Component<{}, State> {
     invalidUser: false,
   };
 
+  showErrors = () => {
+    if (this.state.title.length === 0) {
+      this.setState({
+        invalidTitle: true,
+      });
+    } else if (!users.find(person => person.id === this.state.userId)) {
+      this.setState({
+        invalidUser: true,
+      });
+    }
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!this.state.title || !users.find(person => person.id === this.state.userId)) {
-      this.showErrors();
-    } else {
-      const newToDo = {
-        id: this.state.id,
-        title: this.state.title,
-        userId: this.state.userId,
-      };
+    const { id, title, userId } = this.state;
 
-      this.setState(prevState => ({
-        id: prevState.id + 1,
-        todos: [...prevState.todos, newToDo],
-      }));
+    const selectedUser = users.find(person => person.id === this.state.userId);
+
+    if (!this.state.title || !selectedUser) {
+      return this.showErrors();
     }
 
-    if (!this.state.invalidTitle && !this.state.invalidUser) {
-      this.setState(prevState => ({
-        id: prevState.todos.length + 1,
-        title: '',
-        userId: 0,
-      }));
-    }
+    const newToDo = {
+      id,
+      title,
+      userId,
+    };
+
+    return this.setState(prevState => ({
+      id: prevState.todos.length + 1,
+      title: '',
+      userId: 0,
+      todos: [...prevState.todos, newToDo],
+    }));
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,18 +79,6 @@ class App extends React.Component<{}, State> {
       userId: Number(event.target.value),
       invalidUser: false,
     });
-  };
-
-  showErrors = () => {
-    if (this.state.title.length === 0) {
-      this.setState({
-        invalidTitle: true,
-      });
-    } else if (!users.find(person => person.id === this.state.userId)) {
-      this.setState({
-        invalidUser: true,
-      });
-    }
   };
 
   render() {
