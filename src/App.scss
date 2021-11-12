@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 400px;
+  &__element {
+    margin-bottom: 20px;
+  }
+}
+
+.error-message {
+  color: red;
+}
