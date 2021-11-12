@@ -30,8 +30,23 @@ class App extends React.Component<{}, State> {
     invalidUser: false,
   };
 
-  handlingSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!this.state.title || !users.find(person => person.id === this.state.userId)) {
+      this.showErrors();
+    } else {
+      const newToDo = {
+        id: this.state.id,
+        title: this.state.title,
+        userId: this.state.userId,
+      };
+
+      this.setState(prevState => ({
+        id: prevState.id + 1,
+        todos: [...prevState.todos, newToDo],
+      }));
+    }
 
     if (!this.state.invalidTitle && !this.state.invalidUser) {
       this.setState(prevState => ({
@@ -42,21 +57,21 @@ class App extends React.Component<{}, State> {
     }
   };
 
-  handlingTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
       invalidTitle: false,
     });
   };
 
-  handlingUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: Number(event.target.value),
-      invalidTitle: false,
+      invalidUser: false,
     });
   };
 
-  handlingAppButton = () => {
+  showErrors = () => {
     if (this.state.title.length === 0) {
       this.setState({
         invalidTitle: true,
@@ -65,18 +80,6 @@ class App extends React.Component<{}, State> {
       this.setState({
         invalidUser: true,
       });
-    } else {
-      this.setState(prevState => ({
-        id: prevState.id + 1,
-      }));
-
-      const newToDo = {
-        id: this.state.id,
-        title: this.state.title,
-        userId: this.state.userId,
-      };
-
-      this.state.todos = [...this.state.todos, newToDo];
     }
   };
 
@@ -87,7 +90,7 @@ class App extends React.Component<{}, State> {
 
         <form
           className="App__form"
-          onSubmit={(event) => this.handlingSubmit(event)}
+          onSubmit={this.handleSubmit}
         >
           <label
             className="App__label"
@@ -102,7 +105,7 @@ class App extends React.Component<{}, State> {
                 name="toDoTitle"
                 placeholder="Task title"
                 value={this.state.title}
-                onChange={(event) => this.handlingTitleChange(event)}
+                onChange={this.handleTitleChange}
               />
               {this.state.invalidTitle && (
                 <span className="App__error">
@@ -123,7 +126,7 @@ class App extends React.Component<{}, State> {
                 name="userId"
                 id="userId"
                 value={this.state.userId}
-                onChange={(event) => this.handlingUserChange(event)}
+                onChange={this.handleUserChange}
               >
                 <option value="">
                   Choose an user
@@ -146,7 +149,6 @@ class App extends React.Component<{}, State> {
           <button
             type="submit"
             className="App__button"
-            onClick={() => this.handlingAppButton()}
           >
             Add task
           </button>
