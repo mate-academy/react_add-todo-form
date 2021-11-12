@@ -1,0 +1,14 @@
+.todo-list {
+  list-style: none;
+  padding: 0;
+
+  &__item {
+    border: 1px solid black;
+    width: 400px;
+    margin-bottom: 10px;
+
+    &-title {
+      font-weight: bold;
+    }
+  }
+}
