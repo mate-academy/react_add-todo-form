@@ -4,15 +4,17 @@ import './App.scss';
 import todos from './api/todos';
 import users from './api/users';
 
-let preparedTodos = todos.map(item => ({
-  toDoTitle: item.title,
-  toDoId: item.id,
-  userId: item.userId,
-}));
+type ToDo = {
+  userId: number,
+  id: number,
+  title: string,
+  completed?: boolean,
+};
 
 type State = {
-  toDoId: number,
-  toDoTitle: string,
+  todos: ToDo[],
+  id: number,
+  title: string,
   userId: number,
   invalidTitle: boolean,
   invalidUser: boolean,
@@ -20,11 +22,62 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    toDoId: preparedTodos.length + 1,
-    toDoTitle: '',
+    todos: [...todos],
+    id: todos.length + 1,
+    title: '',
     userId: 0,
     invalidTitle: false,
     invalidUser: false,
+  };
+
+  handlingSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!this.state.invalidTitle && !this.state.invalidUser) {
+      this.setState(prevState => ({
+        id: prevState.todos.length + 1,
+        title: '',
+        userId: 0,
+      }));
+    }
+  };
+
+  handlingTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      title: event.target.value,
+      invalidTitle: false,
+    });
+  };
+
+  handlingUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({
+      userId: Number(event.target.value),
+      invalidTitle: false,
+    });
+  };
+
+  handlingAppButton = () => {
+    if (this.state.title.length === 0) {
+      this.setState({
+        invalidTitle: true,
+      });
+    } else if (!users.find(person => person.id === this.state.userId)) {
+      this.setState({
+        invalidUser: true,
+      });
+    } else {
+      this.setState(prevState => ({
+        id: prevState.id + 1,
+      }));
+
+      const newToDo = {
+        id: this.state.id,
+        title: this.state.title,
+        userId: this.state.userId,
+      };
+
+      this.state.todos = [...this.state.todos, newToDo];
+    }
   };
 
   render() {
@@ -34,17 +87,7 @@ class App extends React.Component<{}, State> {
 
         <form
           className="App__form"
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            if (!this.state.invalidTitle && !this.state.invalidUser) {
-              this.setState({
-                toDoId: preparedTodos.length + 1,
-                toDoTitle: '',
-                userId: 0,
-              });
-            }
-          }}
+          onSubmit={(event) => this.handlingSubmit(event)}
         >
           <label
             className="App__label"
@@ -58,13 +101,8 @@ class App extends React.Component<{}, State> {
                 id="toDoTitle"
                 name="toDoTitle"
                 placeholder="Task title"
-                value={this.state.toDoTitle}
-                onChange={(event) => {
-                  this.setState({
-                    toDoTitle: event.target.value,
-                    invalidTitle: false,
-                  });
-                }}
+                value={this.state.title}
+                onChange={(event) => this.handlingTitleChange(event)}
               />
               {this.state.invalidTitle && (
                 <span className="App__error">
@@ -85,12 +123,7 @@ class App extends React.Component<{}, State> {
                 name="userId"
                 id="userId"
                 value={this.state.userId}
-                onChange={(event) => {
-                  this.setState({
-                    userId: +event.target.value,
-                    invalidUser: false,
-                  });
-                }}
+                onChange={(event) => this.handlingUserChange(event)}
               >
                 <option value="">
                   Choose an user
@@ -113,35 +146,20 @@ class App extends React.Component<{}, State> {
           <button
             type="submit"
             className="App__button"
-            onClick={() => {
-              if (this.state.toDoTitle.length === 0) {
-                this.setState({
-                  invalidTitle: true,
-                });
-              } else if (!users.find(person => person.id === this.state.userId)) {
-                this.setState({
-                  invalidUser: true,
-                });
-              } else {
-                this.setState(prevState => ({
-                  toDoId: prevState.toDoId + 1,
-                }));
-                preparedTodos = [...preparedTodos, this.state];
-              }
-            }}
+            onClick={() => this.handlingAppButton()}
           >
             Add task
           </button>
         </form>
 
         <ul className="App__toDoList">
-          {preparedTodos.map(toDoItem => {
+          {this.state.todos.map(toDoItem => {
             const user = users.find(person => person.id === toDoItem.userId);
 
             return (
               <li className="App__todoInfo">
                 <h2>
-                  {`${toDoItem.toDoId}. ${toDoItem.toDoTitle}`}
+                  {`${toDoItem.id}. ${toDoItem.title}`}
                 </h2>
 
                 {toDoItem.userId && (
