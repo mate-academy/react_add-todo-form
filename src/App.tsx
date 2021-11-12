@@ -50,6 +50,11 @@ class App extends React.Component<{}, State> {
     const selectedUser = this.state.users.find(user => (
       user.name === this.state.selectedUser
     ));
+
+    if (!selectedUser || !this.state.title) {
+      return this.showErrors();
+    }
+
     const newTodo: Todo = {
       userId: selectedUser?.id,
       id: this.state.todos.length + 1,
@@ -57,18 +62,14 @@ class App extends React.Component<{}, State> {
       completed: false,
     };
 
-    if (selectedUser && this.state.title) {
-      this.setState((state) => ({
-        todos: [...state.todos, newTodo],
-        title: '',
-        selectedUser: 'no user selected',
-      }));
-    } else {
-      this.validation();
-    }
+    return this.setState((state) => ({
+      todos: [...state.todos, newTodo],
+      title: '',
+      selectedUser: 'no user selected',
+    }));
   };
 
-  validation = () => {
+  showErrors = () => {
     this.setState(state => ({
       titleNotEntered: !state.title,
       userNotSelected: state.selectedUser === 'no user selected',
@@ -116,7 +117,7 @@ class App extends React.Component<{}, State> {
               </label>
             </div>
             {userNotSelected
-              ? (<span className="error-message">Title is not entered</span>)
+              ? (<span className="error-message">User is not selected</span>)
               : null}
             <div className="form__element">
               <select
