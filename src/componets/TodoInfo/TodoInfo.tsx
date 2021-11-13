@@ -10,7 +10,8 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
   return (
     <>
-      <h2 className="todo-info__title">{`${id}. ${title}`}</h2>
+      <p>{`Todo ID: #${id}`}</p>
+      <h2 className="todo-info__title">{title}</h2>
 
       {user && (
         <p>

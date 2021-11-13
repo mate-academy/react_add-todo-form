@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 import todos from './api/todos';
 import users from './api/users';
@@ -102,17 +102,16 @@ export class App extends React.Component<{}, State> {
           className="form"
           onSubmit={this.handleSubmit}
         >
-          <div>
-            <label htmlFor="todo-title">
+          <div className="mb-4">
+            <label
+              className="form__todo-title"
+              htmlFor="todo-title"
+            >
               Todo title
-
-              {!isTitleEntered && (
-                <div>
-                  Please enter the title
-                </div>
-              )}
+              <br />
 
               <input
+                className="mt-2 form-control"
                 type="text"
                 placeholder="Enter todo title"
                 id="todo-title"
@@ -120,17 +119,18 @@ export class App extends React.Component<{}, State> {
                 value={title}
                 onChange={this.handleInputChange}
               />
+
+              {!isTitleEntered && (
+                <div className="error-msg">
+                  *Please enter the title
+                </div>
+              )}
             </label>
           </div>
 
-          <div>
-            {!isSelectedUser && (
-              <div>
-                Please choose an user
-              </div>
-            )}
-
+          <div className="mb-4">
             <select
+              className="form-select"
               name="selectedUser"
               id=""
               value={selectedUser}
@@ -149,11 +149,17 @@ export class App extends React.Component<{}, State> {
                 </option>
               ))}
             </select>
+
+            {!isSelectedUser && (
+              <div className="error-msg">
+                *Please choose an user
+              </div>
+            )}
           </div>
 
           <button
             type="submit"
-            className="btn"
+            className="btn btn-outline-success btn-lg"
           >
             Add task
           </button>
