@@ -39,7 +39,7 @@ export class App extends React.Component<{}, State> {
     } = this.state;
 
     if (!title || !selectedUser) {
-      return this.showMessageError();
+      return this.showErrorMessage();
     }
 
     const chosenUser = users.find(user => user.name === selectedUser);
@@ -78,7 +78,7 @@ export class App extends React.Component<{}, State> {
     }));
   };
 
-  showMessageError = () => {
+  showErrorMessage = () => {
     this.setState(state => ({
       isTitleEntered: state.title !== '',
       isSelectedUser: state.selectedUser !== '',
@@ -98,7 +98,7 @@ export class App extends React.Component<{}, State> {
       <div className="App">
         <h1>Add todo form</h1>
         <form
-          method="GET"
+          method="POST"
           className="form"
           onSubmit={this.handleSubmit}
         >
