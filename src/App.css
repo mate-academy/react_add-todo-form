@@ -135,6 +135,8 @@ body {
   border-radius: 5px;
   border: 1px solid #eee;
   outline: none;
+  background-color: #faab36;
+  color: #004953;
 }
 
 .form__input:focus {
@@ -146,6 +148,7 @@ body {
   border-radius: 5px;
   border: 1px solid #eee;
   outline: none;
+  background-color: #faab36;
 }
 
 .form__input--theme-error {
@@ -161,11 +164,18 @@ body {
   font-size: 14px;
 }
 
+.form__select-option {
+  color: #004953;
+  background-color: #faab36;
+}
+
 .form__button {
   width: 100px;
   height: 30px;
   border-radius: 10px;
-  background-color: #faab36;
+  background-color: #004953;
+  color: #faab36;
+  text-transform: uppercase;
   outline: none;
   border: none;
 }
