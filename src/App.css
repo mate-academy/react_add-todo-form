@@ -1,3 +1,62 @@
 .App {
   text-align: center;
 }
+
+.input_wrap {
+  display: flex;
+  gap: 14px;
+}
+
+.todo_card {
+  width: 200px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 2px solid black;
+  margin-bottom: 12px;
+}
+
+.todo_card > span {
+  color: blue;
+  font-weight: 700;
+}
+
+.todo_user_info > span {
+  text-align: left;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.todo_user_info > span:nth-child(2) {
+  font-size: 12px;
+}
+
+.todo_user_info {
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 900;
+}
+
+.input_error { 
+  position: relative;
+}
+
+.input_error:before {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  content: 'Please choose a user';
+  color: red;
+}
+
+.input_error select {
+  border: 2px solid red;
+}
+
+.input_error input {
+  border: 2px solid red;
+}
+
+.input_error.input_error_user::before { 
+  content: 'Please enter the title';
+} 
