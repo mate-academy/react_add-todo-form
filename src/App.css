@@ -1,3 +1,175 @@
+body {
+  background-color: teal;
+  font-family: "Indie Flower", cursive;
+}
+
 .App {
   text-align: center;
+}
+
+.App__title {
+  font-family: "Praise", cursive;
+  margin: 34px 0 0;
+  font-size: 48px;
+  color: #004953;
+  letter-spacing: 2px;
+}
+
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1em;
+}
+
+.todo {
+  position: relative;
+  list-style: none;
+  margin: 1em;
+  text-decoration: none;
+  color: #3c4a85;
+  background: #f6c2d9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10em;
+  width: 10em;
+  padding: 1em;
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  transition: transform 0.3s ease-in-out;
+}
+
+.todo::after {
+  position: absolute;
+  left: 70px;
+  top: -15px;
+  content: url("./paper-pin.png");
+  display: block;
+}
+
+.todo:nth-child(2n) {
+  transform: rotate(4deg);
+  position: relative;
+  top: 5px;
+  background: #fff69b;
+}
+
+.todo:nth-child(3n) {
+  transform: rotate(-3deg);
+  position: relative;
+  top: -5px;
+  background: #a1c8e9;
+}
+
+.todo:nth-child(4n) {
+  transform: rotate(5deg);
+  position: relative;
+  top: -10px;
+  background: #dcedc1;
+}
+
+.todo:nth-child(5n) {
+  transform: rotate(-4deg);
+  position: relative;
+  top: 5px;
+  background: #e4dae2;
+}
+
+.todo:hover {
+  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
+  transform: scale(1.25);
+  position: relative;
+}
+
+.todo__title {
+  margin: 0;
+  font-size: 24px;
+  word-wrap: break-word;
+}
+
+.todo__id {
+  margin: 0;
+}
+
+.todo__user-id {
+  margin: 0;
+}
+
+.form__label {
+  position: relative;
+  margin: 0 auto;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form__select-container {
+  position: relative;
+  margin: 30px auto;
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form__select-container::before {
+  position: absolute;
+  content: url("./target.png");
+  display: block;
+  left: 278px;
+  top: -110px;
+}
+
+.form__input-message {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+  color: #f00;
+  font-size: 14px;
+}
+
+.form__input {
+  border-radius: 5px;
+  border: 1px solid #eee;
+  outline: none;
+}
+
+.form__input:focus {
+  border-color: teal;
+  outline: none;
+}
+
+.form__select {
+  border-radius: 5px;
+  border: 1px solid #eee;
+  outline: none;
+}
+
+.form__input--theme-error {
+  border-color: #f00;
+}
+
+.select__error-message {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: absolute;
+  left: 44px;
+  top: 22px;
+  color: #f00;
+  font-size: 14px;
+}
+
+.form__button {
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #faab36;
+  outline: none;
+  border: none;
+}
+
+.form__select--theme-error {
+  border-color: #f00;
 }
