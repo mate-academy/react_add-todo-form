@@ -55,6 +55,11 @@ body {
   background: #fff69b;
 }
 
+.todo:nth-child(2n)::after {
+  transform: rotate(65deg);
+  top: -25px;
+}
+
 .todo:nth-child(3n) {
   transform: rotate(-3deg);
   position: relative;
