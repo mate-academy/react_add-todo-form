@@ -144,11 +144,16 @@ body {
   outline: none;
 }
 
+.form__input::placeholder {
+  color: #004953;
+}
+
 .form__select {
   border-radius: 5px;
   border: 1px solid #eee;
   outline: none;
   background-color: #faab36;
+  color: #004953;
 }
 
 .form__input--theme-error {
