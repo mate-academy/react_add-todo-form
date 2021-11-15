@@ -16,8 +16,8 @@ interface State {
   tasks: Todo[],
   newTaskTitle: string,
   selectedUserId: number,
-  hasTitleError: boolean,
-  hasUserError: boolean,
+  hasNoTitleAdded: boolean,
+  hasNoUserChosen: boolean,
 }
 
 class App extends React.Component<{}, State> {
@@ -25,18 +25,26 @@ class App extends React.Component<{}, State> {
     tasks: preparedTodos,
     newTaskTitle: '',
     selectedUserId: 0,
-    hasTitleError: false,
-    hasUserError: false,
+    hasNoTitleAdded: false,
+    hasNoUserChosen: false,
   };
 
   changeTaskTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newTaskTitle: event.target.value });
-    this.checkError();
+    this.setState(
+      {
+        newTaskTitle: event.target.value,
+        hasNoTitleAdded: false,
+      },
+    );
   };
 
   chooseUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ selectedUserId: Number(event.target.value) });
-    this.checkError();
+    this.setState(
+      {
+        selectedUserId: Number(event.target.value),
+        hasNoUserChosen: false,
+      },
+    );
   };
 
   addNewTask = () => {
@@ -59,8 +67,6 @@ class App extends React.Component<{}, State> {
 
     const { newTaskTitle, selectedUserId } = this.state;
 
-    this.checkError();
-
     if (newTaskTitle && selectedUserId) {
       this.addNewTask();
 
@@ -69,17 +75,14 @@ class App extends React.Component<{}, State> {
         selectedUserId: 0,
       });
     }
-  };
 
-  checkError = () => {
-    this.setState((prevState) => {
-      const { newTaskTitle, selectedUserId } = prevState;
+    if (!newTaskTitle) {
+      this.setState({ hasNoTitleAdded: true });
+    }
 
-      return {
-        hasTitleError: !newTaskTitle,
-        hasUserError: !selectedUserId,
-      };
-    });
+    if (!selectedUserId) {
+      this.setState({ hasNoUserChosen: true });
+    }
   };
 
   render() {
@@ -87,8 +90,8 @@ class App extends React.Component<{}, State> {
       tasks,
       newTaskTitle,
       selectedUserId,
-      hasTitleError,
-      hasUserError,
+      hasNoTitleAdded,
+      hasNoUserChosen,
     } = this.state;
 
     return (
@@ -110,7 +113,7 @@ class App extends React.Component<{}, State> {
             />
           </label>
 
-          {hasTitleError && (
+          {hasNoTitleAdded && (
             <p
               className="App__error"
               style={{ color: 'red' }}
@@ -133,7 +136,7 @@ class App extends React.Component<{}, State> {
             </select>
           </div>
 
-          {hasUserError && (
+          {hasNoUserChosen && (
             <p
               className="App__error"
               style={{ color: 'red' }}
