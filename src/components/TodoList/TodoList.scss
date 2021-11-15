@@ -1,0 +1,13 @@
+.TodoList {
+  &__form {
+    margin-bottom: 82px;
+
+    &-fieldset {
+      height: 480px;
+    }
+  }
+
+  .error-message {
+    color: #f00;
+  }
+}
