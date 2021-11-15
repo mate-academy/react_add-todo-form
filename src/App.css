@@ -1,3 +1,18 @@
 .App {
   text-align: center;
+  border: 2px solid blue;
+}
+
+.todo {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.todo__item {
+  list-style: none;
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid black;
+  width: 180px;
+
 }
