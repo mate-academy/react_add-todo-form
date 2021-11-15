@@ -133,7 +133,7 @@ class App extends React.Component<{}, State> {
           </label>
           {
             isInvalidUser && (
-              'Please enter the title'
+              'Please choose a user'
             )
           }
 
