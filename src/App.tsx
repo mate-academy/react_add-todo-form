@@ -4,26 +4,11 @@ import './App.css';
 import users from './api/users';
 import todo from './api/todos';
 import { TodoList } from './api/TodoList';
-
-interface Todo {
-  userId: number,
-  id: number,
-  title: string,
-  completed: boolean,
-}
-
-interface State {
-  selectedUserId: number | undefined,
-  title: string,
-  todos: Todo[],
-  userName: string | undefined,
-  validationTitle:boolean,
-  validationUserName: boolean,
-}
+import { State } from './api/type';
 
 class App extends React.Component<{}, State> {
   state = {
-    selectedUserId: 0,
+    userId: 0,
     title: '',
     todos: todo,
     userName: '',
@@ -43,7 +28,7 @@ class App extends React.Component<{}, State> {
     const findUser = users.find(user => user.name === value);
 
     this.setState({
-      selectedUserId: findUser?.id,
+      userId: findUser?.id,
       userName: findUser?.name,
       validationUserName: false,
     });
@@ -53,28 +38,28 @@ class App extends React.Component<{}, State> {
     event.preventDefault();
 
     this.setState((prevState):any => {
-      if (!prevState.title || !prevState.selectedUserId) {
+      if (!prevState.title || !prevState.userId) {
         return {
           ...prevState,
           validationTitle: !prevState.title,
-          validationUserName: !prevState.selectedUserId,
+          validationUserName: !prevState.userId,
         };
       }
 
       const newTodo = {
         userName: prevState.userName,
-        selectedUserId: prevState.selectedUserId,
+        userId: prevState.userId,
         id: prevState.todos.length + 1,
         title: prevState.title,
       };
 
-      return { title: '', selectedUserId: '', todos: [...prevState.todos, newTodo] };
+      return { title: '', userId: 0, todos: [...prevState.todos, newTodo] };
     });
   };
 
   render() {
     const {
-      title, todos, selectedUserId, validationTitle, validationUserName,
+      title, todos, validationTitle, validationUserName, userId,
     } = this.state;
 
     return (
@@ -86,14 +71,18 @@ class App extends React.Component<{}, State> {
         >
           <select
             name="users"
-            value={selectedUserId}
+            value={userId}
             onChange={this.handlerOnUserChange}
           >
-            <option> Choose User </option>
+            <option
+              value=""
+            >
+              {' '}
+              Choose User
+              {' '}
+            </option>
             {users.map(personItem => (
               <option
-                value={personItem.name}
-                onClick={(event) => event.target}
                 key={personItem.id}
               >
                 {personItem.name}

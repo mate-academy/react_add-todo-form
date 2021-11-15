@@ -21,12 +21,12 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
             )
         }
         {
-          value.selectedUserId
+          value.userId
           && (
             <div>
               UserId:
               {' '}
-              {value.selectedUserId}
+              {value.userId}
             </div>
           )
         }
