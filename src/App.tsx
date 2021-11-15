@@ -96,6 +96,7 @@ export class App extends React.Component<{}, State> {
                 placeholder="Task title"
                 value={title}
                 onChange={this.titleChangeHandler}
+                id="todoTitle"
                 className={classNames(
                   'form__input', {
                     'form__input--theme-error': inputTitleError,

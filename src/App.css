@@ -1,3 +1,7 @@
+* {
+  user-select: none;
+}
+
 body {
   background-color: teal;
   font-family: "Indie Flower", cursive;
@@ -131,7 +135,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   position: absolute;
   left: 50px;
-  top: 20px;
+  top: 26px;
   color: #f00;
   font-size: 14px;
 }
@@ -140,6 +144,7 @@ body {
   border-radius: 5px;
   border: 1px solid #eee;
   outline: none;
+  font-size: 16px;
   background-color: #faab36;
   color: #004953;
 }
@@ -159,6 +164,7 @@ body {
   outline: none;
   background-color: #faab36;
   color: #004953;
+  font-size: 16px;
 }
 
 .form__input--theme-error {
