@@ -1,0 +1,19 @@
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+  padding: 20px;
+  width: fit-content;
+  text-align: center;
+  border: 2px solid lightsalmon;
+  border-radius: 4px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__error {
+    margin: 0;
+  }
+}
