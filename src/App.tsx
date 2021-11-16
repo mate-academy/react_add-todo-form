@@ -26,21 +26,14 @@ export class App extends React.Component {
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
+    this.checkError();
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const {
-      title, user, hasTitleError, hasUserError,
-    } = this.state;
-
     event.preventDefault();
+    this.checkError();
 
-    this.setState({
-      hasTitleError: !title.length,
-      hasUserError: !user.length,
-    });
-
-    if (!hasUserError && !hasTitleError && title.length && user.length) {
+    if (this.state.user && this.state.title) {
       this.addTodo();
 
       this.setState({ user: '', title: '' });
@@ -68,6 +61,17 @@ export class App extends React.Component {
       return { todos: [...prevstate.todos, newTodo] };
     });
   };
+
+  checkError = () => {
+    this.setState((prevState: State) => {
+      const { title, user } = prevState;
+
+      return {
+        hasTitleError: !title,
+        hasUserError: !user,
+      }
+    })
+  }
 
   render() {
     const {
