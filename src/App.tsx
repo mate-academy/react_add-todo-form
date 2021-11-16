@@ -34,9 +34,9 @@ class App extends React.Component<{}, State> {
           userId: state.select,
         }],
       }));
-    }
 
-    this.clearForm();
+      this.clearForm();
+    }
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
