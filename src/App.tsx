@@ -49,7 +49,9 @@ class App extends React.Component<{}, State> {
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  };
 
+  handleSubmitButton = () => {
     const selectedUser = users.find((user) => (
       user.name === this.state.selectedUser
     ));
@@ -70,7 +72,7 @@ class App extends React.Component<{}, State> {
       title: '',
       selectedUser: 'no user selected',
     }));
-  };
+  }
 
   isValid = () => {
     this.setState(state => ({
@@ -113,6 +115,11 @@ class App extends React.Component<{}, State> {
             />
           </label>
           <label htmlFor="chooseUser">
+            {
+              userNotSelected
+                ? 'User is not select'
+                : null
+            }
             <select
               name="selectedUser"
               id="chooseUser"
@@ -131,13 +138,8 @@ class App extends React.Component<{}, State> {
                 </option>
               ))}
             </select>
-            {
-              userNotSelected
-                ? 'User is not select'
-                : null
-            }
           </label>
-          <button type="submit">
+          <button type="submit" onClick={this.handleSubmitButton}>
             Add Todo
           </button>
         </form>
