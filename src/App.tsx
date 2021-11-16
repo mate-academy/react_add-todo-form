@@ -9,8 +9,8 @@ type Props = {};
 
 interface State {
   allTodos: Todo[],
-  selectedUser: number,
   titleTodo: string,
+  selectedUser: number,
   hasTodoError: boolean,
   hasUserError: boolean,
 }
@@ -18,8 +18,8 @@ interface State {
 class App extends React.Component<Props, State> {
   state: State = {
     allTodos: [...todos],
-    selectedUser: 0,
     titleTodo: '',
+    selectedUser: 0,
     hasTodoError: false,
     hasUserError: false,
   };
@@ -68,8 +68,8 @@ class App extends React.Component<Props, State> {
       this.addTodo();
 
       this.setState({
-        selectedUser: 0,
         titleTodo: '',
+        selectedUser: 0,
       });
     }
   };
@@ -84,7 +84,7 @@ class App extends React.Component<Props, State> {
         <h1>Add todo form</h1>
         <form
           action=""
-          method="get"
+          method="post"
           onSubmit={this.submitHandler}
         >
           <label htmlFor="titleTodo" className="app__input">
