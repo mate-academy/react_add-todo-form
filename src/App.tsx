@@ -35,6 +35,8 @@ class App extends React.Component<{}, State> {
         }],
       }));
     }
+
+    this.clearForm();
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -60,6 +62,15 @@ class App extends React.Component<{}, State> {
     });
 
     return this.handleChange;
+  };
+
+  clearForm = () => {
+    this.setState({
+      title: '',
+      select: 0,
+      choosenTitle: true,
+      choosenPerson: true,
+    });
   };
 
   render() {
