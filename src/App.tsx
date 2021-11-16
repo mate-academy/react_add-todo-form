@@ -4,10 +4,10 @@ import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types';
-// import { Todo, User } from './types';
+import { Todo, User } from './types';
 
 interface State {
+  users: User[]
   todos: Todo[];
   todoTitle: string;
   selectedUser: string;
