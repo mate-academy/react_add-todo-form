@@ -8,7 +8,7 @@ type Todo = {
   userId: number,
   id: number,
   title: string,
-  complated?: boolean,
+  completed?: boolean,
 };
 
 type State = {
@@ -23,14 +23,14 @@ type State = {
 class App extends React.Component<{}, State> {
   state: State = {
     todos: [...todos],
-    id: 0,
+    id: 3,
     title: '',
     userId: 0,
     hasTitleError: false,
     hasUserError: false,
   };
 
-  handleSubmit = (event: React.FocusEvent<HTMLFormElement>) => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { id, title, userId } = this.state;
@@ -48,7 +48,7 @@ class App extends React.Component<{}, State> {
     };
 
     this.setState(prevState => ({
-      id: prevState.todos.length + 1,
+      id: prevState.id + 1,
       title: '',
       userId: 0,
       todos: [...prevState.todos, newTodo],
