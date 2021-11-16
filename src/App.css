@@ -1,3 +1,56 @@
+* {
+  user-select: none;
+}
+
+body {
+  background-color: teal;
+  font-family: "Indie Flower", cursive;
+}
+
 .App {
   text-align: center;
+}
+
+.App__title {
+  font-family: "Praise", cursive;
+  margin: 34px 0 0;
+  font-size: 48px;
+  color: #004953;
+  letter-spacing: 2px;
+}
+
+.button-start {
+  margin: 20px;
+  font-family: "Praise", cursive;
+  font-size: 22px;
+  background-color: #004953;
+  color: #faab36;
+  height: 100px;
+  width: 100px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  will-change: transform;
+  box-shadow: 5px 4px 6px 0 rgba(0, 73, 83, 0.5);
+  animation: bounceIn 3s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.05);
+  }
+
+  70% {
+    -webkit-transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+  }
 }

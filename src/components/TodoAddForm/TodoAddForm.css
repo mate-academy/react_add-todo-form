@@ -1,0 +1,89 @@
+.form__label {
+  position: relative;
+  margin: 0 auto;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form__select-container {
+  position: relative;
+  margin: 30px auto;
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form__select-container::before {
+  position: absolute;
+  content: url("../../target.png");
+  display: block;
+  left: 278px;
+  top: -110px;
+}
+
+.form__input-message {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+  color: #f00;
+  font-size: 14px;
+}
+
+.form__input {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background-color: #77c66e;
+  color: #004953;
+}
+
+.form__input:focus {
+  border-color: teal;
+  outline: none;
+}
+
+.form__input::placeholder {
+  color: #004953;
+}
+
+.form__select {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background-color: #77c66e;
+  color: #004953;
+  font-size: 16px;
+}
+
+.select__error-message {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+  color: #f00;
+  font-size: 14px;
+}
+
+.form__select-option {
+  color: #77c66e;
+  background-color: #004953;
+}
+
+.form__button {
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #004953;
+  color: #faab36;
+  font-family: "Praise", cursive;
+  font-size: 24px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}

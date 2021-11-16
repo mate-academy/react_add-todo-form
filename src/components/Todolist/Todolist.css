@@ -1,0 +1,85 @@
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1em;
+}
+
+.todo {
+  position: relative;
+  list-style: none;
+  margin: 1em;
+  text-decoration: none;
+  color: #3c4a85;
+  background: #f6c2d9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10em;
+  width: 10em;
+  padding: 1em;
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  transition: transform 0.3s ease-in-out;
+}
+
+.todo::after {
+  position: absolute;
+  left: 70px;
+  top: -15px;
+  content: url("../../paper-pin.png");
+  display: block;
+}
+
+.todo:nth-child(2n) {
+  transform: rotate(4deg);
+  position: relative;
+  top: 5px;
+  background: #fff69b;
+}
+
+.todo:nth-child(2n)::after {
+  transform: rotate(65deg);
+  top: -25px;
+}
+
+.todo:nth-child(3n) {
+  transform: rotate(-3deg);
+  position: relative;
+  top: -5px;
+  background: #a1c8e9;
+}
+
+.todo:nth-child(4n) {
+  transform: rotate(5deg);
+  position: relative;
+  top: -10px;
+  background: #dcedc1;
+}
+
+.todo:nth-child(5n) {
+  transform: rotate(-4deg);
+  position: relative;
+  top: 5px;
+  background: #e4dae2;
+}
+
+.todo:hover {
+  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
+  transform: scale(1.25);
+  position: relative;
+}
+
+.todo__title {
+  margin: 0;
+  font-size: 24px;
+  word-wrap: break-word;
+}
+
+.todo__id {
+  margin: 0;
+}
+
+.todo__user-id {
+  margin: 0;
+}
