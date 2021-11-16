@@ -40,29 +40,32 @@ export class App extends React.Component<{}, State> {
     event.preventDefault();
     const { todos, titleTodo, selectUser } = this.state;
 
+    if (!this.state.titleTodo || !this.state.selectUser) {
+      return this.showErrors();
+    }
+
     const newTodo = {
       id: todos.length + 1,
       title: titleTodo,
       userId: selectUser,
     };
 
-    this.setState(state => {
-      if (!state.titleTodo || !state.selectUser) {
-        return {
-          ...state,
-          titleError: true,
-          selectError: true,
-        };
-      }
-
+    return this.setState(state => {
       return {
-        todos: [...todos, newTodo],
+        todos: [...state.todos, newTodo],
         titleTodo: '',
         selectUser: 0,
         titleError: false,
         selectError: false,
       };
     });
+  };
+
+  showErrors = () => {
+    this.setState(state => ({
+      titleError: !state.titleTodo,
+      selectError: !state.selectUser,
+    }));
   };
 
   render() {
@@ -120,8 +123,8 @@ export class App extends React.Component<{}, State> {
         <span>Users: </span>
         {todos.map(todo => (
           <div className="user__card">
-            <h2 className="user__card--title">{`Todo Title: ${todo.title}`}</h2>
-            <span className="user__card--id">{`Todo Id: ${todo.id} User Id: ${todo.userId}`}</span>
+            <h2 className="user__title">{`Todo Title: ${todo.title}`}</h2>
+            <span className="user__id">{`Todo Id: ${todo.id} User Id: ${todo.userId}`}</span>
           </div>
         ))}
       </div>
