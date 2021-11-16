@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.button {
+  align-self: center;
+  width: 150px;
+  height: 50px;
+  padding: 5px;
+  background-color: transparent;
+  border: 2px solid rgb(45, 45, 45);
+  border-radius: 10px;
+  transition: box-shadow ease-in 0.2s, border-width ease-in 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    border-width: 1px;
+    box-shadow: 3px 3px 2px 0;
+  }
+}
+
+.error {
+  color: red;
+}
+
+.todoForm {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
+  padding: 10px;
+  min-width: 300px;
+  gap: 10px;
+  border: 1px solid black;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+    min-width: 280px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 5px;
+  }
+}

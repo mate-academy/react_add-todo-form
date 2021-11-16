@@ -1,0 +1,18 @@
+.todoList {
+  padding: 10px;
+  list-style-type: none;
+  border: 1px solid black;
+
+  &__item {
+    border: 1px dashed grey;
+    margin-bottom: 10px;
+  }
+}
+
+.yes {
+  color: green;
+}
+
+.no {
+  color: red;
+}
