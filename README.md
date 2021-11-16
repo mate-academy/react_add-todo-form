@@ -1,5 +1,5 @@
 # React add TODO form
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://misharosa.github.io/react_add-todo-form/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
@@ -24,3 +24,26 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - hide a message immediately after any change of the field with an error
 1. (* Optional) Limit characters displayed in the `title` field.
   Allow entering letters (`ru` and `en`), digits and `spaces`.
+
+
+## Завдання
+Реалізуйте можливість додавати TODO до "TodoList", реалізовану в [Статичний список завдань](https://github.com/mate-academy/react_static-list-of-todos)
+
+1. Створіть компонент `App`, який зберігає масив `todos` та відображає його за допомогою `TodoList`
+1. Створіть форму для додавання нових завдань
+  - НЕ створюйте окремий компонент для форми (пізніше ми дізнаємося, як це зробити)
+  - для `title` має бути введений текст
+  - також додайте `<select>` з усіма користувачами з `./src/api/users.js`
+  - додайте мітки та заповнювачі там, де вони потрібні
+  - «TODO» слід додати до списку після натискання кнопки «Додати».
+  - кожне завдання має мати `id`, `title` та `userId`
+  - `id` є максимальним `id` у масиві + 1
+1. Очистіть форму після додавання TODO
+1. Додайте підтвердження до форми
+  - додати порожню опцію `Вибрати користувача` до вибраних користувачів
+  - перед створенням завдання перевірте, чи був обраний `користувач`, якщо ні, відобразити повідомлення про помилку поруч із `вибрати` (`Виберіть користувача`)
+  - якщо `title` порожній, показувати повідомлення про помилку поруч із полем `title` (`будь ласка, введіть назву`)
+  - помилки повинні з'являтися лише після натискання кнопки «Додати».
+  - приховати повідомлення відразу після будь-якої зміни поля з помилкою
+1. (* Необов’язково) Ліміт символів, що відображаються в полі `title`.
+   Дозволяє вводити літери (`ru` та `en`), цифри та `пробіли`.
