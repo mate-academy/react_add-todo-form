@@ -1,9 +1,9 @@
-import React from 'react';
-import './App.scss';
-import { TodoList } from './TodoList';
-import users from './api/users';
-import todos from './api/todos';
-import { Todo } from './types/types';
+import React from "react";
+import "./App.scss";
+import { TodoList } from "./TodoList";
+import users from "./api/users";
+import todos from "./api/todos";
+import { Todo } from "./types/types";
 
 const preparedTodos = todos.map((todo) => ({
   ...todo,
@@ -20,8 +20,8 @@ interface State {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    title: '',
-    selectedUser: '',
+    title: "",
+    selectedUser: "",
     todoList: preparedTodos,
     invalidPerson: false,
     invalidTitle: false,
@@ -40,12 +40,16 @@ class App extends React.Component<{}, State> {
     const { title, selectedUser } = this.state;
     const index = users.findIndex((user) => user.name === selectedUser);
 
-    if (title.length === 0 && index === -1) {
-      this.setState({ invalidPerson: true, invalidTitle: true });
+    if (title.length === 0 && !selectedUser) {
+      this.setState({ invalidTitle: true, invalidPerson: true });
+    } else if (title.length === 0) {
+      this.setState({ invalidTitle: true });
+    } else if (!selectedUser) {
+      this.setState({ invalidPerson: true });
     } else {
       this.setState((state) => ({
-        title: '',
-        selectedUser: '',
+        title: "",
+        selectedUser: "",
         todoList: [
           ...state.todoList,
           {
@@ -59,10 +63,8 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const {
-      title, selectedUser, todoList, invalidPerson, invalidTitle,
-    }
-      = this.state;
+    const { title, selectedUser, todoList, invalidPerson, invalidTitle } =
+      this.state;
 
     return (
       <div className="App">
