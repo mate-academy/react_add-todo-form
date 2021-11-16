@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: beige;
+}
+
+.App {
+  text-align: center;
+
+  &__label {
+    display: block;
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 10px;
+    
+  }
+
+  &__item {
+    list-style: none;
+    padding: 10px;
+    border: 3px solid #70b3ea;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  }
+}
