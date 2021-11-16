@@ -67,6 +67,14 @@ class App extends React.Component<{}, State> {
 
     const { newTaskTitle, selectedUserId } = this.state;
 
+    if (!newTaskTitle) {
+      this.setState({ hasNoTitleAdded: true });
+    }
+
+    if (!selectedUserId) {
+      this.setState({ hasNoUserChosen: true });
+    }
+
     if (newTaskTitle && selectedUserId) {
       this.addNewTask();
 
@@ -74,14 +82,6 @@ class App extends React.Component<{}, State> {
         newTaskTitle: '',
         selectedUserId: 0,
       });
-    }
-
-    if (!newTaskTitle) {
-      this.setState({ hasNoTitleAdded: true });
-    }
-
-    if (!selectedUserId) {
-      this.setState({ hasNoUserChosen: true });
     }
   };
 
