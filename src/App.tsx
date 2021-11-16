@@ -4,14 +4,28 @@ import './App.css';
 import users from './api/users';
 import todo from './api/todos';
 import { TodoList } from './api/TodoList';
-import { State } from './api/type';
 
-class App extends React.Component<{}, State> {
+interface Todo {
+  userId: number,
+  id: number,
+  title: string,
+}
+
+interface State {
+  userId: number | undefined,
+  title: string,
+  todos: Todo[]
+  validationTitle: boolean,
+  validationUserName: boolean
+}
+
+type Props = {};
+
+class App extends React.Component<Props, State> {
   state = {
     userId: 0,
     title: '',
     todos: todo,
-    userName: '',
     validationTitle: false,
     validationUserName: false,
   };
@@ -29,15 +43,14 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       userId: findUser?.id,
-      userName: findUser?.name,
       validationUserName: false,
     });
   };
 
-  handlerOnSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  handlerOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState((prevState):any => {
+    this.setState(prevState => {
       if (!prevState.title || !prevState.userId) {
         return {
           ...prevState,
@@ -47,7 +60,6 @@ class App extends React.Component<{}, State> {
       }
 
       const newTodo = {
-        userName: prevState.userName,
         userId: prevState.userId,
         id: prevState.todos.length + 1,
         title: prevState.title,
