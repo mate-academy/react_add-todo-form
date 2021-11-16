@@ -22,18 +22,33 @@ export class App extends React.Component {
     hasUserError: false,
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  handleUserChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
-    this.checkError();
+    this.setState({
+      [name]: value,
+      hasUserError: false,
+
+    });
+  };
+
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+
+
+    this.setState({
+      [name]: value,
+      hasTitleError: false,
+    });
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.checkError();
 
-    if (this.state.user && this.state.title) {
+    const { user, title } = this.state;
+
+    if (user && title) {
       this.addTodo();
 
       this.setState({ user: '', title: '' });
@@ -69,9 +84,9 @@ export class App extends React.Component {
       return {
         hasTitleError: !title,
         hasUserError: !user,
-      }
-    })
-  }
+      };
+    });
+  };
 
   render() {
     const {
@@ -91,10 +106,10 @@ export class App extends React.Component {
               name="title"
               id="todoTitle"
               value={title}
-              onChange={this.handleChange}
+              onChange={this.handleTitleChange}
               placeholder="enter todo title"
             />
-            {hasUserError && <div>Please enter the title</div>}
+            {hasTitleError && <div>Please enter the title</div>}
           </label>
 
           <label htmlFor="UserSelection">
@@ -103,7 +118,7 @@ export class App extends React.Component {
               name="user"
               id="UserSelection"
               value={this.state.user}
-              onChange={this.handleChange}
+              onChange={this.handleUserChange}
             >
               <option value="">
                 choose a person
@@ -112,10 +127,14 @@ export class App extends React.Component {
                 <option value={user.name} key={user.name}>{user.name}</option>
               ))}
             </select>
-            {hasTitleError && <div>Please choose a user</div>}
+            {hasUserError && <div>Please choose a user</div>}
           </label>
 
-          <button type="submit" className="button">
+          <button
+            type="submit"
+            className="button"
+            onClick={this.checkError}
+          >
             ADD
           </button>
         </form>
