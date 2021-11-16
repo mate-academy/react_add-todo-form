@@ -40,10 +40,8 @@ class App extends React.Component<{}, State> {
     const { title, selectedUser } = this.state;
     const index = users.findIndex((user) => user.name === selectedUser);
 
-    if (title.length === 0) {
-      this.setState({ invalidTitle: true });
-    } else if (index === -1) {
-      this.setState({ invalidPerson: true });
+    if (title.length === 0 && index === -1) {
+      this.setState({ invalidPerson: true, invalidTitle: true });
     } else {
       this.setState((state) => ({
         title: '',
@@ -68,11 +66,7 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <form
-          action="/"
-          className="App__form"
-          onSubmit={this.handleSubmit}
-        >
+        <form action="/" className="App__form" onSubmit={this.handleSubmit}>
           <input
             type="text"
             value={title}
@@ -80,7 +74,9 @@ class App extends React.Component<{}, State> {
             onChange={this.handleTitleInput}
             className="App__title"
           />
-          {invalidTitle && <span className="App__error">Please enter the title</span>}
+          {invalidTitle && (
+            <span className="App__error">Please enter the title</span>
+          )}
           <select
             value={selectedUser}
             className="App__select"
