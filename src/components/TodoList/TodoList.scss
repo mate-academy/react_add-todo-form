@@ -1,0 +1,11 @@
+.todo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &--li {
+    margin: 20px;
+    padding: 5px;
+    border: 1px solid black;
+  }
+}
