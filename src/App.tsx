@@ -41,11 +41,17 @@ class App extends React.Component<Props, State> {
   };
 
   changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ titleTodo: event.target.value });
+    this.setState({
+      titleTodo: event.target.value,
+      hasTodoError: false,
+    });
   };
 
   changeUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ selectedUserId: +event.target.value });
+    this.setState({
+      selectedUserId: +event.target.value,
+      hasUserError: false,
+    });
   };
 
   checkError = () => {
