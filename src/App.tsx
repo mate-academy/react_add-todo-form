@@ -23,7 +23,7 @@ class App extends React.Component<{}, State> {
     choosenPerson: true,
   };
 
-  addTodo = (event: { preventDefault: () => void; }) => {
+  addTodo = (event: React.FormEvent) => {
     event.preventDefault();
     this.checkErrors();
     if (this.state.title && this.state.select) {
@@ -60,8 +60,6 @@ class App extends React.Component<{}, State> {
         choosenPerson: Boolean(select),
       };
     });
-
-    return this.handleChange;
   };
 
   clearForm = () => {
