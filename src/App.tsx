@@ -10,7 +10,7 @@ type Props = {};
 interface State {
   allTodos: Todo[],
   titleTodo: string,
-  selectedUser: number,
+  selectedUserId: number,
   hasTodoError: boolean,
   hasUserError: boolean,
 }
@@ -19,42 +19,40 @@ class App extends React.Component<Props, State> {
   state: State = {
     allTodos: [...todos],
     titleTodo: '',
-    selectedUser: 0,
+    selectedUserId: 0,
     hasTodoError: false,
     hasUserError: false,
   };
 
   addTodo = () => {
     this.setState(state => {
-      const { allTodos, selectedUser, titleTodo } = state;
+      const { allTodos, selectedUserId, titleTodo } = state;
 
       const newTodo = {
-        userId: selectedUser,
+        userId: selectedUserId,
         id: allTodos.length + 1,
         title: titleTodo,
         completed: false,
-        user: users.find(user => user.id === selectedUser),
+        user: users.find(user => user.id === selectedUserId),
       };
 
       return { allTodos: [...allTodos, newTodo] };
     });
   };
 
-  changeTodoHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ titleTodo: event.target.value });
-    this.checkError();
   };
 
   changeUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ selectedUser: +event.target.value });
-    this.checkError();
+    this.setState({ selectedUserId: +event.target.value });
   };
 
   checkError = () => {
     this.setState((state) => {
       return {
         hasTodoError: !state.titleTodo,
-        hasUserError: !state.selectedUser,
+        hasUserError: !state.selectedUserId,
       };
     });
   };
@@ -62,21 +60,21 @@ class App extends React.Component<Props, State> {
   submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.checkError();
-    const { titleTodo, selectedUser } = this.state;
+    const { titleTodo, selectedUserId } = this.state;
 
-    if (titleTodo && selectedUser) {
+    if (titleTodo && selectedUserId) {
       this.addTodo();
 
       this.setState({
         titleTodo: '',
-        selectedUser: 0,
+        selectedUserId: 0,
       });
     }
   };
 
   render() {
     const {
-      titleTodo, allTodos, selectedUser, hasTodoError, hasUserError,
+      titleTodo, allTodos, selectedUserId, hasTodoError, hasUserError,
     } = this.state;
 
     return (
@@ -93,7 +91,7 @@ class App extends React.Component<Props, State> {
               name="todo"
               id="titleTodo"
               value={titleTodo}
-              onChange={this.changeTodoHandler}
+              onChange={this.changeTitleHandler}
               placeholder="todo"
             />
             {hasTodoError && <p className="app__error">Add todo please</p>}
@@ -102,7 +100,7 @@ class App extends React.Component<Props, State> {
             <select
               name="user"
               id=""
-              value={selectedUser}
+              value={selectedUserId}
               onChange={this.changeUserHandler}
             >
               <option value="0" disabled>Choose a user</option>
@@ -114,9 +112,7 @@ class App extends React.Component<Props, State> {
           </div>
           <button type="submit" className="app__button">Add</button>
         </form>
-        <p>
-          <TodoList todos={allTodos} />
-        </p>
+        <TodoList todos={allTodos} />
       </div>
     );
   }
