@@ -27,34 +27,9 @@ class App extends React.Component<{}, State> {
     isValidSelect: false,
   };
 
-  reloadHandler = (event: React.FormEvent<HTMLFormElement>) => (
-    event.preventDefault()
-  );
+  reloadHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => (
-    this.setState({
-      todoTitle: event.target.value,
-      titleError: '',
-      isValidTitle: true,
-    })
-  );
-
-  userPickHandler = (event: React.ChangeEvent<HTMLSelectElement>) => (
-    this.setState({
-      todoExecutor: event.target.value,
-      selectError: '',
-      isValidSelect: true,
-    })
-  );
-
-  clearAllSelection = () => (
-    this.setState({
-      todoTitle: '',
-      todoExecutor: '',
-    })
-  );
-
-  addTodo = () => {
     const {
       todosList,
       todoExecutor,
@@ -97,6 +72,29 @@ class App extends React.Component<{}, State> {
     }
   };
 
+  titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => (
+    this.setState({
+      todoTitle: event.target.value,
+      titleError: '',
+      isValidTitle: true,
+    })
+  );
+
+  userPickHandler = (event: React.ChangeEvent<HTMLSelectElement>) => (
+    this.setState({
+      todoExecutor: event.target.value,
+      selectError: '',
+      isValidSelect: true,
+    })
+  );
+
+  clearAllSelection = () => (
+    this.setState({
+      todoTitle: '',
+      todoExecutor: '',
+    })
+  );
+
   render() {
     const {
       todosList,
@@ -122,9 +120,13 @@ class App extends React.Component<{}, State> {
               onChange={this.titleHandler}
               value={todoTitle}
             />
-            <div>
-              {titleError}
-            </div>
+            {
+              titleError && (
+                <div>
+                  {titleError}
+                </div>
+              )
+            }
 
             <select
               name="users"
@@ -145,13 +147,16 @@ class App extends React.Component<{}, State> {
                 ))
               }
             </select>
-            <div>
-              {selectError}
-            </div>
+            {
+              selectError && (
+                <div>
+                  {selectError}
+                </div>
+              )
+            }
 
             <button
               type="submit"
-              onClick={this.addTodo}
             >
               Add
             </button>
