@@ -81,11 +81,11 @@ class App extends React.Component<{}, State> {
         <h1>Add todo form</h1>
         <form
           action="POST"
-          className="App-form"
+          className="App--form"
           onSubmit={this.handlerSubmit}
         >
-          <label>
-            Title
+          <div className="App--title">
+            Title:
             {' '}
             <input
               type="text"
@@ -96,9 +96,10 @@ class App extends React.Component<{}, State> {
             />
             {errorTitle
               && <div>Please enter the title</div>}
-          </label>
+          </div>
 
           <select
+            className="App--select"
             name="selectedUser"
             value={selectedUser}
             onChange={this.handlerChangeSelect}

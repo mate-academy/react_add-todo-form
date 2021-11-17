@@ -18,11 +18,11 @@ export class TodoList extends React.Component<Props, {}> {
             key={todo.id}
             className="todo--li"
           >
-            {`Id: ${todo.id}`}
+            {`id: ${todo.id}`}
             <br />
             {todo.title}
             <br />
-            {`User Id: ${todo.userId}`}
+            {`user id: ${todo.userId}`}
           </li>
         ))}
       </ul>
