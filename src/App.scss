@@ -1,0 +1,19 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &--form {
+    color: black;
+  }
+
+  &--title {
+    margin: 10px;
+  }
+
+  &--select {
+    margin: 10px;
+  }
+}
