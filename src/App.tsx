@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ChangeEvent, FormEvent } from 'react';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 import users from './api/users';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
@@ -16,7 +16,7 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    todos,
+    todos: todosFromServer,
     title: '',
     selectedUser: 0,
     errorTitle: false,
@@ -33,7 +33,7 @@ class App extends React.Component<{}, State> {
   handlerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { title, selectedUser } = this.state;
+    const { todos, title, selectedUser } = this.state;
 
     if (!this.state.title || !this.state.selectedUser) {
       return this.showErrors();
