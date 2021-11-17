@@ -1,4 +1,5 @@
 import React from 'react';
+import { TodoList } from './components/TodoList';
 import './App.scss';
 
 import users from './api/users';
@@ -19,7 +20,6 @@ type State = {
   hasTitleError: boolean,
   hasUserError: boolean,
 };
-
 class App extends React.Component<{}, State> {
   state: State = {
     todos: [...todos],
@@ -122,32 +122,8 @@ class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <ul>
-          {
-            this.state.todos.map(todo => (
-              <li className="App__list" key={Math.random()}>
-                <p>
-                  Title:
-                  {' '}
-                  {todo.title}
-                </p>
+        <TodoList todos={this.state.todos} />
 
-                <p>
-                  id:
-                  {' '}
-                  {todo.id}
-                </p>
-
-                <p>
-                  userId:
-                  {' '}
-                  {todo.userId}
-                </p>
-
-              </li>
-            ))
-          }
-        </ul>
       </div>
     );
   }
