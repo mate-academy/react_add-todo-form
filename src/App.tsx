@@ -25,12 +25,12 @@ class App extends React.Component<{}, State> {
       completed: false,
     };
 
-    this.setState({
+    this.setState(prevState => ({
       todosList: [
-        ...todosList,
+        ...prevState.todosList,
         newTodo,
       ],
-    });
+    }));
   };
 
   render() {
