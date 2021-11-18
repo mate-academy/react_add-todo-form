@@ -34,10 +34,12 @@ class App extends React.Component<{}, State> {
     if (this.state.title.length === 0) {
       this.setState({
         invalidTitle: true,
+        invalidUser: true,
       });
     } else if (!users.find(person => person.id === this.state.userId)) {
       this.setState({
         invalidUser: true,
+        invalidTitle: true,
       });
     }
   };
