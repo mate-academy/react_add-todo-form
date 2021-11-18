@@ -70,9 +70,9 @@ class App extends React.Component<{}, State> {
     return this.setState((state) => ({
       todos: [...state.todos, newTodo],
       title: '',
-      selectedUser: 'no user selected',
+      selectedUser: 'Choose Performancer',
     }));
-  }
+  };
 
   isValid = () => {
     this.setState(state => ({
@@ -114,31 +114,29 @@ class App extends React.Component<{}, State> {
               onChange={this.handleInputChange}
             />
           </label>
-          <label htmlFor="chooseUser">
-            {
-              userNotSelected
-                ? 'User is not select'
-                : null
-            }
-            <select
-              name="selectedUser"
-              id="chooseUser"
-              value={selectedUser}
-              onChange={this.handleSelectChange}
-            >
-              <option value="">
-                Choose performancer
+          {
+            userNotSelected
+              ? 'User is not select'
+              : null
+          }
+          <select
+            name="selectedUser"
+            id="chooseUser"
+            value={selectedUser}
+            onChange={this.handleSelectChange}
+          >
+            <option value="">
+              Choose performancer
+            </option>
+            {users.map(user => (
+              <option
+                value={user.name}
+                key={user.id}
+              >
+                {user.name}
               </option>
-              {users.map(user => (
-                <option
-                  value={user.name}
-                  key={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
+            ))}
+          </select>
           <button type="submit" onClick={this.handleSubmitButton}>
             Add Todo
           </button>
