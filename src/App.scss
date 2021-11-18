@@ -1,0 +1,143 @@
+@import '../node_modules/normalize-scss/sass/normalize';
+
+body {
+  margin: 0;
+  background-color: #3e3e48;
+}
+
+.page {
+  color: #fff;
+  font-family: sans-serif;
+  height: 100vh;
+}
+
+.title {
+  font-size: 30px;
+  margin: 0;
+
+  &--md {
+    font-size: 24px;
+  }
+}
+
+.todos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+
+  &__header {
+    border-bottom: 2px solid #474752;
+    padding: 20px 30px;
+  }
+
+  &__column-left {
+    border-right: 2px solid #474752;
+  }
+
+  &__column-right {
+    display: grid;
+  }
+}
+
+.TodoList {
+  list-style-type: none;
+  margin: 0;
+  padding: 30px;
+
+  &__Item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+
+    background-color: #33333c;
+    padding: 16px;
+    border-radius: 16px;
+    border: 2px solid #474752;
+    
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.UserInfo {
+  display: grid;
+  row-gap: 5px;
+  border-right: 2px solid #474752;
+}
+
+.UserTodoTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TodosForm {
+  background-color: #33333c;
+  border-radius: 16px;
+  padding: 24px 16px;
+  max-width: 320px;
+  width: 100%;
+  margin: auto;
+}
+
+.Label {
+  &__Title {
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
+.Input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 10px;
+  outline: none;
+
+  background-color: #33333c;
+  border-radius: 5px;
+  border: 2px solid #474752;
+  color: #fff;
+
+  &::placeholder {
+    color: #fff;
+    opacity: 0.3;
+  }
+
+  &--Error {
+    border-color: red;
+  }
+}
+
+.TodosForm {
+  display: grid;
+  row-gap: 20px;
+}
+
+.Button {
+  height: 60px;
+  background-color: #33333c;
+  border-radius: 5px;
+  border: 2px solid #474752;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover{
+    background-color: #474752;
+  }
+}
+
+.FormControl {
+  position: relative;
+
+  &__Error {
+    position: absolute;
+    font-size: 14px;
+    bottom: -18px;
+    right: 6px;
+    color: red;
+  }
+}
