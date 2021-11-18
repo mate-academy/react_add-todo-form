@@ -1,0 +1,59 @@
+body {
+  background-color: #1a1918;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    color: #fd9e10;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 600px;
+    height: 200px;
+    gap: 30px;
+    border: 2px solid #fd9e10;
+    border-radius: 20px;
+  }
+
+  &__container {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__label {
+    font-size: 20px;
+    color: #fd9e10;
+    
+  }
+
+  &__button {
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #fd9e10;
+    margin: 0 auto;
+  }
+
+  &__toDoList {
+    list-style: none;
+
+    padding: 0;
+  }
+
+  &__todoInfo {
+    border: 2px solid #fd9e10;
+    background-color: rgb(135, 185, 250);
+    width: 600px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+  }
+}
