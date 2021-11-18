@@ -1,0 +1,14 @@
+.TodoList {
+  &__ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__li {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+  }
+}
