@@ -1,0 +1,66 @@
+body {
+  background-color: rgb(71, 112, 42);
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+
+  font-family: Courier, monospace;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.App {
+  border: solid black 1px;
+  border-radius: 10px;
+  background-color: rgb(162, 162, 162);
+
+  padding: 20px;
+}
+
+.wraper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  &__user {
+    height: 30px;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);
+  }
+
+  &__title {
+    height: 30px;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);
+  }
+
+  &__error {
+    color: rgb(174, 23, 23);
+  }
+
+  &__button {
+    height: 30px;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);
+  }
+}
+
+.list {
+
+  list-style: none;
+  padding: 20px;
+
+  &__item {
+    padding: 5px;
+    border: solid black 1px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+}
