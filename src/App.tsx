@@ -84,7 +84,7 @@ class App extends React.Component {
             className="todo-form__button"
             onClick={() => {
               const thisUser = users.find(item => item.name === todoThisUser);
-              const checkTodoError = (!this.state.newTodoTitle || this.state.newTodoTitle.length > 100 || !this.state.newTodoTitle.match(/^[а-яА-ЯёЁa-zA-Z\s]+$/));
+              const checkTodoError = (!this.state.newTodoTitle.trim() || this.state.newTodoTitle.length > 100 || !this.state.newTodoTitle.match(/^[а-яА-ЯёЁa-zA-Z\s]+$/));
 
               if (!this.state.todoThisUser) {
                 this.setState({
