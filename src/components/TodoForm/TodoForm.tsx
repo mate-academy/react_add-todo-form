@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { User } from '../../types/types';
+import './TodoForm.scss';
 
 interface State {
   title: {
@@ -46,6 +47,17 @@ export class TodoForm extends React.Component<Props, State> {
 
     if (this.state.title.value && this.state.user.value) {
       onAdd(this.state.title.value, this.state.user.value);
+
+      this.setState({
+        title: {
+          value: '',
+          error: false,
+        },
+        user: {
+          value: 0,
+          error: false,
+        },
+      });
     }
   };
 
@@ -67,9 +79,13 @@ export class TodoForm extends React.Component<Props, State> {
 
     return (
       <form
+        className="form"
         onSubmit={this.submitHandler}
       >
-        <label htmlFor={title}>
+        <label
+          className="form__field"
+          htmlFor={title}
+        >
           Choose a user:
           <select
             name={title}
@@ -84,11 +100,15 @@ export class TodoForm extends React.Component<Props, State> {
         </label>
         {this.state.user.error && <p>Please choose a user</p>}
 
-        <label htmlFor={user}>
+        <label
+          htmlFor={user}
+          className="form__field"
+        >
           Enter the title:
           <input
             name={user}
             type="text"
+            value={this.state.title.value}
             onChange={this.changeTitleHandler}
           />
         </label>

@@ -1,4 +1,5 @@
 import { Todo, User, PreparedTodo } from '../../types/types';
+import './TodoList.scss';
 
 type Props = {
   users: User[];
@@ -21,14 +22,15 @@ export const TodoList: React.FC<Props> = ({ users, todos }) => {
   });
 
   return (
-    <div>
+    <div className="todolist">
       {preparedTodos.map((todo: PreparedTodo) => {
         return (
-          <div>
-            <mark>{todo.id}</mark>
-            <p>{todo.title}</p>
-            <div>
+          <div className="todolist__item todo-item">
+            <mark className="todo-item__id">{todo.id}</mark>
+            <p className="todo-item__title">{todo.title}</p>
+            <div className="todo-item__user-info">
               <span>{todo.user.username}</span>
+              {'   '}
               <span>{todo.user.email}</span>
             </div>
           </div>
