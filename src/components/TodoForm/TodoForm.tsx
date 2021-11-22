@@ -5,11 +5,11 @@ import './TodoForm.scss';
 interface State {
   title: {
     value: string;
-    error: boolean;
+    hasValidationError: boolean;
   }
   user: {
     value: number;
-    error: boolean;
+    hasValidationError: boolean;
   }
 }
 
@@ -22,20 +22,20 @@ export class TodoForm extends React.Component<Props, State> {
   state = {
     title: {
       value: '',
-      error: false,
+      hasValidationError: false,
     },
     user: {
       value: 0,
-      error: false,
+      hasValidationError: false,
     },
   };
 
-  changeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ title: { value: e.target.value, error: false } });
+  changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ title: { value: event.target.value, hasValidationError: false } });
   };
 
   changeUserHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ user: { value: +e.target.value, error: false } });
+    this.setState({ user: { value: Number(e.target.value), hasValidationError: false } });
   };
 
   submitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -51,11 +51,11 @@ export class TodoForm extends React.Component<Props, State> {
       this.setState({
         title: {
           value: '',
-          error: false,
+          hasValidationError: false,
         },
         user: {
           value: 0,
-          error: false,
+          hasValidationError: false,
         },
       });
     }
@@ -66,7 +66,7 @@ export class TodoForm extends React.Component<Props, State> {
       return {
         [inputName]: {
           value: currentState[inputName].value,
-          error: !currentState[inputName].value,
+          hasValidationError: !currentState[inputName].value,
         },
       } as Pick<State, keyof State>;
     });
@@ -92,7 +92,7 @@ export class TodoForm extends React.Component<Props, State> {
             value={value}
             onChange={this.changeUserHandler}
           >
-            <option value="0" disabled>Chose a user</option>
+            <option value="0" disabled>Choose a user</option>
             {users.map(({ id, name }) => {
               return <option value={id} key={id}>{name}</option>;
             })}
