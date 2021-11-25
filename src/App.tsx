@@ -26,12 +26,14 @@ export class App extends React.Component<{}, State> {
   changeTitleHandle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
+      hasTitleError: false,
     });
   };
 
   changeUserHandle = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       selectedUserId: +event.target.value,
+      hasSelectError: false,
     });
   };
 
