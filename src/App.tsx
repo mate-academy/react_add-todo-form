@@ -1,29 +1,10 @@
 import React from 'react';
 import './App.css';
 
+import { State } from './typedefs';
+
 import users from './api/users';
 import todos from './api/todos';
-
-type User = {
-  id: number,
-  name: string,
-};
-
-type Todo = {
-  userId: number | undefined,
-  id: number,
-  title: string,
-  completed: boolean,
-};
-
-type State = {
-  users: User[],
-  todos: Todo[],
-  newTitle: string,
-  user: number,
-  inputError: boolean,
-  selectError: boolean,
-};
 
 class App extends React.Component<{}, State> {
   state = {
@@ -50,6 +31,12 @@ class App extends React.Component<{}, State> {
               return;
             }
 
+            if (this.state.newTitle.trim().length === 0) {
+              this.setState({ inputError: true });
+
+              return;
+            }
+
             if (!this.state.user) {
               this.setState({ selectError: true });
 
@@ -59,7 +46,7 @@ class App extends React.Component<{}, State> {
             this.setState(state => {
               const newTodo = {
                 userId: users.find(onesUser => onesUser.id === this.state.user)?.id,
-                id: Math.max(...todos.map(el => el.id)) + 1,
+                id: Date.now(),
                 title: this.state.newTitle,
                 completed: false,
               };
