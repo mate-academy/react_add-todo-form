@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+.App {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px;
+}
+
+.AddTodo {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+
+  &__API {
+    margin-bottom: 12px;
+  }
+
+  &__user-select-wrapper {
+    margin-bottom: 8px;
+  }
+
+  &__user-label {
+    margin-right: 10px;
+  }
+
+  &__task-label {
+    margin-right: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &__task-field {
+    padding: 5px;
+  }
+
+  &__button {
+    width: 80px;
+    height: 80px;
+    border: 0;
+    border-radius: 50%;
+
+    background-color: #658079;
+    color: #fff;
+
+    transition: background-color 0.1s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #7b9b92;
+    }
+  }
+
+  &__error {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 2px;
+
+    background-color: #ffdeea;
+    color: #b32f46;
+  }
+}

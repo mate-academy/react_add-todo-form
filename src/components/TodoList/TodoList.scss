@@ -1,0 +1,11 @@
+@import '../../utils/variables.scss';
+
+.TodoList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  border-radius: 10px;
+
+  background-color: $c-light-green;
+}
