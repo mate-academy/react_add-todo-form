@@ -73,8 +73,10 @@ class App extends React.Component<{}, State> {
       user: currentUser,
     };
 
-    this.setState({
-      todos: [...todos, newTodo],
+    this.setState((state) => {
+      return {
+        todos: [...state.todos, newTodo],
+      };
     });
   };
 
@@ -113,13 +115,7 @@ class App extends React.Component<{}, State> {
 
   render() {
     // eslint-disable-next-line object-curly-newline
-    const {
-      todos,
-      taskDetails,
-      user,
-      taskDetailsProvided,
-      userSelected,
-    } = this.state;
+    const { todos, taskDetails, user, taskDetailsProvided, userSelected } = this.state;
 
     return (
       <div className="App">
