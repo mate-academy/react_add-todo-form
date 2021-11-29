@@ -1,0 +1,69 @@
+@import './utils/variables.scss';
+
+$container-max-width: 1440px;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 60px;
+}
+
+.AddTodo {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+
+  &__API {
+    margin-bottom: 12px;
+  }
+
+  &__user-select-wrapper {
+    margin-bottom: 8px;
+  }
+
+  &__user-label {
+    margin-right: 10px;
+  }
+
+  &__task-label {
+    margin-right: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &__task-field {
+    padding: 5px;
+  }
+
+  &__button {
+    width: 80px;
+    height: 80px;
+    border: 0;
+    border-radius: 50%;
+
+    background-color: $c-button-green;
+    color: $c-pure-white;
+
+    transition: background-color 0.1s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $c-button-green-hover;
+    }
+  }
+
+  &__error {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 2px;
+
+    background-color: $c-light-pink;
+    color: $c-pinkish-red;
+  }
+}

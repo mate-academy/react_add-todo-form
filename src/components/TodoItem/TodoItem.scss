@@ -1,0 +1,58 @@
+@import '../../utils/variables.scss';
+
+.TodoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 70px;
+  border: 2px solid $c-light-grey;
+  border-radius: 10px;
+
+  background-color: $c-white;
+
+  cursor: pointer;
+
+  &:hover &__user-info::before {
+    background: linear-gradient(0deg, $c-light-green-tint, $c-light-green-tint);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+
+  &__user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &::before {
+      content: '';
+
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+
+      background-color: $c-dark-green-tint;
+    }
+  }
+
+  &__user-name {
+    margin-bottom: 4px;
+
+    font-weight: bold;
+  }
+
+  &__user-email {
+    color: $c-darker-grey;
+
+    font-size: 14px;
+  }
+
+  &__todo-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__todo-status {
+    color: $c-green-tint;
+  }
+}
