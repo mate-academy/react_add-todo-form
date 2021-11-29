@@ -1,3 +1,4 @@
+import users from '../../api/users';
 import './TodoList.scss';
 
 type Todo = {
@@ -18,7 +19,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
           key={Math.random()}
           className="Todo_List--Item"
         >
-          {item.title}
+          {`${item.title} : ${users.find(user => item.userId === user.id)?.name}`}
         </li>
       ))}
     </ul>
