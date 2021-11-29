@@ -1,3 +1,7 @@
+@import './utils/variables.scss';
+
+$container-max-width: 1440px;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,7 +17,7 @@ ul {
 }
 
 .App {
-  max-width: 1440px;
+  max-width: $container-max-width;
   margin: 0 auto;
   padding: 60px;
 }
@@ -53,14 +57,14 @@ ul {
     border: 0;
     border-radius: 50%;
 
-    background-color: #658079;
-    color: #fff;
+    background-color: $c-button-green;
+    color: $c-pure-white;
 
     transition: background-color 0.1s ease;
     cursor: pointer;
 
     &:hover {
-      background-color: #7b9b92;
+      background-color: $c-button-green-hover;
     }
   }
 
@@ -69,7 +73,7 @@ ul {
     padding: 10px;
     border-radius: 2px;
 
-    background-color: #ffdeea;
-    color: #b32f46;
+    background-color: $c-light-pink;
+    color: $c-pinkish-red;
   }
 }

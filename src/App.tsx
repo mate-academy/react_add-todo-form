@@ -8,21 +8,17 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-const preparedTodos: Todo[] = todosFromServer.map((todo) => {
-  const todoWithOwner = {
-    ...todo,
-    user: users.find((user) => user.id === todo.userId) || null,
-  };
-
-  return todoWithOwner;
-});
+const preparedTodos: Todo[] = todosFromServer.map((todo) => ({
+  ...todo,
+  user: users.find((user) => user.id === todo.userId) || null,
+}));
 
 type State = {
   todos: Todo[];
   taskDetails: string;
   user: string;
-  taskDetailsProvided: boolean;
-  userSelected: boolean;
+  isTaskDetailsProvided: boolean;
+  isUserSelected: boolean;
 };
 
 class App extends React.Component<{}, State> {
@@ -30,8 +26,8 @@ class App extends React.Component<{}, State> {
     todos: [...preparedTodos],
     taskDetails: '',
     user: '',
-    taskDetailsProvided: true,
-    userSelected: true,
+    isTaskDetailsProvided: true,
+    isUserSelected: true,
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,14 +39,14 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       taskDetails,
-      taskDetailsProvided: true,
+      isTaskDetailsProvided: true,
     });
   };
 
   setNewuser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       user: event.target.value,
-      userSelected: true,
+      isUserSelected: true,
     });
   };
 
@@ -73,11 +69,9 @@ class App extends React.Component<{}, State> {
       user: currentUser,
     };
 
-    this.setState((state) => {
-      return {
-        todos: [...state.todos, newTodo],
-      };
-    });
+    this.setState((state) => ({
+      todos: [...state.todos, newTodo],
+    }));
   };
 
   clearForm = () => {
@@ -91,11 +85,11 @@ class App extends React.Component<{}, State> {
     const { taskDetails, user } = this.state;
 
     this.setState({
-      taskDetailsProvided: taskDetails !== '',
+      isTaskDetailsProvided: taskDetails !== '',
     });
 
     this.setState({
-      userSelected: user !== '',
+      isUserSelected: user !== '',
     });
 
     return taskDetails && user;
@@ -115,7 +109,7 @@ class App extends React.Component<{}, State> {
 
   render() {
     // eslint-disable-next-line object-curly-newline
-    const { todos, taskDetails, user, taskDetailsProvided, userSelected } = this.state;
+    const { todos, taskDetails, user, isTaskDetailsProvided, isUserSelected } = this.state;
 
     return (
       <div className="App">
@@ -142,7 +136,7 @@ class App extends React.Component<{}, State> {
                 ))}
               </select>
 
-              {!userSelected && (
+              {!isUserSelected && (
                 <p className="AddTodo__error">Please, select a user</p>
               )}
             </div>
@@ -163,7 +157,7 @@ class App extends React.Component<{}, State> {
                 onChange={this.handleTitleChange}
               />
 
-              {!taskDetailsProvided && (
+              {!isTaskDetailsProvided && (
                 <p className="AddTodo__error">Please, provide task deatils</p>
               )}
             </div>

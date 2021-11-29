@@ -5,7 +5,7 @@ const todos = [
     userId: 4,
     id: 1,
     title: 'Reject a pull request',
-    completed: false,
+    completed: true,
   },
   {
     userId: 5,
