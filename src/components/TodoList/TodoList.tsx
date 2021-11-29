@@ -1,10 +1,10 @@
 import React from 'react';
-import { Todos } from '../../types/type';
+import { Todo } from '../../types/type';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 import './TodoList.css';
 
 type Props = {
-  todos: Todos[];
+  todos: Todo[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => (

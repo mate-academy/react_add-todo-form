@@ -1,11 +1,11 @@
-export interface Todos {
+export interface Todo {
   userId: number;
   id: number;
   title: string;
   completed: boolean;
 }
 
-export interface UserInformation {
+export interface User {
   id: number;
   name: string;
   username: string;

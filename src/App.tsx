@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
 import './App.css';
 
 import userList from './api/users';
 import todoList from './api/todos';
-import { Todos, UserInformation } from './types/type';
+import { Todo, User } from './types/type';
 import { TodoList } from './components/TodoList/TodoList';
 
 interface State {
-  users: UserInformation[];
-  todos: Todos[];
+  users: User[];
+  todos: Todo[];
   isShowUserError: boolean;
   isShowTitleError: boolean;
   todoTitle: string;
@@ -25,21 +25,23 @@ class App extends React.Component<{}, State> {
     userId: 0,
   };
 
-  validateForm = (event: any) => {
+  validateForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { userId, todoTitle } = event.target.elements;
 
-    if (!todoTitle.value) {
+    const userId = Number((event.currentTarget.elements.namedItem('userId') as HTMLInputElement).value);
+    const todoTitle: string = (event.currentTarget.elements.namedItem('todoTitle') as HTMLInputElement).value;
+
+    if (!todoTitle) {
       this.setState({ isShowTitleError: true });
-    } else if (userId.value < 1) {
+    } else if (userId < 1) {
       this.setState({ isShowUserError: true });
     } else {
-      this.addTodo(userId.value, todoTitle.value);
+      this.addTodo(userId, todoTitle);
     }
   };
 
   addTodo = (userId: number, title: string) => {
-    const newTodo: Todos = {
+    const newTodo: Todo = {
       userId,
       id: this.state.todos.length + 1,
       title,
@@ -51,6 +53,20 @@ class App extends React.Component<{}, State> {
       todoTitle: '',
       userId: 0,
     }));
+  };
+
+  handleEventTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      todoTitle: e.target.value,
+      isShowTitleError: false,
+    });
+  };
+
+  handleEventUser = (e: ChangeEvent<HTMLSelectElement>) => {
+    this.setState({
+      userId: Number(e.target.value),
+      isShowUserError: false,
+    });
   };
 
   render() {
@@ -79,10 +95,7 @@ class App extends React.Component<{}, State> {
                 type="text"
                 value={todoTitle}
                 name="todoTitle"
-                onChange={(event) => this.setState({
-                  todoTitle: event.target.value,
-                  isShowTitleError: false,
-                })}
+                onChange={this.handleEventTitle}
                 placeholder="Enter the title of TODO"
               />
               {isShowTitleError && (
@@ -95,11 +108,7 @@ class App extends React.Component<{}, State> {
               <select
                 name="userId"
                 value={userId}
-                id="user"
-                onChange={(event) => this.setState({
-                  userId: Number(event.target.value),
-                  isShowUserError: false,
-                })}
+                onChange={this.handleEventUser}
               >
                 <option value="0">Choose a user</option>
                 {users.map(user => (
