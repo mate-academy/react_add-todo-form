@@ -28,8 +28,7 @@ class App extends React.Component<{}, State> {
   validateForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userId = Number((event.currentTarget.elements.namedItem('userId') as HTMLInputElement).value);
-    const todoTitle: string = (event.currentTarget.elements.namedItem('todoTitle') as HTMLInputElement).value;
+    const { userId, todoTitle } = this.state;
 
     if (!todoTitle) {
       this.setState({ isShowTitleError: true });
@@ -55,16 +54,16 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  handleEventTitle = (e: ChangeEvent<HTMLInputElement>) => {
+  handleEventTitle = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      todoTitle: e.target.value,
+      todoTitle: event.target.value,
       isShowTitleError: false,
     });
   };
 
-  handleEventUser = (e: ChangeEvent<HTMLSelectElement>) => {
+  handleEventUser = (event: ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      userId: Number(e.target.value),
+      userId: Number(event.target.value),
       isShowUserError: false,
     });
   };
