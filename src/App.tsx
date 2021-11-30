@@ -3,11 +3,20 @@ import './App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
+import { Todo } from './components/Todo';
+import { ToDoType } from './api/type';
 
-const copyTodos = [...todos];
+interface State {
+  copyTodos: ToDoType[],
+  title: string,
+  userId: number,
+  noUser: boolean,
+  noTitle: boolean,
+}
 
-export class App extends React.Component <{}, {}> {
+export class App extends React.Component <{}, State> {
   state = {
+    copyTodos: [...todos],
     title: '',
     userId: 0,
     noUser: false,
@@ -24,10 +33,10 @@ export class App extends React.Component <{}, {}> {
   };
 
   handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
 
     this.setState({
-      [name]: value,
+      title: value,
       noTitle: false,
     });
   };
@@ -38,14 +47,18 @@ export class App extends React.Component <{}, {}> {
     } = this.state;
 
     if (userId !== 0 && title !== '') {
-      copyTodos.push(
-        {
-          userId: +userId,
-          title,
-          id: copyTodos.length + 1,
-          completed: false,
-        },
-      );
+      this.setState((state) => ({
+        copyTodos:
+        [
+          ...state.copyTodos,
+          {
+            userId: +userId,
+            title,
+            id: state.copyTodos.length + 1,
+            completed: false,
+          },
+        ],
+      }));
 
       this.setState({
         title: '',
@@ -85,16 +98,14 @@ export class App extends React.Component <{}, {}> {
                 Choose a user
               </option>
               {
-                users.map((user) => {
-                  return (
-                    <option
-                      value={user.id}
-                      key={user.id}
-                    >
-                      {user.name}
-                    </option>
-                  );
-                })
+                users.map((user) => (
+                  <option
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))
               }
             </select>
             <div>
@@ -134,22 +145,7 @@ export class App extends React.Component <{}, {}> {
             Add
           </button>
         </form>
-        <ul className="list">
-          {
-            copyTodos.map((todo => {
-              return (
-                <li className="list__item">
-                  <p>
-                    {`Title: ${todo.title}`}
-                  </p>
-                  <p>
-                    {`To do ID: ${todo.id}`}
-                  </p>
-                </li>
-              );
-            }))
-          }
-        </ul>
+        <Todo toDos={this.state.copyTodos} />
       </div>
     );
   }
