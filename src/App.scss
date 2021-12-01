@@ -1,0 +1,97 @@
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: antiquewhite;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  border: 1px dotted black;
+  border-radius: 20px;
+
+  h1 {
+    text-align: center;
+    text-decoration: underline;
+  }
+}
+
+.Todo-Form {
+  display: flex;
+  justify-content: center;
+
+  & > * {
+    margin: 0 2px;
+    border-radius: 20px;
+    background-color: darkorange;
+    padding-left: 10px;
+    font-size: 16px;
+  }
+
+  &__todo-title {
+    width: 400px;
+    height: 40px;
+
+    &::placeholder {
+      color: rgb(59, 59, 59);
+      font-style: italic;
+    }
+
+    &:focus {
+      background-color: rgb(255, 94, 0);
+      font-weight: bold;
+    }
+  }
+
+  &__select-user {
+    width: 300px;
+    height: 45px;
+
+    &:focus {
+      background-color: rgb(255, 94, 0);
+      font-weight: bold;
+    }
+  }
+
+  &__add-todo {
+    width: 100px;
+    height: 45px;
+
+    &:hover {
+      background-color: rgb(255, 94, 0);
+      font-weight: bold;
+    }
+  }
+}
+
+.Form__Warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+
+  &--title,
+  &--select,
+  &--symbols {
+    width: 820px;
+    height: 40px;
+    margin-top: 10px;
+    font-weight: bold;
+    background-color: transparent;
+    animation: pulse 1.5s infinite alternate-reverse ease-in-out;
+  }
+
+  @keyframes pulse {
+    to {
+      background-color: red;
+    }
+  }
+}
