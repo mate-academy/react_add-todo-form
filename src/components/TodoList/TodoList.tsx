@@ -16,7 +16,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
     <ul className="Todo_List">
       {todos.map(item => (
         <li
-          key={Math.random()}
+          key={item.id + 1}
           className="Todo_List--Item"
         >
           {`${item.title} : ${users.find(user => item.userId === user.id)?.name}`}
