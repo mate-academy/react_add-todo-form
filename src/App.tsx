@@ -17,14 +17,18 @@ export class App extends React.Component<{}, State> {
     visibleTodos: todos,
   };
 
-  preparedTodos: Todo[] = this.state.visibleTodos.map(todo => {
-    const theRightUser = users.find(user => user.id === todo.userId);
-    const todoCopy = { ...todo };
+  getPreparedTodos = (visibelTodos: Todo[]) => {
+    const preparedTodos: Todo[] = visibelTodos.map(todo => {
+      const theRightUser = users.find(user => user.id === todo.userId);
+      const todoCopy = { ...todo };
 
-    todoCopy.user = theRightUser || null;
+      todoCopy.user = theRightUser || null;
 
-    return todoCopy;
-  });
+      return todoCopy;
+    });
+
+    return preparedTodos;
+  };
 
   addTodo: AddTodo = (userName, todoTitle) => {
     const selectedUser = users.find(user => user.name === userName);
@@ -49,7 +53,7 @@ export class App extends React.Component<{}, State> {
       <div className="app">
         <h1>List of todos</h1>
 
-        <TodoList todos={this.preparedTodos} />
+        <TodoList todos={this.getPreparedTodos(this.state.visibleTodos)} />
 
         <AddTodoForm users={users} addTodo={this.addTodo} />
       </div>
