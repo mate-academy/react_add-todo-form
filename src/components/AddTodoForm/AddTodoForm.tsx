@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler, FormEventHandler } from 'react';
 import { AddTodo } from '../../types/AddTodo';
 import { User } from '../../types/User';
 
@@ -22,6 +22,51 @@ export class AddTodoForm extends React.Component<Props, State> {
     isUserName: true,
   };
 
+  submitHandler: FormEventHandler = (e) => {
+    e.preventDefault();
+
+    const {
+      newTitle,
+      userName,
+    } = this.state;
+
+    if (userName && newTitle) {
+      this.props.addTodo(userName, newTitle);
+      this.setState({
+        newTitle: '',
+        isNewTitle: true,
+        userName: '',
+        isUserName: true,
+      });
+    }
+
+    this.setState({
+      isNewTitle: !!newTitle,
+      isUserName: !!userName,
+    });
+  };
+
+  titleChangeHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target;
+    const valueCharactersArr = value.split('');
+    const characters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя abcdefghijklmnopqrstuvwxyz123456789';
+    const canWrite = valueCharactersArr.every(char => {
+      return characters.includes(char.toLocaleLowerCase());
+    });
+
+    if (canWrite) {
+      this.setState({
+        newTitle: value,
+        isNewTitle: true,
+      });
+    }
+  };
+
+  userNameChangeHandler: ChangeEventHandler<HTMLSelectElement> = (e) => this.setState({
+    userName: e.target.value,
+    isUserName: true,
+  });
+
   render() {
     const {
       newTitle,
@@ -32,7 +77,6 @@ export class AddTodoForm extends React.Component<Props, State> {
 
     const {
       users,
-      addTodo,
     } = this.props;
 
     return (
@@ -40,23 +84,7 @@ export class AddTodoForm extends React.Component<Props, State> {
         <legend>Add todo form</legend>
 
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (userName && newTitle) {
-              addTodo(userName, newTitle);
-              this.setState({
-                newTitle: '',
-                isNewTitle: true,
-                userName: '',
-                isUserName: true,
-              });
-            }
-
-            this.setState({
-              isNewTitle: !!newTitle,
-              isUserName: !!userName,
-            });
-          }}
+          onSubmit={this.submitHandler}
         >
           <p>Todo title</p>
 
@@ -67,21 +95,7 @@ export class AddTodoForm extends React.Component<Props, State> {
               name="title"
               value={newTitle}
               placeholder="Enter the title"
-              onChange={(e) => {
-                const { value } = e.target;
-                const valueCharactersArr = value.split('');
-                const characters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя abcdefghijklmnopqrstuvwxyz123456789';
-                const canWrite = valueCharactersArr.every(char => {
-                  return characters.includes(char.toLocaleLowerCase());
-                });
-
-                if (canWrite) {
-                  this.setState({
-                    newTitle: value,
-                    isNewTitle: true,
-                  });
-                }
-              }}
+              onChange={this.titleChangeHandler}
             />
           </label>
 
@@ -93,10 +107,7 @@ export class AddTodoForm extends React.Component<Props, State> {
             <select
               id="user"
               value={userName}
-              onChange={(e) => this.setState({
-                userName: e.target.value,
-                isUserName: true,
-              })}
+              onChange={this.userNameChangeHandler}
             >
               <option defaultValue="">Chose user</option>
               {users.map(({ name }) => {
