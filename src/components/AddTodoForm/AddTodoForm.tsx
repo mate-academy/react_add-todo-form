@@ -109,7 +109,7 @@ export class AddTodoForm extends React.Component<Props, State> {
               value={userName}
               onChange={this.userNameChangeHandler}
             >
-              <option defaultValue="">Chose user</option>
+              <option value="">Chose user</option>
               {users.map(({ name }) => {
                 return (
                   <option
