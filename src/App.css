@@ -1,3 +1,27 @@
 .App {
   text-align: center;
 }
+
+.table {
+  width: 100%;
+}
+
+.tableHead {
+  font-size: 25px;
+  text-align: left;
+}
+
+.tableBody {
+  font-size: 20px;
+  text-align: left;
+}
+
+.title {
+  font-size: 30px;
+  text-align: center;
+}
+
+th,
+td {
+  border: 2px black solid;
+}
