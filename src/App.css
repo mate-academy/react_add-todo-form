@@ -1,3 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  max-width: 1470px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.error {
+  color: red;
 }
