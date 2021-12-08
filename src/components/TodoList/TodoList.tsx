@@ -15,19 +15,15 @@ export const TodoList = React.memo<Props>(
         completed,
         user,
       }) => {
-        if (user) {
-          return (
-            <li key={id}>
-              <TodoInfo
-                title={title}
-                complited={completed}
-                user={user}
-              />
-            </li>
-          );
-        }
-
-        return user;
+        return user && (
+          <li key={id}>
+            <TodoInfo
+              title={title}
+              complited={completed}
+              user={user}
+            />
+          </li>
+        );
       })}
     </ul>
   ),

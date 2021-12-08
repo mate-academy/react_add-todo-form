@@ -14,21 +14,21 @@ type State = {
 
 export class App extends React.Component<{}, State> {
   state = {
-    visibleTodos: todos,
+    visibleTodos: [],
   };
 
-  getPreparedTodos = (visibelTodos: Todo[]) => {
-    const preparedTodos: Todo[] = visibelTodos.map(todo => {
+  componentDidMount() {
+    const visibleTodos = todos.map(todo => {
       const theRightUser = users.find(user => user.id === todo.userId);
-      const todoCopy = { ...todo };
 
-      todoCopy.user = theRightUser || null;
-
-      return todoCopy;
+      return {
+        ...todo,
+        user: theRightUser || null,
+      };
     });
 
-    return preparedTodos;
-  };
+    this.setState({ visibleTodos });
+  }
 
   addTodo: AddTodo = (userName, todoTitle) => {
     const selectedUser = users.find(user => user.name === userName);
@@ -36,7 +36,7 @@ export class App extends React.Component<{}, State> {
     if (selectedUser && todoTitle) {
       const newTodo: Todo = {
         userId: selectedUser.id,
-        id: this.state.visibleTodos.length + 1,
+        id: +new Date(),
         title: todoTitle,
         completed: false,
         user: selectedUser,
@@ -53,7 +53,7 @@ export class App extends React.Component<{}, State> {
       <div className="app">
         <h1>List of todos</h1>
 
-        <TodoList todos={this.getPreparedTodos(this.state.visibleTodos)} />
+        <TodoList todos={this.state.visibleTodos} />
 
         <AddTodoForm users={users} addTodo={this.addTodo} />
       </div>
