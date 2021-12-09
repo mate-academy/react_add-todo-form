@@ -109,7 +109,7 @@ class App extends React.Component {
         >
           <label className="label" htmlFor="title">
             <h3>
-              Please select new TODOs
+              Create new TODOs
             </h3>
             <input
               id="title"
