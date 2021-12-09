@@ -1,3 +1,39 @@
 .App {
   text-align: center;
 }
+
+.form-fieldset {
+  border: 3px solid lightgreen;
+  border-radius: 6px;
+  max-width: 500px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.form-title {
+  box-sizing: border-box;
+  margin: 0 15px 15px 0;
+  width: 300px;
+  line-height: 24px;
+  padding: 5px;
+}
+
+.form-select {
+  box-sizing: border-box;
+  margin: 0 15px 15px 0;
+  width: 300px;
+  line-height: 24px;
+  padding: 5px;
+}
+
+.form-textarea {
+  box-sizing: border-box;
+  margin: 0 15px 15px 0;
+  width: 300px;
+  line-height: 24px;
+  padding: 5px;
+}
+
+.error-message {
+  color: red;
+}
