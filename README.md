@@ -1,5 +1,5 @@
 # React add TODO form
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://olesya-parfylo.github.io/react_add-todo-form/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
@@ -14,7 +14,7 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - add labels and placeholders where they are needed
     - the `TODO` should be added to the list after clicking `Add` button
     - each TODO should have `id`, `title` and `userId`
-    - `id` is a maximal `id` in the array + 1
+    - `id` is a maximal `id` ecin the array + 1
 1. Clear the form after adding a TODO
 1. Add a validation to the form
     - add an empty option `Choose a user` to the users select
