@@ -11,19 +11,58 @@ class App extends React.Component<{}, State> {
     todosList: [...todos],
     title: '',
     selectedUser: '',
-    todo: '',
+    newTodo: '',
     titleIsValid: true,
     userIsSelected: true,
+    newTodoIsValid: true,
+  };
+
+  handlerSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const titleForNewTodo = this.state.title;
+    const { selectedUser, newTodo, todosList } = this.state;
+
+    const selectedUserFromServer
+      = users.find(user => user.name === selectedUser);
+
+    if (selectedUserFromServer === undefined) {
+      this.setState({ userIsSelected: false });
+    }
+
+    if (!titleForNewTodo.trim()) {
+      this.setState({ titleIsValid: false });
+    }
+
+    if (!newTodo.trim()) {
+      this.setState({ newTodoIsValid: false });
+    }
+
+    if (selectedUserFromServer !== undefined
+      && titleForNewTodo.trim()
+      && titleForNewTodo.length <= 20
+      && newTodo.trim()) {
+      this.setState((state) => ({
+        todosList: [...state.todosList, {
+          userId: selectedUserFromServer.id,
+          id: todosList.length + 1,
+          title: titleForNewTodo,
+          completed: false,
+        }],
+        title: '',
+        selectedUser: '',
+        newTodo: '',
+      }));
+    }
   };
 
   render() {
     const {
-      todosList, title, selectedUser, titleIsValid, userIsSelected,
+      todosList, title, titleIsValid, userIsSelected, newTodoIsValid,
     } = this.state;
 
-    const todosForRender = todosList.map((todoApp) => ({
-      ...todoApp,
-      user: users.find(userFromServer => userFromServer.id === todoApp.userId) || null,
+    const todosForRender = todosList.map((todo) => ({
+      ...todo,
+      user: users.find(userFromServer => userFromServer.id === todo.userId) || null,
     }));
 
     return (
@@ -31,36 +70,7 @@ class App extends React.Component<{}, State> {
         <form
           action="#"
           className="form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const titleForNewTodo = title;
-            const selectedUserFromServer
-              = users.find(user => user.name === selectedUser);
-
-            if (selectedUserFromServer === undefined) {
-              this.setState({ userIsSelected: false });
-            }
-
-            if (!titleForNewTodo) {
-              this.setState({ titleIsValid: false });
-            }
-
-            if (selectedUserFromServer !== undefined
-              && titleForNewTodo
-              && titleForNewTodo.length <= 20) {
-              this.setState((state) => ({
-                todosList: [...state.todosList, {
-                  userId: selectedUserFromServer.id,
-                  id: todosList.length + 1,
-                  title: titleForNewTodo,
-                  completed: false,
-                }],
-                title: '',
-                selectedUser: '',
-                todo: 'To do something',
-              }));
-            }
-          }}
+          onSubmit={this.handlerSubmit}
         >
           <fieldset className="form-fieldset">
 
@@ -78,12 +88,12 @@ class App extends React.Component<{}, State> {
                 placeholder="Title"
                 value={this.state.title}
                 onChange={(event) => {
-                  this.setState({ title: event.target.value });
-                  if (!event.target.value) {
-                    this.setState({ titleIsValid: false });
-                  } else {
-                    this.setState({ titleIsValid: true });
-                  }
+                  const { value } = event.target;
+
+                  this.setState({
+                    title: value.replace(/[^a-zA-Zа-яА-Я0-9\s]/gi, ''),
+                    titleIsValid: true,
+                  });
                 }}
               />
             </label>
@@ -101,12 +111,10 @@ class App extends React.Component<{}, State> {
                 id="user"
                 value={this.state.selectedUser}
                 onChange={(event) => {
-                  this.setState({ selectedUser: event.target.value });
-                  if (!event.target.value) {
-                    this.setState({ userIsSelected: false });
-                  } else {
-                    this.setState({ userIsSelected: true });
-                  }
+                  this.setState({
+                    selectedUser: event.target.value,
+                    userIsSelected: true,
+                  });
                 }}
               >
                 <option value="">Choose a user</option>
@@ -123,21 +131,25 @@ class App extends React.Component<{}, State> {
             {userIsSelected ? '' : <span className="error-message">Please choose a user</span>}
             <br />
 
-            <label htmlFor="todo">
+            <label htmlFor="newTodo">
               Enter TODO:
               {' '}
               <br />
               <textarea
                 className="form-textarea"
-                name="todo"
-                id="todo"
+                name="newTodo"
+                id="newTodo"
                 placeholder="To do something"
-                value={this.state.todo}
+                value={this.state.newTodo}
                 onChange={(event) => {
-                  this.setState({ todo: event.target.value });
+                  this.setState({
+                    newTodo: event.target.value,
+                    newTodoIsValid: true,
+                  });
                 }}
               />
             </label>
+            {newTodoIsValid ? '' : <span className="error-message">Please enter TODO</span>}
             <br />
 
             <button type="submit">Add</button>

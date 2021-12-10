@@ -4,7 +4,8 @@ export type State = {
   todosList: Todo[] | [],
   title: string,
   selectedUser: string,
-  todo: string,
+  newTodo: string,
   titleIsValid: boolean,
   userIsSelected: boolean,
+  newTodoIsValid: boolean,
 };
