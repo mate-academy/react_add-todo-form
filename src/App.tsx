@@ -12,28 +12,12 @@ import todos from './api/todos';
 import users from './api/users';
 
 function createPreparedTodos(usersArray: UserType[], todosArray: Todo[]): PreparedTodoType[] {
-  const preparedTodos: PreparedTodoType[] = [];
-
-  todosArray.forEach((todo: Todo, i: number): void => {
-    const preparedTodo: PreparedTodoType = {
-      ...todo,
-      user: null,
-    };
-
-    const sameUser = usersArray.find(
-      (userItem: UserType): boolean => (
-        userItem.id === todo.userId
-      ),
-    );
-
-    if (sameUser) {
-      preparedTodo.user = sameUser;
-    }
-
-    preparedTodos[i] = preparedTodo;
-  });
-
-  return preparedTodos;
+  return todosArray.map(todo => ({
+    ...todo,
+    user: usersArray.find((userItem: UserType): boolean => (
+      userItem.id === todo.userId
+    )) || null,
+  }));
 }
 
 const preparedTodos: PreparedTodoType[] = createPreparedTodos(users, todos);
@@ -118,8 +102,10 @@ class App extends React.Component {
               placeholder="Enter the title"
               value={titleTodo}
               onChange={({ target }) => {
+                const value = target.value.replace(/[^a-zа-яё0-9\s]/gi, '').split('  ').join(' ');
+
                 this.setState({
-                  titleTodo: target.value.replace(/[^a-zа-яё0-9\s]/gi, ''),
+                  titleTodo: value === ' ' ? '' : value,
                   isShownErrorMessageTitle: false,
                 });
               }}
