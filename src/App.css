@@ -1,3 +1,31 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+}
+
+.button {
+  width: 300px;
+  height: 30px;
+  color: #fff;
+  background-color: rgb(93, 79, 114);
+  box-shadow: 0.2px 0.2px 3px rgb(143, 143, 143);
+  border-color: rgb(93, 79, 114);
+  cursor: pointer;
+}
+
+.select {
+  height: 30px;
+  width: 300px;
+  background-color: #fff;
+}
+
+.title {
+  height: 25px;
+  width: 290px;
+}

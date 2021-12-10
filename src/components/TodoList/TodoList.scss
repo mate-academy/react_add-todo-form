@@ -1,0 +1,29 @@
+ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.usersList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  &__user {
+    text-align: center;
+    width: 300px;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgb(249, 247, 252);
+    box-shadow: 2px 4px 1px rgb(207, 203, 214);
+    border-color: rgb(191, 186, 201);
+    border-radius: 10px;
+  }
+}
+
+.title-todo {
+  text-transform: capitalize;
+}
