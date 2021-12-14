@@ -1,0 +1,21 @@
+.task {
+  display: flex;
+  align-items: center;
+
+  &__status {
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background-color: #eae1cb;
+
+    &--completed {
+      background: center / 50% no-repeat #418e84 url("../../img/check.svg");
+    }
+  }
+
+  &__title {
+    font-style: 20px;
+    font-weight: normal;
+  }
+}
