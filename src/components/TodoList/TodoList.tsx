@@ -1,4 +1,3 @@
-import React from 'react';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 import { TodoWithUser } from '../../types/TodoWithUser';
 import './TodoList.scss';

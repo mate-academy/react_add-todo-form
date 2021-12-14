@@ -1,4 +1,3 @@
-/* eslint-disable no-unneeded-ternary */
 import React from 'react';
 import './App.scss';
 
