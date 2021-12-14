@@ -52,7 +52,7 @@ class App extends React.Component<{}, State> {
       if (findUser) {
         updatedTodos.push({
           userId: findUser.id,
-          id: state.todos.length,
+          id: state.todos.length + 1,
           title: state.taskTitle,
           completed: false,
           user: findUser,
