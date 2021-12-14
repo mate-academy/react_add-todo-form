@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-const todos = [
+const todosServer = [
   {
     userId: 1,
     id: 1,
@@ -11,8 +11,8 @@ const todos = [
     userId: 1,
     id: 2,
     title: 'quis ut nam facilis et officia qui',
-    completed: false,
+    completed: true,
   },
 ];
 
-export default todos;
+export default todosServer;
