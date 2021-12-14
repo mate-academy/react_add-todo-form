@@ -19,7 +19,7 @@ type State = {
   todosList: Todo[],
   taskText: string,
   selectedUser: string,
-  userNotSelectedMessage: boolean,
+  hasUserSelectedMessage: boolean,
   titleIsEmpty: boolean,
 
 };
@@ -29,7 +29,7 @@ class App extends React.Component<{}, State> {
     todosList: [...preparedTodos],
     taskText: '',
     selectedUser: '',
-    userNotSelectedMessage: false,
+    hasUserSelectedMessage: false,
     titleIsEmpty: false,
   };
 
@@ -38,17 +38,8 @@ class App extends React.Component<{}, State> {
   };
 
   validateForm = () => {
-    if (this.state.selectedUser !== '') {
-      this.setState({ userNotSelectedMessage: false });
-    } else {
-      this.setState({ userNotSelectedMessage: true });
-    }
-
-    if (this.state.taskText !== '') {
-      this.setState({ titleIsEmpty: false });
-    } else {
-      this.setState({ titleIsEmpty: true });
-    }
+    this.setState(state => ({ hasUserSelectedMessage: state.taskText === '' }));
+    this.setState(state => ({ titleIsEmpty: state.taskText === '' }));
   };
 
   handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +49,10 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  handleSelectField = (event: { target: { value: string; }; }) => {
-    const { value } = event.target;
-
+  handleSelectField = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      selectedUser: value,
-      userNotSelectedMessage: false,
+      selectedUser: event.target.value,
+      hasUserSelectedMessage: false,
     });
   };
 
@@ -92,7 +81,7 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      todosList, taskText, selectedUser, userNotSelectedMessage, titleIsEmpty,
+      todosList, taskText, selectedUser, hasUserSelectedMessage, titleIsEmpty,
     } = this.state;
 
     return (
@@ -132,10 +121,10 @@ class App extends React.Component<{}, State> {
               })}
 
             </select>
-            <p className={userNotSelectedMessage ? 'App__warning-text' : 'App__warning-text--none'}>
+            <p className={hasUserSelectedMessage ? 'App__warning-text' : 'App__warning-text--none'}>
               Please choose a user!
             </p>
-            <p className={userNotSelectedMessage ? 'App__warning-text--none' : 'App__warning-text--no-warning'}>
+            <p className={hasUserSelectedMessage ? 'App__warning-text--none' : 'App__warning-text--no-warning'}>
               No Warnings Right Now!
             </p>
           </div>
