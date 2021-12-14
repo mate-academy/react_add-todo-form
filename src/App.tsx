@@ -50,7 +50,8 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = () => {
-    const currentUser:User | null = users.find(user => user.name === this.state.userName) || null;
+    const currentUser:User | null = users.find(user => (
+      user.name === this.state.userName)) || null;
 
     if (currentUser === null) {
       return;
