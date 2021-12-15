@@ -45,6 +45,15 @@ class App extends React.Component<{}, State> {
     this.setState((state) => ({
       tasks: [...state.tasks, newTask],
     }));
+
+    this.clearForm();
+  }
+
+  clearForm() {
+    this.setState({
+      taskName: '',
+      userName: users[0].name,
+    });
   }
 
   render(): React.ReactNode {
