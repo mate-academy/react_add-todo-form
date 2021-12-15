@@ -1,0 +1,15 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    border-bottom: 1px solid #19be71;
+    padding: 20px;
+    justify-items: center;
+    align-items: center;
+  }
+}
