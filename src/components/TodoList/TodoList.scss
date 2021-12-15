@@ -1,0 +1,47 @@
+$status-notDone: rgb(128, 30, 30);
+$status-done: rgb(54, 138, 54);
+$hover-dark: rgba(44, 44, 44, 0.07);
+
+.todoItem {
+  border-radius: 20px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 20px;
+  list-style: none;
+  transition: box-shadow 0.4s;
+
+  &:hover {
+    box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6);
+  }
+
+  &__block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__wrap {
+    display: flex;
+    align-content: center;
+  }
+
+  &__assignment {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    margin-left: 30px;
+  }
+
+  &__status {
+    font-weight: bold;
+    color: $status-notDone;
+
+    &__completed {
+      color: $status-done;
+    }
+  }
+}

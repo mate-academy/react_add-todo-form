@@ -1,3 +1,66 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+html {
+  --main-bg: #ebecf0;
+  --black: #000;
+  --white: #fff;
+  font-size: 12px;
+  background-color: var(--main-bg);
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.title {
   text-align: center;
+  text-transform: uppercase;
+  margin: 50px 0;
+}
+
+.form-todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+  border-radius: 3px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.todo-input,
+.todo-select {
+  display: block;
+  width: 300px;
+  height: 30px;
+  border: 1px solid var(--black);
+  margin: 10px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.button-addTodo {
+  border: 1px solid var(--black);
+  border-radius: 3px;
+  cursor: pointer;
+  width: 64px;
+  height: 40px;
+  transition: background-color 0.3s;
+}
+
+.button-addTodo:hover {
+  color: var(--white);
+  background-color: var(--black);
+}
+
+.warning {
+  color: red;
+  font-weight: 700;
+  text-align: center;
+  font-size: 14px;
 }
