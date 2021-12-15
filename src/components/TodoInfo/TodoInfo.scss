@@ -1,0 +1,28 @@
+.todo {
+  &__title {
+    font-size: 28px;
+    color: rgb(8, 63, 111);
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  &__completed {
+    display: block;
+    text-align: right;
+    align-self: flex-end;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(148, 18, 18);
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  &__completed--true {
+    color: rgb(5, 82, 5);
+  }
+
+  &__user {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+}
