@@ -37,16 +37,12 @@ class App extends React.Component<{}, State> {
     this.setState({
       todoTitle: event.target.value,
     });
-    // eslint-disable-next-line
-    console.log(this.state.todoTitle);
   };
 
   handleSelecte = (event :React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       selectedUserId: Number(event.target.value),
     });
-    // eslint-disable-next-line
-    console.log(this.state.selectedUserId);
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -62,8 +58,7 @@ class App extends React.Component<{}, State> {
         },
       ],
     }));
-    // eslint-disable-next-line
-    console.log(this.state.todos);
+
     event.preventDefault();
   };
 
@@ -96,7 +91,6 @@ class App extends React.Component<{}, State> {
                   className="App__option"
                   value="0"
                   key="0"
-                  selected
                 >
                   Choose user
                 </option>

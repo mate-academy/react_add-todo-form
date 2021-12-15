@@ -3,6 +3,7 @@
 @import './utils/mixins';
 
 .App {
+  min-height: 100vh;
   background-color: rgb(164, 252, 124);
   
   &__form-wrapper {

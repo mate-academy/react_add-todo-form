@@ -14,7 +14,7 @@ export const TodoList: React.FC<Props> = ({ todoList }) => {
       {
         todoList.map(item => (
           <li className="todoList__item" key={item.id}>
-            <TodoInfo {...item} />
+            <TodoInfo todoPrepared={item} />
           </li>
         ))
       }
