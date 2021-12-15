@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #3e3e48;
+  background-color: #81a0f3;
 }
 
 .page {
@@ -24,12 +24,12 @@ body {
   height: 100%;
 
   &__header {
-    border-bottom: 2px solid #474752;
+    border-bottom: 2px solid #ffffff;
     padding: 20px 30px;
   }
 
   &__column-left {
-    border-right: 2px solid #474752;
+    border-right: 2px solid #ffffff;
   }
 
   &__column-right {
@@ -47,10 +47,10 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
 
-    background-color: #33333c;
+    background-color:#6380d1;
     padding: 16px;
     border-radius: 16px;
-    border: 2px solid #474752;
+    border: 2px solid #ffffff;
 
     &:not(:last-child) {
       margin-bottom: 10px;
@@ -61,7 +61,7 @@ body {
 .UserInfo {
   display: grid;
   row-gap: 5px;
-  border-right: 2px solid #474752;
+  border-right: 2px solid #ffffff;
 }
 
 .UserTodoTitle {
@@ -71,7 +71,7 @@ body {
 }
 
 .TodosForm {
-  background-color: #33333c;
+  background-color: #6380d1;
   border-radius: 16px;
   padding: 24px 16px;
   max-width: 320px;
@@ -93,9 +93,8 @@ body {
   padding: 16px 10px;
   outline: none;
 
-  background-color: #33333c;
+  background-color: #5757ff;
   border-radius: 5px;
-  border: 2px solid #474752;
   color: #fff;
 
   &::placeholder {
@@ -115,16 +114,15 @@ body {
 
 .Button {
   height: 60px;
-  background-color: #33333c;
+  background-color: #5368e0;
   border-radius: 5px;
-  border: 2px solid #474752;
   color: #fff;
   transition: background-color 0.3s ease;
   cursor: pointer;
   font-weight: bold;
 
   &:hover{
-    background-color: #474752;
+    background-color: #8e8ef3;
   }
 }
 
