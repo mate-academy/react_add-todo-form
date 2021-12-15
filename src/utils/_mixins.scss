@@ -1,5 +1,5 @@
 @mixin inputStyles {
-  margin-left: 10px;
+  display: block;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -8,7 +8,7 @@
 }
 
 @mixin formTextStyles {
-  margin-right: 20px;
+  margin-bottom: 10px;
   font-size: 20px;
   color: $text-color;
 }

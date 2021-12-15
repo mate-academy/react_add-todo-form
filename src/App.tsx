@@ -23,6 +23,8 @@ type State = {
   todos: TodoPrepared[],
   todoTitle: string,
   selectedUserId: number,
+  selectError: boolean,
+  titleError: boolean,
 };
 
 class App extends React.Component<{}, State> {
@@ -31,6 +33,8 @@ class App extends React.Component<{}, State> {
     todos: [...preparedTodos],
     todoTitle: '',
     selectedUserId: 0,
+    selectError: false,
+    titleError: false,
   };
 
   handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,23 +50,47 @@ class App extends React.Component<{}, State> {
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    this.setState((state) => ({
-      todos: [
-        ...state.todos,
-        {
-          userId: state.selectedUserId,
-          id: state.todos.length + 1,
-          title: state.todoTitle,
-          completed: false,
-          user: users.find(person => person.id === state.selectedUserId) || null,
-        },
-      ],
-    }));
+    if (!this.state.selectedUserId) {
+      this.setState({
+        selectError: true,
+      });
+    } else if (!this.state.todoTitle) {
+      this.setState({
+        titleError: true,
+      });
+    } else {
+      this.setState((state) => ({
+        todos: [
+          ...state.todos,
+          {
+            userId: state.selectedUserId,
+            id: state.todos.length + 1,
+            title: state.todoTitle,
+            completed: false,
+            user: users.find(person => person.id === state.selectedUserId) || null,
+          },
+        ],
+      }));
+
+      this.setState({
+        todoTitle: '',
+        selectedUserId: 0,
+        selectError: false,
+        titleError: false,
+      });
+    }
 
     event.preventDefault();
   };
 
   render() {
+    const {
+      todoTitle,
+      selectedUserId,
+      selectError,
+      titleError,
+    } = this.state;
+
     return (
       <div className="App">
         <div className="App__form-wrapper">
@@ -76,7 +104,11 @@ class App extends React.Component<{}, State> {
                 name="title"
                 placeholder="Todo title"
                 onChange={this.handleAddTitle}
+                value={todoTitle}
               />
+              <span className="App__error" style={titleError ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                Please enter the title
+              </span>
             </label>
 
             <label className="App__select-user" htmlFor="users">
@@ -86,13 +118,14 @@ class App extends React.Component<{}, State> {
                 name="users"
                 id="users"
                 onChange={this.handleSelecte}
+                value={selectedUserId}
               >
                 <option
                   className="App__option"
                   value="0"
                   key="0"
                 >
-                  Choose user
+                  Choose a user
                 </option>
                 {
                   this.state.users.map(user => (
@@ -106,6 +139,9 @@ class App extends React.Component<{}, State> {
                   ))
                 }
               </select>
+              <span className="App__error" style={selectError ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                Please choose a user
+              </span>
             </label>
 
             <button className="App__button" type="submit">

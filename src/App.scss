@@ -12,6 +12,7 @@
   }
 
   &__title {
+    display: block;
     @include formTextStyles;
   }
 
@@ -20,11 +21,17 @@
   }
 
   &__select-user {
+    display: block;
     @include formTextStyles;
   }
 
   &__select {
     @include inputStyles;
+  }
+
+  &__error {
+    color: $error-color;
+    font-weight: 700;
   }
 
   &__button {
