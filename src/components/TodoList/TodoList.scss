@@ -1,0 +1,24 @@
+.list {
+  list-style: none;
+  padding-left: 0;
+
+  &__item {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid rgb(238, 221, 67);
+    border-radius: 25px;
+    background-color: rgb(151, 177, 255);
+    cursor: pointer;
+
+    box-shadow: 15px 10px 15px rgb(168, 150, 150);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgb(98, 136, 248);
+      border: 3px solid rgb(231, 151, 45);
+      color: rgb(252, 252, 252);
+    }
+  }
+}
