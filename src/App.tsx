@@ -14,7 +14,7 @@ const preperedTodos = todos.map((todo) => ({
 type State = {
   todos: Todo[],
   taskTitle: string,
-  taskUser: string,
+  taskUser: number,
   error: string,
 };
 
@@ -22,12 +22,12 @@ class App extends React.Component<{}, State> {
   state = {
     todos: preperedTodos,
     taskTitle: '',
-    taskUser: '',
+    taskUser: 0,
     error: '',
   };
 
   clearForm = () => {
-    this.setState({ taskTitle: '', taskUser: '' });
+    this.setState({ taskTitle: '', taskUser: 0 });
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -47,7 +47,7 @@ class App extends React.Component<{}, State> {
 
     this.setState(state => {
       const updatedTodos = [...state.todos];
-      const findUser = users.find(person => state.taskUser === person.name) || null;
+      const findUser = users.find(person => state.taskUser === person.id) || null;
 
       if (findUser) {
         updatedTodos.push({
@@ -74,7 +74,7 @@ class App extends React.Component<{}, State> {
   handleChangeUser = (event: React.ChangeEvent <HTMLSelectElement>) => {
     const { value } = event.target;
 
-    this.setState({ taskUser: value, error: '' });
+    this.setState({ taskUser: Number(value), error: '' });
   };
 
   render() {
@@ -103,7 +103,7 @@ class App extends React.Component<{}, State> {
             >
               <option selected value="">Choose user</option>
               {users.map(user => (
-                <option key={user.id}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.name}</option>
               ))}
             </select>
             <button type="submit" className="App__button">
