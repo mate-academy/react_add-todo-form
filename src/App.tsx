@@ -30,8 +30,8 @@ type State = {
   title: string,
   user: User | null,
   selectedUserName: string,
-  hasTitle: boolean,
-  hasUser: boolean,
+  hasNoTitle: boolean,
+  hasNoUser: boolean,
 };
 
 class App extends React.Component<{}, State> {
@@ -40,18 +40,18 @@ class App extends React.Component<{}, State> {
     selectedUserName: '',
     title: '',
     user: null,
-    hasTitle: false,
-    hasUser: false,
+    hasNoTitle: false,
+    hasNoUser: false,
   };
 
-  addTitle = (event: { target: { value: string; }; }) => {
+  addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value,
-      hasTitle: false,
+      hasNoTitle: false,
     });
   };
 
-  addUser = (event: { target: { value: string; }; }) => {
+  addUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     const selectedUser = users.find(user => user.name === value);
@@ -59,7 +59,7 @@ class App extends React.Component<{}, State> {
     this.setState({
       selectedUserName: value,
       user: selectedUser || null,
-      hasUser: false,
+      hasNoUser: false,
     });
   };
 
@@ -70,18 +70,14 @@ class App extends React.Component<{}, State> {
       selectedUserName,
     } = this.state;
 
-    if (!title || !selectedUserName) {
-      if (!title) {
-        this.setState({
-          hasTitle: true,
-        });
-      }
-
-      if (!selectedUserName) {
-        this.setState({
-          hasUser: true,
-        });
-      }
+    if (!title) {
+      this.setState({
+        hasNoTitle: true,
+      });
+    } else if (!selectedUserName) {
+      this.setState({
+        hasNoUser: true,
+      });
     } else {
       this.setState((state) => ({
         todosFromServer: [
@@ -106,8 +102,8 @@ class App extends React.Component<{}, State> {
       title,
       todosFromServer,
       selectedUserName,
-      hasTitle,
-      hasUser,
+      hasNoTitle,
+      hasNoUser,
     } = this.state;
 
     return (
@@ -122,15 +118,17 @@ class App extends React.Component<{}, State> {
               type="text"
               name="title"
               value={title}
-              required
+              // required
               className="app__input"
               onChange={this.addTitle}
             />
           </label>
-          <p className={hasTitle ? 'error' : 'disable'}>Please enter the title</p>
+          <p className={hasNoTitle ? 'error' : 'disable'}>
+            Please enter the title
+          </p>
           <select
             name="user"
-            required
+            // required
             className="app__select"
             value={selectedUserName}
             onChange={this.addUser}
@@ -140,11 +138,12 @@ class App extends React.Component<{}, State> {
               <option key={user.id}>{user.name}</option>
             ))}
           </select>
-          <p className={hasUser ? 'error' : 'disable'}>Please choose a user</p>
+          <p className={hasNoUser ? 'error' : 'disable'}>
+            Please choose a user
+          </p>
           <button
             type="submit"
             className="app__button"
-            onClick={this.submitForm}
           >
             Create Todo
           </button>
