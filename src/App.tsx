@@ -56,25 +56,31 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  addTodo = () => {
+  findUser = () => {
     const { selectedUser } = this.state;
 
     const currentUser: User | null
       = users.find((user) => user.name === selectedUser) || null;
 
     if (!currentUser) {
-      return;
+      return null;
     }
 
-    this.setState((state) => ({
-      todosList: [...state.todosList, {
-        userId: 1,
-        id: state.todosList.length + 1,
-        title: state.taskText,
-        completed: false,
-        user: currentUser,
-      }],
-    }));
+    return currentUser;
+  };
+
+  addTodo = () => {
+    const currentUser = this.findUser();
+
+    const createdTodo = {
+      userId: 1,
+      id: this.state.todosList.length + 1,
+      title: this.state.taskText,
+      completed: false,
+      user: currentUser,
+    };
+
+    this.setState(({ todosList }) => ({ todosList: [...todosList, createdTodo] }));
 
     this.clearForm();
   };
@@ -94,7 +100,7 @@ class App extends React.Component<{}, State> {
               size={22}
               value={taskText}
               placeholder="Please enter the title"
-              onChange={(event) => this.handleTitleInput(event)}
+              onChange={this.handleTitleInput}
             />
             <p className={titleIsEmpty ? 'App__warning-text' : 'App__warning-text--none'}>
               Please enter the title!

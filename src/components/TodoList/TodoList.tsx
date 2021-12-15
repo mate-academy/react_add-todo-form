@@ -20,7 +20,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
               <TodoInfo todo={todo} />
               {todo.user
                 ? <UserInfo user={todo.user} />
-                : <UserInfo user={{ name: 'No Name Yet', email: 'No Email Yet' }} />}
+                : <UserInfo user={{ name: 'No Name Yet', email: 'No Email Yet', id: 1 }} />}
             </li>
           );
         })}
