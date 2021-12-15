@@ -1,10 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-// components
 import { UserInfo } from '../UserInfo/UserInfo';
 
-// types
 import { Todo } from '../../types/todo';
 import './TodoInfo.scss';
 
@@ -23,7 +21,6 @@ export const TodoInfo:React.FC<Props> = ({ todo, handleChecked }) => {
             className="todoItem__checkbox"
             type="checkbox"
             checked={todo.completed}
-            // eslint-disable-next-line no-console
             onChange={() => handleChecked(todo.id)}
           />
         </div>

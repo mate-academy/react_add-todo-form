@@ -33,7 +33,7 @@ class App extends React.Component<{}, State> {
     inputWarning: false,
   };
 
-  setUser = (event: { target: { value: string; }; }) => {
+  setUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     this.setState({
@@ -50,14 +50,15 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = () => {
-    const currentUser:User | null = users.find(user => (
-      user.name === this.state.userName)) || null;
+    const currentUser:User | null = users.find(
+      user => (user.name === this.state.userName),
+    ) || null;
 
     if (currentUser === null) {
       return;
     }
 
-    const todoToAdd: Todo = {
+    const createdTodo: Todo = {
       userId: currentUser.id,
       title: this.state.title,
       id: this.state.todos.length + 1,
@@ -66,7 +67,7 @@ class App extends React.Component<{}, State> {
     };
 
     this.setState((state) => ({
-      todos: [...state.todos, todoToAdd],
+      todos: [...state.todos, createdTodo],
     }));
   };
 
@@ -128,9 +129,13 @@ class App extends React.Component<{}, State> {
               type="text"
               value={this.state.title}
               className="todo-input"
-              onChange={(event) => this.handleTodoTitle(event)}
+              onChange={this.handleTodoTitle}
             />
-            {inputWarning && (<div className="warning">Please enter the title</div>)}
+            {inputWarning && (
+              <div className="warning">
+                Please enter the title
+              </div>
+            )}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="userSelect">
               <select
