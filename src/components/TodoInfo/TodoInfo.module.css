@@ -1,0 +1,22 @@
+.todoInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid darkgrey;
+}
+
+.todoTask {
+  display: inline-block;
+  margin: 10px;
+}
+
+.todoTitle {
+  font-size: 20px;
+  margin-left: 20px;
+
+}
+
+.todoAuthor {
+  color: darkgrey;
+  margin-right: 10px;
+}
