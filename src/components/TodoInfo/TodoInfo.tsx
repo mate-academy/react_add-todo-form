@@ -6,7 +6,7 @@ import { TodoPrepared } from '../../types/TodoPrepared';
 import './TodoInfo.scss';
 
 export const TodoInfo: React.FC<TodoPrepared> = ({ title, completed, user }) => {
-  const status = completed ? 'Completed' : 'Is not completed';
+  // const status = completed ? 'Completed' : 'Is not completed';
 
   return (
     <>
@@ -14,12 +14,21 @@ export const TodoInfo: React.FC<TodoPrepared> = ({ title, completed, user }) => 
         <h2 className="todoList__title">
           {`Task: ${title}`}
         </h2>
-        <div className={classNames('todoList__status',
+        {/* <div className={classNames('todoList__status',
           {
             todoList__status__completed: completed,
           })}
         >
           {status}
+        </div> */}
+        <div className={classNames('todoList__status',
+          {
+            todoList__status__completed: completed,
+          })}
+        >
+          Completed:
+          {' '}
+          <input type="checkbox" checked={completed} />
         </div>
       </div>
       {user && (

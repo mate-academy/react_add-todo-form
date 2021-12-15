@@ -1,0 +1,51 @@
+@import './normalize.scss';
+@import './utils/variables';
+@import './utils/mixins';
+
+.App {
+  background-color: rgb(164, 252, 124);
+  
+  &__form-wrapper {
+    padding: 10px 50px;
+    background-color: $form-bgc;
+  }
+
+  &__title {
+    @include formTextStyles;
+  }
+
+  &__input-title {
+    @include inputStyles;
+  }
+
+  &__select-user {
+    @include formTextStyles;
+  }
+
+  &__select {
+    @include inputStyles;
+  }
+
+  &__button {
+    height: 29px;
+    width: 200px;
+
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: $button-color;
+
+    font-size: 15px;
+    color: #fff;
+
+    transition: background-color $transition-duration;
+
+    &:hover {
+      background-color: $button-color-hover;
+    }
+  }
+
+  &__todos-wrapper {
+    padding: 20px 50px;
+  }
+}
