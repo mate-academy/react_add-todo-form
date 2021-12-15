@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    margin-left: 35px;
+    text-transform: uppercase;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  margin-bottom: 10px;
+  margin-left: 40px;
+
+  &__title {
+    margin-right: 30px;
+  }
+
+  &__field {
+    height: 50px;
+    width: 300px;
+  }
+
+  &__add {
+    height: 50px;
+    width: 300px;
+    margin-left: 30px;
+  }
+
+  &__error {
+    color: red;
+    text-transform: uppercase;
+  }
+
+  &__users {
+    text-transform: uppercase;
+  }
+}
