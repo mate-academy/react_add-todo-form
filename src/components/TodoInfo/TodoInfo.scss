@@ -1,0 +1,12 @@
+.todo {
+  &__title {
+    font-size: large;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+}
