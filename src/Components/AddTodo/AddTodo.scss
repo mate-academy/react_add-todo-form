@@ -1,0 +1,40 @@
+.addTodo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &__title {
+    width: 200px;
+    height: 25px;
+  }
+
+  &__username {
+    width: 200px;
+    height: 32px;
+  }
+
+  &__button {
+    width: 200px;
+    height: 40px;
+    border-style: solid;
+    border-radius: 2px;
+    background-color: #2d2c3e;
+    border-color: #19be71;
+    color: #fff;
+    transition: background-color, color, 0.3s;
+
+    &:hover {
+      background-color: #19be71;
+      border-color: #19be71;
+      color: #fff;
+    }
+  }
+
+  &__Error {
+    margin-left: 10px;
+    font-size: 14px;
+    color: rgb(241, 10, 10);
+  }
+}
