@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable object-curly-newline */
@@ -22,8 +23,6 @@ interface State {
   user: User | undefined;
   title: string;
   userValue: string,
-  userSelected: boolean,
-  titleInputed: boolean,
   errorSelect: boolean,
   errorInput: boolean,
 }
@@ -34,8 +33,6 @@ class App extends React.Component<{}, State> {
     user: {} as User,
     title: '',
     userValue: '',
-    userSelected: false,
-    titleInputed: false,
     errorSelect: false,
     errorInput: false,
   };
@@ -46,22 +43,33 @@ class App extends React.Component<{}, State> {
     const currentUserId = users.find(item => item.name === value);
 
     if (value) {
-      this.setState({ user: currentUserId, userSelected: true, userValue: value, errorSelect: false });
+      this.setState({
+        user: currentUserId,
+        userValue: value,
+        errorSelect: false,
+      });
     }
   };
 
   setTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    this.setState({ title: value, titleInputed: true, errorInput: false });
+    this.setState({ title: value, errorInput: false });
   };
 
   clearForm = () => {
-    this.setState({
-      userValue: '',
-      title: '',
-      userSelected: false,
-      titleInputed: false,
+    this.setState((state) => {
+      if (state.errorSelect || state.errorInput) {
+        return {
+          userValue: !state.errorSelect ? state.userValue : '',
+          title: !state.errorInput ? state.title : '',
+        };
+      }
+
+      return {
+        userValue: '',
+        title: '',
+      };
     });
   };
 
@@ -76,7 +84,7 @@ class App extends React.Component<{}, State> {
       id: this.state.todos[this.state.todos.length - 1].id + 1,
     };
 
-    if (this.state.userSelected && this.state.titleInputed) {
+    if (this.state.title && this.state.userValue) {
       this.setState((state) => {
         return {
           todos: [
@@ -86,7 +94,14 @@ class App extends React.Component<{}, State> {
         };
       });
     } else {
-      this.setState({ errorInput: true, errorSelect: true });
+      this.setState((state) => {
+        // тут правильно
+
+        return {
+          errorSelect: state.userValue.length === 0,
+          errorInput: state.title.length === 0,
+        };
+      });
     }
 
     this.clearForm();
@@ -107,11 +122,11 @@ class App extends React.Component<{}, State> {
 
             <select
               className={errorSelect ? 'error form__select' : 'form__select'}
-              name="user"
               value={userValue}
               onChange={this.setUser}
             >
               <option value="">Choose a user</option>
+
               {users.map(userOne => (
                 <option value={userOne.name} key={userOne.id}>
                   {userOne.name}
@@ -134,7 +149,6 @@ class App extends React.Component<{}, State> {
             <input
               className={errorInput ? 'error form__select' : 'form__input'}
               type="text"
-              name="title"
               value={title}
               onChange={this.setTitle}
             />
