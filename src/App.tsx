@@ -16,8 +16,8 @@ type State = {
   todosList: Todos[]
   title: string,
   userId: number,
-  isFormEmpty: boolean,
-  isTitleEmpty: boolean,
+  selectError: boolean | null,
+  titleError: boolean | null,
 };
 
 class App extends React.Component<{}, State> {
@@ -25,8 +25,8 @@ class App extends React.Component<{}, State> {
     todosList: todosFromServer,
     title: '',
     userId: 0,
-    isFormEmpty: false,
-    isTitleEmpty: false,
+    selectError: null,
+    titleError: null,
   };
 
   addTodo = () => {
@@ -38,13 +38,13 @@ class App extends React.Component<{}, State> {
     };
 
     if (this.state.title.length === 0) {
-      this.setState({ isTitleEmpty: true });
+      this.setState({ titleError: true });
 
       return;
     }
 
     if (this.state.userId === 0) {
-      this.setState({ isFormEmpty: true });
+      this.setState({ selectError: true });
 
       return;
     }
@@ -53,8 +53,8 @@ class App extends React.Component<{}, State> {
       todosList: [...state.todosList, newTodo],
       title: '',
       userId: 0,
-      isFormEmpty: false,
-      isTitleEmpty: false,
+      selectError: null,
+      titleError: null,
     }));
   };
 
@@ -80,8 +80,7 @@ class App extends React.Component<{}, State> {
           }}
         >
           {
-            this.state.isTitleEmpty
-              && this.state.title.length === 0
+            this.state.titleError
               && <div>Please enter Your text</div>
           }
 
@@ -93,7 +92,7 @@ class App extends React.Component<{}, State> {
               placeholder="Enter your text"
               value={this.state.title}
               onChange={(event) => {
-                this.setState({ title: event.target.value });
+                this.setState({ title: event.target.value, titleError: null });
               }}
             />
           </label>
@@ -105,7 +104,7 @@ class App extends React.Component<{}, State> {
               id="userId"
               value={this.state.userId}
               onChange={(event) => {
-                this.setState({ userId: Number(event.target.value) });
+                this.setState({ userId: Number(event.target.value), selectError: null });
               }}
             >
               <option value="0" disabled>Choose User</option>
@@ -117,9 +116,8 @@ class App extends React.Component<{}, State> {
             </select>
           </label>
           {
-            this.state.isFormEmpty
-              && this.state.userId === 0
-              && <div>Please choose a User</div>
+            this.state.selectError
+            && <p>Please choose a User</p>
           }
 
           <button
