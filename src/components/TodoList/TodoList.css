@@ -1,0 +1,12 @@
+.TodoList {
+  color: #454545;
+  width: 570px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+
+.TodoList__item {
+  text-transform: capitalize;
+  list-style: none;
+  padding-bottom: 30px;
+}
