@@ -33,7 +33,7 @@ class App extends React.Component<{}, State> {
     this.setState(state => ({
       title: event.target.value.length > 10
         ? state.title
-        : event.target.value.replace(/[^а-яА-Яa-zA-Z0-9\s]/, ''),
+        : event.target.value.replace(/^[^\S][а-яА-Яa-zA-Z0-9\s]*$/, ''),
     }));
   };
 
@@ -111,13 +111,11 @@ class App extends React.Component<{}, State> {
               onChange={this.handleUserChange}
             >
               <option value="">Choose a user</option>
-              {users.map(user => {
-                return (
-                  <option key={user.id} value={user.name}>
-                    {user.name}
-                  </option>
-                );
-              })}
+              {users.map(user => (
+                <option key={user.id} value={user.name}>
+                  {user.name}
+                </option>
+              ))}
             </select>
 
             <span className={classNames('message-error', { show: showMessageUser })}>
