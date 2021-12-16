@@ -133,6 +133,8 @@ class App extends React.PureComponent<{}, State> {
                 value={this.state.title}
                 className="todo-input"
                 onChange={this.handleTodoTitle}
+                placeholder="Please write task"
+                required
               />
               {inputWarn && (
                 <div className="warning">
@@ -146,7 +148,7 @@ class App extends React.PureComponent<{}, State> {
                 value={this.state.userName}
                 onChange={this.setUser}
               >
-                <option value={this.state.userName}>Please select user</option>
+                <option value="" selected disabled>Please select user</option>
                 {users.map(user => (
                   <option value={user.name}>{user.name}</option>
                 ))}
