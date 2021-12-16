@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
-import { todos as todosFromServer } from './api/todos';
+import { todos } from './api/todos';
 import users from './api/users';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+const preparedTodos: Todo[] = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId) || null,
 }));
