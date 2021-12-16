@@ -1,0 +1,24 @@
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+
+  &__title {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__info {
+    display: block;
+    padding-right: 20px;
+  }
+
+  &__not-completed {
+    color: red;
+  }
+
+  &__completed {
+    color: blue;
+  }
+}
