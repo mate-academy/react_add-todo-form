@@ -34,7 +34,7 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  reset = () => {
+  onAdd = () => {
     const newTodo = {
       userId: Number(this.state.userName),
       id: this.state.todoList.length + 1,
@@ -66,7 +66,7 @@ class App extends React.Component<{}, State> {
     event.preventDefault();
 
     if (this.state.title && this.state.userName) {
-      this.reset();
+      this.onAdd();
     }
 
     if (!this.state.title) {
