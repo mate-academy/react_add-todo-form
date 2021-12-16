@@ -11,7 +11,6 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => (
   <div className="todo">
     <div className="todo__title">{todo.title}</div>
     <div className="todo__info">
-      <input type="checkbox" checked={todo.completed} />
       {todo.completed
         ? <span className="todo__completed">Completed</span>
         : <span className="todo__not-completed">Not completed</span>}
