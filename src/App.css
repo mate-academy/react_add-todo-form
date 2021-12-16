@@ -1,3 +1,20 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.message-error {
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+
+.show {
+  display: block;
+}
