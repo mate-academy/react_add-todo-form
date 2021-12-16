@@ -1,0 +1,12 @@
+@import "./utils/reset.scss";
+@import "./form.scss";
+@import "./todos.scss";
+
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.App {
+  display: flex;
+  justify-content: space-between;
+}
