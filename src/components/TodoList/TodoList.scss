@@ -1,0 +1,14 @@
+.todo-list {
+  &__item {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 16px;
+    padding: 8px 8px;
+    border: 1px solid #9d9ea0;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
