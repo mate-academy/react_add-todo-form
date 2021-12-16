@@ -1,0 +1,63 @@
+@import "./normalized.scss";
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Readex+Pro&family=Roboto:wght@400;700&display=swap");
+
+.App {
+  text-align: center;
+}
+
+.todo {
+  &__content {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto;
+    padding: 20px;
+    width: 600px;
+    font-size: 20px;
+    color: #626367;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  &__inputBlock {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__selectBlock {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__inputTitle {
+    height: 32px;
+  }
+
+  &__select {
+    height: 32px;
+  }
+
+  &__button {
+    padding: 8px;
+    margin: 4px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-weight: bold;
+    background-color: #fff;
+    color: #0d6b6f;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.1);
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #839d83;
+      color: #fff;
+    }
+  }
+}
+
+.error {
+  font-size: 16px;
+  color: #cf3f34;
+}
