@@ -1,3 +1,4 @@
+/* stylelint-disable max-line-length */
 .todo__item {
   display: flex;
   justify-content: space-between;
@@ -87,8 +88,13 @@
   background-color: white;
 }
 
+.todo__error {
+  text-shadow: 0 1px 0 rgb(188,56,74), 0 -1px 0 rgb(188,56,74), 1px 0 0 rgb(188,56,74), -1px 0 0 rgb(188,56,74), 1px 1px 0 rgb(188,56,74), 1px -1px 0 rgb(188,56,74), -1px 1px 0 rgb(188,56,74), -1px -1px 0 rgb(188,56,74), 0 2px 0 rgb(188,56,74), 0 -2px 0 rgb(188,56,74), 2px 0 0 rgb(188,56,74), -2px 0 0 rgb(188,56,74), 2px 2px 0 rgb(188,56,74), 2px -2px 0 rgb(188,56,74), -2px 2px 0 rgb(188,56,74), -2px -2px 0 rgb(188,56,74), 3px 3px 1px rgba(0,0,0,1);
+  color: white;
+}
+
 .button {
-  height: 50px;
+  padding: 12px;
   border-radius: 24px;
   border: 1px solid silver;
   background-color: rgb(255, 255, 159);
@@ -110,6 +116,11 @@
 @media (max-width: 700px) {
   .todo__form {
     flex-direction: column;
+    margin-bottom: 60px;
+  }
+
+  .button {
+    height: 60px;
   }
 
 }

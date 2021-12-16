@@ -105,7 +105,7 @@ class App extends React.Component<{}, State> {
         >
           {
             this.state.titleError
-              && <div>Please enter Your text</div>
+              && <div className="todo__error">Please enter Your text</div>
           }
 
           <label htmlFor="title">
@@ -141,7 +141,7 @@ class App extends React.Component<{}, State> {
           </label>
           {
             this.state.selectError
-            && <p>Please choose a User</p>
+            && <p className="todo__error">Please choose a User</p>
           }
 
           <button
