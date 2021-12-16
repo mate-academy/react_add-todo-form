@@ -152,7 +152,7 @@ class App extends React.Component<{}, State> {
                     Choose user
                   </option>
                   {users.map(user => (
-                    <option value={user.name}>
+                    <option value={user.name} key={user.id}>
                       {user.name}
                     </option>
                   ))}
