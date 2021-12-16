@@ -3,6 +3,12 @@
   padding: 0 15px;
   font-size: 16px;
   overflow: hidden;
+
+  &__title {
+    text-transform: uppercase;
+    padding-top: 4px;
+
+  }
 }
 
 .done {

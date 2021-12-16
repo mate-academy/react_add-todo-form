@@ -10,7 +10,7 @@ export const TodoInfo: React.FC<Props> = ({
 }) => (
   <div className="Info">
     <span className={completed ? 'to-do' : 'done'}>{completed ? 'done' : 'to do'}</span>
-    <h2>{title}</h2>
+    <div className="Info__title">{title}</div>
     {user && <UserInfo name={user.name} email={user.email} />}
   </div>
 );

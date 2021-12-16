@@ -18,7 +18,6 @@ interface State {
   newTodoName: string;
   newUser: number;
   error: string;
-  // maxLength: number
 }
 
 class App extends Component<{}, State> {
@@ -42,7 +41,6 @@ class App extends Component<{}, State> {
         error: 'Please choose a user',
       });
     } else {
-      this.setState({ error: '' });
       this.addTodo();
       this.setState({ newTodoName: '', newUser: 0 });
     }
