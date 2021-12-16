@@ -1,0 +1,14 @@
+.todoList {
+  &__item {
+    width: 90%;
+    height: 200px;
+    border-radius: 2;
+    background-color: rgb(240, 248, 132);
+    padding-left: 80px;
+  }
+}
+
+.title {
+  padding-top: 20px ;
+  text-transform: uppercase;
+}
