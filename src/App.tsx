@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './styles/App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
@@ -7,7 +7,7 @@ import todos from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 
 const preparedTodos = todos.map((todo) => ({
   ...todo,
@@ -46,7 +46,7 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = () => {
-    const { taskInfo, user } = this.state;
+    const { todoList, taskInfo, user } = this.state;
 
     const currentUser: User | null = users.find(
       (userFromServer) => userFromServer.name === user,
@@ -59,7 +59,7 @@ class App extends React.Component<{}, State> {
     const newTodo: Todo = {
       user: currentUser,
       userId: currentUser.id,
-      id: todos.length + 1,
+      id: todoList.length + 1,
       title: taskInfo,
       completed: false,
     };
@@ -69,6 +69,17 @@ class App extends React.Component<{}, State> {
     }));
 
     this.clearForm();
+  };
+
+  validateSubmit = () => {
+    const { taskInfo, user } = this.state;
+
+    this.setState({
+      isTaskInfoProvided: taskInfo === '',
+      isUserSelected: user === '',
+    });
+
+    return taskInfo && user;
   };
 
   clearForm = () => {
@@ -85,12 +96,17 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
         <form
-          className="AddTodo"
-          onSubmit={event => event.preventDefault()}
+          className=" App__AddTodo AddTodo"
+          onSubmit={(event) => {
+            event.preventDefault();
+
+            this.validateSubmit();
+            this.addTodo();
+            this.clearForm();
+          }}
         >
-          <div className="AddTodo__todoInfo">
+          <div className="AddTodo__taskInfo">
             <label htmlFor="title" className="AddTodo__taskLabel">
               Task to do:
 
@@ -100,17 +116,17 @@ class App extends React.Component<{}, State> {
                 id="title"
                 value={taskInfo}
                 placeholder="Task deatils"
-                className="AddTodo__taskInfo"
+                className="AddTodo__field"
                 onChange={this.handleTaskInput}
               />
             </label>
 
-            {!isTaskInfoProvided && (
+            {isTaskInfoProvided && (
               <p className="AddTodo__error">Please, provide task deatils</p>
             )}
           </div>
 
-          <div className="AddTodo__userSelection">
+          <div className="AddTodo__userInfo">
             <label htmlFor="userSelect" className="AddTodo__userLabel">
               Choose a user:
 
@@ -118,10 +134,12 @@ class App extends React.Component<{}, State> {
                 name="user"
                 id="userSelect"
                 value={user}
-                className="AddTodo__userSelect"
+                className="AddTodo__field"
                 onChange={this.handleSelectField}
               >
-                <option value="">Please, select a user</option>
+                <option value="" disabled={user !== ''}>
+                  Select a user
+                </option>
                 {users.map(({ id, name }) => (
                   <option key={id} value={name}>
                     {name}
@@ -130,7 +148,7 @@ class App extends React.Component<{}, State> {
               </select>
             </label>
 
-            {!isUserSelected && (
+            {isUserSelected && (
               <p className="AddTodo__error">Please, select a user</p>
             )}
           </div>

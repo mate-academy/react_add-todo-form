@@ -1,0 +1,60 @@
+@import './normilize';
+
+body {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #4a536b;
+}
+
+.App {
+  height: 100vh;
+  background-color: #aed6dc;
+
+  &__AddTodo {
+    margin: 0 auto;
+    padding: 60px;
+    max-width: 1200px;
+  }
+}
+
+.AddTodo {
+  display: flex;
+  gap: 20px;
+
+  &:not(:last-child) {
+    flex-direction: column;
+  }
+
+  &__field {
+    margin-top: 8px;
+    width: 100%;
+    height: 30px;
+
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  &__button {
+    padding: 8px 12px;
+
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition: border-color ease 0.3s;
+
+    &:hover {
+      border-color: rgb(214, 146, 160);
+    }
+  }
+
+  &__error {
+    padding-top: 8px;
+    color: #9e4438;
+  }
+}
