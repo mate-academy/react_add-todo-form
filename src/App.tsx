@@ -23,28 +23,30 @@ class App extends React.Component<{}, State> {
   state = {
     tasks: completedList,
     taskName: '',
-    userName: users[0].name,
+    userName: 'Please choose a user',
   };
 
   createTask() {
-    const { tasks, taskName, userName } = this.state;
-    let tempUser: User | null = users.find(user => user.name === userName) || null;
+    if (this.validate()) {
+      const { tasks, taskName, userName } = this.state;
+      let tempUser: User | null = users.find(user => user.name === userName) || null;
 
-    if (tempUser === null) {
-      tempUser = users[0];
+      if (tempUser === null) {
+        tempUser = users[0];
+      }
+
+      const newTask: Todo = {
+        userId: tempUser.id,
+        id: tasks.length + 1,
+        title: taskName,
+        completed: false,
+        user: tempUser,
+      };
+
+      this.setState((state) => ({
+        tasks: [...state.tasks, newTask],
+      }));
     }
-
-    const newTask: Todo = {
-      userId: tempUser.id,
-      id: tasks.length + 1,
-      title: taskName,
-      completed: false,
-      user: tempUser,
-    };
-
-    this.setState((state) => ({
-      tasks: [...state.tasks, newTask],
-    }));
 
     this.clearForm();
   }
@@ -52,8 +54,26 @@ class App extends React.Component<{}, State> {
   clearForm() {
     this.setState({
       taskName: '',
-      userName: users[0].name,
+      userName: 'Please choose a user',
     });
+  }
+
+  validate(): boolean {
+    const { taskName, userName } = this.state;
+
+    if (taskName === '') {
+      alert('Please enter valid Task');
+
+      return false;
+    }
+
+    if (userName === 'Please choose a user') {
+      alert('Please choose valid User');
+
+      return false;
+    }
+
+    return true;
   }
 
   render(): React.ReactNode {
@@ -80,6 +100,9 @@ class App extends React.Component<{}, State> {
               this.setState({ userName: event.target.value });
             }}
           >
+            <option value="Please choose a user">
+              Please choose a user
+            </option>
             {users.map((user) => (
               <option value={user.name}>
                 {user.name}
