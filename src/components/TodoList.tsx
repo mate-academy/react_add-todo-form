@@ -1,23 +1,5 @@
 import React from 'react';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-  address: {};
-  phone: string;
-  website: string;
-  company: {};
-}
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User | undefined;
-}
+import { Todo } from '../type/Todo';
 
 type Props = {
   props: Todo[] | null,

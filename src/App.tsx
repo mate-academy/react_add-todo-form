@@ -7,25 +7,8 @@ import './App.css';
 import users from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-  address: {};
-  phone: string;
-  website: string;
-  company: {};
-}
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User | undefined;
-}
+import { Todo } from './type/Todo';
+import { User } from './type/User';
 
 const newtodosFromServer = todosFromServer.map(todo => {
   return {
