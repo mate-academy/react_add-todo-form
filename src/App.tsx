@@ -1,17 +1,22 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
-import users from './api/users';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+import { TodoList } from './components/TodoList';
+
+const prepTodoList = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  };
+});
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+      <TodoList users={usersFromServer} todoList={prepTodoList} />
     </div>
   );
 };
