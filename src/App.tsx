@@ -12,7 +12,7 @@ const preparedTodos: Todo[] = todos.map(todo => ({
 }));
 
 type State = {
-  todosFromServer: Todo[],
+  todos: Todo[],
   title: string,
   user: User | null,
   selectUserName: string,
@@ -22,7 +22,7 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state = {
-    todosFromServer: preparedTodos,
+    todos: preparedTodos,
     selectUserName: '',
     title: '',
     user: null,
@@ -64,12 +64,12 @@ class App extends React.Component<{}, State> {
       });
     } else {
       this.setState((state) => ({
-        todosFromServer: [
-          ...state.todosFromServer,
+        todos: [
+          ...state.todos,
           {
             title: state.title,
             user: state.user,
-            id: state.todosFromServer.length + 1,
+            id: state.todos.length + 1,
             userId: state.user ? state.user.id : 0,
             completed: true,
           },
@@ -126,7 +126,7 @@ class App extends React.Component<{}, State> {
             Create Todo
           </button>
         </form>
-        <TodoList todos={this.state.todosFromServer} />
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
