@@ -33,24 +33,19 @@ class App extends React.Component<{}, State> {
     let isValid = event.target.value.replaceAll(/[^a-zA-z0-9а-яА-яІі ]+/g, '');
 
     isValid = isValid.replaceAll(/[_^]/g, '');
-    this.setState({ title: isValid });
+    this.setState({ title: isValid, titleError: null });
   };
 
-  completeToggle = (todo:Todos) => {
-    const todoChanged = this.state.todosList.find((item) => item.id === todo.id);
-    const todoIndex = this.state.todosList.findIndex((item) => item.id === todo.id);
+  completeToggle = (todoId:number) => {
+    this.setState(state => ({
+      todosList: state.todosList.map(todo => {
+        if (todoId !== todo.id) {
+          return todo;
+        }
 
-    if (typeof todoChanged !== 'undefined') {
-      todoChanged.completed = !todoChanged.completed;
-
-      this.setState((state) => {
-        state.todosList.splice(todoIndex, 1, todoChanged);
-
-        return {
-          todosList: state.todosList,
-        };
-      });
-    }
+        return { ...todo, completed: !todo.completed };
+      }),
+    }));
   };
 
   addTodo = () => {
@@ -165,7 +160,7 @@ class App extends React.Component<{}, State> {
                     type="button"
                     className="todo__button"
                     onClick={() => {
-                      this.completeToggle(todo);
+                      this.completeToggle(todo.id);
                     }}
                   >
                     <div className="todo__info">
