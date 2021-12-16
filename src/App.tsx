@@ -29,6 +29,30 @@ class App extends React.Component<{}, State> {
     titleError: null,
   };
 
+  titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let isValid = event.target.value.replaceAll(/[^a-zA-z0-9а-яА-яІі ]+/g, '');
+
+    isValid = isValid.replaceAll(/[_^]/g, '');
+    this.setState({ title: isValid });
+  };
+
+  completeToggle = (todo:Todos) => {
+    const todoChanged = this.state.todosList.find((item) => item.id === todo.id);
+    const todoIndex = this.state.todosList.findIndex((item) => item.id === todo.id);
+
+    if (typeof todoChanged !== 'undefined') {
+      todoChanged.completed = !todoChanged.completed;
+
+      this.setState((state) => {
+        state.todosList.splice(todoIndex, 1, todoChanged);
+
+        return {
+          todosList: state.todosList,
+        };
+      });
+    }
+  };
+
   addTodo = () => {
     const newTodo = {
       userId: this.state.userId,
@@ -69,7 +93,7 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <h1 className="todo__title">Add todo form</h1>
+        <h1 className="App__caption">Add todo form</h1>
 
         <form
           className="todo__form"
@@ -92,7 +116,7 @@ class App extends React.Component<{}, State> {
               placeholder="Enter your text"
               value={this.state.title}
               onChange={(event) => {
-                this.setState({ title: event.target.value, titleError: null });
+                this.titleChange(event);
               }}
             />
           </label>
@@ -137,16 +161,26 @@ class App extends React.Component<{}, State> {
                   key={todo.id}
                   className="todo__item"
                 >
-                  <div className="todo__info">
-                    <div>{todo.user?.name}</div>
-                    <div>{todo.user?.email}</div>
-                  </div>
-                  <div>{todo.title}</div>
-                  <div>
-                    {
-                      todo.completed ? 'complete' : 'in progress'
-                    }
-                  </div>
+                  <button
+                    type="button"
+                    className="todo__button"
+                    onClick={() => {
+                      this.completeToggle(todo);
+                    }}
+                  >
+                    <div className="todo__info">
+                      <div>{todo.user?.name}</div>
+                      <div>{todo.user?.email}</div>
+                    </div>
+                    <div>{todo.title}</div>
+                    <div>
+                      {
+                        todo.completed
+                          ? <img className="todo__image" src="./images/tick.png" alt="completed" />
+                          : <img className="todo__image" src="./images/cross.png" alt="in progress" />
+                      }
+                    </div>
+                  </button>
                 </li>
               );
             })

@@ -1,28 +1,64 @@
-.todo__title {
-  margin-bottom: 40px;
-}
-
 .todo__item {
-  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-grow: 1;
-  padding: 10px;
+  position: relative;
   max-width: 600px;
   width: 100%;
-  min-height: 120px;
-  margin-bottom: 30px;
-  border: 1px solid black;
-  border-radius: 20px;
-  background-color: snow;
-  box-shadow: 0 0 16px black;
+  min-height: 100px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 159);
+  box-shadow: 2px 0 2px black;
+  transition-duration: 0.5s;
+}
+
+.todo__item:hover {
+  transform: scale(1.02);
+  box-shadow: 5px 5px 15px black;
 }
 
 .todo__list {
   display: flex;
   flex-direction: column;
   align-items: center;
+  list-style-type: none;
+}
+
+.todo__button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+  background-color: rgb(255, 255, 159);
+  border: none;
+}
+
+.todo__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.todo__title {
+  margin-bottom: 15px;
+  font-size: 18px;
+  max-width: 360px;
+  width: 100%;
+
+}
+
+.todo__progress {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.todo__image {
+  width: 40px;
 }
 
 .todo__form {
@@ -37,16 +73,43 @@
   height: 30px;
   border: 1px solid silver;
   border-radius: 4px;
+  font-family: "Balsamiq Sans", cursive;
+  outline: none;
+  color: rgb(82, 82, 19);
 }
 
 .todo__select {
   height: 33px;
   border: 1px solid silver;
   border-radius: 4px;
+  font-family: "Balsamiq Sans", cursive;
+  color: rgb(82, 82, 19);
+  background-color: white;
 }
 
 .button {
   height: 50px;
   border-radius: 24px;
   border: 1px solid silver;
+  background-color: rgb(255, 255, 159);
+  color: rgb(59, 129, 132);
+  font-weight: 700;
+}
+
+@media (max-width: 500px) {
+  .todo__title {
+    font-size: 14px;
+    max-width: 200px;
+  }
+
+  .todo__button {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .todo__form {
+    flex-direction: column;
+  }
+
 }
