@@ -1,0 +1,9 @@
+.User {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+
+  &__email {
+    padding-top: 20px;
+  }
+}

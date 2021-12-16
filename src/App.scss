@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+  max-width: 600px;
+  width: 100vw;
+  height: 90vh;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 40px;
+  margin: 30px auto;
+
+  &__input {
+    width: 40%;
+    height: 100%;
+    outline: none;
+    border-radius: 3px;
+    border: 1px solid rgb(84, 131, 139);
+    font-size: 16px;
+    line-height: 20px;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: rgb(42, 81, 88);
+      background: rgb(218, 245, 248);
+    }
+  }
+
+  &__select {
+    width: 40%;
+    height: 100%;
+    outline: none;
+    border-radius: 3px;
+    border: 1px solid rgb(84, 131, 139);
+    font-size: 16px;
+    line-height: 20px;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: rgb(42, 81, 88);
+      background: rgb(218, 245, 248);
+    }
+  }
+
+  &__err {
+    color: red;
+  }
+
+  &__btn {
+  width: 50px;
+  height: 50%;
+  // border: none;
+  color: #fff;
+  margin-left: 5px;
+  font-size: 16px;
+  outline: none;
+  background: rgb(84, 153, 165);
+  cursor: pointer;
+  border-radius: 3px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  }
+}
