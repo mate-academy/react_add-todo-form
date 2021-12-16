@@ -57,6 +57,16 @@ class App extends React.Component<{}, State> {
     });
   };
 
+  onChecked = (id:number) => {
+    this.setState((st) => {
+      const copy = [...st.todos];
+
+      copy[id - 1].completed = !copy[id - 1].completed;
+
+      return { todos: copy };
+    });
+  };
+
   validateSumbitData = () => {
     const { title, userId } = this.state;
 
@@ -142,7 +152,7 @@ class App extends React.Component<{}, State> {
             </button>
           </div>
         </form>
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={preparedTodos} onChecked={this.onChecked} />
       </div>
     );
   }

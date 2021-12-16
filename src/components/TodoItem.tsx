@@ -6,9 +6,10 @@ import './TodoItem.scss';
 
 type Props = {
   todo: PreparedTodos;
+  onChecked: any;
 };
 
-export const TodoItem: React.FC<Props> = ({ todo }) => (
+export const TodoItem: React.FC<Props> = ({ todo, onChecked }) => (
   <li className={classNames('List__item', { 'List__item--completed': todo.completed })} key={todo.id}>
     <div className="Item">
       <div className="Item__block-title">
@@ -17,7 +18,7 @@ export const TodoItem: React.FC<Props> = ({ todo }) => (
       </div>
       <div className="Item__block-user">
         <p className="Item__user">{`For: ${todo.userName}`}</p>
-        <input type="checkbox" checked={todo.completed} />
+        <input type="checkbox" checked={todo.completed} onChange={onChecked} />
       </div>
     </div>
   </li>
