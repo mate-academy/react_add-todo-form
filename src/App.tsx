@@ -17,15 +17,15 @@ class App extends React.Component<{}, State> {
     title: '',
     userName: '',
     todoList: [...preparedTodos],
-    // userIsValid: false,
-    // titleIsValid: false,
+    userIsValid: false,
+    titleIsValid: false,
     formErrors: { title: '', user: '' },
   };
 
   changeTitle = (event:React.ChangeEvent<HTMLInputElement>) => {
     this.setState(state => ({
       title: event.target.value,
-      // titleIsValid: true,
+      titleIsValid: true,
       formErrors: { ...state.formErrors, title: '' },
     }));
   };
@@ -33,7 +33,7 @@ class App extends React.Component<{}, State> {
   onSubmit = (event:React.FormEvent) => {
     event.preventDefault();
 
-    if (this.state.title && this.state.userName) {
+    if (this.state.titleIsValid && this.state.userIsValid) {
       const newTodo = {
         userId: Number(this.state.userName),
         id: this.state.todoList.length + 1,
@@ -49,13 +49,13 @@ class App extends React.Component<{}, State> {
       }));
     }
 
-    if (!this.state.title) {
+    if (!this.state.titleIsValid) {
       this.setState(state => ({
         formErrors: { ...state.formErrors, title: 'Please enter the title' },
       }));
     }
 
-    if (!this.state.userName) {
+    if (!this.state.userIsValid) {
       this.setState(state => ({
         formErrors: { ...state.formErrors, user: 'Please choose a user' },
       }));
@@ -66,7 +66,7 @@ class App extends React.Component<{}, State> {
     this.setState(state => ({
       userName: event.target.value,
       formErrors: { ...state.formErrors, user: '' },
-      // userIsValid: true,
+      userIsValid: true,
     }));
   };
 
