@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Playfair+Display&display=swap");
+
+html {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+li {
+  list-style: none;
+}
+
+.app {
+  &__form {
+    padding-left: 40px;
+    padding-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 36px;
+  }
+
+  &__subtitle {
+    text-transform: uppercase;
+  }
+
+  &__select-name {
+    margin-left: 40px;
+  }
+
+  &__btn {
+    margin-left: 40px;
+    font-size: 14px;
+    height: 36px;
+    color: rgb(248, 246, 237);
+    background-color: rgb(8, 111, 30);
+    border-color: rgb(11, 150, 69);
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  &__error {
+    margin-left: 20px;
+    color: rgb(173, 43, 43);
+    font-weight: 700;
+    font-size: 24px;
+  }
+}
