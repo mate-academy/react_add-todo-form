@@ -33,10 +33,10 @@ export const TodoList: React.FC<Props> = ({ completeToggle, todoList }) => {
               >
                 <div className="todo__info">
                   <div>{todo.user?.name}</div>
-                  <div>{todo.user?.email}</div>
+                  <div className="todo__email">{todo.user?.email}</div>
                 </div>
                 <div className="todo__description">{todo.title}</div>
-                <div>
+                <div className="todo__completed">
                   {
                     todo.completed
                       ? <img className="todo__image" src="./images/tick.png" alt="completed" />

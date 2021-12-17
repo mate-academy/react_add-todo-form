@@ -52,7 +52,7 @@
 }
 
 .todo__description {
-  font-family: "Fuzzy Bubbles", cursive;
+  font-family: "Klee One", cursive;
   word-break: break-all;
   height: 100%;
   max-width: 280px;
@@ -104,6 +104,7 @@
 }
 
 .button {
+  position: relative;
   padding: 12px;
   border-radius: 24px;
   border: 1px solid silver;
@@ -120,6 +121,21 @@
 
   .todo__button {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .todo__email {
+    margin-bottom: 18px;
+  }
+
+  .todo__completed {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+
+  .todo__description {
+    margin-bottom: 18px;
   }
 }
 
