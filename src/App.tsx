@@ -7,6 +7,8 @@ import todos from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
+import { User } from './types/User';
+
 const preparedTodos = todos.map(todo => {
   return {
     ...todo,
@@ -16,27 +18,33 @@ const preparedTodos = todos.map(todo => {
 
 type State = {
   taskTitle: string,
-  errorTitle: boolean,
+  emptyTitle: boolean,
   username: string,
-  errorUsername: boolean,
+  emptyUsername: boolean,
   todoList: Todo[],
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
     taskTitle: '',
-    errorTitle: false,
+    emptyTitle: false,
     username: '',
-    errorUsername: false,
+    emptyUsername: false,
     todoList: preparedTodos,
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ taskTitle: event.target.value });
+    this.setState({
+      taskTitle: event.target.value,
+      emptyTitle: false,
+    });
   };
 
   handleUsernameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ username: event.target.value });
+    this.setState({
+      username: event.target.value,
+      emptyUsername: false,
+    });
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,38 +53,40 @@ class App extends React.Component<{}, State> {
     const currentUser = users.find(user => this.state.username === user.name) || null;
 
     if (currentUser) {
-      const newId = 1 + this.state.todoList.reduce((maxId, { id }) => {
-        return maxId > id ? maxId : id;
-      }, 0);
-
-      const newTodo: Todo = {
-        userId: currentUser.id,
-        id: newId,
-        title: this.state.taskTitle,
-        user: currentUser,
-      };
+      const newTodo: Todo = this.createTodo(currentUser);
 
       this.setState(state => ({
         todoList: [...state.todoList, newTodo],
         taskTitle: '',
-        errorTitle: false,
+        emptyTitle: false,
         username: '',
-        errorUsername: false,
+        emptyUsername: false,
       }));
     }
   };
 
+  createTodo = (currentUser: User) => {
+    const newId = 1 + this.state.todoList.reduce((maxId, { id }) => {
+      return maxId > id ? maxId : id;
+    }, 0);
+
+    const newTodo: Todo = {
+      userId: currentUser.id,
+      id: newId,
+      title: this.state.taskTitle,
+      user: currentUser,
+    };
+
+    return newTodo;
+  };
+
   checkForm = () => {
     if (!this.state.taskTitle) {
-      this.setState({ errorTitle: true });
-    } else {
-      this.setState({ errorTitle: false });
+      this.setState({ emptyTitle: true });
     }
 
     if (!this.state.username) {
-      this.setState({ errorUsername: true });
-    } else {
-      this.setState({ errorUsername: false });
+      this.setState({ emptyUsername: true });
     }
   };
 
@@ -96,7 +106,7 @@ class App extends React.Component<{}, State> {
               required
             />
 
-            {this.state.errorTitle
+            {this.state.emptyTitle
               && <p className="App__errorMessage">Please enter the title</p>}
           </div>
 
@@ -117,7 +127,7 @@ class App extends React.Component<{}, State> {
               ))}
             </select>
 
-            {this.state.errorUsername
+            {this.state.emptyUsername
               && <p className="App__errorMessage">Please choose a user</p>}
           </div>
 
