@@ -30,39 +30,45 @@ class App extends React.Component<{}, State> {
     this.setState({ taskTitle: '', taskUser: 0 });
   };
 
-  handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
+  isFormValid = () => {
     if (!this.state.taskTitle) {
       this.setState({ error: 'Please enter the title' });
 
-      return;
+      return false;
     }
 
     if (!this.state.taskUser) {
       this.setState({ error: 'Please choose a user' });
 
-      return;
+      return false;
     }
 
-    this.setState(state => {
-      const updatedTodos = [...state.todos];
-      const findUser = users.find(person => state.taskUser === person.id) || null;
+    return true;
+  };
 
-      if (findUser) {
-        updatedTodos.push({
-          userId: findUser.id,
-          id: state.todos.length + 1,
-          title: state.taskTitle,
-          completed: false,
-          user: findUser,
-        });
-      }
+  handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-      return { todos: updatedTodos };
-    });
+    if (this.isFormValid()) {
+      this.setState(state => {
+        const updatedTodos = [...state.todos];
+        const findUser = users.find(person => state.taskUser === person.id) || null;
 
-    this.clearForm();
+        if (findUser) {
+          updatedTodos.push({
+            userId: findUser.id,
+            id: state.todos.length + 1,
+            title: state.taskTitle,
+            completed: false,
+            user: findUser,
+          });
+        }
+
+        return { todos: updatedTodos };
+      });
+
+      this.clearForm();
+    }
   };
 
   handleChangeTask = (event: React.ChangeEvent<HTMLInputElement>) => {
