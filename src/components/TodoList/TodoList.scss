@@ -1,0 +1,51 @@
+.todoList {
+  &__item {
+    width: 400px;
+    height: 280px;
+    margin: 10px;
+
+    border: 2px solid rgb(107, 107, 192);
+    border-radius: 2em;
+    background-color: rgb(153, 148, 223);
+    list-style: none;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__info {
+    padding: 10px;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-style: italic;
+  }
+  &__completion {
+    padding: 5px 5px 0 0;
+
+    font-size: 20px;
+  }
+
+  &__completion--completed {
+    color: green;
+  }
+
+  &__completion--not_completed {
+    color: red;
+  }
+
+  &__userNameContacts {
+    padding: 20px;
+  }
+
+  &__name {
+    text-transform: uppercase;
+  }
+
+ }

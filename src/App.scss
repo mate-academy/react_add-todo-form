@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+
+  &__title {
+    text-transform: uppercase;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+      0px 8px 13px rgba(0,0,0,0.1),
+      0px 18px 23px rgba(0,0,0,0.1);
+  }
+
+  &__taskTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+  }
+
+  &__select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+  }
+
+  &__add-button {
+    margin: 20px;
+    border: none;
+    text-transform: uppercase;
+    width: 350px;
+  }
+
+  &__warning-text {
+    text-transform: uppercase;
+    color: red;
+  }
+
+  &__warning-text--none {
+    display: none;
+  }
+
+  &__warning-text--none {
+    display: none;
+  }
+
+  &__warning-text--no-warning {
+    text-transform: uppercase;
+    text-shadow: 0px 0px 6px rgba(113, 219, 26, 0.7);
+  }
+}
