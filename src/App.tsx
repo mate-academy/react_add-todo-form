@@ -5,10 +5,10 @@ import { TodoList } from './components/TodoList/TodoList';
 import users from './api/users';
 import { State } from './components/types/State';
 
-const preparedTodos = todos.map((el) => ({
-  ...el,
+const preparedTodos = todos.map((todo) => ({
+  ...todo,
   user: users.find(
-    (user) => user.id === el.userId,
+    (user) => user.id === todo.userId,
   ) || null,
 }));
 
@@ -20,14 +20,14 @@ class App extends React.Component<{}, State> {
     formErrors: { title: '', user: '' },
   };
 
-  onTitleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+  onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState(state => ({
       title: event.target.value,
       formErrors: { ...state.formErrors, title: '' },
     }));
   };
 
-  onSelectorChange = (event:React.ChangeEvent<HTMLSelectElement>) => {
+  onSelectorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState(state => ({
       userName: event.target.value,
       formErrors: { ...state.formErrors, user: '' },
@@ -36,7 +36,7 @@ class App extends React.Component<{}, State> {
 
   onAdd = () => {
     const newTodo = {
-      userId: Number(this.state.userName),
+      userId: this.state.todoList.find(todo => todo.user?.name === this.state.userName)?.id,
       id: this.state.todoList.length + 1,
       title: this.state.title,
       completed: false,
