@@ -1,0 +1,58 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 30%;
+  padding: 80px 40px 40px;
+  background-color: #e7ebf0;
+
+  &__heading {
+    margin-bottom: 80px;
+  }
+
+  &__input-area {
+    margin-bottom: 70px;
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 10px;
+    width: 100%;
+    background-color: #e7ebf0;
+    border: none;
+    border-bottom: 1px solid black;
+
+    &::placeholder {
+      color: #52595D;
+    }
+  }
+
+  &__select {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 10px;
+    width: 100%;
+    color: #52595D;
+    background-color: #e7ebf0;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  &__error {
+    background-color: #dd7b7b70;
+    text-align: center;
+    line-height: 200%;
+  }
+
+  &__button {
+    display: inline-block;
+    border: none;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    background-color: #2446ed;
+  }
+}
