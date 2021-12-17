@@ -1,19 +1,14 @@
 import React from 'react';
 import './App.css';
 import './Todo.css';
+import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-interface Todos {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
 type State = {
-  todosList: Todos[]
+  todosList: Todo[]
   title: string,
   userId: number,
   selectError: string | null,
@@ -78,12 +73,6 @@ class App extends React.Component<{}, State> {
 
   render() {
     const { todosList } = this.state;
-    const todoWithUsers = todosList.map((todo) => {
-      return {
-        ...todo,
-        user: usersFromServer.find(user => user.id === todo.userId) || null,
-      };
-    });
 
     return (
       <div className="App">
@@ -97,10 +86,12 @@ class App extends React.Component<{}, State> {
             event.preventDefault();
           }}
         >
-
-          <p className="todo__error">
-            {this.state.titleError}
-          </p>
+          { this.state.titleError
+            && (
+              <p className="todo__error">
+                {this.state.titleError}
+              </p>
+            )}
 
           <label htmlFor="title">
             <input
@@ -134,9 +125,12 @@ class App extends React.Component<{}, State> {
             </select>
           </label>
 
-          <p className="todo__error">
-            {this.state.selectError}
-          </p>
+          { this.state.selectError
+            && (
+              <p className="todo__error">
+                {this.state.selectError}
+              </p>
+            )}
 
           <button
             className="button"
@@ -147,39 +141,10 @@ class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <ul className="todo__list">
-          {
-            todoWithUsers.map((todo) => {
-              return (
-                <li
-                  key={todo.id}
-                  className="todo__item"
-                >
-                  <button
-                    type="button"
-                    className="todo__button"
-                    onClick={() => {
-                      this.completeToggle(todo.id);
-                    }}
-                  >
-                    <div className="todo__info">
-                      <div>{todo.user?.name}</div>
-                      <div>{todo.user?.email}</div>
-                    </div>
-                    <div className="todo__description">{todo.title}</div>
-                    <div>
-                      {
-                        todo.completed
-                          ? <img className="todo__image" src="./images/tick.png" alt="completed" />
-                          : <img className="todo__image" src="./images/cross.png" alt="in progress" />
-                      }
-                    </div>
-                  </button>
-                </li>
-              );
-            })
-          }
-        </ul>
+        <TodoList
+          todoList={todosList}
+          completeToggle={this.completeToggle}
+        />
       </div>
     );
   }
