@@ -66,14 +66,14 @@ class App extends React.Component<{}, State> {
       return null;
     }
 
-    return currentUser;
+    return currentUser || null;
   };
 
   addTodo = () => {
     const currentUser = this.findUser();
 
     const createdTodo = {
-      userId: 1,
+      userId: currentUser.id,
       id: this.state.todosList.length + 1,
       title: this.state.taskText,
       completed: false,
