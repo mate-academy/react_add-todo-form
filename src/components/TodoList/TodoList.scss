@@ -1,0 +1,52 @@
+$status-notDone: rgb(189, 63, 63);
+$status-done: rgb(63, 192, 63);
+$hover: rgba(34, 33, 33, 0.07);
+
+.todoItem {
+  border-radius: 15px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 20px;
+  list-style: none;
+  background-color: #fff;
+  box-shadow: 5px 5px 5px $hover;
+
+  transition: scale 0.5s, background-color 0.3s;
+
+  &:hover {
+    background-color: $hover;
+    transform: scale(1.05);
+  }
+
+  &__block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__wrap {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+
+  &__content {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  &__check {
+    width: 20px;
+    height: 20px;
+    margin-left: 30px;
+  }
+
+  &__status {
+    font-weight: bold;
+    color: $status-notDone;
+
+    &__completed {
+      color: $status-done;
+    }
+  }
+}
