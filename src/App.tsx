@@ -42,9 +42,9 @@ class App extends React.Component<{}, State> {
       ? null
       : '❌ Please, enter the title!';
 
-    const todoIsValid = !userError && !titleError;
+    const isTodoValid = !userError && !titleError;
 
-    if (todoIsValid) {
+    if (isTodoValid) {
       this.addTodo();
       this.clearForm();
     } else {
@@ -76,15 +76,16 @@ class App extends React.Component<{}, State> {
   addTodo = () => {
     const { todos, todoTitle, user } = this.state;
 
-    const newUser: User | null = users.find(userFromServer => userFromServer.name === user) || null;
+    const currentUser: User | null = users.find(userFromServer => (
+      userFromServer.name === user)) || null;
 
-    if (!newUser) {
-      return;
+    if (!currentUser) {
+      throw new Error('No user!');
     }
 
-    const newTodo: Todo = {
-      user: newUser,
-      userId: newUser.id,
+    const createdTodo: Todo = {
+      user: currentUser,
+      userId: currentUser.id,
       id: todos.length + 1,
       title: todoTitle,
       completed: false,
@@ -93,7 +94,7 @@ class App extends React.Component<{}, State> {
     this.setState((state: State) => ({
       todos: [
         ...state.todos,
-        newTodo,
+        createdTodo,
       ],
     }));
   };
