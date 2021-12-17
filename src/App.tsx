@@ -95,8 +95,6 @@ class App extends React.Component<{}, State> {
       });
     } else {
       this.setState((state) => {
-        // тут правильно
-
         return {
           errorSelect: state.userValue.length === 0,
           errorInput: state.title.length === 0,
@@ -118,27 +116,28 @@ class App extends React.Component<{}, State> {
 
             <label className="form__label">
               Оберіть юзера:
+
+              <select
+                className={errorSelect ? 'error form__select' : 'form__select'}
+                value={userValue}
+                onChange={this.setUser}
+              >
+                <option value="">Choose a user</option>
+
+                {users.map(userOne => (
+                  <option value={userOne.name} key={userOne.id}>
+                    {userOne.name}
+                  </option>
+                ))}
+              </select>
+
+              {errorSelect && (
+                <label className="error">
+                  Ви не обрали юзера
+                </label>
+              )}
+
             </label>
-
-            <select
-              className={errorSelect ? 'error form__select' : 'form__select'}
-              value={userValue}
-              onChange={this.setUser}
-            >
-              <option value="">Choose a user</option>
-
-              {users.map(userOne => (
-                <option value={userOne.name} key={userOne.id}>
-                  {userOne.name}
-                </option>
-              ))}
-            </select>
-
-            {errorSelect && (
-              <label className="error-label">
-                Ви не обрали юзера
-              </label>
-            )}
           </div>
 
           <div className="form__input-title-group">
@@ -154,8 +153,8 @@ class App extends React.Component<{}, State> {
             />
 
             {errorInput && (
-              <label className="error-label">
-                Ви не вели завдання
+              <label className="error">
+                Поле заповнене неправильно
               </label>
             )}
           </div>

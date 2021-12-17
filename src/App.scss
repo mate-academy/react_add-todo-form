@@ -5,6 +5,7 @@
 .error {
   border-color: red;
   position: relative;
+  color: red;
 }
 
 .list__item {
@@ -21,8 +22,4 @@
   width: 440px;
   display: flex;
   flex-wrap: wrap;
-}
-
-.error-label {
-  color: red;
 }
