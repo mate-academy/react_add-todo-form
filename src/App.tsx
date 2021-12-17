@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TodoList } from './components/TodoList';
+import TodoList from './components/TodoList';
 import { Todo } from './components/types/Todo';
 import './App.scss';
 
@@ -16,7 +16,7 @@ const preparedTodos: Todo[] = todos.map(todo => {
 interface State {
   printTodos: Todo[];
   newTodoName: string;
-  newUser: number;
+  newUserId: number;
   error: string;
 }
 
@@ -24,30 +24,42 @@ class App extends Component<{}, State> {
   state: State = {
     printTodos: [...preparedTodos],
     newTodoName: '',
-    newUser: 0,
+    newUserId: 0,
     error: '',
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { newUser, newTodoName } = this.state;
 
-    if (newTodoName === '') {
-      this.setState({
-        error: 'Please enter the title',
-      });
-    } else if (newUser === 0) {
-      this.setState({
-        error: 'Please choose a user',
-      });
-    } else {
+    this.handleValidation();
+  };
+
+  handleValidation = () => {
+    const { newTodoName, newUserId, error } = this.state;
+
+    const todoError = newTodoName
+      ? ''
+      : 'Title is required';
+    const userError = newUserId
+      ? ''
+      : 'User is required';
+
+    const isValid = !todoError && !userError;
+
+    if (isValid) {
       this.addTodo();
-      this.setState({ newTodoName: '', newUser: 0 });
+      this.setState({ newTodoName: '', newUserId: 0 });
+    } else {
+      this.setState({
+        error: todoError || userError,
+      });
     }
+
+    return error;
   };
 
   addTodo = () => {
-    const { printTodos, newUser, newTodoName } = this.state;
+    const { printTodos, newUserId: newUser, newTodoName } = this.state;
     const createdTodo: Todo = {
       title: newTodoName,
       userId: newUser,
@@ -67,9 +79,9 @@ class App extends Component<{}, State> {
   handleTodoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const pattern = /^[a-zA-Zа-яА-ЯіІ0-9\s]*$/;
-    const res = pattern.test(event.target.value);
+    const validationResult = pattern.test(event.target.value);
 
-    if (res) {
+    if (validationResult) {
       this.setState({
         newTodoName: event.target.value,
         error: '',
@@ -79,20 +91,21 @@ class App extends Component<{}, State> {
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      newUser: Number(event.target.value),
+      newUserId: Number(event.target.value),
       error: '',
     });
   };
 
   render() {
     const {
-      printTodos, newTodoName, newUser, error,
+      printTodos, newTodoName, newUserId: newUser, error,
     } = this.state;
 
     return (
       <div className="App">
         <h1 className="App__title">Add todo form</h1>
         <form name="newTodo" onSubmit={(e) => this.handleSubmit(e)}>
+          <p className="App__err">{error && error}</p>
           <input
             type="text"
             name="newTodoName"
@@ -118,7 +131,6 @@ class App extends Component<{}, State> {
             Add
           </button>
         </form>
-        <p className="App__err">{`${error}`}</p>
         <TodoList todos={printTodos} />
       </div>
     );
