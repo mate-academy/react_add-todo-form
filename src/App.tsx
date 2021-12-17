@@ -74,7 +74,7 @@ class App extends React.PureComponent<{}, State> {
     const createTodo: Todo = {
       userId: currentUser.id,
       title: this.state.title,
-      id: this.state.todo.length,
+      id: this.state.todo.length + 1,
       user: currentUser,
       completed: false,
     };
