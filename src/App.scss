@@ -1,0 +1,21 @@
+.App {
+  &__taskTitle {
+    display: inline-block;
+    margin: 8px;
+  }
+
+  &__errorMessage {
+    display: inline-block;
+    margin: 8px;
+    color: red;
+  }
+
+  &__userSelect {
+    display: inline-block;
+    margin: 8px;
+  }
+
+  &__submitButton {
+    margin: 8px;
+  }
+}
