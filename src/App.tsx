@@ -16,8 +16,8 @@ type State = {
   todosList: Todos[]
   title: string,
   userId: number,
-  selectError: boolean | null,
-  titleError: boolean | null,
+  selectError: string | null,
+  titleError: string | null,
 };
 
 class App extends React.Component<{}, State> {
@@ -30,9 +30,8 @@ class App extends React.Component<{}, State> {
   };
 
   titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let isValid = event.target.value.replaceAll(/[^a-zA-z0-9а-яА-яІі ]+/g, '');
+    const isValid = event.target.value.replaceAll(/[^0-9a-zA-Z а-яА-ЯІі]/g, '');
 
-    isValid = isValid.replaceAll(/[_^]/g, '');
     this.setState({ title: isValid, titleError: null });
   };
 
@@ -57,13 +56,13 @@ class App extends React.Component<{}, State> {
     };
 
     if (this.state.title.length === 0) {
-      this.setState({ titleError: true });
+      this.setState({ titleError: 'Please enter Your text' });
 
       return;
     }
 
     if (this.state.userId === 0) {
-      this.setState({ selectError: true });
+      this.setState({ selectError: 'Please choose a User' });
 
       return;
     }
@@ -98,10 +97,10 @@ class App extends React.Component<{}, State> {
             event.preventDefault();
           }}
         >
-          {
-            this.state.titleError
-              && <div className="todo__error">Please enter Your text</div>
-          }
+
+          <p className="todo__error">
+            {this.state.titleError}
+          </p>
 
           <label htmlFor="title">
             <input
@@ -134,10 +133,10 @@ class App extends React.Component<{}, State> {
               ))}
             </select>
           </label>
-          {
-            this.state.selectError
-            && <p className="todo__error">Please choose a User</p>
-          }
+
+          <p className="todo__error">
+            {this.state.selectError}
+          </p>
 
           <button
             className="button"
@@ -167,7 +166,7 @@ class App extends React.Component<{}, State> {
                       <div>{todo.user?.name}</div>
                       <div>{todo.user?.email}</div>
                     </div>
-                    <div>{todo.title}</div>
+                    <div className="todo__description">{todo.title}</div>
                     <div>
                       {
                         todo.completed

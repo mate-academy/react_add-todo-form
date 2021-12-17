@@ -35,6 +35,7 @@
   min-height: 100px;
   background-color: rgb(255, 255, 159);
   border: none;
+  font-family: "Balsamiq Sans", cursive;
 }
 
 .todo__info {
@@ -48,6 +49,15 @@
   max-width: 360px;
   width: 100%;
 
+}
+
+.todo__description {
+  font-family: "Fuzzy Bubbles", cursive;
+  word-break: break-all;
+  height: 100%;
+  max-width: 280px;
+  overflow: hidden;
+  font-size: 16px;
 }
 
 .todo__progress {
