@@ -27,7 +27,7 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  onSelectorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  onUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState(state => ({
       userName: event.target.value,
       formErrors: { ...state.formErrors, user: '' },
@@ -35,12 +35,13 @@ class App extends React.Component<{}, State> {
   };
 
   onAdd = () => {
+    const currentUser = users.find(user => user.name === this.state.userName);
     const newTodo = {
-      userId: this.state.todoList.find(todo => todo.user?.name === this.state.userName)?.id,
+      userId: currentUser?.id,
       id: this.state.todoList.length + 1,
       title: this.state.title,
       completed: false,
-      user: users.find(user => user.name === this.state.userName) || null,
+      user: currentUser || null,
     };
 
     this.setState(state => ({
@@ -99,7 +100,7 @@ class App extends React.Component<{}, State> {
           <select
             name="user"
             value={this.state.userName}
-            onChange={this.onSelectorChange}
+            onChange={this.onUserChange}
           >
             <option
               value=""
