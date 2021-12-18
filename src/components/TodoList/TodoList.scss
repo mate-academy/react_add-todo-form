@@ -1,0 +1,44 @@
+.Todo {
+  margin-top: 20px;
+
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    position: relative;
+
+    background-color: wheat;
+    border-radius: 10px;
+    padding: 20px 80px 5px 30px;
+  }
+
+  &__item:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &__userId {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+
+  &__status {
+    position: absolute;
+    top: 0;
+    left: 10px;
+  }
+
+  &--completed {
+    background-color: springgreen;
+  }
+}
