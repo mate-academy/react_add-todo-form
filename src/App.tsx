@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import TodoList from './components/TodoList';
 import { Todo } from './components/types/Todo';
 import './App.scss';
@@ -9,7 +9,7 @@ import todos from './api/todos';
 const preparedTodos: Todo[] = todos.map(todo => {
   return {
     ...todo,
-    user: users.find(user => user.id === todo.userId),
+    user: users.find(user => user.id === todo.userId) || null,
   };
 });
 
@@ -65,7 +65,7 @@ class App extends Component<{}, State> {
       userId: newUser,
       completed: false,
       id: printTodos.length + 1,
-      user: users.find(user => user.id === newUser),
+      user: users.find(user => user.id === newUser) || null,
     };
 
     this.setState(currentState => ({
@@ -94,6 +94,20 @@ class App extends Component<{}, State> {
       newUserId: Number(event.target.value),
       error: '',
     });
+  };
+
+  handleChecked = (id: number) => {
+    const newTodo = this.state.printTodos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+
+      return todo;
+    });
+
+    this.setState(() => ({
+      printTodos: newTodo,
+    }));
   };
 
   render() {
@@ -131,7 +145,7 @@ class App extends Component<{}, State> {
             Add
           </button>
         </form>
-        <TodoList todos={printTodos} />
+        <TodoList todos={printTodos} handleChecked={this.handleChecked} />
       </div>
     );
   }
