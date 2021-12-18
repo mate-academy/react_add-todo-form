@@ -8,55 +8,51 @@ import { Todo } from './types/Todo';
 
 interface State {
   todos: Todo[],
-  taskTitile: string,
+  taskTitle: string,
   selectedUser: string,
-  isUserNotSelected: boolean,
-  isTitleNotEntered: boolean,
+  taskTitleError: boolean,
+  selectedUserError: boolean,
 }
 
 export class App extends React.Component {
   state = {
     todos: initialTodos,
-    taskTitile: '',
+    taskTitle: '',
     selectedUser: '',
-    isUserNotSelected: false,
-    isTitleNotEntered: false,
+    taskTitleError: null,
+    selectedUserError: null,
   };
 
-  recordTaskTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  saveTaskTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      taskTitile: event.target.value,
+      taskTitle: event.target.value,
+      taskTitleError: null,
     });
   };
 
-  selectUser = (event: any) => (this.setState({
-    selectedUser: event.target.value,
-  }));
-
-  showError = () => {
-    if (!this.state.selectedUser) {
-      this.setState((state: State) => ({
-        isUserNotSelected: !state.isUserNotSelected,
-      }));
-    }
-
-    if (!this.state.taskTitile) {
-      this.setState((state: State) => ({
-        isTitleNotEntered: !state.isTitleNotEntered,
-      }));
-    }
+  saveSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({
+      selectedUser: event.target.value,
+      selectedUserError: null,
+    });
   };
 
-  // React.SyntheticEvent
-  addTodo = (event: any) => {
+  addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (this.state.selectedUser && this.state.taskTitile) {
+    this.setState((state: State) => ({
+      taskTitleError: state.taskTitle ? null : 'Plese, enter a task title!',
+      selectedUserError: state.selectedUser ? null : 'Please, select a user!',
+    }));
+
+    // The problem could be in state and it's conditon at the moment
+
+    if (!this.state.taskTitleError && !this.state.selectedUserError) {
       this.setState((state: State) => {
         const newTodo = {
           userId: users.find(user => user.name === state.selectedUser)?.id,
           id: state.todos.length + 1,
-          title: state.taskTitile,
+          title: state.taskTitle,
           completed: false,
         };
 
@@ -66,12 +62,7 @@ export class App extends React.Component {
           selectedUser: '',
         });
       });
-    } else {
-      this.showError();
     }
-
-    // eslint-disable-next-line no-console
-    console.log(this.state);
   };
 
   render(): React.ReactNode {
@@ -90,16 +81,17 @@ export class App extends React.Component {
             type="text"
             name="taskTitile"
             placeholder="Enter a task title"
-            value={this.state.taskTitile}
-            onChange={this.recordTaskTitle}
+            value={this.state.taskTitle}
+            onChange={this.saveTaskTitle}
             className="add-todo__input"
           />
+          {this.state.taskTitleError}
 
           <select
             name="todoForUser"
             value={this.state.selectedUser}
             className="add-todo__user-select"
-            onChange={this.selectUser}
+            onChange={this.saveSelectedUser}
           >
             <option
               value=""
@@ -117,14 +109,7 @@ export class App extends React.Component {
               </option>
             ))}
           </select>
-
-          {this.state.isUserNotSelected && (
-            <span
-              className="add-todo__error"
-            >
-              Test text
-            </span>
-          )}
+          {this.state.selectedUserError}
 
           <button
             type="submit"
