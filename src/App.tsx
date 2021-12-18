@@ -107,8 +107,6 @@ export class App extends React.Component<{}, State> {
       isTitleEmpty,
     } = this.state;
 
-    const visibleTodos = [...todos];
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -162,7 +160,7 @@ export class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <TodoList todos={visibleTodos} changeStatus={this.changeStatus} />
+        <TodoList todos={todos} changeStatus={this.changeStatus} />
       </div>
     );
   }
