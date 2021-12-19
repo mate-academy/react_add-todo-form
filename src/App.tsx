@@ -40,14 +40,16 @@ export class App extends React.Component {
   addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState((state: State) => ({
-      taskTitleError: state.taskTitle ? null : 'Plese, enter a task title!',
-      selectedUserError: state.selectedUser ? null : 'Please, select a user!',
-    }));
+    const taskTitleError = this.state.taskTitle
+      ? null
+      : 'Plese, enter a task title!';
+    const selectedUserError = this.state.selectedUser
+      ? null
+      : 'Please, select a user!';
 
-    // The problem could be in state and it's conditon at the moment
+    const isValid = !taskTitleError && !selectedUserError;
 
-    if (!this.state.taskTitleError && !this.state.selectedUserError) {
+    if (isValid) {
       this.setState((state: State) => {
         const newTodo = {
           userId: users.find(user => user.name === state.selectedUser)?.id,
@@ -61,6 +63,11 @@ export class App extends React.Component {
           taskTitile: '',
           selectedUser: '',
         });
+      });
+    } else {
+      this.setState({
+        taskTitleError,
+        selectedUserError,
       });
     }
   };
