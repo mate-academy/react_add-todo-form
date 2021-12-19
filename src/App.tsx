@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { TodoList } from './components/TodoList/TodoList';
 
 import { User } from './types/User';
@@ -19,8 +20,8 @@ const preparedTodos = todos.map(todo => {
 });
 
 type State = {
-  users: User[],
-  todos: TodoPrepared[],
+  usersCopy: User[],
+  todosCopy: TodoPrepared[],
   todoTitle: string,
   selectedUserId: number,
   selectError: boolean,
@@ -29,12 +30,30 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    users: [...users],
-    todos: [...preparedTodos],
+    usersCopy: [...users],
+    todosCopy: [...preparedTodos],
     todoTitle: '',
     selectedUserId: 0,
     selectError: false,
     titleError: false,
+  };
+
+  handleValidation = () => {
+    if (!this.state.todoTitle) {
+      this.setState({
+        titleError: true,
+      });
+    } else if (!this.state.selectedUserId) {
+      this.setState({
+        selectError: true,
+      });
+    }
+
+    if (!this.state.selectedUserId || !this.state.todoTitle) {
+      return false;
+    }
+
+    return true;
   };
 
   handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,37 +69,28 @@ class App extends React.Component<{}, State> {
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    if (!this.state.selectedUserId) {
-      this.setState({
-        selectError: true,
-      });
-    } else if (!this.state.todoTitle) {
-      this.setState({
-        titleError: true,
-      });
-    } else {
-      this.setState((state) => ({
-        todos: [
-          ...state.todos,
-          {
-            userId: state.selectedUserId,
-            id: state.todos.length + 1,
-            title: state.todoTitle,
-            completed: false,
-            user: users.find(person => person.id === state.selectedUserId) || null,
-          },
-        ],
-      }));
+    event.preventDefault();
 
-      this.setState({
-        todoTitle: '',
-        selectedUserId: 0,
-        selectError: false,
-        titleError: false,
-      });
+    if (!this.handleValidation()) {
+      return;
     }
 
-    event.preventDefault();
+    this.setState((state) => ({
+      todoTitle: '',
+      selectedUserId: 0,
+      selectError: false,
+      titleError: false,
+      todosCopy: [
+        ...state.todosCopy,
+        {
+          userId: state.selectedUserId,
+          id: state.todosCopy.length + 1,
+          title: state.todoTitle,
+          completed: false,
+          user: users.find(person => person.id === state.selectedUserId) || null,
+        },
+      ],
+    }));
   };
 
   render() {
@@ -89,6 +99,8 @@ class App extends React.Component<{}, State> {
       selectedUserId,
       selectError,
       titleError,
+      usersCopy,
+      todosCopy,
     } = this.state;
 
     return (
@@ -106,7 +118,7 @@ class App extends React.Component<{}, State> {
                 onChange={this.handleAddTitle}
                 value={todoTitle}
               />
-              <span className="App__error" style={titleError ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+              <span className={classNames('App__error', { 'App__error--active': titleError })}>
                 Please enter the title
               </span>
             </label>
@@ -128,7 +140,7 @@ class App extends React.Component<{}, State> {
                   Choose a user
                 </option>
                 {
-                  this.state.users.map(user => (
+                  usersCopy.map(user => (
                     <option
                       className="App__option"
                       value={user.id}
@@ -139,18 +151,22 @@ class App extends React.Component<{}, State> {
                   ))
                 }
               </select>
-              <span className="App__error" style={selectError ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+              <span className={classNames('App__error', { 'App__error--active': selectError })}>
                 Please choose a user
               </span>
             </label>
 
-            <button className="App__button" type="submit">
+            <button
+              className="App__button"
+              type="submit"
+              // onClick={this.validation}
+            >
               Add
             </button>
           </form>
         </div>
         <div className="App__todos-wrapper">
-          <TodoList todoList={this.state.todos} />
+          <TodoList todoList={todosCopy} />
         </div>
       </div>
     );

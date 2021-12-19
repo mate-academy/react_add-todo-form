@@ -32,6 +32,11 @@
   &__error {
     color: $error-color;
     font-weight: 700;
+    visibility: hidden;
+
+    &--active {
+      visibility: visible;
+    }
   }
 
   &__button {

@@ -51,9 +51,7 @@ export class TodoInfo extends React.Component<Props, State> {
           </div>
         </div>
         {user && (
-          <div className="todoList__userInfo">
-            <UserInfo {...user} />
-          </div>
+          <UserInfo {...user} />
         )}
       </>
     );

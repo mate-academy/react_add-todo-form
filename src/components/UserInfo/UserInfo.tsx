@@ -5,9 +5,9 @@ import './UserInfo.scss';
 
 export const UserInfo: React.FC<User> = ({ name, email }) => {
   return (
-    <>
+    <div className="todoList__userInfo">
       <h3 className="todoList__userName">{`Name: ${name}`}</h3>
       <div className="todoList__userEmail">{`E-mail: ${email}`}</div>
-    </>
+    </div>
   );
 };
