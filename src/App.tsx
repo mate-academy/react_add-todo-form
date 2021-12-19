@@ -64,10 +64,12 @@ class App extends React.Component<{}, State> {
       });
     }
 
-    this.setState({
-      title: '',
-      newUser: '',
-    });
+    if (isValid) {
+      this.setState({
+        title: '',
+        newUser: '',
+      });
+    }
   }
 
   handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
