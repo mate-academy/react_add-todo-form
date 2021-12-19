@@ -16,12 +16,24 @@ interface State {
 
 export class App extends React.Component {
   state = {
-    todos: initialTodos,
+    todos: [],
     taskTitle: '',
     selectedUser: '',
     taskTitleError: null,
     selectedUserError: null,
   };
+
+  componentDidMount() {
+    const preparedTodos = initialTodos.map(task => {
+      const user = users.find(({ id }) => id === task.userId);
+
+      return ({ ...task, user });
+    });
+
+    this.setState({
+      todos: preparedTodos,
+    });
+  }
 
   saveTaskTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
@@ -51,8 +63,11 @@ export class App extends React.Component {
 
     if (isValid) {
       this.setState((state: State) => {
+        const user = users.find(({ name }) => name === this.state.selectedUser);
+
         const newTodo = {
-          userId: users.find(user => user.name === state.selectedUser)?.id,
+          user,
+          userId: user?.id,
           id: state.todos.length + 1,
           title: state.taskTitle,
           completed: false,

@@ -8,18 +8,27 @@ interface Props {
 export const TodoList = React.memo<Props>(
   ({ readyTodos }) => (
     <ul className="todo-list">
-      {readyTodos.map(task => (
+      {readyTodos.map(({
+        id,
+        title,
+        completed,
+        user,
+      }) => (
         <li
-          key={task.id}
+          key={id}
           className="todo-list__list-item"
         >
-          {task.title}
+          {title}
           <br />
           Completed:
           <input
             type="checkbox"
-            defaultChecked={task.completed}
+            defaultChecked={completed}
           />
+          <br />
+          {user.name}
+          {' | '}
+          {user.email}
         </li>
       ))}
     </ul>
