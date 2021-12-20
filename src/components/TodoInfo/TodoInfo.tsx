@@ -15,7 +15,7 @@ type State = {
 
 export class TodoInfo extends React.Component<Props, State> {
   state = {
-    completed: false,
+    completed: this.props.todoPrepared.completed,
   };
 
   changeStatus = () => {
@@ -47,6 +47,7 @@ export class TodoInfo extends React.Component<Props, State> {
             <input
               type="checkbox"
               onChange={this.changeStatus}
+              checked={this.state.completed}
             />
           </div>
         </div>

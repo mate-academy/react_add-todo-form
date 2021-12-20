@@ -24,8 +24,8 @@ type State = {
   todosCopy: TodoPrepared[],
   todoTitle: string,
   selectedUserId: number,
-  selectError: boolean,
-  titleError: boolean,
+  isSelectUser: boolean,
+  isEnterTitle: boolean,
 };
 
 class App extends React.Component<{}, State> {
@@ -34,37 +34,35 @@ class App extends React.Component<{}, State> {
     todosCopy: [...preparedTodos],
     todoTitle: '',
     selectedUserId: 0,
-    selectError: false,
-    titleError: false,
+    isSelectUser: false,
+    isEnterTitle: false,
   };
 
   handleValidation = () => {
     if (!this.state.todoTitle) {
       this.setState({
-        titleError: true,
+        isEnterTitle: true,
       });
     } else if (!this.state.selectedUserId) {
       this.setState({
-        selectError: true,
+        isSelectUser: true,
       });
     }
 
-    if (!this.state.selectedUserId || !this.state.todoTitle) {
-      return false;
-    }
-
-    return true;
+    return this.state.selectedUserId && this.state.todoTitle;
   };
 
   handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       todoTitle: event.target.value,
+      isEnterTitle: false,
     });
   };
 
   handleSelecte = (event :React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       selectedUserId: Number(event.target.value),
+      isSelectUser: false,
     });
   };
 
@@ -78,13 +76,13 @@ class App extends React.Component<{}, State> {
     this.setState((state) => ({
       todoTitle: '',
       selectedUserId: 0,
-      selectError: false,
-      titleError: false,
+      isSelectUser: false,
+      isEnterTitle: false,
       todosCopy: [
         ...state.todosCopy,
         {
           userId: state.selectedUserId,
-          id: state.todosCopy.length + 1,
+          id: state.todosCopy.sort((a, b) => a.id - b.id)[state.todosCopy.length - 1].id,
           title: state.todoTitle,
           completed: false,
           user: users.find(person => person.id === state.selectedUserId) || null,
@@ -97,8 +95,8 @@ class App extends React.Component<{}, State> {
     const {
       todoTitle,
       selectedUserId,
-      selectError,
-      titleError,
+      isSelectUser,
+      isEnterTitle,
       usersCopy,
       todosCopy,
     } = this.state;
@@ -118,7 +116,7 @@ class App extends React.Component<{}, State> {
                 onChange={this.handleAddTitle}
                 value={todoTitle}
               />
-              <span className={classNames('App__error', { 'App__error--active': titleError })}>
+              <span className={classNames('App__error', { 'App__error--active': isEnterTitle })}>
                 Please enter the title
               </span>
             </label>
@@ -151,7 +149,7 @@ class App extends React.Component<{}, State> {
                   ))
                 }
               </select>
-              <span className={classNames('App__error', { 'App__error--active': selectError })}>
+              <span className={classNames('App__error', { 'App__error--active': isSelectUser })}>
                 Please choose a user
               </span>
             </label>
@@ -159,7 +157,6 @@ class App extends React.Component<{}, State> {
             <button
               className="App__button"
               type="submit"
-              // onClick={this.validation}
             >
               Add
             </button>
