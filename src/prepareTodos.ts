@@ -4,11 +4,7 @@ import { Todo } from './types';
 export const getUserName = (userId:number) => {
   const user = users.find(person => person.id === userId);
 
-  if (user) {
-    return user.name;
-  }
-
-  return 'No user';
+  return user ? user.name : 'No user';
 };
 
 export const prepareTodos = (todos:Todo[]) => (

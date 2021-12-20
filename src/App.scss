@@ -41,7 +41,7 @@ span {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    align-items: end;
+    align-items: flex-end;
   }
 
   &__block-user {

@@ -30,24 +30,21 @@ class App extends React.Component<{}, State> {
   handleOnSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!this.validateSumbitData()) {
+    if (!this.validateSumbitData() || this.state.title.length > 60) {
       return;
     }
 
-    if (this.state.title.length > 60) {
-      return;
-    }
-
-    this.setState(current => {
+    this.setState(currentState => {
+      const { userId, title, todos: todoList } = currentState;
       const newTodo:Todo = {
-        userId: current.userId,
-        title: current.title,
-        id: current.todos.length + 1,
+        userId,
+        title,
+        id: todoList[todoList.length - 1].id + 1,
         completed: false,
       };
 
       return {
-        todos: [...current.todos, newTodo],
+        todos: [...currentState.todos, newTodo],
       };
     });
 
@@ -58,8 +55,8 @@ class App extends React.Component<{}, State> {
   };
 
   onChecked = (id:number) => {
-    this.setState((st) => {
-      const copy = [...st.todos];
+    this.setState((currentState) => {
+      const copy = [...currentState.todos];
 
       copy[id - 1].completed = !copy[id - 1].completed;
 
@@ -71,8 +68,8 @@ class App extends React.Component<{}, State> {
     const { title, userId } = this.state;
 
     this.setState({
-      isTitleWritten: title !== '',
-      isUserSelected: userId !== 0,
+      isTitleWritten: !!title,
+      isUserSelected: !!userId,
     });
 
     return title && userId;
