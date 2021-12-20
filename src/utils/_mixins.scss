@@ -1,0 +1,14 @@
+@mixin inputStyles {
+  display: block;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  outline: none;
+}
+
+@mixin formTextStyles {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: $text-color;
+}

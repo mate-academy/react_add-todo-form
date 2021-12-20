@@ -1,0 +1,14 @@
+@import '../../utils/variables';
+
+.todoList {
+  list-style: none;
+  color: $todoList-text-color;
+
+  &__item {
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid $todoList-border-color;
+    border-radius: 8px;
+    background-color: $todoList-bgc
+  }
+}

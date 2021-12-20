@@ -1,0 +1,18 @@
+.todoList {
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    font-weight: 500;
+  }
+
+  &__status {
+    font-size: 20px;
+    font-weight: 400;
+  }
+}
