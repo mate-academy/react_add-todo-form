@@ -1,6 +1,5 @@
 import React from 'react';
 import UserInfo from '../UserInfo';
-// import { Todo } from '../types/Todo';
 import './TodoInfo.scss';
 import { User } from '../types/User';
 
