@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+
+  &__error {
+    color: red;
+  }
+
+  &__input {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+.button {
+  margin-top: 10px;
+  width: 200px;
+  padding: 5px;
+}
