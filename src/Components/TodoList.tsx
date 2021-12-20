@@ -13,10 +13,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
           <li key={todo.id}>
             <div className="todoList__task">
               <p>
-                {todo.id}
-                .
-                {todo.title}
-                {': '}
+                {`${todo.id}.${todo.title}: `}
                 {todo.completed
                   ? <span> Completed </span>
                   : <span>In progress</span>}

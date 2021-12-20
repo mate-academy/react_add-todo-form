@@ -10,7 +10,7 @@ import { User } from './Types/User';
 
 type State = {
   tasks: Todo[],
-  taskName: string,
+  taskTitle: string,
   userName: string,
 };
 
@@ -22,46 +22,46 @@ const completedList: Todo[] = todos.map((todo) => ({
 class App extends React.Component<{}, State> {
   state = {
     tasks: completedList,
-    taskName: '',
+    taskTitle: '',
     userName: 'Please choose a user',
   };
 
   createTask() {
-    if (this.validate()) {
-      const { tasks, taskName, userName } = this.state;
-      let tempUser: User | null = users.find(user => user.name === userName) || null;
-
-      if (tempUser === null) {
-        tempUser = users[0];
-      }
-
-      const newTask: Todo = {
-        userId: tempUser.id,
-        id: tasks.length + 1,
-        title: taskName,
-        completed: false,
-        user: tempUser,
-      };
-
-      this.setState((state) => ({
-        tasks: [...state.tasks, newTask],
-      }));
+    if (!this.validate()) {
+      this.clearForm();
     }
 
-    this.clearForm();
+    const { tasks, taskTitle, userName } = this.state;
+    let tempUser: User | null = users.find(user => user.name === userName) || null;
+
+    if (tempUser === null) {
+      tempUser = users[0];
+    }
+
+    const newTask: Todo = {
+      userId: tempUser.id,
+      id: tasks.length + 1,
+      title: taskTitle,
+      completed: false,
+      user: tempUser,
+    };
+
+    this.setState((state) => ({
+      tasks: [...state.tasks, newTask],
+    }));
   }
 
   clearForm() {
     this.setState({
-      taskName: '',
+      taskTitle: '',
       userName: 'Please choose a user',
     });
   }
 
   validate(): boolean {
-    const { taskName, userName } = this.state;
+    const { taskTitle, userName } = this.state;
 
-    if (taskName === '') {
+    if (taskTitle === '') {
       alert('Please enter valid Task');
 
       return false;
@@ -76,21 +76,25 @@ class App extends React.Component<{}, State> {
     return true;
   }
 
+  submitHandler(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    this.createTask();
+  }
+
   render(): React.ReactNode {
     return (
       <div className="App">
         <h1>Add todo form</h1>
         <form onSubmit={(event) => {
-          event.preventDefault();
-          this.createTask();
+          this.submitHandler(event);
         }}
         >
           <input
             type="text"
             name="taskName"
-            value={this.state.taskName}
+            value={this.state.taskTitle}
             onChange={(event) => {
-              this.setState({ taskName: event.target.value });
+              this.setState({ taskTitle: event.target.value });
             }}
           />
           <select
