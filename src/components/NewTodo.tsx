@@ -1,4 +1,5 @@
 import React from 'react';
+import todos from '../api/todos';
 
 interface Props {
   onAdd: (todo: Todo) => void;
@@ -14,7 +15,7 @@ interface State {
   isTitleEmpty: boolean;
 }
 
-export class NewTodo extends React.Component<Props, State> {
+export class AddTodoForm extends React.Component<Props, State> {
   state: State = {
     userId: 0,
     title: '',
@@ -23,7 +24,7 @@ export class NewTodo extends React.Component<Props, State> {
     isTitleEmpty: false,
   };
 
-  addNewTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event.target.value.replace(/[^ a-zA-Zа-яА-я0-9]/g, ''),
       isTitleEmpty: false,
@@ -40,7 +41,7 @@ export class NewTodo extends React.Component<Props, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { userId, title } = this.state;
-    const { users, onAdd } = this.props;
+    const { users, onAdd: addTodo } = this.props;
 
     if (!userId || !title.trim()) {
       this.setState(prevState => ({
@@ -55,17 +56,12 @@ export class NewTodo extends React.Component<Props, State> {
       const newTodo = {
         user: users.find(user => user.id === userId) || null,
         userId,
-        id: '',
+        id: todos.length + 1,
         title,
         completed: prevState.completed,
       };
 
-      onAdd(newTodo);
-
-      return ({
-        userId: 0,
-        title: '',
-      });
+      addTodo(newTodo);
     });
   };
 
@@ -94,7 +90,7 @@ export class NewTodo extends React.Component<Props, State> {
             name="newTask"
             id="newTask"
             value={title}
-            onChange={this.addNewTask}
+            onChange={this.handleTitle}
             placeholder="Enter new task here"
             required
           />
@@ -117,8 +113,9 @@ export class NewTodo extends React.Component<Props, State> {
               </option>
             ))}
           </select>
-          {isUserEmpty
-            && <span className="alert">Please choose a user!</span>}
+          {isUserEmpty && (
+            <span className="alert">Please choose a user!</span>
+          )}
         </div>
 
         <div>
