@@ -53,12 +53,10 @@ class App extends React.Component<{}, State> {
   };
 
   checkError = () => {
-    this.setState((state) => {
-      return {
-        hasTodoError: !state.titleTodo,
-        hasUserError: !state.selectedUserId,
-      };
-    });
+    this.setState(state => ({
+      hasTodoError: !state.titleTodo,
+      hasUserError: !state.selectedUserId,
+    }));
   };
 
   submitHandler = (event: React.FormEvent<HTMLFormElement>) => {

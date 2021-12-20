@@ -9,7 +9,7 @@ type Props = {
 const TodoInfo: React.FC<Props> = ({ todo }) => (
   <div className={style.todoInfo}>
     <div className={style.todoTask}>
-      <input type="checkbox" checked={todo.completed} />
+      <input type="checkbox" />
       <span className={style.todoTitle}>
         {todo.title}
       </span>
