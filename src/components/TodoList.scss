@@ -1,0 +1,12 @@
+.List {
+  &__item {
+    height: 100px;
+    margin: 20px 0;
+    border: 1px solid;
+    background-color: #91bbbb;
+
+    &--completed {
+      background-color: #63b995;
+    }
+  }
+}

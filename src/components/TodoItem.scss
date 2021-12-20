@@ -1,0 +1,21 @@
+.Item {
+  display: flex;
+  height: inherit;
+  padding: 15px;
+  justify-content: space-between;
+  flex-direction: column;
+
+  &__block-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__block-user {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    width: 500px;
+  }
+}
