@@ -32,9 +32,20 @@ class App extends React.Component<{}, State> {
     newUserError: null,
   };
 
-  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const getUser: User | undefined = users.find(({ name }) => name === this.state.newUser);
+  addTodo = (state: State, user: User) => ({
+    newTodos: [...state.newTodos,
+      {
+        id: state.newTodos.length + 1,
+        title: state.title,
+        userId: user.id,
+        user,
+      },
+    ],
+    titleError: null,
+    newUserError: null,
+  });
+
+  errorChange = () => {
     const { title, newUser } = this.state;
     const titleError = title
       ? null
@@ -42,51 +53,47 @@ class App extends React.Component<{}, State> {
     const newUserError = newUser
       ? null
       : 'Please enter the user';
-    const isValid = !titleError && !newUserError;
 
-    if (isValid && getUser) {
-      this.setState(state => ({
-        newTodos: [...state.newTodos,
-          {
-            id: state.newTodos.length + 1,
-            title: state.title,
-            userId: getUser.id,
-            user: getUser,
-          },
-        ],
-        titleError: null,
-        newUserError: null,
-      }));
-    } else {
-      this.setState({
-        titleError,
-        newUserError,
-      });
-    }
+    this.setState({
+      titleError,
+      newUserError,
+    });
+
+    return !titleError && !newUserError;
+  };
+
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const getUser: User | undefined = users.find(({ name }) => name === this.state.newUser);
+    const isValid = this.errorChange() && getUser;
 
     if (isValid) {
+      this.setState(state => (
+        this.addTodo(state, getUser)
+      ));
+
       this.setState({
         title: '',
         newUser: '',
       });
     }
-  }
+  };
 
-  handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
+  handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
     this.setState({
       title: value,
     });
-  }
+  };
 
-  handleChangeUser(e: React.ChangeEvent<HTMLSelectElement>) {
+  handleChangeUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
     this.setState({
       newUser: value,
     });
-  }
+  };
 
   render() {
     const {
@@ -98,7 +105,7 @@ class App extends React.Component<{}, State> {
         <h1 className="App__title">Add todo form</h1>
         <form
           className="App__form form"
-          onSubmit={(e) => this.handleSubmit(e)}
+          onSubmit={this.handleSubmit}
           name="newTodo"
         >
           <div className="form__title">
@@ -108,7 +115,7 @@ class App extends React.Component<{}, State> {
               value={title}
               name="newTodoTitle"
               className="form__field"
-              onChange={(e) => this.handleChangeTitle(e)}
+              onChange={this.handleChangeTitle}
             />
             {(titleError && !title) && <span className="form__error form__field">{titleError}</span>}
           </div>
@@ -117,7 +124,7 @@ class App extends React.Component<{}, State> {
               name="userName"
               value={newUser}
               className="form__field"
-              onChange={(e) => this.handleChangeUser(e)}
+              onChange={this.handleChangeUser}
             >
               <option value="" disabled selected>Choose User</option>
               {users.map(({ name, id }) => (
