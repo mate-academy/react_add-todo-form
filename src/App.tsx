@@ -31,7 +31,7 @@ class App extends React.Component<{}, State> {
   addTodo = (userId: number, title: string) => {
     const newTodo = {
       userId,
-      id: this.state.todosList.length + 1,
+      id: this.state.todosList[TodoList.length - 1].id + 1,
       title,
       completed: false,
     };

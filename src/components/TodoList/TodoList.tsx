@@ -8,12 +8,10 @@ type Props = {
 };
 
 export const TodoList: React.FC<Props> = ({ completeToggle, todoList }) => {
-  const todoWithUsers = todoList.map((todo) => {
-    return {
-      ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId) || null,
-    };
-  });
+  const todoWithUsers = todoList.map((todo) => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  }));
 
   return (
     <ul className="todo__list">

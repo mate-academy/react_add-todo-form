@@ -21,9 +21,13 @@ export class TodoForm extends React.Component<Props, State> {
   };
 
   titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isValid = event.target.value.replaceAll(/[^0-9a-zA-Z а-яА-ЯІі.,'!?@]/g, '');
+    const isValid = event.target.value.replaceAll(/[^0-9a-zA-Z а-яА-ЯІі.,'!?]/g, '');
 
     this.setState({ title: isValid, titleError: null });
+  };
+
+  selectUser = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ userId: Number(event.target.value), selectError: null });
   };
 
   validation = () => {
@@ -54,7 +58,7 @@ export class TodoForm extends React.Component<Props, State> {
       <form
         className="todo__form"
         action=""
-        method="get"
+        method="Post"
         onSubmit={(event) => {
           event.preventDefault();
         }}
@@ -86,7 +90,7 @@ export class TodoForm extends React.Component<Props, State> {
             id="userId"
             value={this.state.userId}
             onChange={(event) => {
-              this.setState({ userId: Number(event.target.value), selectError: null });
+              this.selectUser(event);
             }}
           >
             <option value="0" disabled>Choose User</option>
