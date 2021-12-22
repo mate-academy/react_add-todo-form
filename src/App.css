@@ -1,3 +1,27 @@
+body,
+h1,
+h2,
+li,
+ul,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: "Balsamiq Sans", cursive;
+}
+
+body {
+  background-color: cadetblue;
+}
+
 .App {
+  padding: 20px 30px;
+}
+
+.App__caption {
   text-align: center;
+  margin-bottom: 40px;
+  color: rgb(247, 202, 24);
 }
