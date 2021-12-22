@@ -31,7 +31,7 @@ export class TodoForm extends React.Component<Props, State> {
   };
 
   validation = () => {
-    if (this.state.title.length === 0) {
+    if (this.state.title.trim().length === 0) {
       this.setState({ titleError: 'Please enter Your text' });
 
       return;
@@ -77,9 +77,7 @@ export class TodoForm extends React.Component<Props, State> {
             name="title"
             placeholder="Enter your text"
             value={this.state.title}
-            onChange={(event) => {
-              this.titleChange(event);
-            }}
+            onChange={this.titleChange}
           />
         </label>
 
@@ -95,7 +93,10 @@ export class TodoForm extends React.Component<Props, State> {
           >
             <option value="0" disabled>Choose User</option>
             {usersFromServer.map(user => (
-              <option value={user.id}>
+              <option
+                value={user.id}
+                key={user.id}
+              >
                 {user.name}
               </option>
             ))}
