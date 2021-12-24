@@ -1,0 +1,58 @@
+.App {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &__form {
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__select,
+  &__textarea {
+    width: 400px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #eee;
+    outline: none;
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+
+  &__form-error {
+    border: 1px solid red;
+  }
+
+  &__select {
+    cursor: pointer;
+  }
+
+  &__textarea {
+    resize: none;
+    height: 150px;
+
+    &::placeholder {
+      color: #eee;
+    }
+  }
+
+  &__button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    outline: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
