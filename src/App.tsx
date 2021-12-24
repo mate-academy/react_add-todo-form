@@ -79,7 +79,7 @@ class App extends React.Component<{}, State> {
           >
             <option value="" disabled>Choose a user</option>
             {users.map(user => (
-              <option>{user.name}</option>
+              <option key={user.id}>{user.name}</option>
             ))}
           </select>
           <textarea
@@ -103,7 +103,7 @@ class App extends React.Component<{}, State> {
             Add
           </button>
         </form>
-        {this.state.todos.length > 0 && (
+        {!!this.state.todos.length && (
           <TodoList todos={this.state.todos} removeTodo={this.removeTodo} />
         )}
       </div>
