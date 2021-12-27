@@ -4,7 +4,7 @@ import './App.scss';
 import todos from './api/todos';
 import users from './api/users';
 
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types';
 
 const preparedTodos: Todo[] = todos.map((todo) => {
@@ -16,14 +16,14 @@ const preparedTodos: Todo[] = todos.map((todo) => {
 
 interface State {
   todos: Todo[];
-  newTodoTitle: string;
+  todoTitle: string;
   userId: number;
 }
 
 export class App extends React.Component<{}, State> {
   state: State = {
     todos: [...preparedTodos],
-    newTodoTitle: '',
+    todoTitle: '',
     userId: 1,
   };
 
@@ -33,7 +33,7 @@ export class App extends React.Component<{}, State> {
     const text = event.target.value;
 
     this.setState({
-      newTodoTitle: text,
+      todoTitle: text,
     });
   };
 
@@ -48,9 +48,9 @@ export class App extends React.Component<{}, State> {
   };
 
   handleSubmit = () => {
-    const { userId, newTodoTitle } = this.state;
+    const { userId, todoTitle } = this.state;
 
-    if (!newTodoTitle) {
+    if (!todoTitle) {
       return;
     }
 
@@ -61,7 +61,7 @@ export class App extends React.Component<{}, State> {
     const newTodo: Todo = {
       id: nextID,
       userId,
-      title: newTodoTitle,
+      title: todoTitle,
       completed: false,
       user: currentUser,
     };
@@ -71,7 +71,7 @@ export class App extends React.Component<{}, State> {
         ...state.todos,
         newTodo,
       ],
-      newTodoTitle: '',
+      todoTitle: '',
       userId: 1,
     }));
   };
@@ -90,9 +90,9 @@ export class App extends React.Component<{}, State> {
             <input
               placeholder="Enter your task"
               type="text"
-              name="newTodoTitle"
+              name="todoTitle"
               onChange={this.handleTitleChange}
-              value={this.state.newTodoTitle}
+              value={this.state.todoTitle}
             />
           </form>
           <select
@@ -100,6 +100,7 @@ export class App extends React.Component<{}, State> {
             name=""
             onChange={this.handleUserChange}
           >
+            <option>Choose a user</option>
             {users.map(({ id, name }) => (
               <option key={id} value={id}>{name}</option>
             ))}
