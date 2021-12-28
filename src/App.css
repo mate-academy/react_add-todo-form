@@ -1,3 +1,29 @@
 .App {
   text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.todo-list {
+  margin: 0 auto;
+  width: 500px;
+  height: 25px;
+}
+
+.todo__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 65, 65);
 }
