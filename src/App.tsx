@@ -24,7 +24,7 @@ export class App extends React.Component<{}, State> {
   state: State = {
     todos: [...preparedTodos],
     todoTitle: '',
-    userId: 1,
+    userId: 0,
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
