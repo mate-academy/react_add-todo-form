@@ -86,7 +86,7 @@ class App extends React.Component<{}, State> {
     this.setState(prevState => {
       const newTodo: PreparedTodo = {
         userId: Number(userId),
-        id: this.state.todosArr.length + 1,
+        id: prevState.todosArr.length + 1,
         title,
         completed: false,
         user: users.find(user => user.id === userId),
