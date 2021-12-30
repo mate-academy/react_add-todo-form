@@ -121,7 +121,7 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <TodoList prepared={todosArr} />
+        <TodoList todos={todosArr} />
         <h1>Add todo form</h1>
         <form onSubmit={this.handleSubmit} className="todo-list">
           <div className="todo__item">
