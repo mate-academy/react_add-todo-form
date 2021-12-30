@@ -153,8 +153,7 @@ class App extends React.Component<{}, State> {
               <option value="" className="todo__item option">
                 Choose a user
               </option>
-              {users
-                .map(user => (
+              {users.map(user => (
                   <option
                     className="todo__item option"
                     key={user.id}
