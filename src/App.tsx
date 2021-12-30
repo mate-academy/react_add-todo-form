@@ -106,7 +106,10 @@ class App extends React.Component<{}, State> {
     if (this.validateTitle(title) && this.validateUser(userId)) {
       this.addTodo(title, userId);
       this.setState({
-        title: '', userId: 0, titleErrorMessage: '', userIdErrorMessage: '',
+        title: '',
+        userId: 0,
+        titleErrorMessage: '',
+        userIdErrorMessage: '',
       });
     }
   };
