@@ -1,5 +1,6 @@
 import React from 'react';
 import { PreparedTodo } from '../../type/preparedtodo';
+import { User } from '../../type/user';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoList.scss';
@@ -19,7 +20,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
               {' - '}
             </span>
           )}
-          <UserInfo user={todo?.user} />
+          <UserInfo user={todo.user as User} />
         </li>
       );
     })}

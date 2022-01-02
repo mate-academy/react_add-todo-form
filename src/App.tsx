@@ -9,10 +9,11 @@ import { PreparedTodo } from './type/preparedtodo';
 import todos from './api/todos';
 import users from './api/users';
 import { Todo } from './type/todo';
+import { User } from './type/user';
 
 const preparedTodos = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId),
+  user: users.find(user => user.id === todo.userId) as User,
 }));
 
 type State = {
@@ -89,7 +90,7 @@ class App extends React.Component<{}, State> {
         id: prevState.todosArr.length + 1,
         title,
         completed: false,
-        user: users.find(user => user.id === userId),
+        user: users.find((user: User) => user.id === userId) as User,
       };
 
       return {
