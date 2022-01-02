@@ -1,12 +1,13 @@
 .todo {
   list-style-type: none;
-  
-  &--item{
+
+  &--item {
   font: 2em sans-serif;
-  
+
     &:before {
       content: counter(item, disc) " ";
       color: red;
     }
   }
 }
+

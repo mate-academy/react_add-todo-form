@@ -2,7 +2,7 @@ import React from 'react';
 import { User } from '../../type/user';
 
 type Props = {
-  user: User | undefined;
+  user: User
 };
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
@@ -10,7 +10,7 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
     <>
       {user && (
         <span>
-          {`${user.name} - ${user.email}`}
+          {`${user?.name} - ${user?.email}`}
         </span>
       )}
     </>

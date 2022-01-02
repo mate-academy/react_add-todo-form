@@ -154,14 +154,14 @@ class App extends React.Component<{}, State> {
                 Choose a user
               </option>
               {users.map(user => (
-                  <option
-                    className="todo__item option"
-                    key={user.id}
-                    value={user.id}
-                  >
-                    {user.name}
-                  </option>
-                ))}
+                <option
+                  className="todo__item option"
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
             </select>
             {userIdErrorMessage
             && (

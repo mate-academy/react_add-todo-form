@@ -5,12 +5,12 @@ import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoList.scss';
 
 type Props = {
-  prepared: PreparedTodo[];
+  todos: PreparedTodo[];
 };
 
-export const TodoList: React.FC<Props> = ({ prepared }) => (
+export const TodoList: React.FC<Props> = ({ todos }) => (
   <ul className="todo">
-    {prepared.map(todo => {
+    {todos.map(todo => {
       return (
         <li key={todo.id} className="todo--item">
           <TodoInfo todo={todo} />
@@ -19,7 +19,7 @@ export const TodoList: React.FC<Props> = ({ prepared }) => (
               {' - '}
             </span>
           )}
-          <UserInfo user={todo.user} />
+          <UserInfo user={todo?.user} />
         </li>
       );
     })}
