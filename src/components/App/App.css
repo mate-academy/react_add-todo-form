@@ -1,0 +1,21 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 30px;
+  gap: 30px;
+  width: 600px;
+  margin: 0 auto;
+  background: rgba(94, 64, 64, 0.47);
+}
+
+.App__error {
+  position: absolute;
+  left: 34px;
+  top: 71px;
+  background-color: rgba(255, 0, 0, 0.45);
+  border-radius: 6px;
+  padding: 10px;
+}

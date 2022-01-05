@@ -1,0 +1,9 @@
+.User-info {
+  display: flex;
+  justify-content: space-around;
+  color: rgb(0, 0, 0);
+}
+
+.User-info__item {
+  margin: 5px 0 0;
+}

@@ -1,0 +1,29 @@
+.TodoList {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.TodoList__item {
+  padding: 15px 30px;
+  text-align: center;
+}
+
+.TodoList__item:nth-child(odd) {
+  background-color: rgba(94, 64, 64, 0.45);
+}
+
+.TodoList__item:last-child {
+  border-radius: 0 0 30px 30px;
+}
+
+.TodoList__title {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
+.TodoList__completed {
+  margin: 0;
+}
