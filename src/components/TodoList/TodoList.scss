@@ -1,0 +1,21 @@
+table {
+  border-collapse: collapse;
+  min-width: 600px;
+  max-width: 1000px;
+  border-spacing: 0;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 18px;
+  border-bottom: 1px solid #ff8c00;
+}
+
+.todo__status {
+  color: #f00;
+
+  &--completed {
+    color: #008000;
+  }
+}
