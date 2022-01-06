@@ -15,7 +15,6 @@ export const TodoList: React.FC<Props> = ({ preparedTodos }) => (
         <th>Status</th>
         <th>Responsible person</th>
         <th>Person&apos;s email</th>
-        <th>{}</th>
       </tr>
     </thead>
     <tbody>
