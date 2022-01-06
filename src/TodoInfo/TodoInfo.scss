@@ -1,0 +1,49 @@
+.todoBlock {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid rgb(132, 132, 255);
+  padding: 15px 20px;
+  border-radius: 10px;
+  align-items: flex-start;
+  background-color: aliceblue;
+  position: relative;
+
+  &__title {
+    font-size: 25px;
+  }
+
+  &__status {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__respPerson {
+    margin: 20px 0 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 900;
+    font-style: italic;
+  }
+
+  &__closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    outline: none;
+    border: transparent;
+    background-color: grey;
+    color: #fff;
+    transition: box-shadow 0.3s;
+    font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 2px 2px 6px black;
+    }
+  }
+}
