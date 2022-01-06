@@ -46,7 +46,6 @@ class App extends React.Component<{}, State> {
     }
 
     const currentUser = users.find(user => user.name === this.state.user);
-
     const newIdNumberForNewTodo = () => {
       let max = 0;
 
@@ -113,6 +112,10 @@ class App extends React.Component<{}, State> {
               maxLength={50}
               value={this.state.title}
               onChange={(event) => {
+                if (event.target.value === ' ') {
+                  return;
+                }
+
                 this.setState(() => ({
                   title: event.target.value,
                   titleError: false,
