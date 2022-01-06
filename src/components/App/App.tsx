@@ -32,7 +32,7 @@ export class App extends React.Component<{}, State> {
   };
 
   checkForm = () => {
-    if (!this.state.title) {
+    if (!this.state.title.trim()) {
       this.setState({ error: 'Please enter the title' });
 
       return;
@@ -76,13 +76,11 @@ export class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        {this.state.error
-          ? (
-            <div className="App__error">
-              <p>{this.state.error}</p>
-            </div>
-          )
-          : ''}
+        {this.state.error && (
+          <div className="App__error">
+            <p>{this.state.error}</p>
+          </div>
+        )}
 
         <div className="App__content">
           <h1>Add todo form</h1>

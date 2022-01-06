@@ -20,7 +20,7 @@ export const TodoList: React.FC<Props> = ({ todoList }) => {
           >
             {elem.completed
               ? 'Completed'
-              : 'No completed'}
+              : 'Not completed'}
           </p>
           {elem.user
             ? <UserInfo userInfo={elem.user} />
