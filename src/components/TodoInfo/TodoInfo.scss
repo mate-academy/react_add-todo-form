@@ -1,3 +1,18 @@
 .todo__title {
   text-transform: uppercase;
 }
+
+.button__remove {
+  color: #fff;
+  background-color: #bd5136;
+  font-size: 16px;
+  border: 1px solid #bd5136;
+  border-radius: 8px;
+  padding: 8px 30px;
+  cursor: pointer;
+
+  &:hover {
+    color: #bd5136;
+    background-color: #fff;
+  }
+}

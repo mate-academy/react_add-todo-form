@@ -59,7 +59,13 @@ button {
   }
 }
 
-.title__error,
-.user__error {
+.error {
+  display: block;
+  opacity: 0;
   color: red;
+  margin-bottom: 4px;
+
+  &__show {
+    opacity: 1;
+  }
 }

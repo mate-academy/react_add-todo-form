@@ -36,23 +36,20 @@ export class App extends React.Component<{}, State> {
   addTodo = () => {
     if (!this.state.title.trim().length) {
       this.setState(state => ({
-        title: 'you should add a todo',
         titleError: !state.titleError,
       }));
 
       return;
     }
 
-    if (!this.state.title.match(/^[a-zA-Z0-9]/)) {
+    if (this.state.title.match(/[^a-zA-Zа-яА-Я0-9]/)) {
       this.setState(state => ({
-        title: 'only letters and digits',
         titleError: !state.titleError,
       }));
     }
 
     if (!this.state.name.length) {
       this.setState(state => ({
-        name: 'you should add a user',
         nameError: !state.nameError,
       }));
 
@@ -60,6 +57,10 @@ export class App extends React.Component<{}, State> {
     }
 
     const todoId = () => {
+      if (this.state.addedTodos.length === 0) {
+        return 1;
+      }
+
       const array = this.state.addedTodos.map(item => item.id);
       const maxNum = Math.max(...array);
 
@@ -84,7 +85,7 @@ export class App extends React.Component<{}, State> {
 
   removeTodo = (id: number) => {
     this.setState(state => ({
-      addedTodos: state.addedTodos.filter(item => item.id !== id),
+      addedTodos: [...state.addedTodos].filter(item => item.id !== id),
     }));
   };
 
@@ -95,7 +96,7 @@ export class App extends React.Component<{}, State> {
       <div className="App">
         <h1>Todos list</h1>
 
-        <TodoList preparedTodos={addedTodos} />
+        <TodoList preparedTodos={addedTodos} removeTodo={this.removeTodo} />
 
         <h2>Here you can add you todo to the list</h2>
 
@@ -107,33 +108,35 @@ export class App extends React.Component<{}, State> {
           <input
             type="text"
             name="title"
-            className={classNames({ title__error: this.state.titleError })}
             placeholder="Add todo"
             value={this.state.title}
             onChange={(event) => {
               this.setState({ title: event.target.value });
             }}
-            onFocus={(e) => {
-              if (e.target.value === 'you should add a todo' || e.target.value === 'only letters and digits') {
+            onFocus={() => {
+              if (this.state.titleError) {
                 this.setState(state => ({
-                  title: '',
                   titleError: !state.titleError,
                 }));
               }
             }}
           />
+          <span
+            className={classNames('error', { error__show: this.state.titleError })}
+          >
+            You should add a todo using only letters and digits
+          </span>
           <select
             name="name"
             id="name"
             value={this.state.name}
-            className={classNames({ user__error: this.state.nameError })}
             onChange={(event) => {
               this.setState({
                 name: event.target.value,
               });
             }}
-            onFocus={(e) => {
-              if (e.target.value === 'you should add a user') {
+            onFocus={() => {
+              if (this.state.nameError) {
                 this.setState(state => ({
                   nameError: !state.nameError,
                 }));
@@ -141,7 +144,6 @@ export class App extends React.Component<{}, State> {
             }}
           >
             <option value="">Choose a responsible person</option>
-            <option value="you should add a user" hidden>you should add a user</option>
             {users.map(user => (
               <option
                 key={user.name}
@@ -151,6 +153,11 @@ export class App extends React.Component<{}, State> {
               </option>
             ))}
           </select>
+          <span
+            className={classNames('error', { error__show: this.state.nameError })}
+          >
+            You should add user
+          </span>
           <button
             type="submit"
             onClick={this.addTodo}

@@ -5,9 +5,11 @@ import './TodoInfo.scss';
 
 type Props = {
   todo: Todos;
+  // eslint-disable-next-line
+  removeTodo: any,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
+export const TodoInfo: React.FC<Props> = ({ todo, removeTodo }) => (
   <>
     <td>
       {todo.title}
@@ -16,5 +18,14 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
       {todo.completed ? 'completed' : 'in progress'}
     </td>
     {todo.user && <UserInfo user={todo.user} />}
+    <td>
+      <button
+        type="button"
+        className="button__remove"
+        onClick={() => removeTodo(todo.id)}
+      >
+        remove todo
+      </button>
+    </td>
   </>
 );
