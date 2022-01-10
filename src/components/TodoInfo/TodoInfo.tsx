@@ -5,8 +5,7 @@ import './TodoInfo.scss';
 
 type Props = {
   todo: Todos;
-  // eslint-disable-next-line
-  removeTodo: any,
+  removeTodo: (id: number) => void,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo, removeTodo }) => (

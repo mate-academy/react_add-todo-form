@@ -6,8 +6,7 @@ import './TodoList.scss';
 
 type Props = {
   preparedTodos: Todos[],
-  // eslint-disable-next-line
-  removeTodo: any,
+  removeTodo: (id: number) => void,
 };
 
 export const TodoList: React.FC<Props> = ({ preparedTodos, removeTodo }) => (
