@@ -1,0 +1,59 @@
+$base-color: #0075ff;
+$white-color: #fff;
+$error-color: #f00;
+
+.app {
+  margin: 50px auto 0;
+  padding: 24px;
+  width: 600px;
+  font-family: Arial, Helvetica, sans-serif;
+
+  &__title,
+  &__add-todo {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  &__add-todo {
+    text-align: start;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+  }
+
+  &__form-item {
+    min-width: 300px;
+    height: 40px;
+    margin: 0 24px 8px 0;
+    padding: 8px 10px;
+    font-size: 16px;
+  }
+
+  &__error-message {
+    color: $error-color;
+    margin-bottom: 8px;
+  }
+
+  &__button {
+    padding: 12px 24px;
+    background-color: $base-color;
+    color: $white-color;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid $base-color;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+
+    &--form {
+      max-width: 300px;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
