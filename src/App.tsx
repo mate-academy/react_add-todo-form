@@ -142,7 +142,7 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="app">
-        <h1 className="app__title">Todos</h1>
+        {todoList.length > 0 && <h1 className="app__title">Todos</h1>}
         <TodoList
           todos={todoList}
           onRemove={this.removeTodo}
