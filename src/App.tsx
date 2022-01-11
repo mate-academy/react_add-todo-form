@@ -34,30 +34,12 @@ class App extends React.Component<{}, State> {
     target: {
       name: string;
       value: string;
-      id: string;
-      // type: string;
-      // checked: boolean;
     };
   }): void => {
     const {
       name,
       value,
-      id,
-      // type,
-      // checked,
     } = event.target;
-
-    const completedTodo = this.state.todoList.find(todo => todo.id === +id);
-
-    // eslint-disable-next-line no-console
-    console.log(completedTodo);
-
-    // if (type === 'checkbox') {
-    //   this.setState(state => ({
-    //     ...state,
-    //     state.todoList.find(todo => todo.id === +id).completed: checked,
-    //   }));
-    // }
 
     this.setState(state => ({
       ...state,
@@ -70,8 +52,38 @@ class App extends React.Component<{}, State> {
       });
     }
 
+    if (name === 'selectedUser') {
+      this.setState({
+        isUserSelected: true,
+      });
+    }
+  };
+
+  checkBoxChange = (event: {
+    target: {
+      id: string;
+      type: string;
+      checked: boolean;
+    };
+  }): void => {
+    const {
+      id,
+      checked,
+    } = event.target;
+
+    const { todoList } = this.state;
+    const newTodoList = [...todoList];
+
+    const targetTodo = newTodoList.find(
+      (todo) => todo.id === Number(id),
+    );
+
+    if (targetTodo) {
+      targetTodo.completed = checked;
+    }
+
     this.setState({
-      isUserSelected: true,
+      todoList: newTodoList,
     });
   };
 
@@ -134,7 +146,7 @@ class App extends React.Component<{}, State> {
         <TodoList
           todos={todoList}
           onRemove={this.removeTodo}
-          onChange={this.handleChange}
+          checkBoxChange={this.checkBoxChange}
         />
         <h1 className="app__add-todo">Add todo</h1>
         <form

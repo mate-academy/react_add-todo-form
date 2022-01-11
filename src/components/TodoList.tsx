@@ -5,13 +5,11 @@ import './TodoList.scss';
 type Props = {
   todos: Todo[];
   onRemove: (id: number) => void;
-  onChange: (event: {
+  checkBoxChange: (event: {
     target: {
-      name: string;
-      value: string;
       id: string;
-      // type: string;
-      // checked: boolean;
+      type: string;
+      checked: boolean;
     };
   }) => void;
 };
@@ -19,7 +17,7 @@ type Props = {
 export const TodoList: React.FC<Props> = ({
   todos,
   onRemove,
-  onChange,
+  checkBoxChange,
 }) => (
   <ul className="todos">
     {todos.map(todo => (
@@ -30,7 +28,7 @@ export const TodoList: React.FC<Props> = ({
             id={todo.id.toString()}
             name="isTodoCompleted"
             checked={todo.completed}
-            onChange={onChange}
+            onChange={checkBoxChange}
             className="todos__todo-ckeckbox"
           />
           <div className="todos__todo-info">
