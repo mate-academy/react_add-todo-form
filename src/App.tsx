@@ -22,7 +22,7 @@ type State = {
 };
 
 class App extends React.Component<{}, State> {
-  state = {
+  state: State = {
     todoList: preparedTodos,
     selectedUser: '',
     enteredTodo: '',
@@ -87,7 +87,7 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  addTodo = (event: React.FormEvent) => {
+  addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {
       todoList,
@@ -148,7 +148,7 @@ class App extends React.Component<{}, State> {
           onRemove={this.removeTodo}
           checkBoxChange={this.checkBoxChange}
         />
-        <h1 className="app__add-todo">Add todo</h1>
+        <h1 className="app__title">Add todo</h1>
         <form
           className="app__form"
           onSubmit={this.addTodo}
@@ -173,9 +173,9 @@ class App extends React.Component<{}, State> {
               ))}
             </select>
             {!isUserSelected && (
-              <span className="app__error-message">
+              <div className="app__error-message">
                 *Please select a user
-              </span>
+              </div>
             )}
           </div>
 
@@ -190,14 +190,14 @@ class App extends React.Component<{}, State> {
               onChange={this.handleChange}
             />
             {!isTodoEntered && (
-              <span className="app__error-message">
-                *Please enter a new todo
-              </span>
+              <div className="app__error-message">
+                *Please enter new todo
+              </div>
             )}
           </div>
           <button
             type="submit"
-            className="app__button app__button--form"
+            className="app__button"
           >
             Add
           </button>
