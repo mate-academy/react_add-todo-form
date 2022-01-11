@@ -7,12 +7,14 @@ import './TodoList.scss';
 type Props = {
   preparedTodos: Todos[],
   removeTodo: (id: number) => void,
+  switchTodo: (id: number, completed: boolean) => void,
 };
 
-export const TodoList: React.FC<Props> = ({ preparedTodos, removeTodo }) => (
+export const TodoList: React.FC<Props> = ({ preparedTodos, removeTodo, switchTodo }) => (
   <table>
     <thead>
       <tr>
+        <th>{}</th>
         <th>Todo</th>
         <th>Status</th>
         <th>Responsible person</th>
@@ -24,9 +26,12 @@ export const TodoList: React.FC<Props> = ({ preparedTodos, removeTodo }) => (
       {preparedTodos.map(todo => (
         <tr
           key={todo.id}
-          className={classNames('todo__status', { 'todo__status--completed': todo.completed })}
+          className={classNames(
+            'todo__status',
+            { 'todo__status--completed': todo.completed },
+          )}
         >
-          <TodoInfo todo={todo} removeTodo={removeTodo} />
+          <TodoInfo todo={todo} removeTodo={removeTodo} switchTodo={switchTodo} />
         </tr>
       ))}
     </tbody>

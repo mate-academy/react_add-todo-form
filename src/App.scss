@@ -43,7 +43,7 @@ select {
   }
 }
 
-button {
+.button {
   color: #fff;
   background-color: #3836bd;
   font-size: 16px;
@@ -55,6 +55,38 @@ button {
   &:hover {
     color: #2d63c8;
     background-color: #fff;
+  }
+
+  &__remove {
+    background-color: #bd5136;
+    border: 1px solid #bd5136;
+
+    &:hover {
+      color: #bd5136;
+      background-color: #fff;
+    }
+  }
+
+  &__switch {
+    width: 120px;
+    background-color: #008000;
+    border: 1px solid #008000;
+
+    &:hover {
+      color: #008000;
+      background-color: #fff;
+    }
+    
+
+    &--todo {
+      background-color: #f00;
+      border: 1px solid #f00;
+
+      &:hover {
+        color: #f00;
+        background-color: #fff;
+      }
+    }
   }
 }
 

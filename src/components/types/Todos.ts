@@ -1,7 +1,7 @@
 import { User } from './User';
 
 export interface Todos {
-  userId: number | undefined;
+  userId?: number;
   id: number;
   title: string;
   completed: boolean;
