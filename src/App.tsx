@@ -77,6 +77,8 @@ export class App extends React.Component<{}, State> {
       this.setState(state => ({
         titleError: !state.titleError,
       }));
+
+      return;
     }
 
     if (!this.state.name.length) {
