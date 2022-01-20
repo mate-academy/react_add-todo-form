@@ -33,6 +33,10 @@ class App extends React.Component<{}, State> {
       return;
     }
 
+    this.setState({
+      errorUser: '',
+    });
+
     if (this.state.newTitle.length === 0) {
       this.setState({
         errorTitle: 'Please enter the title',
@@ -40,6 +44,10 @@ class App extends React.Component<{}, State> {
 
       return;
     }
+
+    this.setState({
+      errorTitle: '',
+    });
 
     const newTodo = {
       userId: newUser.id,
