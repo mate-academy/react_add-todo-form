@@ -1,3 +1,22 @@
 .App {
+  margin: 0 auto;
   text-align: center;
+  border: 1px solid grey;
+  max-width: 500px;
+}
+
+.label {
+  display: block;
+  margin: 10px 0;
+}
+
+#todo-title,
+#select-user {
+  margin-left: 10px;
+}
+
+.error {
+  color: red;
+  margin: 10px;
+  padding: 5px;
 }
