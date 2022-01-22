@@ -56,6 +56,7 @@ class App extends React.Component<{}, State> {
         newTodo,
       ],
       title: '',
+      userId: 0,
     }));
   };
 
