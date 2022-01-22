@@ -1,3 +1,69 @@
+body {
+  background-color: rgb(219, 219, 219);
+  font-family: "Mochiy Pop P One", sans-serif;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 150px;
+  background-color: rgb(238, 13, 13, 0.9);
+  border-radius: 5px;
+  border: 1px solid rgb(255, 0, 0);
+  color: whitesmoke;
+}
+
+.error__user {
+  top: 145px;
+}
+
 .App {
+  margin: 30px auto;
+  max-width: 400px;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 5px;
   text-align: center;
+  background-color: whitesmoke;
+}
+
+.main__title {
+  font-size: 22px;
+  margin: 5px 20px;
+  text-align: right;
+  color: dodgerblue;
+}
+
+.form {
+  padding: 10px 10px 0;
+  margin: 0 20px 20px;
+  border: 1px solid rgb(194, 194, 194);
+  background-color: rgb(219, 219, 219);
+  border-radius: 5px;
+}
+
+.input__container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10px 15px;
+}
+
+.input__field {
+  border-color: rgb(194, 194, 194);
+  border-radius: 5px;
+  background-color: whitesmoke;
+}
+
+.button__container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit__button {
+  background-color: whitesmoke;
+  color: dodgerblue;
+  display: inline-block;
+  padding: 5px 10px;
+  font-family: "Mochiy Pop P One", sans-serif;
 }
