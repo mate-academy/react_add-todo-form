@@ -39,7 +39,7 @@ export class App extends React.Component<{}, State> {
   changeTitle = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({
       title: event.currentTarget.value,
-      isTitleCorrect: this.checkTitle(event.currentTarget.value.split('')),
+      isTitleCorrect: this.checkTitle(event.currentTarget.value.split('')) && (event.currentTarget.value.trim().length > 0),
     });
   };
 
