@@ -67,3 +67,31 @@ body {
   padding: 5px 10px;
   font-family: "Mochiy Pop P One", sans-serif;
 }
+
+.todos {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(146, 224, 238);
+}
+
+.todo__title {
+  display: flex;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.todo__content {
+  background-color: #fff;
+  display: flex;
+  justify-content: flex-end;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 5px;
+}
+
+.todo__cell {
+  background-color: rgb(101, 206, 223);
+  border-color: rgb(79, 168, 182);
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+}
