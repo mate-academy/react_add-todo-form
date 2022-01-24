@@ -37,7 +37,7 @@ class App extends React.Component<{}, State> {
       errorUser: '',
     });
 
-    if (this.state.newTitle.length === 0) {
+    if (this.state.newTitle.trim().length === 0) {
       this.setState({
         errorTitle: 'Please enter the title',
       });
@@ -77,25 +77,26 @@ class App extends React.Component<{}, State> {
   };
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const input = (event.target as HTMLSelectElement).value;
+    const input = event.currentTarget.value;
 
     this.setState({ userName: input });
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = (event.target as HTMLInputElement).value;
+    const input = event.currentTarget.value;
 
     this.setState({ newTitle: input });
+  };
+
+  defaultPreventer = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
 
   render() {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-        }}
-        >
+        <form onSubmit={this.defaultPreventer}>
           <input
             type="text"
             name="newTitle"
