@@ -6,12 +6,12 @@ import todos from './api/todos';
 
 import './App.scss';
 
-interface State {
+type State = {
   todoList: TodoWithUser[],
   title: string,
   user: string,
   isTitleCorrect: boolean,
-}
+};
 
 const preparedTodos: TodoWithUser[] = todos.map((todo) => ({
   ...todo,
@@ -21,7 +21,7 @@ const preparedTodos: TodoWithUser[] = todos.map((todo) => ({
 export class App extends React.Component<{}, State> {
   state: State = {
     title: '',
-    user: '',
+    user: 'Leanne Graham',
     todoList: preparedTodos,
     isTitleCorrect: true,
   };
@@ -76,7 +76,7 @@ export class App extends React.Component<{}, State> {
     return this.setState(state => ({
       todoList: [...state.todoList, newTodo],
       title: '',
-      user: '',
+      user: 'Leanne Graham',
     }));
   };
 
