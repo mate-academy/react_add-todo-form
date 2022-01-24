@@ -59,9 +59,7 @@ export class App extends React.Component<{}, State> {
     } = this.state;
 
     if (!title || !isTitleCorrect) {
-      return this.setState({
-        isTitleCorrect: false,
-      });
+      return 0;
     }
 
     const selectedUser = users.find(person => person.name === user);
@@ -103,7 +101,7 @@ export class App extends React.Component<{}, State> {
             />
 
             {!this.state.isTitleCorrect && (
-              <div className="error-msg">
+              <div>
                 *Please enter correct title (use only RU or EN alphabet and digits/spaces)
               </div>
             )}

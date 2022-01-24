@@ -9,10 +9,10 @@ interface Props {
 export const TodoCard: React.FC<Props> = ({ todoItem }) => {
   return (
     <>
-      <p className="todo-list__id">{`ID: ${todoItem.id}`}</p>
+      <p>{`ID: ${todoItem.id}`}</p>
       <h2 className="todo-list__title">{todoItem.title}</h2>
       {todoItem.user && (
-        <p className="todo-list__user">
+        <p>
           {`User: ${todoItem.user.name}`}
         </p>
       )}
