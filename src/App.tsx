@@ -45,12 +45,13 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  addTask = () => {
+  addTask = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const { title, selectedUser } = this.state;
     const userFromSelect = this.state.users.find(user => user.name === selectedUser);
 
     if (!userFromSelect || !title.trim().length) {
-      return this.Error();
+      return this.showError();
     }
 
     const newTodo: Todo = {
@@ -67,7 +68,7 @@ class App extends React.Component<{}, State> {
     }));
   };
 
-  Error = () => {
+  showError = () => {
     if (!this.state.title.trim().length) {
       this.setState({
         titleValidation: false,
@@ -82,13 +83,20 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
+    const {
+      userValidation,
+      titleValidation,
+      title,
+      selectedUser,
+    } = this.state;
+
     return (
       <div className="App">
         <form
           className="form"
           action=""
           method="GET"
-          onSubmit={e => (e.preventDefault())}
+          onSubmit={this.addTask}
         >
           <label
             htmlFor="todo-title"
@@ -99,10 +107,10 @@ class App extends React.Component<{}, State> {
               id="todo-title"
               type="text"
               name="title"
-              value={this.state.title}
+              value={title}
               onChange={this.changeHandle}
             />
-            {!this.state.titleValidation
+            {!titleValidation
               && (
                 <span className="error">
                   Please enter a task
@@ -117,7 +125,7 @@ class App extends React.Component<{}, State> {
             <select
               id="select-user"
               name="selectedUser"
-              value={this.state.selectedUser}
+              value={selectedUser}
               onChange={this.changeHandle}
             >
               <option value="">
@@ -134,7 +142,7 @@ class App extends React.Component<{}, State> {
                 ))
               }
             </select>
-            {!this.state.userValidation
+            {!userValidation
               && (
                 <span className="error">
                   Please choose a user
@@ -144,15 +152,14 @@ class App extends React.Component<{}, State> {
           <button
             type="submit"
             className="button"
-            onClick={this.addTask}
           >
             Add Task
           </button>
         </form>
 
         <TodoList
-          todos={this.state.todos}
-          users={this.state.users}
+          todos={todos}
+          users={users}
         />
       </div>
     );
