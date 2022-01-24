@@ -1,0 +1,18 @@
+.todo-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
+
+.todo-list__item {
+  height: 160px;
+  width: 360px;
+}
+
+.todo-list__item-title {
+  margin-bottom: 12px;
+}
