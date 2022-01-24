@@ -76,6 +76,18 @@ class App extends React.Component<{}, State> {
     }));
   };
 
+  handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const input = (event.target as HTMLSelectElement).value;
+
+    this.setState({ userName: input });
+  };
+
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = (event.target as HTMLInputElement).value;
+
+    this.setState({ newTitle: input });
+  };
+
   render() {
     return (
       <div className="App">
@@ -89,9 +101,7 @@ class App extends React.Component<{}, State> {
             name="newTitle"
             placeholder="Input title"
             onChange={(event) => {
-              this.setState({
-                newTitle: event.target.value,
-              });
+              this.handleTitleChange(event);
             }}
           />
           {this.state.errorTitle}
@@ -100,9 +110,7 @@ class App extends React.Component<{}, State> {
           <select
             name="newUser"
             onChange={(event) => {
-              this.setState({
-                userName: event.target.value,
-              });
+              this.handleUserChange(event);
             }}
           >
             <option value="">Choose an option</option>
