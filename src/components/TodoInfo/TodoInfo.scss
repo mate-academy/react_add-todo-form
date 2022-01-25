@@ -1,0 +1,17 @@
+.todo {
+  &__title {
+    font-size: 30px;
+    text-transform: capitalize;
+    color: rgb(2, 43, 180);
+  }
+
+  &__status {
+    color: red;
+    font-weight: bold;
+  }
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}
