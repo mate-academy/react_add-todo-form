@@ -8,22 +8,25 @@ import TodoList from './components/TodoList/TodoList';
 
 type State = {
   todos: Todo[];
-  selectedUserId: string;
-  todoDescription: string;
-  isUnselectedUser: boolean;
+  userId: number;
+  todoTitle: string;
+  isValidUser: boolean;
+  isValidTitle: boolean,
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
     todos,
-    selectedUserId: '0',
-    todoDescription: '',
-    isUnselectedUser: false,
+    userId: 0,
+    todoTitle: '',
+    isValidUser: true,
+    isValidTitle: true,
   };
 
   handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      selectedUserId: e.currentTarget.value,
+      userId: +e.currentTarget.value,
+      isValidUser: true,
     });
   };
 
@@ -33,38 +36,67 @@ class App extends React.Component<{}, State> {
     }
 
     this.setState({
-      todoDescription: e.currentTarget.value,
+      todoTitle: e.currentTarget.value,
+      isValidTitle: true,
     });
   };
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (this.state.selectedUserId === '0') {
-      this.setState({
-        isUnselectedUser: true,
-      });
+    const {
+      todoTitle,
+      userId,
+    } = this.state;
 
-      return;
+    if (userId && todoTitle.length) {
+      this.setState((state) => ({
+        todos: [
+          ...state.todos,
+          {
+            userId: +state.userId,
+            id: state.todos[state.todos.length - 1].id + 1,
+            title: state.todoTitle,
+            completed: false,
+          },
+        ],
+        userId: 0,
+        todoTitle: '',
+        isValidUser: true,
+        isValidTitle: true,
+      }));
+    } else {
+      this.showErrors();
+    }
+  };
+
+  showErrors = () => {
+    const {
+      todoTitle,
+      userId,
+    } = this.state;
+
+    if (!todoTitle.length) {
+      this.setState({
+        isValidTitle: false,
+      });
     }
 
-    this.setState((state) => ({
-      todos: [
-        ...state.todos,
-        {
-          userId: +state.selectedUserId,
-          id: state.todos[state.todos.length - 1].id + 1,
-          title: state.todoDescription,
-          completed: false,
-        },
-      ],
-      selectedUserId: '0',
-      todoDescription: '',
-      isUnselectedUser: false,
-    }));
+    if (!userId) {
+      this.setState({
+        isValidUser: false,
+      });
+    }
   };
 
   render() {
+    const {
+      todoTitle,
+      userId,
+      isValidTitle,
+      isValidUser,
+    } = this.state;
+
     return (
       <div className="App">
         <form
@@ -72,13 +104,14 @@ class App extends React.Component<{}, State> {
         >
           <input
             type="text"
-            required
             placeholder="Todo"
-            value={this.state.todoDescription}
+            value={todoTitle}
             onChange={this.handletodoChange}
           />
+          {!isValidTitle
+            && <span>Please enter the title</span>}
           <select
-            value={this.state.selectedUserId}
+            value={userId}
             onChange={this.handleUserChange}
           >
             <option value="0">
@@ -93,7 +126,7 @@ class App extends React.Component<{}, State> {
               </option>
             ))}
           </select>
-          {this.state.isUnselectedUser
+          {!isValidUser
             && <span>Please choose a user</span>}
           <button
             type="submit"
