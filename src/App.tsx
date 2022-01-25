@@ -5,20 +5,18 @@ import users from './api/users';
 import todos from './api/todos';
 
 import { TodoList } from './TodoList';
-// import { Todo } from './Types';
 
-// interface State {
-//   myTodos: Todo[],
-//   title: string,
-// }
+interface State {
+  myTodos: Todo[],
+  myUsers: User[],
+  title: string,
+  userId: string,
+}
 
-// interface Destruct {
-//   name: string,
-//   value: string,
-// }
+type Event = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
-class App extends React.Component<{}, any> {
-  state: any = {
+class App extends React.Component<{}, State> {
+  state: State = {
     myTodos: todos.map(todo => ({
       ...todo,
       user: users.find(person => person.id === todo.userId) || null,
@@ -30,40 +28,38 @@ class App extends React.Component<{}, any> {
     userId: '',
   };
 
-  change = (event: any) => {
+  change = (event: Event) => {
     const { name, value } = event.target;
 
-    this.setState({
+    this.setState((prev: State) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   updateTodos = () => {
-    this.setState((prev: any) => {
-      if (prev.title === '' || prev.userId === '') {
-        return 0;
+    this.setState((prev: State): State | undefined => {
+      if (prev.title !== '' || prev.userId !== '') {
+        prev.myTodos.push({
+          userId: +prev.userId,
+          id: prev.myTodos.length + 1,
+          title: prev.title,
+          completed: false,
+          user: prev.myUsers.find(person => person.id === +prev.userId) || null,
+        });
+
+        return {
+          ...prev,
+          title: '',
+          userId: '',
+        };
       }
 
-      prev.myTodos.push({
-        userId: prev.userId,
-        id: prev.myTodos.length + 1,
-        title: prev.title,
-        completed: false,
-        user: prev.myUsers.find((person: any) => person.id === +prev.userId),
-      });
-
-      return {
-        myTodos: prev.myTodos,
-        title: '',
-        userId: '',
-      };
+      return undefined;
     });
   };
 
   render() {
-    // eslint-disable-next-line
-    console.log(this.state);
-
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -84,7 +80,7 @@ class App extends React.Component<{}, any> {
             required
           >
             <option value="">Choose a user</option>
-            {this.state.myUsers.map((user: any) => (
+            {this.state.myUsers.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
                 {user.username}

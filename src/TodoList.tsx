@@ -1,5 +1,4 @@
 import React from 'react';
-import { Todo } from './Types';
 
 export const TodoList: React.FC<{ todos: Todo[] }> = ({ todos }) => {
   return (
