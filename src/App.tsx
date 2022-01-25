@@ -78,7 +78,7 @@ export default class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { todoList } = this.state;
+    const { todoList, chooseUser, chooseTitle } = this.state;
 
     return (
       <div className="App">
@@ -112,8 +112,8 @@ export default class App extends React.Component<{}, State> {
             Add
           </button>
           <div>
-            {this.state.chooseUser}
-            {this.state.chooseTitle}
+            {chooseUser}
+            {chooseTitle}
           </div>
           <TodoList todos={todoList} />
         </form>
