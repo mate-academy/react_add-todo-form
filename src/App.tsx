@@ -11,7 +11,7 @@ const preparedTodos: Todo[] = todos.map(todo => ({
 }));
 
 type State = {
-  todos: Todo[];
+  todoList: Todo[];
   title: string;
   userId: number;
   invalidTitle: boolean;
@@ -20,7 +20,7 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    todos: [...preparedTodos],
+    todoList: preparedTodos,
     title: '',
     userId: 0,
     invalidTitle: false,
@@ -45,20 +45,20 @@ class App extends React.Component<{}, State> {
     const {
       userId,
       title,
-      todos: allTodos,
+      todoList,
     } = this.state;
 
-    if (this.state.userId && this.state.title.trim()) {
+    if (userId && title.trim()) {
       const newTodo = {
-        user: users.find(user => user.id === this.state.userId) || null,
+        user: users.find(user => user.id === userId) || null,
         userId,
-        id: allTodos.length,
+        id: todoList.length + 1,
         title: title.trim(),
         completed: false,
       };
 
       this.setState((state) => ({
-        todos: [...state.todos, newTodo],
+        todoList: [...state.todoList, newTodo],
         title: '',
         userId: 0,
       }));
@@ -90,7 +90,7 @@ class App extends React.Component<{}, State> {
     const {
       userId,
       title,
-      todos: allTodos,
+      todoList,
       invalidTitle,
       invalidUser,
     } = this.state;
@@ -101,6 +101,7 @@ class App extends React.Component<{}, State> {
           <h2>Add todo form</h2>
           <form onSubmit={(event) => {
             event.preventDefault();
+            this.addTodo();
           }}
           >
             <div>
@@ -108,6 +109,7 @@ class App extends React.Component<{}, State> {
                 <input
                   type="text"
                   id="todo-title"
+                  name="title"
                   value={title}
                   onChange={this.handleTitleChange}
                   placeholder="Title"
@@ -120,7 +122,7 @@ class App extends React.Component<{}, State> {
 
             <div>
               <select
-                name="user"
+                name="userId"
                 value={userId}
                 onChange={this.handleUserChange}
               >
@@ -134,13 +136,13 @@ class App extends React.Component<{}, State> {
               )}
             </div>
 
-            <button type="submit" onClick={this.addTodo}>Add</button>
+            <button type="submit">Add</button>
           </form>
         </div>
 
         <div>
           <h2 className="list-title">Static list of todos</h2>
-          <TodoList preparedTodos={allTodos} />
+          <TodoList preparedTodos={todoList} />
         </div>
       </div>
     );
