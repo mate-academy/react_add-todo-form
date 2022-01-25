@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+
+.todo {
+  border: 1px solid salmon;
+}
+
+.todos {
+  margin-top: 30px;
+}
