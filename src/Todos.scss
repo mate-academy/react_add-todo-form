@@ -1,0 +1,28 @@
+.todo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+
+  &__list {
+  border: 2px solid black;
+  list-style: none;
+  text-align: center;
+  background-color: bisque;
+    &--completed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: greenyellow;
+      height: 50px;
+      font-weight: bold;
+    }
+    &--not-completed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: orangered;
+      height: 50px;
+      font-weight: bold;
+    }
+  }
+}
