@@ -1,68 +1,71 @@
 import React from 'react';
-import { TodoList } from './TodoList';
+import { TodoList } from './components/Todo/TodoList';
 
 import './App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
 
-const todosList: Todo[] = todos.map(todo => ({
+const getUserId = (id: number) => users.find((user) => user.id === id);
+
+const todosWithUsers: Todo[] = todos.map(todo => ({
   ...todo,
-  user: users.find(u => u.id === todo.userId) || null,
+  user: getUserId(todo.userId) || null,
 }));
 
 type State = {
-  todosNew: Todo[];
-  newTodoName: string;
-  selectedWhat: number;
-  todos2: string;
-  hasTitlerror: boolean;
+  todosCopy: Todo[];
+  todoTitle: string;
+  selectUser: number;
+  hasTitlError: boolean;
   hasSelectorError: boolean;
 };
 
-export class App extends React.Component<{}, State> {
+type Props = {};
+
+export class App extends React.Component<Props, State> {
   state: State = {
-    todosNew: [...todosList],
-    newTodoName: '',
-    selectedWhat: 0,
-    todos2: '',
-    hasTitlerror: false,
+    todosCopy: [...todosWithUsers],
+    todoTitle: '',
+    selectUser: 0,
+    hasTitlError: false,
     hasSelectorError: false,
   };
 
-  handleChangeNewtodoName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleNewTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      newTodoName: event.target.value,
+      todoTitle: event.target.value,
     });
   };
 
   handleSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      selectedWhat: +event.target.value,
+      selectUser: +event.target.value,
     });
   };
 
   clearState = () => {
     this.setState({
-      newTodoName: '',
-      selectedWhat: 0,
-      todos2: '',
+      todoTitle: '',
+      selectUser: 0,
+      hasTitlError: false,
+      hasSelectorError: false,
     });
   };
 
-  addNewTodosInArr = (newTodos: Todo) => {
+  addNewTodo = (todo: Todo) => {
     this.setState(prevState => ({
-      todosNew: [...prevState.todosNew, newTodos],
+      todosCopy: [...prevState.todosCopy, todo],
     }));
   };
 
   validateForm = () => {
-    const { newTodoName, selectedWhat } = this.state;
+    const { todoTitle, selectUser } = this.state;
 
-    if (!newTodoName || !selectedWhat) {
+    if (!todoTitle || !selectUser) {
       this.setState({
-        hasTitlerror: !newTodoName,
-        hasSelectorError: !selectedWhat,
+        hasTitlError: !todoTitle,
+        hasSelectorError: !selectUser,
       });
 
       return false;
@@ -72,18 +75,18 @@ export class App extends React.Component<{}, State> {
   };
 
   getNewTodo = () => {
-    const { todos2, newTodoName, selectedWhat } = this.state;
+    const { todosCopy, todoTitle, selectUser } = this.state;
 
     return {
-      userId: selectedWhat,
-      id: todos2.length + 1,
-      title: newTodoName,
+      userId: selectUser,
+      id: todosCopy.length + 1,
+      title: todoTitle,
       completed: false,
-      user: users.find(e => e.id === selectedWhat) || null,
+      user: getUserId(selectUser) || null,
     };
   };
 
-  handlerPreventDefault = (event: React.FormEvent) => {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const isFormValid = this.validateForm();
@@ -91,29 +94,30 @@ export class App extends React.Component<{}, State> {
     if (isFormValid) {
       const newTod = this.getNewTodo();
 
-      this.addNewTodosInArr(newTod);
+      this.addNewTodo(newTod);
       this.clearState();
-
-      // eslint-disable-next-line no-console
-      console.log(newTod);
     }
   };
 
   render() {
     const
       {
-        todosNew,
-        newTodoName,
-        selectedWhat,
-        hasTitlerror,
+        todosCopy,
+        todoTitle,
+        selectUser,
+        hasTitlError,
         hasSelectorError,
       } = this.state;
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
-        <form onSubmit={this.handlerPreventDefault}>
-          <button type="submit">Add</button>
+        <h1 className="App__title">Add todo form</h1>
+        <form
+          className="App__form"
+          onSubmit={this.handleSubmit}
+        >
+          <button className="App__button" type="submit">Add user</button>
+          {' '}
           <>
             <label
               htmlFor="title"
@@ -125,20 +129,21 @@ export class App extends React.Component<{}, State> {
               <input
                 type="text"
                 id="title"
-                value={newTodoName}
-                onChange={this.handleChangeNewtodoName}
-                className="input"
-                placeholder="Type some words"
+                value={todoTitle}
+                onChange={this.handleNewTodoTitle}
+                className="App__input"
+                placeholder="Type some title"
               />
-              {hasTitlerror && (
-                <span>Please, enter text</span>
+              {hasTitlError && (
+                <span className="App__error">Please enter the title</span>
               )}
             </section>
 
             <section>
               <select
-                value={selectedWhat}
+                value={selectUser}
                 onChange={this.handleSelector}
+                className="App__input"
               >
                 <option value="0">Choose a user</option>
                 {users.map(person => (
@@ -148,12 +153,12 @@ export class App extends React.Component<{}, State> {
                 ))}
               </select>
               {hasSelectorError && (
-                <span>Please select name</span>
+                <span className="App__error">Please choose a user</span>
               )}
             </section>
           </>
         </form>
-        <TodoList props={todosNew} />
+        <TodoList props={todosCopy} />
       </div>
     );
   }
