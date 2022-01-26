@@ -1,19 +1,38 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
-import users from './api/users';
+import { TodosList } from './components/TodosList/TodosList';
+import { AddTodosForm } from './components/AddTodosForm/AddTodosForm';
+import { preparedTodos } from './helpers';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
-  );
+type Props = {};
+type State = {
+  visibleTodos: Todo[],
 };
+
+class App extends React.PureComponent<Props, State> {
+  state: State = {
+    visibleTodos: [...preparedTodos],
+  };
+
+  addNewTodo = (newTodo: Todo) => {
+    this.setState((prevState) => ({
+      visibleTodos: [...prevState.visibleTodos, newTodo],
+    }));
+  };
+
+  render(): React.ReactNode {
+    const { visibleTodos } = this.state;
+
+    return (
+      <div className="App">
+        <h1 className="App__title">Add todo form</h1>
+
+        <AddTodosForm todos={visibleTodos} addNewTodo={this.addNewTodo} />
+        <TodosList todos={visibleTodos} />
+      </div>
+    );
+  }
+}
 
 export default App;

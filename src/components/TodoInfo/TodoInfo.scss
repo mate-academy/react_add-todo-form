@@ -1,0 +1,22 @@
+.todo {
+
+  &__title {
+    text-align: center;
+  }
+
+  &__condition-true {
+    color: green;
+  }
+
+  &__condition-false {
+    color: rgb(167, 1, 1);
+  }
+
+  &__user-name {
+    color: royalblue;
+  }
+
+  &__user-email {
+    color: rgb(62, 151, 253);
+  }
+}
