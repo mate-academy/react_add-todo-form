@@ -1,0 +1,11 @@
+.user {
+  &__name {
+    color: rgb(49, 70, 59);
+    font-size: 20px;
+  }
+
+  &__email {
+    font-weight: bold;
+    color: rgb(37, 29, 48);
+  }
+}
