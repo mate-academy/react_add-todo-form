@@ -12,7 +12,6 @@
 
   animation: createTodo;
   animation-duration: 1s;
-  animation-timing-function: cubic-bezier(1.0, 1.0, 0.7, 0.1);
 
   transition: transform 0.3s;
 
@@ -40,10 +39,10 @@
 @keyframes createTodo {
   from {
     opacity: 40%;
-    transform: translate3d(-100vw, -100vh, 0) scale3d(0, 0, 0);
+    transform: translate3d(-100vw, -100vh, 0) scale3d(0, 0, 0) rotateZ(-270deg);
   }
   to {
     opacity: 100%;
-    transform: translate3d(0, 0, 0) scale3d(100%, 100%, 100%);
+    transform: translate3d(0, 0, 0) scale3d(100%, 100%, 100%) rotateZ(0);
   }
 }
