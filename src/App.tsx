@@ -150,10 +150,8 @@ export class App extends React.PureComponent<{}, State> {
     return (
       <>
         <form
-          action="#"
           method="post"
           onSubmit={event => this.submit(event)}
-          id="form"
         >
           <p>Title:</p>
           <input
