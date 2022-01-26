@@ -69,8 +69,6 @@ class App extends React.Component<{}, State> {
 
       this.setState((state) => ({
         todos: [...state.todos, newTodo],
-        title: '',
-        userName: '',
       }));
 
       this.clearState();
@@ -118,12 +116,12 @@ class App extends React.Component<{}, State> {
               onChange={this.handleChangeTitle}
             />
             {hasTitleError && (
-              <span>
-                Please enter your ToDo
+              <span style={{ color: 'red' }}>
+                Please enter the title
               </span>
             )}
           </section>
-
+          <br />
           <section>
             <select
               name="user"
@@ -131,7 +129,7 @@ class App extends React.Component<{}, State> {
               onChange={this.handleSelect}
             >
               <option>
-                Please choose a user
+                Choose a user
               </option>
               {users.map((user) => (
                 <option key={user.id}>
@@ -140,15 +138,17 @@ class App extends React.Component<{}, State> {
               ))}
             </select>
             {hasUserError && (
-              <span>
-                Please choose user
+              <span style={{ color: 'red' }}>
+                Please choose a user
               </span>
             )}
           </section>
+          <br />
           <button
+            className="ui green button"
             type="submit"
           >
-            Add
+            Add ToDo
           </button>
         </form>
 
