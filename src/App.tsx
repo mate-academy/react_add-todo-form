@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
-import todos from './api/todos';
+import todosList from './api/todos';
 import { Todo } from './types/Todo';
 import TodoList from './components/TodoList/TodoList';
 
@@ -10,91 +10,108 @@ type State = {
   todos: Todo[];
   userId: number;
   todoTitle: string;
-  isValidUser: boolean;
-  isValidTitle: boolean,
+  hasUserError: boolean;
+  hasTitleError: boolean,
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
-    todos,
+    todos: todosList,
     userId: 0,
     todoTitle: '',
-    isValidUser: true,
-    isValidTitle: true,
+    hasUserError: false,
+    hasTitleError: false,
   };
 
   handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: +e.currentTarget.value,
-      isValidUser: true,
+      hasUserError: false,
     });
   };
 
   handletodoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.match(/[^a-zа-я0-9 ]/i)) {
+    const newTitle = e.currentTarget.value;
+
+    if (newTitle.match(/[^a-zа-я0-9 ]/i)) {
       return;
     }
 
     this.setState({
-      todoTitle: e.currentTarget.value,
-      isValidTitle: true,
+      todoTitle: newTitle,
+      hasTitleError: false,
+    });
+  };
+
+  getNewTodo = () => {
+    const { userId, todoTitle, todos } = this.state;
+
+    return ({
+      userId: +userId,
+      id: todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    });
+  };
+
+  addNewTodo = (todo: Todo) => {
+    this.setState((state) => ({
+      todos: [
+        ...state.todos,
+        todo,
+      ],
+    }));
+  };
+
+  clearState = () => {
+    this.setState({
+      userId: 0,
+      todoTitle: '',
+      hasUserError: false,
+      hasTitleError: false,
     });
   };
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const {
-      todoTitle,
-      userId,
-    } = this.state;
+    const isFormValid = this.validateForm();
 
-    if (userId && todoTitle.length) {
-      this.setState((state) => ({
-        todos: [
-          ...state.todos,
-          {
-            userId: +state.userId,
-            id: state.todos[state.todos.length - 1].id + 1,
-            title: state.todoTitle,
-            completed: false,
-          },
-        ],
-        userId: 0,
-        todoTitle: '',
-        isValidUser: true,
-        isValidTitle: true,
-      }));
-    } else {
-      this.showErrors();
+    if (isFormValid) {
+      const newTodo = this.getNewTodo();
+
+      this.addNewTodo(newTodo);
+      this.clearState();
     }
   };
 
-  showErrors = () => {
+  validateForm = () => {
     const {
       todoTitle,
       userId,
     } = this.state;
 
-    if (!todoTitle.length) {
+    const trimTitle = todoTitle.trim();
+
+    if (!trimTitle || !userId) {
       this.setState({
-        isValidTitle: false,
+        hasTitleError: !trimTitle,
+        hasUserError: !userId,
       });
+
+      return false;
     }
 
-    if (!userId) {
-      this.setState({
-        isValidUser: false,
-      });
-    }
+    return true;
   };
 
   render() {
     const {
+      todos,
       todoTitle,
       userId,
-      isValidTitle,
-      isValidUser,
+      hasTitleError,
+      hasUserError,
     } = this.state;
 
     return (
@@ -108,7 +125,7 @@ class App extends React.Component<{}, State> {
             value={todoTitle}
             onChange={this.handletodoChange}
           />
-          {!isValidTitle
+          {hasTitleError
             && <span>Please enter the title</span>}
           <select
             value={userId}
@@ -126,7 +143,7 @@ class App extends React.Component<{}, State> {
               </option>
             ))}
           </select>
-          {!isValidUser
+          {hasUserError
             && <span>Please choose a user</span>}
           <button
             type="submit"
@@ -135,7 +152,7 @@ class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
