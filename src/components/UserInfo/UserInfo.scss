@@ -1,0 +1,17 @@
+.user {
+  background-color: rgb(171, 210, 236);
+  padding: 5px;
+  border: 1px solid darkslateblue;
+  border-radius: 5px;
+  text-align: center;
+  width: max-content;
+  margin: 0 auto;
+
+  &__name {
+    margin: 0;
+  }
+
+  &__email {
+    margin: 0;
+  }
+}

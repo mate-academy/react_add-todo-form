@@ -1,0 +1,69 @@
+h1 {
+  margin-bottom: 50px;
+  text-decoration: underline;
+  color: darkslateblue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+  &__title {
+    text-align: center;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+  background-color: rgb(97, 201, 144);
+
+  &__input {
+    height: 40px;
+    width: 300px;
+    background-color: rgb(193, 252, 220);
+    box-shadow: inset 2px 2px 5px 1px rgba(0, 0, 0, 0.699);
+    font-size: 16px;
+    border-radius: 5px;
+
+    &::placeholder {
+      padding: 10px;
+    }
+  }
+
+  &__select {
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.699);
+    background-color: rgb(193, 252, 220);
+    font-size: 16px;
+    border-radius: 5px;
+    height: 35px;
+
+    &-option {
+      background-color: rgb(222, 252, 229);
+    }
+  }
+
+  &__button {
+    background-color: rgb(4, 155, 72);
+    border-radius: 5px;
+    color: rgb(193, 252, 220);
+    text-transform: uppercase;
+    font-size: 16px;
+
+    &:hover {
+      background-color: rgb(116, 207, 124);
+      cursor: pointer;
+    }
+  }
+
+  &__alert {
+    color: red;
+    font-weight: bold;
+  }
+}
