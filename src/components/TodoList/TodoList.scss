@@ -1,0 +1,23 @@
+.todo {
+  list-style-type: none;
+  padding-left: 0;
+
+  &__list {
+    width: 450px;
+    border: 2px solid gray;
+    padding: 0 20px 20px;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    color: rgb(3, 107, 121);
+  }
+
+  &__completed {
+    color: rgb(0, 173, 196);
+  }
+
+  &__not-completed {
+    color: rgb(72, 89, 92);
+  }
+}
