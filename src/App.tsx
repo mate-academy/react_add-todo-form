@@ -9,8 +9,8 @@ type State = {
   todos: Todo[],
   title: string,
   userName: string,
-  // titleError: string,
-  // userError: string,
+  hasTitleError: boolean,
+  hasUserError: boolean,
 };
 
 class App extends React.Component<{}, State> {
@@ -18,52 +18,90 @@ class App extends React.Component<{}, State> {
     todos: [...todos],
     title: '',
     userName: '',
-    // titleError: '',
-    // userError: '',
+    hasTitleError: false,
+    hasUserError: false,
+  };
+
+  clearState = () => {
+    this.setState({
+      title: '',
+      userName: '',
+      hasTitleError: false,
+      hasUserError: false,
+    });
+  };
+
+  validateForm = () => {
+    const { title, userName } = this.state;
+
+    if (!userName || !title) {
+      this.setState({
+        hasTitleError: true,
+        hasUserError: true,
+      });
+
+      return false;
+    }
+
+    return true;
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const isFormValid = this.validateForm();
+
+    if (isFormValid) {
+      const { title, userName } = this.state;
+      const newId = this.state.todos.length + 1;
+      const newUser: User | null = users.find(user => user.name === userName) || null;
+
+      if (!newUser) {
+        return;
+      }
+
+      const newTodo = {
+        userId: newUser.id,
+        id: newId,
+        completed: false,
+        user: newUser,
+        title,
+      };
+
+      this.setState((state) => ({
+        todos: [...state.todos, newTodo],
+        title: '',
+        userName: '',
+      }));
+
+      this.clearState();
+    }
   };
 
   handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    this.setState({ title: value });
+    this.setState({
+      title: value,
+      hasTitleError: false,
+    });
   };
 
   handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    this.setState({ userName: value });
-  };
-
-  addTodo = () => {
-    const { title, userName } = this.state;
-    const newId = this.state.todos.length + 1;
-    const newUser: User | null = users.find(user => user.name === userName) || null;
-
-    if (!newUser) {
-      return;
-    }
-
-    const newTodo = {
-      userId: newUser.id,
-      id: newId,
-      completed: false,
-      user: newUser,
-      title,
-    };
-
-    this.setState((state) => ({
-      todos: [...state.todos, newTodo],
-      title: '',
-      userName: '',
-    }));
+    this.setState({
+      userName: value,
+      hasUserError: false,
+    });
   };
 
   render() {
-    const { title, userName } = this.state;
+    const {
+      title,
+      userName,
+      hasTitleError,
+      hasUserError,
+    } = this.state;
 
     return (
       <div className="app">
@@ -72,30 +110,43 @@ class App extends React.Component<{}, State> {
           action="post"
           onSubmit={this.handleSubmit}
         >
-          <input
-            type="text"
-            placeholder="Enter your todo"
-            value={title}
-            onChange={this.handleChangeTitle}
-          />
-          <select
-            name="user"
-            value={userName}
-            onChange={this.handleSelect}
-          >
-            <option>
-              Please choose a user
-            </option>
-            {users.map((user) => (
-              <option key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <section>
+            <input
+              type="text"
+              placeholder="Enter your todo"
+              value={title}
+              onChange={this.handleChangeTitle}
+            />
+            {hasTitleError && (
+              <span>
+                Please enter your ToDo
+              </span>
+            )}
+          </section>
 
+          <section>
+            <select
+              name="user"
+              value={userName}
+              onChange={this.handleSelect}
+            >
+              <option>
+                Please choose a user
+              </option>
+              {users.map((user) => (
+                <option key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {hasUserError && (
+              <span>
+                Please choose user
+              </span>
+            )}
+          </section>
           <button
             type="submit"
-            onClick={this.addTodo}
           >
             Add
           </button>
