@@ -126,8 +126,7 @@ class App extends React.Component<{}, State> {
               >
                 <section className="field">
                   {hasTitleError && (
-                    // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                    <label>Please enter a task</label>
+                    <span className="ui small header red">Please enter a task</span>
                   )}
                   <input
                     type="text"
@@ -139,8 +138,7 @@ class App extends React.Component<{}, State> {
 
                 <section className="field">
                   {hasUserError && (
-                    // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                    <label>Please choose a user</label>
+                    <span className="ui small header red">Please choose a user</span>
                   )}
                   <select
                     value={selectedUserId}
