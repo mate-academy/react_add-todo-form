@@ -1,0 +1,10 @@
+.todo_info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__completed {
+    color: #00F;
+    padding: 10px;
+  }
+}

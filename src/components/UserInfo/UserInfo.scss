@@ -1,0 +1,19 @@
+.shortInfoOfUser {
+  display: flex;
+
+  font-size: 20px;
+  padding: 20px;
+  &__name {
+    color: #444;
+
+    padding-right: 10px;
+  }
+
+  &__email {
+    color: #0ba;
+    font-style: italic;
+    &:hover {
+      color: #777;
+    }
+  }
+}
