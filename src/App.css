@@ -1,3 +1,36 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
 .App {
   text-align: center;
+}
+
+.form {
+  max-width: 500px;
+  height: 200px;
+  margin: 20px auto;
+}
+
+.form__label {
+  display: inline-block;
+}
+
+.form__input {
+  width: 300px;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.form__select {
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.form__error {
+  margin-left: 10px;
+  text-decoration: red underline;
+}
+
+.form__button {
+  display: block;
+  margin: 0 auto;
 }
