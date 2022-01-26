@@ -41,9 +41,6 @@ class App extends React.PureComponent<{}, State> {
     this.setState({
       userId: Number(event?.target.value),
       hasUserSelectError: false,
-    }, () => {
-      // eslint-disable-next-line no-console
-      console.log(this.state);
     });
   };
 
