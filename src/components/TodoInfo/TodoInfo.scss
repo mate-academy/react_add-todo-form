@@ -1,0 +1,32 @@
+.todo-info {
+  font-size: 40px;
+
+  &__task-block {
+    display: flex;
+  }
+
+  &__task {
+    align-self: flex-start;
+    margin-right: 54px;
+    font-weight: bold;
+  }
+
+
+  &__task-text {
+    display: inline-block;
+    width: 80%;
+  }
+
+  &__status {
+    margin-right: 20px;
+    font-weight: bold;
+
+    &--completed {
+      color: green;
+    }
+
+    &--uncompleted {
+      color: red;
+    }
+  }
+}

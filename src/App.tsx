@@ -3,10 +3,11 @@ import './App.css';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
 type State = {
   title: string,
-  todos: Todo[],
+  todos: PreparedTodo[],
   selectedUser: User | null,
   selectValue: string,
   isUserSelected: boolean,
@@ -18,11 +19,15 @@ type State = {
 
 const maxInputLength = 20;
 const validSymbols = 'qwertyuiopasdfghjklzxcvbnm ';
+const preparedTodos: PreparedTodo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
 export class App extends React.PureComponent<{}, State> {
   state: State = {
     title: '',
-    todos: todosFromServer,
+    todos: preparedTodos,
     selectedUser: null,
     selectValue: '',
     isUserSelected: false,
@@ -58,6 +63,7 @@ export class App extends React.PureComponent<{}, State> {
       const preparedUser = {
         id: user?.id,
         name: user?.name,
+        email: user?.email,
       };
 
       this.setState(state => ({
@@ -96,10 +102,12 @@ export class App extends React.PureComponent<{}, State> {
     }
 
     if (selectedUser && isUserSelected && titleCheck) {
-      const preparedTodo: Todo = {
+      const preparedTodo: PreparedTodo = {
         id: newTodoIdentificator,
         title,
         userId: selectedUser?.id,
+        completed: false,
+        user: usersFromServer.find(person => person.id === selectedUser?.id) || null,
       };
 
       this.setState(state => ({
@@ -203,15 +211,7 @@ export class App extends React.PureComponent<{}, State> {
             </div>
           </div>
         </form>
-        <ol>
-          {todos.map(todo => (
-            <li key={todo.id}>
-              <p>{`Task id: ${todo.id}`}</p>
-              <p>{`Task title: ${todo.title}`}</p>
-              <p>{`User: ${usersFromServer.find(person => person.id === todo.userId)?.name}`}</p>
-            </li>
-          ))}
-        </ol>
+        <TodoList todos={todos} />
       </>
     );
   }

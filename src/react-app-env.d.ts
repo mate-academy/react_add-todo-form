@@ -1,12 +1,15 @@
 /// <reference types="react-scripts" />
 
-interface Todo {
+interface PreparedTodo {
+  userId: number,
   id: number,
   title: string,
-  userId: number,
+  completed: boolean,
+  user: User | null,
 }
 
 interface User {
   id: number,
   name: string,
+  email: string,
 }
