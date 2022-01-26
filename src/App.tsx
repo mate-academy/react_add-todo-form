@@ -97,9 +97,6 @@ export class App extends React.Component<{}, State> {
     return (
       <div className="App">
         <h1 className="title">Add todo form</h1>
-        <TodoList todos={preparedTodos} />
-        <br />
-
         <div>
           <form onSubmit={this.handleSubmit}>
             <input
@@ -139,6 +136,8 @@ export class App extends React.Component<{}, State> {
             </button>
           </form>
         </div>
+        <br />
+        <TodoList todos={preparedTodos} />
       </div>
     );
   }
