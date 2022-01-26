@@ -30,38 +30,23 @@ class App extends React.PureComponent<Props, State> {
 
   handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+    const regexp = /^[а-яА-Яa-zA-Z0-9\s,.'Ёё]+$/;
 
-    this.setState((state) => ({
-      ...state,
-      newTitle: value,
-      hasTitleError: false,
-    }));
-
-    //   this.setState((state) => {
-    //     const code = value.charCodeAt(value.length - 1);
-
-    //     if ((code === 32)
-    //       || (code >= 48 && code <= 57)
-    //       || (code >= 65 && code <= 90)
-    //       || (code >= 97 && code <= 122)
-    //       || (code >= 1040 && code <= 1103)
-    //       || (code === 1025 || code === 1105)
-    //     ) {
-    //       return {
-    //         newTitle: event.target.value,
-    //       };
-    //     }
-
-    //     if (state.newTitle.length > 1) {
-    //       return {
-    //         newTitle: state.newTitle,
-    //       };
-    //     }
-
-    //     return {
-    //       newTitle: '',
-    //     };
-    //   });
+    if (regexp.test(value)) {
+      this.setState((state) => ({
+        ...state,
+        newTitle: value,
+        hasTitleError: false,
+      }));
+    } else if (value.length > 1) {
+      this.setState((state) => ({
+        newTitle: state.newTitle,
+      }));
+    } else {
+      this.setState(() => ({
+        newTitle: '',
+      }));
+    }
   };
 
   chooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
