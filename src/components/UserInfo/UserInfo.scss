@@ -1,0 +1,18 @@
+.responsiblePerson {
+  margin-top: 10px;
+
+  &__name {
+    font-size: 24px;
+    color: rgb(34, 164, 155);
+  }
+
+  &__email {
+    text-decoration: none;
+    color: black;
+    transition: color 0.5s;
+
+    &:hover {
+      color: burlywood;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.todo {
+  &__title {
+    text-transform: uppercase;
+    font-size: 36px;
+    padding-bottom: 15px;
+  }
+
+  &__status {
+    color: red;
+    font-style: italic;
+
+    &--completed {
+      color: green;
+    }
+  }
+}
