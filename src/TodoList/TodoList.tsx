@@ -5,12 +5,12 @@ import { TodoInfo } from '../TodoInfo/TodoInfo';
 import './TodoList.css';
 
 type Props = {
-  currTodos: VisibleTodo[];
+  visibleTodos: VisibleTodo[];
 };
 
-export const TodoList: React.FC<Props> = ({ currTodos }) => (
+export const TodoList: React.FC<Props> = ({ visibleTodos }) => (
   <ul className="App__todo-list todo-list">
-    {currTodos.map(todo => (
+    {visibleTodos.map(todo => (
       <li key={todo.id} className="todo-list__item">
         <Box sx={{ maxWidth: 400 }}>
           <Card variant="outlined">

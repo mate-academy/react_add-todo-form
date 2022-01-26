@@ -20,45 +20,75 @@ type State = {
   selectedUserId: string;
 };
 
+type Event = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent;
+
 class App extends React.Component<{}, State> {
   state = {
-    currTodos: todos,
+    currTodos: [...todos],
     title: '',
     selectedUserId: '',
   };
 
-  addTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ title: event.target.value });
+  addValue = (event: Event) => {
+    const { name, value } = event.target;
+
+    this.setState((state) => ({
+      ...state,
+      [name]: value,
+    }));
   };
 
-  addUser = (event: SelectChangeEvent) => {
-    this.setState({ selectedUserId: String(event.target.value) });
+  clearForm = () => {
+    this.setState({
+      title: '',
+      selectedUserId: '',
+    });
   };
+
+  createNewTodo = (
+    selectedUserId: string,
+    currTodos: Todo[],
+    title: string,
+  ) => {
+    const sortedTodoIds = currTodos.map(todo => todo.id).sort((a, b) => b - a);
+
+    const Todo: Todo = {
+      userId: +selectedUserId,
+      id: sortedTodoIds[0] + 1,
+      title,
+      completed: false,
+    };
+
+    return Todo;
+  };
+
+  getVisibleTodos = (currTodos:Todo[]): VisibleTodo[] => (
+    currTodos.map(todo => ({
+      ...todo,
+      user: users.find((user) => user.id === todo.userId) || null,
+    }))
+  );
 
   submitForm = (event: React.FormEvent) => {
+    event.preventDefault();
+
     const {
       selectedUserId,
       currTodos,
       title,
     } = this.state;
 
-    const sortedTodoIds = currTodos.map(todo => todo.id).sort((a, b) => b - a);
-
-    const newTodo: Todo = {
-      userId: Number(selectedUserId),
-      id: sortedTodoIds[0] + 1,
+    const newTodo = this.createNewTodo(
+      selectedUserId,
+      currTodos,
       title,
-      completed: false,
-    };
+    );
 
     this.setState((state) => ({
       currTodos: [...state.currTodos, newTodo],
     }));
 
-    this.setState({ title: '' });
-    this.setState({ selectedUserId: '' });
-
-    event.preventDefault();
+    this.clearForm();
   };
 
   render() {
@@ -67,14 +97,12 @@ class App extends React.Component<{}, State> {
       currTodos,
       title,
     } = this.state;
-    const visibleTodo: VisibleTodo[] = currTodos.map(todo => ({
-      ...todo,
-      user: users.find((user) => user.id === todo.userId) || null,
-    }));
+
+    const visibleTodos = this.getVisibleTodos(currTodos);
 
     return (
       <div className="App">
-        <TodoList currTodos={visibleTodo} />
+        <TodoList visibleTodos={visibleTodos} />
         <Box
           className="App__form"
           onSubmit={this.submitForm}
@@ -85,22 +113,24 @@ class App extends React.Component<{}, State> {
           autoComplete="off"
         >
           <TextField
-            id="outlined-basic"
+            id="title"
+            name="title"
             label="Add ToDo title"
             required
             variant="outlined"
             value={title}
-            onChange={this.addTodoTitle}
+            onChange={this.addValue}
           />
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Select User</InputLabel>
             <Select
+              name="selectedUserId"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={selectedUserId}
               label="Select User"
               required
-              onChange={this.addUser}
+              onChange={this.addValue}
             >
               {users.map(user => (
                 <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
