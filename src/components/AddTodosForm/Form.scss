@@ -1,0 +1,48 @@
+.form {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__input {
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 280px;
+    padding: 4px;
+
+    &:hover {
+      background-color: rgb(253, 242, 231);
+    }
+  }
+
+  &__select {
+    font-size: 16px;
+    width: 280px;
+    padding: 4px;
+
+    &:hover {
+      background-color: rgb(253, 242, 231);
+    }
+  }
+
+  &__error {
+    font-size: 12px;
+    background-color: rgb(255, 196, 196);
+    color: rgb(131, 17, 17);
+    padding: 2px;
+  }
+
+  &__error-container {
+    height: 24px;
+  }
+
+  &__button {
+    display: block;
+    width: 100px;
+    font-size: 16px;
+    padding: 4px;
+    background-color: rgba(67, 238, 61, 0.911);
+    border-radius: 6px;
+  }
+}
