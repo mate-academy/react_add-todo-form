@@ -52,18 +52,18 @@ export class AddTodosForm extends React.Component<Props, State> {
       selectedUserId,
     } = this.state;
 
-    if (!newTodoName || !selectedUserId) {
-      this.setState({
-        hasSelectUserError: !selectedUserId,
-        hasTodoNameError: !newTodoName,
-      });
-    }
-
     const newTodo = this.getNewTodo();
 
     if (newTodoName && selectedUserId) {
       this.props.addNewTodo(newTodo);
       this.clearState();
+    }
+
+    if (!newTodoName || !selectedUserId) {
+      this.setState({
+        hasSelectUserError: !selectedUserId,
+        hasTodoNameError: !newTodoName,
+      });
     }
   };
 
