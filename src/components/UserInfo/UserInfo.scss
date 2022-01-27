@@ -1,0 +1,12 @@
+.todo-user {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 400px;
+  align-self: center;
+  padding: 5px;
+
+  &--info {
+    font-style: italic;
+    font-size: 15px;
+  }
+}
