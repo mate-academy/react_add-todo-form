@@ -44,16 +44,28 @@ export class App extends React.Component<Props, State> {
     });
   };
 
-  addNewTodo = (newTodo: PreparedTodo) => {
+  addNewTodo = () => {
+    const { currentTodos, newTodoTitle, selectedUserId } = this.state;
+
+    const newTodo: PreparedTodo = {
+      title: newTodoTitle,
+      userId: selectedUserId,
+      id: currentTodos.length + 1,
+      completed: false,
+      user: getUserById(selectedUserId) || null,
+    };
+
     this.setState((prevState) => ({
       currentTodos: [...prevState.currentTodos, newTodo],
+      newTodoTitle: '',
+      selectedUserId: 0,
     }));
   };
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { currentTodos, newTodoTitle, selectedUserId } = this.state;
+    const { newTodoTitle, selectedUserId } = this.state;
 
     if (!newTodoTitle || !selectedUserId) {
       this.setState({
@@ -64,15 +76,7 @@ export class App extends React.Component<Props, State> {
       return;
     }
 
-    const newTodo: PreparedTodo = {
-      title: newTodoTitle,
-      userId: selectedUserId,
-      id: currentTodos.length + 1,
-      completed: false,
-      user: getUserById(selectedUserId) || null,
-    };
-
-    this.addNewTodo(newTodo);
+    this.addNewTodo();
   };
 
   render() {
