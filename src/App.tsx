@@ -5,6 +5,14 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './Components/TodoList';
 
+type State = {
+  title: string,
+  name: string,
+  todosFromServer: TodosFromServer[],
+  invalidTitle: boolean,
+  invalidName: boolean,
+};
+
 export class App extends React.Component<{}, State> {
   state: State = {
     title: '',

@@ -20,11 +20,3 @@ interface TodosFromServer {
   title: string,
   completed: boolean,
 }
-
-type State = {
-  title: string,
-  name: string,
-  todosFromServer: TodosFromServer[],
-  invalidTitle: boolean,
-  invalidName: boolean,
-};
