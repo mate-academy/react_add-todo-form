@@ -16,6 +16,8 @@ type State = {
   query: string,
   stateTodos: PreparedTodo[],
   currentUserId: number,
+  isCorrectQuery: boolean,
+  isCorrectSelect: boolean,
 };
 
 class App extends React.PureComponent<{}, State> {
@@ -23,11 +25,14 @@ class App extends React.PureComponent<{}, State> {
     query: '',
     stateTodos: [...preparedTodos],
     currentUserId: 0,
+    isCorrectQuery: true,
+    isCorrectSelect: true,
   };
 
   queryChangeHandler = (inputValue: string) => {
     this.setState({
       query: inputValue,
+      isCorrectQuery: true,
     });
   };
 
@@ -36,13 +41,26 @@ class App extends React.PureComponent<{}, State> {
 
     this.setState({
       currentUserId: +value,
+      isCorrectSelect: true,
     });
   };
 
   formSubmitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { query, currentUserId, stateTodos } = this.state;
+    const {
+      query,
+      currentUserId,
+      stateTodos,
+    } = this.state;
     const newId = Math.max(...stateTodos.map(todo => todo.id)) + 1;
+
+    if (!query.length) {
+      this.setState({ isCorrectQuery: false });
+    }
+
+    if (!currentUserId) {
+      this.setState({ isCorrectSelect: false });
+    }
 
     const newTodo: PreparedTodo = {
       userId: currentUserId,
@@ -64,6 +82,8 @@ class App extends React.PureComponent<{}, State> {
       stateTodos,
       query,
       currentUserId,
+      isCorrectQuery,
+      isCorrectSelect,
     } = this.state;
 
     return (
@@ -76,6 +96,9 @@ class App extends React.PureComponent<{}, State> {
               value={query}
               placeholder="input title todo..."
             />
+            {!isCorrectQuery && (
+              <span> Please enter the title</span>
+            )}
           </p>
 
           <label htmlFor="someId">
@@ -107,6 +130,9 @@ class App extends React.PureComponent<{}, State> {
           >
             Add
           </button>
+          {!isCorrectSelect && (
+            <span> Choose a user</span>
+          )}
         </form>
 
         <TodoList todos={stateTodos} />
