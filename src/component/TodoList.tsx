@@ -8,8 +8,8 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
       {todos.map(todo => (
         <li key={todo.id} className="list">
           <h2>{todo.title}</h2>
-          <div>{todo.user && todo.user.name}</div>
-          <div>{todo.user && todo.user.email}</div>
+          <div>{todo.user?.name}</div>
+          <div>{todo.user?.email}</div>
         </li>
       ))}
     </ul>
