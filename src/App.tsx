@@ -12,12 +12,15 @@ const preparedTodos: PreparedTodo[] = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId) || null,
 }));
 
+const maxQuery = 30;
+
 type State = {
   query: string,
   stateTodos: PreparedTodo[],
   currentUserId: number,
   isCorrectQuery: boolean,
   isCorrectSelect: boolean,
+  isQueryTooLong: boolean,
 };
 
 class App extends React.PureComponent<{}, State> {
@@ -27,13 +30,22 @@ class App extends React.PureComponent<{}, State> {
     currentUserId: 0,
     isCorrectQuery: true,
     isCorrectSelect: true,
+    isQueryTooLong: false,
   };
 
   queryChangeHandler = (inputValue: string) => {
-    this.setState({
-      query: inputValue,
-      isCorrectQuery: true,
-    });
+    const text: string = inputValue.replace(/[^\da-zа-яё\s]/gi, '');
+
+    if (text.length <= maxQuery) {
+      this.setState({
+        query: text,
+        isCorrectQuery: true,
+      });
+    } else {
+      this.setState({
+        isQueryTooLong: true,
+      });
+    }
   };
 
   selectUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,6 +86,7 @@ class App extends React.PureComponent<{}, State> {
       this.setState({
         stateTodos: [...stateTodos, newTodo],
         currentUserId: 0,
+        isQueryTooLong: false,
         query: '',
       });
     }
@@ -86,6 +99,7 @@ class App extends React.PureComponent<{}, State> {
       currentUserId,
       isCorrectQuery,
       isCorrectSelect,
+      isQueryTooLong,
     } = this.state;
 
     return (
@@ -100,6 +114,9 @@ class App extends React.PureComponent<{}, State> {
             />
             {!isCorrectQuery && (
               <span> Please enter the title</span>
+            )}
+            {isQueryTooLong && (
+              <span>{` Max query length: ${maxQuery}`}</span>
             )}
           </p>
 
