@@ -11,6 +11,7 @@
   justify-content: space-around;
 
   animation: createTodo;
+  animation-timing-function: ease;
   animation-duration: 1s;
 
   transition: transform 0.3s;

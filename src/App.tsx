@@ -1,4 +1,6 @@
 import React from 'react';
+import nextId from 'react-id-generator';
+
 import './App.scss';
 
 import { TodoList } from './components/TodoList/TodoList';
@@ -15,20 +17,20 @@ const preparedSereverTodos: Todo[] = serverTodos.map(todo => ({
 interface State {
   preparedTodos: Todo[];
   users: User[];
-  lastIdTodo: number;
+  lastIdTodo: string;
 }
 
 class App extends React.Component<{}, State> {
   state: State = {
     preparedTodos: [...preparedSereverTodos],
     users: [...serverUsers],
-    lastIdTodo: preparedSereverTodos.length + 1,
+    lastIdTodo: nextId(),
   };
 
   addTodo = (newTodo: Todo) => {
     this.setState((state) => ({
       preparedTodos: [...state.preparedTodos, newTodo],
-      lastIdTodo: state.lastIdTodo + 1,
+      lastIdTodo: nextId(),
     }));
   };
 

@@ -6,7 +6,7 @@ import './form.scss';
 interface Props {
   addTodo: (newTodo: Todo) => void;
   users: User[];
-  lastId: number;
+  lastId: string;
 }
 
 interface State {

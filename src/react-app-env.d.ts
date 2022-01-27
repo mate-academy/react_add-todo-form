@@ -2,7 +2,7 @@
 
 interface Todo implements User {
   userId: number,
-  id: number,
+  id: string,
   title: string,
   completed: boolean,
   user: User | null,
