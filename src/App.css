@@ -1,3 +1,26 @@
 .App {
   text-align: center;
 }
+
+.Title {
+  width: 200px;
+  height: 20px;
+}
+
+.Select-name {
+  width: 200px;
+  height: 20px;
+  margin-top: 20px;
+}
+
+.Button {
+  text-align: center;
+  margin-top: 20px;
+  width: 70px;
+  height: 40px;
+  background-color: #fff;
+}
+
+.Todo-list {
+  list-style: none;
+}
