@@ -34,11 +34,18 @@ class App extends React.Component<{}, State> {
   validateForm = () => {
     const { title, userName } = this.state;
 
-    if (!userName || !title) {
-      this.setState({
-        hasTitleError: true,
-        hasUserError: true,
-      });
+    if (!userName) {
+      this.setState((state) => ({
+        hasUserError: !state.hasUserError,
+      }));
+
+      return false;
+    }
+
+    if (!title) {
+      this.setState((state) => ({
+        hasTitleError: !state.hasTitleError,
+      }));
 
       return false;
     }
@@ -80,7 +87,6 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       title: value,
-      hasTitleError: false,
     });
   };
 
@@ -89,7 +95,6 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       userName: value,
-      hasUserError: false,
     });
   };
 
