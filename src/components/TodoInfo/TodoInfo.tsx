@@ -10,7 +10,7 @@ export const TodoInfo: React.FC<Props> = ({
   todo,
 }) => (
   <>
-    <h2 className="todo__title">
+    <h2 className="todo__title title is-3">
       {todo.title}
     </h2>
 

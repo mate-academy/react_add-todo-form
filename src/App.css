@@ -1,3 +1,19 @@
 .App {
   text-align: center;
 }
+
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
+.form {
+  margin: auto;
+  max-width: 600px;
+  height: 80px;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+.error {
+  font-size: 8px;
+  color: red;
+}

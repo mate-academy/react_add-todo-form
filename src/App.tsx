@@ -104,22 +104,30 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="App">
-        <h1>Add todo form</h1>
+        <h1 className="title is-1">Add todo form</h1>
 
-        <form onSubmit={this.handleSubmitForm}>
+        <form
+          className="box form"
+          onSubmit={this.handleSubmitForm}
+        >
           <section>
             <input
               type="text"
+              className="input is-small"
               placeholder="Enter todo title"
               value={newTodoTitle}
               onChange={this.handleTitleChange}
             />
             {hasTitleError && (
-              <span>Please enter the title</span>
+              <>
+                <br />
+                <span className="error">Please enter the title</span>
+              </>
             )}
           </section>
           <section>
             <select
+              className="select is-small"
               value={newTodoUserId}
               onChange={this.handleUserChange}
             >
@@ -129,21 +137,21 @@ class App extends React.Component<{}, State> {
               ))}
             </select>
             {hasUserSelectionError && (
-              <span>Please choose a user</span>
+              <>
+                <br />
+                <span className="error">Please choose a user</span>
+              </>
             )}
           </section>
-          <button type="submit">
+          <button
+            type="submit"
+            className="button is-outlined"
+          >
             Add todo
           </button>
         </form>
 
-        <p>
-          <span>Users: </span>
-          {users.length}
-        </p>
-        <ul>
-          <TodoList todos={todos} />
-        </ul>
+        <TodoList todos={todos} />
       </div>
     );
   }
