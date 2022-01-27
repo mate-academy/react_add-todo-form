@@ -74,10 +74,10 @@ export class AddGoodForm extends React.Component<Props, State> {
   validateForm = () => {
     const { userName, inputValue } = this.state;
 
-    if (!userName || !inputValue) {
+    if (!userName || !inputValue.trim()) {
       this.setState({
         hasUserError: !userName,
-        hasTitleError: !inputValue,
+        hasTitleError: !inputValue.trim(),
       });
 
       return false;
