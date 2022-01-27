@@ -54,7 +54,7 @@ class App extends React.PureComponent<{}, State> {
     } = this.state;
     const newId = Math.max(...stateTodos.map(todo => todo.id)) + 1;
 
-    if (!query.length) {
+    if (!query.trim().length) {
       this.setState({ isCorrectQuery: false });
     }
 
@@ -62,19 +62,21 @@ class App extends React.PureComponent<{}, State> {
       this.setState({ isCorrectSelect: false });
     }
 
-    const newTodo: PreparedTodo = {
-      userId: currentUserId,
-      id: newId,
-      title: query,
-      completed: false,
-      user: users.find(user => user.id === currentUserId) || null,
-    };
+    if (currentUserId && query.trim().length) {
+      const newTodo: PreparedTodo = {
+        userId: currentUserId,
+        id: newId,
+        title: query,
+        completed: false,
+        user: users.find(user => user.id === currentUserId) || null,
+      };
 
-    this.setState({
-      stateTodos: [...stateTodos, newTodo],
-      currentUserId: 0,
-      query: '',
-    });
+      this.setState({
+        stateTodos: [...stateTodos, newTodo],
+        currentUserId: 0,
+        query: '',
+      });
+    }
   };
 
   render() {
@@ -110,7 +112,7 @@ class App extends React.PureComponent<{}, State> {
             >
               <option
                 disabled
-                value={currentUserId}
+                value={0}
               >
                 Choose User
               </option>
