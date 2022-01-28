@@ -13,7 +13,7 @@ const preparedTodos: PrepearedTodo[] = todosFromApi.map(todo => ({
 type State = {
   todos: PrepearedTodo[];
   title: string;
-  userId: number;
+  selectedUserId: number;
   hasTitleInputError: boolean;
   hasUserSelectError: boolean;
   hasWrongCharError: boolean;
@@ -23,13 +23,13 @@ class App extends React.PureComponent<{}, State> {
   state: State = {
     todos: preparedTodos,
     title: '',
-    userId: 0,
+    selectedUserId: 0,
     hasTitleInputError: false,
     hasUserSelectError: false,
     hasWrongCharError: false,
   };
 
-  inputChangeNameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       title: event?.target.value,
       hasTitleInputError: false,
@@ -37,9 +37,9 @@ class App extends React.PureComponent<{}, State> {
     });
   };
 
-  selectUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      userId: Number(event?.target.value),
+      selectedUserId: Number(event?.target.value),
       hasUserSelectError: false,
     });
   };
@@ -47,19 +47,19 @@ class App extends React.PureComponent<{}, State> {
   clearForm = () => {
     this.setState({
       title: '',
-      userId: 0,
+      selectedUserId: 0,
     });
   };
 
   validateForm = () => {
-    const { title, userId } = this.state;
-    const titleErr = /[a-zа-яA-ZА-ЯёЁ0-9]+$/.test(title);
+    const { title, selectedUserId } = this.state;
+    const isTitleError = /[a-zа-яA-ZА-ЯёЁ0-9]+$/.test(title);
 
-    if (!title || !userId || !titleErr) {
+    if (!title || !selectedUserId || !isTitleError) {
       this.setState({
         hasTitleInputError: !title,
-        hasUserSelectError: !userId,
-        hasWrongCharError: !titleErr,
+        hasUserSelectError: !selectedUserId,
+        hasWrongCharError: !isTitleError,
       });
 
       return false;
@@ -68,23 +68,23 @@ class App extends React.PureComponent<{}, State> {
     return true;
   };
 
-  formSubmitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
+  handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { userId, title, todos } = this.state;
+    const { selectedUserId, title, todos } = this.state;
     const isFormValid = this.validateForm();
 
     if (isFormValid) {
-      const ids: number[] = todos.map(todo => todo.id);
+      const newTodoId: number = Math.max(...todos.map(todo => todo.id)) + 1;
 
       this.setState((prevState) => ({
         todos: [...prevState.todos,
           {
-            userId,
-            id: Math.max(...ids) + 1,
+            userId: selectedUserId,
+            id: newTodoId,
             title,
             completed: false,
-            user: users.find(user => userId === user.id) || null,
+            user: users.find(user => selectedUserId === user.id) || null,
           },
         ],
       }));
@@ -96,7 +96,7 @@ class App extends React.PureComponent<{}, State> {
     const {
       todos,
       title,
-      userId,
+      selectedUserId,
       hasTitleInputError,
       hasUserSelectError,
       hasWrongCharError,
@@ -105,49 +105,45 @@ class App extends React.PureComponent<{}, State> {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={this.formSubmitHandler}>
+        <form onSubmit={this.handleFormSubmit}>
           <div>
             <label htmlFor="title-todo" className="label">
               New Todo
-              <>
-                <input
-                  type="text"
-                  id="title-todo"
-                  placeholder="Enter Todo here"
-                  value={title}
-                  onChange={this.inputChangeNameHandler}
-                />
-                {hasTitleInputError && (
-                  <span>Please enter the title</span>
-                )}
+              <input
+                type="text"
+                id="title-todo"
+                placeholder="Enter Todo here"
+                value={title}
+                onChange={this.handleInputChangeName}
+              />
+              {hasTitleInputError && (
+                <span>Please enter the title</span>
+              )}
 
-                {title.length > 0 && hasWrongCharError && (
-                  <span>Yoy can enter only digits or letters</span>
-                )}
-              </>
+              {title.length > 0 && hasWrongCharError && (
+                <span>Yoy can enter only digits or letters</span>
+              )}
             </label>
           </div>
 
           <div>
             <label htmlFor="select-user" className="label">
               Select user
-              <>
-                <select
-                  id="select-user"
-                  value={userId}
-                  onChange={this.selectUserHandler}
-                >
-                  <option value="0">Select user</option>
-                  {users.map(user => (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </select>
-                {hasUserSelectError && (
-                  <span>Please choose a user</span>
-                )}
-              </>
+              <select
+                id="select-user"
+                value={selectedUserId}
+                onChange={this.handleSelectUser}
+              >
+                <option value="0">Select user</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+              {hasUserSelectError && (
+                <span>Please choose a user</span>
+              )}
             </label>
           </div>
 

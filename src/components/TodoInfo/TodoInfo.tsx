@@ -15,7 +15,7 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => (
       readOnly
     />
     <h3
-      style={{ display: 'inline-block' }}
+      className="title-todo"
     >
       {todo.title}
     </h3>
