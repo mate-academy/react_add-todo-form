@@ -1,4 +1,5 @@
 import React from 'react';
+import './NewTodoForm.scss';
 import users from '../../api/users';
 
 type Props = {
@@ -34,6 +35,15 @@ export class NewTodoForm extends React.Component<Props, State> {
     });
   };
 
+  clearState = () => {
+    this.setState({
+      newTodoName: '',
+      selectedUserId: 0,
+      hasTitleError: false,
+      hasUserError: false,
+    });
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { newTodoName, selectedUserId } = this.state;
@@ -57,6 +67,7 @@ export class NewTodoForm extends React.Component<Props, State> {
     };
 
     this.props.addNewTodo(newTodo);
+    this.clearState();
   };
 
   render() {
@@ -75,16 +86,18 @@ export class NewTodoForm extends React.Component<Props, State> {
           <input
             type="text"
             placeholder="Title"
+            className="form"
             value={newTodoName}
             onChange={this.handleTodoChange}
           />
           {hasTitleError && (
-            <span>Please enter the title</span>
+            <span className="validation">Please enter the title</span>
           )}
         </section>
 
         <section>
           <select
+            className="form"
             value={selectedUserId}
             onChange={this.handleUserChange}
           >
@@ -94,11 +107,11 @@ export class NewTodoForm extends React.Component<Props, State> {
             ))}
           </select>
           {hasUserError && (
-            <span>Please choose a user</span>
+            <span className="validation">Please choose a user</span>
           )}
         </section>
 
-        <button type="submit">Add</button>
+        <button type="submit" className="form">Add</button>
       </form>
     );
   }

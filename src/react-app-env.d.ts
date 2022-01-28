@@ -1,5 +1,3 @@
-/// <reference types="react-scripts" />
-
 interface Todo {
   userId: number,
   id: number,
