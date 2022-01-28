@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 
 type State = {
   title: string,
-  user: string,
+  userId: number,
   todos: Todo[],
   hasTitleError: boolean,
   hasUserError: boolean,
@@ -19,7 +19,7 @@ type State = {
 class App extends React.Component<{}, State> {
   state: State = {
     title: '',
-    user: '',
+    userId: 0,
     todos: todosFromServer,
     hasTitleError: false,
     hasUserError: false,
@@ -40,18 +40,18 @@ class App extends React.Component<{}, State> {
     const { value } = event.target;
 
     this.setState({
-      user: value,
+      userId: +value,
       hasUserError: false,
     });
   };
 
   getNewTodo = () => {
-    const { todos, title, user } = this.state;
+    const { todos, title, userId } = this.state;
 
     return {
       id: todos.length + 1,
       title,
-      userId: +user,
+      userId,
     };
   };
 
@@ -64,20 +64,20 @@ class App extends React.Component<{}, State> {
   clearState = () => {
     this.setState({
       title: '',
-      user: '',
+      userId: 0,
     });
   };
 
   validateInputs = () => {
     let { title } = this.state;
-    const { user } = this.state;
+    const { userId } = this.state;
 
     title = title.trim();
 
-    if (!title || !user || !this.validateTextInput(title)) {
+    if (!title || !userId || !this.validateTextInput(title)) {
       this.setState({
         hasTitleError: !title,
-        hasUserError: !user,
+        hasUserError: !userId,
         checkSymbols: !this.validateTextInput(title),
       });
 
@@ -104,7 +104,7 @@ class App extends React.Component<{}, State> {
 
   render() {
     const {
-      hasTitleError, hasUserError, checkSymbols, title, user, todos,
+      hasTitleError, hasUserError, checkSymbols, title, userId, todos,
     } = this.state;
 
     return (
@@ -167,7 +167,7 @@ class App extends React.Component<{}, State> {
                 <select
                   id="person"
                   name="person"
-                  value={user}
+                  value={userId}
                   onChange={this.handelUserChange}
 
                 >
