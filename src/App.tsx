@@ -46,33 +46,31 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = () => {
-    this.setState(state => {
-      if (state.userId === 0) {
-        this.setState({ isValidUser: false });
+    if (this.state.userId === 0) {
+      this.setState({ isValidUser: false });
+    }
 
-        return { ...state };
-      }
+    if (this.state.title.trim() === '') {
+      this.setState({ isValidTodo: false });
+    }
 
-      if (state.title.trim() === '') {
-        this.setState({ isValidTodo: false });
+    if (this.state.title !== '' && this.state.userId !== 0) {
+      this.setState(state => {
+        const newTodo = {
+          title: state.title,
+          id: state.todos.length + 1,
+          userId: +state.userId,
+          completed: false,
+          user: users.find(user => user.id === +state.userId),
+        };
 
-        return { ...state };
-      }
-
-      const newTodo = {
-        title: state.title,
-        id: state.todos.length + 1,
-        userId: +state.userId,
-        completed: false,
-        user: users.find(user => user.id === +state.userId),
-      };
-
-      return {
-        todos: [...state.todos, newTodo],
-        userId: 0,
-        title: '',
-      };
-    });
+        return {
+          todos: [...state.todos, newTodo],
+          userId: 0,
+          title: '',
+        };
+      });
+    }
   };
 
   render() {
