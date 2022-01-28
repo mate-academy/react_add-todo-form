@@ -2,7 +2,7 @@ import React from 'react';
 import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoInfo.scss';
 
-export const TodoInfo:React.FC<Todo> = ({ title, completed, user }) => (
+export const TodoInfo:React.FC<TodoWithUser> = ({ title, completed, user }) => (
   <>
     {user && (
       <div className="div">

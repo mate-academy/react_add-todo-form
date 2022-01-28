@@ -4,26 +4,24 @@ import { TodoList } from './components/TodoList/TodoList';
 import todosFromServer from './api/todos';
 import users from './api/users';
 
-const newTodos: Todo[] = todosFromServer.map(todo => ({
+const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId) || null,
 }));
 
-type Props = {};
-
 type State = {
-  todos: Todo[],
+  todos: TodoWithUser[],
   newTitle: string,
-  selectedId: string,
+  selectedUserId: string,
   hasTitleError: boolean,
   hasUserSelectedError: boolean,
 };
 
-class App extends React.PureComponent<Props, State> {
+class App extends React.PureComponent<{}, State> {
   state: State = {
-    todos: [...newTodos],
+    todos: [...todosWithUser],
     newTitle: '',
-    selectedId: '0',
+    selectedUserId: '0',
     hasTitleError: false,
     hasUserSelectedError: false,
   };
@@ -32,40 +30,36 @@ class App extends React.PureComponent<Props, State> {
     const { value } = event.target;
     const regexp = /^[а-яА-Яa-zA-Z0-9\s,.'Ёё]+$/;
 
-    if (regexp.test(value)) {
+    if (value && regexp.test(value)) {
       this.setState((state) => ({
         ...state,
         newTitle: value,
         hasTitleError: false,
       }));
-    } else if (value.length > 1) {
-      this.setState((state) => ({
-        newTitle: state.newTitle,
-      }));
     } else {
-      this.setState(() => ({
+      this.setState({
         newTitle: '',
-      }));
+      });
     }
   };
 
   chooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState(() => ({
-      selectedId: event.target.value,
+      selectedUserId: event.target.value,
       hasUserSelectedError: false,
     }));
   };
 
   handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { newTitle, selectedId } = this.state;
+    const { newTitle, selectedUserId } = this.state;
 
-    const notSelected = selectedId === '0';
+    const notSelectedUser = selectedUserId === '0';
 
-    if (!newTitle || notSelected) {
+    if (!newTitle || notSelectedUser) {
       this.setState({
         hasTitleError: !newTitle,
-        hasUserSelectedError: notSelected,
+        hasUserSelectedError: notSelectedUser,
       });
 
       return;
@@ -74,9 +68,9 @@ class App extends React.PureComponent<Props, State> {
     const newTodo = {
       title: this.state.newTitle,
       id: this.state.todos.length + 1,
-      userId: users[+this.state.selectedId - 1].id,
+      userId: users[+this.state.selectedUserId - 1].id,
       completed: true,
-      user: users.find(user => +this.state.selectedId === user.id) || null,
+      user: users.find(user => +this.state.selectedUserId === user.id) || null,
     };
 
     this.setState((state) => ({
@@ -85,7 +79,7 @@ class App extends React.PureComponent<Props, State> {
         newTodo,
       ],
       newTitle: '',
-      selectedId: '0',
+      selectedUserId: '0',
     }));
   };
 
@@ -93,7 +87,7 @@ class App extends React.PureComponent<Props, State> {
     const {
       todos,
       newTitle,
-      selectedId,
+      selectedUserId,
       hasTitleError,
       hasUserSelectedError,
     } = this.state;
@@ -106,8 +100,6 @@ class App extends React.PureComponent<Props, State> {
           {users.length}
         </p>
 
-        <TodoList todoList={todos} />
-
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={newTitle} onChange={this.handleInput} />
 
@@ -115,7 +107,7 @@ class App extends React.PureComponent<Props, State> {
             <span>Please type a title</span>
           )}
 
-          <select value={selectedId} onChange={this.chooseUser}>
+          <select value={selectedUserId} onChange={this.chooseUser}>
             <option value="0">Choose user</option>
 
             {users.map(user => (
@@ -129,6 +121,8 @@ class App extends React.PureComponent<Props, State> {
 
           <button type="submit"> Add User</button>
         </form>
+
+        <TodoList todoList={todos} />
       </div>
 
     );

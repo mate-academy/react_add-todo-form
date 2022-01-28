@@ -7,7 +7,7 @@ interface User {
   email: string,
 }
 
-interface Todo {
+interface TodoWithUser {
   userId: number,
   id: number,
   title: string,
