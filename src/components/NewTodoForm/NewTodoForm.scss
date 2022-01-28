@@ -1,0 +1,23 @@
+.form {
+  margin: 4px auto;
+  max-width: 95%;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 5px;
+  color: white;
+  background-color: rgb(119, 119, 119);
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.validation {
+  margin-left: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(168, 14, 14);
+}
