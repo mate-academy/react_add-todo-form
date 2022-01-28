@@ -141,13 +141,13 @@ export class AddTodoForm extends React.Component<Props, State> {
           />
           <p className="form__warning">
             {!isInputLengthCorrect && (
-              <span>{`itle max length is ${maxInputLength} characters!`}</span>
+              <span className="form__warning-message">{`*Title max length is ${maxInputLength} characters!`}</span>
             )}
-            {!isInputValid && (
-              <span>Use only letters, digits or backspaces please!</span>
+            {(!isInputValid && isInputLengthCorrect) && (
+              <span className="form__warning-message">*Use only letters, digits or backspaces please!</span>
             )}
             {!isTitleEntered && (
-              <span>Please enter a title!</span>
+              <span className="form__warning-message">*Please enter a title!</span>
             )}
           </p>
           <p className="form__title form__title--user">User:</p>
@@ -175,7 +175,7 @@ export class AddTodoForm extends React.Component<Props, State> {
           </label>
           <p className="form__warning">
             {!isUserSelected && (
-              <span>Please choose the user!</span>
+              <span className="form__warning-message">*Please choose the user!</span>
             )}
           </p>
           <div className="form__submit">
