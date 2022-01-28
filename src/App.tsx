@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 
 type State = {
   todos: Todo[],
-  users: User[],
   userId: number,
   title: string,
+  isValidTodo: boolean,
+  isValidUser: boolean,
 };
 
 const preparedTodos = todos.map(todo => ({
@@ -20,18 +20,18 @@ const preparedTodos = todos.map(todo => ({
 
 class App extends React.Component<{}, State> {
   state: State = {
-    todos: preparedTodos,
-    users: users.map(user => ({
-      ...user,
-    })),
+    todos: [...preparedTodos],
     userId: 0,
+    isValidTodo: true,
+    isValidUser: true,
     title: '',
   };
 
-  handleChangeId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     this.setState({
+      isValidUser: true,
       userId: +value,
     });
   };
@@ -40,13 +40,22 @@ class App extends React.Component<{}, State> {
     const { value } = event.target;
 
     this.setState({
+      isValidTodo: true,
       title: value,
     });
   };
 
   addTodo = () => {
     this.setState(state => {
-      if (state.userId === 0 || state.title === '') {
+      if (state.userId === 0) {
+        this.setState({ isValidUser: false });
+
+        return { ...state };
+      }
+
+      if (state.title.trim() === '') {
+        this.setState({ isValidTodo: false });
+
         return { ...state };
       }
 
@@ -77,18 +86,20 @@ class App extends React.Component<{}, State> {
             name="title"
             onChange={this.handleChangeTitle}
           />
+          {!this.state.isValidTodo && <span>Please enter a todo</span>}
           <select
             value={this.state.userId}
             name="userId"
-            onChange={this.handleChangeId}
+            onChange={this.handleUserIdChange}
           >
             <option value="">Choose a user</option>
-            {this.state.users.map(user => (
+            {users.map(user => (
               <option key={user.id} value={user.id}>
                 {`${user.name} ${user.username}`}
               </option>
             ))}
           </select>
+          {!this.state.isValidUser && <span>Please choose a user</span>}
           <button type="submit" onClick={this.addTodo}>add</button>
         </form>
         <TodoList preparedTodos={this.state.todos} />

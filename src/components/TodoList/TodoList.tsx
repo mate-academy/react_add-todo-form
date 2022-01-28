@@ -10,8 +10,8 @@ export const TodoList: React.FC<Props> = ({ preparedTodos }) => (
     {preparedTodos.map(todo => (
       <li key={todo.id}>
         {todo.user?.name}
+        {` ${todo.user?.username}`}
         ---
-        {todo.user?.username}
         {todo.title}
       </li>
     ))}
