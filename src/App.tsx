@@ -69,7 +69,10 @@ class App extends React.Component<{}, State> {
   };
 
   validateInputs = () => {
-    const { title, user } = this.state;
+    let { title } = this.state;
+    const { user } = this.state;
+
+    title = title.trim();
 
     if (!title || !user || !this.validateTextInput(title)) {
       this.setState({
@@ -137,7 +140,7 @@ class App extends React.Component<{}, State> {
             </label>
             {hasTitleError && (
               <span className="has-text-danger">
-                Please choose a user
+                {' Please enter the title'}
               </span>
             )}
             {checkSymbols && (
@@ -184,7 +187,7 @@ class App extends React.Component<{}, State> {
             </label>
             {hasUserError && (
               <span className="has-text-danger">
-                {' Please enter the title'}
+                {' Please choose a user'}
               </span>
             )}
           </section>
