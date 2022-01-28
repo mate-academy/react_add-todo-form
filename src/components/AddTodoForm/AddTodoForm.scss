@@ -41,9 +41,14 @@
       }
     }
 
+    &--select {
+      text-align: center;
+    }
+
     &--select:focus {
       font-weight: normal;
       background-color: #ebebeb;
+      text-align: start;
     }
   }
 
@@ -102,4 +107,13 @@
     border-radius: 22px;
     color: rgb(255, 255, 255);
   }
+}
+
+.noplaceholdertitle {
+  color: #1d1d1d;
+}
+
+.noplaceholder {
+  text-align: start;
+  color: #1d1d1d;
 }

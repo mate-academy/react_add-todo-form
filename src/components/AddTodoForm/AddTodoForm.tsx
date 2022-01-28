@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import './AddTodoForm.scss';
 
 import usersFromServer from '../../api/users';
@@ -104,6 +105,12 @@ export class AddTodoForm extends React.Component<Props, State> {
     }
   };
 
+  hideSelectPlaceholderHandler = () => {
+    this.setState({
+      selectedUserId: 1,
+    });
+  };
+
   clearForm = () => {
     this.setState({
       todoTitle: '',
@@ -133,11 +140,11 @@ export class AddTodoForm extends React.Component<Props, State> {
         >
           <p className="form__title">Title:</p>
           <input
-            className="form__input"
+            className={cn('form__input', { noplaceholdertitle: todoTitle.length })}
             type="text"
             value={todoTitle}
             onChange={this.changeIputHandler}
-            placeholder="Please input the title..."
+            placeholder="Input a title..."
           />
           <p className="form__warning">
             {!isInputLengthCorrect && (
@@ -153,10 +160,11 @@ export class AddTodoForm extends React.Component<Props, State> {
           <p className="form__title form__title--user">User:</p>
           <label htmlFor="userSelect">
             <select
-              className="form__input form__input--select"
+              className={cn('form__input form__input--select', { noplaceholder: selectedUserId })}
               id="userSelect"
               value={selectedUserId}
               onChange={this.selectUserHandler}
+              onFocus={this.hideSelectPlaceholderHandler}
             >
               <option
                 value="0"
