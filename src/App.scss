@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+
+.form {
+  &__todo {
+    border: 2px solid black;
+    width: 25%;
+    margin: 0 auto 20px;
+    padding: 40px 20px;
+    background-color: #e7e7e7;
+
+    &__input {
+      display: block;
+      margin: 0 auto 20px;
+      width: 80%;
+    }
+    &__select {
+      display: block;
+      //margin: 5px auto;
+      //width: 80%;
+    }
+    &__button {
+      display: block;
+      margin: 20px auto 0px;
+    }
+  }
+  &__msg-err {
+    display: block;
+    margin: 10px;
+    color: #b40000;
+  }
+}
+
+.page {
+  &__title-users {
+    font-size: 28px;
+  }
+  &__title-todo {
+    font-size: 28px;
+  }
+}
