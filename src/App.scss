@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.addUserForm {
+  width: 250px;
+
+  &__submit {
+    margin-top: 20px;
+    display: block;
+    width: 100%
+  }
+}
+
+@import "~bootstrap/scss/bootstrap";
