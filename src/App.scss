@@ -1,0 +1,51 @@
+$extra-large: 50px;
+$green: #39dbc2;
+$pink: #f41fbf;
+
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neon-text {
+  position: relative;
+  $stroke-width: $extra-large * 0.05;
+  font-family: 'Pacifico', cursive;
+  text-transform: uppercase;
+  font-size: $extra-large;
+  color: lighten($pink, 25%);
+  -webkit-text-stroke-width: $stroke-width;
+  -webkit-text-stroke-color: lighten($pink, 5%);
+  margin-bottom: 15px;
+
+  @include center;
+  text-shadow: 0 0 40px lighten($pink, 5%),
+               0 0 40px lighten($pink, 5%),
+               0 0 40px lighten($pink, 5%);
+  &:after {
+    z-index: -1;
+    position: absolute;
+    color: transparent;
+    -webkit-text-stroke-width: $stroke-width;
+    -webkit-text-stroke-color: darken($pink, 40%);
+    top: -5%;
+    left: -0.5%;
+
+  }
+}
+
+.error{
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('https://i.imgur.com/GnyDvKN.png');
+  order: 1px solid;
+	margin: 10px 0px;
+	padding: 15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.form {
+  margin-bottom: 60px;
+}
