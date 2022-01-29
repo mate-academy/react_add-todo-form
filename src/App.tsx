@@ -106,8 +106,8 @@ class App extends React.Component<{}, State> {
             id="user"
             onChange={this.handleNameSelect}
           >
-            <option value="">Choose a user</option>
             {users.map((usez) => <option value={usez.name} key={usez.id}>{usez.name}</option>)}
+            <option value="" selected={this.state.user === ''}>Choose a user</option>
           </select>
           <div className={classnames(isUser ? 'warning' : 'hide')}>Please choose a user</div>
           <button type="submit">Add</button>
