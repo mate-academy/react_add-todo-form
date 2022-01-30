@@ -68,7 +68,7 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  validateInputs = () => {
+  isValidInputs = () => {
     let { title } = this.state;
     const { userId } = this.state;
 
@@ -90,7 +90,7 @@ class App extends React.Component<{}, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const isValidInputs = this.validateInputs();
+    const isValidInputs = this.isValidInputs();
 
     if (isValidInputs) {
       this.addTodo();
