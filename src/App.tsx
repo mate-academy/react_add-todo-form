@@ -22,8 +22,9 @@ class App extends React.Component<{}, State> {
   };
 
   addTodo = () => {
+    const { newTitle, userName } = this.state;
     const newId = this.state.todos.length + 1;
-    const newUser: User | null = users.find(user => user.name === this.state.userName) || null;
+    const newUser: User | null = users.find(user => user.name === userName) || null;
 
     if (!newUser) {
       this.setState({
@@ -33,11 +34,7 @@ class App extends React.Component<{}, State> {
       return;
     }
 
-    this.setState({
-      errorUser: '',
-    });
-
-    if (this.state.newTitle.trim().length === 0) {
+    if (newTitle.trim().length === 0) {
       this.setState({
         errorTitle: 'Please enter the title',
       });
@@ -45,27 +42,12 @@ class App extends React.Component<{}, State> {
       return;
     }
 
-    this.setState({
-      errorTitle: '',
-    });
-
     const newTodo = {
       userId: newUser.id,
       id: newId,
       title: this.state.newTitle,
       completed: false,
     };
-
-    const input = document.querySelector('input');
-    const select = document.querySelector('select');
-
-    if (input) {
-      input.value = '';
-    }
-
-    if (select) {
-      select.value = '';
-    }
 
     this.setState((state) => ({
       todos: [...state.todos, newTodo],
@@ -77,15 +59,11 @@ class App extends React.Component<{}, State> {
   };
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const input = event.currentTarget.value;
-
-    this.setState({ userName: input });
+    this.setState({ userName: event.currentTarget.value });
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = event.currentTarget.value;
-
-    this.setState({ newTitle: input });
+    this.setState({ newTitle: event.currentTarget.value });
   };
 
   defaultPreventer = (event: React.FormEvent<HTMLFormElement>) => {
@@ -93,6 +71,13 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
+    const {
+      errorTitle,
+      newTitle,
+      userName,
+      errorUser,
+    } = this.state;
+
     return (
       <div className="App">
         <h1>Add todo form</h1>
@@ -101,20 +86,17 @@ class App extends React.Component<{}, State> {
             type="text"
             name="newTitle"
             placeholder="Input title"
-            onChange={(event) => {
-              this.handleTitleChange(event);
-            }}
+            value={newTitle}
+            onChange={this.handleTitleChange}
           />
-          {this.state.errorTitle}
+          {errorTitle}
           <br />
 
           <select
             name="newUser"
-            onChange={(event) => {
-              this.handleUserChange(event);
-            }}
+            onChange={this.handleUserChange}
           >
-            <option value="">Choose an option</option>
+            <option value={userName}>Choose an option</option>
             {users.map(user => (
               <option value={user.name} key={user.id}>
                 {user.name}
@@ -123,7 +105,7 @@ class App extends React.Component<{}, State> {
           </select>
 
           <button type="submit" onClick={this.addTodo}>Add</button>
-          {this.state.errorUser}
+          {errorUser}
         </form>
 
         <TodoList todos={this.state.todos} />

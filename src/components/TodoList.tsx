@@ -7,12 +7,16 @@ type Props = {
 
 export const TodoList:React.FC<Props> = (props) => (
   <ul>
-    {props.todos.map((todo) => (
-      <li key={todo.id}>
-        {todo.title}
-        {' -- '}
-        {users[users.findIndex(user => user.id === todo.userId)].name}
-      </li>
-    ))}
+    {props.todos.map((todo) => {
+      const currentUser = users.find(user => user.id === todo.userId);
+
+      return (
+        <li key={todo.id}>
+          {todo.title}
+          {' -- '}
+          {currentUser && currentUser.name}
+        </li>
+      );
+    })}
   </ul>
 );
