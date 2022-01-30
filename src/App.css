@@ -1,3 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Helvetica, sans-serif;
+  color: #333;
+}
+
+body {
+  margin: 3%;
+  /* display: flex;
+  justify-content: center; */
+
+  background-color: #fef9e7;
+}
+
 .App {
-  text-align: center;
+  /* display: flex; */
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.form {
+  width: 300px;
+}
+
+.list-title {
+  /* text-align: center; */
 }
