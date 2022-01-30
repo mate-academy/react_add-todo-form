@@ -1,0 +1,38 @@
+.App__list {
+  padding-inline-start: 0;
+
+  list-style: none;
+}
+
+.App__item {
+  margin-bottom: 20px;
+
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+
+  box-shadow: 3px 4px 0 0 #1564ad;
+  background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+  background-color: #79bbff;
+  border-radius: 5px;
+  border: 1px solid #337bc4;
+  cursor: pointer;
+  color: #fff;
+}
+
+.App__item:hover {
+  background: linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+  background-color: #378de5;
+}
+
+.App__card-title {
+  color: black;
+}
+
+.App__card-completed {
+  color: greenyellow;
+}
+
+.App__card-notCompleted {
+  color: rgb(136, 0, 0);
+}

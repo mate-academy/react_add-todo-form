@@ -1,3 +1,26 @@
 .App {
+  width: 550px;
+  margin: auto;
+
   text-align: center;
+}
+
+.App__enterText,
+.App__select,
+.App__button {
+  box-sizing: border-box;
+
+  width: 550px;
+  height: 30px;
+
+  margin-bottom: 10px;
+}
+
+.App__error {
+  margin-bottom: 10px;
+
+  line-height: 25px;
+
+  color: white;
+  background-color: rgb(255, 88, 88);
 }
