@@ -9,14 +9,8 @@ html {
 
 body {
   margin: 3%;
-  /* display: flex;
-  justify-content: center; */
 
   background-color: #fef9e7;
-}
-
-.App {
-  /* display: flex; */
 }
 
 .error {
@@ -26,8 +20,4 @@ body {
 
 .form {
   width: 300px;
-}
-
-.list-title {
-  /* text-align: center; */
 }

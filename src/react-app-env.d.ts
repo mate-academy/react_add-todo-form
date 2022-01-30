@@ -8,10 +8,6 @@ interface Todo {
   completed: boolean;
 }
 
-/* export interface TodoOfUser extends Todo {
-  user : User | null;
-} */
-
 interface User {
   id: number,
   name: string,
