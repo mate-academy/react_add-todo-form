@@ -4,7 +4,7 @@ import { TodoInfo } from './TodoInfo';
 import './Todos.scss';
 
 type Props = {
-  props: Todo[];
+  props: TodoWithUser[];
 };
 
 export const TodoList: React.FC<Props> = ({ props }) => {

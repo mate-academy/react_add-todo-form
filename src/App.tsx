@@ -8,27 +8,25 @@ import todos from './api/todos';
 
 const getUserId = (id: number) => users.find((user) => user.id === id);
 
-const todosWithUsers: Todo[] = todos.map(todo => ({
+const todosWithUsers: TodoWithUser[] = todos.map(todo => ({
   ...todo,
   user: getUserId(todo.userId) || null,
 }));
 
 type State = {
-  todosCopy: Todo[];
+  todosCopy: TodoWithUser[];
   todoTitle: string;
-  selectUser: number;
-  hasTitlError: boolean;
+  selectUserId: number;
+  hasTitleError: boolean;
   hasSelectorError: boolean;
 };
 
-type Props = {};
-
-export class App extends React.Component<Props, State> {
+export class App extends React.Component<{}, State> {
   state: State = {
     todosCopy: [...todosWithUsers],
     todoTitle: '',
-    selectUser: 0,
-    hasTitlError: false,
+    selectUserId: 0,
+    hasTitleError: false,
     hasSelectorError: false,
   };
 
@@ -40,32 +38,32 @@ export class App extends React.Component<Props, State> {
 
   handleSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
-      selectUser: +event.target.value,
+      selectUserId: +event.target.value,
     });
   };
 
-  clearState = () => {
+  resetState = () => {
     this.setState({
       todoTitle: '',
-      selectUser: 0,
-      hasTitlError: false,
+      selectUserId: 0,
+      hasTitleError: false,
       hasSelectorError: false,
     });
   };
 
-  addNewTodo = (todo: Todo) => {
+  addNewTodo = (todo: TodoWithUser) => {
     this.setState(prevState => ({
       todosCopy: [...prevState.todosCopy, todo],
     }));
   };
 
-  validateForm = () => {
-    const { todoTitle, selectUser } = this.state;
+  isValidForm = () => {
+    const { todoTitle, selectUserId } = this.state;
 
-    if (!todoTitle || !selectUser) {
+    if (!todoTitle || !selectUserId) {
       this.setState({
-        hasTitlError: !todoTitle,
-        hasSelectorError: !selectUser,
+        hasTitleError: !todoTitle,
+        hasSelectorError: !selectUserId,
       });
 
       return false;
@@ -75,27 +73,27 @@ export class App extends React.Component<Props, State> {
   };
 
   getNewTodo = () => {
-    const { todosCopy, todoTitle, selectUser } = this.state;
+    const { todosCopy, todoTitle, selectUserId } = this.state;
 
     return {
-      userId: selectUser,
+      userId: selectUserId,
       id: todosCopy.length + 1,
       title: todoTitle,
       completed: false,
-      user: getUserId(selectUser) || null,
+      user: getUserId(selectUserId) || null,
     };
   };
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isFormValid = this.validateForm();
+    const isFormValid = this.isValidForm();
 
     if (isFormValid) {
       const newTod = this.getNewTodo();
 
       this.addNewTodo(newTod);
-      this.clearState();
+      this.resetState();
     }
   };
 
@@ -104,8 +102,8 @@ export class App extends React.Component<Props, State> {
       {
         todosCopy,
         todoTitle,
-        selectUser,
-        hasTitlError,
+        selectUserId,
+        hasTitleError,
         hasSelectorError,
       } = this.state;
 
@@ -118,7 +116,7 @@ export class App extends React.Component<Props, State> {
         >
           <button className="App__button" type="submit">Add user</button>
           {' '}
-          <>
+          <div>
             <label
               htmlFor="title"
               className="label"
@@ -134,14 +132,14 @@ export class App extends React.Component<Props, State> {
                 className="App__input"
                 placeholder="Type some title"
               />
-              {hasTitlError && (
+              {hasTitleError && (
                 <span className="App__error">Please enter the title</span>
               )}
             </section>
 
             <section>
               <select
-                value={selectUser}
+                value={selectUserId}
                 onChange={this.handleSelector}
                 className="App__input"
               >
@@ -156,7 +154,7 @@ export class App extends React.Component<Props, State> {
                 <span className="App__error">Please choose a user</span>
               )}
             </section>
-          </>
+          </div>
         </form>
         <TodoList props={todosCopy} />
       </div>
