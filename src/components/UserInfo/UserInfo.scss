@@ -1,0 +1,18 @@
+.UserInfo {
+  color: #555;
+
+  &__title {
+    color: #000;
+  }
+
+  &__email {
+    cursor: pointer;
+    text-decoration: none;
+    color: #555;
+    transition: 0.3s;
+
+    &:hover {
+      color: #111;
+    }
+  }
+}

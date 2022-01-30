@@ -1,0 +1,11 @@
+.TodoList {
+  padding: 0px 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 380px);
+  gap: 20px;
+
+
+  &__item {
+    list-style-type: none;
+  }
+}

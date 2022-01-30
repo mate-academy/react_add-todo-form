@@ -1,0 +1,55 @@
+.TodoInfo {
+  position: relative;
+  padding: 10px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 20px;
+  height: 440px;
+  width: 380px;
+
+  &__block-title {
+    height: 20px;
+  }
+
+  &__title {
+    font-weight: bold;
+
+    &-todo {
+      color: red;
+    }
+  }
+
+  &__button {
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    padding: 20px;
+    width: calc(100% - 20px);
+    left: 10px;
+    bottom: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 22px;
+
+    &--success {
+      background-color: green;
+
+      &:hover {
+        background-color: rgb(3, 95, 26);
+      }
+    }
+
+    &--fail {
+      background-color: #ba3345;
+
+      &:hover {
+        background-color: brown;
+      }
+    }
+  }
+}
