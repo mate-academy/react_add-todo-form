@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+
+  &__title-input {
+    margin-bottom: 5px;
+  }
+
+  &__user-select {
+    margin-bottom: 5px;
+  }
+}
