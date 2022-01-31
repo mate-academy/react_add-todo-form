@@ -76,9 +76,9 @@ $lineHeightForm: $sizeForm * 1.5;
       color: white;
     }
 
-    &:hover {
-      background-color: #1d90ff;
-      color: white;
+    &:active {
+      background-color: #0d85f5;
+      color: #bbb;
     }
 
   }
