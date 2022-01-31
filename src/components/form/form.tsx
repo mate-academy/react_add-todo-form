@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import './form.scss';
 
 interface Props {
-  addTodo: (newTodo: Todo) => void;
+  addTodo: (newTodo: TodoWithUser) => void;
   users: User[];
   lastId: string;
 }
@@ -42,7 +42,7 @@ export class Form extends React.Component<Props, State> {
     });
   };
 
-  validation = (selectUserId: number, inputTitle: string) => {
+  isValidInputs = (selectUserId: number, inputTitle: string) => {
     if (selectUserId === 0 || !inputTitle) {
       this.setState({
         hasInputError: !inputTitle,
@@ -64,7 +64,7 @@ export class Form extends React.Component<Props, State> {
     });
   };
 
-  formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { users, addTodo, lastId } = this.props;
@@ -73,8 +73,8 @@ export class Form extends React.Component<Props, State> {
       inputTitle,
     } = this.state;
 
-    if (this.validation(selectUserId, inputTitle)) {
-      const newTodo: Todo = {
+    if (this.isValidInputs(selectUserId, inputTitle)) {
+      const newTodo: TodoWithUser = {
         userId: selectUserId,
         id: lastId,
         title: inputTitle,
@@ -99,7 +99,7 @@ export class Form extends React.Component<Props, State> {
 
     return (
       <form
-        onSubmit={this.formSubmit}
+        onSubmit={this.handleFormSubmit}
         className="form"
       >
         <h1 className="form__title">

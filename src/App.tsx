@@ -9,13 +9,13 @@ import { Form } from './components/form/form';
 import serverTodos from './api/todos';
 import serverUsers from './api/users';
 
-const preparedSereverTodos: Todo[] = serverTodos.map(todo => ({
+const preparedSereverTodos: TodoWithUser[] = serverTodos.map(todo => ({
   ...todo,
   user: serverUsers.find(user => user.id === todo.userId) || null,
 }));
 
 interface State {
-  preparedTodos: Todo[];
+  preparedTodos: TodoWithUser[];
   users: User[];
   lastIdTodo: string;
 }
@@ -27,7 +27,7 @@ class App extends React.Component<{}, State> {
     lastIdTodo: nextId(),
   };
 
-  addTodo = (newTodo: Todo) => {
+  addTodo = (newTodo: TodoWithUser) => {
     this.setState((state) => ({
       preparedTodos: [...state.preparedTodos, newTodo],
       lastIdTodo: nextId(),

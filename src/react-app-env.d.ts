@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 
-interface Todo implements User {
+interface TodoWithUser implements User {
   userId: number,
   id: string,
   title: string,
