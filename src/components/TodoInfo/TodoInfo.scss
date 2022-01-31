@@ -9,24 +9,24 @@
   background-color: #ff8a88;
   transition: 0.5s;
 
-  &_user-name {
+  &__user-name {
     font-size: 20px;
     font-weight: bold;
     color: rgb(80, 79, 79);
   }
 
-  &_user-email {
+  &__user-email {
     font-size: 16px;
     color: rgb(80, 79, 79);
   }
 
-  &_title {
+  &__title {
     margin: 12px 0;
     font-size: 24px;
     color: rgb(80, 79, 79);
   }
 
-  &_completed {
+  &__completed {
     font-size: 20px;
     color: white;
   }
