@@ -33,8 +33,9 @@ class App extends React.PureComponent<{}, State> {
     isQueryTooLong: false,
   };
 
-  queryChangeHandler = (inputValue: string) => {
-    const text: string = inputValue.replace(/[^\da-zа-яё\s]/gi, '');
+  queryChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const text: string = value.replace(/[^\da-zа-яё\s]/gi, '');
 
     if (text.length <= maxQuery) {
       this.setState({
@@ -59,6 +60,7 @@ class App extends React.PureComponent<{}, State> {
 
   formSubmitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const {
       query,
       currentUserId,
@@ -83,12 +85,12 @@ class App extends React.PureComponent<{}, State> {
         user: users.find(user => user.id === currentUserId) || null,
       };
 
-      this.setState({
-        stateTodos: [...stateTodos, newTodo],
+      this.setState(prevState => ({
+        stateTodos: [...prevState.stateTodos, newTodo],
         currentUserId: 0,
         isQueryTooLong: false,
         query: '',
-      });
+      }));
     }
   };
 
@@ -103,88 +105,80 @@ class App extends React.PureComponent<{}, State> {
     } = this.state;
 
     return (
-      <>
-        <div className="App">
-          <form
-            className="form"
-            onSubmit={this.formSubmitHandler}
-          >
-            <div className="form__container">
-              <input
-                className="form__input"
-                type="text"
-                onChange={event => this.queryChangeHandler(event.target.value)}
-                value={query}
-                placeholder="input title todo..."
-              />
+      <div className="App">
+        <form
+          className="form"
+          onSubmit={this.formSubmitHandler}
+        >
+          <div className="form__container">
+            <input
+              className="form__input"
+              type="text"
+              onChange={event => this.queryChangeHandler(event)}
+              value={query}
+              placeholder="input title todo..."
+            />
 
-              {!isCorrectQuery && (
-                <span
-                  className="form__alert form__alert--title"
-                >
-                  Please enter the title
-                </span>
-              )}
+            {!isCorrectQuery && (
+              <span className="form__alert form__alert--title">
+                Please enter the title
+              </span>
+            )}
 
-              {isQueryTooLong && (
-                <span
-                  className="form__alert"
-                >
-                  {` Max query length: ${maxQuery}`}
-                </span>
-              )}
-            </div>
-            <div className="form__container">
-              <label
-                className="form__label"
-                htmlFor="someId"
+            {isQueryTooLong && (
+              <span className="form__alert">
+                {` Max query length: ${maxQuery}`}
+              </span>
+            )}
+          </div>
+          <div className="form__container">
+            <label
+              className="form__label"
+              htmlFor="someId"
+            >
+              <select
+                className="form__select"
+                name="select"
+                id="someId"
+                onChange={event => this.selectUserHandler(event)}
+                value={currentUserId}
               >
-                <select
-                  className="form__select"
-                  name="select"
-                  id="someId"
-                  onChange={event => this.selectUserHandler(event)}
-                  value={currentUserId}
+                <option
+                  disabled
+                  value={0}
                 >
+                  choose user
+                </option>
+
+                {users.map(user => (
                   <option
-                    disabled
-                    value={0}
+                    key={user.id}
+                    value={user.id}
                   >
-                    choose user
+                    {user.name}
                   </option>
+                ))}
+              </select>
+            </label>
 
-                  {users.map(user => (
-                    <option
-                      key={user.id}
-                      value={user.id}
-                    >
-                      {user.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            {!isCorrectSelect && (
+              <span className="form__alert">
+                Choose a user
+              </span>
+            )}
+          </div>
+          <div className="form__container">
+            <button
+              className="form__button"
+              type="submit"
+            >
+              Add
+            </button>
+          </div>
+        </form>
 
-              {!isCorrectSelect && (
-                <span
-                  className="form__alert"
-                >
-                  Choose a user
-                </span>
-              )}
-            </div>
-            <div className="form__container">
-              <button
-                className="form__button"
-                type="submit"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-
-          <TodoList todos={stateTodos} />
-        </div>
-      </>
+        <TodoList todos={stateTodos} />
+      </div>
     );
   }
 }
