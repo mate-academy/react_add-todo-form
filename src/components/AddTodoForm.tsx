@@ -5,8 +5,8 @@ import { getUserById } from '../helpers';
 type Props = {
   todo: TodoWithUser[],
   addNewTodo: (newTodo: TodoWithUser) => void,
-
 };
+
 type State = {
   newTitle: string,
   selectedUserId: number,

@@ -1,41 +1,40 @@
 import React from 'react';
 import './App.css';
 
-import todos from './api/todos';
+import AllTodos from './api/todos';
 import { TodosList } from './components/TodosList';
 import { getUserById } from './helpers';
 import { AddTodoForm } from './components/AddTodoForm';
 
-export const todoWithUser: TodoWithUser[] = todos.map((todo) => ({
+export const todosWithUser: TodoWithUser[] = AllTodos.map((todo) => ({
   ...todo,
   user: getUserById(todo.userId) || null,
 }));
 
-type Props = {};
 type State = {
-  todo: TodoWithUser[],
+  todos: TodoWithUser[],
 };
 
-export class App extends React.Component<Props, State> {
+export class App extends React.Component<{}, State> {
   state: State = {
-    todo: [...todoWithUser],
+    todos: [...todosWithUser],
   };
 
   addNewTodo = (newTodo: TodoWithUser) => {
     this.setState((prevState) => ({
-      todo: [...prevState.todo, newTodo],
+      todos: [...prevState.todos, newTodo],
     }));
   };
 
   render() {
-    const { todo } = this.state;
+    const { todos } = this.state;
 
     return (
       <div className="App card">
-        <h1 className="title is-3 has-text-primary">Add good form</h1>
+        <h1 className="title is-3 has-text-primary">Add todo form</h1>
 
-        <AddTodoForm todo={todo} addNewTodo={this.addNewTodo} />
-        <TodosList todos={todo} />
+        <AddTodoForm todo={todos} addNewTodo={this.addNewTodo} />
+        <TodosList todos={todos} />
       </div>
     );
   }
