@@ -49,7 +49,7 @@ class App extends React.Component<{}, State> {
 
     const { title, user, tods } = this.state;
 
-    if (!title) {
+    if (!title.trim()) {
       this.setState({ isTitle: true });
 
       return;
