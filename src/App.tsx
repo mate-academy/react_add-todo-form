@@ -115,14 +115,7 @@ export class App extends React.Component<{}, State> {
           onSubmit={this.handleSubmit}
         >
           <button className="App__button" type="submit">Add user</button>
-          {' '}
           <div>
-            <label
-              htmlFor="title"
-              className="label"
-            >
-              {' '}
-            </label>
             <section>
               <input
                 type="text"
