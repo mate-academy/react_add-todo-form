@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 import serverTodos from './api/todos';
 import serverUsers from './api/users';
@@ -26,6 +26,20 @@ class App extends React.Component<Props, State> {
     todos: preparedTodos,
     userError: '',
     titleError: '',
+  };
+
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.addTodo();
+    this.setState({ todoTitle: '', currentUser: 0 });
+  };
+
+  handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ todoTitle: event.target.value, titleError: '' });
+  };
+
+  handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ currentUser: +event.target.value, userError: '' });
   };
 
   addTodo() {
@@ -60,11 +74,7 @@ class App extends React.Component<Props, State> {
       <div className="App">
         <h1 className="App__title">Add todo form</h1>
         <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            this.addTodo();
-            this.setState({ todoTitle: '', currentUser: 0 });
-          }}
+          onSubmit={this.handleSubmit}
           className="App__form"
         >
           <input
@@ -72,18 +82,14 @@ class App extends React.Component<Props, State> {
             name="title"
             placeholder="Title"
             value={this.state.todoTitle}
-            onChange={(event) => {
-              this.setState({ todoTitle: event.target.value, titleError: '' });
-            }}
+            onChange={this.handleTitle}
             className="App__input"
           />
           {this.state.titleError}
           <select
             name="users"
             value={this.state.currentUser}
-            onChange={(event) => {
-              this.setState({ currentUser: +event.target.value, userError: '' });
-            }}
+            onChange={this.handleUser}
             className="App__input"
           >
             <option value="">Choose a user</option>
