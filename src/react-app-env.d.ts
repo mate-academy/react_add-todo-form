@@ -12,16 +12,8 @@ interface Todo {
   id: number,
   title: string,
   completed: boolean,
-  user: User | null,
+  user?: User | null,
 }
-
-type State = {
-  name: string;
-  title: string;
-  invalidTitle: boolean;
-  invalidName: boolean;
-  todosFromServer: TodosFromServer[];
-};
 
 interface User {
   id: number,

@@ -13,13 +13,18 @@ type State = {
   todosFromServer: TodosFromServer[];
 };
 
+const prepareTodos: Todo[] = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => todo.userId === user.id) || null,
+}));
+
 class App extends React.Component<Props, State> {
   state: State = {
     name: '',
     title: '',
     invalidTitle: false,
     invalidName: false,
-    todosFromServer: [...todos],
+    todosFromServer: [...prepareTodos],
   };
 
   handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,21 +50,12 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  usersWithTodos = () => {
-    const prepareTodos: Todo[] = this.state.todosFromServer.map(todo => ({
-      ...todo,
-      user: users.find(user => todo.userId === user.id) || null,
-    }));
-
-    return prepareTodos;
-  };
-
   addNewTodo = () => {
-    const { title, name } = this.state;
+    const { title, name, todosFromServer } = this.state;
     const person = users.find(user => user.name === name) || null;
     const newTodo: TodosFromServer = {
       userId: person?.id,
-      id: Math.random(),
+      id: todosFromServer.length + 1,
       title,
       completed: false,
     };
@@ -99,8 +95,8 @@ class App extends React.Component<Props, State> {
       name,
       invalidTitle,
       invalidName,
+      todosFromServer,
     } = this.state;
-    const prepareTodos = this.usersWithTodos();
 
     return (
       <div className="App">
@@ -152,7 +148,7 @@ class App extends React.Component<Props, State> {
         </form>
 
         <div>
-          <TodoList todos={prepareTodos} />
+          <TodoList todos={todosFromServer} />
         </div>
       </div>
     );

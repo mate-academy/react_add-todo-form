@@ -1,5 +1,3 @@
-import { UserInfo } from './UserInfo';
-
 type Props = {
   todo: Todo;
 };
@@ -12,7 +10,12 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
     <h3>
       {`completed: ${todo.completed}`}
     </h3>
-    {todo.user
-    && <UserInfo user={todo.user} />}
+    {todo.user && (
+      <div>
+        <span>{`Name: ${todo.user.name}`}</span>
+        <br />
+        <span>{`Email: ${todo.user.email}`}</span>
+      </div>
+    )}
   </>
 );
