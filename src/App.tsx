@@ -59,11 +59,17 @@ class App extends React.Component<{}, State> {
   };
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ userName: event.currentTarget.value });
+    this.setState({
+      userName: event.currentTarget.value,
+      errorUser: '',
+    });
   };
 
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newTitle: event.currentTarget.value });
+    this.setState({
+      newTitle: event.currentTarget.value,
+      errorTitle: '',
+    });
   };
 
   defaultPreventer = (event: React.FormEvent<HTMLFormElement>) => {
