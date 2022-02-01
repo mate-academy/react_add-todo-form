@@ -6,6 +6,11 @@ import todos from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
+const todosFromServer = todos.map(todo => ({
+  ...todo,
+  userName: users.find(user => user.id === todo.userId)?.name || '',
+}));
+
 type State = {
   preparedTodos: Todo[],
   title: string,
@@ -18,10 +23,7 @@ class App extends React.Component<{}, State> {
   maxId = Math.max(...todos.map(todo => todo.id));
 
   state: State = {
-    preparedTodos: todos.map(todo => ({
-      ...todo,
-      userName: users.find(user => user.id === todo.userId)?.name || '',
-    })),
+    preparedTodos: todosFromServer,
     title: '',
     userName: '',
     titleError: false,
@@ -38,43 +40,60 @@ class App extends React.Component<{}, State> {
     } as Pick<State, 'title' | 'userName' | 'titleError' | 'userNameError'>);
   };
 
+  validateForm = (): boolean => {
+    const { title, userName } = this.state;
+    const titleError = !title.trim();
+    const userNameError = !userName;
+
+    if (titleError || userNameError) {
+      this.setState(prevState => ({
+        titleError,
+        userNameError,
+        title: prevState.title.trim(),
+      }));
+
+      return false;
+    }
+
+    return true;
+  };
+
+  createTodo = (): Todo => {
+    const {
+      title,
+      userName,
+    } = this.state;
+
+    return {
+      title,
+      userName,
+      id: this.maxId,
+    };
+  };
+
+  clearForm = () => {
+    this.setState({
+      title: '',
+      userName: '',
+    });
+  };
+
   addTodo = (event: React.FormEvent) => {
     event.preventDefault();
     this.maxId += 1;
 
-    this.setState(({
-      preparedTodos,
-      title,
-      userName,
-    }) => {
-      const titleError = !title.trim();
-      const userNameError = !userName;
+    if (this.validateForm()) {
+      const todo = this.createTodo();
 
-      if (titleError || userNameError) {
-        return {
-          preparedTodos,
-          title: title.trim(),
-          userName,
-          titleError,
-          userNameError,
-        };
-      }
-
-      return {
+      this.setState(({ preparedTodos }) => ({
         preparedTodos: [
           ...preparedTodos,
-          {
-            title,
-            userName,
-            id: this.maxId,
-          },
+          todo,
         ],
-        title: '',
-        userName: '',
-        titleError: false,
-        userNameError: false,
-      };
-    });
+      }));
+
+      this.clearForm();
+    }
   };
 
   render() {
