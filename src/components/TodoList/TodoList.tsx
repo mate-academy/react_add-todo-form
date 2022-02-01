@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoList.scss';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 type Props = {

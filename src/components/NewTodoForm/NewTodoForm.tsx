@@ -81,12 +81,13 @@ export class NewTodoForm extends React.Component<Props, State> {
     return (
       <form
         onSubmit={this.handleSubmit}
+        className="form"
       >
         <section>
           <input
             type="text"
             placeholder="Title"
-            className="form"
+            className="input"
             value={newTodoName}
             onChange={this.handleTodoChange}
           />
@@ -97,7 +98,7 @@ export class NewTodoForm extends React.Component<Props, State> {
 
         <section>
           <select
-            className="form"
+            className="input"
             value={selectedUserId}
             onChange={this.handleUserChange}
           >
@@ -111,7 +112,7 @@ export class NewTodoForm extends React.Component<Props, State> {
           )}
         </section>
 
-        <button type="submit" className="form">Add</button>
+        <button type="submit" className="input button">Add</button>
       </form>
     );
   }
