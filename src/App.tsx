@@ -6,28 +6,28 @@ import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
 type State = {
-  todos: Todo[];
+  appTodos: Todo[];
   userId: number,
   todoTitle: string,
-  isUserEmpty: boolean,
-  isTitleEmpty: boolean,
+  hasUserError: boolean,
+  hasTitleError: boolean,
 };
 
 class App extends React.Component<{}, State> {
   state: State = {
-    todos: [...todos],
+    appTodos: [...todos],
     userId: 0,
     todoTitle: '',
-    isUserEmpty: true,
-    isTitleEmpty: true,
+    hasUserError: false,
+    hasTitleError: false,
   };
 
   getNewTodo = () => {
-    const { todoTitle, userId } = this.state;
+    const { todoTitle, userId, appTodos } = this.state;
 
     return ({
       userId: +userId,
-      id: this.state.todos.length + 1,
+      id: appTodos.length + 1,
       title: todoTitle,
       completed: false,
     });
@@ -35,21 +35,21 @@ class App extends React.Component<{}, State> {
 
   addTodo = (todo: Todo) => {
     this.setState(state => ({
-      todos: [...state.todos, todo],
+      appTodos: [...state.appTodos, todo],
     }));
   };
 
   handleTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       todoTitle: event.currentTarget.value,
-      isTitleEmpty: false,
+      hasTitleError: false,
     });
   };
 
   handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({
       userId: Number(event.currentTarget.value),
-      isUserEmpty: false,
+      hasUserError: false,
     });
   };
 
@@ -57,33 +57,38 @@ class App extends React.Component<{}, State> {
     this.setState({
       userId: 0,
       todoTitle: '',
-      isUserEmpty: true,
-      isTitleEmpty: true,
+      hasUserError: false,
+      hasTitleError: false,
     });
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { isUserEmpty, isTitleEmpty } = this.state;
+    const { todoTitle, userId } = this.state;
+    const newTodo = this.getNewTodo();
 
-    if (isUserEmpty
-        || isTitleEmpty
-        || this.state.userId === 0
-    ) {
-      return;
+    if (todoTitle && userId) {
+      this.addTodo(newTodo);
+      this.clearState();
+    } else if (!todoTitle) {
+      this.setState({
+        hasTitleError: true,
+      });
+    } else if (!userId) {
+      this.setState({
+        hasUserError: true,
+      });
     }
-
-    this.addTodo(this.getNewTodo());
-    this.clearState();
   };
 
   render() {
     const {
-      isUserEmpty,
-      isTitleEmpty,
+      hasUserError,
+      hasTitleError,
       todoTitle,
       userId,
+      appTodos,
     } = this.state;
 
     return (
@@ -100,7 +105,7 @@ class App extends React.Component<{}, State> {
             onChange={this.handleTodoTitle}
           />
 
-          {isTitleEmpty
+          {hasTitleError
               && <span className="box notification is-danger">Please enter the title</span>}
 
           <select
@@ -108,7 +113,7 @@ class App extends React.Component<{}, State> {
             value={userId}
             onChange={this.handleUserChange}
           >
-            <option value="0">
+            <option value="">
               Choose a user
             </option>
             {users.map(user => (
@@ -118,7 +123,7 @@ class App extends React.Component<{}, State> {
             ))}
           </select>
 
-          {isUserEmpty
+          {hasUserError
               && <span className="box notification is-danger">Please choose a user</span>}
 
           <button type="submit" className="button">
@@ -126,7 +131,7 @@ class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={appTodos} />
       </div>
     );
   }
