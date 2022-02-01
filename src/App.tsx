@@ -16,6 +16,40 @@ class App extends React.Component<{}, State> {
     selectError: false,
   };
 
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (this.state.newTitle.trim().length === 0) {
+      this.setState({ inputError: true, selectError: false });
+
+      return;
+    }
+
+    if (!this.state.user) {
+      this.setState({ selectError: true, inputError: false });
+
+      return;
+    }
+
+    this.setState(state => {
+      const newTodo = {
+        userId: users.find(onesUser => onesUser.id === this.state.user)?.id,
+        id: Date.now(),
+        title: this.state.newTitle,
+        completed: false,
+      };
+
+      return {
+        newTitle: '',
+        user: 0,
+        todos: [
+          ...state.todos,
+          newTodo,
+        ],
+      };
+    });
+  };
+
   render() {
     const {
       newTitle,
@@ -27,45 +61,7 @@ class App extends React.Component<{}, State> {
     return (
       <div className="App">
         <form
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            if (!newTitle) {
-              this.setState({ inputError: true });
-
-              return;
-            }
-
-            if (newTitle.trim().length === 0) {
-              this.setState({ inputError: true });
-
-              return;
-            }
-
-            if (!user) {
-              this.setState({ selectError: true });
-
-              return;
-            }
-
-            this.setState(state => {
-              const newTodo = {
-                userId: users.find(onesUser => onesUser.id === user)?.id,
-                id: Date.now(),
-                title: newTitle,
-                completed: false,
-              };
-
-              return {
-                newTitle: '',
-                user: 0,
-                todos: [
-                  ...state.todos,
-                  newTodo,
-                ],
-              };
-            });
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="form">
             <div className="inputs">
