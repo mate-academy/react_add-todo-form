@@ -64,30 +64,25 @@ class App extends React.Component<{}, State> {
     });
   };
 
+  isValidForm = () => {
+    const { title, userId } = this.state;
+
+    if (!title || !userId) {
+      this.setState({
+        isTitleError: !title,
+        isSelectUserError: !userId,
+      });
+
+      return false;
+    }
+
+    return true;
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (this.state.title === '') {
-      this.setState({
-        isTitleError: true,
-      });
-    } else {
-      this.setState({
-        isTitleError: false,
-      });
-    }
-
-    if (this.state.userId === 0) {
-      this.setState({
-        isSelectUserError: true,
-      });
-    } else {
-      this.setState({
-        isSelectUserError: false,
-      });
-    }
-
-    if (this.state.userId !== 0 && this.state.title !== '') {
+    if (this.isValidForm()) {
       this.addTodo();
     }
   };
@@ -114,7 +109,7 @@ class App extends React.Component<{}, State> {
               />
             </label>
             {this.state.isTitleError && (
-              <div>
+              <div className="form__error">
                 Please enter the title
               </div>
             )}
@@ -139,7 +134,7 @@ class App extends React.Component<{}, State> {
               </select>
             </label>
             {this.state.isSelectUserError && (
-              <div>
+              <div className="form__error">
                 Please choose a user
               </div>
             )}
