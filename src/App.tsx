@@ -16,7 +16,7 @@ class App extends React.Component<{}, State> {
   state: State = {
     todos,
     newTitle: '',
-    userName: '',
+    userName: 'choose',
     errorUser: '',
     errorTitle: '',
   };
@@ -101,8 +101,9 @@ class App extends React.Component<{}, State> {
           <select
             name="newUser"
             onChange={this.handleUserChange}
+            value={userName}
           >
-            <option value={userName}>Choose an option</option>
+            <option value="choose">Choose an option</option>
             {users.map(user => (
               <option value={user.name} key={user.id}>
                 {user.name}
