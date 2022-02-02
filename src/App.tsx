@@ -35,6 +35,7 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       userId: +value,
+      isSelectUserError: false,
     });
   };
 
@@ -43,14 +44,21 @@ class App extends React.Component<{}, State> {
 
     this.setState({
       title: value,
+      isTitleError: false,
     });
+  };
+
+  getMaxId = () => {
+    const ids = this.state.todos.map(todo => todo.id);
+
+    return Math.max(...ids);
   };
 
   addTodo = () => {
     this.setState(state => {
       const addTodo = {
         title: state.title,
-        id: state.todos.length + 1,
+        id: this.getMaxId() + 1,
         userId: state.userId,
         completed: false,
         user: users.find(user => user.id === state.userId),
