@@ -13,21 +13,26 @@ type State = {
   todosFromServer: TodosFromServer[];
 };
 
+const prepareTodos: Todo[] = todos.map(todo => ({
+  ...todo,
+  user: users.find(user => todo.userId === user.id) || null,
+}));
+
 class App extends React.Component<{}, State> {
   state: State = {
     name: '',
     title: '',
     invalidTitle: false,
     invalidName: false,
-    todosFromServer: [...todos],
+    todosFromServer: [...prepareTodos],
   };
 
   addNewTodo = () => {
-    const { title, name } = this.state;
+    const { title, name, todosFromServer } = this.state;
     const person = users.find(user => user.name === name) || null;
     const newTodo: TodosFromServer = {
       userId: person?.id,
-      id: Math.random(),
+      id: todosFromServer.length + 1,
       title,
       completed: false,
     };
@@ -60,15 +65,6 @@ class App extends React.Component<{}, State> {
     }
   };
 
-  usersWithTodos = () => {
-    const prepareTodos: Todo[] = this.state.todosFromServer.map(todo => ({
-      ...todo,
-      user: users.find(user => todo.userId === user.id) || null,
-    }));
-
-    return prepareTodos;
-  };
-
   clearState = () => {
     this.setState({
       title: '',
@@ -99,8 +95,8 @@ class App extends React.Component<{}, State> {
       name,
       invalidTitle,
       invalidName,
+      todosFromServer,
     } = this.state;
-    const prepareTodos = this.usersWithTodos();
 
     return (
       <div className="App">
@@ -113,7 +109,7 @@ class App extends React.Component<{}, State> {
             <form onSubmit={this.handleSubmit}>
               <section>
                 {invalidTitle
-                  && <span>Please enter a title</span>}
+                  && <span className="text-danger">Please enter a title</span>}
                 <input
                   className="form-control"
                   type="text"
@@ -127,7 +123,7 @@ class App extends React.Component<{}, State> {
 
               <section>
                 {invalidName
-                  && <span>Please choose a name</span>}
+                  && <span className="text-danger">Please choose a name</span>}
                 <select
                   className="form-select todoUser"
                   value={name}
@@ -154,7 +150,7 @@ class App extends React.Component<{}, State> {
             </form>
           </div>
           <div>
-            <TodoList todos={prepareTodos} />
+            <TodoList todos={todosFromServer} />
           </div>
         </div>
       </div>
