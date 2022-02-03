@@ -2,6 +2,18 @@ import React from 'react';
 import './NewTodoForm.scss';
 import users from '../../api/users';
 
+function maxId(arr: Todo[]) {
+  let max = 1;
+
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i].id > max) {
+      max = arr[i].id;
+    }
+  }
+
+  return max;
+}
+
 type Props = {
   allTodos: Todo[];
   addNewTodo: (newTodo: Todo) => void;
@@ -60,7 +72,7 @@ export class NewTodoForm extends React.Component<Props, State> {
 
     const newTodo: Todo = {
       userId: selectedUserId,
-      id: allTodos.length + 1,
+      id: maxId(allTodos) + 1,
       title: newTodoName,
       completed: true,
       user: users.find(user => user.id === selectedUserId) || null,
