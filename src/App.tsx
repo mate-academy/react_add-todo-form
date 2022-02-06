@@ -21,7 +21,8 @@ class App extends React.Component<{}, State> {
     errorTitle: '',
   };
 
-  addTodo = () => {
+  addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const { newTitle, userName } = this.state;
     const newId = this.state.todos.length + 1;
     const newUser: User | null = users.find(user => user.name === userName) || null;
@@ -72,10 +73,6 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  defaultPreventer = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-
   render() {
     const {
       errorTitle,
@@ -87,7 +84,7 @@ class App extends React.Component<{}, State> {
     return (
       <div className="App">
         <h1>Add todo form</h1>
-        <form onSubmit={this.defaultPreventer}>
+        <form onSubmit={this.addTodo}>
           <input
             type="text"
             name="newTitle"
@@ -111,7 +108,7 @@ class App extends React.Component<{}, State> {
             ))}
           </select>
 
-          <button type="submit" onClick={this.addTodo}>Add</button>
+          <button type="submit">Add</button>
           {errorUser}
         </form>
 
