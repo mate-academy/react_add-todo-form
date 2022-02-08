@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
