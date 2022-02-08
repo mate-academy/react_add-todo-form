@@ -1,0 +1,18 @@
+.Todo_list {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    min-height: 30vh;
+    border: 1px solid gray;
+    box-shadow: 0 0 15px 3px #b5b5b5;
+    margin-bottom: 20px;
+  }
+}

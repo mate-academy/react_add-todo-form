@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+}
+
+.Error {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 200px;
+  max-width: 30%;
+  border-radius: 8px;
+  background-color: rgba(253, 211, 216, 0.5);
+}
+
+.Form__wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  &__item {
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+    border: 1px solid gray;
+    transition: all 0.3s;
+    &:hover {
+      border: 1px solid gray;
+      box-shadow: 0 0 5px 2px gray;
+    }
+  }
+  &__itemBlock {
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
+  .Error {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -220px;
+
+    padding: 9px;
+  }
+}

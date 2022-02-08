@@ -1,0 +1,26 @@
+.Todo_info {
+  text-align: center;
+  width: 100%;
+  padding: 0 20px;
+  &__title {
+    font-size: 20px;
+  }
+  &--completed {
+    color: green;
+    &::after {
+      content: "✅";
+      display: inline-block;
+      position: relative;
+      left: 5px;
+    }
+  }
+  &--not-completed {
+    color: tomato;
+    &::after {
+      content: "❌";
+      display: inline-block;
+      position: relative;
+      left: 5px;
+    }
+  }
+}
