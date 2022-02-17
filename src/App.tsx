@@ -53,6 +53,7 @@ const App: React.FC = () => {
       <select
         name="userId"
         onChange={getUserId}
+        value={formUserId}
       >
         <option value={initialUserId}>
           Choose a user
