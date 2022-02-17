@@ -45,6 +45,8 @@ const App: React.FC = () => {
           };
 
           setVisibleTodos([...visibleTodos, newTodo]);
+          setTitle('');
+          setUser(users[0]);
         })}
       >
         <label htmlFor="title">
