@@ -1,3 +1,22 @@
 .App {
   text-align: center;
 }
+
+.todo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.todo-list__items {
+  background-color: lightsalmon;
+  padding: 15px;
+  border-radius: 25px;
+}
+
+.todo-list__items--done {
+  background-color: lightgreen;
+}
