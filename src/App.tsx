@@ -51,7 +51,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h2>Add todo form</h2>
+      <h2>Add todo form:</h2>
       <form
         action=""
         className="form"
