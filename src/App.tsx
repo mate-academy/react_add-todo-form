@@ -43,6 +43,7 @@ const App: React.FC = () => {
 
       if (str.length < title.length) {
         setUncorrectTitle('Please enter correct title(p.s. Allow entering letters (`ru` and `en`), digits and `spaces`)');
+        flag = false;
       } else {
         setUncorrectTitle('');
       }
