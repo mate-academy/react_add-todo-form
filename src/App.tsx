@@ -25,7 +25,7 @@ const App: React.FC = () => {
   const [allTodos, setTodos] = useState(todosWithPersons);
 
   const addNewTodo = () => {
-    const needUser = users.find(user => name.includes(user.name)) || null;
+    const selectedUser = users.find(user => name.includes(user.name)) || null;
 
     if (name === '' || todo === '') {
       // eslint-disable-next-line no-alert
