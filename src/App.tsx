@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import './App.scss';
@@ -58,7 +57,6 @@ const App: React.FC = () => {
     }
 
     if (flag) {
-      console.log(flag);
       const newUser = {
         id: getMaxId() + 1,
         title,
@@ -106,7 +104,7 @@ const App: React.FC = () => {
           value={selectedUserId}
           onChange={(event) => setSelectedUser(+event.target.value)}
         >
-          <option value="-1">Choose user .....</option>
+          <option value="-1">Choose user ...</option>
           {users.map(user => (
             <option key={user.name} value={user.id}>{user.name}</option>
           ))}
