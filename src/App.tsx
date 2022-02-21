@@ -58,6 +58,7 @@ const App: React.FC = () => {
     }
 
     if (flag) {
+      console.log(flag);
       const newUser = {
         id: getMaxId() + 1,
         title,
