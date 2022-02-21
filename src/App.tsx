@@ -1,17 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TodoList } from './components/TodoList';
+import users from './api/users';
+import todos from './api/todos';
 import './App.css';
 
-import users from './api/users';
+const preparedTodos = [...todos].map((todo) => {
+  const newUser = users.find(user => user.id === todo.userId) || null;
+
+  if (newUser === null) {
+    throw new Error('choose someone');
+  }
+
+  return {
+    ...todo,
+    person: newUser,
+  };
+});
 
 const App: React.FC = () => {
+  const [name, setName] = useState('');
+  const [todo, setTodo] = useState('');
+  const [allTodos, setTodos] = useState(preparedTodos);
+
+  const addNewTodo = () => {
+    let selectedUser = users.find(user => name.includes(user.name)) || null;
+
+    if (name === '' || todo === '') {
+      // eslint-disable-next-line no-alert
+      alert(todo.length ? 'Please, choose a user' : 'Please, add text in field "What to do"');
+    } else {
+      if (selectedUser === null) {
+        throw new Error();
+      }
+
+      const newTodo = {
+        person: selectedUser,
+        id: allTodos.length + 1,
+        userId: selectedUser.id,
+        title: todo,
+        completed: false,
+      };
+
+      setTodo('');
+
+      setTodos([...allTodos, newTodo]);
+    }
+
+    selectedUser = null;
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+      <form
+        action=""
+        className="form"
+        onSubmit={addNewTodo}
+      >
+        <div className="input">
+          <select
+            name="users names"
+            className="form__selector"
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          >
+            <option value="">Choose your person</option>
+            {users.map(user => (
+              <option
+                key={user.id}
+                value={user.name}
+              >
+                {user.name}
+              </option>
+            ))}
+
+          </select>
+        </div>
+        <input
+          type="text"
+          className="form__input"
+          placeholder="What to do?"
+          value={todo}
+          onChange={(event) => {
+            setTodo(event.target.value);
+          }}
+        />
+        <button
+          type="button"
+          className="form__button"
+          onClick={addNewTodo}
+        >
+          add
+        </button>
+      </form>
+      <TodoList defaultList={allTodos} />
     </div>
   );
 };
