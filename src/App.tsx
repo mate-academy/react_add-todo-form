@@ -22,7 +22,7 @@ const preparedTodos = [...todos].map((todo) => {
 const App: React.FC = () => {
   const [name, setName] = useState('');
   const [todo, setTodo] = useState('');
-  const [allTodos, setTodos] = useState(todosWithPersons);
+  const [allTodos, setTodos] = useState(preparedTodos);
 
   const addNewTodo = () => {
     const selectedUser = users.find(user => name.includes(user.name)) || null;
@@ -31,14 +31,14 @@ const App: React.FC = () => {
       // eslint-disable-next-line no-alert
       alert(todo.length ? 'Please choose a user' : 'Please add what to do');
     } else {
-      if (needUser === null) {
+      if (selectedUser === null) {
         throw new Error();
       }
 
       const newTodo = {
-        person: needUser,
-        id: allTodos.length * needUser.id,
-        userId: needUser.id,
+        person: selectedUser,
+        id: allTodos.length * selectedUser.id,
+        userId: selectedUser.id,
         title: todo,
         completed: false,
       };
