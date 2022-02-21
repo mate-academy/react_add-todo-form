@@ -65,6 +65,9 @@ const App: React.FC = () => {
       };
 
       addToCreatedTodo(current => ([...current, newUser]));
+
+      setSelectedUser(-1);
+      setTitle('');
     }
   };
 
