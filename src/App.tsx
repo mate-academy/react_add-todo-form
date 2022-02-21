@@ -106,7 +106,7 @@ const App: React.FC = () => {
           value={selectedUserId}
           onChange={(event) => setSelectedUser(+event.target.value)}
         >
-          <option value="-1">Choose user ...</option>
+          <option value="-1">Choose user .....</option>
           {users.map(user => (
             <option key={user.name} value={user.id}>{user.name}</option>
           ))}
