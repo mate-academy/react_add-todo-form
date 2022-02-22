@@ -1,0 +1,11 @@
+.User {
+  color: darkgray;
+  font-style: italic;
+  font-size: 14px;
+  &__name {
+    text-align: left;
+  }
+  &__email {
+    text-align: right;
+  }
+}
