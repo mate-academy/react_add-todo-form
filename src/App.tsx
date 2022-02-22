@@ -20,9 +20,10 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState([...preparedTodos]);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
-  const [nextTodoId, setNextTodoId] = useState(todos.length + 1);
   const [titleIsInvalid, setTitleIsInvalid] = useState(false);
   const [userIsInvalid, setUserIsInvalid] = useState(false);
+
+  const nextTodoId = todos.length + 1;
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,7 +46,6 @@ const App: React.FC = () => {
       };
 
       setTodos([...todos, todo]);
-      setNextTodoId(nextTodoId + 1);
       setTitle('');
       setUserId('');
     }
