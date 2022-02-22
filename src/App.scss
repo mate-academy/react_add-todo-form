@@ -1,0 +1,32 @@
+.App {
+  width: 300px;
+  border-radius: 5px;
+  border: 2px solid black;
+  padding: 5px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  &__title-input {
+    width: 142px;
+  }
+
+  &__user-select {
+    width: 150px;
+  }
+
+  &__error {
+    color: red;
+    font-weight: bold;
+  }
+}
