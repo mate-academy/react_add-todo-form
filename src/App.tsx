@@ -31,9 +31,11 @@ const App: React.FC = () => {
     }
 
     if (title && userId) {
+      const maxId = Math.max(...todos.map(todo => todo.id)) + 1;
+
       const newTodo = {
         userId: +userId,
-        id: todos.length + 1,
+        id: maxId,
         title,
         completed: false,
         user: users.find(user => user.id === +userId) || null,
@@ -84,7 +86,7 @@ const App: React.FC = () => {
             onChange={handleSelect}
           >
             <option>
-              Shoose a user
+              Choose a user
             </option>
             {users.map(user => (
               <option key={user.id} value={user.id}>
