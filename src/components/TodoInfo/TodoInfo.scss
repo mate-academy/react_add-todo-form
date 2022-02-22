@@ -1,0 +1,22 @@
+.TodoInfo {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__todo {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+
+    &-status {
+      color: #ce1212;
+    }
+  }
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+}
