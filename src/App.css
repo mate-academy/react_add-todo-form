@@ -1,3 +1,16 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+}
+
+.todo {
+  display: flex;
+  list-style: none;
+  width: 620px;
+}
+
+.todo__item {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  width: 300px;
 }
