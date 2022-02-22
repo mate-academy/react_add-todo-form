@@ -8,7 +8,7 @@ const preparedTodos = [...todos].map((todo) => {
   const newUser = users.find(user => user.id === todo.userId) || null;
 
   if (newUser === null) {
-    throw new Error('choose someone');
+    throw new Error();
   }
 
   return {
@@ -18,35 +18,41 @@ const preparedTodos = [...todos].map((todo) => {
 });
 
 const App: React.FC = () => {
-  const [name, setName] = useState('');
-  const [todo, setTodo] = useState('');
+  const [userName, setUserName] = useState('');
+  const [title, setTitle] = useState('');
   const [allTodos, setTodos] = useState(preparedTodos);
 
   const addNewTodo = () => {
-    let selectedUser = users.find(user => name.includes(user.name)) || null;
+    const selectedUser = users.find(user => userName.includes(user.name)) || null;
 
-    if (name === '' || todo === '') {
+    if (!selectedUser || !title) {
       // eslint-disable-next-line no-alert
-      alert(todo.length ? 'Please, choose a user' : 'Please, add the title"');
+      setUserName('');
     } else {
       if (selectedUser === null) {
-        throw new Error();
+        setUserName('');
       }
 
       const newTodo = {
         person: selectedUser,
         id: allTodos.length + 1,
         userId: selectedUser.id,
-        title: todo,
+        title,
         completed: false,
       };
 
-      setTodo('');
-
+      setTitle('');
+      setUserName('');
       setTodos([...allTodos, newTodo]);
     }
+  };
 
-    selectedUser = null;
+  const setNewUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserName(event.target.value);
+  };
+
+  const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
   };
 
   return (
@@ -62,10 +68,8 @@ const App: React.FC = () => {
           <select
             name="users names"
             className="form__selector"
-            value={name}
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
+            value={userName}
+            onChange={setNewUserName}
           >
             <option value="">Choose user</option>
             {users.map(user => (
@@ -79,18 +83,16 @@ const App: React.FC = () => {
 
           </select>
         </div>
-        {!name && <span>Please choose a user</span>}
+        {!userName && <span className="error">Please choose a user</span>}
 
         <input
           type="text"
           className="form__input"
           placeholder="What to do?"
-          value={todo}
-          onChange={(event) => {
-            setTodo(event.target.value);
-          }}
+          value={title}
+          onChange={setNewTitle}
         />
-        {!todo && <span>Please enter the title</span>}
+        {!title && <span className="error">Please enter the title</span>}
         <button
           type="button"
           className="form__button"

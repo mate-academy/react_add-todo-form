@@ -73,6 +73,14 @@
   background-color: rgb(27, 219, 59);
 }
 
-span {
+.error {
   color: red;
+}
+
+.done {
+  background-color: rgb(27, 219, 59);
+}
+
+.not {
+  background-color: red;
 }
