@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
   const [hasTitleError, setTitleError] = useState(false);
   const [hasUserError, setUserError] = useState(false);
-  const nextTodoId = todos.length + 1;
+  const nextTodoId = newTodos.length + 1;
 
   const getSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,82 +88,93 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title is-1 title-centered">Add todo form</h1>
 
       <form
         onSubmit={getSubmit}
       >
-        <div>
-          <select
-            name="user"
-            value={selectUserId}
-            onChange={getSelectedUser}
-          >
-            <option value="">Select user</option>
 
-            {users.map(user => (
-
-              <option
-                value={user.id}
-                key={user.id}
+        <div className="field is-grouped is-grouped-centered">
+          <div className="control">
+            <div className="select">
+              <select
+                name="user"
+                value={selectUserId}
+                onChange={getSelectedUser}
               >
-                {user.name}
-              </option>
+                <option value="">Select user</option>
 
-            ))}
-          </select>
+                {users.map(user => (
 
-          {hasUserError && <span className="error">Please choose a user</span>}
+                  <option
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </option>
 
+                ))}
+              </select>
+
+              {hasUserError && <span className="help is-danger">Please choose a user</span>}
+            </div>
+          </div>
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={getChangeTitle}
+            />
+            {hasTitleError && <span className="help is-danger">Please enter a title</span>}
+          </div>
+          <div className="control">
+            <button className="button is-primary" type="submit">Submit</button>
+          </div>
         </div>
 
-        <div>
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={getChangeTitle}
-          />
-
-          {hasTitleError && <span className="error">Please enter a title</span>}
-        </div>
-
-        <button type="submit">Add</button>
       </form>
 
       <ul className="todo">
 
         {newTodos.map(todoItem => (
-          <li className="todo__item" key={todoItem.id}>
-            <div className="todo_todoInfo">
-              <h3 className="todo__title">
-                {todoItem.title}
-              </h3>
-              <p className="todo__status">
-                {'Status: '}
-                <input
-                  type="checkbox"
-                  name="completed"
-                  checked={todoItem.completed}
-                  onChange={
-                    (event: React.ChangeEvent<HTMLInputElement>, newTodo = todoItem) => {
-                      return getChangeCompleted(event, newTodo);
-                    }
-                  }
-                />
-                {(todoItem.completed) ? ' Done! ' : ' In progress... '}
-              </p>
-              <div className="todo__userInfo">
-                <>
-                  <p className="todo__userName">
-                    {'Author: '}
-                    {todoItem.user?.name}
-                  </p>
-                  <p className="todo__userEmail">
-                    {'Email: '}
-                    {todoItem.user?.email}
-                  </p>
-                </>
+          <li className="todo__item card" key={todoItem.id}>
+            <div className="card">
+              <div className="card-content">
+                <div className="content">
+                  <div className="todo_todoInfo">
+                    <h3 className="todo__title">
+                      {todoItem.title}
+                    </h3>
+                    <p className="todo__status">
+                      {'Status: '}
+                      <input
+                        type="checkbox"
+                        name="completed"
+                        checked={todoItem.completed}
+                        onChange={
+                          (event: React.ChangeEvent<HTMLInputElement>, newTodo = todoItem) => {
+                            return getChangeCompleted(event, newTodo);
+                          }
+                        }
+                      />
+                      {(todoItem.completed) ? ' Done! ' : ' In progress... '}
+                    </p>
+                    <div className="todo__userInfo">
+                      <>
+                        <p className="todo__userName">
+                          {'Author: '}
+                          {todoItem.user?.name}
+                        </p>
+                        <p className="todo__userEmail">
+                          {'Email: '}
+                          {todoItem.user?.email}
+                        </p>
+                      </>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </li>

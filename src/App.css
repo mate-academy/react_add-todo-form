@@ -1,16 +1,22 @@
-.App {
-  /* text-align: center; */
+.title {
+  text-align: center;
+}
+
+form {
+  margin: 0 auto;
+  height: 70px;
 }
 
 .todo {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  grid-gap: 20px;
+  gap: 20px;
   list-style: none;
-  width: 620px;
+  margin: 0;
+  padding: 0;
 }
 
-.todo__item {
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid black;
-  width: 300px;
+.field {
+  margin-bottom: 20px;
 }
