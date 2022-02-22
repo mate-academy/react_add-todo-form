@@ -1,156 +1,109 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import './App.css';
 
 import todos from './api/todos';
 import users from './api/users';
+import { TodoList } from './components/TodoList/TodoList';
+import { FormSelect } from './components/FormSelect/FormSelect';
 
-type User = {
-  id: number,
-  name: string,
+const initialFormState = {
+  todoTitle: '',
+  todoUserId: 0,
 };
 
 const App: React.FC = () => {
-  const initialUserId = 0;
-  const initialTitle = '';
-  const [todoList, setTodo] = useState(todos);
-  const [formTitle, setTitle] = useState(initialTitle);
-  const [formUserId, setUserId] = useState(initialUserId);
-  const [showAlert, setAlert] = useState('');
+  const [validTodos, setValidTodos] = useState(todos);
+  const [todoTitle, setTodoTitle] = useState(initialFormState.todoTitle);
+  const [todoUserId, setTodoUserId] = useState(initialFormState.todoUserId);
+  const [titleError, setTitleError] = useState(false);
+  const [todoUserIdError, setTodoUserIdError] = useState(false);
 
-  const getTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const lastLetter = value[value.length - 1];
-
-    if (lastLetter.match(/^[a-zA-Z]+$/)
-      || lastLetter.match(/^[а-яА-Я]+$/)
-      || lastLetter.match(/^[0-9]+$/)
-      || lastLetter.match(/^[ ]+$/)) {
-      setTitle(value);
-    }
+  const resetForm = () => {
+    setTodoTitle(initialFormState.todoTitle);
+    setTodoUserId(initialFormState.todoUserId);
+    setTitleError(false);
+    setTodoUserIdError(false);
   };
 
-  const getUserId = (event: React.ChangeEvent<any>) => {
-    setUserId(event.target.value);
-  };
-
-  const makeSelect = () => {
-    const uresList = users.map((user: User) => {
-      const { id, name } = user;
-
-      return (
-        <option
-          key={id}
-          value={id}
-        >
-          {name}
-        </option>
-      );
-    });
-
-    return (
-      <select
-        name="userId"
-        onChange={getUserId}
-        value={formUserId}
-      >
-        <option value={initialUserId}>
-          Choose a user
-        </option>
-        {uresList}
-      </select>
-    );
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newTodo = {
-      userId: formUserId,
-      id: todoList.length + 1,
-      title: formTitle,
-      completed: false,
-    };
-
-    if (formTitle.length > 0 && formUserId !== initialUserId) {
-      setTodo(curent => [...curent, newTodo]);
-      setTitle(initialTitle);
-      setUserId(initialUserId);
-      setAlert('');
+    if (todoTitle.trim() === '') {
+      setTitleError(true);
     } else {
-      switch (true) {
-        case (formTitle.length === 0 && formUserId <= initialUserId):
-          setAlert('Please select user and enter title');
-          break;
+      setTitleError(false);
+    }
 
-        case (formTitle.length === 0):
-          setAlert('Please enter title');
-          break;
+    if (todoUserId === 0) {
+      setTodoUserIdError(true);
+    } else {
+      setTodoUserIdError(false);
+    }
 
-        case (formUserId <= initialUserId):
-          setAlert('Please select user');
-          break;
+    if (todoTitle.trim() !== '' && todoUserId !== 0) {
+      setValidTodos(current => [
+        ...current, {
+          title: todoTitle,
+          userId: todoUserId,
+          id: current.length + 1,
+          completed: false,
+        },
+      ]);
 
-        default:
-          break;
-      }
+      resetForm();
     }
   };
 
-  const makeTodosList = () => {
-    return (
-      <ul className="todo-list">
-        {(todoList.map((todo) => {
-          const {
-            title,
-            id,
-            completed,
-          } = todo;
+  const addTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    setTitleError(false);
+  };
 
-          const styleClass = classNames({
-            'todo-list__items': true,
-            'todo-list__items--done': completed === true,
-          });
-
-          return (
-            <li key={id} className={styleClass}>
-              <h2>{title}</h2>
-              <div>
-                Status
-                { ' ' }
-                {completed ? 'completed' : 'in work'}
-              </div>
-            </li>
-          );
-        })).reverse()}
-      </ul>
-    );
+  const addTodoUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTodoUserId(Number(event.target.value));
+    setTodoUserIdError(false);
   };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-      {showAlert && <p>{showAlert}</p>}
+      <h1 className="page-title">Static list of todos</h1>
       <form
-        action="get"
-        onSubmit={handleSubmit}
+        className="form"
+        onSubmit={handleForm}
       >
+        <div className="form__input-section">
+          <input
+            type="text"
+            value={todoTitle}
+            onChange={addTodoTitle}
+          />
+
+          {titleError && (
+            <span>
+              Please Enter title
+            </span>
+          )}
+        </div>
+
+        <div className="form__input-section">
+          <FormSelect
+            users={users}
+            addTodoUserId={addTodoUserId}
+            todoUserId={todoUserId}
+          />
+
+          {todoUserIdError && (
+            <span>
+              Please choose user
+            </span>
+          )}
+
+        </div>
         <button type="submit">
           Add
         </button>
-        <input
-          type="text"
-          name="title"
-          value={formTitle}
-          onChange={getTitle}
-        />
-        {makeSelect()}
       </form>
-      <p>
-        <span>Todos: </span>
-      </p>
-      {makeTodosList()}
+      <TodoList todos={validTodos} />
     </div>
   );
 };

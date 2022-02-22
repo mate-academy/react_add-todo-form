@@ -2,21 +2,18 @@
   text-align: center;
 }
 
-.todo-list {
+.form {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 300px;
   gap: 15px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.todo-list__items {
-  background-color: lightsalmon;
-  padding: 15px;
-  border-radius: 25px;
+.from__input {
+  width: 100%;
 }
 
-.todo-list__items--done {
-  background-color: lightgreen;
+.form__input-section {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
 }
