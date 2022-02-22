@@ -72,3 +72,7 @@
   text-align: center;
   background-color: rgb(27, 219, 59);
 }
+
+span {
+  color: red;
+}

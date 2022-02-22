@@ -21,11 +21,17 @@ type Todos = {
 };
 
 export const TodoList: React.FC<Todos> = ({ defaultList }) => {
+  // const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+  //   let { completed } = event;
+
+  //   completed = true;
+  // };
+
   return (
     <ul className="todo__list">
       {defaultList.map((todo) => {
         const { name } = todo.person;
-        const { id, userId } = todo;
+        const { id, userId, completed } = todo;
 
         return (
           <li
@@ -40,7 +46,16 @@ export const TodoList: React.FC<Todos> = ({ defaultList }) => {
                 <p>{`ID: ${id}`}</p>
               </div>
             </div>
-            <p>{todo.completed ? 'completed!' : 'not completed...'}</p>
+            <div>
+              <p>{todo.completed ? 'completed!' : 'not completed...'}</p>
+              <input
+                type="checkbox"
+                id="completed"
+                name="completed"
+                checked={completed}
+                // onChange={handleChange}
+              />
+            </div>
           </li>
         );
       })}

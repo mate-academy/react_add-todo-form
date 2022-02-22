@@ -79,6 +79,7 @@ const App: React.FC = () => {
 
           </select>
         </div>
+        {!name && <span>Please choose a user</span>}
 
         <input
           type="text"
@@ -89,6 +90,7 @@ const App: React.FC = () => {
             setTodo(event.target.value);
           }}
         />
+        {!todo && <span>Please enter the title</span>}
         <button
           type="button"
           className="form__button"
