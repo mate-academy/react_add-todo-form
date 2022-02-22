@@ -6,8 +6,9 @@ import initialTodos from './api/todos';
 import { TodoList } from './components/TodoList';
 
 const App: React.FC = () => {
-  const [title, setTitle] = useState('');
   const [todos, setTodos] = useState(initialTodos);
+  const [title, setTitle] = useState('');
+  const [userName, setUserName] = useState('');
   const [isUserInvalid, setIsUserInvalid] = useState(false);
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
 
@@ -23,7 +24,8 @@ const App: React.FC = () => {
     setIsTitleInvalid(false);
   };
 
-  const handleOptionChange = () => {
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserName(event.target.value);
     setIsUserInvalid(false);
   };
 
@@ -45,21 +47,15 @@ const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setIsUserInvalid(true);
-    const form = event.target as HTMLFormElement;
-    const input = form.elements[0] as HTMLInputElement;
-    const select = form.elements[1] as HTMLSelectElement;
-    const newUserName = select.value;
-    const newTitle = input.value;
 
-    setIsUserInvalid(newUserName === '');
-    setIsTitleInvalid(newTitle === '');
+    setIsUserInvalid(userName === '');
+    setIsTitleInvalid(title === '');
 
-    if (newUserName === '' || newTitle === '') {
+    if (userName === '' || title === '') {
       return;
     }
 
-    const newUser = users.find(user => user.name === newUserName);
+    const newUser = users.find(user => user.name === userName);
     let userId = 0;
 
     if (newUser) {
@@ -69,7 +65,7 @@ const App: React.FC = () => {
     const newTodo = {
       userId,
       id: todos.length + 1,
-      title: newTitle,
+      title,
       completed: false,
     };
 
@@ -77,6 +73,9 @@ const App: React.FC = () => {
       ...todos,
       newTodo,
     ]);
+
+    setTitle('');
+    setUserName('');
   };
 
   return (
@@ -99,7 +98,10 @@ const App: React.FC = () => {
 
         <div />
 
-        <select onChange={handleOptionChange}>
+        <select
+          value={userName}
+          onChange={handleOptionChange}
+        >
           <option value="">
             Choose a user
           </option>
