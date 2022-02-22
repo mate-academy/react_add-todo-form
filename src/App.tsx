@@ -6,39 +6,35 @@ import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
 
-const App: React.FC = () => {
-  const preparedTodos = todos.map(todo => {
-    return {
-      ...todo,
-      user: users.find(user => user.id === todo.userId) || null,
-    };
-  });
+const preparedTodos = todos.map(todo => {
+  return {
+    ...todo,
+    user: users.find(user => user.id === todo.userId) || null,
+  };
+});
 
+const App: React.FC = () => {
   const [todosToShow, setTodosToShow] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [isTitleEntered, setIsTitleEntered] = useState(true);
-  const [isUserSelected, setIsUserSelected] = useState(true);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const addTodo = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title.trim()) {
-      setIsTitleEntered(false);
-    } else {
-      setIsTitleEntered(true);
+      setIsTitleError(true);
     }
 
     if (!userId) {
-      setIsUserSelected(false);
-    } else {
-      setIsUserSelected(true);
+      setIsUserError(true);
     }
 
     if (title.trim() && userId) {
       const newTodo = {
         userId,
-        id: Math.max(...todos.map(todo => todo.id), 0) + 1,
+        id: Math.max(...todosToShow.map(todo => todo.id), 0) + 1,
         title,
         completed: false,
         user: users.find(user => user.id === userId) || null,
@@ -52,12 +48,12 @@ const App: React.FC = () => {
 
   const addTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEntered(true);
+    setIsTitleError(false);
   };
 
   const addTodoUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsUserSelected(true);
+    setIsUserError(false);
   };
 
   return (
@@ -76,7 +72,7 @@ const App: React.FC = () => {
             placeholder="Enter title"
             onChange={addTodoTitle}
           />
-          {!isTitleEntered && (
+          {isTitleError && (
             <span
               className="form__error"
             >
@@ -99,13 +95,13 @@ const App: React.FC = () => {
             </option>
             {
               users.map(user => (
-                <option value={user.id} key={user.username}>
-                  {user.username}
+                <option value={user.id} key={user.id}>
+                  {user.name}
                 </option>
               ))
             }
           </select>
-          {!isUserSelected && (
+          {isUserError && (
             <span
               className="form__error"
             >
