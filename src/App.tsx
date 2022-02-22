@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
+import './App.scss';
 
 const App: React.FC = () => {
   const prepared = () => {
@@ -18,19 +19,29 @@ const App: React.FC = () => {
   const [prepare, setPrepare] = useState(prepared);
 
   const addNewTodo = () => {
-    const newTodo = {
-      userId,
-      id: todos.length + 1,
-      title,
-      completed: false,
-      user: users.find(user => user.id === userId) || null,
-    };
+    if (title === '') {
+      setTitleError(true);
+    }
 
-    todos.push(newTodo);
+    if (userId === 0) {
+      setUserIdError(true);
+    }
 
-    setPrepare([...prepare, newTodo]);
-    setUserId(0);
-    setTitle('');
+    if (title !== '' && userId !== 0) {
+      const newTodo = {
+        userId,
+        id: todos.length + 1,
+        title,
+        completed: false,
+        user: users.find(user => user.id === userId) || null,
+      };
+
+      todos.push(newTodo);
+
+      setPrepare([...prepare, newTodo]);
+      setUserId(0);
+      setTitle('');
+    }
   };
 
   return (
@@ -38,21 +49,7 @@ const App: React.FC = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-
-          if (title === '') {
-            setTitleError(true);
-          }
-
-          if (userId === 0) {
-            setUserIdError(true);
-          }
-
-          if (title !== '' && userId !== 0) {
-            addNewTodo();
-          }
-
-          setTitle('');
-          setUserId(0);
+          addNewTodo();
         }}
       >
         <div>
