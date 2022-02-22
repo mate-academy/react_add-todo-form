@@ -25,13 +25,20 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
-  const [touched, setTouched] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let { value } = event.target;
+
+    value = value.replace(/[^ 0-9a-zA-Zа-яА-ЯёЁ]+/ig, '');
+    setTitle(value);
+  };
 
   const onTodoAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const user = users.find(searchedUser => searchedUser.name === userName);
 
-    setTouched(true);
+    setIsDirty(true);
 
     if (title && user) {
       const newTodo = {
@@ -44,7 +51,7 @@ const App: React.FC = () => {
       setVisibleTodos([...visibleTodos, newTodo]);
       setTitle('');
       setUserName('');
-      setTouched(false);
+      setIsDirty(false);
     }
   };
 
@@ -63,14 +70,9 @@ const App: React.FC = () => {
             id="title"
             placeholder="Title"
             value={title}
-            onChange={(event) => {
-              let { value } = event.target;
-
-              value = value.replace(/[^ 0-9a-zA-Zа-яА-ЯёЁ]+/ig, '');
-              setTitle(value);
-            }}
+            onChange={onTitleChange}
           />
-          {!title && touched && <div>Please enter the title</div>}
+          {!title && isDirty && <div className="error">Please enter the title</div>}
         </label>
         <select
           value={userName}
@@ -88,7 +90,7 @@ const App: React.FC = () => {
             </option>
           ))}
         </select>
-        {!userName && touched && <span>Please choose a user</span>}
+        {!userName && isDirty && <span className="error">Please choose a user</span>}
         <button
           type="submit"
           className="form__button"
