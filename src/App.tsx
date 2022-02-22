@@ -29,28 +29,26 @@ const App: React.FC = () => {
 
     if (!title) {
       setTitleIsInvalid(true);
-
-      return;
     }
 
     if (!userId) {
       setUserIsInvalid(true);
-
-      return;
     }
 
-    const todo = {
-      id: nextTodoId,
-      title,
-      completed: false,
-      userId: +userId,
-      user: users.find(u => u.id === +userId) || null,
-    };
+    if (title && userId) {
+      const todo = {
+        id: nextTodoId,
+        title,
+        completed: false,
+        userId: +userId,
+        user: users.find(u => u.id === +userId) || null,
+      };
 
-    setTodos([...todos, todo]);
-    setNextTodoId(nextTodoId + 1);
-    setTitle('');
-    setUserId('');
+      setTodos([...todos, todo]);
+      setNextTodoId(nextTodoId + 1);
+      setTitle('');
+      setUserId('');
+    }
   };
 
   const onSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
