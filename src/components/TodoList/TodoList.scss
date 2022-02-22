@@ -1,0 +1,13 @@
+.todo-list {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+
+  &__item {
+    padding: 20px;
+    width: 350px;
+    border: 1px solid black;
+  }
+}
