@@ -1,0 +1,12 @@
+.preparedTodos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+   text-align: center;
+  }
+ }
