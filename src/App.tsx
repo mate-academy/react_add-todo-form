@@ -76,7 +76,7 @@ const App: React.FC = () => {
 
           {titleError && (
             <span className="error">
-              Please Enter title
+              Please enter title
             </span>
           )}
         </div>
