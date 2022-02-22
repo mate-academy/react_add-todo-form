@@ -30,16 +30,17 @@ const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (hasTitleError === false && hasNameError === false) {
-      const choosedUser = usersFromServer.find(user => user.name === name) || null;
+    const choosedUser = usersFromServer.find(user => user.name === name) || null;
 
-      if (choosedUser === null) {
-        throw new Error();
-      }
+    if (!choosedUser) {
+      setNameError(true);
+      setTitleError(true);
+    }
 
+    if (!hasTitleError && !hasNameError && choosedUser) {
       const newTodo = {
         user: choosedUser,
-        id: todos.length * 2,
+        id: todos.length + 1,
         title,
         userId: choosedUser.id,
         completed: false,
@@ -64,11 +65,7 @@ const App: React.FC = () => {
             placeholder="Enter the task"
             value={title}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              if (event.target.value === '') {
-                setTitleError(true);
-              } else {
-                setTitleError(false);
-              }
+              setTitleError(event.target.value === '');
 
               setTitle(event.target.value);
             }}
@@ -79,11 +76,7 @@ const App: React.FC = () => {
             name="user"
             value={name}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              if (event.target.value === 'Choose the user') {
-                setNameError(true);
-              } else {
-                setNameError(false);
-              }
+              setNameError(event.target.value === 'Choose the user');
 
               setName(event.target.value);
             }}
