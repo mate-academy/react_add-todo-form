@@ -22,5 +22,5 @@ Implement ability to add TODOs to the `TodoList` implemented in [Static list of 
     - if the `title` is empty show an error message next to the `title` field (`Please enter the title`)
     - errors should appear only after pressing `Add` button
     - hide a message immediately after any change of the field with an error
-1. (* Optional) Limit characters displayed in the `title` field.
-  Allow entering letters (`ru` and `en`), digits and `spaces`.
+1. (* Optional) Allow entering only letters (`ru` and `en`), digits and `spaces` in the `title` field.
+    Just remove any other characters from the `title`
