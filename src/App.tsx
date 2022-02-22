@@ -37,7 +37,7 @@ const App: React.FC = () => {
       setTitleError(true);
     }
 
-    if (!hasTitleError && !hasNameError && choosedUser) {
+    if (hasTitleError === false && hasNameError === false && choosedUser) {
       const newTodo = {
         user: choosedUser,
         id: todos.length + 1,
