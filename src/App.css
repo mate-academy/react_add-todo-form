@@ -1,3 +1,22 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  margin-top: 20px;
+}
+
+.ui.card.form__card {
+  margin-left: 40px;
+}
+
+.field {
+  padding: 0 15px;
+}
+
+.label {
+  color: red;
+}
+
+.list {
+  list-style: none;
+  display: grid;
+  row-gap: 15px;
 }
