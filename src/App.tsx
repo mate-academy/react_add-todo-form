@@ -32,9 +32,12 @@ const App: React.FC = () => {
 
     const choosedUser = usersFromServer.find(user => user.name === name) || null;
 
-    if (!choosedUser) {
-      setNameError(true);
+    if (!title) {
       setTitleError(true);
+    }
+
+    if (!name) {
+      setNameError(true);
     }
 
     if (hasTitleError === false && hasNameError === false && choosedUser) {
