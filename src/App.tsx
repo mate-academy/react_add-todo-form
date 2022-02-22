@@ -70,10 +70,10 @@ const App: React.FC = () => {
     setTitleError(false);
   };
 
-  const getChangeCompleted = (event: React.ChangeEvent<HTMLInputElement>, todo1: Todo) => {
+  const getChangeCompleted = (event: React.ChangeEvent<HTMLInputElement>, newTodo: Todo) => {
     const { checked } = event.target;
     const changeCompleted = newTodos.map((todo) => {
-      if (todo.id === todo1.id) {
+      if (todo.id === newTodo.id) {
         return {
           ...todo,
           completed: checked,
