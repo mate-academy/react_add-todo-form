@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
     if (name === '' || todo === '') {
       // eslint-disable-next-line no-alert
-      alert(todo.length ? 'Please, choose a user' : 'Please, add text in field "What to do"');
+      alert(todo.length ? 'Please, choose a user' : 'Please, add the title"');
     } else {
       if (selectedUser === null) {
         throw new Error();
@@ -67,7 +67,7 @@ const App: React.FC = () => {
               setName(event.target.value);
             }}
           >
-            <option value="">Choose your person</option>
+            <option value="">Choose user</option>
             {users.map(user => (
               <option
                 key={user.id}
@@ -79,6 +79,7 @@ const App: React.FC = () => {
 
           </select>
         </div>
+
         <input
           type="text"
           className="form__input"

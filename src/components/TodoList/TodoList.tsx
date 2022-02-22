@@ -24,8 +24,8 @@ export const TodoList: React.FC<Todos> = ({ defaultList }) => {
   return (
     <ul className="todo__list">
       {defaultList.map((todo) => {
-        const { name, username } = todo.person;
-        const { id } = todo;
+        const { name } = todo.person;
+        const { id, userId } = todo;
 
         return (
           <li
@@ -35,11 +35,12 @@ export const TodoList: React.FC<Todos> = ({ defaultList }) => {
             <div>
               <h3 className="todo__title">{todo.title}</h3>
               <div className="user__info">
-                <p>{`user name: ${name} ${username}`}</p>
+                <p>{`name: ${name}`}</p>
+                <p>{`userID: ${userId}`}</p>
                 <p>{`ID: ${id}`}</p>
               </div>
             </div>
-            <p>{todo.completed ? 'completed!' : 'DO IT'}</p>
+            <p>{todo.completed ? 'completed!' : 'not completed...'}</p>
           </li>
         );
       })}
