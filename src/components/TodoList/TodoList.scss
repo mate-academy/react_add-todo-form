@@ -1,0 +1,13 @@
+.todo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  list-style: none;
+
+  &__item {
+    padding: 10px;
+    background-color: rgb(179, 213, 241);
+    border: 5px solid rgb(4, 196, 180);
+    border-radius: 10px;
+  }
+}
