@@ -20,20 +20,22 @@ const App: React.FC = () => {
   const [isTitleEntered, setIsTitleEntered] = useState(true);
   const [isUserSelected, setIsUserSelected] = useState(true);
 
-  const addingNewTodo = () => {
-    if (title.trim() === '') {
+  const addTodo = (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!title.trim()) {
       setIsTitleEntered(false);
     } else {
       setIsTitleEntered(true);
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setIsUserSelected(false);
     } else {
       setIsUserSelected(true);
     }
 
-    if (title.trim() !== '' && userId !== 0) {
+    if (title.trim() && userId) {
       const newTodo = {
         userId,
         id: Math.max(...todos.map(todo => todo.id), 0) + 1,
@@ -48,17 +50,22 @@ const App: React.FC = () => {
     }
   };
 
+  const addTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleEntered(true);
+  };
+
+  const addTodoUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setIsUserSelected(true);
+  };
+
   return (
     <div className="App">
       <h1 className="App__title">Add todo form</h1>
       <form
         className="App__form form"
-        onSubmit={
-          (event) => {
-            event.preventDefault();
-            addingNewTodo();
-          }
-        }
+        onSubmit={addTodo}
       >
         <div className="container">
           <input
@@ -67,10 +74,7 @@ const App: React.FC = () => {
             name="title"
             value={title}
             placeholder="Enter title"
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setIsTitleEntered(true);
-            }}
+            onChange={addTodoTitle}
           />
           {!isTitleEntered && (
             <span
@@ -85,10 +89,7 @@ const App: React.FC = () => {
             className="form__user-select"
             name="user"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setIsUserSelected(true);
-            }}
+            onChange={addTodoUserId}
           >
             <option
               value={0}
