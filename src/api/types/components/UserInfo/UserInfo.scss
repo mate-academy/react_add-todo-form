@@ -1,0 +1,8 @@
+.user {
+  color: blue;
+  font-weight: 600;
+  &__message {
+    font-weight: 500;
+    color: black;
+  }
+}
