@@ -23,6 +23,10 @@ const App: React.FC = () => {
     setIsTitleInvalid(false);
   };
 
+  const handleOptionChange = () => {
+    setIsUserInvalid(false);
+  };
+
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id } = event.target;
     const newTodos = todos.map(todo => {
@@ -95,7 +99,7 @@ const App: React.FC = () => {
 
         <div />
 
-        <select>
+        <select onChange={handleOptionChange}>
           <option value="">
             Choose a user
           </option>
