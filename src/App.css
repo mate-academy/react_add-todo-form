@@ -1,3 +1,23 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 15px;
+}
+
+.from__input {
+  width: 100%;
+}
+
+.form__input-section {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+}
+
+.error {
+  color: red;
+}
