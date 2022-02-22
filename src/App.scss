@@ -1,0 +1,53 @@
+.app__container {
+  width: 768px;
+  margin: 0 auto;
+}
+
+.input {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  &__field {
+    height: 24px;
+    width: 300px;
+  }
+
+  &__error {
+    width: 300px;
+    align-self: flex-end;
+    color: #ff0000;
+
+  }
+}
+
+.selector {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  &__field {
+    height: 34px;
+    width: 308px;
+  }
+
+  &__error {
+    width: 300px;
+    align-self: flex-end;
+    color: #ff0000;
+  }
+}
+
+.button {
+  margin-bottom: 20px;
+  width: 90px;
+  height: 40px;
+  border-radius: 8px;
+
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(110%);
+    background-color: #7878ff4d;
+  }
+}

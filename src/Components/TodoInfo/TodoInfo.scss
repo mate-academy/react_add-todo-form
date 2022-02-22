@@ -1,0 +1,29 @@
+.info {
+  position: relative;
+  padding: 20px;
+  width: 200px;
+  height: 300px;
+
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+
+  transition: transform 0.3s;
+
+  &__completed {
+    text-align: center;
+    text-decoration: line-through;
+    color: rgb(36, 134, 102);
+  }
+
+  &__inprogress {
+    text-align: center;
+    color: rgb(199, 22, 60);
+  }
+
+  &:hover {
+    background-color: #fafabd;
+    cursor: pointer;
+    transform: translate(0, -20px);
+  }
+}
