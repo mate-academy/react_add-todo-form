@@ -23,8 +23,30 @@ const preparedTodos = todos.map(todo => {
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState(users[0]);
+  const [userName, setUserName] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
+  const [touched, setTouched] = useState(false);
+
+  const onTodoAdd = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const user = users.find(searchedUser => searchedUser.name === userName);
+
+    setTouched(true);
+
+    if (title && user) {
+      const newTodo = {
+        id: todos[todos.length - 1].id + 1,
+        title,
+        completed: false,
+        user,
+      };
+
+      setVisibleTodos([...visibleTodos, newTodo]);
+      setTitle('');
+      setUserName('');
+      setTouched(false);
+    }
+  };
 
   return (
     <div className="App">
@@ -32,22 +54,7 @@ const App: React.FC = () => {
       <TodoList preparedTodos={visibleTodos} />
       <form
         className="form"
-        onSubmit={(event => {
-          event.preventDefault();
-          if (!title) {
-            return;
-          }
-
-          const newTodo = {
-            title,
-            completed: false,
-            user,
-          };
-
-          setVisibleTodos([...visibleTodos, newTodo]);
-          setTitle('');
-          setUser(users[0]);
-        })}
+        onSubmit={onTodoAdd}
       >
         <label htmlFor="title">
           Title:
@@ -56,21 +63,22 @@ const App: React.FC = () => {
             id="title"
             placeholder="Title"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => {
+              let { value } = event.target;
+
+              value = value.replace(/[^ 0-9a-zA-Zа-яА-ЯёЁ]+/ig, '');
+              setTitle(value);
+            }}
           />
+          {!title && touched && <div>Please enter the title</div>}
         </label>
         <select
-          value={user.name}
-          onChange={(event) => {
-            const currUser = users.find(searchUser => searchUser.name === event.target.value);
-
-            if (!currUser) {
-              throw new Error('no user found');
-            }
-
-            setUser(currUser);
-          }}
+          value={userName}
+          onChange={(event) => setUserName(event.target.value)}
         >
+          <option value="">
+            Choose a user
+          </option>
           {users.map(opUser => (
             <option
               key={opUser.id}
@@ -80,6 +88,7 @@ const App: React.FC = () => {
             </option>
           ))}
         </select>
+        {!userName && touched && <span>Please choose a user</span>}
         <button
           type="submit"
           className="form__button"
