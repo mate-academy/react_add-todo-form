@@ -1,0 +1,12 @@
+.todo {
+  display: flex;
+  flex-direction: column;
+
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+
+  &__title {
+    padding: 5px;
+  }
+}
