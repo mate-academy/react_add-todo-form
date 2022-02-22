@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<svg
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://web.resource.org/cc/"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    id="Layer_1"
+    version="1.1"
+    xml:space="preserve"
+    viewBox="0 0 42 42"
+    enable-background="new 0 0 42 42"
+    y="0px"
+    x="0px"
+  >
+<g
+      id="Layer_2"
+    >
+	<circle
+        cy="21"
+        cx="21"
+        r="20"
+        fill="#fff"
+    />
+		<linearGradient
+        id="SVGID_1_"
+        x1="306"
+        gradientUnits="userSpaceOnUse"
+        y1="-333"
+        gradientTransform="matrix(1 0 0 -1 -285 -332)"
+        x2="306"
+        y2="-373"
+      >
+		<stop
+          stop-color="#5DF24F"
+          offset="0"
+      />
+		<stop
+          stop-color="#2A9C06"
+          offset="1"
+      />
+	</linearGradient
+    >
+	<path
+        d="m21 5c9.378 0 16 6.633 16 16 0 9.366-6.622 16-16 16-9.377 0-16-6.634-16-16 0-9.367 6.623-16 16-16m0-4c-11.046 0-20 8.954-20 20 0 11.045 8.954 20 20 20 11.045 0 20-8.955 20-20 0-11.046-8.955-20-20-20z"
+        fill="url(#SVGID_1_)"
+    />
+	<path
+        d="m12.593 22.904s0.845-0.904 2.032-1.904 2.875-2.563 2.875-2.563l4.688 7.063s2.83-6.455 6.563-11.25 5.625-6.688 5.625-6.688 0.281 3.031 0.345 5.406c0.063 2.375-0.345 5.365-0.345 5.365s-3.088 1.191-6.125 5.083c-3.897 4.994-5.688 8.708-5.688 8.708s-1.563-1.499-4.313-4.374-5.657-4.846-5.657-4.846z"
+        fill="#018700"
+    />
+</g
+  >
+<metadata
+    ><rdf:RDF
+      ><cc:Work
+        ><dc:format
+          >image/svg+xml</dc:format
+        ><dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        /><cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        /><dc:publisher
+          ><cc:Agent
+              rdf:about="http://openclipart.org/"
+            ><dc:title
+              >Openclipart</dc:title
+            ></cc:Agent
+          ></dc:publisher
+        ><dc:title
+          >dwcheckyes - "complete"</dc:title
+        ><dc:date
+          >2013-04-30T15:49:56</dc:date
+        ><dc:description
+          >icon, green, check, done, complete, finished, checked, ok, good, yes</dc:description
+        ><dc:source
+          >https://openclipart.org/detail/177571/dwcheckyes---complete-by-forest51690-177571</dc:source
+        ><dc:creator
+          ><cc:Agent
+            ><dc:title
+              >forest51690</dc:title
+            ></cc:Agent
+          ></dc:creator
+        ><dc:subject
+          ><rdf:Bag
+            ><rdf:li
+              >check</rdf:li
+            ><rdf:li
+              >checked</rdf:li
+            ><rdf:li
+              >complete</rdf:li
+            ><rdf:li
+              >done</rdf:li
+            ><rdf:li
+              >finished</rdf:li
+            ><rdf:li
+              >good</rdf:li
+            ><rdf:li
+              >green</rdf:li
+            ><rdf:li
+              >icon</rdf:li
+            ><rdf:li
+              >ok</rdf:li
+            ><rdf:li
+              >yes</rdf:li
+            ></rdf:Bag
+          ></dc:subject
+        ></cc:Work
+      ><cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        ><cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        /><cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        /><cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        /></cc:License
+      ></rdf:RDF
+    ></metadata
+  ></svg
+>
