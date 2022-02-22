@@ -1,17 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-import users from './api/users';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { FullTodo } from './types/FullTodo';
+import { User } from './types/User';
+import { TodoList } from './TodoList/TodoList';
+
+function prepared(
+  todos: Todo[],
+  users : User[],
+): FullTodo[] {
+  return todos.map(todo => ({
+    ...todo,
+    user: users.find(user => user.id === todo.userId),
+  }));
+}
 
 const App: React.FC = () => {
+  const preparedTodos = prepared(todosFromServer, usersFromServer);
+
+  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
+  const [todos, setTodos] = useState(preparedTodos);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasNameError, setNameError] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (hasTitleError === false && hasNameError === false) {
+      const choosedUser = usersFromServer.find(user => user.name === name) || null;
+
+      if (choosedUser === null) {
+        throw new Error();
+      }
+
+      const newTodo = {
+        user: choosedUser,
+        id: todos.length * 2,
+        title,
+        userId: choosedUser.id,
+        completed: false,
+      };
+
+      setTodos([...todos, newTodo]);
+
+      setTitle('');
+      setName('');
+    }
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <form
+        onSubmit={handleSubmit}
+      >
+        <div className="form__fields">
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter the task"
+            value={title}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              if (event.target.value === '') {
+                setTitleError(true);
+              } else {
+                setTitleError(false);
+              }
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+              setTitle(event.target.value);
+            }}
+          />
+          {hasTitleError && <span className="error"> Please enter the title </span>}
+
+          <select
+            name="user"
+            value={name}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+              if (event.target.value === 'Choose the user') {
+                setNameError(true);
+              } else {
+                setNameError(false);
+              }
+
+              setName(event.target.value);
+            }}
+          >
+            <option>
+              Choose the user
+            </option>
+            {usersFromServer.map(user => (
+              <option key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          {hasNameError && <span className="error"> Please choose a user </span>}
+
+          <button type="submit"> Add </button>
+        </div>
+
+      </form>
+
+      <TodoList todoList={todos} />
     </div>
   );
 };

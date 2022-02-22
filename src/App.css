@@ -1,3 +1,10 @@
-.App {
-  text-align: center;
+.error {
+  color: red;
+}
+
+.form__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
 }
