@@ -28,19 +28,15 @@ const App: React.FC = () => {
   const handleForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (todoTitle.trim() === '') {
+    if (!todoTitle.trim()) {
       setTitleError(true);
-    } else {
-      setTitleError(false);
     }
 
     if (todoUserId === 0) {
       setTodoUserIdError(true);
-    } else {
-      setTodoUserIdError(false);
     }
 
-    if (todoTitle.trim() !== '' && todoUserId !== 0) {
+    if (todoTitle.trim() && todoUserId) {
       setValidTodos(current => [
         ...current, {
           title: todoTitle,
@@ -79,7 +75,7 @@ const App: React.FC = () => {
           />
 
           {titleError && (
-            <span>
+            <span className="error">
               Please Enter title
             </span>
           )}
@@ -93,7 +89,7 @@ const App: React.FC = () => {
           />
 
           {todoUserIdError && (
-            <span>
+            <span className="error">
               Please choose user
             </span>
           )}
