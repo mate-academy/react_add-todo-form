@@ -1,0 +1,15 @@
+.TodoList {
+  list-style: none;
+}
+
+.list-item {
+  margin: 10px;
+}
+
+.done {
+  color: green;
+}
+
+.not-done {
+  color: rgb(173, 23, 23);
+}
