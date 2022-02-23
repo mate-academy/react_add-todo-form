@@ -2,42 +2,57 @@ import React, { useState } from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList/TodoList';
 import users from './api/users';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
+
+const preparedTodos = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: users.find(user => user.id === todo.userId) || null,
+  };
+});
 
 const App: React.FC = () => {
+  const [todos, setTodos] = useState([...preparedTodos]);
   const [title, setTitle] = useState('');
-  const [hasTitleError, setTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [hasUserIdError, setUserIdError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
+
+  const unicId = todos.length + 1;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (title !== '' && userId !== 0) {
-      const id = todos.length + 1;
+    if (!title) {
+      setHasTitleError(true);
+    }
 
-      todos.push({
-        userId,
-        id,
+    if (!userId) {
+      setHasUserIdError(true);
+    }
+
+    if (title && userId) {
+      const todo = {
+        id: unicId,
         title,
         completed: false,
-      });
+        userId: +userId,
+        user: users.find(u => u.id === +userId) || null,
+      };
 
+      setTodos([...todos, todo]);
       setTitle('');
       setUserId(0);
-    }
-
-    if (title === '') {
-      setTitleError(true);
-    }
-
-    if (userId === 0) {
-      setUserIdError(true);
     }
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setUserIdError(false);
+    setHasUserIdError(false);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
   };
 
   return (
@@ -45,6 +60,7 @@ const App: React.FC = () => {
       <h1 className="title is-1 ml-0">Add todo form</h1>
 
       <form
+        action="get"
         className="box"
         onSubmit={handleSubmit}
       >
@@ -53,10 +69,7 @@ const App: React.FC = () => {
             type="text"
             value={title}
             className="input"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
           />
           {hasTitleError && (
             <span className="tag is-danger is-medium mt-1">
@@ -100,7 +113,7 @@ const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList preparedTodos={todos} users={users} />
+      <TodoList todos={todos} />
     </div>
   );
 };
