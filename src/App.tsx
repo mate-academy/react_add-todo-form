@@ -63,7 +63,7 @@ const App: React.FC = () => {
             }}
           />
           {hasTitleError
-            && <span> Please enter the title </span>}
+            && <span className="error"> Please enter the title </span>}
         </p>
 
         <select
@@ -86,7 +86,7 @@ const App: React.FC = () => {
         </select>
 
         {hasUserIdError
-          && <span> Please choose a user </span>}
+          && <span className="error"> Please choose a user </span>}
         <p>
           <button type="submit">Add</button>
         </p>
