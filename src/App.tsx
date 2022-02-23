@@ -30,15 +30,13 @@ const App: React.FC = () => {
     if (title !== '' && userId !== 0) {
       const newTodo = {
         userId,
-        id: todos.length + 1,
+        id: Date.now(),
         title,
         completed: false,
         user: users.find(user => user.id === userId) || null,
       };
 
-      todos.push(newTodo);
-
-      setPrepare([...prepare, newTodo]);
+      setPrepare((currentTodos) => [...currentTodos, newTodo]);
       setUserId(0);
       setTitle('');
     }
@@ -57,7 +55,7 @@ const App: React.FC = () => {
             type="text"
             value={title}
             placeholder="Title"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setTitle(event.target.value);
               setTitleError(false);
             }}
@@ -73,7 +71,7 @@ const App: React.FC = () => {
         <div>
           <select
             value={userId}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            onChange={(event) => {
               setUserId(Number(event.target.value));
               setUserIdError(false);
             }}
