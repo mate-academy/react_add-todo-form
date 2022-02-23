@@ -3,77 +3,130 @@ import './App.css';
 
 import users from './api/users';
 import todos from './api/todos';
+import { PreparedTodo } from './Types/PreparedTodo';
+import { User } from './Types/User';
 
-import { Todolist } from './TodoList';
+import { TodoList } from './Components/TodoList/TodoList';
 
 const App: React.FC = () => {
-  const preparedTodos = todos.map(todo => {
+  const preparedTodos: PreparedTodo[] = todos.map(todo => {
     return {
       ...todo,
-      user: users.find(user => user.id === todo.userId),
+      user: users.find(user => user.id === todo.userId) as User,
     };
   });
 
-  const [title,setTitle] = useState('');
-  const [nameUser, setUser] = useState('');
+  const [title, setTitle] = useState('');
+  const [userId, setUser] = useState(0);
   const [todoList, setTodoList] = useState(preparedTodos);
 
-  const addNewTodo = () => {
-    const newTodo = {
-      userId: users.find(person => person.name === nameUser).id,
-      id: todoList.length + 1,
-      title: title,
-      completed: false,
-      user: users.find(person => person.name === nameUser)
-    }
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
-    setTodoList([...todoList, newTodo])
-  }
-  addNewTodo
+  const addNewTodo = () => {
+    const newTodo: PreparedTodo = {
+      userId: +userId,
+      id: todoList.length + 1,
+      title,
+      completed: false,
+      user: users.find(person => person.id === +userId) as User,
+    };
+
+    setTodoList([...todoList, newTodo]);
+  };
+
+  const onFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setTitleError(!title);
+    setUserError(!userId);
+
+    if (title && userId) {
+      addNewTodo();
+      setTitle('');
+      setUser(0);
+    }
+  };
+
+  const onCHangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const onCHangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(+event.target.value);
+    setUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="">
-        <div>
+      <form
+        action=""
+        onSubmit={onFormSubmit}
+      >
+        <div
+          className="form-style"
+        >
           <input
             type="text"
+            className="form-style"
             placeholder="Add todos"
             value={title}
-            onChange={(event) =>
-              setTitle(event.target.value)
-            }
+            onChange={onCHangeInput}
           />
+          {titleError && (
+            <span
+              className="error-style"
+            >
+              Enter Title please
+            </span>
+          )}
+
         </div>
-        <div>
+        <div
+          className="form-style"
+        >
           <select
             name="userList"
+            className="form-style"
             id="userList"
-            value={nameUser}
-            onChange={(event) =>
-              setUser(event.target.value)
-            }
+            value={userId}
+            onChange={onCHangeSelect}
           >
             <option value="">Choose user</option>
             {users.map(user => (
               <option
-                value={user.name}
+                key={user.id}
+                value={user.id}
               >
                 {user.name}
               </option>
             ))}
 
           </select>
+          {userError && (
+            <span
+              className="error-style"
+            >
+              Enter User please
+            </span>
+          )}
         </div>
-        <button
-          type="button"
-
+        <div
+          className="form-style"
         >
-          Add
-        </button>
+          <button
+            type="submit"
+            className="button-style"
+          >
+            Add
+          </button>
+        </div>
       </form>
 
-      <Todolist todos={todoList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
