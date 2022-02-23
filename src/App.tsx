@@ -24,6 +24,8 @@ const App: React.FC = () => {
     };
 
     setAddedTodo([...addedTodos, newTodo]);
+    setUserId(0);
+    setTitle('');
   };
 
   return (
@@ -47,7 +49,7 @@ const App: React.FC = () => {
           }
 
           for (let i = 0; i < arr.length; i += 1) {
-            if (!('qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапрролджэячсмитьбю '.includes(arr[i]))) {
+            if (!('qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапрролджэячсмитьбю123456789 '.includes(arr[i]))) {
               counter += 1;
             }
           }
@@ -56,7 +58,7 @@ const App: React.FC = () => {
             setTitleError(true);
           }
 
-          if (counter === 0 && title !== '' && userId !== 0) {
+          if (counter < 1 && title !== '' && userId !== 0) {
             createTodo();
           }
         }}
@@ -107,18 +109,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-/* for (let i = 0; i < arr.length; i += 1) {
-  if (!('qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапрролджэячсмитьбю '.includes(arr[i]))) {
-    counter += 1;
-  }
-}
-
-if (counter > 0) {
-  setTitleError(true);
-}
-
-if (counter === 0 && title !== '' && userId !== 0) {
-  addNewTodo();
-}
-*/
