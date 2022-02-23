@@ -1,0 +1,10 @@
+.data{
+  list-style-type: none;
+  &__dataOfUser {
+  width: 50%;
+  border: 1px solid #000;
+
+  background-color: #FFC;
+  margin-bottom: 5px;
+}
+}
