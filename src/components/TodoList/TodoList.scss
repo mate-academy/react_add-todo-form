@@ -1,0 +1,19 @@
+.todo__list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0;
+}
+
+.todo__item {
+  margin: 0;
+  border-radius: 5px;
+  border: 1px solid limegreen;
+  list-style: none;
+  padding: 5px;
+  background: linear-gradient(90deg,
+  rgba(181,242,122,1) 11%,
+  rgba(255,157,113,1) 56%,
+  rgba(0,212,255,1) 92%);
+
+}
