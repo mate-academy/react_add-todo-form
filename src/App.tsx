@@ -30,6 +30,9 @@ const App: React.FC = () => {
     <div className="App">
       <form
         onSubmit={(event) => {
+          const arr = title.split('');
+          let counter = 0;
+
           event.preventDefault();
           if (userId === 0) {
             setUserIdError(true);
@@ -40,6 +43,20 @@ const App: React.FC = () => {
           }
 
           if (title !== '' && userId !== 0) {
+            createTodo();
+          }
+
+          for (let i = 0; i < arr.length; i += 1) {
+            if (!('qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапрролджэячсмитьбю '.includes(arr[i]))) {
+              counter += 1;
+            }
+          }
+
+          if (counter > 0) {
+            setTitleError(true);
+          }
+
+          if (counter === 0 && title !== '' && userId !== 0) {
             createTodo();
           }
         }}
@@ -90,3 +107,18 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+/* for (let i = 0; i < arr.length; i += 1) {
+  if (!('qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапрролджэячсмитьбю '.includes(arr[i]))) {
+    counter += 1;
+  }
+}
+
+if (counter > 0) {
+  setTitleError(true);
+}
+
+if (counter === 0 && title !== '' && userId !== 0) {
+  addNewTodo();
+}
+*/
