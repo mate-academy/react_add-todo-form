@@ -8,10 +8,10 @@ const todos = [
     completed: false,
   },
   {
-    userId: 1,
+    userId: 2,
     id: 2,
     title: 'quis ut nam facilis et officia qui',
-    completed: false,
+    completed: true,
   },
 ];
 
