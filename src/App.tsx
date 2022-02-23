@@ -5,29 +5,58 @@ import todos from './api/todos';
 import users from './api/users';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
+import { User } from './types/User';
 
 const preparedTodo: Todo[] = todos.map(task => {
   return {
     ...task,
-    user: users.find(user => (user.id === task.userId)) || null,
+    user: users.find(user => (user.id === task.userId)) as User,
   };
 });
 
 const App: React.FC = () => {
-  const [todoList, setTodos] = useState([...preparedTodo]);
-  const [user, setUser] = useState('');
+  const selectionCall = 'Chose Your Fighter';
+
+  const [todoList, setTodos] = useState(preparedTodo);
+  const [user, setUser] = useState(selectionCall);
   const [title, setTitle] = useState('');
   const [isValideTitle, setIsValideTitle] = useState(false);
   const [isValideUser, setIsValideUser] = useState(false);
+  const [titleErrorDisplay, setTitleError] = useState(false);
+  const [userErrorDisplay, setUserError] = useState(false);
 
-  const selectionCall = 'Chose Your Fighter';
+  const titleErrorHandler = (value: string) => {
+    if (value !== '') {
+      setIsValideTitle(true);
+    } else {
+      setIsValideTitle(false);
+    }
+  };
+
+  const userErrorHandler = (value: string) => {
+    if (value !== selectionCall) {
+      setIsValideUser(true);
+    } else {
+      setIsValideUser(false);
+    }
+  };
+
+  const errorCheck = () => {
+    if (isValideUser) {
+      setUserError(false);
+    }
+
+    if (isValideTitle) {
+      setTitleError(false);
+    }
+  };
 
   const addNewTodo = () => {
     const newTodo: Todo = {
-      userId: 1,
+      userId: 0,
       id: todoList.length + 1,
       title,
-      user: users.find(person => person.name === user) || null,
+      user: users.find(person => person.name === user) as User,
       completed: false,
     };
 
@@ -38,24 +67,30 @@ const App: React.FC = () => {
     event.preventDefault();
 
     if (title === '') {
+      setTitleError(true);
       alert('please create your title');
       setIsValideTitle(false);
     }
 
-    if (user === selectionCall || user === '') {
+    if (user === selectionCall) {
       alert('please, pick someone!');
+      setUserError(true);
       setIsValideUser(false);
     }
 
-    if (!isValideTitle || !isValideUser) {
+    errorCheck();
+
+    if (!isValideTitle || !isValideTitle) {
       return;
     }
 
-    setIsValideUser(false);
-    setIsValideTitle(false);
-    addNewTodo();
-    setUser(selectionCall);
-    setTitle('');
+    if (isValideTitle && isValideUser) {
+      setIsValideUser(false);
+      setIsValideTitle(false);
+      addNewTodo();
+      setUser(selectionCall);
+      setTitle('');
+    }
   };
 
   return (
@@ -76,15 +111,11 @@ const App: React.FC = () => {
             placeholder="input some text..."
             onChange={(event) => {
               setTitle(event.target.value);
-              if (event.target.value !== '') {
-                setIsValideTitle(true);
-              } else {
-                setIsValideTitle(false);
-              }
+              titleErrorHandler(event.target.value);
             }}
           />
-          {isValideTitle || (
-            'please, start typing'
+          {titleErrorDisplay && (
+            'name your title :)'
           )}
 
         </label>
@@ -94,11 +125,7 @@ const App: React.FC = () => {
             value={user}
             onChange={(event) => {
               setUser(event.target.value);
-              if (event.target.value !== selectionCall) {
-                setIsValideUser(true);
-              } else {
-                setIsValideUser(false);
-              }
+              userErrorHandler(event.target.value);
             }}
           >
             <option value={selectionCall}>
@@ -112,7 +139,7 @@ const App: React.FC = () => {
               );
             })}
           </select>
-          {isValideUser || (
+          {userErrorDisplay && (
             'please, chose someone!'
           )}
 
