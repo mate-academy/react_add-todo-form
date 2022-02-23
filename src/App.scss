@@ -1,0 +1,15 @@
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+
+  &__title {
+    margin: 20px;
+  }
+}
+
+body {
+  margin: 0;
+}
