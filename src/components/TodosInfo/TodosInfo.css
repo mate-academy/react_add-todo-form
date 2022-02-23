@@ -1,0 +1,13 @@
+.todos__title {
+  color: blueviolet;
+}
+
+.todos__content {
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.todos__status,
+.todos__user {
+  color: aquamarine;
+}
