@@ -17,13 +17,8 @@ const App: React.FC = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          if (title.length === 0) {
-            SethasTitleError(true);
-          }
-
-          if (userId === '0') {
-            SethasUserError(true);
-          }
+          SethasTitleError(title.length === 0);
+          SethasUserError(userId === '0');
 
           if (userId !== '0' && title.length !== 0) {
             SetPrepeadTodosActual(
@@ -50,9 +45,7 @@ const App: React.FC = () => {
           value={title}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             SetTitle(event.target.value);
-            if (event.target.value.length !== 0) {
-              SethasTitleError(false);
-            }
+            SethasTitleError(event.target.value.length === 0);
           }}
         />
         {hasUserError && (
@@ -66,9 +59,7 @@ const App: React.FC = () => {
           id="user"
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
             SetId(event.target.value);
-            if (event.target.value !== '0') {
-              SethasUserError(false);
-            }
+            SethasUserError(event.target.value === '0');
           }}
         >
           <option value="0">Choose your person</option>
