@@ -5,35 +5,52 @@ import users from './api/users';
 
 import './App.scss';
 
+const prepared = todos.map(todo => {
+  return {
+    ...todo,
+    user: users.find(elementUser => elementUser.id === todo.userId) || null,
+  };
+});
+
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState(false);
+  const [preparedTodos, setPreparedTodo] = useState(prepared);
 
-  const preparedTodos = todos.map(todo => {
-    return {
-      ...todo,
-      user: users.find(elementUser => elementUser.id === todo.userId) || null,
-    };
-  });
+  const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
 
-  const [prepareTodos, setPrepareTodo] = useState(preparedTodos);
+  const setNewUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setUserIdError(false);
+  };
 
   const addNewTodo = () => {
-    const newTodo = {
-      userId,
-      id: todos.length + 1,
-      title,
-      completed: false,
-      user: users.find(elementUser => elementUser.id === userId) || null,
-    };
+    if (title === '') {
+      setTitleError(true);
+    }
 
-    todos.push(newTodo);
+    if (userId === 0) {
+      setUserIdError(true);
+    }
 
-    setPrepareTodo([...prepareTodos, newTodo]);
-    setUserId(0);
-    setTitle('');
+    if (title !== '' && userId !== 0) {
+      const newTodo = {
+        userId,
+        id: preparedTodos.length + 1,
+        title,
+        completed: false,
+        user: users.find(elementUser => elementUser.id === userId) || null,
+      };
+
+      setPreparedTodo((currentTodos) => [...currentTodos, newTodo]);
+      setUserId(0);
+      setTitle('');
+    }
   };
 
   return (
@@ -42,21 +59,7 @@ const App: React.FC = () => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-
-            if (title === '') {
-              setTitleError(true);
-            }
-
-            if (userId === 0) {
-              setUserIdError(true);
-            }
-
-            if (title !== '' && userId !== 0) {
-              addNewTodo();
-            }
-
-            setTitle('');
-            setUserId(0);
+            addNewTodo();
           }}
         >
           <div className="app__input input">
@@ -65,10 +68,7 @@ const App: React.FC = () => {
               type="text"
               value={title}
               placeholder="Title"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setTitle(event.target.value);
-                setTitleError(false);
-              }}
+              onChange={setNewTitle}
             />
             {titleError && (
               <span className="input__error">
@@ -81,10 +81,7 @@ const App: React.FC = () => {
             <select
               className="selector__field"
               value={userId}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-                setUserId(Number(event.target.value));
-                setUserIdError(false);
-              }}
+              onChange={setNewUserId}
             >
               <option value={0}>Choose a user</option>
               {users.map((el) => (
@@ -102,7 +99,7 @@ const App: React.FC = () => {
         </form>
       </div>
 
-      <TodoList todos={prepareTodos} />
+      <TodoList todos={preparedTodos} />
 
     </div>
   );
