@@ -34,33 +34,32 @@ const App: React.FC = () => {
     setHasUserNameErr(false);
   };
 
+  const onSubmitChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setHasTitleError(titleTodo === '');
+
+    setHasUserNameErr(userId === 0);
+
+    if (userId && titleTodo) {
+      const newTodo = {
+        userId,
+        id: todosFinal.length + 1,
+        title: titleTodo,
+        completed: false,
+        user: users.find(user => user.id === userId) || null,
+      };
+
+      setTodosFinal([...todosFinal, newTodo]);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Static list of todos</h1>
 
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          setHasTitleError(titleTodo === '');
-
-          setHasUserNameErr(userId === 0);
-
-          if (userId && titleTodo) {
-            const newTodo = {
-              userId,
-              id: todosFinal.length + 1,
-              title: titleTodo,
-              completed: false,
-              user: users.find(user => user.id === userId) || null,
-            };
-
-            setTodosFinal([...todosFinal, newTodo]);
-          }
-
-          setTitleTodo('');
-          setUserId(0);
-        }}
+        onSubmit={onSubmitChange}
       >
         <div>
           <input
