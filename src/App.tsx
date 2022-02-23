@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 
@@ -22,25 +23,29 @@ const App: React.FC = () => {
   const preparedTodos = prepared(todosFromServer, usersFromServer);
 
   const [title, setTitle] = useState('');
-  const [name, setName] = useState('');
+  const [id, setId] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
   const [hasTitleError, setTitleError] = useState(false);
-  const [hasNameError, setNameError] = useState(false);
+  const [hasIdError, setIdError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const choosedUser = usersFromServer.find(user => user.name === name) || null;
+    const choosedUser = usersFromServer.find(user => user.id === id) || null;
+
+    console.log(title);
 
     if (!title) {
       setTitleError(true);
+      console.log(hasTitleError);
     }
 
-    if (!name) {
-      setNameError(true);
+    if (!id) {
+      setIdError(true);
     }
 
-    if (hasTitleError === false && hasNameError === false && choosedUser) {
+    console.log(hasTitleError, hasIdError, choosedUser);
+    if (title && id && choosedUser) {
       const newTodo = {
         user: choosedUser,
         id: todos.length + 1,
@@ -52,7 +57,7 @@ const App: React.FC = () => {
       setTodos([...todos, newTodo]);
 
       setTitle('');
-      setName('');
+      setId(0);
     }
   };
 
@@ -67,8 +72,8 @@ const App: React.FC = () => {
             name="title"
             placeholder="Enter the task"
             value={title}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setTitleError(event.target.value === '');
+            onChange={event => {
+              setTitleError(false);
 
               setTitle(event.target.value);
             }}
@@ -77,24 +82,24 @@ const App: React.FC = () => {
 
           <select
             name="user"
-            value={name}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              setNameError(event.target.value === 'Choose the user');
+            value={id}
+            onChange={event => {
+              setIdError(false);
 
-              setName(event.target.value);
+              setId(+event.target.value);
             }}
           >
-            <option>
+            <option value={0}>
               Choose the user
             </option>
             {usersFromServer.map(user => (
-              <option key={user.id}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
-          {hasNameError && <span className="error"> Please choose a user </span>}
+          {hasIdError && <span className="error"> Please choose a user </span>}
 
           <button type="submit"> Add </button>
         </div>
