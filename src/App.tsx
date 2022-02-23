@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import todosFromServer from './api/todos';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
+
 import './App.css';
 import users from './api/users';
 
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: users.find(user => user.id === todo.userId) || null,
+    user: users.find(user => user.id === todo.userId)
+    || null,
   };
 });
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [hasTitleError, setTitleError] = useState(false);
-  const [hasUserIdError, setUserIdError] = useState(false);
-  const [todos, setPreparedTodos] = useState(preparedTodos);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [todos, setTodos] = useState(preparedTodos);
 
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserIdError(!userId);
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
 
     if (title && userId) {
       const newTodo = {
@@ -35,7 +37,7 @@ const App: React.FC = () => {
           || null,
       };
 
-      setPreparedTodos([...todos, newTodo]);
+      setTodos([...todos, newTodo]);
 
       setTitle('');
       setUserId(0);
@@ -58,7 +60,7 @@ const App: React.FC = () => {
             name="select"
             onChange={(event) => {
               setUserId(+event.target.value);
-              setUserIdError(false);
+              setHasUserIdError(false);
             }}
           >
             <option value="0">Chose user name</option>
@@ -84,7 +86,7 @@ const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setTitleError(false);
+              setHasTitleError(false);
             }}
           />
           {hasTitleError
