@@ -4,19 +4,33 @@ import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 import './App.scss';
 
-const App: React.FC = () => {
-  const prepared = () => {
-    return todos.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId) || null,
-    }));
-  };
+const findUserById = (userId: number) => {
+  return users.find(user => user.id === userId) || null;
+};
 
+const prepared = () => {
+  return todos.map(todo => ({
+    ...todo,
+    user: findUserById(todo.userId),
+  }));
+};
+
+const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState(false);
-  const [prepare, setPrepare] = useState(prepared);
+  const [preparedTodos, setPrepareTodos] = useState(prepared);
+
+  const setNewUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setUserIdError(false);
+  };
+
+  const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
 
   const addNewTodo = () => {
     if (title === '') {
@@ -30,13 +44,13 @@ const App: React.FC = () => {
     if (title !== '' && userId !== 0) {
       const newTodo = {
         userId,
-        id: Date.now(),
+        id: preparedTodos.length + 1,
         title,
         completed: false,
-        user: users.find(user => user.id === userId) || null,
+        user: findUserById(userId),
       };
 
-      setPrepare((currentTodos) => [...currentTodos, newTodo]);
+      setPrepareTodos((currentTodos) => [...currentTodos, newTodo]);
       setUserId(0);
       setTitle('');
     }
@@ -55,10 +69,7 @@ const App: React.FC = () => {
             type="text"
             value={title}
             placeholder="Title"
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={setNewTitle}
           />
           {titleError && (
             <span className="error">
@@ -71,10 +82,7 @@ const App: React.FC = () => {
         <div>
           <select
             value={userId}
-            onChange={(event) => {
-              setUserId(Number(event.target.value));
-              setUserIdError(false);
-            }}
+            onChange={setNewUserId}
           >
             <option
               value={0}
@@ -104,7 +112,7 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todoList={prepare} />
+      <TodoList todoList={preparedTodos} />
 
     </div>
   );
