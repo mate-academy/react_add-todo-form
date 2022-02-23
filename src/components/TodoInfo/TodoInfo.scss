@@ -1,0 +1,28 @@
+.todo {
+  &__title {
+    background-color: rgba(208, 182, 241, 0.808);
+    padding: 10px 30px;
+    border: 2px solid darkslateblue;
+    border-radius: 50%;
+    color: rgb(1, 68, 131);
+    text-transform: uppercase;
+    text-align: center;
+
+  }
+
+  &__uncompleted {
+    background-color: rgba(245, 46, 46, 0.87);
+    border: 1px solid darkslateblue;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    text-align: center;
+    width: max-content;
+    margin: 0 auto 10px;
+  }
+
+  &__completed {
+    background-color: rgba(46, 245, 89, 0.918);
+  }
+}
