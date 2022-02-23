@@ -5,11 +5,26 @@ import { TodoList } from './api/types/components/TodoList/TodoList';
 import users from './api/users';
 
 const App: React.FC = () => {
-  const [prepeadTodosActual, SetPrepeadTodosActual] = useState([...preparedTodos]);
-  const [hasTitleError, SethasTitleError] = useState(false);
-  const [hasUserError, SethasUserError] = useState(false);
-  const [title, SetTitle] = useState('');
-  const [userId, SetId] = useState('0');
+  const [prepeadTodosActual, setPrepeadTodosActual] = useState([...preparedTodos]);
+  const [hasTitleError, sethasTitleError] = useState(false);
+  const [hasUserError, sethasUserError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setId] = useState(0);
+
+  const successfulSubmit = () => {
+    if (userId !== 0 && title.length !== 0) {
+      setPrepeadTodosActual(
+        [...prepeadTodosActual, {
+          id: userId,
+          title,
+          completed: false,
+          user: users.find(u => u.id === +userId) || null,
+        }],
+      );
+      setTitle('');
+      setId(0);
+    }
+  };
 
   return (
     <div className="App">
@@ -17,21 +32,9 @@ const App: React.FC = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          SethasTitleError(title.length === 0);
-          SethasUserError(userId === '0');
-
-          if (userId !== '0' && title.length !== 0) {
-            SetPrepeadTodosActual(
-              [...prepeadTodosActual, {
-                id: +userId,
-                title: `${title}`,
-                completed: false,
-                user: users.find(u => u.id === +userId) || null,
-              }],
-            );
-            SetTitle('');
-            SetId('0');
-          }
+          sethasTitleError(title.length === 0);
+          sethasUserError(userId === 0);
+          successfulSubmit();
         }}
         className="App__form"
       >
@@ -44,8 +47,8 @@ const App: React.FC = () => {
           type="text"
           value={title}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            SetTitle(event.target.value);
-            SethasTitleError(event.target.value.length === 0);
+            setTitle(event.target.value);
+            sethasTitleError(false);
           }}
         />
         {hasUserError && (
@@ -58,8 +61,8 @@ const App: React.FC = () => {
           name="name"
           id="user"
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-            SetId(event.target.value);
-            SethasUserError(event.target.value === '0');
+            setId(+event.target.value);
+            sethasUserError(false);
           }}
         >
           <option value="0">Choose your person</option>
