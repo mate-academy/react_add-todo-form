@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.todo__list {
+  list-style: none;
+}
+
+.todo__item {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid blue;
+}
