@@ -37,3 +37,12 @@
   height: 100px;
   width: 100px;
 }
+
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  color: red;
+  opacity: 1;
+}

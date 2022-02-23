@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 
@@ -7,10 +6,10 @@ import { TodoList } from './components/TodoList';
 import todos from './api/todos';
 
 const preparedTodos = [...todos].map((todo) => {
-  const newUser = users.find(user => user.id === todo.userId) || null;
+  const newUser = users.find(user => user.id === todo.userId);
 
-  if (newUser === null) {
-    throw new Error('choose someone');
+  if (!newUser) {
+    throw new Error('Add')
   }
 
   return {
@@ -23,31 +22,36 @@ const App: React.FC = () => {
   const [name, setName] = useState('');
   const [todo, setTodo] = useState('');
   const [allTodos, setTodos] = useState(preparedTodos);
+  const [errorDirtyTodo, setErrorDirtyTodo] = useState(false);
 
-  const addNewTodo = () => {
-    const selectedUser = users.find(user => name.includes(user.name)) || null;
+  const addNewTodo = (event: React.SyntheticEvent) => {
+    event.preventDefault();
 
-    if (name === '' || todo === '') {
-      // eslint-disable-next-line no-alert
-      alert(todo.length ? 'Please choose a user' : 'Please add what to do');
-    } else {
-      if (selectedUser === null) {
-        throw new Error();
-      }
+    const selectedUser = users.find(user => name.includes(user.name));
 
-      const newTodo = {
-        person: selectedUser,
-        id: allTodos.length * selectedUser.id,
-        userId: selectedUser.id,
-        title: todo,
-        completed: false,
-      };
-
-      setTodo('');
-
-      setTodos([...allTodos, newTodo]);
+    if (selectedUser === undefined) {
+      return
     }
-  };
+
+    const regex = (/[a-zА-Я0-9 ]/gi);
+
+    if (!todo.match(regex) || todo === '') {
+      setErrorDirtyTodo(true)
+      return
+    }
+
+    const newTodo = {
+      person: selectedUser,
+      id: allTodos.length + 1,
+      userId: selectedUser.id,
+      title: todo,
+      completed: false,
+    };
+
+    setTodo('');
+    setName('');
+    setTodos([...allTodos, newTodo]);
+  }
 
   return (
     <div className="App">
@@ -55,15 +59,15 @@ const App: React.FC = () => {
       <form
         action=""
         className="form"
+        onSubmit={event => addNewTodo(event)}
       >
         <div className="input-field col s12">
           <select
             name="users names"
             className="browser-default"
             value={name}
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
+            onChange={(event) => setName(event.target.value)}
+            required
           >
             <option value="">Choose your person</option>
             {users.map(user => (
@@ -74,28 +78,26 @@ const App: React.FC = () => {
                 {user.name}
               </option>
             ))}
-
           </select>
         </div>
-        <input
-          type="text"
-          placeholder="What to do?"
-          value={todo}
-          onChange={(event) => {
-            setTodo(event.target.value);
 
-            console.log(todo);
-          }}
-        />
-
+        <div className='container__input'>
+          <input
+            type="text"
+            placeholder="What to do?"
+            value={todo}
+            onChange={(event) => {
+              setTodo(event.target.value)
+              setErrorDirtyTodo(false)}}
+          />
+          <p className={errorDirtyTodo ? "visible" : "invisible"}>add correct todo! (only `ru`, `en`, digits and spaces)</p>
+        </div>
         <button
-          type="button"
+          type="submit"
           className="waves-effect cyan btn"
-          onClick={addNewTodo}
         >
           add
         </button>
-
       </form>
       <TodoList defaultList={allTodos} />
     </div>
