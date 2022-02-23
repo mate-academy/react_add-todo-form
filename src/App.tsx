@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 
@@ -33,18 +32,14 @@ const App: React.FC = () => {
 
     const choosedUser = usersFromServer.find(user => user.id === id) || null;
 
-    console.log(title);
-
     if (!title) {
       setTitleError(true);
-      console.log(hasTitleError);
     }
 
     if (!id) {
       setIdError(true);
     }
 
-    console.log(hasTitleError, hasIdError, choosedUser);
     if (title && id && choosedUser) {
       const newTodo = {
         user: choosedUser,
