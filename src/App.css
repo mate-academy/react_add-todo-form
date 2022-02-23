@@ -1,3 +1,24 @@
+html {
+  box-sizing: border-box;
+  padding: 12px 60px;
+}
+
 .App {
+  margin: auto;
   text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.App__form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.App__form-button {
+  margin: 0;
+  height: 54px;
 }
