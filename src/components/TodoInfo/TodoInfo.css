@@ -1,0 +1,13 @@
+.todo > p {
+  font-size: 17px;
+  font-weight: bold;
+  background: #fff;
+}
+
+.todo__status {
+  color: #31cf1a;
+}
+
+.todo__red {
+  color: #cf1a1a;
+}

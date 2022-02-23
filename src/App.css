@@ -1,3 +1,41 @@
+body {
+  margin: 0;
+  background: #a0b3a3;
+}
+
 .App {
   text-align: center;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.input__error,
+.selection__error {
+  color: #f10808;
+}
+
+.submition__btn {
+  background: #7ca223;
+  border: 2px  solid #fff;
+  border-radius: 10px;
+  font-size: 20px;
+  width: 10%;
+}
+
+.selection,
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.selection__select,
+.input__item {
+  width: 30%;
 }
