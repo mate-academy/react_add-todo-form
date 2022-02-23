@@ -1,3 +1,48 @@
 .App {
   text-align: center;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.todo__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid green;
+  box-sizing: border-box;
+}
+
+.todo__title {
+  text-align: left;
+}
+
+.done {
+  background-color: rgba(127, 255, 212, 0.3);
+}
+
+.user__info {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selected {
+  height: 100px;
+  width: 100px;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  color: red;
+  opacity: 1;
 }
