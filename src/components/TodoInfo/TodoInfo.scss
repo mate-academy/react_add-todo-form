@@ -1,0 +1,14 @@
+.todo {
+  &__title {
+    text-transform: uppercase;
+  }
+
+  &__status {
+    color: red;
+    font-style: italic;
+
+    &--completed {
+      color: green;
+    }
+  }
+}
