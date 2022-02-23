@@ -11,4 +11,12 @@
     max-width: 200px;
     margin: 0 auto;
   }
+  &__error {
+    color: red;
+  }
+  &__button {
+    background-color: #be9a21;
+    box-shadow: 2px 2px 2px blue;
+    font-weight: 600;
+  }
 }

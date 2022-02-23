@@ -6,8 +6,10 @@ import users from './api/users';
 
 const App: React.FC = () => {
   const [prepeadTodosActual, SetPrepeadTodosActual] = useState([...preparedTodos]);
-  const [nameSelected, SetName] = useState('');
-  const [newTodo, SetNewDo] = useState({ title: '', completed: false, user: users.find(u => u.name === nameSelected) || null });
+  const [hasTitleError, SethasTitleError] = useState(false);
+  const [hasUserError, SethasUserError] = useState(false);
+  const [title, SetTitle] = useState('');
+  const [userId, SetId] = useState('0');
 
   return (
     <div className="App">
@@ -15,38 +17,74 @@ const App: React.FC = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          SetPrepeadTodosActual([...prepeadTodosActual, newTodo]);
-          SetNewDo({ ...newTodo, title: '' });
+          if (title.length === 0) {
+            SethasTitleError(true);
+          }
+
+          if (userId === '0') {
+            SethasUserError(true);
+          }
+
+          if (userId !== '0' && title.length !== 0) {
+            SetPrepeadTodosActual(
+              [...prepeadTodosActual, {
+                id: +userId,
+                title: `${title}`,
+                completed: false,
+                user: users.find(u => u.id === +userId) || null,
+              }],
+            );
+            SetTitle('');
+            SetId('0');
+          }
         }}
         className="App__form"
       >
+        {hasTitleError && (
+          <span className="App__error">
+            Please enter the title
+          </span>
+        )}
         <input
-          required
           type="text"
+          value={title}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            SetNewDo({ ...newTodo, title: event.target.value });
+            SetTitle(event.target.value);
+            if (event.target.value.length !== 0) {
+              SethasTitleError(false);
+            }
           }}
         />
+        {hasUserError && (
+          <span className="App__error">
+            Please choose a user
+          </span>
+        )}
         <select
-          required
+          value={userId}
           name="name"
           id="user"
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-            SetName(event.target.value);
-            SetNewDo({ ...newTodo, user: users.find(u => u.name === event.target.value) || null });
+            SetId(event.target.value);
+            if (event.target.value !== '0') {
+              SethasUserError(false);
+            }
           }}
         >
-          <option value="Choose your person">Choose your person</option>
+          <option value="0">Choose your person</option>
           {users.map(user => (
             <option
               key={user.id}
-              value={user.name}
+              value={user.id}
             >
               {user.name}
             </option>
           ))}
         </select>
-        <button type="submit">
+        <button
+          type="submit"
+          className="App__button"
+        >
           Add
         </button>
       </form>
