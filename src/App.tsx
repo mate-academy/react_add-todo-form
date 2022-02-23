@@ -7,13 +7,13 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 
+const preparedTodo = todos.map(todo => {
+  const user = users.find(u => u.id === todo.userId) || null;
+
+  return { ...todo, user };
+});
+
 const App: React.FC = () => {
-  const preparedTodo = todos.map(todo => {
-    const user = users.find(u => u.id === todo.userId) || null;
-
-    return { ...todo, user };
-  });
-
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -42,7 +42,7 @@ const App: React.FC = () => {
         user,
       };
 
-      setNewTodos([...newTodos, newTodo]);
+      setNewTodos((currentTodos) => [...currentTodos, newTodo]);
       setTitle('');
       setUserId(0);
     }
@@ -61,7 +61,7 @@ const App: React.FC = () => {
             type="text"
             placeholder="Title"
             value={title}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event) => {
               setTitle(event.target.value);
               setTitleError(false);
             }}
@@ -78,12 +78,12 @@ const App: React.FC = () => {
             name="users"
             id="users"
             value={userId}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            onChange={(event) => {
               setUserId(+event.target.value);
               setUserIdError(false);
             }}
           >
-            <option value={0}>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {users.map(user => (
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
@@ -92,9 +92,7 @@ const App: React.FC = () => {
             <span>Please choose a user</span>
           )}
         </div>
-        <button
-          type="submit"
-        >
+        <button type="submit">
           Add
         </button>
       </form>
