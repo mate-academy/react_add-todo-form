@@ -1,0 +1,21 @@
+.todo {
+  margin: 10px auto;
+  width: 600px;
+  border: 2px solid black;
+  padding: 5px;
+
+  &__title {
+    font-size: 25px;
+    color: black;
+  }
+
+  &__list {
+    font-weight: bold;
+    background-color: aquamarine;
+    width: 400px;
+    border: 1px solid black;
+    list-style: none;
+    padding: 10px;
+    margin-left: 200px;
+  }
+}
