@@ -5,19 +5,19 @@ import users from './api/users';
 import initialTodos from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const preparedTodos = initialTodos.map(todo => ({
+  ...todo,
+  user: users.find(
+    user => user.id === todo.userId,
+  ) || null,
+}));
+
 const App: React.FC = () => {
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [isUserInvalid, setIsUserInvalid] = useState(false);
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
-
-  const preparedTodos = todos.map(todo => ({
-    ...todo,
-    user: users.find(
-      user => user.id === todo.userId,
-    ) || null,
-  }));
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -55,7 +55,7 @@ const App: React.FC = () => {
       return;
     }
 
-    const newUser = users.find(user => user.name === userName);
+    const newUser = users.find(user => user.name === userName) || null;
     let userId = 0;
 
     if (newUser) {
@@ -67,6 +67,7 @@ const App: React.FC = () => {
       id: todos.length + 1,
       title,
       completed: false,
+      user: newUser,
     };
 
     setTodos([
@@ -83,7 +84,7 @@ const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <TodoList
-        todos={preparedTodos}
+        todos={todos}
         handleCheckbox={handleCheckbox}
       />
 
