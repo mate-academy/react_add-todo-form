@@ -36,13 +36,9 @@ const App: React.FC = () => {
   const getSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
-      setTitleError(true);
-    }
+    setTitleError(!title);
 
-    if (!selectUserId) {
-      setUserError(true);
-    }
+    setUserError(!selectUserId);
 
     if (title && selectUserId) {
       const nextTodos = {
@@ -87,7 +83,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
+    <div className="App container is-max-desktop">
       <h1 className="title is-1 title-centered">Add todo form</h1>
 
       <form
