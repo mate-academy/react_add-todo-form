@@ -1,0 +1,23 @@
+.todo-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+
+  list-style: none;
+
+  &__item {
+    display: inline-block;
+    padding: 20px 0 20px 50px;
+    border: 10px solid red;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(105%);
+    }
+
+    &--completed {
+      border-color: green;
+    }
+  }
+}
