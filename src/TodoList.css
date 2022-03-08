@@ -1,0 +1,13 @@
+.todo-fields {
+  display: flex;
+  gap: 20px;
+}
+
+.todo {
+  border: 1px solid rgb(45, 150, 168);
+  background-color: rgb(117, 185, 212);
+  border-radius: 5px;
+  text-align: left;
+  padding: 10px;
+  margin-top: 20px;
+}
