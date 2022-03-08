@@ -1,0 +1,40 @@
+.todoInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 20px;
+
+  &__title {
+    font-size: 30px;
+  }
+
+  &__completed {
+    background-color: rgb(42, 206, 42);
+  }
+
+  &__inProgress {
+    background-color: rgb(192, 59, 25);
+  }
+
+  &__user {
+    &:hover {
+      cursor: pointer;
+
+      color: blue;
+    }
+  }
+
+  &__userinfo {
+    display: none;
+  }
+
+  &__user:hover + &__userinfo {
+    position: relative;
+    display: block;
+    height: auto;
+    padding-left: 40px;
+  }
+}
