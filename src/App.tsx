@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import './App.scss';
@@ -6,17 +7,19 @@ import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 
+const preparedTodo = todos.map(todo => {
+  return {
+    ...todo,
+    user: users.find(user => (user.id === todo.userId)) || null,
+  };
+});
+
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUser] = useState(-1);
+  const [selectedUserId, setSelectedUser] = useState(0);
   const [uncorrectSelect, setUncorrectSelect] = useState('');
   const [uncorrectTitle, setUncorrectTitle] = useState('');
-  const [createdTodo, addToCreatedTodo] = useState(todos.map(todo => {
-    return {
-      ...todo,
-      user: users.find(user => (user.id === todo.userId)) || null,
-    };
-  }));
+  const [createdTodo, addToCreatedTodo] = useState(preparedTodo);
 
   const getMaxId = () => {
     let maxId = 0;
@@ -31,11 +34,11 @@ const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    let flag = true;
+    let isValid = true;
 
     if (title.trim() === '') {
       setUncorrectTitle('Please enter the title');
-      flag = false;
+      isValid = false;
     } else {
       let str = title;
 
@@ -43,20 +46,20 @@ const App: React.FC = () => {
 
       if (str.length < title.length) {
         setUncorrectTitle('Please enter correct title(p.s. Allow entering letters (`ru` and `en`), digits and `spaces`)');
-        flag = false;
+        isValid = false;
       } else {
         setUncorrectTitle('');
       }
     }
 
-    if (selectedUserId === -1) {
+    if (selectedUserId === 0) {
       setUncorrectSelect('Please choose a user');
-      flag = false;
+      isValid = false;
     } else {
       setUncorrectSelect('');
     }
 
-    if (flag) {
+    if (isValid) {
       const newUser = {
         id: getMaxId() + 1,
         title,
@@ -91,7 +94,10 @@ const App: React.FC = () => {
           placeholder="Title"
           value={title}
           className="App__input"
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) => {
+            setTitle(event.target.value);
+            setUncorrectTitle('');
+          }}
         />
         <br />
         <span className="App__error">{uncorrectTitle}</span>
@@ -102,9 +108,12 @@ const App: React.FC = () => {
         <select
           className="App__input"
           value={selectedUserId}
-          onChange={(event) => setSelectedUser(+event.target.value)}
+          onChange={(event) => {
+            setSelectedUser(+event.target.value);
+            setUncorrectSelect('');
+          }}
         >
-          <option value="-1">Choose user ...</option>
+          <option value="0">Choose user ...</option>
           {users.map(user => (
             <option key={user.name} value={user.id}>{user.name}</option>
           ))}
