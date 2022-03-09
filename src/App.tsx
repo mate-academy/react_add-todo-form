@@ -36,7 +36,7 @@ class App extends React.Component<{}, State> {
   };
 
   handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ userId: Number(event.target.value), userIdErrorMessage: '' });
+    this.setState({ userId: +event.target.value, userIdErrorMessage: '' });
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
