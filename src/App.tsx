@@ -14,27 +14,21 @@ const App: React.FC = () => {
   const [user, setSelectedUser] = useState('');
   const [todoses, setTodos] = useState([...preparesTodos]);
   const [title, setTitle] = useState('');
-  const [validTitle, setValidTitle] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
-  const [validUser, setValidUser] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
   const handleInputError = (event: string) => {
     if (event !== '') {
-      setValidTitle(true);
       setErrorTitle(false);
     } else {
-      setValidTitle(false);
       setErrorTitle(true);
     }
   };
 
   const handleSelectorError = (event: string) => {
     if (event !== '') {
-      setValidUser(true);
       setErrorUser(false);
     } else {
-      setValidUser(false);
       setErrorUser(true);
     }
   };
@@ -54,24 +48,22 @@ const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (validUser) {
-      setErrorUser(false);
-    } else {
-      setErrorUser(true);
-    }
-
-    if (validTitle) {
-      setErrorTitle(false);
-    } else {
+    if (!title) {
       setErrorTitle(true);
+    } else {
+      setErrorTitle(false);
     }
 
-    if (validTitle && validUser) {
+    if (!user) {
+      setErrorUser(true);
+    } else {
+      setErrorUser(false);
+    }
+
+    if (title && user) {
       todoForm();
       setTitle('');
       setSelectedUser('');
-      setValidTitle(false);
-      setValidUser(false);
     }
   };
 
