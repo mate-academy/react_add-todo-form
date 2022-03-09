@@ -1,0 +1,19 @@
+.todo-item {
+  width: max-content;
+  padding: 5px 10px;
+  border-left: 4px solid #b7241b;
+
+  &--complete {
+    border-color: #96d800;
+  }
+}
+
+.user {
+  display: inline-block;
+  border-left: 2px solid black;
+  padding-left: 5px;
+  
+  &:hover {
+    font-weight: bold;
+  }
+}
