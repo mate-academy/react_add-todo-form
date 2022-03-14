@@ -8,8 +8,8 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
   return user
     ? (
       <div>
-        <p>{`name: ${user?.name}`}</p>
-        <p>{`userId: ${user?.id}`}</p>
+        <p>{`name: ${user.name}`}</p>
+        <p>{`userId: ${user.id}`}</p>
       </div>
     )
     : (

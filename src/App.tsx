@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.scss';
 
@@ -7,29 +8,27 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 
-const preparedTodo: Todo[] = todos.map(task => {
-  return {
-    ...task,
-    user: users.find(user => (user.id === task.userId)) as User,
-  };
-});
+const preparedTodo: Todo[] = todos.map(task => ({
+  ...task,
+  user: users.find(user => (user.id === task.userId)) as User,
+}));
 
 const App: React.FC = () => {
-  const selectionCall = 'Chose Your Fighter';
+  const selectionCall = 'Choose Your Fighter';
 
   const [todoList, setTodos] = useState(preparedTodo);
   const [user, setUser] = useState(selectionCall);
   const [title, setTitle] = useState('');
-  const [isValideTitle, setIsValideTitle] = useState(false);
+  const [isValidTitle, setisValidTitle] = useState(false);
   const [isValideUser, setIsValideUser] = useState(false);
-  const [titleErrorDisplay, setTitleError] = useState(false);
-  const [userErrorDisplay, setUserError] = useState(false);
+  const [titleErrorDisplay, setTitleErrorDisplay] = useState(false);
+  const [userErrorDisplay, setUserErrorDisplay] = useState(false);
 
   const titleErrorHandler = (value: string) => {
     if (value !== '') {
-      setIsValideTitle(true);
+      setisValidTitle(true);
     } else {
-      setIsValideTitle(false);
+      setisValidTitle(false);
     }
   };
 
@@ -43,18 +42,18 @@ const App: React.FC = () => {
 
   const errorCheck = () => {
     if (isValideUser) {
-      setUserError(false);
+      setUserErrorDisplay(false);
     }
 
-    if (isValideTitle) {
-      setTitleError(false);
+    if (isValidTitle) {
+      setTitleErrorDisplay(false);
     }
   };
 
   const addNewTodo = () => {
     const newTodo: Todo = {
       userId: 0,
-      id: todoList.length + 1,
+      id: Math.max(...todoList.map(todo => todo.id), 0) + 1,
       title,
       user: users.find(person => person.name === user) as User,
       completed: false,
@@ -67,24 +66,24 @@ const App: React.FC = () => {
     event.preventDefault();
 
     if (title === '') {
-      setTitleError(true);
-      setIsValideTitle(false);
+      setTitleErrorDisplay(true);
+      setisValidTitle(false);
     }
 
     if (user === selectionCall) {
-      setUserError(true);
+      setUserErrorDisplay(true);
       setIsValideUser(false);
     }
 
     errorCheck();
 
-    if (!isValideTitle || !isValideTitle) {
+    if (!isValidTitle || !isValidTitle) {
       return;
     }
 
-    if (isValideTitle && isValideUser) {
+    if (isValidTitle && isValideUser) {
       setIsValideUser(false);
-      setIsValideTitle(false);
+      setisValidTitle(false);
       addNewTodo();
       setUser(selectionCall);
       setTitle('');
@@ -96,6 +95,7 @@ const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
+        className="form"
         action="/"
         onSubmit={(event) => {
           submitAction(event);
@@ -109,6 +109,7 @@ const App: React.FC = () => {
             placeholder="input some text..."
             onChange={(event) => {
               setTitle(event.target.value);
+              setTitleErrorDisplay(false);
               titleErrorHandler(event.target.value);
             }}
           />
@@ -124,30 +125,30 @@ const App: React.FC = () => {
             value={user}
             onChange={(event) => {
               setUser(event.target.value);
+              setUserErrorDisplay(false);
               userErrorHandler(event.target.value);
             }}
           >
             <option value={selectionCall}>
               Choose You Fighter
             </option>
-            {users.map(el => {
-              return (
-                <option value={el.name}>
-                  {el.name}
-                </option>
-              );
-            })}
+            {users.map(el => (
+              <option
+                key={el.id}
+                value={el.name}
+              >
+                {el.name}
+              </option>
+            ))}
           </select>
           {userErrorDisplay && (
             <p className="error">
-              please, chose someone!
+              please, choose someone!
             </p>
           )}
 
         </label>
-        <button
-          type="submit"
-        >
+        <button type="submit">
           add
         </button>
       </form>

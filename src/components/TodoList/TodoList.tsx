@@ -18,7 +18,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => (
         </h2>
         <h2 className="todoList__title">{todo.title}</h2>
         <TodoInfo todoInfo={todo} />
-        <UserInfo user={todo?.user} />
+        <UserInfo user={todo.user} />
       </li>
     ))}
   </ul>
