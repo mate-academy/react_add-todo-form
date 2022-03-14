@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  gap: 30px
+}
+
+.App {
+  padding: 10px;
+}
+
+.error {
+  color: red;
+}
