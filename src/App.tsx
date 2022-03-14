@@ -68,12 +68,10 @@ const App: React.FC = () => {
 
     if (title === '') {
       setTitleError(true);
-      alert('please create your title');
       setIsValideTitle(false);
     }
 
     if (user === selectionCall) {
-      alert('please, pick someone!');
       setUserError(true);
       setIsValideUser(false);
     }
@@ -115,9 +113,10 @@ const App: React.FC = () => {
             }}
           />
           {titleErrorDisplay && (
-            'name your title :)'
+            <p className="error">
+              name your title please
+            </p>
           )}
-
         </label>
         <label htmlFor="select">
           <select
@@ -140,7 +139,9 @@ const App: React.FC = () => {
             })}
           </select>
           {userErrorDisplay && (
-            'please, chose someone!'
+            <p className="error">
+              please, chose someone!
+            </p>
           )}
 
         </label>
