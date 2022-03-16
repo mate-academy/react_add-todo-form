@@ -5,6 +5,7 @@ import './App.scss';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
+import { TodoList } from './components/TodoList';
 
 const getUsersByID = (userId: number) => (usersFromServer.find(user => user.id === userId));
 
@@ -25,7 +26,7 @@ const App: React.FC = () => {
   const addUsers = (titele: string, usereId: number) => {
     const newUser = {
       userId: usereId,
-      id: Date.now(),
+      id: users.length + 1,
       title: titele,
       completed: false,
       user: getUsersByID(usereId),
@@ -93,21 +94,7 @@ const App: React.FC = () => {
 
         <div className="todo">
           <h1>Static list of todos</h1>
-          <ul className="todo__list">
-            {users.map(todo => (
-              <li className="todo__item" key={todo.id}>
-                {todo.user
-                  && (
-                    <>
-                      <p>{` User name: ${todo.user.name}`}</p>
-                      <p>{` User email: ${todo.user.email}`}</p>
-                    </>
-                  )}
-                <p>{` Todo title: ${todo.title}`}</p>
-                <p>{` Todo compelted: ${todo.completed}`}</p>
-              </li>
-            ))}
-          </ul>
+          <TodoList users={users} />
         </div>
       </div>
 
