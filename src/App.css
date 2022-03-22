@@ -1,3 +1,57 @@
-.App {
+.app {
   text-align: center;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.form-container {
+  background-color: rgb(203, 250, 242);
+  padding: 10px;
+  margin: 0 40px;
+  border: 1px solid #000;
+  border-bottom: 0;
+  position: relative;
+}
+
+.title {
+  display: inline-block;
+  font-size: 18px;
+  padding: 5px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 85px;
+}
+
+.select-user {
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  margin-right: 100px;
+  width: 235px;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.btn-submit {
+  display: block;
+  margin: 0 auto;
+  font-size: 18px;
+  padding: 5px 25px;
+  background-color: #fff;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.error {
+  color: crimson;
+  position: absolute;
+  top: 10px;
+  left: 380px;
 }
