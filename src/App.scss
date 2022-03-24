@@ -1,0 +1,22 @@
+@import "./addTodoForm";
+
+* {
+  box-sizing: border-box;
+}
+
+iframe {
+  display: none;
+}
+
+html {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+  padding: 10px 5px;
+}

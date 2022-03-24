@@ -1,0 +1,22 @@
+.todoItem {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 10px;
+
+  border: 1px solid #333;
+  border-radius: 10px 3px;
+
+  background-color: #ffb6b3;
+
+  transition: background-color 0.2s;
+
+  &--completed {
+    background-color: #bde7bd;
+  }
+
+  &__checkbox {
+    text-align: right;
+    align-self: center;
+  }
+}
