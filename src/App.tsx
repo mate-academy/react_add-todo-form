@@ -53,7 +53,7 @@ const App: React.FC = () => {
           setUserId(0);
         }}
       >
-        <label htmlFor="title">
+        <label htmlFor="title" className="error">
           {(spaceValidation(title) || !title) && `${titleError}`}
           <input
             id="title"
@@ -69,7 +69,7 @@ const App: React.FC = () => {
             }}
           />
         </label>
-        <label htmlFor="userId">
+        <label htmlFor="userId" className="error">
           {!userId && `${userIdError}`}
           <select
             id="userId"
