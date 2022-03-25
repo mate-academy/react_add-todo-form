@@ -27,30 +27,42 @@ const App: React.FC = () => {
     setArrOfTodos(updatedArrOfTodos);
   };
 
+  const titleOnChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (validation(event.target.value, title)) {
+      setTitle(event.target.value);
+    }
+  };
+
+  const submitHandler = (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const titleAndUserCheck = spaceValidation(title) || !userId;
+
+    if (titleAndUserCheck) {
+      if (!title || spaceValidation(title)) {
+        setTitleError('enter a title please');
+      }
+
+      if (!userId) {
+        setUserIdError('choose a user please');
+      }
+
+      return;
+    }
+
+    setTitleError('');
+    setUserIdError('');
+    addNewTodo();
+    setTitle('');
+    setUserId(0);
+  };
+
   return (
     <div className="App">
       <TodoList todos={arrOfTodos} />
       <form
         className="addForm"
         onSubmit={(event) => {
-          event.preventDefault();
-          const titleAndUserCheck = spaceValidation(title) || !userId;
-
-          if (titleAndUserCheck) {
-            if (!title || spaceValidation(title)) {
-              setTitleError('enter a title please');
-            }
-
-            if (!userId) {
-              setUserIdError('choose a user please');
-            }
-
-            return;
-          }
-
-          addNewTodo();
-          setTitle('');
-          setUserId(0);
+          submitHandler(event);
         }}
       >
         <label htmlFor="title" className="error">
@@ -63,9 +75,7 @@ const App: React.FC = () => {
             className="addForm__input"
             value={title}
             onChange={(event) => {
-              if (validation(event.target.value, title)) {
-                setTitle(event.target.value);
-              }
+              titleOnChangeHandler(event);
             }}
           />
         </label>
