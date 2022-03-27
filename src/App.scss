@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+.App {
+  text-align: center;
+}
+
+.form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selector,
+.input {
+  height: 30px;
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  color: red;
+  margin: 0;
+  max-height: 15px;
+  margin-bottom: 10px;
+}
