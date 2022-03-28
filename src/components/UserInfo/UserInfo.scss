@@ -1,0 +1,12 @@
+.userinfo {
+  &__name {
+    font-weight: bold;
+    text-align: center;
+    color: blue;
+    margin: 10px 0;
+  }
+
+  &__text {
+    margin: 0 0 5px;
+  }
+}
