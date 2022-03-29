@@ -1,0 +1,49 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 150px;
+}
+
+.todoList {
+  order: 1;
+  list-style: none;
+  &__item {
+    margin-bottom: 20px;
+    width: 300px;
+    &--r {
+      background-color: red;
+    }
+    &--g {
+      background-color: green;
+    }
+  }
+}
+
+.info {
+  color: white;
+}
+
+.addForm {
+  position: relative;
+  order: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  &__button {
+    width: 150px;
+    height: 40px;
+    background-color: #2cc72e;
+  }
+  &__input {
+    border-radius: 10px;
+    height: 25px;
+    padding: 5px;
+    margin-left: 10px;
+  }
+}
+.error {
+  color: red;
+}
