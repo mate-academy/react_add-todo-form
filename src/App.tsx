@@ -9,22 +9,22 @@ import { spaceValidation, validation } from './helpers/validation';
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [arrOfTodos, setArrOfTodos] = useState(todos);
+  const [visibleTodos, setVisibleTodos] = useState(todos);
   const [titleError, setTitleError] = useState('');
   const [userIdError, setUserIdError] = useState('');
 
   const addNewTodo = () => {
-    const TodoId = arrOfTodos.length + 1;
+    const todoId = visibleTodos.length + 1;
     const newTodo: Todo = {
-      id: TodoId,
+      id: todoId,
       userId,
       title,
       completed: false,
     };
-    const updatedArrOfTodos = [...arrOfTodos];
+    const updatedVisibleTodos = [...visibleTodos, newTodo];
 
-    updatedArrOfTodos.push(newTodo);
-    setArrOfTodos(updatedArrOfTodos);
+    updatedVisibleTodos.push(newTodo);
+    setVisibleTodos((prevTodos => [...prevTodos, newTodo]));
   };
 
   const titleOnChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +58,10 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <TodoList todos={arrOfTodos} />
+      <TodoList todos={visibleTodos} />
       <form
         className="addForm"
-        onSubmit={(event) => {
-          submitHandler(event);
-        }}
+        onSubmit={submitHandler}
       >
         <label htmlFor="title" className="error">
           {(spaceValidation(title) || !title) && `${titleError}`}
@@ -74,9 +72,7 @@ const App: React.FC = () => {
             placeholder="title"
             className="addForm__input"
             value={title}
-            onChange={(event) => {
-              titleOnChangeHandler(event);
-            }}
+            onChange={titleOnChangeHandler}
           />
         </label>
         <label htmlFor="userId" className="error">
