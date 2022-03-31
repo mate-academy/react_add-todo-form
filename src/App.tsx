@@ -21,8 +21,9 @@ const App: React.FC = () => {
     : todoList.length + TodoList.length;
 
   // Methods which handle input and select events
-  const handleChange = (event: ChangeEvent<HTMLInputElement
-  | HTMLSelectElement>): void => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
     if (event.target.name === 'todo') {
       setTodo(event.target.value);
     } else {
@@ -42,7 +43,7 @@ const App: React.FC = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    nextTodoId += 1;
+    nextTodoId = Date.now();
 
     const newTodo = {
       userId: nextUserId,
@@ -105,7 +106,7 @@ const App: React.FC = () => {
             onChange={handleChange}
           />
 
-          {isValidTitle && (
+          {(isValidTitle && !todo) && (
             <span className="warning">Please enter the title</span>
           )}
         </div>
@@ -132,7 +133,7 @@ const App: React.FC = () => {
             ))}
           </select>
 
-          {isValidPerson && (
+          {(isValidPerson && !person) && (
             <span className="warning">Please choose a user</span>
           )}
         </div>
