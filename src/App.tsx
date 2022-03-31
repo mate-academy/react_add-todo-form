@@ -1,19 +1,15 @@
-import React from 'react';
 import './App.css';
-
+import React from 'react';
 import users from './api/users';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <p>
-        <span>Users: </span>
-        {users.length}
+        {`Users: ${users.length}`}
       </p>
     </div>
   );
 };
-
-export default App;
