@@ -15,11 +15,6 @@ const App: React.FC = () => {
   const [isValidTitle, setIsValidTitle] = useState(false);
   const [isValidPerson, setIsValidPerson] = useState(false);
 
-  // Set an id for a new Todo
-  let nextTodoId = todoList.length === 0
-    ? TodoList.length
-    : todoList.length + TodoList.length;
-
   // Methods which handle input and select events
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -43,11 +38,10 @@ const App: React.FC = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    nextTodoId = Date.now();
 
     const newTodo = {
       userId: nextUserId,
-      id: nextTodoId + 1,
+      id: Date.now(),
       title: todo,
       completed: false,
     };
@@ -55,9 +49,6 @@ const App: React.FC = () => {
     if (!person.trim() || !todo.trim()) {
       setIsValidTitle(true);
       setIsValidPerson(true);
-
-      // eslint-disable-next-line no-useless-return
-      return;
     } else {
       setTodoList([...todoList, newTodo]);
       setTodo('');
