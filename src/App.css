@@ -1,3 +1,72 @@
 .App {
   text-align: center;
 }
+
+.App__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.App__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  gap: 30px;
+}
+
+.inputs {
+  height: 30px;
+  width: 250px;
+  border: 1px solid #3c3c3c;
+  border-radius: 5%;
+}
+
+.App__input {
+  box-sizing: border-box;
+  padding: 3px 4px;
+}
+
+.App__button {
+  width: 60px;
+  height: 40px;
+  border-radius: 10%;
+  background-color: #fff;
+}
+
+.list__item {
+  color: rgb(255, 255, 255);
+  width: 500px;
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: rgb(146, 109, 177);
+}
+
+.list__item::after {
+  margin-bottom: 5px;
+  content: "";
+  display: block;
+  height: 3px;
+  background-color: rgb(255, 0, 0);
+}
+
+.list__item--done::after {
+  margin-bottom: 5px;
+  content: "";
+  display: block;
+  height: 3px;
+  background-color: rgb(0, 255, 0);
+}
+
+.error {
+  color: red;
+}
