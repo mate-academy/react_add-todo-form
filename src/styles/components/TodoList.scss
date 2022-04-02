@@ -1,8 +1,11 @@
 .Todolist {
   padding: 20px;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   width: 50vw;
+  height: max-content;
+
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 
   &__item {
     &:not(:last-child) {

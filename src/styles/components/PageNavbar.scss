@@ -10,7 +10,6 @@
 
   &__button {
     font-weight: 500;
-    color: #575757;
   }
 
   &__date {
@@ -21,6 +20,12 @@
       font-size: 20px;
       font-weight: 400;
       color: lightgrey;
+    }
+  }
+
+  &__search {
+    &::placeholder {
+      color: black;
     }
   }
 }

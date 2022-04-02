@@ -1,27 +1,37 @@
-import React from 'react';
-import { User } from '../../types/User';
 import '../../styles/components/UserInfo.scss';
+import { FC, memo } from 'react';
+import { User } from '../../types/User';
 
-type Props = User;
+interface Props {
+  user: Omit<User, 'userId'>;
+}
 
-export const UserInfo: React.FC<Props> = ({
-  fullName,
-  username,
-  email,
-}) => (
-  <div className="
-    UserInfo
-    d-flex
-    flex-column
-    align-items-center
-  "
-  >
-    <p className="UserInfo__name" title={`Username - ${username}`}>
-      {fullName}
-    </p>
+export const UserInfo: FC<Props> = memo(
+  ({ user }) => {
+    const { username, fullName, email } = user;
 
-    <a className="UserInfo__email" href={`mailto: ${email}`}>
-      {email}
-    </a>
-  </div>
+    return (
+      <div className="
+        UserInfo
+        d-flex
+        flex-column
+        align-items-center
+        "
+      >
+        <p
+          className="UserInfo__name"
+          title={`Username - ${username}`}
+        >
+          {fullName}
+        </p>
+
+        <a
+          className="UserInfo__email"
+          href={`mailto: ${email}`}
+        >
+          {email}
+        </a>
+      </div>
+    );
+  },
 );

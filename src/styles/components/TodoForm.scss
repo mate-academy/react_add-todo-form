@@ -1,0 +1,116 @@
+$def-m-1: 15px;
+$def-m-2: 25px;
+
+%border-1 {
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+
+%bsh-gray-1 {
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
+%bsh-gray-2 {
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+%bsh-plus-hover {
+  @extend %bsh-gray-1;
+
+  &:hover {
+    @extend %bsh-gray-2;
+  }
+}
+
+.TodoForm {
+  padding-top: 25vh;
+  width: max-content;
+
+  border-radius: 5px;
+  color: dimgray;
+
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 40px;
+
+  &__container {
+    display: flex;
+
+    &-error {
+      margin-left: 20px;
+
+      color: orangered;
+      font-size: 16px;
+      font-weight: 400;
+      text-decoration: underline;
+      text-transform: lowercase;
+    }
+  }
+
+  &__content {
+    display: flex;
+    margin-left: 10vw;
+    padding: 20px;
+    width: 35vw;
+
+    background-color: white;
+    border-radius: 5px;
+    @extend %bsh-gray-2;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $def-m-1;
+
+    &-label {
+      width: 100%;
+      text-align: end;
+      margin-right: $def-m-2;
+    }
+
+    &-input {
+      text-align: center;
+      outline: none;
+      @extend %border-1;
+      @extend %bsh-plus-hover;
+
+      &::placeholder{
+        color: black;
+      }
+    }
+  }
+
+  &__options {
+    border-radius: 5px;
+
+    &-label {
+      margin-right: $def-m-1;
+    }
+
+    &-selector {
+      padding: 1px 7px;
+
+      text-align: center;
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+
+      @extend %border-1;
+      @extend %bsh-plus-hover;
+    }
+  }
+
+  &__submitButton {
+    width: 150px;
+    margin-top: 20px;
+    font-weight: 600;
+  }
+}

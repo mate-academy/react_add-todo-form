@@ -4,22 +4,16 @@
   &__name {
     font-size: 18px;
     font-weight: 500;
-    margin-bottom: 10px;
   }
 
   &__email {
-    padding: 10px 20px;
-
-    color: white;
-    background-color: gray;
-    border-radius: 10px;
-
+    padding: 0 20px;
+    color: #0c63e4;
     text-decoration: none;
     text-transform: lowercase;
 
     &:hover {
       color: gray;
-      background-color: white;
     }
   }
 }

@@ -1,50 +1,48 @@
-import React from 'react';
+import '../../styles/components/TodoInfo.scss';
+import { FC, memo } from 'react';
 import { Form } from 'react-bootstrap';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
-import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
-import '../../styles/components/TodoInfo.scss';
+import { UserInfo } from '../UserInfo';
 
-type Props = Todo;
+interface Props {
+  todo: Omit<Todo, 'userId'>;
+}
 
-export const TodoInfo: React.FC<Props> = ({
-  user,
-  todoId,
-  title,
-  completed,
-}) => (
-  <div className="
-    TodoInfo
-    d-flex
-    justify-content-between
-    align-items-center
-    "
-  >
-    <div className="
-      TodoInfo__title
-      d-flex
-      align-items-center
-      "
-    >
-      <FormCheckLabel
-        className="
-        TodoInfo__title-text
+export const TodoInfo: FC<Props> = memo(
+  ({ todo }) => {
+    const {
+      user, todoId, title, completed,
+    } = todo;
+
+    return (
+      <div className="
+        TodoInfo
         d-flex
+        justify-content-between
         align-items-center
         "
       >
-        <Form className="me-3">
-          <Form.Check
-            className="TodoInfo__check"
-            id={String(todoId)}
-            defaultChecked={completed}
-          />
-        </Form>
+        <div
+          className="TodoInfo__title d-flex align-items-center"
+        >
+          <FormCheckLabel
+            className="TodoInfo__title-text d-flex align-items-center"
+          >
+            <Form className="me-3">
+              <Form.Check
+                className="TodoInfo__check"
+                id={String(todoId)}
+                defaultChecked={completed}
+              />
+            </Form>
 
-        {title}
-      </FormCheckLabel>
-    </div>
+            {title}
+          </FormCheckLabel>
+        </div>
 
-    {user && <UserInfo {...user} />}
-  </div>
+        {user && <UserInfo user={user} />}
+      </div>
+    );
+  },
 );

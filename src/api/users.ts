@@ -1,3 +1,5 @@
+import { User } from '../types/User';
+
 export const users = [
   {
     id: 1,
@@ -230,3 +232,12 @@ export const users = [
     },
   },
 ];
+
+export const getUsers = (): User[] => {
+  return users.map(user => ({
+    userId: user.id,
+    fullName: user.name,
+    username: user.username,
+    email: user.email,
+  }));
+};
