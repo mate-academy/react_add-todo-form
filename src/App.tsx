@@ -19,6 +19,41 @@ const App: React.FC = () => {
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
 
+  const formSubmit = () => {
+    if (!selectedPerson || !taskDescription.trim()) {
+      if (!selectedPerson) {
+        setUserError('choose user');
+      }
+
+      if (!taskDescription.trim()) {
+        setTitleError('enter task description');
+      }
+
+      return;
+    }
+
+    setTodoList(prevState => ([
+      ...prevState,
+      {
+        userId: users.filter(user => user.name === selectedPerson)[0].id,
+        id: prevState.length + 1,
+        title: taskDescription,
+        completed: false,
+      },
+    ]));
+
+    setSelectedPerson('');
+    setTaskDescription('');
+  };
+
+  const inputChange = (value: string) => {
+    setTaskDescription(value);
+
+    if (value.length > 5) {
+      setTitleError('');
+    }
+  };
+
   return (
     <div className="App">
       <h1 className="Todo__welcome">Add todo form</h1>
@@ -28,49 +63,19 @@ const App: React.FC = () => {
         className="Todo__form"
         onSubmit={(event) => {
           event.preventDefault();
-
-          if (!selectedPerson || !taskDescription.trim()) {
-            if (!selectedPerson) {
-              setUserError('choose user');
-            }
-
-            if (!taskDescription.trim()) {
-              setTitleError('enter task description');
-            }
-
-            return;
-          }
-
-          setTodoList(prevState => ([
-            ...prevState,
-            {
-              userId: users.filter(user => user.name === selectedPerson)[0].id,
-              id: prevState.length + 1,
-              title: taskDescription,
-              completed: false,
-            },
-          ]));
-
-          setSelectedPerson('');
-          setTaskDescription('');
+          formSubmit();
         }}
       >
-        <span>{titleError}</span>
         <input
           type="text"
           className="Todo__input"
           value={taskDescription}
-          onChange={(event) => {
-            setTaskDescription(event.target.value);
-
-            if (event.target.value.length > 5) {
-              setTitleError('');
-            }
-          }}
+          onChange={(event) => inputChange(event.target.value)}
           placeholder="Enter task description"
         />
 
-        <span>{userError}</span>
+        {titleError && <span>{titleError}</span>}
+
         <select
           name="user"
           className="Todo__select"
@@ -94,6 +99,7 @@ const App: React.FC = () => {
             </option>
           ))}
         </select>
+        {userError && <span>{userError}</span>}
 
         <button type="submit" className="Todo__button">
           Push this task

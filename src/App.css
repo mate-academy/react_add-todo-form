@@ -16,19 +16,9 @@ h3 {
 
 .Todo__form {
   margin: 0 auto 50px;
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
+  display: grid;
+  width: max-content;
   gap: 10px;
-  justify-content: center;
-}
-
-.Todo__input {
-  width: 100%;
-}
-
-.Todo__select {
-  width: 100%;
 }
 
 .Todo__list {

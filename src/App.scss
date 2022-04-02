@@ -17,19 +17,9 @@ h3 {
 
   &__form {
     margin: 0 auto 50px;
-    display: flex;
-    flex-wrap: wrap;
-    width: 300px;
+    display: grid;
+    width: max-content;
     gap: 10px;
-    justify-content: center;
-  }
-
-  &__input {
-    width: 100%;
-  }
-
-  &__select {
-    width: 100%;
   }
 
   &__list {
