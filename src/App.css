@@ -1,3 +1,52 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #000;
+}
+
+.FormTitle {
+  margin: 40px 0;
+  font-size: 46px;
+  color: #d0f406;
+  font-family: "Aldrich", sans-serif;
+}
+
+.Form {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  min-width: 40%;
+}
+
+input {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 300;
+  font-size: 20px;
+  color: #fff;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.FormInput,
+select {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 300;
+  outline-color: rgb(208, 244, 6);
+  color: #fff;
+  padding: 15px 20px;
+  font-size: 20px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #000;
+  box-shadow: rgb(208 244 6 / 50%) 0 2px 1px -1px,
+    rgb(208 244 6 / 28%) 0 1px 1px 0,
+    rgb(208 244 6 /24%) 0 1px 3px 0;
 }
