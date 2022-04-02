@@ -1,0 +1,23 @@
+.TodoInfo {
+  padding: 5px 15px;
+
+  background-color: #e7e7e7;
+  letter-spacing: -0.5px;
+
+  border: 1px solid #cfcfcf;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
+  transition-property: box-shadow;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  }
+
+  &__title {
+    &-text {
+      font-size: 20px;
+      text-wrap: normal;
+    }
+  }
+}

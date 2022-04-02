@@ -1,0 +1,10 @@
+body,
+ul,
+p,
+li {
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}

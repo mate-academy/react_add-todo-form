@@ -1,18 +1,14 @@
-/* eslint-disable max-len */
-
-const todos = [
+export const todos = [
   {
     userId: 1,
     id: 1,
-    title: 'delectus aut autem',
+    title: 'facilis inventore laboriosam omnis quo veniam',
     completed: false,
   },
   {
     userId: 1,
     id: 2,
-    title: 'quis ut nam facilis et officia qui',
+    title: 'lorem ipsum dolor sit amet, consectetur adipis',
     completed: false,
   },
 ];
-
-export default todos;

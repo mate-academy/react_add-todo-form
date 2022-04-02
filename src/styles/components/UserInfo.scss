@@ -1,0 +1,25 @@
+.UserInfo {
+  padding: 5px 10px;
+
+  &__name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  &__email {
+    padding: 10px 20px;
+
+    color: white;
+    background-color: gray;
+    border-radius: 10px;
+
+    text-decoration: none;
+    text-transform: lowercase;
+
+    &:hover {
+      color: gray;
+      background-color: white;
+    }
+  }
+}
