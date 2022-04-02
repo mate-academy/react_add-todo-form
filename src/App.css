@@ -1,3 +1,64 @@
-.App {
-  text-align: center;
+html {
+  color: aquamarine;
+  background-color: black;
 }
+
+h2,
+h3 {
+  margin: 0;
+}
+
+.Todo__welcome {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.Todo__form {
+  margin: 0 auto 50px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.Todo__input {
+  width: 100%;
+}
+
+.Todo__select {
+  width: 100%;
+}
+
+.Todo__list {
+  list-style: none;
+  padding: 0;
+  width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.Todo__item {
+  background-color: aquamarine;
+  border-radius: 10px;
+  color: black;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Todo__title {
+  margin-bottom: 15px;
+}
+
+.Todo__info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=App.css.map */
