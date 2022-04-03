@@ -56,8 +56,6 @@ const App: React.FC = () => {
     }
   };
 
-  const clearInputs = () => resetForm();
-
   const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const pattern = /^[0-9enru ]*$/;
@@ -138,7 +136,7 @@ const App: React.FC = () => {
             <button
               type="button"
               className="button is-link is-light"
-              onClick={clearInputs}
+              onClick={resetForm}
             >
               Cancel
             </button>
