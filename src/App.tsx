@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import './App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
+import { Todo } from './types/Todo';
 
-type Todo = {
-  userId: number,
-  id: number,
-  title: string,
-  completed: boolean,
-};
+import './App.scss';
 
 const App: React.FC = () => {
   const [selectedPerson, setSelectedPerson] = useState('');
@@ -66,15 +61,14 @@ const App: React.FC = () => {
           formSubmit();
         }}
       >
-        <input
-          type="text"
-          className="Todo__input"
+        <textarea
+          className="Todo__textarea"
           value={taskDescription}
           onChange={(event) => inputChange(event.target.value)}
           placeholder="Enter task description"
         />
 
-        {titleError && <span>{titleError}</span>}
+        {titleError && <span className="Todo__error">{titleError}</span>}
 
         <select
           name="user"
@@ -85,21 +79,17 @@ const App: React.FC = () => {
             setUserError('');
           }}
         >
-          <option
-            value=""
-            disabled
-          >
+          <option value="" disabled>
             Choose a user
           </option>
-          {users.map((user) => (
-            <option
-              key={user.id}
-            >
+          {users.map(user => (
+            <option key={user.id}>
               {user.name}
             </option>
           ))}
         </select>
-        {userError && <span>{userError}</span>}
+
+        {userError && <span className="Todo__error">{userError}</span>}
 
         <button type="submit" className="Todo__button">
           Push this task
@@ -109,13 +99,14 @@ const App: React.FC = () => {
       <ul className="Todo__list">
         {todoList.map(todo => (
           <li className="Todo__item" key={todo.id}>
+            <p className="Todo__info">
+              {`user/id${todo.userId}`}
+              {' | '}
+              {!todo.completed && ' completed: false'}
+            </p>
             <h2 className="Todo__title">
               {todo.title}
             </h2>
-            <h3 className="Todo__info">
-              {`user/id${todo.userId}`}
-              <input type="checkbox" defaultChecked={todo.completed} />
-            </h3>
           </li>
         ))}
       </ul>

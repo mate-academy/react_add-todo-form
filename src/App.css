@@ -3,8 +3,9 @@ html {
   background-color: black;
 }
 
+body,
 h2,
-h3 {
+p {
   margin: 0;
 }
 
@@ -17,6 +18,7 @@ h3 {
 .Todo__form {
   margin: 0 auto 50px;
   display: grid;
+  justify-items: center;
   width: max-content;
   gap: 10px;
 }
@@ -40,15 +42,69 @@ h3 {
   justify-content: center;
 }
 
-.Todo__title {
-  margin-bottom: 15px;
+.Todo__textarea {
+  font-family: inherit;
+  font-size: 18px;
+  width: 400px;
+  height: 100px;
+  color: inherit;
+  background: black;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid aquamarine;
+  outline: none;
+  resize: none;
+}
+
+.Todo__textarea::placeholder {
+  color: inherit;
+}
+
+.Todo__select {
+  font-size: 18px;
+  background: black;
+  color: inherit;
+  height: 2em;
+  width: 50%;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid aquamarine;
+  outline: none;
+}
+
+.Todo__button {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  outline: none;
+  padding: 13px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 10px;
+  background-color: aquamarine;
+  border: 1px solid #222;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #222;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.Todo__error {
+  font-size: 15px;
 }
 
 .Todo__info {
+  font-weight: 700;
   display: flex;
-  gap: 10px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 /*# sourceMappingURL=App.css.map */
