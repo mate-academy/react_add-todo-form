@@ -7,7 +7,7 @@ type Props = {
   todos: Todo[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = React.memo(({ todos }) => {
   return (
     <div className="todo-list">
       <div className="todo-list__header">
@@ -33,4 +33,4 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
       </div>
     </div>
   );
-};
+});

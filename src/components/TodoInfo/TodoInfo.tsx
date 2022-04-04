@@ -6,7 +6,7 @@ import users from '../../api/users';
 
 type Props = Todo;
 
-export const TodoInfo: React.FC<Props> = ({
+export const TodoInfo: React.FC<Props> = React.memo(({
   userId, title, completed,
 }) => {
   const [checked, setChecked] = useState(completed);
@@ -40,4 +40,4 @@ export const TodoInfo: React.FC<Props> = ({
       )}
     </div>
   );
-};
+});

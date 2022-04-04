@@ -3,7 +3,7 @@ import { User } from '../../types/types';
 
 type Props = User;
 
-export const UserInfo: React.FC<Props> = ({
+export const UserInfo: React.FC<Props> = React.memo(({
   name, email, website,
 }) => {
   return (
@@ -35,4 +35,4 @@ export const UserInfo: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+});
