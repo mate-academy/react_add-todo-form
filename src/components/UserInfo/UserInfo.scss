@@ -1,0 +1,61 @@
+.card {
+  position: relative;
+  z-index: 1;
+
+  &__name {
+    z-index: 1;
+
+    &:hover + .card__description {
+      display: block;
+    }
+
+    &:active + .card__description {
+      display: block;
+    }
+  }
+  &__description {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    left: -20px;
+    top: 15px;
+    padding: 20px;
+    margin: 0;
+    border-radius: 23px;
+    background-color: #f5f5f5;
+    box-shadow: 0 9px 18px rgba(37, 41, 49, 0.1);
+
+    transition: transform .5s,box-shadow .5s;
+
+    &:hover {
+      display: block;
+      transform: scale(1.05);
+      box-shadow: 0 9px 18px #2060f633;
+    }
+  }
+}
+
+.description {
+  &__name {
+    margin-bottom: 10px;
+  }
+
+  &__username {
+    margin-bottom: 10px;
+  }
+
+  &__info {
+    margin-bottom: 10px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #6c788b;
+
+    transition: color 0.5s;
+
+    &:hover {
+      color: #a1a1a1;
+    }
+  }
+}

@@ -1,0 +1,107 @@
+html {
+  font-family: Open Sans,sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 150%;
+  color: #6c788b;
+}
+
+body {
+  margin: 0;
+  background-color: #eee;
+}
+
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 0 20px;
+}
+
+.App {
+
+  &__title {
+    display: block;
+
+    padding: 5px 80px;
+    margin-bottom: 10px;
+    border-radius: 23px;
+    background-color: rgba(46, 32, 246, 0.1);
+
+    font-family: Algerian;
+    text-transform: uppercase;
+    color: midnightblue;
+    text-align: center;
+  }
+
+  &__form {
+    margin-bottom: 30px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 45px;
+
+    font-family: "Tempus Sans ITC";
+  }
+
+  &__todo-title {
+    width: 200px;
+    height: 20px;
+    padding: 5px 10px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &__user-selector {
+    width: 220px;
+    height: 30px;
+    padding: 5px 10px;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &__error {
+    padding-left: 10px;
+    color: red;
+    font-family: inherit;
+  }
+
+  &__submit {
+    width: 140px;
+    padding: 6px;
+    border-radius: 15px;
+    border: 0;
+    outline: none;
+    background-color: #58d544;
+
+    font-family: "Comic Sans MS";
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
