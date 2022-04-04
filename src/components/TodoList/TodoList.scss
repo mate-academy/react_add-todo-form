@@ -1,0 +1,33 @@
+.todo {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+    margin-bottom: 20px;
+    padding: 20px 25px;
+
+    width: 100%;
+    max-width: 1024px;
+    min-height: 120px;
+
+    border-radius: 15px;
+    background-color: #219b82;
+    box-shadow: 10px 10px 8px #141414;
+    transition-duration: 0.2s;
+
+    &:hover {
+      background-color: #3fd1b4;
+      box-shadow: 15px 15px 15px #181818;
+
+      cursor: pointer;
+    }
+  }
+}
