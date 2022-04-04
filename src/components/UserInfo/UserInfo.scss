@@ -1,0 +1,11 @@
+.user {
+
+  &__info {
+    &::after {
+      content: "";
+      display: block;
+      padding: 5px;
+      border-bottom: 1px solid #999;
+    }
+  }
+}

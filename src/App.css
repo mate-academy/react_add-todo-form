@@ -1,3 +1,23 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Helvetica, sans-serif;
+  color: #333;
+}
+
+body {
+  margin: 3%;
+
+  background-color: #fef9e7;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.form {
+  width: 300px;
 }
