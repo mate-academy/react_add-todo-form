@@ -1,0 +1,13 @@
+.todo {
+  &__list {
+    list-style: auto;
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    flex-direction: column;
+  }
+
+  &__item {
+    padding: 10px;
+  }
+}
