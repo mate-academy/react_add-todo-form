@@ -1,0 +1,18 @@
+.todo {
+
+  &_title {
+    text-align: center;
+  }
+
+  &_status {
+    font-weight: bold;
+
+    &-green {
+      color: green;
+    }
+
+    &-red {
+      color: red;
+    }
+  }
+}

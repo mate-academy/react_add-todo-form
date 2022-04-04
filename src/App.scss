@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
+
+  &_danger {
+    color: red;
+    font-weight: bold;
+  }
+}
