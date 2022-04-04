@@ -1,3 +1,29 @@
+@import "bulma/css/bulma.min.css";
+
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+}
+
+.App__title {
+  margin-top: 1.5rem;
+}
+
+.form {
+  width: 20vw;
+  margin-bottom: 1.5rem;
+}
+
+.todo-title {
+  margin-right: 0.75rem;
+}
+
+.box {
+  min-width: 40vw;
+}
+
+.field.is-grouped {
+  justify-content: space-between;
 }
