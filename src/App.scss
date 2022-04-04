@@ -1,0 +1,106 @@
+$sizeForm: 30px;
+$lineHeightForm: $sizeForm * 1.5;
+
+@mixin formProperty($sizeForm, $lineHeightForm) {
+  font-size: $sizeForm;
+  line-height: $lineHeightForm;
+  color: black;
+  border-radius: 4px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.App {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.form {
+  z-index: 2;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 20px 30px;
+  background-color: #173643;
+  opacity: 0.97;
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: no-wrap;
+
+  @media screen and (max-width: 1020px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__container {
+    height: 53px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__input {
+    @include formProperty($sizeForm, $lineHeightForm);
+    width: 400px;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  &__select {
+    @include formProperty($sizeForm, $lineHeightForm);
+    height: $lineHeightForm + 3px;
+    width: 436px;
+
+
+    &:hover {
+      background-color: #eee
+    }
+  }
+
+  &__button {
+    @include formProperty($sizeForm, $lineHeightForm);
+
+    @media screen and (max-width: 1020px) {
+      width: 436px;
+    }
+
+    &:hover {
+      background-color: #1d90ff;
+      color: white;
+    }
+
+    &:active {
+      background-color: #0d85f5;
+      color: #bbb;
+    }
+
+  }
+
+  &__alert {
+    position: absolute;
+    top: 53px;
+    left: 20px;
+    display: inline-block;
+    font-size: $sizeForm / 2;
+    color: yellow;
+    animation-name: move;
+    animation-duration: 0.3s;
+  }
+}
+
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
