@@ -26,25 +26,24 @@ const App: React.FC = () => {
     setTodos((state) => [addedTodo, ...state]);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!title || userId === -1) {
-      if (!title) {
-        setTitleError(true);
-      }
-
-      if (userId === -1) {
-        setUserIdError(true);
-      }
-
-      return;
-    }
-
+  const reset = () => {
     setTitleError(false);
     setUserIdError(false);
     setTitle('');
     setUserId(-1);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!title || userId === -1) {
+      setTitleError(!title);
+      setUserIdError(userId === -1);
+
+      return;
+    }
+
+    reset();
     addTodo();
   };
 
