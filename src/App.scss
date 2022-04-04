@@ -1,0 +1,120 @@
+$bg-color: #246152f1;
+$box-shadow: -20px -20px 30px lighten($bg-color, 6),
+  20px 20px 30px darken($bg-color, 6);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  min-height: 100vh;
+  height: 100%;
+  padding: 60px 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $bg-color;
+  font-family: "Arial", "Helvetica", sans-serif;
+}
+
+.warnings {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__warning {
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #bebebe;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    background-color: #ff4800a4;
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    border-radius: 15px;
+    margin: 0 0 10px;
+
+    &--title {
+      margin: 0 20px 10px 0;
+    }
+  }
+}
+
+.content {
+  padding: 40px;
+  border: 1px solid transparent;
+  border-radius: 40px;
+  box-shadow: $box-shadow;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__form,
+  &__title {
+    margin: 0 0 30px;
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.input {
+  font-size: 20px;
+  color: #2b2b2b;
+  background: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid darken($bg-color, 9);
+  transition: all 0.4s linear;
+
+  &--select {
+    margin-top: 30px;
+  }
+
+  &__option {
+    background-color: lighten($bg-color, 2);
+  }
+
+  &::placeholder {
+    color: #acacac;
+    font-weight: 100;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: #c9c9c9;
+  }
+}
+
+.button {
+  cursor: pointer;
+  padding: 5px 25px;
+  color: #bebebe;
+  font-size: 20px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: darken($bg-color, 3);
+  transition: all 0.4s;
+
+  &:hover {
+    background-color: darken($bg-color, 7);
+  }
+}
