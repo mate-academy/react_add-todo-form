@@ -14,13 +14,18 @@ const App: React.FC = () => {
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
 
+  const clearForm = () => {
+    setSelectedPerson('');
+    setTaskDescription('');
+  };
+
   const formSubmit = () => {
-    if (!selectedPerson || !taskDescription.trim()) {
+    if (!selectedPerson || taskDescription.trim().length < 5) {
       if (!selectedPerson) {
         setUserError('choose user');
       }
 
-      if (!taskDescription.trim()) {
+      if (taskDescription.trim().length < 5) {
         setTitleError('enter task description');
       }
 
@@ -37,8 +42,7 @@ const App: React.FC = () => {
       },
     ]));
 
-    setSelectedPerson('');
-    setTaskDescription('');
+    clearForm();
   };
 
   const inputChange = (value: string) => {
