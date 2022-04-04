@@ -37,13 +37,16 @@ $def-m-2: 25px;
     display: flex;
 
     &-error {
-      margin-left: 20px;
+      margin: auto 0 auto 20px;
+      padding: 5px;
+      height: max-content;
 
-      color: orangered;
-      font-size: 16px;
-      font-weight: 400;
-      text-decoration: underline;
-      text-transform: lowercase;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      color: white;
+      background-color: orangered;
+
+      line-height: 70%;
     }
   }
 

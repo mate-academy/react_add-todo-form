@@ -4,20 +4,21 @@ import {
 import { Button } from 'react-bootstrap';
 import { Todo } from '../../types/Todo';
 import { getUsers } from '../../api/users';
+import { todos } from '../../api/todos';
 
 interface Props {
-  defaultOption: string;
-  lastTakenId: number;
   onSubmit: (todo: Todo) => void;
 }
 
 export const TodoForm: FC<Props> = memo(
-  ({ onSubmit, defaultOption, lastTakenId }) => {
+  ({ onSubmit }) => {
     const users = useMemo(getUsers, []);
 
     const [title, setTitle] = useState('');
     const [username, setUsername] = useState('');
-    const [availableId, setAvailableId] = useState(lastTakenId + 1);
+    const [availableId, setAvailableId] = useState(
+      todos[todos.length - 1].id + 1,
+    );
 
     const [isTitleErrorShown, setTitleErrorShown] = useState(false);
     const [isOptionErrorShown, setOptionErrorShown] = useState(false);
@@ -112,13 +113,7 @@ export const TodoForm: FC<Props> = memo(
                   value={username}
                   onChange={handleSelectorChange}
                 >
-                  {!username && (
-                    <option
-                      value={defaultOption}
-                    >
-                      {defaultOption}
-                    </option>
-                  )}
+                  {!username && (<option>Choose a users...</option>)}
 
                   {users
                     .map(user => user.fullName)

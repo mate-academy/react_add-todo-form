@@ -1,7 +1,7 @@
 import { Todo } from '../types/Todo';
 import { users } from './users';
 
-const todos = [
+export const todos = [
   {
     userId: 1,
     id: 1,

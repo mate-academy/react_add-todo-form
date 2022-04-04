@@ -1,4 +1,4 @@
-import '../../styles/components/TodoInfo.scss';
+import './TodoInfo.scss';
 import { FC, memo } from 'react';
 import { Form } from 'react-bootstrap';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';

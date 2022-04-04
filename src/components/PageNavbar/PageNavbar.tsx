@@ -1,4 +1,4 @@
-import '../../styles/components/PageNavbar.scss';
+import './PageNavbar.scss';
 import {
   Button,
   Navbar,

@@ -1,4 +1,4 @@
-import '../../styles/components/UserInfo.scss';
+import './UserInfo.scss';
 import { FC, memo } from 'react';
 import { User } from '../../types/User';
 

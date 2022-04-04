@@ -12,7 +12,7 @@ export const App: FC = memo(
   () => {
     const [todos, setTodos] = useState(getTodos);
 
-    const handleFormSubmission = useCallback((newTodo: Todo) => {
+    const addTodo = useCallback((newTodo: Todo) => {
       setTodos((prevTodos) => (
         [...prevTodos, newTodo]
       ));
@@ -26,11 +26,7 @@ export const App: FC = memo(
           className="App__content d-flex justify-content-between"
         >
           <div className="App__form">
-            <TodoForm
-              defaultOption="Choose a users..."
-              lastTakenId={todos[todos.length - 1].todoId}
-              onSubmit={handleFormSubmission}
-            />
+            <TodoForm onSubmit={addTodo} />
           </div>
 
           <TodoList todos={todos} />
