@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.Error {
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 200px;
+  max-width: 30%;
+  border-radius: 8px;
+  background-color: rgba(214, 22, 45, 0.5);
+}
+
+.Form__wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  &__item {
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+    border: none;
+    background-color: wheat;
+    transition: all 0.3s;
+  }
+  &__itemBlock {
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
+  .Error {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -220px;
+
+    padding: 9px;
+  }
+}
