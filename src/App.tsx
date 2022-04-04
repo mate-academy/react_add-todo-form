@@ -39,13 +39,7 @@ class App extends React.Component<{}, State> {
 
     event.preventDefault();
 
-    if (!title.trim()) {
-      this.setState({ titleError: true });
-    }
-
-    if (!userId) {
-      this.setState({ userError: true });
-    }
+    this.validate();
 
     if (title.trim() && userId && title.length <= maxLength) {
       const currentUser = users.find(user => userId === user.id);
@@ -62,9 +56,25 @@ class App extends React.Component<{}, State> {
         todos: [...state.todos, newTodo],
       }));
 
-      this.state.title = '';
-      this.state.userId = 0;
+      this.clearData();
     }
+  };
+
+  validate = () => {
+    const { userId, title } = this.state;
+
+    if (!userId) {
+      this.setState({ userError: true });
+    }
+
+    if (!title.trim()) {
+      this.setState({ titleError: true });
+    }
+  };
+
+  clearData = () => {
+    this.setState({ userId: 0 });
+    this.setState({ title: '' });
   };
 
   render() {
