@@ -26,6 +26,11 @@ const App: React.FC = () => {
   const [userError, setUserError] = useState('');
   const [titleError, setTitleError] = useState('');
 
+  const resetForm = () => {
+    setUserId(0);
+    setTitle('');
+  };
+
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -47,8 +52,7 @@ const App: React.FC = () => {
       }]);
     }
 
-    setUserId(0);
-    setTitle('');
+    resetForm();
   };
 
   const handlerChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -97,15 +101,15 @@ const App: React.FC = () => {
             onChange={handlerChange}
             className="user_select"
           >
-            <option value="">Choose a user</option>
+            <option value="0" disabled selected>Choose a user</option>
             {users.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>
             ))}
           </select>
-          {userError && <p className="user_error">{userError}</p>}
         </div>
+        {userError && <p className="user_error">{userError}</p>}
         <div className="button">
           <button className="button_add" type="submit">
             Add the Form
