@@ -7,7 +7,7 @@ import users from './api/users';
 import { FullTodo, Todo } from './components/types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-function preparedTodos(
+function prepareTodos(
   todosList: Todo[],
 ): FullTodo[] {
   return todosList.map((todo) => ({
@@ -16,12 +16,12 @@ function preparedTodos(
   }));
 }
 
-const prepareTodos = preparedTodos(todos);
+const preparedTodos = prepareTodos(todos);
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [todo, addTodo] = useState(prepareTodos);
+  const [todo, addTodo] = useState(preparedTodos);
 
   const [userError, setUserError] = useState('');
   const [titleError, setTitleError] = useState('');
@@ -92,7 +92,7 @@ const App: React.FC = () => {
             />
           </label>
         </div>
-        {titleError && <p className="title_error">{titleError}</p>}
+        {!!titleError && <p className="title_error">{titleError}</p>}
         <div className="select">
           <select
             id="user"
@@ -109,7 +109,7 @@ const App: React.FC = () => {
             ))}
           </select>
         </div>
-        {userError && <p className="user_error">{userError}</p>}
+        {!!userError && <p className="user_error">{userError}</p>}
         <div className="button">
           <button className="button_add" type="submit">
             Add the Form
