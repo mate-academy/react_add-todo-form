@@ -85,7 +85,6 @@ const App: React.FC = () => {
           <input
             placeholder="Todo"
             type="text"
-            name=""
             value={todoText}
             onChange={(e) => handleInputChange(e)}
           />
