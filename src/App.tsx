@@ -38,17 +38,18 @@ const App: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(e.target.value);
 
-    if (!todoText) {
-      setError('');
-    }
+    setError('');
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(e.target.value);
 
-    if (!selectedUser) {
-      setError('');
-    }
+    setError('');
+  };
+
+  const resetForm = () => {
+    setTodoText('');
+    setSelectedUser('');
   };
 
   const onFormSubmit = (e: { preventDefault: () => void; }) => {
@@ -68,8 +69,7 @@ const App: React.FC = () => {
 
     addTodo(newTodo);
 
-    setTodoText('');
-    setSelectedUser('');
+    resetForm();
   };
 
   return (
@@ -86,14 +86,14 @@ const App: React.FC = () => {
             placeholder="Todo"
             type="text"
             value={todoText}
-            onChange={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
           />
 
           {error && <p className="Error">{error}</p>}
 
           <select
             value={selectedUser}
-            onChange={(e) => handleSelectChange(e)}
+            onChange={handleSelectChange}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
