@@ -20,6 +20,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         <p>
           {user && user.name}
         </p>
+        <p>
+          {user && user.email}
+        </p>
       </div>
     </>
   );

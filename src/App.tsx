@@ -4,11 +4,14 @@ import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
+import { Todo } from './types/types';
 
 const App: React.FC = () => {
-  const [todo, setTodo] = useState([...todos]);
-  const [userId, setUserId] = useState(-1);
+  const [todo, setTodo] = useState<Todo[]>([...todos]);
+  const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userIdError, setUserIdError] = useState(false);
 
   const addTodo = () => {
     const todoId = todos.length;
@@ -31,6 +34,13 @@ const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setTitleError(!title);
+    setUserIdError(!userId);
+
+    if (!title || !userId) {
+      return;
+    }
+
     reset();
     addTodo();
   };
@@ -41,10 +51,12 @@ const App: React.FC = () => {
     switch (name) {
       case 'title':
         setTitle(value);
+        setTitleError(false);
         break;
 
       case 'user-select':
         setUserId(Number(value));
+        setUserIdError(false);
         break;
 
       default:
@@ -63,20 +75,26 @@ const App: React.FC = () => {
               value={title}
               onChange={handleChange}
             />
+            {titleError && (
+              <span className="error">Add title</span>
+            )}
           </label>
-          <label htmlFor="user-selector" className="form__item">
+          <label htmlFor="user-select" className="form__item">
             <select
               name="user-select"
               value={userId}
               onChange={handleChange}
             >
-              <option value="">Choose name</option>
+              <option value="0" disabled selected>Choose name</option>
               {users.map(({ name, id }) => (
                 <option key={id} value={id}>
                   {name}
                 </option>
               ))}
             </select>
+            {userIdError && (
+              <span className="error">Choose user</span>
+            )}
           </label>
           <button type="submit">
             Add Todo
