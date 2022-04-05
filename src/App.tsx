@@ -8,36 +8,43 @@ import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
 
-const maxId = todos.sort((a, b) => b.id - a.id)[0].id;
-
 type Props = {};
 
 type State = {
   newTodos: Todo[],
   title: string;
   userId: number;
-  id: number;
   titleWarning: boolean;
   userWarning: boolean;
 };
+
+const maxId = (arr: Todo[]) => (
+  arr.sort((a, b) => b.id - a.id)[0].id
+);
 
 export class App extends React.Component<Props, State> {
   state = {
     newTodos: [...todos],
     title: '',
     userId: 0,
-    id: maxId,
     titleWarning: false,
     userWarning: false,
   };
 
-  todoMaker = () => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { value, name } = event.target;
+    const newState: {} = { [name]: value };
+
+    this.setState(newState);
+  };
+
+  createTodo = (event: React.SyntheticEvent) => {
     const {
       title,
       userId,
     } = this.state;
 
-    this.nextId();
+    event.preventDefault();
 
     if (!title) {
       this.setState({ titleWarning: true });
@@ -47,28 +54,21 @@ export class App extends React.Component<Props, State> {
       this.setState({ userWarning: true });
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    (title && userId !== 0) && (
+    if (title && userId !== 0) {
       this.setState((state) => ({
         newTodos: [
           ...state.newTodos,
           {
             userId: +state.userId,
-            id: state.id,
+            id: maxId(state.newTodos) + 1,
             title: state.title,
             completed: false,
           },
         ],
         title: '',
         userId: 0,
-      }))
-    );
-  };
-
-  nextId = () => {
-    this.setState(current => ({
-      id: current.id + 1,
-    }));
+      }));
+    }
   };
 
   render() {
@@ -103,8 +103,7 @@ export class App extends React.Component<Props, State> {
             method="get"
             className="form content__form"
             onSubmit={(event) => {
-              event.preventDefault();
-              this.todoMaker();
+              this.createTodo(event);
             }}
           >
             <input
@@ -124,10 +123,11 @@ export class App extends React.Component<Props, State> {
                 const validSymbol
                   = cyrillic.test(lastChar) || latin.test(lastChar) || num.test(lastChar) || lastChar === ' ';
 
-                this.setState(state => ({
-                  titleWarning: false,
-                  title: validSymbol ? event.target.value : state.title,
-                }));
+                this.setState({ titleWarning: false });
+
+                if (validSymbol) {
+                  this.handleChange(event);
+                }
               }}
             />
             <div className="form__wrapper">
@@ -137,10 +137,8 @@ export class App extends React.Component<Props, State> {
                 className="input form__input input--select"
                 value={userId}
                 onChange={(event) => {
-                  this.setState({
-                    userWarning: false,
-                    userId: +event.target.value,
-                  });
+                  this.handleChange(event);
+                  this.setState({ userWarning: false });
                 }}
               >
                 <option value={0}>
@@ -165,7 +163,7 @@ export class App extends React.Component<Props, State> {
               </button>
             </div>
           </form>
-          <TodoList todos={newTodos} users={users} />
+          <TodoList todos={[...newTodos]} users={users} />
         </div>
       </div>
     );

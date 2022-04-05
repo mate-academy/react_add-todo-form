@@ -3,25 +3,30 @@ import { User } from '../types/User';
 import { Todo } from '../types/Todo';
 
 import './TodoList.scss';
+// import todos from '../api/todos';
 
 type Props = {
   todos: Todo[];
   users: User[];
 };
 
+const formatPhoneNumber = (user: User) => (
+  user.phone.split('').filter(el => !Number.isNaN(+el)).slice(0, 11).join('')
+);
+
+const getVisibleNumber = (str: string) => (
+  str.length > 10
+    ? `+${str[0]} (${str.slice(1, 4)}) ${str.slice(4, 7)} ${str.slice(7)}`
+    : `(${str.slice(0, 3)}) ${str.slice(3, 6)} ${str.slice(6)}`
+);
+
 export class TodoList extends React.PureComponent<Props> {
-  phoneNumber = (user: User) => (
-    user.phone.split('').filter(el => !Number.isNaN(+el)).slice(0, 11).join('')
-  );
-
-  visibleNumber = (str: string) => (
-    str.length > 10
-      ? `+${str[0]} (${str.slice(1, 4)}) ${str.slice(4, 7)} ${str.slice(7)}`
-      : `(${str.slice(0, 3)}) ${str.slice(3, 6)} ${str.slice(6)}`
-  );
-
   render() {
     const { todos, users } = this.props;
+    const preparedTodos = todos.map((todo) => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
+    }));
 
     return (
       <div className="content__wrapper">
@@ -29,10 +34,7 @@ export class TodoList extends React.PureComponent<Props> {
           Todo list
         </h2>
         <ul className="todo-list content__todo-list">
-          {todos.map(todo => {
-            const user = users.find(person => person.id === todo.userId);
-            const phone = user ? this.phoneNumber(user) : '';
-
+          {preparedTodos.map(todo => {
             return (
               <li
                 className="item todo-list__item"
@@ -50,22 +52,22 @@ export class TodoList extends React.PureComponent<Props> {
                     </span>
                   </div>
                   <div className="user-info item__user-info">
-                    {user && (
+                    {todo.user && (
                       <>
                         <span className="user-info__name">
-                          {user.name}
+                          {todo.user.name}
                         </span>
                         <a
                           className="user-info__email"
-                          href={user.email}
+                          href={todo.user.email}
                         >
-                          {user.email}
+                          {todo.user.email}
                         </a>
                         <a
                           className="user-info__phone"
-                          href={`callto:${phone}`}
+                          href={`callto:${formatPhoneNumber(todo.user)}`}
                         >
-                          {this.visibleNumber(phone.trim())}
+                          {getVisibleNumber(formatPhoneNumber(todo.user).trim())}
                         </a>
                       </>
                     )}
