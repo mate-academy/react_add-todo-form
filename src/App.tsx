@@ -6,19 +6,9 @@ import usersFromServer from './api/users';
 
 import { TodoList } from './components/TodoList/TodoList';
 
-const maxId = () => {
-  let max = 0;
-
-  usersFromServer.forEach(el => {
-    max = el.id > max ? el.id : max;
-  });
-
-  return max + 1;
-};
-
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('');
+  const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState([...todosFromServer]);
   const [userError, setUserError] = useState(false);
   const [todoError, setTodoError] = useState(false);
@@ -28,31 +18,26 @@ const App: React.FC = () => {
     setTitle(value);
   };
 
-  const changeUserHandler = (value: string) => {
+  const changeUserHandler = (value: number) => {
     setUserError(false);
-    setUser(value);
+    setUserId(value);
   };
 
   const addTodo = () => {
-    if (!title || !user) {
-      if (!title) {
-        setTodoError(true);
-      }
-
-      if (!user) {
-        setUserError(true);
-      }
+    if (!title || !userId) {
+      setTodoError(!todoError);
+      setUserError(!userError);
 
       return;
     }
 
     setTitle('');
-    setUser('');
+    setUserId(0);
 
     const newTodo = {
       title,
-      userId: Number(user),
-      id: Number(maxId),
+      userId,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       completed: false,
     };
 
@@ -90,8 +75,8 @@ const App: React.FC = () => {
           <select
             id="select"
             name="user"
-            value={user}
-            onChange={(event) => changeUserHandler(event.target.value)}
+            value={userId}
+            onChange={(event) => changeUserHandler(+event.target.value)}
           >
             <option value="">
               Choose person

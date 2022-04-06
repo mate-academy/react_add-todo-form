@@ -1,7 +1,7 @@
 import React from 'react';
+import cn from 'classnames';
 import { Todo, User } from '../../types/types';
 import './TodoItem.scss';
-
 import usersFromServer from '../../api/users';
 
 type Props = {
@@ -16,14 +16,12 @@ export const TodoItem: React.FC<Props> = ({ todo }) => {
       <h2 className="todo_title">{todo.title}</h2>
       <div>
         <span
-          className={`todo_status ${todo.completed
-            ? 'todo_status-green'
-            : 'todo_status-red'}`}
+          className={cn({ 'todo__status-green': todo.completed, 'todo__status-red': !todo.completed })}
         >
           {todo.completed ? 'Completed' : 'Not completed'}
         </span>
         <p>
-          {user && user.name}
+          {user?.name}
         </p>
       </div>
     </>
