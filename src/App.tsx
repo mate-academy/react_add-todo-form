@@ -3,48 +3,45 @@ import { AddIcon } from './components/AddIcon';
 import { preapareTodos } from './api/data';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
-import { AllTodo, Todo } from './types';
+import { AllTodo } from './types';
 import './App.css';
 
 const App: React.FC = () => {
   const [todo, setTodo] = useState<AllTodo[]>([]);
   const [todoText, setTodoText] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [error, setError] = useState('');
+  const [hasTextError, setHasTextError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   useEffect(() => {
     setTodo(preapareTodos);
   }, []);
 
-  const selectUser = users.find(user => selectedUser === user.name);
+  const addTodo = () => {
+    const selectUser = users.find(user => selectedUser === user.name);
 
-  const maxId: number = Math.max(...todo.map(el => el.id));
+    const newTodo = {
+      completed: false,
+      title: todoText,
+      userId: selectUser?.id,
+      user: selectUser,
+      id: Math.max(...todo.map(el => el.id)) + 1,
+    };
 
-  const newTodo = {
-    completed: false,
-    title: todoText,
-    userId: selectUser?.id,
-    user: selectUser,
-    id: maxId + 1,
-  };
-
-  const addTodo = (addedTodo: Todo) => (
     setTodo((prev) => ([
       ...prev,
-      addedTodo,
-    ]))
-  );
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoText(e.target.value);
-
-    setError('');
+      newTodo,
+    ]));
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(e.target.value);
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoText(e.target.value);
+    setHasTextError(false);
+  };
 
-    setError('');
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(e.target.value);
+    setHasUserError(false);
   };
 
   const resetForm = () => {
@@ -55,20 +52,14 @@ const App: React.FC = () => {
   const onFormSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    if (!newTodo.title) {
-      setError('Please enter the title.');
+    setHasTextError(!todoText);
+    setHasUserError(!selectedUser);
 
+    if (!todoText || !selectedUser) {
       return;
     }
 
-    if (!selectedUser) {
-      setError('Please choose a user');
-
-      return;
-    }
-
-    addTodo(newTodo);
-
+    addTodo();
     resetForm();
   };
 
@@ -86,20 +77,20 @@ const App: React.FC = () => {
             placeholder="Todo"
             type="text"
             value={todoText}
-            onChange={handleInputChange}
+            onChange={handleTextChange}
           />
-
-          {error && <p className="Error">{error}</p>}
+          {hasTextError && <p className="Error">Please enter the title.</p>}
 
           <select
             value={selectedUser}
-            onChange={handleSelectChange}
+            onChange={handleUserChange}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
               <option key={user.id}>{user.name}</option>
             ))}
           </select>
+          {hasUserError && <p className="Error">Please choose a user</p>}
           <div className="AddBtn">
             <button
               className="AddIconBtn"
