@@ -27,7 +27,7 @@ const App: React.FC = () => {
             || null,
         };
 
-        return [...todos, createTodo];
+        return [...currentState, createTodo];
       });
       setTitle('');
       setUserId(0);
