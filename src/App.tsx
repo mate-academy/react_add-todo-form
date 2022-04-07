@@ -85,7 +85,7 @@ const App: React.FC = () => {
           ))}
         </select>
         {hasUserIdError && (
-          <span className="error">Select color</span>
+          <span className="error">Choose a user</span>
         )}
         <button
           type="submit"
