@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 import { FullTodo } from './types';
 
 import usersFromServer from './api/users';
@@ -25,6 +26,7 @@ export const App: FC = () => {
 
   const addTodo = (titleInput: string, userSelected: number) => {
     const newTodo = {
+      id: uuidv4(),
       title: titleInput,
       user: getUser(userSelected),
     };
