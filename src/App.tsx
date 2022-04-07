@@ -20,18 +20,20 @@ const App: React.FC = () => {
   const addTodo = () => {
     const selectUser = users.find(user => selectedUser === user.name);
 
-    const newTodo = {
-      completed: false,
-      title: todoText,
-      userId: selectUser?.id,
-      user: selectUser,
-      id: Math.max(...todo.map(el => el.id)) + 1,
-    };
+    setTodo((prev) => {
+      const newTodo = {
+        completed: false,
+        title: todoText,
+        userId: selectUser?.id,
+        user: selectUser,
+        id: Math.max(...prev.map(el => el.id)) + 1,
+      };
 
-    setTodo((prev) => ([
-      ...prev,
-      newTodo,
-    ]));
+      return [
+        ...prev,
+        newTodo,
+      ];
+    });
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
