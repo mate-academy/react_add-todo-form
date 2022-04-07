@@ -14,16 +14,15 @@ const App: React.FC = () => {
   const [userIdError, setUserIdError] = useState(false);
 
   const addTodo = () => {
-    const todoId = todos.length;
-
-    const addedTodo = {
-      userId,
-      id: todoId,
-      title,
-      completed: false,
-    };
-
-    setTodo((prev) => [addedTodo, ...prev]);
+    setTodo((prev) => ([
+      {
+        userId,
+        id: prev.length + 1,
+        title,
+        completed: false,
+      },
+      ...prev,
+    ]));
   };
 
   const reset = () => {
