@@ -15,16 +15,17 @@ const App: React.FC = () => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const addNewTodo = () => {
-    const todoId = visibleTodos.length + 1;
+    setVisibleTodos((currTodos => {
+      const todoId = currTodos.length + 1;
+      const newTodo: Todo = {
+        id: todoId,
+        userId,
+        title,
+        completed: false,
+      };
 
-    const newTodo: Todo = {
-      id: todoId,
-      userId,
-      title,
-      completed: false,
-    };
-
-    setVisibleTodos((currTodos => [...currTodos, newTodo]));
+      return [...currTodos, newTodo];
+    }));
   };
 
   const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
