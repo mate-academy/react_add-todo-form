@@ -34,17 +34,19 @@ const App: React.FC = () => {
     setTitle('');
     setUserId(0);
 
-    const newTodo = {
-      title,
-      userId,
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-      completed: false,
-    };
+    setTodos((oldTodos) => {
+      const newTodo = {
+        title,
+        userId,
+        id: Math.max(...oldTodos.map(todo => todo.id)) + 1,
+        completed: false,
+      };
 
-    setTodos((oldTodos) => ([
-      ...oldTodos,
-      newTodo,
-    ]));
+      return ([
+        ...oldTodos,
+        newTodo,
+      ]);
+    });
   };
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
