@@ -3,8 +3,8 @@ export interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  userLink?: {
+  user: {
     name: string;
     email: string;
-  }
+  } | null;
 }

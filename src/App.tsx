@@ -6,33 +6,60 @@ import users from './api/users';
 import todos from './api/todos';
 import { Todo } from './type/Todo';
 
-let todoData: Todo[] = todos.map(todo => {
+const todoData: Todo[] = todos.map(todo => {
   return {
     ...todo,
-    userLink: users.find(user => user.id === todo.userId),
+    user: users.find(user => user.id === todo.userId) || null,
   };
 });
-
-const createTodo = (text: string, id: number) => {
-  const newTodo = {
-    userId: id,
-    id: todoData.length + 1,
-    title: text,
-    completed: false,
-    userLink: users.find(user => user.id === id),
-  };
-
-  todoData = [
-    ...todoData,
-    newTodo,
-  ];
-};
 
 const App: React.FC = () => {
   const [text, setText] = useState('');
   const [userSelect, setUserSelect] = useState('');
   const [errorName, setErrorName] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
+  const [todoss, setTodos] = useState(todoData);
+
+  const createTodo = (newText: string, id: number): void => {
+    const newTodo = {
+      userId: id,
+      id: todoData.length + 1,
+      title: newText,
+      completed: false,
+      user: users.find(user => user.id === id) || null,
+    };
+
+    setTodos(
+      [...todoss, newTodo],
+    );
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value.split('').filter(sumbol => sumbol.toLowerCase() !== sumbol.toUpperCase() || sumbol === ' ' || '0123456789'.includes(sumbol)).join('');
+
+    setText(newValue);
+    setErrorTitle('');
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (userSelect === '') {
+      setErrorName('Please choose a user');
+    }
+
+    if (text === '') {
+      setErrorTitle('Please enter the title');
+    }
+
+    if (userSelect === '' || text === '') {
+      return;
+    }
+
+    createTodo(text, +userSelect);
+
+    setText('');
+  };
 
   return (
     <div className="App">
@@ -45,23 +72,7 @@ const App: React.FC = () => {
       </p>
 
       <form onSubmit={(event) => {
-        event.preventDefault();
-
-        if (userSelect === '') {
-          setErrorName('Please choose a user');
-        }
-
-        if (text === '') {
-          setErrorTitle('Please enter the title');
-        }
-
-        if (userSelect === '' || text === '') {
-          return;
-        }
-
-        createTodo(text, +userSelect);
-
-        setText('');
+        handleSubmit(event);
       }}
       >
         <select
@@ -90,10 +101,7 @@ const App: React.FC = () => {
           placeholder="Todo..."
           value={text}
           onChange={(event) => {
-            const newValue = event.target.value.split('').filter(sumbol => sumbol.toLowerCase() !== sumbol.toUpperCase() || sumbol === ' ' || '0123456789'.includes(sumbol)).join('');
-
-            setText(newValue);
-            setErrorTitle('');
+            handleChange(event);
           }}
         />
 
@@ -106,7 +114,7 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList data={todoData} />
+      <TodoList data={todoss} />
     </div>
   );
 };

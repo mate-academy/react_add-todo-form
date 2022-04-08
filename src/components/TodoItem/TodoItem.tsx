@@ -12,10 +12,10 @@ const TodoItem: React.FC<Props> = ({ todoInfo }) => {
     <>
       <p>
         {'User: '}
-        { todoInfo.userLink?.name}
+        { todoInfo.user?.name}
         <br />
-        <a className="TodoItem__mail" href={`mailto:${todoInfo.userLink?.email}`}>
-          { todoInfo.userLink?.email}
+        <a className="TodoItem__mail" href={`mailto:${todoInfo.user?.email}`}>
+          { todoInfo.user?.email}
           {' '}
         </a>
       </p>
