@@ -3,11 +3,11 @@ import { User } from '../types/User';
 import { Todo } from '../types/Todo';
 
 import './TodoList.scss';
-// import todos from '../api/todos';
+
+type TodoWithUser = Todo & { user: User | undefined };
 
 type Props = {
-  todos: Todo[];
-  users: User[];
+  todos: TodoWithUser[];
 };
 
 const formatPhoneNumber = (user: User) => (
@@ -22,11 +22,7 @@ const getVisibleNumber = (str: string) => (
 
 export class TodoList extends React.PureComponent<Props> {
   render() {
-    const { todos, users } = this.props;
-    const preparedTodos = todos.map((todo) => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId),
-    }));
+    const { todos } = this.props;
 
     return (
       <div className="content__wrapper">
@@ -34,48 +30,46 @@ export class TodoList extends React.PureComponent<Props> {
           Todo list
         </h2>
         <ul className="todo-list content__todo-list">
-          {preparedTodos.map(todo => {
-            return (
-              <li
-                className="item todo-list__item"
-                key={todo.id}
-              >
-                <div className="item__content">
-                  <div className="todo-info item__todo-info">
-                    <span className="todo-info__title">
-                      {todo.title}
-                    </span>
-                    <span
-                      className="todo-info__progres"
-                    >
-                      {todo.completed ? 'completed' : 'in progress'}
-                    </span>
-                  </div>
-                  <div className="user-info item__user-info">
-                    {todo.user && (
-                      <>
-                        <span className="user-info__name">
-                          {todo.user.name}
-                        </span>
-                        <a
-                          className="user-info__email"
-                          href={todo.user.email}
-                        >
-                          {todo.user.email}
-                        </a>
-                        <a
-                          className="user-info__phone"
-                          href={`callto:${formatPhoneNumber(todo.user)}`}
-                        >
-                          {getVisibleNumber(formatPhoneNumber(todo.user).trim())}
-                        </a>
-                      </>
-                    )}
-                  </div>
+          {todos.map(todo => (
+            <li
+              className="item todo-list__item"
+              key={todo.id}
+            >
+              <div className="item__content">
+                <div className="todo-info item__todo-info">
+                  <span className="todo-info__title">
+                    {todo.title}
+                  </span>
+                  <span
+                    className="todo-info__progres"
+                  >
+                    {todo.completed ? 'completed' : 'in progress'}
+                  </span>
                 </div>
-              </li>
-            );
-          })}
+                <div className="user-info item__user-info">
+                  {todo.user && (
+                    <>
+                      <span className="user-info__name">
+                        {todo.user.name}
+                      </span>
+                      <a
+                        className="user-info__email"
+                        href={todo.user.email}
+                      >
+                        {todo.user.email}
+                      </a>
+                      <a
+                        className="user-info__phone"
+                        href={`callto:${formatPhoneNumber(todo.user)}`}
+                      >
+                        {getVisibleNumber(formatPhoneNumber(todo.user).trim())}
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     );

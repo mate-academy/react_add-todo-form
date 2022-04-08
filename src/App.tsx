@@ -24,7 +24,7 @@ const maxId = (arr: Todo[]) => (
 
 export class App extends React.Component<Props, State> {
   state = {
-    newTodos: [...todos],
+    newTodos: todos,
     title: '',
     userId: 0,
     titleWarning: false,
@@ -33,9 +33,11 @@ export class App extends React.Component<Props, State> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value, name } = event.target;
-    const newState: {} = { [name]: value };
 
-    this.setState(newState);
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+    }));
   };
 
   createTodo = (event: React.SyntheticEvent) => {
@@ -80,12 +82,17 @@ export class App extends React.Component<Props, State> {
       userWarning,
     } = this.state;
 
+    const preparedTodos = newTodos.map((todo) => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
+    }));
+
     return (
       <div className="App">
         <div className="warnings App__warnings">
           {titleWarning && (
             <div className="warnings__warning warnings__warning--title">
-              Please write a title
+              Please enter a title
             </div>
           )}
           {userWarning && (
@@ -111,7 +118,7 @@ export class App extends React.Component<Props, State> {
               className="input form__input"
               name="title"
               id="title"
-              placeholder="Please write a title"
+              placeholder="Please enter the title"
               value={title}
               onChange={(event) => {
                 const cyrillic = /^[а-яА-Яё][а-яА-Яё\s-]*$/;
@@ -142,7 +149,7 @@ export class App extends React.Component<Props, State> {
                 }}
               >
                 <option value={0}>
-                  Select user
+                  Please choose a user
                 </option>
                 {users.map(user => (
                   <option
@@ -163,7 +170,7 @@ export class App extends React.Component<Props, State> {
               </button>
             </div>
           </form>
-          <TodoList todos={[...newTodos]} users={users} />
+          <TodoList todos={preparedTodos} />
         </div>
       </div>
     );
