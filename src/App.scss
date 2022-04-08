@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+body, p {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: url(img/bck.jpg);
+  width: 100%;
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    color: aquamarine;
+  }
+
+  &__subtitle {
+    color: antiquewhite;
+  }
+
+  &__btn {
+    background-color: antiquewhite;
+    padding: 10px 30px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bolder;
+    opacity: 0.8;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+
+    &:hover {
+      box-shadow: 3px 2px 3px black;
+      opacity: 1;
+    }
+  }
+
+  &__input {
+    width: 180px;
+    color: rgb(5, 5, 136);
+    border: none;
+    outline: invert;
+    background-color: antiquewhite;
+    padding: 5px;
+    border-radius: 15px;
+    font-weight: bold;
+  }
+
+  &__error {
+    color: red;
+    text-shadow: 1px 1px 2px wheat;
+    position: relative;
+    height: 20px;
+    font-size: 15px;
+  }
+
+  &__todoList {
+    color: aqua;
+    font-size: 20px;
+  }
+}

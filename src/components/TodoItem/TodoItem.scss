@@ -1,0 +1,53 @@
+.TodoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 20px;
+  font-weight: bolder;
+  background-color: rgba(127, 255, 212, 0.678);
+  width: 300px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 20px;
+
+  &__completed {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+    height: 30px;
+    object-fit: cover;
+    color: #ddd;
+  }
+
+  &__icon {
+    background-size: contain;
+    width: 15px;
+    height: 15px;
+
+    &--yes {
+      background-image: url('../..//img/yes.jpg');
+    }
+
+    &--no {
+      background-image: url('../..//img/no.jpg');
+    }
+  }
+
+  &__title {
+    width: 100%;
+    text-align: left;
+  }
+
+  &__mail {
+    color:darkblue;
+    text-decoration: none;
+    opacity: 0.8;
+  
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
