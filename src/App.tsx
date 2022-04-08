@@ -20,7 +20,7 @@ const preperedTodos: FullTodo[] = todosFromServer.map(todo => {
 export const App: FC = () => {
   const [todos, setTodos] = useState(preperedTodos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasSelectedUserError, setHasSelectedUserError] = useState(false);
 
@@ -35,7 +35,7 @@ export const App: FC = () => {
   };
 
   const resetForm = () => {
-    setSelectedUser(0);
+    setSelectedUserId(0);
     setTitle('');
   };
 
@@ -43,13 +43,13 @@ export const App: FC = () => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasSelectedUserError(!selectedUser);
+    setHasSelectedUserError(!selectedUserId);
 
-    if (!title || !selectedUser) {
+    if (!title || !selectedUserId) {
       return;
     }
 
-    addTodo(title, selectedUser);
+    addTodo(title, selectedUserId);
 
     resetForm();
   };
@@ -79,9 +79,9 @@ export const App: FC = () => {
           <span className="error">Add name</span>
         )}
         <select
-          value={selectedUser}
+          value={selectedUserId}
           onChange={event => {
-            setSelectedUser(+event.target.value);
+            setSelectedUserId(+event.target.value);
             setHasSelectedUserError(false);
           }}
         >
