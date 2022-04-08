@@ -1,16 +1,7 @@
 import React from 'react';
 import TodoItem from '../TodoItem/TodoItem';
 
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  userLink?: {
-    name: string;
-    email: string;
-  }
-}
+import { Todo } from '../../type/Todo';
 
 type Props = {
   data: Todo[]

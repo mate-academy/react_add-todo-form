@@ -4,17 +4,7 @@ import TodoList from './components/TodoList/TodoList';
 
 import users from './api/users';
 import todos from './api/todos';
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  userLink?: {
-    name: string;
-    email: string;
-  }
-}
+import { Todo } from './type/Todo';
 
 let todoData: Todo[] = todos.map(todo => {
   return {

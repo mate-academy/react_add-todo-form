@@ -1,17 +1,7 @@
 import React from 'react';
 import './TodoItem.scss';
 import classNames from 'classnames';
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  userLink?: {
-    name: string,
-    email: string,
-  }
-}
+import { Todo } from '../../type/Todo';
 
 type Props = {
   todoInfo: Todo;
