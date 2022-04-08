@@ -9,11 +9,10 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
-  const copyTodosFromServer = [...todosFromServer];
 
-  const [todos, setTodos] = useState(copyTodosFromServer);
+  const [todos, setTodos] = useState(todosFromServer);
 
-  const onChange = (event: React.FormEvent) => {
+  const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (userId && title) {
@@ -39,7 +38,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onChange}>
+      <form onSubmit={onSubmit}>
         <select
           name="select"
           value={userId}
