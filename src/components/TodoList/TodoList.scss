@@ -1,0 +1,16 @@
+.list {
+  padding-top: 40px;
+  margin: 0 auto;
+  width: 30%;
+
+  &__item {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &-li {
+      border: 1px solid gray;
+    }
+  }
+}
