@@ -1,0 +1,27 @@
+.todo-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $default-indent 10px;
+
+  border-radius: 0.2rem;
+  background-color: #a0d2db8a;
+  box-shadow: 4px 4px 12px #00000040;
+
+  &[data-check="false"] {
+    background-color: #fd7d7d;
+    color: aliceblue;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: $default-indent;
+  }
+
+  &__task {
+    display: flex;
+  }
+
+  &__title {
+    margin-left: 20px;
+  }
+}

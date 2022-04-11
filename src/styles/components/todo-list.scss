@@ -1,0 +1,37 @@
+.todo-list {
+  min-width: 960px;
+  padding: $default-indent 0;
+
+  font-size: 20px;
+
+  border: 1px solid $gray;
+  border-radius: 0.5rem;
+
+  background-color: #fff;
+  box-shadow: 4px 4px 12px #00000040;
+
+  & > div {
+    padding: 0 $default-indent $default-indent;
+  }
+
+  &__header {
+    border-bottom: 1px solid $gray;
+    margin-bottom: 10px;
+  }
+
+  &__day {
+    color: #b9b5e5;
+  }
+
+  &__month {
+    color: $gray;
+  }
+
+  &__title {
+    margin-left: 10px;
+  }
+
+  &__task {
+    display: flex;
+  }
+}
