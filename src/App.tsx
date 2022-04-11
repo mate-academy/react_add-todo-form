@@ -18,8 +18,6 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const unicId = todos.length + 1;
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!title) {
@@ -32,10 +30,10 @@ const App: React.FC = () => {
 
     if (title && userId) {
       const todo = {
-        id: unicId,
+        id: Date.now(),
         title,
         completed: false,
-        userId: +userId,
+        userId,
         user: users.find(u => u.id === +userId) || null,
       };
 

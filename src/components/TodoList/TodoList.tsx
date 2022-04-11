@@ -1,19 +1,23 @@
 import React from 'react';
 import './TodoList.scss';
-
 import { Todo } from '../../Types/TodoTypes';
 import users from '../../api/users';
+import { User } from '../../Types/UserTypes';
 
 type Props = {
   todos: Todo[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
+  const getUserById = (persons: User[], userId: number) => {
+    return persons.find(user => userId === user.id);
+  };
+
   return (
     <div className="todo">
       <ul className="todo__list">
         {todos.map(({ id, title, userId }) => {
-          const person = users.find(user => userId === user.id);
+          const person = getUserById(users, userId);
 
           return (
             <li key={id} className="todo__item box">
