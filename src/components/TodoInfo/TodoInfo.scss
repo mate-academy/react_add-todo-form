@@ -1,0 +1,24 @@
+.todo {
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    padding-right: 90px;
+    font-size: 18px;
+    width: 100%;
+  }
+
+  &__progress {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-45%);
+  }
+
+  &__image {
+    width: 100px;
+  }
+}
