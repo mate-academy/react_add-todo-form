@@ -10,7 +10,6 @@ const App: React.FC = () => {
   const [currentTitle, setTitle] = useState('');
   const [toDoStatus, setToDoStatus] = useState(false);
   const [todosCopy, handleTodos] = useState([...todos]);
-  const [lastTodoId, increaseId] = useState(todos[todos.length - 1].id + 1);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -55,20 +54,20 @@ const App: React.FC = () => {
       setErrorMessage('Please choose a user');
       setError(true);
 
-      return null;
+      return;
     }
 
-    if (currentTitle === '') {
+    if (currentTitle.trim() === '') {
       setErrorMessage('Please enter the title');
       setError(true);
 
-      return null;
+      return;
     }
 
-    if (currentUser === undefined) {
+    if (!currentUser) {
       resetForm();
 
-      return null;
+      return;
     }
 
     handleTodos(
@@ -77,17 +76,13 @@ const App: React.FC = () => {
         {
           title: currentTitle,
           completed: toDoStatus,
-          id: lastTodoId,
+          id: Date.now(),
           userId: currentUser.id,
         },
       ],
     );
 
-    increaseId(lastTodoId + 1);
-
     resetForm();
-
-    return null;
   };
 
   return (
