@@ -4,10 +4,8 @@ import { Todo } from '../types/Todo';
 
 import './TodoList.scss';
 
-type TodoWithUser = Todo & { user: User | undefined };
-
 type Props = {
-  todos: TodoWithUser[];
+  todos: Todo[];
 };
 
 const formatPhoneNumber = (user: User) => (

@@ -22,9 +22,17 @@ const maxId = (arr: Todo[]) => (
   arr.sort((a, b) => b.id - a.id)[0].id
 );
 
+const isValidChar = (char: string) => {
+  const cyrillic = /^[а-яА-Яё][а-яА-Яё\s-]*$/;
+  const latin = /^[a-zA-Z][a-zA-Z\s-]*$/;
+  const num = /^[0-9]*$/;
+
+  return cyrillic.test(char) || latin.test(char) || num.test(char) || char === ' ';
+};
+
 export class App extends React.Component<Props, State> {
   state = {
-    newTodos: todos,
+    newTodos: [...todos],
     title: '',
     userId: 0,
     titleWarning: false,
@@ -33,11 +41,14 @@ export class App extends React.Component<Props, State> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value, name } = event.target;
+    const lastChar = event.target.value.slice(-1);
 
-    this.setState(state => ({
-      ...state,
-      [name]: value,
-    }));
+    if (isValidChar(lastChar)) {
+      this.setState(state => ({
+        ...state,
+        [name]: value,
+      }));
+    }
   };
 
   createTodo = (event: React.SyntheticEvent) => {
@@ -52,11 +63,11 @@ export class App extends React.Component<Props, State> {
       this.setState({ titleWarning: true });
     }
 
-    if (userId === 0) {
+    if (+userId === 0) {
       this.setState({ userWarning: true });
     }
 
-    if (title && userId !== 0) {
+    if (title && +userId !== 0) {
       this.setState((state) => ({
         newTodos: [
           ...state.newTodos,
@@ -117,30 +128,16 @@ export class App extends React.Component<Props, State> {
               type="text"
               className="input form__input"
               name="title"
-              id="title"
               placeholder="Please enter the title"
               value={title}
               onChange={(event) => {
-                const cyrillic = /^[а-яА-Яё][а-яА-Яё\s-]*$/;
-                const latin = /^[a-zA-Z][a-zA-Z\s-]*$/;
-                const num = /^[0-9]*$/;
-
-                const lastChar = event.target.value.slice(-1);
-
-                const validSymbol
-                  = cyrillic.test(lastChar) || latin.test(lastChar) || num.test(lastChar) || lastChar === ' ';
-
                 this.setState({ titleWarning: false });
-
-                if (validSymbol) {
-                  this.handleChange(event);
-                }
+                this.handleChange(event);
               }}
             />
             <div className="form__wrapper">
               <select
                 name="userId"
-                id="user"
                 className="input form__input input--select"
                 value={userId}
                 onChange={(event) => {
