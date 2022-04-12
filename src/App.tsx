@@ -4,7 +4,7 @@ import users from './api/users';
 import todos from './api/todos';
 import TodoList from './components/TodoList/TodoList';
 
-const userTodo = users.map(user => {
+const preparedUsers = users.map(user => {
   return {
     id: user.id,
     name: user.name,
@@ -18,14 +18,14 @@ const preparedTodos = todos.map(todo => {
     id: todo.id,
     title: todo.title,
     completed: todo.completed,
-    user: userTodo.find(user => user.id === todo.userId),
+    user: preparedUsers.find(user => user.id === todo.userId),
   };
 });
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
-  const [todo, setTodo] = useState(preparedTodos);
+  const [todosList, setTodosList] = useState(preparedTodos);
   const [titleError, setTitleError] = useState('');
   const [userNameError, setUserNameError] = useState('');
 
@@ -37,13 +37,6 @@ const App: React.FC = () => {
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserName(event.target.value);
-  };
-
-  const resetForm = () => {
-    if (title && userName) {
-      setTitle('');
-      setUserName('');
-    }
   };
 
   const validation = () => {
@@ -62,22 +55,23 @@ const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newUser = userTodo.find(user => user.name === userName) || undefined;
+    const selectedUser = preparedUsers.find(user => user.name === userName) || undefined;
 
     if (title.length !== 0 && userName.length !== 0) {
       const newTodo = {
         userId: 0,
-        id: Math.max(...todos.map(tod => tod.userId)) + 1,
+        id: Math.max(...todosList.map(tod => tod.id)) + 1,
         title,
         completed: false,
-        user: newUser,
+        user: selectedUser,
       };
 
-      setTodo([...todo, newTodo]);
+      setTodosList([...todosList, newTodo]);
+      setTitle('');
+      setUserName('');
     }
 
     validation();
-    resetForm();
   };
 
   return (
@@ -110,7 +104,7 @@ const App: React.FC = () => {
             onChange={handleUserChange}
           >
             <option value="">
-              Choose a color
+              Choose a name
             </option>
             {users.map((user) => {
               return <option key={user.id}>{user.name}</option>;
@@ -126,7 +120,7 @@ const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList preparedTodos={todo} />
+      <TodoList preparedTodos={todosList} />
     </div>
   );
 };
