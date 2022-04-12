@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(255, 255, 255);
+}
+
+.todo {
+
+  &_list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &_item {
+    border: 1px solid black;
+    border-radius: 20px;
+    max-width: 1500px;
+    background-color: gray;
+    color: white;
+  }
+  &_title {
+    text-align: center;
+  }
+
+  &_checed {
+    text-align: center;
+  }
+}
+
+.user {
+  text-align: center;
+  &_mail {
+    display: flex;
+    text-decoration: none;
+    justify-content: center;
+    text-align: center;
+    color: black;
+    cursor: none;
+}}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.main {
+  text-align: center;
+}
+
+.label {
+  margin-bottom: 10px;
+}
+
+.select {
+  margin-bottom: 10px;
+}
+
+.button {
+  margin-bottom: 10px;
+
+  &_add {
+    font-size: 18px;
+  }
+}
+
+.user_select {
+  font-size: 18px;
+}
+
+.user_error {
+  color: red;
+}
+
+.title {
+  font-size: 18px;
+
+  &_error {
+    color: red;
+  }
+}
