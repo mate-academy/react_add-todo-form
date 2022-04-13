@@ -1,0 +1,89 @@
+.title {
+  text-transform: uppercase;
+  font-size: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  color: #bebebe;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0 0 -20px;
+
+  &__item {
+    margin: 0 0 20px;
+  }
+}
+
+.item {
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__todo-info {
+    margin: 0 45px 0 0;
+  }
+
+  &:not(:last-child) {
+    padding: 0 0 10px;
+    border-bottom: 1px solid #1d5346;
+  }
+}
+
+.todo-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+
+  &__title {
+    &::first-letter {
+      text-transform: uppercase;
+    }
+
+    margin: 0 0 10px;
+  }
+
+  &__progres {
+    color: #bebebe;
+
+    &::before {
+      display: inline-block;
+      content: "";
+      width: 7px;
+      height: 7px;
+      background-color: #bebebe;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+  & > * {
+    margin: 0 0 10px;
+  }
+
+  &__name {
+    font-size: 18px;
+  }
+
+  &__phone {
+    margin: 0;
+  }
+
+  &__phone,
+  &__email {
+    color: #093a2f;
+    text-decoration: none;
+    transition: all 0.4s;
+
+    &:hover {
+      color: #bebebe;
+    }
+  }
+}
