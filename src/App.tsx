@@ -27,7 +27,10 @@ const isValidChar = (char: string) => {
   const latin = /^[a-zA-Z][a-zA-Z\s-]*$/;
   const num = /^[0-9]*$/;
 
-  return cyrillic.test(char) || latin.test(char) || num.test(char) || char === ' ';
+  return cyrillic.test(char)
+    || latin.test(char)
+    || num.test(char)
+    || char === ' ';
 };
 
 export class App extends React.Component<Props, State> {
