@@ -40,24 +40,28 @@ const App: React.FC = () => {
   };
 
   const validation = () => {
-    if (!title) {
+    if (!title || !userName) {
       setTitleError('Please enter the title');
-    } else {
-      setTitleError('');
+      setUserNameError('Please enter the userName');
+
+      return false;
     }
 
-    if (!userName) {
-      setUserNameError('Please choose a user');
-    } else {
-      setUserNameError('');
-    }
+    return title || userName;
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setUserName('');
+    setTitleError('');
+    setUserNameError('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedUser = preparedUsers.find(user => user.name === userName) || undefined;
+    const selectedUser = preparedUsers.find(user => user.name === userName);
 
-    if (title.length !== 0 && userName.length !== 0) {
+    if (validation()) {
       const newTodo = {
         userId: 0,
         id: Math.max(...todosList.map(tod => tod.id)) + 1,
@@ -67,11 +71,8 @@ const App: React.FC = () => {
       };
 
       setTodosList([...todosList, newTodo]);
-      setTitle('');
-      setUserName('');
+      resetForm();
     }
-
-    validation();
   };
 
   return (
