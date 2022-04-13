@@ -94,7 +94,12 @@ const App: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {(!title) && <p className="form__error">{titleError}</p>}
+          {!title
+            && (
+              <p className="form__error">
+                {titleError}
+              </p>
+            )}
         </div>
         <div className="form__part">
           <h3>Name</h3>
@@ -107,13 +112,21 @@ const App: React.FC = () => {
             <option value="">
               Choose a name
             </option>
-            {users.map((user) => {
-              return <option key={user.id}>{user.name}</option>;
-            })}
+            {users.map((user) => (
+              <option
+                key={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
           </select>
-          {(!userName) && <p className="form__error">{userNameError}</p>}
+          {!userName
+            && (
+              <p className="form__error">
+                {userNameError}
+              </p>
+            )}
         </div>
-
         <button
           type="submit"
           className="form__button"
