@@ -1,1 +1,12 @@
 /// <reference types="react-scripts" />
+
+interface Todo {
+  userId: number,
+  id: number,
+  title: string,
+  completed: boolean,
+}
+
+type Props = {
+  todos: Todo[];
+};
