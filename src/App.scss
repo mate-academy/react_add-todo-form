@@ -1,0 +1,56 @@
+body {
+  background-color: rgb(24, 209, 200);
+}
+
+.App {
+  &__title {
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 40px;
+  }
+
+  &__input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  &__error {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  &__button {
+    width: 150px;
+    height: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    background: white;
+    border: 2px solid black;
+    box-shadow: 5px 5px 0 black,
+      -5px -5px 0 black,
+      -5px 5px 0 black,
+      5px -5px 0 black;
+    transition: 500ms ease-in-out;
+
+    &:hover {
+      box-shadow: 20px 5px 0 black, -20px -5px 0 black;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
