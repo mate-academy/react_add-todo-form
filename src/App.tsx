@@ -15,11 +15,17 @@ const App: React.FC = () => {
   const [todoList, setTodoList] = useState([...preparedTodos]);
   const [subbmited, setSubbmited] = useState(false);
 
+  const resetForm = () => {
+    setSubbmited(false);
+    setTodoTitle('');
+    setUseSelect('');
+  };
+
   const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const userId = users.find(user => userSelect === user.username)?.id || 0;
-    const todoId = todoList.length + 1;
+    const todoId = Date.now();
 
     if (!userSelect || !todoTitle.trim()) {
       setSubbmited(true);
@@ -34,9 +40,8 @@ const App: React.FC = () => {
           completed: false,
         },
       ]);
-      setSubbmited(false);
-      setTodoTitle('');
-      setUseSelect('');
+
+      resetForm();
     }
   };
 
@@ -75,11 +80,7 @@ const App: React.FC = () => {
         </label>
         {!todoTitle.trim() && subbmited && (
           <span
-            style={{
-              marginLeft: '5px',
-              color: 'red',
-              fontWeight: '700',
-            }}
+            className="form-add-todo__span"
           >
             Please enter the title
           </span>
@@ -106,11 +107,7 @@ const App: React.FC = () => {
         </select>
         {!userSelect && subbmited && (
           <span
-            style={{
-              marginLeft: '5px',
-              color: 'red',
-              fontWeight: '700',
-            }}
+            className="form-add-todo__span"
           >
             Please choose a user
           </span>

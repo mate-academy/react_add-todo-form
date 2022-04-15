@@ -25,10 +25,7 @@ export const TodoInfo: React.FC<Props> = ({
       {title}
     </h2>
     <p
-      style={{
-        fontWeight: '700',
-        margin: '5px 0',
-      }}
+      className="parag"
     >
       {'ToDo ID: '}
       {todoId}
