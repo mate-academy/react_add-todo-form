@@ -44,6 +44,8 @@ const App: React.FC = () => {
     event.preventDefault();
     let error = false;
 
+    const trimmedTitle = title.trim();
+
     if (userName === '') {
       setErrorUser('Please choose a user');
       error = true;
@@ -51,7 +53,7 @@ const App: React.FC = () => {
       setErrorUser('');
     }
 
-    if (title === '') {
+    if (title === '' || trimmedTitle === '') {
       setErrorTitle('Please enter the title');
       error = true;
     } else {
@@ -107,7 +109,7 @@ const App: React.FC = () => {
             onChange={handleChange}
             className="inputStyle"
           >
-            <option>Chose user</option>
+            <option value="">Choose user</option>
             {users.map(user => (
               <option key={user.name} value={user.name}>
                 {user.name}
