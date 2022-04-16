@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.form-add-todo {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 16px;
+  max-width: 400px;
+
+  &__label-input {
+    max-width: 100%;
+
+    &__textarea {
+      margin-left: 5px;
+      width: 350px;
+    }
+  }
+
+  &__err-title {
+    margin-left: 5px;
+    color: red;
+    font-weight: 700;
+  }
+
+  &__select {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+
+  &__button {
+    width: 60px;
+    align-self: center;
+    margin-top: 16px;
+    font-size: 16px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
