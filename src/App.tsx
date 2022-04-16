@@ -80,7 +80,7 @@ const App: React.FC = () => {
         </label>
         {!todoTitle.trim() && subbmited && (
           <span
-            className="form-add-todo__span"
+            className="form-add-todo__err-title"
           >
             Please enter the title
           </span>

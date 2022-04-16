@@ -25,7 +25,7 @@ export const TodoInfo: React.FC<Props> = ({
       {title}
     </h2>
     <p
-      className="parag"
+      className="todoId"
     >
       {'ToDo ID: '}
       {todoId}
