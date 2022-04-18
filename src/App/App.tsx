@@ -20,8 +20,9 @@ const App: React.FC = () => {
   const [errorTitle, setErrorTitle] = useState<string>();
   const [errorUser, setErrorUser] = useState<string>();
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const userHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setuserName(event.target.value);
+    setErrorUser('');
   };
 
   const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       || event.target.value.length === 0
     ) {
       setTitle(event.target.value);
+      setErrorTitle('');
     }
   };
 
@@ -53,7 +55,7 @@ const App: React.FC = () => {
       setErrorUser('');
     }
 
-    if (title === '' || trimmedTitle === '') {
+    if (trimmedTitle === '') {
       setErrorTitle('Please enter the title');
       error = true;
     } else {
@@ -106,7 +108,7 @@ const App: React.FC = () => {
           </div>
           <select
             value={userName}
-            onChange={handleChange}
+            onChange={userHandler}
             className="inputStyle"
           >
             <option value="">Choose user</option>
