@@ -1,3 +1,78 @@
+body {
+  font-family: "Lucida Sans",
+    "Lucida Sans Regular",
+    "Lucida Grande",
+    "Lucida Sans Unicode",
+    Geneva,
+    Verdana,
+    sans-serif;
+}
+
 .App {
   text-align: center;
+  margin-top: 40px;
+}
+
+th {
+  background-color: rgb(157, 182, 120);
+  padding: 10px;
+  border: 1px solid rgb(146, 151, 142);
+}
+
+td {
+  border: 1px solid rgb(146, 151, 142);
+}
+
+tbody :hover {
+  background-color: rgb(198, 214, 172);
+}
+
+.table {
+  background-color: rgb(233, 241, 220);
+  margin: 10px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.form {
+  width: 80%;
+  margin: 100px auto 0;
+}
+
+.notification {
+  background-color: rgb(250, 203, 203);
+  color: brown;
+  text-transform: uppercase;
+  padding: 10px 0;
+  margin: 3px 0;
+  border: rgb(105, 105, 105) solid 1px;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.inpuField {
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: rgb(191, 221, 145);
+  padding: 10px 0;
+}
+
+.input_todo {
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin: 5px;
+  padding: 7px;
+  width: 40%;
+}
+
+.input_choice {
+  padding: 7px;
+  width: 20%;
+  margin-right: 30px;
+}
+
+.button {
+  background-color: rgb(227, 240, 193);
+  border-radius: 10px;
+  padding: 10px;
 }
