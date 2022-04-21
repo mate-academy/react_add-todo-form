@@ -1,0 +1,12 @@
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  list-style: none;
+}
+
+.todoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
