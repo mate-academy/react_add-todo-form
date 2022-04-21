@@ -9,25 +9,25 @@ import { TodoList } from './components/TodoList/TodoList';
 const preparedTodos: Todo[] = todos.map(todo => {
   return {
     ...todo,
-    user: users.find(user => user.id === todo.userId),
+    user: users.find(user => user.id === todo.userId) || null,
   };
 });
 
 const App: React.FC = () => {
-  const [todo, setTodo] = useState<Todo[]>([...preparedTodos]);
+  const [newTodos, setTodos] = useState<Todo[]>([...preparedTodos]);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
 
   const addTodo = () => {
-    setTodo((prev) => ([
+    setTodos((prev) => ([
       ...prev,
       {
         userId,
         id: prev.length + 1,
         title,
-        user: users.find(user => user.id === userId),
+        user: users.find(user => user.id === userId) || null,
         completed: false,
       },
     ]));
@@ -49,7 +49,7 @@ const App: React.FC = () => {
     }
 
     setTitle('');
-    setUserId(-1);
+    setUserId(0);
     addTodo();
   };
 
@@ -119,7 +119,7 @@ const App: React.FC = () => {
           Save
         </button>
       </form>
-      <TodoList todos={todo} />
+      <TodoList todos={newTodos} />
     </div>
   );
 };
