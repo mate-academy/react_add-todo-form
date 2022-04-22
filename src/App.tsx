@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
+import { Todo } from './types/ToDo';
 
 import './App.scss';
 
@@ -14,7 +15,7 @@ const preparedTodos = todosFromServer.map(todoItem => {
 });
 
 export const App: React.FC = React.memo(() => {
-  const [todos, setTodos] = useState(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [hasNameError, setHasNameError] = useState(false);

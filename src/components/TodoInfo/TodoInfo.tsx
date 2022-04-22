@@ -19,7 +19,7 @@ export const TodoInfo: React.FC<Todo> = React.memo(
             : '👆'
         }
       </div>
-      {user && <UserInfo {...user} />}
+      {user && <UserInfo name={user.name} email={user.email} />}
     </div>
   ),
 );
