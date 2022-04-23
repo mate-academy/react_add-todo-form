@@ -1,17 +1,33 @@
 import React, { useState } from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList';
-
 import users from './api/users';
 import todos from './api/todos';
-
-// const todosList = [...todos];
 
 const App: React.FC = () => {
   const [todoTitle, newTitle] = useState('');
   const [userName, newUser] = useState('');
   const [todoList, newTodo] = useState(todos);
   const [noUser, userError] = useState('Choose a user');
+
+  const addTodo = () => {
+    const user = users.find((person) => (userName === person.username));
+
+    if (user !== undefined && todoTitle !== '') {
+      newTodo([...todoList, {
+        userId: user.id,
+        id: todoList[todoList.length - 1].id + 1,
+        title: todoTitle,
+        completed: false,
+      }]);
+      newTitle('');
+      newUser('');
+    } else if (todoTitle === '') {
+      newTitle('Please enter the title');
+    } else {
+      userError('Please choose a user');
+    }
+  };
 
   const handleChange = (event:
   { target: { name: string; value: string; }; }) => {
@@ -37,13 +53,13 @@ const App: React.FC = () => {
         name="newTitle"
         placeholder="Type new todo"
         value={todoTitle}
-        onChange={(event) => handleChange(event)}
+        onChange={handleChange}
       />
       <select
         name="newUser"
         id="select-user"
         value={userName}
-        onChange={(event) => handleChange(event)}
+        onChange={handleChange}
       >
         <option value="">
           {noUser}
@@ -58,24 +74,7 @@ const App: React.FC = () => {
 
       <button
         type="button"
-        onClick={() => {
-          const user = users.find((person) => (userName === person.username));
-
-          // eslint-disable-next-line no-console
-          console.log(123);
-          if (user !== undefined && todoTitle !== '') {
-            newTodo([...todoList, {
-              userId: user.id,
-              id: todoList[todoList.length - 1].id + 1,
-              title: todoTitle,
-              completed: false,
-            }]);
-          } else if (todoTitle === '') {
-            newTitle('Please enter the title');
-          } else {
-            userError('Please choose a user');
-          }
-        }}
+        onClick={() => addTodo()}
       >
         Add Todo
       </button>
