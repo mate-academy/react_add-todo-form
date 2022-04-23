@@ -1,3 +1,66 @@
 .App {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: #022334;
+  width: 500px;
+  margin: 0 auto;
+  font-family: "Trebuchet MS", "Lucida Sans", Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+}
+
+.select {
+  box-sizing: border-box;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 24px;
+  border: 2px solid #438abc;
+  width: 100%;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+.select__item {
+  margin-left: 20px;
+}
+
+.form {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 5px;
+  border: 2px solid #438abc;
+  border-radius: 5px;
+}
+
+.input {
+  width: 100%;
+}
+
+.button {
+  background-color: #022334;
+  color: #fff;
+  border: none;
+  width: 50px;
+  border-radius: 5px;
+}
+
+.todos {
+  display: grid;
+  gap: 20px;
+  border: 2px solid #438abc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.todos__title {
+  margin: 0;
   text-align: center;
 }

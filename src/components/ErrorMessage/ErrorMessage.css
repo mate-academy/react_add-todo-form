@@ -1,0 +1,7 @@
+.error__message {
+  color: crimson;
+  border: 2px solid crimson;
+  width: 250px;
+  padding: 5px;
+  border-radius: 5px;
+}

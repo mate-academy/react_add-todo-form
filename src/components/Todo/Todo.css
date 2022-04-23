@@ -1,0 +1,14 @@
+.todo__completed {
+  border-left: 1px solid #438abc;
+  border-right: 1px solid #438abc;
+  text-align: center;
+}
+
+.todo__user {
+  text-transform: uppercase;
+  padding-left: 5px;
+}
+
+.todo__title {
+  padding-right: 5px;
+}
