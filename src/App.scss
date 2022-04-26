@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+
+  &_content {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  &_form {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    position: sticky;
+    top: 30px;
+  }
+
+  &_form-element {
+    margin-top: 20px;
+  }
+}
