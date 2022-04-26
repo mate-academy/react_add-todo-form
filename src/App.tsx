@@ -55,7 +55,9 @@ const App: React.FC = () => {
     clearForm();
   };
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setTodoDescription(event.target.value);
 
     if (event.target.value.length > 5) {
@@ -63,7 +65,9 @@ const App: React.FC = () => {
     }
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setTodoExecutor(event.target.value);
 
     if (event.target.value) {
