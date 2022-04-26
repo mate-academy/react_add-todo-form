@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,4BAEE,SACF,CAEA,YACE,eAEF,CAEA,YACE,YAAa,CAEb,qBACF","file":"main.962d1d6f.chunk.css","sourcesContent":[".todo__error,\n.select__error {\n  color: red;\n}\n\n.todo__item {\n  list-style: none;\n\n}\n\n.todo__info {\n  padding: 15px;\n\n  border: 1px solid black;\n}\n"]}

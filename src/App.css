@@ -1,3 +1,15 @@
-.App {
-  text-align: center;
+.todo__error,
+.select__error {
+  color: red;
+}
+
+.todo__item {
+  list-style: none;
+
+}
+
+.todo__info {
+  padding: 15px;
+
+  border: 1px solid black;
 }
