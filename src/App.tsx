@@ -75,6 +75,10 @@ const App: React.FC = () => {
     }
   };
 
+  const getUserName = (todoUserId: number) => (
+    usersFromServer.find(user => user.id === todoUserId)?.username
+  );
+
   return (
     <div className="App">
       <h1>
@@ -136,10 +140,8 @@ const App: React.FC = () => {
               </h2>
 
               executor:
-              <p>
-                {usersFromServer.find(user => user.id === todo.userId)?.username}
-              </p>
-
+              {' '}
+              {getUserName(todo.userId)}
               {' | '}
               {!todo.completed && `completed: ${todo.completed}`}
             </p>
