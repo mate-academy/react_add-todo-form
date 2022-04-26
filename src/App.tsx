@@ -135,7 +135,11 @@ const App: React.FC = () => {
                 {todo.title}
               </h2>
 
-              {`executor: ${todo.userId}`}
+              executor:
+              <p>
+                {usersFromServer.find(user => user.id === todo.userId)?.username}
+              </p>
+
               {' | '}
               {!todo.completed && `completed: ${todo.completed}`}
             </p>
