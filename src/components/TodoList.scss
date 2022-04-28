@@ -1,0 +1,23 @@
+.todo {
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    list-style: none;
+  }
+
+  &-item {
+    width: 350px;
+    height: 270px;
+    border: 2px solid rgb(119, 22, 119);
+    border-radius: 20px;
+    background: linear-gradient(220.55deg, #FFED46 0%, #FF7EC7 100%);
+    padding: 5px;
+    margin: 15px;
+    transition: box-shadow 0.5s ease;
+    &:hover {
+      box-shadow: 9px 13px 11px 2px rgba(34, 60, 80, 0.2);
+      cursor: pointer;
+    }
+  }
+}

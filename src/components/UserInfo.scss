@@ -1,0 +1,24 @@
+.user {
+  &-content {
+    font-size: 16px;
+    padding: 5px;
+  }
+
+  &-name {
+    font-size: 22px;
+    color: rgb(38, 9, 90);
+    margin-bottom: 3px;
+  }
+
+  &-email {
+    margin-bottom: 3px;
+  }
+
+  &-phone {
+    margin-bottom: 3px;
+  }
+
+  &-website {
+    margin-bottom: 3px;
+  }
+}

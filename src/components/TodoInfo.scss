@@ -1,0 +1,25 @@
+.todo-content {
+  padding: 5px;
+  font-size: 18px;
+}
+
+.title {
+  color: #000;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+
+}
+
+.completed {
+  color: orangered;
+}
+
+.in-progress {
+  color: teal;
+  text-decoration: underline;
+}
+
+hr {
+  margin-top: 5px;
+  color: #000;
+}

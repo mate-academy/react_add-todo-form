@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+.form_container {
+  width: 450px;
+  height: 200px;
+  border: 2px solid rgb(119, 22, 119);
+  background: linear-gradient(220.55deg, #FFED46 0%, #FF7EC7 100%);
+  border-radius: 20px;
+  margin: 0 auto;
+}
+
+.form {
+  margin-top: 20px;
+  font-size: 20px;
+ 
+  &_label {
+    margin-right: 10px;
+  }
+
+  &_title {
+    width: 300px;
+    background: rgb(255,214,226);
+    border: 2px solid orangered;
+    border-radius: 20px;
+    padding: 10px;
+  }
+
+  &_select {
+    margin-left: 50px;
+    width: 310px;
+    height: 30px;
+    background: rgb(255,214,226);
+    border: 2px solid orangered;
+    border-radius: 20px;
+    margin-top: 20px;
+  }
+
+  &_button {
+    width: 100px;
+    height: 35px;
+    // background-color: orangered;
+    background: linear-gradient(220.55deg, #FFC328 0%, #E20000 100%);
+    border: 2px solid orangered;
+    border-radius: 20px;
+    margin-top: 10px;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 16px;
+}
