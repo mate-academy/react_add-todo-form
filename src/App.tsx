@@ -10,7 +10,8 @@ function editText(inputText: string): string {
   const admittedSymbols
     = 'abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя 0123456789';
 
-  if (admittedSymbols.includes(inputText[inputText.length - 1])) {
+  if (admittedSymbols.includes(inputText[inputText.length - 1])
+  || admittedSymbols.toUpperCase().includes(inputText[inputText.length - 1])) {
     return inputText
       .slice(0, inputText.length - 1) + inputText[inputText.length - 1];
   }
@@ -53,8 +54,23 @@ const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitHandler = (event: any) => {
     event.preventDefault();
+
+    let count = 0;
+
+    for (let i = 0; i < currentTitle.length; i += 1) {
+      if (currentTitle[i] !== ' ') {
+        count += 1;
+      }
+    }
+
     if (!isUserSelected) {
       setIsUserWarningVisible(true);
+
+      return;
+    }
+
+    if (count === 0) {
+      setIsTitleWarningVisible(true);
 
       return;
     }
