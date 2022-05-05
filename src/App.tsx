@@ -32,7 +32,7 @@ export class App extends React.Component<{}, State> {
       <div className="App">
         <h1 className="App__title">Add todo form</h1>
         <Form onAdd={this.addTodo} />
-        <TodoList preparedTodos={todos} />
+        <TodoList todos={todos} />
       </div>
     );
   }
