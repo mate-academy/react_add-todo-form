@@ -27,45 +27,4 @@ body {
     margin: 40px;
     color: #8a38e1;
   }
-  &__form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    border-radius: 20px;
-    background-color: #ffeefc;
-    &-item {
-      margin: 10px;
-    }
-    &-error {
-      font-weight: 700;
-      color: #8a38e1;
-    }
-    &-input {
-      text-align: center;
-      color: #404040;
-      border-radius: 20px;
-      background-color: rgba(255, 204, 204, 0.41);
-      border: 2px solid #eb7ab3;
-    }
-    &-title {
-      border-radius: 20px;
-      text-align: center;
-      background-color: rgba(255, 204, 204, 0.41);
-      border: 2px solid #eb7ab3;
-      width: 300px;
-    }
-    &-button {
-      color: #404040;
-      border-radius: 10px;
-      background-color: rgba(255, 204, 204, 0.41);
-      border: 2px solid #eb7ab3;
-      cursor: pointer;
-      transition: transform 0.3s color 0.3s background-color 0.3s;
-      &:hover {
-        transform: scale(1.1);
-        background-color: #eb7ab3;
-        color: #8a38e1;
-      }
-    }
-  }
 }
