@@ -1,0 +1,11 @@
+.user {
+  margin: 10px;
+  &__name {
+    margin-bottom: -20px;
+    color: #8a38e1;
+  }
+  &__email {
+    font-weight: 400;
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,18 @@
+.todo {
+
+  &__title {
+    margin: 10px;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: justify;
+  }
+
+  &__status {
+    margin: 15px 10px;
+    color: #c06;
+
+    &--completed {
+      color: #00994c;
+    }
+  }
+}

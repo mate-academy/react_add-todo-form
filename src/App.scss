@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+div {
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #404040;
+  background-color: #eb7ab3;
+}
+
+.App {
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  &__title {
+    text-align: center;
+    margin: 40px;
+    color: #8a38e1;
+  }
+}
