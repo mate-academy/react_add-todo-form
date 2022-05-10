@@ -1,3 +1,127 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #000;
+}
+
 .App {
   text-align: center;
+}
+
+h1 {
+  font-weight: 400;
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+form {
+  margin: 0 auto 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 600px;
+  padding: 24px 0;
+
+  border: 1px solid darkgray;
+  border-radius: 12px;
+}
+
+label {
+  position: relative;
+
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+span {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  color: red;
+}
+
+.todo-info__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.todo-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.button-form-submit {
+  margin: 0 auto;
+  width: 180px;
+  height: 60px;
+  background-color: paleturquoise;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.button-todo-control {
+  border: none;
+  outline: none;
+  background-color: white;
+  padding: 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.toggle:hover {
+  background-color: lightgreen;
+}
+
+.remove:hover {
+  background-color: red;
+  color: white;
+}
+
+input,
+select {
+  margin-bottom: 24px;
+}
+
+option {
+  text-align: right;
+}
+
+ul {
+  margin: 0 auto;
+  padding: 24px;
+  width: 600px;
+
+  border: 1px solid darkgray;
+  list-style: none;
+  border-radius: 12px;
+}
+
+li {
+  margin-bottom: 24px;
+  padding: 24px;
+  background-color: pink;
+  border-radius: 12px;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+.completed {
+  background-color: palegreen;
 }
