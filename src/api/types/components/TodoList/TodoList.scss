@@ -1,0 +1,10 @@
+.todos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  list-style: none;
+  &__item {
+    background-color: #be9a21;
+    box-shadow: 5px 5px 5px blue;
+  }
+}

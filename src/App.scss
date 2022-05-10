@@ -1,0 +1,22 @@
+.App {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  &__chapter{
+    text-transform: uppercase;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  &__error {
+    color: red;
+  }
+  &__button {
+    background-color: #be9a21;
+    box-shadow: 2px 2px 2px blue;
+    font-weight: 600;
+  }
+}
