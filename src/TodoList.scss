@@ -1,0 +1,20 @@
+.todo_item {
+  border: 1px grey solid;
+  margin: 3px;
+}
+
+.completed {
+  color: green;
+}
+
+.active {
+  color: orange;
+}
+
+ul {
+  padding: 0 10px;
+}
+
+li {
+  list-style-type: none;
+}
