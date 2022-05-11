@@ -1,0 +1,77 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 95%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  padding: 3rem;
+  max-height: 30rem;
+
+  background-color: rgb(245, 129, 129);
+  border-radius: 1rem;
+  border: 2px solid black;
+
+  &__title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  &__counter {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  &__input {
+    border: none;
+    line-height: 2rem;
+    padding: 0.5rem;
+  }
+
+  &__select {
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+
+  &__error {
+    padding: 0;
+    margin: 0;
+    margin-top: 0.2rem;
+
+    font-size: 0.8rem;
+  }
+
+  &__button {
+    padding: 2.5rem;
+
+    border: none;
+    font-size: 3rem;
+    border-radius: 1rem;
+    transition: all 0.5s;
+
+    &:hover {
+      background-color: rgb(159, 250, 173);
+    }
+  }
+}
