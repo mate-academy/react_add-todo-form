@@ -1,0 +1,64 @@
+html {
+  background-color: rgb(193, 218, 195);
+}
+
+.App {
+  &__title {
+    font-family: sans-serif;
+    color: darkgreen;
+    text-align: center;
+  }
+
+  &__form {
+    margin: 50px;
+    padding: 30px;
+    border: 1px solid green;
+    width: max-content;
+  }
+
+  &__formTitle {
+    text-align: center;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__inputTitle {
+    display: inline-block;
+    height: 25px;
+    width: 200px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__select {
+    display: inline-block;
+    margin-top: 20px;
+    height: 30px;
+  }
+
+  &__radioNot {
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  &__button {
+    display: block;
+    margin: 40px auto 0;
+    width: 150px;
+    background-color: rgb(17, 97, 58);
+    color: white;
+    border: 1px solid black;
+    font-size: 20px;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(69, 117, 63);
+    }
+  }
+}
