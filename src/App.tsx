@@ -23,9 +23,14 @@ const App: React.FC = () => {
 
   const [isSelectErrorvisible, setSelectErrorvisibility] = useState(false);
   const [isTitleErrorvisible, setTitleErrorvisibility] = useState(false);
+  const [isSubmitted, setSubmitted] = useState(false);
 
   const attachToDo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setSubmitted(true);
+
+    console.log('true');
 
     if (!title.trim()) {
       setTitleErrorvisibility(true);
@@ -63,6 +68,7 @@ const App: React.FC = () => {
 
     setResponsible('');
     setTitle('');
+    setSubmitted(false);
   };
 
   return (
@@ -90,6 +96,14 @@ const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle((currentValue) => {
+                if (isSubmitted) {
+                  if (event.target.value.length > 0) {
+                    setTitleErrorvisibility(false);
+                  } else {
+                    setTitleErrorvisibility(true);
+                  }
+                }
+
                 const char = event.target.value[event.target.value.length - 1];
 
                 if (char === undefined) {
@@ -119,6 +133,14 @@ const App: React.FC = () => {
             name="user"
             value={responsible}
             onChange={(event) => {
+              if (isSubmitted) {
+                if (event.target.value.length > 0) {
+                  setSelectErrorvisibility(false);
+                } else {
+                  setSelectErrorvisibility(true);
+                }
+              }
+
               setResponsible(event.target.value);
             }}
             className="form__select"
