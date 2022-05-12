@@ -19,11 +19,11 @@ const App: React.FC = () => {
       setErrUser('Please choose a user');
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setErrTitle('Please enter the title');
     }
 
-    if (!user || !title) {
+    if (!user || !title.trim()) {
       return false;
     }
 
@@ -57,9 +57,12 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1 className="App__title">Static list of todos</h1>
+
       <TodoList todos={preparedTodos} />
+
       <form onSubmit={addTodo} className="App__form">
         <h2 className="App__formTitle">Create a new todo</h2>
+
         <div className="App__wrapper">
           <label>
             <input
