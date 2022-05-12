@@ -31,6 +31,10 @@ html {
     width: 200px;
   }
 
+  &__error {
+    color: red;
+  }
+
   &__select {
     display: inline-block;
     margin-top: 20px;

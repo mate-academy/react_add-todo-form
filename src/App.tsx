@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.scss';
 import { Todos } from './types/Todos';
 import { TodoList } from './components/TodoList/TodoList';
@@ -11,8 +11,15 @@ const App: React.FC = () => {
   const [user, setUser] = useState('');
   const [todo, setTodo] = useState(todos);
   const [status, setStatus] = useState('not completed');
-  const [errUser, setErrUser] = useState('');
-  const [errTitle, setErrTitle] = useState('');
+  const [errUser, setErrUser] = useState<string | null>(null);
+  const [errTitle, setErrTitle] = useState<string | null>(null);
+
+  const hangleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = event.target.value;
+
+    setTitle(newTitle.replace(/[^a-zA-Z0-9А-Яа-я\s]/g, ''));
+    setErrTitle(null);
+  };
 
   const validate = () => {
     if (!user) {
@@ -49,10 +56,12 @@ const App: React.FC = () => {
     }
   };
 
-  const preparedTodos: Todos[] = todo.map((oneTodo) => ({
+  const newArr = (arrTodo: Omit<Todos, 'user'>[]) => arrTodo.map((oneTodo) => ({
     ...oneTodo,
     user: users.find((oneUser) => oneUser.id === oneTodo.userId),
   }));
+
+  const preparedTodos: Todos[] = useMemo(() => newArr(todo), [todo]);
 
   return (
     <div className="App">
@@ -70,23 +79,18 @@ const App: React.FC = () => {
               name="title"
               value={title}
               placeholder="Title"
-              onChange={event => {
-                const newTitle = event.target.value;
-
-                setTitle(newTitle.replace(/[^a-zA-Z0-9А-Яа-я\s]/g, ''));
-                setErrTitle('');
-              }}
+              onChange={hangleTitle}
               className="App__inputTitle"
             />
           </label>
-          <span style={{ color: 'red' }}>{errTitle}</span>
+          {errTitle && <span className="App__error">{errTitle}</span>}
 
           <select
             name="user"
             value={user}
             onChange={event => {
               setUser(event.target.value);
-              setErrUser('');
+              setErrUser(null);
             }}
             className="App__select"
           >
@@ -95,7 +99,7 @@ const App: React.FC = () => {
               <option key={id} value={name}>{name}</option>
             ))}
           </select>
-          <span style={{ color: 'red' }}>{errUser}</span>
+          {errUser && <span className="App__error">{errUser}</span>}
         </div>
 
         <label htmlFor="status_not">Not completed</label>
