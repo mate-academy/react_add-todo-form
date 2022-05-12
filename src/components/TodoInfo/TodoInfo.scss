@@ -1,0 +1,15 @@
+.Todo {
+  &__title {
+    font-family: sans-serif;
+  }
+
+  &__status {
+    text-transform: uppercase;
+    font-family: sans-serif;
+    color: red;
+  }
+
+  &__active {
+    color: green;
+  }
+}
