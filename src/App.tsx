@@ -21,15 +21,28 @@ const App: React.FC = () => {
   const [responsible, setResponsible] = useState('');
   const [title, setTitle] = useState('');
 
-  const [isSelectErrorvisible, setSelectErrorvisibility] = useState(true);
-  const [isTitleErrorvisible, setTitleErrorvisibility] = useState(true);
+  const [isSelectErrorvisible, setSelectErrorvisibility] = useState(false);
+  const [isTitleErrorvisible, setTitleErrorvisibility] = useState(false);
 
   const attachToDo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isSelectErrorvisible || isTitleErrorvisible) {
+    if (!title.trim()) {
+      setTitleErrorvisibility(true);
+      setTitle('');
+
       return;
     }
+
+    setTitleErrorvisibility(false);
+
+    if (!responsible) {
+      setSelectErrorvisibility(true);
+
+      return;
+    }
+
+    setSelectErrorvisibility(false);
 
     const stateUser = users.find(user => {
       return user.name === responsible;
@@ -50,8 +63,6 @@ const App: React.FC = () => {
 
     setResponsible('');
     setTitle('');
-    setSelectErrorvisibility(true);
-    setTitleErrorvisibility(true);
   };
 
   return (
@@ -79,12 +90,6 @@ const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle((currentValue) => {
-                if (event.target.value.length > 0) {
-                  setTitleErrorvisibility(false);
-                } else {
-                  setTitleErrorvisibility(true);
-                }
-
                 const char = event.target.value[event.target.value.length - 1];
 
                 if (char === undefined) {
@@ -114,12 +119,6 @@ const App: React.FC = () => {
             name="user"
             value={responsible}
             onChange={(event) => {
-              if (event.target.value.length > 0) {
-                setSelectErrorvisibility(false);
-              } else {
-                setSelectErrorvisibility(true);
-              }
-
               setResponsible(event.target.value);
             }}
             className="form__select"
