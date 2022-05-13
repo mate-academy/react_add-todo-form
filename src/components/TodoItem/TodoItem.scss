@@ -1,0 +1,29 @@
+@import "./../../styles/variables.scss";
+
+.item {
+  padding: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: 0.3s;
+
+  &__header {
+    overflow-wrap: break-word;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  &:hover {
+    background-color: #0002;
+  }
+
+  &--done {
+    background-color: $hover-color;
+  }
+}
