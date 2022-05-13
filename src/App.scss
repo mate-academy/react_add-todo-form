@@ -21,16 +21,16 @@ body {
 }
 
 .InputContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 
-    justify-content: stretch;
+  justify-content: stretch;
 
-    &__item {
-      flex-basis: 0;
-      flex-grow: 1;
-    }
+  &__item {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
 }
 
 .TodoForm {
@@ -51,10 +51,6 @@ body {
 
   &--completed {
     background-color: $green;
-  }
-
-  &--invalid &__hint {
-    color: $red;
   }
 
   &__completedToggler {
@@ -81,6 +77,10 @@ body {
       left: 0;
       right: 0;
     }
+  }
+
+  &--invalid &__hint {
+    color: $red;
   }
 
   &__strip {

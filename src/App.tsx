@@ -42,7 +42,7 @@ const App: FC = () => {
       isFormValid = false;
     }
 
-    if (newTitle.length < 1) {
+    if (!availableUserNames.includes(newUsername)) {
       setUsernameError(true);
       isFormValid = false;
     }
