@@ -1,0 +1,77 @@
+@import "../../vars";
+
+.TodoCard {
+  position: relative;
+
+  padding: 2px 8px 8px;
+
+  text-align: center;
+
+  background-color: $skin;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(#000, 0.25);
+
+  overflow-x: hidden;
+
+  transition-property: background-color;
+  transition-duration: 0.3s;
+
+  &--completed {
+    background-color: $green;
+  }
+
+  &__completedToggler {
+    display: none;
+  }
+
+  &__hint {
+    display: block;
+    margin-bottom: 2px;
+
+    color: $brown;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 17px;
+
+    opacity: 0.5;
+
+    &::after {
+      content: "";
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      cursor: pointer;
+    }
+  }
+
+  &__strip {
+    margin: 0 0 16px;
+
+    position: relative;
+    transform: scaleX(1.5);
+
+    height: 1px;
+
+    background-color: $brown;
+    border: none;
+
+    opacity: 0.5;
+  }
+
+  &__title {
+    margin: 0 0 16px;
+
+    color: $darkGreen;
+  }
+
+  &__userName {
+    margin: 0;
+
+    color: $accentGreen;
+    text-align: right;
+  }
+}
