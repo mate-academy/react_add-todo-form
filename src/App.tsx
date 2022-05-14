@@ -41,7 +41,7 @@ const App: React.FC = () => {
 
     const stateUser = users.find(user => (
       user.name === todo
-    ))
+    ));
 
     const newTodo: PreparedTodos = {
       userId: stateUser?.id,
@@ -49,7 +49,7 @@ const App: React.FC = () => {
       user: stateUser,
       title,
       completed: false,
-    }
+    };
 
     setList([
       ...list,
@@ -59,20 +59,20 @@ const App: React.FC = () => {
     setTodo('');
     setTitle('');
     setSubmit(false);
-  }
+  };
 
   return (
     <div className="app">
       <h1 className="app__title">Static list of todos</h1>
       <TodoList todos={list} />
-      <div className='field'>
+      <div className="field">
         <form
-          method='post'
+          method="post"
           onSubmit={submited}
         >
           <input
             type="text"
-            placeholder='Title'
+            placeholder="Title"
             value={title}
             onChange={(event) => {
               const { value } = event.target;
@@ -123,11 +123,11 @@ const App: React.FC = () => {
           >
             <option value="">Choose a user</option>
             {
-              users.map(todo => (
+              users.map(user => (
                 <option
-                  key={todo.id}
+                  key={user.id}
                 >
-                  {todo.name}
+                  {user.name}
                 </option>
               ))
             }
@@ -139,7 +139,7 @@ const App: React.FC = () => {
             </p>
           )}
 
-          <button>
+          <button type="button">
             Add
           </button>
         </form>
