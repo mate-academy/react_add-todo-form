@@ -2,6 +2,7 @@ import React from 'react';
 import { UserInfo } from '../UserList/UserInfo';
 import { TodoInfo } from './TodoInfo';
 import { PreparedTodos } from '../PreparedTodos';
+import './TodoList.scss';
 
 type Props = {
   todos: PreparedTodos[];

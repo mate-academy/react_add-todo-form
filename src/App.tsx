@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 
 import users from './api/users';
 import todos from './api/todos';
@@ -64,40 +64,44 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <h1 className="app__title">Static list of todos</h1>
-      <TodoList todos={list} />
+        <TodoList todos={list} />
       <div className="field">
         <form
           method="post"
           onSubmit={submited}
         >
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(event) => {
-              const { value } = event.target;
+          <label htmlFor="text__input">
+            <input
+              id='text__input'
+              className='App__input'
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(event) => {
+                const { value } = event.target;
 
-              setTitle((current) => {
-                if (submit) {
-                  if (value.length > 0) {
-                    setTitleError(false);
-                  } else {
-                    setTitleError(true);
+                setTitle((current) => {
+                  if (submit) {
+                    if (value.length > 0) {
+                      setTitleError(false);
+                    } else {
+                      setTitleError(true);
+                    }
                   }
-                }
 
-                if (value[value.length - 1] === undefined) {
-                  return '';
-                }
+                  if (value[value.length - 1] === undefined) {
+                    return '';
+                  }
 
-                if (!value[value.length - 1].match(/[A-Za-zА-Яа-я0-9 ]/g)) {
-                  return current;
-                }
+                  if (!value[value.length - 1].match(/[A-Za-zА-Яа-я0-9 ]/g)) {
+                    return current;
+                  }
 
-                return value;
-              });
-            }}
-          />
+                  return value;
+                });
+              }}
+            />
+          </label>
 
           {isTitleError && (
             <p className="form__error">
@@ -139,7 +143,7 @@ const App: React.FC = () => {
             </p>
           )}
 
-          <button type="button">
+          <button type='submit' className='App__button'>
             Add
           </button>
         </form>
