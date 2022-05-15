@@ -1,0 +1,34 @@
+$white-color: #fff;
+$gray-color: #d3d3d3;
+
+.todos {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 24px;
+
+  &__todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid $gray-color;
+  }
+
+  &__todo-item {
+    display: flex;
+    align-items: center;
+  }
+
+  &__todo-author {
+    margin-bottom: 8px;
+  }
+
+  &__todo-ckeckbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 16px;
+    cursor: pointer;
+  }
+}
