@@ -1,0 +1,27 @@
+html {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+body {
+  margin: -20px;
+  padding: 0;
+  background-color: rgb(241, 226, 206);
+}
+
+.App {
+  &__title {
+    text-align: center;
+  }
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+
+  &__button {
+    border-radius: 5px;
+    background-color: rgb(250, 103, 4);
+  }
+}
