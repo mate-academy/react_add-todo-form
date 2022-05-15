@@ -1,0 +1,16 @@
+.app {
+  &__title {
+    margin: 0 0 50px !important;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__form-input {
+    display: inline;
+  }
+}
