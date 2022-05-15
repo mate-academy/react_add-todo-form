@@ -24,7 +24,6 @@ const App: React.FC = () => {
 
     if (!title.trim()) {
       setTitleError(true);
-      setTitle('');
 
       return;
     }
@@ -46,8 +45,8 @@ const App: React.FC = () => {
     const newTodo: PreparedTodos = {
       userId: stateUser?.id,
       id: list.length + 1,
-      user: stateUser,
       title,
+      user: stateUser,
       completed: false,
     };
 
@@ -64,7 +63,7 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <h1 className="app__title">Static list of todos</h1>
-        <TodoList todos={list} />
+      <TodoList todos={list} />
       <div className="field">
         <form
           method="post"
@@ -72,8 +71,8 @@ const App: React.FC = () => {
         >
           <label htmlFor="text__input">
             <input
-              id='text__input'
-              className='App__input'
+              id="text__input"
+              className="App__input"
               type="text"
               placeholder="Title"
               value={title}
@@ -82,14 +81,14 @@ const App: React.FC = () => {
 
                 setTitle((current) => {
                   if (submit) {
-                    if (value.length > 0) {
+                    if (value.length) {
                       setTitleError(false);
                     } else {
                       setTitleError(true);
                     }
                   }
 
-                  if (value[value.length - 1] === undefined) {
+                  if (!value[value.length - 1]) {
                     return '';
                   }
 
@@ -105,7 +104,7 @@ const App: React.FC = () => {
 
           {isTitleError && (
             <p className="form__error">
-              * Please enter the title
+              Please enter the title
             </p>
           )}
 
@@ -115,7 +114,7 @@ const App: React.FC = () => {
               const { value } = event.target;
 
               if (submit) {
-                if (value.length > 0) {
+                if (value.length) {
                   setSelectError(false);
                 } else {
                   setSelectError(true);
@@ -139,11 +138,11 @@ const App: React.FC = () => {
 
           {isSelectError && (
             <p className="form__error">
-              * Please choose a user
+              Please choose a user
             </p>
           )}
 
-          <button type='submit' className='App__button'>
+          <button type="submit" className="App__button">
             Add
           </button>
         </form>

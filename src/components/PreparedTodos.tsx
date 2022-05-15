@@ -3,7 +3,7 @@ export interface PreparedTodos {
   id: number;
   title: string;
   completed: boolean;
-  user?: User | null;
+  user?: User;
 }
 
 export interface User {
