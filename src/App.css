@@ -1,3 +1,42 @@
-.App {
+body {
+  margin: 0;
+  padding: 5px 25px;
+}
+
+.todoForm {
+  margin-bottom: 10px;
+}
+
+.todoForm__input {
+  border: 3px solid green;
+  cursor: pointer;
+}
+
+.todoForm__select {
+  margin-top: 6px;
+  border: 3px solid green;
+  background-color: yellow;
+  cursor: pointer;
+}
+
+.todo__form__button {
+  color: white;
+  padding: 10px 18px;
   text-align: center;
+  font-size: 16px;
+  margin-top: 6px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white;
+  border: 3px solid #4caf50;
+  border-radius: 6px;
+}
+
+.todo__form__button:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.error {
+  color: red;
 }
