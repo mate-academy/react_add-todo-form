@@ -1,0 +1,31 @@
+.TodoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 40px 0;
+  padding: 20px;
+
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+
+  transition: margin 0.3s ease;
+
+  &:hover {
+    margin: 40px -12px 40px 12px;
+  }
+
+  &__task {
+    width: max-content;
+  }
+
+  &__taskStatus {
+    color: #ff9a8d;
+    text-align: end;
+
+    &--completed {
+      color: #aed6dc;
+    }
+  }
+}
