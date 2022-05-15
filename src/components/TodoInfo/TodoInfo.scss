@@ -1,0 +1,15 @@
+.todoInfo {
+  &__title {
+    height: 130px;
+
+    text-transform: capitalize;
+  }
+
+  &__completed {
+    color: #090;
+
+    &--false {
+      color: red;
+    }
+  }
+}
