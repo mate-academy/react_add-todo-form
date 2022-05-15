@@ -1,0 +1,26 @@
+.app {
+  text-align: center;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 300px;
+    width: 200px;
+    border: 2px solid green;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button {
+    margin: 0 10px;
+    background-color: aquamarine;
+    cursor: pointer;
+  }
+
+  &__input {
+    margin: 0 10px;
+  }
+}

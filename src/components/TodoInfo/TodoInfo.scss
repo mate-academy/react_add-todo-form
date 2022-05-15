@@ -1,0 +1,12 @@
+.todo {
+
+  &__completed {
+    color: red;
+    font-weight: bold;
+  }
+
+  &__done {
+    color: green;
+    font-weight: bold;
+  }
+}
