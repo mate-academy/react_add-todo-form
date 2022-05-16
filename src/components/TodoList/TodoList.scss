@@ -1,0 +1,17 @@
+.list {
+  list-style-type: none;
+
+  &__item {
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+    padding: 20px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &--compl {
+      background-color: rgba(184, 238, 134, 0.4);
+    }
+  }
+}
