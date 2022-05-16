@@ -3,7 +3,7 @@
 }
 
 html {
-  background-color: #6B7280;
+  background-color: #6b7280;
 }
 
 .App {
@@ -51,8 +51,8 @@ html {
     color: white;
     font-size: 18px;
     text-transform: uppercase;
-    background-image: linear-gradient(to right, #EC4899, #8B5CF6);
-	  cursor: pointer;
+    background-image: linear-gradient(to right, #ec4899, #8b5cf6);
+    cursor: pointer;
     margin-top: 10px;
     transition: all 0.3s ease;
 
@@ -66,65 +66,4 @@ html {
     text-transform: uppercase;
     font-weight: bold;
   }
-
 }
-
-// .header {
-//   font-size: 30px;
-//   color: black;
-//   letter-spacing: 1px;
-//   text-transform: uppercase;
-// }
-
-// .form {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: space-around;
-//   width: 300px;
-
-//   &__title {
-//     margin-bottom: 10px;
-//     width: 300px;
-
-//     &--width {
-//       width: 300px;
-//       height: 25px;
-//     }
-//   }
-
-//   &__user {
-//     margin-bottom: 10px;
-//     width: 300px;
-
-//     &--width {
-//       width: 300px;
-//       height: 25px;
-//     }
-//   }
-
-//   &__add {
-//     width: 100px;
-//     height: 40px;
-//     font-size: 16px;
-//     color: white;
-
-//     border-radius: 10px;
-//     border: none;
-//     background-color: rgb(204, 79, 104);;
-//     cursor: pointer;
-
-//     &:hover {
-//       color: white;
-//       background-color: rgb(132, 37, 30);
-//     }
-//   }
-
-//   &__error {
-//     text-align: center;
-//     font-size: 14px;
-//     color: rgb(226, 8, 8);
-//     font-weight: bold;
-//     margin: 5px;
-//   }
-// }
