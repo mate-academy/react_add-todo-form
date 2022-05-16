@@ -51,6 +51,9 @@ const App: React.FC = () => {
 
       setTodos([...todos, newTodo]);
     }
+
+    setTodoTitle('');
+    setUserId(0);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
