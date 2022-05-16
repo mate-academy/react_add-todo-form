@@ -1,0 +1,12 @@
+.User {
+  list-style: none;
+
+  &__item {
+    margin: 0 0 10px;
+  }
+
+  &__username {
+    font-weight: 600;
+    color: #333;
+  }
+}

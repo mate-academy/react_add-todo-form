@@ -1,0 +1,48 @@
+.Todo {
+  width: 550px;
+  height: max-content;
+  padding: 20px;
+  margin: 50px 0 200px 50px;
+  box-shadow: 1px 0 2px 2px #dedede;
+
+  &__title {
+    border-bottom: 1px solid #dadada;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    padding-left: 20px;
+    border-left: 3px solid #dadada;
+
+    &--completed {
+      border-color: #80db36;
+    }
+
+    &--not_completed {
+      border-color: #ff3330;
+    }
+  }
+}
+
+.item-enter {
+  opacity: 0;
+}
+
+.item-enter-active {
+  opacity: 1;
+  transition: opacity, 400ms ease-in;
+}
+
+.item-exit {
+  opacity: 1;
+}
+
+.item-exit-active {
+  opacity: 0;
+  transition: opacity, 400ms ease-in;
+}

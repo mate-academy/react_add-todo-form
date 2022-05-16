@@ -1,0 +1,14 @@
+.Todo {
+  &__status {
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &--completed {
+      color: #80db36;
+    }
+
+    &--not_completed {
+      color: #ff3330;
+    }
+  }
+}
