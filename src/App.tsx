@@ -53,6 +53,8 @@ const App: React.FC = () => {
       setTitle('');
       setUser('');
       setIsCompleted('not completed');
+
+      window.scrollTo(0, document.documentElement.clientHeight);
     }
   };
 
