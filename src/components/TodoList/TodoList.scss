@@ -1,0 +1,25 @@
+.list {
+  list-style: none;
+  padding-left: 0;
+  width: 600px;
+  color: #eee;
+
+  &__item {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+
+    border: none;
+    border-radius: 25px;
+    background-color: #111827;
+    cursor: pointer;
+
+    box-shadow: 15px 10px 15px #1F2937;;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: rgb(252, 252, 252);
+    }
+  }
+}

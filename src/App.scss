@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #6B7280;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  &__title {
+    text-transform: uppercase;
+    color: #8d94a3;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 300px;
+  }
+
+  &__wrapper {
+    text-align: center;
+  }
+
+  &__input {
+    width: 600px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: #374151;
+    color: #8d94a3;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-size: 20px;
+    padding-left: 15px;
+  }
+
+  &__button {
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    color: white;
+    font-size: 18px;
+    text-transform: uppercase;
+    background-image: linear-gradient(to right, #EC4899, #8B5CF6);
+	  cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &__error {
+    color: rgb(167, 21, 50);
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+}
+
+// .header {
+//   font-size: 30px;
+//   color: black;
+//   letter-spacing: 1px;
+//   text-transform: uppercase;
+// }
+
+// .form {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: space-around;
+//   width: 300px;
+
+//   &__title {
+//     margin-bottom: 10px;
+//     width: 300px;
+
+//     &--width {
+//       width: 300px;
+//       height: 25px;
+//     }
+//   }
+
+//   &__user {
+//     margin-bottom: 10px;
+//     width: 300px;
+
+//     &--width {
+//       width: 300px;
+//       height: 25px;
+//     }
+//   }
+
+//   &__add {
+//     width: 100px;
+//     height: 40px;
+//     font-size: 16px;
+//     color: white;
+
+//     border-radius: 10px;
+//     border: none;
+//     background-color: rgb(204, 79, 104);;
+//     cursor: pointer;
+
+//     &:hover {
+//       color: white;
+//       background-color: rgb(132, 37, 30);
+//     }
+//   }
+
+//   &__error {
+//     text-align: center;
+//     font-size: 14px;
+//     color: rgb(226, 8, 8);
+//     font-weight: bold;
+//     margin: 5px;
+//   }
+// }
