@@ -39,6 +39,8 @@ const App: React.FC = () => {
       };
 
       setTodos((current) => [...current, newTodo]);
+      setUserId(0);
+      setTitle('');
     }
   };
 
