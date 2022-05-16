@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.scss';
 
@@ -29,8 +28,6 @@ const App: React.FC = () => {
     event.preventDefault();
 
     setSubmitted(true);
-
-    console.log('true');
 
     if (!title.trim()) {
       setTitleErrorvisibility(true);
