@@ -1,0 +1,19 @@
+.Wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.List {
+  list-style: none;
+  display: grid;
+  grid-gap: 24px;
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 960px;
+    height: 200px;
+    background-color: rgb(56, 56, 56);
+    border-radius: 30px;
+  }
+}
