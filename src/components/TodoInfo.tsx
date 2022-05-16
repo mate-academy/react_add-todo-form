@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Todo } from '../types/Todo';
 import { UserInfo } from './UserInfo';
@@ -10,7 +11,7 @@ export const TodoInfo: React.FC<Props> = ({ title, completed, user }) => {
       <h2 className="todo__title">
         {title}
       </h2>
-      <p className="todo__completed">
+      <p className={classNames('todo__completed', `todo__completed--${completed}`)}>
         {completed ? 'Completed' : 'Not completed'}
       </p>
       {user && <UserInfo name={user.name} email={user.email} />}
