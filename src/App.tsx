@@ -39,27 +39,32 @@ const App: React.FC = () => {
   };
 
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
-    if (title === InitialTodo.Title) {
-      setIsValidTitle(false);
-    } else if (userName === InitialTodo.UserName) {
-      setIsValidUserName(false);
-    } else if (isValidTitle && isValidUserName) {
-      const lastId = todos.length + 1;
-
-      const newTodo = {
-        userId,
-        id: lastId,
-        title,
-        completed: false,
-      };
-
-      setCurTodos((prev) => [...prev, newTodo]);
-      setTitle(InitialTodo.Title);
-      setUserId(InitialTodo.UserId);
-      setUserName(InitialTodo.UserName);
-    }
-
     event.preventDefault();
+    const lastId = todos.length + 1;
+
+    const newTodo = {
+      userId,
+      id: lastId,
+      title,
+      completed: false,
+    };
+
+    switch (true) {
+      case title === InitialTodo.Title:
+        setIsValidTitle(false);
+        break;
+      case userName === InitialTodo.UserName:
+        setIsValidUserName(false);
+        break;
+      case isValidTitle && isValidUserName:
+        setCurTodos((prev) => [...prev, newTodo]);
+        setTitle(InitialTodo.Title);
+        setUserId(InitialTodo.UserId);
+        setUserName(InitialTodo.UserName);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
