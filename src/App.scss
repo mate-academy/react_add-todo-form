@@ -1,0 +1,21 @@
+.App {
+  text-align: center;
+
+  &__input {
+    height: 50px;
+  }
+}
+
+.App__button {
+  width: 200px;
+  font-size: 20px;
+  text-align: center;
+
+  &:hover {
+    background-color: rgb(118, 234, 118);
+  }
+}
+
+.error {
+  color: red;
+}
