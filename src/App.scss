@@ -1,0 +1,46 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: rgb(26, 24, 24);
+  color: white;
+}
+
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.Add__todo {
+  margin: 0 auto;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 100px;
+
+}
+
+.submitButton {
+  margin-top: 20px;
+  width: 80px;
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(204, 204, 204);
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(175, 175, 175);
+  }
+}
+
+.Error {
+  color: red;
+  font-size: 16px;
+}
+
+label {
+  margin-top: 20px;
+}

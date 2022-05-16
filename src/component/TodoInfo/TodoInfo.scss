@@ -1,0 +1,71 @@
+$black: #363839;
+$lightgray: #9c9e9f;
+$gray: #bdc1c6;
+$white: #fff;
+$orange: #f7ab08;
+
+* {
+  box-sizing: border-box;
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+.Task {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+label {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.5em;
+  font-weight: 600;
+  user-select: none;
+  &::before {
+    position: absolute;
+    content: attr(data-content);
+    color: $lightgray;
+    clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+    text-decoration: line-through;
+  }
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  color: $black;
+  border: 1px solid $gray;
+  border-radius: 4px;
+  appearance: none;
+  outline: 0;
+  cursor: pointer;
+  &::before {
+    display: flex;
+    justify-content: center;
+    content: "";
+    width: 8px;
+    height: 14px;
+    margin-left: 5px;
+    border-style: solid;
+    border-color: $white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+
+    opacity: 0;
+  }
+
+  &:checked {
+    color: $white;
+    border-color: $orange;
+    background: $orange;
+    &::before {
+      opacity: 1;
+    }
+    ~ label::before {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+}
