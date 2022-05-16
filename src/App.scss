@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Trebuchet MS",
+    "Lucida Sans Unicode",
+    "Lucida Grande",
+    "Lucida Sans",
+    Arial,
+    sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  &__form {
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    width: 300px;
+    height: max-content;
+    padding: 20px;
+    box-shadow: 1px 0 2px 2px #dedede;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: #ff3330;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
+    margin: 10px 0 0;
+    padding: 15px;
+    box-shadow: inset 1px 0 2px 2px #dedede;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &__input-radio {
+    margin-top: 20px;
+  }
+
+  &__radio-label {
+    display: block;
+    margin: 10px 5px 5px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  &__button {
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    margin: 15px 0 0;
+    border: 1px solid rgb(158, 39, 2);
+    border-radius: 20px;
+    background-color: rgb(158, 39, 2);
+    color: #fff;
+    cursor: pointer;
+
+    transition: color, background-color, border-color, 0.3s ease;
+
+    &:hover {
+      background-color: #fff;
+      color: rgb(158, 39, 2);
+      border-color: rgb(158, 39, 2);
+    }
+
+    &:active {
+      background-color: rgb(158, 39, 2);
+      color: #fff;
+      border-color: rgb(158, 39, 2);
+    }
+  }
+}
