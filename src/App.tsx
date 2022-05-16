@@ -23,8 +23,10 @@ const App: React.FC = () => {
     const regexp = /[^A-Za-z0-9А-ЯЄІЇа-яєії\s]/gi;
     const enteredTitle = event.target.value.replace(regexp, '');
 
-    setTitle(enteredTitle);
-    setIsValidTitle(true);
+    if (enteredTitle.trim().length > 0) {
+      setTitle(enteredTitle);
+      setIsValidTitle(true);
+    }
   };
 
   const changeUserId = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -39,9 +41,7 @@ const App: React.FC = () => {
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
     if (title === InitialTodo.Title) {
       setIsValidTitle(false);
-    }
-
-    if (userName === InitialTodo.UserName) {
+    } else if (userName === InitialTodo.UserName) {
       setIsValidUserName(false);
     } else if (isValidTitle && isValidUserName) {
       const lastId = todos.length + 1;
@@ -74,7 +74,6 @@ const App: React.FC = () => {
             value={title}
             onChange={changeTitle}
             placeholder="Title"
-            // required // не кастомне але на багато менше коду
             className="app__input"
           />
           {
@@ -92,7 +91,6 @@ const App: React.FC = () => {
             id="usersSelect"
             value={userName}
             onChange={changeUserId}
-            // required
             title="Please choose a user"
             className="app__input"
           >
