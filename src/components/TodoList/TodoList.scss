@@ -1,0 +1,21 @@
+.todos {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 700px;
+  border: solid #b8b8ff 4px;
+  border-radius: 20px;
+
+  background-color: #fed;
+
+  &__list {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__item {
+    padding: 20px;
+    width: 100%;
+    list-style: none;
+  }
+}
