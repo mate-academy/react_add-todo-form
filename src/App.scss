@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.App {
+  text-align: center;
+
+  &__title {
+    font-size: 32px;
+    padding: 20px;
+  }
+
+  &__form {
+    margin: 0 auto 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 600px;
+    padding: 24px 0;
+  
+    border: 1px solid darkgray;
+    border-radius: 12px;
+  }
+  &__form-submit {
+    width: max-content;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+
+  &__label {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+  }
+
+  &__span {
+    position: absolute;
+    color: red;
+  }
+
+  &__todo-list {
+    list-style: none;
+  }
+
+  &__todo-item {
+    margin-bottom: 30px;
+  }
+  
+  &__todo-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  &__list-item {
+    margin-bottom: 30px;
+  }
+}
+
+.todo {
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  &__status {
+    letter-spacing: 3px;
+    width: max-content;
+    margin: 0 auto 10px;
+  }
+
+  &__name {
+    text-decoration-line: overline;
+    margin-bottom: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  &__info {
+    margin-bottom: 20px;
+  }
+
+  &__completed {
+    background-color: rgb(58, 251, 116);
+  }
+
+  &__in-progress {
+    background-color: rgb(250, 106, 106);
+  }
+}
