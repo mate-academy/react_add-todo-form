@@ -1,0 +1,17 @@
+.todoInfo {
+  padding: 20px;
+  margin-bottom: 10px;
+  border: 4px solid blue;
+  border-radius: 12px;
+  color: #008000;
+  background-color: #f8f526;
+
+  &__title {
+    font-size: 20px;
+    color: #641f64;
+  }
+
+  &__status {
+    color: red;
+  }
+}
