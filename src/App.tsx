@@ -62,10 +62,12 @@ const App: FC = () => {
 
   const handleUser = (currentUser: string) => {
     setUser(currentUser);
+    setErrorMessageForeUser('');
   };
 
   const handleTitle = (currentTitle: string) => {
     setTitle(currentTitle.replace(/[^A-Za-zА-Яа-яёЁ0-9 ]/g, ''));
+    setErrorMessageForTitle('');
   };
 
   const assignedTodos: Todo[] = todos.map((todo) => ({
@@ -92,7 +94,6 @@ const App: FC = () => {
             className="app__input"
             onChange={({ target }) => {
               handleTitle(target.value);
-              setErrorMessageForTitle('');
             }}
           />
           <span className="app__error-message">{errorMessageForTitle}</span>
@@ -105,7 +106,6 @@ const App: FC = () => {
             className="app__select"
             onChange={({ target }) => {
               handleUser(target.value);
-              setErrorMessageForeUser('');
             }}
           >
             <option value="">
