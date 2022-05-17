@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 
 import users from './api/users';
@@ -22,19 +22,37 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState(false);
 
-  const addTodo = () => {
-    const newTodo = {
-      userId,
-      id: preparedTodos.length + 1,
-      title,
-      completed: status,
-      user: findUserById(userId),
-    };
+  const [titleDirty, setTitleDirty] = useState(false);
+  const [titleError] = useState('Please enter the title');
 
-    setPreparedTodos((prev) => [...prev, newTodo]);
-    setUserId(0);
-    setTitle('');
-    setStatus(false);
+  const [choseUserDirty, setChoseUserDirty] = useState(false);
+  const [choseUserError] = useState('Choose a user');
+
+  const addTodo = () => {
+    if (title === '') {
+      setTitleDirty(true);
+    }
+
+    if (userId === 0) {
+      setChoseUserDirty(true);
+    }
+
+    if (title !== '' && userId !== 0) {
+      const newTodo = {
+        userId,
+        id: preparedTodos.length + 1,
+        title,
+        completed: status,
+        user: findUserById(userId),
+      };
+
+      setPreparedTodos((prev) => [...prev, newTodo]);
+      setUserId(0);
+      setChoseUserDirty(false);
+      setTitle('');
+      setTitleDirty(false);
+      setStatus(false);
+    }
   };
 
   const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,57 +71,74 @@ const App: React.FC = () => {
     <div className="App">
       <TodoList todos={preparedTodos} />
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo();
-        }}
-      >
-        <div>
-          ADD NEW TODO
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={setNewTitle}
-          />
-        </div>
-
-        <div>
-          <select
-            value={userId}
-            onChange={setNewUserId}
-          >
-            <option
-              value={0}
-            >
-              Choose a user
-            </option>
-            {users.map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={status}
-              onChange={setNewStatus}
-            />
-            Complete
-          </label>
-        </div>
-
-        <button
-          type="submit"
+      <div>
+        <form
+          className="form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            addTodo();
+          }}
         >
-          Add
-        </button>
-      </form>
+          <div className="form__title">
+            ADD NEW TODO
+          </div>
+
+          <div>
+            <input
+              className="form__input-title"
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={setNewTitle}
+            />
+            {(titleDirty && titleError)
+              && <div className="form__error-color">{titleError}</div>}
+          </div>
+
+          <div>
+            <select
+              className="form__select-user"
+              value={userId}
+              onChange={setNewUserId}
+            >
+              <option
+                value={0}
+              >
+                Choose a user
+              </option>
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {(choseUserDirty && choseUserError)
+              && <div className="form__error-color">{choseUserError}</div>}
+          </div>
+
+          <div>
+            <label>
+              <input
+                className="form__checkbox-status"
+                type="checkbox"
+                checked={status}
+                onChange={setNewStatus}
+              />
+              Complete
+            </label>
+          </div>
+
+          <button
+            className="btn"
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
