@@ -16,6 +16,7 @@ const App: React.FC = () => {
   const [userId, setUserID] = useState(0);
   const [hasUserIdError, setUserIDError] = useState(false);
   const [tasks, setTasks] = useState(preparedTodos);
+  const [completed, setCompleted] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -45,13 +46,14 @@ const App: React.FC = () => {
         userId,
         id: tasks.length + 1,
         title,
-        completed: false,
+        completed,
         user: users.find((user => user.id === userId)) || null,
       };
 
       setTasks([...tasks, newTask]);
       setTitle('');
       setUserID(0);
+      setCompleted(false);
     }
   };
 
@@ -83,6 +85,17 @@ const App: React.FC = () => {
           {hasUserIdError && (
             <span className="error">Please choose a user</span>
           )}
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            checked={completed}
+            onChange={(event) => {
+              setCompleted(event.target.checked);
+            }}
+          />
+          Completed
         </div>
         <button type="submit">Add</button>
       </form>
