@@ -65,49 +65,48 @@ const App: React.FC = () => {
           addNewTodo();
         }}
       >
+        <input
+          className="App__form--field"
+          type="text"
+          value={title}
+          placeholder="Title"
+          onChange={setNewTitle}
+        />
 
-        <div>
-          <input
-            className="App__form--field"
-            type="text"
-            value={title}
-            placeholder="Title"
-            onChange={setNewTitle}
-          />
+        {titleError && (
+          <span className="App__form--error">
+            Please enter the title
+          </span>
+        )}
 
-          {titleError && (
-            <span className="error">
-              Please enter the title
-            </span>
-          )}
-        </div>
+        <select
+          className="App__form--field"
+          value={userId}
+          onChange={setNewUserId}
+        >
 
-        <div>
-          <select
-            className="App__form--field"
-            value={userId}
-            onChange={setNewUserId}
+          <option
+            value={0}
           >
+            Choose a user
+          </option>
+
+          {users.map(user => (
+
             <option
-              value={0}
+              value={user.id}
+              key={user.id}
             >
-              Choose a user
+              {user.name}
             </option>
-            {users.map(user => (
-              <option
-                value={user.id}
-                key={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
-          {userIdError && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
-        </div>
+          ))}
+        </select>
+
+        {userIdError && (
+          <span className="App__form--error">
+            Please choose a user
+          </span>
+        )}
 
         <button
           className="App__form--field"
