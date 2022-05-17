@@ -1,0 +1,27 @@
+.list {
+  list-style-type: none;
+
+  &__item {
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+    padding: 20px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &--compl {
+      background-color: rgba(184, 238, 134, 0.4);
+    }
+
+    &__button {
+      margin: 0 auto;
+      min-width: 30px;
+      min-height: 30px;
+      padding: 0 3px;
+      border: 1px solid black;
+      background-color: transparent;
+      margin-top: 5px;
+    }
+  }
+}
