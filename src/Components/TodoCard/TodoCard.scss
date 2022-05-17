@@ -1,0 +1,23 @@
+.item {
+  border: 1px solid blue;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: rgb(202, 255, 254);
+
+  &__user-container {
+    display: flex;
+    justify-content: space-around;
+    color: rgb(69, 69, 69);
+    margin-bottom: 8px;
+    background-color: rgb(200, 229, 255);
+  }
+
+  &__email {
+    font-style: italic;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+}
