@@ -50,10 +50,9 @@ const App: React.FC = () => {
       };
 
       setTodos([...todos, newTodo]);
+      setTodoTitle('');
+      setUserId(0);
     }
-
-    setTodoTitle('');
-    setUserId(0);
   };
 
   const changeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
