@@ -1,3 +1,53 @@
-.App {
+.app {
+  width: 50%;
+  margin: 0 auto;
+
+  font-size: 20px;
   text-align: center;
+}
+
+.app__form {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.app__label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 40%;
+}
+
+.app__input,
+.app__select,
+.app__submit {
+  font-size: 105%;
+  padding: 5px;
+  background-color: #efefef;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.app__select:hover,
+.app__submit:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px 0 rgba(50, 50, 50, 0.75);
+}
+
+.app__input:hover {
+  box-shadow: 0 0 5px 0 rgba(50, 50, 50, 0.75);
+}
+
+.app__select:active,
+.app__submit:active {
+  box-shadow: inset 0 0 5px 0 rgba(50, 50, 50, 0.75);
+}
+
+.app__error-message {
+  position: absolute;
+  left: 10px;
+  bottom: -25px;
+  color: #d92828;
 }
