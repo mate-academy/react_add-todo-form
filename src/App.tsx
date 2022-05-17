@@ -32,7 +32,7 @@ const App: React.FC = () => {
   const addTodo = () => {
     const currentUser = users.find(el => el.name === user);
 
-    if (!title.length) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
