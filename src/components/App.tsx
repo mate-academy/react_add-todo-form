@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './TodoList';
-import { Todo } from './types/Todo';
+import { Todo } from '../types/Todo';
 
-import users from './api/users';
-import todos from './api/todos';
+import users from '../api/users';
+import todos from '../api/todos';
 
-const preparedTodos: Todo[] = [];
-
-todos.forEach((currentTodo) => {
+const preparedTodos: Todo[] = todos.map((currentTodo) => {
   const currentUser = users.find(user => currentTodo.userId === user.id);
-  const toDo = {
+
+  return {
     user: currentUser || null,
     ...currentTodo,
   };
-
-  preparedTodos.push(toDo);
 });
 
 const App: React.FC = () => {
   const [toDoTitle, setTodoTitle] = useState('');
   const [toDoStatus, setTodoStatus] = useState(false);
   const [selectUser, setSelectUser] = useState('Choose a user');
-  const [, setNewToDo] = useState({});
   const [isClicked, setIsClicked] = useState(false);
 
   const isValidTitle = toDoTitle.length > 0;
@@ -34,9 +30,9 @@ const App: React.FC = () => {
 
     if (isValidInput) {
       const selectedUser = users.find(user => user.name === selectUser);
-      const maxID = [...preparedTodos].sort((a, b) => b.id - a.id)[0].id;
+      const maxID = [...preparedTodos].sort((a, b) => b.id - a.id)[0].id + 1;
 
-      const toDo = {
+      const newTodo = {
         user: selectedUser || null,
         userId: selectedUser?.id,
         id: maxID,
@@ -44,9 +40,8 @@ const App: React.FC = () => {
         completed: toDoStatus,
       };
 
-      preparedTodos.push(toDo);
+      preparedTodos.push(newTodo);
 
-      setNewToDo(toDo);
       setTodoTitle('');
       setTodoStatus(false);
       setSelectUser('Choose a user');
@@ -64,7 +59,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-
       <div className="form">
         <form onSubmit={addNewTodo}>
           <label>
@@ -122,7 +116,6 @@ const App: React.FC = () => {
 
           <button
             type="submit"
-            // disabled={!isValid}
             onClick={() => setIsClicked(true)}
           >
             Add new todo
