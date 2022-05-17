@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setIsErrorTitle(true);
     }
 
