@@ -16,19 +16,27 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   };
 
   return (
-    <li
-      className={classNames(
-        'list__item',
-        { 'list__item--compl': completed },
-      )}
-      onClick={changeComplete}
-      role="presentation"
-    >
-      <h2 className="todo-info__title">{todo.title}</h2>
-      {todo.user && (
-        <UserInfo user={todo.user} />
-      )}
-      <div className="todo-info__check" />
-    </li>
+    <label>
+      <li
+        className={classNames(
+          'list__item',
+          { 'list__item--compl': completed },
+        )}
+      >
+        <h2 className="todo-info__title">{todo.title}</h2>
+        {todo.user && (
+          <UserInfo user={todo.user} />
+        )}
+        <div className="todo-info__check" />
+        <button
+          type="button"
+          onClick={changeComplete}
+          className="list__item__button"
+        >
+          {completed ? 'Completed' : 'In progress'}
+        </button>
+      </li>
+    </label>
+
   );
 };
