@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const [toDos, setToDos] = useState(todosWithUser);
 
   const addNewTodo = () => {
-    if (title === '') {
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
@@ -29,7 +29,7 @@ const App: React.FC = () => {
       setUserIdError(true);
     }
 
-    if (title !== '' && userId !== 0) {
+    if (title.trim() !== '' && userId !== 0) {
       const newTodo = {
         userId,
         id: toDos.length + 1,
@@ -73,6 +73,9 @@ const App: React.FC = () => {
             onChange={event => {
               setTitle(event.target.value);
               setTitleError(false);
+            }}
+            onFocus={() => {
+              setTitle('');
             }}
           />
           {titleError && (
