@@ -1,0 +1,10 @@
+.todo-info {
+  &__item {
+    margin-bottom: 15px;
+  }
+
+  &__title {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
