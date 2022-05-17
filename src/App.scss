@@ -1,0 +1,87 @@
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span,
+ul,
+li,
+ol,
+input {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(251, 249, 249);
+  color: #333;
+}
+
+.todo {
+  padding: 10px;
+
+  &__title {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 500px;
+  margin: 0 auto 35px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 7px 7px 25px -7px rgba(66, 68, 90, 0.4);
+
+  &__title {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  &__field {
+    width: 100%;
+    height: 30px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: solid 1px #c7ccd1;
+    outline: none;
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    height: 20px;
+  }
+
+  &__error-message {
+    font-size: 10px;
+    color: red;
+  }
+
+  &__submit {
+    height: 30px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: hover 0.5s ease-in-out;
+
+    &:hover {
+      background-color: #9e9e9e;
+      color: #fff;
+    }
+  }
+}

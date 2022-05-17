@@ -1,0 +1,27 @@
+.todo-item {
+  &__title {
+    text-transform: uppercase;
+
+    &:hover {
+      color: #0b0b63;
+    }
+  }
+
+  &__status {
+    justify-self: center;
+    width: 30px;
+    height: 30px;
+    padding: 1px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &--done {
+      background-image: url(./done.png);
+    }
+
+    &--undone {
+      background-image: url(./undone.png);
+    }
+  }
+}
