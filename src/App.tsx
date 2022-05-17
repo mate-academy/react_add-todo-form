@@ -49,9 +49,10 @@ const App: React.FC = () => {
 
         return prevTodo;
       });
-    }
 
-    setTitleTodo('');
+      setUserIdTodo(startSelect);
+      setTitleTodo('');
+    }
   };
 
   return (
