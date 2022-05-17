@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+
+  &__form {
+    align-items: center;
+    margin: 20px auto;
+
+    display: flex;
+    flex-direction: column;
+
+
+
+    &--field {
+      height: 30px;
+      margin-bottom: 10px;
+      width: 200px;
+    }
+  }
+}
