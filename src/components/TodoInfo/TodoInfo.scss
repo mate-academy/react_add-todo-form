@@ -1,0 +1,14 @@
+.todo-info {
+  padding: 20px;
+  border: 1px solid #000;
+  background-color: #ebeeff;
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  &__status {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+}

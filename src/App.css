@@ -1,3 +1,13 @@
+* {
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+body {
+  margin: 20px;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
