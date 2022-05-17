@@ -3,11 +3,14 @@ import './App.scss';
 
 import users from './api/users';
 import todosed from './api/todos';
+import { TodoList } from './api/components/todoList';
+
+const regex = /[^A-Za-zА-Яа-яёЁ0-9 ]/g;
 
 const App: React.FC = () => {
   const preparedTodos = todosed.map(todo => ({
     ...todo,
-    user: users.find(user => user.id === todo.userId),
+    user: users.find(user => user.id === todo.userId)?.name,
   }));
 
   const [selectedId, setSelectedId] = useState('');
@@ -22,11 +25,12 @@ const App: React.FC = () => {
   };
 
   const selectTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^A-Za-zА-Яа-яёЁ0-9 ]/g, ''));
+    setTitle(event.target.value.replace(regex, ''));
     setIsValidTitle(true);
   };
 
-  const addNewTodo = () => {
+  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!title) {
       setIsValidTitle(false);
     }
@@ -41,7 +45,7 @@ const App: React.FC = () => {
         id: todos[todos.length - 1].id + 1,
         title,
         completed: false,
-        user: users.find(user => user.id === +selectedId),
+        user: users.find(user => user.id === +selectedId)?.name,
       };
 
       setTodos([...todos, newTodo]);
@@ -54,7 +58,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <form className="form">
+      <form className="form" onSubmit={addNewTodo}>
         <input
           className="form__input"
           type="title"
@@ -101,36 +105,13 @@ const App: React.FC = () => {
         </div>
         <button
           className="form__add-button"
-          type="button"
-          onClick={addNewTodo}
+          type="submit"
         >
           Add ToDo
         </button>
       </form>
 
-      <div>
-        <span className="todo__title">ToDo list</span>
-        <div className="todo__list">
-          <ul className="todo">
-            {
-              [...todos].reverse().map((todo) => (
-                <li className="todo__list-item" key={todo.id}>
-                  <p>{todo.user?.name}</p>
-                  <p>{todo.title}</p>
-                  <label>
-                    <input
-                      className="task"
-                      type="checkbox"
-                      checked={todo.completed}
-                    />
-                    Done
-                  </label>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
+      <TodoList todos={todos} />
     </div>
   );
 };
