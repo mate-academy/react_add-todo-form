@@ -1,3 +1,27 @@
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  width: 150px;
+  height: auto;
+  font-weight: 800;
+  transition: 0.3s;
+}
+
+.button:hover {
+  box-shadow: 0 0 12px 3px rgba(0,0,0,0.49);
 }
