@@ -1,0 +1,15 @@
+.todoList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todoItem {
+  list-style: none;
+
+  border: 1px solid black;
+  border-radius: 5px;
+
+  width: 500px;
+  margin-bottom: 30px;
+}
