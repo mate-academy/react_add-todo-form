@@ -1,0 +1,79 @@
+.app {
+  &__form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    grid-gap: 30px;
+    gap: 30px;
+    margin-bottom: 60px;
+
+    &--block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      width: 300px;
+      height: max-content;
+      text-decoration: none;
+      border: 2px solid black;
+      border-radius: 20px;
+      padding: 10px;
+      background-color: #cfc;
+      transition: all 0.3s;
+    }
+
+    &--inputTitle {
+      width: 182px;
+      height: 28px;
+      border: 1px solid black;
+      border-radius: 20px;
+      transition: all 0.3s;
+
+      &:hover {
+        border-radius: 10px;
+        transform: scale(1.1);
+      }
+    }
+
+    &--select {
+      width: 182px;
+      height: 32px;
+      border-radius: 20px;
+      transition: all 0.3s;
+
+      &:hover {
+        border-radius: 10px;
+        transform: scale(1.1);
+      }
+    }
+
+    &--image {
+      width: 34px;
+      height: 34px;
+    }
+
+    &--button {
+      outline: none;
+      border: 0;
+      background: transparent;
+      transition: all 0.3s;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+
+    &--label {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    &--userimage {
+      height: 38px;
+    }
+  }
+}
