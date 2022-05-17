@@ -20,19 +20,21 @@ const App: React.FC = () => {
   const [preparedTodos, setPreparedTodos] = useState(initialTodos);
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
+  const [status, setStatus] = useState(false);
 
   const addTodo = () => {
     const newTodo = {
       userId,
       id: preparedTodos.length + 1,
       title,
-      completed: false,
+      completed: status,
       user: findUserById(userId),
     };
 
     setPreparedTodos((prev) => [...prev, newTodo]);
     setUserId(0);
     setTitle('');
+    setStatus(false);
   };
 
   const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +43,10 @@ const App: React.FC = () => {
 
   const setNewUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+(event.target.value));
+  };
+
+  const setNewStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus(event.target.checked);
   };
 
   return (
@@ -53,6 +59,9 @@ const App: React.FC = () => {
           addTodo();
         }}
       >
+        <div>
+          ADD NEW TODO
+        </div>
         <div>
           <input
             type="text"
@@ -76,6 +85,17 @@ const App: React.FC = () => {
               <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={status}
+              onChange={setNewStatus}
+            />
+            Complete
+          </label>
         </div>
 
         <button
