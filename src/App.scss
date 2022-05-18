@@ -1,0 +1,39 @@
+.app {
+  // text-align: center;
+  display: flex;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 300px;
+    width: 200px;
+    border: 2px solid green;
+    margin-left: 20px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button {
+    width: 80px;
+    height: 30px;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: aquamarine;
+    cursor: pointer;
+    transition: all 0.5s;
+
+    &:hover {
+      transform: scale(1.1);
+      background-color: aqua;
+
+    }
+  }
+
+  &__input {
+    margin: 0 10px;
+  }
+}
