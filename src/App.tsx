@@ -29,7 +29,7 @@ const App: React.FC = () => {
   const [choseUserError] = useState('Choose a user');
 
   const addTodo = () => {
-    if (title === '') {
+    if (title.trim() === '') {
       setTitleDirty(true);
     }
 
@@ -37,7 +37,7 @@ const App: React.FC = () => {
       setChoseUserDirty(true);
     }
 
-    if (title !== '' && userId !== 0) {
+    if (title.trim() !== '' && userId !== 0) {
       const newTodo = {
         userId,
         id: preparedTodos.length + 1,
