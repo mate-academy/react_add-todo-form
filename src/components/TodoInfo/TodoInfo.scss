@@ -1,0 +1,20 @@
+.todo {
+  &__user-info {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__title {
+    margin-bottom: 10px;
+  }
+
+  &__is-completed {
+    color: red;
+  }
+}
+
+.active {
+  color: green;
+}
