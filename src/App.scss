@@ -1,0 +1,57 @@
+html {
+  background-color: bisque;
+}
+
+.App {
+  text-align: center;
+  background-color: aquamarine;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__input {
+    width: 400px;
+  }
+
+  &__error-message {
+    color: red;
+    font-size: 20px;
+  }
+
+  &__label {
+    margin-top: 30px;
+  }
+
+  &__add-button {
+    margin: 30px 0;
+    width: 100px;
+    height: 40px;
+  }
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    font-size: 32px;
+    color: blue;
+  }
+
+  &__list {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+
+    &-item {
+      list-style: none;
+      box-sizing: border-box;
+      border: 1px solid black;
+      width: 400px;
+      margin: 10px;
+    }
+  }
+}
