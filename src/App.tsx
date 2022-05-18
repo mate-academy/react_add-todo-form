@@ -16,7 +16,7 @@ const preparedTodos: Todo[] = todos.map((todo) => ({
 const App: React.FC = () => {
   const [todosList, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [isErrorTitle, setIsErrorTitle] = useState(false);
   const [isErrorUser, setIsErrorUser] = useState(false);
 
@@ -37,7 +37,7 @@ const App: React.FC = () => {
         id: todos[todos.length - 1].id + 1,
         title,
         completed: false,
-        user: users.find(user => user.id === userId),
+        user: users.find(user => user.id === +userId),
       };
 
       setTodos(currentTodos => (
@@ -45,7 +45,7 @@ const App: React.FC = () => {
           newTodo]
       ));
 
-      setUserId(0);
+      setUserId('');
       setTitle('');
     }
   };
@@ -56,7 +56,10 @@ const App: React.FC = () => {
   };
 
   const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(event.target.value));
+    if (event.target.value !== '0') {
+      setUserId(event.target.value);
+    }
+
     setIsErrorUser(false);
   };
 
@@ -95,7 +98,7 @@ const App: React.FC = () => {
           value={userId}
           onChange={handleUser}
         >
-          <option value="0" disabled>
+          <option value="0">
             Please choose a user
           </option>
 
@@ -120,7 +123,6 @@ const App: React.FC = () => {
         <button
           type="submit"
           className="todo-form__submit"
-
         >
           ADD
         </button>
@@ -128,9 +130,11 @@ const App: React.FC = () => {
 
       <h1 className="todo__title">Static list of todos</h1>
 
-      <TodoList
-        todos={todosList}
-      />
+      {todosList.length > 0 && (
+        <TodoList
+          todos={todosList}
+        />
+      )}
     </div>
   );
 };

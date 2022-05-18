@@ -1,7 +1,7 @@
 import { User } from './User';
 
 export interface Todo {
-  userId: number;
+  userId: number | string;
   id: number;
   title: string;
   completed: boolean;

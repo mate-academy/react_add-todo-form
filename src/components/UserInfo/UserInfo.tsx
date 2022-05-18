@@ -12,19 +12,19 @@ const UserInfo: React.FC<Props> = ({ user }) => (
   <div className="todo-item__user user">
     <div className="user__name">
       <a
-        href={`malito:${user?.email}`}
+        href={`malito:${user.email}`}
         className="user__link user__link-name"
       >
-        {user?.name}
+        {user.name}
       </a>
     </div>
 
     <div className="user__email">
       <a
-        href={`malito:${user?.email}`}
+        href={`malito:${user.email}`}
         className="user__link"
       >
-        {user?.email}
+        {user.email}
       </a>
     </div>
   </div>

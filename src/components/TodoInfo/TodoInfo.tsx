@@ -21,11 +21,13 @@ const TodoInfo: React.FC<Props> = ({
     <div className="todo-item__title">
       {title}
     </div>
+
     {user && (
       <UserInfo
         user={user}
       />
     )}
+
     <div className={classNames(
       'todo-item__status',
       {

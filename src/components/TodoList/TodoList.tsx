@@ -13,19 +13,21 @@ type Props = {
 const TodoList: React.FC<Props> = ({ todos }) => (
   <ul className="todo__list todo-list">
     {todos.map((todo) => (
-      <li
-        key={todo.id}
-        className={classNames(
-          'todo__item todo-item',
-          { 'todo__item--done': todo.completed === true },
-        )}
-      >
-        <TodoInfo
-          title={todo.title}
-          completed={todo.completed}
-          user={todo.user}
-        />
-      </li>
+      todo && (
+        <li
+          key={todo.id}
+          className={classNames(
+            'todo__item todo-item',
+            { 'todo__item--done': todo.completed === true },
+          )}
+        >
+          <TodoInfo
+            title={todo.title}
+            completed={todo.completed}
+            user={todo.user}
+          />
+        </li>
+      )
     ))}
   </ul>
 );
