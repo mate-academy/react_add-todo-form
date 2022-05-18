@@ -32,7 +32,7 @@ const App: React.FC = () => {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle.trim()) {
+    if (!todoTitle) {
       setTitleError(true);
     }
 
@@ -40,7 +40,7 @@ const App: React.FC = () => {
       setUserIdError(true);
     }
 
-    if (todoTitle && userId) {
+    if (todoTitle.trim() && userId) {
       const newTodo = {
         userId,
         id: todoServer[todoServer.length - 1].id + 1,
