@@ -1,0 +1,66 @@
+html {
+  background-color: antiquewhite;
+  font-family: "Arial Narrow", Arial, sans-serif;
+}
+
+.App {
+  &__title {
+    color: tomato;
+    text-align: center;
+  }
+
+  &__form {
+    margin: 50px;
+    padding: 30px;
+    border: 1px solid salmon;
+    border-radius: 10px;
+    width: max-content;
+    background-color: rgb(255, 167, 136);
+  }
+
+  &__formTitle {
+    text-align: center;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__inputTitle {
+    display: inline-block;
+    height: 25px;
+    width: 250px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__select {
+    display: inline-block;
+    margin-top: 20px;
+    height: 30px;
+  }
+
+  &__radioYes {
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  &__button {
+    display: block;
+    margin: 40px auto 0;
+    width: 150px;
+    background-color: tomato;
+    color: white;
+    border: 1px solid crimson;
+    font-size: 20px;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: crimson;
+    }
+  }
+}
