@@ -68,8 +68,8 @@ const App: React.FC = () => {
         Static list of todos
       </h1>
       <form
-        method="POST"
-        name=""
+        // method="POST"
+        // name=""
         className="app__form"
         onSubmit={event => {
           event.preventDefault();
@@ -90,9 +90,9 @@ const App: React.FC = () => {
           />
           {
             titleError && (
-              <p className="app__error">
+              <span className="app__error">
                 Please enter the title
-              </p>
+              </span>
             )
           }
         </label>
@@ -101,6 +101,7 @@ const App: React.FC = () => {
           {' '}
           <select
             name="selectUser"
+            className="app__todo"
             id="selectUser"
             value={user}
             onChange={selectUser}
@@ -122,9 +123,9 @@ const App: React.FC = () => {
           </select>
           {
             userSelectError && (
-              <p className="app__error">
+              <span className="app__error">
                 Please choose a user
-              </p>
+              </span>
             )
           }
         </label>
