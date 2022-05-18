@@ -64,7 +64,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="app">
-      <h1>Add todo form</h1>
+      {/* <h1>Add todo form</h1> */}
       <TodoList todos={preparedTodos} />
       <div className="app__inputField">
 
