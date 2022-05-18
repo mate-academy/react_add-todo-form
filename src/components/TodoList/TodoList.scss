@@ -1,0 +1,21 @@
+.todo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &-list {
+    list-style-type: none;
+    min-width: 700px;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    border-radius: 3px;
+    padding: 10px 20px 20px;
+    transition: 0.3s;
+
+    margin-bottom: 20px;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: 0.3s;
+    }
+  }
+}
