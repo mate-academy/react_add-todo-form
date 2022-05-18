@@ -56,10 +56,12 @@ const App: React.FC = () => {
   };
 
   const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleDirty(false);
     setTitle(event.target.value);
   };
 
   const setNewUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setChoseUserDirty(false);
     setUserId(+(event.target.value));
   };
 
