@@ -32,7 +32,7 @@ const App: React.FC = () => {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle) {
+    if (!todoTitle.trim()) {
       setTitleError(true);
     }
 
