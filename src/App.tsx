@@ -36,7 +36,15 @@ const App: React.FC = () => {
   const addTodo = () => {
     const currentUser = users.find(person => person.name === user);
 
-    if (title.length && user) {
+    if (!user) {
+      setUserError(true);
+    }
+
+    if (!title.length || !title.trim()) {
+      setTitleError(true);
+    }
+
+    if (title.length && user && title.trim()) {
       setTodos(
         [...todo,
           {
@@ -50,14 +58,6 @@ const App: React.FC = () => {
 
       setTitle('');
       setUser('');
-    }
-
-    if (!user) {
-      setUserError(true);
-    }
-
-    if (title.length === 0) {
-      setTitleError(true);
     }
   };
 
