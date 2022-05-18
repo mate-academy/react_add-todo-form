@@ -1,0 +1,14 @@
+.Todo__title {
+  text-align: center;
+  text-transform: uppercase;
+  color: #555050;
+}
+
+.Todo__status {
+  font-style: italic;
+  color: orange;
+
+  &.Todo__active {
+    color: #1a5a4c;
+  }
+}
