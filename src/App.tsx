@@ -82,7 +82,7 @@ const App: FC = () => {
       <h1 className="app__title">Add todo form</h1>
 
       <form
-        action="Post"
+        method="post"
         name="addTodos"
         className="app__form"
         onSubmit={submitForm}
