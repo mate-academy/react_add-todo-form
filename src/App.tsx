@@ -23,15 +23,15 @@ const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle) {
+    if (todoTitle === '') {
       setErrorTitle(true);
     }
 
-    if (!userId) {
+    if (userId === 0) {
       setErrorUserId(true);
     }
 
-    if (todoTitle && userId) {
+    if (todoTitle !== '' && userId !== 0) {
       const newItem = {
         userId,
         id: todo.length + 1,
@@ -41,10 +41,9 @@ const App: React.FC = () => {
       };
 
       setTodo([...todo, newItem]);
+      setTodoTitle('');
+      setUserId(0);
     }
-
-    setTodoTitle('');
-    setUserId(0);
   };
 
   const newUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
