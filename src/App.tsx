@@ -19,7 +19,7 @@ const App: FC = () => {
 
   const isValidInput = () => {
     switch (true) {
-      case !title:
+      case !(title.trim()):
         setErrorMessageForTitle('Please enter a title!');
 
         return false;
@@ -66,7 +66,9 @@ const App: FC = () => {
   };
 
   const handleTitle = (currentTitle: string) => {
-    setTitle(currentTitle.replace(/[^A-Za-zА-Яа-яёЁ0-9 ]/g, ''));
+    const allowedCharacters = /[^A-Za-zА-Яа-яёЁ0-9 ]/g;
+
+    setTitle(currentTitle.replace(allowedCharacters, ''));
     setErrorMessageForTitle('');
   };
 
