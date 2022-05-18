@@ -104,7 +104,7 @@ const App: React.FC = () => {
                 setUserError('');
               }}
             >
-              <option value={0}>
+              <option value="" disabled>
                 Select user
               </option>
               {users.map(userFS => (

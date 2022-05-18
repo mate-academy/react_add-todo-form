@@ -26,7 +26,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         </ul>
       )}
       <p className={classNames('todo__is-completed', { active: completed })}>
-        {completed ? 'Completed' : 'No completed'}
+        {completed ? 'Completed' : 'Not completed'}
       </p>
     </>
   );
