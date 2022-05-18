@@ -1,0 +1,14 @@
+.TodoList__ul {
+  width: 40%;
+  padding: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  list-style: none;
+
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  border-radius: 10px;
+}
+
+.TodoList__item {
+  border-bottom: 1px solid orange;
+}
