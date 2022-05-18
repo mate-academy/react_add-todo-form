@@ -7,7 +7,7 @@ import './TodoInfo.scss';
 type Props = {
   title: string;
   status: boolean;
-  user: User;
+  user?: User;
 };
 export const TodoInfo: React.FC<Props> = ({ title, status, user }) => (
   <>
@@ -18,3 +18,7 @@ export const TodoInfo: React.FC<Props> = ({ title, status, user }) => (
     {user && <UserInfo user={user} />}
   </>
 );
+
+TodoInfo.defaultProps = {
+  user: undefined,
+};
