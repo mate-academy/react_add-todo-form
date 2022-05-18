@@ -35,8 +35,6 @@ const App: React.FC = () => {
       setTitleError(true);
     }
 
-    setTitle('');
-
     if (userId === 0) {
       setUserIDError(true);
     }
