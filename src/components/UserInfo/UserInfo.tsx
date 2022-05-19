@@ -10,7 +10,6 @@ export const UserInfo: FC<Props> = ({ name, email }) => {
       <span>
         {name}
       </span>
-      {' '}
       <a href="mailto:{mail}">{email}</a>
     </div>
   );

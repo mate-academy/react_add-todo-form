@@ -74,7 +74,7 @@ const App: FC = () => {
 
   const assignedTodos: Todo[] = todos.map((todo) => ({
     ...todo,
-    user: users.find((person) => person.id === todo.userId) || null,
+    user: users.find((person) => person.id === todo.userId),
   }));
 
   return (
