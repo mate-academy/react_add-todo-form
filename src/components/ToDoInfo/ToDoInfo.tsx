@@ -24,7 +24,7 @@ export const ToDoInfo: React.FC<Props> = ({ toDo }) => {
         Is Completed:
         <input type="checkbox" defaultChecked={completed} />
       </label>
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </div>
   );
 };

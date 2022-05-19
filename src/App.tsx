@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const initialValue: Array<ToDoWithUser> = toDos.map((toDo) => {
     return {
       ...toDo,
-      user: users.find((user) => toDo.userId === user.id),
+      user: users.find((user) => toDo.userId === user.id) || null,
     };
   });
 
@@ -60,7 +60,8 @@ const App: React.FC = () => {
       return;
     }
 
-    const newUser = users.find(user => String(user.id) === selectedUser);
+    const newUser
+    = users.find(user => String(user.id) === selectedUser) || null;
 
     const newToDo: ToDoWithUser = {
       userId: Number(selectedUser),
