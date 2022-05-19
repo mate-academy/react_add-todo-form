@@ -1,4 +1,6 @@
-const users = [
+import { User } from '../interfaces/User';
+
+const users: Array<User> = [
   {
     id: 1,
     name: 'Leanne Graham',

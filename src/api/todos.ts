@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 
-const todos = [
+import { ToDo } from '../interfaces/ToDo';
+
+const todos: Array<ToDo> = [
   {
     userId: 1,
     id: 1,
