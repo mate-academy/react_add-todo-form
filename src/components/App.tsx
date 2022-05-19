@@ -18,23 +18,23 @@ const preparedTodos: Todo[] = todos.map((currentTodo) => {
 const App: React.FC = () => {
   const [toDoTitle, setTodoTitle] = useState('');
   const [toDoStatus, setTodoStatus] = useState(false);
-  const [selectUser, setSelectUser] = useState('Choose a user');
+  const [selectedUser, setSelectedUser] = useState('Choose a user');
   const [isClicked, setIsClicked] = useState(false);
 
   const isValidTitle = toDoTitle.length > 0;
-  const isValidChooseInput = selectUser !== 'Choose a user';
+  const isValidChooseInput = selectedUser !== 'Choose a user';
   const isValidInput = isValidTitle && isValidChooseInput;
 
   const addNewTodo = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     if (isValidInput) {
-      const selectedUser = users.find(user => user.name === selectUser);
+      const choosenUser = users.find(user => user.name === selectedUser);
       const maxID = [...preparedTodos].sort((a, b) => b.id - a.id)[0].id + 1;
 
       const newTodo = {
-        user: selectedUser || null,
-        userId: selectedUser?.id,
+        user: choosenUser || null,
+        userId: choosenUser?.id,
         id: maxID,
         title: toDoTitle.replaceAll(/[^a-zA-Z ЁёА-я ЯЄI яєі 0-9]/g, ''),
         completed: toDoStatus,
@@ -44,7 +44,7 @@ const App: React.FC = () => {
 
       setTodoTitle('');
       setTodoStatus(false);
-      setSelectUser('Choose a user');
+      setSelectedUser('Choose a user');
       setIsClicked(false);
     }
   };
@@ -71,8 +71,9 @@ const App: React.FC = () => {
                 setTodoTitle(event.target.value);
               }}
             />
-            {(!isValidTitle && isClicked)
-            && <p className="error">Please, enter the title!</p>}
+            {(!isValidTitle && isClicked) && (
+              <p className="error">Please, enter the title!</p>
+            )}
           </label>
 
           <label>
@@ -91,10 +92,10 @@ const App: React.FC = () => {
 
           <label>
             <select
-              id={selectUser}
-              value={selectUser}
+              id={selectedUser}
+              value={selectedUser}
               onChange={(event) => {
-                setSelectUser(event.target.value);
+                setSelectedUser(event.target.value);
               }}
             >
               <option>
@@ -111,8 +112,9 @@ const App: React.FC = () => {
             </select>
           </label>
 
-          {(!isValidChooseInput && isClicked)
-          && <p className="error">Please, choose a user!</p>}
+          {(!isValidChooseInput && isClicked) && (
+            <p className="error">Please, choose a user!</p>
+          )}
 
           <button
             type="submit"
