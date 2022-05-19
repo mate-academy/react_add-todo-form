@@ -25,11 +25,11 @@ const App: React.FC = () => {
       setValidUser(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setValidTitle(true);
     }
 
-    if (userId && title) {
+    if (userId && title.trim()) {
       const newTodo = {
         userId,
         id: todosApi[todosApi.length - 1].id + 1,
