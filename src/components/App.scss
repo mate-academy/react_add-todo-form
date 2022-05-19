@@ -15,9 +15,8 @@
   text-align: center;
 }
 
-input,
-select,
-textarea {
+.select_item,
+.input_title {
   display: flex;
   cursor: pointer;
   font-size: 14px;
@@ -25,7 +24,7 @@ textarea {
   margin: 10px;
 }
 
-textarea {
+.input_title {
   width: 165px;
 }
 
@@ -42,7 +41,7 @@ textarea {
   text-align: center;
 }
 
-button {
+.button {
   margin: 0 0 10px 10px;
   cursor: pointer;
 }

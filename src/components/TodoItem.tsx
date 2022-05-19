@@ -1,32 +1,25 @@
 import classNames from 'classnames';
 import React from 'react';
+import { Todo } from '../types/Todo';
 import './TodoItem.scss';
 
 type Props = {
-  userName: string;
-  userEmail: string;
-  title: string;
-  completed: boolean;
+  todoItem: Todo;
 };
 
-export const TodoItem: React.FC<Props> = ({
-  userName,
-  userEmail,
-  title,
-  completed,
-}) => (
+export const TodoItem: React.FC<Props> = ({ todoItem }) => (
   <>
     <p>
-      {`Name: ${userName}`}
+      {`Name: ${todoItem.user?.username}`}
     </p>
     <p>
-      {`Email: ${userEmail}`}
+      {`Email: ${todoItem.user?.email}`}
     </p>
-    <p className={classNames(completed
+    <p className={classNames(todoItem.completed
       ? 'completed'
       : 'active')}
     >
-      {`To do: ${title}`}
+      {`To do: ${todoItem.title}`}
     </p>
   </>
 );

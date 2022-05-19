@@ -78,6 +78,7 @@ const App: React.FC = () => {
 
           <label>
             <select
+              className="select_item"
               onChange={(event) => changeTodoStatus(event.target.value)}
               value={!toDoStatus ? 'In progress' : 'Completed'}
             >
@@ -92,6 +93,7 @@ const App: React.FC = () => {
 
           <label>
             <select
+              className="select_item"
               id={selectedUser}
               value={selectedUser}
               onChange={(event) => {
@@ -117,6 +119,7 @@ const App: React.FC = () => {
           )}
 
           <button
+            className="button"
             type="submit"
             onClick={() => setIsClicked(true)}
           >
