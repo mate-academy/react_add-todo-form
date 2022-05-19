@@ -52,7 +52,6 @@ const App: React.FC = () => {
       const customer = users.find((user) => nameField === user.name) || null;
 
       setTodosToRenter([
-        ...todosToRender,
         {
           userId: customer ? customer.id : 0,
           id: todosToRender[todosToRender.length - 1].id + 1,
@@ -60,6 +59,7 @@ const App: React.FC = () => {
           completed: false,
           user: customer,
         },
+        ...todosToRender,
       ]);
 
       setTitle('');
@@ -78,6 +78,7 @@ const App: React.FC = () => {
         className="App__form"
         onSubmit={(event) => {
           event.preventDefault();
+          handleAdd(title, name);
         }}
       >
         <label className="App__label">
@@ -108,36 +109,13 @@ const App: React.FC = () => {
           <option value="">
             Choose a user
           </option>
-          <option value="Leanne Graham">
-            Leanne Graham
-          </option>
-          <option value="Ervin Howell">
-            Ervin Howell
-          </option>
-          <option value="Clementine Bauch">
-            Clementine Bauch
-          </option>
-          <option value="Patricia Lebsack">
-            Patricia Lebsack
-          </option>
-          <option value="Chelsey Dietrich">
-            Chelsey Dietrich
-          </option>
-          <option value="Mrs. Dennis Schulist">
-            Mrs. Dennis Schulist
-          </option>
-          <option value="Kurtis Weissnat">
-            Kurtis Weissnat
-          </option>
-          <option value="Nicholas Runolfsdottir V">
-            Nicholas Runolfsdottir V
-          </option>
-          <option value="Glenna Reichert">
-            Glenna Reichert
-          </option>
-          <option value="Clementina DuBuque">
-            Clementina DuBuque
-          </option>
+          {
+            users.map((user) => (
+              <option value={user.name}>
+                {user.name}
+              </option>
+            ))
+          }
         </select>
 
         <p className="App__error">
@@ -147,11 +125,6 @@ const App: React.FC = () => {
         <button
           className="App__button"
           type="submit"
-          onClick={() => {
-            handleAdd(title, name);
-            checkTitle(title);
-            checkName(name);
-          }}
         >
           Add
         </button>
