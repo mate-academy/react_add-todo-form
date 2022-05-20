@@ -28,7 +28,7 @@ const App: React.FC = () => {
   };
 
   const checkTitle = (titleField: string) => {
-    if (titleField === '') {
+    if (titleField.trim() === '') {
       setErrorTitle(true);
     } else {
       setErrorTitle(false);
@@ -48,7 +48,7 @@ const App: React.FC = () => {
       setErrorTitle(true);
     }
 
-    if (titleField !== '' && nameField !== '') {
+    if (titleField.trim() !== '' && nameField !== '') {
       const customer = users.find((user) => nameField === user.name) || null;
 
       setTodosToRenter([
