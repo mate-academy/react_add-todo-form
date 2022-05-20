@@ -17,12 +17,13 @@
   font-weight: 700;
   font-size: 35px;
   padding-left: 10px;
+  text-align: left;
 }
 
 .user {
+  display: flex;
   font-size: 35px;
   font-weight: 700;
-  background-color: #000;
   color: $color-grey;
   padding-top: 15px;
   padding-left: 10px;

@@ -58,7 +58,7 @@ const App: React.FC = () => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { value } = e.currentTarget;
 
-    setTitle(value.replace(/[^A-Za-zА-Яа-яёЁ0-9 ]/, ''));
+    setTitle(value.replace(/[^\wА-Яа-яёЁ ]/, ''));
     setErrorMessageForTitle('');
   };
 
