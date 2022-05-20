@@ -100,11 +100,9 @@ const App: React.FC = () => {
             }}
           >
             <option value="">Choose a user</option>
-            {users.map(({ id, name }) => {
-              return (
-                <option key={id} value={name}>{name}</option>
-              );
-            })}
+            {users.map(({ id, name }) => (
+              <option key={id} value={name}>{name}</option>
+            ))}
 
           </select>
           <span className="form__span">
