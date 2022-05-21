@@ -13,26 +13,23 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState(todosFromServer);
 
   const isFormValid = () => {
-    switch (true) {
-      case !title:
-        setErrorMessageForTitle('Please enter the title!');
-
-        return false;
-
-      case !user:
-        setErrorMessageForUser('Please choose a user!');
-
-        return false;
-
-      default:
-        return true;
+    if (!user) {
+      setErrorMessageForUser('Please choose a user!');
     }
+
+    if (!title.trim()) {
+      setErrorMessageForTitle('Please enter the title!');
+    }
+
+    if (!user || !title.trim()) {
+      return false;
+    }
+
+    return true;
   };
 
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let todoAdded = 0;
 
     if (isFormValid()) {
       const currentUser = users.find(({ name }) => name === user);
@@ -44,14 +41,10 @@ const App: React.FC = () => {
         completed: false,
       };
 
-      setTodos([...todos, newTodo]);
+      setTodos((prevState) => [...prevState, newTodo]);
 
-      todoAdded += 1;
-
-      if (todoAdded) {
-        setTitle('');
-        setUser('');
-      }
+      setTitle('');
+      setUser('');
     }
   };
 
@@ -84,9 +77,12 @@ const App: React.FC = () => {
             value={title}
             onChange={onChange}
           />
-          <span className="form__span">
-            {errorMessageForTitle}
-          </span>
+          {errorMessageForTitle && (
+            <span className="form__span">
+              {errorMessageForTitle}
+            </span>
+          )}
+
         </label>
 
         <label className="form__label">
