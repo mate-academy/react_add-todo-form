@@ -13,23 +13,23 @@ export const App: React.FC = () => {
   const [user, addUser] = useState('');
   const [title, addTitle] = useState('');
   const [status, changeStatus] = useState('not completed');
-  const [titleError, showTitleError] = useState<string | null>(null);
-  const [userError, showUserError] = useState<string | null>(null);
+  const [titleError, showTitleError] = useState<boolean>(false);
+  const [userError, showUserError] = useState<boolean>(false);
 
   const addTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
 
     addTitle(newTitle.replace(/[^a-zA-Z0-9А-Яа-я\s]/g, ''));
-    showTitleError(null);
+    showTitleError(false);
   };
 
   const validator = () => {
     if (!user) {
-      showUserError('Please choose a user');
+      showUserError(true);
     }
 
     if (!title.trim()) {
-      showTitleError('Please enter the title');
+      showTitleError(true);
     }
 
     if (!user || !title.trim()) {
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
             onChange={addTodoTitle}
           />
         </label>
-        {titleError && <span className="form__error">{titleError}</span>}
+        {titleError && <span className="form__error">Title is empty</span>}
 
         <select
           name="user"
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
           value={user}
           onChange={(event) => {
             addUser(event.target.value);
-            showUserError(null);
+            showUserError(false);
           }}
         >
           <option value="">Choose a user</option>
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
             <option value={name} key={id}>{name}</option>
           ))}
         </select>
-        {userError && <span className="form__error">{userError}</span>}
+        {userError && <span className="form__error">Please choose a user</span>}
 
         <div className="form__status">
           <label htmlFor="status_true">Completed</label>
@@ -128,7 +128,6 @@ export const App: React.FC = () => {
 
         <button type="submit" className="form__button">Add</button>
       </form>
-
       <TodoList todos={preparedTodos} />
     </div>
   );
