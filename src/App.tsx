@@ -34,7 +34,7 @@ const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    if (title === '') {
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
@@ -42,7 +42,7 @@ const App: React.FC = () => {
       setUsersError(true);
     }
 
-    if (title !== '' && userId !== 0) {
+    if (title.trim() !== '' && userId !== 0) {
       const newTodo = {
         userId,
         id: listTodo.length + 1,
