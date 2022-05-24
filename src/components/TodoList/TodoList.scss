@@ -1,0 +1,26 @@
+.list {
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid red;
+
+    &--done {
+      border: 2px solid green;
+    }
+  }
+
+  &__isComplete {
+    font-size: 32px;
+
+    &--red {
+      color: red;
+    }
+
+    &--green {
+      color: green;
+    }
+  }
+}
