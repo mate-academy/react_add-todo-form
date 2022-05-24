@@ -1,7 +1,7 @@
 import { User } from '../../types/user';
 import './UserInfo.scss';
 
-type Props = Omit<User, 'id'>;
+type Props = User;
 
 export const UserInfo: React.FC<Props> = ({ name, email }) => {
   return (

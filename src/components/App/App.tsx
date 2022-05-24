@@ -48,8 +48,8 @@ const App: React.FC = () => {
     }
   };
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.currentTarget;
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const { value } = event.currentTarget;
 
     setTitle(value.replace(/[^\wА-Яа-яёЁ ]/, ''));
     setErrorMessageForTitle('');
@@ -82,7 +82,6 @@ const App: React.FC = () => {
               {errorMessageForTitle}
             </span>
           )}
-
         </label>
 
         <label className="form__label">
@@ -99,7 +98,6 @@ const App: React.FC = () => {
             {users.map(({ id, name }) => (
               <option key={id} value={name}>{name}</option>
             ))}
-
           </select>
           <span className="form__span">
             {errorMessageForUser}
