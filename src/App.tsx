@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import './App.scss';
 
 import users from './api/users';
@@ -40,22 +40,23 @@ const App: React.FC = () => {
     setTitle(correctededTitle);
   };
 
-  const handleAdd = (titleField: string, nameField: string) => {
-    checkName(nameField);
-    checkTitle(titleField);
+  const handleAdd = (event: SyntheticEvent) => {
+    event.preventDefault();
+    checkName(name);
+    checkTitle(title);
 
-    if (titleField === '') {
+    if (title === '') {
       setErrorTitle(true);
     }
 
-    if (titleField.trim() !== '' && nameField !== '') {
-      const customer = users.find((user) => nameField === user.name) || null;
+    if (title.trim() !== '' && name !== '') {
+      const customer = users.find((user) => name === user.name) || null;
 
       setTodosToRenter([
         {
           userId: customer ? customer.id : 0,
           id: todosToRender[todosToRender.length - 1].id + 1,
-          title: titleField.trim(),
+          title: title.trim(),
           completed: false,
           user: customer,
         },
@@ -76,10 +77,7 @@ const App: React.FC = () => {
         method="post"
         name="selectTodo"
         className="App__form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleAdd(title, name);
-        }}
+        onSubmit={handleAdd}
       >
         <label className="App__label">
           <input
@@ -90,7 +88,6 @@ const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              checkTitle(event.target.value);
             }}
           />
         </label>
@@ -103,7 +100,6 @@ const App: React.FC = () => {
           value={name}
           onChange={(event) => {
             setName(event.target.value);
-            checkName(event.target.value);
           }}
         >
           <option value="">
@@ -111,7 +107,10 @@ const App: React.FC = () => {
           </option>
           {
             users.map((user) => (
-              <option value={user.name}>
+              <option
+                value={user.name}
+                key={user.id}
+              >
                 {user.name}
               </option>
             ))
