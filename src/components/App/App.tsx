@@ -8,17 +8,17 @@ import { TodoList } from '../TodoList/TodoList';
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
-  const [errorMessageForTitle, setErrorMessageForTitle] = useState('');
-  const [errorMessageForUser, setErrorMessageForUser] = useState('');
   const [todos, setTodos] = useState(todosFromServer);
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserValid, setIsUserValid] = useState(true);
 
   const isFormValid = () => {
     if (!user) {
-      setErrorMessageForUser('Please choose a user!');
+      setIsUserValid(false);
     }
 
     if (!title.trim()) {
-      setErrorMessageForTitle('Please enter the title!');
+      setIsTitleValid(false);
     }
 
     if (!user || !title.trim()) {
@@ -48,11 +48,18 @@ const App: React.FC = () => {
     }
   };
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handlerForTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
 
     setTitle(value.replace(/[^\wА-Яа-яёЁ ]/, ''));
-    setErrorMessageForTitle('');
+    setIsTitleValid(true);
+  };
+
+  const handlerForUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setUser(value);
+    setIsUserValid(true);
   };
 
   const updatedTodos = todos.map(todo => ({
@@ -75,11 +82,11 @@ const App: React.FC = () => {
             placeholder="Enter a title"
             name="title"
             value={title}
-            onChange={onChange}
+            onChange={handlerForTitle}
           />
-          {errorMessageForTitle && (
+          {!isTitleValid && (
             <span className="form__span">
-              {errorMessageForTitle}
+              Please enter the title!
             </span>
           )}
         </label>
@@ -89,19 +96,19 @@ const App: React.FC = () => {
             className="form__select"
             name="user"
             value={user}
-            onChange={(event) => {
-              setUser(event.target.value);
-              setErrorMessageForUser('');
-            }}
+            onChange={handlerForUser}
           >
             <option value="">Choose a user</option>
             {users.map(({ id, name }) => (
               <option key={id} value={name}>{name}</option>
             ))}
           </select>
-          <span className="form__span">
-            {errorMessageForUser}
-          </span>
+          {!isUserValid && (
+            <span className="form__span">
+              Please choose a user!
+            </span>
+          )}
+
         </label>
 
         <button
