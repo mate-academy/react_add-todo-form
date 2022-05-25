@@ -27,14 +27,17 @@ export const TodoInfo: React.FC<Props> = ({ title, completed, user }) => (
       {completed ? 'DONE' : 'in progress...'}
     </div>
 
-    <div>
-      <span className="todo__title">
-        Assigned:
+    {user && (
+      <div>
+        <span className="todo__title">
+          Assigned:
+          {' '}
+        </span>
+        {user?.name}
         {' '}
-      </span>
-      {user?.name}
-      {' '}
-    </div>
+      </div>
+    )}
+
     <a href="mailto:{user.email}">e-mail</a>
   </div>
 );

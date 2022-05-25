@@ -32,8 +32,10 @@ const App: React.FC = () => {
     setTitleError(false);
   };
 
-  const addNewTodo = () => {
-    if (title === '') {
+  const addNewTodo = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
@@ -41,7 +43,7 @@ const App: React.FC = () => {
       setUserIdError(true);
     }
 
-    if (title !== '' && userId !== 0) {
+    if (title.trim() !== '' && userId !== 0) {
       const newTodo = {
         userId,
         id: preparedTodos.length + 1,
@@ -60,10 +62,7 @@ const App: React.FC = () => {
     <div className="App">
       <form
         className="App__form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addNewTodo();
-        }}
+        onSubmit={addNewTodo}
       >
         <input
           className="App__form--field"
