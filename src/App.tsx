@@ -14,16 +14,16 @@ const preparedTodos: Todo[] = todos.map((todo) => ({
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [name, setName] = useState('');
+  const [userId, setUserId] = useState(0);
   const [todosToRender, setTodosToRenter] = useState(preparedTodos);
-  const [errorName, setErrorName] = useState(false);
+  const [errorUserId, setErrorUserId] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
-  const checkName = (nameField: string) => {
-    if (nameField === '') {
-      setErrorName(true);
+  const checkUserId = (userIdField: number) => {
+    if (userIdField === 0) {
+      setErrorUserId(true);
     } else {
-      setErrorName(false);
+      setErrorUserId(false);
     }
   };
 
@@ -42,15 +42,15 @@ const App: React.FC = () => {
 
   const handleAdd = (event: SyntheticEvent) => {
     event.preventDefault();
-    checkName(name);
+    checkUserId(userId);
     checkTitle(title);
 
     if (title === '') {
       setErrorTitle(true);
     }
 
-    if (title.trim() !== '' && name !== '') {
-      const customer = users.find((user) => name === user.name) || null;
+    if (title.trim() !== '' && userId !== 0) {
+      const customer = users.find((user) => userId === user.id) || null;
 
       setTodosToRenter([
         {
@@ -64,7 +64,7 @@ const App: React.FC = () => {
       ]);
 
       setTitle('');
-      setName('');
+      setUserId(0);
     }
   };
 
@@ -97,18 +97,18 @@ const App: React.FC = () => {
         <select
           className="App__input App__input--select"
           name="name"
-          value={name}
+          value={userId}
           onChange={(event) => {
-            setName(event.target.value);
+            setUserId(Number(event.target.value));
           }}
         >
-          <option value="">
+          <option value="0">
             Choose a user
           </option>
           {
             users.map((user) => (
               <option
-                value={user.name}
+                value={user.id}
                 key={user.id}
               >
                 {user.name}
@@ -118,7 +118,7 @@ const App: React.FC = () => {
         </select>
 
         <p className="App__error">
-          {errorName && ('Please choose a user')}
+          {errorUserId && ('Please choose a user')}
         </p>
 
         <button
