@@ -1,0 +1,36 @@
+.userInfo {
+  padding-bottom: 20px;
+
+  &__title {
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+  &__text {
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  &__mail {
+    margin-bottom: 15px;
+  }
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-decoration: none;
+    color: orange;
+
+    height: 50px;
+    width: 120px;
+
+    background-color: rgb(25, 219, 93);
+    border-radius: 10px;
+
+    &:hover {
+      background-color: rgb(8, 146, 56);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.todo-info {
+  padding-top: 15px;
+
+  &__item {
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__status {
+    display: inline;
+  }
+}

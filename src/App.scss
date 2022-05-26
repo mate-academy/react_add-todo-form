@@ -1,0 +1,49 @@
+.App {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  background-color: beige;
+
+  &__main-title {
+    margin-top: 35px;
+    padding: 0;
+  }
+
+  &__status {
+    border: 1px solid red;
+  }
+
+  &__label {
+    padding: 15px;
+  }
+
+  &__error {
+    height: 30px;
+    font-style: italic;
+    font-size: 15px;
+    color: red;
+    margin: 10px 0;
+  }
+
+  &__input {
+    height: 25px;
+    margin-bottom: 5px;
+  }
+
+  &__button {
+    height: 60px;
+    width: 260px;
+    border-radius: 10px;
+    background-color: rgb(209, 219, 150);
+    color: rgb(34, 191, 70);
+    font-weight: bold;
+    font-size: 30px;
+    transition: transform 0.3s;
+
+    &:hover {
+      background-color: rgb(174, 189, 91);
+      transform: scale(1.2);
+    }
+  }
+}
