@@ -14,6 +14,15 @@ export const TodoInfo: React.FC<Props> = ({ title, status, user }) => (
     <p className={classNames('Todo__status', { Todo__active: status })}>
       {status ? 'completed' : 'not completed'}
     </p>
+
+    {status && (
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/5930/5930432.png"
+        width="20px"
+        alt="icon completed"
+      />
+    )}
+
     {user && <UserInfo user={user} />}
   </>
 );

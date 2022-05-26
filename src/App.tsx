@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import './App.scss';
 import { Todos } from './types/Todos';
-// import { TodoList } from './components/TodoList/TodoList';
+
 import { TodoInfo } from './components/TodoInfo/TodoInfo';
 
 import users from './api/users';
@@ -57,12 +57,14 @@ const App: React.FC = () => {
     }
   };
 
-  const newArr = (arrTodo: Omit<Todos, 'user'>[]) => arrTodo.map((oneTodo) => ({
+  const selectedTodo = (
+    arrTodo: Omit<Todos, 'user'>[],
+  ) => arrTodo.map((oneTodo) => ({
     ...oneTodo,
     user: users.find((oneUser) => oneUser.id === oneTodo.userId),
   }));
 
-  const preparedTodos: Todos[] = useMemo(() => newArr(todo), [todo]);
+  const preparedTodos: Todos[] = useMemo(() => selectedTodo(todo), [todo]);
 
   return (
     <div className="App">
