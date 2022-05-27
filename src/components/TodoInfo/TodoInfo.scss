@@ -1,0 +1,13 @@
+.todos {
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  &__title,
+  &__status {
+    text-align: center;
+    font-size: 20px;
+  }
+}
