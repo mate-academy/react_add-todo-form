@@ -1,0 +1,44 @@
+.todo-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+
+  &__items {
+    border: 1px solid #000;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    width: 25%;
+    font-size: 20px;
+    line-height: 32px;
+    font-family: Arial, sans-serif;
+    //display: inline-block;
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.isCompleted {
+  color: green;
+}
+
+.notCompleted {
+  color: red;
+}
+
+.alert {
+  color: red;
+  font-size: 20px;
+  margin: 0;
+}
+
+.ul_reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
