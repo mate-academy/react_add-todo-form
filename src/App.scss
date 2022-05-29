@@ -1,0 +1,111 @@
+iframe {
+  pointer-events: none;
+}
+
+* {
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.todoList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.todoItem {
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.4s;
+  &:hover {
+    background: rgba(0, 0, 0, 0.08);
+  }
+}
+
+.todoInfo {
+  &__title {
+    margin: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  &__status {
+    color: green;
+    font-size: 14px;
+    &_not-completed {
+      color: red;
+    }
+  }
+}
+
+.userInfo {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 20px;
+  &__title {
+    margin: 0;
+    margin-bottom: 14px;
+    font-size: 16px;
+  }
+  &__content {
+    display: grid;
+    gap: 10px 0;
+  }
+  &__item {
+    font-size: 14px;
+  }
+}
+
+.addTodo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px ;
+  &__item {
+    width: 300px;
+    position: relative;
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+    input,
+    select {
+      width: 100%;
+      display: block;
+      font-size: 16px;
+      border: 1px solid #000;
+      border-radius: 8px;
+      padding: 14px 20px;
+    }
+
+    .error {
+      position: absolute;
+      bottom: -22px;
+      left: 6px;
+      font-size: 14px;
+      color: red;
+      opacity: 0;
+      &_show {
+        opacity: 1;
+      }
+    }
+  }
+  &__btn {
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 14px 20px;
+    width: 300px;
+    display: block;
+    cursor: pointer;
+  }
+}
