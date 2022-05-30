@@ -1,0 +1,17 @@
+a,
+p,
+span {
+  margin: 0;
+}
+
+.UserInfo {
+  display: flex;
+  flex-direction: column;
+
+  &__name,
+  &__email {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+  }
+}

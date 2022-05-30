@@ -1,0 +1,109 @@
+.App {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 100px 60px;
+
+  @media (max-width: 768px) {
+    padding: 100px 30px;
+  }
+
+  &__title {
+    color: #17252a;
+    font-size: 36px;
+    width: 100%;
+    background-color: #3aafa9;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 16px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    gap: 20px;
+    padding-right: 20px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+
+  &__title-block {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  &__title-input {
+    width: 280px;
+
+    @media (max-width: 768px) {
+      width: 60%;
+    }
+  }
+
+  &__select {
+    height: 40px;
+    cursor: pointer;
+  }
+
+  &__button {
+    width: 260px;
+    height: 40px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 16px;
+    background-color: #2b7a78;
+    color: #fff;
+    border: transparent;
+
+    &:hover {
+      background-color: #fff;
+      color: #2b7a78;
+      border: 1px solid #2b7a78;
+    }
+
+    @media (max-width: 768px) {
+      width: 220px;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 40px;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 6px;
+
+    &--user {
+      top: 0;
+    }
+
+    &--title {
+      top: 60px;
+    }
+  }
+}
