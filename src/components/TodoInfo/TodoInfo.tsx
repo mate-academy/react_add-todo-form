@@ -11,33 +11,35 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ title, completed, user }) => (
   <div className="todo">
-    <div>
-      <span className="todo__title">
-        Title:
-        {' '}
-      </span>
-      {title}
-    </div>
+    { user && (
+      <>
+        <div>
+          <span className="todo__title">
+            {'Title: '}
+          </span>
 
-    <div>
-      <span className="todo__title">
-        Status:
-        {' '}
-      </span>
-      {completed ? 'DONE' : 'in progress...'}
-    </div>
+          {title}
+        </div>
 
-    {user && (
-      <div>
-        <span className="todo__title">
-          Assigned:
+        <div>
+          <span className="todo__title">
+            {'Status: '}
+          </span>
+
+          {completed ? 'DONE' : 'in progress...'}
+        </div>
+
+        <div>
+          <span className="todo__title">
+            {'Assigned: '}
+          </span>
+
+          { user.name}
           {' '}
-        </span>
-        {user?.name}
-        {' '}
-      </div>
-    )}
+        </div>
 
-    <a href="mailto:{user.email}">e-mail</a>
+        <a href="mailto:{user.email}">e-mail</a>
+      </>
+    )}
   </div>
 );
