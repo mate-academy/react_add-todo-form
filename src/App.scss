@@ -1,0 +1,72 @@
+body {
+  display: flex;
+  justify-content: center;
+
+  background: #fff700;
+  font-family: Roboto, sans-serif;
+}
+
+.App {
+  margin-top: 50px;
+
+  &__main-title {
+    text-align: center;
+    margin-bottom: 45px;
+    text-transform: uppercase;
+  }
+
+  &__user-selector {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 12px 300px;
+    font-size: 20px;
+    background-color: #fff;
+    font-weight: 700;
+  }
+  .options-item {
+    background-color: #fff;
+  }
+
+  &__todo-input {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: calc(100% - 60px);
+    padding: 10px 30px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      background-color: rgba(255, 255, 255, 1);
+
+      &::placeholder {
+        color: black;
+      }
+    }
+  }
+
+  &__add-todo {
+    width: 100%;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.55);
+
+    &:hover {
+      background-color: #fff;
+      color: rgba(0, 0, 0, 1);
+      cursor: pointer;
+    }
+  }
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  color: red;
+  height: 30px;
+}
