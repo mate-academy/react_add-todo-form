@@ -1,0 +1,23 @@
+.todo {
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #8f8d8d;
+  width: 300px;
+  margin: 10px;
+}
+
+.todo.completed {
+  background-color: rgb(174, 238, 177);
+}
+
+.todo__image {
+  height: 30px;
+  object-fit: fill;
+}
+
+.todo__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
