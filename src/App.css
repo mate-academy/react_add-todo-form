@@ -5,7 +5,6 @@
 body {
   background-color: #cbcbcb;
   font-family: sans-serif;
-
 }
 
 .App {
@@ -57,7 +56,7 @@ body {
   border-radius: 5px;
 }
 
-.valid-input {
+.valid_input {
   position: absolute;
   font-size: 12px;
   text-align: start;
@@ -65,7 +64,7 @@ body {
   margin: 2px 0 0;
 }
 
-.invalid-Input {
+.invalid_Input {
   border-color: red;
   color: red;
 }

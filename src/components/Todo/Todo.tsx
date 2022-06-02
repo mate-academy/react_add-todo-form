@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Todos } from '../../types/Todos';
 import { Users } from '../../types/Users';
 import UserInfo from '../UserInfo/UserInfo';
@@ -13,7 +14,14 @@ type Props = {
 const Todo: React.FC<Props> = ({ todo, user }) => {
   return (
     <>
-      <div className={`todo ${todo.completed ? 'completed' : ''}`}>
+      <div
+        className={classNames(
+          'todo',
+          {
+            completed: todo.completed,
+          },
+        )}
+      >
         <h3>{todo.title}</h3>
         <div className="todo__container">
           <p>{todo.completed ? 'Completed' : 'Not completed'}</p>

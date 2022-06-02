@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
+import classNames from 'classnames';
 import TodoList from './components/TodoList/TodoList';
 import users from './api/users';
 import todos from './api/todos';
 
 const App: React.FC = () => {
-  const [isTitle, setIsTitle] = useState(true);
-  const [isUser, setIsUser] = useState(true);
+  const [isTitleFilled, setIsTitleFilled] = useState(true);
+  const [isUserSelected, setIsUserSelected] = useState(true);
   const [listOfTodos, setListOfTodos] = useState(todos);
   const [todo, setTodo] = useState({
     id: 0,
@@ -19,13 +20,13 @@ const App: React.FC = () => {
     e.preventDefault();
 
     if (!todo.title.trim()) {
-      setIsTitle(false);
+      setIsTitleFilled(false);
 
       return;
     }
 
     if (!todo.userId) {
-      setIsUser(false);
+      setIsUserSelected(false);
 
       return;
     }
@@ -61,8 +62,8 @@ const App: React.FC = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
 
-    setIsTitle(true);
-    setIsUser(true);
+    setIsTitleFilled(true);
+    setIsUserSelected(true);
   }
 
   return (
@@ -73,7 +74,12 @@ const App: React.FC = () => {
           <form className="form">
             <div className="form__container">
               <input
-                className={`form__input ${!isTitle && 'invalid-Input'}`}
+                className={classNames(
+                  'form__input',
+                  {
+                    invalid_Input: !isTitleFilled,
+                  },
+                )}
                 type="text"
                 id="title"
                 name="title"
@@ -81,18 +87,28 @@ const App: React.FC = () => {
                 onChange={handleChange}
               />
               <label
-                className={`form__inputTitle ${todo.title !== '' ? 'notEmpty' : ''}`}
+                className={classNames(
+                  'form__inputTitle',
+                  {
+                    notEmpty: todo.title,
+                  },
+                )}
                 htmlFor="title"
               >
                 Title
               </label>
-              {!isTitle && <p className="valid-input">Enter the title</p>}
+              {!isTitleFilled && <p className="valid_input">Enter the title</p>}
             </div>
             <div>
               <select
                 onChange={handleChange}
                 value={todo.userId}
-                className={`form__selectUser ${!isUser && 'invalid-Input'}`}
+                className={classNames(
+                  'form__selectUser',
+                  {
+                    invalid_Input: !isUserSelected,
+                  },
+                )}
                 name="userId"
               >
                 <option value="">Select user</option>
@@ -100,7 +116,7 @@ const App: React.FC = () => {
                   <option key={user.id} value={user.id}>{user.name}</option>
                 ))}
               </select>
-              {!isUser && <p className="valid-input">Select user</p>}
+              {!isUserSelected && <p className="valid-input">Select user</p>}
             </div>
             <div className="form__inputComplete">
               <label>
@@ -109,6 +125,7 @@ const App: React.FC = () => {
                   onChange={handleChange}
                   type="checkbox"
                   name="completed"
+                  checked={todo.completed}
                 />
               </label>
             </div>
