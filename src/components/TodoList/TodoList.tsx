@@ -1,11 +1,11 @@
 import React from 'react';
 import users from '../../api/users';
-import { Todos } from '../../types/Todos';
-import Todo from '../Todo/Todo';
+import { Todo } from '../../types/Todo';
+import TodoItem from '../TodoItem/TodoItem';
 import './TodoList.css';
 
 type Props = {
-  todos: Todos[];
+  todos: Todo[];
 };
 
 const TodoList: React.FC<Props> = ({ todos }) => {
@@ -13,7 +13,7 @@ const TodoList: React.FC<Props> = ({ todos }) => {
     <ul className="list">
       {todos.map(todo => (
         <li className="item" key={todo.id}>
-          <Todo
+          <TodoItem
             todo={todo}
             user={users.find(user => user.id === todo.userId) || null}
           />

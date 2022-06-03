@@ -1,17 +1,17 @@
 import classNames from 'classnames';
-import { Todos } from '../../types/Todos';
+import { Todo } from '../../types/Todo';
 import { Users } from '../../types/Users';
 import UserInfo from '../UserInfo/UserInfo';
-import './Todo.css';
+import './TodoItem.css';
 import complete from '../../images/complete.svg';
 import not_complete from '../../images/not_complete.png';
 
 type Props = {
-  todo: Todos;
+  todo: Todo;
   user: Users | null;
 };
 
-const Todo: React.FC<Props> = ({ todo, user }) => {
+const TodoItem: React.FC<Props> = ({ todo, user }) => {
   return (
     <>
       <div
@@ -37,4 +37,4 @@ const Todo: React.FC<Props> = ({ todo, user }) => {
   );
 };
 
-export default Todo;
+export default TodoItem;
