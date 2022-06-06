@@ -2,6 +2,19 @@ import React from 'react';
 import './App.css';
 
 import users from './api/users';
+import todos from './api/todos';
+
+import { User, Todo, PreparedTodo } from './react-app-env';
+import { TodoList } from './components/TodoList';
+
+const getPreparedTodos = (user: User[], todosInp: Todo[]): PreparedTodo[] => {
+  return todosInp.map((todo: Todo) => ({
+    ...todo,
+    user: user.find((person: User) => (person.id === todo.userId)) || null,
+  }));
+};
+
+const preparedTodos: PreparedTodo[] = getPreparedTodos(users, todos);
 
 const App: React.FC = () => {
   return (
@@ -10,7 +23,7 @@ const App: React.FC = () => {
 
       <p>
         <span>Users: </span>
-        {users.length}
+        <TodoList prepTodos={preparedTodos} />
       </p>
     </div>
   );

@@ -1,3 +1,19 @@
+body {
+  margin: 10px;
+}
+
 .App {
   text-align: center;
+}
+
+.list-group-item {
+  margin-bottom: 5px;
+}
+
+.task-status {
+  color: red;
+}
+
+.task-status--comp {
+  color: rgb(60, 167, 60);
 }
