@@ -1,6 +1,6 @@
 import React from 'react';
 import { PreparedTodo } from '../../react-app-env';
-import { UserInfo } from '../UserInfo/UserInfo';
+import { UserInfo } from '../UserInfo';
 
 interface Props {
   todo: PreparedTodo;
