@@ -15,11 +15,24 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [choseUser, setChoseUser] = useState('');
   const [completed, setCompleted] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const clear = () => {
     setTitle('');
     setCompleted(false);
     setChoseUser('');
+  };
+
+  const addTodo = () => {
+    if (Number(choseUser) > 0 && Number(choseUser) < 11) {
+      setTodosCopy([...todosCopy, {
+        userId: Number(choseUser), id: todosCopy.length + 1, title: title, completed: completed,
+      }]);
+      clear();
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
   };
 
   const todosPrepared = [...todosCopy].map(todo => ({
@@ -30,34 +43,36 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1 className="App__title">Add todo form</h1>
+      {visible && (
+        <strong className="App__eror">Chose correct User</strong>
+      )}
 
       <form
         className="App__form"
         onSubmit={(event) => {
           event.preventDefault();
-          setTodosCopy([...todosCopy, {
-            userId: Number(choseUser), id: todosCopy.length + 1, title: title, completed: completed,
-          }]);
-          clear();
+          addTodo();
         }}
       >
         <div className="App__inputBox">
-          <select
-            className="select is-primary"
-            required
-            value={choseUser}
-            onChange={(event) => {
-              setChoseUser(event.target.value);
-            }}
-          >
-            <option>Choose User</option>
+          <div>
+            <select
+              className="select is-primary"
+              required
+              value={choseUser}
+              onChange={(event) => {
+                setChoseUser(event.target.value);
+              }}
+            >
+              <option>Choose User</option>
 
-            {users.map((user:User) => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+              {users.map((user:User) => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="App__input">
             <label htmlFor="title">Title</label>
