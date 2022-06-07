@@ -1,0 +1,10 @@
+.list {
+  display: flex;
+  list-style: none;
+
+  &__item {
+    margin: 10px;
+    background-color: wheat;
+    border: 1px solid black;
+  }
+}
