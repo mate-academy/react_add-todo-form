@@ -1,0 +1,13 @@
+.todoBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100vw;
+
+  &__todo {
+    border: 1px solid black;
+    padding: 20px;
+    width: 30%;
+  }
+}
