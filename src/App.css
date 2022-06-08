@@ -1,3 +1,48 @@
-.App {
-  text-align: center;
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.container__list {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+.list__item {
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 15px;
+}
+
+.list__item-username {
+  font-size: 25px;
+  margin: 0 0 10px;
+}
+
+.list__item-email {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+.list__item-title {
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+
+.list__item-completed {
+  font-size: 18px;
+  margin: 0 0 10px;
 }
