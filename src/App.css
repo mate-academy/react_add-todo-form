@@ -1,3 +1,18 @@
+body {
+  margin: 0;
+}
+
 .App {
+  height: 100vh;
   text-align: center;
+  background: linear-gradient(70deg, pink, beige);
+}
+
+.main-title {
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+.error {
+  color: red;
 }
