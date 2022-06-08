@@ -11,6 +11,8 @@ const App: React.FC = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newCompleted, setNewCompleted] = useState(false);
   const [newTodo, setNewTodo] = useState(todosFromServer);
+  const [isUserSet, setIsUserSet] = useState(true);
+  const [isTitleSet, setIsTitleSet] = useState(true);
 
   const preparedTodos = (
     todos: Todo[],
@@ -27,59 +29,95 @@ const App: React.FC = () => {
     usersFromServer,
   );
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!newUser && !newTitle) {
+      setIsUserSet(false);
+      setIsTitleSet(false);
+
+      return;
+    }
+
+    if (!newUser) {
+      setIsUserSet(false);
+
+      return;
+    }
+
+    if (!newTitle) {
+      setIsTitleSet(false);
+
+      return;
+    }
+
+    setNewTodo([...newTodo, {
+      userId: +newUser,
+      id: newTodo.length + 1,
+      title: newTitle,
+      completed: newCompleted,
+    }]);
+
+    setNewTitle('');
+    setNewCompleted(false);
+    setNewUser('');
+  };
+
   return (
     <div className="App">
-      <form onSubmit={(event) => {
-        event.preventDefault();
-
-        setNewTodo([...newTodo, {
-          userId: +newUser,
-          id: newTodo.length + 1,
-          title: newTitle,
-          completed: newCompleted,
-        }]);
-
-        setNewTitle('');
-        setNewCompleted(false);
-        setNewUser('');
-      }}
-      >
-        <label
-          className="level level-left m-2"
-          htmlFor="titleInput"
-        >
-          Title of Todo:
-        </label>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="titleInput" className="mt-2">Title: </label>
         <input
           type="text"
           id="titleInput"
-          className="input is-link level level-left column is-2 ml-1"
-          required
+          className="input is-link level level-left column is-2 mb-1"
           value={newTitle}
-          onChange={(event) => setNewTitle(event.target.value)}
+          onChange={(event) => {
+            setIsTitleSet(true);
+            setNewTitle(event.target.value);
+          }}
         />
+        {!isTitleSet && (
+          <div className="label has-text-link">Please enter title!</div>
+        )}
 
         <select
           name="user"
           id="selectUser"
-          className="select is-link level level-left ml-1"
-          required
+          className="select is-link level mb-1"
           value={newUser}
-          onChange={(event) => setNewUser(event.target.value)}
+          onChange={(event) => {
+            setIsUserSet(true);
+            setNewUser(event.target.value);
+          }}
         >
-          <option value="" disabled selected>Choose user</option>
+          <option
+            value=""
+            disabled
+            selected
+          >
+            Choose user
+          </option>
           {usersFromServer.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>
           ))}
         </select>
+        {!isUserSet && (
+          <label
+            htmlFor="selectUser"
+            className="label has-text-link"
+          >
+            Please choose user!
+          </label>
+        )}
 
-        <label htmlFor="completed" className="checkbox level level-left ml-2">
+        <label htmlFor="completed">
           <input
             type="checkbox"
             name="newCompleted"
-            className="level level-left ml-2"
+            className="checkbox mt-2 mb-3 mr-1"
             id="completed"
             checked={newCompleted}
             onChange={() => setNewCompleted(!newCompleted)}
@@ -89,7 +127,7 @@ const App: React.FC = () => {
 
         <button
           type="submit"
-          className="button is-link level level-left ml-3"
+          className="button is-link level level-left"
         >
           Add
         </button>
