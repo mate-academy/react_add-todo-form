@@ -11,31 +11,36 @@ import { TodoList } from './component/TodoList/TodoList';
 import { User } from './react-app-env';
 
 const App: React.FC = () => {
-  const [todosCopy, setTodosCopy] = useState([...todos]);
+  const [todosFromServer, settodosFromServer] = useState([...todos]);
   const [title, setTitle] = useState('');
-  const [choseUser, setChoseUser] = useState('');
+  const [choseUser, setChoseUser] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const clear = () => {
     setTitle('');
     setCompleted(false);
-    setChoseUser('');
+    setChoseUser(0);
+    setVisible(false);
   };
 
-  const addTodo = () => {
-    if (Number(choseUser) > 0 && Number(choseUser) < 11) {
-      setTodosCopy([...todosCopy, {
-        userId: Number(choseUser), id: todosCopy.length + 1, title: title, completed: completed,
-      }]);
+  const newTodo = () => (
+    [...todosFromServer, {
+      userId: choseUser, id: todosFromServer.length + 1, title: title, completed: completed,
+    }]
+  );
+
+  const addTodo = (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (choseUser > 0 && choseUser < 11) {
+      settodosFromServer(newTodo);
       clear();
-      setVisible(false);
     } else {
       setVisible(true);
     }
   };
 
-  const todosPrepared = [...todosCopy].map(todo => ({
+  const todosPrepared = [...todosFromServer].map(todo => ({
     ...todo,
     user: [...users].find(user => user.id === todo.userId) || null,
   }));
@@ -49,10 +54,7 @@ const App: React.FC = () => {
 
       <form
         className="App__form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo();
-        }}
+        onSubmit={(event) => addTodo(event)}
       >
         <div className="App__inputBox">
           <div>
@@ -61,10 +63,10 @@ const App: React.FC = () => {
               required
               value={choseUser}
               onChange={(event) => {
-                setChoseUser(event.target.value);
+                setChoseUser(+event.target.value);
               }}
             >
-              <option>Choose User</option>
+              <option disabled value={0}>Choose User</option>
 
               {users.map((user:User) => (
                 <option value={user.id} key={user.id}>
