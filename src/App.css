@@ -1,10 +1,16 @@
-.container {
+.todos {
   display: flex;
   justify-content: center;
+  width: 50%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
 }
 
 .container__list {
-  width: 300px;
+  width: 230px;
   margin: 0 auto;
 }
 
@@ -24,25 +30,54 @@
   align-items: center;
   flex-direction: column;
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 10px;
 }
 
 .list__item-username {
-  font-size: 25px;
-  margin: 0 0 10px;
+  font-size: 16px;
+  margin: 0 0 5px;
 }
 
 .list__item-email {
-  font-size: 20px;
-  margin: 0 0 10px;
+  font-size: 16px;
+  margin: 0 0 5px;
 }
 
 .list__item-title {
-  font-size: 18px;
-  margin: 0 0 10px;
+  font-size: 14px;
+  margin: 0 0 5px;
+  font-weight: 400;
 }
 
 .list__item-completed {
-  font-size: 18px;
-  margin: 0 0 10px;
+  font-size: 14px;
+  margin: 0 0 5px;
+}
+
+.app {
+  width: 50%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.form__input {
+  margin-bottom: 10px;
+}
+
+.form__input-the-input {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form__input-error {
+  margin-bottom: 10px;
+  color: red;
+}
+
+.select-the-user {
+  margin-bottom: 10px;
 }
