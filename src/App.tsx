@@ -23,20 +23,21 @@ const App: React.FC = () => {
   const [preparedUsers, setPreparedUsers] = useState(preparedTodos);
   const [inputedTitle, setInputedTitle] = useState('');
   const [createdId, setCreatedId] = useState(0);
-  const [chosenUserId, setChosenUserId] = useState(5);
+  const [chosenUserId, setChosenUserId] = useState(0);
 
   const addUser = () => {
-    console.log('user added');
-    setCreatedId(preparedUsers.length + 1);
-    const createdUser = {
-      title: inputedTitle,
-      id: createdId,
-      user: usersFrom.find(user => user.id === chosenUserId),
-      userId: chosenUserId,
-      completed: false,
-    };
+    if (inputedTitle && chosenUserId !== 0) {
+      setCreatedId(preparedUsers.length + 1);
+      const createdUser = {
+        title: inputedTitle,
+        id: createdId,
+        user: usersFrom.find(user => user.id === chosenUserId),
+        userId: chosenUserId,
+        completed: false,
+      };
 
-    setPreparedUsers([...preparedUsers, createdUser]);
+      setPreparedUsers([...preparedUsers, createdUser]);
+    }
   };
 
   return (
@@ -63,6 +64,11 @@ const App: React.FC = () => {
                 setChosenUserId(+event.target.value);
               }}
             >
+              <option
+                value={0}
+              >
+                Choose the user
+              </option>
               {usersFrom.map(user => (
                 <option value={user.id}>
                   {user.name}
