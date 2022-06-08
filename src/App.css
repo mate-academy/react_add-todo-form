@@ -1,3 +1,42 @@
 .App {
   text-align: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 228px;
+  height: 40px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 50px;
+  width: 600px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+
+  width: 130px;
+  height: 150px;
+  border: 1px solid rgb(171, 120, 243);
+  border-radius: 10px;
+}
