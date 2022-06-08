@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
   const addUser = () => {
     console.log('user added');
-    setCreatedId(prepareTodos.length + 1);
+    setCreatedId(preparedUsers.length + 1);
     const createdUser = {
       title: inputedTitle,
       id: createdId,
@@ -36,7 +36,7 @@ const App: React.FC = () => {
       completed: false,
     };
 
-    setPreparedUsers([...preparedTodos, createdUser]);
+    setPreparedUsers([...preparedUsers, createdUser]);
   };
 
   return (
