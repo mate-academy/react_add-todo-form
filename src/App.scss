@@ -1,0 +1,36 @@
+body {
+  background-color: rgb(178, 255, 229);
+}
+
+.mainTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  transition: 0.3s;
+}
+
+.box--hover:hover {
+  transform: translateY(-20px);
+}
+
+.error {
+  color: rgb(255, 81, 81);
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.select {
+  margin: 0 0 20px 10px;
+}
+
+.checkbox {
+  margin: 0 0 20px 10px;
+}
+
+.button {
+  margin: 0 0 20px 10px;
+}
