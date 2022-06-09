@@ -3,6 +3,7 @@ import './App.css';
 import { PrepArray } from './react-app-env';
 import users from './api/users';
 import todos from './api/todos';
+import { TodoList } from './components';
 
 const preparedtodos:PrepArray[] = todos.map(todo => ({
   ...todo,
@@ -53,8 +54,10 @@ const App: React.FC = () => {
           value={newtitle}
           placeholder="add new title"
           onChange={(event) => {
-            setNewTitle(event.target.value);
-            setIsTitleadded(false);
+            if ((/\w+|\d+/).test(event.target.value)) {
+              setNewTitle(event.target.value);
+              setIsTitleadded(false);
+            }
           }}
         />
         {isTitleadded && (
@@ -115,27 +118,7 @@ const App: React.FC = () => {
           Add
         </button>
       </form>
-      {todosCurrent.map(item => (
-        <div className="App__box" key={item.id}>
-          <p className="">
-            <span className="App__span">Name: </span>
-            {item.user?.name}
-          </p>
-          <p className="">
-            <span className="App__span">Title: </span>
-            {item.title}
-          </p>
-          <p className="">
-            <span className="App__span">Id: </span>
-            {item.id}
-          </p>
-          <p className="">
-            <span className="App__span">Compleated: </span>
-            {`${item.completed}`}
-          </p>
-        </div>
-      ))}
-
+      <TodoList todosCurrent={todosCurrent} />
     </div>
   );
 };
