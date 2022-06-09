@@ -22,10 +22,10 @@ export const preparedTodos = prepareTodos(usersFrom, todosFrom);
 const App: React.FC = () => {
   const [preparedUsers, setPreparedUsers] = useState(preparedTodos);
   const [inputedTitle, setInputedTitle] = useState('');
-  const [createdId, setCreatedId] = useState(0);
   const [chosenUserId, setChosenUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
   const [selectError, setSelectError] = useState('');
+  const [checkTheUserAdded, setChechTheUserAdded] = useState(0);
 
   const addUser = () => {
     if (!inputedTitle) {
@@ -35,10 +35,9 @@ const App: React.FC = () => {
     if (chosenUserId === 0) {
       setSelectError('Please choose a user');
     } else {
-      setCreatedId(preparedUsers.length + 1);
       const createdUser = {
         title: inputedTitle,
-        id: createdId,
+        id: preparedUsers.length + 1,
         user: usersFrom.find(user => user.id === chosenUserId),
         userId: chosenUserId,
         completed: false,
@@ -46,8 +45,14 @@ const App: React.FC = () => {
 
       setPreparedUsers([...preparedUsers, createdUser]);
       setInputedTitle('');
+      setChechTheUserAdded(1);
     }
   };
+
+  if (checkTheUserAdded === 1) {
+    setChosenUserId(0);
+    setChechTheUserAdded(0);
+  }
 
   const checkTheInput = (input: string | number) => {
     if (typeof (input) === 'string') {
@@ -81,7 +86,7 @@ const App: React.FC = () => {
             <span className="form__input-error">{titleError}</span>
 
             <select
-              name="users"
+              name="todos"
               className="select-the-user"
               defaultValue={chosenUserId}
               onChange={(event) => {
@@ -105,9 +110,7 @@ const App: React.FC = () => {
             <button
               type="button"
               className="btn"
-              onClick={() => {
-                addUser();
-              }}
+              onClick={addUser}
             >
               Add
             </button>
