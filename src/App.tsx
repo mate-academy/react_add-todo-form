@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import classnames from 'classnames';
 
 import './App.css';
 import { Color, Good, GoodWithoutColor } from './react-app-env';
 import { GoodsList } from './components/GoodsList';
+import {GoodsForm} from "./components/GoodsForm";
 
 const colors: Color[] = [
   { id: 1, name: 'red' },
@@ -36,89 +36,58 @@ const goodsWithColor: Good[] = goodsFromServer.map(good => ({
 const App: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([...goodsWithColor]);
 
-  const [newGoodName, setNewGoodName] = useState('');
-  const [hasNameError, setHasNameError] = useState(false);
-
-  const [selectColorId, setSelectColorId] = useState(0);
-  const [hasColorIdError, setHasColorIdError] = useState(false);
-
   const addGood = (name: string, colorId: number) => {
     const newGood = {
       id: Date.now(),
       name,
       colorId,
-      color: getColorById(selectColorId),
+      color: getColorById(colorId),
     };
 
     setGoods((currentGoods) => [...currentGoods, newGood]);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const deleteGood = (goodId: number) => {
+    setGoods((currentGoods) => (
+      currentGoods.filter(good => good.id !== goodId)
+    ))
+  }
 
-    setHasNameError(!newGoodName);
-    setHasColorIdError(!selectColorId);
+  const updateGood = (
+    goodId: number,
+    name: string,
+    colorId: number,
+  ) => {
+    const goodsCopy = goods.map(good => {
+      if (good.id === goodId) {
+        return {
+          ...good,
+          name,
+          colorId,
+          color: getColorById(colorId),
+        }
+      }
 
-    if (newGoodName && selectColorId) {
-      addGood(newGoodName, selectColorId);
-      setNewGoodName('');
-      setSelectColorId(0);
-    }
-  };
+      return good;
+    });
+
+    setGoods(goodsCopy);
+  }
 
   return (
     <div className="App">
       <h1>Form</h1>
-      <GoodsList goods={goods} />
+      <GoodsList
+        goods={goods}
+        colors={colors}
+        deleteGood={deleteGood}
+        updateGood={updateGood}
+      />
 
-      <form
-        onSubmit={handleSubmit}
-      >
-        <input
-          className={classnames({ error: hasNameError })}
-          type="text"
-          value={newGoodName}
-          placeholder="test"
-          onChange={(event) => {
-            setNewGoodName(event.target.value);
-            setHasNameError(false);
-          }}
-        />
-
-        {hasNameError && (
-          <span>Name is empty</span>
-        )}
-
-        <select
-          className={classnames({ error: hasColorIdError })}
-          value={selectColorId}
-          onChange={(event) => {
-            setSelectColorId(+event.target.value);
-            setHasColorIdError(false);
-          }}
-        >
-          <option value="0" disabled>Choose a color</option>
-
-          {colors.map(color => (
-            <option
-              key={color.id}
-              value={color.id}
-            >
-              {color.name}
-            </option>
-          ))}
-        </select>
-
-        {hasColorIdError && (
-          <span>Color is empty</span>
-        )}
-
-        <button
-          type="submit"
-        >
-          Add
-        </button>
-      </form>
+      <GoodsForm
+        colors={colors}
+        addGood={addGood}
+      />
     </div>
   );
 };
