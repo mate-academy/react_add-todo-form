@@ -27,8 +27,6 @@ const App: React.FC = () => {
   const rewrite = (newTodo: TodoType) => {
     setTodosArr(currentTodo => [...currentTodo, newTodo]);
 
-    setErrorInput('');
-    setErrorSelect('');
     setQuery('');
     setSelectNameId(0);
     setCompleted(false);
@@ -77,9 +75,10 @@ const App: React.FC = () => {
             type="text"
             placeholder="Please, write title here"
             value={query}
-            onChange={(event) => (
-              setQuery(event.target.value)
-            )}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setErrorInput('');
+            }}
           />
 
         </div>
@@ -90,9 +89,10 @@ const App: React.FC = () => {
           <select
             className="select is-success is-rounded"
             value={selectNameId}
-            onChange={(event) => (
-              setSelectNameId(+event.target.value)
-            )}
+            onChange={(event) => {
+              setSelectNameId(+event.target.value);
+              setErrorSelect('');
+            }}
           >
 
             <option value="0" disabled>Choose a user</option>
