@@ -17,7 +17,6 @@ const App: React.FC = () => {
   const [isUserChoosed, setIsUserChoosed] = useState(false);
   const [isTitleadded, setIsTitleadded] = useState(false);
 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
