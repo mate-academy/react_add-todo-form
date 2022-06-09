@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import './App.scss';
+import classnames from 'classnames';
 
 import todos from './api/todos';
 import users from './api/users';
@@ -17,17 +18,20 @@ const preparedTodos: TodoType[] = todos.map(todo => (
 const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [todosArr, setTodosArr] = useState(preparedTodos);
+
   const [selectNameId, setSelectNameId] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [errorInput, setErrorInput] = useState('');
   const [errorSelect, setErrorSelect] = useState('');
 
-  const handle = (newTodo: TodoType) => {
+  const rewrite = (newTodo: TodoType) => {
     setTodosArr(currentTodo => [...currentTodo, newTodo]);
+
     setErrorInput('');
     setErrorSelect('');
     setQuery('');
     setSelectNameId(0);
+    setCompleted(false);
   };
 
   const submitEvent = (
@@ -44,7 +48,7 @@ const App: React.FC = () => {
     };
 
     if (query && selectNameId) {
-      handle(newTodo);
+      rewrite(newTodo);
     }
 
     if (!query) {
@@ -62,11 +66,14 @@ const App: React.FC = () => {
       <form
         onSubmit={submitEvent}
       >
+
         <div>
           <p className="error">{errorInput}</p>
 
           <input
-            className="input is-rounded is-normal"
+            className={classnames('input', 'is-rounded', 'is-normal', {
+              'is-danger': errorInput,
+            })}
             type="text"
             placeholder="Please, write title here"
             value={query}
@@ -74,6 +81,7 @@ const App: React.FC = () => {
               setQuery(event.target.value)
             )}
           />
+
         </div>
 
         <div>
@@ -86,6 +94,7 @@ const App: React.FC = () => {
               setSelectNameId(+event.target.value)
             )}
           >
+
             <option value="0" disabled>Choose a user</option>
 
             {users.map(user => (
@@ -96,6 +105,7 @@ const App: React.FC = () => {
                 {user.name}
               </option>
             ))}
+
           </select>
 
         </div>
@@ -109,7 +119,9 @@ const App: React.FC = () => {
               setCompleted(true)
             )}
           />
+
           <label>Completed</label>
+
         </div>
 
         <button
