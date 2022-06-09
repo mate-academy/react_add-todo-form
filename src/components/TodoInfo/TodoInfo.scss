@@ -1,0 +1,11 @@
+.todo {
+  &__list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &__title {
+    word-wrap: break-word;
+  }
+}

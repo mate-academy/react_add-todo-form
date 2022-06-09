@@ -1,0 +1,15 @@
+.todo {
+
+  &__list-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__item {
+    height: 500px;
+    width: 300px;
+    margin: 10px;
+  }
+}
