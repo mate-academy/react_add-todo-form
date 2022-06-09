@@ -39,7 +39,7 @@
 @media (max-width: 700px) {
   .todo {
     &__form {
-      width: 400px;
+      width: 370px;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -48,7 +48,7 @@
 
   .container {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     height: 140px;
   }
 }
