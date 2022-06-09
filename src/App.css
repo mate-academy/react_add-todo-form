@@ -17,3 +17,42 @@ body {
 .task-status--comp {
   color: rgb(60, 167, 60);
 }
+
+.form {
+  margin: 0 auto;
+  width: 50%;
+  min-width: 500px;
+  padding: 30px;
+}
+
+.input-group-text {
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+}
+
+.select-container {
+  position: relative;
+}
+
+.input-container::after {
+  content: "Please enter the title";
+  color: red;
+  display: block;
+  position: absolute;
+  top: -20px;
+}
+
+.select-container::after {
+  content: "Please choose a user";
+  color: red;
+  display: block;
+  position: absolute;
+  top: -20px;
+}
+
+.form-select {
+  text-align: center;
+}

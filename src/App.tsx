@@ -22,65 +22,98 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
 
+  const [titleIsEmpty, setTitleIsEmpty] = useState(false);
+  const [selectIsEmpty, setSelectIsEmpty] = useState(false);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newObjTodo = {
-      id: Date.now(),
-      title,
-      userId: selectedUserId,
-      user: getUserById(selectedUserId),
-      completed: false,
-    };
+    if (title === '') {
+      setTitleIsEmpty(true);
+    }
 
-    setListPreparedTodos((currentPreparedTodos) => {
-      return [...currentPreparedTodos, newObjTodo];
-    });
+    if (selectedUserId === 0) {
+      setSelectIsEmpty(true);
+    }
+
+    if (title && selectedUserId) {
+      const newObjTodo = {
+        id: Date.now(),
+        title,
+        userId: selectedUserId,
+        user: getUserById(selectedUserId),
+        completed: false,
+      };
+
+      setListPreparedTodos((currentPreparedTodos) => {
+        return [...currentPreparedTodos, newObjTodo];
+      });
+
+      setSelectedUserId(0);
+      setTitle('');
+    }
   };
 
   return (
     <div className="App">
-      <h1>{title}</h1>
-
       <form
         onSubmit={handleSubmit}
+        className="form"
       >
-        <input
-          type="text"
-          name="title"
-          placeholder="Enter Title here"
-          value={title}
-          onChange={(event) => {
-            setTitle(event.target.value);
-          }}
-        />
 
-        <select
-          name="users"
-          value={selectedUserId}
-          onChange={(event) => {
-            setSelectedUserId(+event.target.value);
-          }}
+        <div
+          className={`mb-4 ${titleIsEmpty && 'input-container'}`}
         >
-          <option
-            value="Choose a User"
-            disabled
-          >
-            Choose a User
-          </option>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter Title here"
+            value={title}
+            className={`
+              input-group-text
+              ${titleIsEmpty && 'border-danger'}`}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setTitleIsEmpty(false);
+            }}
+          />
+        </div>
 
-          {users.map(user => (
+        <div
+          className={`mb-4 ${selectIsEmpty && 'select-container'}`}
+        >
+          <select
+            name="users"
+            value={selectedUserId}
+            className={`
+            form-select
+            ${selectIsEmpty && 'border-danger'}`}
+            onChange={(event) => {
+              setSelectedUserId(+event.target.value);
+              setSelectIsEmpty(false);
+            }}
+          >
             <option
-              value={user.id}
-              key={user.id}
+              value="0"
+              disabled
             >
-              {user.name}
+              Choose a User
             </option>
-          ))}
-        </select>
+
+            {users.map(user => (
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <button
           type="submit"
+          className="btn btn-primary"
         >
           Add
         </button>
