@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const [userError, setUserError] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
   const [user] = useState(usersFromServer);
+  const [counter, setCounter] = useState(2);
 
   // eslint-disable-next-line no-console
   console.log(titles);
@@ -67,6 +68,7 @@ const App: React.FC = () => {
     setTitles('');
     setSelectUser(0);
     setIsCompleted(false);
+    setCounter((current) => current + 1);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +87,7 @@ const App: React.FC = () => {
     <div className="todo">
       <div className="block">
         <h1 className="todo__h1 title is-4">Add todo form</h1>
+        <p className="title is-6 is-spaced">{`Count of user: ${counter}`}</p>
         <form
           onSubmit={addUser}
           className="todo__form"
