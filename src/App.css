@@ -1,3 +1,13 @@
 .App {
   text-align: center;
 }
+
+.error {
+  border: 2px solid rgb(155, 0, 0);
+  position: relative;
+}
+
+.error__box {
+  position: absolute;
+  transform: translate(-100%, 110%);
+}
