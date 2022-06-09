@@ -1,3 +1,53 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
 .App {
-  text-align: center;
+  padding: 20px;
+  border: 1px solid black;
+  background-color: hsl(300, 1%, 55%);
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todoList {
+  padding: 10px;
+  background-color: silver;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  gap: 10px;
+
+  transition: transform 0.3s;
+}
+
+.todoList:hover {
+  transform: scale(105%);
+}
+
+.user {
+  display: flex;
+  gap: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: red;
 }
