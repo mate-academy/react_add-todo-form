@@ -26,34 +26,12 @@ const App: React.FC = () => {
   const [titleError, setTitleError] = useState('');
   const [selectError, setSelectError] = useState('');
 
-  // const addUser = () => {
-  //   if (!inputedTitle) {
-  //     setTitleError('Please enter the title');
-  //   }
-
-  //   if (chosenUserId === 0) {
-  //     setSelectError('Please choose a user');
-  //   } else {
-  //     const createdUser = {
-  //       title: inputedTitle,
-  //       id: preparedUsers.length + 1,
-  //       user: usersFrom.find(user => user.id === chosenUserId),
-  //       userId: chosenUserId,
-  //       completed: false,
-  //     };
-
-  //     setPreparedUsers([...preparedUsers, createdUser]);
-  //     setInputedTitle('');
-  //     setChosenUserId(0);
-  //   }
-  // };
-
-  const addUser = () => {
+  const addUser = (userTitle: string, userId: number) => {
     const createdUser = {
-      title: inputedTitle,
+      title: userTitle,
       id: preparedUsers.length + 1,
-      user: usersFrom.find(user => user.id === chosenUserId),
-      userId: chosenUserId,
+      user: usersFrom.find(user => user.id === userId),
+      userId,
       completed: false,
     };
 
@@ -71,18 +49,18 @@ const App: React.FC = () => {
 
   const test = () => {
     if (!inputedTitle) {
-      setTitleError('error no title');
+      setTitleError('Please enter the title');
     }
 
     if (chosenUserId === 0) {
-      setSelectError('no user selected');
+      setSelectError('Please choose a user');
     }
 
     if (inputedTitle && chosenUserId !== 0) {
       setSelectError('');
       setTitleError('');
 
-      addUser();
+      addUser(inputedTitle, chosenUserId);
 
       setInputedTitle('');
       setChosenUserId(0);
@@ -122,14 +100,15 @@ const App: React.FC = () => {
             <select
               name="todos"
               className="select-the-user"
-              defaultValue={chosenUserId}
+              value={chosenUserId}
               onChange={(event) => {
                 setChosenUserId(+event.target.value);
                 setSelectError('');
+                console.log(chosenUserId);
               }}
             >
               <option
-                value="0"
+                value={0}
                 disabled
               >
                 Choose the user
