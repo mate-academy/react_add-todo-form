@@ -26,26 +26,38 @@ const App: React.FC = () => {
   const [titleError, setTitleError] = useState('');
   const [selectError, setSelectError] = useState('');
 
+  // const addUser = () => {
+  //   if (!inputedTitle) {
+  //     setTitleError('Please enter the title');
+  //   }
+
+  //   if (chosenUserId === 0) {
+  //     setSelectError('Please choose a user');
+  //   } else {
+  //     const createdUser = {
+  //       title: inputedTitle,
+  //       id: preparedUsers.length + 1,
+  //       user: usersFrom.find(user => user.id === chosenUserId),
+  //       userId: chosenUserId,
+  //       completed: false,
+  //     };
+
+  //     setPreparedUsers([...preparedUsers, createdUser]);
+  //     setInputedTitle('');
+  //     setChosenUserId(0);
+  //   }
+  // };
+
   const addUser = () => {
-    if (!inputedTitle) {
-      setTitleError('Please enter the title');
-    }
+    const createdUser = {
+      title: inputedTitle,
+      id: preparedUsers.length + 1,
+      user: usersFrom.find(user => user.id === chosenUserId),
+      userId: chosenUserId,
+      completed: false,
+    };
 
-    if (chosenUserId === 0) {
-      setSelectError('Please choose a user');
-    } else {
-      const createdUser = {
-        title: inputedTitle,
-        id: preparedUsers.length + 1,
-        user: usersFrom.find(user => user.id === chosenUserId),
-        userId: chosenUserId,
-        completed: false,
-      };
-
-      setPreparedUsers([...preparedUsers, createdUser]);
-      setInputedTitle('');
-      setChosenUserId(0);
-    }
+    setPreparedUsers([...preparedUsers, createdUser]);
   };
 
   const checkTheInput = (input: string | number) => {
@@ -57,13 +69,42 @@ const App: React.FC = () => {
     }
   };
 
+  const test = () => {
+    if (!inputedTitle) {
+      setTitleError('error no title');
+    }
+
+    if (chosenUserId === 0) {
+      setSelectError('no user selected');
+    }
+
+    if (inputedTitle && chosenUserId !== 0) {
+      setSelectError('');
+      setTitleError('');
+
+      addUser();
+
+      setInputedTitle('');
+      setChosenUserId(0);
+    }
+  };
+
+  console.log(chosenUserId);
+
   return (
     <div className="container">
       <div className="app">
         <h1>Static list of todos</h1>
         <h3>Add a new user</h3>
         <div>
-          <form className="form">
+          <form
+            className="form"
+            method="submit"
+            onSubmit={(event) => {
+              event.preventDefault();
+              test();
+            }}
+          >
             <div className="form__input">
               <input
                 type="text"
@@ -78,7 +119,6 @@ const App: React.FC = () => {
               />
             </div>
             <span className="form__input-error">{titleError}</span>
-
             <select
               name="todos"
               className="select-the-user"
@@ -89,12 +129,16 @@ const App: React.FC = () => {
               }}
             >
               <option
-                value={0}
+                value="0"
+                disabled
               >
                 Choose the user
               </option>
               {usersFrom.map(user => (
-                <option value={user.id}>
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
                   {user.name}
                 </option>
               ))}
@@ -102,9 +146,8 @@ const App: React.FC = () => {
 
             <span className="form__input-error">{selectError}</span>
             <button
-              type="button"
+              type="submit"
               className="btn"
-              onClick={addUser}
             >
               Add
             </button>
