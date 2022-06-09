@@ -1,0 +1,17 @@
+.list {
+  display: flex;
+  list-style: none;
+  justify-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  &__item {
+    min-width: 250px;
+    padding: 5px;
+    border: 3px solid #d4a373;
+    border-radius: 20px;
+    background-color: #faedcd;
+
+    color: #000;
+  }
+}
