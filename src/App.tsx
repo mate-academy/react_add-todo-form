@@ -25,7 +25,6 @@ const App: React.FC = () => {
   const [chosenUserId, setChosenUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
   const [selectError, setSelectError] = useState('');
-  const [checkTheUserAdded, setChechTheUserAdded] = useState(0);
 
   const addUser = () => {
     if (!inputedTitle) {
@@ -45,14 +44,9 @@ const App: React.FC = () => {
 
       setPreparedUsers([...preparedUsers, createdUser]);
       setInputedTitle('');
-      setChechTheUserAdded(1);
+      setChosenUserId(0);
     }
   };
-
-  if (checkTheUserAdded === 1) {
-    setChosenUserId(0);
-    setChechTheUserAdded(0);
-  }
 
   const checkTheInput = (input: string | number) => {
     if (typeof (input) === 'string') {
