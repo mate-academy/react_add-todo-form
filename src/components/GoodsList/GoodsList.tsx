@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Color, Good} from '../../react-app-env';
+import React, { useState } from 'react';
+import { Color, Good } from '../../react-app-env';
 import { EditGoodForm } from '../EditGoodForm';
 
 interface Props {
@@ -42,7 +42,7 @@ export const GoodsList: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => {
-                deleteGood(good.id)
+                deleteGood(good.id);
               }}
             >
               X
@@ -59,4 +59,4 @@ export const GoodsList: React.FC<Props> = ({
       ))}
     </ul>
   );
-}
+};

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import classnames from "classnames";
-import { Color } from "../../react-app-env";
+import React, { useState } from 'react';
+import classnames from 'classnames';
+import { Color } from '../../react-app-env';
 
 interface Props {
   colors: Color[];
@@ -26,7 +26,6 @@ export const GoodsForm: React.FC<Props> = ({ colors, addGood }) => {
       setSelectColorId(0);
     }
   };
-
 
   return (
     <form
@@ -77,5 +76,5 @@ export const GoodsForm: React.FC<Props> = ({ colors, addGood }) => {
         Add
       </button>
     </form>
-  )
+  );
 };

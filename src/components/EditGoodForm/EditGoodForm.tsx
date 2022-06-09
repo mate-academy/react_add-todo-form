@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import classnames from "classnames";
+import React, { useState } from 'react';
+import classnames from 'classnames';
 import { Color, Good } from '../../react-app-env';
 
 interface Props {
@@ -31,7 +31,6 @@ export const EditGoodForm: React.FC<Props> = ({
       setSelectColorId(0);
     }
   };
-
 
   return (
     <form
@@ -82,5 +81,5 @@ export const EditGoodForm: React.FC<Props> = ({
         Add
       </button>
     </form>
-  )
+  );
 };

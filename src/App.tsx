@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { Color, Good, GoodWithoutColor } from './react-app-env';
 import { GoodsList } from './components/GoodsList';
-import {GoodsForm} from "./components/GoodsForm";
+import { GoodsForm } from './components/GoodsForm';
 
 const colors: Color[] = [
   { id: 1, name: 'red' },
@@ -50,8 +50,8 @@ const App: React.FC = () => {
   const deleteGood = (goodId: number) => {
     setGoods((currentGoods) => (
       currentGoods.filter(good => good.id !== goodId)
-    ))
-  }
+    ));
+  };
 
   const updateGood = (
     goodId: number,
@@ -65,14 +65,14 @@ const App: React.FC = () => {
           name,
           colorId,
           color: getColorById(colorId),
-        }
+        };
       }
 
       return good;
     });
 
     setGoods(goodsCopy);
-  }
+  };
 
   return (
     <div className="App">
