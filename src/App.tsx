@@ -16,6 +16,7 @@ const App: React.FC = () => {
 
   const [input, setInput] = useState('');
   const [isTitleValid, setIsTitleValid] = useState(false);
+  const [titleLength, setTitleLength] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [isValidUser, setIsValidUser] = useState(false);
@@ -47,30 +48,20 @@ const App: React.FC = () => {
     setUserId(+event.target.value);
   };
 
-  // eslint-disable-next-line max-len
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!userId && !input) {
-      setIsTitleValid(true);
-      setIsValidUser(true);
+    if (input.length > 30) {
+      setTitleLength(!titleLength);
 
       return;
     }
 
-    if (!input) {
-      setIsTitleValid(true);
+    setIsTitleValid(!input);
+    setIsValidUser(!userId);
+    setTitleLength(false);
 
-      return;
-    }
-
-    if (!userId) {
-      setIsValidUser(true);
-
-      return;
-    }
-
-    if (!isValidUser && !isTitleValid) {
+    if (input && userId) {
       addTodos();
       clearForm();
     }
@@ -94,9 +85,17 @@ const App: React.FC = () => {
         <span
           className="button is-danger is-inverted"
         >
-          Please write a title
+          Please, write a title
         </span>
       )}
+        {titleLength
+        && (
+          <span
+            className="button is-danger is-inverted"
+          >
+            Please, enter the shorter title :)
+          </span>
+        )}
 
         <div className="select is-primary">
           <select
