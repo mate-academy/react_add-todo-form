@@ -1,6 +1,5 @@
 // Don't forget to import the React library
 import React from 'react';
-import './UserInfo.scss';
 // Create a `UserInfo` component accepting a `user` object and use it to render
 // a `todo.user` in the list with some styling. (Show at least a `name` and an
 // `email` of the `user`)
