@@ -13,6 +13,12 @@ const todos = [
     title: 'quis ut nam facilis et officia qui',
     completed: false,
   },
+  {
+    userId: 2,
+    id: 3,
+    title: 'ipsum dolor sit amet consectetur',
+    completed: true,
+  },
 ];
 
 export default todos;

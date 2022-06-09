@@ -1,3 +1,99 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+  padding: 0;
+  margin: 10px 5px;
+}
+
 .App {
   text-align: center;
+}
+
+.form__container {
+  display: flex;
+  width: 100%;
+  margin: auto;
+  padding: 10px 0;
+  border: 1px solid blue;
+  border-radius: 10px;
+  justify-content: space-around;
+}
+
+.todo__container {
+  width: 500px;
+  margin: auto;
+}
+
+.form__item {
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+.form__title {
+  color: green;
+  font-weight: bold;
+}
+
+.error {
+  border: 2px solid red;
+  border-radius: 5px;
+}
+
+.error__message {
+  font-weight: bold;
+  color: red;
+}
+
+.complited {
+  color: green;
+  font-weight: bold;
+}
+
+.button {
+  width: 95px;
+  padding: 5px;
+  border: 1px solid green;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+}
+
+.list {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.list__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  width: 150px;
+  padding: 4px;
+  list-style: none;
+  border: 1px solid blue;
+  border-radius: 10px;
+}
+
+.list__userName {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.list__title {
+  text-align: left;
+  text-transform: capitalize;
+  padding: 0;
+}
+
+.list__status--complited {
+  color: green;
+}
+
+.list__status--not-complited {
+  color: red;
 }
