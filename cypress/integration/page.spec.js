@@ -27,6 +27,7 @@ describe('Page', () => {
   beforeEach(() => {
     page.visit();
   });
+
   it('should have "Add todo" form', () => {
     page.titleInput.should('have.attr', 'placeholder');
 
@@ -35,7 +36,7 @@ describe('Page', () => {
     page.addButton.should('exist');
   });
 
-  it('should show an error, if "title" is empty', () => {
+  it('should show an error if "title" is empty', () => {
     const { name } = users[5];
 
     page.titleInput.invoke('val', '');
@@ -57,7 +58,6 @@ describe('Page', () => {
 
   it('should add todo to the list', () => {
     const { name, email } = users[5];
-
     const todoTitle = 'to do something';
 
     page.titleInput.type(todoTitle);
