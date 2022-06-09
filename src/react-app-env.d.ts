@@ -14,4 +14,3 @@ export interface GoodWithoutColor {
 export interface Good extends GoodWithoutColor {
   color: Color | null;
 }
-

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import './App.css';
 import { Color, Good, GoodWithoutColor } from './react-app-env';
-import {GoodsList} from "./components/GoodsList";
+import { GoodsList } from './components/GoodsList';
 
 const colors: Color[] = [
   { id: 1, name: 'red' },
@@ -26,13 +26,12 @@ const goodsFromServer: GoodWithoutColor[] = [
 
 const getColorById = (colorId: number): Color | null => {
   return colors.find(color => color.id === colorId) || null;
-}
+};
 
 const goodsWithColor: Good[] = goodsFromServer.map(good => ({
   ...good,
   color: getColorById(good.colorId),
 }));
-
 
 const App: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([...goodsWithColor]);
@@ -48,30 +47,29 @@ const App: React.FC = () => {
       id: Date.now(),
       name,
       colorId,
-      color: getColorById(selectColorId)
-    }
+      color: getColorById(selectColorId),
+    };
 
-    setGoods((currentGoods) => [...currentGoods, newGood])
-  }
+    setGoods((currentGoods) => [...currentGoods, newGood]);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasNameError(!newGoodName)
+    setHasNameError(!newGoodName);
     setHasColorIdError(!selectColorId);
 
     if (newGoodName && selectColorId) {
       addGood(newGoodName, selectColorId);
-      setNewGoodName('')
+      setNewGoodName('');
       setSelectColorId(0);
     }
-  }
+  };
 
   return (
     <div className="App">
       <h1>Form</h1>
       <GoodsList goods={goods} />
-
 
       <form
         onSubmit={handleSubmit}

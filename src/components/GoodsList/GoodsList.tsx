@@ -16,4 +16,4 @@ export const GoodsList: React.FC<Props> = ({ goods }) => (
       </li>
     ))}
   </ul>
-)
+);
