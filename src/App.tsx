@@ -41,6 +41,7 @@ const App: React.FC = () => {
 
     setTitleError(!newTodo);
     setUserError(!selectUserId);
+    setCompliteStatus(false);
 
     if (newTodo && selectUserId) {
       addTodo(newTodo, selectUserId);
@@ -121,7 +122,7 @@ const App: React.FC = () => {
             <input
               type="checkbox"
               id="complited"
-              className="complited"
+              checked={compliteStatus}
               onChange={() => (setCompliteStatus(true))}
             />
             <label
