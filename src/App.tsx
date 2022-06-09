@@ -7,11 +7,11 @@ import { Todo } from './react-app-env';
 import { TodoList } from './api/componets/TodoList';
 
 const App: React.FC = () => {
-  const [titleToAdd, setTitle] = useState<string>('');
+  const [titleToAdd, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [allTodos, setTask] = useState([...todos]);
-  const [titleError, setTitleError] = useState<string>('');
-  const [userError, setUserError] = useState<string>('');
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
