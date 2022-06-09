@@ -25,7 +25,7 @@ const App: React.FC = () => {
   const [errorSelect, setErrorSelect] = useState('');
 
   const rewrite = (newTodo: TodoType) => {
-    setTodosArr(currentTodo => [...currentTodo, newTodo]);
+    setTodosArr(currentTodo => [newTodo, ...currentTodo]);
 
     setQuery('');
     setSelectNameId(0);
