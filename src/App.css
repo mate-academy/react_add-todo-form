@@ -1,3 +1,48 @@
 .App {
   text-align: center;
 }
+
+.form {
+  margin: 0 auto;
+  width: 450px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  border: 3px solid cornflowerblue;
+  border-radius: 12px;
+}
+
+.warning {
+  padding-left: 10px;
+  position: absolute;
+  color: red;
+}
+
+.button {
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+  color: #fff;
+  background-color: #8362d7;
+  border-radius: 12px;
+  border: 3px solid cornflowerblue;
+
+  transition: 0.4s;
+}
+
+.field {
+  padding: 5px;
+  border: 3px solid cornflowerblue;
+  border-radius: 12px;
+}
+
+.button:hover {
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #ab6be7;
+  transform: scale(1.1);
+  cursor: pointer;
+}
