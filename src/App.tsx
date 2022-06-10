@@ -75,7 +75,7 @@ const App: React.FC = () => {
           className={cn(
             'form-select',
             'mb-3',
-            { 'border-danger': hasTitleError },
+            { 'border-danger': hasUserError },
           )}
           value={userId}
           onChange={(event) => {
