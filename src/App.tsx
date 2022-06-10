@@ -81,7 +81,7 @@ const App: React.FC = () => {
           has-background-info-light"
         onSubmit={submitter}
       >
-        <div>
+        <div className="is-flex is-align-self-stretch mx-6">
           <input
             className={classNames('input mb-2', {
               'is-link': !hasTitleError,
