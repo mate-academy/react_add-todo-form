@@ -53,11 +53,11 @@ const App: React.FC = () => {
 
     if (newTitle && selectedUser) {
       const newTodo = {
-        userId: +selectedUser,
+        userId: selectedUser,
         id: todosBase.length + 1,
         title: newTitle,
         completed: isCompleted,
-        user: getUserById(+selectedUser),
+        user: getUserById(selectedUser),
       };
 
       setTodosBase([newTodo, ...todosBase]);
