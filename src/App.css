@@ -1,3 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #cbcbcb;
+  font-family: sans-serif;
+}
+
 .App {
+  display: flex;
+}
+
+.form {
+  background-color: white;
+  border-radius: 10px;
   text-align: center;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 10px;
+  font-size: 20px;
+}
+
+.form__container {
+  position: relative;
+}
+
+.form__input {
+  padding: 20px 10px 3px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.form__inputTitle {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  transition: 0.3s;
+}
+
+.notEmpty,
+.form__input:focus + label {
+  top: 2px;
+  font-size: small;
+}
+
+.form__selectUser {
+  width: 200px;
+  outline: none;
+  padding: 5px 20px 5px 2px;
+  border-radius: 5px;
+}
+
+.valid_input {
+  position: absolute;
+  font-size: 12px;
+  text-align: start;
+  color: red;
+  margin: 2px 0 0;
+}
+
+.invalid_Input {
+  border-color: red;
+  color: red;
 }
