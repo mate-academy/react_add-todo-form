@@ -21,6 +21,7 @@ const App: React.FC = () => {
     = useState([...preparedTodos]);
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const [titleIsEmpty, setTitleIsEmpty] = useState(false);
   const [selectIsEmpty, setSelectIsEmpty] = useState(false);
@@ -42,7 +43,7 @@ const App: React.FC = () => {
         title,
         userId: selectedUserId,
         user: getUserById(selectedUserId),
-        completed: false,
+        completed: isCompleted,
       };
 
       setListPreparedTodos((currentPreparedTodos) => {
@@ -51,6 +52,7 @@ const App: React.FC = () => {
 
       setSelectedUserId(0);
       setTitle('');
+      setIsCompleted(false);
     }
   };
 
@@ -86,8 +88,9 @@ const App: React.FC = () => {
             name="users"
             value={selectedUserId}
             className={`
-            form-select
-            ${selectIsEmpty && 'border-danger'}`}
+              form-select
+              mb-4
+              ${selectIsEmpty && 'border-danger'}`}
             onChange={(event) => {
               setSelectedUserId(+event.target.value);
               setSelectIsEmpty(false);
@@ -109,6 +112,13 @@ const App: React.FC = () => {
               </option>
             ))}
           </select>
+
+          <input
+            type="checkbox"
+            className={`form-check-input ${!isCompleted && 'form-check-input-not-checked'}`}
+            checked={isCompleted}
+            onChange={() => setIsCompleted(!isCompleted)}
+          />
         </div>
 
         <button
@@ -117,6 +127,7 @@ const App: React.FC = () => {
         >
           Add
         </button>
+
       </form>
 
       <section>

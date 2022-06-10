@@ -1,13 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 10px;
 }
 
 .App {
   text-align: center;
+  /* width: 700px; */
+  margin: 0 auto;
+}
+
+.list-group {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .list-group-item {
   margin-bottom: 5px;
+  max-width: 400px;
 }
 
 .task-status {
@@ -55,4 +67,18 @@ body {
 
 .form-select {
   text-align: center;
+}
+
+.form-check-input {
+  position: relative;
+  width: 295px;
+  height: 40px;
+}
+
+.form-check-input-not-checked::after {
+  content: "PUSH TO COMPLETE";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
 }

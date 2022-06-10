@@ -8,7 +8,7 @@ interface Props {
 
 export const TodoList: React.FC<Props> = ({ prepTodos }) => {
   return (
-    <ul className="list-group">
+    <ul className="list-group list-group-horizontal">
       {prepTodos.map(todo => (
         <li
           className="
