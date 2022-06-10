@@ -11,8 +11,8 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <ul className="row">
       {todos.map(todo => (
-        <div className="col-sm-4">
-          <li key={todo.id} className="card">
+        <div key={todo.id} className="col-sm-4">
+          <li className="card">
             <TodoInfo todo={todo} />
           </li>
         </div>
