@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [todosBase, setTodosBase] = useState([...preparedTodos]);
   const [newTitle, setNewTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
+  const [invalidCharsError, setInvalidCharsError] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -29,11 +30,14 @@ const App: React.FC = () => {
     const { value } = event.target;
 
     if (!/^[а-яА-ЯіІ'їЇa-z0-9A-Z\s]*$/.test(value)) {
+      setInvalidCharsError(true);
+
       return;
     }
 
     setNewTitle(value);
     setHasTitleError(false);
+    setInvalidCharsError(false);
   };
 
   const setUserFunction = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,7 +68,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App box has-background-info">
+    <main className="App box has-background-info">
       <h1 className="title is-2 has-text-white">
         List of Todos
       </h1>
@@ -81,7 +85,7 @@ const App: React.FC = () => {
           <input
             className={classNames('input mb-2', {
               'is-link': !hasTitleError,
-              'is-danger': hasTitleError,
+              'is-danger': hasTitleError || invalidCharsError,
             })}
             type="text"
             value={newTitle}
@@ -89,38 +93,43 @@ const App: React.FC = () => {
             onChange={setTitleFunction}
           />
           {hasTitleError && (
-            <div
+            <span
               className="has-text-danger"
             >
               Please enter the title!
-            </div>
+            </span>
           )}
-        </div>
-        <div>
-          <div
-            className={classNames('select mb-2', {
-              'is-link': !hasUserError,
-              'is-danger': hasUserError,
-            })}
-          >
-            <select
-              value={selectedUser}
-              onChange={setUserFunction}
-            >
-              <option value="0" disabled>Choose a user</option>
-              {users.map(user => (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              ))}
-            </select>
-          </div>
-          {hasUserError && (
-            <div
+          {invalidCharsError && (
+            <span
               className="has-text-danger"
             >
-              Please choose a user!
-            </div>
+              Enter digits, spaces, &apos;ua&apos; or &apos;en&apos; letters
+            </span>
           )}
         </div>
+        <div
+          className={classNames('select mb-2', {
+            'is-link': !hasUserError,
+            'is-danger': hasUserError,
+          })}
+        >
+          <select
+            value={selectedUser}
+            onChange={setUserFunction}
+          >
+            <option value="0" disabled>Choose a user</option>
+            {users.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
+          </select>
+        </div>
+        {hasUserError && (
+          <span
+            className="has-text-danger"
+          >
+            Please choose a user!
+          </span>
+        )}
 
         <div className="mb-2">
           <input
@@ -145,7 +154,7 @@ const App: React.FC = () => {
         </button>
       </form>
       <TodoList todosBase={todosBase} />
-    </div>
+    </main>
   );
 };
 
