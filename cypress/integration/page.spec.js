@@ -29,7 +29,8 @@ describe('Page', () => {
   });
 
   it('should have "Add todo" form', () => {
-    page.titleInput.should('have.attr', 'placeholder');
+    page.titleInput
+      .should('have.attr', 'placeholder');
 
     page.selectedOption.should('have.text', 'Choose a user');
 
