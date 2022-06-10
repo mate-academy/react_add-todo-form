@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [hasErrorTitle, setHasErrorTitle] = useState(false);
   const [hasErrorUser, setHasErrorUser] = useState(false);
 
-  const readyTodos = [...todos].map(todo => ({
+  const readyTodos = todos.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
   }));
@@ -59,15 +59,15 @@ const App: React.FC = () => {
         </h4>
       </div>
       <div className="form-container">
-        <form onSubmit={(event) => addNewTodo(event)}>
+        <form onSubmit={addNewTodo}>
           <div className="box is-bordered">
             <input
               className={classNames({ error: hasErrorTitle }, 'input-select')}
               type="text"
               placeholder="Enter value"
               value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
+              onChange={(event) => {
+                setTitle(event.target.value);
                 setHasErrorTitle(false);
               }}
             />
