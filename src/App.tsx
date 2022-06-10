@@ -6,18 +6,28 @@ import { TodoList } from './components/TodoList';
 import users from './api/users';
 import todos from './api/todos';
 
+const getUserById = (id: number) => (
+  users.find(user => user.id === id)
+);
+
+const preparedTodos: FullTodo[] = todos.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId) || null,
+}));
+
 const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [user, setUser] = useState('0');
   const [isCompleted, setIsCompleted] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
-  const [todo, setTodo] = useState(todos);
+  const [allTodos, setAllTodos] = useState(preparedTodos);
   const [notValidTitle, setNotValidTitle] = useState(false);
 
-  const addTodo = () => {
-    const currentUser = users.find(usero => usero.name === user);
-    
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const currentUser = users.find(person => person.name === user) || null;
+
     if (!query.length) {
       setTitleError(true);
     }
@@ -28,13 +38,14 @@ const App: React.FC = () => {
 
     if (query.length && user.length !== 1) {
       const newTodo = {
-        id: todo[todo.length - 1].id + 1,
+        id: allTodos[allTodos.length - 1].id + 1,
         title: query,
         userId: currentUser ? currentUser.id : 0,
         completed: isCompleted,
+        user: currentUser,
       };
 
-      setTodo(current => ([
+      setAllTodos(current => ([
         ...current,
         newTodo,
       ]));
@@ -57,15 +68,6 @@ const App: React.FC = () => {
     }
   };
 
-  const getUserById = (id: number) => (
-    users.find(userio => userio.id === id)
-  );
-
-  const preparedTodos: FullTodo[] = todo.map(todoo => ({
-    ...todoo,
-    user: getUserById(todoo.userId) || null,
-  }));
-
   return (
     <div className="App">
       <h1 className="title">Not static list of todos</h1>
@@ -73,8 +75,7 @@ const App: React.FC = () => {
       <form
         className="box"
         onSubmit={(event) => {
-          event.preventDefault();
-          addTodo();
+          addTodo(event);
         }}
       >
         <label>
@@ -141,7 +142,7 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList fulltodos={preparedTodos} />
+      <TodoList fulltodos={allTodos} />
     </div>
   );
 };
