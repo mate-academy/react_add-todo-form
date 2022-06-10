@@ -64,6 +64,7 @@ const App: React.FC = () => {
       setNewTitle('');
       setSelectedUser(0);
       setIsCompleted(false);
+      setInvalidCharsError(false);
     }
   };
 
