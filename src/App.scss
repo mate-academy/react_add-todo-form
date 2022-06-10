@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+.input-select {
+  outline: none;
+  border: none;
+}
+
+.error {
+  border: solid red 1px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  padding-left: 20px;
+  &__item {
+    margin-left: 20px;
+  }
+}
+
+.div {
+  border: solid 1px black;
+}
+
+.box {
+  margin: 5px 10px;
+  width: max-content;
+}
+
+.container {
+  display: flex;
+}
