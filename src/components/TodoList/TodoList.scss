@@ -1,0 +1,32 @@
+.list {
+  margin: 32px auto 0;
+  width: 95%;
+
+  &__item {
+    margin-bottom: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-status {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: rgba(255, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+
+      &--done {
+        background-color: rgba(0, 255, 64, 0.15);
+      }
+    }
+  }
+
+  &__userContact {
+    margin-right: 28px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

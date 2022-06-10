@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+  height: 100%;
+  background-color: rgba(199, 199, 199, 0.4);
+}
+
+.form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+
+  & > * {
+    margin: 12px 0;
+    width: 75%;
+
+    & .selMain {
+      width: 100%;
+    }
+
+    & span {
+      margin-left: 8px;
+    }
+  }
+}
+
+.form .error {
+  border: 6px solid red;
+  border-radius: 4px;
+  height: 100%;
+
+  &Message {
+    position: relative;
+    top: -20px;
+    left: 0;
+    margin-bottom: -10px;
+    color: red;
+    font-size: 20px;
+    font-weight: 700;
+    width: max-content;
+    border-bottom: 2px solid red;
+  }
+}
