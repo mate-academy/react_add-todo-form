@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import { TodoList } from './components/TodoList';
 import { Todo } from './react-app-env';
 import './App.css';
@@ -8,33 +9,28 @@ import todosFromServer from './api/todos';
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
+
   const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+
   const [userId, setUserId] = useState(0);
-  const [isUserSelected, setIsUserSelected] = useState(true);
-  const [isTitle, setIsTitle] = useState(true);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitle(true);
   };
 
   const userSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsUserSelected(true);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userId === 0) {
-      setIsUserSelected(false);
-    }
+    setHasTitleError(!title);
+    setHasUserError(!userId);
 
-    if (title.length === 0) {
-      setIsTitle(false);
-    }
-
-    if (userId !== 0 && title.length !== 0) {
+    if (title && userId) {
       const newTodo = {
         userId,
         id: todos.length + 1,
@@ -46,33 +42,46 @@ const App: React.FC = () => {
 
       setTitle('');
       setUserId(0);
-      setIsUserSelected(true);
-      setIsTitle(true);
     }
   };
 
   return (
     <div className="container">
       <TodoList todos={todos} />
+
       <form
         className="d-flex flex-column"
         onSubmit={handleSubmit}
       >
         <input
-          className="form-control mb-3"
+          className={cn(
+            'form-control',
+            'mb-3',
+            { 'border-danger': hasTitleError },
+          )}
           type="text"
           value={title}
           placeholder="Enter a new task"
-          onChange={titleHandler}
+          onChange={(event) => {
+            titleHandler(event);
+            setHasTitleError(false);
+          }}
         />
-        {isTitle || (
+        {hasTitleError && (
           <p className="text-danger">Please enter the title</p>
         )}
 
         <select
-          className="form-select mb-3"
+          className={cn(
+            'form-select',
+            'mb-3',
+            { 'border-danger': hasTitleError },
+          )}
           value={userId}
-          onChange={userSelectHandler}
+          onChange={(event) => {
+            userSelectHandler(event);
+            setHasUserError(false);
+          }}
         >
           <option value="0" disabled>Choose a user</option>
 
@@ -85,7 +94,8 @@ const App: React.FC = () => {
             </option>
           ))}
         </select>
-        {isUserSelected || (
+
+        {hasUserError && (
           <p className="text-danger">Please choose a user</p>
         )}
 
