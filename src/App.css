@@ -1,3 +1,83 @@
-.App {
-  text-align: center;
+.todos {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container__list {
+  width: 230px;
+  margin: 0 auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+.list__item {
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.list__item-username {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+
+.list__item-email {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+
+.list__item-title {
+  font-size: 14px;
+  margin: 0 0 5px;
+  font-weight: 400;
+}
+
+.list__item-completed {
+  font-size: 14px;
+  margin: 0 0 5px;
+}
+
+.app {
+  width: 50%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.form__input {
+  margin-bottom: 10px;
+}
+
+.form__input-the-input {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form__input-error {
+  margin-bottom: 10px;
+  color: red;
+}
+
+.select-the-user {
+  margin-bottom: 10px;
 }
