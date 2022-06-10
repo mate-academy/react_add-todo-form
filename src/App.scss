@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+body {
+  margin: 20px;
+}
+
+.App {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  position: sticky;
+  top: 20px;
+
+  margin-right: 100px;
+
+  &__title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+  }
+
+  &__input-title {
+    height: 40px;
+    width: 300px;
+
+    margin-bottom: 10px;
+  }
+
+  &__select-user {
+    height: 40px;
+    width: 300px;
+
+    margin-bottom: 10px;
+  }
+
+  &__checkbox-status {
+    height: 20px;
+    width: 20px;
+
+    margin-bottom: 20px;
+  }
+
+  &__error-color {
+    font-size: 15px;
+    color: red;
+
+    margin-top: -5px;
+    margin-bottom: 10px;
+  }
+}
+
+.btn {
+  height: 40px;
+  width: 300px;
+}
