@@ -92,21 +92,22 @@ const App: React.FC = () => {
             placeholder="Enter the title"
             onChange={setTitleFunction}
           />
-          {hasTitleError && (
-            <span
-              className="has-text-danger"
-            >
-              Please enter the title!
-            </span>
-          )}
-          {invalidCharsError && (
-            <span
-              className="has-text-danger"
-            >
-              Enter digits, spaces, &apos;ua&apos; or &apos;en&apos; letters
-            </span>
-          )}
         </div>
+        {hasTitleError && (
+          <span
+            className="has-text-danger mb-2"
+          >
+            Please enter the title!
+          </span>
+        )}
+        {invalidCharsError && (
+          <span
+            className="has-text-danger mb-2"
+          >
+            Enter digits, spaces, &apos;ua&apos; or &apos;en&apos; letters
+          </span>
+        )}
+
         <div
           className={classNames('select mb-2', {
             'is-link': !hasUserError,
