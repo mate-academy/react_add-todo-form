@@ -32,42 +32,55 @@ describe('Page', () => {
     page.titleInput
       .should('have.attr', 'placeholder');
 
-    page.selectedOption.should('have.text', 'Choose a user');
+    page.selectedOption
+      .should('have.text', 'Choose a user');
 
-    page.addButton.should('exist');
+    page.addButton
+      .should('exist');
   });
 
   it('should show an error if "title" is empty', () => {
     const { name } = users[5];
 
-    page.titleInput.invoke('val', '');
+    page.titleInput
+      .invoke('val', '');
 
-    page.userSelect.select(name);
+    page.userSelect
+      .select(name);
 
-    page.addButton.click();
+    page.addButton
+      .click();
 
-    cy.contains('Please enter the title').should('exist');
+    cy.contains('Please enter the title')
+      .should('exist');
   });
 
   it('should show an error if user is not selected', () => {
-    page.titleInput.type('to do something');
+    page.titleInput
+      .type('to do something');
 
-    page.addButton.click();
+    page.addButton
+      .click();
 
-    cy.contains('Please choose a user').should('exist');
+    cy.contains('Please choose a user')
+      .should('exist');
   });
 
   it('should add todo to the list', () => {
     const { name, email } = users[5];
     const todoTitle = 'to do something';
 
-    page.titleInput.type(todoTitle);
+    page.titleInput
+      .type(todoTitle);
 
-    page.userSelect.select(name);
+    page.userSelect
+      .select(name);
 
-    page.addButton.click();
+    page.addButton
+      .click();
 
-    cy.get('.todoList').should('have.length', todos.length + 1);
+    cy.get('.todoList')
+      .should('have.length', todos.length + 1);
 
     cy.contains('.todoList', todoTitle)
       .should('contain.text', name)
