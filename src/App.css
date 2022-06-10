@@ -1,3 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 10px;
+}
+
 .App {
   text-align: center;
+  /* width: 700px; */
+  margin: 0 auto;
+}
+
+.list-group {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.list-group-item {
+  margin-bottom: 5px;
+  max-width: 400px;
+}
+
+.task-status {
+  color: red;
+}
+
+.task-status--comp {
+  color: rgb(60, 167, 60);
+}
+
+.form {
+  margin: 0 auto;
+  width: 50%;
+  min-width: 95%;
+  padding: 30px;
+}
+
+.input-group-text {
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+}
+
+.select-container {
+  position: relative;
+}
+
+.input-container::after {
+  content: "Please enter the title";
+  color: red;
+  display: block;
+  position: absolute;
+  top: -20px;
+}
+
+.select-container::after {
+  content: "Please choose a user";
+  color: red;
+  display: block;
+  position: absolute;
+  top: -20px;
+}
+
+.form-select {
+  text-align: center;
+}
+
+.form-check-input {
+  position: relative;
+  width: 295px;
+  height: 40px;
+}
+
+.form-check-input-not-checked::after {
+  content: "PUSH TO COMPLETE";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
 }
