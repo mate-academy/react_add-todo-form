@@ -13,12 +13,11 @@ const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
   const [todo, setTodo] = useState(todos);
+  const [notValidTitle, setNotValidTitle] = useState(false);
 
   const addTodo = () => {
     const currentUser = users.find(usero => usero.name === user);
-
-    const validateTitle = query.replace(/[^A-Za-z0-9А-Яа-я ]/ig, '');
-
+    
     if (!query.length) {
       setTitleError(true);
     }
@@ -30,7 +29,7 @@ const App: React.FC = () => {
     if (query.length && user.length !== 1) {
       const newTodo = {
         id: todo[todo.length - 1].id + 1,
-        title: validateTitle,
+        title: query,
         userId: currentUser ? currentUser.id : 0,
         completed: isCompleted,
       };
@@ -43,6 +42,18 @@ const App: React.FC = () => {
       setQuery('');
       setUser('0');
       setIsCompleted(false);
+    }
+  };
+
+  const isInputValid = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (/[^A-Za-z0-9А-Яа-я ]/ig.test(value)) {
+      setNotValidTitle(true);
+    } else {
+      setQuery(event.target.value);
+      setTitleError(false);
+      setNotValidTitle(false);
     }
   };
 
@@ -60,7 +71,7 @@ const App: React.FC = () => {
       <h1 className="title">Not static list of todos</h1>
 
       <form
-      className="box"
+        className="box"
         onSubmit={(event) => {
           event.preventDefault();
           addTodo();
@@ -69,17 +80,17 @@ const App: React.FC = () => {
         <label>
 
           <input
-          className="input"
+            className="input"
             type="text"
             value={query}
             placeholder="Insert the title"
             onChange={(event) => {
-              setQuery(event.target.value);
-              setTitleError(false);
+              isInputValid(event);
             }}
           />
         </label>
         {titleError && <p className="error">Please enter the title</p>}
+        {notValidTitle && <p className="error">Your symbol is not valid</p>}
         <br />
 
         <label
@@ -123,7 +134,7 @@ const App: React.FC = () => {
         <br />
 
         <button
-        className="button is-info"
+          className="button is-info"
           type="submit"
         >
           Add
