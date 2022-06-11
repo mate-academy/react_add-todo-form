@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import './App.scss';
 import './components/TodoList/TodoList.scss';
 
@@ -19,61 +20,106 @@ const App: React.FC = () => {
 
   const [currentTodos, setCurrentTodos] = useState(prepearedTodos);
 
+  const [isValidTitle, setValidTitle] = useState(true);
+  const [isValidUser, setValidUser] = useState(true);
+
   const [todoTitle, setTodoTitle] = useState('');
   const [todoUserId, setTodoUserId] = useState(0);
   const [todoIsCompleted, setIsCompleted] = useState(false);
+
+  const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const todoToAdd = {
+      id: currentTodos.length + 1,
+      title: todoTitle,
+      userId: todoUserId,
+      user: '',
+      completed: todoIsCompleted,
+    };
+
+    if ((todoToAdd.title === '') || (!todoToAdd.userId)) {
+      if (todoToAdd.title === '') {
+        setValidTitle(false);
+      }
+
+      if (!todoToAdd.userId) {
+        setValidUser(false);
+      }
+    } else {
+      setCurrentTodos(prevTodos => [...prevTodos, todoToAdd]);
+      setTodoTitle('');
+      setTodoUserId(0);
+    }
+  };
 
   return (
     <div className="App">
       <form
         id="main_form"
-        action="GET"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={handleSubmit}
       >
-        <input
-          type="text"
-          name="title"
-          id="main_form-name"
-          placeholder="title"
-          onChange={(event => {
-            if (event.target.classList.contains('not_valid')) {
-              event.target.classList.remove('not_valid');
-            }
+        <label htmlFor="main_form-name">
+          <input
+            type="text"
+            name="title"
+            id="main_form-name"
+            className={classNames({ not_valid: !isValidTitle })}
+            placeholder="title"
+            value={todoTitle}
+            onChange={(event => {
+              setTodoTitle(event.target.value);
+              if (event.target.className === 'not_valid') {
+                setValidTitle(true);
+              }
 
-            setTodoTitle(event.target.value);
-          }
-          )}
-        />
-        <select
-          name="user"
-          id="userPick"
-          onChange={(event => {
-            setTodoUserId(Number(event.target.value));
-            if (event.target.classList.contains('not_valid')) {
-              event.target.classList.remove('not_valid');
+              setTodoTitle(event.target.value);
             }
-          }
-          )}
-        >
-          <option
-            id="default_option"
-            value=""
+            )}
+          />
+          {(!isValidTitle && (
+            <p className="error-text">
+              Input is empty
+            </p>
+          ))}
+        </label>
+        <label htmlFor="userPick">
+          <select
+            name="user"
+            id="userPick"
+            value={todoUserId}
+            className={classNames({ not_valid: !isValidUser })}
+            onChange={(event => {
+              setTodoUserId(Number(event.target.value));
+              if (event.target.className === 'not_valid') {
+                setValidUser(true);
+              }
+            }
+            )}
           >
-            Choose a user
-          </option>
-          {
-            users.map(singleUser => (
-              <option
-                key={singleUser.id}
-                value={singleUser.id}
-              >
-                {singleUser.name}
-              </option>
-            ))
-          }
-        </select>
+            <option
+              id="default_option"
+              value=""
+            >
+              Choose a user
+            </option>
+            {
+              users.map(singleUser => (
+                <option
+                  key={singleUser.id}
+                  value={singleUser.id}
+                >
+                  {singleUser.name}
+                </option>
+              ))
+            }
+          </select>
+          {(!isValidUser && (
+            <p className="error-text">
+              User is empty
+            </p>
+          ))}
+        </label>
         <div>
           <p>Completed</p>
           <label htmlFor="completed_true">
@@ -104,49 +150,6 @@ const App: React.FC = () => {
         </div>
         <button
           type="submit"
-          onClick={() => {
-            const todoToAdd = {
-              id: currentTodos.length + 1,
-              title: todoTitle,
-              userId: todoUserId,
-              user: '',
-              completed: todoIsCompleted,
-            };
-
-            if ((todoToAdd.title === '') || (!todoToAdd.userId)) {
-              if (todoToAdd.title === '') {
-                const temp
-                = document.getElementById('main_form-name') as HTMLInputElement;
-
-                temp.value = '';
-                temp.placeholder = 'Please enter the title';
-                temp.classList.add('not_valid');
-              }
-
-              if (!todoToAdd.userId) {
-                const temp
-                = document.getElementById(
-                  'default_option',
-                ) as HTMLOptionElement;
-
-                temp.innerHTML = 'Please choose user';
-                temp.classList.add('not_valid');
-
-                const picker
-                = document.getElementById('userPick') as HTMLSelectElement;
-
-                picker.classList.add('not_valid');
-              }
-            } else {
-              setCurrentTodos(prevTodos => [...prevTodos, todoToAdd]);
-              const form : HTMLFormElement
-              = document.getElementById('main_form') as HTMLFormElement;
-
-              form.reset();
-              setTodoTitle('');
-              setTodoUserId(0);
-            }
-          }}
         >
           Add
         </button>

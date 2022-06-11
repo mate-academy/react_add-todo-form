@@ -10,6 +10,11 @@ select {
   outline: none;
 }
 
+.error-text {
+  color: red;
+  font-weight: bold;
+}
+
 .not_valid {
   border: 1px solid red;
   color: red;
