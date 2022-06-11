@@ -1,0 +1,28 @@
+.todo-info {
+  margin-bottom: 30px;
+  padding: 10px;
+  text-align: left;
+
+  border: 1px solid black;
+  border-radius: 10px;
+
+  transition: background-color 0.3s;
+
+  &__title {
+    margin: 0 15px 15px 0;
+  }
+
+  &__assigned {
+    display: inline-block;
+    margin-right: 20px;
+    font-weight: bold;
+  }
+
+  &__description--completed {
+    color: green;
+  }
+
+  &:hover {
+    background-color: #efefef;
+  }
+}
