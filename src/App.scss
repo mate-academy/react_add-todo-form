@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+input {
+  outline: none;
+}
+
+select {
+  outline: none;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+}
+
+.not_valid {
+  border: 1px solid red;
+  color: red;
+  font-weight: bold;
+
+  &::placeholder {
+    color: red;
+    font-weight: bold;
+  }
+}
