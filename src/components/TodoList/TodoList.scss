@@ -1,0 +1,30 @@
+.todoList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 30px;
+
+  &__items {
+    width: 300px;
+    height: 300px;
+    text-decoration: none;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: rgb(204, 255, 204);
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.05);
+      border-radius: 10px;
+    }
+  }
+
+  &__image {
+    height: 24px;
+    width: 24px;
+  }
+}
