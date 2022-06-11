@@ -1,0 +1,15 @@
+.todoContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1300px;
+  margin: 30px auto 0;
+}
+
+.todoItem {
+  list-style: none;
+  width: 400px;
+}

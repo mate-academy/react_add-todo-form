@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(./img/background.jpg);
+}
+
+.app {
+  text-align: center;
+  padding-bottom: 50px;
+
+  &__title {
+    margin-top: 30px;
+  }
+}
+
+.form {
+  width: 400px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto 0;
+
+  &__row {
+    position: relative;
+    margin-top: 20px;
+    width: 400px;
+    height: 50px;
+  }
+
+  &__input {
+    width: 100%;
+    resize: none;
+    padding: 12px;
+    font-size: 16px;
+    border-width: 1px;
+    border-color: #cccccc;
+    background-color: #ffffff;
+    color: #000000;
+    border-style: solid;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(66, 66, 66, 0.75);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__btn {
+    margin-top: 30px;
+    padding: 15px 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 1px solid rgb(170, 129, 129);
+    background-color: rgb(170, 129, 129);
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.5s;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(170, 129, 129);
+      z-index: -1;
+      transition: all 0.3s;
+    }
+    &:hover::before {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+    &:hover {
+      color: rgb(170, 129, 129);
+      background-color: #fff;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    background-color: yellow;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+}

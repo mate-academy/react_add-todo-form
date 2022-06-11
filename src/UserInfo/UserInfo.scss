@@ -1,0 +1,16 @@
+.list {
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    line-height: 2;
+    font-size: 18px;
+  
+    & > span {
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+}
