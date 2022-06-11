@@ -1,0 +1,14 @@
+.user {
+  &__link {
+    color: #333;
+    cursor: pointer;
+
+    &-name {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: #0b0b63;
+    }
+  }
+}
