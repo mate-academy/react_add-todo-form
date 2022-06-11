@@ -1,0 +1,24 @@
+.todo {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+  }
+}
+
+.list__item {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+
+  border: 2px solid red;
+  border-radius: 15px;
+
+  padding: 10px;
+
+  &--active {
+    border: 1px solid green;
+
+  }
+}
