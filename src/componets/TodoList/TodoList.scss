@@ -1,0 +1,14 @@
+.list {
+  border: 1px black solid;
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  &_item {
+    display: flex;
+    width: 400px;
+    border: 1px black solid;
+    flex-direction: column;
+  }
+}
