@@ -1,0 +1,19 @@
+.todo {
+  height: 300px;
+  border: 1px solid rgb(18, 120, 145);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px green;
+  padding-left: 10px;
+  cursor: pointer;
+
+  transition: all 0.5s;
+
+  &__title {
+    color: rgb(26, 89, 68);
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 5px rgb(0, 71, 101);
+  }
+}
