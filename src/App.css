@@ -1,3 +1,17 @@
 .App {
   text-align: center;
 }
+
+.App__box {
+  background-color: cornflowerblue;
+  margin: 20px;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  width: 50vw;
+  border: 3px solid rgb(28, 6, 90);
+}
+
+.App__span {
+  color: black;
+}
