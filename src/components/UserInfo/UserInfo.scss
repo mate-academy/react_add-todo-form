@@ -1,0 +1,10 @@
+@import "../App/App.scss";
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: $color-grey;
+  font-size: 30px;
+  align-items: flex-start;
+}
