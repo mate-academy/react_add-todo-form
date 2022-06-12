@@ -8,17 +8,15 @@ type Props = {
 };
 
 export const TodoList: React.FC<Props> = ({ preparedTodos }) => (
-  <>
-    <ul>
-      {preparedTodos.map(item => (
-        <li className="box box-color box--hover" key={item.id}>
-          {item.user
-            && (
-              <TodoInfo todo={item} />
-            )}
-        </li>
-      ))}
-    </ul>
-  </>
+  <ul>
+    {preparedTodos.map(item => (
+      <li className="box box-color box--hover" key={item.id}>
+        {item.user
+          && (
+            <TodoInfo todo={item} />
+          )}
+      </li>
+    ))}
+  </ul>
 
 );

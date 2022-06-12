@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [todosArr, setTodosArr] = useState(preparedTodos);
 
-  const [selectNameId, setSelectNameId] = useState(0);
+  const [selectUserId, setSelectUserId] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [errorInput, setErrorInput] = useState('');
   const [errorSelect, setErrorSelect] = useState('');
@@ -28,7 +28,7 @@ const App: React.FC = () => {
     setTodosArr(currentTodo => [newTodo, ...currentTodo]);
 
     setQuery('');
-    setSelectNameId(0);
+    setSelectUserId(0);
     setCompleted(false);
   };
 
@@ -38,14 +38,14 @@ const App: React.FC = () => {
     event.preventDefault();
 
     const newTodo = {
-      userId: Date.now(),
+      userId: selectUserId,
       id: Date.now(),
       title: query,
       completed,
-      user: users.find(user => user.id === selectNameId) || null,
+      user: users.find(user => user.id === selectUserId) || null,
     };
 
-    if (query && selectNameId) {
+    if (query && selectUserId) {
       rewrite(newTodo);
     }
 
@@ -53,7 +53,7 @@ const App: React.FC = () => {
       setErrorInput('Please enter the title');
     }
 
-    if (!selectNameId) {
+    if (!selectUserId) {
       setErrorSelect('Please choose a user');
     }
   };
@@ -88,9 +88,9 @@ const App: React.FC = () => {
 
           <select
             className="select is-success is-rounded"
-            value={selectNameId}
+            value={selectUserId}
             onChange={(event) => {
-              setSelectNameId(+event.target.value);
+              setSelectUserId(+event.target.value);
               setErrorSelect('');
             }}
           >
@@ -128,7 +128,7 @@ const App: React.FC = () => {
           className="button"
           type="submit"
         >
-          App
+          Add
         </button>
 
       </form>
