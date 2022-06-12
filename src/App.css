@@ -1,3 +1,67 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  background-color: rgb(213, 245, 233);
+}
+
+.app {
+  padding: 30px 40px;
+}
+
+.app-title {
+  display: inline-block;
+  padding: 10px 15px;
+
+  font-size: 36px;
+  font-weight: bold;
+  color: rgb(9, 176, 120);
+
+  border: 3px solid rgb(9, 176, 120);
+}
+
+.form {
+  margin-top: 40px;
+}
+
+.form__field {
+  display: block;
+  padding: 8px 10px;
+
+  border: 2px solid rgb(9, 176, 120);
+  border-radius: 5px;
+}
+
+.field-select {
+  margin-top: 15px;
+
+  border: 2px solid rgb(9, 176, 120);
+  border-radius: 5px;
+}
+
+.error {
+  border: 3px solid red;
+}
+
+.error-text {
+  display: block;
+  margin-bottom: 15px;
+
+  font-size: 14px;
+  font-weight: bold;
+  color: darkslategray;
+}
+
+.string_error {
+  color: red;
+  font-weight: bold;
+}
+
+.btn {
+  margin-top: 15px;
 }
