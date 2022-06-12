@@ -1,0 +1,17 @@
+.todo-card {
+  width: 300px;
+}
+
+.todo-card__title {
+  font-size: 18px;
+  font-weight: bold;
+  font-style: oblique;
+  color: darkslategray;
+}
+
+.todo-card__status {
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(132, 124, 124);
+}
