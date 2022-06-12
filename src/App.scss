@@ -1,0 +1,33 @@
+.todo {
+  display: flex;
+  flex-basis: 1000px;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+    background-color: #00acdc;
+    border: 1px solid #0cf;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 9px 0 #aabcaa;
+    justify-content: space-between;
+  }
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.form {
+  margin: 20px;
+  display: flex;
+  gap: 10px;
+}

@@ -4,7 +4,7 @@
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
 ## Task
-Implement ability to add TODOs to the `TodoList` implemented in [Static list of todos](https://github.com/mate-academy/react_static-list-of-todos)
+  (https://github.com/mate-academy/react_static-list-of-todos)
 
 1. Create `App` component storing `todos` array and displaying it using `TodoList`
 1. Create a form to add new TODOs
