@@ -1,3 +1,21 @@
-.App {
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+.title {
   text-align: center;
+}
+
+form {
+  margin: 20px auto 0;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.todo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 30px;
+  gap: 24px;
+  list-style: none;
 }
