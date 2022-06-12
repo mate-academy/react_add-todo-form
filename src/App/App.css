@@ -1,0 +1,48 @@
+iframe {
+  pointer-events: none;
+}
+
+.App {
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.inputStyle {
+  padding: 0.38rem 0.75rem;
+  font-size: 1rem;
+  color: #495057;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  display: block;
+  margin: 10px auto;
+}
+
+.btn {
+  color: #fff;
+  cursor: pointer;
+  background-color: #007bff;
+  border-color: #007bff;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  padding: 0.38rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  margin-top: 10px;
+
+}
+
+.btn:hover {
+  background-color: #014389;
+}
+
+.error {
+  color: #f00;
+  font-size: 20px;
+  font-weight: bold;
+
+}
