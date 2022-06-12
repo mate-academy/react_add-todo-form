@@ -1,0 +1,90 @@
+@font-face {
+  font-family: "CyberFont";
+  src: url("./fonts/TERMINAT.TTF");
+}
+
+$base-color:rgb(0, 183, 255);
+$dark-color: rgb(0, 86, 121);
+
+html {
+  background-color: black;
+}
+
+.App {
+  font-family: "CyberFont", Courier, monospace;
+  text-transform: uppercase;
+  color: $base-color;
+  background-color: black;
+  padding: 100px;
+}
+
+.warning {
+  color: red;
+}
+
+.form {
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  border: 4px solid $base-color;
+  margin: 20px 0;
+
+  & > * {
+    margin: 5px 0;
+  }
+}
+
+.form__title {
+  background-color: black;
+  color: $base-color;
+  font-family: "CyberFont", Arial, monospace;
+  width: 300px;
+  outline: none;
+  border: 2px solid $base-color;
+
+  &:focus {
+    outline: none;
+    border: 2px solid red;
+  }
+}
+
+.form__select {
+  background-color: black;
+  font-family: "CyberFont", Arial, monospace;
+  color: $base-color;
+  outline: none;
+  border: 2px solid $base-color;
+
+  &:focus {
+    outline: none;
+    border: 2px solid red;
+  }
+}
+
+input::placeholder {
+  color: $base-color;
+  font-family: "CyberFont", Arial, monospace;
+}
+
+.form__radio {
+  display : none;
+}
+
+.form__radioLabel:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.unselected {
+  color: $dark-color;
+}
+
+.form__button {
+  font-family: "CyberFont", Courier, monospace;
+  font-size: 1.3rem;
+  background-color: $base-color;
+
+  &:hover {
+    background-color: red;
+  }
+}
