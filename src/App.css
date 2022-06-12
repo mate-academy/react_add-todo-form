@@ -1,3 +1,13 @@
-.App {
-  text-align: center;
+.form-style {
+  padding: 5px;
+}
+
+.error-style {
+  color: red;
+  padding: 0 0 0 10px;
+}
+
+.button-style {
+  width: 175px;
+  padding: 5px;
 }
