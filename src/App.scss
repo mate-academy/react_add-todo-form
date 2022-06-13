@@ -67,7 +67,7 @@ input::placeholder {
 }
 
 .form__radio {
-  display : none;
+  display: none;
 }
 
 .form__radioLabel:hover {
@@ -81,7 +81,7 @@ input::placeholder {
 
 .form__button {
   font-family: "CyberFont", Courier, monospace;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   background-color: $base-color;
 
   &:hover {

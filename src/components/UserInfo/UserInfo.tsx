@@ -6,12 +6,12 @@ interface Props {
 }
 
 export const UserInfo: React.FC<Props> = ({ user }) => (
-  <>
-    {user.name}
+  <div>
+    <span data-cy="username">{user.name}</span>
     <br />
-    <a href={`mailto:${user.email}`}>{user.email}</a>
+    <a data-cy="email" href={`mailto:${user.email}`}>{user.email}</a>
     <br />
     {'User ID: '}
     {user.id}
-  </>
+  </div>
 );
