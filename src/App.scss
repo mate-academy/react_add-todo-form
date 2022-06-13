@@ -1,0 +1,19 @@
+.app {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    gap: 5px;
+  }
+
+  &__error {
+    color: red;
+  }
+}
