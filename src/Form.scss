@@ -1,0 +1,44 @@
+.form {
+  padding: 10px;
+  background-color: #f7fdbe;
+  border-radius: 5px;
+  min-height: 100px;
+  max-width: 500px;
+  box-shadow: 0.5px 0.5px 3px #202b30;
+
+  &__title,
+  &__userName,
+  &__button {
+    margin-top: 10px;
+    padding: 5px;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 16px;
+    color: #202b30;
+    background-color: #f7fdbe;
+    border: 0.5px solid #202b30;
+    border-radius: 3px;
+    box-shadow: 0.5px 0.5px 1px #202b30;
+  }
+
+  &__title-error,
+  &__userName-error {
+    color: red;
+  }
+
+  &__button {
+    box-shadow: 0.5px 0.5px 3px #202b30;
+    min-width: 100px;
+
+    &:hover {
+      box-shadow: 0.5px 0.5px 7px #202b30;
+      background-color: #b5be5e;
+    }
+
+    &:active {
+      color: #f7fdbe;
+      background-color: #202b30;
+      border: 0.5px solid #f7fdbe;
+      border-radius: 5px;
+    }
+  }
+}
