@@ -73,6 +73,7 @@ const App: React.FC = () => {
           <label>
             {'Task title : '}
             <input
+              data-cy="titleInput"
               className="form__title"
               type="text"
               name="title"
@@ -89,6 +90,7 @@ const App: React.FC = () => {
         <label>
           {'Choose assignee for a task : '}
           <select
+            data-cy="userSelect"
             className="form__select"
             value={todoUser}
             onChange={(event) => {
