@@ -1,17 +1,122 @@
-import React from 'react';
-import './App.css';
-
+import React, { useState } from 'react';
+import todos from './api/todos';
 import users from './api/users';
+import { TodoList } from './components/TodoList/TodoList';
+import './App.scss';
+
+const findUserById = (userId: number) => {
+  return users.find(user => user.id === userId) || null;
+};
+
+const prepared = () => {
+  return todos.map(todo => ({
+    ...todo,
+    user: findUserById(todo.userId),
+  }));
+};
 
 const App: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [userIdError, setUserIdError] = useState(false);
+  const [preparedTodos, setPrepareTodos] = useState(prepared);
+
+  const setNewUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setUserIdError(false);
+  };
+
+  const setNewTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const addNewTodo = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (title.trim() === '') {
+      setTitleError(true);
+    }
+
+    if (userId === 0) {
+      setUserIdError(true);
+    }
+
+    if (title.trim() !== '' && userId !== 0) {
+      const newTodo = {
+        userId,
+        id: preparedTodos.length + 1,
+        title,
+        completed: false,
+        user: findUserById(userId),
+      };
+
+      setPrepareTodos((currentTodos) => [...currentTodos, newTodo]);
+      setUserId(0);
+      setTitle('');
+    }
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <form
+        className="App__form"
+        onSubmit={addNewTodo}
+      >
+        <input
+          className="App__form--field"
+          type="text"
+          value={title}
+          placeholder="Title"
+          onChange={setNewTitle}
+        />
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+        {titleError && (
+          <span className="App__form--error">
+            Please enter the title
+          </span>
+        )}
+
+        <select
+          className="App__form--field"
+          value={userId}
+          onChange={setNewUserId}
+        >
+
+          <option
+            value={0}
+          >
+            Choose a user
+          </option>
+
+          {users.map(user => (
+
+            <option
+              value={user.id}
+              key={user.id}
+            >
+              {user.name}
+            </option>
+          ))}
+        </select>
+
+        {userIdError && (
+          <span className="App__form--error">
+            Please choose a user
+          </span>
+        )}
+
+        <button
+          className="App__form--field"
+          type="submit"
+        >
+          Add
+        </button>
+      </form>
+
+      <TodoList todos={preparedTodos} />
+
     </div>
   );
 };
