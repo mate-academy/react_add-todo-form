@@ -1,0 +1,20 @@
+.todoInfo {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 15px;
+  font-size: 20px;
+  transition: transform 0.4s;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0);
+
+  &__status {
+    color: red;
+
+  }
+
+  &:hover {
+    background-color: rgb(59, 230, 59);
+    transform: scale(1.05);
+  }
+}
