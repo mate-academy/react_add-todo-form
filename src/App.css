@@ -1,3 +1,10 @@
-.App {
-  text-align: center;
+form {
+  width: 400px;
+  margin: 0 auto;
+}
+
+li {
+  height: 300px;
+  margin-right: 20px;
+  flex-shrink: 0;
 }
