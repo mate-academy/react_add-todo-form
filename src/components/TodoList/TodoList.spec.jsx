@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { mount } from '@cypress/react';
+// eslint-disable-next-line import/named
 import { TodoList } from './TodoList';
 import todos from '../../api/todos';
 
