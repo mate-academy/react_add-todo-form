@@ -1,5 +1,4 @@
-import React from 'react';
-import './TodoItem.scss';
+import React, { useState } from 'react';
 
 import { PrepTodo } from '../../react-app-env';
 
@@ -16,6 +15,8 @@ export const TodoItem: React.FC<Props> = ({ todo }) => {
     user,
   } = todo;
 
+  const [done, setDone] = useState(completed);
+
   return (
     <>
       {user && (
@@ -23,7 +24,16 @@ export const TodoItem: React.FC<Props> = ({ todo }) => {
       )}
 
       <p>{`Title - ${name}`}</p>
-      <p>{`completed - ${completed}`}</p>
+      <p>
+        <label>
+          Done
+          <input
+            type="checkbox"
+            checked={done}
+            onChange={() => setDone(!done)}
+          />
+        </label>
+      </p>
 
       <p>{`id - ${id}`}</p>
       <p>{`userId - ${userId}`}</p>

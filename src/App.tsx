@@ -23,13 +23,14 @@ const App: React.FC = () => {
 
   const [selectUserId, setSelectUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [wasCompleted, setWasCompleted] = useState(false);
 
   const addTodo = (name: string, userId: number) => {
     const newTodo: PrepTodo = {
       id: Date.now(),
       name,
       userId,
-      completed: false,
+      completed: wasCompleted,
       user: getUserById(selectUserId),
     };
 
@@ -48,11 +49,6 @@ const App: React.FC = () => {
       setSelectUserId(0);
     }
   };
-
-  // const todosWithUser: PrepTodo[] = todos.map(todo => ({
-  //   ...todo,
-  //   user: getUserById(todo.userId),
-  // }));
 
   return (
     <div className="App">
@@ -73,11 +69,9 @@ const App: React.FC = () => {
             }}
             className="App__input"
           />
-          <p>
-            {hasNameError && (
-              <span className="error">Write name of &quot;to do&quot;</span>
-            )}
-          </p>
+          {hasNameError && (
+            <p className="error">Write name of &quot;to do&quot;</p>
+          )}
         </label>
 
         <div className="">
@@ -106,11 +100,35 @@ const App: React.FC = () => {
             ))}
           </select>
 
-          <p>
-            {hasUserIdError && (
-              <span className="error">Choose user</span>
-            )}
-          </p>
+          {hasUserIdError && (
+            <span className="error">Choose user</span>
+          )}
+
+        </div>
+
+        <div>
+          <label>
+            completed
+            <input
+              type="radio"
+              name="complete"
+              value="true"
+              onChange={() => {
+                setWasCompleted(true);
+              }}
+            />
+          </label>
+          <label>
+            should complete
+            <input
+              type="radio"
+              name="complete"
+              value="false"
+              onChange={() => {
+                setWasCompleted(false);
+              }}
+            />
+          </label>
         </div>
 
         <button
