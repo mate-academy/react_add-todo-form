@@ -9,12 +9,11 @@ import todosFromServer from './api/todos';
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
-
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
-
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -35,13 +34,14 @@ const App: React.FC = () => {
         userId,
         id: todos.length + 1,
         title,
-        completed: false,
+        completed: isChecked,
       };
 
       setTodos((current) => [...current, newTodo]);
 
       setTitle('');
       setUserId(0);
+      setIsChecked(false);
     }
   };
 
@@ -98,6 +98,18 @@ const App: React.FC = () => {
         {hasUserError && (
           <p className="text-danger">Please choose a user</p>
         )}
+
+        <div className="form-check form-switch text-center mb-3">
+          <label className="form-check-label">
+            <input
+              className="form-check-input"
+              checked={isChecked}
+              type="checkbox"
+              onChange={() => setIsChecked(!isChecked)}
+            />
+            completed?
+          </label>
+        </div>
 
         <button
           className="btn btn-success"
