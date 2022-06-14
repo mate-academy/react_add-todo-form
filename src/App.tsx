@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { User, FullTodo, Todo } from './react-app-env';
+import { User, FullTodo } from './react-app-env';
 import { Todolist } from './components/TodoList/TodoList';
 
 import users from './api/users';
@@ -17,43 +17,39 @@ const App: React.FC = () => {
   const AddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (input.length === 0) {
+    if (!input.length) {
       settitleError(true);
-    } else {
-      settitleError(false);
     }
 
-    if (name.length === 0) {
+    if (name === '') {
       setUserError(true);
-    } else {
-      setUserError(false);
     }
 
-    const currentUser = users.find(user => user.name === name);
-
-    const newTodo: Todo = {
-      userId: currentUser ? currentUser.id : 0,
-      id: upgrade[upgrade.length - 1].id + 1,
-      title: input,
-      completed: status,
-    };
+    const currentUser = users.find(user => user.name === name) || null;
 
     if (input.length > 0 && name.length > 0) {
+      const newTodo = {
+        userId: currentUser ? currentUser.id : 0,
+        id: upgrade[upgrade.length - 1].id + 1,
+        title: input,
+        user: currentUser,
+        completed: status,
+      };
+
       setUpgrade(current => ([
         ...current,
         newTodo,
       ]));
-    }
 
-    setInput('');
-    setName('');
-    setStatus(false);
+      setInput('');
+      setName('');
+      setStatus(false);
+    }
   };
 
   const PreparedTodos: FullTodo[] = upgrade.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
-
   }));
 
   return (
@@ -72,6 +68,7 @@ const App: React.FC = () => {
           value={input}
           onChange={(event) => {
             setInput(event.target.value);
+            settitleError(false);
           }}
         />
 
@@ -82,6 +79,7 @@ const App: React.FC = () => {
           value={name}
           onChange={(event) => {
             setName(event.target.value);
+            setUserError(false);
           }}
         >
           <option value="">Choose user</option>
