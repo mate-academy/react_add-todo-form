@@ -1,0 +1,14 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+
+  &--item {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f7fdbe;
+    box-shadow: 0.5px 0.5px 3px #202b30;
+    list-style-type: none;
+  }
+}

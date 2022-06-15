@@ -1,0 +1,21 @@
+.todo {
+  &--title {
+    padding-bottom: 10px;
+    border-bottom: solid 1px #202b30;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  &--status {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  &--userdata {
+    margin-top: 10px;
+
+    &-header {
+      font-weight: 600;
+    }
+  }
+}
