@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 const App: React.FC = () => {
   const [preparedTodos, setTodos] = useState(todos.map(todo => ({
     ...todo,
-    User: (users.find(user => user.id === todo.userId) || null),
+    user: (users.find(user => user.id === todo.userId) || null),
   })));
 
   const [title, setTitle] = useState('');
@@ -27,7 +27,7 @@ const App: React.FC = () => {
       userId: +todoUser,
       completed,
       id: (Math.max(...preparedTodos.map(todo => todo.id)) + 1),
-      User: users.find(user => user.id === +todoUser) || null,
+      user: users.find(user => user.id === +todoUser) || null,
     };
 
     if (title.trim().length <= 0) {

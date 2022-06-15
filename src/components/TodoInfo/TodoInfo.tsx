@@ -26,14 +26,15 @@ export const TodoInfo: React.FC<Props> = ({ card }) => (
       </div>
       <div className="todo-person">
         <p>
-          {card.User ? (
-            <UserInfo user={card.User} />
-          ) : 'user not assigned'}
+          {card.user
+            ? (
+              <UserInfo user={card.user} />
+            )
+            : 'user not assigned'}
         </p>
       </div>
       <div>
-        {'Task ID: '}
-        {card.id}
+        {`Task ID: ${card.id}`}
       </div>
       <p>
         status:&#160;

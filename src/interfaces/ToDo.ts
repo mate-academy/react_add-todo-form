@@ -5,5 +5,5 @@ export interface ToDo {
   id: number;
   title: string;
   completed: boolean;
-  User: User | null,
+  user: User | null,
 }

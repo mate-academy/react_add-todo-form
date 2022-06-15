@@ -5,13 +5,13 @@ interface Props {
   user: User,
 }
 
-export const UserInfo: React.FC<Props> = ({ user }) => (
+export const UserInfo: React.FC<Props> = ({ user: { email, name, id } }) => (
   <div>
-    <span data-cy="username">{user.name}</span>
+    <span data-cy="username">{name}</span>
     <br />
-    <a data-cy="email" href={`mailto:${user.email}`}>{user.email}</a>
+    <a data-cy="email" href={`mailto:${email}`}>{email}</a>
     <br />
     {'User ID: '}
-    {user.id}
+    {id}
   </div>
 );
