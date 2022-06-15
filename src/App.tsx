@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import './App.css';
 
 import users from './api/users';
 import todosList from './api/todos';
