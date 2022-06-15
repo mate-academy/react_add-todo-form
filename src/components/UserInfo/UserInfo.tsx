@@ -1,42 +1,35 @@
 import { User } from '../../types/User';
 
-export const UserInfo: React.FC<User> = ({
-  name,
-  username,
-  email,
-  phone,
-  address,
-}) => (
-  <>
-    {'name: '}
-    {name}
-    <br />
-    {'user name: '}
-    {username}
-    <br />
-    {'email: '}
-    {email}
-    {phone && (
-      <>
-        <br />
-        {'phone number: '}
-        {phone}
-      </>
-    )}
-    {address && (
-      <>
-        <br />
+type Props = {
+  user: User;
+};
+
+export const UserInfo: React.FC<Props> = ({ user }) => {
+  const {
+    name,
+    username,
+    email,
+    phone,
+    address,
+  } = user;
+
+  return (
+    <>
+      {`name: ${name}`}
+      <br />
+      {`user name: ${username}`}
+      <br />
+      {`email: ${email}`}
+      <br />
+      {phone && `phone number: ${phone}`}
+      <br />
+      {address && `
         address:
-        <br />
-        {'street: '}
-        {address.street}
-        {', city: '}
-        {address.city}
-        {', suite: '}
-        {address.suite}
-        {', zipcode: '}
-        {address.zipcode}
-      </>
-    )}
-  </>
-);
+        ${address.street} street,
+        ${address.city},
+        ${address.suite},
+        ${address.zipcode}
+      `}
+    </>
+  );
+};

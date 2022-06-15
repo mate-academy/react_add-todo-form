@@ -3,9 +3,10 @@ import './App.scss';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
-import './Form.scss';
+import './components/FormTitle/Form.scss';
+import { FormTitle } from './components/FormTitle';
 
-const preparedTodos = todos.map((todo) => ({
+const preparedTodos = todos.map(todo => ({
   ...todo,
   user: users.find((user) => user.id === todo.userId) || null,
 }));
@@ -48,40 +49,35 @@ const App: React.FC = () => {
     addTodo();
   };
 
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setChecks('checked');
+  };
+
+  const changeUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserName(event.target.value);
+    setChecks('checked');
+  };
+
   return (
     <div className="App">
       <div className="form">
         <h2 className="form__header">Add a new todo:</h2>
+
         <form onSubmit={(event) => event.preventDefault()}>
-          <div>
-            <input
-              className="form__title"
-              type="text"
-              name="title"
-              placeholder="Title"
-              data-cy="titleInput"
-              value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setChecks('checked');
-              }}
-            />
-            {checks === 'title error' && (
-              <span className="form__title-error">
-                &emsp;Please enter the title!
-              </span>
-            )}
-          </div>
+          <FormTitle
+            title={title}
+            changeTitle={changeTitle}
+            checks={checks}
+          />
+
           <div>
             <select
               className="form__userName"
               name="userName"
               data-cy="userSelect"
               value={userName}
-              onChange={(event) => {
-                setUserName(event.target.value);
-                setChecks('checked');
-              }}
+              onChange={changeUserName}
             >
               <option value="">Choose user</option>
               {users.map((user) => (
@@ -96,6 +92,7 @@ const App: React.FC = () => {
               </span>
             )}
           </div>
+
           <button type="submit" className="form__button" onClick={handleClick}>
             Add
           </button>
