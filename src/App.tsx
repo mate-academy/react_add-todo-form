@@ -1,17 +1,34 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
 
-import users from './api/users';
+import './App.css';
+import { GoodsForm } from './components/GoodsForm';
+import { MainContent } from './components/MainContent';
 
 const App: React.FC = () => {
+  const [counter, setCounter] = useState(0);
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <header>
+        <h1>Form</h1>
 
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
+        <button
+          type="button"
+          onClick={() => {
+            setCounter((prevCounter) => prevCounter + 1);
+          }}
+        >
+          {counter}
+        </button>
+      </header>
+
+      <MainContent />
+
+      <aside>
+        <GoodsForm />
+      </aside>
+
+      <footer>Footer</footer>
     </div>
   );
 };
