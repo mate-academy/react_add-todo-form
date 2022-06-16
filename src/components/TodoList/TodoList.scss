@@ -1,0 +1,16 @@
+.todo-list {
+  list-style-type: none;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 8px;
+
+  &__item {
+    border: 1px solid #000;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
