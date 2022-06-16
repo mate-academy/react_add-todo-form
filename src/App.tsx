@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [initialTodos, setInitialTodos] = useState(preparedTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
-  const [todoId, setTodoId] = useState(preparedTodos[lastIndexOfTodos].id)
+  const [todoId, setTodoId] = useState(preparedTodos[lastIndexOfTodos].id);
 
   const addTodo = (title: string, userId: number) => {
     setTodoId((prev) => prev + 1);
@@ -79,7 +79,7 @@ const App: React.FC = () => {
         <button type="submit">Create todo</button>
       </form>
 
-      <TodoList preparedTodos={initialTodos}/>
+      <TodoList preparedTodos={initialTodos} />
     </div>
   );
 };

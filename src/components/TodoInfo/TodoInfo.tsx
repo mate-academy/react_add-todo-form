@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { PreparedTodos } from '../../app.typedefs';
-import { UserInfo } from '../UserInfo';
+import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoInfo.scss';
 
 type Props = {
