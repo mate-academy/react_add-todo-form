@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+}
+
+.form {
+  width: 400px;
+  margin: 0 auto;
+
+  &__field {
+    border: 1px solid transparent;
+  }
+}
+
+.error {
+  border: 1px solid red;
+}
