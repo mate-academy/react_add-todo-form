@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
+import cn from 'classnames';
 
 import users from './api/users';
 import todos from './api/todos';
@@ -20,10 +21,10 @@ const App: React.FC = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [todoId, setTodoId] = useState(preparedTodos[lastIndexOfTodos].id);
+  const [hasValidTitle, setHasValidTitle] = useState(false);
+  const [hasValidUser, setHasValidUser] = useState(false);
 
   const addTodo = (title: string, userId: number) => {
-    setTodoId((prev) => prev + 1);
-
     const newTodo: PreparedTodos = {
       title,
       userId,
@@ -35,11 +36,26 @@ const App: React.FC = () => {
     setInitialTodos([...initialTodos, newTodo]);
   };
 
-  const hasValidTitle = (event: React.FormEvent) => {
+  const validateInputs = () => {
+    if (!hasValidTitle) {
+      setHasValidTitle(true);
+    }
+
+    if (!hasValidUser) {
+      setHasValidUser(true);
+    }
+  };
+
+  const hasValidInput = (event: React.FormEvent) => {
     event.preventDefault();
 
+    validateInputs();
+
     if (todoTitle && selectedUser) {
+      setTodoId((prev) => prev + 1);
       addTodo(todoTitle, selectedUser);
+      setTodoTitle('');
+      setSelectedUser(0);
     }
   };
 
@@ -48,21 +64,25 @@ const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={hasValidTitle}
+        onSubmit={hasValidInput}
       >
         <input
           type="text"
           placeholder="Create todo"
+          className={cn({ error: hasValidTitle })}
           value={todoTitle}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setHasValidTitle(false);
             setTodoTitle(event.target.value);
           }}
         />
 
         <select
           id="userSelect"
+          className={cn({ error: hasValidUser })}
           value={selectedUser}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            setHasValidUser(false);
             setSelectedUser(+event.target.value);
           }}
         >
@@ -76,8 +96,16 @@ const App: React.FC = () => {
           })}
         </select>
 
-        <button type="submit">Create todo</button>
+        <button
+          type="submit"
+          className="button"
+        >
+          Create todo
+        </button>
       </form>
+
+      <br />
+      <br />
 
       <TodoList preparedTodos={initialTodos} />
     </div>

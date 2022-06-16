@@ -7,8 +7,6 @@ interface Props {
 }
 
 export const TodoList: React.FC<Props> = ({ preparedTodos }) => {
-  // const [userId, setUserId] = useState(preparedTodos[0].userId);
-
   return (
     <ul>
       {preparedTodos.map(todo => {

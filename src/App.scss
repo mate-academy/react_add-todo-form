@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  box-sizing: border-box;
 }
 
 ul {
@@ -9,4 +10,13 @@ ul {
 
 .App {
   text-align: center;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.button {
+  padding: 3px;
+  background-color: green;
 }
