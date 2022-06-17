@@ -20,9 +20,10 @@ const App: React.FC = () => {
 
   const addTask = () => {
     if (input && selectedUser) {
+      const taskId = preparedTodoList.map(task => task.id);
       const newTask: PreparedTodosType = {
         userId: selectedUser,
-        id: preparedTodoList.length + 1,
+        id: Math.max(...taskId) + 1,
         title: input,
         completed: false,
         user: usersFromApi.find(user => user.id === selectedUser) || null,
