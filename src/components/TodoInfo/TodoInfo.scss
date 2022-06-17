@@ -1,0 +1,33 @@
+$base-color:rgb(0, 183, 255);
+$dark-color: rgb(0, 86, 121);
+
+.todo-card {
+  padding: 10px;
+  border: 3px solid $base-color;
+  font-size: 12px;
+
+  &:hover {
+    border-color: red;
+  }
+
+  &__done {
+    border-color: $dark-color;
+
+    & * {
+      color: $dark-color;
+    }
+  }
+
+  & *:hover {
+    color: red;
+  }
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.todo-person {
+  text-align: end;
+}

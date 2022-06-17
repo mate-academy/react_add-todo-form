@@ -1,0 +1,8 @@
+$base-color:rgb(0, 183, 255);
+$dark-color: rgb(0, 86, 121);
+
+.todo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
