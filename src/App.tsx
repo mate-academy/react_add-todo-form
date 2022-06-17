@@ -5,12 +5,13 @@ import users from './api/users';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const App: React.FC = () => {
-  const [preparedTodos, setTodos] = useState(todos.map(todo => ({
-    ...todo,
-    user: (users.find(user => user.id === todo.userId) || null),
-  })));
+const todosWithUser = todos.map(todo => ({
+  ...todo,
+  user: (users.find(user => user.id === todo.userId) || null),
+}));
 
+const App: React.FC = () => {
+  const [preparedTodos, setTodos] = useState([...todosWithUser]);
   const [title, setTitle] = useState('');
   const [todoUser, setTodoUser] = useState('0');
   const [completed, setCompleted] = useState(false);
