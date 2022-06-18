@@ -11,109 +11,131 @@ const preparedTodos: Todo[] = todos.map(todo => ({
   user: users.find(user => user.id === todo.userId) || null,
 }));
 
-const App: React.FC = () => {
-  const [todosList, setTodoList] = useState([...preparedTodos]);
-  const [selectedUser, setselectedUser] = useState(0);
-  const [title, setTitle] = useState('');
-  const [hasInvalidTitle, setHasInvalidTitle] = useState(false);
-  const [hasInvalidUser, setHasInvalidUser] = useState(false);
+const getUserByID = (userId: number) => {
+  return users.find(user => userId === user.id) || null;
+};
 
-  const newTodos = () => (
-    [...todosList, {
-      userId: selectedUser,
-      id: todosList.length - 1,
+const App: React.FC = () => {
+  const [todosList, setTodos] = useState([...preparedTodos]);
+  const [todoTitle, setTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
+
+  const [hasTitleInputError, setHasTitleInputError] = useState(false);
+  const [hasUserInputError, setHasUserInputError] = useState(false);
+
+  const addtodo = (title: string, userId: number) => {
+    const newTodo: Todo = {
+      userId,
+      id: Date.now(),
       title,
       completed: false,
-      user: users.find(user => user.id === selectedUser),
-    }]
-  );
+      user: getUserByID(userId),
+    };
 
-  const addTodo = (event: React.FormEvent) => {
+    setTodos([...todosList, newTodo]);
+  };
+
+  const clearForm = () => {
+    setSelectedUser(0);
+    setTitle('');
+  };
+
+  const validateInputs = () => {
+    if (!todoTitle) {
+      setHasTitleInputError(true);
+    }
+
+    if (!selectedUser) {
+      setHasUserInputError(true);
+    }
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasInvalidTitle(!title);
-    setHasInvalidUser(!selectedUser);
+    validateInputs();
 
-    if (title && selectedUser) {
-      setTodoList(newTodos);
-      setTitle('');
-      setselectedUser(0);
+    if (todoTitle && selectedUser) {
+      addtodo(todoTitle, selectedUser);
+      clearForm();
     }
   };
 
   return (
     <div className="App container is-widescreen">
-      <h1>Static list of todos</h1>
+      <h1>Add todo form</h1>
       <form
-        onSubmit={addTodo}
+        onSubmit={handleFormSubmit}
       >
-        <div className="notification is-primary">
-          <input
-            type="text"
-            name="title"
-            data-cy="titleInput"
-            placeholder="Add task"
-            value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setHasInvalidTitle(false);
-            }}
-            className={cn(
-              { error: hasInvalidTitle },
-              'input is-medium',
-            )}
-          />
+        <label htmlFor="taskTitle">
+          <div className="notification is-primary">
+            <input
+              type="text"
+              name="title"
+              data-cy="titleInput"
+              placeholder="Add task"
+              value={todoTitle}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setHasTitleInputError(false);
+                setTitle(event.target.value);
+              }}
+              className={cn(
+                'input is-medium',
+                { error: hasTitleInputError },
+              )}
+            />
 
-          <span>
-            {hasInvalidTitle && (
-              'Please enter the title'
-            )}
-          </span>
-        </div>
+            <span>
+              {hasTitleInputError && (
+                'Please enter the title'
+              )}
+            </span>
+          </div>
+        </label>
 
-        <div className="notification is-primary">
-          <select
-            value={selectedUser}
-            onChange={(event) => {
-              setselectedUser(+event.target.value);
-              setHasInvalidUser(false);
-            }}
-            className={cn(
-              { error: hasInvalidUser },
-            )}
-          >
-            <option value={0} disabled>
-              Choose User
-            </option>
-            {users.map(user => (
-              <option
-                value={user.id}
-                key={user.id}
-              >
-                {user.name}
+        <label htmlFor="userName">
+          <div className="notification is-primary">
+            <select
+              value={selectedUser}
+              onChange={(event) => {
+                setHasUserInputError(false);
+                setSelectedUser(Number(event.target.value));
+              }}
+              className={cn({ error: hasUserInputError })}
+            >
+              <option value="0" disabled>
+                Choose User
               </option>
-            ))}
-          </select>
+              {users.map(user => (
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
 
-          <span>
-            {hasInvalidUser && (
-              'Please choose a User'
-            )}
-          </span>
-        </div>
+            <span>
+              {hasUserInputError && (
+                'Please choose a User'
+              )}
+            </span>
+          </div>
+        </label>
+
         <div className="notification is-primary">
           <button
             type="submit"
             className="button is-success is-light"
           >
-            Add To Do
+            Add todo
           </button>
         </div>
 
       </form>
       <TodoList preparedTodos={todosList} />
     </div>
-
   );
 };
 
