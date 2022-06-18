@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const addtodo = (title: string, userId: number) => {
     const newTodo: Todo = {
       userId,
-      id: Date.now(),
+      id: todosList.length + 1,
       title,
       completed: false,
       user: getUserByID(userId),
