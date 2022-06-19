@@ -21,14 +21,14 @@ const App: React.FC = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [todoId, setTodoId] = useState(preparedTodos[lastIndexOfTodos].id);
-  const [hasValidTitle, setHasValidTitle] = useState(false);
-  const [hasValidUser, setHasValidUser] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const addTodo = (title: string, userId: number) => {
     const newTodo: PreparedTodos = {
       title,
       userId,
-      id: todoId,
+      id: todoId + 1,
       completed: false,
       user: users.find(user => selectedUser === user.id) || null,
     };
@@ -37,12 +37,12 @@ const App: React.FC = () => {
   };
 
   const validateInputs = () => {
-    if (!hasValidTitle) {
-      setHasValidTitle(true);
+    if (!todoTitle) {
+      setHasTitleError(true);
     }
 
-    if (!hasValidUser) {
-      setHasValidUser(true);
+    if (!selectedUser) {
+      setHasUserError(true);
     }
   };
 
@@ -66,23 +66,34 @@ const App: React.FC = () => {
       <form
         onSubmit={hasValidInput}
       >
+        <label htmlFor="todoTitle">Todo title: </label>
         <input
           type="text"
+          id="todoTitle"
           placeholder="Create todo"
-          className={cn({ error: hasValidTitle })}
+          className={cn({ errorTitle: hasTitleError })}
           value={todoTitle}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setHasValidTitle(false);
+            setHasTitleError(false);
             setTodoTitle(event.target.value);
           }}
         />
 
+        <div className="error">
+          <span>
+            {hasTitleError && (
+              'Please choose a User'
+            )}
+          </span>
+        </div>
+
+        <label htmlFor="userSelect">Choose a User: </label>
         <select
           id="userSelect"
-          className={cn({ error: hasValidUser })}
+          className={cn({ errorUser: hasUserError })}
           value={selectedUser}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-            setHasValidUser(false);
+            setHasUserError(false);
             setSelectedUser(+event.target.value);
           }}
         >
@@ -95,6 +106,14 @@ const App: React.FC = () => {
             );
           })}
         </select>
+
+        <div className="error">
+          <span>
+            {hasUserError && (
+              'Please choose a User'
+            )}
+          </span>
+        </div>
 
         <button
           type="submit"
