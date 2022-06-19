@@ -1,3 +1,8 @@
-.App {
-  text-align: center;
+.list {
+  padding: 20px;
+}
+
+.App,
+.UserInfo {
+  padding: 50px;
 }
