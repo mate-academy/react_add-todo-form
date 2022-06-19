@@ -1,0 +1,12 @@
+.user-info {
+  margin-left: 32px;
+  padding: 16px;
+  max-width: max-content;
+
+  border: 1px dashed purple;
+  background-color: aquamarine;
+
+  &__item {
+    list-style: none;
+  }
+}

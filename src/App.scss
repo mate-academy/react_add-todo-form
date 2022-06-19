@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.error {
+  height: 24px;
+}
+
+.errorTitle {
+  border: 1px solid red;
+}
+
+.errorUser {
+  border: 1px solid red;
+}
+
+.button {
+  padding: 3px;
+  background-color: green;
+}
