@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { PreparedTodos } from '../../appTypeDefs';
 import { UserInfo } from '../UserInfo/UserInfo';
 
@@ -6,7 +6,7 @@ interface TodoInfoProps {
   todo: PreparedTodos
 }
 
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+export const TodoInfo: FC<TodoInfoProps> = ({ todo }) => {
   const {
     id,
     title,
@@ -28,7 +28,6 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
           id={todo.id}
           name={user?.name || 'Unknown'}
           email={user?.email || 'Unknown'}
-          company={user?.company?.name || 'Unknown'}
         />
       </td>
     </tr>

@@ -1,5 +1,5 @@
 export interface Todo {
-  userId: number;
+  userId: number | undefined;
   id: number;
   title: string;
   completed: boolean;
@@ -25,7 +25,7 @@ export interface Company {
 }
 
 export interface User {
-  id: number;
+  id?: number | undefined;
   name: string;
   username: string;
   email: string;

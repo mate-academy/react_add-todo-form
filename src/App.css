@@ -1,8 +1,4 @@
-.list {
-  padding: 20px;
-}
-
-.App,
 .UserInfo {
-  padding: 50px;
+  display: inline-flex;
+  list-style: none;
 }

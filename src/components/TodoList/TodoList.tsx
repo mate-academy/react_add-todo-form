@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { PreparedTodos } from '../../appTypeDefs';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
@@ -6,7 +6,7 @@ interface TodoListProps {
   preparedToDos: PreparedTodos[];
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ preparedToDos }) => {
+export const TodoList: FC<TodoListProps> = ({ preparedToDos }) => {
   return (
     <table className="table table-sm table-dark">
       <thead>
