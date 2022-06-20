@@ -2,3 +2,9 @@
   display: inline-flex;
   list-style: none;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
