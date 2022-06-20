@@ -1,7 +1,7 @@
 const users = [
   {
     id: 1,
-    name: 'Leanne Graham',
+    name: 'Vova Kryvytskyy',
     username: 'Bret',
     email: 'Sincere@april.biz',
     address: {
@@ -24,7 +24,7 @@ const users = [
   },
   {
     id: 2,
-    name: 'Ervin Howell',
+    name: 'Sonia Blade',
     username: 'Antonette',
     email: 'Shanna@melissa.tv',
     address: {
@@ -47,7 +47,7 @@ const users = [
   },
   {
     id: 3,
-    name: 'Clementine Bauch',
+    name: 'Sub-Zero',
     username: 'Samantha',
     email: 'Nathan@yesenia.net',
     address: {
@@ -70,7 +70,7 @@ const users = [
   },
   {
     id: 4,
-    name: 'Patricia Lebsack',
+    name: 'Scorpion',
     username: 'Karianne',
     email: 'Julianne.OConner@kory.org',
     address: {
@@ -93,7 +93,7 @@ const users = [
   },
   {
     id: 5,
-    name: 'Chelsey Dietrich',
+    name: 'Johnny Sins',
     username: 'Kamren',
     email: 'Lucio_Hettinger@annie.ca',
     address: {
@@ -116,7 +116,7 @@ const users = [
   },
   {
     id: 6,
-    name: 'Mrs. Dennis Schulist',
+    name: 'Goro',
     username: 'Leopoldo_Corkery',
     email: 'Karley_Dach@jasper.info',
     address: {
@@ -139,7 +139,7 @@ const users = [
   },
   {
     id: 7,
-    name: 'Kurtis Weissnat',
+    name: 'Rick Astley',
     username: 'Elwyn.Skiles',
     email: 'Telly.Hoeger@billy.biz',
     address: {
@@ -162,7 +162,7 @@ const users = [
   },
   {
     id: 8,
-    name: 'Nicholas Runolfsdottir V',
+    name: 'Roman Apostol',
     username: 'Maxime_Nienow',
     email: 'Sherwood@rosamond.me',
     address: {
@@ -185,7 +185,7 @@ const users = [
   },
   {
     id: 9,
-    name: 'Glenna Reichert',
+    name: 'Kun Lao',
     username: 'Delphine',
     email: 'Chaim_McDermott@dana.io',
     address: {
@@ -208,7 +208,7 @@ const users = [
   },
   {
     id: 10,
-    name: 'Clementina DuBuque',
+    name: 'Misha Hrynko',
     username: 'Moriah.Stanton',
     email: 'Rey.Padberg@karina.biz',
     address: {
