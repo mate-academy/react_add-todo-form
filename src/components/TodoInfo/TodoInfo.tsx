@@ -24,7 +24,6 @@ export const TodoInfo: React.FC<Props> = ({
         name={user.name}
         username={user.username}
         email={user.email}
-
       />
     )}
   </div>

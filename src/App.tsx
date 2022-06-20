@@ -85,11 +85,9 @@ const App: React.FC = () => {
               )}
             />
 
-            <span>
-              {hasTitleInputError && (
-                'Please enter the title'
-              )}
-            </span>
+            {hasTitleInputError && (
+              <span>Please enter the title</span>
+            )}
           </div>
         </label>
 
@@ -116,11 +114,9 @@ const App: React.FC = () => {
               ))}
             </select>
 
-            <span>
-              {hasUserInputError && (
-                'Please choose a User'
-              )}
-            </span>
+            {hasUserInputError && (
+              <span>Please Choose a User</span>
+            )}
           </div>
         </label>
 
