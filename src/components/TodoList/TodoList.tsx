@@ -8,7 +8,7 @@ interface TodoListProps {
 
 export const TodoList: FC<TodoListProps> = ({ preparedToDos }) => {
   return (
-    <table className="table table-sm table-dark">
+    <table className="table is-fullwidth">
       <thead>
         <tr>
           <th scope="col">ID</th>

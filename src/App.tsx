@@ -20,11 +20,11 @@ export const preparedTodos: PreparedTodos[] = prepareTodos(todos, users);
 
 const App: FC = () => {
   const [todoTitle, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [toDoList, setToDoList] = useState([...preparedTodos]);
 
   const getUser = () => users.find(user => (
-    user.id === userId
+    user.name === userId
   ));
 
   const addToDo = () => {
@@ -75,6 +75,10 @@ const App: FC = () => {
                 name="users"
                 id="users"
                 data-cy="userSelect"
+                defaultValue="Choose a user"
+                onChange={(event) => {
+                  setUserId(event.target.value);
+                }}
               >
                 <option
                   disabled
@@ -86,9 +90,6 @@ const App: FC = () => {
                     <option
                       value={`${user.name}`}
                       key={user.id}
-                      onClick={() => {
-                        setUserId(user.id);
-                      }}
                     >
                       {user.name}
                     </option>
