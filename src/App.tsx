@@ -39,16 +39,17 @@ const App: React.FC = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const preparedTitleLength = title.trim().length;
 
     if (userId === 0) {
       setErrorSelect(true);
     }
 
-    if (title.length === 0) {
+    if (preparedTitleLength === 0) {
       setErrorTitle(true);
     }
 
-    if (title.length !== 0 && userId !== 0) {
+    if (preparedTitleLength !== 0 && userId !== 0) {
       addTodo();
       setTitle('');
       setUserId(0);
