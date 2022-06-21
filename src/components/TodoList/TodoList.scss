@@ -1,0 +1,24 @@
+.todoList {
+  margin: 0;
+  padding: 0;
+}
+
+.todoItem {
+  background-color: white;
+  margin-bottom: 20px;
+  width: 500px;
+
+  border: solid 1px #000;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  list-style: none;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(105%);
+  }
+}

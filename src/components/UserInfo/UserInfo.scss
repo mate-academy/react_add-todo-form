@@ -1,0 +1,17 @@
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 20px;
+
+  &__name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__email {
+    font-size: 15px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
