@@ -94,9 +94,9 @@ const App: React.FC = () => {
         </button>
 
         {showTitleError
-          && <p className="App__error">You did not enter task!</p>}
+          && <p className="App__error">Please enter the title!</p>}
         {showUserError
-          && <p className="App__error">You did not choose user!</p>}
+          && <p className="App__error">Please choose a user!</p>}
       </form>
       <TodoList preparedTodos={todoList} />
     </div>
