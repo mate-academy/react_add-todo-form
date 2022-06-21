@@ -39,11 +39,11 @@ const App: React.FC = () => {
 
     if (title && selectedUser) {
       setTodosList(newTodos);
-    }
 
-    setTitle('');
-    setCompleted(false);
-    setselectedUser(0);
+      setTitle('');
+      setCompleted(false);
+      setselectedUser(0);
+    }
 
     setHasErrorTitle(!title);
     setHasErrorUser(!selectedUser);
@@ -89,9 +89,9 @@ const App: React.FC = () => {
             data-cy="userSelect"
             value={selectedUser}
             className={classnames(
-              { error: hasErrorTitle },
               'input-select',
               'form__field',
+              { error: hasErrorTitle },
             )}
             onChange={(event) => {
               setselectedUser(+event.target.value);
