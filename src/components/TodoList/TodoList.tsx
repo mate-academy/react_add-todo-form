@@ -35,6 +35,10 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
     <>
       <form onSubmit={(event) => {
         event.preventDefault();
+
+        if (newTitle && selectedUser) {
+          addTodo();
+        }
       }}
       >
         <label htmlFor="titleInput">
@@ -94,17 +98,15 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
         <br />
 
         <button
-          type="button"
+          type="submit"
           onClick={() => {
             if (!newTitle) {
               setShowTitleError(true);
             }
 
             if (!selectedUser) {
-              return setShowSelectErrorMessage(true);
+              setShowSelectErrorMessage(true);
             }
-
-            return addTodo();
           }}
         >
           Add
