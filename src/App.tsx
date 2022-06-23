@@ -123,22 +123,4 @@ const App: React.FC = () => {
   );
 };
 
-// (
-//   <>
-//     <div className="App">
-//       <h1>Static list of todos</h1>
-//       <TodoList todos={preparedTodos} />
-//     </div>
-
-//     <div className="App">
-//       <h1>Add todo form</h1>
-
-//       <p>
-//         <span>Users: </span>
-//         {users.length}
-//       </p>
-//     </div>
-//   </>
-// );
-
 export default App;
