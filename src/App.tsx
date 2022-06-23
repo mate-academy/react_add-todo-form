@@ -28,11 +28,14 @@ const App: React.FC = () => {
   const [selecedUserId, setSelecedUserId] = useState(0);
   const [hasIdError, setIdError] = useState(false);
 
+  const [done, setDone] = useState(false);
+
   const [toDoList, setToDoList] = useState(prepariedToDos);
 
   const newToDoConstruct = (
     userId: number,
     title: string,
+    status: boolean,
   ): FinalFormToDo => {
     const courentUser: User | undefined = users.find((person: User) => (
       person.id === userId) || null);
@@ -41,14 +44,17 @@ const App: React.FC = () => {
       userId,
       id: toDoList[toDoList.length - 1].id + 1,
       title,
-      completed: false,
+      completed: status,
       user: courentUser,
     };
   };
 
   const inputFollower = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if ((/^[\w ]+$/).test(event.target.value)) {
+    if ((/^[\wа-яА-Я ]+$/).test(event.target.value)) {
       setInput(event.target.value);
+      if (hasinputError) {
+        setInputError(false);
+      }
     }
   };
 
@@ -63,15 +69,19 @@ const App: React.FC = () => {
 
     if (selecedUserId && input) {
       setToDoList(corentList => (
-        [...corentList, newToDoConstruct(selecedUserId, input)]
+        [...corentList, newToDoConstruct(selecedUserId, input, done)]
       ));
       setInput('');
       setSelecedUserId(0);
+      setDone(false);
     }
   };
 
   const selectedId = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelecedUserId(+event.target.value);
+    if (hasIdError) {
+      setIdError(false);
+    }
   };
 
   return (
@@ -97,7 +107,7 @@ const App: React.FC = () => {
         <select
           value={selecedUserId}
           onChange={selectedId}
-          className={cn({ error: hasinputError })}
+          className={cn({ error: hasIdError })}
         >
           <option value="0">
             Choose a user
@@ -109,6 +119,14 @@ const App: React.FC = () => {
             </option>
           ))}
         </select>
+
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={() => {
+            setDone(curentState => !curentState);
+          }}
+        />
 
         {hasIdError && (
           <span
@@ -129,8 +147,11 @@ const App: React.FC = () => {
         <ul>
           {toDoList.map(toDo => (
             <li key={toDo.id}>
-              <h1>Task</h1>
-              <p>{toDo.title}</p>
+              <h1>{`Task ${toDo.id}`}</h1>
+              <title>
+                {toDo.title}
+              </title>
+
               <p>{toDo.user?.name}</p>
               <p>{toDo.user?.email}</p>
             </li>
