@@ -33,7 +33,6 @@ const App: FC = () => {
   const [toDoList, setToDoList] = useState([...preparedTodos]);
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
-  // const [isSelected, setIsSelected] = useState(true);
 
   const validateInput = () => {
     if (!userId || userId === 'Choose a user') {
@@ -74,9 +73,19 @@ const App: FC = () => {
     }
   };
 
+  const handleFormSubmit = (event:React.FormEvent) => {
+    event.preventDefault();
+    addToDo();
+  };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleError('');
     setTitle(event.target.value.replace(/[^a-z0-9 ]/gi, ''));
+  };
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserError('');
+    setUserId(event.target.value);
   };
 
   return (
@@ -86,10 +95,7 @@ const App: FC = () => {
 
         <form
           className="Form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            addToDo();
-          }}
+          onSubmit={(event) => handleFormSubmit(event)}
         >
           <div className="field">
             <label
@@ -114,10 +120,7 @@ const App: FC = () => {
                 id="users"
                 data-cy="userSelect"
                 value={userId}
-                onChange={(event) => {
-                  setUserError('');
-                  setUserId(event.target.value);
-                }}
+                onChange={(event) => handleSelectChange(event)}
               >
                 <option
                   disabled
