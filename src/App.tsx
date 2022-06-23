@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 
 import todos from './api/todos';
 import users from './api/users';
@@ -55,6 +55,7 @@ const App: React.FC = () => {
       >
         <div>
           <select
+            className="form__select"
             name=""
             id=""
             data-cy="userSelect"
@@ -79,16 +80,17 @@ const App: React.FC = () => {
               </option>
             ))}
           </select>
+        </div>
 
-          <p>
+        <div>
+          <p className="error">
             {errorUser && (
               'Please choose a user'
             )}
           </p>
-        </div>
 
-        <div>
           <input
+            className="form__input"
             type="text"
             name="title"
             data-cy="titleInput"
@@ -100,14 +102,19 @@ const App: React.FC = () => {
             }}
 
           />
-          <p>
+          <p className="form__error">
             {errorTitle && (
               'Please enter the title'
             )}
           </p>
         </div>
 
-        <button type="submit">Add todo</button>
+        <button
+          type="submit"
+          className="form__button-submit"
+        >
+          Add todo
+        </button>
 
       </form>
 

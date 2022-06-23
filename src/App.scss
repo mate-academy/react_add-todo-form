@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+.title {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 32px;
+  font-style: italic;
+  text-align: center;
+}
+
+.form {
+  max-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 20px;
+
+  &__items {
+    width: 300px;
+  }
+
+  &__select {
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 20px;
+  }
+
+  &__input {
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button-submit {
+    width: 100px;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border-radius: 20px;
+  }
+}
