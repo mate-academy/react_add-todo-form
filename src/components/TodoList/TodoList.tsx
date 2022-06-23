@@ -56,13 +56,10 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
               const title = event
                 .target
                 .value
-                .split('').map(character => {
-                  if (!/[a-z0-9]/i.test(character) && !/\s/.test(character)) {
-                    return '';
-                  }
-
-                  return character;
-                }).join('');
+                .split('').filter(character => (
+                  /[a-z0-9]/i.test(character) || /\s/.test(character)
+                ))
+                .join('');
 
               setNewTitle(title);
             }}
