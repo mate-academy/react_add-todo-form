@@ -1,7 +1,16 @@
-import { FC, memo, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  memo,
+  useState,
+} from 'react';
 import 'bulma/css/bulma.min.css';
 import './App.css';
-import { PreparedTodos, Todo, User } from './appTypeDefs';
+import {
+  PreparedTodos,
+  Todo,
+  User,
+} from './appTypeDefs';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
@@ -24,7 +33,7 @@ const App: FC = () => {
   const [toDoList, setToDoList] = useState([...preparedTodos]);
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
-  let uName = '';
+  const [isSelected, setIsSelected] = useState(true);
 
   const validateInput = () => {
     if (!userId) {
@@ -36,13 +45,18 @@ const App: FC = () => {
     }
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setUserId('');
+    setIsSelected(true);
+  };
+
   const getUser = () => users.find(user => user.name === userId);
 
   const addToDo = () => {
     if (todoTitle && userId) {
       setToDoList(prevState => ([
         ...prevState,
-
         {
           userId: getUser()?.id,
           id: prevState.length + 1,
@@ -51,11 +65,14 @@ const App: FC = () => {
           user: getUser(),
         },
       ]));
-
-      setTitle('');
     } else {
       validateInput();
     }
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitleError('');
+    setTitle(event.target.value.replace(/[^a-z0-9 ]/gi, ''));
   };
 
   return (
@@ -64,17 +81,19 @@ const App: FC = () => {
         <h1 className="title is-1">To-Do List</h1>
 
         <form
-          action="#/"
-          method="POST"
           className="Form"
           onSubmit={(e) => {
             e.preventDefault();
+            addToDo();
+            resetForm();
+
+            return 0;
           }}
         >
-          <div className="field is-grouped">
+          <div className="field">
             <label
               htmlFor="title"
-              className="control is-expanded"
+              className="control"
             >
               <input
                 type="text"
@@ -83,16 +102,9 @@ const App: FC = () => {
                 id="title"
                 placeholder="Type the title"
                 className="input is-rounded"
-                onChange={(event) => {
-                  setTitleError('');
-                  setTitle(
-                    event.target.value,
-                  );
-                }}
+                onChange={(event) => handleChange(event)}
               />
             </label>
-            <br />
-            <br />
             <p className="has-text-danger">{titleError}</p>
 
             <div className="select control">
@@ -104,37 +116,36 @@ const App: FC = () => {
                 onChange={(event) => {
                   setUserError('');
                   setUserId(event.target.value);
+                  setIsSelected(false);
                 }}
               >
                 <option
                   disabled
+                  selected={isSelected}
                 >
                   Choose a user
                 </option>
                 {
                   users.map(user => {
-                    uName = user.name;
+                    const { name, id } = user;
 
                     return (
                       <option
-                        value={uName}
-                        key={user.id}
+                        value={name}
+                        key={id}
                       >
-                        {uName}
+                        {name}
                       </option>
                     );
                   })
                 }
               </select>
-              <p className="has-text-danger">{userError}</p>
             </div>
+            <p className="has-text-danger">{userError}</p>
 
             <button
               type="submit"
               className="button control is-success"
-              onClick={() => {
-                addToDo();
-              }}
             >
               Add
             </button>
