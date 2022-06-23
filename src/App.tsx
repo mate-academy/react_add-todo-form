@@ -29,14 +29,14 @@ export const preparedTodos: PreparedTodos[] = prepareTodos(todos, users);
 
 const App: FC = () => {
   const [todoTitle, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState('Choose a user');
   const [toDoList, setToDoList] = useState([...preparedTodos]);
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
-  const [isSelected, setIsSelected] = useState(true);
+  // const [isSelected, setIsSelected] = useState(true);
 
   const validateInput = () => {
-    if (!userId) {
+    if (!userId || userId === 'Choose a user') {
       setUserError('Please choose a user');
     }
 
@@ -47,14 +47,16 @@ const App: FC = () => {
 
   const resetForm = () => {
     setTitle('');
-    setUserId('');
-    setIsSelected(true);
+    setUserId('Choose a user');
   };
 
   const getUser = () => users.find(user => user.name === userId);
 
   const addToDo = () => {
-    if (todoTitle && userId) {
+    if (todoTitle
+      && userId !== 'Choose a user'
+      && userId
+    ) {
       setToDoList(prevState => ([
         ...prevState,
         {
@@ -65,6 +67,8 @@ const App: FC = () => {
           user: getUser(),
         },
       ]));
+
+      resetForm();
     } else {
       validateInput();
     }
@@ -85,9 +89,6 @@ const App: FC = () => {
           onSubmit={(e) => {
             e.preventDefault();
             addToDo();
-            resetForm();
-
-            return 0;
           }}
         >
           <div className="field">
@@ -98,7 +99,7 @@ const App: FC = () => {
               <input
                 type="text"
                 data-cy="titleInput"
-                defaultValue=""
+                value={todoTitle}
                 id="title"
                 placeholder="Type the title"
                 className="input is-rounded"
@@ -112,16 +113,14 @@ const App: FC = () => {
                 name="users"
                 id="users"
                 data-cy="userSelect"
-                defaultValue="Choose a user"
+                value={userId}
                 onChange={(event) => {
                   setUserError('');
                   setUserId(event.target.value);
-                  setIsSelected(false);
                 }}
               >
                 <option
                   disabled
-                  selected={isSelected}
                 >
                   Choose a user
                 </option>
