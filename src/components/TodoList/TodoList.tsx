@@ -1,6 +1,6 @@
 import React from 'react';
 import { PreparedTodos } from '../../app.typedefs';
-import { TodoInfo } from '../TodoInfo/TodoInfo';
+import { TodoInfo } from '../TodoInfo';
 
 interface Props {
   preparedTodos: PreparedTodos[];
