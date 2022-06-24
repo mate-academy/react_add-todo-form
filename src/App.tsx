@@ -71,8 +71,6 @@ const App: React.FC = () => {
           )}
         </div>
 
-
-
         <div>
           <select
             value={selectedUser}
