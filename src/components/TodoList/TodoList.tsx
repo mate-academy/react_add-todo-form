@@ -63,7 +63,7 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
             data-cy="titleInput"
             placeholder="Title"
             value={newTitle}
-            onChange={(inputHandler)}
+            onChange={inputHandler}
           />
 
           {showTitleError
