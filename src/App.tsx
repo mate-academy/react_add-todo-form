@@ -4,17 +4,12 @@ import todos from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { PreparedTodo } from './react-app-env';
 
-const preparedTodos: PreparedTodo[] = todos.map((todo) => {
-  const user = users.find(person => person.id === todo.userId) || undefined;
-
-  return (
-    {
-      ...todo,
-      user,
-    }
-  );
-});
-
+const preparedTodos: PreparedTodo[] = todos.map((todo) => (
+  {
+    ...todo,
+    user: users.find(person => person.id === todo.userId),
+  }
+));
 const App: React.FC = () => {
   const [todoList, setTodoList] = useState(preparedTodos);
   const [todoTitle, setTodoTitle] = useState('');
@@ -25,7 +20,7 @@ const App: React.FC = () => {
   const addTodo = (title: string, userId: number):void => {
     const todo: PreparedTodo = {
       userId,
-      id: todoList.length + 1,
+      id: Math.max(...todos.map((todoElem) => todoElem.id)) + 1,
       title,
       completed: false,
       user: users.find(user => user.id === userId),
