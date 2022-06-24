@@ -21,7 +21,7 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
       title: newTitle,
       userId: selectedUser,
       completed: false,
-      id: todos.length + 1,
+      id: Math.max(...todos.map((todo) => todo.id)) + 1,
       user: users.find(user => user.id === selectedUser) || null,
     };
 
@@ -30,6 +30,19 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
     setNewTitle('');
     setSelectedUSer(0);
   }
+
+  const regex = /[^a-z0-9 ]/ig;
+
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowTitleError(false);
+
+    const title = event
+      .target
+      .value
+      .replace(regex, '');
+
+    setNewTitle(title);
+  };
 
   return (
     <>
@@ -50,19 +63,7 @@ const TodoList: React.FC<Props> = ({ initialTodos }) => {
             data-cy="titleInput"
             placeholder="Title"
             value={newTitle}
-            onChange={(event) => {
-              setShowTitleError(false);
-
-              const title = event
-                .target
-                .value
-                .split('').filter(character => (
-                  /[a-z0-9]/i.test(character) || /\s/.test(character)
-                ))
-                .join('');
-
-              setNewTitle(title);
-            }}
+            onChange={(inputHandler)}
           />
 
           {showTitleError
