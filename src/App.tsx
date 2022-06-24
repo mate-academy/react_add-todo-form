@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import './App.scss';
 import cn from 'classnames';
 import users from './api/users';
 import todos from './api/todos';
@@ -26,7 +25,7 @@ const App: React.FC = () => {
   const addtodo = (title: string, userId: number) => {
     const newTodo: Todo = {
       userId,
-      id: todosList.length + 1,
+      id: Math.max(...todosList.map((todo) => todo.id)) + 1,
       title,
       completed: false,
       user: getUserByID(userId),
@@ -108,7 +107,7 @@ const App: React.FC = () => {
               }}
               className={cn({ error: hasUserInputError })}
             >
-              <option value="0" disabled>
+              <option value="0" hidden>
                 Choose User
               </option>
               {users.map(user => (
