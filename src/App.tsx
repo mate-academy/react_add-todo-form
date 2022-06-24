@@ -5,19 +5,13 @@ import { TodoList } from './components/TodoList/TodoList';
 import { PreparedTodo } from './react-app-env';
 import './App.scss';
 
-const preparedTodos: PreparedTodo[] = todos.map((todo) => {
-  const user = users.find(person => person.id === todo.userId) || undefined;
-
-  return (
-    {
-      ...todo,
-      user,
-    }
-  );
-});
+const preparedTodo: PreparedTodo[] = todos.map(todo => ({
+  ...todo,
+  user: users.find(person => person.id === todo.userId) || undefined,
+}));
 
 const App: React.FC = () => {
-  const [todoList, setTodoList] = useState(preparedTodos);
+  const [todoList, setTodoList] = useState(preparedTodo);
   const [todoTitle, setTodoTitle] = useState('');
   const [todoUser, setTodoUser] = useState(0);
   const [showTitleError, setShowTitleError] = useState(false);
@@ -66,6 +60,8 @@ const App: React.FC = () => {
               setTodoTitle(event.target.value);
             }}
           />
+          {showTitleError
+          && <p className="App__error">Please enter the title!</p>}
         </label>
 
         <select
@@ -86,6 +82,9 @@ const App: React.FC = () => {
           ))}
         </select>
 
+        {showUserError
+          && <p className="App__error">Please choose a user!</p>}
+
         <button
           type="submit"
           className="button"
@@ -93,10 +92,6 @@ const App: React.FC = () => {
           Submit
         </button>
 
-        {showTitleError
-          && <p className="App__error">Please enter the title!</p>}
-        {showUserError
-          && <p className="App__error">Please choose a user!</p>}
       </form>
       <TodoList preparedTodos={todoList} />
     </div>
