@@ -60,7 +60,7 @@ const App: FC = () => {
         ...prevState,
         {
           userId: getUser()?.id,
-          id: prevState.length + 1,
+          id: Math.max(...prevState.map((todo) => todo.id)) + 1,
           title: todoTitle,
           completed: false,
           user: getUser(),
