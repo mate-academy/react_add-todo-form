@@ -1,5 +1,4 @@
 import React from 'react';
-import todos from '../../api/todos';
 import { PreparedTodo } from '../../types';
 import { UserInfo } from '../UserInfo/UserInfo';
 
