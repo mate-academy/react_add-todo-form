@@ -1,0 +1,23 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+li {
+  list-style-type: none;
+  padding: 2px 0;
+
+}
+
+.todoList {
+  width: 50%;
+  list-style-type: none;
+
+  &Item {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgb(128, 192, 192);
+    padding: 20px;
+    margin: 20px 0;
+
+  }
+}
