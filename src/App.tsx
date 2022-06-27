@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const addTodo = (title: string, userId: number) => {
     const todo: PreparedTodo = {
       userId,
-      id: todosList.length + 1,
+      id: Math.max(...todosList.map((element) => element.id)) + 1,
       title,
       completed: false,
       user: users.find(user => user.id === userId),
@@ -32,18 +32,17 @@ const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent):void => {
     event.preventDefault();
 
-    if (!todosTitle && !selectedUser) {
-      setTitleError(true);
+    if (!selectedUser) {
       setUserError(true);
-    } else if (!selectedUser) {
-      setUserError(true);
-    } else if (!todosTitle) {
-      setTitleError(true);
-    } else {
-      addTodo(todosTitle, selectedUser);
-      setTodosTitle('');
-      setSelectedUser(0);
     }
+
+    if (!todosTitle) {
+      setTitleError(true);
+    }
+
+    addTodo(todosTitle, selectedUser);
+    setTodosTitle('');
+    setSelectedUser(0);
   };
 
   return (
