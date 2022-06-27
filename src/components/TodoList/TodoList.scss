@@ -1,0 +1,10 @@
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+  width: 300px;
+  margin: auto;
+
+  &__item {
+    margin-top: 20px;
+  }
+}
