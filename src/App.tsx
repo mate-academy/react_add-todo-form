@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 import cn from 'classnames';
 
 import users from './api/users';
@@ -22,7 +22,7 @@ const App: React.FC = () => {
   const addtodo = (title: string, userId: number) => {
     const newTodo: PreparedTodo = {
       userId,
-      id: todosList.length + 1,
+      id: Math.max(...todosList.map((todo) => todo.id)) + 1,
       title,
       completed: false,
       user: users.find(user => userId === user.id) || null,
@@ -63,8 +63,8 @@ const App: React.FC = () => {
       <form
         onSubmit={handleFormSubmit}
       >
-        <label htmlFor="todoTitle">
-          <div>
+        <label htmlFor="title">
+          <div className="notification">
             <input
               type="text"
               name="title"
@@ -79,7 +79,9 @@ const App: React.FC = () => {
             />
 
             {titleInputError && (
-              <span>Please enter the title</span>
+              <span>
+                Please enter the title
+              </span>
             )}
           </div>
         </label>
@@ -95,7 +97,7 @@ const App: React.FC = () => {
               className={cn({ error: userInputError })}
             >
               <option value="0" disabled>
-                Select user
+                Choose User
               </option>
               {users.map(user => (
                 <option
@@ -108,13 +110,18 @@ const App: React.FC = () => {
             </select>
 
             {userInputError && (
-              <span>Please select a user</span>
+              <span>
+                Please select a user
+              </span>
             )}
           </div>
         </label>
 
-        <div>
-          <button type="submit">
+        <div className="notification">
+          <button
+            type="submit"
+            className="button"
+          >
             Add todo
           </button>
         </div>
