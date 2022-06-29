@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList';
-import { PreparedTodo } from './app.typedefs';
+import { PreparedTodo, User } from './app.typedefs';
 import todos from './api/todos';
 import users from './api/users';
 
+const findUser = (userId: number):User => {
+  const selectedUser = users.find(user => user.id === userId);
+
+  const name = selectedUser?.name;
+  const email = selectedUser?.email;
+
+  return { name, email } as User;
+};
+
 const preparedTodos: PreparedTodo[] = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId) || undefined,
+  user: findUser(todo.userId),
 }));
 
 const App: React.FC = () => {
@@ -20,10 +29,10 @@ const App: React.FC = () => {
   const addTodo = (title: string, userId: number) => {
     const todo: PreparedTodo = {
       userId,
-      id: Math.max(...todosList.map((element) => element.id)) + 1,
+      id: todosList.length + 1,
       title,
       completed: false,
-      user: users.find(user => user.id === userId),
+      user: findUser(userId),
     };
 
     setTodos([...todosList, todo]);
@@ -40,9 +49,11 @@ const App: React.FC = () => {
       setTitleError(true);
     }
 
-    addTodo(todosTitle, selectedUser);
-    setTodosTitle('');
-    setSelectedUser(0);
+    if (todosTitle && selectedUser) {
+      addTodo(todosTitle, selectedUser);
+      setTodosTitle('');
+      setSelectedUser(0);
+    }
   };
 
   return (

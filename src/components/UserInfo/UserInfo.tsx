@@ -7,9 +7,9 @@ interface Props {
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <ul>
-      <li data-cy="username">{`Name: ${user?.name}`}</li>
-      <li data-cy="email">{`Email: ${user?.email}`}</li>
-    </ul>
+    <>
+      <div data-cy="username">{`Name: ${user?.name}`}</div>
+      <div data-cy="email">{`Email: ${user?.email}`}</div>
+    </>
   );
 };
