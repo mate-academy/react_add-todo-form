@@ -109,9 +109,7 @@ const App: React.FC = () => {
         </div>
 
         <div>
-          <button
-            type="submit"
-          >
+          <button type="submit">
             ADD
           </button>
         </div>
