@@ -1,136 +1,144 @@
-import React, { useCallback, useState } from 'react';
-import './App.css';
+import React, { useCallback, useReducer, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import './App.css';
+
 import {
   Box,
-  Button, FormControl,
-  Grid, InputLabel, MenuItem, Select, SelectChangeEvent,
+  Button,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  SelectChangeEvent,
   TextField,
+  Select,
 } from '@mui/material';
+import TodoCard from './components/TodoCard';
+import { audioClick } from './assets/audio/audio';
+
 import users from './api/users';
-import Todo from './components/Todo';
+import { ActionType, Todo, User } from './models/models';
 import todos from './api/todos';
-import { ITodo } from './modules/models';
+
+const initialState = todos;
 
 const App: React.FC = () => {
-  const [myTodos, setMyTodos] = useState<ITodo[]>([]);
-  const getTodosHandler = useCallback(() => {
-    setMyTodos(todos);
-  }, [todos]);
-  const removeTodo = useCallback((id) => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    setMyTodos(myTodos => myTodos.filter(t => t.id !== id));
+  const [username, setUsername] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+
+  function reducer(state: Todo[] = initialState, action: ActionType) {
+    switch (action.type) {
+      case 'REMOVE':
+        return state.filter((todo) => todo.id !== action.payload);
+      case 'COMPLETED':
+        // eslint-disable-next-line no-case-declarations
+        const index = state.findIndex((todo) => todo.id === action.payload);
+        // eslint-disable-next-line no-case-declarations
+        const completedTodo = {
+          ...state[index],
+          completed: !state[index].completed,
+        };
+        // eslint-disable-next-line no-case-declarations
+        const newState = [...state];
+
+        newState[index] = completedTodo;
+
+        return newState;
+      case 'SUBMIT':
+        // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-non-null-assertion
+        const selectedUser: User = users.find((u) => u.username === username)!;
+        // eslint-disable-next-line no-case-declarations
+        const newTodo: Todo = {
+          id: uuidv4(),
+          title,
+          userId: selectedUser.id,
+          completed: false,
+        };
+
+        return [...state, newTodo];
+      default:
+        return state;
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const onDeleteHandler = useCallback((id) => {
+    audioClick.play();
+    dispatch({ type: 'REMOVE', payload: id });
+  }, []);
+  const onCompleteHandler = useCallback((id) => {
+    audioClick.play();
+    dispatch({ type: 'COMPLETED', payload: id });
   }, []);
 
-  const [selectedUser, setSelectedUser] = React.useState('');
-  const [newTodo, setNewTodo] = useState<ITodo>({
-    userId: '',
-    id: '',
-    title: '',
-    completed: false,
-  });
+  const onSubmitHandler = useCallback((e) => {
+    e.preventDefault();
+    audioClick.play();
+    dispatch({ type: 'SUBMIT' });
+    setTitle('');
+  }, []);
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      const candidate = {
-        userId: selectedUser,
-        id: uuidv4(),
-        title: e.target.value,
-        completed: false,
-      };
-
-      setNewTodo(candidate);
-    }, [uuidv4],
+      setTitle(e.target.value);
+    },
+    [],
   );
-
   const handleChange = (event: SelectChangeEvent) => {
-    setSelectedUser(event.target.value as string);
+    setUsername(event.target.value);
   };
 
-  const addTodoHandler = useCallback(() => {
-    const addTodo = [...myTodos, newTodo];
-
-    setMyTodos(addTodo);
-  }, [myTodos, newTodo]);
-
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <Button
-        variant="contained"
-        color="success"
-        onClick={getTodosHandler}
-      >
-        Get Todos
-      </Button>
-
-      <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
+    <Box
+      maxWidth="620px"
+      display="flex"
+      p={2}
+      flexDirection="column"
+      sx={{ margin: '0 auto', transition: '2s ease-in-out' }}
+    >
+      <FormGroup>
         <TextField
-          id="standard-basic"
-          label="Title"
-          variant="standard"
-          value={newTodo.title}
+          sx={{ width: '100%', background: '#fff', margin: '5px auto' }}
+          label="title"
+          value={title}
+          variant="filled"
           onChange={onChangeHandler}
         />
-      </Box>
-
-      <Box sx={{ maxWidth: 200, margin: '0 auto' }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Users</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedUser}
-            label="Users"
-            onChange={handleChange}
-          >
-            {/* <MenuItem value={10}>Ten</MenuItem> */}
-            {users.map((u: any) => (
-              <MenuItem
-                value={u.username}
-                key={u.id}
-              >
-                {u.username}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ marginTop: 13 }}
-        onClick={addTodoHandler}
-      >
-        Add Todo
-      </Button>
-
-      <Grid container>
-        {myTodos.map((todo) => (
-          <Grid item xs key={todo.id}>
-            <Todo
-              onClick={removeTodo}
-              id={todo.id}
-              title={todo.title}
-              userId={todo.userId}
-              completed={todo.completed}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <p>
-        <span>Users: </span>
-        {users.length}
-      </p>
-    </div>
+        <InputLabel id="demo-simple-select-label">users</InputLabel>
+        <Select
+          sx={{ background: '#ffffff' }}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={username}
+          label="user"
+          onChange={handleChange}
+        >
+          {users.map((u) => (
+            <MenuItem value={u.username} key={u.id}>
+              {' '}
+              {u.username}
+            </MenuItem>
+          ))}
+        </Select>
+        <Button
+          onClick={onSubmitHandler}
+          sx={{ margin: '5px auto', width: 100 }}
+          color="primary"
+          size="small"
+          variant="contained"
+          disabled={!username}
+        >
+          Add Task
+        </Button>
+      </FormGroup>
+      {state.map((todo) => (
+        <TodoCard
+          key={todo.id}
+          todo={todo}
+          onClick={onDeleteHandler}
+          onComplete={onCompleteHandler}
+        />
+      ))}
+    </Box>
   );
 };
 
