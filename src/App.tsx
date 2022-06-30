@@ -14,22 +14,20 @@ const App: React.FC = () => {
   const [todosList, setTodosList] = useState<Todo[]>(preparedTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [userName, setUserName] = useState(0);
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorUser, setErrorUser] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newUser = {
       userId: userName,
-      id: todosList.length + 1,
+      id: todosList[todosList.length - 1].id + 1,
       title: todoTitle,
       completed: false,
       user: users.find(user => user.id === userName) || null,
     };
 
-    setErrorTitle(!todoTitle);
-    setErrorUser(!userName);
+    setError(!userName || !todoTitle);
 
     if (userName && todoTitle) {
       setTodosList([...todosList, newUser]);
@@ -54,11 +52,11 @@ const App: React.FC = () => {
           value={todoTitle}
           onChange={(e) => {
             setTodoTitle(e.target.value);
-            setErrorTitle(false);
+            setError(false);
           }}
         />
 
-        {errorTitle && (
+        {(!todoTitle && error) && (
           <span className="app__form--item error">
             Please enter the title
           </span>
@@ -72,7 +70,7 @@ const App: React.FC = () => {
           data-cy="userSelect"
           onChange={(e) => {
             setUserName(+e.target.value);
-            setErrorUser(false);
+            setError(false);
           }}
         >
           <option disabled value="0">
@@ -85,7 +83,7 @@ const App: React.FC = () => {
           ))}
         </select>
 
-        {errorUser && (
+        {(!userName && error) && (
           <span className="app__form--item error">
             Please choose a user
           </span>
