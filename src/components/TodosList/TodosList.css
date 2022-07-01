@@ -1,0 +1,10 @@
+.todos__list {
+  list-style: none;
+}
+
+.todos__item {
+  border: 30px;
+  border-radius: 5px;
+  border-color: blueviolet;
+  background-color: burlywood;
+}
