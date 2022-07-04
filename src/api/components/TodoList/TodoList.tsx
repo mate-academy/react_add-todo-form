@@ -3,7 +3,7 @@ import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 import './TodoList.scss';
 
-import { Todo } from '../../../types/Todo';
+import { Todo } from '../types/Todo';
 
 type Props = {
   preparedTodos: Todo[];

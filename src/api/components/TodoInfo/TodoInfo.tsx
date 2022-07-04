@@ -1,9 +1,7 @@
 import React from 'react';
-import './TodoInfo.scss';
-
-import { Todo } from '../../../types/Todo';
-
+import { Todo } from '../types/Todo';
 import { UserInfo } from '../UserInfo/UserInfo';
+import './TodoInfo.scss';
 
 export const TodoInfo: React.FC<Todo> = ({ title, completed, user }) => (
   <>
@@ -23,9 +21,7 @@ export const TodoInfo: React.FC<Todo> = ({ title, completed, user }) => (
       </div>
       <p className="TodoInfo__userdata">User data:</p>
       <span>
-        {(user === null)
-          ? 'No user info'
-          : <UserInfo {...user} />}
+        {!user ? 'No user info' : <UserInfo {...user} />}
       </span>
     </div>
   </>

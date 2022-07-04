@@ -1,7 +1,7 @@
 import React from 'react';
 import './UserInfo.scss';
 
-import { User } from '../../../types/User';
+import { User } from '../types/User';
 
 export const UserInfo: React.FC<User> = ({ name, email }) => (
   <div className="UserInfo">

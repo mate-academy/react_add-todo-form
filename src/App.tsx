@@ -5,27 +5,26 @@ import { TodoList } from './api/components/TodoList/TodoList';
 import users from './api/users';
 import todos from './api/todos';
 
+const preparedTodos = todos.map(todo => {
+  const todoList = {
+    ...todo,
+    user: users.find(user => user.id === todo.userId) || null,
+  };
+
+  return todoList;
+});
+
 const App: React.FC = () => {
-  const preparedTodos = todos.map(todo => {
-    const userIndex = users.findIndex(user => user.id === todo.userId);
-
-    const todoList = {
-      ...todo,
-      user: userIndex !== -1 ? users[userIndex] : null,
-    };
-
-    return todoList;
-  });
-
   const [title, setTitle] = useState('');
   const [userId, setUserID] = useState(0);
   const [completed] = useState(false);
-  const [id, setId] = useState(0);
-  const [newTodosList, setNewTodosList] = useState(preparedTodos);
+  const [todosList, setTodosList] = useState(preparedTodos);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const addTodo = () => {
+  const addTodo = (event: React.FormEvent) => {
+    event.preventDefault();
+
     if (userId === 0) {
       setUserError(true);
     }
@@ -36,14 +35,14 @@ const App: React.FC = () => {
 
     if (userId !== 0 && title.trim() !== '') {
       const newTodoItem = {
-        id,
+        id: todos.length + 1,
         title,
         userId,
         completed,
         user: users.find((user => user.id === userId)) || null,
       };
 
-      setNewTodosList([...newTodosList, newTodoItem]);
+      setTodosList([...todosList, newTodoItem]);
       setUserID(0);
       setTitle('');
     }
@@ -55,9 +54,7 @@ const App: React.FC = () => {
       <div className="App__content">
         <form
           className="App__form"
-          onSubmit={event => {
-            event.preventDefault();
-          }}
+          onSubmit={addTodo}
         >
           <label className="App__title-block" htmlFor="title">
             Title:
@@ -82,7 +79,6 @@ const App: React.FC = () => {
             onChange={(event) => {
               return (
                 setUserID(+event.target.value),
-                setId(newTodosList.length + 1),
                 setUserError(false)
               );
             }}
@@ -117,7 +113,7 @@ const App: React.FC = () => {
           </button>
         </form>
 
-        <TodoList preparedTodos={newTodosList} />
+        <TodoList preparedTodos={todosList} />
       </div>
 
     </div>
