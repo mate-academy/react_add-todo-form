@@ -35,9 +35,7 @@ const App: React.FC = () => {
     setTodos([...todosList, todo]);
   };
 
-  const handleSubmit = (event: React.FormEvent):void => {
-    event.preventDefault();
-
+  const validate = () => {
     if (!selectedUser) {
       setUserError(true);
     }
@@ -45,6 +43,12 @@ const App: React.FC = () => {
     if (!todosTitle) {
       setTitleError(true);
     }
+  };
+
+  const handleSubmit = (event: React.FormEvent):void => {
+    event.preventDefault();
+
+    validate();
 
     if (todosTitle && selectedUser) {
       addTodo(todosTitle, selectedUser);
