@@ -18,7 +18,10 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
           : 'Not completed'}
       </p>
       User:
-      {user && <UserInfo user={user} />}
+
+      {user
+        ? <UserInfo name={user.name} email={user.email} />
+        : <p>User not found</p>}
     </div>
   );
 };

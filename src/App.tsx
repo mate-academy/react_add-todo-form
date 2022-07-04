@@ -5,13 +5,10 @@ import { PreparedTodo, User } from './app.typedefs';
 import todos from './api/todos';
 import users from './api/users';
 
-const findUser = (userId: number):User => {
+const findUser = (userId: number):User | undefined => {
   const selectedUser = users.find(user => user.id === userId);
 
-  const name = selectedUser?.name;
-  const email = selectedUser?.email;
-
-  return { name, email } as User;
+  return selectedUser;
 };
 
 const preparedTodos: PreparedTodo[] = todos.map(todo => ({

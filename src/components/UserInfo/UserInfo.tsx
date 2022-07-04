@@ -1,15 +1,15 @@
 import React from 'react';
-import { User } from '../../app.typedefs';
 
 interface Props {
-  user: User | null,
+  name: string,
+  email: string,
 }
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
+export const UserInfo: React.FC<Props> = ({ name, email }) => {
   return (
     <>
-      <div data-cy="username">{`Name: ${user?.name}`}</div>
-      <div data-cy="email">{`Email: ${user?.email}`}</div>
+      <div data-cy="username">{`Name: ${name}`}</div>
+      <div data-cy="email">{`Email: ${email}`}</div>
     </>
   );
 };
