@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+
+  &__input {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  &__button {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+.app__title {
+  display: flex;
+  justify-content: center;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+}
