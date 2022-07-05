@@ -1,0 +1,69 @@
+.addTodoFrom {
+  display: flex;
+  flex-direction: column;
+
+  width: 300px;
+
+  margin: 0 auto 40px;
+
+  &__label {
+    flex: 100%;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  &__field {
+    width: 100%;
+    padding: 10px;
+  }
+
+  &__errorText {
+    position: absolute;
+    width: max-content;
+    color: #ff3f39;
+    font-weight: bold;
+    top: 50%;
+    right: -10px;
+
+    transform: translate(100%, -50%);
+  }
+
+  &__button {
+    width: 70%;
+    padding: 10px 0;
+
+    margin: 0 auto;
+
+    position: relative;
+    outline: none;
+    background: #292929;
+
+    border: none;
+    color: #fff;
+    transition: transform 0.2s;
+
+    z-index: 1;
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+
+    &::after {
+      background: #292929;
+    }
+
+    &::before {
+      background-image: linear-gradient(135deg, #aeffb9 0%, #a091ff 100%);
+      transition: transform 0.3s;
+    }
+
+    &:hover::before {
+      transform: scale(1.2);
+    }
+  }
+}
