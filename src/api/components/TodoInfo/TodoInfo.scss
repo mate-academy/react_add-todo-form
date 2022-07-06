@@ -1,0 +1,34 @@
+h2 {
+  margin-top: 0;
+}
+
+.TodoInfo {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 10px 5px 5px black;
+  padding: 20px;
+  background-color: #def2f1;
+
+  &__status {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__status-title {
+    margin: 0;
+    font-weight: 700;
+    padding-bottom: 20px;
+  }
+
+  &__userdata {
+    border-bottom: 1px solid #000;
+  }
+}
+
+.completed {
+  color: green;
+}
+
+.notcomleted {
+  color: red;
+}
