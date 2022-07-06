@@ -14,7 +14,7 @@ export const TodoInfo: React.FC<Todo> = ({ title, completed, user }) => (
         <p className="TodoInfo__status-title">Status: </p>
         <span
           data-cy="status"
-          className={completed === true ? 'completed' : 'notcomleted'}
+          className={completed ? 'completed' : 'not completed'}
         >
           {completed === true ? 'completed' : 'not completed'}
         </span>

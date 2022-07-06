@@ -33,7 +33,7 @@ const App: React.FC = () => {
       setTitleError(true);
     }
 
-    if (userId !== 0 && title.trim() !== '') {
+    if (userId && title.trim()) {
       const newTodoItem = {
         id: todos.length + 1,
         title,
@@ -46,6 +46,16 @@ const App: React.FC = () => {
       setUserID(0);
       setTitle('');
     }
+  };
+
+  const validationTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(/[^a-zA-Zа-я0-9]/g, ''));
+    setTitleError(false);
+  };
+
+  const validationUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserID(+event.target.value);
+    setUserError(false);
   };
 
   return (
@@ -63,12 +73,7 @@ const App: React.FC = () => {
               type="text"
               id="title"
               value={title}
-              onChange={(event) => {
-                return (
-                  setTitle(event.target.value.replace(/[^a-zA-Zа-я0-9]/g, '')),
-                  setTitleError(false)
-                );
-              }}
+              onChange={validationTitle}
             />
           </label>
 
@@ -76,12 +81,7 @@ const App: React.FC = () => {
             className="App__select"
             name="addUser"
             value={userId}
-            onChange={(event) => {
-              return (
-                setUserID(+event.target.value),
-                setUserError(false)
-              );
-            }}
+            onChange={validationUser}
           >
             <option>Choose a user</option>
             {users.map(user => (
