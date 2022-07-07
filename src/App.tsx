@@ -21,21 +21,19 @@ const App: React.FC = () => {
   const [errorUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
-  const newTodo = () => (
-    [...todosList, {
-      userId: selectUser,
-      id: todosList.length + 1,
-      title,
-      completed,
-      user: users.find(user => user.id === selectUser),
-    }]
-  );
-
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
-
     if (title && selectUser) {
-      setTodosList(newTodo);
+      setTodosList([
+        ...todosList,
+        {
+          userId: selectUser,
+          id: todosList.length + 1,
+          title,
+          completed,
+          user: users.find(user => user.id === selectUser),
+        },
+      ]);
       setTitle('');
       setCompleted(false);
       setSelectUser(0);
@@ -59,6 +57,7 @@ const App: React.FC = () => {
             name=""
             id=""
             data-cy="userSelect"
+            placeholder="Choose a user"
             value={selectUser}
             onChange={(changeEvent) => {
               setSelectUser(+changeEvent.target.value);
@@ -113,7 +112,7 @@ const App: React.FC = () => {
           type="submit"
           className="form__button-submit"
         >
-          Add todo
+          Add
         </button>
 
       </form>
