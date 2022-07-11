@@ -1,0 +1,16 @@
+.list {
+  list-style: none;
+}
+
+.list__item {
+  margin-bottom: 30px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.list__item:hover {
+  background-color: rgb(226, 226, 226);
+  transform: scale(0.95);
+}
