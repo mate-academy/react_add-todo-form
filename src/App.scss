@@ -1,0 +1,32 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.form {
+  padding: 10px;
+  border: 3px solid #b2ea70;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+
+  &__todo-title {
+    width: 100%;
+    font-size: 20px;
+  }
+}
+
+.error-msg {
+  text-align: left;
+  color: rgb(202, 12, 12);
+  font-size: 14px;
+}
