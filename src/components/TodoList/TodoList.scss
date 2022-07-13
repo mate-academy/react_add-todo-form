@@ -1,0 +1,8 @@
+.todo {
+  border: green 1px solid;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
