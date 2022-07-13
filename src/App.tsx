@@ -18,19 +18,26 @@ const App: React.FC = () => {
   };
 
   const reset = () => {
-    if (userName) {
-      setUserName('');
-    }
-
-    if (title) {
-      setTitle('');
-    }
+    setUserName('');
+    setTitle('');
   };
 
   const test = changelbeTodo.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
   }));
+
+  const throwError = (
+    value:string,
+    func: (value: React.SetStateAction<string>) => void,
+    errorPhrase:string,
+  ) => {
+    if (value.length === 0) {
+      func(errorPhrase);
+    } else {
+      func('');
+    }
+  };
 
   const handleChange = () => {
     if (currentUser && title) {
@@ -42,19 +49,12 @@ const App: React.FC = () => {
       }]);
     }
 
-    if (title.length === 0) {
-      setTitleError('Please enter the title');
-    } else {
-      setTitleError('');
-    }
+    throwError(title, setTitleError, 'Please enter the title');
+    throwError(userName, setSelectError, 'Please choose a user');
 
-    if (userName.length === 0) {
-      setSelectError('Please choose a user');
-    } else {
-      setSelectError('');
+    if (userName && title) {
+      reset();
     }
-
-    reset();
   };
 
   return (
@@ -111,7 +111,7 @@ const App: React.FC = () => {
       </form>
 
       <p className="App__task-counter">
-        <span>Tasks left to do: </span>
+        <span>Tasks to do left: </span>
         {changelbeTodo.length}
       </p>
       <TodoList todos={test} />
