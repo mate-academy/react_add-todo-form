@@ -9,11 +9,16 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => (
   <div className="todo">
-    {todo.user && (
-      <UserInfo user={todo.user} />
-    )}
-
-    <h2 className="todo__title">{todo.title}</h2>
-    <p className="todo__status">{todo.completed ? 'Is done' : 'in progress'}</p>
+    <div className="todo__container">
+      {todo.user && (
+        <UserInfo user={todo.user} />
+      )}
+    </div>
+    <div className="todo__container">
+      <h2 className="todo__title">{`Title: ${todo.title}`}</h2>
+      <p className="todo__status">
+        {`Status: ${todo.completed ? 'Is done' : 'in progress'}`}
+      </p>
+    </div>
   </div>
 );

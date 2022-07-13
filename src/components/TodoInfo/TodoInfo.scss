@@ -1,22 +1,23 @@
 .todo {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 
+  &__container {
+    width: 500px;
+  }
+
   &__title {
-    width: 200px;
-    text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     text-decoration: none;
-    color: #000;
+    color: lightgray;
     transition: 0.3s;
   }
 
   &__status {
     font-size: 16px;
     text-decoration: none;
-    color: #000;
+    color: #fff;
     transition: 0.3s;
   }
 }
