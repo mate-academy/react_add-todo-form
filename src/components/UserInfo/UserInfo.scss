@@ -1,0 +1,11 @@
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+
+  &__email {
+    margin-left: auto;
+  }
+}
