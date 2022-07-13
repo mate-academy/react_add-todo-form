@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { PreparedTodo } from './types/PreparedTodo';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
+import './App.scss';
 
 const App: React.FC = () => {
   const users: User[] = usersFromServer;
@@ -28,29 +28,25 @@ const App: React.FC = () => {
       setIsUserValid(false);
 
       isDataValid = false;
-    } else {
-      setIsUserValid(true);
     }
 
     if (newTodo.title === '') {
       setIsTextValid(false);
 
       isDataValid = false;
-    } else {
-      setIsTextValid(true);
     }
 
     return isDataValid;
   };
 
   const handleChange = (key: string, value: string | number) => {
-    setIsTextValid(true);
-    setIsUserValid(true);
-
     setNewTodo(prevTodo => ({
       ...prevTodo,
       [key]: value,
     }));
+
+    setIsTextValid(true);
+    setIsUserValid(true);
   };
 
   const handleAddClick = () => {
@@ -64,6 +60,8 @@ const App: React.FC = () => {
     }]);
 
     setNewTodo({ ...defaultNewTodo });
+    setIsUserValid(true);
+    setIsTextValid(true);
   };
 
   const prepareTodos = (rawTodos: Todo[]): PreparedTodo[] => (
@@ -85,6 +83,7 @@ const App: React.FC = () => {
               ⚠️
             </span>
           )}
+
           <span className="app__label-text ">
             Todo text:
           </span>
@@ -109,6 +108,7 @@ const App: React.FC = () => {
               ⚠️
             </span>
           )}
+
           <span>Choose User: </span>
 
           <div className="select">
@@ -121,6 +121,7 @@ const App: React.FC = () => {
               }
             >
               <option value="0">Choose a user</option>
+
               {users.map(user => (
                 <option key={user.id} value={user.id}>
                   {`${user.name} [${user.username}]`}
