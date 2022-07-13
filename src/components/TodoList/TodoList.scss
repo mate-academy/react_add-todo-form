@@ -1,0 +1,29 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  width: 70vw;
+
+  &__item {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: aquamarine;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: 0.3s;
+    }
+
+    &--not-ready {
+      background-color: cadetblue;
+
+      &:hover {
+        transform: scale(0.9);
+      }
+    }
+  }
+}
