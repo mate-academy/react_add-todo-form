@@ -69,7 +69,9 @@ const App: React.FC = () => {
           value={title}
           placeholder="Enter the title, please"
           onChange={({ target }) => (
-            setTitle(target.value)
+            setTitle(target.value.split('')
+              .filter(char => !'!@#$%^&*()_-+=";:/?|.,><}{][~'.includes(char))
+              .join(''))
           )}
         />
         <div className="App__error-container">
