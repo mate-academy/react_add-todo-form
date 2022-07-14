@@ -14,20 +14,26 @@ let preparedTodos: Todo[] = todos.map(todo => ({
 
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [username, setUser] = useState('');
+  const [username, setUsername] = useState('');
+  const [titeleValid, setTitleValid] = useState(false);
+  const [usernameValid, setUsernameValid] = useState(false);
 
   const addTodo = () => {
-    const newTodo = {
-      id: preparedTodos[preparedTodos.length - 1].id + 1,
-      title,
-      userId: users.find(user => user.name === username)?.id || null,
-      completed: false,
-      user: users.find(user => user.name === username) || null,
-    };
+    if (titeleValid && usernameValid) {
+      const newTodo = {
+        id: preparedTodos[preparedTodos.length - 1].id + 1,
+        title,
+        userId: users.find(user => user.name === username)?.id || null,
+        completed: false,
+        user: users.find(user => user.name === username) || null,
+      };
 
-    preparedTodos = [...preparedTodos, newTodo];
-    setTitle('');
-    setUser('');
+      preparedTodos = [...preparedTodos, newTodo];
+      setTitle('');
+      setUsername('');
+      setTitleValid(false);
+      setUsernameValid(false);
+    }
   };
 
   type Event = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
@@ -35,7 +41,13 @@ const App: React.FC = () => {
   const handleChange = (event: Event) => {
     const { name, value } = event.target;
 
-    return (name === 'title') ? setTitle(value) : setUser(value);
+    if (name === 'title') {
+      setTitle(value);
+      setTitleValid(true);
+    } else {
+      setUsername(value);
+      setUsernameValid(true);
+    }
   };
 
   return (
@@ -62,7 +74,7 @@ const App: React.FC = () => {
           onChange={handleChange}
         />
 
-        {!title ? <p>Please enter the title</p> : null}
+        {!titeleValid ? <p>Please enter the title</p> : null}
 
         <select
           name="username"
@@ -82,7 +94,7 @@ const App: React.FC = () => {
           ))}
         </select>
 
-        {!username && <p>Please choose a user</p>}
+        {!usernameValid && <p>Please choose a user</p>}
 
         <button
           type="button"
