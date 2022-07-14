@@ -1,0 +1,47 @@
+@import url(https://cdn.jsdelivr.net/npm/the-new-css-reset@1.7.2/css/reset.min.css);
+@import url(https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css);
+
+body {
+  font-size: 16px;
+  font-family: "Finlandica", Arial, sans-serif;
+}
+
+.app {
+  height: 100vh;
+
+  color: #282a2d;
+  background-color: #e5e9f1;
+
+  &__title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 510px;
+    margin: 30px auto;
+  }
+
+  &__input-group {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  &__label-text {
+    display: block;
+    width: 185px;
+  }
+
+  &__input-error {
+    position: absolute;
+    transform: translateY(100%);
+
+    font-size: 14px;
+  }
+}
