@@ -44,9 +44,6 @@ const App: React.FC = () => {
       ...prevTodo,
       [key]: value,
     }));
-
-    setIsTextValid(true);
-    setIsUserValid(true);
   };
 
   const handleAddClick = () => {
@@ -54,10 +51,13 @@ const App: React.FC = () => {
       return;
     }
 
-    setTodos(prevTodos => [...prevTodos, {
-      id: prevTodos[prevTodos.length - 1].id + 1,
-      ...newTodo,
-    }]);
+    setTodos(prevTodos => [
+      ...prevTodos,
+      {
+        id: prevTodos[prevTodos.length - 1].id + 1,
+        ...newTodo,
+      },
+    ]);
 
     setNewTodo({ ...defaultNewTodo });
     setIsUserValid(true);
@@ -94,9 +94,10 @@ const App: React.FC = () => {
             data-cy="titleInput"
             className="input"
             value={newTodo.title}
-            onChange={
-              event => handleChange(event.target.name, event.target.value)
-            }
+            onChange={event => {
+              handleChange(event.target.name, event.target.value);
+              setIsTextValid(true);
+            }}
             placeholder="Input Todo text here"
           />
         </label>
@@ -116,11 +117,12 @@ const App: React.FC = () => {
               name="userId"
               data-cy="userSelect"
               value={newTodo.userId}
-              onChange={
-                event => handleChange(event.target.name, +event.target.value)
-              }
+              onChange={event => {
+                handleChange(event.target.name, +event.target.value);
+                setIsUserValid(true);
+              }}
             >
-              <option value="0">Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
 
               {users.map(user => (
                 <option key={user.id} value={user.id}>
