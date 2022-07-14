@@ -7,7 +7,7 @@ import users from './api/users';
 import todos from './api/todos';
 import TodoList from './components/TodoList/TodoList';
 
-let preparedTodos: Todo[] = todos.map(todo => ({
+const preparedTodos: Todo[] = todos.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId) || null,
 }));
@@ -17,18 +17,20 @@ const App: React.FC = () => {
   const [username, setUsername] = useState('');
   const [titeleValid, setTitleValid] = useState(false);
   const [usernameValid, setUsernameValid] = useState(false);
+  const [todoList, setTodoList] = useState([...preparedTodos]);
 
   const addTodo = () => {
     if (titeleValid && usernameValid) {
+      const currentUser = users.find(user => user.name === username) || null;
       const newTodo = {
-        id: preparedTodos[preparedTodos.length - 1].id + 1,
+        id: todoList[todoList.length - 1].id + 1,
         title,
-        userId: users.find(user => user.name === username)?.id || null,
+        userId: currentUser ? currentUser.id : null,
         completed: false,
-        user: users.find(user => user.name === username) || null,
+        user: currentUser,
       };
 
-      preparedTodos = [...preparedTodos, newTodo];
+      setTodoList(prevTodo => [...prevTodo, newTodo]);
       setTitle('');
       setUsername('');
       setTitleValid(false);
@@ -105,7 +107,7 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={preparedTodos} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
