@@ -15,12 +15,20 @@ const preparedTodos: Todo[] = todos.map(todo => ({
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [username, setUsername] = useState('');
-  const [titeleValid, setTitleValid] = useState(false);
-  const [usernameValid, setUsernameValid] = useState(false);
+  const [titeleValid, setTitleValid] = useState(true);
+  const [usernameValid, setUsernameValid] = useState(true);
   const [todoList, setTodoList] = useState([...preparedTodos]);
 
   const addTodo = () => {
-    if (titeleValid && usernameValid) {
+    if (!title) {
+      setTitleValid(false);
+    }
+
+    if (!username) {
+      setUsernameValid(false);
+    }
+
+    if (title && username) {
       const currentUser = users.find(user => user.name === username) || null;
       const newTodo = {
         id: todoList[todoList.length - 1].id + 1,
@@ -33,8 +41,8 @@ const App: React.FC = () => {
       setTodoList(prevTodo => [...prevTodo, newTodo]);
       setTitle('');
       setUsername('');
-      setTitleValid(false);
-      setUsernameValid(false);
+      setTitleValid(true);
+      setUsernameValid(true);
     }
   };
 
