@@ -77,14 +77,16 @@ const App: React.FC = () => {
     dispatch({ type: 'SUBMIT' });
     setTitle('');
   }, []);
+
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       setTitle(e.target.value);
     },
     [],
   );
+
   const handleChange = (event: SelectChangeEvent) => {
-    setUsername(event.target.value);
+    setUsername(event.target.value as string);
   };
 
   return (
@@ -103,13 +105,12 @@ const App: React.FC = () => {
           variant="filled"
           onChange={onChangeHandler}
         />
-        <InputLabel id="demo-simple-select-label">users</InputLabel>
+        <InputLabel id="demo-simple-select-label">Choose a user</InputLabel>
         <Select
-          sx={{ background: '#ffffff' }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={username}
-          label="user"
+          label="Choose a user"
           onChange={handleChange}
         >
           {users.map((u) => (
