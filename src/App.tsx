@@ -29,10 +29,10 @@ const App: React.FC = () => {
     if (user !== '' && title.trim() !== '') {
       preparedTodos.push(({
         id: Math.max(...todos.map(todo => +todo.id)) + 1,
-        title: title,
+        title,
         completed: false,
         userId: +user,
-        user: users.find(item => item.id === +user) || null,
+        user: users.find(person => person.id === +user) || null,
       }));
 
       setUser('');
@@ -77,9 +77,9 @@ const App: React.FC = () => {
           <option value="">
             Choose a user
           </option>
-          {users.map(user => (
-            <option value={user.id} data-ca={user}>
-              {user.name}
+          {users.map(person => (
+            <option value={person.id}>
+              {person.name}
             </option>
           ))}
         </select>
