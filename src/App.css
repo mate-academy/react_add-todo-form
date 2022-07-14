@@ -1,3 +1,12 @@
 .App {
   text-align: center;
 }
+
+form {
+  display: flex;
+  padding: 100px 200px;
+}
+
+.error {
+  color: red;
+}
