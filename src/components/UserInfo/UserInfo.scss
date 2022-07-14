@@ -1,0 +1,23 @@
+.user {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 300px;
+
+  &::after {
+    content: "";
+    left: 302px;
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    border-radius: 5px;
+    background-color: brown;
+  }
+
+  &__email {
+    color: blue;
+  }
+}
