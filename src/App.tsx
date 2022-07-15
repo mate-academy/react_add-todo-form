@@ -16,7 +16,12 @@ import TodoCard from './components/TodoCard';
 import { audioClick } from './assets/audio/audio';
 
 import users from './api/users';
-import { ActionType, Todo, User } from './models/models';
+import {
+  ActionType,
+  initialUser,
+  Todo,
+  User,
+} from './models/models';
 import todos from './api/todos';
 
 const initialState = todos;
@@ -24,6 +29,8 @@ const initialState = todos;
 const App: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [title, setTitle] = useState<string>('');
+  const [helperText, setHelperText] = useState<string>('');
+  const [selectedUser, setSelectedUser] = useState<User>(initialUser);
 
   function reducer(state: Todo[] = initialState, action: ActionType) {
     switch (action.type) {
@@ -45,7 +52,14 @@ const App: React.FC = () => {
         return newState;
       case 'SUBMIT':
         // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-non-null-assertion
-        const selectedUser: User = users.find((u) => u.username === username)!;
+
+        if (username) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const candidate: User = users.find((u) => u.username === username)!;
+
+          setSelectedUser(candidate);
+        }
+
         // eslint-disable-next-line no-case-declarations
         const newTodo: Todo = {
           id: uuidv4(),
@@ -66,6 +80,7 @@ const App: React.FC = () => {
     audioClick.play();
     dispatch({ type: 'REMOVE', payload: id });
   }, []);
+
   const onCompleteHandler = useCallback((id) => {
     audioClick.play();
     dispatch({ type: 'COMPLETED', payload: id });
@@ -73,10 +88,28 @@ const App: React.FC = () => {
 
   const onSubmitHandler = useCallback((e) => {
     e.preventDefault();
+    if (!title) {
+      setHelperText('Please enter your title');
+
+      return;
+    }
+
+    const correctTitle = title.replace(/[^\w\d\s\u0430-\u044f]+/, '');
+
+    if (!correctTitle) {
+      setHelperText('Please use correct symbols');
+
+      return;
+    }
+
     audioClick.play();
     dispatch({ type: 'SUBMIT' });
-    setTitle('');
-  }, []);
+    setTimeout(() => {
+      setTitle('');
+      setHelperText('');
+      setUsername('');
+    }, 1000);
+  }, [dispatch, title]);
 
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -103,6 +136,7 @@ const App: React.FC = () => {
           label="title"
           value={title}
           variant="filled"
+          helperText={helperText}
           onChange={onChangeHandler}
         />
         <InputLabel id="demo-simple-select-label">Choose a user</InputLabel>
