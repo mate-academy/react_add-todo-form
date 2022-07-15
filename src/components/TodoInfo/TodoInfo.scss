@@ -1,0 +1,24 @@
+.todo__item {
+  padding: 5px;
+  text-align: center;
+  background-color: #dfd9d9;
+  border: 1px solid #000;
+  border-radius: 15px;
+  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+    0 0 0 rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+
+  &--complete {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 25em;
+    background-color: #9f9;
+  }
+
+  &--uncomplete {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 25em;
+    background-color: #f99;
+  }
+}
