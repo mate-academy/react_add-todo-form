@@ -13,7 +13,6 @@ import {
   Select,
 } from '@mui/material';
 import TodoCard from './components/TodoCard';
-import { audioClick } from './assets/audio/audio';
 
 import users from './api/users';
 import {
@@ -77,12 +76,10 @@ const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const onDeleteHandler = useCallback((id) => {
-    audioClick.play();
     dispatch({ type: 'REMOVE', payload: id });
   }, []);
 
   const onCompleteHandler = useCallback((id) => {
-    audioClick.play();
     dispatch({ type: 'COMPLETED', payload: id });
   }, []);
 
@@ -102,7 +99,6 @@ const App: React.FC = () => {
       return;
     }
 
-    audioClick.play();
     dispatch({ type: 'SUBMIT' });
     setTimeout(() => {
       setTitle('');
