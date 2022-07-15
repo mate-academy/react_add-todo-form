@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
@@ -11,164 +11,153 @@ const preparedTodos = todos.map(todo => ({
   user: users.find(user => todo.userId === user.id) || null,
 }));
 
-type Props = {};
+const App: React.FC = () => {
+  const [todosList, setTodosList] = useState<Todo[]>(preparedTodos);
+  const [userId, setUserId] = useState<number>(0);
+  const [id, setId] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
+  const [selectUser, setSelectUser] = useState<string>('');
+  const [checkTitle, setCheckTitle] = useState<boolean>(true);
+  const [checkUser, setCheckUser] = useState<boolean>(true);
+  const [checkSymbols, setCheckSymbols] = useState<boolean>(true);
 
-type State = {
-  todos: Todo[];
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User | null
-  selectUser: string;
-  checkTitle: boolean;
-  checkUser: boolean;
-};
+  const setTitleAndId = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.value.match(/[^a-zA-Z0-9а-яА-Я ]/)) {
+      setCheckSymbols(false);
 
-class App extends React.Component<Props, State> {
-  state = {
-    todos: preparedTodos,
-    userId: 0,
-    id: 0,
-    title: '',
-    completed: false,
-    user: null,
-    selectUser: '',
-    checkTitle: true,
-    checkUser: true,
+      setTimeout(() => setCheckSymbols(true), 3000);
+
+      return;
+    }
+
+    setTitle(event.currentTarget.value.replace(/[^a-zA-Z0-9а-яА-Я ]/g, ''));
+    setCheckTitle(true);
+    setCheckSymbols(true);
+    setId(todosList.length + 1);
   };
 
-  setTitleAndId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.currentTarget.value.replace(/[^a-zA-Z0-9а-яА-Я ]/g, ''),
-      checkTitle: true,
-    });
-
-    this.setState((state) => ({
-      id: state.todos.length + 1,
-    }));
-  };
-
-  setUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const user = users.find(person => person.name
+  const setUserInfo = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const findUser = users.find(person => person.name
       === event.currentTarget.value);
 
-    if (user !== undefined) {
-      this.setState({
-        userId: user.id,
-        selectUser: user.name,
-        checkUser: true,
-        user: {
-          name: user.name,
-          email: user.email,
-        },
+    if (findUser !== undefined) {
+      setUserId(findUser.id);
+      setSelectUser(findUser.name);
+      setCheckUser(true);
+
+      setUser({
+        name: findUser.name,
+        email: findUser.email,
       });
     }
   };
 
-  checkForm = () => {
-    if (this.state.title === '') {
-      this.setState({ checkTitle: false });
+  const reset = () => {
+    setTitle('');
+    setSelectUser('');
+  };
+
+  const addTodo = () => {
+    setTodosList(
+      [...todosList,
+        {
+          userId,
+          id,
+          completed: false,
+          title,
+          user,
+        },
+      ],
+    );
+
+    reset();
+  };
+
+  const checkForm = () => {
+    if (title === '') {
+      setCheckTitle(false);
     }
 
-    if (this.state.selectUser === '') {
-      this.setState({ checkUser: false });
+    if (selectUser === '') {
+      setCheckUser(false);
     }
 
-    if (this.state.title === '' || this.state.selectUser === '') {
+    if (title === '' || selectUser === '') {
       return;
     }
 
-    this.addTodo();
+    addTodo();
   };
 
-  reset = () => {
-    this.setState({
-      title: '',
-      selectUser: '',
-    });
-  };
+  return (
+    <div className="App">
+      <h1>Add todo form</h1>
 
-  addTodo = () => {
-    this.setState((state) => ({
-      todos: [
-        ...state.todos,
-        {
-          userId: state.userId,
-          id: state.id,
-          completed: state.completed,
-          title: state.title,
-          user: state.user,
-        },
-      ],
-    }));
+      <form>
+        <input
+          type="text"
+          data-cy="titleInput"
+          name="title"
+          placeholder="Enter the title"
+          onChange={setTitleAndId}
+          value={title}
+        />
 
-    this.reset();
-  };
+        <p className={
+          `${checkTitle ? 'hide' : 'error'}`
+        }
+        >
+          Please enter the title
+        </p>
 
-  render() {
-    return (
-      <div className="App">
-        <h1>Add todo form</h1>
+        <p className={
+          `${checkSymbols ? 'hide' : 'error'}`
+        }
+        >
+          Allow entering only letters (ukr and en), digits and spaces
+        </p>
 
-        <form>
-          <input
-            type="text"
-            data-cy="titleInput"
-            name="title"
-            placeholder="Enter the title"
-            onChange={this.setTitleAndId}
-            value={this.state.title}
-          />
-
-          <p className={
-            `${this.state.checkTitle ? 'hide' : 'error'}`
-          }
+        <select
+          name="selectUser"
+          data-cy="userSelect"
+          value={selectUser}
+          onChange={setUserInfo}
+        >
+          <option
+            value=""
+            hidden
           >
-            Please enter the title
-          </p>
-
-          <select
-            name="selectUser"
-            data-cy="userSelect"
-            value={this.state.selectUser}
-            onChange={this.setUser}
-          >
+            Choose a user
+          </option>
+          {users.map(userName => (
             <option
-              value=""
-              hidden
+              key={userName.id}
+              value={userName.name}
             >
-              Choose a user
+              {userName.name}
             </option>
-            {users.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+          ))}
+        </select>
 
-          <p className={
-            `${this.state.checkUser ? 'hide' : 'error'}`
-          }
-          >
-            Please choose a user
-          </p>
+        <p className={
+          `${checkUser ? 'hide' : 'error'}`
+        }
+        >
+          Please choose a user
+        </p>
 
-          <button
-            type="button"
-            onClick={this.checkForm}
-          >
-            Add
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={checkForm}
+        >
+          Add
+        </button>
+      </form>
 
-        <TodoList todos={this.state.todos} />
-      </div>
-    );
-  }
-}
+      <TodoList todos={todosList} />
+    </div>
+  );
+};
 
 export default App;
