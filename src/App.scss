@@ -1,0 +1,40 @@
+body {
+  font-family: "Cinzel", serif;
+  font-weight: bold;
+}
+
+.App {
+  text-align: center;
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__form-field {
+    display: block;
+  }
+
+  &__input {
+    width: 200px;
+    font-family: "Cinzel", serif;
+  }
+
+  &__select {
+    font-family: "Cinzel", serif;
+  }
+
+  &__button {
+    display: block;
+    margin: 15px auto 5px;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__error {
+    display: inline-block;
+    margin-left: 20px;
+    color: #f00a;
+    border-bottom: 1px solid #f005;
+  }
+}
