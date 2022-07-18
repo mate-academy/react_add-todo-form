@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [selectError, setSelectError] = useState('');
   const [titleError, setTitleError] = useState('');
-  const [changelbeTodo, addNewTodo] = useState(todos);
+  const [changebleTodo, addNewTodo] = useState(todos);
 
   const currentUser = users.find(user => user.name === userName);
   const handleSubmit = (event: { preventDefault: () => void; }) => {
@@ -22,7 +22,7 @@ const App: React.FC = () => {
     setTitle('');
   };
 
-  const test = changelbeTodo.map(todo => ({
+  const actualTodos = changebleTodo.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
   }));
@@ -41,9 +41,9 @@ const App: React.FC = () => {
 
   const handleChange = () => {
     if (currentUser && title) {
-      addNewTodo([...test, {
+      addNewTodo([...actualTodos, {
         userId: currentUser.id,
-        id: changelbeTodo.length + 1,
+        id: changebleTodo.length + 1,
         title,
         completed: false,
       }]);
@@ -114,9 +114,9 @@ const App: React.FC = () => {
 
       <p className="App__task-counter">
         <span>Tasks to do left: </span>
-        {changelbeTodo.length}
+        {changebleTodo.length}
       </p>
-      <TodoList todos={test} />
+      <TodoList todos={actualTodos} />
     </div>
   );
 };
