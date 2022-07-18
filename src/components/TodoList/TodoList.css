@@ -1,0 +1,12 @@
+.todo__list {
+  list-style: none;
+
+  cursor: pointer;
+}
+
+.todo__item {
+  border: 2px solid #5f58ad;
+  border-radius: 10px;
+
+  margin-top: 20px;
+}

@@ -1,0 +1,7 @@
+.todo__info-status,
+.todo__info-id,
+.todo__info-title,
+.todo__info-userId {
+  color: #5f58ad;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
