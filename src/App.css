@@ -1,3 +1,59 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 50px;
+  width: 50vh;
+}
+
+.form__section {
+  height: 50px;
+}
+
+.form__input {
+  width: 50vh;
+}
+
+.form__select {
+  position: static;
+  display: block;
+  width: 50vh;
+}
+
+.form__button {
+  display: block;
+}
+
+.error {
+  color: red;
+}
+
+.todo {
+  text-align: center;
+}
+
+.todo__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.todo__item {
+  text-decoration: none;
+  align-items: center;
+  text-align: center;
+  list-style: none;
+  margin-bottom: 50px;
+  width: 50vh;
+  border: 1px solid aqua;
 }
