@@ -74,6 +74,8 @@ const App: React.FC = () => {
         setTodos((prevTodos) => {
           return [...prevTodos, createdTodo];
         });
+        setTitle('');
+        setUserId('');
       }
     }
   };
