@@ -59,7 +59,7 @@ const App: React.FC = () => {
       const createdUser: User | undefined = usersData
         .find(a => a.name === name);
       const preparedTitle = title
-        .replace(/[^\w\s]/gi, '');
+        .replace(/[`!@#$%^&*()_+\-=\\[\]{};':"|,.<>/?~]/gi, '');
 
       if (createdUser) {
         const { id: UserId } = createdUser;
