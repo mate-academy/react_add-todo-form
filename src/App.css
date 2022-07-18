@@ -1,3 +1,109 @@
+body {
+  margin: 0;
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App__form {
+  display: flex;
+  gap: 20px;
+}
+
+.App__button {
+  color: white;
+  background-color: rgb(89, 89, 143);
+  border-radius: 20px;
+  width: 120px;
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.App__button:hover {
+  color: black;
+  background-color: rgba(89, 89, 143, 0.3);
+  cursor: pointer;
+}
+
+.App__button:active {
+  transform: scale(0.9);
+}
+
+.App__err-msg {
+  height: 30px;
+  padding: 20px;
+  color: red;
+}
+
+.App__select {
+  width: 220px;
+  height: 40px;
+  text-align: center;
+  color: white;
+  background-color: rgb(96, 96, 96);
+  border-radius: 20px;
+  border: 5px solid rgb(96, 96, 96);
+}
+
+.App__input {
+  width: 250px;
+  height: 40px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.App__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App__list-card {
+  height: 250px;
+  width: 120%;
+  margin-bottom: 20px;
+  border-bottom: 10px solid gainsboro;
+  border-radius: 20px;
+}
+
+.App__task-title {
+  margin: 0;
+  color: white;
+  background-color: rgb(89, 89, 143);
+  border-radius: 20px 0 0;
+}
+
+.App__title {
+  width: 45%;
+  margin: 0 auto 20px;
+  background-color: rgb(89, 89, 143);
+  color: white;
+  text-shadow: 0 2px 2px black;
+  border-radius: 0 0 20px 20px;
+  border-bottom: 2px solid rgb(147, 147, 147);
+}
+
+.App__user {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px dotted lightgray;
+}
+
+.App__user-info {
+  font-weight: bold;
+}
+
+.App__task-status {
+  margin: 0;
+  letter-spacing: 2px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 0 0 20px;
 }
