@@ -1,0 +1,23 @@
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__container {
+    width: 500px;
+  }
+
+  &__title {
+    font-size: 20px;
+    text-decoration: none;
+    color: lightgray;
+    transition: 0.3s;
+  }
+
+  &__status {
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s;
+  }
+}

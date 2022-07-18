@@ -1,0 +1,57 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 56px;
+    color: dimgray;
+    background-color: bisque;
+    border: 2px solid yellow;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: transparent;
+      color: #000;
+      transition: 0.3s;
+      border-color: transparent;
+    }
+  }
+
+  &__form {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 60vw;
+  }
+
+  &__input {
+    max-width: 350px;
+    text-align: center;
+  }
+
+  &__error-container {
+    position: relative;
+    width: 150px;
+  }
+
+  &__error {
+    position: absolute;
+    color: #f00;
+    transform: translate(-170px, 15px);
+
+    &--title {
+      transform: translate(-255px, 15px);
+    }
+  }
+
+  &__task-counter {
+    font-size: 26px;
+    color: dimgray;
+  }
+}
