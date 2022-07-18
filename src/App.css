@@ -1,3 +1,13 @@
 .App {
   text-align: center;
 }
+
+.input {
+  width: 400px;
+}
+
+form.field.is-grouped {
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
