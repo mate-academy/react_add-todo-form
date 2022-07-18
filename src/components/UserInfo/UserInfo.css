@@ -1,0 +1,10 @@
+/* .User {
+
+} */
+
+.User__name,
+.User__username,
+.User__email {
+  color: #5f58ad;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}

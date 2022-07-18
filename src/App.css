@@ -1,3 +1,72 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
+  background-color: #ffd4f5;
+
+  padding: 25px;
+}
+
+.App__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.App__form {
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.App__input,
+.App__select {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+
+  height: 60px;
+  border: 2px solid #5f58ad;
+  border-radius: 15px;
+}
+
+.App__input::placeholder,
+.App__select::placeholder,
+.App__button::placeholder {
+  color: #5f58ad;
+  padding-left: 35%;
+
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 500;
+  font-size: medium;
+}
+
+.App__form-error {
+  color: red;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.App__button {
+  width: 120px;
+  height: 60px;
+  border-radius: 15px;
+  color: #5f58ad;
+  border-color: #5f58ad;
+
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  transition: all 2s;
+  cursor: pointer;
+}
+
+.App__button:hover {
+  transform: scale(1.2);
 }
