@@ -1,0 +1,81 @@
+.App {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  &__title {
+    background-color: #000;
+    color: yellow;
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+}
+
+.line {
+  display: block;
+  height: 20px;
+  background-color: #000;
+}
+
+.form {
+  text-align: center;
+  justify-content: center;
+
+  &__fields {
+    display: flex;
+    gap: 20px;
+    text-align: center;
+    justify-content: center;
+    margin: 0, auto;
+    padding-bottom: 5px;
+  }
+  &__container {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__field {
+    box-sizing: border-box;
+    height: 40px;
+    width: 200px;
+    border: 1px solid rgba($color: rgb(204, 204, 204), $alpha: 1);
+    border-radius: 5px;
+    outline: 0;
+    font-weight: bold;
+    background-color: rgb(204, 204, 204);
+
+    &:hover {
+      border-color: yellow;
+    }
+
+    &:focus {
+      border-color: red;
+    }
+
+    &::placeholder {
+      color: #5e5e5e;
+      font-family: inherit;
+      font-weight: bold;
+    }
+  }
+
+  &__defaultChose {
+    color: red;
+  }
+
+  &__submit {
+    cursor: pointer;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+    background-color: rgb(204, 204, 204);
+    border-radius: 5px;
+    border: 0;
+    &:hover {
+      background-color: yellow;
+    }
+  }
+}
+
+.warning {
+  color: red;
+}
