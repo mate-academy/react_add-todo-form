@@ -1,3 +1,16 @@
 .App {
   text-align: center;
 }
+
+.myInput {
+  width: 200px;
+  height: 35px;
+}
+
+.select {
+  width: 200px;
+}
+
+.button {
+  margin: 10px;
+}
