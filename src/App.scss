@@ -1,0 +1,67 @@
+.App {
+  text-align: center;
+
+  &__title {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  justify-content: center;
+  gap: 48px;
+}
+
+.card {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.card__done {
+  background-color: rgb(123, 255, 123);
+}
+
+.card__not-done {
+  background-color: rgb(255, 155, 155);
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: max-content;
+  gap: 30px;
+
+  margin: 0 auto 30px;
+
+  &__button {
+    width: max-content;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+.on {
+  color: red;
+}
+
+.off {
+  color: transparent;
+}
