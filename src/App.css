@@ -1,3 +1,25 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+* {
+  border-radius: 5px;
+}
+
 .App {
-  text-align: center;
+  margin: 0 auto;
+  width: 600px;
+}
+
+form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: lavenderblush;
+  margin: 20px 0;
+}
+
+input,
+select {
+  font-size: 18px;
+  width: 100%;
+  margin-bottom: 20px;
 }
