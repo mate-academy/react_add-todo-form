@@ -1,0 +1,21 @@
+.todo {
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 5px 20px;
+    text-align: center;
+  }
+
+  &__status {
+    margin: 5px 20px;
+  }
+
+  &__notCompleated {
+    display: inline;
+    color: red;
+  }
+
+  &__compleated {
+    color: green;
+  }
+}

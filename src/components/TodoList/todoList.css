@@ -1,0 +1,7 @@
+li {
+  border: 2px solid aqua;
+}
+
+li:not(:last-child) {
+  margin-bottom: 15px;
+}
