@@ -24,21 +24,34 @@ const App: React.FC = () => {
   const [selectUser, setSelectUser] = useState('Choose a user');
   const [userIsValid, setUserIsValid] = useState(true);
   const [titleIsValid, setTitleIsValid] = useState(true);
+  const [formIsValid, setFormIsValid] = useState(true);
 
-  const handleChange = (event: { target: { value: string; }; }) => {
+  const handleChangeSelect = (event: { target: { value: string; }; }) => {
     const {
       value,
     } = event.target;
 
     setSelectUser(value);
 
-    if (value !== 'Choose a user') {
+    if (value === 'Choose a user') {
+      setUserIsValid(false);
+    } else {
       setUserIsValid(true);
     }
   };
 
-  const isFormValid = () => {
-    return userIsValid && titleIsValid;
+  const handleChangeInput = (event: { target: { value: string; }; }) => {
+    const {
+      value,
+    } = event.target;
+
+    setQuery(value);
+
+    if (value === '') {
+      setTitleIsValid(false);
+    } else {
+      setTitleIsValid(true);
+    }
   };
 
   const addTodo = (event: React.FormEvent) => {
@@ -52,7 +65,11 @@ const App: React.FC = () => {
       setTitleIsValid(false);
     }
 
-    if (isFormValid()) {
+    if (query === '' || selectUser === 'Choose a user') {
+      setFormIsValid(false);
+    }
+
+    if (formIsValid) {
       const newUser = users.find(user => user.name === selectUser);
 
       if (newUser) {
@@ -93,9 +110,7 @@ const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter the title"
               value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
+              onChange={handleChangeInput}
               required
             />
           </label>
@@ -117,7 +132,7 @@ const App: React.FC = () => {
               name="user"
               data-cy="userSelect"
               value={selectUser}
-              onChange={handleChange}
+              onChange={handleChangeSelect}
             >
               <option value="Choose a user">
                 Choose a user
