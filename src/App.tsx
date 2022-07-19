@@ -10,7 +10,19 @@ const App: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [selectError, setSelectError] = useState('');
   const [titleError, setTitleError] = useState('');
-  const [changebleTodo, addNewTodo] = useState(todos);
+  const [changebleTodos, addNewTodo] = useState(todos);
+
+  const findMaxId = () => {
+    let currentId = changebleTodos[0].id;
+
+    for (let i = 1; i < changebleTodos.length; i += 1) {
+      if (changebleTodos[i].id > currentId) {
+        currentId = changebleTodos[i].id;
+      }
+    }
+
+    return currentId;
+  };
 
   const currentUser = users.find(user => user.name === userName);
   const handleSubmit = (event: { preventDefault: () => void; }) => {
@@ -22,7 +34,7 @@ const App: React.FC = () => {
     setTitle('');
   };
 
-  const actualTodos = changebleTodo.map(todo => ({
+  const actualTodos = changebleTodos.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
   }));
@@ -43,7 +55,7 @@ const App: React.FC = () => {
     if (currentUser && title) {
       addNewTodo([...actualTodos, {
         userId: currentUser.id,
-        id: changebleTodo.length + 1,
+        id: findMaxId() + 1,
         title,
         completed: false,
       }]);
@@ -114,7 +126,7 @@ const App: React.FC = () => {
 
       <p className="App__task-counter">
         <span>Tasks to do left: </span>
-        {changebleTodo.length}
+        {changebleTodos.length}
       </p>
       <TodoList todos={actualTodos} />
     </div>
