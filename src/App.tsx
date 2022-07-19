@@ -21,8 +21,8 @@ export const App: React.FC = () => {
   const [isInputEntered, setIsInputEntered] = useState(true);
   const [isUserSelected, setIsUserSelected] = useState(true);
 
-  const noInputMessage = 'Please enter the title';
-  const noUserMessage = 'Please choose a user';
+  const noInputMessage = 'Write task, please';
+  const noUserMessage = 'Choose user, please';
 
   const createACard = () => {
     const newCard = {
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1 className="title">Add todo form</h1>
+      <h1 className="title">Add new todo</h1>
 
       <form className="form" onSubmit={handleSubmit}>
         <input
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
               disabled
               selected
             >
-              Choose a user
+              Please,choose a user
             </option>
             {users.map(user => (
               <option value={user.name}>{user.name}</option>
@@ -108,7 +108,7 @@ export const App: React.FC = () => {
         </div>
 
         <span className="message">{!isUserSelected && (noUserMessage)}</span>
-        <button className="button" type="submit">Add a new todo</button>
+        <button className="button" type="submit">Add new todo task</button>
       </form>
 
       <TodoList todoWithUser={todoWithUser} />

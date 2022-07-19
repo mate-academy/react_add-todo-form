@@ -34,17 +34,21 @@
 
 .select__element {
   width: 350px;
+  background-color: aqua;
 }
 
 .message {
+  color: red;
   font-size: 15px;
   width: 350px;
 }
 
 .completed {
-  color: blue;
+  background-color: rgb(65, 68, 241);
+  color: black;
 }
 
 .notCompleted {
-  color: red;
+  background-color: rgb(224, 112, 108);
+  color: black;
 }
