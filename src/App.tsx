@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList/TodoList';
-
 import todos from './api/todos';
 import users from './api/users';
 
@@ -11,7 +10,7 @@ const App: React.FC = () => {
   const [currentTodos, addTodo] = useState([...todos]);
   const [errorMsg, shouldThrowError] = useState(false);
 
-  const errText = 'Please, enter task title and choose a user to add new TODO';
+  const errText = 'Please, enter ';
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -28,7 +27,7 @@ const App: React.FC = () => {
   const preparedTodos = [...currentTodos].map(todo => (
     {
       ...todo,
-      user: users.find(user => user.id === todo.userId) || null,
+      user: [...users].find(user => user.id === todo.userId) || null,
     }
   ));
 
@@ -46,6 +45,7 @@ const App: React.FC = () => {
         }]
       ));
 
+      setUserId(0);
       setTask('');
       shouldThrowError(false);
     } else {
@@ -57,31 +57,58 @@ const App: React.FC = () => {
     <div className="App">
       <h1 className="App__title">Add todo</h1>
       <form className="App__form">
-        <input
-          type="text"
-          placeholder="Write your task here"
-          className="App__input"
-          value={getTask}
-          data-cy="titleInput"
-          onChange={inputHandler}
-        />
-        <select
-          name="users"
-          id="users"
-          className="App__select"
-          data-cy="userSelect"
-          onChange={selectHandler}
-        >
-          <option>Choose a user</option>
-          {users.map(user => (
+        <div className="App__error-block">
+          <input
+            type="text"
+            placeholder="Write your task here"
+            className="App__input"
+            value={getTask}
+            data-cy="titleInput"
+            onChange={inputHandler}
+          />
+
+          {!getTask.trim().length && errorMsg
+            && (
+              <span className="App__err-msg">
+                {`${errText}task title`}
+              </span>
+            )}
+        </div>
+
+        <div className="App__error-block">
+          <select
+            name="users"
+            id="users"
+            className="App__select"
+            value={userID}
+            data-cy="userSelect"
+            onChange={selectHandler}
+          >
             <option
-              key={user.id}
-              value={user.id}
+              value={0}
+              disabled={userID > 0}
             >
-              {user.name}
+              Choose a user
             </option>
-          ))}
-        </select>
+
+            {users.map(user => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
+
+          </select>
+          {!userID && errorMsg
+            && (
+              <span className="App__err-msg">
+                {`${errText}user name`}
+              </span>
+            )}
+        </div>
+
         <button
           type="submit"
           className="App__button"
@@ -90,9 +117,6 @@ const App: React.FC = () => {
           Add Task
         </button>
       </form>
-      {errorMsg
-        ? <span className="App__err-msg">{errText}</span>
-        : <span className="App__err-msg" />}
       <TodoList props={preparedTodos} />
     </div>
   );
