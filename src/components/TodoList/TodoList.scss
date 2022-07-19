@@ -1,0 +1,23 @@
+.user {
+  color: #6a9292;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #b8ffff;
+    width: 20vw;
+    transition: 0.5s;
+    transform-origin: center;
+    border: 3px solid;
+
+    &:hover {
+      border-radius: 20px;
+      transform: scale(1.05);
+      color: #b8ffff;
+      background-color: #6a9292;
+    }
+  }
+}

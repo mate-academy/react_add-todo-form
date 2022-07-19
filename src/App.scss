@@ -1,0 +1,27 @@
+.app {
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+
+  &__title {
+    font-weight: bold;
+    font-size: 30px;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+
+  &__enter {
+    max-width: 200px;
+  }
+
+  &__error {
+    color: #fd8383;
+  }
+}
+
+.page {
+  background-color: #6a9292;
+}

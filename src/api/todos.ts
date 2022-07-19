@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 
-const todos = [
+import { Todo } from '../types/Todo';
+
+export const todosFromServer: Todo[] = [
   {
     userId: 1,
     id: 1,
@@ -14,5 +16,3 @@ const todos = [
     completed: false,
   },
 ];
-
-export default todos;
