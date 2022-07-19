@@ -30,7 +30,7 @@ const App: React.FC = () => {
 
       const newTodo: Todo = {
         userId: currUser ? currUser.id : null,
-        id: todos.length + 1,
+        id: todos[todos.length - 1].id + 1,
         title,
         completed: false,
         user: currUser || null,
