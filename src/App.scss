@@ -1,35 +1,50 @@
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+.App {
+  padding: 20px;
+  text-align: center;
 }
 
-label,
-button {
-  cursor: pointer;
+.form {
+  margin: 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.error {
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.card {
+  padding: 16px;
+  margin: auto;
+  width: 350px;
+  border: 1px solid black;
+
+  &:hover {
+    border: 1px solid cornflowerblue;
+  }
+}
+
+.input {
+  width: 350px;
+}
+
+.select__element {
+  width: 350px;
+}
+
+.message {
+  font-size: 14px;
+  width: 350px;
+}
+
+.completed {
+  color: cornflowerblue;
+}
+
+.notCompleted {
   color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
 }
