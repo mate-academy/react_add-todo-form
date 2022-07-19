@@ -34,7 +34,9 @@ export const App: React.FC = () => {
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserName(event.target.value);
+    const { value } = event.target;
+
+    setUserName(value);
     setUserNameDirty(false);
   };
 
@@ -50,12 +52,20 @@ export const App: React.FC = () => {
     }
 
     const newTodo = {
-      id: todo[todo.length - 1].id + 1,
+      id: Math.max(...todos.map(t => t.id)) + 1,
       title,
       userId,
       completed: false,
       user: newUser,
     };
+
+    if (newTodo.title.length === 0) {
+      return;
+    }
+
+    if (!newTodo.user?.name) {
+      return;
+    }
 
     setTodos([...todo, newTodo]);
   };
