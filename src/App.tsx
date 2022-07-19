@@ -32,6 +32,9 @@ const App: React.FC = () => {
         completed: false,
       },
     ]));
+    setName('');
+    setTodo('');
+    setPressed(false);
   };
 
   return (
@@ -55,7 +58,7 @@ const App: React.FC = () => {
                 setName(element.target.value);
               }}
             >
-              <option value="">choose user</option>
+              <option value="" disabled>choose user</option>
               {usersFromServer.map(user => {
                 if (typeof user.name === 'string') {
                   return (
@@ -112,9 +115,6 @@ const App: React.FC = () => {
 
             if (name !== '' && todo !== '') {
               addTodo();
-              setName('');
-              setTodo('');
-              setPressed(false);
             }
           }}
         >
