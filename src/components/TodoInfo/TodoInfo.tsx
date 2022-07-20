@@ -17,7 +17,11 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
       },
     )}
   >
-    <h2 className="TodoInfo__title title is-2 is-spaced">{todo.title}</h2>
+    <h2
+      className="TodoInfo__title title is-2 is-spaced"
+    >
+      {todo.title}
+    </h2>
 
     {todo.user && (
       <UserInfo user={todo.user} />

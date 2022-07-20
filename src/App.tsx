@@ -26,6 +26,16 @@ export const App: React.FC = () => {
   const [isValidTitle, setTitleError] = useState(false);
   const [isValidUser, setUserError] = useState(false);
 
+  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const nameHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -67,10 +77,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               value={title}
               className="form_field input is-info"
-              onChange={event => {
-                setTitle(event.target.value);
-                setTitleError(false);
-              }}
+              onChange={titleHandler}
             />
           </label>
 
@@ -86,10 +93,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               value={userId}
               className="form_field select is-info"
-              onChange={event => {
-                setUserId(+event.target.value);
-                setUserError(false);
-              }}
+              onChange={nameHandler}
             >
               <option value="0" disabled>Choose a user</option>
 
