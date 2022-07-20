@@ -12,3 +12,5 @@ interface Todo {
   completed: boolean,
   user: User | null,
 }
+
+type Event = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;

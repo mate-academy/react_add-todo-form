@@ -6,6 +6,7 @@ import './App.css';
 import users from './api/users';
 import todos from './api/todos';
 import TodoList from './components/TodoList/TodoList';
+import Event from './components/Types/Event';
 
 const preparedTodos: Todo[] = todos.map(todo => ({
   ...todo,
@@ -46,8 +47,6 @@ const App: React.FC = () => {
     }
   };
 
-  type Event = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
-
   const handleChange = (event: Event) => {
     const { name, value } = event.target;
 
@@ -84,11 +83,12 @@ const App: React.FC = () => {
           onChange={handleChange}
         />
 
-        {!titeleValid ? <p>Please enter the title</p> : null}
+        {!titeleValid && <p>Please enter the title</p>}
 
         <select
           name="username"
           className="form-select form-select-lg mb-3"
+          data-cy="userSelect"
           value={username}
           onChange={handleChange}
         >
@@ -100,7 +100,12 @@ const App: React.FC = () => {
           </option>
 
           {users.map((user) => (
-            <option value={user.name} key={user.id}>{user.name}</option>
+            <option
+              value={user.name}
+              key={user.id}
+            >
+              {user.name}
+            </option>
           ))}
         </select>
 

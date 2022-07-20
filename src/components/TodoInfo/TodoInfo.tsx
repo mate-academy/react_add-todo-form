@@ -13,8 +13,8 @@ const TodoInfo: React.FC<Props> = ({ todo }) => {
     <>
       {user && <UserInfo user={user} />}
       <div className="todo">
-        <p data-cy="title">{`Task: ${title}`}</p>
-        <p data-cy="status">
+        <p data-cy="titleInput">{`Task: ${title}`}</p>
+        <p>
           {completed ? 'Status: Done' : 'Status: In progress'}
         </p>
       </div>
