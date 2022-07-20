@@ -12,27 +12,42 @@ const preparedTodos: Todo[] = todos.map(todo => ({
 }));
 
 const App: FC = () => {
-  const [InputedTitle, setInputedTitle] = useState('');
-  const [ChoosedUser, setCoosedUser] = useState('Choose a user');
-  const [IsTryAddTodo, setIsTryAddTodo] = useState(false);
+  const [inputedTitle, setInputedTitle] = useState('');
+  const [choosedUser, setCoosedUser] = useState('');
+  const [isTryAddTodo, setIsTryAddTodo] = useState(false);
 
   const addNewTodo = () => {
     const lastTodo = preparedTodos[preparedTodos.length - 1];
-    const findedUser = users.find(user => user.name === ChoosedUser);
+    const findedUser = users.find(user => user.name === choosedUser);
 
-    if (InputedTitle.length > 0 && ChoosedUser !== 'Choose a user') {
+    if (inputedTitle.length > 0 && choosedUser !== 'Choose a user') {
       preparedTodos.push({
         userId: findedUser?.id || 0,
         id: lastTodo.id + 1,
-        title: InputedTitle,
+        title: inputedTitle,
         user: findedUser || null,
         completed: false,
       });
+
       setInputedTitle(() => (''));
       setCoosedUser(() => ('Choose a user'));
       setIsTryAddTodo(false);
     } else {
       setIsTryAddTodo(true);
+    }
+  };
+
+  const titleHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputedTitle(event.target.value);
+    if (isTryAddTodo) {
+      setIsTryAddTodo(false);
+    }
+  };
+
+  const nameHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCoosedUser(event.target.value);
+    if (isTryAddTodo) {
+      setIsTryAddTodo(false);
     }
   };
 
@@ -46,18 +61,11 @@ const App: FC = () => {
           <textarea
             name="title"
             data-cy="titleInput"
-            value={InputedTitle}
+            value={inputedTitle}
             placeholder="title"
-            onChange={({ target }) => {
-              setInputedTitle(target.value);
-              if (IsTryAddTodo) {
-                setIsTryAddTodo(false);
-              }
-            }}
+            onChange={(event) => titleHandler(event)}
           />
-          {IsTryAddTodo
-            && InputedTitle.length === 0
-            && 'Please enter the title'}
+          {isTryAddTodo && !inputedTitle && 'Please enter the title'}
         </label>
 
         <label className="Input-field">
@@ -65,23 +73,16 @@ const App: FC = () => {
           <select
             name="user"
             data-cy="userSelect"
-            value={ChoosedUser}
+            value={choosedUser}
             className="Input-field__select"
-            onChange={({ target }) => {
-              setCoosedUser(target.value);
-              if (IsTryAddTodo) {
-                setIsTryAddTodo(false);
-              }
-            }}
+            onChange={event => nameHandler(event)}
           >
-            <option>Choose a user</option>
+            <option value="">Choose a user</option>
             {users.map((user) => (
               <option key={user.id}>{user.name}</option>
             ))}
           </select>
-          {IsTryAddTodo
-            && ChoosedUser === 'Choose a user'
-            && 'Please choose a user'}
+          {isTryAddTodo && !choosedUser && 'Please choose a user'}
         </label>
 
         <button
