@@ -9,13 +9,10 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
     <div className="message notification is-primary is-light">
       <p data-cy="username">
-        Username:
-        {user?.name}
+        {`Username: ${user?.name}`}
       </p>
-      <a href="mailto:{user?.email}" data-cy="email">
-        Registered email:
-        {' '}
-        {user?.email}
+      <a href={`mailto:${user?.email}`} data-cy="email">
+        {`Registered email: ${user?.email}`}
       </a>
     </div>
   );
