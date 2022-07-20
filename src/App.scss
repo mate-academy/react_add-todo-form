@@ -89,8 +89,18 @@
   border: 1px solid transparent;
   color: #3d3e41;
   list-style-type: none;
+  margin-bottom: 20px;
 
   &:hover {
     background: #e3ecf5;
   }
+}
+
+.container {
+  padding: 0;
+  list-style-type: none;
+}
+
+.message {
+  color: #f00;
 }
