@@ -1,35 +1,37 @@
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
-.error {
-  color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+.error {
+  color: #f00;
+}
+
+.todoList {
+  padding: 10px;
+  background-color: #080;
+  width: max-content;
+
+  & > ul {
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.field {
+  margin: 10px;
+  padding: 5px;
+  color: #7c2a64;
+}
+
+.button {
+  margin: 10px;
+  line-height: 30px;
+  width: 60px;
+  cursor: pointer;
 }
