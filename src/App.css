@@ -1,3 +1,16 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.select {
+  height: 60px;
+}
+
+.input {
+  height: 60px;
+}
+
+.dataError {
+  color: red;
 }
