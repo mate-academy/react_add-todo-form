@@ -1,0 +1,14 @@
+.todoTitle {
+  color: black;
+  font-weight: bold;
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}
+
+.in_process {
+  color: red;
+  font-weight: bold;
+}

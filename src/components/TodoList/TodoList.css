@@ -1,0 +1,28 @@
+.preparedTodos_list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 30px;
+  margin: 40px;
+  border: 1px solid yellow;
+
+}
+
+.item {
+  padding: 2px;
+  background-color: #fff;
+  border: 1px solid yellow;
+}
+
+.user__item {
+  display: block;
+  margin-bottom: 2px;
+  list-style: none;
+  border: 1px solid yellowgreen;
+}
+
+.todo__item {
+  display: block;
+  list-style: none;
+  border: 1px solid yellowgreen;
+}

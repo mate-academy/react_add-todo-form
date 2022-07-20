@@ -2,9 +2,50 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  margin: 0;
+}
+
+.mainTitle {
+  display: block;
+  padding: 30px;
+  text-align: center;
+}
+
+.App {
+  height: 100vh;
+  text-align: center;
+  background-color: dimgray;
+}
+
+.form {
+  margin: 0 auto;
+  width: 320px;
+  text-align: center;
+  border: 5px solid white;
+  background-color: #fff;
+}
+
 label,
 button {
   cursor: pointer;
+}
+
+.add {
+  font-size: 20px;
+}
+
+.input,
+.select {
+  margin: 3px;
+  width: 300px;
+  height: 30px;
+  text-align: center;
 }
 
 .error {
