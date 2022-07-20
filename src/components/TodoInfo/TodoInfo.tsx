@@ -15,14 +15,14 @@ type Props = {
 
 export const TodoInfo:React.FC<Props> = ({ todo }) => (
   <div className="todo__info">
-    <div className="todo__info-status" data-cy="status">
+    <p className="todo__info-status" data-cy="status">
       {todo.completed
         ? ('Status: completed')
         : ('Status: no completed')}
-    </div>
+    </p>
 
-    <div className="todo__info-title" data-cy="title">{`Title: ${todo.title}`}</div>
-    <div className="todo__info-id" data-cy="id">{`Id: ${todo.id}`}</div>
-    <div className="todo__info-userId" data-cy="userId">{`userId: ${todo.userId}`}</div>
+    <h2 className="todo__info-title" data-cy="title">{`Title: ${todo.title}`}</h2>
+    <h2 className="todo__info-id" data-cy="id">{`Id: ${todo.id}`}</h2>
+    <p className="todo__info-userId" data-cy="userId">{`userId: ${todo.userId}`}</p>
   </div>
 );

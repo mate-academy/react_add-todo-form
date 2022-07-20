@@ -52,7 +52,7 @@ export const App: React.FC = () => {
     }
 
     const newTodo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
+      id: Math.max(...todo.map(t => t.id)) + 1,
       title,
       userId,
       completed: false,
@@ -113,9 +113,7 @@ export const App: React.FC = () => {
             </option>
             {
               users.map((user) => (
-                <option
-                  key={user.id}
-                >
+                <option key={user.id}>
                   {user.name}
                 </option>
               ))
