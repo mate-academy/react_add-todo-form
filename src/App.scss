@@ -2,13 +2,27 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+}
+
 label,
 button {
   cursor: pointer;
+  width: 100%;
 }
 
 .error {
   color: red;
+  position: absolute;
 }
 
 .TodoInfo {
@@ -32,4 +46,14 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.input,
+.select,
+.button {
+  margin-top: 40px;
+}
+
+.completed {
+  color:#080;
 }

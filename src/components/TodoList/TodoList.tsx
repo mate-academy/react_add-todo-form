@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const TodoList: React.FC<Props> = ({ preparedTodos }) => (
-  <ol className="todoList">
+  <ol className="todoList notification is-link is-light">
     {preparedTodos.map(preparedTodo => (
       <li key={preparedTodo.id} className="todoItem">
         <TodoInfo preparedTodo={preparedTodo} />

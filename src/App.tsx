@@ -14,20 +14,20 @@ export const App: React.FC = () => {
 
   const preparedTodos: PreparedTodo[] = currentTodos.map(todo => ({
     ...todo,
-    user: usersFromServer.find(user => user.id ===todo.userId) || null,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
   }));
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value);
-  }
+  };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUserId(+value);
-  }
+  };
 
   const onSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -36,22 +36,24 @@ export const App: React.FC = () => {
       addTodo(todos => ([
         ...todos,
         {
-          userId: userId,
-          id: todos[todos.length -1].id + 1,
+          userId,
+          id: todos[todos.length - 1].id + 1,
           title: getTitle.trim(),
           completed: false,
-        }
+        },
       ]));
 
       setUserId(0);
       setTitle('');
       showWarning(false);
+    } else {
+      showWarning(true);
     }
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App main">
+      <h1 className="title is-2">Add todo form</h1>
 
       <form action="/api/users" method="POST">
         <div className="field">
@@ -61,8 +63,13 @@ export const App: React.FC = () => {
             value={getTitle}
             onChange={handleInput}
             placeholder="Your title expected here"
+            className="input is-success large is-rounded"
           />
-          {!getTitle.trim().length && errorWarning && (<span className="error">Please enter a title</span>)}
+          {!getTitle.length && errorWarning && (
+            <p className="error">
+              Please enter a title
+            </p>
+          )}
         </div>
 
         <div className="field">
@@ -72,6 +79,7 @@ export const App: React.FC = () => {
             id="users"
             value={userId}
             onChange={handleSelect}
+            className="select is-rounded is-large"
           >
             <option
               value="0"
@@ -91,24 +99,28 @@ export const App: React.FC = () => {
           </select>
 
           {!userId && errorWarning && (
-          <span className="error">Please choose a user</span>)}
+            <p className="error">
+              Please choose a user
+            </p>
+          )}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
           onClick={onSubmit}
+          className="button is-info large"
         >
           Add
         </button>
       </form>
 
-      <h1>User with Todos</h1>
-    <section className="sectionList">
-      <article className="sectionTodos">
-        <TodoList preparedTodos={preparedTodos} />
-      </article>
-    </section>
+      <h1 className="title">User with Todos</h1>
+      <section className="sectionList">
+        <article className="sectionTodos">
+          <TodoList preparedTodos={preparedTodos} />
+        </article>
+      </section>
     </div>
   );
 };
