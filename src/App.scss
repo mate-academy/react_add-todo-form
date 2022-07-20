@@ -14,8 +14,12 @@ body {
     display: block;
   }
 
+  &__input-wrapper {
+    margin-bottom: 20px;
+  }
+
   &__input {
-    width: 200px;
+    width: 285px;
     font-family: "Cinzel", serif;
   }
 
@@ -32,7 +36,7 @@ body {
   }
 
   &__error {
-    display: inline-block;
+    display: block;
     margin-left: 20px;
     color: #f00a;
     border-bottom: 1px solid #f005;

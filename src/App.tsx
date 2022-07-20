@@ -24,17 +24,13 @@ const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    const valid = () => (
-      userSelect !== 0 && title !== ''
-    );
+    setClick(true);
 
-    setClick(!click);
-
-    if (valid()) {
+    if (title && userSelect > 0) {
       setTodos(() => {
         const newTodo = {
           userId: userSelect,
-          id: currToddos.length + 1,
+          id: currToddos[currToddos.length - 1].id + 1,
           title,
           completed: false,
           user: users.find(user => user.id === userSelect) || null,
@@ -42,6 +38,7 @@ const App: React.FC = () => {
 
         setTitle('');
         setUserSelect(0);
+        setClick(false);
 
         return [...currToddos, newTodo];
       });
@@ -52,54 +49,62 @@ const App: React.FC = () => {
     <div className="App">
       <h1 className="App__title">Static list of todos</h1>
       <div className="App__form-field">
-        <input
-          className="input is-rounded App__input"
-          type="text"
-          data-cy="titleInput"
-          placeholder="Write a title"
-          value={title}
-          onChange={handleTitleChange}
-        />
-        <div className="select is-rounded">
-          <select
-            className="select is-rounded App__select"
-            name="users"
-            data-cy="userSelect"
-            value={userSelect}
-            onChange={handleUserChange}
-          >
-            <option
-              value="0"
+        <form onSubmit={(event) => {
+          event.preventDefault();
+          addTodo();
+        }}
+        >
+          <div className="App__input-wrapper">
+            <input
+              className="input is-rounded App__input"
+              type="text"
+              data-cy="titleInput"
+              placeholder="Write a title"
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </div>
+
+          {click && !title && (
+            <div className="App__error">Please, enter the title</div>
+          )}
+
+          <div className="select is-rounded">
+            <select
+              className="select is-rounded App__select"
+              name="users"
+              data-cy="userSelect"
+              value={userSelect}
+              onChange={handleUserChange}
             >
-              Choose user
-            </option>
-            {users.map(user => (
               <option
-                key={user.id}
-                value={user.id}
+                value="0"
               >
-                {user.name}
+                Choose user
               </option>
-            ))}
-          </select>
-        </div>
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {click && !userSelect && (
+            <div className="App__error">Please, choose user</div>
+          )}
+
+          <button
+            className="button is-rounded is-success App__button"
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
       </div>
-
-      {click && !title && (
-        <div className="App__error">Please, enter the title</div>
-      )}
-
-      {click && !userSelect && (
-        <div className="App__error">Please, choose user</div>
-      )}
-
-      <button
-        className="button is-rounded is-success App__button"
-        type="button"
-        onClick={addTodo}
-      >
-        Add
-      </button>
 
       <TodoList preparedTodos={currToddos} />
     </div>
