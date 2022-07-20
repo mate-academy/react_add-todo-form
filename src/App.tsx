@@ -71,6 +71,18 @@ const App: React.FC = () => {
     }))
   );
 
+  const handeStatusChange = (id: number) => (
+    setTodos(prev => (
+      prev.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed: !todo.completed };
+        }
+
+        return todo;
+      })
+    ))
+  );
+
   return (
     <div className="app">
       <h1 className="app__title">Add todo form</h1>
@@ -79,12 +91,11 @@ const App: React.FC = () => {
         <label className="app__input-group">
           {!isTextValid && (
             <span className="app__input-error">
-              <span>Please enter the title</span>
-              ⚠️
+              Please enter the title ⚠️
             </span>
           )}
 
-          <span className="app__label-text ">
+          <span className="app__label-text">
             Todo text:
           </span>
 
@@ -105,12 +116,13 @@ const App: React.FC = () => {
         <label className="app__input-group">
           {!isUserValid && (
             <span className="app__input-error">
-              <span>Please choose a user</span>
-              ⚠️
+              Please choose a user ⚠️
             </span>
           )}
 
-          <span>Choose User: </span>
+          <span className="app__label-text">
+            Choose User:
+          </span>
 
           <div className="select">
             <select
@@ -124,9 +136,9 @@ const App: React.FC = () => {
             >
               <option value="0" disabled>Choose a user</option>
 
-              {users.map(user => (
-                <option key={user.id} value={user.id}>
-                  {`${user.name} [${user.username}]`}
+              {users.map(({ id, name, username }) => (
+                <option key={id} value={id}>
+                  {`${name} [${username}]`}
                 </option>
               ))}
             </select>
@@ -142,7 +154,10 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={prepareTodos(todos)} />
+      <TodoList
+        todos={prepareTodos(todos)}
+        onStatusClick={handeStatusChange}
+      />
     </div>
   );
 };

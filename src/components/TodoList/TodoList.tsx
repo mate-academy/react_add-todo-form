@@ -6,9 +6,10 @@ import { UserInfo } from '../UserInfo/UserInfo';
 
 type Props = {
   todos: PreparedTodo[]
+  onStatusClick: (id: number) => void;
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = ({ todos, onStatusClick }) => {
   return (
     <ul className="todo-list">
       {todos.map(todo => (
@@ -17,7 +18,10 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
             <UserInfo user={todo.user} />
           )}
           <hr className="todo-list__divider" />
-          <TodoInfo todo={todo} />
+          <TodoInfo
+            todo={todo}
+            onStatusClick={onStatusClick}
+          />
         </li>
       ))}
     </ul>
