@@ -106,6 +106,7 @@ const App: React.FC = () => {
         <select
           name="users"
           data-cy="userSelect"
+          value={selectedUser}
           onChange={handleUserSelect}
         >
           <option value="">
