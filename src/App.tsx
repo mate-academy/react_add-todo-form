@@ -24,7 +24,7 @@ export const App: React.FC = () => {
     setIsTitle(true);
   };
 
-  const handelUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserName(event.target.value);
     setIsUserName(true);
   };
@@ -66,8 +66,6 @@ export const App: React.FC = () => {
 
         <form
           className="form"
-          action="/api/users"
-          method="POST"
           onSubmit={handleSubmit}
         >
           <div className="field field-title">
@@ -99,7 +97,7 @@ export const App: React.FC = () => {
               name="users"
               data-cy="userSelect"
               value={userName}
-              onChange={handelUserName}
+              onChange={handleUserName}
             >
               <option value="0">
                 Choose a user
