@@ -1,35 +1,51 @@
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+.container {
+  text-align: center;
 }
 
-label,
-button {
-  cursor: pointer;
+.todo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  background-color: yellow;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 30px;
+    align-items: center;
+    background-color: rgba($color: blue, $alpha: 0.7);
+  }
+
+  &__item {
+    text-align: center;
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 30px;
+    list-style: none;
+
+    border-radius: 20px;
+    background-color: yellow;
+  }
 }
 
 .error {
+  display: block;
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+.button {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  color: white;
+  background-color: grey;
 }
 
-.UserInfo {
-  font-style: italic;
+.field__select,
+.field__title {
+  height: 50px;
 }
