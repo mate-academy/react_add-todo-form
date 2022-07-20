@@ -20,7 +20,7 @@ const TodoInfo: React.FC<Props> = ({ todo }) => {
         Status:
         <p className={classNames(
           'todo__notCompleated',
-          { todo__compleated: completed },
+          { todo__completed: completed },
         )}
         >
           {completed ? (
@@ -31,9 +31,12 @@ const TodoInfo: React.FC<Props> = ({ todo }) => {
         </p>
       </div>
 
-      <div className="todo__user">
-        {user && <UserInfo user={user} />}
-      </div>
+      {user && (
+        <div className="todo__user">
+          <UserInfo user={user} />
+        </div>
+      )}
+
     </div>
   );
 };

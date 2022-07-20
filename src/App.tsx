@@ -16,7 +16,9 @@ const App: React.FC = () => {
   const [todos, setTodoList] = useState([...prepearedTodos]);
   const [formInfo, setFormInfo] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!userName) {
       setFormInfo('Please choose a user');
     }
@@ -25,7 +27,7 @@ const App: React.FC = () => {
       setFormInfo('Please enter the title');
     }
 
-    if (title !== '' && userName !== '') {
+    if (title && userName) {
       const currUser = users.find(user => user.name === userName) || null;
 
       const newTodo: Todo = {
@@ -43,13 +45,20 @@ const App: React.FC = () => {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setFormInfo('');
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
+    setFormInfo('');
+  };
+
   return (
     <div className="App">
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <input
           type="text"
@@ -57,21 +66,17 @@ const App: React.FC = () => {
           placeholder="Title"
           data-cy="titleInput"
           value={title}
-          onChange={(event) => {
-            setTitle(event.target.value);
-            setFormInfo('');
-          }}
+          onChange={(event) => handleInputChange(event)}
         />
 
         <select
           data-cy="userSelect"
           value={userName}
-          onChange={(event) => {
-            setUser(event.target.value);
-            setFormInfo('');
-          }}
+          onChange={(event) => handleSelectChange(event)}
         >
-          <option value="" disabled>Choose a user</option>
+          <option value="" disabled>
+            Choose a user
+          </option>
 
           {users.map(currUser => (
             <option
