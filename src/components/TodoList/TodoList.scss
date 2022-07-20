@@ -1,0 +1,21 @@
+.todolist {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 300px;
+    min-width: max-content;
+    padding: 10px;
+    
+    list-style: none;
+
+    background-color: rgb(255, 211, 219);
+    border-radius: 5px;
+    border: 5px solid rgb(252, 254, 130);
+  }
+}
