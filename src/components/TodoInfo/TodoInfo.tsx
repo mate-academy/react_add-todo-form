@@ -18,7 +18,7 @@ export const TodoInfo: React.FC<Props> = ({ preparedTodo }) => (
           'is-light',
           {
             'is-danger': !preparedTodo.completed,
-            'completed': preparedTodo.completed,
+            completed: preparedTodo.completed,
           },
         )
       }
