@@ -14,7 +14,9 @@ export const App: React.FC = () => {
   const [todosList, setTodosList] = useState<Todo[]>(preparedTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [userName, setUserName] = useState(0);
-  const [error, setError] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +29,8 @@ export const App: React.FC = () => {
       user: users.find(user => user.id === userName) || null,
     };
 
-    setError(!userName || !todoTitle);
+    setUserError(!userName);
+    setTitleError(!todoTitle);
 
     if (userName && todoTitle) {
       setTodosList([...todosList, newUser]);
@@ -55,11 +58,11 @@ export const App: React.FC = () => {
           value={todoTitle}
           onChange={(event) => {
             setTodoTitle(event.target.value);
-            setError(false);
+            setTitleError(false);
           }}
         />
 
-        {(!todoTitle && error) && (
+        {(!todoTitle && titleError) && (
           <span className="app__form--item error">
             Please enter the title
           </span>
@@ -72,7 +75,7 @@ export const App: React.FC = () => {
           data-cy="userSelect"
           onChange={(event) => {
             setUserName(+event.target.value);
-            setError(false);
+            setUserError(false);
           }}
         >
           <option disabled value="0">
@@ -85,7 +88,7 @@ export const App: React.FC = () => {
           ))}
         </select>
 
-        {(!userName && error) && (
+        {(!userName && userError) && (
           <span className="app__form--item error">
             Please choose a user
           </span>
