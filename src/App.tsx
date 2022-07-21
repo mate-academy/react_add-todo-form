@@ -16,17 +16,17 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
-  const [isTitleEntered, setIsTitleEntered] = useState(false);
-  const [isUserNameEntered, setIsUserNameEntered] = useState(false);
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
+  const [isUserNameInvalid, setIsUserNameInvalid] = useState(false);
 
   const setEnteredTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEntered(false);
+    setIsTitleInvalid(false);
   };
 
   const setEnteredUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserName(event.target.value);
-    setIsUserNameEntered(false);
+    setIsUserNameInvalid(false);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,20 +42,22 @@ export const App = () => {
       userId = newUser.id;
     }
 
+    if (!userName || !title) {
+      setIsUserNameInvalid(!userName);
+      setIsTitleInvalid(!title);
+
+      return;
+    }
+
+    const maxId = Math.max(...todos.map(todo => todo.id));
+
     const newTodo: Todo = {
-      id: todos[todos.length - 1].id + 1,
+      id: maxId + 1,
       title,
       userId,
       completed: false,
       user: newUser,
     };
-
-    if (!userName || !title) {
-      setIsUserNameEntered(!userName);
-      setIsTitleEntered(!title);
-
-      return;
-    }
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
     setTitle('');
@@ -64,11 +66,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={onSubmit}
-      >
+      <form onSubmit={onSubmit}>
         <div className="field">
           <input
             type="text"
@@ -79,7 +77,7 @@ export const App = () => {
             onChange={setEnteredTitle}
           />
 
-          {isTitleEntered && (
+          {isTitleInvalid && (
             <span className="error">
               Please enter a title
             </span>
@@ -104,7 +102,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isUserNameEntered && (
+          {isUserNameInvalid && (
             <span className="error">
               Please choose a user
             </span>
