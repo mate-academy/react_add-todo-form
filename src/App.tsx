@@ -11,7 +11,6 @@ import { Todo } from './types/Todo';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -27,8 +26,8 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [updatedTodos, setUpdatedTodos] = useState([...todos]);
-  const [hasTitle, setHasTitle] = useState(true);
-  const [hasSelectedUser, setHasSelectedUser] = useState(true);
+  const [hasTitle, setHasTitle] = useState(false);
+  const [hasSelectedUser, setHasSelectedUser] = useState(false);
 
   const noTitleError = 'No title entered, please add title';
   const noUserError = 'No user selected! Please select!';
@@ -52,33 +51,21 @@ const App: React.FC = () => {
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setHasTitle(false);
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
+    setHasSelectedUser(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    let isValidated = false;
+    setHasTitle(!title);
+    setHasSelectedUser(!selectedUser);
 
-    if (title) {
-      setHasTitle(true);
-      isValidated = true;
-    } else {
-      setHasTitle(false);
-    }
-
-    if (selectedUser) {
-      setHasSelectedUser(true);
-      isValidated = true;
-    } else {
-      setHasSelectedUser(false);
-      isValidated = false;
-    }
-
-    if (isValidated) {
+    if (title && selectedUser) {
       addNewTodo();
       setTitle('');
       setSelectedUser('');
@@ -89,38 +76,42 @@ const App: React.FC = () => {
     <div className="App">
       <h1 className="App__title">Static list of todos</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={title}
-          placeholder="Enter Todo title"
-          data-cy="titleInput"
-          onChange={handleTitleInput}
-        />
+        <div className="field">
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value={title}
+            placeholder="Enter Todo title"
+            data-cy="titleInput"
+            onChange={handleTitleInput}
+          />
+          {hasTitle && (
+            <p className="message">{noTitleError}</p>
+          )}
+        </div>
 
-        <p className="message">
-          {!hasTitle && noTitleError}
-        </p>
-
-        <select
-          name="users"
-          data-cy="userSelect"
-          value={selectedUser}
-          onChange={handleUserSelect}
-        >
-          <option value="">
-            Choose a user
-          </option>
-          {usersFromServer.map(user => (
-            <option value={user.name} key={user.id}>
-              {user.name}
+        <div className="field">
+          <select
+            name="users"
+            data-cy="userSelect"
+            value={selectedUser}
+            onChange={handleUserSelect}
+          >
+            <option value="">
+              Choose a user
             </option>
-          ))}
-        </select>
-        <p className="message">
-          {!hasSelectedUser && noUserError}
-        </p>
+            {usersFromServer.map(user => (
+              <option value={user.name} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          {hasSelectedUser && (
+            <p className="message">{noUserError}</p>
+          )}
+        </div>
         <button type="submit">Add task</button>
       </form>
       <TodoList todos={updatedTodos} />
