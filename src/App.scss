@@ -1,5 +1,7 @@
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  box-sizing: border-box;
+  background-color: aqua;
 }
 
 label,
@@ -32,4 +34,50 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.App {
+  margin: 0 auto;
+  max-width: 600px;
+  min-height: 700px;
+  border: 1px solid black;
+  border-radius: 2%;
+  background-color: yellowgreen;
+
+}
+
+h1 {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 25px;
+  margin-bottom: 100px;
+}
+
+.nameadd {
+  color: ghostwhite;
+
+}
+
+.field {
+  width: 600px;
+}
+
+.select {
+  width: 599px;
+  text-align: center;
+}
+
+.input {
+  text-align: center;
+}
+
+.button {
+  margin-left: 220px;
+  width: 180px;
+}
+
+.TodoList {
+  box-sizing: border-box;
+  text-align: center;
+  margin-left: auto;
 }
