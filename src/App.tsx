@@ -17,8 +17,18 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [todoList, setTodoList] = useState([...preparedTodos]);
+  const [isValidTitle, setValidTitle] = useState(true);
+  const [isValidUserName, setValidUserName] = useState(true);
 
   const addTodo = () => {
+    if (!title) {
+      setValidTitle(false);
+    }
+
+    if (!userName) {
+      setValidUserName(false);
+    }
+
     if (title && userName) {
       const currentUser = users.find(user => user.name === userName) || null;
       const newTodo = {
@@ -32,6 +42,8 @@ const App: React.FC = () => {
       setTodoList(prevTodo => [...prevTodo, newTodo]);
       setTitle('');
       setUserName('');
+      setValidTitle(true);
+      setValidUserName(true);
     }
   };
 
@@ -42,8 +54,10 @@ const App: React.FC = () => {
 
     if (name === 'title') {
       setTitle(value);
+      setValidTitle(true);
     } else {
       setUserName(value);
+      setValidUserName(true);
     }
   };
 
@@ -53,6 +67,10 @@ const App: React.FC = () => {
         <form
           action="#"
           className="form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            addTodo();
+          }}
         >
           <div className="form__section">
             <input
@@ -64,7 +82,7 @@ const App: React.FC = () => {
               onChange={handleChange}
               placeholder="Enter the title"
             />
-            {!title && <p className="error">Please enter the title</p>}
+            {!isValidTitle && <p className="error">Please enter the title</p>}
           </div>
           <div className="form__section">
             <select
@@ -84,13 +102,12 @@ const App: React.FC = () => {
                 <option value={user.name} key={user.id}>{user.name}</option>
               ))}
             </select>
-            {!userName && <p className="error">Please choose a user</p>}
+            {!isValidUserName && <p className="error">Please choose a user</p>}
           </div>
 
           <button
-            type="button"
+            type="submit"
             className="form__button"
-            onClick={addTodo}
           >
             Add
           </button>
