@@ -14,7 +14,6 @@ const App: React.FC = () => {
 
   const maxId = Math.max(...changebleTodos.map(todo => todo.id));
 
-  const currentUser = users.find(user => user.name === userName);
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
   };
@@ -36,6 +35,8 @@ const App: React.FC = () => {
   }));
 
   const handleChange = () => {
+    const currentUser = users.find(user => user.name === userName);
+
     if (currentUser && title) {
       addNewTodo([...actualTodos, {
         userId: currentUser.id,
