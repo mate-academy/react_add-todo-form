@@ -53,8 +53,8 @@ export const App: React.FC = () => {
           data-cy="titleInput"
           placeholder="Please enter the title"
           value={todoTitle}
-          onChange={(e) => {
-            setTodoTitle(e.target.value);
+          onChange={(event) => {
+            setTodoTitle(event.target.value);
             setError(false);
           }}
         />
@@ -68,11 +68,10 @@ export const App: React.FC = () => {
         <select
           className="app__form--item user-select"
           name="user"
-          id="choose-user"
           value={userName}
           data-cy="userSelect"
-          onChange={(e) => {
-            setUserName(+e.target.value);
+          onChange={(event) => {
+            setUserName(+event.target.value);
             setError(false);
           }}
         >
