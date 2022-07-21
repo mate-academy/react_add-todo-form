@@ -17,7 +17,6 @@ export const App: React.FC = () => {
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
