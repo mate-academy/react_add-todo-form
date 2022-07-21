@@ -15,11 +15,7 @@ const UserInfo: React.FC<Props> = ({ user }) => {
     <div className="user">
       <div className="user__info">
         <h3 className="user__name" data-cy="username">
-          {user.name}
-          {' | '}
-          {user.username}
-          {' | '}
-          {`ID #${user.id}`}
+          {`${user.name} | ${user.username} | ID #${user.id}`}
         </h3>
       </div>
 

@@ -15,12 +15,12 @@ const App: React.FC = () => {
   const [innerTodos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [chosenOne, setChosenOne] = useState('');
-  const [isTitle, setIstitle] = useState(true);
+  const [isTitle, setIsTitle] = useState(true);
   const [isUserName, setIsUserName] = useState(true);
 
   const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.replace(/[^\w\d\s\u0430-\u044f]+/, ''));
-    setIstitle(true);
+    setIsTitle(true);
   };
 
   const addUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +32,7 @@ const App: React.FC = () => {
     event.preventDefault();
 
     if (!title.trim()) {
-      setIstitle(false);
+      setIsTitle(false);
     }
 
     if (!chosenOne) {
@@ -84,7 +84,12 @@ const App: React.FC = () => {
                   value={chosenOne}
                   onChange={addUserName}
                 >
-                  <option className="form__defaultChose" key={0} value="">
+                  <option
+                    className="form__defaultChose"
+                    key={0}
+                    value=""
+                    disabled
+                  >
                     Choose a user
                   </option>
                   {users.map(user => (
