@@ -2,34 +2,21 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
 button {
   cursor: pointer;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: #4caf50;
+    color: white;
+  }
 }
 
 .error {
   color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
 }
