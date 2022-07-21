@@ -87,6 +87,7 @@ export const App = () => {
           <div>
             <input
               className="field"
+              data-cy="titleInput"
               type="text"
               name="title"
               placeholder="Title"
