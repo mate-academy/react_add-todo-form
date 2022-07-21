@@ -1,4 +1,4 @@
-.preparedTodos_list {
+.TodoList {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
@@ -8,7 +8,7 @@
 
 }
 
-.item {
+.TodoInfo {
   padding: 2px;
   background-color: #fff;
   border: 1px solid yellow;
