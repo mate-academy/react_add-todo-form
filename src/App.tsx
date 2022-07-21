@@ -37,6 +37,22 @@ const App: React.FC = () => {
     setPressed(false);
   };
 
+  const hendler = () => {
+    if (!name) {
+      setSelectName(true);
+      setPressed(true);
+    }
+
+    if (!todo) {
+      setSelectTodo(true);
+      setPressed(true);
+    }
+
+    if (name !== '' && todo !== '') {
+      addTodo();
+    }
+  };
+
   return (
     <div className="App">
       <h1 className="App__title">Static list of todos</h1>
@@ -102,21 +118,7 @@ const App: React.FC = () => {
         <button
           className="todo__button button is-success"
           type="button"
-          onClick={() => {
-            if (name === '') {
-              setSelectName(true);
-              setPressed(true);
-            }
-
-            if (todo === '') {
-              setSelectTodo(true);
-              setPressed(true);
-            }
-
-            if (name !== '' && todo !== '') {
-              addTodo();
-            }
-          }}
+          onClick={() => hendler()}
         >
           Add
         </button>
