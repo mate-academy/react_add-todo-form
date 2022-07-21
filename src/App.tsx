@@ -88,7 +88,7 @@ export const App: React.FC = () => {
             value={userName}
             onChange={(event) => handleUserName(event)}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
