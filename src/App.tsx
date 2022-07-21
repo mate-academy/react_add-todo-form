@@ -31,28 +31,31 @@ const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!title.length || !userId) {
-      if (!title.length) {
-        setTitelISEmpty('Please enter the title');
-      }
 
-      if (!userId) {
-        setIdIsEmpty('Please choose a user');
-      }
-    } else {
-      setListTodo([{
-        user: users.find(
-          user => user.id === userId,
-        ) || null,
-        userId,
-        id: todos[todos.length - 1].id + 1,
-        title,
-        completed: false,
-      }, ...listTodo]);
+    if (!title.length) {
+      setTitelISEmpty('Please enter the title');
 
-      setTitle('');
-      setUserId(0);
+      return;
     }
+
+    if (!userId) {
+      setIdIsEmpty('Please choose a user');
+
+      return;
+    }
+
+    setListTodo([{
+      user: users.find(
+        user => user.id === userId,
+      ) || null,
+      userId,
+      id: todos[todos.length - 1].id + 1,
+      title,
+      completed: false,
+    }, ...listTodo]);
+
+    setTitle('');
+    setUserId(0);
   };
 
   return (

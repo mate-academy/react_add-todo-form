@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Todo } from '../../type/Todo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
-import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoList.scss';
 
 interface Props {
@@ -12,15 +12,15 @@ export const TodoLis: React.FC <Props> = ({ todoList }) => {
     <div className="card-area">
       {todoList.map(todo => (
         <div
-          className={`${todo.completed ? 'card indicator-true' : 'card indicator-fasle'}`}
+          className={
+            classNames(
+              'card indicator-true',
+              { 'card indicator-fasle': !todo.completed },
+            )
+          }
           key={todo.id}
         >
-          <UserInfo
-            user={todo.user}
-            completed={todo.completed}
-          />
-
-          <TodoInfo todo={todo} />
+          <TodoInfo todo={todo} data-id={todo.id} />
         </div>
       ))}
     </div>
