@@ -8,26 +8,22 @@ import { TodoList } from './components/TodoList/TodoList';
 const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
-  const [selectError, setSelectError] = useState('');
-  const [titleError, setTitleError] = useState('');
+  const [selectError, setSelectError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
   const [changebleTodos, addNewTodo] = useState(todos);
 
-  const findMaxId = () => {
-    let currentId = changebleTodos[0].id;
-
-    for (let i = 1; i < changebleTodos.length; i += 1) {
-      if (changebleTodos[i].id > currentId) {
-        currentId = changebleTodos[i].id;
-      }
-    }
-
-    return currentId;
-  };
+  const maxId = Math.max(...changebleTodos.map(todo => todo.id));
 
   const currentUser = users.find(user => user.name === userName);
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
   };
+
+  const checkForbidenSymbols = (str: string) => (
+    str.split('')
+      .filter(char => !'!@#$%^&*()_-+=";:/?|.,><}{][~\\`\''.includes(char))
+      .join('')
+  );
 
   const reset = () => {
     setUserName('');
@@ -39,33 +35,23 @@ const App: React.FC = () => {
     user: users.find(user => user.id === todo.userId) || null,
   }));
 
-  const throwError = (
-    value:string,
-    func: (value: React.SetStateAction<string>) => void,
-    errorPhrase:string,
-  ) => {
-    if (value.length === 0) {
-      func(errorPhrase);
-    } else {
-      func('');
-    }
-  };
-
   const handleChange = () => {
     if (currentUser && title) {
       addNewTodo([...actualTodos, {
         userId: currentUser.id,
-        id: findMaxId() + 1,
+        id: maxId + 1,
         title,
         completed: false,
       }]);
+      reset();
     }
 
-    throwError(title, setTitleError, 'Please enter the title');
-    throwError(userName, setSelectError, 'Please choose a user');
+    if (!title) {
+      setTitleError(true);
+    }
 
-    if (userName && title) {
-      reset();
+    if (!userName) {
+      setSelectError(true);
     }
   };
 
@@ -78,24 +64,33 @@ const App: React.FC = () => {
           type="text"
           name="title"
           className="input App__input"
+          data-cy="titleInput"
           value={title}
           placeholder="Enter the title, please"
-          onChange={({ target }) => (
-            setTitle(target.value.split('')
-              .filter(char => !'!@#$%^&*()_-+=";:/?|.,><}{][~'.includes(char))
-              .join(''))
-          )}
+          onChange={({ target }) => {
+            setTitle(checkForbidenSymbols(target.value));
+            setTitleError(false);
+          }}
         />
+
+        {/* Permanent container is needed for styling */}
         <div className="App__error-container">
-          <p className="App__error App__error--title">{titleError}</p>
+          {titleError && (
+            <p className="App__error App__error--title">
+              Please enter the title
+            </p>
+          )}
         </div>
+
         <select
           name="users"
           className="select"
+          data-cy="userSelect"
           value={userName}
-          onChange={({ target }) => (
-            setUserName(target.value)
-          )}
+          onChange={({ target }) => {
+            setUserName(target.value);
+            setSelectError(false);
+          }}
         >
           <option
             value=""
@@ -103,18 +98,24 @@ const App: React.FC = () => {
           >
             Choose a name
           </option>
-          {[...new Array(users.length)].map((_, i) => (
+
+          {users.map((user) => (
             <option
-              key={users[i].id}
-              value={users[i].name}
+              key={user.id}
+              value={user.name}
             >
-              {users[i].name}
+              {user.name}
             </option>
           ))}
         </select>
+
+        {/* Permanent container is needed for styling */}
         <div className="App__error-container">
-          <p className="App__error">{selectError}</p>
+          {selectError && (
+            <p className="App__error">Please choose a user</p>
+          )}
         </div>
+
         <button
           type="submit"
           className="button is-primary"
