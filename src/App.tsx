@@ -49,6 +49,8 @@ const App: React.FC = () => {
     }
 
     setTodos([...todos, newTodo]);
+    setTitleTodo('');
+    setSelectUser('');
   };
 
   return (
