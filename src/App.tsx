@@ -20,10 +20,13 @@ export const App: React.FC = () => {
   const addTodo = () => {
     const selectedUserId = usersFromServer
       .find(user => user.name === selectedUser)?.id;
+    const maxId = Math.max(
+      ...todos.map(todo => todo.id),
+    );
 
     if (selectedUserId) {
       const newTodo = {
-        id: updatedTodos.length + 1,
+        id: maxId + 1,
         title,
         userId: selectedUserId,
         completed: false,
@@ -37,22 +40,18 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    let isValidated = false;
-
     if (title && selectedUser) {
-      setHasTitleError(true);
-      setHasSelectedError(true);
-      isValidated = true;
-    } else {
-      setHasTitleError(false);
-      setHasSelectedError(false);
-      isValidated = false;
-    }
-
-    if (isValidated) {
       addTodo();
       setTitle('');
       setSelectedUser('');
+    }
+
+    if (!title) {
+      setHasTitleError(false);
+    }
+
+    if (!selectedUser) {
+      setHasSelectedError(false);
     }
   };
 
