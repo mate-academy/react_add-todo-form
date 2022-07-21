@@ -53,12 +53,12 @@ const App: React.FC = () => {
     setUserName('');
   };
 
-  const titleError = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitle(false);
   };
 
-  const userError = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserName(event.target.value);
     setIsUserName(false);
   };
@@ -79,7 +79,7 @@ const App: React.FC = () => {
             type="text"
             placeholder="Title"
             value={title}
-            onChange={titleError}
+            onChange={onTitleChange}
           />
           {isTitle && (
             <span>
@@ -94,7 +94,7 @@ const App: React.FC = () => {
             aria-label="Default select example"
             value={userName}
             id="selectUser"
-            onChange={userError}
+            onChange={onUserChange}
           >
             <option disabled value="">
               Choose a user
