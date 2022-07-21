@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { ToDo } from '../../types/todo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
@@ -12,11 +13,9 @@ export const TodoList: React.FC<Props> = ({ preparedTodos }) => (
     {preparedTodos.map(toDo => (
       <li
         key={toDo.id}
-        className={`todos__item ${toDo.completed ? 'todos__item--completed' : 'todos__item--not_completed'}`}
+        className={classNames('todos__item', `${toDo.completed ? 'todos__item--completed' : 'todos__item--not_completed'}`)}
       >
-        <TodoInfo
-          todo={toDo}
-        />
+        <TodoInfo todo={toDo} />
         <UserInfo user={toDo.user} />
       </li>
     ))}

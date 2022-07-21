@@ -1,38 +1,42 @@
 import { FC, useState } from 'react';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
 import users from './api/users';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 
-const preparedTodos = todos.map(todo => ({
+const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId) || null,
 }));
 
 export const App: FC = () => {
+  const [todos, setTodos] = useState(preparedTodos);
   const [newTitle, setNewTitle] = useState('');
   const [choosedUser, setChoosedUser] = useState('Choose a user');
-  const [clikedAdd, setClikedAdd] = useState(false);
+  const [isFormInvalid, setIsFormInvalid] = useState(false);
 
-  const addNewTodo = () => {
-    const newId = preparedTodos[preparedTodos.length - 1].id + 1;
-    const newUserId = users.find(user => user.name === choosedUser)?.id;
+  const addNewTodo = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const newId = todos[todos.length - 1].id + 1;
     const newUser = users.find(user => user.name === choosedUser);
 
+    const newTodo = {
+      userId: newUser?.id || 0,
+      id: newId,
+      title: newTitle,
+      completed: false,
+      user: newUser || null,
+    };
+
     if (newTitle.length > 0 && choosedUser !== 'Choose a user') {
-      preparedTodos.push({
-        userId: newUserId || 0,
-        id: newId,
-        title: newTitle,
-        completed: false,
-        user: newUser || null,
-      });
+      setTodos((currentTodos) => [...currentTodos, newTodo]);
 
       setNewTitle('');
       setChoosedUser('Choose a user');
-      setClikedAdd(false);
+      setIsFormInvalid(false);
     } else {
-      setClikedAdd(true);
+      setIsFormInvalid(true);
     }
   };
 
@@ -40,7 +44,11 @@ export const App: FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={addNewTodo}
+      >
         <div className="field">
           <span className="error">Title:</span>
           <textarea
@@ -52,7 +60,7 @@ export const App: FC = () => {
               setNewTitle(target.value);
             }}
           />
-          {clikedAdd && newTitle.length === 0
+          {isFormInvalid && newTitle.length === 0
             && 'Please enter the title'}
         </div>
 
@@ -65,25 +73,28 @@ export const App: FC = () => {
               setChoosedUser(target.value);
             }}
           >
-            <option>Choose a user</option>
+            <option disabled>
+              Choose a user
+            </option>
             {users.map((user) => (
-              <option key={user.id}>{user.name}</option>
+              <option key={user.id} value={user.name}>
+                {user.name}
+              </option>
             ))}
           </select>
-          {clikedAdd && choosedUser === 'Choose a user'
+          {isFormInvalid && choosedUser === 'Choose a user'
             && 'Please choose a user'}
         </div>
 
         <button
-          type="button"
+          type="submit"
           data-cy="submitButton"
-          onClick={addNewTodo}
         >
           Add
         </button>
       </form>
 
-      <TodoList preparedTodos={preparedTodos} />
+      <TodoList preparedTodos={todos} />
     </div>
   );
 };
