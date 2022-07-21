@@ -6,89 +6,105 @@ import users from './api/users';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-const preparedTodos: Todo[] = todos.map(todo => ({
+const getUser = (userId: number) => {
+  const foundUser = users.find(
+    user => user.id === userId,
+  );
+
+  return foundUser || null;
+};
+
+let preparedTodos: Todo[] = todos.map(todo => ({
   ...todo,
-  user: users.find(user => user.id === todo.userId) || null,
+  user: getUser(todo.userId),
 }));
 
 const App: FC = () => {
-  const [inputedTitle, setInputedTitle] = useState('');
-  const [choosedUser, setCoosedUser] = useState('');
-  const [isTryAddTodo, setIsTryAddTodo] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasUserIdError, setUserIdError] = useState(false);
 
-  const addNewTodo = () => {
-    const lastTodo = preparedTodos[preparedTodos.length - 1];
-    const findedUser = users.find(user => user.name === choosedUser);
+  const addNewTodo = (newTitle: string, newUserId: number) => {
+    const maxId = Math.max(...preparedTodos.map(todo => todo.id));
+    const newTodo: Todo = {
+      id: maxId + 1,
+      title: newTitle,
+      userId: newUserId,
+      completed: false,
+      user: getUser(newUserId),
+    };
 
-    if (inputedTitle.length > 0 && choosedUser !== 'Choose a user') {
-      preparedTodos.push({
-        userId: findedUser?.id || 0,
-        id: lastTodo.id + 1,
-        title: inputedTitle,
-        user: findedUser || null,
-        completed: false,
-      });
-
-      setInputedTitle(() => (''));
-      setCoosedUser(() => ('Choose a user'));
-      setIsTryAddTodo(false);
-    } else {
-      setIsTryAddTodo(true);
-    }
+    preparedTodos = [...preparedTodos, newTodo];
   };
 
-  const titleHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputedTitle(event.target.value);
-    if (isTryAddTodo) {
-      setIsTryAddTodo(false);
-    }
+  const titleHandler = (value: string) => {
+    setTitle(value);
+    setTitleError(false);
   };
 
-  const nameHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCoosedUser(event.target.value);
-    if (isTryAddTodo) {
-      setIsTryAddTodo(false);
+  const nameHandler = (value: number) => {
+    setUserId(value);
+    setUserIdError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setTitleError(!title);
+    setUserIdError(!userId);
+
+    if (!title || !userId) {
+      return;
     }
+
+    addNewTodo(title, userId);
+    setTitle(() => (''));
+    setUserId(() => (0));
   };
 
   return (
     <div className="App">
       <h1 hidden>Add todo form</h1>
-      <form method="post" className="App__form">
+      <form
+        method="post"
+        className="App__form"
+        onSubmit={handleSubmit}
+      >
         <h4 className="title">Add new TODO</h4>
         <label className="Input-field">
           Title:
           <textarea
             name="title"
             data-cy="titleInput"
-            value={inputedTitle}
+            value={title}
             placeholder="title"
-            onChange={(event) => titleHandler(event)}
+            onChange={(event) => titleHandler(event.target.value)}
           />
-          {isTryAddTodo && !inputedTitle && 'Please enter the title'}
+          {hasTitleError && 'Please enter the title'}
         </label>
 
         <label className="Input-field">
-          {'User: '}
+          User:
           <select
             name="user"
             data-cy="userSelect"
-            value={choosedUser}
+            value={userId}
             className="Input-field__select"
-            onChange={event => nameHandler(event)}
+            onChange={event => nameHandler(+event.target.value)}
           >
-            <option value="">Choose a user</option>
+            <option value="0">Choose a user</option>
+
             {users.map((user) => (
-              <option key={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
-          {isTryAddTodo && !choosedUser && 'Please choose a user'}
+          {hasUserIdError && 'Please choose a user'}
         </label>
 
         <button
           type="button"
           className="button"
-          onClick={addNewTodo}
         >
           Add
         </button>
