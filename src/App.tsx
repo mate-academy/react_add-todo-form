@@ -19,7 +19,7 @@ const App: React.FC = () => {
       SetValidUser('Please choose a user');
     }
 
-    if (title !== '' && user !== '') {
+    if (!title && !user) {
       preparedTodos.push({
         userId: users.find(person => person.name === user)?.id || 0,
         id: preparedTodos[preparedTodos.length - 1].id + 1,
@@ -51,7 +51,7 @@ const App: React.FC = () => {
         type="text"
         placeholder="Title"
         value={title}
-        onChange={(event) => handleOnChangeTitle(event)}
+        onChange={handleOnChangeTitle}
         data-cy="titleInput"
         className="todo--title"
       />
