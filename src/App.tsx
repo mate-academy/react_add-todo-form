@@ -7,11 +7,10 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 
-function getUser(userId: number): User {
+function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
-  const defaultUser = { name: '', email: '' };
 
-  return foundUser || defaultUser;
+  return foundUser || null;
 }
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
@@ -19,41 +18,34 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId) || null,
 }));
 
-type Props = {
-  preparedTodos: Todo[],
-};
-
-export const App: React.FC<Props> = () => {
+export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('0');
   const [hasTodoError, setTodoError] = useState(false);
   const [hasSelectedUserError, setSelectedUserError] = useState(false);
 
+  const getMaxId = () => {
+    const sortedTodos = [...todos]
+      .sort((todo1, todo2) => todo1.id - todo2.id);
+
+    return sortedTodos[sortedTodos.length - 1].id + 1;
+  };
+
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    const getMaxId = () => {
-      const sortedTodos = [...todos]
-        .sort((todo1, todo2) => todo1.id - todo2.id);
-
-      return sortedTodos[sortedTodos.length - 1].id + 1;
-    };
+    setTodoError(!todoTitle);
+    setSelectedUserError(selectedUser === '0');
 
     const newTodo: Todo = {
       id: getMaxId(),
       title: todoTitle,
       completed: false,
-      user: {
-        name: getUser(+selectedUser).name,
-        email: getUser(+selectedUser).email,
-      },
+      user: getUser(+selectedUser),
     };
 
-    setTodoError(!todoTitle);
-    setSelectedUserError(selectedUser === '0');
-
-    if (!todoTitle || newTodo.user?.name === '') {
+    if (!todoTitle || !newTodo.user) {
       return;
     }
 
@@ -68,11 +60,7 @@ export const App: React.FC<Props> = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={onSubmit}
-      >
+      <form onSubmit={onSubmit}>
         <div className="field">
           <input
             value={todoTitle}
@@ -108,6 +96,7 @@ export const App: React.FC<Props> = () => {
             {usersFromServer.map(user => (
               <option
                 value={user.id}
+                key={user.id}
               >
                 {user.name}
               </option>

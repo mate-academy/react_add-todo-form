@@ -27,7 +27,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         <div className="TodoInfo--completed">
           {todo.completed ? 'Completed by:' : 'Not completed by:'}
         </div>
-        {todo.user !== null ? <UserInfo user={todo.user} /> : <></>}
+        {todo.user !== null && <UserInfo user={todo.user} />}
       </li>
     </>
   );
