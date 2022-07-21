@@ -51,6 +51,7 @@ export const App = () => {
         <form onSubmit={onSubmit}>
           <div className="select">
             <select
+              data-cy="userSelect"
               className="field"
               name="userName"
               value={userName}
