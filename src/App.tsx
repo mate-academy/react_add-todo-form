@@ -5,7 +5,6 @@ import users from './api/users';
 import todos from './api/todos';
 import { Todo } from './components/TodoInfo/TodoInfo';
 import { TodoList } from './components/TodoList/TodoList';
-import { User } from './components/UserInfo/UserInfo';
 
 const preparedTodos: Todo[] = todos.map(todo => ({
   ...todo,
@@ -18,32 +17,15 @@ function getMaxId(currentTodos: Todo[]) {
   return Math.max.apply(null, id);
 }
 
-function getUserId(currentUsers: User[], userName: string) {
-  const id = currentUsers
-    .filter(currentUser => currentUser.name === userName)
-    .map(currentUser => currentUser.id);
-
-  return id[0];
-}
-
 const App: React.FC = () => {
   const [actualTodos, setTodos] = useState(preparedTodos);
   const [userName, setUserName] = useState('');
   const [title, setTitle] = useState('');
-  const [completed, setCompleted] = useState(false);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserNameError, setHasUserNameError] = useState(false);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    const todoToAdd: Todo = {
-      userId: getUserId(users, userName),
-      id: getMaxId(actualTodos),
-      title,
-      completed,
-      user: users.find(user => user.name === userName) || null,
-    };
 
     setHasTitleError(!title);
     setHasUserNameError(!userName);
@@ -52,7 +34,15 @@ const App: React.FC = () => {
       return;
     }
 
-    setCompleted(!completed);
+    const newUser = users.find(user => user.name === userName);
+
+    const todoToAdd: Todo = {
+      userId: newUser?.id || 0,
+      id: getMaxId(actualTodos),
+      title,
+      user: newUser || null,
+    };
+
     setTodos(currentTodos => [...currentTodos, todoToAdd]);
     setTitle('');
     setUserName('');
@@ -64,7 +54,6 @@ const App: React.FC = () => {
         <h1>Add todo form</h1>
 
         <form
-          action="POST"
           onSubmit={onSubmit}
         >
           <div className="select">
@@ -76,10 +65,7 @@ const App: React.FC = () => {
                 setUserName(event.target.value);
               }}
             >
-              <option
-                value=""
-                disabled
-              >
+              <option value="" disabled>
                 Select user
               </option>
 
@@ -117,17 +103,13 @@ const App: React.FC = () => {
             <br />
             {hasTitleError
               && (
-                <span
-                  className="dataError"
-                >
+                <span className="dataError">
                   Please, enter a title
                 </span>
               )}
           </div>
 
-          <button
-            type="submit"
-          >
+          <button type="submit">
             Add
           </button>
         </form>
