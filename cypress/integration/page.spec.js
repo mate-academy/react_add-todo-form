@@ -118,7 +118,7 @@ describe('Page', () => {
       .and('have.attr', 'href', `mailto:${email}`);
   });
 
-  it('should add a not clompleted todo', () => {
+  it('should add a not completed todo', () => {
     page.titleInput().type('Do something');
     page.userSelect().select(users[5].name);
     page.addButton().click();
