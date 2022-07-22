@@ -1,3 +1,85 @@
-.App {
+.form {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.UserInfo {
+  display: inline-block;
+
+  padding: 10px;
+
   text-align: center;
+}
+
+.App {
+  width: max-content;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 25px auto;
+  padding: 10px;
+
+  border: 1px solid;
+  border-radius: 15px;
+}
+
+.completed {
+  position: relative;
+}
+
+.completed::after {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: -30px;
+  transform: translateY(50%);
+
+  display: block;
+
+  width: 12px;
+  height: 12px;
+
+  background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG7AUpejkUDIL_YRE8ltYrgXX0cN-fksA5AQ&usqp=CAU);
+  background-size: cover;
+}
+
+.TodoList {
+  list-style: none;
+}
+
+.input__error,
+.select__error {
+  position: relative;
+}
+
+.input__error::before {
+  content: "Please enter the title";
+}
+
+.select__error::before {
+  content: "Please choose a user";
+}
+
+.input__error::before,
+.select__error::before {
+  position: absolute;
+  display: block;
+
+  bottom: 0;
+  right: -85%;
+
+  padding: 3px;
+
+  color: red;
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+select {
+  width: 100%;
 }
