@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -12,60 +12,62 @@ import { TodoList } from './components/TodoList/TodoList';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
-const preparedTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
 export const App = () => {
-  const [todos, setTodo] = useState<Todo[]>(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [todoTitle, setTodoTitle] = useState('');
-  const [userName, setUserName] = useState('');
-  const [isTitle, setIsTitle] = useState(true);
-  const [isUserName, setIsUserName] = useState(true);
+  const [userId, setUserId] = useState(0);
+
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasUserIdError, setUserError] = useState(false);
+
+  useEffect(() => {
+    const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+      ...todo,
+      user: getUser(todo.userId),
+    }));
+
+    setTodos(preparedTodos);
+  }, []);
+
+  function addTodo(newTodoTitle: string, newUserId: number): void {
+    const maxId = Math.max(...todos.map(todo => todo.id));
+    const newTodo: Todo = {
+      id: maxId + 1,
+      title: newTodoTitle.trim(),
+      userId: newUserId,
+      completed: false,
+      user: getUser(userId),
+    };
+
+    setTodos(currentTodos => [...currentTodos, newTodo]);
+  }
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    // const defaultUser = { id: 1, name: 'default', email: 'default' };
+    setTitleError(!todoTitle);
+    setUserError(!userId);
 
-    if (!todoTitle) {
-      setIsTitle(false);
+    if (!todoTitle || !userId) {
+      return;
     }
 
-    if (!userName) {
-      setIsUserName(false);
-    }
-
-    if (todoTitle && userName) {
-      const newUser = usersFromServer
-        .find(user => user.name === userName) || null;
-
-      const newTodo: Todo = {
-        id: todos.length + 1,
-        title: todoTitle.trim(),
-        completed: false,
-        user: newUser,
-      };
-
-      setTodo(currentTodos => [...currentTodos, newTodo]);
-      setTodoTitle('');
-      setUserName('');
-    }
+    addTodo(todoTitle, userId);
+    setTodoTitle('');
+    setUserId(0);
   }
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoTitle(event.target.value);
-    setIsTitle(true);
+    setTitleError(false);
   };
 
   const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserName(event.target.value);
-    setIsUserName(true);
+    setUserId(+event.target.value);
+    setUserError(false);
   };
 
   return (
@@ -81,9 +83,11 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
+            value={todoTitle}
             onChange={handleTitle}
           />
-          {!isTitle && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -92,11 +96,11 @@ export const App = () => {
           <select
             name="users"
             data-cy="userSelect"
-            value={userName}
+            value={userId}
             onChange={handleUserName}
           >
             <option
-              value="Choose a user"
+              value="0"
               disabled
             >
               Choose a user
@@ -105,14 +109,14 @@ export const App = () => {
             {usersFromServer.map(user => (
               <option
                 key={user.id}
-                value={user.name}
+                value={user.id}
               >
                 {user.name}
               </option>
             ))}
           </select>
 
-          {!isUserName && (
+          {hasUserIdError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
