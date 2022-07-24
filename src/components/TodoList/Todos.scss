@@ -1,0 +1,25 @@
+.TodoList {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.TodoInfo {
+  text-align: center;
+  width: 700px;
+  height: 100px;
+  transition: all 0.5s;
+  border-radius: 5px;
+  background: linear-gradient( to right, #ffd5b3,#ffe6e6);
+
+  &:hover {
+    transform: scale(110%);
+  }
+
+  &--completed {
+    background: linear-gradient( to right, #ffffb3,#d8fad2);
+  }
+}
