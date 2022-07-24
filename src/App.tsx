@@ -3,26 +3,32 @@ import { TodoList } from './components/TodoList/TodoList';
 import './App.scss';
 
 import users from './api/users';
-import todos from './api/todos';
+import todosArr from './api/todos';
 
-let todoWithUser = todos.map(todo => ({
+const todoWithUser = todosArr.map(todo => ({
   ...todo,
   user: users.find(user => user.id === todo.userId)?.name || null,
 }));
 
 todoWithUser.sort((todo1, todo2) => todo1.id - todo2.id);
+const firstMaxId = todoWithUser[todoWithUser.length - 1].id;
 
-const firstMaxId = todos.sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
+const noInputMessage = 'Please enter the title';
+const noUserMessage = 'Please choose a user';
 
 export const App: React.FC = () => {
+  const [todos, setTodos] = useState(todoWithUser);
   const [title, setTitle] = useState('');
   const [userForTodo, setUserForTodo] = useState('');
   const [id, setId] = useState(firstMaxId + 1);
+
   const [isInputEntered, setIsInputEntered] = useState(true);
   const [isUserSelected, setIsUserSelected] = useState(true);
 
-  const noInputMessage = 'Please enter the title';
-  const noUserMessage = 'Please choose a user';
+  const resetForm = () => {
+    setTitle('');
+    setUserForTodo('');
+  };
 
   const createACard = () => {
     const newCard = {
@@ -34,9 +40,11 @@ export const App: React.FC = () => {
       },
     };
 
-    todoWithUser = Object.assign(todoWithUser, newCard);
+    setTodos(state => Object.assign(state, newCard));
 
     setId(state => state + 1);
+
+    resetForm();
   };
 
   const inputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,23 +57,23 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    let cardWillBeCreated = true;
 
-    if (!title || !title.replace(/[^a-z\d а-я]/ig, '').trim()) {
-      setIsInputEntered(false);
-      cardWillBeCreated = false;
-    } else {
+    const isTitle = title || title.replace(/[^a-z\d а-я]/ig, '').trim();
+    const isUser = userForTodo;
+
+    if (isTitle) {
       setIsInputEntered(true);
-    }
-
-    if (!userForTodo) {
-      setIsUserSelected(false);
-      cardWillBeCreated = false;
     } else {
-      setIsUserSelected(true);
+      setIsInputEntered(false);
     }
 
-    if (cardWillBeCreated) {
+    if (isUser) {
+      setIsUserSelected(true);
+    } else {
+      setIsUserSelected(false);
+    }
+
+    if (isTitle && isUser) {
       createACard();
     }
   };
@@ -86,19 +94,15 @@ export const App: React.FC = () => {
           data-cy="titleInput"
         />
         <span className="message">{!isInputEntered && (noInputMessage)}</span>
-
         <div className="select">
           <select
             className="select__element"
             name="users"
+            value={userForTodo}
             onChange={selectChange}
             data-cy="userSelect"
           >
-            <option
-              value=""
-              disabled
-              selected
-            >
+            <option value="" disabled>
               Choose a user
             </option>
             {users.map(user => (
@@ -111,7 +115,7 @@ export const App: React.FC = () => {
         <button className="button" type="submit">Add a new todo</button>
       </form>
 
-      <TodoList todoWithUser={todoWithUser} />
+      <TodoList todoWithUser={todos} />
     </div>
   );
 };
