@@ -1,5 +1,21 @@
-import { User } from '../../react-app-env';
+import React from 'react';
 
-export const UserInfo: React.FC<User> = ({ user }) => (
-  <strong>{user}</strong>
-);
+type Props = {
+  user: User
+};
+
+const UserInfo: React.FC<Props> = ({ user }) => {
+  return (
+    <div className="user">
+      <div className="user__name">
+        {user.name}
+      </div>
+
+      <div className="user__email">
+        <a href={`mailto:${user.email}`}>{user.email}</a>
+      </div>
+    </div>
+  );
+};
+
+export default UserInfo;

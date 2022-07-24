@@ -1,21 +1,20 @@
 import React from 'react';
-import { TodoInfo } from '../TodoInfo/TodoInfo';
-import { UserInfo } from '../UserInfo/UserInfo';
-import { Todo } from '../../react-app-env';
+import TodoInfo from '../TodoInfo/TodoInfo';
 
 type Props = {
-  todoWithUser: Todo[],
+  todos: Todo[],
 };
 
-export const TodoList: React.FC<Props> = ({ todoWithUser }) => (
-  <ul className="container">
-    {todoWithUser.map(todo => (
-      <li key={todo.id}>
-        <div className="card">
-          <UserInfo user={todo.user} />
+const TodoList: React.FC<Props> = ({ todos }) => {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id}>
           <TodoInfo todo={todo} />
-        </div>
-      </li>
-    ))}
-  </ul>
-);
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default TodoList;

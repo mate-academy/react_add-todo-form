@@ -1,20 +1,16 @@
 .App {
   padding: 20px;
   text-align: center;
+  background-color: rgb(219, 242, 219);
+  width: 400px;
 }
 
 .form {
   margin: 0;
-  margin-bottom: 20px;
+  margin-left: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
 }
 
 .card {
@@ -22,33 +18,23 @@
   margin: auto;
   width: 350px;
   border: 2px solid black;
-
-  &:hover {
-    border: 2px solid blue;
-  }
 }
 
 .input {
   width: 350px;
+  border: 2px solid black;
+  margin-bottom: 10px;
 }
 
-.select__element {
+.select {
   width: 350px;
+  margin-bottom: 10px;
+}
+
+.select__item {
   background-color: aqua;
 }
 
-.message {
-  color: red;
-  font-size: 15px;
-  width: 350px;
-}
-
-.completed {
-  background-color: rgb(65, 68, 241);
-  color: black;
-}
-
-.notCompleted {
-  background-color: rgb(224, 112, 108);
-  color: black;
+.button {
+  background-color: rgb(45, 247, 226);
 }

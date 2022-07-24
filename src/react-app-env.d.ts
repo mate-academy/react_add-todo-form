@@ -1,11 +1,12 @@
-export interface Todo {
+interface Todo {
+  userId: number | null,
   id: number,
   title: string,
   completed: boolean,
-  userId: number,
-  user: string | null,
+  user: User | null,
 }
 
-export interface User {
-  user: string | null,
+interface User {
+  name: string,
+  email: string,
 }

@@ -1,29 +1,44 @@
-import { Todo } from '../../react-app-env';
+import React from 'react';
+import classNames from 'classnames';
+import './TodoInfo.scss';
+import UserInfo from '../UserInfo/UserInfo';
 
 type Props = {
   todo: Todo,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
-  <div data-id={todo.id}>
-    <p>
-      {todo.id}
-    </p>
-    <p>
-      {todo.title}
-    </p>
+const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { user, title, completed } = todo;
 
-    {todo.completed
-      ? (
-        <p className="completed">
-          Completed
-        </p>
-      )
+  return (
+    <div className="todo">
+      <h1 className="todo__title">
+        {title}
+      </h1>
 
-      : (
-        <p className="notCompleted">
-          Not completed
+      <div className="todo__status">
+        Status:
+        <p className={classNames(
+          'todo__notCompleated',
+          { todo__completed: completed },
+        )}
+        >
+          {completed ? (
+            ' Completed'
+          ) : (
+            ' In progress'
+          )}
         </p>
+      </div>
+
+      {user && (
+        <div className="todo__user">
+          <UserInfo user={user} />
+        </div>
       )}
-  </div>
-);
+
+    </div>
+  );
+};
+
+export default TodoInfo;
