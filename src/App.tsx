@@ -5,9 +5,15 @@ import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
 const todos = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) || null,
+  user: getUser(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -30,7 +36,7 @@ export const App: React.FC = () => {
         title,
         userId: selectedUserId,
         completed: false,
-        user: usersFromServer.find(user => user.id === selectedUserId) || null,
+        user: getUser(selectedUserId),
       };
 
       setUpdatedTodos([...updatedTodos, newTodo]);
