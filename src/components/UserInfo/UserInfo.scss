@@ -1,0 +1,11 @@
+.UserInfo {
+  &__name {
+    font-style: italic;
+  }
+
+  &__email {
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: lowercase;
+  }
+}
