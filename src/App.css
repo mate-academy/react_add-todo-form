@@ -1,3 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, serif;
+}
+
 .App {
   text-align: center;
+  margin: auto;
+  width: 300px;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+ul {
+  list-style: none;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.titleTodo {
+  text-transform: uppercase;
+}
+
+.field {
+  width: 260px;
+}
+
+.fieldSection {
+  position: relative;
+}
+
+.error {
+  position: absolute;
+  left: 280px;
+  width: fit-content;
+  color: brown;
+  border: 1px solid brown;
+  border-radius: 3px;
 }
