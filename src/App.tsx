@@ -25,6 +25,13 @@ const App: React.FC = () => {
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    setIsTitle(!titleTodo);
+    setIsUser(!selectUser);
+
+    if (!titleTodo || !selectUser) {
+      return;
+    }
+
     const newUser = users.find(user => user.name === selectUser) || null;
 
     let userId = 0;
@@ -41,13 +48,6 @@ const App: React.FC = () => {
       user: newUser,
     };
 
-    setIsTitle(!titleTodo);
-    setIsUser(!selectUser);
-
-    if (!titleTodo || !selectUser) {
-      return;
-    }
-
     setTodos([...todos, newTodo]);
     setTitleTodo('');
     setSelectUser('');
@@ -58,8 +58,6 @@ const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={onSubmit}
       >
         <div className="field__title">
@@ -90,7 +88,10 @@ const App: React.FC = () => {
               setSelectUser(event.target.value);
             }}
           >
-            <option value="">
+            <option
+              value=""
+              disabled
+            >
               Choose a name
             </option>
 
