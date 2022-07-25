@@ -20,6 +20,7 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 const App: React.FC = () => {
+  const [todoList, setTodoList] = useState(todos);
   const [query, setQuery] = useState('');
   const [selectUser, setSelectUser] = useState('Choose a user');
   const [userIsValid, setUserIsValid] = useState(true);
@@ -32,12 +33,8 @@ const App: React.FC = () => {
     } = event.target;
 
     setSelectUser(value);
-
-    if (value === 'Choose a user') {
-      setUserIsValid(false);
-    } else {
-      setUserIsValid(true);
-    }
+    setUserIsValid(true);
+    setFormIsValid(true);
   };
 
   const handleChangeInput = (event: { target: { value: string; }; }) => {
@@ -46,27 +43,25 @@ const App: React.FC = () => {
     } = event.target;
 
     setQuery(value);
-
-    if (value === '') {
-      setTitleIsValid(false);
-    } else {
-      setTitleIsValid(true);
-    }
+    setTitleIsValid(true);
+    setFormIsValid(true);
   };
 
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (selectUser === 'Choose a user') {
+      setFormIsValid(false);
       setUserIsValid(false);
+
+      return;
     }
 
     if (query === '') {
       setTitleIsValid(false);
-    }
-
-    if (query === '' || selectUser === 'Choose a user') {
       setFormIsValid(false);
+
+      return;
     }
 
     if (formIsValid) {
@@ -81,7 +76,9 @@ const App: React.FC = () => {
           user: newUser,
         };
 
-        todos.push(newTodo);
+        setTodoList((prewTodoList) => {
+          return [...prewTodoList, newTodo];
+        });
 
         setSelectUser('Choose a user');
         setQuery('');
@@ -167,7 +164,7 @@ const App: React.FC = () => {
         {users.length}
       </p>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todoList} />
 
     </div>
   );
