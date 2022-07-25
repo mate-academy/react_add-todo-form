@@ -15,11 +15,11 @@ const App: React.FC = () => {
   const [currentToddos, setTodos] = useState(Todos);
   const [focus, setFocus] = useState(false);
 
-  const TitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
-  const UserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const userChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserSelected(+event.target.value);
   };
 
@@ -61,7 +61,7 @@ const App: React.FC = () => {
               data-cy="titleInput"
               type="text"
               value={title}
-              onChange={TitleChange}
+              onChange={titleChange}
             />
           </div>
 
@@ -75,7 +75,7 @@ const App: React.FC = () => {
               name="users"
               data-cy="userSelected"
               value={userSelected}
-              onChange={UserChange}
+              onChange={userChange}
             >
               <option value="0">
                 Choose user

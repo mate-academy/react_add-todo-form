@@ -1,7 +1,6 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
-import { UserInfo } from '../UserInfo/UserInfo';
 import './TodoList.scss';
 
 type Props = {
@@ -15,8 +14,8 @@ export const TodoList: React.FC<Props> = ({ Todos = [] }) => (
         <TodoInfo
           title={todo.title}
           completed={todo.completed}
+          user={todo.user}
         />
-        <UserInfo user={todo.user} />
       </li>
     ))}
   </ul>

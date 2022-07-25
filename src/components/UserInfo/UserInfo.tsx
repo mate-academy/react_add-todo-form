@@ -5,7 +5,7 @@ type Prop = {
   user: User | null;
 };
 
-export const UserInfo: React.FC<Prop | null> = ({ user }) => (
+export const UserInfo: React.FC<Prop> = ({ user }) => (
   <>
     {user && (
       <div className="UserInfo">
