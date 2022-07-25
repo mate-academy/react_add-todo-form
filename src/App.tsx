@@ -103,7 +103,10 @@ const App: React.FC = () => {
               </option>
 
               {usersFromServer.map(user => (
-                <option value={user.id}>
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
                   {user.name}
                 </option>
               ))}
