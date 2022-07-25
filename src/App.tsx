@@ -64,8 +64,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -94,7 +92,7 @@ export const App = () => {
               setUserIdError(false);
             }}
           >
-            <option value="0">Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
