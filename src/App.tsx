@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import classNames from 'classnames';
 import { TodoList } from './components/TodoList/TodoList';
 
 import users from './api/users';
@@ -43,7 +44,11 @@ const App: React.FC = () => {
         className="form"
         onSubmit={handlerSubmit}
       >
-        <div className={selectError ? 'select__error' : ''}>
+        <div
+          className={classNames({
+            select__error: selectError,
+          })}
+        >
           <select
             data-cy="userSelect"
             name="user"
@@ -63,7 +68,11 @@ const App: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className={inputError ? 'input__error' : ''}>
+        <div
+          className={classNames({
+            input__error: inputError,
+          })}
+        >
           <input
             type="text"
             name="title"
