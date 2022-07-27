@@ -58,6 +58,8 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
+            placeholder="Enter todo title"
+            value={title}
             data-cy="titleInput"
             onChange={event => {
               setTitle(event.target.value);
