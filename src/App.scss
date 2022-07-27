@@ -1,5 +1,6 @@
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: #196f3d;
+  color: aquamarine;
 }
 
 label,
@@ -7,29 +8,48 @@ button {
   cursor: pointer;
 }
 
-.error {
-  color: red;
+.field {
+  display: flex;
+  width: 30%;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 15px;
+
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.error {
+  color: aquamarine;
+}
+
+.todos {
+  list-style: none;
+  font-size: 15px;
+
+  &__item {
+    box-sizing: border-box;
+    border: 2px solid aquamarine;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    width: 400px;
+    transition: transform 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+
+    &--completed {
+      background-color: goldenrod;
+    }
+
+    &--not_completed {
+      background-color: rosybrown;
+    }
+  }
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    font-size: 30px;
   }
 
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
 }

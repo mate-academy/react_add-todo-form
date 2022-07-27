@@ -1,61 +1,100 @@
+import { FC, useState } from 'react';
+import todosFromServer from './api/todos';
+import users from './api/users';
 import './App.scss';
+import { TodoList } from './components/TodoList/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const preparedTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId) || null,
+}));
 
-export const App = () => {
+export const App: FC = () => {
+  const [todos, setTodos] = useState(preparedTodos);
+  const [newTitle, setNewTitle] = useState('');
+  const [choosedUser, setChoosedUser] = useState('Choose a user');
+  const [isFormInvalid, setIsFormInvalid] = useState(false);
+
+  const addNewTodo = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const newId = todos[todos.length - 1].id + 1;
+    const newUser = users.find(user => user.name === choosedUser);
+
+    const newTodo = {
+      userId: newUser?.id || 0,
+      id: newId,
+      title: newTitle,
+      completed: false,
+      user: newUser || null,
+    };
+
+    if (newTitle.length > 0 && choosedUser !== 'Choose a user') {
+      setTodos((currentTodos) => [...currentTodos, newTodo]);
+
+      setNewTitle('');
+      setChoosedUser('Choose a user');
+      setIsFormInvalid(false);
+    } else {
+      setIsFormInvalid(true);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={addNewTodo}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <span className="error">Title:</span>
+          <textarea
+            name="title"
+            data-cy="titleInput"
+            value={newTitle}
+            placeholder="title"
+            onChange={({ target }) => {
+              setNewTitle(target.value);
+            }}
+          />
+          {isFormInvalid && newTitle.length === 0
+            && 'Please enter the title'}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <span className="error">User:</span>
+          <select
+            data-cy="userSelect"
+            value={choosedUser}
+            onChange={({ target }) => {
+              setChoosedUser(target.value);
+            }}
+          >
+            <option disabled>
+              Choose a user
+            </option>
+            {users.map((user) => (
+              <option key={user.id} value={user.name}>
+                {user.name}
+              </option>
+            ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {isFormInvalid && choosedUser === 'Choose a user'
+            && 'Please choose a user'}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList preparedTodos={todos} />
     </div>
   );
 };
