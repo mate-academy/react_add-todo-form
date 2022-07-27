@@ -24,13 +24,13 @@ const initialtodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [todos, updateTodos] = useState(initialtodos);
+  const [todos, updateTodos] = useState<Todo[]>(initialtodos);
   const [newTodoTitle, setNewTodo] = useState('');
   const [selectedUserId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [selectedUserError, setselectedUserError] = useState(false);
 
-  const newTodo = {
+  const newTodo: Todo = {
     id: getNextTodoId(todos),
     userId: selectedUserId,
     title: newTodoTitle,
