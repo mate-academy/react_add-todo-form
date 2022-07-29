@@ -48,7 +48,7 @@ const App: React.FC = () => {
       setPressed(true);
     }
 
-    if (name !== '' && todo !== '') {
+    if (!name && !todo) {
       addTodo();
     }
   };
