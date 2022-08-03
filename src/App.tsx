@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
@@ -9,28 +9,18 @@ export const App = () => {
   const [todos, setTodos] = useState([...todosFromServer]);
   const [task, setTask] = useState('');
   const [user, setUser] = useState('Choose a user');
-  const [hasTitle, setHasTitle] = useState(false);
-  const [hasUser, setHasUser] = useState(false);
+  const [newTitle, setNewTitle] = useState(true);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(true);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const handleAdd = () => {
+    setHasTitleError(!newTitle);
+    setHasUserError(!selectedUser);
+
     const currentTodos = [...todos];
 
-    if (task === '') {
-      // console.log(1);
-      setHasTitle(false);
-      // console.log(hasTitle);
-      // console.log(task);
-    }
-
-    if (user === 'Choose a user') {
-      // console.log(2);
-
-      setHasUser(false);
-      // console.log(hasUser);
-      // console.log(task);
-    }
-
-    if (hasTitle && hasUser) {
+    if (newTitle && selectedUser) {
       const largest = currentTodos
         .sort((a, b) => a.id - b.id)[currentTodos.length - 1];
 
@@ -49,10 +39,24 @@ export const App = () => {
       setTodos(currentTodos);
       setTask('');
       setUser('Choose a user');
-      setHasTitle(false);
-      setHasUser(false);
+      setNewTitle(false);
+      setSelectedUser(false);
     }
   };
+
+  useEffect(() => {
+    if (task !== '') {
+      setNewTitle(true);
+    } else {
+      setNewTitle(false);
+    }
+
+    if (user !== 'Choose a user') {
+      setSelectedUser(true);
+    } else {
+      setSelectedUser(false);
+    }
+  }, [newTitle, selectedUser]);
 
   return (
     <div className="App">
@@ -68,10 +72,11 @@ export const App = () => {
             value={task}
             onChange={(e) => {
               setTask(e.currentTarget.value);
-              setHasTitle(true);
+              setNewTitle(true);
+              setHasTitleError(false);
             }}
           />
-          {!hasTitle
+          {hasTitleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -82,7 +87,8 @@ export const App = () => {
             value={user}
             onChange={(e) => {
               setUser(e.currentTarget.value);
-              setHasUser(true);
+              setSelectedUser(true);
+              setHasUserError(false);
             }}
           >
             <option value="">Choose a user</option>
@@ -96,7 +102,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!hasUser
+          {hasUserError
             && <span className="error">Please choose a user</span>}
         </div>
 
