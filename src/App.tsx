@@ -58,14 +58,16 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim()) {
-      setErrorTitle(true);
+    const checkTitle = !title.trim();
 
-      return;
-    }
+    if (checkTitle || !user) {
+      if (checkTitle) {
+        setErrorTitle(true);
+      }
 
-    if (!user) {
-      setErrorUser(true);
+      if (!user) {
+        setErrorUser(true);
+      }
 
       return;
     }
