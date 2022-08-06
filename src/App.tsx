@@ -20,8 +20,8 @@ export class App extends Component <{}, State> {
     title: '',
     name: 'Choose a user',
     id: visibleTodos.length - 1,
-    emptyTitle: true,
-    emptyName: true,
+    emptyTitle: false,
+    emptyName: false,
   };
 
   findIndex = () => {
@@ -38,7 +38,15 @@ export class App extends Component <{}, State> {
 
   addNewTodo = () => {
     if (this.state.title === '') {
-      return this.setState({ emptyTitle: true });
+      this.setState({ emptyTitle: true });
+    }
+
+    if (this.state.name === 'Choose a user') {
+      this.setState({ emptyName: true });
+    }
+
+    if (this.state.title === '' || this.state.name === 'Choose a user') {
+      return;
     }
 
     if (!this.state.emptyTitle && !this.state.emptyName) {
@@ -50,8 +58,6 @@ export class App extends Component <{}, State> {
         userId: this.findIndex(),
       });
     }
-
-    return visibleTodos;
   };
 
   handleInput = (event: React.FormEvent<HTMLInputElement>) => {
