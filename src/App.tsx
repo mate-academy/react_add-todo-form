@@ -1,103 +1,107 @@
 import React, { useState } from 'react';
-import users from './api/users';
 import './App.css';
 import TodoList from './components/TodoList/TodoList';
-import { preparedTodos } from './types/Preraredtodo';
+
+import users from './api/users';
+import todosFromServer from './api/todos';
+import Todo from './types/Todo';
+
+const prepearedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId) || null,
+}));
 
 const App: React.FC = () => {
-  const [title, SetTitle] = useState('');
-  const [user, SetUser] = useState('');
-  const [isValidTitle, SetValidTitle] = useState('');
-  const [isValidUser, SetValidUser] = useState('');
+  const [title, setTitle] = useState('');
+  const [userName, setUser] = useState('');
+  const [todos, setTodoList] = useState([...prepearedTodos]);
+  const [formInfo, setFormInfo] = useState('');
 
-  const handelClick = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!userName) {
+      setFormInfo('Please choose a user');
+    }
+
     if (!title) {
-      SetValidTitle('Please enter the title');
+      setFormInfo('Please enter the title');
     }
 
-    if (!user) {
-      SetValidUser('Please choose a user');
-    }
+    if (title && userName) {
+      const currUser = users.find(user => user.name === userName) || null;
 
-    if (!title && !user) {
-      preparedTodos.push({
-        userId: users.find(person => person.name === user)?.id || 0,
-        id: preparedTodos[preparedTodos.length - 1].id + 1,
+      const newTodo: Todo = {
+        userId: currUser ? currUser.id : null,
+        id: todos[todos.length - 1].id + 1,
         title,
         completed: false,
-        user: users.find(person => person.name === user) || null,
-      });
-      SetTitle('');
-      SetUser('');
+        user: currUser || null,
+      };
+
+      setTodoList([...todos, newTodo]);
+
+      setTitle('');
+      setUser('');
     }
   };
 
-  const handleOnChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    SetTitle(event.target.value);
-    SetValidTitle('');
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setFormInfo('');
   };
 
-  const handleOnChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    SetUser(event.target.value);
-    SetValidUser('');
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
+    setFormInfo('');
   };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      Title:
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={handleOnChangeTitle}
-        data-cy="titleInput"
-        className="todo--title"
-      />
-      {isValidTitle
-      && (
-        <span className="color--red">
-          {isValidTitle}
-        </span>
-      )}
-
-      <br />
-      User:
-      <select
-        name="People"
-        data-cy="userSelect"
-        value={user}
-        onChange={(event) => handleOnChangeUser(event)}
-        className="todo--username"
+      <form
+        onSubmit={(event) => handleSubmit(event)}
       >
-        <option value="">
-          Choose an user
-        </option>
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          data-cy="titleInput"
+          value={title}
+          onChange={(event) => handleInputChange(event)}
+        />
 
-        {users.map(person => (
-          <option key={person.id}>
-            {person.name}
+        <select
+          data-cy="userSelect"
+          value={userName}
+          onChange={(event) => handleSelectChange(event)}
+        >
+          <option value="" disabled>
+            Choose a user
           </option>
-        ))}
-      </select>
-      {isValidUser
-      && (
-        <span className="color--red">
-          {isValidUser}
-        </span>
-      )}
 
-      <br />
+          {users.map(currUser => (
+            <option
+              value={currUser.name}
+              key={currUser.id}
+            >
+              {currUser.name}
+            </option>
+          ))}
+        </select>
 
-      <button
-        type="button"
-        onClick={handelClick}
-      >
-        Add
-      </button>
+        <button
+          type="submit"
+          className="button is-link"
+        >
+          Add
+        </button>
 
-      <TodoList todos={preparedTodos} />
+        <div className="form__info">
+          {formInfo}
+        </div>
+      </form>
+
+      <TodoList todos={todos} />
     </div>
   );
 };
