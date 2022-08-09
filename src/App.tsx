@@ -25,14 +25,14 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [selectedUserError, setSelectedUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (typeof selectedUserId === 'number' && newTodoTitle) {
+    if (newTodoTitle && selectedUserId) {
       const newTodo: Todo = {
         id: getNewTodoId(todos),
         userId: selectedUserId,
@@ -43,9 +43,15 @@ export const App: React.FC = () => {
 
       setTodos([...todos, newTodo]);
       setNewTodoTitle('');
-      setSelectedUserId(null);
+      setSelectedUserId(0);
     } else {
-      setTitleError(true);
+      if (!newTodoTitle) {
+        setTitleError(true);
+      }
+
+      if (!selectedUserId) {
+        setSelectedUserError(true);
+      }
     }
   };
 
@@ -75,7 +81,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             id="user"
-            value={selectedUserId || 0}
+            value={selectedUserId}
             onChange={(event) => {
               setSelectedUserId(+event.target.value);
               setSelectedUserError(false);
