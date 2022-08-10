@@ -55,26 +55,25 @@ export const App = () => {
     setUser(event.target.value);
   };
 
+  const validateForm = () => {
+    const isInvalid = !title.trim();
+
+    setErrorTitle(isInvalid);
+    setErrorUser(!user);
+
+    return !isInvalid && user;
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const checkTitle = !title.trim();
+    const isValid = validateForm();
 
-    if (checkTitle || !user) {
-      if (checkTitle) {
-        setErrorTitle(true);
-      }
-
-      if (!user) {
-        setErrorUser(true);
-      }
-
-      return;
+    if (isValid) {
+      addTodo(title, Number(user));
+      setTitle('');
+      setUser('');
     }
-
-    addTodo(title, Number(user));
-    setTitle('');
-    setUser('');
   };
 
   return (
