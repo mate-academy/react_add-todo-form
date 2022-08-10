@@ -80,6 +80,13 @@ export const App: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!title.trim() && userId === '0') {
+      setErrorUser(true);
+      setErrorTitle(true);
+
+      return;
+    }
+
     if (!title.trim()) {
       setErrorTitle(true);
 
