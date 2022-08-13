@@ -18,6 +18,7 @@ iframe {
 .field {
   margin-bottom: 12px;
 }
+
 .App {
   max-width: 850px;
   margin: 0 auto;
@@ -45,14 +46,15 @@ iframe {
 .UserInfo {
   font-style: italic;
 }
+
 .completed {
   background-color: #97f383 !important;
   transition: background-color 1s;
 }
 
 .not-completed {
-    background-color: #f1a4a4 !important;
-    transition: background-color 1s;
+  background-color: #f1a4a4 !important;
+  transition: background-color 1s;
 }
 
 .checkbox {
