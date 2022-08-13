@@ -60,21 +60,23 @@ export const App = () => {
   }
 
   function addNewTask() {
-    if (titleTask.length !== 0 && Object.keys(taskOwner).length > 0) {
+    if (titleTask.trim().length !== 0 && Object.keys(taskOwner).length > 0) {
+      const newTask: Task = {
+        id: getNextId(tasks),
+        title: titleTask,
+        completed: false,
+        userId: 'id' in taskOwner ? taskOwner.id : 0,
+        user: {
+          id: 'id' in taskOwner ? taskOwner.id : 0,
+          name: 'name' in taskOwner ? taskOwner.name : '',
+          username: 'username' in taskOwner ? taskOwner.username : '',
+          email: 'email' in taskOwner ? taskOwner.email : '',
+        },
+      };
+
       setTasks((prevTasks) => {
         return [
-          {
-            id: getNextId(tasks),
-            title: titleTask,
-            completed: false,
-            userId: 'id' in taskOwner ? taskOwner.id : 0,
-            user: {
-              id: 'id' in taskOwner ? taskOwner.id : 0,
-              name: 'name' in taskOwner ? taskOwner.name : '',
-              username: 'username' in taskOwner ? taskOwner.username : '',
-              email: 'email' in taskOwner ? taskOwner.email : '',
-            },
-          },
+          newTask,
           ...prevTasks,
         ];
       });
@@ -82,6 +84,7 @@ export const App = () => {
       setTitleTask('');
       setTaskOwner({});
     } else {
+      setTitleTask('');
       setIsTitleEmpty(titleTask.length === 0);
       setIsTaskOwnerEmpty(Object.keys(taskOwner).length === 0);
     }
@@ -132,7 +135,9 @@ export const App = () => {
                     data-cy="userSelect"
                     value={taskOwnerName}
                     label="Task Owner"
-                    onChange={(event) => selectTaskOwner(event)}
+                    onChange={(event) => {
+                      selectTaskOwner(event);
+                    }}
                   >
                     <MenuItem value="0">Choose a user</MenuItem>
                     {usersFromServer.map(user => (
