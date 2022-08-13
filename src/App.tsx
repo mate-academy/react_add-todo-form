@@ -19,14 +19,12 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Task } from './types/Task';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const tasksFromServer: Task[] = todosFromServer.map(todo => {
+const tasksFromServer = todosFromServer.map(todo => {
   return {
     ...todo,
     user: { ...usersFromServer.find(user => user.id === todo.userId) },
   };
-});
+}) as Task[];
 
 export const App = () => {
   const storageItemsCount: number
