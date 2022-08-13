@@ -1,6 +1,17 @@
 import './App.scss';
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 
 import { useState } from 'react';
+import Button from '@mui/material/Button';
 import { TodoList } from './components/TodoList/TodoList';
 
 import usersFromServer from './api/users';
@@ -31,6 +42,16 @@ export const App = () => {
   const [taskOwner, setTaskOwner] = useState<User | {}>({});
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isTaskOwnerEmpty, setIsTaskOwnerEmpty] = useState(false);
+  const [isTasksSaved, setIsTasksSaved] = useState(true);
+
+  function selectTaskOwner(event: SelectChangeEvent<string>) {
+    setIsTaskOwnerEmpty(false);
+    setTaskOwnerName(event.target.value);
+    setTaskOwner({
+      ...usersFromServer
+        .find(user => user.name === event.target.value),
+    });
+  }
 
   function getNextId(addedTasks: Task[]): number {
     addedTasks.sort((taskOne, taskTwo) => taskTwo.id - taskOne.id);
@@ -41,7 +62,7 @@ export const App = () => {
   function addNewTask() {
     if (titleTask.length !== 0 && Object.keys(taskOwner).length > 0) {
       setTasks((prevTasks) => {
-        return [...prevTasks,
+        return [
           {
             id: getNextId(tasks),
             title: titleTask,
@@ -54,74 +75,102 @@ export const App = () => {
               email: 'email' in taskOwner ? taskOwner.email : '',
             },
           },
+          ...prevTasks,
         ];
       });
       setTaskOwnerName('0');
       setTitleTask('');
+      setTaskOwner({});
     } else {
       setIsTitleEmpty(titleTask.length === 0);
       setIsTaskOwnerEmpty(Object.keys(taskOwner).length === 0);
     }
   }
 
-  if (tasks.length > 3) {
+  if (isTasksSaved && tasks.length > 3) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
+  } else {
+    localStorage.clear();
   }
-  //localStorage.clear();
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      <Grid container spacing={4}>
+        <Grid item xs={8}>
+          <Paper>
+            <TodoList tasks={tasks} />
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper>
+            <form
+              action="/api/users"
+              method="POST"
+              onSubmit={(event) => {
+                addNewTask();
+                event.preventDefault();
+              }}
+            >
+              <div className="field">
+                <TextField
+                  fullWidth
+                  label="Enter task title"
+                  value={titleTask}
+                  helperText={isTitleEmpty && 'Please enter a title'}
+                  onChange={(event) => {
+                    setTitleTask(event.target.value);
+                    setIsTitleEmpty(false);
+                  }}
+                />
+              </div>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input
-            type="text"
-            placeholder="Enter task title"
-            data-cy="titleInput"
-            value={titleTask}
-            onChange={(event) => {
-              setTitleTask(event.target.value);
-              setIsTitleEmpty(false);
-            }}
-          />
-          {isTitleEmpty && <span className="error">Please enter a title</span>}
-        </div>
+              <div className="field">
+                <FormControl fullWidth>
+                  <InputLabel>Task Owner</InputLabel>
+                  <Select
+                    data-cy="userSelect"
+                    value={taskOwnerName}
+                    label="Task Owner"
+                    onChange={(event) => selectTaskOwner(event)}
+                  >
+                    <MenuItem value="0">Choose a user</MenuItem>
+                    {usersFromServer.map(user => (
+                      <MenuItem
+                        key={user.id}
+                        value={user.name}
+                      >
+                        {user.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {isTaskOwnerEmpty
+                  && <span className="error">Please choose a user</span>}
+              </div>
+              <label>
+                Save your tasks?
+                <input
+                  type="checkbox"
+                  checked={isTasksSaved}
+                  onChange={() => (
+                    setIsTasksSaved(!isTasksSaved)
+                  )}
+                />
+              </label>
 
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            value={taskOwnerName}
-            onChange={(event) => {
-              setIsTaskOwnerEmpty(false);
-              setTaskOwnerName(event.target.value);
-              setTaskOwner({
-                ...usersFromServer
-                  .find(user => user.name === event.target.value),
-              });
-            }}
-          >
-            <option value="0" disabled>Select task performer</option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>{user.name}</option>
-            ))}
-          </select>
-          {isTaskOwnerEmpty
-            && <span className="error">Please choose a user</span>}
-        </div>
-
-        <button
-          type="submit"
-          data-cy="submitButton"
-          onClick={event => {
-            addNewTask();
-            event.preventDefault();
-          }}
-        >
-          Add
-        </button>
-      </form>
-      <TodoList tasks={tasks} />
+              <Button
+                type="submit"
+                data-cy="submitButton"
+                size="medium"
+                variant="contained"
+              >
+                Add new task
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
