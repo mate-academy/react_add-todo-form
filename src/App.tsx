@@ -17,11 +17,14 @@ const App: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [isUser, setIsUser] = useState(true);
   const [copyTodos, setTodos] = useState(preparedTodos);
+  const [isCorrectTitle, setisCorrectTitle] = useState(true);
 
   const handleTitle = (value: string) => {
-    const newTitle = value.replace(/[^\s\dA-ZА-Я.]/gi, '');
-
-    setTitle(newTitle);
+    if (value.match(/[^\s\dA-ZА-Я.]/gi)) {
+      setisCorrectTitle(false);
+    } else {
+      setTitle(value);
+    }
   };
 
   const handleSubmit = () => {
@@ -73,6 +76,7 @@ const App: React.FC = () => {
             className="field"
             value={title}
             onChange={(event) => {
+              setisCorrectTitle(true);
               handleTitle(event.target.value);
               setIsTitle(true);
             }}
@@ -80,6 +84,9 @@ const App: React.FC = () => {
 
           {!isTitle && (
             <span className="error">Please enter a title</span>
+          )}
+          {!isCorrectTitle && (
+            <span className="error">Please enter valid symbols</span>
           )}
         </div>
 
