@@ -28,8 +28,10 @@ export const App: React.FC = () => {
   const [errorUser, setErrorUser] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.trimStart().replace(/[^\s\da-zа-яёії]/gi, ''));
-    if (event.target.value !== '') {
+    const { value } = event.target;
+
+    setTitle(value.trimStart().replace(/[^\s\da-zа-яёії]/gi, ''));
+    if (value !== '') {
       setErrorTitle(false);
     }
   };
