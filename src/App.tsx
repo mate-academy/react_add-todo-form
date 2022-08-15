@@ -16,6 +16,7 @@ export const App = () => {
     event.preventDefault();
 
     const chooseUser = usersFromServer.find(user => user.name === selected);
+    const isValideInput = input.replace(/\s/g, '').trim().length;
 
     const addTodo = {
       id: todos.length + 1,
@@ -24,7 +25,7 @@ export const App = () => {
       userId: (chooseUser ? chooseUser.id : 0),
     };
 
-    if (addTodo.title.replace(/\s/g, '').trim().length > 1) {
+    if (isValideInput > 0) {
       setIsChooseTitile(false);
     } else {
       setIsChooseTitile(true);
@@ -36,19 +37,19 @@ export const App = () => {
       setIsChooseUser(true);
     }
 
-    if (input !== '' && addTodo.userId !== 0) {
+    if (isValideInput > 0 && addTodo.userId !== 0) {
       setTodos([...todos, addTodo]);
       setInput('');
       setSelected('');
     }
   }
 
-  function titleSelect(event: any) {
+  function titleSelect(event: React.ChangeEvent<HTMLInputElement>) {
     setInput(event.target.value);
     setIsChooseTitile(false);
   }
 
-  function userSelect(event: any) {
+  function userSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelected(event.target.value);
     setIsChooseUser(false);
   }
@@ -69,7 +70,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={input}
-            onChange={((event) => titleSelect(event))}
+            onChange={(event) => titleSelect(event)}
           />
           {isChooseTitile
             && <span className="error">Please enter a title</span>}
