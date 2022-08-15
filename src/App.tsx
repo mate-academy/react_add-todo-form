@@ -53,7 +53,7 @@ export const App = () => {
   };
 
   const addTodo = () => {
-    if (userId && title) {
+    if (userId && title.trim().length) {
       setNewTodo();
     }
 
