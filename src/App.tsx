@@ -34,8 +34,9 @@ export const App = () => {
       : curr.id
   ), 0);
 
-  function onSubmit(todoText: string, userId: number) {
-    if (userId === -1 || todoText.trim() === '') {
+  function handleSubmitForm(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (inputUserId === -1 || inputText.trim() === '') {
       setIsValid(false);
 
       return;
@@ -46,9 +47,9 @@ export const App = () => {
 
     const newTodo : Todo = {
       id: largestId,
-      title: todoText,
+      title: inputText,
       completed: false,
-      userId: getUser(userId),
+      userId: getUser(inputUserId),
     };
 
     addTodos([...todos, newTodo]);
@@ -64,10 +65,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          onSubmit(inputText, inputUserId);
-        }}
+        onSubmit={handleSubmitForm}
       >
         <div className="field">
           <input
