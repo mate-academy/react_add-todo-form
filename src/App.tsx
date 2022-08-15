@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import classNames from 'classnames';
+import {
+  Button, FormHelperText, MenuItem, Paper, Select, TextField,
+} from '@mui/material';
 import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types/Todos';
 import { User } from './types/Users';
@@ -49,11 +52,14 @@ export const App = () => {
   const add = () => {
     toDo.push(newEl);
 
-    return todos;
+    return toDo;
   };
 
   return (
-    <div className="App">
+    <Paper
+      elevation={12}
+      style={{ width: '50vh', margin: '0 auto', padding: '25px' }}
+    >
       <h1>Add todo form</h1>
 
       <form
@@ -78,18 +84,21 @@ export const App = () => {
         }}
       >
         <div className="field">
-          <input
+          <TextField
+            variant="outlined"
+            style={{ marginBottom: '10px', width: '100%' }}
+            label="ToDo Title"
             id="text"
             type="text"
             data-cy="titleInput"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="enter todo title"
-            required
           />
           {eror && (
             <span
-            // eslint-disable-next-line quote-props
+              style={{ marginBottom: '20px' }}
+              // eslint-disable-next-line quote-props
               className={classNames('no-error', { 'error': title === '' })}
             >
               Please enter a title
@@ -98,23 +107,34 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select
+          <Select
+            id="title"
+            inputProps={{ 'aria-label': 'Without label' }}
+            displayEmpty
             data-cy="userSelect"
             value={user}
             onChange={(event => setUser(event.target.value))}
-            required
+            style={{ width: '100%' }}
           >
-            <option value="0">Choose a user</option>
+            <MenuItem
+              value=""
+            >
+              <em>Choose a user</em>
+            </MenuItem>
             {usersFromServer.map(el => (
-              <option
+              <MenuItem
                 value={el.name}
                 key={el.id}
               >
                 {el.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-
+          </Select>
+          <FormHelperText
+            style={{ marginBottom: '10px' }}
+          >
+            Chose user
+          </FormHelperText>
           {eror && (
             <span
               className={classNames(
@@ -127,7 +147,9 @@ export const App = () => {
           )}
         </div>
 
-        <button
+        <Button
+          variant="outlined"
+          color="success"
           type="submit"
           data-cy="submitButton"
           onClick={() => {
@@ -135,13 +157,14 @@ export const App = () => {
               setEror(true);
             }
           }}
+          style={{ marginBottom: '20px' }}
         >
           Add
-        </button>
+        </Button>
       </form>
-
-      <TodoList todos={toDo} />
-
-    </div>
+      <div className="container">
+        <TodoList todos={toDo} />
+      </div>
+    </Paper>
   );
 };
