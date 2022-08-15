@@ -87,10 +87,13 @@ export const App: FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App box">
+      <h1 className="title is-uppercase">
+        Add todo form
+      </h1>
 
       <form
+        className="form"
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -100,6 +103,11 @@ export const App: FC = () => {
             placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
+            className="
+              input
+              is-rounded
+              is-black
+            "
           />
           {(isChoseTitle === true && title === '')
             && (
@@ -114,6 +122,7 @@ export const App: FC = () => {
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
+            className="select"
           >
             <option value="0" disabled>
               Choose a user
@@ -136,6 +145,7 @@ export const App: FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
+          className="button is-info"
         >
           Add
         </button>
