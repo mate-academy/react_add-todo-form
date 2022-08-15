@@ -63,7 +63,7 @@ export const App = () => {
       user: (userCange && userCange) || null,
     };
 
-    if (titleValue) {
+    if (titleValue.trim()) {
       setIsValidInput(true);
     } else {
       setIsValidInput(false);
@@ -75,7 +75,7 @@ export const App = () => {
       setIsValidUserSelect(false);
     }
 
-    if (userCange && newTodo.title) {
+    if (userCange && newTodo.title.trim()) {
       setTodosNow(() => ([...todosNow, newTodo as TodoUser]));
       resetForm();
     }
