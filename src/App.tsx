@@ -51,8 +51,12 @@ export const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App panel">
+      <h1
+        className="heading is-size-3"
+      >
+        Add todo form
+      </h1>
 
       <form
         action="/api/users"
@@ -62,6 +66,7 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
+            className="input"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={todoTitle}
@@ -73,30 +78,36 @@ export const App = () => {
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
-
-        <div className="field">
-          <label>
-            User:
-
-            {' '}
-            <select
-              data-cy="userSelect"
-              onChange={event => {
-                setSelectedUser(event.target.value);
-                setUserError(false);
-              }}
-            >
-              <option value="-1" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>{user.name}</option>
-              ))}
-            </select>
-          </label>
+        <label
+          className="label"
+          htmlFor="select"
+        >
+          User:
+        </label>
+        <div className="select is-rounded">
+          <select
+            id="select"
+            data-cy="userSelect"
+            value={selectedUser}
+            onChange={event => {
+              setSelectedUser(event.target.value);
+              setUserError(false);
+            }}
+          >
+            <option value="-1" disabled selected>Choose a user</option>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>{user.name}</option>
+            ))}
+          </select>
 
           {userError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="button"
+        >
           Add
         </button>
       </form>

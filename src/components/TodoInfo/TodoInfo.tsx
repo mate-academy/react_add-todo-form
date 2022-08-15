@@ -17,7 +17,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <a className="UserInfo" href={`mailto:${currentUser?.email}`}>
+      <a className="UserInfo has-text-grey" href={`mailto:${currentUser?.email}`}>
         {currentUser?.name}
       </a>
     </article>
