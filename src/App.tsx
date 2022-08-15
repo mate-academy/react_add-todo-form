@@ -10,6 +10,7 @@ export const App = () => {
   const [todoTitle, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
+  const [titleLanguageError, setTitleLanguageError] = useState(false);
   const validation = () => {
     if (selectedUser !== '-1' && todoTitle !== '') {
       return true;
@@ -72,11 +73,20 @@ export const App = () => {
             value={todoTitle}
             onChange={event => {
               setTitleError(false);
+              if (event.target.value.match(/[А-яа-я]/g)) {
+                setTitleLanguageError(true);
+              } else {
+                setTitleLanguageError(false);
+              }
+
               setTitle(event.target.value
                 .replace(/[^A-Za-z]/g, ''));
             }}
           />
           {titleError && <span className="error">Please enter a title</span>}
+          <br />
+          {titleLanguageError
+            && <span className="error">Only english characters</span>}
         </div>
         <label
           className="label"
