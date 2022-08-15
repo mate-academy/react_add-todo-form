@@ -22,31 +22,24 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [todoList, setNewTodos] = useState(todos);
+  const [todoList, setTodoList] = useState(todos);
   const [isTitle, setIsTitle] = useState(false);
   const [isUser, setIsUser] = useState(false);
 
-  const maxId = () => {
-    // const result = Math.max(...todoList.map(todo => todo.id)) + 1;
-
-    // // eslint-disable-next-line no-console
-    // console.log(result);
-
-    // return result;
-
-    return Math.max(...todoList.map(todo => todo.id)) + 1;
-  };
+  const generateMaxId = () => (
+    Math.max(...todoList.map(todo => todo.id)) + 1
+  );
 
   const addTodo = () => {
     const newTodo = {
-      id: maxId(),
+      id: generateMaxId(),
       title,
       completed: false,
       userId,
       user: getUser(userId),
     };
 
-    setNewTodos(listOfTodos => {
+    setTodoList(listOfTodos => {
       return [...listOfTodos, newTodo];
     });
   };
