@@ -7,8 +7,6 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { User } from './components/types/User';
 import { Todo } from './components/types/Todo';
-// import { UserInfo } from './components/UserInfo/UserInfo';
-// import { TodoInfo } from './components/TodoInfo/TodoInfo';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -61,7 +59,6 @@ export const App: FC = () => {
 
     setTodoTitle('');
     setUserId(0);
-
     setErrorEmptyTitle('');
     setErrorEmptyUserId('');
   };
@@ -100,12 +97,9 @@ export const App: FC = () => {
             onChange={(event) => setUserId(Number(event.target.value))}
           >
             <option value="0" disabled>Choose a user</option>
-            {
-              usersFromServer.map(
-                user => <option value={user.id}>{user.name}</option>,
-              )
-            }
-
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
           </select>
 
           <span className="error">
