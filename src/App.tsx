@@ -8,18 +8,15 @@ import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
-
-  // eslint-disable-next-line no-console
-  console.log(foundUser, userId);
 
   return foundUser || null;
 }
 
 const combinedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  userId: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -49,7 +46,7 @@ export const App = () => {
       id: largestId,
       title: inputText,
       completed: false,
-      userId: getUser(inputUserId),
+      user: getUserById(inputUserId),
     };
 
     addTodos([...todos, newTodo]);
