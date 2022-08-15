@@ -49,11 +49,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.length === 0) {
+    if (!title) {
       setErrorTitle(true);
     }
 
-    if (selectedUserId === 0) {
+    if (!selectedUserId) {
       setErrorSelect(true);
     }
 
@@ -82,7 +82,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => setTitle(event.target.value.trim())}
           />
           {(errorTitle && title.length === 0)
             && (<span className="error">Please enter a title</span>)}

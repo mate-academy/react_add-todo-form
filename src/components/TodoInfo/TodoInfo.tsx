@@ -7,11 +7,15 @@ type Props = {
 };
 
 export const TodoInfo:React.FC<Props> = (props) => {
-  const { todo: { title, completed, user } } = props;
+  const {
+    todo: {
+      title, completed, user, id,
+    },
+  } = props;
 
   return (
     <article
-      data-id="1"
+      data-id={id}
       className={classNames(
         'TodoInfo',
         {
