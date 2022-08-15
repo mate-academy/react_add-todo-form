@@ -25,7 +25,6 @@ export const TodoList: React.FC<Props> = (props) => {
         </a>
       </article> */}
 
-
     </section>
   );
 };
