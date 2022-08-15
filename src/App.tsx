@@ -42,7 +42,7 @@ export const App = () => {
       isValid = false;
     }
 
-    if (title === '') {
+    if (title.trim() === '') {
       setErrorTitle('Please enter a title');
 
       isValid = false;
