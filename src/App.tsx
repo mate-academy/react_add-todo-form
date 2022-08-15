@@ -1,61 +1,148 @@
+import classNames from 'classnames';
+
+import { useState } from 'react';
+import { TodoList } from './components/TodoList/TodoList';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 export const App = () => {
+  const todosWithUsers = todosFromServer.map(todo => {
+    const chosen = usersFromServer.find(user => user.id === todo.userId);
+
+    if (!chosen) {
+      throw new Error(`error in ${todo.id} task - no one user was found for this task`);
+    }
+
+    return {
+      ...todo,
+      user: chosen,
+    };
+  });
+
+  const [chosenUserValue, setChosenUserValue] = useState('0');
+  const [newTitle, setNewTitle] = useState('');
+  const [listWithUsers, setListWithUsers] = useState(todosWithUsers);
+  const [addClicked, setAddClicked] = useState(false);
+
+  const createTask = () => {
+    if (!newTitle) {
+      return;
+    }
+
+    const chosenUser = usersFromServer.find(user => (
+      user.id === +chosenUserValue));
+
+    if (!chosenUser) {
+      return;
+    }
+
+    const maxId = Math.max(...listWithUsers.map(el => el.id));
+
+    setListWithUsers(list => ([
+      ...list,
+      {
+        user: chosenUser,
+        id: (maxId + 1),
+        title: newTitle,
+        completed: false,
+        userId: chosenUser.id,
+      },
+    ]));
+
+    setAddClicked(false);
+    setNewTitle('');
+    setChosenUserValue('0');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form action="/api/users" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="todoTitle">
+            Title
+          </label>
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="write the Title of todo"
+            value={newTitle}
+            id="todoTitle"
+            className={classNames('input',
+              { 'is-danger': (addClicked && !newTitle) })}
+            onChange={(e) => {
+              const { value } = e.target;
+              const titleToAdd = value.replace(/[.*+!@#&%^?^${}()|[\]\\]/g, '');
+
+              setNewTitle(titleToAdd);
+            }}
+          />
+          {addClicked && !newTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label htmlFor="userTodo">
+            User:
+          </label>
+          <div className={classNames('select',
+            { 'is-danger': addClicked && chosenUserValue === '0' })}
+          >
+            <select
+              data-cy="userSelect"
+              value={chosenUserValue}
+              id="userTodo"
+              onChange={(e) => (
+                setChosenUserValue(e.target.value))}
+            >
+              <option
+                value="0"
+              >
+                Choose a user
+              </option>
+              {usersFromServer.map(user => (
+                <option
+                  value={`${user.id}`}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <span className="error">Please choose a user</span>
+          {addClicked && chosenUserValue === '0' && (
+            <div>
+              <span className="error">
+                Please choose a user
+              </span>
+            </div>
+          )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          onClick={(e) => {
+            e.preventDefault();
+            setAddClicked(true);
+            createTask();
+          }}
+          className="button"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList
+        todos={listWithUsers}
+      />
     </div>
   );
 };
