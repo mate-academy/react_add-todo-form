@@ -32,7 +32,7 @@ export const App = () => {
       }
     }
 
-    if (title === '' || spaces > 0) {
+    if (title === '' || spaces === title.length) {
       setTitleError(true);
     }
 
