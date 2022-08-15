@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
@@ -37,34 +37,53 @@ const addTodo = (todo: string, userId: number) => {
 export const App = () => {
   const [toDo, setToDo] = useState('');
   const [user, setUser] = useState('');
+  const [errorToDo, setErrorToDo] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (toDo.length > 0 && Number(user) !== 0) {
+      addTodo(toDo, Number(user));
+      setToDo('');
+      setUser('');
+      setErrorToDo(false);
+      setErrorUser(false);
+    } else if (toDo.length === 0) {
+      setErrorToDo(true);
+    } else if (Number(user) === 0) {
+      setErrorUser(true);
+    }
+  };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo for users</h1>
 
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo(toDo, Number(user));
-          setToDo('');
-          setUser('');
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={toDo}
-            onChange={(event) => setToDo(event.target.value)}
-          />
-          {toDo.length < 1
+          <label className="field__label">
+            <p className="form__title"> Title: </p>
+            <input
+              className="field__form"
+              type="text"
+              data-cy="titleInput"
+              value={toDo}
+              onChange={(event) => setToDo(event.target.value)}
+            />
+          </label>
+          {errorToDo && toDo.length < 1
             && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <p className="form__title"> Users: </p>
           <select
+            className="field__form"
             data-cy="userSelect"
             name="user"
             value={user}
@@ -75,11 +94,11 @@ export const App = () => {
               <option value={id} key={id}>{name}</option>
             ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {errorUser && Number(user) === 0
+            && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button type="submit" data-cy="submitButton" className="button">
           Add
         </button>
       </form>
