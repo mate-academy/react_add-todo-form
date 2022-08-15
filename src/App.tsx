@@ -30,12 +30,8 @@ export const App = () => {
     setIsUserError(false);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
-  const getUsersMaxId = (TodoItems: Todo[]) => {
-    return Math.max(...TodoItems.map((todoItem) => todoItem.id));
+  const getUsersMaxId = (todoItems: Todo[]) => {
+    return Math.max(...todoItems.map((todoItem) => todoItem.id));
   };
 
   const getNewTodo = (currentTodoList: Todo[]) => ({
@@ -52,7 +48,9 @@ export const App = () => {
     setUserId('');
   };
 
-  const addTodo = () => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
     if (userId && title.trim().length) {
       setNewTodo();
     }
@@ -70,11 +68,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        onSubmit={handleSubmit}
-        method="POST"
-      >
+      <form action="/api/users" onSubmit={handleSubmit} method="POST">
         <div className="field">
           <input
             onChange={handleTitleChange}
@@ -102,11 +96,7 @@ export const App = () => {
           {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button
-          onClick={addTodo}
-          type="submit"
-          data-cy="submitButton"
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
