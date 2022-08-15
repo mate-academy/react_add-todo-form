@@ -59,7 +59,14 @@ export const App: FC = () => {
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setIsChoseUser(true);
-    setUserId(+event.target.value);
+    setUserId(Number(event.target.value));
+  };
+
+  const resetDefaultFormStates = () => {
+    setTitle('');
+    setUserId(0);
+    setIsChoseTitle(false);
+    setIsChoseUser(false);
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -73,12 +80,9 @@ export const App: FC = () => {
       setIsChoseUser(true);
     }
 
-    if (title !== '' && userId !== 0) {
+    if (title && userId) {
       addTodo();
-      setTitle('');
-      setUserId(0);
-      setIsChoseTitle(false);
-      setIsChoseUser(false);
+      resetDefaultFormStates();
     }
   };
 
