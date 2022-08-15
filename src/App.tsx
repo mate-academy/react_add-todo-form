@@ -45,20 +45,19 @@ export const App: React.FC = () => {
 
     if (currentTitle.length <= 0) {
       setErrorMessageTitle(true);
-
-      return;
     }
-
-    setErrorMessageTitle(false);
 
     if (!currentUser) {
       setErrorMessageUser(true);
+    }
 
+    if (!currentUser || currentTitle.length <= 0) {
       return;
     }
 
     AddTodo();
 
+    setErrorMessageTitle(false);
     setErrorMessageUser(false);
     setIsCompleted(false);
     setCurrentTitle('');
@@ -81,11 +80,12 @@ export const App: React.FC = () => {
               className="field__input"
               type="text"
               data-cy="titleInput"
-              placeholder="Todo's Title"
+              placeholder="Enter a title"
               value={currentTitle}
               onChange={event => {
                 if (event.target.value[0] !== ' ') {
                   setCurrentTitle(event.target.value);
+                  setErrorMessageTitle(false);
                 }
               }}
             />
@@ -109,6 +109,8 @@ export const App: React.FC = () => {
                 if (foundUser) {
                   setCurrentUser(foundUser);
                 }
+
+                setErrorMessageUser(false);
               }}
             >
               <option value="0" disabled>Choose a user</option>
@@ -128,7 +130,7 @@ export const App: React.FC = () => {
             <input
               type="checkbox"
               checked={isCompleted}
-              onChange={() => setIsCompleted(true)}
+              onChange={() => setIsCompleted(currentState => !currentState)}
             />
           </label>
         </div>
