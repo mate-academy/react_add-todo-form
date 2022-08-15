@@ -19,12 +19,15 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Task } from './types/Task';
 
-const tasksFromServer = todosFromServer.map(todo => {
+const tasksFromServer: Task[] = todosFromServer.map(todo => {
+  const user = usersFromServer
+    .find(serverUser => serverUser.id === todo.userId) || usersFromServer[0];
+
   return {
     ...todo,
-    user: { ...usersFromServer.find(user => user.id === todo.userId) },
+    user,
   };
-}) as Task[];
+});
 
 export const App = () => {
   const storageItemsCount: number
@@ -37,39 +40,42 @@ export const App = () => {
     : tasksFromServer);
   const [titleTask, setTitleTask] = useState('');
   const [taskOwnerName, setTaskOwnerName] = useState('0');
+  const [taskOwnerId, setTaskOwnerId] = useState(0);
   const [taskOwner, setTaskOwner] = useState<User | {}>({});
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isTaskOwnerEmpty, setIsTaskOwnerEmpty] = useState(false);
   const [isTasksSaved, setIsTasksSaved] = useState(true);
+
+  function getUserById(id = 0): User {
+    return usersFromServer.find(user => user.id === id) || usersFromServer[0];
+  }
 
   function selectTaskOwner(event: SelectChangeEvent<string>) {
     setIsTaskOwnerEmpty(false);
     setTaskOwnerName(event.target.value);
     setTaskOwner({
       ...usersFromServer
-        .find(user => user.name === event.target.value),
+        .find(user => user.name === event.target.value) || usersFromServer[0],
     });
+    const uId = usersFromServer.find(user => user.name === event.target.value)
+      || usersFromServer[0];
+
+    setTaskOwnerId(uId.id);
   }
 
   function getNextId(addedTasks: Task[]): number {
-    addedTasks.sort((taskOne, taskTwo) => taskTwo.id - taskOne.id);
-
-    return addedTasks[0].id + 1;
+    return Math.max(...addedTasks.map(task => task.id)) + 1;
   }
 
   function addNewTask() {
     if (titleTask.trim().length !== 0 && Object.keys(taskOwner).length > 0) {
+      const currentUser = getUserById(taskOwnerId);
       const newTask: Task = {
         id: getNextId(tasks),
         title: titleTask,
         completed: false,
-        userId: 'id' in taskOwner ? taskOwner.id : 0,
-        user: {
-          id: 'id' in taskOwner ? taskOwner.id : 0,
-          name: 'name' in taskOwner ? taskOwner.name : '',
-          username: 'username' in taskOwner ? taskOwner.username : '',
-          email: 'email' in taskOwner ? taskOwner.email : '',
-        },
+        userId: currentUser.id,
+        user: { ...currentUser },
       };
 
       setTasks((prevTasks) => {
