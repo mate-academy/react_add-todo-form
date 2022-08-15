@@ -94,7 +94,7 @@ export const App = () => {
     }
   }
 
-  if (isTasksSaved && tasks.length > 3) {
+  if (isTasksSaved && tasks.length > tasksFromServer.length) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   } else {
     localStorage.clear();
