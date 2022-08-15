@@ -17,15 +17,13 @@ export const App = () => {
       return true;
     }
 
-    if (!selectedTitle) {
+    if (!selectedTitle.trim()) {
       setTitleError(true);
     }
 
     if (selectedUser === '') {
       setUserError(true);
     }
-
-    setTitleError(true);
 
     return false;
   };
