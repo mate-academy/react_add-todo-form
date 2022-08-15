@@ -63,15 +63,15 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (user !== '') {
+          if (user.trim() !== '') {
             setTitle('');
           }
 
-          if (title !== '') {
+          if (title.trim() !== '') {
             setUser('');
           }
 
-          if (user !== '' && title !== '') {
+          if (user.trim() !== '' && title.trim() !== '') {
             setToDo(add());
             setEror(false);
           }
