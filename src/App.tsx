@@ -76,6 +76,7 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
+            className="mb"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
@@ -94,6 +95,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
+            className="mb"
             value={userId}
             onChange={(e) => {
               setUserId(Number(e.target.value));
