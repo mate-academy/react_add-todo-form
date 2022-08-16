@@ -1,19 +1,31 @@
 import './App.scss';
 import { FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
-
+import { User } from './types/User';
+import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App = () => {
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
   const [selectedTitle, setSelectedTitle] = useState('');
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(preparedTodos);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
   const formValidation = () => {
-    if (selectedTitle.trim() && selectedUser !== '') {
+    if (selectedTitle.trim() && selectedUserId !== '') {
       return true;
     }
 
@@ -21,7 +33,7 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (selectedUser === '') {
+    if (selectedUserId === '') {
       setUserError(true);
     }
 
@@ -39,8 +51,9 @@ export const App = () => {
     const newTodo = {
       id: newId,
       title: selectedTitle,
-      userId: +selectedUser,
+      userId: +selectedUserId,
       completed: false,
+      user: getUser(Number(selectedUserId)),
     };
 
     setTodos(prevTodos => {
@@ -53,7 +66,7 @@ export const App = () => {
     });
 
     setSelectedTitle('');
-    setSelectedUser('');
+    setSelectedUserId('');
   };
 
   return (
@@ -89,10 +102,10 @@ export const App = () => {
             User:
             <select
               data-cy="userSelect"
-              value={selectedUser}
+              value={selectedUserId}
               name="user"
               onChange={(event) => {
-                setSelectedUser(event.target.value);
+                setSelectedUserId(event.target.value);
                 setUserError(false);
               }}
             >

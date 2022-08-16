@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
-import users from '../../api/users';
 import { UserInfo } from '../UserInfo/UserInfo';
 
 type Props = {
@@ -8,21 +7,26 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const chosenUser = users.find(user => user.id === todo.userId) || null;
+  const {
+    id,
+    completed,
+    user,
+    title,
+  } = todo;
 
   return (
     <article
-      data-id={todo.id}
+      data-id={id}
       className={classNames(
         'TodoInfo',
-        { 'TodoInfo--completed': todo.completed },
+        { 'TodoInfo--completed': completed },
       )}
     >
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
 
-      <UserInfo user={chosenUser} />
+      {user && <UserInfo user={user} /> }
     </article>
   );
 };
