@@ -7,51 +7,53 @@ import usersFromServer from './api/users';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
-  const [input, setInput] = useState('');
-  const [selected, setSelected] = useState('');
-  const [isChooseTitile, setIsChooseTitile] = useState(false);
-  const [isChooseUser, setIsChooseUser] = useState(false);
+  const [inputTitle, setInputTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
+  const [isInputTitleTitle, setIsInputTitleTitle] = useState(false);
+  const [isSelectedUser, setIsSelectedUserUser] = useState(false);
 
-  function submitForm(event: React.SyntheticEvent) {
+  function submitForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const chooseUser = usersFromServer.find(user => user.name === selected);
-    const isValideInput = input.replace(/\s/g, '').trim().length;
+    const findSelectedUser = usersFromServer
+      .find(user => user.name === selectedUser);
+    const isValideInputTitle = inputTitle.replace(/\s/g, '').trim().length;
+    const createId = Math.max(...todos.map(todo => Number(todo.id)));
 
     const addTodo = {
-      id: todos.length + 1,
-      title: input,
+      id: createId,
+      title: inputTitle,
       completed: false,
-      userId: (chooseUser ? chooseUser.id : 0),
+      userId: (findSelectedUser ? findSelectedUser.id : 0),
     };
 
-    if (isValideInput > 0) {
-      setIsChooseTitile(false);
+    if (isValideInputTitle > 0) {
+      setIsInputTitleTitle(false);
     } else {
-      setIsChooseTitile(true);
+      setIsInputTitleTitle(true);
     }
 
-    if (chooseUser) {
-      setIsChooseUser(false);
+    if (findSelectedUser) {
+      setIsSelectedUserUser(false);
     } else {
-      setIsChooseUser(true);
+      setIsSelectedUserUser(true);
     }
 
-    if (isValideInput > 0 && addTodo.userId !== 0) {
+    if (isValideInputTitle > 0 && addTodo.userId !== 0) {
       setTodos([...todos, addTodo]);
-      setInput('');
-      setSelected('');
+      setInputTitle('');
+      setSelectedUser('');
     }
   }
 
   function titleSelect(event: React.ChangeEvent<HTMLInputElement>) {
-    setInput(event.target.value);
-    setIsChooseTitile(false);
+    setInputTitle(event.target.value);
+    setIsInputTitleTitle(false);
   }
 
   function userSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSelected(event.target.value);
-    setIsChooseUser(false);
+    setSelectedUser(event.target.value);
+    setIsSelectedUserUser(false);
   }
 
   return (
@@ -68,11 +70,11 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
-            data-cy="titleInput"
-            value={input}
+            data-cy="titleInputTitle"
+            value={inputTitle}
             onChange={(event) => titleSelect(event)}
           />
-          {isChooseTitile
+          {isInputTitleTitle
             && <span className="error">Please enter a title</span>}
 
         </div>
@@ -80,7 +82,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selected}
+            value={selectedUser}
             onChange={(event) => userSelect(event)}
           >
             <option value="0" key={uuidv4()}>Choose a user</option>
@@ -88,7 +90,7 @@ export const App = () => {
               <option value={user.name} key={uuidv4()}>{user.name}</option>
             ))}
           </select>
-          {isChooseUser
+          {isSelectedUser
             && <span className="error">Please choose a user</span>}
         </div>
 
@@ -100,7 +102,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };

@@ -1,18 +1,12 @@
 import { User } from '../../types/User';
-import usersFromServer from '../../api/users';
 
 type Props = {
-  userId: number;
+  user: User | null;
 };
 
-export const UserInfo:React.FC<Props> = ({ userId }) => {
-  // const { id, name, username, email }:User[] = usersFromServer;
-  const users:User[] = usersFromServer;
-
-  const user = users.find(people => people.id === userId);
-
+export const UserInfo:React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={user?.email}>
+    <a className="UserInfo" href={`mailto:${user?.email}`}>
       {user?.name}
     </a>
   );
