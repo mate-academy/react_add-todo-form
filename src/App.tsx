@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useState } from 'react';
+import { useState, FormEvent } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -26,41 +26,42 @@ export const App: React.FC = () => {
   const [hasUserError, setHasUserError] = useState(false);
   const [newTodos, setNewTodos] = useState<Todo[]>(todos);
 
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (title.trim().length === 0) {
+      setHasTitleError(true);
+    }
+
+    if (userId === 0) {
+      setHasUserError(true);
+    }
+
+    if (title.length > 0 && userId > 0) {
+      setNewTodos((prevState) => {
+        const largestIdInTodos
+          = Math.max(...prevState.map(todo => todo.id));
+        const newTodo = {
+          completed: false,
+          id: largestIdInTodos + 1,
+          title,
+          user: getUser(userId),
+          userId,
+        };
+
+        return [...prevState, newTodo];
+      });
+
+      setTitle('');
+      setUserId(0);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={(event) => {
-        event.preventDefault();
-
-        if (title.trim().length === 0) {
-          setHasTitleError(true);
-        }
-
-        if (userId === 0) {
-          setHasUserError(true);
-        }
-
-        if (title.length > 0 && userId > 0) {
-          setNewTodos((prevState) => {
-            const largestIdInTodos
-              = Math.max(...prevState.map(todo => todo.id));
-            const newTodo = {
-              completed: false,
-              id: largestIdInTodos + 1,
-              title,
-              user: getUser(userId),
-              userId,
-            };
-
-            return [...prevState, newTodo];
-          });
-
-          setTitle('');
-          setUserId(0);
-        }
-      }}
-      >
+      <form onSubmit={submit}>
         <div className="field">
           <label>
             Title:
@@ -73,7 +74,7 @@ export const App: React.FC = () => {
               onChange={(event) => {
                 setTitle(event.target.value.trim());
 
-                if (hasTitleError === true) {
+                if (hasTitleError) {
                   setHasTitleError(false);
                 }
               }}
@@ -92,9 +93,9 @@ export const App: React.FC = () => {
               id="title"
               value={userId}
               onChange={(event) => {
-                setUserId(+event.target.value);
+                setUserId(Number(event.target.value));
 
-                if (hasUserError === true) {
+                if (hasUserError) {
                   setHasUserError(false);
                 }
               }}
