@@ -66,6 +66,7 @@ export const App: React.FC = () => {
               placeholder="Please enter a title"
               value={newTodoTitle}
               onChange={((event) => setNewTodoTitle(event.target.value))}
+              onBlur={() => setNewTodoTitle(state => state.trim())}
               // required
             />
           </label>
