@@ -8,11 +8,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const todosWithUsers = todosFromServer.map(todo => {
-  const chosen = usersFromServer.find(user => user.id === todo.userId);
+  const chosenUser = usersFromServer.find(user => user.id === todo.userId);
 
   return {
     ...todo,
-    user: chosen || null,
+    user: chosenUser || null,
   };
 });
 
