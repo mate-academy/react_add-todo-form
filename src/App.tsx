@@ -55,10 +55,12 @@ export const App: React.FC = () => {
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
+    setUserError(false);
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
