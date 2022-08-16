@@ -19,7 +19,7 @@ const todos = todosFromServer.map(todo => ({
 }));
 
 function checkKey() {
-  const maxId = [...todos].sort((a, b) => b.id - a.id)[0];
+  const maxId = [...todos].sort((a, b) => b.id - a.id);
 
   for (let i = 1; i < maxId[0].id; i += 1) {
     if (todos.every(todo => todo.id !== i)) {
