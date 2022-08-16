@@ -27,7 +27,7 @@ export const App = () => {
   const [addClicked, setAddClicked] = useState(false);
 
   const createTask = () => {
-    if (!newTitle) {
+    if (!newTitle.trim().length) {
       return;
     }
 
@@ -58,11 +58,14 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title">Add todo form</h1>
 
       <form action="/api/users" method="POST">
         <div className="field">
-          <label htmlFor="todoTitle">
+          <label
+            htmlFor="todoTitle"
+            className="label"
+          >
             Title
           </label>
           <input
@@ -81,14 +84,17 @@ export const App = () => {
             }}
           />
           {addClicked && !newTitle && (
-            <span className="error">
+            <span className="error span">
               Please enter a title
             </span>
           )}
         </div>
 
         <div className="field">
-          <label htmlFor="userTodo">
+          <label
+            htmlFor="userTodo"
+            className="label"
+          >
             User:
           </label>
           <div className={classNames('select',
@@ -119,7 +125,7 @@ export const App = () => {
 
           {addClicked && chosenUserValue === '0' && (
             <div>
-              <span className="error">
+              <span className="error span">
                 Please choose a user
               </span>
             </div>
