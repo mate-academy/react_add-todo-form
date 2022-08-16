@@ -7,7 +7,12 @@ button {
   cursor: pointer;
 }
 
+.no-error {
+  visibility: hidden;
+}
+
 .error {
+  visibility: visible;
   color: red;
 }
 
@@ -32,4 +37,9 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.container {
+  height: 50vh;
+  overflow: auto;
 }
