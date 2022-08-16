@@ -7,27 +7,24 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+const todosWithUsers = todosFromServer.map(todo => {
+  const chosen = usersFromServer.find(user => user.id === todo.userId);
+
+  return {
+    ...todo,
+    user: chosen || null,
+  };
+});
+
 export const App = () => {
-  const todosWithUsers = todosFromServer.map(todo => {
-    const chosen = usersFromServer.find(user => user.id === todo.userId);
-
-    if (!chosen) {
-      throw new Error(`error in ${todo.id} task - no one user was found for this task`);
-    }
-
-    return {
-      ...todo,
-      user: chosen,
-    };
-  });
-
   const [chosenUserValue, setChosenUserValue] = useState('0');
   const [newTitle, setNewTitle] = useState('');
   const [listWithUsers, setListWithUsers] = useState(todosWithUsers);
   const [addClicked, setAddClicked] = useState(false);
+  const isUserNotChosen = chosenUserValue === '0';
 
   const createTask = () => {
-    if (!newTitle.trim().length) {
+    if (!newTitle.trim().length || chosenUserValue === '0') {
       return;
     }
 
@@ -60,7 +57,15 @@ export const App = () => {
     <div className="App">
       <h1 className="title">Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setAddClicked(true);
+          createTask();
+        }}
+      >
         <div className="field">
           <label
             htmlFor="todoTitle"
@@ -76,8 +81,8 @@ export const App = () => {
             id="todoTitle"
             className={classNames('input',
               { 'is-danger': (addClicked && !newTitle) })}
-            onChange={(e) => {
-              const { value } = e.target;
+            onChange={(event) => {
+              const { value } = event.target;
               const titleToAdd = value.replace(/[.*+!@#&%^?^${}()|[\]\\]/g, '');
 
               setNewTitle(titleToAdd);
@@ -98,23 +103,24 @@ export const App = () => {
             User:
           </label>
           <div className={classNames('select',
-            { 'is-danger': addClicked && chosenUserValue === '0' })}
+            { 'is-danger': addClicked && isUserNotChosen })}
           >
             <select
               data-cy="userSelect"
               value={chosenUserValue}
               id="userTodo"
-              onChange={(e) => (
-                setChosenUserValue(e.target.value))}
+              onChange={(event) => (
+                setChosenUserValue(event.target.value))}
             >
               <option
                 value="0"
+                disabled
               >
                 Choose a user
               </option>
               {usersFromServer.map(user => (
                 <option
-                  value={`${user.id}`}
+                  value={user.id}
                   key={user.id}
                 >
                   {user.name}
@@ -123,7 +129,7 @@ export const App = () => {
             </select>
           </div>
 
-          {addClicked && chosenUserValue === '0' && (
+          {addClicked && isUserNotChosen && (
             <div>
               <span className="error span">
                 Please choose a user
@@ -135,11 +141,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(e) => {
-            e.preventDefault();
-            setAddClicked(true);
-            createTask();
-          }}
           className="button"
         >
           Add

@@ -1,23 +1,9 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
+import { UserWithTodo } from '../../types/UserWithTodo';
 
 type Props = {
-  todo: Todo;
-};
-
-type Todo = {
-  user: User;
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
+  todo: UserWithTodo;
 };
 
 export const TodoInfo = (props: Props) => {
@@ -38,7 +24,7 @@ export const TodoInfo = (props: Props) => {
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
