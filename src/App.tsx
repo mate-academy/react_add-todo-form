@@ -7,9 +7,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-const copyOfUsersFromServer: User[] = [...usersFromServer];
-
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -17,11 +15,11 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 const biggestTodoId = () => {
-  const ids = [...todos].map(todo => {
+  const ids = todos.map(todo => {
     return todo.id;
   });
 
@@ -34,11 +32,12 @@ const createNewToDo = (inputTitle: string, selectedUser: string): Todo => {
     title: inputTitle,
     completed: false,
     userId: +selectedUser,
-    user: getUser(+selectedUser),
+    user: getUserById(+selectedUser),
   };
 };
 
 export const App = () => {
+  const [actualTodos, setActualTodos] = useState(todos);
   const [inputTitle, setInputTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [titleIsEmpty, setTitleIsEmpty] = useState(false);
@@ -59,7 +58,9 @@ export const App = () => {
     }
 
     if (!titleIsEmpty && !userIsEmpty) {
-      todos.push(createNewToDo(inputTitle, selectedUser));
+      setActualTodos((tasks) => {
+        return [...tasks, createNewToDo(inputTitle, selectedUser)];
+      });
     }
 
     setInputTitle('');
@@ -75,7 +76,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
@@ -87,7 +88,9 @@ export const App = () => {
             value={inputTitle}
             onChange={event => {
               setInputTitle(event.target.value);
-              setTitleIsEmpty(false);
+              if (titleIsEmpty) {
+                setTitleIsEmpty(false);
+              }
             }}
           />
 
@@ -99,14 +102,16 @@ export const App = () => {
           <select
             onChange={(event) => {
               setSelectedUser(event.target.value);
-              setUserIsEmpty(false);
+              if (userIsEmpty) {
+                setUserIsEmpty(false);
+              }
             }}
             data-cy="userSelect"
             value={selectedUser}
           >
             <option value="" disabled>Choose a user</option>
 
-            {copyOfUsersFromServer.map((user) => (
+            {usersFromServer.map((user) => (
               <option
                 value={user.id}
                 key={user.id}
@@ -125,7 +130,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={actualTodos} />
     </div>
   );
 };
