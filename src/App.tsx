@@ -41,7 +41,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newTodoTitle) {
+    if (newTodoTitle.trim().length === 0) {
       setTitleError(true);
     }
 
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
       setselectedUserError(true);
     }
 
-    if (newTodoTitle && selectedUserId !== 0) {
+    if (newTodoTitle.trim().length !== 0 && selectedUserId !== 0) {
       updateTodos([...todos, newTodo]);
       setNewTodo('');
       setUserId(0);
