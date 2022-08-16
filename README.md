@@ -1,8 +1,4 @@
 # React Add TODO Form
-
-Implement the ability to add TODOs to the `TodoList` implemented in the [Static List of TODOs](https://github.com/mate-academy/react_static-list-of-todos).
-Here is [the working example](https://mate-academy.github.io/react_add-todo-form/)
-
 1. Create an `App` component storing the `todos` array and displaying it using the `TodoList`.
 1. Create a form to add new TODOs:
     - don't create a separate component for the form (later, we will learn how to do it);
@@ -21,9 +17,5 @@ Here is [the working example](https://mate-academy.github.io/react_add-todo-form
 1. If the form is valid, add a todo to the list and clear the form.
 1. (* **Optional**) Allow entering only letters (`ru` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
 
-## Instructions
 
-- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
-- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
-- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/) and add it to the PR description.
+ [DEMO LINK](https://blcts.github.io/react_add-todo-form/)
