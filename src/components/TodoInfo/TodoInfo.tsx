@@ -6,7 +6,9 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { title, completed, user, id } = todo;
+  const {
+    title, completed, user, id,
+  } = todo;
 
   return (
     <article

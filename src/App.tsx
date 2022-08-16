@@ -3,12 +3,12 @@ import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
-import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
+
   return foundUser || null;
 }
 
@@ -21,8 +21,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todoList, setTodoList] = useState(todos);
-  const [isTitle, setIsTitle] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const newId = () => (
     Math.max(...todoList.map(todo => todo.id)) + 1
@@ -45,19 +45,19 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (title.length === 0) {
-      setIsTitle(true);
+      setHasTitleError(true);
     }
 
     if (userId === 0) {
-      setIsUser(true);
+      setHasUserError(true);
     }
 
     if (title.length > 0 && userId !== 0) {
       addNewTodo();
       setTitle('');
       setUserId(0);
-      setIsTitle(false);
-      setIsUser(false);
+      setHasTitleError(false);
+      setHasUserError(false);
     }
   };
 
@@ -69,8 +69,8 @@ export const App = () => {
         method="POST"
         onSubmit={handleSubmit}
       >
-    <div className="field">
-    <input
+        <div className="field">
+          <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter the title"
@@ -81,15 +81,16 @@ export const App = () => {
               setTitle(value);
             }}
           />
-          {(isTitle && title.length === 0)
+          {(hasTitleError && title.length === 0)
             && (<span className="error">Please enter a title</span>)}
-    </div>
-    <div className="field">
-    <select
+        </div>
+        <div className="field">
+          <select
             data-cy="userSelect"
             value={userId}
             onChange={(event) => {
               const { value } = event.target;
+
               setUserId(+value);
             }}
           >
@@ -104,7 +105,7 @@ export const App = () => {
             })}
 
           </select>
-          {(isUser && userId === 0)
+          {(hasUserError && userId === 0)
             && (
               <span className="error">
                 Please choose a user
