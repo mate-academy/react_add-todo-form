@@ -5,21 +5,21 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number) {
+function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
 const todosWithUser = todosFromServer.map(todo => (
   {
     ...todo,
-    user: getUser(todo.userId),
+    user: getUserById(todo.userId),
   }
 ));
 
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState(0);
   const [errorUserSelect, setErrorUserSelect] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
 
@@ -29,14 +29,14 @@ export const App = () => {
 
   const clear = () => {
     setTitle('');
-    setUserId('0');
+    setUserId(0);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let isValid = true;
 
-    if (userId === '0') {
+    if (userId === 0) {
       setErrorUserSelect('Please choose a user');
 
       isValid = false;
@@ -54,7 +54,7 @@ export const App = () => {
         title,
         completed: false,
         userId: Number(userId),
-        user: getUser(Number(userId)),
+        user: getUserById(Number(userId)),
       };
 
       setTodos((currentTodos) => [...currentTodos, newTodo]);
@@ -77,8 +77,8 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Title"
             value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
+            onChange={(event) => {
+              setTitle(event.target.value);
               setErrorTitle('');
             }}
           />
@@ -91,8 +91,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(e) => {
-              setUserId(e.target.value);
+            onChange={(event) => {
+              setUserId(Number(event.target.value));
               setErrorUserSelect('');
             }}
           >
