@@ -16,6 +16,31 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [erorTitle, setErorTitle] = useState(false);
   const [erorUser, setErorUser] = useState(false);
+  const addTodo = () => {
+    if (title !== '' && userName !== '') {
+      setTodos([...todos, {
+        id: todos.length + 1,
+        title,
+        completed: false,
+        userId: Number(
+          usersFromServer.find(user => user.name === userName)?.id,
+        ),
+        user: usersFromServer.find(
+          user => user.name === userName,
+        ) || null,
+      }]);
+      setTitle('');
+      setUserName('');
+    }
+
+    if (title === '') {
+      setErorTitle(true);
+    }
+
+    if (userName === '') {
+      setErorUser(true);
+    }
+  };
 
   return (
     <div className="App">
@@ -26,29 +51,7 @@ export const App: React.FC = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (title !== '' && userName !== '') {
-            setTodos([...todos, {
-              id: todos.length + 1,
-              title,
-              completed: false,
-              userId: Number(
-                usersFromServer.find(user => user.name === userName)?.id,
-              ),
-              user: usersFromServer.find(
-                user => user.name === userName,
-              ) || null,
-            }]);
-            setTitle('');
-            setUserName('');
-          }
-
-          if (title === '') {
-            setErorTitle(true);
-          }
-
-          if (userName === '') {
-            setErorUser(true);
-          }
+          addTodo();
         }}
       >
         <div className="field">
