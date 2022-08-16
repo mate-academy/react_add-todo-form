@@ -7,7 +7,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 let maxId = [...todosFromServer].sort((a, b) => b.id - a.id)[0].id;
@@ -28,10 +28,10 @@ const addTodo = (todo: string, userId: number) => {
     completed: false,
     title: todo,
     userId,
-    user: getUser(userId),
+    user: getUserById(userId),
   };
 
-  todos.push(todoAdd);
+  return todoAdd;
 };
 
 export const App = () => {
@@ -39,6 +39,7 @@ export const App = () => {
   const [user, setUser] = useState('');
   const [errorToDo, setErrorToDo] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
+  const [todoList, setTodoList] = useState(todos);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -54,7 +55,8 @@ export const App = () => {
     }
 
     if (toDo.trim().length > 0 && Number(user) !== 0) {
-      addTodo(toDo, Number(user));
+      setTodoList((prevTodoList) => (
+        [...prevTodoList, addTodo(toDo, Number(user))]));
       setToDo('');
       setUser('');
       setErrorToDo(false);
@@ -121,7 +123,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
