@@ -44,7 +44,7 @@ export const App = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (title.length === 0) {
+    if (title.trim().length === 0) {
       setHasTitleError(true);
     }
 
@@ -52,7 +52,7 @@ export const App = () => {
       setHasUserError(true);
     }
 
-    if (title.length > 0 && userId !== 0) {
+    if (title.trim().length > 0 && userId !== 0) {
       addNewTodo();
       setTitle('');
       setUserId(0);
@@ -81,8 +81,8 @@ export const App = () => {
               setTitle(value);
             }}
           />
-          {(hasTitleError && title.length === 0)
-            && (<span className="error">Please enter a title</span>)}
+          {hasTitleError
+          && (<span className="error">Please enter a title</span>)}
         </div>
         <div className="field">
           <select
