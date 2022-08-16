@@ -43,7 +43,7 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (toDo.length === 0) {
+    if (toDo.trim().length === 0) {
       setErrorToDo(true);
     }
 
@@ -53,7 +53,7 @@ export const App = () => {
       return;
     }
 
-    if (toDo.length > 0 && Number(user) !== 0) {
+    if (toDo.trim().length > 0 && Number(user) !== 0) {
       addTodo(toDo, Number(user));
       setToDo('');
       setUser('');
