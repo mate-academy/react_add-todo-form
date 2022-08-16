@@ -72,7 +72,7 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (title || userId) {
+    if (title && userId) {
       addNewTodo();
       clearForm();
     }
