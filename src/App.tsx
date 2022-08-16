@@ -35,7 +35,7 @@ export const App = () => {
     event.preventDefault();
     const maxId = Math.max(...todos.map(todo => todo.id));
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleValid(false);
     }
 
@@ -43,7 +43,7 @@ export const App = () => {
       setIsUserValid(false);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
