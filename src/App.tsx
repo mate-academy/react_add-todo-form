@@ -43,16 +43,22 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
+    if (toDo.length === 0) {
+      setErrorToDo(true);
+    }
+
+    if (Number(user) === 0) {
+      setErrorUser(true);
+
+      return;
+    }
+
     if (toDo.length > 0 && Number(user) !== 0) {
       addTodo(toDo, Number(user));
       setToDo('');
       setUser('');
       setErrorToDo(false);
       setErrorUser(false);
-    } else if (toDo.length === 0) {
-      setErrorToDo(true);
-    } else if (Number(user) === 0) {
-      setErrorUser(true);
     }
   };
 
@@ -73,10 +79,16 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               value={toDo}
-              onChange={(event) => setToDo(event.target.value)}
+              onChange={(event) => {
+                setToDo(event.target.value);
+
+                if (errorToDo) {
+                  setErrorToDo(false);
+                }
+              }}
             />
           </label>
-          {errorToDo && toDo.length < 1
+          {errorToDo
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -87,14 +99,20 @@ export const App = () => {
             data-cy="userSelect"
             name="user"
             value={user}
-            onChange={(event) => setUser(event.target.value)}
+            onChange={(event) => {
+              setUser(event.target.value);
+
+              if (errorUser) {
+                setErrorUser(false);
+              }
+            }}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(({ id, name }) => (
               <option value={id} key={id}>{name}</option>
             ))}
           </select>
-          {errorUser && Number(user) === 0
+          {errorUser
             && <span className="error">Please choose a user</span>}
         </div>
 

@@ -44,12 +44,12 @@ button {
 .App {
   width: 50vw;
   border: 1px solid transparent;
-  background-color: rgba(122, 114, 114, 0.478);
+  background-color: rgba(122, 114, 114, 0.5);
   border-top-right-radius: 20px;
   min-height: 100vh;
   max-height: max-content;
   padding: 10px;
-  box-shadow: 10px 2px 9px -3px rgba(0,0,0,0.53);
+  box-shadow: 10px 2px 9px -3px rgba(0,0,0,0.5);
 
   &__title {
     text-align: center;
