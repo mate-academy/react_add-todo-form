@@ -46,10 +46,8 @@ export const App = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (inputTitle.length <= 0) {
+    if (inputTitle.trim() === '') {
       setTitleIsEmpty(true);
-    } else {
-      setTitleIsEmpty(false);
     }
 
     if (!selectedUser) {
