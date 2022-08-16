@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import users from '../../api/users';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo/UserInfo';
 
@@ -8,8 +7,7 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { title, completed } = todo;
-  const user = users.find(person => person.id === todo.userId) || null;
+  const { title, completed, user } = todo;
 
   return (
     <article

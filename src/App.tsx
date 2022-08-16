@@ -3,24 +3,38 @@ import { FormEvent, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import users from './api/users';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
+function getUser(userId: number): User | null {
+  const foundUser = users.find(user => user.id === userId);
+
+  // if there is no user with a given userId
+  return foundUser || null;
+}
+
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
   const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(preparedTodos);
   const [titleError, setTitleError] = useState(false);
   const [selectedUserError, setSelectedUserError] = useState(false);
 
   const validation = () => {
     let spaces = 0;
 
-    if (selectedUser && title.trim()) {
+    if (selectedUserId && title.trim()) {
       return true;
     }
 
-    if (selectedUser === '') {
+    if (selectedUserId === '') {
       setSelectedUserError(true);
     }
 
@@ -50,12 +64,13 @@ export const App = () => {
     const newTodo = {
       id: newId,
       title,
-      userId: +selectedUser,
+      userId: +selectedUserId,
       completed: false,
+      user: getUser(Number(selectedUserId)),
     };
 
     setTodos(prevTodos => ([...prevTodos, newTodo]));
-    setSelectedUser('');
+    setSelectedUserId('');
     setTitle('');
   };
 
@@ -91,15 +106,15 @@ export const App = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={selectedUser}
+              value={selectedUserId}
               name="user"
               onChange={(event) => {
-                setSelectedUser(event.target.value);
+                setSelectedUserId(event.target.value);
                 setSelectedUserError(false);
               }}
             >
               <option value="" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
+              {users.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
