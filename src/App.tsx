@@ -6,10 +6,10 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 export const App = () => {
-  const [selectedTitle, setTitle] = useState('');
-  const [showTitleError, setTitleError] = useState(false);
-  const [showUserError, setUserError] = useState(false);
-  const [selectedUser, setUser] = useState('-1');
+  const [selectedTitle, setSelectedTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [selectedUser, setSelectedUser] = useState('-1');
   const [todos, setTodos] = useState(todosFromServer);
 
   const validate = () => {
@@ -45,8 +45,8 @@ export const App = () => {
       completed: false,
     };
 
-    setTitle('');
-    setUser('-1');
+    setSelectedTitle('');
+    setSelectedUser('-1');
 
     setTodos(prevTodos => [
       ...prevTodos,
@@ -75,14 +75,14 @@ export const App = () => {
               value={selectedTitle}
               onChange={event => {
                 setTitleError(false);
-                setTitle(event.target.value.split('')
+                setSelectedTitle(event.target.value.split('')
                   .filter(c => c.match(/[a-z]|[A-Z]|[а-я]|[А-Я]| /)).join(''));
               }}
               placeholder="Enter a title"
             />
           </label>
 
-          {showTitleError && (
+          {titleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -100,7 +100,7 @@ export const App = () => {
               value={selectedUser}
               onChange={event => {
                 setUserError(false);
-                setUser(event.target.value);
+                setSelectedUser(event.target.value);
               }}
             >
               <option value="-1" disabled>Choose a user</option>
@@ -111,7 +111,7 @@ export const App = () => {
             </select>
           </label>
 
-          {showUserError && (
+          {userError && (
             <span className="error">
               Please choose a user
             </span>
@@ -123,7 +123,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };

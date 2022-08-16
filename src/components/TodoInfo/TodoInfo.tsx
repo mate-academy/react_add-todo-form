@@ -1,12 +1,12 @@
 import Todo from '../../types/Todo';
-
-import users from '../../api/users';
+import User from '../../types/User';
 
 type Props = {
-  todo: Todo
+  todo: Todo,
+  users: User[],
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
   const currentUser = users.find(user => user.id === todo.userId);
 
   return (
