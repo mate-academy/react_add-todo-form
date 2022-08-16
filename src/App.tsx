@@ -11,34 +11,37 @@ function getUser(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const todos = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
-function chooseKey() {
-  const maxKey = [...todos].sort((a, b) => b.id - a.id);
-
-  return maxKey[0].id + 1;
-}
-
-const addTodo = (title: string, userId: number): void => {
-  const Todo = {
-    id: chooseKey(),
-    title,
-    userId,
-    completed: false,
-    user: getUser(userId),
-  };
-
-  todos.push(Todo);
-};
-
 export const App: React.FC = () => {
+  const preparedTodos = todosFromServer.map(todo => ({
+    ...todo,
+    user: getUser(todo.userId),
+  }));
+
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('0');
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
+  const [todos, setTodos] = useState(preparedTodos);
+
+  function chooseKey() {
+    const maxKey = [...todos].sort((a, b) => b.id - a.id);
+
+    return maxKey[0].id + 1;
+  }
+
+  const addTodo = (newTitle: string, newUserId: number): void => {
+    const newTodo = {
+      id: chooseKey(),
+      title: newTitle,
+      userId: newUserId,
+      completed: false,
+      user: getUser(newUserId),
+    };
+
+    setTodos((prev) => {
+      return [...prev, newTodo];
+    });
+  };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
