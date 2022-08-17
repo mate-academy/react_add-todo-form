@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -33,14 +33,6 @@ export const App = () => {
   const [hasUserError, setHasUserError] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(newTodos);
 
-  const updatedTodo: Todo = {
-    id: newTodoId(todos),
-    userId: selectedUserId,
-    title: todoTitle,
-    completed: false,
-    user: getUserById(selectedUserId),
-  };
-
   const clearForm = () => {
     setTodoTitle('');
     setSelectedUserId(0);
@@ -58,9 +50,27 @@ export const App = () => {
     }
 
     if (todoTitle && selectedUserId !== 0) {
+      const updatedTodo: Todo = {
+        id: newTodoId(todos),
+        userId: selectedUserId,
+        title: todoTitle,
+        completed: false,
+        user: getUserById(selectedUserId),
+      };
+
       setTodos([...todos, updatedTodo]);
       clearForm();
     }
+  };
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(Number(event.target.value));
+    setHasUserError(false);
   };
 
   return (
@@ -83,10 +93,7 @@ export const App = () => {
               value={todoTitle}
               pattern="^[a-zA-ZА-Яа-яЁё0-9\s]+$"
               title="Title should contain RU or EN letters, spaces and digits"
-              onChange={event => {
-                setTodoTitle(event.target.value);
-                setHasTitleError(false);
-              }}
+              onChange={handleChangeTitle}
             />
           </label>
           {hasTitleError && (
@@ -103,10 +110,7 @@ export const App = () => {
               name="user"
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={event => {
-                setSelectedUserId(+event.target.value);
-                setHasUserError(false);
-              }}
+              onChange={handleChangeUser}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
