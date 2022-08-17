@@ -41,7 +41,7 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle) {
+    if (!todoTitle.trim()) {
       setHasTitleError(true);
     }
 
@@ -49,7 +49,7 @@ export const App = () => {
       setHasUserError(true);
     }
 
-    if (todoTitle && selectedUserId !== 0) {
+    if (todoTitle.trim() && selectedUserId !== 0) {
       const updatedTodo: Todo = {
         id: newTodoId(todos),
         userId: selectedUserId,
