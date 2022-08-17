@@ -3,16 +3,29 @@ import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
+import User from './types/User';
+import Todo from './types/Todo';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+const combinedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState('-1');
   const [userError, setUserError] = useState(false);
   const [todoTitle, setTodoTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(combinedTodos);
   const [titleLanguageError, setTitleLanguageError] = useState(false);
 
-  const titleHandler = (event: FormEvent<HTMLInputElement>) => {
+  const hadleTitle = (event: FormEvent<HTMLInputElement>) => {
     setTitleLanguageError(/[А-яа-я]/g.test(event.currentTarget.value));
 
     setTodoTitle(event.currentTarget.value
@@ -52,6 +65,7 @@ export const App = () => {
       title: todoTitle,
       userId: +selectedUser,
       completed: false,
+      user: getUser(+selectedUser),
     };
 
     setSelectedUser('-1');
@@ -85,7 +99,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={todoTitle}
-            onChange={titleHandler}
+            onChange={hadleTitle}
           />
           {titleError && <span className="error">Please enter a title</span>}
           <br />
@@ -128,7 +142,6 @@ export const App = () => {
 
       <TodoList
         todos={todos}
-        users={usersFromServer}
       />
     </div>
   );
