@@ -19,15 +19,15 @@ const todos = todosFromServer.map(todo => ({
 }));
 
 function checkKey() {
-  const maxId = [...todos].sort((a, b) => b.id - a.id);
+  const maxId = Math.max(...(todos.map(todo => todo.id)));
 
-  for (let i = 1; i < maxId[0].id; i += 1) {
+  for (let i = 1; i < maxId; i += 1) {
     if (todos.every(todo => todo.id !== i)) {
       return i;
     }
   }
 
-  return maxId[0].id + 1;
+  return maxId + 1;
 }
 
 const addTodo = (title: string, completed: boolean, userId: number): void => {
