@@ -17,6 +17,10 @@ export const App = () => {
 
     setTodoTitle(event.currentTarget.value
       .replace(/[^A-Za-z]/g, ''));
+
+    if (event.currentTarget.value) {
+      setTitleError(false);
+    }
   };
 
   const validation = () => {
@@ -52,6 +56,8 @@ export const App = () => {
 
     setSelectedUser('-1');
     setTodoTitle('');
+    setTitleError(false);
+    setTitleLanguageError(false);
 
     setTodos(prevState => [
       ...prevState,
