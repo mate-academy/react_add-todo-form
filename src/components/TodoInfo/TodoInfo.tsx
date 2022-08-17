@@ -1,13 +1,12 @@
 import Todo from '../../types/Todo';
-import users from '../../api/users';
+import User from '../../types/User';
 
 type Props = {
-  todo: Todo
+  todo: Todo,
+  user: User | null,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const currentUser = users.find(user => user.id === todo.userId);
-
+export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
   return (
     <article
       data-id={todo.id}
@@ -17,9 +16,11 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <a className="UserInfo has-text-grey" href={`mailto:${currentUser?.email}`}>
-        {currentUser?.name}
-      </a>
+      {user && (
+        <a className="UserInfo has-text-grey" href={`mailto:${user.email}`}>
+          {user.name}
+        </a>
+      )}
     </article>
   );
 };

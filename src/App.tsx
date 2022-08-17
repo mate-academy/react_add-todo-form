@@ -7,10 +7,18 @@ import { TodoList } from './components/TodoList/TodoList';
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState('-1');
   const [userError, setUserError] = useState(false);
-  const [todoTitle, setTitle] = useState('');
+  const [todoTitle, setTodoTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
   const [titleLanguageError, setTitleLanguageError] = useState(false);
+
+  const titleHandler = (event: FormEvent<HTMLInputElement>) => {
+    setTitleLanguageError(/[А-яа-я]/g.test(event.currentTarget.value));
+
+    setTodoTitle(event.currentTarget.value
+      .replace(/[^A-Za-z]/g, ''));
+  };
+
   const validation = () => {
     if (selectedUser !== '-1' && todoTitle !== '') {
       return true;
@@ -43,7 +51,7 @@ export const App = () => {
     };
 
     setSelectedUser('-1');
-    setTitle('');
+    setTodoTitle('');
 
     setTodos(prevState => [
       ...prevState,
@@ -71,17 +79,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={todoTitle}
-            onChange={event => {
-              setTitleError(false);
-              if (event.target.value.match(/[А-яа-я]/g)) {
-                setTitleLanguageError(true);
-              } else {
-                setTitleLanguageError(false);
-              }
-
-              setTitle(event.target.value
-                .replace(/[^A-Za-z]/g, ''));
-            }}
+            onChange={titleHandler}
           />
           {titleError && <span className="error">Please enter a title</span>}
           <br />
@@ -122,7 +120,10 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList
+        todos={todos}
+        users={usersFromServer}
+      />
     </div>
   );
 };
