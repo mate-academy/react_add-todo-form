@@ -40,7 +40,7 @@ export const App: React.FC = () => {
       setHasUserIdError(true);
     }
 
-    if (!userId || !title) {
+    if (!userId || !title.trim()) {
       return;
     }
 
