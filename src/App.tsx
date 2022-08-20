@@ -1,61 +1,134 @@
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList/TodoList';
+import { PreparedTodo } from './components/types/preparedTodo';
+
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+const preparedTodos: PreparedTodo[] = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  };
+});
+
+let maxTodoId = [...todosFromServer].sort((el1, el2) => (
+  el2.id - el1.id))[0].id;
+
+const addTodo = (title: string, userName: string) => {
+  maxTodoId += 1;
+
+  const newTodo = {
+    id: maxTodoId,
+    title,
+    completed: false,
+    userId: 1,
+    user: usersFromServer.find(user => user.name === userName),
+  };
+
+  preparedTodos.push(newTodo);
+};
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
+  const [errorUser, setErrorUser] = useState(false);
+  const [errorTitle, setErrorTitle] = useState(false);
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    if (name === 'title') {
+      setTitle(value);
+    } else {
+      setUser(value);
+    }
+  };
+
+  const submit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    if (!title || !user) {
+      if (!title) {
+        setErrorTitle(true);
+      }
+
+      if (!user) {
+        setErrorUser(true);
+      }
+
+      return;
+    }
+
+    addTodo(title, user);
+    setTitle('');
+    setUser('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        onSubmit={submit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            name="title"
+            value={title}
+            placeholder="Enter the title"
+            onChange={handleChange}
+          />
+          {errorTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <select
+            name="user"
+            data-cy="userSelect"
+            onChange={handleChange}
+            value={user}
+          >
+            <option
+              value=""
+            >
+              Choose a user
+            </option>
+            {usersFromServer.map(item => (
+              <option
+                value={item.name}
+                key={item.id}
+              >
+                {item.name}
+              </option>
+            ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {errorUser && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="button"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList prepared={preparedTodos} />
     </div>
   );
 };
