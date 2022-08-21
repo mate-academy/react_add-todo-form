@@ -8,28 +8,36 @@ button {
 }
 
 .error {
+  display: block;
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
+.App {
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    text-align: center;
   }
 
-  &--completed &__title {
-    color: #080;
-  }
-}
+  &__form {
+    text-align: center;
 
-.UserInfo {
-  font-style: italic;
+    &__field {
+      &--input {
+        width: 300px;
+      }
+
+      &--select {
+        width: 308px;
+      }
+    }
+  }
+
+  &__form-element {
+    margin-top: 10px;
+  }
+
+  &__button {
+    width: 308px;
+    border: 1px solid;
+    background-color: rgb(252, 254, 130);
+  }
 }
