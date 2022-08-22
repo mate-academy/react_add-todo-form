@@ -91,7 +91,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => addTodo(event)}
+        onSubmit={addTodo}
       >
         <div className="field">
           <input
@@ -99,7 +99,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={titleInput}
-            onChange={event => handleInputChange(event)}
+            onChange={handleInputChange}
           />
           {errors.title && (
             <span className="error">Please enter a title</span>
@@ -110,7 +110,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userSelect}
-            onChange={(event) => handleSelectChange(event)}
+            onChange={handleSelectChange}
           >
             <option value="0" disabled>Choose a user</option>
             {users.map(user => (
