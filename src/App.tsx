@@ -13,7 +13,7 @@ export const App: React.FC = () => {
   const [isNewTodoError, setIsNewTodoError] = useState(false);
 
   const getUser = (userId: number) => {
-    return usersFromServer.find(user => user.id === userId) || null;
+    return usersFromServer.find(user => user.id === userId);
   };
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +31,7 @@ export const App: React.FC = () => {
       title: newTodoTitle,
       completed: false,
       userId: +selectedUser,
-      user: usersFromServer.find(user => user.id === +selectedUser) || null,
+      user: usersFromServer.find(user => user.id === +selectedUser),
     };
 
     setTodos(prevTodo => [...prevTodo, newTodo]);
@@ -54,7 +54,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => addTodo(event)}
+        onSubmit={addTodo}
       >
         <div className="field">
           <label htmlFor="titleInput">
