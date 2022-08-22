@@ -22,7 +22,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       {todo.user && (
-        <UserInfo user={todo.user} key={todo.user.id} />
+        <UserInfo user={todo.user} />
       )}
     </article>
   );
