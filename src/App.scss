@@ -2,6 +2,10 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+li {
+  list-style: none;
+}
+
 label,
 button {
   cursor: pointer;
@@ -9,6 +13,10 @@ button {
 
 .error {
   color: red;
+}
+
+.input,.select {
+  margin-bottom: 15px;
 }
 
 .TodoInfo {
@@ -32,4 +40,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+iframe {
+  display: none;
 }
