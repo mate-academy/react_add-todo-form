@@ -19,37 +19,33 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todosList, setTodoList] = useState(todos);
+  const [todoList, setTodoList] = useState(todos);
+  const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [users, setUsers] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const user = usersFromServer
-      .find(curUser => curUser.name === users) || null;
-
-    const newTodo = {
-      userId: user ? user.id : 0,
-      id: todos.length + 1,
-      title,
-      completed: false,
-      user: user || null,
-    };
-
     setTitleError(!title);
-    setUserError(!users);
+    setUserError(!userId);
 
-    if (!title || !users) {
+    if (!title || !userId) {
       return;
     }
 
-    setTodoList(prev => [...prev, newTodo]);
+    const newTodo = {
+      id: Math.max(...todoList.map(todo => todo.id)) + 1,
+      title,
+      completed: false,
+      userId,
+      user: getUser(userId),
+    };
 
+    setTodoList(prev => [...prev, newTodo]);
     setTitle('');
-    setUsers('');
+    setUserId(0);
   };
 
   return (
@@ -59,9 +55,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          onSubmit(event);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           Title:
@@ -87,24 +81,25 @@ export const App = () => {
 
           <select
             data-cy="userSelect"
-            value={users}
+            value={userId}
             onChange={(event) => {
-              setUsers(event.target.value);
+              setUserId(+event.target.value);
               setUserError(false);
             }}
           >
             <option
-              value=""
+              value="0"
+              disabled
             >
               Choose a user
             </option>
 
-            {usersFromServer.map(person => (
+            {usersFromServer.map(user => (
               <option
-                value={person.name}
-                key={person.id}
+                value={user.id}
+                key={user.id}
               >
-                {person.name}
+                {user.name}
               </option>
             ))}
           </select>
@@ -122,7 +117,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todosList} />
+        <TodoList todos={todoList} />
       </section>
     </div>
   );
