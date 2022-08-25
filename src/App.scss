@@ -7,29 +7,114 @@ button {
   cursor: pointer;
 }
 
+h1 {
+  color: #d81159;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App {
+  width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #364156;
+  border-radius: 5px;
+}
+
 .error {
   color: red;
 }
 
 .TodoInfo {
-  width: max-content;
+  min-width: 300px;
+  max-width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+
+  box-shadow: 3px 3px 6px #011638;
+  border-radius: 6px;
+  background-color: #fbb13c;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    //max-width: fit-content;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
 
-  &--completed &__title {
-    color: #080;
+  &--completed {
+    background-color: #c3e991;
   }
 }
 
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    color: #f2f2f2;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    & > span {
+      font-size: 10px;
+    }
+  }
+
+  &__input {
+    height: 20px;
+    width: 300px;
+
+    outline: none;
+  }
+
+  &__select {
+    height: 30px;
+    width: 200px;
+  }
+
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 80px;
+  height: 30px;
+
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+
+  background-color: #d81159;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #ad0c46;
+  }
+
+  &:active {
+    background-color: #800935;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
