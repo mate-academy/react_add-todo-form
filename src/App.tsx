@@ -25,14 +25,7 @@ export const App = () => {
   const [allTodos, setTodo] = useState(todos);
   const [formValid, setValid] = useState(true);
 
-  // eslint-disable-next-line prefer-const
-  let newId = 0;
-
-  allTodos.forEach(todo => {
-    if (newId < todo.id) {
-      newId = todo.id + 1;
-    }
-  });
+  const newId = allTodos[allTodos.length - 1].id + 1;
 
   return (
     <div className="App">
