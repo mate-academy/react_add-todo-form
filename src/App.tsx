@@ -49,6 +49,19 @@ export const App: React.FC = () => {
     user: getUserById(todoFromServer.userId),
   }));
 
+  const handleAddTodo = () => {
+    if (title && user) {
+      (setTodo(state => (
+        {
+          id: state.id + 1,
+          title,
+          userId: +user,
+          completed: false,
+        }
+      )));
+    }
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -194,18 +207,7 @@ export const App: React.FC = () => {
               is-link"
             type="submit"
             data-cy="submitButton"
-            onClick={() => {
-              if (title && user) {
-                (setTodo(state => (
-                  {
-                    id: state.id + 1,
-                    title,
-                    userId: +user,
-                    completed: false,
-                  }
-                )));
-              }
-            }}
+            onClick={() => handleAddTodo()}
           >
             Add
           </button>
