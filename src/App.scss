@@ -1,23 +1,61 @@
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background: linear-gradient(
+    270deg, rgba(253, 210, 20, 0.72), rgba(90, 35, 179, 0.4));
+  margin: 0;
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  flex-direction: column ;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.box {
+  animation: fadeIn 2s;
+  transition: all 0.2s ease-in-out;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.select {
+  &__input {
+    width: 300px
+  }
 }
 
 label,
 button {
   cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .error {
   color: red;
 }
 
+.TodoList {
+  display: flex;
+  flex-direction: column;
+}
+
 .TodoInfo {
-  width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
   padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background-color: antiquewhite;
+  transition: all 0.2s ease-in-out;
 
   &__title {
     margin: 4px 0;
@@ -28,8 +66,42 @@ button {
   &--completed &__title {
     color: #080;
   }
+
+  &--completed {
+    background-color: hsla(141, 53%, 53%, 0.3);
+
+    &:hover {
+      background-color: hsla(141, 53%, 53%, 0.2);
+      box-shadow: 0 5px 10px rgba(51, 51, 51, 0.25);
+      transform: scale(1.1);
+    }
+  }
+
+  &--not-ready {
+    background-color: hsla(348, 100%, 61%, 0.3);
+
+    &:hover {
+      background-color: hsla(348, 100%, 61%, 0.2);
+      box-shadow: 0 5px 10px rgba(51, 51, 51, 0.25);
+      transform: scale(1.1);
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
