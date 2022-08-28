@@ -1,61 +1,218 @@
+import React, { useState } from 'react';
+import className from 'classnames';
+import { TodoList } from './components/TodoList/TodoList';
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import 'bulma/css/bulma.min.css';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+export const App: React.FC = () => {
+  const lastTodoId = (): number => {
+    const sortedIdList = todosFromServer.map(item => item.id).sort(
+      (id1, id2) => id1 - id2,
+    );
+    const lastId = sortedIdList.pop();
 
-export const App = () => {
+    return !lastId
+      ? 1
+      : lastId;
+  };
+
+  const [user, setUser] = useState('');
+  const [title, setTitle] = useState('');
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
+  const [allTodos, setAllTodos] = useState([...todosFromServer]);
+  const [todo, setTodo] = useState({
+    id: lastTodoId(),
+    title: '',
+    userId: 0,
+    completed: false,
+  });
+
+  const userList: string[] = [...usersFromServer].map(
+    userFromServer => userFromServer.name,
+  );
+
+  const getUserById = (userId: number): User | null => {
+    const foundUser = usersFromServer.find(
+      userFromServer => userFromServer.id === userId,
+    );
+
+    return foundUser || null;
+  };
+
+  const todosList: Todo[] = allTodos.map(todoFromServer => ({
+    ...todoFromServer,
+    user: getUserById(todoFromServer.userId),
+  }));
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (title.length === 0) {
+      setErrorTitle(true);
+    }
+
+    if (title.length > 0) {
+      setErrorTitle(false);
+    }
+
+    if (!user) {
+      setErrorUser(true);
+    }
+
+    if (user) {
+      setErrorUser(false);
+    }
+
+    if (title && user) {
+      setAllTodos(state => ([...state, todo]));
+      setUser('');
+      setTitle('');
+    }
+  };
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let { value } = event.target;
+
+    value = value.replace(
+      /[!@#$%'`";:|^&*,.\\<>?/()_+={\][}-]/g, '',
+    );
+
+    setTitle(value);
+    setErrorTitle(false);
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <div className="box">
+        <h1 className="title">
+          Add todo form
+        </h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form
+          className="form"
+          action="/api/users"
+          method="POST"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <div className="field">
+            <label className="label">
+              {'Title: '}
+              <input
+                className={className(
+                  'input',
+                  { 'is-danger': errorTitle },
+                )}
+                name="title"
+                type="text"
+                value={title}
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                onChange={(e) => handleTitle(e)}
+              />
+            </label>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+            {errorTitle
+            && (
+              <span
+                className="
+                  error
+                  help
+                  is-danger"
+              >
+                Please enter a title
+              </span>
+            )}
+          </div>
 
-          <span className="error">Please choose a user</span>
-        </div>
+          <div className="field">
+            <label className="label">
+              {'User: '}
+              <div className="control">
+                <div
+                  className={className(
+                    'select',
+                    {
+                      'is-danger': errorUser && !user,
+                      'is-link': user,
+                    },
+                  )}
+                >
+                  <select
+                    className="select__input"
+                    name="user"
+                    data-cy="userSelect"
+                    value={
+                      !user
+                        ? 0
+                        : user
+                    }
+                    onChange={(e) => {
+                      setUser(e.target.value);
+                      setErrorUser(false);
+                    }}
+                  >
+                    <option
+                      value="0"
+                      disabled
+                    >
+                      Choose a user
+                    </option>
+                    {userList.map((userItem, index) => (
+                      <option
+                        key={`${userItem}_${Math.random()}`}
+                        value={index + 1}
+                      >
+                        {userItem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </label>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+            {errorUser
+            && (
+              <span
+                className="
+                  error
+                  help
+                  is-danger"
+              >
+                Please choose a user
+              </span>
+            )}
+          </div>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+          <button
+            className="
+              button
+              is-link"
+            type="submit"
+            data-cy="submitButton"
+            onClick={() => {
+              if (title && user) {
+                (setTodo(state => (
+                  {
+                    id: state.id + 1,
+                    title,
+                    userId: +user,
+                    completed: false,
+                  }
+                )));
+              }
+            }}
+          >
+            Add
+          </button>
+        </form>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+        <TodoList todos={todosList} />
+      </div>
     </div>
   );
 };
