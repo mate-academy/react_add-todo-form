@@ -7,7 +7,7 @@ import { Todo } from './types/Todo';
 
 import './App.scss';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,53 +15,72 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [newTodos, setNewTodo] = useState(todos);
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [newTodos, setNewTodo] = useState<Todo[]>(todos);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userError, setUserError] = useState<boolean>(false);
 
-  const maxId = Math.max(...newTodos.map(todo => todo.id)) + 1;
+  const maxId = Math.max(...newTodos.map(todo => todo.id + 1));
 
   const newTodo = {
     id: maxId,
     title,
     completed: false,
     userId,
-    user: getUser(userId),
+    user: getUserById(userId),
   };
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
 
-    setTitle(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement
+  | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'title':
+        setTitle(value);
+        setTitleError(false);
+        break;
+
+      case 'userId':
+        setUserId(Number(value));
+        setUserError(false);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const resetFields = () => {
+    setTitle('');
+    setUserId(0);
     setTitleError(false);
-  };
-
-  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-
-    setUserId(Number(value));
     setUserError(false);
   };
 
-  const handleButton = () => {
-    if (title && userId) {
-      setNewTodo(prevTodos => (
-        [...prevTodos, newTodo]
-      ));
-    }
-
-    if (!title) {
+  const handleAddTodo = () => {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
     if (!userId) {
       setUserError(true);
+    }
+
+    if (title.trim() && userId) {
+      setNewTodo(prevTodos => (
+        [...prevTodos, newTodo]
+      ));
+
+      resetFields();
     }
   };
 
@@ -72,32 +91,32 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
             {'Title: '}
             <input
               type="text"
-              name="username"
+              name="title"
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleTitle}
+              onChange={handleChange}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {titleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label>
             {'User: '}
             <select
+              name="userId"
               data-cy="userSelect"
               value={userId}
-              onChange={handleUserId}
+              onChange={handleChange}
             >
               <option
                 value="0"
@@ -117,13 +136,14 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {userError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleButton}
+          onClick={handleAddTodo}
         >
           Add
         </button>
