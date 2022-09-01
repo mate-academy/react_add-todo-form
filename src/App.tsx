@@ -1,8 +1,8 @@
 import './App.scss';
 import { FormEvent, useState } from 'react';
+import classNames from 'classnames';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import classNames from 'classnames';
 
 interface User {
   id: number,
@@ -51,13 +51,12 @@ export const TodoList: React.FC<Props> = (props) => {
             {todo.title}
           </h2>
 
-          <a className="UserInfo" href={todo.user?.email}>
+          <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
             {todo.user?.name}
           </a>
         </article>
       ))}
     </section>
-
 
   );
 };
@@ -119,8 +118,8 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
-            onChange={(e) => {
-              setTodoTitle(e.target.value);
+            onChange={(event) => {
+              setTodoTitle(event.target.value);
               if (hasTitleError) {
                 setHasTitleError(false);
               }
@@ -134,14 +133,14 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(e) => {
-              setUserId(+e.target.value);
+            onChange={(event) => {
+              setUserId(+event.target.value);
               if (hasUserError) {
                 setHasUserError(false);
               }
             }}
           >
-            <option value={0} disabled>Choose a name</option>
+            <option value={0} disabled>Choose a user</option>
             {
               usersFromServer.map(user => {
                 return (
