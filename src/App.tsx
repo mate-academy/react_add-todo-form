@@ -21,8 +21,8 @@ export const App = () => {
   const [todoList, setTodoList] = useState(todos);
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isTitle, setIsTitle] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const maxId = () => {
     return Math.max(...todoList.map(todo => todo.id)) + 1;
@@ -45,19 +45,19 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (title.length === 0) {
-      setIsTitle(true);
+      setIsTitleError(true);
     }
 
     if (userId === 0) {
-      setIsUser(true);
+      setIsUserError(true);
     }
 
     if (title.length > 0 && userId > 0) {
       addTodo();
       setTitle('');
       setUserId(0);
-      setIsTitle(false);
-      setIsUser(false);
+      setIsTitleError(false);
+      setIsUserError(false);
     }
   };
 
@@ -81,7 +81,7 @@ export const App = () => {
               setTitle(value);
             }}
           />
-          {(isTitle && title.length === 0)
+          {(isTitleError && title.length === 0)
             && (<span className="error">Please enter a title</span>)}
         </div>
         <div className="field">
@@ -108,7 +108,7 @@ export const App = () => {
             })}
           </select>
 
-          {(isUser && userId === 0)
+          {(isUserError && userId === 0)
             && (<span className="error">Please choose a user</span>)}
         </div>
         <button
