@@ -11,8 +11,17 @@ const page = {
   addButton: () => cy.getByDataCy('submitButton'),
 };
 
+let failed = false;
+
+Cypress.on('fail', (e) => {
+  failed = true;
+  throw e;
+});
+
 describe('Page', () => {
   beforeEach(() => {
+    if (failed) Cypress.runner.stop();
+
     cy.visit('/');
   });
 
