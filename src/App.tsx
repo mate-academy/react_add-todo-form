@@ -47,6 +47,9 @@ export const App: React.FC = () => {
       };
 
       setNewToDos([...newTodos, newUser]);
+
+      setValueTitle('');
+      setIndexSelectName(0);
     }
   };
 
@@ -58,7 +61,7 @@ export const App: React.FC = () => {
     setCheckChooseTitle(false);
   };
 
-  const handleUsers = (event: { target: { value: any; }; }) => {
+  const handleUsers = (event: { target: { value: unknown; }; }) => {
     setIndexSelectName(Number(event.target.value));
     setCheckChooseUser(false);
   };
