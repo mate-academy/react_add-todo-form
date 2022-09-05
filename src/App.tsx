@@ -26,7 +26,7 @@ export const App: React.FC = () => {
 
   const maxId = newTodos.reduce((acc, curr) => (acc.id > curr.id ? acc : curr));
 
-  const handleForm = (event: { preventDefault: () => void; }) => {
+  const handleForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (valueTitle.length === 0) {
