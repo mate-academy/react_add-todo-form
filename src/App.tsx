@@ -6,6 +6,7 @@ import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 function getUser(usrId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === usrId);
@@ -22,16 +23,16 @@ export const App = () => {
   const [todoList, setTodoList] = useState(todos);
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isTitle, setIsTitle] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
-  const maxId = () => {
+  const getMaxId = () => {
     return Math.max(...todoList.map(todo => todo.id)) + 1;
   };
 
   const addTodo = () => {
     const newTodo = {
-      id: maxId(),
+      id: getMaxId(),
       title,
       completed: false,
       userId,
@@ -47,19 +48,19 @@ export const App = () => {
     event.preventDefault();
 
     if (title.length === 0) {
-      setIsTitle(true);
+      setHasTitleError(true);
     }
 
     if (userId === 0) {
-      setIsUser(true);
+      setHasUserError(true);
     }
 
     if (title.length > 0 && userId > 0) {
       addTodo();
       setTitle('');
       setUserId(0);
-      setIsTitle(false);
-      setIsUser(false);
+      setHasTitleError(false);
+      setHasUserError(false);
     }
   };
 
@@ -83,7 +84,7 @@ export const App = () => {
             }}
           />
 
-          {(isTitle && title.length === 0)
+          {(hasTitleError && title.length === 0)
             && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -115,7 +116,7 @@ export const App = () => {
             })}
           </select>
 
-          {(isUser && userId === 0)
+          {(hasUserError && userId === 0)
             && (<span className="error">Please choose a user</span>)}
         </div>
 

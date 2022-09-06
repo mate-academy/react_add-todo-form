@@ -1,3 +1,5 @@
+import { User } from './types/User';
+
 interface Todo {
   id: number,
   title: string,
@@ -6,9 +8,6 @@ interface Todo {
   user?: User,
 }
 
-interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
+interface ExtendedTodo extends Todo {
+  user: User,
 }
