@@ -22,7 +22,26 @@ const visibleTodos = [...todos];
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [option, setOption] = useState('0');
+  const [userId, setUserId] = useState(0);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const maxId = Math.max(...visibleTodos.map((todo) => todo.id));
+
+    const newTodo = {
+      id: maxId + 1,
+      title,
+      userId,
+      completed: false,
+      user: getUser(userId),
+    };
+
+    visibleTodos.push(newTodo);
+
+    setTitle('');
+    setUserId(0);
+  };
 
   return (
     <div className="App">
@@ -31,7 +50,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -53,8 +72,8 @@ export const App = () => {
             <span className="inputTitle">User: </span>
             <select
               data-cy="userSelect"
-              value={option}
-              onChange={(event) => setOption(event.target.value)}
+              value={userId}
+              onChange={(event) => setUserId(+event.target.value)}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
