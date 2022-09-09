@@ -35,7 +35,7 @@ export const App: React.FC = () => {
     }
 
     const todo: Todo = {
-      id: Math.max(0, ...todos.map(({ id }) => id)),
+      id: Math.max(0, ...todos.map(({ id }) => id)) + 1,
       title,
       userId,
       completed: false,
