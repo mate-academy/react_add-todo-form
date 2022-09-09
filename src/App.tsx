@@ -23,9 +23,18 @@ const visibleTodos = [...todos];
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
+  const [errorTittle, setErrorTittle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (userId === 0 || title === '') {
+      setErrorTittle(title === '');
+      setErrorUser(userId === 0);
+
+      return;
+    }
 
     const maxId = Math.max(...visibleTodos.map((todo) => todo.id));
 
@@ -41,6 +50,9 @@ export const App = () => {
 
     setTitle('');
     setUserId(0);
+
+    setErrorUser(false);
+    setErrorTittle(false);
   };
 
   return (
@@ -61,10 +73,13 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setErrorTittle(false);
+              }}
             />
           </label>
-          <span className="error">Please enter a title</span>
+          {errorTittle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -73,7 +88,10 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => setUserId(+event.target.value)}
+              onChange={(event) => {
+                setUserId(+event.target.value);
+                setErrorUser(false);
+              }}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -82,7 +100,7 @@ export const App = () => {
 
             </select>
           </label>
-          <span className="error">Please choose a user</span>
+          {errorUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button
