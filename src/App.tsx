@@ -27,9 +27,15 @@ export const App: React.FC = () => {
   const handleSumbit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
+    if (userId === 0 || title === ' ') {
       setTitleError(title === '');
       setUserIdError(userId === 0);
+
+      return;
+    }
+
+    if (!title.trim()) {
+      setTitleError(true);
 
       return;
     }
