@@ -23,8 +23,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [error, setError] = useState({ titleError: false, userError: false });
 
   const addTodo = () => {
     const newTodo = {
@@ -38,21 +37,39 @@ export const App: React.FC = () => {
     todos.push(newTodo);
   };
 
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+    setError({ titleError: false, userError: false });
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
-      setTitleError(title === '');
-      setUserIdError(userId === 0);
+    if (!userId || !title) {
+      if (!title) {
+        setError(state => (
+          {
+            ...state,
+            titleError: true,
+          }
+        ));
+      }
+
+      if (!userId) {
+        setError(state => (
+          {
+            ...state,
+            userError: true,
+          }
+        ));
+      }
 
       return;
     }
 
     addTodo();
-    setTitle('');
-    setUserId(0);
-    setTitleError(false);
-    setUserIdError(false);
+    reset();
   };
 
   return (
@@ -75,12 +92,12 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               onChange={(event) => {
                 setTitle(event.target.value);
-                setTitleError(false);
+                setError({ ...error, titleError: false });
               }}
             />
           </label>
 
-          {titleError && (
+          {error.titleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -96,7 +113,7 @@ export const App: React.FC = () => {
               value={userId}
               onChange={(event) => {
                 setUserId(+event.target.value);
-                setUserIdError(false);
+                setError({ ...error, userError: false });
               }}
             >
               <option value="0" disabled>
@@ -111,7 +128,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userIdError && (
+          {error.userError && (
             <span className="error">
               Please choose a user
             </span>
