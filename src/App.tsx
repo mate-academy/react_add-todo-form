@@ -1,65 +1,40 @@
 import './App.scss';
-
 import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
+import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUser(UserId: number) {
+  const foundUser = usersFromServer.find(user => user.id === UserId);
 
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+const todos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App = () => {
+  const [userId, setUserId] = useState(0);
+  const [userIdError, setUserIdError] = useState(false);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [userId, setUserId] = useState(0);
-  const [idError, setIdError] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
-    setTitle(event.target.value);
-  };
-
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setIdError(false);
-    setUserId(+value);
+    setTitleError(false);
+    setTitle(value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const changeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
 
-    const lastId = Math.max(0, ...todos.map(({ id }) => id));
-
-    const newTodo: Todo = {
-      id: lastId + 1,
-      title,
-      userId,
-      completed: false,
-      user: getUser(userId),
-    };
-
-    if (title !== '' && userId !== 0) {
-      todos.push(newTodo);
-    } else if (title === '' || userId === 0) {
-      setTitleError(title === '');
-      setIdError(userId === 0);
-
-      return;
-    }
-
-    setTitle('');
-    setUserId(0);
+    setUserIdError(false);
+    setUserId(Number(value));
   };
 
   return (
@@ -69,7 +44,32 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          const lastId = Math.max(0, ...todos.map(({ id }) => id));
+
+          const newTodo: Todo = {
+            id: lastId + 1,
+            userId,
+            title,
+            completed: isChecked,
+            user: getUser(userId),
+          };
+
+          if (userId !== 0 && title !== '') {
+            todos.push(newTodo);
+          } else if (userId === 0 || title === '') {
+            setTitleError(title === '');
+            setUserIdError(userId === 0);
+
+            return;
+          }
+
+          setTitle('');
+          setUserId(0);
+          setChecked(false);
+        }}
       >
         <div className="field">
           <label>
@@ -79,10 +79,10 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleTitleChange}
+              onChange={changeTitle}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {titleError && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
@@ -91,21 +91,30 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={handleUserChange}
+              onChange={changeUserId}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map((user) => (
-                <option
-                  value={user.id}
-                  key={user.id}
-                >
-                  {user.name}
-                </option>
+              {usersFromServer.map(({ id, name }) => (
+                <option key={id} value={id}>{name}</option>
               ))}
             </select>
           </label>
 
-          {idError && (<span className="error">Please choose a user</span>)}
+          <div className="field">
+            <label>
+              {'Is your todo completed? '}
+
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => {
+                  setChecked(!isChecked);
+                }}
+              />
+            </label>
+          </div>
+
+          {userIdError && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button type="submit" data-cy="submitButton">
