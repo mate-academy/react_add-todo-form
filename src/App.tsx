@@ -50,9 +50,6 @@ export const App = () => {
 
     setTitle('');
     setUserId(0);
-
-    setErrorUser(false);
-    setErrorTittle(false);
   };
 
   return (
