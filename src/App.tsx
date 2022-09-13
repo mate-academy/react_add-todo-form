@@ -48,13 +48,12 @@ export const App: React.FC = () => {
 
     if (title.trim() && userId) {
       todos.push(addedTodo);
+      setTitle('');
+      setUserId(0);
     } else {
       setTitleError(title.trim() === '');
       setUserError(userId === 0);
     }
-
-    setTitle('');
-    setUserId(0);
   };
 
   return (
