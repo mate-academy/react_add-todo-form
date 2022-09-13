@@ -52,6 +52,16 @@ export const App = () => {
     setUserId(0);
   };
 
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setErrorTittle(false);
+  };
+
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setErrorUser(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -70,10 +80,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setErrorTittle(false);
-              }}
+              onChange={handleTitle}
             />
           </label>
           {errorTittle && <span className="error">Please enter a title</span>}
@@ -85,10 +92,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => {
-                setUserId(+event.target.value);
-                setErrorUser(false);
-              }}
+              onChange={handleUserSelect}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
