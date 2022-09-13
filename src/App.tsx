@@ -21,7 +21,6 @@ export const App = () => {
   const [userIdError, setUserIdError] = useState(false);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [isChecked, setChecked] = useState(false);
 
   const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -53,22 +52,25 @@ export const App = () => {
             id: lastId + 1,
             userId,
             title,
-            completed: isChecked,
+            completed: false,
             user: getUser(userId),
           };
 
-          if (userId !== 0 && title !== '') {
+          if (userId && title.trim()) {
             todos.push(newTodo);
-          } else if (userId === 0 || title === '') {
-            setTitleError(title === '');
+          } else {
+            setTitleError(title.trim() === '');
             setUserIdError(userId === 0);
+
+            if (title.trim() === '') {
+              setTitle('');
+            }
 
             return;
           }
 
           setTitle('');
           setUserId(0);
-          setChecked(false);
         }}
       >
         <div className="field">
@@ -99,20 +101,6 @@ export const App = () => {
               ))}
             </select>
           </label>
-
-          <div className="field">
-            <label>
-              {'Is your todo completed? '}
-
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => {
-                  setChecked(!isChecked);
-                }}
-              />
-            </label>
-          </div>
 
           {userIdError && (<span className="error">Please choose a user</span>)}
         </div>
