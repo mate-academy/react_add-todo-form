@@ -11,8 +11,17 @@ button {
   cursor: pointer;
 }
 
+.App {
+  max-width: 450px;
+  margin: 30px auto;
+}
+
 .error {
   color: red;
+}
+
+.span {
+  margin-left: 20px;
 }
 
 .TodoInfo {
@@ -36,4 +45,17 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.button {
+  outline: none;
+
+  &:hover {
+    border: 2px solid #ff9970;
+    font-weight: bold;
+  }
+
+  &:active {
+    background-color: #ff9970;
+  }
 }
