@@ -36,6 +36,36 @@ export const App = () => {
     setUserId(Number(value));
   };
 
+  const submitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const lastId = Math.max(0, ...todos.map(({ id }) => id));
+
+    const newTodo: Todo = {
+      id: lastId + 1,
+      userId,
+      title,
+      completed: false,
+      user: getUser(userId),
+    };
+
+    if (userId && title.trim()) {
+      todos.push(newTodo);
+    } else {
+      setTitleError(title.trim() === '');
+      setUserIdError(userId === 0);
+
+      if (title.trim() === '') {
+        setTitle('');
+      }
+
+      return;
+    }
+
+    setTitle('');
+    setUserId(0);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -43,35 +73,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          const lastId = Math.max(0, ...todos.map(({ id }) => id));
-
-          const newTodo: Todo = {
-            id: lastId + 1,
-            userId,
-            title,
-            completed: false,
-            user: getUser(userId),
-          };
-
-          if (userId && title.trim()) {
-            todos.push(newTodo);
-          } else {
-            setTitleError(title.trim() === '');
-            setUserIdError(userId === 0);
-
-            if (title.trim() === '') {
-              setTitle('');
-            }
-
-            return;
-          }
-
-          setTitle('');
-          setUserId(0);
-        }}
+        onSubmit={submitForm}
       >
         <div className="field">
           <label>
