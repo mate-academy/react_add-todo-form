@@ -22,21 +22,21 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
 
-  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitleError(false);
     setTitle(value);
   };
 
-  const changeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleuserid = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUserIdError(false);
     setUserId(Number(value));
   };
 
-  const submitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const lastId = Math.max(0, ...todos.map(({ id }) => id));
@@ -73,7 +73,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submitForm}
+        onSubmit={handleSubmitForm}
       >
         <div className="field">
           <label>
@@ -83,7 +83,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={changeTitle}
+              onChange={handleTitle}
             />
           </label>
           {titleError && (<span className="error">Please enter a title</span>)}
@@ -95,7 +95,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={changeUserId}
+              onChange={handleuserid}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
