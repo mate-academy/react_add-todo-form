@@ -10,13 +10,16 @@ export function getUser(userId: number): User | null {
 }
 
 type Props = {
-  addTodo: (todo: Omit<Todo, 'id'>) => void,
+  todo?: Todo;
+  onSubmit: (todo: Omit<Todo, 'id'>) => void;
 };
 
-export const TodoForm: React.FC<Props> = ({ addTodo }) => {
-  const [title, setTitle] = useState('');
+export const TodoForm: React.FC<Props> = ({ onSubmit, todo }) => {
+  const [title, setTitle] = useState(todo?.title || '');
+  const [userId, setUserId] = useState(todo?.userId || 0);
+  const [completed, setCompleted] = useState(todo?.completed || false);
+
   const [hasTitleError, setTitleError] = useState(false);
-  const [userId, setUserId] = useState(0);
   const [hasUserError, setUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -29,15 +32,13 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
       return;
     }
 
-    const todoData = {
-      title,
-      userId,
-      completed: false,
-      user: getUser(userId),
-    };
+    const user = getUser(userId);
 
-    addTodo(todoData);
+    onSubmit({
+      title, userId, completed, user,
+    });
 
+    setCompleted(false);
     setTitle('');
     setUserId(0);
   };
@@ -90,8 +91,19 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         )}
       </div>
 
+      <div className="field">
+        <label>
+          Done:
+          <input
+            type="checkbox"
+            checked={completed}
+            onChange={e => setCompleted(e.target.checked)}
+          />
+        </label>
+      </div>
+
       <button type="submit" data-cy="submitButton">
-        Add
+        Save
       </button>
     </form>
   );
