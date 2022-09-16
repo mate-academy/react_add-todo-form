@@ -29,13 +29,20 @@ export const App: React.FC = () => {
     ));
   };
 
+  const updateTodo = (updatedTodo: Todo) => {
+    setTodos(currentTodos => currentTodos.map(
+      todo => (todo.id === updatedTodo.id ? updatedTodo : todo),
+    ));
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm onSubmit={addTodo} />
       <TodoList
         todos={todos}
         onTodoDelete={deleteTodo}
+        onTodoUpdate={updateTodo}
       />
     </div>
   );
