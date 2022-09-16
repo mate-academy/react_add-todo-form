@@ -93,7 +93,7 @@ export const App: React.FC = () => {
             name="title"
             placeholder="Enter a title"
             value={title}
-            onChange={event => handleChangeTitle(event)}
+            onChange={handleChangeTitle}
           />
 
           {requireValidTitle && (
@@ -108,7 +108,7 @@ export const App: React.FC = () => {
             id="userSelect"
             name="userSelect"
             value={selectedUser}
-            onChange={event => handleChangeSelect(event)}
+            onChange={handleChangeSelect}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={event => handleClick(event)}
+          onClick={handleClick}
         >
           Add
         </button>
