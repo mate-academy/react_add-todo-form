@@ -23,11 +23,20 @@ export const App: React.FC = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
+  const deleteTodo = (todoId: number) => {
+    setTodos(currentTodos => currentTodos.filter(
+      todo => todo.id !== todoId,
+    ));
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
       <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList
+        todos={todos}
+        onTodoDelete={deleteTodo}
+      />
     </div>
   );
 };

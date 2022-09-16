@@ -5,9 +5,10 @@ import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
+  onDelete: () => void;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
+export const TodoInfo: React.FC<Props> = ({ todo, onDelete }) => (
   <article
     data-id={todo.id}
     className={classNames('TodoInfo', {
@@ -19,5 +20,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
     {todo.user && (
       <UserInfo user={todo.user} />
     )}
+
+    <button type="button" onClick={onDelete}>
+      x
+    </button>
   </article>
 );
