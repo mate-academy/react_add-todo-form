@@ -8,19 +8,25 @@ type Props = {
   onTodoUpdate: (todo: Todo) => void;
 };
 
-export const TodoList: React.FC<Props> = ({
-  todos,
-  onTodoDelete,
-  onTodoUpdate,
-}) => (
-  <section className="TodoList">
-    {todos.map(todo => (
-      <TodoInfo
-        key={todo.id}
-        todo={todo}
-        onDelete={() => onTodoDelete(todo.id)}
-        onUpdate={onTodoUpdate}
-      />
-    ))}
-  </section>
+export const TodoList: React.FC<Props> = React.memo(
+  ({
+    todos,
+    onTodoDelete,
+    onTodoUpdate,
+  }) => {
+    console.log('Rendering TodoList');
+
+    return (
+      <section className="TodoList">
+        {todos.map(todo => (
+          <TodoInfo
+            key={todo.id}
+            todo={todo}
+            onDelete={onTodoDelete}
+            onUpdate={onTodoUpdate}
+          />
+        ))}
+      </section>
+    );
+  },
 );
