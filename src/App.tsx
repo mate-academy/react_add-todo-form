@@ -25,13 +25,15 @@ export const App = () => {
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
+    setDisplayName(true);
     setUserName(value);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setTitle(value);
+    setDisplayTitle(true);
+    setTitle(value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, ''));
   };
 
   const handleSubmit = (event: SyntheticEvent) => {
