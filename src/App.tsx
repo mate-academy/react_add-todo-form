@@ -19,9 +19,9 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const newTodos = () => {
     const newTodo = {
@@ -39,11 +39,11 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     if (!title.trim()) {
-      setTitleError(true);
+      setHasTitleError(true);
     }
 
     if (!userId) {
-      setUserError(true);
+      setHasUserError(true);
     }
 
     if (!title.trim() || !userId) {
@@ -52,9 +52,9 @@ export const App: React.FC = () => {
 
     newTodos();
     setTitle('');
-    setTitleError(false);
+    setHasTitleError(false);
     setUserId(0);
-    setUserError(false);
+    setHasUserError(false);
   };
 
   return (
@@ -78,13 +78,13 @@ export const App: React.FC = () => {
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
-                setTitleError(false);
+                setHasTitleError(false);
               }}
             />
           </label>
 
           {
-            titleError && (
+            hasTitleError && (
               <span className="error">Please enter a title</span>
             )
           }
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
               value={userId}
               onChange={(event) => {
                 setUserId(+event.target.value);
-                setUserError(false);
+                setHasUserError(false);
               }}
             >
               <option value="0" disabled>Choose a user</option>
@@ -112,7 +112,7 @@ export const App: React.FC = () => {
           </label>
 
           {
-            userError && (
+            hasUserError && (
               <span className="error">Please choose a user</span>
             )
           }
