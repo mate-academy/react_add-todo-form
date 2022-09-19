@@ -73,7 +73,7 @@ export const App = () => {
         user: targetUser,
       });
 
-      setSelectedUser('');
+      setSelectedUser('0');
       setTitle('');
       setIsEmptyTitle(false);
     }
