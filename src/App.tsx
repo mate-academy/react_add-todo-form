@@ -14,22 +14,17 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-function getTodos() {
-  const todos: Todo[] = todosFromServer
-    .map(todo => ({
-      ...todo,
-      user: getUser(todo.userId),
-    }))
-    .sort((todoA, todoB) => todoA.id - todoB.id);
-
-  return todos;
-}
+const todos: Todo[] = todosFromServer
+  .map(todo => ({
+    ...todo,
+    user: getUser(todo.userId),
+  }))
+  .sort((todoA, todoB) => todoA.id - todoB.id);
 
 export const App = () => {
   const [user, setUser] = useState('0');
   const [title, setTitle] = useState('');
   const [isSubmited, setSubmited] = useState(false);
-  const [todos, setTodos] = useState(getTodos());
 
   const users: User[] = usersFromServer;
 
@@ -47,16 +42,13 @@ export const App = () => {
     event.preventDefault();
 
     if (title !== '' && user !== '0') {
-      setTodos(prevTodos => ([
-        ...prevTodos,
-        {
-          id: prevTodos[prevTodos.length - 1].id + 1,
-          title: title.trim(),
-          completed: false,
-          userId: Number(user),
-          user: getUser(Number(user)),
-        },
-      ]));
+      todos.push({
+        id: todos[todos.length - 1].id + 1,
+        title: title.trim(),
+        completed: false,
+        userId: Number(user),
+        user: getUser(Number(user)),
+      });
 
       setUser('0');
       setTitle('');
