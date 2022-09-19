@@ -35,16 +35,19 @@ export const App = () => {
   const handleTitleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setTitle(value.replace(/[^a-zA-Z0-9 ]/g, ''));
+    if (!value.includes('  ')) {
+      setTitle(value.replace(/[^a-zA-Z0-9 ]/g, ''));
+    }
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const validTitle = title.trim();
 
-    if (title !== '' && user !== '0') {
+    if (validTitle !== '' && user !== '0') {
       todos.push({
         id: todos[todos.length - 1].id + 1,
-        title: title.trim(),
+        title: validTitle,
         completed: false,
         userId: Number(user),
         user: getUser(Number(user)),
@@ -54,6 +57,10 @@ export const App = () => {
       setTitle('');
       setSubmited(false);
     } else {
+      if (validTitle.length === 0) {
+        setTitle('');
+      }
+
       setSubmited(true);
     }
   };
