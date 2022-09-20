@@ -76,6 +76,7 @@ export const App = () => {
       setSelectedUser('0');
       setTitle('');
       setIsEmptyTitle(false);
+      setIsClickedUser(false);
     }
   };
 
