@@ -1,1 +1,24 @@
-export const TodoInfo = () => {};
+import classNames from 'classnames';
+import { ComplitlyTodo } from '../../type';
+import { UserInfo } from '../UserInfo';
+
+export const TodoInfo: React.FC<ComplitlyTodo> = ({ todo, user }) => {
+  const { title, id, completed } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={classNames(
+        'TodoInfo',
+        {
+          'TodoInfo--completed': completed,
+        },
+      )}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
+      {user && <UserInfo {...user} />}
+    </article>
+  );
+};
