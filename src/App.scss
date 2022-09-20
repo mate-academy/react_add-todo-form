@@ -15,6 +15,10 @@ button {
   color: red;
 }
 
+.TodoList {
+  margin-left: -40px;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -22,6 +26,7 @@ button {
   border: 1px solid #000;
   border-radius: 8px;
   background-color: antiquewhite;
+  list-style-type: none;
 
   &__title {
     margin: 4px 0;
