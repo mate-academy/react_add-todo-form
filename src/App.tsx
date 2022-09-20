@@ -31,6 +31,8 @@ const crateTodo = () => {
   return Todo;
 };
 
+
+
 export const App = () => {
   const [stateTodos, setTodos] = useState(todos);
   const [chooseUser, setUser] = useState('empty');
@@ -39,19 +41,17 @@ export const App = () => {
   const [isErrorSelect, setErrorSelect] = useState(false);
   const Todo = crateTodo();
 
+  const isEmpty = (title: string, user: string): boolean => {
+    setErrorTitle(!title.length);
+    setErrorSelect(user === 'empty');
+
+    return isErrorTitle && isErrorSelect;
+  };
+
   const addTodo = () => {
-    if (chooseUser === 'empty') {
-      setErrorSelect(true);
-    }
-
-    if (newTitle === '') {
-      setErrorTitle(true);
-
+    if (isEmpty(newTitle, chooseUser)) {
       return;
     }
-
-    setErrorSelect(false);
-    setErrorTitle(false);
 
     const selectUser = usersFromServer[+chooseUser];
     const newTodo = Todo(newTitle, selectUser.id);
