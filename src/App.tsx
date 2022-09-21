@@ -18,8 +18,7 @@ const todos: Todo[] = todosFromServer
   .map(todo => ({
     ...todo,
     user: getUser(todo.userId),
-  }))
-  .sort((todoA, todoB) => todoA.id - todoB.id);
+  }));
 
 export const App = () => {
   const [user, setUser] = useState('0');
@@ -36,17 +35,19 @@ export const App = () => {
     const { value } = event.target;
 
     if (!value.includes('  ')) {
-      setTitle(value.replace(/[^a-zA-Z0-9 ]/g, ''));
+      setTitle(value.replace(/[^a-zA-Zа-яА-Я0-9 ]/g, ''));
     }
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const validTitle = title.trim();
+    const maxId = [...todos]
+      .sort((todoA, todoB) => todoA.id - todoB.id)[todos.length - 1].id;
 
     if (validTitle !== '' && user !== '0') {
       todos.push({
-        id: todos[todos.length - 1].id + 1,
+        id: maxId + 1,
         title: validTitle,
         completed: false,
         userId: Number(user),
