@@ -11,6 +11,7 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
+    id,
     title,
     completed,
     user,
@@ -18,17 +19,18 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
   return (
     <article
+      data-id={id}
       className={classNames(
         'TodoInfo',
-        { 'has-background-success-light': !completed },
-        { 'has-background-warning-light': completed },
+        { 'has-background-success-light  TodoInfo--completed': completed },
+        { 'has-background-danger-light': !completed },
       )}
     >
       <h2
         className={classNames(
           'TodoInfo__title',
-          { 'has-text-success': !completed },
-          { 'has-text-warning': completed },
+          { 'has-text-success': completed },
+          { 'has-text-danger': !completed },
         )}
       >
         {title}
