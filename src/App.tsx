@@ -46,8 +46,8 @@ export const App:React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!addTodoTitle || !personID) {
-      setErrorTittle(!addTodoTitle);
+    if (!addTodoTitle.trim() || !personID) {
+      setErrorTittle(!addTodoTitle.trim());
       setErrorUser(!personID);
 
       return;
