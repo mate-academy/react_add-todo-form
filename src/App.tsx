@@ -1,10 +1,9 @@
 import './App.scss';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User, Todo } from './react-app-env';
-// eslint-disable-next-line import/no-cycle
+import { User } from './react-app-env';
 import { TodoList } from './components/TodoList';
 
 function getUser(userId: number): User | null {
@@ -16,13 +15,37 @@ function getUser(userId: number): User | null {
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
+
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUserSelect, setErrorUserSelect] = useState(false);
 
-  const todos: Todo[] = todosFromServer.map(todo => ({
+  const [todos, setTodos] = useState(todosFromServer.map(todo => ({
     ...todo,
     user: getUser(todo.userId),
-  })).filter(todo => todo.title !== '' && todo.userId !== 0);
+  })));
+
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setTodos([...todos, {
+      id: todosFromServer.length,
+      title,
+      completed: false,
+      userId: +selectedUser,
+      user: getUser(+selectedUser),
+    }].filter(todo => todo.title.trim() !== '' && todo.userId !== 0));
+
+    if (selectedUser !== 0) {
+      setTitle('');
+    }
+
+    if (title !== '') {
+      setSelectedUser(0);
+    }
+
+    setErrorTitle(title === '' && true);
+    setErrorUserSelect(selectedUser === 0 && true);
+  };
 
   return (
     <div className="App">
@@ -31,20 +54,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          todosFromServer.push({
-            id: todosFromServer.length,
-            title,
-            completed: false,
-            userId: +selectedUser,
-          });
-
-          setErrorTitle(title === '' && true);
-          setErrorUserSelect(selectedUser === 0 && true);
-          setTitle('');
-          setSelectedUser(0);
-        }}
+        onSubmit={submitHandler}
       >
         <div className="field">
           <label>
