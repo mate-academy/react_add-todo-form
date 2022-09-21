@@ -1,9 +1,9 @@
 import './App.scss';
 
+import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { useState } from 'react';
 import { Todo } from './components/types/Todo';
 import { User } from './components/types/User';
 
@@ -20,7 +20,7 @@ export const todosDefault: Todo[] = todosFromServer.map(todo => ({
 
 export const getMaxId = (prevTodos: Todo[]) => {
   return Math.max(...prevTodos.map(({ id }) => id)) + 1;
-}
+};
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
           title,
           completed: false,
           userId,
-          user: getUser(userId)
+          user: getUser(userId),
         }]
       ));
       setTitle('');
@@ -65,12 +65,13 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label>
-            Title:{' '}
+            Title:
+            {' '}
             <input
-              name='title'
+              name="title"
               type="text"
               data-cy="titleInput"
-              placeholder='Enter a title'
+              placeholder="Enter a title"
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
@@ -85,7 +86,8 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label>
-            User:{' '}
+            User:
+            {' '}
             <select
               data-cy="userSelect"
               value={userId}
@@ -96,9 +98,8 @@ export const App: React.FC = () => {
               required
             >
               <option value="0" disabled selected>Choose a user</option>
-              {usersFromServer.map(user =>
-                <option value={user.id}>{user.name}</option>
-              )}
+              {usersFromServer.map(user => (
+                <option value={user.id}>{user.name}</option>))}
 
             </select>
           </label>
