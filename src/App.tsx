@@ -42,16 +42,14 @@ export const App: React.FC = () => {
 
     const id = visibleTodos
       .reduce((maxId, todo) => (maxId > todo.id ? maxId : todo.id), 0) + 1;
-    const user = usersFromServer
-      .find(userFromServer => userFromServer.id === Number(choosedUserId)
-        ?? null);
+    const user = getUser(Number(choosedUserId)) ?? undefined;
     const userId = user?.id ?? 0;
     const completed = false;
 
     if (title === '' || choosedUserId === '-1') {
       setSubmit(true);
     } else {
-      addVisibleTodo([...visibleTodos, {
+      addVisibleTodo((prevVisibleTodo) => [...prevVisibleTodo, {
         id,
         title,
         userId,
