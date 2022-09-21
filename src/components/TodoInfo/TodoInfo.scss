@@ -1,0 +1,11 @@
+.TodoInfo {
+  width: max-content;
+  padding: 8px;
+  margin: 12px 0;
+  border-radius: 8px;
+
+  &__title {
+    margin: 4px 0;
+    font-size: inherit;
+  }
+}
