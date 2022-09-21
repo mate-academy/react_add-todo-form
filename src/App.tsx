@@ -38,7 +38,7 @@ export const App = () => {
     );
   };
 
-  function handleChange(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     if (title.length < 1) {
@@ -65,7 +65,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleChange}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
