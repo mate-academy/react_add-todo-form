@@ -33,7 +33,7 @@ export const App = () => {
         userId,
         title,
         completed,
-        user: getUser(userId) || null,
+        user: getUser(userId),
       }
     );
   };
@@ -68,6 +68,10 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          <label htmlFor="title">
+            {'Title: '}
+          </label>
+
           <input
             type="text"
             data-cy="titleInput"
@@ -85,8 +89,13 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="users">
+            {'User: '}
+          </label>
+
           <select
             data-cy="userSelect"
+            id="users"
             value={userId}
             onChange={(event) => {
               setUserId(+event.target.value);
