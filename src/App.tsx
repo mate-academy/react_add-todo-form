@@ -13,6 +13,10 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
+function onlySpaces(todoTitle: string): boolean {
+  return /^\s*$/.test(todoTitle);
+}
+
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
@@ -35,7 +39,8 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (!newTitle || newTitle === ' ') {
+          if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
+          || onlySpaces(newTitle)) {
             setTitleError(true);
           }
 
@@ -43,7 +48,8 @@ export const App = () => {
             setUserIdError(true);
           }
 
-          if (!newTitle || newTitle === ' ' || !selectedUserId) {
+          if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
+          || onlySpaces(newTitle) || !selectedUserId) {
             return;
           }
 
@@ -72,11 +78,15 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
-              placeholder="Enter a title"
+              placeholder="Use letters&nums only"
               value={newTitle}
               onChange={(event) => {
                 setTitle(event.target.value);
-                setTitleError(false);
+                if (event.target.value.match(/^[\sа-яіїєa-z0-9]+$/i)) {
+                  setTitleError(false);
+                } else {
+                  setTitleError(true);
+                }
               }}
             />
             {titleError && <span className="error">Please enter a title</span>}
