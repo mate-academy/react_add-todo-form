@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import usersFromServer from '../../api/users';
 
 interface User {
@@ -18,21 +19,23 @@ interface Props {
   todo: Todo,
 }
 
-export const UserInfo: React.FC<Props> = ({ todo }) => {
+export const UserInfo: FC<Props> = ({ todo }) => {
   const users: User[] = [...usersFromServer];
 
   return (
-    users.map(user => (
-      user.id === todo.userId
-      && (
-        <a
-          className="UserInfo"
-          href={`mailto:${user.email}`}
-          key={user.id}
-        >
-          {user.name}
-        </a>
-      )
-    ))
+    <>
+      {users.map(user => (
+        user.id === todo.userId
+        && (
+          <a
+            className="UserInfo"
+            href={`mailto:${user.email}`}
+            key={user.id}
+          >
+            {user.name}
+          </a>
+        )
+      ))}
+    </>
   );
 };
