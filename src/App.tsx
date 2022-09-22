@@ -22,7 +22,7 @@ export const App = () => {
   const [formError, setFormError] = useState(false);
 
   const handleEnterTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^а-яА-ЯёЁa-zA-Z0-9 ]/g, ''));
+    setTitle(event.target.value.replace(/[^а-яА-ЯёЁa-zA-Z ]/g, ''));
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
