@@ -12,7 +12,7 @@ import todosFromServer from './api/todos';
 const generateId = (todos: Todo[]) => {
   const maxId = todos.reduce((max, todo) => {
     return todo.id > max ? todo.id : max;
-  }, 1);
+  }, 0);
 
   return maxId + 1;
 };
@@ -31,9 +31,9 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [requireValidTitle, setRequireValidTitle] = useState(false);
-  const [requireValidSelect, setRequireValidSelect] = useState(false);
+  const [requireValidUser, setRequireValidUser] = useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isValidTitle = title.replace(/\s/g, '');
     const isValidSelect = selectedUser !== 0;
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
     }
 
     if (!isValidSelect) {
-      setRequireValidSelect(true);
+      setRequireValidUser(true);
     }
 
     if (isValidTitle && isValidSelect) {
@@ -74,16 +74,20 @@ export const App: React.FC = () => {
     setRequireValidTitle(false);
   };
 
-  const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(Number(event.target.value));
-    setRequireValidSelect(false);
+    setRequireValidUser(false);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleAddTodo}
+      >
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
@@ -108,7 +112,7 @@ export const App: React.FC = () => {
             id="userSelect"
             name="userSelect"
             value={selectedUser}
-            onChange={handleChangeSelect}
+            onChange={handleSelectUser}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -116,7 +120,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {requireValidSelect && (
+          {requireValidUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -124,7 +128,6 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleClick}
         >
           Add
         </button>
