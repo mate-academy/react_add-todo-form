@@ -41,7 +41,7 @@ export const App = () => {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    if (title.length < 1) {
+    if (title.trim().length < 1) {
       setTitleCheck(true);
     }
 
@@ -49,7 +49,7 @@ export const App = () => {
       setuserIdCheck(true);
     }
 
-    if ((title.length === 0) || (userId === 0)) {
+    if ((title.trim().length === 0) || (userId === 0)) {
       return;
     }
 
