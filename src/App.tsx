@@ -38,7 +38,8 @@ export const App: React.FC = () => {
     setUserId(+value);
   };
 
-  const newUserId = [...todos].sort((a, b) => b.id - a.id)[0].id;
+  const newUserId = [...todos]
+    .sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
 
   const makeNewUser = () => {
     const newUser = {
