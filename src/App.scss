@@ -37,3 +37,17 @@ button {
 .UserInfo {
   font-style: italic;
 }
+
+.field {
+  display: flex;
+}
+
+.notification {
+  color: red;
+  padding-left: 10px;
+  border-bottom: 1px solid red;
+}
+
+button[data-cy="submitButton"]:hover {
+  background-color: #00b7ff7c;
+}
