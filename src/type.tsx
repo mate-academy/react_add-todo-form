@@ -14,10 +14,10 @@ export type TypeTodo = {
   userId: number,
 };
 
-export type ComplitlyTodo = {
+export type CompletedTodo = {
   todo: TypeTodo,
   user: User | undefined,
 };
 
-export type HendleEvent = ChangeEvent<HTMLInputElement>
+export type HandleEvent = ChangeEvent<HTMLInputElement>
 | ChangeEvent<HTMLSelectElement>;

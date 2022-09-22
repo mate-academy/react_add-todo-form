@@ -1,19 +1,19 @@
-import { ComplitlyTodo } from '../../type';
+import { CompletedTodo } from '../../type';
 import { TodoInfo } from '../TodoInfo';
 
 type Prop = {
-  todos: ComplitlyTodo[]
+  todos: CompletedTodo[]
 };
 
 export const TodoList: React.FC<Prop> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todos.map((complitlyTodo: ComplitlyTodo) => {
+      {todos.map((completedTodo: CompletedTodo) => {
         return (
           <>
             <TodoInfo
-              key={complitlyTodo.todo.id}
-              {...complitlyTodo}
+              key={completedTodo.todo.id}
+              {...completedTodo}
             />
           </>
         );

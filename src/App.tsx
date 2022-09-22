@@ -1,7 +1,7 @@
 import './App.scss';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { ComplitlyTodo, HendleEvent, TypeTodo } from './type';
+import { CompletedTodo, HandleEvent, TypeTodo } from './type';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -9,21 +9,24 @@ const getUser = (todo: TypeTodo) => {
   return usersFromServer.find(user => user.id === todo.userId);
 };
 
-const todos: ComplitlyTodo[] = todosFromServer.map(todo => ({
+const todos: CompletedTodo[] = todosFromServer.map(todo => ({
   todo,
   user: getUser(todo),
 }));
 
-const crateTodo = () => {
-  let curentId = 15;
+const maxIndex = todosFromServer
+  .reduce((max, todo): number => (max < todo.id ? todo.id : max), 0);
+
+const createTodo = () => {
+  let currentId = maxIndex;
 
   const Todo = (title: string, userId: number): TypeTodo => {
-    curentId += 1;
+    currentId += 1;
 
     return {
       title,
       userId,
-      id: curentId,
+      id: currentId,
       completed: false,
     };
   };
@@ -31,21 +34,19 @@ const crateTodo = () => {
   return Todo;
 };
 
-
-
 export const App = () => {
   const [stateTodos, setTodos] = useState(todos);
   const [chooseUser, setUser] = useState('empty');
   const [newTitle, setTitle] = useState('');
   const [isErrorTitle, setErrorTitle] = useState(false);
-  const [isErrorSelect, setErrorSelect] = useState(false);
-  const Todo = crateTodo();
+  const [isErrorUser, setErrorUser] = useState(false);
+  const Todo = createTodo();
 
   const isEmpty = (title: string, user: string): boolean => {
-    setErrorTitle(!title.length);
-    setErrorSelect(user === 'empty');
+    setErrorTitle(!title.trim().length);
+    setErrorUser(user === 'empty');
 
-    return isErrorTitle && isErrorSelect;
+    return isErrorTitle || isErrorUser;
   };
 
   const addTodo = () => {
@@ -70,7 +71,7 @@ export const App = () => {
     setTitle('');
   };
 
-  const onHandelChange = (event: HendleEvent) => {
+  const onHandelChange = (event: HandleEvent) => {
     const { value, name } = event.target;
 
     if (name === 'title') {
@@ -121,7 +122,7 @@ export const App = () => {
               <option value={index}>{user.name}</option>
             ))}
           </select>
-          {isErrorSelect && (
+          {isErrorUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>

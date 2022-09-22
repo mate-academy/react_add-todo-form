@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import { ComplitlyTodo } from '../../type';
+import { CompletedTodo } from '../../type';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo: React.FC<ComplitlyTodo> = ({ todo, user }) => {
+export const TodoInfo: React.FC<CompletedTodo> = ({ todo, user }) => {
   const { title, id, completed } = todo;
 
   return (
