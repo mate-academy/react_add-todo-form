@@ -7,7 +7,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find((user) => user.id === userId);
+  const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
@@ -26,55 +26,31 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const maxId = Math.max(...todos.map((todo) => todo.id));
+    if (userId === 0) {
+      setValidUser(true);
+    }
 
-    const newTodo = {
-      id: maxId + 1,
+    if (title.length === 0) {
+      setValidTitle(true);
+    }
+
+    if (userId === 0 || title.length === 0) {
+      return;
+    }
+
+    const maxId = Math.max(...todos.map((todo) => todo.id + 1));
+
+    const newTodo: Todo = {
+      id: maxId,
       title,
       completed: false,
       userId,
       user: getUser(userId),
     };
 
-    if (!userId) {
-      setValidUser(true);
-    }
+    todos.push(newTodo);
 
-    if (!title.trim()) {
-      setValidTitle(true);
-    }
-
-    if (userId && title.trim()) {
-      todos.push(newTodo);
-      SetTitle('');
-      setUserId(0);
-      setValidUser(false);
-      setValidTitle(false);
-    }
-  };
-
-  type Props =
-    React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>;
-
-  const setFieldValue = (event: Props) => {
-    const { name, value } = event.target;
-
-    switch (name) {
-      case 'title':
-        SetTitle(value);
-        setValidTitle(false);
-
-        break;
-
-      case 'userId':
-        setUserId(+value);
-        setValidUser(false);
-
-        break;
-
-      default:
-        throw new Error('Please enter a title. Please choose a user.');
-    }
+    setUserId(0);
   };
 
   return (
@@ -95,12 +71,15 @@ export const App = () => {
               name="title"
               placeholder="Enter a title"
               value={title}
-              onChange={setFieldValue}
+              onChange={event => {
+                SetTitle(event.target.value);
+                setValidTitle(false);
+              }}
             />
           </label>
 
           {validTitle
-          && <span className="Error">Please enter a title.</span>}
+          && <span className="error">Please enter a title.</span>}
         </div>
 
         <div className="field">
@@ -109,29 +88,33 @@ export const App = () => {
             <select
               data-cy="userSelect"
               name="UserId"
+              id="user"
               value={userId}
-              onChange={setFieldValue}
+              onChange={event => {
+                setUserId(Number(event.target.value));
+                setValidUser(false);
+              }}
             >
               <option value="0" disabled>Choose a user</option>
-
-              {usersFromServer.map(({ id, name }) => {
-                return (
-                  <option
-                    value={id}
-                    key={id}
-                  >
-                    {name}
-                  </option>
-                );
-              })}
+              {usersFromServer.map(({ id, name }) => (
+                <option
+                  key={id}
+                  value={id}
+                >
+                  {name}
+                </option>
+              ))}
             </select>
           </label>
 
-          {validUser
-            && <span className="Error">Please choose a user.</span>}
+          {validUser && (
+            <span className="error">Please choose a user.</span>)}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
