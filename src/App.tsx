@@ -20,7 +20,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-let maxTodosId = [...todos].sort((a, b) => b.id - a.id)[0].id;
+const maxTodosId = [...todos].sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
 
 export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
@@ -96,7 +96,6 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            defaultValue={userId}
             value={userId}
             onChange={handleChangeSelect}
           >
