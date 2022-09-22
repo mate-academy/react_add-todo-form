@@ -12,7 +12,7 @@ import { Todo } from './types/todo';
 function getUser(userId: number): User | undefined {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  return foundUser || undefined;
+  return foundUser;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -27,21 +27,20 @@ export const App = () => {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const isSomeFieldEmpty = !title || selectedUser === '0';
 
-  // eslint-disable-next-line max-len
-  const pattern = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890 ';
+  const pattern = new RegExp('[а-яА-ЯёЁA-Za-z0-9 ]');
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const targetValueArr = event.target.value.split('');
-    const lastSymbol = targetValueArr[targetValueArr.length - 1];
+    const targetValue = event.target.value;
+    const currentInputLetter = targetValue.slice(-1);
 
-    if (pattern.includes(lastSymbol.toLowerCase())) {
-      setTitle(event.target.value);
+    if (pattern.test(currentInputLetter)) {
+      setTitle(targetValue);
     } else {
-      setTitle(targetValueArr.slice(0, targetValueArr.length - 1).join(''));
+      setTitle(targetValue.slice(0, -1));
     }
   };
 
