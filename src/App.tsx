@@ -21,20 +21,20 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [isvalidTitle, setValidTitle] = useState(true);
-  const [isvalidUser, setValidUser] = useState(true);
+  const [isValidTitle, setIsValidTitle] = useState(false);
+  const [isValidUser, setIsValidUser] = useState(false);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setValidTitle(true);
+    setIsValidTitle(false);
     setTitle(value);
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setValidUser(true);
+    setIsValidUser(false);
     setUserId(+value);
   };
 
@@ -54,17 +54,16 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setValidTitle(false);
 
     if (!userId) {
-      setValidUser(false);
+      setIsValidUser(true);
     }
 
-    if (!title) {
-      setValidTitle(false);
+    if (!title.trim()) {
+      setIsValidTitle(true);
     }
 
-    if (!userId || !title) {
+    if (!userId || !title.trim()) {
       return;
     }
 
@@ -72,8 +71,8 @@ export const App: React.FC = () => {
 
     setUserId(0);
     setTitle('');
-    setValidTitle(true);
-    setValidUser(true);
+    setIsValidTitle(false);
+    setIsValidUser(false);
   };
 
   return (
@@ -95,7 +94,7 @@ export const App: React.FC = () => {
             onChange={handleInput}
             id="title"
           />
-          {(!isvalidTitle && !title)
+          {(isValidTitle)
              && <span className="error">Please enter a title</span>}
         </div>
 
@@ -118,7 +117,7 @@ export const App: React.FC = () => {
               <option value={id} key={id}>{name}</option>
             ))}
           </select>
-          {!isvalidUser && <span className="error">Please choose a user</span>}
+          {isValidUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button
