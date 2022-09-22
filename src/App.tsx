@@ -40,7 +40,7 @@ export const App = () => {
           event.preventDefault();
 
           if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
-          || onlySpaces(newTitle)) {
+            || onlySpaces(newTitle)) {
             setTitleError(true);
           }
 
@@ -49,7 +49,7 @@ export const App = () => {
           }
 
           if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
-          || onlySpaces(newTitle) || !selectedUserId) {
+            || onlySpaces(newTitle) || !selectedUserId) {
             return;
           }
 
@@ -78,7 +78,7 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
-              placeholder="Use letters&nums only"
+              placeholder="Enter a title"
               value={newTitle}
               onChange={(event) => {
                 setTitle(event.target.value);
@@ -89,7 +89,17 @@ export const App = () => {
                 }
               }}
             />
-            {titleError && <span className="error">Please enter a title</span>}
+            {titleError
+              && (
+                <>
+                  <span className="error">Please enter a title</span>
+                  <span className="error_extension">
+                    {' '}
+                    Title should include UA or EN letters,
+                    numbers and spaces.
+                  </span>
+                </>
+              )}
 
           </label>
         </div>
