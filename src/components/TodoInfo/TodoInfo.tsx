@@ -8,14 +8,11 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
+    id,
     title,
     completed,
     user,
   } = todo;
-
-  const userExist = user
-    ? <UserInfo user={user} />
-    : 'User does not exist';
 
   const doneOrNot = classNames(
     'TodoInfo',
@@ -23,12 +20,12 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   );
 
   return (
-    <article className={doneOrNot}>
+    <article data-id={id} className={doneOrNot}>
       <h2 className="TodoInfo__title">
         {title}
       </h2>
 
-      {userExist}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
