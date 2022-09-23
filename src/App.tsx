@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -13,7 +13,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-function onlySpaces(todoTitle: string): boolean {
+function checkOnlySpaces(todoTitle: string): boolean {
   return /^\s*$/.test(todoTitle);
 }
 
@@ -29,6 +29,54 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserIdError] = useState(false);
 
+  const handleTitleChange
+  = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setTitle(event.target.value);
+    if (event.target.value.toString().match(/^[\sа-яіїєa-z0-9]+$/i)) {
+      setTitleError(false);
+    } else {
+      setTitleError(true);
+    }
+  };
+
+  const handleUserSelect = (event: { target: { value: string; }; }) => {
+    setUserIdError(false);
+    setselectedUserId(Number(event.target.value));
+  };
+
+  const handleFormSubmit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+
+    if (checkOnlySpaces(newTitle)) {
+      setTitleError(true);
+    }
+
+    if (!selectedUserId) {
+      setUserIdError(true);
+    }
+
+    if (titleError || checkOnlySpaces(newTitle) || !selectedUserId) {
+      return;
+    }
+
+    setTodos((prevTodos) => {
+      return [
+        ...prevTodos,
+        {
+          title: newTitle,
+          userId: selectedUserId,
+          completed: false,
+          user: getUser(selectedUserId),
+          id: prevTodos
+            .map(({ id }) => id)
+            .reduce((idA, idB) => Math.max(idA, idB), 0) + 1,
+        },
+      ];
+    });
+    setTitle('');
+    setselectedUserId(0);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -36,38 +84,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (onlySpaces(newTitle)) {
-            setTitleError(true);
-          }
-
-          if (!selectedUserId) {
-            setUserIdError(true);
-          }
-
-          if (titleError || onlySpaces(newTitle) || !selectedUserId) {
-            return;
-          }
-
-          setTodos((prevTodos) => {
-            return [
-              ...prevTodos,
-              {
-                title: newTitle,
-                userId: selectedUserId,
-                completed: false,
-                user: getUser(selectedUserId),
-                id: prevTodos
-                  .map(({ id }) => id)
-                  .reduce((idA, idB) => Math.max(idA, idB), 0) + 1,
-              },
-            ];
-          });
-          setTitle('');
-          setselectedUserId(0);
-        }}
+        onSubmit={handleFormSubmit}
       >
 
         <div className="field">
@@ -78,14 +95,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTitle}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                if (event.target.value.match(/^[\sа-яіїєa-z0-9]+$/i)) {
-                  setTitleError(false);
-                } else {
-                  setTitleError(true);
-                }
-              }}
+              onChange={handleTitleChange}
             />
             {titleError
               && (
@@ -93,8 +103,7 @@ export const App = () => {
                   <span className="error">Please enter a title</span>
                   <span className="error_extension">
                     {' '}
-                    Title should include UA or EN letters,
-                    numbers and spaces.
+                    Title should include UA or EN letters, numbers and spaces.
                   </span>
                 </>
               )}
@@ -108,10 +117,7 @@ export const App = () => {
             <select
               value={selectedUserId}
               data-cy="userSelect"
-              onChange={(event) => {
-                setUserIdError(false);
-                setselectedUserId(Number(event.target.value));
-              }}
+              onChange={handleUserSelect}
             >
               <option value="0" disabled>
                 Choose a user
@@ -121,7 +127,7 @@ export const App = () => {
                   key={user.id}
                   value={user.id}
                 >
-                  {user.name.trim()}
+                  {user.name}
                 </option>
               ))}
 
