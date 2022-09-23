@@ -39,8 +39,7 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
-            || onlySpaces(newTitle)) {
+          if (onlySpaces(newTitle)) {
             setTitleError(true);
           }
 
@@ -48,8 +47,7 @@ export const App = () => {
             setUserIdError(true);
           }
 
-          if (!newTitle || !newTitle.match(/^[\sа-яіїєa-z0-9]+$/i)
-            || onlySpaces(newTitle) || !selectedUserId) {
+          if (titleError || onlySpaces(newTitle) || !selectedUserId) {
             return;
           }
 
@@ -120,6 +118,7 @@ export const App = () => {
               </option>
               {usersFromServer.map((user) => (
                 <option
+                  key={user.id}
                   value={user.id}
                 >
                   {user.name.trim()}
