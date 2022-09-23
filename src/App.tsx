@@ -30,7 +30,7 @@ export const App: React.FC = () => {
 
     const maxId = Math.max(0, ...todos.map(({ id }) => id));
 
-    if (title === '' || userId === 0) {
+    if (title.trim() === '' || userId === 0) {
       setTitleError(title === '');
       setUserIdError(userId === 0);
 
