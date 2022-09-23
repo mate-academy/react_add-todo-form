@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -52,6 +52,16 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -73,14 +83,16 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setTitleError(false);
-              }}
-              required={!true}
+              onChange={handleChangeTitle}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {titleError && (
+            <span
+              className="error"
+            >
+              Please enter a title
+            </span>
+          )}
 
         </div>
 
@@ -91,11 +103,7 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => {
-                setUserId(+event.target.value);
-                setUserError(!true);
-              }}
-              required
+              onChange={handleChangeUser}
             >
               <option value="0" disabled selected>Choose a user</option>
               {usersFromServer.map(user => (
@@ -104,7 +112,12 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {userError && (
+            <span
+              className="error"
+            >
+              Please choose a user
+            </span>)}
         </div>
 
         <button
