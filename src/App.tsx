@@ -28,18 +28,6 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [isTitleChose, setIsTitleChose] = useState(true);
 
-  const getNewTodo = () => {
-    const newTodo:Todo = {
-      id: maxTodoid,
-      userId,
-      title,
-      completed: false,
-      user: getUser(userId),
-    };
-
-    todos.push(newTodo);
-  };
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitleChose(true);
@@ -57,20 +45,26 @@ export const App = () => {
       setIsUserChose(false);
     }
 
-    if (!title.trim()) {
+    if (!title) {
       setIsTitleChose(false);
     }
 
-    if (!userId || !title.trim()) {
+    if (!userId || !title) {
       return;
     }
 
-    getNewTodo();
+    const newTodo:Todo = {
+      id: maxTodoid,
+      userId,
+      title,
+      completed: false,
+      user: getUser(userId),
+    };
+
+    todos.push(newTodo);
 
     setUserId(0);
     setTitle('');
-    setIsTitleChose(true);
-    setIsUserChose(true);
   };
 
   return (
@@ -80,7 +74,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onChange={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -94,7 +88,7 @@ export const App = () => {
             />
             {
               isTitleChose
-                || <span className="error">Please enter a title</span>
+              || <span className="error">Please enter a title</span>
             }
           </label>
         </div>
