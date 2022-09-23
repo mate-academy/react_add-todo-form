@@ -19,9 +19,9 @@ const todos: TodoWithPerson[] = todosFromServer.map(todo => ({
 
 export const App:React.FC = () => {
   const [todosList] = useState([...todos]);
-  const [addTodoTitle, setTodoTitle] = useState('');
+  const [newTodoTitle, setTodoTitle] = useState('');
   const [personID, setPerson] = useState(0);
-  const [setNotValidPerson, setErrorUser] = useState(false);
+  const [notValidPerson, setErrorUser] = useState(false);
   const [errorTittle, setErrorTittle] = useState(false);
 
   let startId = 0;
@@ -46,18 +46,18 @@ export const App:React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!addTodoTitle.trim() || !personID) {
-      setErrorTittle(!addTodoTitle.trim());
+    if (!newTodoTitle.trim() || !personID) {
+      setErrorTittle(!newTodoTitle.trim());
       setErrorUser(!personID);
 
       return;
     }
 
-    if (!setNotValidPerson && !errorTittle) {
+    if (!notValidPerson && !errorTittle) {
       startId += 1;
       const addTodo = {
         id: startId,
-        title: addTodoTitle,
+        title: newTodoTitle,
         completed: false,
         userId: personID,
         user: getUser(personID),
@@ -86,7 +86,7 @@ export const App:React.FC = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Please enter a title"
-            value={addTodoTitle}
+            value={newTodoTitle}
             onChange={handleTodoTitle}
           />
 
@@ -107,7 +107,7 @@ export const App:React.FC = () => {
             ))}
           </select>
 
-          {setNotValidPerson
+          {notValidPerson
             && <span className="error">Please choose a user</span>}
         </div>
 
