@@ -43,8 +43,8 @@ export const App = () => {
       setSelectedUser(0);
     }
 
-    setErrorTitle(title === '' && true);
-    setErrorUserSelect(selectedUser === 0 && true);
+    setErrorTitle(title === '');
+    setErrorUserSelect(selectedUser === 0);
   };
 
   return (

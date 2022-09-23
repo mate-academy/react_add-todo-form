@@ -10,9 +10,7 @@ export const TodoList: React.FC<Props> = (props) => {
   return (
     <ul className="TodoList">
       {props.props.map(todo => (
-        <React.Fragment key={todo.id}>
-          <TodoInfo todos={todo} />
-        </React.Fragment>
+        <TodoInfo todos={todo} key={todo.id} />
       ))}
     </ul>
   );
