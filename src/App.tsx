@@ -51,6 +51,7 @@ export const App = () => {
     todos.push(newTodo);
 
     setUserId(0);
+    SetTitle('');
   };
 
   return (
