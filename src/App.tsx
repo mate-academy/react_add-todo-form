@@ -28,7 +28,9 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
-  const addTodo = () => {
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
     if (title && userId !== 0) {
       setTodos((prevTodos: Todo[]) => (
         [...prevTodos, {
@@ -69,9 +71,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={addTodo}
       >
         <div className="field">
           <label>
@@ -117,13 +117,13 @@ export const App: React.FC = () => {
               className="error"
             >
               Please choose a user
-            </span>)}
+            </span>
+          )}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={addTodo}
         >
           Add
         </button>
