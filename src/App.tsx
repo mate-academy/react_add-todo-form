@@ -39,7 +39,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleCorrect(false);
     }
 
@@ -47,7 +47,7 @@ export const App = () => {
       setIsUserCorrect(false);
     }
 
-    if (!userId || !title) {
+    if (!userId || !title.trim()) {
       // eslint-disable-next-line no-useless-return
       return;
     }
