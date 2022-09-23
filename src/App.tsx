@@ -25,13 +25,29 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState(false);
 
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setTitleError(false);
+
+    setTitle(value);
+  };
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setUserIdError(false);
+
+    setUserId(+value);
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     const maxId = Math.max(0, ...todos.map(({ id }) => id));
 
     if (title.trim() === '' || userId === 0) {
-      setTitleError(title === '');
+      setTitleError(title.trim() === '');
       setUserIdError(userId === 0);
 
       return;
@@ -49,22 +65,6 @@ export const App: React.FC = () => {
 
     setTitle('');
     setUserId(0);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    setTitleError(false);
-
-    setTitle(value);
-  };
-
-  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-
-    setUserIdError(false);
-
-    setUserId(+value);
   };
 
   return (
