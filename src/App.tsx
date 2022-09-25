@@ -90,8 +90,13 @@ export const App: React.FC = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(({ id, name }) => (
-              <option value={id}>{name}</option>
+            {usersFromServer.map(user => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
           {falseUserId && <span className="error">Please choose a user</span>}
