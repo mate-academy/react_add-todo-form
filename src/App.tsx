@@ -34,13 +34,16 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '' || userId === 0) {
-      setTitle('null');
+    if (title !== '' && userId === 0) {
       setWrongUser(true);
+      setTitle(title);
     } else if (title !== 'null' && userId !== 0) {
       addTodo();
       setTitle('');
       setUserId(0);
+    } else if (title === '' || userId === 0) {
+      setTitle('null');
+      setWrongUser(true);
     }
   };
 
