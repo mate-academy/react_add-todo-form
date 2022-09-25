@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/todo';
 
@@ -6,15 +7,16 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const isCompleted = todo.completed ? 'TodoInfo--completed' : 'TodoInfo';
+  const isCompleted = classNames(
+    'TodoInfo', { 'TodoInfo--completed': todo.completed === true },
+  );
 
   return (
-    <article data-id="1" className={isCompleted}>
+    <article data-id={todo.id} className={isCompleted}>
       <h2 className="TodoInfo__title">
         {todo.title}
       </h2>
       {todo.user && <UserInfo user={todo.user} />}
-
     </article>
   );
 };
