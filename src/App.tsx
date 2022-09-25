@@ -85,7 +85,7 @@ export const App: React.FC = () => {
             User:
             <select
               data-cy="userSelect"
-              defaultValue="Choose a user"
+              value={userId}
               onChange={(event) => {
                 setUserId(Number(event.currentTarget.value));
                 setIsErrorUser(false);
