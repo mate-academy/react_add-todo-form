@@ -23,7 +23,7 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFS);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [user, setUser] = useState('0');
+  const [userId, setUserId] = useState('0');
   const [userError, setUserError] = useState(false);
 
   return (
@@ -35,19 +35,19 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!title || user === '0') {
+          if (!title || userId === '0') {
             if (!title) {
               setTitleError(true);
             }
 
-            if (user === '0') {
+            if (userId === '0') {
               setUserError(true);
             }
 
             return;
           }
 
-          const newUser = getUser(Number(user));
+          const newUser = getUser(Number(userId));
           const newTodo: Todo = {
             id: Math.max(...todos.map(todo => todo.id)) + 1,
             userId: newUser?.id || 0,
@@ -58,7 +58,7 @@ export const App = () => {
 
           setTodos(state => [...state, newTodo]);
           setTitle('');
-          setUser('0');
+          setUserId('0');
         }}
       >
         <div className="field">
@@ -81,16 +81,18 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={user}
+            value={userId}
             onChange={(event) => {
-              setUser(event.target.value);
+              setUserId(event.target.value);
               setUserError(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(userFS => {
               return (
-                <option value={userFS.id}>{userFS.name}</option>
+                <option value={userFS.id} key={userFS.id}>
+                  {userFS.name}
+                </option>
               );
             })}
           </select>
