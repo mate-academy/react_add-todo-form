@@ -68,6 +68,7 @@ export const App: React.FC = () => {
           <label htmlFor="">
             Title:
             <input
+              placeholder='Enter a title'
               type="text"
               data-cy="titleInput"
               value={title}
