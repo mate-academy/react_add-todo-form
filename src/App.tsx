@@ -38,8 +38,8 @@ export const App = () => {
   const handeApprove = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
-      setErrorTitle(title === '');
+    if (!userId || !title.trim()) {
+      setErrorTitle(title.trim() === '');
       setErrorUser(userId === 0);
 
       return;
