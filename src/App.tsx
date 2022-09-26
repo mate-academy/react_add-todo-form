@@ -36,6 +36,13 @@ export const App = () => {
     visibleTodos.push(newTodo);
   };
 
+  const resetForm = ():void => {
+    setIsTitleCorrect(true);
+    setIsUserCorrect(true);
+    setUserId(0);
+    setTitle('');
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -53,11 +60,7 @@ export const App = () => {
     }
 
     getTodo();
-
-    setIsTitleCorrect(true);
-    setIsUserCorrect(true);
-    setUserId(0);
-    setTitle('');
+    resetForm();
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {

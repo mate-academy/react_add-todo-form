@@ -1,8 +1,6 @@
 import './UserInfo.scss';
 import { User } from '../../types/User';
 
-// export const UserInfo = () => {};
-
 type Props = {
   user: User;
 };
