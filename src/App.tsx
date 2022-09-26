@@ -30,8 +30,8 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
-      setTitleError(title === '');
+    if (userId === 0 || title.trim() === '') {
+      setTitleError(title.trim() === '');
       setUserError(userId === 0);
 
       return;

@@ -8,7 +8,8 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const isCompleted = classNames(
-    'TodoInfo', { 'TodoInfo--completed': todo.completed === true },
+    'TodoInfo',
+    { 'TodoInfo--completed': todo.completed === true },
   );
 
   return (
