@@ -29,8 +29,9 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserIdError] = useState(false);
 
-  const handleTitleChange
-  = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleTitleChange = (
+    event: { target: { value: SetStateAction<string>; }; },
+  ) => {
     setTitle(event.target.value);
     if (event.target.value.toString().match(/^[\sа-яіїєa-z0-9]+$/i)) {
       setTitleError(false);
