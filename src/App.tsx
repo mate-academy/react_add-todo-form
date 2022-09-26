@@ -12,17 +12,18 @@ import { TodoList } from './components/TodoList';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId) ?? undefined,
+  user: getUser(todo.userId),
 }));
 
+const defaultId = '0';
+
 export const App: React.FC = () => {
-  const [choosedUserId, setChoosedUserId] = useState('-1');
+  const [choosedUserId, setChoosedUserId] = useState(defaultId);
   const [todoTitle, setTodoTitle] = useState('');
   const [visibleTodos, addVisibleTodo] = useState(todos);
   const [isSubmitted, setSubmit] = useState(false);
@@ -42,11 +43,11 @@ export const App: React.FC = () => {
 
     const id = visibleTodos
       .reduce((maxId, todo) => (maxId > todo.id ? maxId : todo.id), 0) + 1;
-    const user = getUser(Number(choosedUserId)) ?? undefined;
-    const userId = user?.id ?? 0;
+    const user = getUser(Number(choosedUserId));
+    const userId = user && user.id;
     const completed = false;
 
-    if (title === '' || choosedUserId === '-1') {
+    if (title === '' || choosedUserId === '0' || !user || !userId) {
       setSubmit(true);
     } else {
       addVisibleTodo((prevVisibleTodo) => [...prevVisibleTodo, {
@@ -57,7 +58,7 @@ export const App: React.FC = () => {
         user,
       }]);
 
-      setChoosedUserId('-1');
+      setChoosedUserId(defaultId);
       setTodoTitle('');
       setSubmit(false);
     }
@@ -83,7 +84,7 @@ export const App: React.FC = () => {
               onChange={handleEnteringTitle}
             />
           </label>
-          {todoTitle === ''
+          {todoTitle.trim() === ''
           && isSubmitted
           && <span className="error">Please enter a title</span>}
         </div>
@@ -97,7 +98,7 @@ export const App: React.FC = () => {
               value={choosedUserId}
             >
 
-              <option value="-1" disabled>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option
                   value={user.id}
@@ -108,7 +109,7 @@ export const App: React.FC = () => {
               ))}
             </select>
           </label>
-          {choosedUserId === '-1'
+          {choosedUserId === '0'
             && isSubmitted
             && <span className="error">Please choose a user</span>}
         </div>
