@@ -8,9 +8,8 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number): User | null {
+function getUser(userId: number | null): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
-  // if there is no user with a given userId
 
   return foundUser || null;
 }
@@ -23,7 +22,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 const maxTodosId = [...todos].sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
 
 export const App: React.FC = () => {
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<number | null>(null);
   const [title, setTitle] = useState('');
   const [isValidTitle, setIsValidTitle] = useState(true);
   const [isValidUser, setIsValidUser] = useState(true);
@@ -50,6 +49,13 @@ export const App: React.FC = () => {
     setIsValidUser(true);
   };
 
+  function reset() {
+    setUserId(0);
+    setTitle('');
+    setIsValidTitle(true);
+    setIsValidUser(true);
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -67,10 +73,7 @@ export const App: React.FC = () => {
 
     makeNewTodo();
 
-    setUserId(0);
-    setTitle('');
-    setIsValidTitle(true);
-    setIsValidUser(true);
+    reset();
   };
 
   return (
