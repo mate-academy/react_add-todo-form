@@ -30,14 +30,9 @@ export const App: React.FC = () => {
   const handleAddUser = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0) {
-      setUserError(true);
-
-      return;
-    }
-
-    if (title === '') {
-      setTitleError(true);
+    if (userId === 0 || title === '') {
+      setTitleError(title === '');
+      setUserError(userId === 0);
 
       return;
     }
@@ -70,7 +65,7 @@ export const App: React.FC = () => {
           placeholder="Enter a title"
           value={title}
           onChange={(event) => {
-            settitle(event.target.value);
+            settitle(event.target.value.trim());
             setTitleError(false);
           }}
         />
@@ -83,10 +78,9 @@ export const App: React.FC = () => {
           value={userId}
           onChange={(event) => {
             setUserId(Number(event.target.value));
-            setUserError(false);
+            setUserError(true);
           }}
         >
-          {userError && <span className="error">Please choose a user</span>}
           <option
             value="0"
             disabled
@@ -102,6 +96,8 @@ export const App: React.FC = () => {
           ))}
 
         </select>
+
+        {userError && <span className="error">Please choose a user</span>}
         <br />
         <button
           type="submit"
