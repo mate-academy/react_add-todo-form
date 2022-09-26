@@ -71,10 +71,10 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               onChange={(event) => {
                 setTitle(event.target.value);
-                setErrors({
-                  ...errors,
+                setErrors((prevState) => ({
+                  ...prevState,
                   titleError: false,
-                });
+                }));
               }}
             />
 
@@ -91,10 +91,10 @@ export const App: React.FC = () => {
               value={todoUser}
               onChange={(event) => {
                 setTodoUser(+event.target.value);
-                setErrors({
-                  ...errors,
+                setErrors((prevState) => ({
+                  ...prevState,
                   userError: false,
-                });
+                }));
               }}
             >
               <option value="0" disabled>Choose a user</option>
