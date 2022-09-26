@@ -35,8 +35,8 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!title || userId === '0') {
-            if (!title) {
+          if (!title.trim() || userId === '0') {
+            if (!title.trim()) {
               setTitleError(true);
             }
 
