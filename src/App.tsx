@@ -40,7 +40,7 @@ export const App = () => {
     event.preventDefault();
     const userId = usersFromServer.find(user => userName === user.name)?.id;
 
-    if (title !== '' && userName !== '0') {
+    if (title.trim() !== '' && userName !== '0') {
       const todoObj = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
@@ -57,7 +57,7 @@ export const App = () => {
       setTitle('');
     }
 
-    setDisplayTitle(title !== '');
+    setDisplayTitle(title.trim() !== '');
     setDisplayName(userName !== '0');
   };
 
@@ -82,7 +82,7 @@ export const App = () => {
             placeholder="Enter the title"
             onChange={handleTitleChange}
           />
-          {(!title && !displayTitle)
+          {(!title.trim() && !displayTitle)
           && (<span className="error">Please enter a title</span>)}
 
         </div>
