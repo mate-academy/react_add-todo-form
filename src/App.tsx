@@ -29,15 +29,18 @@ export const App = () => {
 
   const maxId = Math.max(...collectId) + 1;
 
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setErrorTittle(false);
+  };
+
+  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setErrorUser(false);
+  };
+
   const handleAddUser = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (userId === 0 || title === '') {
-      setErrorTittle(title === '');
-      setErrorUser(userId === 0);
-
-      return;
-    }
 
     const newTodo = {
       id: maxId,
@@ -47,10 +50,14 @@ export const App = () => {
       user: getUser(userId),
     };
 
-    todos.push(newTodo);
-
-    setTitle('');
-    setUserId(0);
+    if (title.trim() && userId) {
+      todos.push(newTodo);
+      setTitle('');
+      setUserId(0);
+    } else {
+      setErrorTittle(title.trim() === '');
+      setErrorUser(userId === 0);
+    }
   };
 
   return (
@@ -71,10 +78,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setErrorTittle(false);
-              }}
+              onChange={handleTitle}
             />
           </label>
           {errorTittle && <span className="error">Please enter a title</span>}
@@ -86,14 +90,11 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => {
-                setUserId(Number(event.target.value));
-                setErrorUser(false);
-              }}
+              onChange={handleUserId}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
-                <option value={id}>{name}</option>
+                <option key={id} value={id}>{name}</option>
               ))}
 
             </select>
