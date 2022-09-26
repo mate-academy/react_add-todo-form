@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { CompletedTodo, HandleEvent, TypeTodo } from './type';
 import usersFromServer from './api/users';
@@ -36,15 +36,15 @@ const createTodo = () => {
 
 export const App = () => {
   const [stateTodos, setTodos] = useState(todos);
-  const [chooseUser, setUser] = useState('empty');
-  const [newTitle, setTitle] = useState('');
-  const [isErrorTitle, setErrorTitle] = useState(false);
-  const [isErrorUser, setErrorUser] = useState(false);
+  const [chooseUser, setChooseUser] = useState('empty');
+  const [newTitle, setNewTitle] = useState('');
+  const [isErrorTitle, setIsErrorTitle] = useState(false);
+  const [isErrorUser, setIsErrorUser] = useState(false);
   const Todo = createTodo();
 
   const isEmpty = (title: string, user: string): boolean => {
-    setErrorTitle(!title.trim().length);
-    setErrorUser(user === 'empty');
+    setIsErrorTitle(!title.trim().length);
+    setIsErrorUser(user === 'empty');
 
     return isErrorTitle || isErrorUser;
   };
@@ -57,30 +57,35 @@ export const App = () => {
     const selectUser = usersFromServer[+chooseUser];
     const newTodo = Todo(newTitle, selectUser.id);
 
-    const complitlyTodo = {
+    const complitedTodo = {
       todo: newTodo,
       user: selectUser,
     };
 
     const newTodos = [...stateTodos];
 
-    newTodos.unshift(complitlyTodo);
+    newTodos.unshift(complitedTodo);
 
     setTodos(newTodos);
-    setUser('empty');
-    setTitle('');
+    setChooseUser('empty');
+    setNewTitle('');
   };
 
-  const onHandelChange = (event: HandleEvent) => {
+  const onHandleChange = (event: HandleEvent) => {
     const { value, name } = event.target;
 
     if (name === 'title') {
-      setTitle(value);
+      setNewTitle(value);
 
       return;
     }
 
-    setUser(value);
+    setChooseUser(value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addTodo();
   };
 
   return (
@@ -90,10 +95,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo();
-        }}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <div className="field">
           <input
@@ -102,7 +104,7 @@ export const App = () => {
             data-cy="titleInput"
             value={newTitle}
             placeholder="Enter a title"
-            onChange={(event) => onHandelChange(event)}
+            onChange={(event) => onHandleChange(event)}
           />
           {isErrorTitle && (
             <span className="error">Please enter a title</span>
@@ -114,7 +116,7 @@ export const App = () => {
             name="user"
             data-cy="userSelect"
             value={chooseUser}
-            onChange={(event) => onHandelChange(event)}
+            onChange={(event) => onHandleChange(event)}
           >
             <option value="empty" disabled>Choose a user</option>
 
