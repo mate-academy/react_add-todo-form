@@ -1,10 +1,10 @@
 import './App.scss';
+import { useState } from 'react';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 function getUser(userId: number): User | null {
@@ -27,14 +27,13 @@ export const App = () => {
   const [isCorrectTitle, setIsCorrectTitle] = useState(true);
   const [isCorrectUserId, setIsCorrectUserId] = useState(true);
 
-
   const getTodo = () => {
     const newTodo = {
       id: Math.max(...todosId) + 1,
       title,
       completed: false,
       userId,
-      user: getUser(userId)
+      user: getUser(userId),
     };
 
     visibleTodos.push(newTodo);
@@ -46,12 +45,12 @@ export const App = () => {
   const handleChangeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+(event.target.value));
     setIsCorrectUserId(true);
-  }
+  };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsCorrectTitle(true);
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,7 +73,8 @@ export const App = () => {
     setIsCorrectUserId(true);
     setTitle('');
     setUserId(0);
-  }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -91,15 +91,14 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
-              placeholder='Enter a title'
+              placeholder="Enter a title"
               onChange={handleChangeTitle}
               value={title}
-              id={'titleID'}
+              id="titleID"
             />
             {
               !isCorrectTitle
-                &&
-                <span className="error">Please enter a title</span>
+                && <span className="error">Please enter a title</span>
             }
           </label>
         </div>
@@ -112,25 +111,24 @@ export const App = () => {
               onChange={handleChangeUserId}
               defaultValue={userId}
               value={userId}
-              id='selectId'
+              id="selectId"
             >
               <option value="0" disabled>Choose a user</option>
               {
-                  usersFromServer.map(({ name, id }) => (
-                    <option
-                      value={id}
-                      key={id}
-                    >
-                      {name}
-                    </option>
-                  ))
-                }
+                usersFromServer.map(({ name, id }) => (
+                  <option
+                    value={id}
+                    key={id}
+                  >
+                    {name}
+                  </option>
+                ))
+              }
             </select>
 
             {
               isCorrectUserId
-                ||
-                <span className="error">Please choose a user</span>
+                || <span className="error">Please choose a user</span>
             }
           </label>
         </div>
@@ -140,7 +138,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={visibleTodos}/>
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
