@@ -30,7 +30,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
+    if (!userId || !title) {
       setWrongTitle(title === '');
       setWrongUser(userId === 0);
 
@@ -54,7 +54,7 @@ export const App: React.FC = () => {
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim());
     setWrongTitle(false);
   };
 
