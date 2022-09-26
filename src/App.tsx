@@ -20,7 +20,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [prevTodos, setTodos] = useState(todos);
+  const [currentTodos, setTodos] = useState(todos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleCheck, setTitleCheck] = useState(false);
@@ -29,19 +29,31 @@ export const App = () => {
   const createTodo = () => {
     return (
       {
-        id: Math.max(0, ...prevTodos.map(({ id }) => id + 1)),
+        id: Math.max(0, ...currentTodos.map(({ id }) => id + 1)),
         userId,
         title,
         completed: false,
-        user: getUser(userId) || null,
+        user: getUser(userId),
       }
     );
+  };
+
+  const handleTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleCheck(false);
+  };
+
+  const handlePersonIDSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(Number(event.target.value));
+    setuserIdCheck(false);
   };
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    if (title.trim().length < 1) {
+    if (!title.trim()) {
       setTitleCheck(true);
     }
 
@@ -53,7 +65,7 @@ export const App = () => {
       return;
     }
 
-    setTodos([...prevTodos, createTodo()]);
+    setTodos([...currentTodos, createTodo()]);
     setUserId(0);
     setTitle('');
   }
@@ -74,10 +86,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleCheck(false);
-            }}
+            onChange={handleTodoTitle}
           />
           {titleCheck && (<span className="error">Please enter a title</span>)}
         </div>
@@ -86,10 +95,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setuserIdCheck(false);
-            }}
+            onChange={handlePersonIDSelect}
           >
             <option
               value="0"
@@ -101,6 +107,7 @@ export const App = () => {
             {usersFromServer.map(user => (
               <option
                 value={user.id}
+                key={user.id}
               >
                 {user.name}
               </option>
@@ -116,7 +123,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={prevTodos} />
+      <TodoList todos={currentTodos} />
     </div>
   );
 };
