@@ -15,7 +15,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     user,
     completed,
   } = todo;
-  const todoInfo = classNames(
+  const todoInfoClasses = classNames(
     'TodoInfo',
     {
       'TodoInfo--completed': completed,
@@ -23,12 +23,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   );
 
   return (
-    <article className={todoInfo} data-id={id}>
+    <article className={todoInfoClasses} data-id={id}>
       <h2 className="TodoInfo__title">{title}</h2>
-      {user && (
-        <UserInfo user={user} />
-
-      )}
+      {user && ( <UserInfo user={user} />)}
     </article>
   );
 };

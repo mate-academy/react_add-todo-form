@@ -28,10 +28,11 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
+
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    if (title && userId !== 0) {
+
+    if (title.trim() && userId !== 0) {
       setTodos((prevTodos: Todo[]) => (
         [...prevTodos, {
           id: getMaxId(prevTodos),
@@ -45,7 +46,7 @@ export const App: React.FC = () => {
       setUserId(0);
     }
 
-    if (!title) {
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
