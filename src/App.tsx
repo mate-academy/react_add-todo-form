@@ -20,8 +20,6 @@ const allTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-const calcMaxTotoId = Math.max(0, ...allTodos.map(({ id }) => id)) + 1;
-
 export const App: React.FC = () => {
   const [takeTodos, setTakeTodos] = useState(allTodos);
   const [takeTitle, setTakeTitle] = useState('');
@@ -33,7 +31,7 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     const newTodo: Todo = {
-      id: calcMaxTotoId,
+      id: Math.max(0, ...allTodos.map(({ id }) => id)) + 1,
       title: takeTitle,
       completed: false,
       userId: takeUserId,
@@ -45,8 +43,8 @@ export const App: React.FC = () => {
       setTakeTitle('');
       setTakeUserId(0);
     } else {
-      setTitleError(takeTitle.trim() === '');
-      setUserError(takeUserId === 0);
+      setTitleError(!takeTitle.trim());
+      setUserError(!takeUserId);
     }
   };
 
@@ -92,7 +90,7 @@ export const App: React.FC = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(({ name, id }) => (
-              <option value={id}>{name}</option>
+              <option key={id} value={id}>{name}</option>
             ))}
           </select>
 
