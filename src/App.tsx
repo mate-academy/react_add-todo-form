@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const noTitle: boolean = !newTitle || newTitle === ' ';
+    const noTitle = !newTitle || newTitle.trim() === '';
 
     if (noTitle) {
       setTitleError(true);
