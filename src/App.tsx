@@ -28,9 +28,15 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0 || title === '') {
+    if (userId === 0 || title === ' ') {
       setFalseTitle(title === '');
       setFalseUserId(userId === 0);
+
+      return;
+    }
+
+    if (!title.trim()) {
+      setFalseTitle(true);
 
       return;
     }
