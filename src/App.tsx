@@ -33,15 +33,25 @@ export const App = () => {
         title,
         userId,
         completed,
-        user: getUser(userId) || null,
+        user: getUser(userId),
       }
     );
+  };
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleCorrect(false);
+  };
+
+  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setIsUserIdCorrect(false);
   };
 
   const handleChange = (event: FormEvent) => {
     event.preventDefault();
 
-    if (title.length === 0) {
+    if (title.length < 1) {
       setIsTitleCorrect(true);
     }
 
@@ -75,10 +85,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setIsTitleCorrect(false);
-            }}
+            onChange={handleTitle}
           />
           {isTitleCorrect
           && (<span className="error">Please enter a title</span>)}
@@ -89,18 +96,15 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(Number(event.target.value));
-              setIsUserIdCorrect(false);
-            }}
+            onChange={handleUserId}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ name, id }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
