@@ -51,7 +51,7 @@ export const App = () => {
   const handleChange = (event: FormEvent) => {
     event.preventDefault();
 
-    if (title.length < 1) {
+    if (!title.trim()) {
       setIsTitleCorrect(true);
     }
 
@@ -59,7 +59,7 @@ export const App = () => {
       setIsUserIdCorrect(true);
     }
 
-    if (userId === 0 || title.length === 0) {
+    if (userId === 0 || !title.trim()) {
       return;
     }
 
