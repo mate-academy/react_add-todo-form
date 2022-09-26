@@ -39,7 +39,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (newTodoTitle === '') {
+    if (newTodoTitle.trim() === '') {
       setIsNewTitle(false);
     }
 
@@ -47,7 +47,7 @@ export const App = () => {
       setIsUserSelected(false);
     }
 
-    if (selectedUser !== 0 && newTodoTitle !== '') {
+    if (selectedUser !== 0 && newTodoTitle.trim() !== '') {
       setTodos((prevTodos) => {
         return [
           ...prevTodos,
