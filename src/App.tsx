@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const addHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title === '') {
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
@@ -40,7 +40,7 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (title === '' || userId === 0) {
+    if (title.trim() === '' || userId === 0) {
       return;
     }
 
