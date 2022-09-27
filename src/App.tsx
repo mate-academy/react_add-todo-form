@@ -2,19 +2,19 @@ import { useState } from 'react';
 import './App.scss';
 
 import users from './api/users';
-import todos from './api/todos';
-import { TodoList } from './components/TodoList';
+import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList';
 
-const todosWithUser: Todo[] = todos.map(todo => ({
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: (users.find(user => user.id === todo.userId) || null),
 }));
 
 export const App: React.FC = () => {
-  const [preparedTodos, setTodos] = useState([...todosWithUser]);
+  const [todos, setTodos] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [todoUser, setTodoUser] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [errors, setErrors] = useState({
     titleError: false,
@@ -24,35 +24,35 @@ export const App: React.FC = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title.trim().length === 0) {
-      setErrors((prevState) => ({
-        ...prevState,
+    if (!title.trim().length) {
+      setErrors((current) => ({
+        ...current,
         titleError: true,
       }));
     }
 
-    if (todoUser === 0) {
-      setErrors((prevState) => ({
-        ...prevState,
+    if (!userId) {
+      setErrors((current) => ({
+        ...current,
         userError: true,
       }));
     }
 
-    if (title.trim().length === 0 || todoUser === 0) {
+    if (!title.trim().length || !userId) {
       return;
     }
 
-    const newTodo = {
+    const newTodo: Todo = {
       title,
-      userId: +todoUser,
+      userId,
       completed,
-      id: (Math.max(...preparedTodos.map(todo => todo.id)) + 1),
-      user: users.find(user => user.id === +todoUser) || null,
+      id: (Math.max(...todos.map(todo => todo.id)) + 1),
+      user: users.find(user => user.id === userId) || null,
     };
 
-    setTodos([...preparedTodos, newTodo]);
+    setTodos([...todos, newTodo]);
     setTitle('');
-    setTodoUser(0);
+    setUserId(0);
     setCompleted(false);
   };
 
@@ -62,64 +62,70 @@ export const App: React.FC = () => {
 
       <form onSubmit={onSubmit}>
         <div className="field">
-          <label>
+          <label htmlFor="titleInput">
             {'Title: '}
-            <input
-              type="text"
-              data-cy="titleInput"
-              value={title}
-              placeholder="Enter a title"
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setErrors((prevState) => ({
-                  ...prevState,
-                  titleError: false,
-                }));
-              }}
-            />
-
-            {errors.titleError
-              && <span className="error">Please enter a title</span>}
           </label>
+
+          <input
+            id="titleInput"
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            placeholder="Enter a title"
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setErrors((current) => ({
+                ...current,
+                titleError: false,
+              }));
+            }}
+          />
+
+          {errors.titleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label>
+          <label htmlFor="userSelect">
             {'User: '}
-            <select
-              data-cy="userSelect"
-              value={todoUser}
-              onChange={(event) => {
-                setTodoUser(+event.target.value);
-                setErrors((prevState) => ({
-                  ...prevState,
-                  userError: false,
-                }));
-              }}
-            >
-              <option value="0" disabled>Choose a user</option>
-              {users.map(user => (
-                <option value={user.id} key={user.id}>{user.name}</option>
-              ))}
-            </select>
-
-            {errors.userError
-              && <span className="error">Please choose a user</span>}
           </label>
+
+          <select
+            id="userSelect"
+            data-cy="userSelect"
+            value={userId}
+            onChange={(event) => {
+              setUserId(+event.target.value);
+              setErrors((current) => ({
+                ...current,
+                userError: false,
+              }));
+            }}
+          >
+            <option value="0" disabled>Choose a user</option>
+            {users.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          {errors.userError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <div className="field">
-          <label>
-            {'This completed? '}
-            <input
-              type="checkbox"
-              name="completed"
-              checked={completed}
-              onChange={() => {
-                setCompleted(!completed);
-              }}
-            />
+          <label htmlFor="completed">
+            {'Completed? '}
           </label>
+
+          <input
+            id="completed"
+            type="checkbox"
+            name="completed"
+            checked={completed}
+            onChange={() => setCompleted(!completed)}
+          />
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -127,7 +133,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={preparedTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
