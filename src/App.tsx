@@ -24,7 +24,7 @@ export const initialTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, setTodos] = useState([...initialTodos]);
   const [newTitle, setTitle] = useState('');
   const [selectedUser, setselectedUser] = useState(0);
   const [titleError, setTitleError] = useState(false);
