@@ -9,6 +9,7 @@ html {
 label,
 button {
   cursor: pointer;
+  display: block;
 }
 
 .error {
@@ -36,4 +37,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.field {
+  display: inline-block;
 }
