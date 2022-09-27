@@ -14,6 +14,10 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
+function checkEmptyTitle(todoTitle: string): boolean {
+  return /^\s*$/.test(todoTitle);
+}
+
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
@@ -29,7 +33,7 @@ export const App: React.FC = () => {
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const noTitle: boolean = !newTitle || newTitle === ' ';
+    const noTitle: boolean = !newTitle || checkEmptyTitle(newTitle);
 
     if (noTitle) {
       setTitleError(true);
