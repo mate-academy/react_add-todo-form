@@ -22,22 +22,25 @@ export const App = () => {
   const [newTitle, setTitle] = React.useState('');
   const [newName, setName] = React.useState('');
   const [switchClick, setSwitchClick] = React.useState(false);
+  const [newUserId, setUserId] = React.useState(0);
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
-    if (newTitle !== '' && newName !== '') {
+    if (newTitle.trim() !== '' && newName !== '') {
       setTodo((prev) => {
+        const createNewId = prev
+          .map(({ id }) => id)
+          .reduce((a: number, b: number) => Math.max(a, b), 0) + 1;
+
         return [
           ...prev,
           {
-            id: prev
-              .map(({ id }) => id)
-              .reduce((a, b) => Math.max(a, b), 0) + 1,
-            userId: Number(todosFromServer.find(user => user.userId)),
+            id: createNewId,
+            userId: newUserId,
             title: newTitle,
             completed: false,
-            user: usersFromServer.find(user => user.name === newName) || null,
+            user: getUser(newUserId),
           },
         ];
       });
@@ -45,12 +48,28 @@ export const App = () => {
       setSwitchClick(false);
       setTitle('');
       setName('');
+      setUserId(0);
     } else {
       setSwitchClick(true);
     }
   };
 
+  const handleChangeTitle = (
+    event: { target: { value: React.SetStateAction<string> } },
+  ) => {
+    setTitle(event.target.value);
+  };
+
+  const handleChangeName = (
+    event: { target: { value: React.SetStateAction<string> } },
+  ) => {
+    setName(event.target.value);
+    setUserId(Number(usersFromServer
+      .find(user => user.name === event.target.value)?.id));
+  };
+
   return (
+
     <div className="App">
       <h1>Add todo form</h1>
 
@@ -65,12 +84,10 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTitle}
-            onChange={(event) => {
-              setTitle(event.target.value);
-            }}
+            onChange={handleChangeTitle}
 
           />
-          {(newTitle === '' && switchClick)
+          {(newTitle.trim() === '' && switchClick)
           && <span className="error">Please enter a title</span>}
         </div>
 
@@ -78,15 +95,13 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={newName}
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
+            onChange={handleChangeName}
 
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
-              <option key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option key={id}>
+                {name}
               </option>
             ))}
 
