@@ -41,8 +41,8 @@ export const App: React.FC = () => {
   const newUserId = [...todos]
     .sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
 
-  const makeNewUser = () => {
-    const newUser = {
+  const makeNewTodo = () => {
+    const newTodo = {
       id: newUserId + 1,
       title,
       completed: false,
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
       user: getUser(userId),
     };
 
-    todos.push(newUser);
+    todos.push(newTodo);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,7 +68,7 @@ export const App: React.FC = () => {
       return;
     }
 
-    makeNewUser();
+    makeNewTodo();
 
     setUserId(0);
     setTitle('');
