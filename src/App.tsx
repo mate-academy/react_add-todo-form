@@ -19,13 +19,15 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-const maxTodosId = [...todos].sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
-
 export const App: React.FC = () => {
   const [userId, setUserId] = useState<number | null>(null);
   const [title, setTitle] = useState('');
   const [isValidTitle, setIsValidTitle] = useState(true);
   const [isValidUser, setIsValidUser] = useState(true);
+
+  const maxTodosId = [...todos].sort((
+    todo1, todo2,
+  ) => todo2.id - todo1.id)[0].id;
 
   const makeNewTodo = () => {
     const newTodo = {
