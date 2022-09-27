@@ -75,6 +75,12 @@ export const App = () => {
     const { value, name } = event.target;
 
     if (name === 'title') {
+      if (value.length < 2) {
+        setNewTitle(value.trim());
+
+        return;
+      }
+
       setNewTitle(value);
 
       return;
