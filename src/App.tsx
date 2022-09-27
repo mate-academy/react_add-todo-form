@@ -26,6 +26,7 @@ export const App = () => {
     const { value } = event.target;
 
     setTitleError(false);
+
     setTitle(value);
   };
 
@@ -33,34 +34,31 @@ export const App = () => {
     const { value } = event.target;
 
     setUserIdError(false);
-    setUserId(Number(value));
+
+    setUserId(+value);
   };
 
   const handleSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const lastId = Math.max(0, ...todos.map(({ id }) => id));
+    const maxId = Math.max(0, ...todos.map(({ id }) => id));
 
-    const newTodo: Todo = {
-      id: lastId + 1,
+    if (title.trim() === '' || userId === 0) {
+      setTitleError(title.trim() === '');
+      setUserIdError(userId === 0);
+
+      return;
+    }
+
+    const newTodo = {
+      id: maxId + 1,
       userId,
       title,
       completed: false,
       user: getUser(userId),
     };
 
-    if (userId && title.trim()) {
-      todos.push(newTodo);
-    } else {
-      setTitleError(title.trim() === '');
-      setUserIdError(userId === 0);
-
-      if (title.trim() === '') {
-        setTitle('');
-      }
-
-      return;
-    }
+    todos.push(newTodo);
 
     setTitle('');
     setUserId(0);
