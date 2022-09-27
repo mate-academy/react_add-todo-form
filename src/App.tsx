@@ -8,6 +8,7 @@ import { UsersList } from './components/UsersList/UsersList';
 import { TodoList } from './components/TodoList';
 import { User } from './types/user';
 import { Todo } from './types/todo';
+import { pattern } from './utils/validation';
 
 function getUser(userId: number): User | undefined {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -27,20 +28,24 @@ export const App = () => {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const isSomeFieldEmpty = !title || selectedUser === '0';
 
-  const pattern = new RegExp('[а-яА-ЯёЁA-Za-z0-9 ]');
-
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const targetValue = event.target.value;
-    const currentInputLetter = targetValue.slice(-1);
+    const inpValue = event.target.value;
+    const currentInputLetter = inpValue.slice(-1);
 
-    if (pattern.test(currentInputLetter)) {
-      setTitle(targetValue);
+    let isValid;
+
+    if (inpValue.length === 1 && currentInputLetter === ' ') {
+      setTitle(inpValue.slice(0, -1));
     } else {
-      setTitle(targetValue.slice(0, -1));
+      isValid = pattern.test(currentInputLetter);
+    }
+
+    if (isValid) {
+      setTitle(inpValue);
     }
   };
 
@@ -63,7 +68,7 @@ export const App = () => {
       return;
     }
 
-    if (targetUser !== undefined) {
+    if (targetUser) {
       todos.push({
         id: maxId,
         title,
