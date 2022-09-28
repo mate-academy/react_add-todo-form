@@ -7,12 +7,12 @@ type Props = {
 
 export const TodoList = ({ todos }: Props) => {
   return (
-    <section className="TodoList">
+    <ul className="TodoList">
       {
         todos.map(todo => (
           <TodoInfo todo={todo} key={todo.id} />
         ))
       }
-    </section>
+    </ul>
   );
 };
