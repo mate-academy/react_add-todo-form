@@ -64,7 +64,7 @@ export const App = () => {
 
     const newTodos = [...stateTodos];
 
-    newTodos.unshift(complitedTodo);
+    newTodos.push(complitedTodo);
 
     setTodos(newTodos);
     setChooseUser('empty');
@@ -104,35 +104,41 @@ export const App = () => {
         onSubmit={(event) => handleSubmit(event)}
       >
         <div className="field">
-          <input
-            name="title"
-            type="text"
-            data-cy="titleInput"
-            value={newTitle}
-            placeholder="Enter a title"
-            onChange={(event) => onHandleChange(event)}
-          />
-          {isErrorTitle && (
-            <span className="error">Please enter a title</span>
-          )}
+          <label>
+            <span>Title: </span>
+            <input
+              name="title"
+              type="text"
+              data-cy="titleInput"
+              value={newTitle}
+              placeholder="Enter a title"
+              onChange={(event) => onHandleChange(event)}
+            />
+            {isErrorTitle && (
+              <span className="error">Please enter a title</span>
+            )}
+          </label>
         </div>
 
         <div className="field">
-          <select
-            name="user"
-            data-cy="userSelect"
-            value={chooseUser}
-            onChange={(event) => onHandleChange(event)}
-          >
-            <option value="empty" disabled>Choose a user</option>
+          <label>
+            <span>User: </span>
+            <select
+              name="user"
+              data-cy="userSelect"
+              value={chooseUser}
+              onChange={(event) => onHandleChange(event)}
+            >
+              <option value="empty" disabled>Choose a user</option>
 
-            {usersFromServer.map((user, index) => (
-              <option value={index}>{user.name}</option>
-            ))}
-          </select>
-          {isErrorUser && (
-            <span className="error">Please choose a user</span>
-          )}
+              {usersFromServer.map((user, index) => (
+                <option value={index}>{user.name}</option>
+              ))}
+            </select>
+            {isErrorUser && (
+              <span className="error">Please choose a user</span>
+            )}
+          </label>
         </div>
 
         <button
