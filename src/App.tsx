@@ -26,6 +26,34 @@ export const App = () => {
   const [userId, setUserId] = useState('0');
   const [userError, setUserError] = useState(false);
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title.trim() || userId === '0') {
+      if (!title.trim()) {
+        setTitleError(true);
+      }
+
+      if (userId === '0') {
+        setUserError(true);
+      }
+
+      return;
+    }
+
+    const newUser = getUser(Number(userId));
+    const newTodo: Todo = {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      userId: newUser?.id || 0,
+      title,
+      completed: false,
+      user: newUser,
+    };
+
+    setTodos(state => [...state, newTodo]);
+    setTitle('');
+    setUserId('0');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -33,33 +61,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!title.trim() || userId === '0') {
-            if (!title.trim()) {
-              setTitleError(true);
-            }
-
-            if (userId === '0') {
-              setUserError(true);
-            }
-
-            return;
-          }
-
-          const newUser = getUser(Number(userId));
-          const newTodo: Todo = {
-            id: Math.max(...todos.map(todo => todo.id)) + 1,
-            userId: newUser?.id || 0,
-            title,
-            completed: false,
-            user: newUser,
-          };
-
-          setTodos(state => [...state, newTodo]);
-          setTitle('');
-          setUserId('0');
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
