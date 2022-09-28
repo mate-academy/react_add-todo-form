@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const [newTask, setNewTask] = useState('');
   const [userFromForm, setUserFromForm] = useState('Leanne Graham');
   const [allTodos, setAllTodos] = useState(preparedTodos);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   return (
     <div className="App">
@@ -35,8 +36,13 @@ const App: React.FC = () => {
             completed: false,
             user: neededUser,
           };
-          
-          setAllTodos(prev => [...prev, todoToAdd]);
+
+          if (todoToAdd.title) {
+            setAllTodos(prev => [...prev, todoToAdd]);
+            setIsEmpty(false);
+          } else {
+            setIsEmpty(true);
+          }
         }}
       >
         <input
@@ -66,6 +72,10 @@ const App: React.FC = () => {
           Add
         </button>
       </form>
+
+      {isEmpty && (
+        <div className='App__message'>Title is empty. Please, add some task</div>
+      )}
 
       <TodoList todos={allTodos}/>
     </div>
