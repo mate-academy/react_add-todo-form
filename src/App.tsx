@@ -43,32 +43,10 @@ export const App = () => {
   const Todo = createTodo();
 
   const isEmpty = (title: string, user: string): boolean => {
-    setIsErrorTitle(!title.trim().length);
+    setIsErrorTitle(title.trim() === '');
     setIsErrorUser(user === 'empty');
 
-    return isErrorTitle || isErrorUser;
-  };
-
-  const addTodo = () => {
-    if (isEmpty(newTitle, chooseUser)) {
-      return;
-    }
-
-    const selectUser = usersFromServer[+chooseUser];
-    const newTodo = Todo(newTitle, selectUser.id);
-
-    const complitedTodo = {
-      todo: newTodo,
-      user: selectUser,
-    };
-
-    const newTodos = [...stateTodos];
-
-    newTodos.push(complitedTodo);
-
-    setTodos(newTodos);
-    setChooseUser('empty');
-    setNewTitle('');
+    return user === 'empty' || title.trim() === '';
   };
 
   const onHandleChange = (event: HandleEvent) => {
@@ -91,7 +69,25 @@ export const App = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTodo();
+    if (isEmpty(newTitle, chooseUser)) {
+      return;
+    }
+
+    const selectUser = usersFromServer[+chooseUser];
+    const newTodo = Todo(newTitle, selectUser.id);
+
+    const complitedTodo = {
+      todo: newTodo,
+      user: selectUser,
+    };
+
+    const newTodos = [...stateTodos];
+
+    newTodos.push(complitedTodo);
+
+    setTodos(newTodos);
+    setChooseUser('empty');
+    setNewTitle('');
   };
 
   return (
@@ -101,7 +97,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>

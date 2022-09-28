@@ -10,12 +10,10 @@ export const TodoList: React.FC<Prop> = ({ todos }) => {
     <section className="TodoList">
       {todos.map((completedTodo: CompletedTodo) => {
         return (
-          <>
-            <TodoInfo
-              key={completedTodo.todo.id}
-              {...completedTodo}
-            />
-          </>
+          <TodoInfo
+            key={completedTodo.todo.id}
+            {...completedTodo}
+          />
         );
       })}
     </section>
