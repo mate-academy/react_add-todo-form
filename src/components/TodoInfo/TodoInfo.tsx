@@ -2,7 +2,12 @@ import classNames from 'classnames';
 import { CompletedTodo } from '../../type';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo: React.FC<CompletedTodo> = ({ todo, user }) => {
+type Props = {
+  completedTodo: CompletedTodo;
+};
+
+export const TodoInfo: React.FC<Props> = ({ completedTodo }) => {
+  const { user, todo } = completedTodo;
   const { title, id, completed } = todo;
 
   return (

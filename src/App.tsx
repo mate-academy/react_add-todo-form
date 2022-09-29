@@ -14,71 +14,30 @@ const todos: CompletedTodo[] = todosFromServer.map(todo => ({
   user: getUser(todo),
 }));
 
-const maxIndex = todosFromServer
-  .reduce((max, todo): number => (max < todo.id ? todo.id : max), 0);
-
-const createTodo = () => {
-  let currentId = maxIndex;
-
-  const Todo = (title: string, userId: number): TypeTodo => {
-    currentId += 1;
-
-    return {
-      title,
-      userId,
-      id: currentId,
-      completed: false,
-    };
-  };
-
-  return Todo;
-};
-
 export const App = () => {
   const [stateTodos, setTodos] = useState(todos);
-  const [chooseUser, setChooseUser] = useState('empty');
+  const [choosenUser, setChooseUser] = useState('empty');
   const [newTitle, setNewTitle] = useState('');
   const [isErrorTitle, setIsErrorTitle] = useState(false);
   const [isErrorUser, setIsErrorUser] = useState(false);
-  const Todo = createTodo();
+  let currentId = stateTodos
+    .reduce((max, { todo }): number => (max < todo.id ? todo.id : max), 0);
 
-  const isEmpty = (title: string, user: string): boolean => {
-    setIsErrorTitle(title.trim() === '');
-    setIsErrorUser(user === 'empty');
+  const createTodo = (title: string) => {
+    currentId += 1;
 
-    return user === 'empty' || title.trim() === '';
-  };
+    const selectedUser = usersFromServer[+choosenUser];
 
-  const onHandleChange = (event: HandleEvent) => {
-    const { value, name } = event.target;
-
-    if (name === 'title') {
-      if (value.length < 2) {
-        setNewTitle(value.trim());
-
-        return;
-      }
-
-      setNewTitle(value);
-
-      return;
-    }
-
-    setChooseUser(value);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (isEmpty(newTitle, chooseUser)) {
-      return;
-    }
-
-    const selectUser = usersFromServer[+chooseUser];
-    const newTodo = Todo(newTitle, selectUser.id);
+    const newTodo = {
+      title,
+      userId: selectedUser.id,
+      id: currentId,
+      completed: false,
+    };
 
     const complitedTodo = {
       todo: newTodo,
-      user: selectUser,
+      user: selectedUser,
     };
 
     const newTodos = [...stateTodos];
@@ -88,6 +47,34 @@ export const App = () => {
     setTodos(newTodos);
     setChooseUser('empty');
     setNewTitle('');
+  };
+
+  const isEmpty = (title: string, user: string): boolean => {
+    setIsErrorTitle(!title.trim());
+    setIsErrorUser(user === 'empty');
+
+    return user === 'empty' || !title.trim();
+  };
+
+  const onHandleChangeTitle = (event: HandleEvent) => {
+    const { value } = event.target;
+
+    setNewTitle(value);
+  };
+
+  const onHandleChangeUser = (event: HandleEvent) => {
+    const { value } = event.target;
+
+    setChooseUser(value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isEmpty(newTitle, choosenUser)) {
+      return;
+    }
+
+    createTodo(newTitle);
   };
 
   return (
@@ -108,7 +95,7 @@ export const App = () => {
               data-cy="titleInput"
               value={newTitle}
               placeholder="Enter a title"
-              onChange={(event) => onHandleChange(event)}
+              onChange={onHandleChangeTitle}
             />
             {isErrorTitle && (
               <span className="error">Please enter a title</span>
@@ -122,8 +109,8 @@ export const App = () => {
             <select
               name="user"
               data-cy="userSelect"
-              value={chooseUser}
-              onChange={(event) => onHandleChange(event)}
+              value={choosenUser}
+              onChange={onHandleChangeUser}
             >
               <option value="empty" disabled>Choose a user</option>
 
