@@ -19,7 +19,7 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 const todoid = todos.map(todo => todo.id);
-const maxTodoid = Math.max(...todoid) + 1;
+let maxTodoid = Math.max(...todoid);
 
 export const App = () => {
   const [userId, setUserId] = useState(0);
@@ -51,6 +51,8 @@ export const App = () => {
     if (!userId || !title.trim()) {
       return;
     }
+
+    maxTodoid += 1;
 
     const newTodo:Todo = {
       id: maxTodoid,
