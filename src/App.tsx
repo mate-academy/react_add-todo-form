@@ -36,6 +36,13 @@ export const App = () => {
     setIsUserSelected(true);
   };
 
+  const resetTodo = () => {
+    setIsNewTitle(true);
+    setIsUserSelected(true);
+    setSelectedUser(0);
+    setNewTodoTitle('');
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -63,10 +70,7 @@ export const App = () => {
         ];
       });
 
-      setIsNewTitle(true);
-      setIsUserSelected(true);
-      setSelectedUser(0);
-      setNewTodoTitle('');
+      resetTodo();
     }
   };
 
@@ -102,7 +106,12 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
           {isUserSelected
