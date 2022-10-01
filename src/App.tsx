@@ -37,13 +37,15 @@ export const App = () => {
     if (title !== '' && userId === 0) {
       setWrongUser(true);
       setTitle(title);
-    } else if (title !== 'null' && userId !== 0) {
+    } else if (title !== 'null' && userId !== 0 && title.trim() !== '') {
       addTodo();
       setTitle('');
       setUserId(0);
     } else if (title === '' || userId === 0) {
       setTitle('null');
       setWrongUser(true);
+    } else if (title.trim() === '') {
+      setTitle('null');
     }
   };
 
@@ -66,7 +68,7 @@ export const App = () => {
             value={title === 'null' ? '' : title}
             onChange={event => setTitle(event.target.value)}
           />
-          {title === 'null'
+          {(title === 'null')
             && <span className="error">Please enter a title</span>}
         </div>
 
