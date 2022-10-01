@@ -4,7 +4,7 @@ import { Todo, User } from '../../types';
 
 type Props = {
   todo: Todo;
-  user: User | undefined;
+  user: User | null;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo, user }) => {

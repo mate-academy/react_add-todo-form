@@ -1,20 +1,19 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { User, Todo } from '../../types';
+import { Todo } from '../../types';
 
 type Props = {
-  users: User[];
-  todos: Todo[];
+  todos: Todo[]
 };
 
-export const TodoList:React.FC<Props> = ({ todos, users }) => {
+export const TodoList:React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
         <TodoInfo
           key={todo.id}
           todo={todo}
-          user={users.find(user => user.id === todo.userId)}
+          user={todo.userToAdd}
         />
       ))}
     </section>

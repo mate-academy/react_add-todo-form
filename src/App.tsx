@@ -1,25 +1,53 @@
 import './App.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const addUser = () => {
+  const newTodo = todosFromServer.map(todo => {
+    // eslint-disable-next-line max-len
+    const userToAdd = usersFromServer.find(user => user.id === todo.userId) || null;
+
+    return {
+      ...todo,
+      userToAdd,
+    };
+  });
+
+  return newTodo;
+};
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(addUser());
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [errorVisiableUser, setErrorVisiableUser] = useState(false);
   const [errorVisiableTitle, setErrorVisiableTitle] = useState(false);
 
-  const handleSuccess = (userId: number) => {
-    if (userId !== 0 && newTodoTitle !== '') {
+  useEffect(() => {
+    if (selectedUserId) {
+      setErrorVisiableUser(false);
+    }
+
+    if (newTodoTitle) {
+      setErrorVisiableTitle(false);
+    }
+  }, [selectedUserId, newTodoTitle]);
+
+  const handleSuccess = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (selectedUserId && newTodoTitle) {
       setTodos([
         ...todos,
         {
-          userId,
+          userId: selectedUserId,
           id: todos.length + 1,
           title: newTodoTitle,
           completed: false,
+          // eslint-disable-next-line max-len
+          userToAdd: usersFromServer.find(user => user.id === selectedUserId) || null,
         },
       ]);
 
@@ -27,17 +55,21 @@ export const App: React.FC = () => {
       setNewTodoTitle('');
     }
 
-    if (userId === 0) {
-      setErrorVisiableUser(true);
-    } else {
-      setErrorVisiableUser(false);
+    if (!newTodoTitle) {
+      setErrorVisiableTitle(true);
     }
 
-    if (newTodoTitle === '') {
-      setErrorVisiableTitle(true);
-    } else {
-      setErrorVisiableTitle(false);
+    if (!selectedUserId) {
+      setErrorVisiableUser(true);
     }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoTitle(event.target.value);
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
   };
 
   return (
@@ -45,8 +77,7 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form onSubmit={(event) => {
-        event.preventDefault();
-        handleSuccess(selectedUserId);
+        handleSuccess(event);
       }}
       >
         <div className="field">
@@ -55,9 +86,9 @@ export const App: React.FC = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter todo title"
-            value={newTodoTitle.trim()}
+            value={newTodoTitle}
             onChange={(event) => {
-              setNewTodoTitle(event.target.value);
+              handleInputChange(event);
             }}
           />
           {errorVisiableTitle && (
@@ -71,12 +102,12 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             value={selectedUserId}
             onChange={(event) => {
-              setSelectedUserId(Number(event.target.value));
+              handleSelectChange(event);
             }}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
 
@@ -92,7 +123,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList users={usersFromServer} todos={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
