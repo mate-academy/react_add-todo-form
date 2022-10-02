@@ -25,9 +25,20 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState(false);
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setTitleError(false);
+  };
+
   const newTodos = () => {
+    const maxId = Math.max(...todos.map(todo => todo.id));
     const newTodo = {
-      id: [...todos.sort((a, b) => b.id - a.id)][0].id + 1,
+      id: maxId + 1,
       userId: +userId,
       title,
       completed: false,
@@ -59,7 +70,6 @@ export const App: React.FC = () => {
     setUserError(false);
   };
 
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -76,10 +86,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Please enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
           />
 
           {
@@ -94,10 +101,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
             {
