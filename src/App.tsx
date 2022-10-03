@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title.trim() && userId !== 0) {
+    if (title.trim() && userId) {
       setTodos((prevTodos: Todo[]) => (
         [...prevTodos, {
           id: getMaxId(prevTodos),
@@ -46,11 +46,11 @@ export const App: React.FC = () => {
       setUserId(0);
     }
 
-    if (title.trim() === '') {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setUserError(true);
     }
   };
@@ -106,9 +106,9 @@ export const App: React.FC = () => {
               value={userId}
               onChange={handleChangeUser}
             >
-              <option value="0" disabled selected>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id}>{user.name}</option>))}
+                <option key={user.id} value={user.id}>{user.name}</option>))}
 
             </select>
           </label>
