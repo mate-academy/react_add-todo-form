@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
+import { AddedTodos } from './AddedTodos';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -22,16 +23,25 @@ export const App: React.FC = () => {
     };
   });
 
-  class AddedTodos {
-    completed = false;
+  const submitForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    id = todoId;
+    setTitleFull(!!titleInput);
+    setUserChosen(!!userSelect);
 
-    constructor(
-      public title: string,
-      public userId: number,
-    ) {}
-  }
+    if (titleInput && userSelect) {
+      setTodoId(todoId + 1);
+
+      todosFromServer.push(new AddedTodos(
+        titleInput,
+        Number(userSelect),
+        todoId,
+      ));
+
+      setTitleInput('');
+      setUserSelect(0);
+    }
+  };
 
   return (
     <div className="App">
@@ -40,26 +50,9 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          setTitleFull(!!titleInput);
-          setUserChosen(!!userSelect);
-
-          if (titleInput && userSelect) {
-            setTodoId(todoId + 1);
-
-            todosFromServer.push(new AddedTodos(
-              titleInput,
-              Number(userSelect),
-            ));
-
-            setTitleInput('');
-            setUserSelect(0);
-          }
-        }}
+        onSubmit={(event) => submitForm(event)}
       >
-        <div className="field">
+        <div>
           <input
             type="text"
             data-cy="titleInput"
@@ -78,7 +71,7 @@ export const App: React.FC = () => {
 
         </div>
 
-        <div className="field">
+        <div>
           <select
             data-cy="userSelect"
             value={userSelect}
@@ -92,12 +85,12 @@ export const App: React.FC = () => {
             >
               Choose a user
             </option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
