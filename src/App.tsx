@@ -13,16 +13,43 @@ function getUser(UserId: number): User | null {
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const visibleTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [title, setTitle] = useState('');
+  const [todoInfo, setTodoInfo] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [todoInfoError, setTodoInfoError] = useState(false);
+  const [selectedUserIdError, setSelectedUserIdError] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoInfo(event.target.value);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+  };
+
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (todoInfo && selectedUserId) {
+      const newTodo: Todo = {
+        id: visibleTodos.length + 1,
+        userId: selectedUserId,
+        title: todoInfo,
+        completed: false,
+        user: getUser(selectedUserId),
+      };
+
+      visibleTodos.push(newTodo);
+      setTodoInfo('');
+    } else {
+      setTodoInfoError(!todoInfo);
+      setSelectedUserIdError(!selectedUserId);
+    }
   };
 
   return (
@@ -32,27 +59,39 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
+          {'Title: '}
           <input
             type="text"
             data-cy="titleInput"
-            value={title}
-            onChange={handleChange}
+            value={todoInfo}
+            onChange={handleTitleChange}
             placeholder="Enter a title"
           />
-          <span className="error">Please enter a title</span>
+          {todoInfoError && <span className="error">Please enter a title</span>}
+
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          {'User: '}
+          <select
+            data-cy="userSelect"
+            value={selectedUserId}
+            onChange={handleUserChange}
+          >
             <option value="0" disabled>Choose a user</option>
+
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {selectedUserIdError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button
@@ -62,7 +101,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
