@@ -41,32 +41,26 @@ export const App = () => {
   const [errosUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
-  const changeUser = (event:
-  { target: { value: React.SetStateAction<string>; }; }) => {
-    setErrorUser(false);
-    setUser(event.target.value);
-  };
+  const notTitle = title.trim() === '';
 
-  const changeTitle = (event:
-  { target: { value: React.SetStateAction<string>; }; }) => {
-    setTitle(event.target.value);
-  };
-
-  const checkForm = () => {
-    setErrorTitle(!title);
-    setErrorUser(!user);
-
-    return title && user;
-  };
-
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (checkForm()) {
-      addTodo(title, +user);
-      setTitle('');
-      setUser('');
+    if (notTitle) {
+      setErrorTitle(true);
+
+      return;
     }
+
+    if (!user) {
+      setErrorUser(true);
+
+      return;
+    }
+
+    addTodo(title, +user);
+    setTitle('');
+    setUser('');
   };
 
   return (
@@ -87,7 +81,10 @@ export const App = () => {
               placeholder="Enter a title"
               data-cy="titleInput"
               value={title}
-              onChange={changeTitle}
+              onChange={event => {
+                setTitle(event.target.value);
+                setErrorTitle(false);
+              }}
             />
           </label>
           {errorTitle && (<span className="error">Please enter a title</span>)}
@@ -100,7 +97,10 @@ export const App = () => {
               data-cy="userSelect"
               name="user"
               value={user}
-              onChange={changeUser}
+              onChange={event => {
+                setUser(event.target.value);
+                setErrorUser(false);
+              }}
             >
               <option value="">Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
