@@ -46,6 +46,7 @@ export const App: React.FC = () => {
 
       visibleTodos.push(newTodo);
       setTodoInfo('');
+      setSelectedUserId(0);
     } else {
       setTodoInfoError(!todoInfo);
       setSelectedUserIdError(!selectedUserId);
