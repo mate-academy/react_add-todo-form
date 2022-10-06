@@ -26,10 +26,12 @@ export const App: React.FC = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoInfo(event.target.value);
+    setTodoInfoError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
+    setSelectedUserIdError(false);
   };
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
