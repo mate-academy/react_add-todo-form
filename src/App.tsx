@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import './App.scss';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
