@@ -37,7 +37,7 @@ const addTodo = (title: string, id: number) => {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('');
+  const [userId, setUserId] = useState('');
   const [errosUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
@@ -52,15 +52,15 @@ export const App = () => {
       return;
     }
 
-    if (!user) {
+    if (!userId) {
       setErrorUser(true);
 
       return;
     }
 
-    addTodo(title, +user);
+    addTodo(title, +userId);
     setTitle('');
-    setUser('');
+    setUserId('');
   };
 
   return (
@@ -96,9 +96,9 @@ export const App = () => {
             <select
               data-cy="userSelect"
               name="user"
-              value={user}
+              value={userId}
               onChange={event => {
-                setUser(event.target.value);
+                setUserId(event.target.value);
                 setErrorUser(false);
               }}
             >
