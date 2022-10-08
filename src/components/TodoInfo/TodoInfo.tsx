@@ -1,11 +1,19 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
 interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
+  user?: User;
 }
 
 interface Props {
@@ -13,19 +21,22 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { title, completed, user } = todo;
+
   return (
     <article
       data-id="1"
       className={classNames(
         'TodoInfo',
-        { 'TodoInfo--completed': todo.completed },
+        { 'TodoInfo--completed': completed },
       )}
     >
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
 
-      <UserInfo todo={todo} key={todo.id} />
+      {/* <UserInfo todo={todo} key={todo.id} /> */}
+      {user && <UserInfo user={user} />}
 
     </article>
   );

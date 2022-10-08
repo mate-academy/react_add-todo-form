@@ -5,8 +5,33 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  // if there is no user with a given userId
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App = () => {
-  const todos = [...todosFromServer];
   const users = [...usersFromServer];
 
   const [title, setTitle] = useState('');
@@ -27,6 +52,7 @@ export const App = () => {
         title,
         completed: false,
         userId,
+        user: getUser(userId),
       }]
     ));
   };
@@ -37,15 +63,15 @@ export const App = () => {
     if (title !== '' && userId === 0) {
       setWrongUser(true);
       setTitle(title);
-    } else if (title !== 'null' && userId !== 0 && title.trim() !== '') {
+    } else if (title !== 'undefined' && userId !== 0 && title.trim() !== '') {
       addTodo();
       setTitle('');
       setUserId(0);
     } else if (title === '' || userId === 0) {
-      setTitle('null');
+      setTitle('undefined');
       setWrongUser(true);
     } else if (title.trim() === '') {
-      setTitle('null');
+      setTitle('undefined');
     }
   };
 
@@ -65,10 +91,10 @@ export const App = () => {
             id="title"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title === 'null' ? '' : title}
+            value={title === 'undefined' ? '' : title}
             onChange={event => setTitle(event.target.value)}
           />
-          {(title === 'null')
+          {(title === 'undefined')
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -89,13 +115,13 @@ export const App = () => {
             >
               Choose a user
             </option>
-            {users.map(user => {
+            {users.map(({ id, name }) => {
               return (
                 <option
-                  key={user.id}
-                  value={user.id}
+                  key={id}
+                  value={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               );
             })}
