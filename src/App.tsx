@@ -1,8 +1,18 @@
 import { FormEvent, useState } from 'react';
 import './App.scss';
 
+import { TodoList } from './components/TodoList';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+
+import { User } from './types/User';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(item => item.id === userId);
+
+  return foundUser || null;
+}
 
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(0);
@@ -56,13 +66,12 @@ export const App = () => {
     setSelectedUser(0);
   };
 
-  const todosWithUserName = todos.map(todo => {
-    const user = usersFromServer.find(item => item.id === todo.userId);
-    const userName = user ? user.name : '';
+  const todosWithUser = todos.map(todo => {
+    const user = getUser(todo.userId);
 
     return {
       ...todo,
-      userName,
+      user,
     };
   });
 
@@ -80,6 +89,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
+            placeholder="Enter a title"
             onChange={event => {
               setIsTitleEmpty(false);
               setTodoTitle(event.target.value);
@@ -115,24 +125,7 @@ export const App = () => {
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        {todosWithUserName.map(todo => (
-          <article
-            key={todo.id}
-            data-id={todo.id}
-            className="TodoInfo TodoInfo--completed"
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            <a className="UserInfo" href="mailto:Sincere@april.biz">
-              {todo.userName}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todosWithUser} />
     </div>
   );
 };
