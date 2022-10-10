@@ -1,7 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { AddedTodos } from './AddedTodos';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -9,13 +8,18 @@ import todosFromServer from './api/todos';
 export const App: React.FC = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userSelect, setUserSelect] = useState(0);
+
   const [titleFull, setTitleFull] = useState(true);
   const [userChosen, setUserChosen] = useState(true);
+
+  // eslint-disable-next-line max-len
+  const [todoFromServerState, setTodoFromServerState] = useState(todosFromServer);
+
   const [todoId, setTodoId] = useState(
-    Math.max(...todosFromServer.map(todo => todo.id)),
+    Math.max(...todoFromServerState.map(todo => todo.id)),
   );
 
-  const toDosUser = todosFromServer.map((todo) => {
+  const toDosUser = todoFromServerState.map((todo) => {
     return {
       ...todo,
       user: usersFromServer
@@ -30,13 +34,17 @@ export const App: React.FC = () => {
     setUserChosen(!!userSelect);
 
     if (titleInput && userSelect) {
-      setTodoId(todoId + 1);
+      setTodoId((prevState) => prevState + 1);
 
-      todosFromServer.push(new AddedTodos(
-        titleInput,
-        Number(userSelect),
-        todoId,
-      ));
+      setTodoFromServerState((prevState) => [
+        ...prevState,
+        {
+          title: titleInput,
+          id: todoId,
+          userId: Number(userSelect),
+          completed: false,
+        },
+      ]);
 
       setTitleInput('');
       setUserSelect(0);
