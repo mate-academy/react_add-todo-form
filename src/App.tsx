@@ -26,7 +26,7 @@ export const App = () => {
   };
 
   const isValidInput = (title: string, userId: number):boolean => {
-    if (title === '') {
+    if (title.trim() === '') {
       setIsTitleEmpty(true);
     }
 
@@ -34,7 +34,7 @@ export const App = () => {
       setIsSelectedUserEmpty(true);
     }
 
-    if (title === '' || userId === 0) {
+    if (title.trim() === '' || userId === 0) {
       return false;
     }
 
