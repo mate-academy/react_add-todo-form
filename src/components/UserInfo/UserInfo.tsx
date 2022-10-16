@@ -1,13 +1,19 @@
 import { User } from '../../types/User';
 
 type Props = {
-  todoUser: User | null | undefined,
+  todoUser: User | null | undefined;
 };
 
 export const UserInfo:React.FC<Props> = ({ todoUser }) => {
+  const { email, name } = todoUser as User;
+
   return (
-    <a className="UserInfo" href={todoUser ? (todoUser.email) : undefined}>
-      {todoUser ? (todoUser.name) : undefined}
-    </a>
+    <>
+      {todoUser && (
+        <a className="UserInfo" href={`mailto:${email}`}>
+          {name}
+        </a>
+      )}
+    </>
   );
 };

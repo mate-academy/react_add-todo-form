@@ -24,30 +24,30 @@ export const App = () => {
 
   usersList.unshift('Choose a user');
 
-  const [selectedUser, setSelectedUser] = useState('0');
-  const [selectUserName, setSelectedUserName] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [visibleTodos, setVisibleTodos] = useState(todos);
-  const [clicked, setClicked] = useState(false);
-  const hasErrorTitle = clicked && !newTodoTitle;
-  const hasErrorUser = clicked && selectedUser === '0';
+  const [submit, setSubmit] = useState(false);
+
+  const hasErrorTitle = newTodoTitle === '';
+  const hasErrorUser = selectedUserId === 0;
 
   const getTodoId = () => (
     todos.sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1
   );
 
   const getUserId = () => {
-    const userId = [...usersFromServer]
-      .find(user => user.name === selectUserName);
+    const user = [...usersFromServer]
+      .find(person => person.id === selectedUserId);
 
-    if (userId) {
-      return userId.id;
+    if (user) {
+      return user.id;
     }
 
     return null;
   };
 
   const findUser = () => (
-    usersFromServer.find(user => user.name === selectUserName)
+    usersFromServer.find(user => user.id === selectedUserId)
   );
 
   const newTodo = {
@@ -67,7 +67,8 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (clicked && !hasErrorUser && !hasErrorTitle) {
+          setSubmit(true);
+          if (!hasErrorUser && !hasErrorTitle) {
             const newVisibleTodo = [
               ...visibleTodos,
               newTodo,
@@ -75,8 +76,8 @@ export const App = () => {
 
             setVisibleTodos(newVisibleTodo);
             setNewTodoTitle('');
-            setSelectedUser('0');
-            setClicked(false);
+            setSelectedUserId(0);
+            setSubmit(false);
           }
         }}
       >
@@ -94,7 +95,7 @@ export const App = () => {
               }}
             />
           </label>
-          {hasErrorTitle && (
+          {(hasErrorTitle && submit) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -106,10 +107,9 @@ export const App = () => {
             <select
               data-cy="userSelect"
               name="selectedUser"
-              value={selectedUser}
+              value={selectedUserId}
               onChange={(event) => {
-                setSelectedUser(event.target.value);
-                setSelectedUserName(event.target.selectedOptions[0].innerText);
+                setSelectedUserId(+event.target.value);
               }}
             >
               {usersList.map(user => (
@@ -125,7 +125,7 @@ export const App = () => {
             </select>
           </label>
 
-          {hasErrorUser && (
+          {(hasErrorUser && submit) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -133,9 +133,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            setClicked(true);
-          }}
         >
           Add
         </button>
