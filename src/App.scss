@@ -15,25 +15,23 @@ button {
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+  &__form {
+    width: 25vw;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__select {
+    display: block;
+    width: 100%;
   }
-}
 
-.UserInfo {
-  font-style: italic;
+  &__button {
+    display: block;
+    margin: auto;
+  }
 }
