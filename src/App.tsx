@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.scss';
 import { User } from './types/User';
-// import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -12,11 +11,6 @@ function getUser(userId: number): User | null {
 
   return foundUser || null;
 }
-
-// export const todosWithUser: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
 
 export const todosWithUser = () => {
   return todosFromServer.map(todo => ({
@@ -113,42 +107,12 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          // onSubmit={(event) => handleAddTodo(event)}
         >
           Add
         </button>
       </form>
 
       <TodoList todos={todos} />
-      {/* <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section> */}
     </div>
   );
 };
