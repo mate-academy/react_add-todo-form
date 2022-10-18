@@ -58,6 +58,20 @@ export const App = () => {
     user: findUser(),
   };
 
+  const handlerSubmit = () => {
+    if (!hasErrorUser && !hasErrorTitle) {
+      const newVisibleTodo = [
+        ...visibleTodos,
+        newTodo,
+      ];
+
+      setVisibleTodos(newVisibleTodo);
+      setNewTodoTitle('');
+      setSelectedUserId(0);
+      setSubmit(false);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -68,17 +82,7 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
           setSubmit(true);
-          if (!hasErrorUser && !hasErrorTitle) {
-            const newVisibleTodo = [
-              ...visibleTodos,
-              newTodo,
-            ];
-
-            setVisibleTodos(newVisibleTodo);
-            setNewTodoTitle('');
-            setSelectedUserId(0);
-            setSubmit(false);
-          }
+          handlerSubmit();
         }}
       >
         <div className="field">
