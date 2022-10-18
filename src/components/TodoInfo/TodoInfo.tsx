@@ -36,7 +36,13 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       {/* <UserInfo todo={todo} key={todo.id} /> */}
-      {user && <UserInfo user={user} />}
+      {user && (
+        <UserInfo
+          userName={user.name}
+          userEmail={user.email}
+          user={user}
+        />
+      )}
 
     </article>
   );

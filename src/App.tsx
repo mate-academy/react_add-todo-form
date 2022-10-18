@@ -22,7 +22,6 @@ interface User {
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -37,7 +36,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [myTodos, setMyTodos] = useState(todos);
-  const [wrongUser, setWrongUser] = useState(false);
+  const [isWrongUser, setIsWrongUser] = useState(false);
 
   const addTodo = () => {
     const arr = myTodos.sort(
@@ -61,15 +60,14 @@ export const App = () => {
     event.preventDefault();
 
     if (title !== '' && userId === 0) {
-      setWrongUser(true);
-      setTitle(title);
+      setIsWrongUser(true);
     } else if (title !== 'undefined' && userId !== 0 && title.trim() !== '') {
       addTodo();
       setTitle('');
       setUserId(0);
     } else if (title === '' || userId === 0) {
       setTitle('undefined');
-      setWrongUser(true);
+      setIsWrongUser(true);
     } else if (title.trim() === '') {
       setTitle('undefined');
     }
@@ -106,7 +104,7 @@ export const App = () => {
             value={userId}
             onChange={event => {
               setUserId(Number(event.target.value));
-              setWrongUser(false);
+              setIsWrongUser(false);
             }}
           >
             <option
@@ -127,7 +125,7 @@ export const App = () => {
             })}
 
           </select>
-          {wrongUser
+          {isWrongUser
             && <span className="error">Please choose a user</span>}
         </div>
 
