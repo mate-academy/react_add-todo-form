@@ -5,7 +5,9 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function usersIntoTodos() {
+import { Todo } from './types/Todo';
+
+function usersIntoTodos(): Todo[] {
   return todosFromServer.map(todo => {
     return {
       ...todo,
@@ -15,7 +17,7 @@ function usersIntoTodos() {
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(usersIntoTodos());
+  const [todos, setTodos] = useState<Todo[]>(usersIntoTodos());
   const [titleInput, setTitleInput] = useState('');
   const [userInput, setUserInput] = useState(0);
   const [userSelectError, setUserSelectError] = useState(false);
@@ -52,6 +54,29 @@ export const App: React.FC = () => {
     return biggest + 1;
   }
 
+  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!verify()) {
+      return;
+    }
+
+    setTodos(
+      [
+        ...todos,
+        {
+          id: getNewIdForTodo(),
+          title: titleInput,
+          completed: false,
+          userId: userInput,
+          user: usersFromServer.find(user => user.id === userInput),
+        },
+      ],
+    );
+
+    resetInputs();
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -59,28 +84,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (!verify()) {
-            return;
-          }
-
-          setTodos(
-            [
-              ...todos,
-              {
-                id: getNewIdForTodo(),
-                title: titleInput,
-                completed: false,
-                userId: userInput,
-                user: usersFromServer.find(user => user.id === userInput),
-              },
-            ],
-          );
-
-          resetInputs();
-        }}
+        onSubmit={onFormSubmit}
       >
         <div className="field">
           <input
