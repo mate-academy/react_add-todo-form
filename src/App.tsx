@@ -51,14 +51,14 @@ export const App: React.FC = () => {
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && userId) {
+    if (title && userId && title.trim()) {
       setTodos((currentTodos) => [...currentTodos, newTodo]);
       clearForm();
       setIsTitleEmpty(false);
       setIsUserNotSelected(false);
     }
 
-    setIsTitleEmpty(title === '');
+    setIsTitleEmpty(title.trim() === '');
     setIsUserNotSelected(userId === 0);
   };
 
