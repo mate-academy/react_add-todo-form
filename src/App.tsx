@@ -30,7 +30,6 @@ export const App: React.FC = () => {
               value={inputInfo}
               onChange={(event) => {
                 setInputInfo(event.target.value);
-                // console.log(inputInfo)
               }}
             />
           </label>
@@ -62,7 +61,6 @@ export const App: React.FC = () => {
                   {user.name}
                 </option>
               ))}
-
             </select>
           </label>
 
