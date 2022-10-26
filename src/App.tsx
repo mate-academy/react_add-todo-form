@@ -98,6 +98,12 @@ export const App = () => {
               &nbsp;The title can contain only letters and numbers &#9757;
             </span>
           )}
+
+          {isSubmit && !title.trim() && (
+            <span className="error">
+              &nbsp;The title cannot contain only spaces &#128575;
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -137,12 +143,6 @@ export const App = () => {
         >
           Add
         </button>
-
-        {isSubmit && !title.trim() && (
-          <span className="error">
-            &nbsp;The title cannot contain only spaces &#128575;
-          </span>
-        )}
       </form>
 
       <TodoList todos={todos} />
