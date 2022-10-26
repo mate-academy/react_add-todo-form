@@ -34,9 +34,10 @@ export const App = () => {
   const users = [...usersFromServer];
 
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<null | number>(null);
   const [myTodos, setMyTodos] = useState(todos);
   const [isWrongUser, setIsWrongUser] = useState(false);
+  const [isEmptyTitle, setIsEmptyTitle] = useState(false);
 
   const addTodo = () => {
     const arr = myTodos.sort(
@@ -45,31 +46,33 @@ export const App = () => {
 
     const largestId = arr[arr.length - 1].id;
 
-    setMyTodos(state => (
-      [...state, {
-        id: largestId + 1,
-        title,
-        completed: false,
-        userId,
-        user: getUser(userId),
-      }]
-    ));
+    if (userId) {
+      setMyTodos(state => (
+        [...state, {
+          id: largestId + 1,
+          title,
+          completed: false,
+          userId,
+          user: getUser(userId),
+        }]
+      ));
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title !== '' && userId === 0) {
+    if (title !== '' && userId === null) {
       setIsWrongUser(true);
-    } else if (title !== 'undefined' && userId !== 0 && title.trim() !== '') {
+    } else if (!isEmptyTitle && userId !== null && title.trim() !== '') {
       addTodo();
       setTitle('');
-      setUserId(0);
-    } else if (title === '' || userId === 0) {
-      setTitle('undefined');
+      setUserId(null);
+    } else if (title === '' || userId === null) {
+      setIsEmptyTitle(true);
       setIsWrongUser(true);
     } else if (title.trim() === '') {
-      setTitle('undefined');
+      setIsEmptyTitle(true);
     }
   };
 
@@ -89,10 +92,13 @@ export const App = () => {
             id="title"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title === 'undefined' ? '' : title}
-            onChange={event => setTitle(event.target.value)}
+            value={isEmptyTitle ? '' : title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setIsEmptyTitle(false);
+            }}
           />
-          {(title === 'undefined')
+          {isEmptyTitle
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -101,7 +107,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="select"
-            value={userId}
+            value={userId !== null ? userId : 0}
             onChange={event => {
               setUserId(Number(event.target.value));
               setIsWrongUser(false);
