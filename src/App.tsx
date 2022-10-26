@@ -1,23 +1,65 @@
+import React, { useState } from 'react';
 import './App.scss';
-import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+// import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-export const App = () => {
+export const App: React.FC = () => {
+  const [inputInfo, setInputInfo] = useState('');
+  const [selectedName, setSelectedName] = useState('');
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
+          <label>
+            {'Title: '}
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              name="title"
+              value={inputInfo}
+              onChange={(event) => {
+                setInputInfo(event.target.value);
+                // console.log(inputInfo)
+              }}
+            />
+          </label>
           <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            {'User: '}
+            <select
+              data-cy="userSelect"
+              value={selectedName}
+              onChange={(event) => {
+                setSelectedName(event.target.value);
+              }}
+            >
+              <option
+                value=""
+                disabled
+              >
+                Choose a user
+              </option>
+              <option
+                value="khbk"
+              >
+                khbk
+              </option>
+            </select>
+          </label>
 
           <span className="error">Please choose a user</span>
         </div>
@@ -27,7 +69,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList users={usersFromServer} />
+      <TodoList todos={todosFromServer} />
     </div>
   );
 };
