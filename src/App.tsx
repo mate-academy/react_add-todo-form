@@ -43,8 +43,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || authorId === 0) {
-      if (!title) {
+    const trimedTitle = title.trim();
+
+    if (!trimedTitle || authorId === 0) {
+      if (!trimedTitle) {
         setIsTitleError(true);
       }
 
