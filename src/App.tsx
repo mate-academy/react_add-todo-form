@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
-// import usersFromServer from './api/users';
+import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
@@ -53,6 +53,15 @@ export const App: React.FC = () => {
               >
                 Choose a user
               </option>
+
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.name}
+                >
+                  {user.name}
+                </option>
+              ))}
               <option
                 value="khbk"
               >
