@@ -12,7 +12,7 @@ Implement the ability to add TODOs to the `TodoList` implemented in the [Static 
     - add labels and placeholders where they are needed;
     - add a new todo to the list after clicking the `Add` button;
     - each TODO should have `id`, `title`, `userId`, and `completed` (`false` by default);
-    - `id` is the largest `id` in the array + 1 (add `data-id={todo.id}` attribute to each `.TodoInfo`).
+    - `id` is the largest `id` in the array + 1 (add `data-id={todo.id}` attribute to each `.TodoInfo`). 
 1. Add validation to the form:
     - add a default empty option `Choose a user` to the select;
     - before creating a todo, check if a `user` was selected; if not, show an error message next to the `select` (`Please choose a user`);
