@@ -62,11 +62,7 @@ export const App: React.FC = () => {
                   {user.name}
                 </option>
               ))}
-              <option
-                value="khbk"
-              >
-                khbk
-              </option>
+
             </select>
           </label>
 
