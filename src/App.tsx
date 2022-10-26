@@ -22,18 +22,15 @@ export const App = () => {
 
   const addTodo = () => {
     const maxId = Math.max(...todos.map(todo => todo.id));
+    const newTodo = {
+      id: maxId + 1,
+      title,
+      completed: false,
+      userId: selectedUserId,
+      user: usersFromServer.find(user => user.id === selectedUserId) || null,
+    };
 
-    if (title.trim().length) {
-      const newTodo = {
-        id: maxId + 1,
-        title: title.trim(),
-        completed: false,
-        userId: selectedUserId,
-        user: usersFromServer.find(user => user.id === selectedUserId) || null,
-      };
-
-      setTodos(currentTodos => [...currentTodos, newTodo]);
-    }
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   const clearTitle = () => {
@@ -45,9 +42,9 @@ export const App = () => {
   };
 
   const isValidTitle = (text: string) => {
-    const pattern = /^[A-Za-z0 9\s]*$|[бвгґджзклмнпрстфхцчшщйаеєиіїоуюяь]/i;
+    const pattern = /[$&+,:;=?@#|№<>."_^*()%!]/g;
 
-    return pattern.test(text);
+    return !pattern.test(text);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,13 +53,14 @@ export const App = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
+    setIsSubmit(false);
   };
 
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsSubmit(true);
 
-    if (title && selectedUserId && isValidTitle(title)) {
+    if (title.trim() && selectedUserId && isValidTitle(title)) {
       addTodo();
       clearTitle();
       clearSelectedUserId();
@@ -90,13 +88,14 @@ export const App = () => {
           />
 
           {isSubmit && !title && (
-            <span className="error">&nbsp;Please enter a title &#128521;</span>
+            <span className="error">
+              &nbsp;Please enter a title &#128521;
+            </span>
           )}
 
           {isSubmit && !isValidTitle(title) && (
             <span className="error">
-              &nbsp;The title can contain only letters,
-              numbers and no more than 1 space in a row &#128546;
+              &nbsp;The title can contain only letters and numbers &#9757;
             </span>
           )}
         </div>
@@ -122,7 +121,9 @@ export const App = () => {
           </select>
 
           {isSubmit && !selectedUserId && (
-            <span className="error">&nbsp;Please choose a user &#128521;</span>
+            <span className="error">
+              &nbsp;Please choose a user &#128521;
+            </span>
           )}
         </div>
 
@@ -136,6 +137,12 @@ export const App = () => {
         >
           Add
         </button>
+
+        {isSubmit && !title.trim() && (
+          <span className="error">
+            &nbsp;The title cannot contain only spaces &#128575;
+          </span>
+        )}
       </form>
 
       <TodoList todos={todos} />
