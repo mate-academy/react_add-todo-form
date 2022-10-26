@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
-
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [todosLegacy, setTodosLegacy] = useState(todos);
+  const [todosLegacy, setTodosLegacy] = useState<Todo[]>(todos);
   const [newTitle, setNewTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -45,7 +38,7 @@ export const App: React.FC = () => {
     title: newTitle,
     completed: false,
     userId: selectedUserId,
-    user: getUser(selectedUserId),
+    user: usersFromServer.find(user => user.id === selectedUserId),
   };
 
   return (
