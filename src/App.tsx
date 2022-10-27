@@ -29,17 +29,17 @@ export const App: React.FC = () => {
   };
 
   const checkEmptyFileds = () => {
-    if (!user || !title) {
+    if (!user || !title.trim()) {
       if (!user) {
         setHasChangeError(true);
       }
 
-      if (!title) {
+      if (!title.trim()) {
         setHasTitleError(true);
       }
     }
 
-    return user && title;
+    return user && title.trim();
   };
 
   const findTheBiggestId = () => {
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
                 const validation = event.target.value
                   .replace(/[^a-zа-я\s\d]/gi, '');
 
-                setTitle(validation.trim());
+                setTitle(validation);
                 setHasTitleError(false);
               }}
             />
