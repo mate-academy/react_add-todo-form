@@ -46,16 +46,13 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmitForm}
-      >
+      <form onSubmit={handleSubmitForm}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={newTodoTitle}
+            placeholder="Enter todo"
             onChange={event => {
               const inputValue = event.target.value;
 
