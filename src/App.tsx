@@ -35,33 +35,44 @@ export const App = () => {
         }}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            defaultValue="Choose a user"
-            value={title || ''}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <span className="error">
-            {title ? '' : 'Please enter a title'}
-          </span>
+          <label>
+            <span>
+              Title:
+            </span>
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title || ''}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <span className="error">
+              {title ? '' : 'Please enter a title'}
+            </span>
+          </label>
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userSelect || ''}
-            defaultValue="Choose a username"
-            onChange={(e) => setUserSelect(+e.target.value)}
-          >
-            {usersFromServer.map((user) => {
-              return <option value={user.id}>{user.name}</option>;
-            })}
-          </select>
+          <label>
+            <span>
+              User:
+            </span>
+            <select
+              data-cy="userSelect"
+              value={userSelect || ''}
+              defaultValue="Choose a user"
+              onChange={(e) => setUserSelect(+e.target.value)}
+            >
+              {usersFromServer.map((user) => {
+                return <option value={user.id}>{user.name}</option>;
+              })}
+            </select>
 
-          <span className="error">
-            {userSelect ? '' : 'Please choose a user'}
-          </span>
+            <span className="error">
+              {userSelect ? '' : 'Please choose a user'}
+            </span>
+          </label>
         </div>
 
         <button type="submit" data-cy="submitButton">
