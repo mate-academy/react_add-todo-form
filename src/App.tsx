@@ -18,11 +18,23 @@ export const App = () => {
     setSelectedUser(0);
   };
 
+  const generateId = () => {
+    let maxId = -Infinity;
+
+    todos.forEach(todo => {
+      if (todo.id > maxId) {
+        maxId = todo.id;
+      }
+    });
+
+    return maxId + 1;
+  };
+
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newTodo = {
-      id: Date.now(),
+      id: generateId(),
       title: newTodoTitle,
       completed: false,
       userId: selectedUserId,
