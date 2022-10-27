@@ -31,8 +31,10 @@ export const App: React.FC = () => {
   };
 
   const isRequired = () => {
-    if (!newTitle || !newUser) {
-      if (!newTitle) {
+    const trimedTitle = newTitle.trim();
+
+    if (!trimedTitle || !newUser) {
+      if (!trimedTitle) {
         setHasTitleError(true);
       }
 
@@ -41,7 +43,17 @@ export const App: React.FC = () => {
       }
     }
 
-    return newTitle && newUser;
+    return trimedTitle && newUser;
+  };
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNewUser(+event.target.value);
+    setHasUserError(false);
   };
 
   const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
@@ -82,10 +94,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTitle}
-            onChange={(event) => {
-              setNewTitle(event.target.value);
-              setHasTitleError(false);
-            }}
+            onChange={handleTitle}
           />
 
           {hasTitleError && (
@@ -99,10 +108,7 @@ export const App: React.FC = () => {
             id="user"
             data-cy="userSelect"
             value={newUser}
-            onChange={(event) => {
-              setNewUser(+event.target.value);
-              setHasUserError(false);
-            }}
+            onChange={handleUser}
           >
             <option value="0" disabled>Choose a user</option>
 
