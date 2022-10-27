@@ -1,25 +1,67 @@
 import './App.scss';
-
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [userSelect, setUserSelect] = useState<number | null>(null);
+  const [title, setTitle] = useState('');
+  const [todos, setTodos] = useState(todosFromServer);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!userSelect) {
+            return;
+          }
+
+          setTitle('');
+
+          setTodos([
+            ...todos,
+            {
+              id: Date.now(),
+              title,
+              completed: false,
+              userId: userSelect,
+            },
+          ]);
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            defaultValue="Choose a user"
+            value={title || ''}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <span className="error">
+            {title ? '' : 'Please enter a title'}
+          </span>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <select
+            data-cy="userSelect"
+            value={userSelect || ''}
+            defaultValue="Choose a username"
+            onChange={(e) => setUserSelect(+e.target.value)}
+          >
+            {usersFromServer.map((user) => {
+              return <option value={user.id}>{user.name}</option>;
+            })}
           </select>
 
-          <span className="error">Please choose a user</span>
+          <span className="error">
+            {userSelect ? '' : 'Please choose a user'}
+          </span>
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -28,33 +70,17 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+        {todos.map((todo) => (
+          <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
+            <h2 className="TodoInfo__title">{todo.title}</h2>
+            <a className="UserInfo" href="mailto:Sincere@april.biz">
+              {
+                usersFromServer.filter((user) => user.id === todo.userId)[0]
+                  .name
+              }
+            </a>
+          </article>
+        ))}
       </section>
     </div>
   );
