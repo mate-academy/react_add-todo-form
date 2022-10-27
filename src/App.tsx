@@ -94,7 +94,7 @@ export const App: React.FC = () => {
                 const validation = event.target.value
                   .replace(/[^a-zа-я\s\d]/gi, '');
 
-                setTitle(validation);
+                setTitle(validation.trim());
                 setHasTitleError(false);
               }}
             />
