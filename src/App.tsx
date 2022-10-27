@@ -14,7 +14,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userSelect, setUser] = useState(0);
   const [titleError, setTitleError] = useState(false);
-  const [userSelectError, setUserError] = useState(false);
+  const [userSelectError, setUserSelectError] = useState(false);
 
   const todoAndUser = [...todosFromServer].map(todo => (
     {
@@ -24,6 +24,30 @@ export const App = () => {
   ));
 
   const [renderTodos, setRenderTodos] = useState(todoAndUser);
+
+  const examinationAddTodos = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
+    title.trim() === '' ? setTitleError(true) : setTitleError(false);
+    // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
+    userSelect === 0 ? setUserSelectError(true) : setUserSelectError(false);
+
+    if (title.trim() !== '' && userSelect !== 0) {
+      const newUser = {
+        id: renderTodos.length,
+        title,
+        completed: false,
+        userId: userSelect,
+        user: getUserOnId(userSelect),
+      };
+
+      setRenderTodos(state => [...state, newUser]);
+
+      setTitle('');
+      setUser(0);
+    }
+  };
 
   return (
     <div className="App">
@@ -55,47 +79,26 @@ export const App = () => {
               value={userSelect}
               onChange={(e) => {
                 setUser(+e.target.value);
-                setUserError(false);
+                setUserSelectError(false);
               }}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
-          {
-            userSelectError
-            && <span className="error">Please enter a title</span>
-          }
+          {userSelectError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(e) => {
-            e.preventDefault();
-
-            // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-            title === '' ? setTitleError(true) : setTitleError(false);
-            // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-            userSelect === 0 ? setUserError(true) : setUserError(false);
-
-            if (title !== '' && userSelect !== 0) {
-              const newUser = {
-                id: renderTodos.length,
-                title,
-                completed: false,
-                userId: userSelect,
-                user: getUserOnId(userSelect),
-              };
-
-              setRenderTodos(state => [...state, newUser]);
-
-              setTitle('');
-              setUser(0);
-            }
-          }}
+          onClick={(e) => examinationAddTodos(e)}
         >
           Add
         </button>

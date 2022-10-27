@@ -1,12 +1,12 @@
-export interface TodoProps {
+export interface Todo {
   id: number,
   title: string,
   completed: boolean,
   userId: number,
-  user?: UsetProps | undefined
+  user?: Uset | null
 }
 
-export interface UsetProps {
+export interface Uset {
   id: number,
   name: string,
   username: string,
