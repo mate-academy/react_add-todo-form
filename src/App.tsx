@@ -15,7 +15,7 @@ const todoWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [todos, setTodos] = useState<TodoWithUser[]>(todoWithUser);
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
@@ -31,6 +31,10 @@ export const App = () => {
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
+  };
+
+  const clearButtonClick = () => {
+    setIsButtonClicked(false);
   };
 
   const clearTitle = () => {
@@ -53,18 +57,18 @@ export const App = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setIsSubmit(false);
+    clearButtonClick();
   };
 
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setIsSubmit(true);
+    setIsButtonClicked(true);
 
     if (title.trim() && selectedUserId && isValidTitle(title)) {
       addTodo();
       clearTitle();
       clearSelectedUserId();
-      setIsSubmit(false);
+      clearButtonClick();
     }
   };
 
@@ -87,19 +91,27 @@ export const App = () => {
             onChange={handleInputChange}
           />
 
-          {isSubmit && !title && (
+          {isButtonClicked
+          && !title
+          && (
             <span className="error">
               &nbsp;Please enter a title &#128521;
             </span>
           )}
 
-          {isSubmit && !isValidTitle(title) && (
+          {isButtonClicked
+          && !isValidTitle(title)
+          && (
             <span className="error">
-              &nbsp;The title can contain only letters and numbers &#9757;
+              &nbsp;The title can contain only letters,
+              numbers and spaces &#9757;
             </span>
           )}
 
-          {isSubmit && !title.trim() && (
+          {isButtonClicked
+          && !title.trim()
+          && title
+          && (
             <span className="error">
               &nbsp;The title cannot contain only spaces &#128575;
             </span>
@@ -112,9 +124,6 @@ export const App = () => {
           </label>
 
           <select
-            style={
-              { marginTop: '10px' }
-            }
             id="selectUser"
             data-cy="userSelect"
             value={selectedUserId}
@@ -126,7 +135,9 @@ export const App = () => {
             ))}
           </select>
 
-          {isSubmit && !selectedUserId && (
+          {isButtonClicked
+          && !selectedUserId
+          && (
             <span className="error">
               &nbsp;Please choose a user &#128521;
             </span>
@@ -134,9 +145,6 @@ export const App = () => {
         </div>
 
         <button
-          style={
-            { marginTop: '10px' }
-          }
           type="submit"
           data-cy="submitButton"
           onClick={onSubmit}
