@@ -2,6 +2,7 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const [userSelect, setUserSelect] = useState<number | null>(null);
@@ -36,9 +37,7 @@ export const App = () => {
       >
         <div className="field">
           <label>
-            <span>
-              Title:
-            </span>
+            <span>Title:</span>
             <input
               type="text"
               data-cy="titleInput"
@@ -47,17 +46,13 @@ export const App = () => {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-            <span className="error">
-              {title ? '' : 'Please enter a title'}
-            </span>
+            <span className="error">{title ? '' : 'Please enter a title'}</span>
           </label>
         </div>
 
         <div className="field">
           <label>
-            <span>
-              User:
-            </span>
+            <span>User:</span>
             <select
               data-cy="userSelect"
               value={userSelect || ''}
@@ -81,17 +76,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        {todos.map((todo) => (
-          <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-            <a className="UserInfo" href="mailto:Sincere@april.biz">
-              {
-                usersFromServer.filter((user) => user.id === todo.userId)[0]
-                  .name
-              }
-            </a>
-          </article>
-        ))}
+        <TodoList usersFromServer={usersFromServer} todos={todos} />
       </section>
     </div>
   );
