@@ -38,10 +38,12 @@ export const App = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setUserIdError(!userId);
-    setTitleError(!title);
+    const trimTitle = title.trim();
 
-    if (!title || !userId) {
+    setUserIdError(!userId);
+    setTitleError(!trimTitle);
+
+    if (!trimTitle || !userId) {
       return;
     }
 
