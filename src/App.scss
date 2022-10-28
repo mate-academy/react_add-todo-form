@@ -1,3 +1,7 @@
+body {
+  margin: 8px;
+}
+
 iframe {
   display: none;
 }
@@ -9,6 +13,14 @@ html {
 label,
 button {
   cursor: pointer;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
 }
 
 .error {
