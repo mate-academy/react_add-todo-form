@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -12,7 +12,7 @@ const extendTodo = (
 ): ExtendedTodo[] => {
   return todos.map(todo => ({
     ...todo,
-    user: users.find(user => user.id === todo.userId),
+    user: users.find(user => user.id === todo.userId) || null,
   }));
 };
 
@@ -21,8 +21,16 @@ const extendedTodo = extendTodo(
   usersFromServer,
 );
 
+const getTodoId = (todos: ExtendedTodo[]) => {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+};
+
+const getUserById = (users: User[], userId: number) => {
+  return users.find(user => user.id === userId) || null;
+};
+
 export const App:React.FC = () => {
-  const [newTodos, setTodos] = useState<ExtendedTodo[]>(extendedTodo);
+  const [todos, setTodos] = useState<ExtendedTodo[]>(extendedTodo);
   const [title, setTitle] = useState('');
   const [selectedUser, setUser] = useState(0);
   const [noUserError, setNoUser] = useState(false);
@@ -35,22 +43,40 @@ export const App:React.FC = () => {
   const resetForm = () => {
     setTitle('');
     setUser(0);
-    setNoUser(false);
-    setNoTitle(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const trimTitle = title.trim();
+
+    setNoTitle(!trimTitle);
+    setNoUser(!selectedUser);
+
+    if (!trimTitle || !selectedUser) {
+      return;
+    }
+
     if (!noUserError && !noTitleError) {
       addTodo({
-        id: Math.max(...newTodos.map(todo => todo.id)) + 1,
+        id: getTodoId(todos),
         title,
         userId: selectedUser,
         completed: false,
-        user: usersFromServer.find(user => user.id === selectedUser),
+        user: getUserById(usersFromServer, selectedUser),
       });
 
       resetForm();
     }
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setNoTitle(false);
+  };
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(+event.target.value);
+    setNoUser(false);
   };
 
   return (
@@ -58,12 +84,8 @@ export const App:React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
         method="POST"
-        onSubmit={event => {
-          event.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit}
       >
         <label className="field">
           {'Title: '}
@@ -72,10 +94,7 @@ export const App:React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setNoTitle(false);
-            }}
+            onChange={handleInput}
           />
         </label>
 
@@ -87,10 +106,7 @@ export const App:React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={event => {
-              setUser(+event.target.value);
-              setNoUser(false);
-            }}
+            onChange={handleSelect}
           >
             <option value="0" disabled>Choose a user</option>
 
@@ -117,21 +133,12 @@ export const App:React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            if (!selectedUser) {
-              setNoUser(true);
-            }
-
-            if (!title) {
-              setNoTitle(true);
-            }
-          }}
         >
           Add
         </button>
       </form>
 
-      <TodoList todos={newTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };

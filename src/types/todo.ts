@@ -8,5 +8,5 @@ export interface Todo {
 }
 
 export interface ExtendedTodo extends Todo {
-  user: User | undefined,
+  user: User | null,
 }
