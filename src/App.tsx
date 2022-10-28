@@ -34,6 +34,17 @@ export const App: FC = () => {
   };
 
   const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    const trimedNewTitle = newTodoTitle.trim();
+
+    setHasTitleError(!trimedNewTitle);
+    setHasSelectedUserError(!selectedUserId);
+
+    if (!trimedNewTitle || !selectedUserId) {
+      return;
+    }
+
     const MaxIdTodo = todos.reduce((prev, curr) => (
       prev.id > curr.id ? prev : curr
     ));
@@ -45,12 +56,7 @@ export const App: FC = () => {
       user: getUser(+selectedUserId),
     };
 
-    setHasTitleError(!newTodoTitle);
-    setHasSelectedUserError(!selectedUserId);
-
-    event.preventDefault();
-
-    if (selectedUserId && newTodoTitle) {
+    if (!hasTitleError && !hasSelectedUserError) {
       setTodos([...todos, newTodo]);
       resetForm();
     }
