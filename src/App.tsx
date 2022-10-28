@@ -48,7 +48,9 @@ export const App: React.FC = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!newTodoTitle);
+    const trimTitle = newTodoTitle.trim();
+
+    setHasTitleError(!trimTitle);
     setHasUserError(!selectedUserId);
 
     const user = getUserById(selectedUserId);
@@ -62,7 +64,7 @@ export const App: React.FC = () => {
       userId: selectedUserId,
     };
 
-    if (newTodoTitle && selectedUserId) {
+    if (trimTitle && selectedUserId) {
       setTodos((currentTodos) => [...currentTodos, newTodo]);
       resetForm();
     }
