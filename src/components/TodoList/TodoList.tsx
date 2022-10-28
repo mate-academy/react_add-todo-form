@@ -1,31 +1,32 @@
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { TodoInfo } from '../TodoInfo/TodoInfo';
+import { TodoInfo } from '../TodoInfo';
 
-export type Props = {
-  usersFromServer: Users[],
-  todos: Todo[],
+type Props = {
+  usersFromServer: Users[];
+  todos: Todo[];
 };
 
 export type Todo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
 };
 
 export type Users = {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 };
 
-export const TodoList: React.FC<Props> = ({
-  usersFromServer,
-  todos,
-}) => {
-  return (todos.map((todo) => (
-    <TodoInfo usersFromServer={usersFromServer} todo={todo} />
-  )));
+export const TodoList: React.FC<Props> = ({ usersFromServer, todos }) => {
+  return (
+    <section>
+      {todos.map((todo) => (
+        <TodoInfo usersFromServer={usersFromServer} todo={todo} />
+      ))}
+    </section>
+  );
 };

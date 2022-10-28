@@ -55,10 +55,11 @@ export const App = () => {
             <span>User:</span>
             <select
               data-cy="userSelect"
+              defaultValue=""
               value={userSelect || ''}
-              defaultValue="Choose a user"
               onChange={(e) => setUserSelect(+e.target.value)}
             >
+              <option value="" selected disabled>Choose a user</option>
               {usersFromServer.map((user) => {
                 return <option value={user.id}>{user.name}</option>;
               })}
