@@ -17,6 +17,7 @@ export const TodoList: React.FC<Props> = ({ todosFromServer = [] }) => (
           },
         )}
         key={todo.id}
+        data-id={todo.id}
       >
         <TodoInfo
           title={todo.title}
