@@ -13,22 +13,22 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isUserNotSelected, setIsUserNotSelected] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
   const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEmpty(false);
+    setHasTitleError(false);
   };
 
   const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsUserNotSelected(false);
+    setHasUserIdError(false);
   };
 
   const todosWithUsers: TodoWithUser[] = todos
     .map(todo => ({
       ...todo,
-      user: getUserById(todo.userId) || null,
+      user: getUserById(todo.userId),
     }));
 
   const maxId: number = todosWithUsers.reduce((max, currentUser) => {
@@ -54,12 +54,12 @@ export const App: React.FC = () => {
     if (title && userId && title.trim()) {
       setTodos((currentTodos) => [...currentTodos, newTodo]);
       clearForm();
-      setIsTitleEmpty(false);
-      setIsUserNotSelected(false);
+      setHasTitleError(false);
+      setHasUserIdError(false);
     }
 
-    setIsTitleEmpty(title.trim() === '');
-    setIsUserNotSelected(userId === 0);
+    setHasTitleError(title.trim() === '');
+    setHasUserIdError(userId === 0);
   };
 
   return (
@@ -84,7 +84,7 @@ export const App: React.FC = () => {
             onChange={changeTitle}
             placeholder="Enter a title"
           />
-          {isTitleEmpty
+          {hasTitleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
 
           </select>
 
-          {isUserNotSelected
+          {hasUserIdError
             && <span className="error">Please choose a user</span>}
         </div>
 
