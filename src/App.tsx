@@ -26,10 +26,10 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const getLargestTodoId = () => {
+  const generateTodoId = () => {
     const todoIds = todos.map(todo => todo.id);
 
-    return Math.max(...todoIds);
+    return Math.max(...todoIds) + 1;
   };
 
   const resetForm = () => {
@@ -46,7 +46,7 @@ export const App = () => {
     const user = getUserById(selectedUserId);
 
     const newTodo: TodoWithUser = {
-      id: getLargestTodoId() + 1,
+      id: generateTodoId(),
       title: newTodoTitle,
       userId: selectedUserId,
       completed: false,
