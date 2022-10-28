@@ -10,10 +10,12 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [submit, setSubmit] = useState(true);
 
+  const trimedTitle = title.trim();
+
   const updateTodoList = () => {
     const newTodo = {
-      id: todos.length + 2,
-      title,
+      id: Date.now(),
+      title: trimedTitle,
       completed: false,
       userId: Number(userSelect),
     };
@@ -29,7 +31,7 @@ export const App = () => {
   const handleSubmit = (event:React.MouseEvent) => {
     setSubmit(false);
     event.preventDefault();
-    if (title !== '' && userSelect !== '0') {
+    if (trimedTitle !== '' && userSelect !== '0') {
       setSubmit(true);
 
       return updateTodoList();
@@ -58,7 +60,7 @@ export const App = () => {
             onChange={event => setTitile(event.target.value)}
           />
           {
-            !title && !submit
+            !trimedTitle && !submit
               ? <span className="error">Please enter a title</span>
               : null
           }

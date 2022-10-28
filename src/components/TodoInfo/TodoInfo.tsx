@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import users from '../../api/users';
 import { Todo } from '../../interface/Todo';
+import { UserInfo } from '../UserInfo/index';
 
 type Props = {
   todo: Todo,
@@ -10,13 +11,6 @@ type Props = {
 export const TodoInfo:React.FC<Props> = ({ todo }) => {
   const { title, completed, userId } = todo;
   const user = users.find(use => userId === use.id);
-  let name;
-  let email;
-
-  if (user) {
-    name = user.name;
-    email = user.email;
-  }
 
   return (
     <article
@@ -33,12 +27,7 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <a
-        href={`mailto:${email}`}
-        className="UserInfo"
-      >
-        {name}
-      </a>
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
