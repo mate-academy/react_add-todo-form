@@ -3,9 +3,7 @@ import { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
 import { TodoList } from './components/TodoList';
-
 import { TodoWithUser } from './react-app-env';
 
 const getCorrectId = (todos: TodoWithUser[]) => {
