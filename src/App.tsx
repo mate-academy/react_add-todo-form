@@ -84,6 +84,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
+            placeholder="Enter a title"
             onChange={handleInput}
           />
           {hasTitleError && (
