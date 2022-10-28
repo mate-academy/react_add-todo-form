@@ -18,7 +18,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todosWithUser, setTodosWithUser] = useState(todos);
+  const [todosWithUser, setTodosWithUser] = useState<Todo[]>(todos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUserById, setSelectedUserById] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
