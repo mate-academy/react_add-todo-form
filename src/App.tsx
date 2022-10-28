@@ -1,60 +1,160 @@
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+// import { User } from './types/User';
+import { Todo } from './types/Todo';
+
+import { TodoList } from './components/TodoList';
+
+export function getTodosWithUsers(): Todo[] {
+  return todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  }));
+}
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>(getTodosWithUsers());
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasChangeError, setHasChangeError] = useState(false);
+
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const validation = event.target.value
+      .replace(/[^a-zа-я\s\d]/gi, '');
+
+    setTitle(validation);
+    setHasTitleError(false);
+  };
+
+  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.currentTarget.value);
+    setHasChangeError(false);
+  };
+
+  const resetInputSFields = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
+  const checkEmptyFileds = () => {
+    if (!userId || !title.trim()) {
+      if (!userId) {
+        setHasChangeError(true);
+      }
+
+      if (!title.trim()) {
+        setHasTitleError(true);
+      }
+    }
+
+    return userId && title.trim();
+  };
+
+  const findTheNextId = () => {
+    let theBiggestId = 0;
+
+    todos.forEach(todo => {
+      if (todo.id > theBiggestId) {
+        theBiggestId = todo.id;
+      }
+    });
+
+    return theBiggestId + 1;
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!checkEmptyFileds()) {
+      return;
+    }
+
+    setTodos(
+      [
+        ...todos,
+        {
+          id: findTheNextId(),
+          title,
+          completed: false,
+          userId,
+          user: usersFromServer.find(currentUser => currentUser.id === userId),
+        },
+      ],
+    );
+
+    resetInputSFields();
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form onSubmit={handleFormSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            {'Title: '}
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={changeTitle}
+            />
+            {hasTitleError && (
+              <span className="error">
+                Please enter a title
+              </span>
+            )}
+          </label>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            {'User: '}
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={changeUser}
+            >
+              <option
+                value="0"
+                disabled
+              >
+                Choose a user
+              </option>
 
-          <span className="error">Please choose a user</span>
+              {usersFromServer.map(currentUser => {
+                return (
+                  <option
+                    key={currentUser.id}
+                    value={currentUser.id}
+                  >
+                    {currentUser.name}
+                  </option>
+                );
+              })}
+            </select>
+            {hasChangeError && (
+              <span className="error">Please choose a user</span>
+            )}
+          </label>
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+        <TodoList todos={todos} />
       </section>
     </div>
   );
