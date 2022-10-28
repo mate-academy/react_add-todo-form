@@ -22,7 +22,7 @@ export const App: FunctionComponent = () => {
   const [todoList, setTodoList] = useState(todosWithUser);
   const [titleError, setTitleError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
-  const id = Math.max(...todosFromServer.map(todo => todo.id));
+  const id = Math.max(...todoList.map(todo => todo.id));
   const getNewTodoId = () => (
     id + 1
   );
@@ -140,7 +140,7 @@ export const App: FunctionComponent = () => {
           Add
         </button>
       </form>
-      <TodoList todoList={todoList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };

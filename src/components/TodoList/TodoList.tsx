@@ -3,16 +3,17 @@ import { Todo } from '../../react-app-env';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {
-  todoList: Todo[]
+  todos: Todo[]
 };
 
-export const TodoList: FunctionComponent<Props> = ({ todoList }) => {
+export const TodoList: FunctionComponent<Props> = ({ todos }) => {
   return (
-    <section className="TodoList">
-      {todoList.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} />
+    <ul className="TodoList">
+      {todos.map((todo) => (
+        <li key={todo.id}>
+          <TodoInfo todo={todo} />
+        </li>
       ))}
-
-    </section>
+    </ul>
   );
 };
