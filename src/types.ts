@@ -12,13 +12,9 @@ export type Todo = {
   userId: number,
 };
 
-export type TodoWithUser = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
+export interface TodoWithUser extends Todo {
   user?: User,
-};
+}
 
 export type Props = {
   todos: TodoWithUser[];

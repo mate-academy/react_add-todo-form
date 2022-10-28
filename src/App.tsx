@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -28,11 +28,56 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('0');
   const [submittedUser, setSubmittedUser] = useState(true);
 
+  const submitHandle = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (inputText !== '') {
+      setSubmittedTitle(true);
+    } else {
+      setSubmittedTitle(false);
+    }
+
+    if (selectedUser !== '0') {
+      setSubmittedUser(true);
+    } else {
+      setSubmittedUser(false);
+    }
+
+    if (inputText !== '' && selectedUser !== '0') {
+      setTodos(listOfTodos => {
+        const sorted = [...todos].sort((a, b) => (a.id - b.id));
+        const newId = sorted[sorted.length - 1].id + 1;
+        const user = users.find(searchUser => {
+          return searchUser.id === Number(selectedUser);
+        });
+
+        setInputText('');
+        setSelectedUser('0');
+
+        return (
+          [
+            ...listOfTodos,
+            {
+              id: newId,
+              title: inputText,
+              completed: false,
+              userId: Number(selectedUser),
+              user,
+            },
+          ]
+        );
+      });
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => submitHandle(event)}
+      >
         <div className="field">
           <label>
             {'Title: '}
@@ -84,46 +129,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            event.preventDefault();
-            if (inputText !== '') {
-              setSubmittedTitle(true);
-            } else {
-              setSubmittedTitle(false);
-            }
-
-            if (selectedUser !== '0') {
-              setSubmittedUser(true);
-            } else {
-              setSubmittedUser(false);
-            }
-
-            if (inputText !== '' && selectedUser !== '0') {
-              setTodos(listOfTodos => {
-                const sorted = [...todos].sort((a, b) => (a.id - b.id));
-                const newId = sorted[sorted.length - 1].id + 1;
-                const user = users.find(searchUser => {
-                  return searchUser.id === Number(selectedUser);
-                });
-
-                setInputText('');
-                setSelectedUser('0');
-
-                return (
-                  [
-                    ...listOfTodos,
-                    {
-                      id: newId,
-                      title: inputText,
-                      completed: false,
-                      userId: Number(selectedUser),
-                      user,
-                    },
-                  ]
-                );
-              });
-            }
-          }}
         >
           Add
         </button>
