@@ -19,18 +19,31 @@ export function usersInTodos(): Todo[] {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(usersInTodos());
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasChangeError, setHasChangeError] = useState(false);
 
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const validation = event.target.value
+      .replace(/[^a-zа-я\s\d]/gi, '');
+
+    setTitle(validation);
+    setHasTitleError(false);
+  };
+
+  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.currentTarget.value);
+    setHasChangeError(false);
+  };
+
   const resetInputSFields = () => {
     setTitle('');
-    setUser(0);
+    setUserId(0);
   };
 
   const checkEmptyFileds = () => {
-    if (!user || !title.trim()) {
-      if (!user) {
+    if (!userId || !title.trim()) {
+      if (!userId) {
         setHasChangeError(true);
       }
 
@@ -39,10 +52,10 @@ export const App: React.FC = () => {
       }
     }
 
-    return user && title.trim();
+    return userId && title.trim();
   };
 
-  const findTheBiggestId = () => {
+  const findTheNextId = () => {
     let theBiggestId = 0;
 
     todos.forEach(todo => {
@@ -65,11 +78,11 @@ export const App: React.FC = () => {
       [
         ...todos,
         {
-          id: findTheBiggestId(),
+          id: findTheNextId(),
           title,
           completed: false,
-          userId: user,
-          user: usersFromServer.find(currentUser => currentUser.id === user),
+          userId,
+          user: usersFromServer.find(currentUser => currentUser.id === userId),
         },
       ],
     );
@@ -90,13 +103,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                const validation = event.target.value
-                  .replace(/[^a-zа-я\s\d]/gi, '');
-
-                setTitle(validation);
-                setHasTitleError(false);
-              }}
+              onChange={changeTitle}
             />
             {hasTitleError && (
               <span className="error">
@@ -111,11 +118,8 @@ export const App: React.FC = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={user}
-              onChange={(event) => {
-                setUser(+event.currentTarget.value);
-                setHasChangeError(false);
-              }}
+              value={userId}
+              onChange={changeUser}
             >
               <option
                 value="0"
