@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import { Todo } from '../../react-app-env';
+import { TodoWithUser } from '../../react-app-env';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: Todo,
+  todo: TodoWithUser,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -16,7 +16,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
   return (
     <article
-      key={id}
       data-id={`${id}`}
       className={classNames(
         'TodoInfo',
@@ -27,7 +26,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      { user && <UserInfo user={user} /> }
     </article>
   );
 };

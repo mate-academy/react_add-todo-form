@@ -14,3 +14,7 @@ export interface Todo {
   userId: number,
   user: User,
 }
+
+export interface TodoWithUser extends Todo {
+  user: User | null,
+}
