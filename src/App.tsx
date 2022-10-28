@@ -2,10 +2,8 @@ import './App.scss';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { ToDo } from './types/ToDo';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import users from './api/users';
 
 const preparedTodos: ToDo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -13,16 +11,15 @@ const preparedTodos: ToDo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todos, setToDos] = useState(preparedTodos);
+  const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-
   const clearForm = () => {
     setTitle('');
-    setUserId('0');
+    setUserId(0);
   };
 
   const errors = () => {
@@ -30,8 +27,8 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if(userId === '0') {
-      setUserError(true)
+    if (userId === 0) {
+      setUserError(true);
     }
   };
 
@@ -39,25 +36,30 @@ export const App = () => {
     event.preventDefault();
     errors();
     clearForm();
+    const user = usersFromServer.find(person => person.id === userId) || null;
 
     const newTodo = {
       id: (Math.max(...todos.map(todo => todo.id)) + 1),
       title,
       completed: false,
-      userId: +userId,
-      user: usersFromServer.find(user => user.id === +userId) || null,
+      userId,
+      user,
     };
-    console.log(newTodo);
 
-    setToDos(state => {
-      return (
-        [...state,
-          newTodo,]
-      )
-    });
+    if (user && title && userId) {
+      setTodos(state => {
+        return (
+          [...state,
+            newTodo]
+        );
+      });
+
+      setTitleError(false);
+      setUserError(false);
+    }
 
     setTitle('');
-    setUserId('0');
+    setUserId(0);
   };
 
   return (
@@ -74,10 +76,11 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            placeholder='Enter a title'
+            placeholder="Enter a title"
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
+              setTitleError(false);
             }}
           />
           {titleError && <span className="error">Please enter a title</span>}
@@ -89,13 +92,17 @@ export const App = () => {
             data-cy="userSelect"
             value={userId}
             onChange={(event) => {
-              setUserId(event.target.value);
+              setUserId(+event.target.value);
+              setUserError(false);
             }}
           >
             <option
-              value="0" disabled>Choose a user
+              value={0}
+              disabled
+            >
+              Choose a user
             </option>
-            {users.map(user => (
+            {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
               </option>

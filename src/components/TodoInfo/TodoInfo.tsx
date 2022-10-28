@@ -1,29 +1,31 @@
-import React from "react";
-import { ToDo } from "../../types/ToDo";
-import { UserInfo } from '../UserInfo';
+import React from 'react';
 import classNames from 'classnames';
+import { ToDo } from '../../types/ToDo';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: ToDo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { title, user, completed, id } = todo;
+  const {
+    title,
+    user,
+    completed,
+    id,
+  } = todo;
 
-  return(
+  return (
     <article
       data-id={id}
       className={classNames('TodoInfo',
-      {'TodoInfo--completed': completed,
-      })}
+        { 'TodoInfo--completed': completed })}
     >
-    <h2 className="TodoInfo__title">
-      {title}
-    </h2>
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
 
-    {user && <UserInfo user={user} />}
-  </article>
-  )
+      {user && <UserInfo user={user} />}
+    </article>
+  );
 };
-
-
