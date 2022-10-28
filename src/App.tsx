@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { TodosWithUsers } from './types/type';
+import { TodosWithUsers } from './react-app-env';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 

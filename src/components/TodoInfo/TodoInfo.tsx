@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-import { TodosWithUsers } from '../../types/type';
+import { TodosWithUsers } from '../../react-app-env';
 
 type Props = {
   todo: TodosWithUsers;
