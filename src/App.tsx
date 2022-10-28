@@ -18,7 +18,7 @@ export const App: React.FC = () => {
   const [emptyUserError, setemptyUserError] = useState(false);
 
   const getBigestId = () => {
-    return Math.max(...(todos.map(todo => todo.id)));
+    return Math.max(...(todos.map(todo => todo.id))) + 1;
   };
 
   const resetForm = () => {
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
     setemptyUserError(!emptyUserError);
 
     const newTodo: TodosWithUsers = {
-      id: getBigestId() + 1,
+      id: getBigestId(),
       title: newTitle,
       completed: false,
       userId: selectedUser,
