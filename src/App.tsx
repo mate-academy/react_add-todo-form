@@ -9,7 +9,7 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-export function usersInTodos(): Todo[] {
+export function getTodosWithUsers(): Todo[] {
   return todosFromServer.map(todo => ({
     ...todo,
     user: usersFromServer.find(user => user.id === todo.userId),
@@ -17,7 +17,7 @@ export function usersInTodos(): Todo[] {
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(usersInTodos());
+  const [todos, setTodos] = useState<Todo[]>(getTodosWithUsers());
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
