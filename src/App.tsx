@@ -98,7 +98,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosWithUsers} />
+      <TodoList todos={todos} />
     </div>
   );
 };
