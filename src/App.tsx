@@ -28,7 +28,7 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setIsUserIdValid(!userId);
-    setIsTitleValid(!title.trim());
+    setIsTitleValid(!title);
 
     const maxId = Math.max(...todos.map(todo => todo.id));
 
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
     const currentValue = event.target.value;
 
     setTitle(currentValue);
-    setIsTitleValid(!currentValue.trim());
+    setIsTitleValid(!currentValue);
   };
 
   const handleUserSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
