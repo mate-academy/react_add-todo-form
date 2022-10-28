@@ -27,13 +27,8 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId === 0) {
-      setIsUserIdValid(true);
-    }
-
-    if (title.trim() === '') {
-      setIsTitleValid(true);
-    }
+    setIsUserIdValid(!userId);
+    setIsTitleValid(!title.trim());
 
     const maxId = Math.max(...todos.map(todo => todo.id));
 
@@ -54,24 +49,14 @@ export const App: React.FC = () => {
     const currentValue = event.target.value;
 
     setTitle(currentValue);
-
-    if (currentValue.trim() === '') {
-      setIsTitleValid(true);
-    } else {
-      setIsTitleValid(false);
-    }
+    setIsTitleValid(!currentValue.trim());
   };
 
   const handleUserSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const currentValue = +event.target.value;
 
     setUserId(currentValue);
-
-    if (currentValue === 0) {
-      setIsUserIdValid(true);
-    } else {
-      setIsUserIdValid(false);
-    }
+    setIsUserIdValid(!currentValue);
   };
 
   return (
