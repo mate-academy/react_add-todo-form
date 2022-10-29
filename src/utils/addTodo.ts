@@ -1,16 +1,23 @@
 import { TodoFromServer } from '../types/TodoFromServer';
 
-export function addTodo(
-  userId: number,
-  todoId: number,
-  titleTodo: string,
+type Todo = {
+  selectedUserId: number,
+  newTodoId: number,
+  title: string,
   todos: TodoFromServer[],
-) {
+};
+
+export function addTodo({
+  selectedUserId,
+  newTodoId,
+  title,
+  todos,
+}: Todo): TodoFromServer[] {
   const todo = {
-    id: todoId,
-    title: titleTodo,
+    id: newTodoId,
+    title,
     completed: false,
-    userId,
+    userId: selectedUserId,
   };
 
   return [...todos, todo] as TodoFromServer[];
