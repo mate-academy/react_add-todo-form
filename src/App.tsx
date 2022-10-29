@@ -1,5 +1,7 @@
 import './App.scss';
-import { FormEvent, useState } from 'react';
+import {
+  ChangeEvent, FormEvent, useState,
+} from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
@@ -40,6 +42,13 @@ export const App = () => {
     return todos;
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
+    setTitleError(false);
+    setUserError(false);
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -55,9 +64,18 @@ export const App = () => {
       return;
     }
 
-    setTitle('');
-    setUserId(0);
+    resetForm();
+  };
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(
+      /[^\w\s\p{Script=Cyrillic}]/gui, '',
+    ));
     setTitleError(false);
+  };
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
     setUserError(false);
   };
 
@@ -76,12 +94,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value.replace(
-                  /[^\w\s\p{Script=Cyrillic}]/gui, '',
-                ));
-                setTitleError(false);
-              }}
+              onChange={handleTitleChange}
             />
           </label>
           {titleError && (
@@ -96,10 +109,7 @@ export const App = () => {
               data-cy="userSelect"
               name="user"
               value={userId}
-              onChange={(event) => {
-                setUserId(+event.target.value);
-                setUserError(false);
-              }}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
