@@ -26,19 +26,18 @@ export const App: React.FC = () => {
     const { value } = event.target;
     const lastIndex = value.length - 1;
 
-    if (value.length && pattern.test(value[lastIndex])) {
+    if (!value || pattern.test(value[lastIndex])) {
       setTitle(value);
     }
 
-    if (!event.target.value) {
-      setTitle(value);
-    }
+    setShowErrorTitle(false);
   }
 
   function handleUserId(event: React.ChangeEvent<HTMLSelectElement>): void {
     const { value } = event.target;
 
     setSelectedUserId(Number(value));
+    setShowErrorUser(false);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -48,11 +47,11 @@ export const App: React.FC = () => {
       setShowErrorTitle(true);
     }
 
-    if (selectedUserId === 0) {
+    if (!selectedUserId) {
       setShowErrorUser(true);
     }
 
-    if (!title || selectedUserId === 0 || !title.trim()) {
+    if (!title || !selectedUserId || !title.trim()) {
       return;
     }
 
@@ -87,10 +86,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                handleTitle(event);
-                setShowErrorTitle(false);
-              }}
+              onChange={handleTitle}
             />
           </label>
           {showErrorTitle
@@ -103,10 +99,7 @@ export const App: React.FC = () => {
 
             <select
               data-cy="userSelect"
-              onChange={(event) => {
-                handleUserId(event);
-                setShowErrorUser(false);
-              }}
+              onChange={handleUserId}
               value={selectedUserId}
             >
               <option
