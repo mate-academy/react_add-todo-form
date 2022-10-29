@@ -8,6 +8,10 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
+type FormEvent = React.ChangeEvent<HTMLFormElement>;
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
+type SelectEvent = React.ChangeEvent<HTMLSelectElement>;
+
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
@@ -19,42 +23,53 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-function getUserByName(userName: string): User | undefined {
-  return usersFromServer.find(user => user.name === userName);
-}
-
 export const App = () => {
   const [visibleTodos, setTodos] = useState(todos);
-  const [author, setAuthor] = useState('Choose a user');
+  const [userId, setUserId] = useState(0);
   const [task, setTask] = useState('');
-  const [isActiveTask, setIsActiveTask] = useState(false);
-  const [isActiveAuthor, setIsActiveAuthor] = useState(false);
   const [isTaskError, setIsTaskError] = useState(false);
   const [isAuthorError, setIsAuthorError] = useState(false);
 
-  const updateTodos = () => {
-    setIsTaskError(!isActiveTask);
-    setIsAuthorError(!isActiveAuthor);
+  const resetFormHandler = () => {
+    setTask('');
+    setUserId(0);
+    setIsTaskError(false);
+    setIsAuthorError(false);
+  };
 
-    if (isActiveTask && isActiveAuthor) {
+  const updateTodos = () => {
+    setIsTaskError(!task.length);
+    setIsAuthorError(!userId);
+
+    if (task.length > 0 && userId) {
       const maxId = Math.max(...todos.map(todo => todo.id));
       const newTodo: Todo = {
         id: maxId + 1,
-        userId: getUserByName(author)?.id,
+        userId,
         title: task,
         completed: false,
-        user: getUserByName(author),
+        user: getUser(userId),
       };
 
       todos.push(newTodo);
       setTodos(todos);
-      setTask('');
-      setAuthor('Choose a user');
-      setIsActiveTask(false);
-      setIsActiveAuthor(false);
-      setIsTaskError(false);
-      setIsAuthorError(false);
+      resetFormHandler();
     }
+  };
+
+  const submitFormHandler = (e: FormEvent) => {
+    e.preventDefault();
+    updateTodos();
+  };
+
+  const changeTitleHandler = (e: InputEvent) => {
+    setTask(e.target.value);
+    setIsTaskError(false);
+  };
+
+  const changeUserHandler = (e: SelectEvent) => {
+    setUserId(Number(e.target.value));
+    setIsAuthorError(false);
   };
 
   return (
@@ -64,10 +79,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          updateTodos();
-        }}
+        onSubmit={submitFormHandler}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -78,41 +90,28 @@ export const App = () => {
             id="title"
             placeholder="Enter a title"
             value={task}
-            onChange={(e) => {
-              setTask(e.target.value);
-              setIsActiveTask(true);
-              setIsTaskError(false);
-            }}
+            onChange={changeTitleHandler}
           />
-          {isTaskError
-          && <span className="error">Please enter a title</span>}
+          {isTaskError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor="title">User: </label>
+          <label htmlFor="user">User: </label>
 
           <select
             data-cy="userSelect"
-            id="title"
-            value={author}
-            onChange={(e) => {
-              setAuthor(e.target.value);
-              setIsActiveAuthor(true);
-              setIsAuthorError(false);
-            }}
+            id="user"
+            value={userId}
+            onChange={changeUserHandler}
           >
-            <option value="">Choose a user</option>
+            <option value={0}>Choose a user</option>
             {usersFromServer.map(user => (
-              <option
-                value={user.name}
-                key={user.id}
-              >
+              <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          {isAuthorError
-          && <span className="error">Please choose a user</span>}
+          {isAuthorError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
