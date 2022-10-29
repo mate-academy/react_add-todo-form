@@ -19,6 +19,8 @@ const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
+const regexForTheTitleField = /[^\w\s\p{Script=Cyrillic}]/gui;
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
@@ -26,7 +28,7 @@ export const App: React.FC = () => {
   const [userError, setUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^\w\s\p{Script=Cyrillic}]/gui, ''));
+    setTitle(event.target.value.replace(regexForTheTitleField, ''));
     setTitleError(false);
   };
 
