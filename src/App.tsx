@@ -22,19 +22,19 @@ export const App = () => {
     setUserId(0);
   };
 
-  const errors = () => {
+  const setErrors = () => {
     if (!title) {
       setTitleError(true);
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setUserError(true);
     }
   };
 
   const onSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    errors();
+    setErrors();
     clearForm();
     const user = usersFromServer.find(person => person.id === userId) || null;
 
