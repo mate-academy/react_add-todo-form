@@ -6,6 +6,14 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+li {
+  list-style: none;
+}
+
+ol {
+  padding-left: 0;
+}
+
 label,
 button {
   cursor: pointer;
