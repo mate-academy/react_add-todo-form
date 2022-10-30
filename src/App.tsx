@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 
 import { Todo } from './types/Todo';
 
-function TodosWithUsers(): Todo[] {
+function getTodosWithUsers(): Todo[] {
   return todosFromServer.map(todo => {
     return {
       ...todo,
@@ -17,64 +17,60 @@ function TodosWithUsers(): Todo[] {
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(TodosWithUsers);
-  const [titleInput, setTitleInput] = useState('');
-  const [userChoose, setUserChoose] = useState(0);
+  const [todos, setTodos] = useState(getTodosWithUsers);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  function errorCheck() {
-    if (!titleInput || !userChoose) {
-      if (!titleInput) {
-        setTitleError(true);
-      }
+  function handleTitleFormat(event: React.ChangeEvent<HTMLInputElement>) {
+    const titleFormat = event.target.value.replace(/[^a-zа-я\s\d]/gi, '');
 
-      if (!userChoose) {
-        setUserError(true);
-      }
+    setTitle(titleFormat);
+    setTitleError(false);
+  }
+
+  function handleUser(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUserId(+event.target.value);
+    setUserError(false);
+  }
+
+  function checkError() {
+    if (!title) {
+      setTitleError(true);
     }
 
-    return titleInput && userChoose;
+    if (!userId) {
+      setUserError(true);
+    }
   }
 
-  function inputsToDefault() {
-    setTitleInput('');
-    setUserChoose(0);
-  }
-
-  function maxId() {
-    let maxNumber = 0;
-
-    todos.forEach(todo => {
-      if (todo.id > maxNumber) {
-        maxNumber = todo.id;
-      }
-    });
-
-    return maxNumber + 1;
+  function resetForm() {
+    setTitle('');
+    setUserId(0);
   }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!errorCheck()) {
-      return;
+    if (!title || !userId) {
+      return checkError();
     }
 
     setTodos(
       [
         ...todos,
         {
-          id: maxId(),
-          title: titleInput,
+          id: todos[todos.length - 1].id + 1,
+          title,
           completed: false,
-          userId: userChoose,
-          user: usersFromServer.find(user => user.id === userChoose),
+          userId,
+          user: usersFromServer.find(user => user.id === userId),
         },
       ],
     );
 
-    inputsToDefault();
+    return resetForm();
   };
 
   return (
@@ -93,14 +89,8 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={titleInput}
-              onChange={(event) => {
-                const titleFormat = event.target.value
-                  .replace(/[^a-zа-я\s\d]/gi, '');
-
-                setTitleInput(titleFormat);
-                setTitleError(false);
-              }}
+              value={title}
+              onChange={handleTitleFormat}
             />
           </label>
 
@@ -116,11 +106,8 @@ export const App: React.FC = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={userChoose}
-              onChange={(event) => {
-                setUserChoose(+event.target.value);
-                setUserError(false);
-              }}
+              value={userId}
+              onChange={handleUser}
             >
               <option value="0" disabled selected>Choose a user</option>
 
