@@ -2,7 +2,7 @@ export default [
   {
     id: 1,
     title: 'delectus aut autem',
-    completed: true,
+    completed: false,
     userId: 1,
   },
   {
