@@ -50,6 +50,18 @@ export const App: React.FC = () => {
     setUserId(0);
   }
 
+  function maxId() {
+    let maxNumber = 0;
+
+    todos.forEach(todo => {
+      if (todo.id > maxNumber) {
+        maxNumber = todo.id;
+      }
+    });
+
+    return maxNumber + 1;
+  }
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -61,7 +73,7 @@ export const App: React.FC = () => {
       [
         ...todos,
         {
-          id: todos[todos.length - 1].id + 1,
+          id: maxId(),
           title,
           completed: false,
           userId,
