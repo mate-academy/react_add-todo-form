@@ -30,7 +30,7 @@ export const App = () => {
 
   const submitHandle = (event: React.FormEvent) => {
     event.preventDefault();
-    if (inputText !== '') {
+    if (inputText.trim() !== '') {
       setSubmittedTitle(true);
     } else {
       setSubmittedTitle(false);
@@ -42,7 +42,7 @@ export const App = () => {
       setSubmittedUser(false);
     }
 
-    if (inputText !== '' && selectedUser !== '0') {
+    if (inputText.trim() !== '' && selectedUser !== '0') {
       setTodos(listOfTodos => {
         const sorted = [...todos].sort((a, b) => (a.id - b.id));
         const newId = sorted[sorted.length - 1].id + 1;
