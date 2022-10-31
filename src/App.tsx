@@ -11,13 +11,11 @@ export const App: React.FC = () => {
   const [initialTodos, setInitialTodos] = useState(todosFromServer);
   const [touched, setTouched] = useState(false);
 
-  const titleError = !titleField && touched;
-  const selectedError = !selectedUser && touched;
+  const titleError = titleField.length === 0;
+  const selectedError = selectedUser.length === 0;
 
-  const clearForm = () => {
-    setTitleField('');
-    setSelectedUser('');
-  };
+  const showTitleError = titleError && touched;
+  const showSelectedError = selectedError && touched;
 
   const addTodo = () => {
     setInitialTodos(currentTodos => {
@@ -33,10 +31,16 @@ export const App: React.FC = () => {
     });
   };
 
-  const handleAdd = () => {
-    if (titleError || selectedError || !touched) {
-      setTouched(true);
+  const clearForm = () => {
+    setTitleField('');
+    setSelectedUser('');
+    setTouched(false);
+  };
 
+  const handleAdd = () => {
+    setTouched(true);
+
+    if (titleError || selectedError) {
       return;
     }
 
@@ -72,7 +76,9 @@ export const App: React.FC = () => {
               onChange={event => (setTitleField(event.target.value))}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span> }
+          {showTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -94,7 +100,9 @@ export const App: React.FC = () => {
               ))}
             </select>
           </label>
-          {selectedError && <span className="error">Please choose a user</span>}
+          {showSelectedError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
         <button
           type="submit"
