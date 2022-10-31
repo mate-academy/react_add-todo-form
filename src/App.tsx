@@ -4,7 +4,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser } from './react-app-env';
+import { TodoWithUser } from './types/TodoWithUser';
 
 const getCorrectId = (todos: TodoWithUser[]) => {
   const id = Math.max(...todos.map(todo => todo.id));
@@ -55,9 +55,7 @@ export const App: React.FC = () => {
       user: getUserById(todoUserId),
     };
 
-    if (!titleError && !userIdError) {
-      setTodos(currentTodos => [...currentTodos, newTodo]);
-    }
+    setTodos(currentTodos => [...currentTodos, newTodo]);
 
     resetForm();
   };
@@ -81,13 +79,16 @@ export const App: React.FC = () => {
         onSubmit={handleFormSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={todoTitle}
-            onChange={handleInput}
-            placeholder="Enter todo title"
-          />
+          <label>
+            Title:&nbsp;
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={todoTitle}
+              onChange={handleInput}
+              placeholder="Enter todo title"
+            />
+          </label>
 
           {titleError && (
             <span className="error">Please enter a title</span>
@@ -95,19 +96,21 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={todoUserId}
-            onChange={handleSelect}
-          >
-            <option value="0" disabled>Choose a user</option>
-
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <label>
+            User:&nbsp;
+            <select
+              data-cy="userSelect"
+              value={todoUserId}
+              onChange={handleSelect}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {userIdError && (
             <span className="error">Please choose a user</span>
