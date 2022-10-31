@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
@@ -14,8 +14,32 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId, usersFromServer),
 }));
 
+type Callback = (str: string) => void;
+
+function debounce(f: Callback, delay: number) {
+  let timerId = 0;
+
+  return (str: string) => {
+    window.clearTimeout(timerId);
+
+    // timerId = window.setTimeout(f, delay, str);
+
+    timerId = window.setTimeout(() => {
+      f(str);
+    }, delay);
+  };
+}
+
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser);
+  const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
+  const [counter, setCounter] = useState(0);
+
+  const applyQuery = useCallback(
+    debounce(setAppliedQuery, 1000),
+    [],
+  );
 
   const addNewTodo = (todoTitle: string, todoUserId: number) => {
     const newTodo: TodoWithUser = {
@@ -29,13 +53,41 @@ export const App = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
+  const deleteTodo = useCallback((todoId: number) => {
+    setTodos(currentTodos => currentTodos.filter(
+      todo => todo.id !== todoId,
+    ));
+  }, []);
+
+  const visibleTodos = useMemo(() => {
+    return todos.filter(todo => (
+      todo.title.toLowerCase().includes(appliedQuery.toLowerCase())
+    ));
+  }, [todos, appliedQuery]);
+
   return (
     <div className="App">
+      <input
+        type="text"
+        value={query}
+        onChange={event => {
+          setQuery(event.target.value);
+          applyQuery(event.target.value);
+        }}
+      />
+
+      <button
+        type="button"
+        onClick={() => setCounter(counter + 1)}
+      >
+        {`Change counter - ${counter}`}
+      </button>
+
       <h1>Add todo form</h1>
 
       <TodoForm addNewTodo={addNewTodo} />
 
-      <TodoList todos={todos} />
+      <TodoList todos={visibleTodos} deleteTodo={deleteTodo} />
     </div>
   );
 };

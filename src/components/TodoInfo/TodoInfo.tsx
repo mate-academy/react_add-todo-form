@@ -5,9 +5,10 @@ import { TodoWithUser } from '../../react-app-env';
 
 type Props = {
   todo: TodoWithUser
+  deleteTodo: (todoId: number) => void
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = React.memo(({ todo, deleteTodo }) => {
   const {
     id, title, user, completed,
   } = todo;
@@ -24,6 +25,13 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       { user && <UserInfo user={user} /> }
+
+      <button
+        type="button"
+        onClick={() => deleteTodo(id)}
+      >
+        x
+      </button>
     </article>
   );
-};
+});
