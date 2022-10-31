@@ -2,18 +2,18 @@ import React from 'react';
 import { Todo } from '../Type/types';
 
 type Props = {
-  renderTodo: Todo
+  todo: Todo
 };
 
-export const TodoInfo: React.FC<Props> = ({ renderTodo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <li style={{ listStyle: 'none' }}>
       <h2 className="TodoInfo__title">
-        {renderTodo.title}
+        {todo.title}
       </h2>
 
-      <a className="UserInfo" href={`mailto:${renderTodo.user && renderTodo.user.email}`}>
-        {renderTodo.user && renderTodo.user.name}
+      <a className="UserInfo" href={`mailto:${todo.user && todo.user.email}`}>
+        {todo.user && todo.user.name}
       </a>
     </li>
   );

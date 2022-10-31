@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  function getUserOnId(id: number) {
+  function getUserById(id: number) {
     return usersFromServer.find(user => user.id === id);
   }
 
@@ -19,27 +19,27 @@ export const App = () => {
   const todoAndUser = [...todosFromServer].map(todo => (
     {
       ...todo,
-      user: getUserOnId(todo.userId),
+      user: getUserById(todo.userId),
     }
   ));
 
   const [renderTodos, setRenderTodos] = useState(todoAndUser);
 
-  const examinationAddTodos = (e: React.MouseEvent<HTMLElement>) => {
+  const handleTodoAdd = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-    title.trim() === '' ? setTitleError(true) : setTitleError(false);
+    setTitleError(!title.trim());
     // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-    userSelect === 0 ? setUserSelectError(true) : setUserSelectError(false);
+    setUserSelectError(!userSelect);
 
-    if (title.trim() !== '' && userSelect !== 0) {
+    if (title.trim() && userSelect) {
       const newUser = {
         id: renderTodos.length,
         title,
         completed: false,
         userId: userSelect,
-        user: getUserOnId(userSelect),
+        user: getUserById(userSelect),
       };
 
       setRenderTodos(state => [...state, newUser]);
@@ -68,7 +68,8 @@ export const App = () => {
               }}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {titleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -98,13 +99,13 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(e) => examinationAddTodos(e)}
+          onClick={handleTodoAdd}
         >
           Add
         </button>
       </form>
 
-      <TodoList renderTodos={renderTodos} />
+      <TodoList todos={renderTodos} />
     </div>
   );
 };

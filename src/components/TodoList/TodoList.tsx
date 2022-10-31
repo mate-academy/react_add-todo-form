@@ -4,23 +4,23 @@ import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../Type/types';
 
 type Props = {
-  renderTodos: Todo[]
+  todos: Todo[]
 };
 
-export const TodoList: React.FC<Props> = ({ renderTodos }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       <ul>
-        {renderTodos.map(renderTodo => (
+        {todos.map(todo => (
           <article
-            data-id={renderTodo.id}
+            data-id={todo.id}
             className={classNames(
               'TodoInfo',
-              { 'TodoInfo--completed': renderTodo.completed },
+              { 'TodoInfo--completed': todo.completed },
             )}
-            key={renderTodo.id}
+            key={todo.id}
           >
-            <TodoInfo renderTodo={renderTodo} />
+            <TodoInfo todo={todo} />
           </article>
         ))}
       </ul>
