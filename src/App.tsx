@@ -12,9 +12,13 @@ export const App = () => {
 
   const trimedTitle = title.trim();
 
+  const largestTodoId = todos.reduce((previously, currently) => (
+    previously.id > currently.id ? previously : currently
+  ));
+
   const updateTodoList = () => {
     const newTodo = {
-      id: Date.now(),
+      id: largestTodoId.id + 1,
       title: trimedTitle,
       completed: false,
       userId: Number(userSelect),
