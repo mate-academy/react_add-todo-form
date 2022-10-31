@@ -1,24 +1,10 @@
 import React from 'react';
-// eslint-disable-next-line import/no-cycle
-import { TodoInfo } from '../TodoInfo';
+import { TodoInfo } from '../TodoInfo/TodoInfo';
+import { User, Todo } from '../../react-app-env';
 
 type Props = {
-  usersFromServer: Users[];
-  todos: Todo[];
-};
-
-export type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
-
-export type Users = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
+  usersFromServer: User[],
+  todos: Todo[],
 };
 
 export const TodoList: React.FC<Props> = ({ usersFromServer, todos }) => {

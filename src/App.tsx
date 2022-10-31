@@ -3,11 +3,25 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './react-app-env';
 
 export const App = () => {
   const [userSelect, setUserSelect] = useState<number | null>(null);
   const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const submit = (todos) => {
+    setTitle('');
+
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        title,
+        completed: false,
+        userId: userSelect,
+      },
+    ]);
+  };
 
   return (
     <div className="App">
@@ -22,17 +36,7 @@ export const App = () => {
             return;
           }
 
-          setTitle('');
-
-          setTodos([
-            ...todos,
-            {
-              id: Date.now(),
-              title,
-              completed: false,
-              userId: userSelect,
-            },
-          ]);
+          submit(todos);
         }}
       >
         <div className="field">
@@ -42,11 +46,11 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={title || ''}
-              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
               required
             />
-            <span className="error">{title ? '' : 'Please enter a title'}</span>
+            {title ? '' : <span className="error">Please enter a title</span>}
           </label>
         </div>
 
@@ -57,12 +61,16 @@ export const App = () => {
               data-cy="userSelect"
               defaultValue=""
               value={userSelect || ''}
-              onChange={(e) => setUserSelect(+e.target.value)}
+              onChange={(event) => setUserSelect(+event.target.value)}
             >
-              <option value="" selected disabled>Choose a user</option>
-              {usersFromServer.map((user) => {
-                return <option value={user.id}>{user.name}</option>;
-              })}
+              <option value="" selected disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map((user) => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
             </select>
 
             <span className="error">

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Users, Todo } from '../TodoList';
-import { UserInfo } from '../UserInfo/UserInfo';
+import { User, Todo } from '../../react-app-env';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
-  usersFromServer: Users[],
+  usersFromServer: User[],
   todo: Todo,
 };
 
