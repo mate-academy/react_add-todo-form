@@ -7,8 +7,9 @@ import {
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { FullTodo, User } from './react-app-env';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
+import { FullTodo } from './types/FullTodo';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -56,10 +57,8 @@ export const App: FC = () => {
       user: getUser(+selectedUserId),
     };
 
-    if (!hasTitleError && !hasSelectedUserError) {
-      setTodos([...todos, newTodo]);
-      resetForm();
-    }
+    setTodos([...todos, newTodo]);
+    resetForm();
   };
 
   const handleNewTitleChange = (event: ChangeEvent<HTMLInputElement>) => {

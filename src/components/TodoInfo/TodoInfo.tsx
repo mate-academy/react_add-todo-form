@@ -2,7 +2,7 @@ import { FC } from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import './TodoInfo.scss';
-import { FullTodo } from '../../react-app-env';
+import { FullTodo } from '../../types/FullTodo';
 
 type Props = {
   todo: FullTodo;

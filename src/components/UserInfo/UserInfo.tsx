@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { User } from '../../react-app-env';
+import { User } from '../../types/User';
 import './UserInfo.scss';
 
 type Props = {
