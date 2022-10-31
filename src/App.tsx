@@ -34,28 +34,26 @@ const getIdForTodo = (todos: Todo[]) => {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [titleInput, setTitleInput] = useState('');
-  const [titleSelectError, setTitleSelectError] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [titleInputError, setTitleInputError] = useState(false);
+  const [userSelect, setUserSelect] = useState(0);
   const [userSelectError, setUserSelectError] = useState(false);
 
   const clearForm = () => {
     setTitleInput('');
-    setSelectedUser(0);
-    setTitleSelectError(false);
-    setUserSelectError(false);
+    setUserSelect(0);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const trimedTitle = titleInput.trim();
 
-    if (!trimedTitle || selectedUser === 0) {
+    if (!trimedTitle || userSelect === 0) {
       if (!trimedTitle) {
-        setTitleSelectError(true);
+        setTitleInputError(true);
       }
 
-      if (selectedUser === 0) {
+      if (userSelect === 0) {
         setUserSelectError(true);
       }
 
@@ -66,17 +64,17 @@ export const App: React.FC = () => {
       id: getIdForTodo(todos),
       title: titleInput,
       completed: false,
-      userId: selectedUser,
-      user: getUser(selectedUser),
+      userId: userSelect,
+      user: getUser(userSelect),
     };
 
-    setTodos((prevTodos) => [...prevTodos, todo]);
+    setTodos(prevTodos => [...prevTodos, todo]);
     clearForm();
   };
 
   const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (titleSelectError) {
-      setTitleSelectError(false);
+    if (titleInputError) {
+      setTitleInputError(false);
     }
 
     setTitleInput(event.target.value.replace(/[^a-zа-я0-9\s]/gi, ''));
@@ -87,7 +85,7 @@ export const App: React.FC = () => {
       setUserSelectError(false);
     }
 
-    setSelectedUser(+event.target.value);
+    setUserSelect(+event.target.value);
   };
 
   return (
@@ -97,7 +95,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
@@ -108,7 +106,7 @@ export const App: React.FC = () => {
             placeholder="Enter a title here"
           />
 
-          {titleSelectError && (
+          {titleInputError && (
             <p className="error">Please enter a title</p>
           )}
         </div>
@@ -118,12 +116,14 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="select"
             onChange={handleOnSelect}
-            value={selectedUser}
+            value={userSelect}
           >
             <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(({ id, name }: User) => (
-              <option value={id} key={id}>{name}</option>
+              <option value={id} key={id}>
+                {name}
+              </option>
             ))}
           </select>
 
