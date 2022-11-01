@@ -15,6 +15,11 @@ button {
   color: red;
 }
 
+.TodoList {
+  list-style: none;
+  padding: 0;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
