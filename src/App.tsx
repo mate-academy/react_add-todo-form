@@ -59,10 +59,8 @@ export const App = () => {
       return;
     }
 
-    if (!hasTitleError && !hasUserIdError) {
-      addNewTodo(todoTitle, todoUserId);
-      resetForm();
-    }
+    addNewTodo(todoTitle, todoUserId);
+    resetForm();
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
