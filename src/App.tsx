@@ -16,13 +16,15 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
+  const trimmedTitle = title.trim();
+
   const clearForm = () => {
     setTitle('');
     setChoosenUser(0);
   };
 
   const canConfirmForm = () => {
-    if (!title) {
+    if (!trimmedTitle) {
       setTitleError(true);
     }
 
@@ -39,7 +41,7 @@ export const App = () => {
 
     canConfirmForm();
 
-    if (user && title && choosenUser) {
+    if (user && trimmedTitle && choosenUser) {
       setTodos(currentTodos => ([
         ...currentTodos,
         {
