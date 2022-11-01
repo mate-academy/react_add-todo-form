@@ -27,8 +27,6 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const makeTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
-
   const setDefaultStates = () => {
     setTitle('');
     setUserId(0);
@@ -38,6 +36,7 @@ export const App = () => {
     event.preventDefault();
 
     const trimTitle = title.trim();
+    const makeTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     setTitleError(!trimTitle);
     setUserError(!userId);
