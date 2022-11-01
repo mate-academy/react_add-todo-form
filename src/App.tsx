@@ -12,11 +12,19 @@ export const App = () => {
 
   const trimedTitle = title.trim();
 
-  const largestTodoId = todos.reduce((previously, currently) => (
-    previously.id > currently.id ? previously : currently
-  ));
+  const handleSubmit = (event:React.MouseEvent) => {
+    event.preventDefault();
 
-  const updateTodoList = () => {
+    if (!trimedTitle || userSelect === '0') {
+      setSubmit(false);
+
+      return null;
+    }
+
+    const largestTodoId = todos.reduce((previously, currently) => (
+      previously.id > currently.id ? previously : currently
+    ));
+
     const newTodo = {
       id: largestTodoId.id + 1,
       title: trimedTitle,
@@ -30,20 +38,12 @@ export const App = () => {
     setTitile('');
     setUserSelect('0');
     setSubmit(true);
-  };
-
-  const handleSubmit = (event:React.MouseEvent) => {
-    setSubmit(false);
-    event.preventDefault();
-    if (trimedTitle !== '' && userSelect !== '0') {
-      setSubmit(true);
-
-      return updateTodoList();
-    }
-
-    setSubmit(false);
 
     return null;
+  };
+
+  const handleUserChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setTitile(event.target.value);
   };
 
   return (
@@ -61,12 +61,12 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => setTitile(event.target.value)}
+            onChange={handleUserChange}
           />
           {
-            !trimedTitle && !submit
-              ? <span className="error">Please enter a title</span>
-              : null
+            !trimedTitle && !submit && (
+              <span className="error">Please enter a title</span>
+            )
           }
         </div>
 
@@ -89,16 +89,16 @@ export const App = () => {
             }
           </select>
           {
-            userSelect === '0' && !submit
-              ? <span className="error">Please choose a user</span>
-              : null
+            userSelect === '0' && !submit && (
+              <span className="error">Please choose a user</span>
+            )
           }
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => handleSubmit(event)}
+          onClick={handleSubmit}
         >
           Add
         </button>

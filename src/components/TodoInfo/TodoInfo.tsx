@@ -10,7 +10,7 @@ type Props = {
 
 export const TodoInfo:React.FC<Props> = ({ todo }) => {
   const { title, completed, userId } = todo;
-  const user = users.find(use => userId === use.id);
+  const user = users.find(userFromList => userId === userFromList.id);
 
   return (
     <article
