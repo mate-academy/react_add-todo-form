@@ -53,8 +53,10 @@ export const App = () => {
       ]));
     }
 
-    if (title && choosenUser) {
+    if (trimmedTitle && choosenUser) {
       clearForm();
+    } else if (title !== trimmedTitle) {
+      setTitle('');
     }
   };
 
@@ -103,11 +105,15 @@ export const App = () => {
               >
                 Choose a user
               </option>
-              {users.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))}
+              {users.map(user => {
+                const { id, name } = user;
+
+                return (
+                  <option value={id} key={id}>
+                    {name}
+                  </option>
+                );
+              })}
             </select>
           </label>
           {userError
