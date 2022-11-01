@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/todo';
 import { User } from './types/user';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -16,7 +16,7 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -36,7 +36,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
-      user: getUser(userId),
+      user: getUserById(userId),
     };
 
     setTodoList(currentTodos => {
@@ -128,4 +128,3 @@ export const App = () => {
     </div>
   );
 };
-git add src/.
