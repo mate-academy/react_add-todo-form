@@ -67,38 +67,37 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <label htmlFor="title">
-            <input
-              type="text"
-              placeholder="Enter a title"
-              data-cy="titleInput"
-              id="title"
-              value={newTitle}
-              onChange={handleTitleChange}
-            />
-            {!newTitle && emptyTitleError && (
-              <span className="error">Please enter a title</span>
-            )}
-          </label>
+          <label htmlFor="title">Title: </label>
+          <input
+            type="text"
+            placeholder="Enter a title"
+            data-cy="titleInput"
+            id="title"
+            value={newTitle}
+            onChange={handleTitleChange}
+          />
+          {!newTitle && emptyTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
+
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">
-            <select
-              data-cy="userSelect"
-              id="userSelect"
-              value={selectedUser}
-              onChange={handleSelect}
-            >
-              <option value="0" disabled>Choose a user</option>
+          <label htmlFor="userSelect">User: </label>
+          <select
+            data-cy="userSelect"
+            id="userSelect"
+            value={selectedUser}
+            onChange={handleSelect}
+          >
+            <option value="0" disabled>Choose a user</option>
 
-              {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
           {!selectedUser && emptyUserError && (
             <span className="error">Please choose a user</span>
           )}
