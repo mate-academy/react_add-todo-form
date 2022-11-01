@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { TodosWithUsers } from './react-app-env';
+import { TodosWithUsers } from './types/types';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -28,22 +28,33 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const trimTitle = newTitle.trim();
 
-    setEmptyTitleError(!emptyTitleError);
-    setemptyUserError(!emptyUserError);
+    setEmptyTitleError(!trimTitle);
+    setemptyUserError(!selectedUser);
+
+    if (!trimTitle || !selectedUser) {
+      return;
+    }
 
     const newTodo: TodosWithUsers = {
       id: getBigestId(),
-      title: newTitle,
+      title: trimTitle,
       completed: false,
       userId: selectedUser,
       user: usersFromServer.find(user => user.id === selectedUser) || null,
     };
 
-    if (newTitle && selectedUser) {
-      setTodos(curTodos => [...curTodos, newTodo]);
-      resetForm();
-    }
+    setTodos(curTodos => [...curTodos, newTodo]);
+    resetForm();
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+  };
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
   };
 
   return (
@@ -56,38 +67,38 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            placeholder="Enter a title"
-            data-cy="titleInput"
-            value={newTitle}
-            onChange={event => {
-              setNewTitle(event.target.value);
-            }}
-          />
-          {!newTitle && emptyTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          <label htmlFor="title">
+            <input
+              type="text"
+              placeholder="Enter a title"
+              data-cy="titleInput"
+              id="title"
+              value={newTitle}
+              onChange={handleTitleChange}
+            />
+            {!newTitle && emptyTitleError && (
+              <span className="error">Please enter a title</span>
+            )}
+          </label>
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={selectedUser}
-            onChange={event => {
-              setSelectedUser(+event.target.value);
-            }}
+          <label htmlFor="userSelect">
+            <select
+              data-cy="userSelect"
+              id="userSelect"
+              value={selectedUser}
+              onChange={handleSelect}
+            >
+              <option value="0" disabled>Choose a user</option>
 
-          >
-            <option value="0" disabled>Choose a user</option>
-
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
           {!selectedUser && emptyUserError && (
             <span className="error">Please choose a user</span>
           )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { TodosWithUsers } from '../../react-app-env';
+import { TodosWithUsers } from '../../types/types';
 
 type Props = {
   todos: TodosWithUsers[];
