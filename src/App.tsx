@@ -30,21 +30,10 @@ export const App = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (inputText.trim() === '' && selectedUser === '0') {
-      setSubmittedTitle(false);
-      setSubmittedUser(false);
 
-      return;
-    }
-
-    if (inputText.trim() === '') {
-      setSubmittedTitle(false);
-
-      return;
-    }
-
-    if (selectedUser === '0') {
-      setSubmittedUser(false);
+    if (inputText.trim() === '' || selectedUser === '0') {
+      setSubmittedTitle(inputText.trim() !== '');
+      setSubmittedUser(selectedUser !== '0');
 
       return;
     }
