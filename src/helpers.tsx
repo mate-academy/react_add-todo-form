@@ -1,4 +1,5 @@
-import { TodoWithUser, User } from './react-app-env';
+import { TodoWithUser } from './types/TodoWithUser';
+import { User } from './types/User';
 
 export const getTodoId = (todos: TodoWithUser[]) => {
   const id = Math.max(...todos.map(todo => todo.id));
