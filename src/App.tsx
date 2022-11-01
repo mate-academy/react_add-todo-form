@@ -28,45 +28,62 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('0');
   const [submittedUser, setSubmittedUser] = useState(true);
 
-  const submitHandle = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (inputText.trim() !== '') {
-      setSubmittedTitle(true);
-    } else {
+    if (inputText.trim() === '' && selectedUser === '0') {
       setSubmittedTitle(false);
-    }
-
-    if (selectedUser !== '0') {
-      setSubmittedUser(true);
-    } else {
       setSubmittedUser(false);
+
+      return;
     }
 
-    if (inputText.trim() !== '' && selectedUser !== '0') {
-      setTodos(listOfTodos => {
-        const sorted = [...todos].sort((a, b) => (a.id - b.id));
-        const newId = sorted[sorted.length - 1].id + 1;
-        const user = users.find(searchUser => {
-          return searchUser.id === Number(selectedUser);
-        });
+    if (inputText.trim() === '') {
+      setSubmittedTitle(false);
 
-        setInputText('');
-        setSelectedUser('0');
+      return;
+    }
 
-        return (
-          [
-            ...listOfTodos,
-            {
-              id: newId,
-              title: inputText,
-              completed: false,
-              userId: Number(selectedUser),
-              user,
-            },
-          ]
-        );
+    if (selectedUser === '0') {
+      setSubmittedUser(false);
+
+      return;
+    }
+
+    setTodos(listOfTodos => {
+      const sorted = [...todos].sort((a, b) => (a.id - b.id));
+      const newId = sorted[sorted.length - 1].id + 1;
+      const user = users.find(searchUser => {
+        return searchUser.id === Number(selectedUser);
       });
-    }
+
+      return (
+        [
+          ...listOfTodos,
+          {
+            id: newId,
+            title: inputText,
+            completed: false,
+            userId: Number(selectedUser),
+            user,
+          },
+        ]
+      );
+    });
+
+    setInputText('');
+    setSelectedUser('0');
+  };
+
+  const handleSelectOnChange = (value: string) => {
+    setSubmittedUser(true);
+    setSelectedUser(value);
+  };
+
+  const handleInputOnChange = (value: string) => {
+    setSubmittedTitle(true);
+    const char = value;
+
+    setInputText(char.replace(/[^\p{L} ' ']/gu, ''));
   };
 
   return (
@@ -76,7 +93,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => submitHandle(event)}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <div className="field">
           <label>
@@ -86,12 +103,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={inputText}
-              onChange={(event) => {
-                setSubmittedTitle(true);
-                const char = event.target.value;
-
-                setInputText(char.replace(/[^\p{L} ' ']/gu, ''));
-              }}
+              onChange={(event) => handleInputOnChange(event.target.value)}
             />
           </label>
           {!submittedTitle
@@ -104,10 +116,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={(event) => {
-                setSubmittedUser(true);
-                setSelectedUser(event.target.value);
-              }}
+              onChange={(event) => handleSelectOnChange(event.target.value)}
             >
               <option value="0">Choose a user</option>
               {users.map(user => {
