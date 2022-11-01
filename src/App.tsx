@@ -13,7 +13,7 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState(false);
 
   const handleTitle = (value: string) => {
-    const pattern = /^[A-Za-z0-9а-яА-ЯёЁіІїЇ ]+$/;
+    const pattern = /^$|^[A-Za-z0-9а-яА-ЯёЁіІїЇ]+$/;
 
     if (value.match(pattern)) {
       setTitle(value);
