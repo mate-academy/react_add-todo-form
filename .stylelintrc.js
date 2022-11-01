@@ -1,4 +1,15 @@
 module.exports = {
   extends: "@mate-academy/stylelint-config",
-  rules: {}
+  rules: {
+    "import/extensions": [
+       "error",
+       "ignorePackages",
+       {
+         "js": "never",
+         "jsx": "never",
+         "ts": "never",
+         "tsx": "never"
+       }
+    ]
+ }
 };
