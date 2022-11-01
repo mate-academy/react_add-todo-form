@@ -4,11 +4,15 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { FullTodoInfo } from './types/Type';
+import { FullTodoInfo, User } from './types/Type';
+
+const findUser = (userId: number): User | null => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
 
 const todosWithUsers: FullTodoInfo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) || null,
+  user: findUser(todo.userId),
 }));
 
 const getTodoId = (todos: FullTodoInfo[]) => {
@@ -37,8 +41,7 @@ export const App = () => {
   const hadleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const selectedUser = usersFromServer
-      .find(user => user.id === userID) || null;
+    const selectedUser = findUser(userID);
 
     const titleTrim = title.trim();
 
