@@ -4,57 +4,35 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-// const getObj = todosFromServer.find(el => el.userId);
-// const getId = getObj.userId;
+function getUser(userId: number): Users | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
 
-// const userId2 = usersFromServer.find(item => item.id === getId);
-// console.log(userId2);
+  // if there is no user with a given userId
+  return foundUser || null;
+}
 
-// function getUser(userId: number): Users | null {
-//   const foundUser = usersFromServer.find(user => user.id === userId);
-
-//   return foundUser || null;
-// }
-
-// const todos: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
-
-// function getUser(userId: number) {
-//   const foundUser = usersFromServer.find(user => user.id === userId);
-
-//   return foundUser || null;
-// }
-
-// const todos: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App: React.FC = () => {
   const [inputInfo, setInputInfo] = useState('');
   const [selectedName, setSelectedName] = useState('');
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todoList, setTodoList] = useState(todosFromServer);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
-  function getUser(userId: number) {
-    const foundUser = usersFromServer.find(user => user.id === userId);
+  const onAdd = () => {
+    const newTodoObj = {
+      id: todoList.length += 1,
+      title: inputInfo,
+      completed: false,
+      userId: selectedName,
+      user: getUser(userId),
+    };
 
-    return foundUser;
-  }
-
-  const onAdd = (todo: Todo) => {
-    setTodos(previous => {
-      const newTodoObj = {
-        ...todo,
-        title: inputInfo,
-        selectedName: getUser(todo.userId),
-        completed: false,
-        // id: todo.id,
-      };
-
+    setTodoList(previous => {
       return [...previous, newTodoObj];
     });
   };
@@ -68,14 +46,13 @@ export const App: React.FC = () => {
 
     if (!inputInfo) {
       setErrorTitle(true);
-      // return;
     }
 
     if (!selectedName) {
       setErrorUser(true);
     }
 
-    onAdd(inputInfo, );
+    onAdd();
 
     setInputInfo('');
     setSelectedName('');
@@ -101,7 +78,7 @@ export const App: React.FC = () => {
               value={inputInfo}
               onChange={(event) => {
                 setInputInfo(event.target.value);
-                setErrorTitle(false);
+                // setErrorTitle(false);
               }}
             />
           </label>
@@ -117,7 +94,7 @@ export const App: React.FC = () => {
               value={selectedName}
               onChange={(event) => {
                 setSelectedName(event.target.value);
-                setErrorUser(false);
+                // setErrorUser(false);
               }}
             >
               <option
@@ -130,7 +107,8 @@ export const App: React.FC = () => {
               {usersFromServer.map(user => (
                 <option
                   key={user.id}
-                  value={user.name}
+                  // value={user.name}
+                  value={user.id}
                 >
                   {user.name}
                 </option>
@@ -150,8 +128,8 @@ export const App: React.FC = () => {
     </div>
   );
 };
-  // const handleSubmit = (event) => {
-  //   const {value, name} = event.target;
+// const handleSubmit = (event) => {
+//   const {value, name} = event.target;
 
 //   setSelectedName({[name]: value})
 
@@ -164,6 +142,36 @@ export const App: React.FC = () => {
 //       title: inputInfo,
 //       selectedName,
 //       id: generadeId += 1,
+//     };
+
+//     return [...previous, newTodoObj];
+//   });
+// };
+
+// const onAdd = () => {
+//   setTodoList(previous => {
+//     const newTodoObj = {
+//       title: inputInfo,
+//       selectedName,
+//       user: getUser(),
+//       completed: false,
+//       // id: todo.id,
+//     };
+
+//     return [...previous, newTodoObj];
+//   });
+// };
+
+// const onAdd = () => {
+//   setTodoList(previous => {
+//     const newTodoObj = {
+//       ...todoList,
+//       id: todoList.length += 1,
+//       title: inputInfo,
+//       selectedName,
+//       // user: getUser(),
+//       completed: false,
+//       // id: todo.id,
 //     };
 
 //     return [...previous, newTodoObj];
