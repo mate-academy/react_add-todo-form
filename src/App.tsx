@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -28,7 +28,7 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('0');
   const [submittedUser, setSubmittedUser] = useState(true);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputText.trim() === '' && selectedUser === '0') {
       setSubmittedTitle(false);
@@ -74,14 +74,14 @@ export const App = () => {
     setSelectedUser('0');
   };
 
-  const handleSelectOnChange = (value: string) => {
+  const handleSelectOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSubmittedUser(true);
-    setSelectedUser(value);
+    setSelectedUser(event.target.value);
   };
 
-  const handleInputOnChange = (value: string) => {
+  const handleInputOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSubmittedTitle(true);
-    const char = value;
+    const char = event.target.value;
 
     setInputText(char.replace(/[^\p{L} ' ']/gu, ''));
   };
@@ -93,7 +93,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -103,7 +103,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={inputText}
-              onChange={(event) => handleInputOnChange(event.target.value)}
+              onChange={handleInputOnChange}
             />
           </label>
           {!submittedTitle
@@ -116,7 +116,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={(event) => handleSelectOnChange(event.target.value)}
+              onChange={handleSelectOnChange}
             >
               <option value="0">Choose a user</option>
               {users.map(user => {
