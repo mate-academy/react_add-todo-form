@@ -1,61 +1,139 @@
 import './App.scss';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+import { TodoWithUser } from './types';
+
+function todoWithUsers(): TodoWithUser[] {
+  return todosFromServer.map(todo => {
+    const foundUser = usersFromServer.find(user => user.id === todo.userId);
+
+    return {
+      ...todo,
+      user: foundUser,
+    };
+  });
+}
 
 export const App = () => {
+  const [users] = useState(usersFromServer);
+  const [todos, setTodos] = useState(todoWithUsers());
+
+  const [inputText, setInputText] = useState('');
+  const [submittedTitle, setSubmittedTitle] = useState(true);
+
+  const [selectedUser, setSelectedUser] = useState('0');
+  const [submittedUser, setSubmittedUser] = useState(true);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (inputText.trim() === '' || selectedUser === '0') {
+      setSubmittedTitle(inputText.trim() !== '');
+      setSubmittedUser(selectedUser !== '0');
+
+      return;
+    }
+
+    setTodos(listOfTodos => {
+      const sorted = [...todos].sort((a, b) => (a.id - b.id));
+      const newId = sorted[sorted.length - 1].id + 1;
+      const user = users.find(searchUser => {
+        return searchUser.id === Number(selectedUser);
+      });
+
+      return (
+        [
+          ...listOfTodos,
+          {
+            id: newId,
+            title: inputText,
+            completed: false,
+            userId: Number(selectedUser),
+            user,
+          },
+        ]
+      );
+    });
+
+    setInputText('');
+    setSelectedUser('0');
+  };
+
+  const handleSelectOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSubmittedUser(true);
+    setSelectedUser(event.target.value);
+  };
+
+  const handleInputOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSubmittedTitle(true);
+    const char = event.target.value;
+
+    setInputText(char.replace(/[^\p{L} ' ']/gu, ''));
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            {'Title: '}
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={inputText}
+              onChange={handleInputOnChange}
+            />
+          </label>
+          {!submittedTitle
+            && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            {'User: '}
+            <select
+              data-cy="userSelect"
+              value={selectedUser}
+              onChange={handleSelectOnChange}
+            >
+              <option value="0">Choose a user</option>
+              {users.map(user => {
+                const { id, name } = user;
 
-          <span className="error">Please choose a user</span>
+                return (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+
+          {!submittedUser
+            && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList
+        todos={todos}
+      />
     </div>
   );
 };
