@@ -35,14 +35,9 @@ export const App: React.FC = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newTodo = {
-      id: createIdForTodo(),
-      title: todoTitle,
-      completed: false,
-      userId: selectedUserId,
-    };
+    const trimmedTitle = todoTitle.trim();
 
-    if (!todoTitle) {
+    if (!trimmedTitle) {
       setHasTitleErr(true);
     }
 
@@ -50,7 +45,14 @@ export const App: React.FC = () => {
       setHasUserErr(true);
     }
 
-    if (todoTitle && selectedUserId) {
+    if (trimmedTitle && selectedUserId) {
+      const newTodo = {
+        id: createIdForTodo(),
+        title: trimmedTitle,
+        completed: false,
+        userId: selectedUserId,
+      };
+
       setTodosToShow(currTodos => ([...currTodos, newTodo]));
       clearForm();
     }
