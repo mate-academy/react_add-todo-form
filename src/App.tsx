@@ -3,7 +3,8 @@ import './App.scss';
 import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { ExtendedTodo, User } from './react-app-env';
+import { User } from './types/User';
+import { ExtendedTodo } from './types/ExtendedTodo';
 import { TodoList } from './components/TodoList';
 
 const findUserById = (users: User[], userId: number) => {

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
-import { ExtendedTodo } from '../../react-app-env';
+import { ExtendedTodo } from '../../types/ExtendedTodo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {

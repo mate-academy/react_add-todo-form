@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { ExtendedTodo } from '../../react-app-env';
+import { ExtendedTodo } from '../../types/ExtendedTodo';
 
 type Props = {
   todos: ExtendedTodo[];
