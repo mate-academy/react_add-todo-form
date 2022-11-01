@@ -8,9 +8,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 
 function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todosList: Todo[] = todosFromServer.map(todo => ({
@@ -47,7 +45,7 @@ export const App = () => {
       user: getUser(userId),
     };
 
-    if (!title) {
+    if (!trimedTitle) {
       setIsTitleError(true);
     }
 
