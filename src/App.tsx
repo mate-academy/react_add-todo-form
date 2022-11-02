@@ -5,37 +5,62 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { Todo } from './react-app-env';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+import { FullTodoInfo } from './types/FullTodoInfo';
+
+const getUserById = (userId: number) => {
+  const user = usersFromServer
+    .find((currentUser: User) => currentUser.id === userId);
+
+  return user || null;
+};
+
+const todosWithUsers: FullTodoInfo[] = todosFromServer.map((todo: Todo) => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<FullTodoInfo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
   const [selectUser, setSelectUser] = useState(0);
-  const [submit, setSubmit] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
-  const largestId = Math.max(...todos.map(todo => todo.id));
-
-  const addTodo = () => {
-    const newTodo: Todo = {
+  const addTodo = (largestId: number) => {
+    const newTodo: FullTodoInfo = {
       id: largestId + 1,
       title,
       completed: false,
       userId: +selectUser,
+      user: getUserById(+selectUser),
     };
 
     setTodos([...todos, newTodo]);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmit(true);
 
-    if (title && selectUser) {
-      addTodo();
-      setSubmit(false);
+    setHasTitleError(!title);
+    setHasUserError(!selectUser);
+
+    if (title.trim() && selectUser) {
+      const largestId = Math.max(...todos.map(todo => todo.id));
+
+      addTodo(largestId);
       setTitle('');
       setSelectUser(0);
     }
+  };
+
+  const setTitleHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const setSelectHandle = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectUser(+e.target.value);
   };
 
   return (
@@ -58,11 +83,11 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(e) => setTitle(e.currentTarget.value)}
+            onChange={setTitleHandle}
           />
           {
-            submit && !title
-            && (<span className="error">Please enter a title</span>)
+            hasTitleError && !title
+            && <span className="error">Please enter a title</span>
           }
         </div>
 
@@ -75,7 +100,7 @@ export const App = () => {
             id="selectUser"
             data-cy="userSelect"
             value={selectUser}
-            onChange={(e) => setSelectUser(+e.currentTarget.value)}
+            onChange={setSelectHandle}
           >
             <option value="0" disabled>Choose a user</option>
 
@@ -87,8 +112,8 @@ export const App = () => {
 
           </select>
           {
-            submit && !selectUser
-            && (<span className="error">Please choose a user</span>)
+            hasUserError && !selectUser
+            && <span className="error">Please choose a user</span>
           }
         </div>
 

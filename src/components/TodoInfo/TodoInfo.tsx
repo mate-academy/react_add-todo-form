@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-import { FullTodoInfo } from '../../react-app-env.d';
+import { FullTodoInfo } from '../../types/FullTodoInfo';
 
 type Props = {
   todo: FullTodoInfo,
