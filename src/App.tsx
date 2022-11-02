@@ -4,7 +4,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './types/TodoWithUser';
-import { User } from './types/user';
+import { User } from './types/User';
 
 const getUser = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
