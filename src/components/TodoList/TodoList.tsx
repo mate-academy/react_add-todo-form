@@ -1,18 +1,46 @@
-import React from 'react';
-import { TodoWithUser } from '../../react-app-env';
+import React, {
+  useCallback, useContext, useMemo, useState,
+} from 'react';
+import debounce from 'lodash/debounce';
 import { TodoInfo } from '../TodoInfo';
+import { TodoForm } from '../TodoForm';
+import { TodosContext } from '../TodosProvider';
 
-type Props = {
-  todos: TodoWithUser[]
-  deleteTodo: (todoId: number) => void
-};
+export const TodoList: React.FC = React.memo(() => {
+  const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
 
-export const TodoList: React.FC<Props> = React.memo(({ todos, deleteTodo }) => {
+  const applyQuery = useCallback(
+    debounce(setAppliedQuery, 1000),
+    [],
+  );
+
+  const { todos, addTodo } = useContext(TodosContext);
+
+  const visibleTodos = useMemo(() => {
+    return todos.filter(todo => (
+      todo.title.toLowerCase().includes(appliedQuery.toLowerCase())
+    ));
+  }, [todos, appliedQuery]);
+
   return (
-    <section className="TodoList">
-      {todos.map(todo => (
-        <TodoInfo todo={todo} key={todo.id} deleteTodo={deleteTodo} />
-      ))}
-    </section>
+    <>
+      <input
+        type="text"
+        value={query}
+        onChange={event => {
+          setQuery(event.target.value);
+          applyQuery(event.target.value);
+        }}
+      />
+
+      <TodoForm addNewTodo={addTodo} />
+
+      <section className="TodoList">
+        {visibleTodos.map(todo => (
+          <TodoInfo todo={todo} key={todo.id} />
+        ))}
+      </section>
+    </>
   );
 });

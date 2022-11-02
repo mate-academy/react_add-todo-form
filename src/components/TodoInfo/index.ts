@@ -1,1 +1,1 @@
-export * from './TodoInfo';
+export * from '../TodoList/TodoInfo';

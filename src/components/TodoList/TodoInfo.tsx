@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodoWithUser } from '../../react-app-env';
+import { TodosContext } from '../TodosProvider';
 
 type Props = {
   todo: TodoWithUser
-  deleteTodo: (todoId: number) => void
 };
 
-export const TodoInfo: React.FC<Props> = React.memo(({ todo, deleteTodo }) => {
+export const TodoInfo: React.FC<Props> = React.memo(({ todo }) => {
   const {
     id, title, user, completed,
   } = todo;
+
+  const { deleteTodo } = useContext(TodosContext);
 
   return (
     <article
