@@ -3,7 +3,7 @@ import { TodoWithUser } from '../../react-app-env';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {
-  todos: TodoWithUser[]
+  todos: TodoWithUser[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => (

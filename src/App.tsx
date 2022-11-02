@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './react-app-env';
-
-const getTodoId = (todos: TodoWithUser[]) => {
-  const id = Math.max(...todos.map(todo => todo.id));
-
-  return id + 1;
-};
 
 const getUserById = (userId: number) => {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -23,11 +16,17 @@ const todoWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-export const App = () => {
+const getTodoId = (todos: TodoWithUser[]) => {
+  const id = Math.max(...todos.map(todo => todo.id));
+
+  return id + 1;
+};
+
+export const App: React.FC = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(todoWithUser);
+  const [todoTitle, setTodoTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  const [todoTitle, setTodoTitle] = useState('');
   const [todoUserId, setTodoUserId] = useState(0);
 
   const resetForm = () => {
@@ -76,6 +75,7 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
+        action="/api/users"
         method="POST"
         onSubmit={handlFromSubmit}
       >
@@ -83,13 +83,15 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            value={todoTitle}
             placeholder="Enter a title"
+            value={todoTitle}
             onChange={handleInput}
           />
           {hasTitleError && (
-            <span className="error">Please enter a title</span>)}
-
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -107,7 +109,8 @@ export const App = () => {
             ))}
           </select>
           {hasUserIdError && (
-            <span className="error">Please choose a user</span>)}
+            <span className="error">Please choose a user</span>
+          )}
 
         </div>
 
