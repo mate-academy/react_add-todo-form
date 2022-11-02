@@ -46,7 +46,7 @@ export const App = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (title.length === 0) {
+    if (!title.length) {
       setIsTitle(true);
     }
 
@@ -84,8 +84,9 @@ export const App = () => {
               setTitle(value);
             }}
           />
-          {(isTitle && title.length === 0)
-             && (<span className="error">Please enter a title</span>)}
+          {isTitle && !title.length && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -105,11 +106,8 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(userFromSerever => {
-              const { id, name } = userFromSerever;
-
-              return <option value={id} key={id}>{name}</option>;
-            })}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>{name}</option>))}
           </select>
 
           {(isUser && userId === 0)
