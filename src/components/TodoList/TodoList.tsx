@@ -1,4 +1,4 @@
-import { TodoWithUser } from '../../react-app-env';
+import { TodoWithUser } from '../../types/TodoWithUser';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {

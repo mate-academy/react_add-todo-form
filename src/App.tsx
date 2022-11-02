@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser } from './react-app-env';
 import { TodoList } from './components/TodoList';
+import { TodoWithUser } from './types/TodoWithUser';
 
 const getUserById = (userId: number) => {
   return usersFromServer.find(user => user.id === userId) || null;
