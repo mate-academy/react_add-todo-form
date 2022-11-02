@@ -55,7 +55,6 @@ export const App = () => {
       user: getUser(todoUserId),
     };
 
-
     setTodos(currTodos => [...currTodos, newTodo]);
     resetForm();
   };
@@ -82,13 +81,13 @@ export const App = () => {
         <div className="field">
           <label>
             Title:
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={todoTitle}
-            onChange={handleInput}
-          />
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={todoTitle}
+              onChange={handleInput}
+            />
           </label>
 
           {hasTitleError && (
@@ -101,26 +100,26 @@ export const App = () => {
         <div className="field">
           <label>
             User:
-          <select
-            data-cy="userSelect"
-            value={todoUserId}
-            onChange={handleSelect}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            <select
+              data-cy="userSelect"
+              value={todoUserId}
+              onChange={handleSelect}
+            >
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
-          {hasUserIdError && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
+
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {hasUserIdError && (
+              <span className="error">
+                Please choose a user
+              </span>
+            )}
           </label>
         </div>
 
