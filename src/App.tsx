@@ -83,7 +83,9 @@ export const App = () => {
             onChange={handleInput}
             placeholder="Enter a title"
           />
-          {titleError && (<span className="error">Please enter a title</span>)}
+          {titleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -106,7 +108,9 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {userError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
