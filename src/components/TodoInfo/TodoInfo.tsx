@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { TodoWithUser } from '../../react-app-env';
+import { TodoWithUser } from '../../types/TodoWithUser';
 import { UserInfo } from '../UserInfo';
 
 type Props = {

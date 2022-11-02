@@ -3,7 +3,8 @@ import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser, User } from './react-app-env';
+import { TodoWithUser } from './types/TodoWithUser';
+import { User } from './types/user';
 
 const getUser = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -54,10 +55,9 @@ export const App = () => {
       user: getUser(todoUserId),
     };
 
-    if (!hasTitleError && !hasUserIdError) {
-      setTodos(currTodos => [...currTodos, newTodo]);
-      resetForm();
-    }
+
+    setTodos(currTodos => [...currTodos, newTodo]);
+    resetForm();
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,13 +80,16 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-        <input
+          <label>
+            Title:
+          <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={todoTitle}
             onChange={handleInput}
           />
+          </label>
 
           {hasTitleError && (
             <span className="error">
@@ -96,7 +99,9 @@ export const App = () => {
         </div>
 
         <div className="field">
-        <select
+          <label>
+            User:
+          <select
             data-cy="userSelect"
             value={todoUserId}
             onChange={handleSelect}
@@ -116,6 +121,7 @@ export const App = () => {
               Please choose a user
             </span>
           )}
+          </label>
         </div>
 
         <button type="submit" data-cy="submitButton">
