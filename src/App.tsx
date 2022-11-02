@@ -15,10 +15,13 @@ const todoWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [todos, setTodos] = useState<TodoWithUser[]>(todoWithUser);
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
+  const [hasNoUserError, setHasNoUserError] = useState(false);
+  const [hasNoTitleError, setHasNoTitleError] = useState(false);
+  const [hasNoValidError, setHasNoValidError] = useState(false);
+  const [hasOnlySpacesError, setHasOnlySpacesError] = useState(false);
 
   const addTodo = () => {
     const maxId = Math.max(...todos.map(todo => todo.id));
@@ -27,14 +30,10 @@ export const App = () => {
       title,
       completed: false,
       userId: selectedUserId,
-      user: usersFromServer.find(user => user.id === selectedUserId) || null,
+      user: getUser(selectedUserId),
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
-  };
-
-  const clearButtonClick = () => {
-    setIsButtonClicked(false);
   };
 
   const clearTitle = () => {
@@ -43,6 +42,13 @@ export const App = () => {
 
   const clearSelectedUserId = () => {
     setSelectedUserId(0);
+  };
+
+  const clearErrors = () => {
+    setHasNoTitleError(false);
+    setHasNoValidError(false);
+    setHasOnlySpacesError(false);
+    setHasNoUserError(false);
   };
 
   const isValidTitle = (text: string) => {
@@ -57,18 +63,32 @@ export const App = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    clearButtonClick();
   };
 
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setIsButtonClicked(true);
+    clearErrors();
 
     if (title.trim() && selectedUserId && isValidTitle(title)) {
       addTodo();
       clearTitle();
       clearSelectedUserId();
-      clearButtonClick();
+    }
+
+    if (!title) {
+      setHasNoTitleError(true);
+    }
+
+    if (!isValidTitle(title)) {
+      setHasNoValidError(true);
+    }
+
+    if (!title.trim() && title) {
+      setHasOnlySpacesError(true);
+    }
+
+    if (!selectedUserId) {
+      setHasNoUserError(true);
     }
   };
 
@@ -91,27 +111,20 @@ export const App = () => {
             onChange={handleInputChange}
           />
 
-          {isButtonClicked
-          && !title
-          && (
+          {hasNoTitleError && (
             <span className="error">
               &nbsp;Please enter a title &#128521;
             </span>
           )}
 
-          {isButtonClicked
-          && !isValidTitle(title)
-          && (
+          {hasNoValidError && (
             <span className="error">
               &nbsp;The title can contain only letters,
               numbers and spaces &#9757;
             </span>
           )}
 
-          {isButtonClicked
-          && !title.trim()
-          && title
-          && (
+          {hasOnlySpacesError && (
             <span className="error">
               &nbsp;The title cannot contain only spaces &#128575;
             </span>
@@ -135,9 +148,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isButtonClicked
-          && !selectedUserId
-          && (
+          {hasNoUserError && (
             <span className="error">
               &nbsp;Please choose a user &#128521;
             </span>
