@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { TodoWithUser } from '../../react-app-env';
 import { UserInfo } from '../UserInfo';
+import { TodoWithUser } from '../../types/TodoWithUser';
 
 type Props = {
   todo: TodoWithUser,

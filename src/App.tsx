@@ -3,7 +3,8 @@ import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser, User } from './react-app-env';
+import { User } from './types/User';
+import { TodoWithUser } from './types/TodoWithUser';
 
 const findUser = (userId: number, users: User[]) => {
   return users.find(user => user.id === userId) || null;
@@ -15,20 +16,20 @@ const todos: TodoWithUser[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [newTodos, setNewTodos] = useState(todos);
+  const [newTodos, setNewTodos] = useState<TodoWithUser[]>(todos);
   const [newTitle, setNewTitle] = useState('');
-  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
   const [selectUserId, setSelectUserId] = useState(0);
-  const [isSelectUserIdValid, setIsSelectUserIdValid] = useState(false);
+  const [isSelectUserIdInvalid, setIsSelectUserIdInvalid] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.target.value);
-    setIsTitleValid(false);
+    setIsTitleInvalid(false);
   };
 
   const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectUserId(+event.target.value);
-    setIsSelectUserIdValid(false);
+    setIsSelectUserIdInvalid(false);
   };
 
   const reset = () => {
@@ -39,13 +40,17 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (newTitle.trim().length === 0) {
-      setIsTitleValid(true);
+    const titleTrim = newTitle.trim();
+
+    if (!titleTrim || !selectUserId) {
+      setIsTitleInvalid(!titleTrim);
+      setIsSelectUserIdInvalid(!selectUserId);
+
+      return;
     }
 
-    setIsSelectUserIdValid(!selectUserId);
     const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
-    const newTodo = {
+    const newTodo: TodoWithUser = {
       id: newTodoId,
       title: newTitle,
       completed: false,
@@ -53,10 +58,8 @@ export const App: React.FC = () => {
       user: findUser(selectUserId, usersFromServer),
     };
 
-    if (newTitle.trim() && selectUserId) {
-      setNewTodos(currentTodos => [...currentTodos, newTodo]);
-      reset();
-    }
+    setNewTodos(currentTodos => [...currentTodos, newTodo]);
+    reset();
   };
 
   return (
@@ -80,7 +83,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {isTitleValid && (
+          {isTitleInvalid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -95,15 +98,15 @@ export const App: React.FC = () => {
             >
               <option value="0" disabled>Choose a user</option>
 
-              {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
+              {usersFromServer.map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name}
                 </option>
               ))}
             </select>
           </label>
 
-          {isSelectUserIdValid && (
+          {isSelectUserIdInvalid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
