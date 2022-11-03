@@ -17,18 +17,18 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [inputInfo, setInputInfo] = useState('');
-  const [selectedName, setSelectedName] = useState('');
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState('');
   const [todoList, setTodoList] = useState(todosFromServer);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
   const onAdd = () => {
     const newTodoObj = {
-      id: todoList.length += 1,
-      title: inputInfo,
+      // id:
+      title,
       completed: false,
-      userId: selectedName,
+      userId,
       user: getUser(userId),
     };
 
@@ -40,22 +40,22 @@ export const App: React.FC = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    if (!inputInfo || !selectedName) {
+    if (!title || !userId) {
       return;
     }
 
-    if (!inputInfo) {
+    if (!title) {
       setErrorTitle(true);
     }
 
-    if (!selectedName) {
+    if (!userId) {
       setErrorUser(true);
     }
 
-    onAdd();
+    onAdd(userId);
 
-    setInputInfo('');
-    setSelectedName('');
+    setTitle('');
+    setUserId('');
   };
 
   return (
@@ -75,9 +75,9 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               name="title"
-              value={inputInfo}
+              value={title}
               onChange={(event) => {
-                setInputInfo(event.target.value);
+                setTitle(event.target.value);
                 // setErrorTitle(false);
               }}
             />
@@ -89,11 +89,11 @@ export const App: React.FC = () => {
           <label>
             {'User: '}
             <select
-              name="selectedName"
+              name="userId"
               data-cy="userSelect"
-              value={selectedName}
+              value={userId}
               onChange={(event) => {
-                setSelectedName(event.target.value);
+                setUserId(event.target.value);
                 // setErrorUser(false);
               }}
             >
@@ -107,8 +107,8 @@ export const App: React.FC = () => {
               {usersFromServer.map(user => (
                 <option
                   key={user.id}
-                  // value={user.name}
-                  value={user.id}
+                  value={user.name}
+                  // value={user.id}
                 >
                   {user.name}
                 </option>
@@ -131,7 +131,7 @@ export const App: React.FC = () => {
 // const handleSubmit = (event) => {
 //   const {value, name} = event.target;
 
-//   setSelectedName({[name]: value})
+//   userId({[name]: value})
 
 // }
 
@@ -139,8 +139,8 @@ export const App: React.FC = () => {
 //   setTodos(previous => {
 //     const newTodoObj = {
 //       ...todo,
-//       title: inputInfo,
-//       selectedName,
+//       title: title,
+//       userId,
 //       id: generadeId += 1,
 //     };
 
@@ -151,8 +151,8 @@ export const App: React.FC = () => {
 // const onAdd = () => {
 //   setTodoList(previous => {
 //     const newTodoObj = {
-//       title: inputInfo,
-//       selectedName,
+//       title: title,
+//       userId,
 //       user: getUser(),
 //       completed: false,
 //       // id: todo.id,
@@ -167,8 +167,8 @@ export const App: React.FC = () => {
 //     const newTodoObj = {
 //       ...todoList,
 //       id: todoList.length += 1,
-//       title: inputInfo,
-//       selectedName,
+//       title: title,
+//       userId,
 //       // user: getUser(),
 //       completed: false,
 //       // id: todo.id,
