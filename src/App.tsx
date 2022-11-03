@@ -56,7 +56,6 @@ export const App = () => {
       );
 
       reset();
-    }
   };
 
   return (
@@ -76,7 +75,7 @@ export const App = () => {
             value={title}
             onChange={event => setTitle(event.target.value)}
           />
-          {(!title && hasTitleError) && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -99,7 +98,7 @@ export const App = () => {
             })}
           </select>
 
-          {(hasUserError && !todoUserId) && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
