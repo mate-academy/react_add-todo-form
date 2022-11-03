@@ -56,6 +56,7 @@ export const App = () => {
       );
 
       reset();
+    }
   };
 
   return (
