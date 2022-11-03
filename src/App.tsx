@@ -18,23 +18,30 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(0);
   const [todoList, setTodoList] = useState(todosFromServer);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
+  const selectedUser = usersFromServer.find(user => user.id === userId);
+
   const onAdd = () => {
     const newTodoObj = {
-      // id:
+      id: Math.max(...todoList.map(todo => todo.id)) + 1,
       title,
       completed: false,
       userId,
-      user: getUser(userId),
+      // user: getUser(userId),
     };
+
+    console.log(selectedUser)
 
     setTodoList(previous => {
       return [...previous, newTodoObj];
+      // console.log(previous)
+      // console.log(newTodoObj)
     });
+    console.log(todoList)
   };
 
   const handleSubmit = (event: any) => {
@@ -46,16 +53,20 @@ export const App: React.FC = () => {
 
     if (!title) {
       setErrorTitle(true);
+
+      return;
     }
 
     if (!userId) {
       setErrorUser(true);
+
+      return;
     }
 
-    onAdd(userId);
+    onAdd();
 
     setTitle('');
-    setUserId('');
+    setUserId(0);
   };
 
   return (
@@ -93,7 +104,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               value={userId}
               onChange={(event) => {
-                setUserId(event.target.value);
+                setUserId(+event.target.value);
                 // setErrorUser(false);
               }}
             >
@@ -107,8 +118,8 @@ export const App: React.FC = () => {
               {usersFromServer.map(user => (
                 <option
                   key={user.id}
-                  value={user.name}
-                  // value={user.id}
+                  // value={user.name}
+                  value={user.id}
                 >
                   {user.name}
                 </option>
