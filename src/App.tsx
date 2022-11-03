@@ -42,8 +42,12 @@ export const App = () => {
     return null;
   };
 
-  const handleUserChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitle = (event:React.ChangeEvent<HTMLInputElement>) => {
     setTitile(event.target.value);
+  };
+
+  const handleChangeUser = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    setUserSelect(event.target.value);
   };
 
   return (
@@ -61,7 +65,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={handleUserChange}
+            onChange={handleTitle}
           />
           {
             !trimedTitle && !submit && (
@@ -79,7 +83,7 @@ export const App = () => {
             data-cy="userSelect"
             name="userSelect"
             value={userSelect}
-            onChange={event => setUserSelect(event.target.value)}
+            onChange={handleChangeUser}
           >
             <option value="0" disabled>Choose a user</option>
             {
