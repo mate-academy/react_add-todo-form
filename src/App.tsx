@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { Todo } from './react-app-env';
+import { Todo } from './types/Todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -25,19 +25,22 @@ export const App = () => {
   const [todos, setTodos] = useState(todosAndUsers);
   const [title, setTitle] = useState('');
   const [todoUserId, setTodoUserId] = useState(0);
-  const [hasError, setHasError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const reset = () => {
     setTitle('');
     setTodoUserId(0);
-    setHasError(false);
+    setHasTitleError(false);
+    setHasUserError(false);
   };
 
-  const onFormSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoUserId || !title) {
-      setHasError(true);
+    if (!todoUserId || !title.trim()) {
+      setHasTitleError(true);
+      setHasUserError(true);
     } else {
       setTodos(
         [
@@ -63,7 +66,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={event => onFormSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -73,7 +76,7 @@ export const App = () => {
             value={title}
             onChange={event => setTitle(event.target.value)}
           />
-          {(!title && hasError) && (
+          {(!title && hasTitleError) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -96,7 +99,7 @@ export const App = () => {
             })}
           </select>
 
-          {(hasError && !todoUserId) && (
+          {(hasUserError && !todoUserId) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
