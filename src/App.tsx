@@ -1,5 +1,4 @@
 import './App.scss';
-
 import React, { useState } from 'react';
 import { TodoWithUser } from './types/TodoWithUser';
 import { TodoList } from './components/TodoList';
