@@ -12,7 +12,7 @@ export const App = () => {
   }
 
   const [title, setTitle] = useState('');
-  const [userSelect, setUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userSelectError, setUserSelectError] = useState(false);
 
@@ -31,21 +31,21 @@ export const App = () => {
     // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
     setTitleError(!title.trim());
     // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-    setUserSelectError(!userSelect);
+    setUserSelectError(!selectedUserId);
 
-    if (title.trim() && userSelect) {
+    if (title.trim() && selectedUserId) {
       const newUser = {
         id: renderTodos.length,
         title,
         completed: false,
-        userId: userSelect,
-        user: getUserById(userSelect),
+        userId: selectedUserId,
+        user: getUserById(selectedUserId),
       };
 
       setRenderTodos(state => [...state, newUser]);
 
       setTitle('');
-      setUser(0);
+      setSelectedUserId(0);
     }
   };
 
@@ -77,9 +77,9 @@ export const App = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={userSelect}
+              value={selectedUserId}
               onChange={(e) => {
-                setUser(+e.target.value);
+                setSelectedUserId(+e.target.value);
                 setUserSelectError(false);
               }}
             >
