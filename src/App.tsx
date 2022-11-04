@@ -19,7 +19,7 @@ const todosWithUsers: TodoWithUser[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUsers);
+  const [todos] = useState<TodoWithUser[]>(todosWithUsers);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -39,18 +39,17 @@ export const App: React.FC = () => {
     setHasUserError(false);
   };
 
-  const resetForm = () => {
-    setNewTodoTitle('');
-    setSelectedUserId(0);
-  };
-
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const trimTitle = newTodoTitle.trim();
 
-    setHasTitleError(!trimTitle);
-    setHasUserError(!selectedUserId);
+    if (!trimTitle || !selectedUserId) {
+      setHasTitleError(!trimTitle);
+      setHasUserError(!selectedUserId);
+
+      return;
+    }
 
     const user = getUserById(selectedUserId);
     const id = Math.max(...todos.map(todo => todo.id + 1));
@@ -63,10 +62,10 @@ export const App: React.FC = () => {
       userId: selectedUserId,
     };
 
-    if (trimTitle && selectedUserId) {
-      setTodos((currentTodos) => [...currentTodos, newTodo]);
-      resetForm();
-    }
+    todosWithUsers.push(newTodo);
+
+    setNewTodoTitle('');
+    setSelectedUserId(0);
   };
 
   return (
