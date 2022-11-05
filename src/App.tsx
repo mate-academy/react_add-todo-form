@@ -39,24 +39,43 @@ export const App = () => {
     event.preventDefault();
 
     if (!todoUserId || !title.trim()) {
-      setHasTitleError(true);
-      setHasUserError(true);
-    } else {
-      setTodos(
-        [
-          ...todos,
-          {
-            id: getTodoId(todos),
-            title,
-            completed: false,
-            userId: todoUserId,
-            user: getUser(todoUserId),
-          },
-        ],
-      );
+      if (!title.trim()) {
+        setHasTitleError(true);
+      }
 
-      reset();
+      if (todoUserId === 0) {
+        setHasUserError(true);
+      }
+
+      return;
     }
+
+    const todo = {
+      id: getTodoId(todos),
+      title,
+      completed: false,
+      userId: todoUserId,
+      user: getUser(todoUserId),
+    };
+
+    setTodos(prevTodos => [...prevTodos, todo]);
+    reset();
+  };
+
+  const handleOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (hasTitleError) {
+      setHasTitleError(false);
+    }
+
+    setTitle(event.target.value.replace(/[^a-zа-я0-9\s]/gi, ''));
+  };
+
+  const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (hasUserError) {
+      setHasUserError(false);
+    }
+
+    setTodoUserId(+event.target.value);
   };
 
   return (
@@ -74,7 +93,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={handleOnInput}
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
@@ -85,7 +104,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={todoUserId}
-            onChange={event => setTodoUserId(+event.target.value)}
+            onChange={handleOnSelect}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => {
