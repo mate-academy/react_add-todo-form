@@ -23,7 +23,7 @@ export const App = () => {
 
   const [userOption, setUserOption] = useState('0');
 
-  const [todosWithSendedUser, setTodosWithSendedUser] = useState(todosWithUser);
+  const [todos, setTodos] = useState(todosWithUser);
 
   const [isDataCorrect, setIsDataCorrect] = useState(true);
 
@@ -34,6 +34,14 @@ export const App = () => {
   const handleUserChange = (event: BaseSyntheticEvent) => {
     setUserOption(event.target.value);
   };
+
+  const titleError
+  = !isDataCorrect
+  && titleInput === '';
+
+  const userOptionError
+  = !isDataCorrect
+  && userOption === '0';
 
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
@@ -48,13 +56,13 @@ export const App = () => {
       author.id === parseInt(userOption, 10)
     ));
 
-    const maxPrevId = todosWithSendedUser.reduce((prev, current) => {
+    const maxPrevId = todos.reduce((prev, current) => {
       return current.id > prev
         ? current.id
         : prev;
     }, 0);
 
-    setTodosWithSendedUser((state) => (
+    setTodos((state) => (
       [
         ...state,
         {
@@ -91,8 +99,7 @@ export const App = () => {
             id="titleInput"
           />
           {
-            !isDataCorrect
-            && titleInput === ''
+            titleError
             && (
               <span className="error">Please enter a title</span>
             )
@@ -109,15 +116,14 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {
-              usersFromServer.map((user: User) => (
-                <option value={user.id} key={user.name}>{user.name}</option>
+              usersFromServer.map(({ id, name }) => (
+                <option value={id} key={name}>{name}</option>
               ))
             }
           </select>
 
           {
-            !isDataCorrect
-            && userOption === '0'
+            userOptionError
             && (
               <span className="error">Please choose a user</span>
             )
@@ -128,7 +134,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todosWithSendedUser} />
+      <TodoList todos={todos} />
     </div>
   );
 };
