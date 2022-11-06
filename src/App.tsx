@@ -19,7 +19,7 @@ const todosWithUser = todosFromServer.map((todo: Todo) => {
 });
 
 export const App = () => {
-  const [titleInput, setTitleInput] = useState('');
+  const [title, settitle] = useState('');
 
   const [userOption, setUserOption] = useState('0');
 
@@ -27,8 +27,8 @@ export const App = () => {
 
   const [isDataCorrect, setIsDataCorrect] = useState(true);
 
-  const handleTitleInputChange = (event: BaseSyntheticEvent) => {
-    setTitleInput(event.target.value);
+  const handleTitleChange = (event: BaseSyntheticEvent) => {
+    settitle(event.target.value);
   };
 
   const handleUserChange = (event: BaseSyntheticEvent) => {
@@ -37,7 +37,7 @@ export const App = () => {
 
   const titleError
   = !isDataCorrect
-  && titleInput === '';
+  && title === '';
 
   const userOptionError
   = !isDataCorrect
@@ -46,7 +46,7 @@ export const App = () => {
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
 
-    if (userOption === '0' || titleInput === '') {
+    if (userOption === '0' || title === '') {
       setIsDataCorrect(false);
 
       return;
@@ -67,7 +67,7 @@ export const App = () => {
         ...state,
         {
           id: maxPrevId + 1,
-          title: titleInput,
+          title,
           completed: false,
           userId: selectedUser?.id || null,
           user: selectedUser,
@@ -75,7 +75,7 @@ export const App = () => {
       ]));
 
     setIsDataCorrect(true);
-    setTitleInput('');
+    settitle('');
     setUserOption('0');
   };
 
@@ -93,9 +93,9 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            value={titleInput}
+            value={title}
             placeholder="Enter a title"
-            onChange={handleTitleInputChange}
+            onChange={handleTitleChange}
             id="titleInput"
           />
           {
