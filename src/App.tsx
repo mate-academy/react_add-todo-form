@@ -62,7 +62,7 @@ export const App: React.FC = () => {
       userId: selectedUserId,
     };
 
-    todosWithUsers.push(newTodo);
+    todos.push(newTodo);
 
     setNewTodoTitle('');
     setSelectedUserId(0);
