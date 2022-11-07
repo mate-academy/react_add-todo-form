@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { GoodsList } from './components/GoodsList';
 import { AddGoodForm } from './components/AddGoodForm';
-import {addGood, deleteGood, getGoods} from './api/goods';
+import { addGood, deleteGood, getGoods } from './api/goods';
 import { Good } from './types/Good';
 import { getColorById } from './utils/getColorById';
 import { Color } from './types/Color';
