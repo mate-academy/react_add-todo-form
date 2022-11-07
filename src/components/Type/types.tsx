@@ -1,14 +1,14 @@
-export interface Todo {
+export type Todo = {
   id: number,
   title: string,
   completed: boolean,
   userId: number,
-  user?: Uset | null
-}
+  user?: User | null
+};
 
-export interface Uset {
+export type User = {
   id: number,
   name: string,
   username: string,
   email: string,
-}
+};

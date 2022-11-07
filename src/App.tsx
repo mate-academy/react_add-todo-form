@@ -23,26 +23,24 @@ export const App = () => {
     }
   ));
 
-  const [renderTodos, setRenderTodos] = useState(todoAndUser);
+  const [todos, setTodos] = useState(todoAndUser);
 
   const handleTodoAdd = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
-    // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
     setTitleError(!title.trim());
-    // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
     setUserSelectError(!selectedUserId);
 
     if (title.trim() && selectedUserId) {
       const newUser = {
-        id: renderTodos.length,
+        id: todos.length,
         title,
         completed: false,
         userId: selectedUserId,
         user: getUserById(selectedUserId),
       };
 
-      setRenderTodos(state => [...state, newUser]);
+      setTodos(state => [...state, newUser]);
 
       setTitle('');
       setSelectedUserId(0);
@@ -105,7 +103,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={renderTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
