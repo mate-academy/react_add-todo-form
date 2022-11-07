@@ -1,12 +1,24 @@
 import { FormEvent, SetStateAction, useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
+import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import './App.scss';
 
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todosWithUser: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(todosWithUser);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newSelectedUser, setNewSelectedUser] = useState('0');
   const [isTitleError, setIsTitleError] = useState(false);
@@ -49,6 +61,7 @@ export const App: React.FC = () => {
       title: newTodoTitle,
       completed: false,
       userId: +newSelectedUser,
+      user: getUser(+newSelectedUser),
     };
 
     setTodos([...todos, todo]);
@@ -74,9 +87,7 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             id="title"
             value={newTodoTitle}
-            onChange={(event) => {
-              handleChangeTitle(event.target.value);
-            }}
+            onChange={(event) => handleChangeTitle(event.target.value)}
           />
           {isTitleError && <span className="error">Please enter a title</span>}
         </div>
@@ -91,13 +102,11 @@ export const App: React.FC = () => {
             onChange={(event) => handleChangeUser(event.target.value)}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => {
-              return (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
           {isUserError && <span className="error">Please choose a user</span>}
@@ -108,10 +117,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos}
-        users={usersFromServer}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
