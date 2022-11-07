@@ -23,9 +23,9 @@ export const App = () => {
   const [todosForRender, setTodos] = useState(todos);
 
   const [title, setTitle] = useState('');
-  const [UserID, addUserId] = useState(0);
-  const [titleErr, setTitleError] = useState(false);
-  const [userErr, setUserIdError] = useState(false);
+  const [userID, addUserId] = useState(0);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const refreshForm = () => {
     setTitle('');
@@ -34,47 +34,36 @@ export const App = () => {
 
   const inputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   function generateId() {
-    const max = todosForRender.reduce((largest, x) => {
-      return largest > x ? largest : x;
-    });
-
-    return max.id + 1;
+    return Math.max(...todosForRender.map(o => o.id)) + 1;
   }
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title === '' || UserID === 0) {
-      if (title === '') {
-        setTitleError(true);
-      }
-
-      if (UserID === 0) {
-        setUserIdError(true);
-      }
-
-      return;
-    }
+    setIsTitleError(title === '');
+    setIsUserError(userID === 0);
 
     const newTodo: Todo = {
       id: generateId(),
-      userId: UserID,
+      userId: userID,
       title,
       completed: false,
-      user: getUser(UserID),
+      user: getUser(userID),
     };
 
-    setTodos(currTodos => [...currTodos, newTodo]);
-    refreshForm();
+    if (title !== '' && userID !== 0) {
+      setTodos(currTodos => [...currTodos, newTodo]);
+      refreshForm();
+    }
   };
 
   const handleUsers = (event: React.ChangeEvent<HTMLSelectElement>) => {
     addUserId(+event.target.value);
-    setUserIdError(false);
+    setIsUserError(false);
   };
 
   return (
@@ -97,7 +86,7 @@ export const App = () => {
               onChange={inputValue}
             />
           </label>
-          {titleErr && (
+          {isTitleError && (
             <span className="error">
               Please choose a user
             </span>
@@ -109,7 +98,7 @@ export const App = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={UserID}
+              value={userID}
               onChange={handleUsers}
             >
               <option value="0" disabled>
@@ -127,7 +116,7 @@ export const App = () => {
             </select>
           </label>
 
-          {userErr && (
+          {isUserError && (
             <span className="error">
               Please choose a user
             </span>
