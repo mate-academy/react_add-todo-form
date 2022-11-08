@@ -1,8 +1,8 @@
 import React from 'react';
-import { GoodWithColor } from '../../types/GoodWithColor';
+import { Good } from '../../types/Good';
 
 interface Props {
-  goods: GoodWithColor[]
+  goods: Good[]
 }
 
 export const GoodsList: React.FC<Props> = ({ goods }) => {
@@ -13,7 +13,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
       {goods.map(({ id, name, color }) => (
         <li
           key={id}
-          style={{ color: color?.name || DEFAULT_COLOR }}
+          style={{ color: color || DEFAULT_COLOR }}
         >
           {name}
         </li>
