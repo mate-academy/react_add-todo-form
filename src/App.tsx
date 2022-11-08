@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { User, TodoWithUser } from './types';
+import { TodoWithUser } from './types/TodoWithUserTypes';
+import { User } from './types/UserTypes';
 
 const getUserById = (userId: number, users: User[]) => (
   users.find(user => user.id === userId) || null
@@ -78,7 +79,7 @@ export const App = () => {
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
-            id='title'
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -93,7 +94,7 @@ export const App = () => {
         <div className="field">
           <label htmlFor="user">Title: </label>
           <select
-            id='user'
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={handleChange}
