@@ -4,9 +4,14 @@ import { Good } from '../../types/Good';
 interface Props {
   goods: Good[];
   removeGood: (id: number) => void;
+  selectGood: (id: number) => void;
 }
 
-export const GoodsList: React.FC<Props> = ({ goods, removeGood }) => {
+export const GoodsList: React.FC<Props> = ({
+  goods,
+  removeGood,
+  selectGood,
+}) => {
   const DEFAULT_COLOR = 'black';
 
   return (
@@ -23,6 +28,13 @@ export const GoodsList: React.FC<Props> = ({ goods, removeGood }) => {
               type="button"
             >
               X
+            </button>
+
+            <button
+              onClick={() => selectGood(id)}
+              type="button"
+            >
+              Edit
             </button>
           </>
         </li>
