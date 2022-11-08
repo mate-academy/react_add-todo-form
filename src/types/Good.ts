@@ -1,5 +1,7 @@
 export interface Good {
   id: number;
-  colorId: number;
+  color: string;
   name: string;
+  createdAt: string;
+  updatedAt: string;
 }

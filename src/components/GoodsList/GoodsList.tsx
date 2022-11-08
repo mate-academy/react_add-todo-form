@@ -1,11 +1,17 @@
 import React from 'react';
-import { GoodWithColor } from '../../types/GoodWithColor';
+import { Good } from '../../types/Good';
 
 interface Props {
-  goods: GoodWithColor[]
+  goods: Good[];
+  removeGood: (id: number) => void;
+  selectGood: (id: number) => void;
 }
 
-export const GoodsList: React.FC<Props> = ({ goods }) => {
+export const GoodsList: React.FC<Props> = ({
+  goods,
+  removeGood,
+  selectGood,
+}) => {
   const DEFAULT_COLOR = 'black';
 
   return (
@@ -13,9 +19,24 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
       {goods.map(({ id, name, color }) => (
         <li
           key={id}
-          style={{ color: color?.name || DEFAULT_COLOR }}
+          style={{ color: color || DEFAULT_COLOR }}
         >
-          {name}
+          <>
+            <span>{name}</span>
+            <button
+              onClick={() => removeGood(id)}
+              type="button"
+            >
+              X
+            </button>
+
+            <button
+              onClick={() => selectGood(id)}
+              type="button"
+            >
+              Edit
+            </button>
+          </>
         </li>
       ))}
     </ul>
