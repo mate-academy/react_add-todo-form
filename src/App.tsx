@@ -88,7 +88,7 @@ export const App = () => {
           </label>
           {isTitleError && (
             <span className="error">
-              Please choose a user
+              Please enter a title
             </span>
           )}
         </div>
