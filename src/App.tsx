@@ -21,44 +21,45 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App:React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState([...todos]);
   const [title, setTitle] = useState('');
-  const [hasTitle, setHasTitle] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
-  const [hasUser, setHasUser] = useState(false);
-  const [isCompleted, setCompleted] = useState(false);
+  const [errorExistence, setErrorExistence] = useState(false);
+  const [selectError, setSelectError] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^a-zA-Z0-9А-Яа-я\s]/g, ''));
-    setHasTitle(false);
+    setTitle(event.target.value);
+    setSelectError(false);
   };
 
-  const handleName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
+    setErrorExistence(false);
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title.trim().length) {
-      setHasTitle(true);
+      setSelectError(true);
     }
 
     if (!selectedUser) {
-      setHasUser(true);
+      setErrorExistence(true);
     }
 
     if (title.trim().length && selectedUser) {
       const newTodo = {
         userId: selectedUser || 0,
-        id: visibleTodos[visibleTodos.length - 1].id + 1,
+        id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
         title: title.trim(),
-        completed: isCompleted,
+        completed: selectError,
         user: usersFromServer.find(user => user.id === selectedUser) || null,
       };
 
       setVisibleTodos([...visibleTodos, newTodo]);
       setTitle('');
       setSelectedUser(0);
-      setCompleted(false);
+      setSelectError(false);
+      setErrorExistence(false);
     }
   };
 
@@ -82,7 +83,7 @@ export const App:React.FC = () => {
             onChange={handleTitle}
           />
 
-          {hasTitle && (
+          {selectError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -93,7 +94,7 @@ export const App:React.FC = () => {
             data-cy="userSelect"
             name="todoUser"
             value={selectedUser}
-            onChange={handleName}
+            onChange={handleUserName}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -101,7 +102,7 @@ export const App:React.FC = () => {
             ))}
           </select>
 
-          {hasUser && (
+          {errorExistence && (
             <span className="error">Plese choose a user</span>
           )}
         </div>
