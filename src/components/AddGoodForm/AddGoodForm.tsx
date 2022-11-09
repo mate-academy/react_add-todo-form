@@ -2,17 +2,12 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import { Color } from '../../types/Color';
 
-const colors: Color[] = [
-  { id: 1, name: 'red' },
-  { id: 2, name: 'green' },
-  { id: 3, name: 'blue' },
-];
-
 interface Props {
-  addNewGood: (name: string, colorId: number) => void
+  addNewGood: (name: string, colorId: number) => void;
+  colors: Color[];
 }
 
-export const AddGoodForm: React.FC<Props> = ({ addNewGood }) => {
+export const AddGoodForm: React.FC<Props> = ({ addNewGood, colors }) => {
   const [newGoodName, setNewGoodName] = useState('');
   const [hasNameError, setHasNameError] = useState(false);
   const [selectedColorId, setSelectedColorId] = useState(0);
