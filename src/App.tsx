@@ -20,42 +20,37 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [titleError, setTitleError] = useState('');
   const [userId, setUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
-
-  const newTodos = () => {
-    const newTodo = {
-      id: [...todos.sort((a, b) => b.id - a.id)][0].id + 1,
-      userId: +userId,
-      title,
-      completed: false,
-      user: getUser(userId),
-    };
-
-    todos.push(newTodo);
-  };
+  const [userError, setUserError] = useState('');
+  const [visibleTodos, setVisibleTodos] = useState([...todos]);
 
   const hundleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.length === 0) {
-      setTitleError(true);
+    if (!title) {
+      setTitleError('Please enter a title');
     }
 
-    if (userId === 0) {
-      setTitleError(true);
+    if (!userId) {
+      setUserError('Please choose a user');
     }
 
-    if (title.length === 0 && !userId) {
-      return;
-    }
+    if (title.trim().length && userId) {
+      const newTodo = {
+        id: [...todos.sort((a, b) => b.id - a.id)][0].id + 1,
+        userId: +userId,
+        title,
+        completed: false,
+        user: getUser(userId),
+      };
 
-    newTodos();
-    setTitle('');
-    setTitleError(false);
-    setUserId(0);
-    setUserError(false);
+      setTitle('');
+      setTitleError('');
+      setUserId(0);
+      setUserError('');
+      setVisibleTodos([...visibleTodos, newTodo]);
+    }
   };
 
   return (
@@ -75,7 +70,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setTitleError(false);
+              setTitleError('');
             }}
           />
           { titleError && (
@@ -89,7 +84,7 @@ export const App: React.FC = () => {
             value={userId}
             onChange={(event) => {
               setUserId(+event.target.value);
-              setUserError(false);
+              setUserError('');
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -108,7 +103,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
