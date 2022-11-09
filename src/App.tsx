@@ -18,11 +18,18 @@ const todosWithUsers: TodoWithUser[] = todosFromServer.map(todo => {
   };
 });
 
+const getTodoId = (todos: TodoWithUser[]) => {
+  const id = Math.max(...todos.map(todo => todo.id));
+
+  return id + 1;
+};
+
 export const App: React.FC = () => {
   const [todosList, setTodosList] = useState<TodoWithUser[]>(todosWithUsers);
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleValue, setTitleValue] = useState('');
   const [submitTouched, setSubmitTouched] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const resetInputs = () => {
     setTitleValue('');
@@ -33,24 +40,31 @@ export const App: React.FC = () => {
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!selectedUser || !titleValue) {
-      setSubmitTouched(true);
-    } else {
-      setTodosList(
-        [
-          ...todosList,
-          {
-            id: Math.max(...todosList.map(todo => todo.id)) + 1,
-            title: titleValue,
-            completed: false,
-            userId: selectedUser,
-            user: findUserById(selectedUser),
-          },
-        ],
-      );
+    const trimTitle = titleValue.trim();
 
-      resetInputs();
+    if (!trimTitle) {
+      setHasTitleError(true);
     }
+
+    if (!selectedUser) {
+      setSubmitTouched(true);
+    }
+
+    if (!trimTitle || !selectedUser) {
+      return;
+    }
+
+    const newTodo: TodoWithUser = {
+      id: getTodoId(todosList),
+      title: titleValue,
+      completed: false,
+      userId: selectedUser,
+      user: findUserById(selectedUser),
+    };
+
+    setTodosList(currentTodos => [...currentTodos, newTodo]);
+
+    resetInputs();
   };
 
   return (
@@ -70,7 +84,7 @@ export const App: React.FC = () => {
             value={titleValue}
             onChange={(event) => setTitleValue(event.target.value)}
           />
-          {(!titleValue && submitTouched) && (
+          {(!titleValue && hasTitleError) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
