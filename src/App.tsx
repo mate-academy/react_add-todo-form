@@ -25,20 +25,22 @@ export const App:React.FC = () => {
   const [errorExistence, setErrorExistence] = useState(false);
   const [selectError, setSelectError] = useState(false);
 
+  const titleTrim = title.trim().length;
+
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setSelectError(false);
   };
 
   const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(+event.target.value);
+    setSelectedUser(Number(event.target.value));
     setErrorExistence(false);
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim().length) {
+    if (!titleTrim) {
       setSelectError(true);
     }
 
@@ -98,7 +100,9 @@ export const App:React.FC = () => {
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
 
