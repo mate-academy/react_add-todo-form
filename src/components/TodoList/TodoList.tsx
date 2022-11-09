@@ -1,5 +1,5 @@
 import React from 'react';
-import { FullTodo } from '../../react-app-env';
+import { FullTodo } from '../../types/FullTodo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 type Props = {
