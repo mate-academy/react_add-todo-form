@@ -43,10 +43,12 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title.trim());
-    setUserIdError(!userId);
-
-    if (!title.trim() || !userId) {
+    if (!title.trim()) {
+      setHasTitleError(true);
+      return;
+    } 
+    if (!userId) {
+      setUserIdError(true);
       return;
     }
 
@@ -100,9 +102,9 @@ export const App = () => {
             onChange={handleChange}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>

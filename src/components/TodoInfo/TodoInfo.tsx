@@ -9,7 +9,10 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
-    title, id, user, completed,
+    title,
+    id,
+    user,
+    completed,
   } = todo;
 
   return (
