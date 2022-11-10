@@ -39,13 +39,26 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!newTitle);
+    setHasTitleError(!newTitle.trim());
     setHasUserError(!selectedUserId);
 
-    if (newTodo.title && selectedUserId) {
+    if (newTodo.title.trim() === '') {
+      setNewTitle('');
+      setHasTitleError(true);
+    }
+
+    if (newTodo.title.trim() && selectedUserId) {
       setTodosLegacy((currTodos) => [...currTodos, newTodo]);
       resetForm();
     }
+  };
+
+  const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+  };
+
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
   };
 
   return (
@@ -64,9 +77,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTitle}
-            onChange={(event) => {
-              setNewTitle(event.target.value);
-            }}
+            onChange={handleSetTitle}
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
@@ -78,22 +89,20 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={(event) => {
-              setSelectedUserId(+event.target.value);
-            }}
+            onChange={handleChangeUser}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
 
-          {!selectedUserId && hasUserError && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
