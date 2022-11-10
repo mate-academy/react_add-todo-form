@@ -22,30 +22,29 @@ export const App:React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState([...todos]);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
-  const [errorExistence, setErrorExistence] = useState(false);
-  const [selectError, setSelectError] = useState(false);
-
-  const titleTrim = title.trim().length;
+  const [isSelectError, setIsSelectError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setSelectError(false);
+    setIsTitleError(false);
   };
 
   const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(Number(event.target.value));
-    setErrorExistence(false);
+    setIsSelectError(false);
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const titleTrim = title.trim().length;
 
     if (!titleTrim) {
-      setSelectError(true);
+      setIsTitleError(true);
     }
 
     if (!selectedUser) {
-      setErrorExistence(true);
+      setIsSelectError(true);
     }
 
     if (title.trim().length && selectedUser) {
@@ -53,15 +52,15 @@ export const App:React.FC = () => {
         userId: selectedUser || 0,
         id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
         title: title.trim(),
-        completed: selectError,
+        completed: isTitleError,
         user: usersFromServer.find(user => user.id === selectedUser) || null,
       };
 
       setVisibleTodos([...visibleTodos, newTodo]);
       setTitle('');
       setSelectedUser(0);
-      setSelectError(false);
-      setErrorExistence(false);
+      setIsTitleError(false);
+      setIsSelectError(false);
     }
   };
 
@@ -85,7 +84,7 @@ export const App:React.FC = () => {
             onChange={handleTitle}
           />
 
-          {selectError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -106,8 +105,8 @@ export const App:React.FC = () => {
             ))}
           </select>
 
-          {errorExistence && (
-            <span className="error">Plese choose a user</span>
+          {isSelectError && (
+            <span className="error">Please choose a user</span>
           )}
         </div>
 
