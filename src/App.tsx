@@ -25,6 +25,24 @@ export const App: React.FC = () => {
   const [userError, setUserError] = useState('');
   const [visibleTodos, setVisibleTodos] = useState([...todos]);
 
+  const generateTodoId = (currentTodos: Todo[]) => {
+    const biggestId = [...currentTodos].sort((previous, current) => (
+      current.id - previous.id
+    ))[0].id;
+
+    return biggestId + 1;
+  };
+
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError('');
+  };
+
+  const changeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserError('');
+  };
+
   const hundleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -38,7 +56,7 @@ export const App: React.FC = () => {
 
     if (title.trim().length && userId) {
       const newTodo = {
-        id: [...todos.sort((a, b) => b.id - a.id)][0].id + 1,
+        id: generateTodoId(visibleTodos),
         userId: +userId,
         title,
         completed: false,
@@ -68,10 +86,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError('');
-            }}
+            onChange={changeTitle}
           />
           { titleError && (
             <span className="error">Please enter a title</span>
@@ -82,10 +97,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserError('');
-            }}
+            onChange={changeSelect}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
