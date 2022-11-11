@@ -5,14 +5,8 @@ type Props = {
   user: User;
 };
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
-  const { name } = user;
-
-  return (
-    <>
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
-        {name}
-      </a>
-    </>
-  );
-};
+export const UserInfo: React.FC<Props> = ({ user }) => (
+  <a className="UserInfo" href="mailto:Sincere@april.biz">
+    {user.name}
+  </a>
+);

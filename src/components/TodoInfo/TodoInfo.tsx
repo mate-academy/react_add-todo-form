@@ -4,12 +4,10 @@ type Props = {
   title: string;
 };
 
-export const TodoInfo: React.FC<Props> = ({ title }) => {
-  return (
-    <>
-      <h1 className="TodoInfo__title">
-        {title}
-      </h1>
-    </>
-  );
-};
+export const TodoInfo: React.FC<Props> = ({ title }) => (
+
+  <h1 className="TodoInfo__title">
+    {title}
+  </h1>
+
+);

@@ -9,15 +9,22 @@ import todosFromServer from './api/todos';
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(userss => userss.id === todo.userId) || null,
+  user: usersFromServer.find(users => users.id === todo.userId) || null,
 }));
+
+const usersFromServerFilter = usersFromServer
+  .find(users => todosFromServer
+    .find(todo => users.id === todo.userId)) || null;
 
 export const App = () => {
   const [name, setName] = useState('');
-  const [userName, setUser] = useState(usersFromServer
-    .find(users => todosFromServer
-      .find(todo => users.id === todo.userId)) || null);
+  const [userName, setUser] = useState(usersFromServerFilter);
   const [todos, setTodos] = useState<Todo[]>([...preparedTodos]);
+
+  const [formKey, setFormKey] = useState(10);
+  const [isShowEmptyNameMessage, setErrorName] = useState(false);
+  const [isShowEmptyUserMessage, setErrorUser] = useState(false);
+  const [currentUserId, setUserId] = useState(0);
 
   const addTodo = (title: string, user: User | null) => {
     const newTodo = {
@@ -33,17 +40,28 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (name === '') {
+      setErrorName(true);
+    }
+
+    if (currentUserId === 0) {
+      setErrorUser(true);
+    }
+
     addTodo(name, userName);
+    setName('');
+    setFormKey(formKey + 1);
   };
 
-  // const errorTitle = <span className="error">Please enter a title</span>;
-  // const errorUser = <span className="error">Please choose a user</span>;
+  const errorTitle = <span className="error">Please enter a title</span>;
+  const errorUser = <span className="error">Please choose a user</span>;
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form
+        key={formKey}
         action=" /api/users "
         method=" POST "
         onSubmit={handleSubmit}
@@ -51,6 +69,7 @@ export const App = () => {
         <div className="field">
           Name:
           {' '}
+
           <input
             type="text"
             data-cy="titleInput"
@@ -60,7 +79,7 @@ export const App = () => {
               setName(event.target.value);
             }}
           />
-
+          {(isShowEmptyNameMessage) && errorTitle}
         </div>
 
         <div className="field">
@@ -74,21 +93,26 @@ export const App = () => {
                 .find(item => item.name === value);
 
               setUser(needUser || null);
+              setUserId(1);
             }}
           >
-            <option
-              value="0"
-              selected
-              disabled
-            >
-              Choose a user
-            </option>
+            <option value={0}> Choose a user </option>
+
             { usersFromServer
               .map(users => (
-                <option value={users.name}>{users.name}</option>
+                <>
+                  <option
+                    key={users.id}
+                  >
+                    {users.name}
+
+                  </option>
+                </>
               ))}
+
           </select>
 
+          {(isShowEmptyUserMessage) && errorUser}
         </div>
 
         <button
@@ -97,10 +121,11 @@ export const App = () => {
         >
           Add
         </button>
+
       </form>
 
       <section className="TodoList">
-        <TodoList todos={preparedTodos} />
+        <TodoList todos={todos} />
       </section>
     </div>
   );
