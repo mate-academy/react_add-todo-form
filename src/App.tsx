@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
@@ -59,6 +59,14 @@ export const App = () => {
     }
   };
 
+  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+  };
+
+  const selectedUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -75,9 +83,7 @@ export const App = () => {
               data-cy="titleInput"
               value={todoTitle}
               placeholder="Please enter a title"
-              onChange={(event) => {
-                setTodoTitle(event.target.value);
-              }}
+              onChange={titleHandler}
             />
             {!todoTitle.trim() && titleError && (
               <span className="error">Please enter a title</span>
@@ -89,11 +95,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={event => {
-              setSelectedUserId(+event.target.value);
-            }}
+            onChange={selectedUserHandler}
           >
-            <option value="0" disabled>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(person => (
               <option value={person.id} key={person.id}>
                 {person.name}
