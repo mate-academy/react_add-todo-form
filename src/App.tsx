@@ -21,16 +21,16 @@ export const App = () => {
   const [todos, setTodos] = useState(todoListWithUsers);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const user = getUserById(selectedUserId);
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!todoTitle);
-    setUserError(!selectedUserId);
+    setIsTitleError(!todoTitle);
+    setIsUserError(!selectedUserId);
 
     if (!todoTitle && !selectedUserId) {
       return;
@@ -85,7 +85,7 @@ export const App = () => {
               placeholder="Please enter a title"
               onChange={titleHandler}
             />
-            {!todoTitle.trim() && titleError && (
+            {!todoTitle.trim() && isTitleError && (
               <span className="error">Please enter a title</span>
             )}
           </div>
@@ -105,7 +105,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!selectedUserId && userError && (
+          {!selectedUserId && isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
