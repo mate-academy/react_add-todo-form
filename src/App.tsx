@@ -32,6 +32,13 @@ export const App: React.FC = () => {
     setUserId(+event.target.value);
   };
 
+  const clearForm = () => {
+    setTitle('');
+    setUserId(0);
+    setTitleError('');
+    setUserIdError('');
+  };
+
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -53,10 +60,7 @@ export const App: React.FC = () => {
       };
 
       setVisibleTodos([...visibleTodos, newTodo]);
-      setTitle('');
-      setUserId(0);
-      setTitleError('');
-      setUserIdError('');
+      clearForm();
     }
   };
 
