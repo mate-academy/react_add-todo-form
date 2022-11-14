@@ -23,14 +23,21 @@ export const App = () => {
   const [todos, setTodos] = React.useState(todosWithUser);
   const [title, setTitle] = React.useState('');
   const [selectedUser, setSelectedUser] = React.useState(0);
-  const [addError, setAddError] = React.useState(false);
+  const [isTitleError, setIsTitleError] = React.useState(false);
+  const [isSlectedUserError, setIsSlectedUserError] = React.useState(false);
 
   const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !selectedUser) {
-      setAddError(true);
+    if (!title) {
+      setIsTitleError(true);
+    }
 
+    if (!selectedUser) {
+      setIsSlectedUserError(true);
+    }
+
+    if (!title || !selectedUser) {
       return;
     }
 
@@ -54,7 +61,8 @@ export const App = () => {
 
       setTitle('');
       setSelectedUser(0);
-      setAddError(false);
+      setIsTitleError(false);
+      setIsSlectedUserError(false);
     }
   };
 
@@ -75,12 +83,15 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={(event) => setTitle(() => {
-              return event.target.value.replace(/[^a-z0-9 ]/gi, '');
-            })}
+            onChange={(event) => {
+              setTitle(event.target.value.replace(/[^a-z0-9 ]/gi, ''));
+              if (isTitleError) {
+                setIsTitleError(false);
+              }
+            }}
           />
 
-          {addError && !title && (
+          {isTitleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -93,7 +104,12 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => setSelectedUser(+event.target.value)}
+            onChange={(event) => {
+              setSelectedUser(+event.target.value);
+              if (isSlectedUserError) {
+                setIsSlectedUserError(false);
+              }
+            }}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -103,7 +119,7 @@ export const App = () => {
             ))}
           </select>
 
-          {addError && !selectedUser && (
+          {isSlectedUserError && (
             <span className="error">
               Please choose a user
             </span>
