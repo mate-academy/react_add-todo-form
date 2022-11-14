@@ -6,10 +6,15 @@ import todosFromServer from './api/todos';
 
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
+
+const findUserById = (userId: number): User | null => (
+  users.find(user => user.id === userId) || null
+);
 
 const usersTodoList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: (users.find(user => user.id === todo.userId) || null),
+  user: findUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -17,41 +22,27 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [completed, setCompleted] = useState(false);
-  const [errors, setErrors] = useState({
-    titleError: false,
-    userError: false,
-  });
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleError = () => {
     if (!title.trim().length) {
-      setErrors((error) => ({
-        ...error,
-        titleError: true,
-      }));
+      setTitleError(true);
     }
 
     if (!userId) {
-      setErrors((error) => ({
-        ...error,
-        userError: true,
-      }));
+      setUserError(true);
     }
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.replace(/[^A-Za-z-А-Яа-я-іІїЇєЄ\s]/g, ''));
-    setErrors((error) => ({
-      ...error,
-      titleError: false,
-    }));
+    setTitleError(false);
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setErrors((error) => ({
-      ...error,
-      userError: false,
-    }));
+    setUserError(false);
   };
 
   const revertDefault = (todo: Todo) => {
@@ -107,7 +98,7 @@ export const App = () => {
             value={title}
             onChange={handleInput}
           />
-          {errors.titleError
+          {titleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -130,7 +121,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {errors.userError
+          {userError
             && <span className="error">Please choose a user</span>}
         </div>
 
