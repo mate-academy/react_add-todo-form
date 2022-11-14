@@ -6,7 +6,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function findUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 export const todosWithUser = () => {
   return todosFromServer.map(todo => ({
     ...todo,
-    user: getUser(todo.userId),
+    user: findUser(todo.userId),
   }));
 };
 
@@ -25,30 +25,36 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = React.useState(0);
   const [addError, setAddError] = React.useState(false);
 
-  const handleAddTodo = (event: React.SyntheticEvent) => {
+  const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
-    if (title && selectedUser) {
-      const user = getUser(selectedUser);
-      const allTodoIds = todos.map(todo => todo.id);
-      const maxID = Math.max(...allTodoIds);
 
-      if (user) {
-        const newTodo = {
-          id: maxID + 1,
-          userId: user.id,
-          title,
-          completed: false,
-        };
+    if (!title || !selectedUser) {
+      setAddError(true);
 
-        todosFromServer.push(newTodo);
-      }
+      return;
+    }
 
-      setTodos(todosWithUser);
+    const user = findUser(selectedUser);
+    const allTodoIds = todos.map(todo => todo.id);
+    const maxID = Math.max(...allTodoIds);
+
+    if (user) {
+      const newTodoWithUser = {
+        id: maxID + 1,
+        title,
+        completed: false,
+        userId: user.id,
+        user,
+      };
+
+      setTodos(prevState => ([
+        ...prevState,
+        newTodoWithUser,
+      ]));
+
       setTitle('');
       setSelectedUser(0);
       setAddError(false);
-    } else {
-      setAddError(true);
     }
   };
 
