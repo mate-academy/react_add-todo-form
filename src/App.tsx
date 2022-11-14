@@ -25,8 +25,10 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
+  const trimmedLen = title.trim().length;
+
   const handleError = () => {
-    if (!title.trim().length) {
+    if (!trimmedLen) {
       setTitleError(true);
     }
 
@@ -36,17 +38,20 @@ export const App = () => {
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^A-Za-z-А-Яа-я-іІїЇєЄ\s]/g, ''));
+    setTitle(event.target.value.replace(/[^A-Za-z\s]/g, ''));
     setTitleError(false);
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    setUserId(Number(event.target.value));
     setUserError(false);
   };
 
   const revertDefault = (todo: Todo) => {
-    setTodos([...todos, todo]);
+    setTodos(() => ([
+      ...todos,
+      todo,
+    ]));
     setTitle('');
     setUserId(0);
     setCompleted(false);
@@ -55,7 +60,7 @@ export const App = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim().length || !userId) {
+    if (!trimmedLen || !userId) {
       handleError();
 
       return;
