@@ -37,39 +37,6 @@ export const App = () => {
       }));
     }
   };
-  //   event.preventDefault();
-
-  //   if (!title.trim().length) {
-  //     setErrors((current) => ({
-  //       ...current,
-  //       titleError: true,
-  //     }));
-  //   }
-
-  //   if (!userId) {
-  //     setErrors((current) => ({
-  //       ...current,
-  //       userError: true,
-  //     }));
-  //   }
-
-  //   if (!title.trim().length || !userId) {
-  //     return;
-  //   }
-
-  //   const newTodo: Todo = {
-  //     title,
-  //     userId,
-  //     completed,
-  //     id: (Math.max(...todos.map(todo => todo.id)) + 1),
-  //     user: users.find(user => user.id === userId) || null,
-  //   };
-
-  //   setTodos([...todos, newTodo]);
-  //   setTitle('');
-  //   setUserId(0);
-  //   setCompleted(false);
-  // };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.replace(/[^A-Za-z-А-Яа-я-іІїЇєЄ\s]/g, ''));
@@ -85,6 +52,13 @@ export const App = () => {
       ...error,
       userError: false,
     }));
+  };
+
+  const revertDefault = (todo: Todo) => {
+    setTodos([...todos, todo]);
+    setTitle('');
+    setUserId(0);
+    setCompleted(false);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -107,10 +81,7 @@ export const App = () => {
       user,
     };
 
-    setTodos([...todos, newTodo]);
-    setTitle('');
-    setUserId(0);
-    setCompleted(false);
+    revertDefault(newTodo);
   };
 
   return (
