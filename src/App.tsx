@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
 
 import { Todo } from './types/Todo';
@@ -18,13 +18,13 @@ const usersFromServerFilter = usersFromServer
 
 export const App = () => {
   const [name, setName] = useState('');
-  const [userName, setUser] = useState(usersFromServerFilter);
+  const [userName, setUserName] = useState(usersFromServerFilter);
   const [todos, setTodos] = useState<Todo[]>([...preparedTodos]);
 
   const [formKey, setFormKey] = useState(10);
-  const [isShowEmptyNameMessage, setErrorName] = useState(false);
-  const [isShowEmptyUserMessage, setErrorUser] = useState(false);
-  const [currentUserId, setUserId] = useState(0);
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorUser, setIsErrorUser] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(0);
 
   const addTodo = (title: string, user: User | null) => {
     const newTodo = {
@@ -41,11 +41,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {
-      setErrorName(true);
+      setIsErrorName(true);
     }
 
     if (currentUserId === 0) {
-      setErrorUser(true);
+      setIsErrorUser(true);
     }
 
     addTodo(name, userName);
@@ -79,7 +79,7 @@ export const App = () => {
               setName(event.target.value);
             }}
           />
-          {(isShowEmptyNameMessage) && errorTitle}
+          {(isErrorName) && errorTitle}
         </div>
 
         <div className="field">
@@ -92,8 +92,8 @@ export const App = () => {
               const needUser = usersFromServer
                 .find(item => item.name === value);
 
-              setUser(needUser || null);
-              setUserId(1);
+              setUserName(needUser || null);
+              setCurrentUserId(1);
             }}
           >
             <option value={0}> Choose a user </option>
@@ -112,7 +112,7 @@ export const App = () => {
 
           </select>
 
-          {(isShowEmptyUserMessage) && errorUser}
+          {(isErrorUser) && errorUser}
         </div>
 
         <button

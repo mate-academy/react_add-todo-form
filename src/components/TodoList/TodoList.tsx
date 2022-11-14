@@ -1,3 +1,4 @@
+import React from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 import { UserInfo } from '../UserInfo/UserInfo';
@@ -17,6 +18,7 @@ export const TodoList: React.FC<Props> = ({ todos = [] }) => (
         className="TodoInfo TodoInfo--completed"
       >
         <TodoInfo title={title} />
+
         {user && <UserInfo user={user} />}
       </li>
     ))}
