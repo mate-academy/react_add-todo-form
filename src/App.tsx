@@ -40,6 +40,7 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (name === '') {
       setIsErrorName(true);
     }
@@ -48,9 +49,11 @@ export const App = () => {
       setIsErrorUser(true);
     }
 
-    addTodo(name, userName);
-    setName('');
-    setFormKey(formKey + 1);
+    if (name !== '' && currentUserId !== 0) {
+      addTodo(name, userName);
+      setName('');
+      setFormKey(formKey + 1);
+    }
   };
 
   const errorTitle = <span className="error">Please enter a title</span>;
