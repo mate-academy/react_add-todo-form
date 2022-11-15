@@ -27,7 +27,7 @@ export const App = () => {
 
   const trimmedLen = title.trim().length;
 
-  const handleError = () => {
+  const handleErrors = () => {
     if (!trimmedLen) {
       setTitleError(true);
     }
@@ -57,11 +57,11 @@ export const App = () => {
     setCompleted(false);
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!trimmedLen || !userId) {
-      handleError();
+      handleErrors();
 
       return;
     }
@@ -87,7 +87,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={event => onSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label
@@ -126,8 +126,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {userError
-            && <span className="error">Please choose a user</span>}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <div className="field">
