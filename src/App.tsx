@@ -40,7 +40,7 @@ export const App = () => {
           if (title.trim().length && userId) {
             setVisibleTodos((prevState) => {
               const newTodo: Todo = {
-                id: Math.max(...prevState.map(p => p.id)) + 1,
+                id: (Math.max(...prevState.map(p => p.id)) + 1),
                 completed: false,
                 userId,
                 title,
@@ -56,6 +56,9 @@ export const App = () => {
             setTitle('');
             setUserId(0);
           }
+
+          setTitle('');
+          setUserId(0);
         }}
         method="POST"
       >
@@ -69,7 +72,12 @@ export const App = () => {
             data-cy="titleInput"
             name="title"
             value={title}
-            onChange={(event) => (setTitle(event.target.value))}
+            onChange={
+              (event) => {
+                setTitle(event.target.value);
+                setTitleError(event.target.value.trim().length === 0);
+              }
+            }
             placeholder="Please enter a title"
           />
 
@@ -87,15 +95,18 @@ export const App = () => {
             data-cy="userSelect"
             name="user"
             value={userId}
-            onChange={(event) => (
-              setUserId(parseInt(event.target.value, 10))
-            )}
+            onChange={(event) => {
+              setUserId(parseInt(event.target.value, 10));
+              setUserError(parseInt(event.target.value, 10) === 0);
+            }}
           >
             <option value="0" disabled>Choose a user</option>
             {
               usersFromServer.map(
                 (userOption) => (
-                  <option value={userOption.id}>{userOption.name}</option>
+                  <option value={userOption.id} key={userOption.id}>
+                    {userOption.name}
+                  </option>
                 ),
               )
             }
