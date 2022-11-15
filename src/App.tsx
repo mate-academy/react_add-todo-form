@@ -41,7 +41,7 @@ export const App = () => {
     return true;
   };
 
-  const onsubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userId = selectedUser;
     const title = processTitle(todoTitle);
