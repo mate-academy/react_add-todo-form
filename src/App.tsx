@@ -33,10 +33,10 @@ export const App: React.FC = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [visibleTodos, setVisibleTodos] = useState(todos);
+  const [completedTodo, setcompletedTodo] = useState(todos);
 
   const addTodo = (newTodo: Todos) => {
-    setVisibleTodos(currentTodos => [...currentTodos, newTodo]);
+    setcompletedTodo(currentTodos => [...currentTodos, newTodo]);
     setTitle('');
     setUserId(0);
   };
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todos = {
-      id: getTodoId(visibleTodos),
+      id: getTodoId(completedTodo),
       title,
       completed: false,
       userId,
@@ -127,7 +127,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={completedTodo} />
     </div>
   );
 };
