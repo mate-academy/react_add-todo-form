@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -27,39 +27,38 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState(todos);
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setTitleError(title.trim().length === 0);
+    setUserError(userId === 0);
+
+    if (title.trim().length && userId) {
+      setVisibleTodos((prevState) => {
+        const newTodo: Todo = {
+          id: (Math.max(...prevState.map(p => p.id)) + 1),
+          completed: false,
+          userId,
+          title,
+          user: findUserById(userId),
+        };
+
+        return [
+          ...prevState,
+          newTodo,
+        ];
+      });
+
+      setTitle('');
+      setUserId(0);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setTitleError(title.trim().length === 0);
-          setUserError(userId === 0);
-
-          if (title.trim().length && userId) {
-            setVisibleTodos((prevState) => {
-              const newTodo: Todo = {
-                id: (Math.max(...prevState.map(p => p.id)) + 1),
-                completed: false,
-                userId,
-                title,
-                user: findUserById(userId),
-              };
-
-              return [
-                ...prevState,
-                newTodo,
-              ];
-            });
-
-            setTitle('');
-            setUserId(0);
-          }
-
-          setTitle('');
-          setUserId(0);
-        }}
+        onSubmit={handleSubmit}
         method="POST"
       >
         <div className="field">
