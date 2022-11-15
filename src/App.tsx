@@ -8,7 +8,7 @@ import todosFromServer from './api/todos';
 
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
+function findUser(userId: number): User | null {
   const foundUser = usersFromServer.find(item => item.id === userId);
 
   return foundUser || null;
