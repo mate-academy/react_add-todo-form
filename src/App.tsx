@@ -54,14 +54,28 @@ export const App = () => {
         user,
       };
 
-      setTodos(prevState => ([
-        ...prevState,
+      setTodos(prevTodos => ([
+        ...prevTodos,
         newTodoWithUser,
       ]));
 
       setTitle('');
       setSelectedUser(0);
       setIsTitleError(false);
+      setIsSlectedUserError(false);
+    }
+  };
+
+  const handelTitleChange = (value: string) => {
+    setTitle(value.replace(/[^a-z0-9 ]/gi, ''));
+    if (isTitleError) {
+      setIsTitleError(false);
+    }
+  };
+
+  const handelSelectUser = (value: number) => {
+    setSelectedUser(value);
+    if (isSlectedUserError) {
       setIsSlectedUserError(false);
     }
   };
@@ -83,12 +97,7 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value.replace(/[^a-z0-9 ]/gi, ''));
-              if (isTitleError) {
-                setIsTitleError(false);
-              }
-            }}
+            onChange={(event) => handelTitleChange(event.target.value)}
           />
 
           {isTitleError && (
@@ -104,12 +113,7 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => {
-              setSelectedUser(+event.target.value);
-              if (isSlectedUserError) {
-                setIsSlectedUserError(false);
-              }
-            }}
+            onChange={(event) => handelSelectUser(Number(event.target.value))}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => (
