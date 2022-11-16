@@ -19,11 +19,10 @@ export const todos: Todos[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
-const getTodoId = (todos: Todos[]) => {
-  const id = Math.max(...todos.map(todo => todo.id));
+const getTodoId = (todosArray: Todos[]) => {
+  const id = (Math.max(...todosArray.map(p => p.id)) + 1);
 
-  return id + 1;
+  return id;
 };
 
 export const App: React.FC = () => {
