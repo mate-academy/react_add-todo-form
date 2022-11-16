@@ -5,7 +5,7 @@ import { FC, FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './typedefs';
-import TodoList from './components/TodoList/TodoList';
+import { TodoList } from './components/TodoList';
 
 const findUserById = (userId: number) => {
   return usersFromServer.find(user => userId === user.id) || null;
@@ -16,7 +16,7 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map((todo) => ({
   user: findUserById(todo.userId),
 }));
 
-const App: FC = () => {
+export const App: FC = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser);
 
   const [newTodoTitle, setNewTodoTitle] = useState('');
@@ -121,39 +121,7 @@ const App: FC = () => {
         </button>
       </form>
 
-      {/* <form action="/api/users" method="POST">
-        <div className="field">
-          <label>
-            {'Title: '}
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-            />
-          </label>
-
-          <span className="error">{' Please enter a title'}</span>
-        </div>
-
-        <div className="field">
-          <label>
-            {'User: '}
-            <select data-cy="userSelect">
-              <option value="0" selected disabled>Choose a user</option>
-            </select>
-          </label>
-
-          <span className="error">{' Please choose a user'}</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form> */}
-
       <TodoList todos={todos} />
     </div>
   );
 };
-
-export default App;

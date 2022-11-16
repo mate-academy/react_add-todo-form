@@ -2,7 +2,7 @@ import React from 'react';
 import './Userinfo.scss';
 import { UserInfoProps } from '../../typedefs';
 
-const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const {
     name,
     email,
@@ -14,5 +14,3 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     </a>
   );
 };
-
-export default UserInfo;

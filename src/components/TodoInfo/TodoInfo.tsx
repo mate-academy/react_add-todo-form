@@ -2,9 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import './Todoinfo.scss';
 import { TodoInfoProps } from '../../typedefs';
-import UserInfo from '../UserInfo/UserInfo';
+import { UserInfo } from '../UserInfo';
 
-const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   const {
     id,
     title,
@@ -27,5 +27,3 @@ const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
     </article>
   );
 };
-
-export default TodoInfo;
