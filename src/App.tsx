@@ -41,15 +41,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (name === '') {
-      setIsErrorName(true);
-    }
+    setIsErrorName(() => (name === ''));
 
-    if (currentUserId === 0) {
-      setIsErrorUser(true);
-    }
+    setIsErrorUser(() => (currentUserId === 0));
 
-    if (name !== '' && currentUserId !== 0) {
+    if (name === '' && currentUserId !== 0) {
       addTodo(name, userName);
       setName('');
       setFormKey(formKey + 1);
