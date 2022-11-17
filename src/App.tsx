@@ -45,11 +45,20 @@ export const App = () => {
 
     setIsErrorUser(() => (currentUserId === 0));
 
-    if (name === '' && currentUserId !== 0) {
+    if (name !== '' && currentUserId !== 0) {
       addTodo(name, userName);
       setName('');
       setFormKey(formKey + 1);
     }
+  };
+
+  const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const needUser = usersFromServer
+      .find(item => item.name === value);
+
+    setUserName(needUser || null);
+    setCurrentUserId(1);
   };
 
   const errorTitle = <span className="error">Please enter a title</span>;
@@ -86,14 +95,7 @@ export const App = () => {
           <select
             name="users"
             id="0"
-            onChange={(event) => {
-              const { value } = event.target;
-              const needUser = usersFromServer
-                .find(item => item.name === value);
-
-              setUserName(needUser || null);
-              setCurrentUserId(1);
-            }}
+            onChange={() => handle}
           >
             <option value={0}> Choose a user </option>
 
@@ -104,7 +106,6 @@ export const App = () => {
                     key={users.id}
                   >
                     {users.name}
-
                   </option>
                 </>
               ))}
