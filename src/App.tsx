@@ -18,7 +18,7 @@ const usersFromServerFilter = usersFromServer
 
 export const App = () => {
   const [name, setName] = useState('');
-  const [userName, setUserName] = useState(usersFromServerFilter);
+  const [userSelect, setUserSelect] = useState(usersFromServerFilter);
   const [todos, setTodos] = useState<Todo[]>([...preparedTodos]);
 
   const [formKey, setFormKey] = useState(10);
@@ -40,25 +40,15 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setIsErrorName(() => (name === ''));
 
     setIsErrorUser(() => (currentUserId === 0));
 
     if (name !== '' && currentUserId !== 0) {
-      addTodo(name, userName);
+      addTodo(name, userSelect);
       setName('');
       setFormKey(formKey + 1);
     }
-  };
-
-  const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const needUser = usersFromServer
-      .find(item => item.name === value);
-
-    setUserName(needUser || null);
-    setCurrentUserId(1);
   };
 
   const errorTitle = <span className="error">Please enter a title</span>;
@@ -87,15 +77,24 @@ export const App = () => {
               setName(event.target.value);
             }}
           />
-          {(isErrorName) && errorTitle}
+          {isErrorName && errorTitle}
         </div>
 
         <div className="field">
           User:
           <select
+            data-cy="userSelect"
             name="users"
             id="0"
-            onChange={() => handle}
+            onChange={(event) => {
+              const { value } = event.target;
+              const needUser = usersFromServer.find(
+                item => item.name === value,
+              );
+
+              setUserSelect(needUser || null);
+              setCurrentUserId(1);
+            }}
           >
             <option value={0}> Choose a user </option>
 
