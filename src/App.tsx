@@ -1,27 +1,73 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const allowedCharacters
-  = 'abcdefghijkmnopqrstuvwxyzабвгґдеєжзиіїйклмнопрстуфхцчшщьюя123456789 ';
+export const App = () => {
+  const [todos, setTodo] = useState(todosFromServer);
+  const [title, setTitle] = useState('');
+  const [selectedUser, setUser] = useState('');
+  const [isTitleValid, setTitleValidation] = useState(true);
+  const [isUserValid, setUserValidation] = useState(true);
 
-function isCharacterAllowed(char: string) {
-  if (allowedCharacters.includes(char.toLocaleLowerCase())) {
-    return true;
+  const allowedCharacters = /[aA-zZ]|[аА-яЯ]|\s/;
+
+  function addCharacter(event: ChangeEvent<HTMLInputElement>) {
+    const char = event.target.value.slice(-1);
+
+    if (char.match(allowedCharacters)) {
+      setTitle(event.target.value);
+      setTitleValidation(true);
+    }
   }
 
-  return false;
-}
+  function selectUser(event: ChangeEvent<HTMLSelectElement>) {
+    setUser(event.target.value);
+    setUserValidation(true);
+  }
 
-export const App = () => {
-  const [toDos, addToDo] = useState([...todosFromServer]);
-  const [toDoTitle, setTitle] = useState('');
-  const [toDoUser, setUser] = useState('');
-  const [isTitleValid, setTitleValidation] = useState(0);
-  const [isUserValid, setUserValidation] = useState(0);
+  function addTodo(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void {
+    event.preventDefault();
+
+    if (title === '' || selectedUser === '') {
+      if (!title) {
+        setTitleValidation(false);
+      }
+
+      if (!selectedUser) {
+        setUserValidation(false);
+      }
+
+      return;
+    }
+
+    if (isTitleValid && isUserValid) {
+      const userId = usersFromServer
+        .find(u => u.name === selectedUser)?.id;
+
+      if (userId) {
+        const todoId
+          = [...todos].sort((t1, t2) => t1.id - t2.id)[todos.length - 1]
+            .id + 1;
+        const newTodo = {
+          id: todoId,
+          title,
+          completed: false,
+          userId,
+        };
+
+        setTitle('');
+        setTitleValidation(true);
+        setUser('');
+        setUserValidation(true);
+        setTodo((prevToDos) => [...prevToDos, newTodo]);
+      }
+    }
+  }
 
   return (
     <div className="App">
@@ -37,20 +83,13 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Please enter a title"
-              value={toDoTitle}
-              onChange={(event) => {
-                const character = event.target.value.slice(-1);
-
-                if (isCharacterAllowed(character)) {
-                  setTitle(event.target.value);
-                  setTitleValidation(1);
-                }
-              }}
+              value={title}
+              onChange={(event) => addCharacter(event)}
             />
           </label>
 
-          {isTitleValid === -1 && (
-            <span className="error">Enter a title</span>
+          {!isTitleValid && (
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
@@ -59,11 +98,8 @@ export const App = () => {
             User:
             <select
               data-cy="userSelect"
-              value={toDoUser}
-              onChange={(event) => {
-                setUser(event.target.value);
-                setUserValidation(1);
-              }}
+              value={selectedUser}
+              onChange={(event) => selectUser(event)}
             >
               <option
                 value=""
@@ -81,7 +117,7 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {isUserValid === -1 && (
+          {!isUserValid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -89,43 +125,13 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            event.preventDefault();
-
-            if (!toDoTitle) {
-              setTitleValidation(-1);
-            }
-
-            if (!toDoUser) {
-              setUserValidation(-1);
-            }
-
-            if (isTitleValid === 1 && isUserValid === 1) {
-              const userId = usersFromServer
-                .find(user => user.name === toDoUser)?.id;
-              const todoId
-                = [...toDos].sort((t1, t2) => t1.id - t2.id)[toDos.length - 1]
-                  .id + 1;
-              const newTodo = {
-                id: todoId,
-                title: toDoTitle,
-                completed: false,
-                userId: userId || 1,
-              };
-
-              setTitle('');
-              setTitleValidation(0);
-              setUser('');
-              setUserValidation(0);
-              addToDo((prevToDos) => [...prevToDos, newTodo]);
-            }
-          }}
+          onClick={(event) => addTodo(event)}
         >
           Add
         </button>
       </form>
 
-      <TodoList users={usersFromServer} todos={toDos} />
+      <TodoList users={usersFromServer} todos={todos} />
     </div>
   );
 };

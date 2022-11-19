@@ -16,11 +16,11 @@ type User = {
 };
 
 type Props = {
-  foundUser: User | undefined,
+  user?: User,
   todo: ToDo,
 };
 
-export const TodoInfo: React.FC<Props> = ({ foundUser, todo }) => {
+export const TodoInfo: React.FC<Props> = ({ user, todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -31,7 +31,7 @@ export const TodoInfo: React.FC<Props> = ({ foundUser, todo }) => {
       <h2 className="TodoInfo__title">
         {todo.title}
       </h2>
-      <UserInfo user={foundUser} />
+      <UserInfo user={user} />
     </article>
   );
 };

@@ -24,10 +24,12 @@ export const TodoList: React.FC<Props> = ({ users, todos }) => {
     <section className="TodoList">
       {todos.map(todo => {
         const foundUser
-        = users.find(user => user.id === todo.userId);
+        = users !== undefined
+          ? users.find(user => user.id === todo.userId)
+          : undefined;
 
         return (
-          <TodoInfo foundUser={foundUser} todo={todo} />
+          <TodoInfo key={todo.id} user={foundUser} todo={todo} />
         );
       })}
     </section>

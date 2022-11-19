@@ -6,13 +6,17 @@ type User = {
 };
 
 type Props = {
-  user: User | undefined,
+  user?: User,
 };
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${user !== undefined ? user.email : ''}`}>
-      {user !== undefined ? user.name : ''}
+    <a
+      className="UserInfo"
+      data-user-info="UserInfo"
+      href={`mailto:${user && user.email}`}
+    >
+      {user && user.name}
     </a>
   );
 };
