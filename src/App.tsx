@@ -6,10 +6,11 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './react-app-env';
 
 export const App = () => {
-  const [userSelect, setUserSelect] = useState<number | null>(null);
+  const [userSelect, setUserSelect] = useState<number>(-1);
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const submit = (todos) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const submit = (todos: Todo[]) => {
     setTitle('');
 
     setTodos([
