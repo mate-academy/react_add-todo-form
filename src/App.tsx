@@ -48,6 +48,10 @@ export const App: React.FC = () => {
       setErrorTitle(true);
     }
 
+    if (title) {
+      setErrorTitle(false);
+    }
+
     if (!title || !userId) {
       return;
     }
@@ -78,6 +82,7 @@ export const App: React.FC = () => {
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
+                setErrorTitle(false);
               }}
             />
           </label>
@@ -93,6 +98,7 @@ export const App: React.FC = () => {
               value={userId}
               onChange={(event) => {
                 setUserId(event.target.value);
+                setErrorUser(false);
               }}
             >
               <option
