@@ -24,6 +24,15 @@ export const App = () => {
     ]);
   };
 
+  const handleSubmitForm = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    if (!userSelect) {
+      return;
+    }
+
+    submit(todos);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -31,14 +40,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!userSelect) {
-            return;
-          }
-
-          submit(todos);
-        }}
+        onSubmit={handleSubmitForm}
       >
         <div className="field">
           <label>
@@ -51,7 +53,7 @@ export const App = () => {
               onChange={(event) => setTitle(event.target.value)}
               required
             />
-            {title ? '' : <span className="error">Please enter a title</span>}
+            {title && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
