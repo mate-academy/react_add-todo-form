@@ -18,55 +18,44 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [todoList, setTodoList] = useState(todosFromServer);
+  const [userId, setUserId] = useState('');
+  const [todoList, setTodoList] = useState(todos);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
-
-  const selectedUser = usersFromServer.find(user => user.id === userId);
 
   const onAdd = () => {
     const newTodoObj = {
       id: Math.max(...todoList.map(todo => todo.id)) + 1,
       title,
       completed: false,
-      userId,
-      // user: getUser(userId),
+      userId: +userId,
     };
-
-    console.log(selectedUser)
 
     setTodoList(previous => {
       return [...previous, newTodoObj];
-      // console.log(previous)
-      // console.log(newTodoObj)
     });
-    console.log(todoList)
+    // console.log(todoList);
   };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    if (!title || !userId) {
-      return;
+    if (!userId) {
+      setErrorUser(true);
     }
 
     if (!title) {
       setErrorTitle(true);
-
-      return;
     }
 
-    if (!userId) {
-      setErrorUser(true);
-
+    if (!title || !userId) {
       return;
     }
 
     onAdd();
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
   };
 
   return (
@@ -89,7 +78,6 @@ export const App: React.FC = () => {
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
-                // setErrorTitle(false);
               }}
             />
           </label>
@@ -104,8 +92,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               value={userId}
               onChange={(event) => {
-                setUserId(+event.target.value);
-                // setErrorUser(false);
+                setUserId(event.target.value);
               }}
             >
               <option
@@ -118,7 +105,6 @@ export const App: React.FC = () => {
               {usersFromServer.map(user => (
                 <option
                   key={user.id}
-                  // value={user.name}
                   value={user.id}
                 >
                   {user.name}
@@ -135,7 +121,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
