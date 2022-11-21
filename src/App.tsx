@@ -26,8 +26,8 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [errorUser, setErrorUser] = useState(false);
-  const [errorTitle, setErrorTitle] = useState(false);
+  const [isErrorUser, setIsErrorUser] = useState(false);
+  const [isErrorTitle, setIsErrorTitle] = useState(false);
   const [availableTodos, setAvailableTodos] = useState(todos);
 
   const clearForm = () => {
@@ -36,7 +36,7 @@ export const App = () => {
   };
 
   const handleTitleChange = (value: string) => {
-    setErrorTitle(false);
+    setIsErrorTitle(false);
     setTitle(value);
   };
 
@@ -45,8 +45,8 @@ export const App = () => {
 
     const trimedTitle = title.trim();
 
-    setErrorUser(!userId);
-    setErrorTitle(!trimedTitle);
+    setIsErrorUser(!userId);
+    setIsErrorTitle(!trimedTitle);
 
     if (!trimedTitle || !userId) {
       return;
@@ -87,12 +87,11 @@ export const App = () => {
             />
           </label>
 
-          {errorTitle
-            && (
-              <span className="error">
-                Please enter a title
-              </span>
-            )}
+          {isErrorTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -104,7 +103,7 @@ export const App = () => {
               id="userSelect"
               value={userId}
               onChange={(event) => {
-                setErrorUser(false);
+                setIsErrorUser(false);
                 setUserId(+event.target.value);
               }}
             >
@@ -117,7 +116,7 @@ export const App = () => {
             </select>
           </label>
 
-          {errorUser && (
+          {isErrorUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
