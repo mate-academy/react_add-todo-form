@@ -96,7 +96,7 @@ export const App = () => {
               setCurrentUserId(1);
             }}
           >
-            <option> Choose a user </option>
+            <option>Choose a user</option>
 
             { usersFromServer
               .map(users => (

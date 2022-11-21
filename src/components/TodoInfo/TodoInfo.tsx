@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 type Props = {
   title: string;
@@ -9,14 +10,15 @@ export const TodoInfo: React.FC<Props> = ({ title, completed }) => {
   const todoStatus = completed === false ? 'Not done' : 'Done';
 
   return (
-    <>
-      <h1 data-cy="title">
+    <div className={classNames('TodoInfo',
+    { TodoInfo__completed: completed === true })}>
+      <h1 data-cy="TodoInfo__title">
         {title}
       </h1>
 
       <div data-cy="status">
         {todoStatus}
       </div>
-    </>
+    </div>
   );
 };
