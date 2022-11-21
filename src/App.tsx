@@ -28,7 +28,7 @@ export const App = () => {
   const handlerEventOnSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (select === '0' || input === '') {
+    if (select === '0' || input.trim() === '') {
       setValidation(true);
 
       return;
@@ -36,8 +36,9 @@ export const App = () => {
 
     const maxNumber = Math.max(...newTodos.map(item => item.id));
 
-    const selectedUser = usersFromServer
-      .find((author: User) => (author.name === select));
+    const selectedUser = usersFromServer.find(
+      (author: User) => (author.name === select),
+    );
 
     if (!selectedUser) {
       return;
@@ -82,7 +83,7 @@ export const App = () => {
               }}
             />
           </label>
-          {validation && input === '' ? (
+          {validation && input.trim() === '' ? (
             <span className="error">Please enter a title</span>
           ) : null}
         </div>
