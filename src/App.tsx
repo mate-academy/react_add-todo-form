@@ -34,7 +34,6 @@ export const App: React.FC = () => {
     setTodoList(previous => {
       return [...previous, newTodoObj];
     });
-    // console.log(todoList);
   };
 
   const handleSubmit = (event: any) => {
