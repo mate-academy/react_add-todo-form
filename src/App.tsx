@@ -25,7 +25,15 @@ export const App = () => {
   const [newTodos, setTodos] = useState(todos);
   const [validation, setValidation] = useState(false);
 
-  const handlerEventOnSubmit = (event: FormEvent) => {
+  function error(typeOfInput: string): boolean {
+    if (typeOfInput === 'input') {
+      return validation && input.trim() === '';
+    }
+
+    return validation && select === '0';
+  }
+
+  const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (select === '0' || input.trim() === '') {
@@ -67,7 +75,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handlerEventOnSubmit}
+        onSubmit={onSubmit}
       >
         <div className="field">
           <label htmlFor="title">
@@ -83,9 +91,9 @@ export const App = () => {
               }}
             />
           </label>
-          {validation && input.trim() === '' ? (
+          {error('input') && (
             <span className="error">Please enter a title</span>
-          ) : null}
+          )}
         </div>
 
         <div className="field">
@@ -104,9 +112,9 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {validation && select === '0' ? (
+          {error('select') && (
             <span className="error">Please choose a user</span>
-          ) : null}
+          )}
         </div>
 
         <button
