@@ -87,9 +87,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <TodoList usersFromServer={usersFromServer} todos={todos} />
-      </section>
+      <TodoList usersFromServer={usersFromServer} todos={todos} />
     </div>
   );
 };
