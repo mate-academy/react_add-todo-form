@@ -4,11 +4,9 @@ import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
-import { User } from './types/User';
-import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -16,7 +14,7 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -71,6 +69,10 @@ export const App: React.FC = () => {
     setIsSubmit(false);
   };
 
+  const handlerInput = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => setTitle(event.currentTarget.value);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -90,7 +92,7 @@ export const App: React.FC = () => {
             id="title-input"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={handlerInput}
           />
           {!title && isVisibleTittleError && (
             <span className="error">
