@@ -49,6 +49,9 @@ export const App:React.FC = () => {
         completed: false,
         user: currentUser,
       });
+
+      setTitleInput('');
+      setSelectUser(0);
     }
   };
 
@@ -107,8 +110,6 @@ export const App:React.FC = () => {
           data-cy="submitButton"
           onClick={(event) => {
             addTodo(selectUser);
-            setTitleInput('');
-            setSelectUser(0);
             event.preventDefault();
           }}
         >
