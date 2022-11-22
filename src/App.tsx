@@ -24,9 +24,10 @@ export const App:React.FC = () => {
   const [selectUser, setSelectUser] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
+  const regExp = /^[ а-яА-Я\w]*$/;
 
   const addTodo = (id: number) => {
-    if (titleInput.length === 0) {
+    if (titleInput.trim().length === 0) {
       setTitleError(true);
     }
 
@@ -34,7 +35,7 @@ export const App:React.FC = () => {
       setUserError(true);
     }
 
-    if (selectUser === 0 || titleInput.length === 0) {
+    if (selectUser === 0 || titleInput.trim().length === 0) {
       return;
     }
 
@@ -69,7 +70,10 @@ export const App:React.FC = () => {
               placeholder="Enter a title"
               value={titleInput}
               onChange={(event) => {
-                setTitleInput(event.target.value);
+                if (regExp.test(event.target.value)) {
+                  setTitleInput(event.target.value);
+                }
+
                 setTitleError(false);
               }}
             />
