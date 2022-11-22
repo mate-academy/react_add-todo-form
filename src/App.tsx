@@ -24,7 +24,14 @@ export const App:React.FC = () => {
   const [selectUser, setSelectUser] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
-  const regExp = /^[ а-яА-Я\w]*$/;
+
+  const ifValid = (title: string) => {
+    const regExp = /^[ а-яА-Я\w]*$/;
+
+    if (regExp.test(title)) {
+      setTitleInput(title);
+    }
+  };
 
   const addTodo = (id: number) => {
     if (titleInput.trim().length === 0) {
@@ -70,10 +77,7 @@ export const App:React.FC = () => {
               placeholder="Enter a title"
               value={titleInput}
               onChange={(event) => {
-                if (regExp.test(event.target.value)) {
-                  setTitleInput(event.target.value);
-                }
-
+                ifValid(event.target.value);
                 setTitleError(false);
               }}
             />
