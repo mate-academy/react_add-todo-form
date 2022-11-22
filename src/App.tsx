@@ -22,8 +22,8 @@ export const App: React.FC = () => {
   const [selectUserId, setSelectUserId] = useState('');
   const [currentTodos, setCurrentTodos] = useState(todos);
   const [input, setInput] = useState('');
-  const [inputError, setInputError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isInputError, setIsInputError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const addTodo = () => {
     const newTodo: Todo = {
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
-    setInputError(false);
+    setIsInputError(false);
   };
 
   const handleUserInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,8 +56,8 @@ export const App: React.FC = () => {
       addTodo();
     }
 
-    setInputError(!input);
-    setUserError(!selectUserId);
+    setIsInputError(!input);
+    setIsUserError(!selectUserId);
   };
 
   return (
@@ -75,8 +75,9 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={input}
             onChange={handleTitleInput}
+            placeholder="Enter a title"
           />
-          {inputError && <span className="error">Please enter a title</span>}
+          {isInputError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -93,7 +94,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
