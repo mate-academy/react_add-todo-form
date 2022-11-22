@@ -1,20 +1,19 @@
-import './App.scss';
-import { useState } from 'react';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
-import { TodoList } from './components/TodoList';
-import { Todo } from './react-app-env';
+import "./App.scss";
+import { useState } from "react";
+import usersFromServer from "./api/users";
+import todosFromServer from "./api/todos";
+import { TodoList } from "./components/TodoList";
+import { Todo } from "./react-app-env";
 
 export const App = () => {
   const [userSelect, setUserSelect] = useState<number>(-1);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const submit = (todos: Todo[]) => {
-    setTitle('');
+  const submit = (todosArr: Todo[]) => {
+    setTitle("");
 
     setTodos([
-      ...todos,
+      ...todosArr,
       {
         id: Date.now(),
         title,
@@ -24,7 +23,7 @@ export const App = () => {
     ]);
   };
 
-  const handleSubmitForm = (event: { preventDefault: () => void; }) => {
+  const handleSubmitForm = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (!userSelect) {
       return;
@@ -37,11 +36,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmitForm}
-      >
+      <form action="/api/users" method="POST" onSubmit={handleSubmitForm}>
         <div className="field">
           <label>
             <span>Title:</span>
@@ -63,7 +58,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               defaultValue=""
-              value={userSelect || ''}
+              value={userSelect}
               onChange={(event) => setUserSelect(+event.target.value)}
             >
               <option value="" selected disabled>
@@ -76,9 +71,9 @@ export const App = () => {
               ))}
             </select>
 
-            <span className="error">
-              {userSelect ? '' : 'Please choose a user'}
-            </span>
+            {!userSelect && (
+              <span className="error">Please choose a user</span>
+            )}
           </label>
         </div>
 
