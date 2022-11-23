@@ -32,6 +32,12 @@ export const App: React.FC = () => {
     return todoWithLargestId.id + 1;
   };
 
+  const setCorrectTitle = (target: HTMLInputElement) => {
+    return /^[A-Za-zа-яА-Я0-9\s]*$/.test(target.value)
+      ? setTitle(target.value)
+      : '';
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -75,11 +81,7 @@ export const App: React.FC = () => {
             id="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => (
-              /^[A-Za-zа-яА-Я0-9\s]*$/.test(event.target.value)
-                ? setTitle(event.target.value)
-                : ''
-            )}
+            onChange={(event) => setCorrectTitle(event.target)}
           />
           {title === '' && isFailedToSubmit && (
             <span className="error">Please enter a title</span>
