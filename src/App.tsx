@@ -7,7 +7,6 @@ import { TodoList } from './components/TodoList';
 function getUser(userId: number): Users | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -36,7 +35,7 @@ export const App: React.FC = () => {
     });
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!userId) {
