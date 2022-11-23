@@ -51,6 +51,17 @@ export const App = () => {
     }
   };
 
+  const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const { value } = event.target;
+    const needUser = usersFromServer.find(
+      item => item.name === value,
+    );
+
+    setUserSelect(needUser || null);
+    setCurrentUserId(1);
+  };
+
   const errorTitle = <span className="error">Please enter a title</span>;
   const errorUser = <span className="error">Please choose a user</span>;
 
@@ -86,15 +97,7 @@ export const App = () => {
             data-cy="userSelect"
             name="users"
             id="0"
-            onChange={(event) => {
-              const { value } = event.target;
-              const needUser = usersFromServer.find(
-                item => item.name === value,
-              );
-
-              setUserSelect(needUser || null);
-              setCurrentUserId(1);
-            }}
+            onChange={() => handle}
           >
             <option>Choose a user</option>
 
