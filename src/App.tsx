@@ -91,7 +91,7 @@ export const App: React.FC = () => {
               }}
             >
               <option
-                value=""
+                value={0}
                 disabled
               >
                 Choose a user
