@@ -17,7 +17,7 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(0);
   const [todoList, setTodoList] = useState(todos);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
       id: Math.max(...todoList.map(todo => todo.id)) + 1,
       title,
       completed: false,
-      userId: +userId,
+      userId,
     };
 
     setTodoList(previous => {
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
     onAdd();
 
     setTitle('');
-    setUserId('');
+    setUserId(0);
   };
 
   return (
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               value={userId}
               onChange={(event) => {
-                setUserId(event.target.value);
+                setUserId(+event.target.value);
                 setErrorUser(false);
               }}
             >
