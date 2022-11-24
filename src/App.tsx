@@ -38,17 +38,8 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!userId) {
-      setErrorUser(true);
-    }
-
-    if (!title) {
-      setErrorTitle(true);
-    }
-
-    if (title) {
-      setErrorTitle(false);
-    }
+    setErrorUser(!userId);
+    setErrorTitle(!title);
 
     if (!title || !userId) {
       return;
@@ -120,7 +111,12 @@ export const App: React.FC = () => {
           {errorUser && (<span className="error">Please enter a title</span>)}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="button is-primary"
+
+        >
           Add
         </button>
       </form>
