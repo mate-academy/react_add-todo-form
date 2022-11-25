@@ -8,15 +8,13 @@ import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App:React.FC = () => {
@@ -25,7 +23,7 @@ export const App:React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const ifValid = (title: string) => {
+  const isValid = (title: string) => {
     const regExp = /^[ а-яА-Я\w]*$/;
 
     if (regExp.test(title)) {
@@ -47,11 +45,11 @@ export const App:React.FC = () => {
     }
 
     const currentUser = usersFromServer.find(user => user.id === id);
-    const maxId = todos.reduce((acc, el) => Math.max(acc, el.id), 0);
+    const maxId = todos.reduce((acc, el) => Math.max(acc, el.id), 0) + 1;
 
     if (currentUser) {
       todos.push({
-        id: maxId + 1,
+        id: maxId,
         userId: id,
         title: titleInput,
         completed: false,
@@ -67,7 +65,14 @@ export const App:React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          addTodo(selectUser);
+          event.preventDefault();
+        }}
+      >
         <label>
           <div className="field">
             Title:
@@ -77,17 +82,19 @@ export const App:React.FC = () => {
               placeholder="Enter a title"
               value={titleInput}
               onChange={(event) => {
-                ifValid(event.target.value);
+                isValid(event.target.value);
                 setTitleError(false);
               }}
             />
-            {titleError && <span className="error">Please enter a title</span>}
+            {titleError && (
+              <span className="error">Please enter a title</span>
+            )}
           </div>
         </label>
 
         <label>
           <div className="field">
-            User:
+            {' User: '}
             <select
               data-cy="userSelect"
               value={selectUser}
@@ -96,30 +103,30 @@ export const App:React.FC = () => {
                 setUserError(false);
               }}
             >
-              <option value="0" disabled>Choose a user</option>
-              {
-                usersFromServer.map(user => (
-                  <option
-                    key={user.id}
-                    value={user.id}
-                  >
-                    {user.name}
-                  </option>
-                ))
-              }
+              <option value="0" disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
             </select>
 
-            {userError && <span className="error">Please choose a user</span>}
+            {userError && (
+              <span className="error">
+                Please choose a user
+              </span>
+            )}
           </div>
         </label>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            addTodo(selectUser);
-            event.preventDefault();
-          }}
         >
           Add
         </button>
