@@ -21,6 +21,7 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [isFailedToSubmit, setIsFailedToSubmit] = useState(false);
   const [curTodos, setCurTodos] = useState(todos);
+  const hasNoTitle = title.trim() === '' && isFailedToSubmit;
 
   const getNewTodoId = (allTodos: Todo[]) => {
     const largestId = allTodos.reduce(
@@ -81,7 +82,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => setCorrectTitle(event.target)}
           />
-          {title.trim() === '' && isFailedToSubmit && (
+          {hasNoTitle && (
             <span className="error">
               Please enter a title
             </span>
@@ -105,7 +106,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userId === 0 && isFailedToSubmit && (
+          {!userId && isFailedToSubmit && (
             <span className="error">
               Please choose a user
             </span>
