@@ -51,7 +51,7 @@ export const App = () => {
     }
   };
 
-  const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handle = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const { value } = event.target;
     const needUser = usersFromServer.find(
@@ -97,7 +97,7 @@ export const App = () => {
             data-cy="userSelect"
             name="users"
             id="0"
-            onChange={() => handle}
+            onChange={handle}
           >
             <option>Choose a user</option>
 
