@@ -7,15 +7,13 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -25,11 +23,11 @@ export const App: React.FC = () => {
   const [curTodos, setCurTodos] = useState(todos);
 
   const getNewTodoId = (allTodos: Todo[]) => {
-    const todoWithLargestId = [...allTodos].sort(
-      (todo1, todo2) => todo2.id - todo1.id,
-    )[0];
+    const largestId = allTodos.reduce(
+      (prevTodoId, todo) => Math.max(prevTodoId, todo.id), 0,
+    );
 
-    return todoWithLargestId.id + 1;
+    return largestId + 1;
   };
 
   const setCorrectTitle = (target: HTMLInputElement) => {
@@ -41,13 +39,13 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userId !== 0 && title !== '') {
+    if (userId !== 0 && title.trim() !== '') {
       const newTodo = {
         id: getNewTodoId(curTodos),
         userId,
         title,
         completed: false,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setCurTodos(current => ([
@@ -83,8 +81,10 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => setCorrectTitle(event.target)}
           />
-          {title === '' && isFailedToSubmit && (
-            <span className="error">Please enter a title</span>
+          {title.trim() === '' && isFailedToSubmit && (
+            <span className="error">
+              Please enter a title
+            </span>
           )}
         </div>
 
@@ -99,12 +99,16 @@ export const App: React.FC = () => {
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
 
           {userId === 0 && isFailedToSubmit && (
-            <span className="error">Please choose a user</span>
+            <span className="error">
+              Please choose a user
+            </span>
           )}
         </div>
 
