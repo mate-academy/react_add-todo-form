@@ -127,6 +127,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
+
       <TodoList todos={todosList} />
     </div>
   );
