@@ -40,6 +40,7 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsErrorName(!name);
@@ -88,6 +89,7 @@ export const App = () => {
             value={name}
             onChange={(event) => {
               setName(event.target.value);
+              setIsErrorName(!name);
             }}
           />
           {isErrorName && <span className="error">{errorTitle}</span>}
