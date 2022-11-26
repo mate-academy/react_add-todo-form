@@ -40,7 +40,6 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsErrorName(!name);
