@@ -26,9 +26,11 @@ export const App = () => {
   const [isErrorUser, setIsErrorUser] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(0);
 
+  const id = Math.max(...todos.map(todo => todo.id));
+
   const addTodo = (title: string, user: User | null) => {
     const newTodo = {
-      id: preparedTodos.length + 1,
+      id: id + 1,
       userId: 1,
       title,
       user,
