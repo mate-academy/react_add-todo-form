@@ -19,11 +19,13 @@ const usersFromServerFilter = usersFromServer
 export const App = () => {
   const [name, setName] = useState('');
   const [valuee, setValue] = useState('');
+
   const [userSelect, setUserSelect] = useState(usersFromServerFilter);
   const [todos, setTodos] = useState<Todo[]>([...preparedTodos]);
 
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorUser, setIsErrorUser] = useState(false);
+
   const [currentUserId, setCurrentUserId] = useState(false);
 
   const id = Math.max(...todos.map(todo => todo.id));
@@ -63,6 +65,7 @@ export const App = () => {
       item => item.name === value,
     );
 
+    setValue(value);
     setCurrentUserId(true);
     setIsErrorUser(false);
     setUserSelect(needUser || null);
@@ -106,7 +109,7 @@ export const App = () => {
             value={valuee}
             onChange={handle}
           >
-            <option>Choose a user</option>
+            <option value="">Choose a user</option>
 
             {usersFromServer.map(users => (
               <option
