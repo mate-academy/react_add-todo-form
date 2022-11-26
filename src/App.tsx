@@ -40,11 +40,11 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsErrorName(() => (name === ''));
+    setIsErrorName(!name);
 
-    setIsErrorUser(() => (currentUserId === 0));
+    setIsErrorUser(!currentUserId);
 
-    if (name !== '' && currentUserId !== 0) {
+    if (name && currentUserId) {
       addTodo(name, userSelect);
       setName('');
       setFormKey(formKey + 1);
@@ -62,8 +62,8 @@ export const App = () => {
     setCurrentUserId(1);
   };
 
-  const errorTitle = <span className="error">Please enter a title</span>;
-  const errorUser = <span className="error">Please choose a user</span>;
+  const errorTitle = 'Please enter a title';
+  const errorUser = 'Please choose a user';
 
   return (
     <div className="App">
@@ -88,7 +88,7 @@ export const App = () => {
               setName(event.target.value);
             }}
           />
-          {isErrorName && errorTitle}
+          {isErrorName && <span className="error">{errorTitle}</span>}
         </div>
 
         <div className="field">
@@ -101,20 +101,17 @@ export const App = () => {
           >
             <option>Choose a user</option>
 
-            { usersFromServer
-              .map(users => (
-                <>
-                  <option
-                    key={users.id}
-                  >
-                    {users.name}
-                  </option>
-                </>
-              ))}
+            {usersFromServer.map(users => (
+              <option
+                key={users.id}
+              >
+                {users.name}
+              </option>
+            ))}
 
           </select>
 
-          {(isErrorUser) && errorUser}
+          {(isErrorUser) && <span className="error">{errorUser}</span>}
         </div>
 
         <button
