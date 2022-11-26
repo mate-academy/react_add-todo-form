@@ -1,19 +1,19 @@
-import "./App.scss";
-import { useState } from "react";
-import usersFromServer from "./api/users";
-import todosFromServer from "./api/todos";
-import { TodoList } from "./components/TodoList";
-import { Todo } from "./react-app-env";
+import './App.scss';
+import { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { Todo } from './react-app-env';
 
 export const App = () => {
-  const [userSelect, setUserSelect] = useState<number>(-1);
-  const [title, setTitle] = useState("");
+  const [userSelect, setUserSelect] = useState(-1);
+  const [title, setTitle] = useState('');
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const submit = (todosArr: Todo[]) => {
-    setTitle("");
+  const submit = () => {
+    setTitle('');
 
     setTodos([
-      ...todosArr,
+      ...todos,
       {
         id: Date.now(),
         title,
@@ -29,7 +29,7 @@ export const App = () => {
       return;
     }
 
-    submit(todos);
+    submit();
   };
 
   return (
@@ -82,7 +82,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList usersFromServer={usersFromServer} todos={todos} />
+      <TodoList users={usersFromServer} todos={todos} />
     </div>
   );
 };
