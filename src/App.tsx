@@ -18,13 +18,13 @@ const usersFromServerFilter = usersFromServer
 
 export const App = () => {
   const [name, setName] = useState('');
+  const [valuee, setValue] = useState('');
   const [userSelect, setUserSelect] = useState(usersFromServerFilter);
   const [todos, setTodos] = useState<Todo[]>([...preparedTodos]);
 
-  const [formKey, setFormKey] = useState(10);
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorUser, setIsErrorUser] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(0);
+  const [currentUserId, setCurrentUserId] = useState(false);
 
   const id = Math.max(...todos.map(todo => todo.id));
 
@@ -42,6 +42,7 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setIsErrorName(!name);
 
     setIsErrorUser(!currentUserId);
@@ -49,19 +50,22 @@ export const App = () => {
     if (name && currentUserId) {
       addTodo(name, userSelect);
       setName('');
-      setFormKey(formKey + 1);
+      setValue('');
+      setCurrentUserId(false);
     }
   };
 
   const handle = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const { value } = event.target;
+
     const needUser = usersFromServer.find(
       item => item.name === value,
     );
 
+    setCurrentUserId(true);
+    setIsErrorUser(false);
     setUserSelect(needUser || null);
-    setCurrentUserId(1);
   };
 
   const errorTitle = 'Please enter a title';
@@ -72,7 +76,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        key={formKey}
         action=" /api/users "
         method=" POST "
         onSubmit={handleSubmit}
@@ -88,7 +91,7 @@ export const App = () => {
             value={name}
             onChange={(event) => {
               setName(event.target.value);
-              setIsErrorName(!name);
+              setIsErrorName(false);
             }}
           />
           {isErrorName && <span className="error">{errorTitle}</span>}
@@ -100,6 +103,7 @@ export const App = () => {
             data-cy="userSelect"
             name="users"
             id="0"
+            value={valuee}
             onChange={handle}
           >
             <option>Choose a user</option>
@@ -107,6 +111,7 @@ export const App = () => {
             {usersFromServer.map(users => (
               <option
                 key={users.id}
+                value={users.name}
               >
                 {users.name}
               </option>
