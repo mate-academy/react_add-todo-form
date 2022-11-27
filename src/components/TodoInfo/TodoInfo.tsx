@@ -1,3 +1,5 @@
+import cn from 'classnames';
+
 import { User } from '../../types/User';
 import { UserInfo } from '../UserInfo';
 
@@ -7,15 +9,18 @@ type Props = {
   completed: boolean;
 };
 
-export const TodoInfo: React.FC<Props> = ({ title, user, completed }) => (
-  <article
-    className={completed
-      ? ('TodoInfo TodoInfo--completed')
-      : ('TodoInfo')}
-  >
-    <h2 className="TodoInfo__title">{title}</h2>
+export const TodoInfo: React.FC<Props> = ({ title, user, completed }) => {
+  const className = cn('TodoInfo', {
+    'TodoInfo--completed': completed,
+  });
 
-    <UserInfo {...user} />
-  </article>
+  return (
+    <article
+      className={className}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
 
-);
+      <UserInfo user={user} />
+    </article>
+  );
+};

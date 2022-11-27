@@ -23,21 +23,21 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [userIdAdd, setUserId] = useState(0);
   const [titleAdd, setTitle] = useState('');
-  const [errorTitle, setErrorTitle] = useState(0);
-  const [errorUser, setErrorUser] = useState(0);
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
 
   function Errors() {
     if (titleAdd === '') {
-      setErrorTitle(1);
+      setErrorTitle(true);
     }
 
     if (userIdAdd === 0) {
-      setErrorUser(1);
+      setErrorUser(true);
     }
   }
 
   function handleAdd(newUser: number, newTitle: string): Todo[] {
-    if (errorTitle === 0 && errorUser === 0) {
+    if (!errorTitle && !errorUser) {
       let maxId = 0;
 
       todos.forEach(element => {
@@ -55,8 +55,8 @@ export const App = () => {
       todos.push(newTodo);
       setTitle('');
       setUserId(0);
-      setErrorTitle(0);
-      setErrorUser(0);
+      setErrorTitle(false);
+      setErrorUser(false);
     }
 
     return todos;
@@ -83,10 +83,10 @@ export const App = () => {
             placeholder="Enter a title"
             onChange={(event) => {
               setTitle(event.target.value);
-              setErrorTitle(0);
+              setErrorTitle(false);
             }}
           />
-          {errorTitle === 1
+          {errorTitle
           && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -97,23 +97,23 @@ export const App = () => {
             value={userIdAdd}
             onChange={(event) => {
               setUserId(+event.target.value);
-              setErrorUser(0);
+              setErrorUser(false);
             }}
           >
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map((oneUser) => (
+            {usersFromServer.map((user) => (
               <option
-                key={oneUser.id}
-                value={oneUser.id}
+                key={user.id}
+                value={user.id}
               >
-                {oneUser.name}
+                {user.name}
               </option>
             ))}
           </select>
 
-          {errorUser === 1
+          {errorUser
           && (<span className="error">Please choose a user</span>)}
         </div>
 

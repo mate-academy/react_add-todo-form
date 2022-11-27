@@ -1,10 +1,12 @@
 type Props = {
-  email?: string | undefined,
-  name?: string | undefined;
+  user: {
+    name?: string,
+    email?: string,
+  } | null
 };
 
-export const UserInfo: React.FC<Props> = ({ email, name }) => (
-  <a className="UserInfo" href={email}>
-    {name}
+export const UserInfo: React.FC<Props> = ({ user }) => (
+  <a className="UserInfo" href={`mailto: ${user && user.email}`}>
+    {user && user.name}
   </a>
 );
