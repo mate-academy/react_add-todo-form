@@ -12,6 +12,8 @@ export const TodoInfo: React.FC<Todo> = ({ title, user, completed }) => (
     <h2 className="TodoInfo__title">
       {title}
     </h2>
-    <UserInfo user={user} />
+    {user && (
+      <UserInfo {...user} />
+    )}
   </article>
 );

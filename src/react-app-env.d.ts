@@ -22,6 +22,7 @@ interface User {
   email: string,
 }
 
-type UserInfoType = {
-  user: User | null
-};
+interface UserInfoType {
+  name: string;
+  email: string,
+}

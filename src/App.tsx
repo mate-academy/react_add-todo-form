@@ -28,7 +28,13 @@ export const App: React.FC = () => {
     setIsVisibleTittleError(false);
   }, [title]);
 
-  const handlerSubmit = (event: React.FormEvent) => {
+  const resetForm = () => {
+    setTitle('');
+    setUserName('');
+    setIsSubmit(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmit(true);
 
@@ -38,15 +44,7 @@ export const App: React.FC = () => {
       return;
     }
 
-    const correctTitle = title.trim().replace(/[^\d\sA-Za-zA-ЯА-я]/gi, '');
-
-    if (!correctTitle.length) {
-      // eslint-disable-next-line no-alert
-      alert('Title can contains letters (ru and en), digits, and spaces');
-
-      return;
-    }
-
+    const correctTitle = title.trimEnd();
     const maxId = Math.max.apply(null, todosItems.map((elem) => elem.id));
     const selectedUser = usersFromServer.find((user) => (
       user.name === userName
@@ -64,14 +62,31 @@ export const App: React.FC = () => {
       ...currentTodos,
       newTodo,
     ]);
-    setTitle('');
-    setUserName('');
-    setIsSubmit(false);
+
+    resetForm();
   };
 
-  const handlerInput = (
+  const handleInput = (
     event: React.ChangeEvent<HTMLInputElement>,
-  ) => setTitle(event.currentTarget.value);
+  ) => {
+    const lastSymbol = event
+      .currentTarget.value[event.currentTarget.value.length - 1];
+
+    if (/[^\d\sA-Za-zA-ЯА-я]/.test(lastSymbol)
+      || event.currentTarget.value[0] === ' ') {
+      // eslint-disable-next-line no-alert
+      alert(`Title can contains letters (ru and en), digits,
+        and spaces in the middle of title`);
+
+      const valueTittle = event.currentTarget.value.slice(0, -1);
+
+      setTitle(valueTittle);
+
+      return;
+    }
+
+    setTitle(event.currentTarget.value);
+  };
 
   return (
     <div className="App">
@@ -80,7 +95,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handlerSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title-input">
@@ -92,7 +107,7 @@ export const App: React.FC = () => {
             id="title-input"
             placeholder="Enter a title"
             value={title}
-            onChange={handlerInput}
+            onChange={handleInput}
           />
           {!title && isVisibleTittleError && (
             <span className="error">
@@ -121,7 +136,6 @@ export const App: React.FC = () => {
               <option key={user.id} value={user.name}>
                 {user.name}
               </option>
-
             ))}
           </select>
 
