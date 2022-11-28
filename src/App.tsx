@@ -37,7 +37,10 @@ export const App = () => {
           setIsNoTitle(false);
         }
 
-        return setTitle(value);
+        // eslint-disable-next-line no-case-declarations
+        const newValue = value.trimStart().replace(/[^a-zA-Z0-9 ]/g, '');
+
+        return setTitle(newValue);
 
       case 'username':
         if (value) {
@@ -127,16 +130,14 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(currUser => {
-              return (
-                <option
-                  key={currUser.id}
-                  value={currUser.name}
-                >
-                  {currUser.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(currUser => (
+              <option
+                key={currUser.id}
+                value={currUser.name}
+              >
+                {currUser.name}
+              </option>
+            ))}
           </select>
 
           {isNoUser && (
