@@ -15,6 +15,7 @@ export const TodoInfo: React.FC<Props> = ({ todos }) => {
 
   return (
     <article
+      data-id={todos.id}
       className={classNames(
         'TodoInfo',
         {
