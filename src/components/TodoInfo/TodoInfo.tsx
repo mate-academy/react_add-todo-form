@@ -1,21 +1,16 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
-
-interface TodosList {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-}
+import { TodosList } from '../../types/TodoList';
 
 type Props = {
-  todo: TodosList;
+  todo: TodosList,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const found = (userId: number) => {
-    return usersFromServer.find(user1 => user1.id === userId);
+  const found = (userId:number) => {
+    return usersFromServer.find(user => user.id === userId)
+    || usersFromServer[0];
   };
 
   return (

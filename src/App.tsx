@@ -4,35 +4,31 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { TodosList } from './types/TodoList';
 
-// interface TodosList {
-//   id: number;
-//   title: string;
-//   completed: boolean;
-//   userId: number;
-// }
+const maxId = (...todos: TodosList[]) => {
+  const sort = todos.sort((a, b) => {
+    return b.id - a.id;
+  });
 
-// interface User {
-//   id: number;
-//   name: string;
-//   username: string;
-//   email: string;
-// }
-
-// type Props = {
-//   usersFromServer: 0;
-// };
+  return sort[0].id;
+};
 
 export const App: React.FC = () => {
   const [todo, setToDo] = useState('');
   const [selectedNameId, setSelectedNameId] = useState(0);
-  const [todosList, setTodoList] = useState([...todosFromServer]);
+  const [todos, setTodoList] = useState([...todosFromServer]);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isSelectEmpty, setIsSelectEmpty] = useState(false);
-  const [todoId, setTodoId] = useState(15);
+  const [todoId, setTodoId] = useState(maxId(...todos));
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setToDo((event.target as HTMLInputElement).value);
+    // console.log((event.target.value.replace(/[^a-zA-Z]+/g, '')));
+    setToDo(
+      (event.target as HTMLInputElement)
+        .value
+        .replace(/[^a-zA-Za-åa-ö-w-я 0-9_]/gi, ''),
+    );
 
     if ((event.target as HTMLInputElement).value.length > 0) {
       setIsTitleEmpty(false);
@@ -55,12 +51,13 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     if (todo !== '' && selectedNameId > 0) {
-      setTodoList([...todosList, {
+      setTodoList([...todos, {
         id: todoId + 1,
         title: todo,
         completed: false,
         userId: +selectedNameId,
       }]);
+
       setTodoId(todoId + 1);
       setToDo('');
       setSelectedNameId(0);
@@ -128,7 +125,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosList} />
+      <TodoList todos={todos} />
     </div>
   );
 };
