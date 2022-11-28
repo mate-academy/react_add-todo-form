@@ -21,27 +21,37 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [titleInput, setTitleInput] = useState('');
-  const [userSelect, setUserSelect] = useState(0);
+  const [selectedUser, setSelectedUser] = useState(0);
   const [visibleTodos, setVisibleTodos] = useState(todos);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
+
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleInput(event.target.value);
+    setIsTitleError(false);
+  };
+
+  const handleSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setIsUserError(false);
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(titleInput.trim() === '');
-    setUserError(userSelect === 0);
+    setIsTitleError(titleInput.trim() === '');
+    setIsUserError(selectedUser === 0);
 
-    if (!titleInput.trim() || !userSelect) {
+    if (!titleInput.trim() || !selectedUser) {
       return;
     }
 
     const newTodo: Todo = {
       id: visibleTodos.reduce((maxId, todo) => Math.max(maxId, todo.id), 0) + 1,
-      userId: userSelect,
+      userId: selectedUser,
       title: titleInput,
       completed: false,
-      user: getUser(userSelect),
+      user: getUser(selectedUser),
     };
 
     setVisibleTodos(prevState => [
@@ -49,7 +59,7 @@ export const App: React.FC = () => {
       newTodo,
     ]);
     setTitleInput('');
-    setUserSelect(0);
+    setSelectedUser(0);
   };
 
   return (
@@ -70,13 +80,10 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={titleInput}
-            onChange={event => {
-              setTitleInput(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleInput}
           />
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -87,11 +94,8 @@ export const App: React.FC = () => {
             id="userSelect"
             name="userSelect"
             data-cy="userSelect"
-            value={userSelect}
-            onChange={event => {
-              setUserSelect(+event.target.value);
-              setUserError(false);
-            }}
+            value={selectedUser}
+            onChange={handleSelectedUser}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => {
@@ -108,7 +112,7 @@ export const App: React.FC = () => {
             })}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
