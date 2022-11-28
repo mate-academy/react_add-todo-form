@@ -120,8 +120,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-          }}
         >
           Add
         </button>
