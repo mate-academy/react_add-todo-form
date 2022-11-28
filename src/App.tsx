@@ -27,7 +27,6 @@ export const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userIDError, setUserIDError] = useState(false);
 
-  const visibleTodos = [...todos];
   const users = usersFromServer;
 
   const resetForm = () => {
@@ -114,7 +113,7 @@ export const App: React.FC = () => {
         <button type="submit" data-ce="submitButton">Add</button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
