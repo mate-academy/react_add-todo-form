@@ -30,7 +30,7 @@ export const App = () => {
     const foundedUser = usersFromServer.find(user => user.id === id);
     const uniqueId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-    if (title.length === 0) {
+    if (title.trim().length === 0) {
       setTittleError(true);
     }
 
@@ -38,11 +38,11 @@ export const App = () => {
       setUserError(true);
     }
 
-    if (foundedUser && title.length > 0) {
+    if (foundedUser && title.trim().length > 0) {
       todos.push({
         id: uniqueId,
         userId: id,
-        title: `${title}`,
+        title,
         completed: false,
         user: foundedUser,
       });
