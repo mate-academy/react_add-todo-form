@@ -20,23 +20,23 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [preparedTodo, setPreparedTodo] = useState(todos);
-  const [TodoTitle, setTodoTitle] = useState('');
+  const [todoTitle, setTodoTitle] = useState('');
   const [isPressed, setIsPressed] = useState(false);
-  const [UserId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(0);
 
-  const userRuleErr = isPressed && UserId === 0;
-  const titleRuleErr = isPressed && TodoTitle.length === 0;
+  const userRuleErr = isPressed && userId === 0;
+  const titleRuleErr = isPressed && todoTitle.trim().length === 0;
 
   const handleAddTodo = () => {
     const id = preparedTodo.map(todo => todo.id);
 
-    if (TodoTitle.length > 0 && TodoTitle.trim() && UserId !== 0) {
+    if (todoTitle.length > 0 && todoTitle.trim() && userId !== 0) {
       const newTodo: Todo = {
         id: Math.max(...id) + 1,
-        title: TodoTitle,
-        userId: UserId,
+        title: todoTitle,
+        userId,
         completed: false,
-        user: getUserByID(UserId),
+        user: getUserByID(userId),
       };
 
       setPreparedTodo(state => [...state, newTodo]);
@@ -48,7 +48,7 @@ export const App = () => {
   const addingAndCheckingTodo = () => {
     handleAddTodo();
 
-    if (TodoTitle.length !== 0 && UserId !== 0) {
+    if (todoTitle.trim().length !== 0 && userId !== 0) {
       setIsPressed(false);
     }
   };
@@ -61,9 +61,7 @@ export const App = () => {
     setUserId(Number(event.target.value));
   };
 
-  const handleButtonSubmit = (event:
-  React.MouseEvent<HTMLButtonElement,
-  MouseEvent>) => {
+  const handleButtonSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsPressed(true);
     addingAndCheckingTodo();
@@ -73,36 +71,45 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleButtonSubmit}
+      >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={TodoTitle}
-            onChange={handleTitleChange}
-            placeholder="Enter a title"
-            required
-          />
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={todoTitle}
+              onChange={handleTitleChange}
+              placeholder="Enter a title"
+            />
+          </label>
           {titleRuleErr && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select
-            value={UserId}
-            data-cy="userSelect"
-            onChange={handleUserChange}
-          >
-            <option disabled value="0">Choose a user</option>
+          <label>
+            User:
+            <select
+              value={userId}
+              data-cy="userSelect"
+              onChange={handleUserChange}
+            >
+              <option disabled value="0">Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {userRuleErr && <span className="error">Please choose a user</span>}
         </div>
@@ -110,7 +117,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleButtonSubmit}
         >
           Add
         </button>
