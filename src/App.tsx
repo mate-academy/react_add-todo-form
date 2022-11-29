@@ -25,27 +25,39 @@ const todos: Todo[] = todosFromServer.map(
   }),
 );
 
+function maxId(arr: Todo[]): number {
+  let newId = 0;
+
+  arr.forEach((element: Todo) => {
+    if (element.id > newId) {
+      newId = element.id + 1;
+    }
+  });
+
+  return newId;
+}
+
 export const App: React.FC = () => {
   const [text, setText] = useState('');
   const [targetUser, setTargetUser] = useState('');
   const [correctList, setCorrectList] = useState([...todos]);
-  const [errorText, setErrorText] = useState(true);
-  const [errorTargetUser, setErrorTargetUser] = useState(true);
+  const [isErrorText, setIsErrorText] = useState(true);
+  const [isErrorTargetUser, setIsErrorTargetUser] = useState(true);
 
   const titleFunc = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-
-    if (text.trim() !== ' ') {
-      setErrorText(true);
+    if (!text.trim()) {
+      setIsErrorText(true);
     }
+
+    setText(event.target.value);
   };
 
   const selectFunc = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTargetUser(event.target.value);
-
-    if (targetUser !== ' ') {
-      setErrorTargetUser(true);
+    if (!targetUser) {
+      setIsErrorTargetUser(true);
     }
+
+    setTargetUser(event.target.value);
   };
 
   function submitForm(
@@ -53,44 +65,8 @@ export const App: React.FC = () => {
   ) {
     event.preventDefault();
 
-    if (text.trim() === '' && targetUser === '') {
-      setErrorText(false);
-      setErrorTargetUser(false);
-
-      return;
-    }
-
-    if (targetUser === '') {
-      setErrorTargetUser(false);
-
-      if (text.trim() !== '') {
-        setErrorText(true);
-      }
-
-      return;
-    }
-
-    if (text.trim() === '') {
-      setErrorText(false);
-
-      if (targetUser !== '') {
-        setErrorTargetUser(true);
-      }
-
-      return;
-    }
-
-    function maxId(arr: Todo[]): number {
-      let newId = 0;
-
-      arr.forEach((element: Todo) => {
-        if (element.id > newId) {
-          newId = element.id + 1;
-        }
-      });
-
-      return newId;
-    }
+    setIsErrorTargetUser(Boolean(targetUser));
+    setIsErrorText(Boolean(text.trim()));
 
     const newTodo: Todo = {
       id: maxId(correctList),
@@ -100,17 +76,13 @@ export const App: React.FC = () => {
       user: getUser(+targetUser),
     };
 
-    setCorrectList((state) => {
-      const copy = [...state];
-
-      copy.push(newTodo);
-
-      return copy;
-    });
-    setText('');
-    setTargetUser('');
-    setErrorText(true);
-    setErrorTargetUser(true);
+    if (targetUser && text.trim()) {
+      setCorrectList((state) => [...state, newTodo]);
+      setText('');
+      setTargetUser('');
+      setIsErrorText(true);
+      setIsErrorTargetUser(true);
+    }
   }
 
   return (
@@ -130,7 +102,7 @@ export const App: React.FC = () => {
             value={text}
             onChange={titleFunc}
           />
-          {(!errorText)
+          {(!isErrorText)
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -147,7 +119,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {(!errorTargetUser)
+          {(!isErrorTargetUser)
             && <span className="error">Please choose a user</span>}
         </div>
 
