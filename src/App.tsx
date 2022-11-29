@@ -45,6 +45,14 @@ export const App = () => {
     }
   };
 
+  const addingAndCheckingTodo = () => {
+    handleAddTodo();
+
+    if (TodoTitle.length !== 0 && UserId !== 0) {
+      setIsPressed(false);
+    }
+  };
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoTitle(event.target.value);
   };
@@ -57,8 +65,8 @@ export const App = () => {
   React.MouseEvent<HTMLButtonElement,
   MouseEvent>) => {
     event.preventDefault();
-    handleAddTodo();
     setIsPressed(true);
+    addingAndCheckingTodo();
   };
 
   return (
