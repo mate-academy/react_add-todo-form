@@ -102,7 +102,6 @@ export const App = () => {
               <option
                 value="0"
                 disabled
-                selected
               >
                 Choose a user
               </option>
