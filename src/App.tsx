@@ -95,7 +95,7 @@ export const App = () => {
       <form
         action="/"
         method="get"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -107,7 +107,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Title"
               value={inputTitle}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
           </label>
 
@@ -127,7 +127,7 @@ export const App = () => {
               id="user"
               name="user"
               value={inputUser}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             >
               <option value="0" disabled>Choose a user</option>
 
