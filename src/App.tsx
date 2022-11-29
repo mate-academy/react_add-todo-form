@@ -32,12 +32,28 @@ export const App: React.FC = () => {
   const [errorText, setErrorText] = useState(true);
   const [errorTargetUser, setErrorTargetUser] = useState(true);
 
+  const titleFunc = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+
+    if (text.trim() !== ' ') {
+      setErrorText(true);
+    }
+  };
+
+  const selectFunc = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTargetUser(event.target.value);
+
+    if (targetUser !== ' ') {
+      setErrorTargetUser(true);
+    }
+  };
+
   function submitForm(
     event: React.FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
-    if (text === '' && targetUser === '') {
+    if (text.trim() === '' && targetUser === '') {
       setErrorText(false);
       setErrorTargetUser(false);
 
@@ -47,14 +63,14 @@ export const App: React.FC = () => {
     if (targetUser === '') {
       setErrorTargetUser(false);
 
-      if (text !== '') {
+      if (text.trim() !== '') {
         setErrorText(true);
       }
 
       return;
     }
 
-    if (text === '') {
+    if (text.trim() === '') {
       setErrorText(false);
 
       if (targetUser !== '') {
@@ -112,7 +128,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Please enter a title"
             value={text}
-            onChange={(event => setText(event.target.value))}
+            onChange={titleFunc}
           />
           {(!errorText)
             && <span className="error">Please enter a title</span>}
@@ -122,7 +138,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={targetUser}
-            onChange={(event => setTargetUser(event.target.value))}
+            onChange={selectFunc}
           >
             <option value="" disabled>Choose a user</option>
 
