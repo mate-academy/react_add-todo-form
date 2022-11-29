@@ -61,7 +61,7 @@ export const App = () => {
     setUserId(Number(event.target.value));
   };
 
-  const handleButtonSubmit = (event: React.FormEvent) => {
+  const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsPressed(true);
     addingAndCheckingTodo();
@@ -74,7 +74,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleButtonSubmit}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label>
