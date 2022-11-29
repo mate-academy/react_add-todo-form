@@ -7,24 +7,24 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
+const getUser = (userId: number) => {
+  const getUserById = usersFromServer.find(user => userId === user.id);
+
+  return getUserById || null;
+};
+
+const todosWithUsers: Todo[] = todosFromServer.map(todo => (
+  {
+    id: todo.id,
+    title: todo.title,
+    completed: todo.completed,
+    user: getUser(todo.userId),
+  }
+));
+
+const userNames: string[] = usersFromServer.map(user => user.name);
+
 export const App = () => {
-  const getUser = (userId: number) => {
-    const getUserById = usersFromServer.find(user => userId === user.id);
-
-    return getUserById || null;
-  };
-
-  const todosWithUsers: Todo[] = todosFromServer.map(todo => (
-    {
-      id: todo.id,
-      title: todo.title,
-      completed: todo.completed,
-      user: getUser(todo.userId),
-    }
-  ));
-
-  const userNames: string[] = usersFromServer.map(user => user.name);
-
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState(todosWithUsers);
@@ -45,7 +45,7 @@ export const App = () => {
     setUserIsSelected(true);
   };
 
-  const handleSubmit = () => {
+  const addTodo = () => {
     if (title.trim() && selectedUser) {
       const getUserByName = (name: string) => {
         const findUserByName = usersFromServer.find(
@@ -138,7 +138,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleSubmit}
+          onClick={addTodo}
         >
           Add
         </button>
