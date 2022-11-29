@@ -3,19 +3,20 @@ import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todos: Todo
+  todo: Todo
 };
 
-export const TodoInfo: React.FC<Props> = ({ todos }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
+    id,
     title,
     completed,
     user,
-  } = todos;
+  } = todo;
 
   return (
     <article
-      data-id={todos.id}
+      data-id={id}
       className={classNames(
         'TodoInfo',
         {
