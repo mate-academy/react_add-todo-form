@@ -1,9 +1,11 @@
+import React from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList';
 
 // import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -27,7 +29,8 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
+      <TodoList todos={todosFromServer} />
+      {/* <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
           <h2 className="TodoInfo__title">
             delectus aut autem
@@ -55,7 +58,7 @@ export const App = () => {
             Patricia Lebsack
           </a>
         </article>
-      </section>
+      </section> */}
     </div>
   );
 };
