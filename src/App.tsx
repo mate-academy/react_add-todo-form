@@ -35,7 +35,7 @@ export const App: React.FC = () => {
     const todoID: number = Math
       .max(...visibleTodos.map(todo => todo.id)) + 1;
 
-    if (selectedUser && title) {
+    if (selectedUser && title.trim()) {
       setVisibleTodos((prevTodos) => {
         return [
           ...prevTodos,
