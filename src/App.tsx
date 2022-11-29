@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
@@ -52,6 +52,21 @@ export const App = () => {
     }
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTittleError(false);
+  };
+
+  const handleUserSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setUserError(false);
+  };
+
+  const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addTodo(selectedUser);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -59,10 +74,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo(selectedUser);
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label>
@@ -72,12 +84,10 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setTittleError(false);
-              }}
+              onChange={handleTitleChange}
             />
           </label>
+
           {titleError && (
             <span className="error">Please enter a title</span>
           )}
@@ -89,10 +99,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={(event) => {
-                setSelectedUser(+event.target.value);
-                setUserError(false);
-              }}
+              onChange={handleUserSelection}
             >
               <option
                 value="0"
