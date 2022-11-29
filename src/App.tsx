@@ -50,21 +50,15 @@ export const App: React.FC = () => {
       });
       setSelectedName('');
       setTitle('');
-      setIsTitleEntred(true);
-      setIsUserChoosed(true);
-    } else {
+    }
+
+    if (!title.trim()) {
       setIsTitleEntred(false);
+    }
+
+    if (!selectedUser) {
       setIsUserChoosed(false);
     }
-  };
-
-  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedName(event.target.value);
-  };
-
-  const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setIsTitleEntred(true);
   };
 
   return (
@@ -79,10 +73,13 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={handleSetTitle}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setIsTitleEntred(true);
+            }}
           />
 
-          {!title && !isTitleEntred
+          {!isTitleEntred
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -90,7 +87,10 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedName}
-            onChange={handleSelectUser}
+            onChange={(event) => {
+              setSelectedName(event.target.value);
+              setIsUserChoosed(true);
+            }}
           >
             <option value="" disabled>
               Choose a user
@@ -103,7 +103,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!selectedName && !isUserChoosed
+          {!isUserChoosed
             && <span className="error">Please choose a user</span>}
 
         </div>
