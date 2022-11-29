@@ -21,17 +21,24 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [userIdAdd, setUserId] = useState(0);
-  const [titleAdd, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState('');
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
-  function Errors() {
-    if (titleAdd === '') {
+  function resertState() {
+    setTitle('');
+    setUserId(0);
+    setErrorTitle(false);
+    setErrorUser(false);
+  }
+
+  function checkErrors() {
+    if (title === '') {
       setErrorTitle(true);
     }
 
-    if (userIdAdd === 0) {
+    if (userId === 0) {
       setErrorUser(true);
     }
   }
@@ -53,10 +60,7 @@ export const App = () => {
       };
 
       todos.push(newTodo);
-      setTitle('');
-      setUserId(0);
-      setErrorTitle(false);
-      setErrorUser(false);
+      resertState();
     }
 
     return todos;
@@ -70,7 +74,7 @@ export const App = () => {
         method="POST"
         action="/api/users"
         onSubmit={(event) => {
-          handleAdd(userIdAdd, titleAdd);
+          handleAdd(userId, title);
           event.preventDefault();
         }}
       >
@@ -78,7 +82,7 @@ export const App = () => {
           Title:
           <input
             type="text"
-            value={titleAdd}
+            value={title}
             data-cy="titleInput"
             placeholder="Enter a title"
             onChange={(event) => {
@@ -94,7 +98,7 @@ export const App = () => {
           User:
           <select
             data-cy="userSelect"
-            value={userIdAdd}
+            value={userId}
             onChange={(event) => {
               setUserId(+event.target.value);
               setErrorUser(false);
@@ -121,7 +125,7 @@ export const App = () => {
           type="submit"
           data-cy="submitButton"
           onClick={() => {
-            Errors();
+            checkErrors();
           }}
         >
           Add
