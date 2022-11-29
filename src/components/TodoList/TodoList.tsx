@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
@@ -7,11 +7,6 @@ interface Props {
 }
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('effect');
-  }, [todos]);
-
   return (
     <section className="TodoList">
       {todos.map(todo => <TodoInfo key={todo.id} todo={todo} />)}

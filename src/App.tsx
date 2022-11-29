@@ -22,9 +22,9 @@ export const App: React.FC = () => {
   const [selectedName, setSelectedName] = useState('');
   const [title, setTitle] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(todos);
-  // const [isDataEntred, setIsDataEntred] = useState(false);
-  const [isTitleEntred, setIsTitleEntred] = useState(false);
-  const [isUserChoosed, setIsUserChoosed] = useState(false);
+
+  const [isTitleEntred, setIsTitleEntred] = useState(true);
+  const [isUserChoosed, setIsUserChoosed] = useState(true);
 
   const handleUpdatingTodos = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -50,15 +50,21 @@ export const App: React.FC = () => {
       });
       setSelectedName('');
       setTitle('');
-      setIsTitleEntred(false);
-      setIsUserChoosed(false);
-    } else {
       setIsTitleEntred(true);
       setIsUserChoosed(true);
+    } else {
+      setIsTitleEntred(false);
+      setIsUserChoosed(false);
     }
+  };
 
-    // eslint-disable-next-line @typescript-eslint/indent, no-console
-      // console.log(isDataEntred, title);
+  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedName(event.target.value);
+  };
+
+  const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleEntred(true);
   };
 
   return (
@@ -71,14 +77,12 @@ export const App: React.FC = () => {
             type="text"
             name="title"
             data-cy="titleInput"
-            placeholder="Please enter a title"
+            placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setIsTitleEntred(false);
-            }}
+            onChange={handleSetTitle}
           />
-          {!title && isTitleEntred
+
+          {!title && !isTitleEntred
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -86,10 +90,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedName}
-            onChange={(event) => {
-              setSelectedName(event.target.value);
-              // setIsUserChoosed(selectedName !== '');
-            }}
+            onChange={handleSelectUser}
           >
             <option value="" disabled>
               Choose a user
@@ -101,7 +102,8 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {!selectedName && isUserChoosed
+
+          {!selectedName && !isUserChoosed
             && <span className="error">Please choose a user</span>}
 
         </div>
