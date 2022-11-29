@@ -22,17 +22,17 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [errorForTitle, setErrorForTitle] = useState(false);
-  const [errorForUser, setErrorForUser] = useState(false);
+  const [isErrorForTitle, setIsErrorForTitle] = useState(false);
+  const [isErrorForUser, setIsErrorForUser] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setErrorForTitle(false);
+    setIsErrorForTitle(false);
   };
 
   const handleChangeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setErrorForUser(false);
+    setIsErrorForUser(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -59,11 +59,11 @@ export const App: React.FC = () => {
 
   const handleShowErrors = () => {
     if (title === '') {
-      setErrorForTitle(true);
+      setIsErrorForTitle(true);
     }
 
     if (userId === 0) {
-      setErrorForUser(true);
+      setIsErrorForUser(true);
     }
   };
 
@@ -84,7 +84,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleChangeTitle}
           />
-          {errorForTitle && (
+          {isErrorForTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {errorForUser && (
+          {isErrorForUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
