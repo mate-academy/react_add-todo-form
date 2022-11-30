@@ -27,6 +27,7 @@ export const App: React.FC = () => {
 
   const [errorUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
+  const [langCheckTitle, setLangCheckTitle] = useState(false);
 
   const resetState = () => {
     setTitle('');
@@ -36,10 +37,15 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setErrorUser(!userId);
-    setErrorTitle(!title.trim());
+    const trimmedTitle = title.trim();
+    const inpFormat = /[^a-zA-Z0-9' '\u0410-\u044F\u0406\u0456\u0407\u0457]/gi;
+    const forCheckTitle = !trimmedTitle.match(inpFormat);
 
-    if (userId && title.trim()) {
+    setErrorUser(!userId);
+    setErrorTitle(!trimmedTitle);
+    setLangCheckTitle(!forCheckTitle);
+
+    if (userId && trimmedTitle && forCheckTitle) {
       const newTodo: TodosAndUsers = {
         id: addNewTodoId(availableTodos),
         title,
@@ -71,10 +77,17 @@ export const App: React.FC = () => {
               onChange={(event) => {
                 setTitle(event.target.value);
                 setErrorTitle(false);
+                setLangCheckTitle(false);
               }}
             />
           </label>
           {errorTitle && <span className="error">Please enter a title</span>}
+          {langCheckTitle
+            && (
+              <span className="error">
+                Please enter in English or Ukrainian and don&apos;t use symbols
+              </span>
+            )}
         </div>
 
         <div className="field">
