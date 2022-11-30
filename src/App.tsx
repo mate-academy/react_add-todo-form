@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!userId || !title) {
+    if (!userId || !title.trim()) {
       setIsGoodToSubmit(true);
     } else {
       const addedTodo = {
