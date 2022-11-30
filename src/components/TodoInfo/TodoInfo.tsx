@@ -3,7 +3,7 @@ import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
 
 type Props = {
-  todo: Todo,
+  todo: Todo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
