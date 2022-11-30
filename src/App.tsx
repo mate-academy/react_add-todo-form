@@ -21,7 +21,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [userId, setUserId] = useState(0);
+  const [selectedUser, setSelectedUser] = useState(0);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
@@ -30,11 +30,11 @@ export const App: React.FC = () => {
     const foundedUser = usersFromServer.find(user => user.id === id);
     const uniqueId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-    if (!title.trim()) {
+    if (!title.trim().length) {
       setTitleError(true);
     }
 
-    if (!userId) {
+    if (!selectedUser) {
       setUserError(true);
     }
 
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
       });
 
       setTitle('');
-      setUserId(0);
+      setSelectedUser(0);
     }
   };
 
@@ -58,13 +58,13 @@ export const App: React.FC = () => {
   };
 
   const handleUserSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(+event.target.value);
+    setSelectedUser(+event.target.value);
     setUserError(false);
   };
 
   const handleFormSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    addTodo(userId);
+    addTodo(selectedUser);
   };
 
   return (
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
             User:
             <select
               data-cy="userSelect"
-              value={userId}
+              value={selectedUser}
               onChange={handleUserSelection}
             >
               <option
