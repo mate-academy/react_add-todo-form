@@ -21,8 +21,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [visibleTodos, setVisibleTodos] = useState(todos);
-  const [enteredTitle, setEnteredTitle] = useState(true);
-  const [choosedUser, setChoosedUser] = useState(true);
+  const [isTitleEntered, setisTitleEntered] = useState(true);
+  const [isUserChoosed, setisUserChoosed] = useState(true);
 
   const getTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
 
@@ -45,17 +45,15 @@ export const App = () => {
 
       setUserId(0);
       setTitle('');
-      setEnteredTitle(true);
-      setChoosedUser(true);
     }
 
     if (!title.trim()) {
-      setEnteredTitle(false);
+      setisTitleEntered(false);
     }
 
     if (!userId) {
       setUserId(0);
-      setChoosedUser(false);
+      setisUserChoosed(false);
     }
   };
 
@@ -84,11 +82,11 @@ export const App = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setEnteredTitle(true);
+              setisTitleEntered(true);
             }}
           />
 
-          {!enteredTitle && (
+          {!isTitleEntered && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -102,7 +100,7 @@ export const App = () => {
             value={userId}
             onChange={(event) => {
               setUserId(+event.target.value);
-              setChoosedUser(true);
+              setisUserChoosed(true);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -113,7 +111,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!choosedUser && (
+          {!isUserChoosed && (
             <span className="error">Please choose a user</span>
           )}
         </div>
