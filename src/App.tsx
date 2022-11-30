@@ -19,28 +19,61 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-function getNewTodoId(todosArr: Todo[]) {
-  const sortedTodos = todosArr.sort((todo1, todo2) => todo2.id - todo1.id);
-
-  return sortedTodos[0].id + 1;
-}
-
-function findUserId(userName: string) {
-  const neededUser = usersFromServer.find(user => user.name === userName);
-
-  if (neededUser === undefined) {
-    return 0;
-  }
-
-  return neededUser.id;
-}
-
 export const App = () => {
   const [title, setTitle] = useState('');
   const [name, setName] = useState('Choose a user');
-  const [titleInputError, setTitleInputError] = useState(false);
-  const [userInputError, setUserInputError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isNameError, setIsNameError] = useState(false);
   const [allTodos, setAllTodos] = useState(todos);
+
+  function getNewTodoId(todosArr: Todo[]) {
+    const sortedTodos = [...todosArr]
+      .sort((todo1, todo2) => todo2.id - todo1.id);
+
+    return sortedTodos[0].id + 1;
+  }
+
+  function findUserId(userName: string) {
+    const neededUser = usersFromServer.find(user => user.name === userName);
+
+    if (neededUser === undefined) {
+      return 0;
+    }
+
+    return neededUser.id;
+  }
+
+  function handleFormSubmit(event: React.ChangeEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (title.trim() === '') {
+      setIsTitleError(true);
+    }
+
+    if (name === 'Choose a user') {
+      setIsNameError(true);
+    }
+
+    const findedUserId = findUserId(name);
+
+    const newTodo = {
+      id: getNewTodoId(allTodos),
+      title,
+      completed: false,
+      userId: findedUserId,
+      user: getUser(findedUserId),
+    };
+
+    if (title.trim() !== '' && name !== 'Choose a user') {
+      setAllTodos(currentTodos => [
+        ...currentTodos,
+        newTodo,
+      ]);
+
+      setTitle('');
+      setName('Choose a user');
+    }
+  }
 
   return (
     <div className="App">
@@ -49,30 +82,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={event => {
-          event.preventDefault();
-
-          if (title === '') {
-            setTitleInputError(true);
-          }
-
-          if (name === 'Choose a user') {
-            setUserInputError(true);
-          }
-
-          const newUserId = findUserId(name);
-
-          setAllTodos(currentTodos => [
-            ...currentTodos,
-            {
-              id: getNewTodoId(currentTodos),
-              title,
-              completed: false,
-              userId: newUserId,
-              user: getUser(newUserId),
-            },
-          ]);
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
@@ -82,11 +92,15 @@ export const App = () => {
             data-cy="titleInput"
             name="title"
             id="titleInput"
+            placeholder="Enter a title"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              setTitle(event.target.value);
+              setIsTitleError(false);
+            }}
           />
 
-          {titleInputError
+          {isTitleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -97,7 +111,10 @@ export const App = () => {
             data-cy="userSelect"
             id="userInput"
             value={name}
-            onChange={event => setName(event.target.value)}
+            onChange={event => {
+              setName(event.target.value);
+              setIsNameError(false);
+            }}
           >
             <option value={name} disabled>{name}</option>
 
@@ -106,7 +123,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userInputError
+          {isNameError
             && <span className="error">Please choose a user</span>}
         </div>
 
