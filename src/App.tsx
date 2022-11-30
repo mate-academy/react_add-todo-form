@@ -30,7 +30,7 @@ export const App: React.FC = () => {
     const foundedUser = usersFromServer.find(user => user.id === id);
     const uniqueId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-    if (!title.trim().length) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -57,12 +57,12 @@ export const App: React.FC = () => {
     setTitleError(false);
   };
 
-  const handleUserSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
     setUserError(false);
   };
 
-  const handleFormSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     addTodo(selectedUser);
   };
