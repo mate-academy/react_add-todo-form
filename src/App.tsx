@@ -9,17 +9,17 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [selectedName, setSelectedName] = useState('');
+  const [selectedUserID, setSelectedUserID] = useState(0);
   const [title, setTitle] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(todos);
 
@@ -29,8 +29,7 @@ export const App: React.FC = () => {
   const handleUpdatingTodos = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    const selectedUser: User | null = usersFromServer
-      .find(user => (user.name === selectedName)) || null;
+    const selectedUser = getUserById(selectedUserID);
 
     const todoID: number = Math
       .max(...visibleTodos.map(todo => todo.id)) + 1;
@@ -48,7 +47,7 @@ export const App: React.FC = () => {
           },
         ];
       });
-      setSelectedName('');
+      setSelectedUserID(0);
       setTitle('');
     }
 
@@ -86,18 +85,18 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedName}
+            value={selectedUserID}
             onChange={(event) => {
-              setSelectedName(event.target.value);
+              setSelectedUserID(Number(event.target.value));
               setIsUserChoosed(true);
             }}
           >
-            <option value="" disabled>
+            <option value="0" disabled>
               Choose a user
             </option>
 
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
