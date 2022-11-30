@@ -110,7 +110,7 @@ export const App: React.FC = () => {
           </label>
         </div>
 
-        <button type="submit" data-ce="submitButton">Add</button>
+        <button type="submit" data-cy="submitButton">Add</button>
       </form>
 
       <TodoList todos={todos} />
