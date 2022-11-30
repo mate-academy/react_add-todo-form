@@ -22,11 +22,12 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [isTitleWrong, setIsTitleWrong] = useState(false);
   const [isUserWrong, setIsUserWrong] = useState(false);
+  const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
 
   const addTodo = (id: number) => {
     const trimmedTitle = title.trim();
 
-    const foundedUser = usersFromServer.find(user => user.id === id);
+    const foundedUser = getUserById(id);
     const newId = Math.max(...todos.map(curr => curr.id)) + 1;
 
     if (!trimmedTitle) {
@@ -37,15 +38,16 @@ export const App: React.FC = () => {
       setIsUserWrong(true);
     }
 
-    if (foundedUser && title.trim()) {
-      todos.push({
-        id: newId,
-        userId: id,
-        title,
-        completed: false,
-        user: foundedUser,
-      });
+    const todo = {
+      id: newId,
+      userId: id,
+      title,
+      completed: false,
+      user: foundedUser,
+    };
 
+    if (foundedUser && title.trim()) {
+      setVisibleTodos(prevTodos => [...prevTodos, todo]);
       setTitle('');
       setSelectedUser(0);
     }
@@ -133,7 +135,7 @@ export const App: React.FC = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todos} />
+        <TodoList todos={visibleTodos} />
       </section>
     </div>
   );
