@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Todo } from '../../types/todo';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {

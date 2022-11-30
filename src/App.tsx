@@ -4,9 +4,10 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { User } from './types/user';
-import { Todo } from './types/todo';
 import { TodoList } from './components/TodoList';
+
+import { User } from './types/User';
+import { Todo } from './types/Todo';
 
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -19,8 +20,8 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-export const App = () => {
-  const [selectedUser, setSelectedUser] = useState(0);
+export const App: React.FC = () => {
+  const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
@@ -33,7 +34,7 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (!selectedUser) {
+    if (!userId) {
       setUserError(true);
     }
 
@@ -47,7 +48,7 @@ export const App = () => {
       });
 
       setTitle('');
-      setSelectedUser(0);
+      setUserId(0);
     }
   };
 
@@ -57,13 +58,13 @@ export const App = () => {
   };
 
   const handleUserSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedUser(+event.target.value);
+    setUserId(+event.target.value);
     setUserError(false);
   };
 
   const handleFormSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    addTodo(selectedUser);
+    addTodo(userId);
   };
 
   return (
@@ -97,7 +98,7 @@ export const App = () => {
             User:
             <select
               data-cy="userSelect"
-              value={selectedUser}
+              value={userId}
               onChange={handleUserSelection}
             >
               <option
