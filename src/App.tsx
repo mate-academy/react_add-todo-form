@@ -9,10 +9,7 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  // if there is no user with a given userId
-  return foundUser || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -35,7 +32,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userId === 0 || title.length === 0) {
+    if (!userId || !title) {
       setIsGoodToSubmit(true);
     } else {
       const addedTodo = {
@@ -62,8 +59,6 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -76,7 +71,7 @@ export const App: React.FC = () => {
               setTitle(event.target.value);
             }}
           />
-          {title === '' && isGoodToSubmit && (
+          {!title && isGoodToSubmit && (
             <span className="error">Please enter a title</span>)}
         </div>
 
@@ -97,7 +92,6 @@ export const App: React.FC = () => {
                 {user.name}
               </option>
             ))}
-
           </select>
 
           {!userId && isGoodToSubmit && (
@@ -108,7 +102,6 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-
       <TodoList todos={selectedTodos} />
     </div>
   );
