@@ -7,11 +7,11 @@ import { TodoList } from './components/TodoList';
 import { TodosList } from './types/TodoList';
 
 const maxId = (...todos: TodosList[]) => {
-  const sort = todos.sort((a, b) => {
-    return b.id - a.id;
+  const getAllIds = todos.map(todo => {
+    return todo.id;
   });
 
-  return sort[0].id;
+  return Math.max(...getAllIds);
 };
 
 export const App: React.FC = () => {
@@ -22,15 +22,12 @@ export const App: React.FC = () => {
   const [isSelectEmpty, setIsSelectEmpty] = useState(false);
   const [todoId, setTodoId] = useState(maxId(...todos));
 
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    // console.log((event.target.value.replace(/[^a-zA-Z]+/g, '')));
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToDo(
-      (event.target as HTMLInputElement)
-        .value
-        .replace(/[^a-zA-Za-åa-ö-w-я 0-9_]/gi, ''),
+      event.target.value.replace(/[^a-zA-Za-åa-ö-w-я 0-9_]/gi, ''),
     );
 
-    if ((event.target as HTMLInputElement).value.length > 0) {
+    if (event.target.value.length > 0) {
       setIsTitleEmpty(false);
     } else {
       setIsTitleEmpty(true);
@@ -63,9 +60,9 @@ export const App: React.FC = () => {
       setSelectedNameId(0);
     }
 
-    if (+selectedNameId > 0) {
-      setIsSelectEmpty(false);
-    }
+    // if (+selectedNameId > 0) {
+    //   setIsSelectEmpty(false);
+    // }
 
     if (+selectedNameId <= 0) {
       setIsSelectEmpty(true);
@@ -96,9 +93,9 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
           />
 
-          {isTitleEmpty
-            ? <span className="error">Please enter a title</span>
-            : null}
+          {isTitleEmpty && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -115,9 +112,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isSelectEmpty
-            ? <span className="error">Please choose a user</span>
-            : null}
+          {isSelectEmpty && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
