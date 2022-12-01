@@ -46,6 +46,10 @@ export const App: React.FC = () => {
         ...currentTodos,
         todoToAdd,
       ]));
+
+      setTitle('');
+      setUserId(0);
+      setWrongTitleUser(false);
     }
   }
 
@@ -65,7 +69,8 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-          <span className="error">Please enter a title</span>
+          {!title && wrongTitleUser
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -76,15 +81,14 @@ export const App: React.FC = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={userId} key={user.id}>
+              <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
-          {userId === 0 && wrongTitleUser === false
+          {!userId && wrongTitleUser
             && <span className="error">Please choose a user</span>}
-          {/* <span className="error">Please choose a user</span> */}
         </div>
 
         <button type="submit" data-cy="submitButton">
