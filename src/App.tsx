@@ -60,10 +60,6 @@ export const App: React.FC = () => {
       setSelectedNameId(0);
     }
 
-    // if (+selectedNameId > 0) {
-    //   setIsSelectEmpty(false);
-    // }
-
     if (+selectedNameId <= 0) {
       setIsSelectEmpty(true);
     }
