@@ -22,13 +22,20 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosArr);
   const [userId, setUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
-  const [submitAcces, setSubmitAcces] = useState(false);
   const [visibleAttention, setVisibleAttention] = useState(false);
 
-  const changeSumbitAcces = (todo_title: string, user_id: number) => {
-    if (user_id && todo_title) {
-      setSubmitAcces(true);
+  const emptyStringCheck = () => {
+    const checkResult = Boolean(todoTitle.replace(/ /g, '').length);
+
+    if (!checkResult) {
+      setTodoTitle('');
     }
+
+    return checkResult;
+  };
+
+  const sumbitAcces = () => {
+    return userId && emptyStringCheck();
   };
 
   const findLastIndex = (prevTodos: Todo[]): number => (
@@ -37,20 +44,20 @@ export const App = () => {
   );
 
   const checkInputString = (str: string): string => {
-    str.replace(/[^a-zA-Z\u0400-\u04FF\0-9 ]/g, '');
+    str.trim().replace(/[^a-zA-Z\u0400-\u04FF\0-9 ]/g, '');
 
     return str;
   };
 
-  const updateTodos = (todo_title: string, user_id: number) => {
+  const updateTodos = () => {
     setTodos((prevTodos) => (
       [...prevTodos,
         {
           id: findLastIndex(prevTodos) + 1,
-          title: todo_title,
-          userId: user_id,
+          title: todoTitle,
+          userId,
           completed: false,
-          user: getUser(user_id),
+          user: getUser(userId),
         }]
     ));
   };
@@ -62,8 +69,10 @@ export const App = () => {
   };
 
   const handleSubmitData = () => {
-    if (submitAcces) {
-      updateTodos(todoTitle, userId);
+    const acces = sumbitAcces();
+
+    if (acces) {
+      updateTodos();
       resetForm();
     } else {
       setVisibleAttention(true);
@@ -97,7 +106,6 @@ export const App = () => {
               const inputTitle = checkInputString(event.target.value);
 
               setTodoTitle(inputTitle);
-              changeSumbitAcces(inputTitle, userId);
             }}
           />
           {(!todoTitle && visibleAttention) && (
@@ -118,7 +126,6 @@ export const App = () => {
               const { value } = event.target;
 
               setUserId(+value);
-              changeSumbitAcces(todoTitle, +value);
             }}
           >
             <option value="0" disabled>Choose a user</option>
