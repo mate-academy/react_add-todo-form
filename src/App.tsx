@@ -23,7 +23,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [currentTodos, setCurrentTodos] = useState(todos);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const hasTitle = title.trim() !== '';
 
@@ -52,9 +52,9 @@ export const App = () => {
 
       setUserId(0);
       setTitle('');
-      setIsSubmitted(false);
+      setIsAdded(false);
     } else {
-      setIsSubmitted(true);
+      setIsAdded(true);
     }
   };
 
@@ -85,7 +85,7 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {!hasTitle && isSubmitted && (
+          {!hasTitle && isAdded && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -105,13 +105,16 @@ export const App = () => {
               >
                 Choose a user
               </option>
+
               {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
 
-          {!userId && isSubmitted && (
+          {!userId && isAdded && (
             <span className="error">Please choose a user</span>
           )}
         </div>
