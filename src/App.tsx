@@ -63,18 +63,27 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          <label htmlFor="title">
+            Enter a title:
+          </label>
           <input
             type="text"
+            id="title"
             data-cy="titleInput"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
+            placeholder="Enter a title"
           />
           {!title && wrongTitleUser
             && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="user_choose">
+            Choose user
+          </label>
           <select
+            id="user_choose"
             data-cy="userSelect"
             value={userId}
             onChange={(event) => setUserId(Number(event.target.value))}
