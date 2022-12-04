@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { useState } from 'react';
 import './App.scss';
 
@@ -21,40 +22,20 @@ export const todosArr = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosArr);
   const [userId, setUserId] = useState(0);
-  const [todoTitle, setTodoTitle] = useState('');
-  const [visibleAttention, setVisibleAttention] = useState(false);
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
-  const emptyStringCheck = () => {
-    const checkResult = Boolean(todoTitle.replace(/ /g, '').length);
-
-    if (!checkResult) {
-      setTodoTitle('');
-    }
-
-    return checkResult;
-  };
-
-  const sumbitAcces = () => {
-    return userId && emptyStringCheck();
-  };
-
-  const findLastIndex = (prevTodos: Todo[]): number => (
-    prevTodos.reduce((maxID, currentTodo) => (
-      Math.max(maxID, currentTodo.id)), 0)
+  const checkInputString = (str: string): string => (
+    str.replace(/[^a-zA-Z\u0400-\u04FF0-9 ]/g, '')
   );
-
-  const checkInputString = (str: string): string => {
-    str.trim().replace(/[^a-zA-Z\u0400-\u04FF\0-9 ]/g, '');
-
-    return str;
-  };
 
   const updateTodos = () => {
     setTodos((prevTodos) => (
       [...prevTodos,
         {
-          id: findLastIndex(prevTodos) + 1,
-          title: todoTitle,
+          id: Math.max(...prevTodos.map(todo => todo.id)) + 1,
+          title,
           userId,
           completed: false,
           user: getUser(userId),
@@ -64,19 +45,28 @@ export const App = () => {
 
   const resetForm = () => {
     setUserId(0);
-    setTodoTitle('');
-    setVisibleAttention(false);
+    setTitle('');
   };
 
   const handleSubmitData = () => {
-    const acces = sumbitAcces();
+    const emptyString = title.replace(/ /g, '');
 
-    if (acces) {
-      updateTodos();
-      resetForm();
-    } else {
-      setVisibleAttention(true);
+    setHasTitleError(!title);
+    setHasUserError(!userId);
+
+    if (!emptyString) {
+      setHasTitleError(true);
+      setTitle('');
+
+      return;
     }
+
+    if (!title || !userId) {
+      return;
+    }
+
+    updateTodos();
+    resetForm();
   };
 
   return (
@@ -99,16 +89,17 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             name="title"
-            value={todoTitle}
+            value={title}
             id="title_id"
             placeholder="Enter a title"
             onChange={(event) => {
               const inputTitle = checkInputString(event.target.value);
 
-              setTodoTitle(inputTitle);
+              setTitle(inputTitle);
+              setHasTitleError(false);
             }}
           />
-          {(!todoTitle && visibleAttention) && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -125,7 +116,8 @@ export const App = () => {
             onChange={(event) => {
               const { value } = event.target;
 
-              setUserId(+value);
+              setUserId(Number(value));
+              setHasUserError(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -140,7 +132,7 @@ export const App = () => {
             ))}
           </select>
 
-          {(!userId && visibleAttention) && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
 
