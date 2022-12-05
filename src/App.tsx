@@ -19,9 +19,9 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isFailedToSubmit, setIsFailedToSubmit] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
   const [currentTodos, setCurrentTodos] = useState(todos);
-  const hasNoTitle = title.trim() === '' && isFailedToSubmit;
 
   const getNewTodoId = (allTodos: Todo[]) => {
     const largestId = allTodos.reduce(
@@ -40,6 +40,9 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setTitleError(!title);
+    setUserError(!userId);
+
     if (userId !== 0 && title.trim() !== '') {
       const newTodo = {
         id: getNewTodoId(currentTodos),
@@ -56,9 +59,6 @@ export const App: React.FC = () => {
 
       setUserId(0);
       setTitle('');
-      setIsFailedToSubmit(false);
-    } else {
-      setIsFailedToSubmit(true);
     }
   };
 
@@ -80,9 +80,12 @@ export const App: React.FC = () => {
             id="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => setCorrectTitle(event.target)}
+            onChange={(event) => {
+              setCorrectTitle(event.target);
+              setTitleError(false);
+            }}
           />
-          {hasNoTitle && (
+          {titleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -96,7 +99,10 @@ export const App: React.FC = () => {
             id="userSelect"
             name="userId"
             value={userId}
-            onChange={(event) => setUserId(+event.target.value)}
+            onChange={(event) => {
+              setUserId(+event.target.value);
+              setUserError(false);
+            }}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
@@ -106,7 +112,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!userId && isFailedToSubmit && (
+          {userError && (
             <span className="error">
               Please choose a user
             </span>
