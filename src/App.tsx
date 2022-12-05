@@ -31,7 +31,9 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title !== '' && name !== '0') {
+    const trimmedTitle = title.trim();
+
+    if (trimmedTitle !== '' && name !== '0') {
       const newTodo: Todo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
@@ -41,16 +43,17 @@ export const App = () => {
       };
 
       setTodos((prevTodos) => [...prevTodos, newTodo]);
-      setInputTitle('');
       setName('0');
+      setInputTitle('');
     }
 
     if (name === '0') {
       setIsUserPicked(false);
     }
 
-    if (title === '') {
+    if (trimmedTitle === '') {
       setIsTitleChanged(false);
+      setInputTitle('');
     }
   };
 
