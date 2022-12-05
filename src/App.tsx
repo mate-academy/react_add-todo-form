@@ -7,7 +7,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-const getUser = (userId: number): User | null => {
+const getUserById = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,48 +15,48 @@ const getUser = (userId: number): User | null => {
 
 export const visibleTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [textTitle, addTitle] = useState('');
-  const [userId, changeUser] = useState(0);
-  const [titleError, showTitleError] = useState(false);
-  const [userError, showUserError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
   const maxId = Math.max(...visibleTodos.map(todo => todo.id));
 
-  const titleHendler = (e:React.ChangeEvent<HTMLInputElement>) => {
-    addTitle(e.target.value.replace(/[^a-zа-я0-9\s]/ig, ''));
-    showTitleError(false);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value.replace(/^\s*|[^a-zа-я0-9\s]/ig, ''));
+    setTitleError(false);
   };
 
-  const userHendler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    changeUser(+e.target.value);
-    showUserError(false);
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+e.target.value);
+    setUserError(false);
   };
 
   const addTodo = () => {
     visibleTodos.push({
       id: maxId + 1,
-      title: textTitle,
+      title,
       completed: false,
       userId,
-      user: getUser(userId),
+      user: getUserById(userId),
     });
   };
 
-  const submitHendler = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (userId && textTitle) {
+    if (userId && title) {
       addTodo();
-      changeUser(0);
-      addTitle('');
+      setUserId(0);
+      setTitle('');
 
       return;
     }
 
-    showTitleError(!textTitle);
-    showUserError(!userId);
+    setTitleError(!title);
+    setUserError(!userId);
   };
 
   return (
@@ -66,7 +66,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submitHendler}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -75,8 +75,8 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={textTitle}
-              onChange={titleHendler}
+              value={title}
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -91,7 +91,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={userHendler}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
