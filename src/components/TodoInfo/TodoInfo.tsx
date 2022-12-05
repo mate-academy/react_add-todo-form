@@ -8,7 +8,11 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { title, completed, user } = todo;
+  const {
+    title,
+    completed,
+    user,
+  } = todo;
 
   return (
     <article className={classNames(
@@ -18,7 +22,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       },
     )}
     >
-      Resolve conversation
       <h2 className="TodoInfo__title">
         {title}
       </h2>
