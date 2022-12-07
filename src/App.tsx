@@ -66,6 +66,8 @@ export const App: React.FC = () => {
 
     setTitleInput('');
     setUser('0');
+    setSelectError(false);
+    setInputError(false);
   };
 
   return (
