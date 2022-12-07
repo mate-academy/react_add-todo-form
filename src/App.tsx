@@ -40,13 +40,7 @@ export const App: React.FC = () => {
     setTitleError(!title.trim());
     setUserIDError(!userID);
 
-    let toDoID = 0;
-
-    todos.forEach(item => {
-      if (item.id > toDoID) {
-        toDoID = item.id + 1;
-      }
-    });
+    const toDoID = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const newToDo = {
       id: toDoID,
@@ -79,7 +73,10 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitleError(false);
+                setTitle(event.target.value);
+              }}
             />
 
             {titleError && (
@@ -95,7 +92,10 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={userID}
-              onChange={(event) => setUserID(+event.target.value)}
+              onChange={(event) => {
+                setUserIDError(false);
+                setUserID(+event.target.value);
+              }}
             >
               <option value="0" disabled>Choose a user</option>
               {users.map(user => {
