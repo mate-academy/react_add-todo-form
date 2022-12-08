@@ -10,9 +10,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 function getUserById(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -37,12 +35,11 @@ export const App = () => {
     setIsUserIdValid(!userId);
     setIsTitleValid(!title);
 
-    const getTodoId = todos.map(todo => todo.id);
-    const maxId = Math.max(...getTodoId) + 1;
+    const getTodoMaxId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-    if (userId && title) {
+    if (userId && title.trim()) {
       todos.push({
-        id: maxId,
+        id: getTodoMaxId,
         title,
         completed: false,
         userId,
@@ -88,7 +85,9 @@ export const App = () => {
             />
           </label>
 
-          {isTitleValid && <span className="error">Please enter a title</span>}
+          {isTitleValid && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -110,7 +109,9 @@ export const App = () => {
             </select>
           </label>
 
-          {isUserIdValid && <span className="error">Please choose a user</span>}
+          {isUserIdValid && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
         <button
           type="submit"
