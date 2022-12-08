@@ -7,15 +7,13 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -26,7 +24,7 @@ export const App: React.FC = () => {
   const [currTodos, setCurrTodos] = useState(todos);
 
   const isSelected = () => {
-    if (title === '') {
+    if (title.trim() === '') {
       setTitleError(true);
     }
 
@@ -35,14 +33,16 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (title.trim() !== '' && userId !== 0) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (title.trim() && userId) {
       const newTodo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         userId,
         title,
         completed: false,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setCurrTodos(current => ([
@@ -53,6 +53,8 @@ export const App: React.FC = () => {
       setTitle('');
       setUserId(0);
     }
+
+    isSelected();
   };
 
   return (
@@ -63,9 +65,7 @@ export const App: React.FC = () => {
         action="/api/users"
         method="POST"
         onSubmit={(event) => {
-          event.preventDefault();
-          isSelected();
-          handleSubmit();
+          handleSubmit(event);
         }}
       >
         <div className="field">
