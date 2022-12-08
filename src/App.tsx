@@ -25,11 +25,12 @@ export const App = () => {
   const [checkSelection, setcheckSelection] = useState(false);
 
   const maxId = (currentTodos: Todo[]) => {
-    const copyUpdatedTodos = currentTodos;
+    // const copyUpdatedTodos = currentTodos;
 
-    copyUpdatedTodos.sort((x, y) => x.id - y.id);
+    // copyUpdatedTodos.sort((x, y) => x.id - y.id);
 
-    return copyUpdatedTodos[copyUpdatedTodos.length - 1].id + 1;
+    // return copyUpdatedTodos[copyUpdatedTodos.length - 1].id + 1;
+    return Math.max(...currentTodos.map(todo => todo.id)) + 1;
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
