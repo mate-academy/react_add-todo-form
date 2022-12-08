@@ -18,25 +18,31 @@ export const todos = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-export const App = () => {
+export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setuserId] = useState(0);
   const [updatedTodos, setUpdatedTodos] = useState(todos);
-  const [checkSelection, setcheckSelection] = useState(false);
+  const [checkSelection, setCheckSelection] = useState(false);
+  const [checkTitle, setCheckTitle] = useState(false);
 
   const maxId = (currentTodos: Todo[]) => {
-    // const copyUpdatedTodos = currentTodos;
-
-    // copyUpdatedTodos.sort((x, y) => x.id - y.id);
-
-    // return copyUpdatedTodos[copyUpdatedTodos.length - 1].id + 1;
     return Math.max(...currentTodos.map(todo => todo.id)) + 1;
+  };
+
+  const checkTitleName = (titleName: string): boolean => {
+    return !(titleName.split('').every(ch => ch === ' '));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title !== '' && userId !== 0) {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
+      setCheckTitle(true);
+    }
+
+    if (checkTitleName(title) && userId !== 0) {
       const addTodo = {
         user: getUser(userId),
         id: maxId(updatedTodos),
@@ -52,9 +58,10 @@ export const App = () => {
 
       setuserId(0);
       setTitle('');
-      setcheckSelection(false);
+      setCheckSelection(false);
+      setCheckTitle(false);
     } else {
-      setcheckSelection(true);
+      setCheckSelection(true);
     }
   };
 
@@ -76,7 +83,7 @@ export const App = () => {
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Type a new title"
           />
-          {!title && checkSelection && (
+          {checkTitle && title.trim() === '' && (
             <span className="error">Please enter a title</span>
           )}
         </div>
