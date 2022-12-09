@@ -50,15 +50,15 @@ describe('TodoList', () => {
 
     mount(<TodoList todos={todos} />);
 
-    cy.get('.TodoInfo')
+    cy.get('.TodoInfo.scss')
       .should('have.length', 4);
 
-    cy.get('.TodoInfo')
+    cy.get('.TodoInfo.scss')
       .first()
       .find('.TodoInfo__title')
       .should('have.text', 'delectus aut autem');
 
-    cy.get('.TodoInfo')
+    cy.get('.TodoInfo.scss')
       .last()
       .find('.TodoInfo__title')
       .should('have.text', 'et porro tempora');

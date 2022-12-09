@@ -1,49 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.scss';
-import todosFromServer from './api/todos';
-
-import { Todo } from './types/Todo';
-import { TodoList } from './components/TodoList';
-import { getUser, TodoForm } from './components/TodoForm';
-
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
+import { AuthProvider } from './components/Auth/AuthContext';
+import { Todos } from './components/Todos';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(initialTodos);
-
-  const addTodo = (todoData: Omit<Todo, 'id'>) => {
-    const newTodo = {
-      ...todoData,
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-    };
-
-    setTodos(currentTodos => [...currentTodos, newTodo]);
-  };
-
-  const deleteTodo = (todoId: number) => {
-    setTodos(currentTodos => currentTodos.filter(
-      todo => todo.id !== todoId,
-    ));
-  };
-
-  const updateTodo = (updatedTodo: Todo) => {
-    setTodos(currentTodos => currentTodos.map(
-      todo => (todo.id === updatedTodo.id ? updatedTodo : todo),
-    ));
-  };
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodo} />
-      <TodoList
-        todos={todos}
-        onTodoDelete={deleteTodo}
-        onTodoUpdate={updateTodo}
-      />
+      <AuthProvider>
+        <Todos />
+      </AuthProvider>
     </div>
   );
 };

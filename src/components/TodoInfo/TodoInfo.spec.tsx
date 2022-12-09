@@ -20,10 +20,11 @@ describe('TodoInfo', () => {
 
     mount(<TodoInfo todo={todo} />);
 
-    cy.get('.TodoInfo__title').should('have.text', 'Learn HTML');
+    cy.get('.TodoInfo__title')
+      .should('have.text', 'Learn HTML');
   });
 
-  it('should add TodoInfo--completed class for a completed todo', () => {
+  it('should add TodoInfo.scss--completed class for a completed todo', () => {
     const user1 = {
       id: 1,
       name: 'Leanne Graham',
@@ -41,10 +42,11 @@ describe('TodoInfo', () => {
 
     mount(<TodoInfo todo={completedTodo} />);
 
-    cy.get('.TodoInfo').should('have.class', 'TodoInfo--completed');
+    cy.get('.TodoInfo.scss')
+      .should('have.class', 'TodoInfo--completed');
   });
 
-  it('should NOT add TodoInfo--completed class for not completed todo', () => {
+  it('should NOT add TodoInfo.scss--completed class for not completed todo', () => {
     const user2 = {
       id: 2,
       name: 'Ervin Howell',
@@ -62,7 +64,8 @@ describe('TodoInfo', () => {
 
     mount(<TodoInfo todo={completedTodo} />);
 
-    cy.get('.TodoInfo').should('not.have.class', 'TodoInfo--completed');
+    cy.get('.TodoInfo.scss')
+      .should('not.have.class', 'TodoInfo--completed');
   });
 
   it('should have UserInfo', () => {
@@ -83,7 +86,8 @@ describe('TodoInfo', () => {
 
     mount(<TodoInfo todo={completedTodo} />);
 
-    cy.get('.UserInfo').should('have.text', 'Leanne Graham');
+    cy.get('.UserInfo')
+      .should('have.text', 'Leanne Graham');
   });
 
   it('should work with the other todo', () => {
@@ -107,7 +111,9 @@ describe('TodoInfo', () => {
     cy.get('.TodoInfo__title')
       .should('have.text', 'sit reprehenderit omnis quia');
 
-    cy.get('.TodoInfo').should('have.class', 'TodoInfo--completed');
-    cy.get('.UserInfo').should('have.text', 'Clementine Bauch');
+    cy.get('.TodoInfo.scss')
+      .should('have.class', 'TodoInfo--completed');
+    cy.get('.UserInfo')
+      .should('have.text', 'Clementine Bauch');
   });
 });
