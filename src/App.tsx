@@ -20,32 +20,32 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [titleInput, setTitleInput] = useState('');
-  const [selectedUser, setUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState('0');
   const [newTodos, setNewTodos] = useState(todos);
-  const [inputError, setInputError] = useState(false);
-  const [selectError, setSelectError] = useState(false);
+  const [isInputError, setIsInputError] = useState(false);
+  const [isSelectError, setIsSelectError] = useState(false);
 
-  function handleChanges(
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) {
-    const { name, value } = e.target;
+  const handleChanges = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
     const regExInput = /^(.*[a-zA-Z0-9 \u0400-\u04FF])$/gmi;
 
     if (name === 'titleInput' && value.match(regExInput)) {
       setTitleInput(value);
-      setInputError(false);
+      setIsInputError(false);
     }
 
     if (name === 'selectedUser') {
-      setUser(value);
-      setSelectError(false);
+      setSelectedUser(value);
+      setIsSelectError(false);
     }
-  }
+  };
 
   const addNewTodo = () => {
     if (!(titleInput && (selectedUser !== '0'))) {
-      setSelectError(true);
-      setInputError(true);
+      setIsSelectError(true);
+      setIsInputError(true);
 
       return;
     }
@@ -65,9 +65,14 @@ export const App: React.FC = () => {
     ]);
 
     setTitleInput('');
-    setUser('0');
-    setSelectError(false);
-    setInputError(false);
+    setSelectedUser('0');
+    setIsSelectError(false);
+    setIsInputError(false);
+  };
+
+  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addNewTodo();
   };
 
   return (
@@ -77,10 +82,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          addNewTodo();
-        }}
+        onSubmit={onFormSubmit}
       >
         <div className="field">
           <label>
@@ -93,7 +95,7 @@ export const App: React.FC = () => {
               value={titleInput}
               onChange={handleChanges}
             />
-            {(!titleInput && inputError) && (
+            {(!titleInput && isInputError) && (
               <span className="error">
                 Please enter a title
               </span>
@@ -117,7 +119,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {(selectedUser === '0' && selectError) && (
+          {(selectedUser === '0' && isSelectError) && (
             <span className="error">
               Please choose a user
             </span>
