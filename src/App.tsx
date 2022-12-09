@@ -7,20 +7,18 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setuserId] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [updatedTodos, setUpdatedTodos] = useState(todos);
   const [checkSelection, setCheckSelection] = useState(false);
   const [checkTitle, setCheckTitle] = useState(false);
@@ -31,6 +29,13 @@ export const App: React.FC = () => {
 
   const checkTitleName = (titleName: string): boolean => {
     return !(titleName.split('').every(ch => ch === ' '));
+  };
+
+  const clearForm = () => {
+    setUserId(0);
+    setTitle('');
+    setCheckSelection(false);
+    setCheckTitle(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +49,7 @@ export const App: React.FC = () => {
 
     if (checkTitleName(title) && userId !== 0) {
       const addTodo = {
-        user: getUser(userId),
+        user: getUserById(userId),
         id: maxId(updatedTodos),
         title,
         completed: false,
@@ -56,10 +61,7 @@ export const App: React.FC = () => {
         addTodo,
       ]));
 
-      setuserId(0);
-      setTitle('');
-      setCheckSelection(false);
-      setCheckTitle(false);
+      clearForm();
     } else {
       setCheckSelection(true);
     }
@@ -75,6 +77,7 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          <label htmlFor="todoTitle">Title:</label>
           <input
             type="text"
             name="title"
@@ -82,6 +85,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Type a new title"
+            id="todoTitle"
           />
           {checkTitle && title.trim() === '' && (
             <span className="error">Please enter a title</span>
@@ -89,10 +93,12 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userForTodo">User:</label>
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => setuserId(+event.target.value)}
+            onChange={(event) => setUserId(+event.target.value)}
+            id="userForTodo"
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -100,7 +106,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userId === 0 && checkSelection && (
+          {!userId && checkSelection && (
             <span className="error">Please choose a user</span>
           )}
         </div>
