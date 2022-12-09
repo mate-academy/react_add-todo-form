@@ -4,7 +4,7 @@ import { TodoInfo } from '../TodoInfo';
 
 type Props = {
   todos: Todo[];
-  onTodoDelete: (todoId: number) => void;
+  onTodoDelete: (todoId: number) => Promise<void>;
   onTodoUpdate: (todo: Todo) => void;
 };
 
@@ -18,7 +18,7 @@ export const TodoList: React.FC<Props> = ({
       <TodoInfo
         key={todo.id}
         todo={todo}
-        onDelete={() => onTodoDelete(todo.id)}
+        onDelete={async () => onTodoDelete(todo.id)}
         onUpdate={onTodoUpdate}
       />
     ))}

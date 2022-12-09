@@ -8,7 +8,7 @@ import './TodoInfo.scss';
 
 type Props = {
   todo: Todo;
-  onDelete: () => void;
+  onDelete: () => Promise<void>;
   onUpdate: (todo: Todo) => void;
 };
 
@@ -18,7 +18,16 @@ export const TodoInfo: React.FC<Props> = ({
   onUpdate,
 }) => {
   const [editing, setEditing] = useState(false);
+  const [deleteLoader, setDeleteLoader] = useState(false);
   const authUser = useAuthContext();
+
+  const handleDelete = async () => {
+    setDeleteLoader(true);
+
+    await onDelete();
+
+    setDeleteLoader(false);
+  };
 
   return (
     <article
@@ -42,7 +51,11 @@ export const TodoInfo: React.FC<Props> = ({
           <div className="bottomInfo">
             {authUser && <UserInfo user={authUser} />}
 
-            <button type="button" onClick={onDelete}>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleteLoader}
+            >
               x
             </button>
 

@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Todo } from '../types/Todo';
 import { useAuthContext } from './Auth/AuthContext';
+import { Loader } from './Loader';
 
 type Props = {
   todo?: Todo;
+  loader?: boolean;
   onSubmit: (todo: Omit<Todo, 'id'>) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({
   onSubmit,
   todo,
+  loader,
 }) => {
   const [title, setTitle] = useState(todo?.title || '');
   const [completed, setCompleted] = useState(todo?.completed || false);
@@ -71,9 +74,16 @@ export const TodoForm: React.FC<Props> = ({
         </label>
       </div>
 
-      <button type="submit" data-cy="submitButton">
-        Save
-      </button>
+      {loader
+        ? (<Loader />)
+        : (
+          <button
+            type="submit"
+            data-cy="submitButton"
+          >
+            Save
+          </button>
+        )}
     </form>
   );
 };
