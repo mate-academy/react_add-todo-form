@@ -29,7 +29,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [hasValidId, setHasValidId] = useState(false);
+  const [hasInvalidID, setHasValidId] = useState(false);
   const [hasValidTitle, setHasValidTitle] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +116,7 @@ export const App = () => {
             </select>
           </label>
 
-          {hasValidId && <span className="error">Please choose a user</span>}
+          {hasInvalidID && <span className="error">Please choose a user</span>}
         </div>
         <button
           type="submit"
