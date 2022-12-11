@@ -10,55 +10,21 @@ import { Todo } from './types/ToDO';
 
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [completed] = useState(false);
   const [isTitleEntered, setIsTitleEntered] = useState(true);
   const [isUserSelected, setIsUserSelected] = useState(true);
   const [visibleTodos, setVisibleTodos] = useState(todos);
-
-  const addTodo = (id: number) => {
-    const user = getUser(userId);
-    const maxTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-    if (!title) {
-      setIsTitleEntered(false);
-    }
-
-    if (!user) {
-      setIsUserSelected(false);
-    }
-
-    if (user && title) {
-      const newTodo = {
-        id: maxTodoId,
-        userId: id,
-        title,
-        completed,
-        user,
-      };
-
-      setVisibleTodos(current => ([
-        ...current,
-        newTodo,
-      ]));
-
-      setTitle('');
-      setUserId(0);
-    }
-  };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -72,7 +38,35 @@ export const App: React.FC = () => {
 
   const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTodo(userId);
+
+    const user = getUserById(userId);
+    const maxTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
+
+    if (!title) {
+      setIsTitleEntered(false);
+    }
+
+    if (!user) {
+      setIsUserSelected(false);
+    }
+
+    if (user && title.trim().length) {
+      const newTodo = {
+        id: maxTodoId,
+        userId,
+        title,
+        completed: false,
+        user,
+      };
+
+      setVisibleTodos(current => ([
+        ...current,
+        newTodo,
+      ]));
+
+      setTitle('');
+      setUserId(0);
+    }
   };
 
   return (
@@ -102,7 +96,13 @@ export const App: React.FC = () => {
             value={userId}
             onChange={handleUserSelection}
           >
-            <option value="0" disabled selected>Choose a user</option>
+            <option
+              value="0"
+              disabled
+              selected
+            >
+              Choose a user
+            </option>
             {usersFromServer.map(user => (
               <option
                 value={user.id}
