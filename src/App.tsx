@@ -113,6 +113,7 @@ export const App: React.FC = () => {
               onChange={handleChanges}
             >
               <option value="0" key={0} disabled>Choose a user</option>
+
               {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>{user.name}</option>
               ))}
