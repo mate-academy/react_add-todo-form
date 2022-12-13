@@ -57,15 +57,19 @@ export const App: React.FC = () => {
     setUser(0);
   };
 
+  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    newTodoAdd();
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={onFormSubmit}
         action="/api/users"
         method="POST"
-
       >
         <div className="field">
           {'Title: '}
@@ -80,8 +84,7 @@ export const App: React.FC = () => {
             }}
           />
 
-          {errorTitle
-          && (
+          {errorTitle && (
             <span className="error">
               Please enter a title
             </span>
@@ -102,30 +105,26 @@ export const App: React.FC = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {
-              usersFromServer.map(someUser => (
-                <option
-                  value={someUser.id}
-                  key={someUser.id}
-                >
-                  {someUser.name}
-                </option>
-              ))
-            }
+            {usersFromServer.map(someUser => (
+              <option
+                value={someUser.id}
+                key={someUser.id}
+              >
+                {someUser.name}
+              </option>
+            ))}
           </select>
 
-          {errorUser
-           && (
-             <span className="error">
-               Please choose a user
-             </span>
-           )}
+          {errorUser && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={newTodoAdd}
         >
           Add
         </button>
