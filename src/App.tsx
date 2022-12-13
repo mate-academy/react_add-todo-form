@@ -40,8 +40,12 @@ export const App: React.FC = () => {
       return;
     }
 
+    function maxId(someTodolist: Todo[]) {
+      return Math.max(...someTodolist.map(someTodo => someTodo.id));
+    }
+
     const newTodo = {
-      id: listTodo.length + 1,
+      id: maxId(listTodo) + 1,
       title,
       completed: false,
       userId: user,

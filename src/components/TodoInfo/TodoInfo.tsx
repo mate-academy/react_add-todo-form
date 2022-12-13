@@ -2,8 +2,9 @@ import React from 'react';
 
 type Props = {
   title: string;
+  id: number;
 };
 
-export const TodoInfo:React.FC<Props> = ({ title }) => (
-  <h2 className="TodoInfo__title">{title}</h2>
+export const TodoInfo:React.FC<Props> = ({ title, id }) => (
+  <h2 className="TodoInfo__title" data-id={id}>{title}</h2>
 );
