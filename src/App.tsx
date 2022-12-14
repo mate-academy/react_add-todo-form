@@ -1,10 +1,11 @@
 import './App.scss';
 import { useState } from 'react';
 
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { TodosList } from './types/TodoList';
+// import { TodoListWithUsers } from './types/TodoListWithUsers';
 
 const maxId = (...todos: TodosList[]) => {
   const getAllIds = todos.map(todo => {
@@ -21,6 +22,7 @@ export const App: React.FC = () => {
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isSelectEmpty, setIsSelectEmpty] = useState(false);
   const [todoId, setTodoId] = useState(maxId(...todos));
+  // const [todosWithUsers, setTodosWithUsers] = useState([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToDo(
@@ -29,10 +31,16 @@ export const App: React.FC = () => {
 
     if (event.target.value.length > 0) {
       setIsTitleEmpty(false);
-    } else {
-      setIsTitleEmpty(true);
     }
   };
+
+  // eslint-disable-next-line max-len
+  const concatTodoUsers = todos.map(todoFromTodos => ({
+    ...todoFromTodos,
+    user: usersFromServer.find(user => user.id === todoFromTodos.userId),
+  }));
+
+  // console.log(concatTodoUsers);
 
   const handleChangeSlect = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -47,7 +55,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (todo !== '' && selectedNameId > 0) {
+    const isTodoEmpty = todo !== '';
+    const isSelectName = selectedNameId > 0;
+
+    if (isTodoEmpty && isSelectName) {
       setTodoList([...todos, {
         id: todoId + 1,
         title: todo,
@@ -60,11 +71,11 @@ export const App: React.FC = () => {
       setSelectedNameId(0);
     }
 
-    if (+selectedNameId <= 0) {
+    if (!isSelectName) {
       setIsSelectEmpty(true);
     }
 
-    if (todo === '') {
+    if (!isTodoEmpty) {
       setIsTitleEmpty(true);
     }
   };
@@ -118,7 +129,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={concatTodoUsers} />
     </div>
   );
 };
