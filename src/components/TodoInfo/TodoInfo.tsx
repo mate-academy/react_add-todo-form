@@ -11,14 +11,17 @@ export const TodoInfo: React.FC<Prop> = ({ todo }) => {
     completed,
     title,
     user,
+    id,
   } = todo;
 
   return (
-    <li className={
-      classNames('TodoInfo', {
-        'TodoInfo--completed': completed,
-      })
-    }
+    <li
+      data-id={id}
+      className={
+        classNames('TodoInfo', {
+          'TodoInfo--completed': completed,
+        })
+      }
     >
       <h2 className="TodoInfo__title">
         {title}
