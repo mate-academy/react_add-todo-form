@@ -21,7 +21,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [newTodos, setNewTodos] = useState(todos);
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [title, setTitle] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
   const [isSelectError, setIsSelectError] = useState(false);
@@ -31,22 +31,37 @@ export const App: React.FC = () => {
   ) => {
     const { name, value } = event.target;
 
-    if (name === 'titleInput') {
-      setTitle(value);
-      setIsTitleError(false);
+    switch (name) {
+      case 'titleInput':
+        setTitle(value);
+        setIsTitleError(false);
+        break;
+
+      case 'userSelect':
+        setSelectedUser(+value);
+        setIsSelectError(false);
+        break;
+
+      default:
+        break;
     }
 
-    if (name === 'userSelect') {
-      setSelectedUser(value);
-      setIsSelectError(false);
-    }
+    // if (name === 'titleInput') {
+    //   setTitle(value);
+    //   setIsTitleError(false);
+    // }
+
+    // if (name === 'userSelect') {
+    //   setSelectedUser(+value);
+    //   setIsSelectError(false);
+    // }
   };
 
   const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newId = Math.max(...newTodos.map(todo => todo.id));
     const addNewTodo = () => {
-      if (!(title && (selectedUser !== '0'))) {
+      if (!(title && (selectedUser !== 0))) {
         setIsSelectError(true);
         setIsTitleError(true);
 
@@ -65,7 +80,7 @@ export const App: React.FC = () => {
       ]);
 
       setTitle('');
-      setSelectedUser('0');
+      setSelectedUser(0);
       setIsSelectError(false);
       setIsTitleError(false);
     };
@@ -117,7 +132,7 @@ export const App: React.FC = () => {
                 </option>
               ))}
             </select>
-            {(selectedUser === '0' && isSelectError) && (
+            {(selectedUser === 0 && isSelectError) && (
               <span className="error">
                 Please choose a user
               </span>
