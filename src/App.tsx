@@ -45,16 +45,6 @@ export const App: React.FC = () => {
       default:
         break;
     }
-
-    // if (name === 'titleInput') {
-    //   setTitle(value);
-    //   setIsTitleError(false);
-    // }
-
-    // if (name === 'userSelect') {
-    //   setSelectedUser(+value);
-    //   setIsSelectError(false);
-    // }
   };
 
   const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
