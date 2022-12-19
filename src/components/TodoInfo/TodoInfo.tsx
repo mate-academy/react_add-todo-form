@@ -15,7 +15,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   } = todo;
 
   return (
-    <article
+    <li
       data-id={id}
       className={
         classNames(
@@ -29,6 +29,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       {user && (<UserInfo user={user} />)}
-    </article>
+    </li>
   );
 };

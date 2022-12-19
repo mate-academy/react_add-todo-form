@@ -7,6 +7,11 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
+enum TagName {
+  titleInput = 'titleInput',
+  userSelect = 'userSelect',
+}
+
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
@@ -33,12 +38,12 @@ export const App: React.FC = () => {
     } = event.target;
 
     switch (name) {
-      case 'titleInput':
+      case TagName.titleInput:
         setTitle(value);
         setInvalidInput(false);
         break;
 
-      case 'userSelect':
+      case TagName.userSelect:
         setSelectedUser(value);
         setInvalidSelect(false);
         break;
@@ -51,20 +56,20 @@ export const App: React.FC = () => {
   const submitChanges = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if ((title === '') && (selectedUser === '0')) {
+    if (!title && !Number(selectedUser)) {
       setInvalidInput(true);
       setInvalidSelect(true);
 
       return;
     }
 
-    if (title === '') {
+    if (!title) {
       setInvalidInput(true);
 
       return;
     }
 
-    if (selectedUser === '0') {
+    if (!Number(selectedUser)) {
       setInvalidSelect(true);
 
       return;
@@ -108,8 +113,9 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleChange}
           />
-          {invalidInput
-            && (<span className="error">Please enter a title</span>)}
+          {invalidInput && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -139,8 +145,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {invalidSelect
-            && (<span className="error">Please choose a user</span>)}
+          {invalidSelect && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
