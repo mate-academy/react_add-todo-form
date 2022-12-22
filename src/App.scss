@@ -16,24 +16,30 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 300px;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #f84121af;
+  color: darkred;
 
   &__title {
-    margin: 4px 0;
+    margin: 4px 0 20px;
     font-size: inherit;
-    color: #f00;
+  }
+
+  &--completed {
+    background-color: #13af1bb0;
   }
 
   &--completed &__title {
-    color: #080;
+    color: darkgreen;
   }
 }
 
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
 }
