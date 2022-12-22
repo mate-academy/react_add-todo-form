@@ -26,27 +26,40 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState(false);
 
+  const nextId = Math.max(...todos.map(todo => todo.id));
+  const newTodos = () => {
+    const newTodo = {
+      id: nextId + 1,
+      title: newTitle,
+      completed: false,
+      userId: +userId,
+      user: getUser(userId),
+    };
+
+    todos.push(newTodo);
+  };
+
+  const enterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const chooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setTitleError(!newTitle);
-    setUserError(!userId);
 
-    if (!newTitle || !userId) {
+    const trimNewTitle = newTitle.trim();
+
+    setTitleError(!trimNewTitle);
+    setUserError(!getUser(userId));
+
+    if (!trimNewTitle || !userId) {
       return;
     }
-
-    const nextId = Math.max(...todos.map(todo => todo.id));
-    const newTodos = () => {
-      const newTodo = {
-        id: nextId + 1,
-        title: newTitle,
-        completed: false,
-        userId: +userId,
-        user: getUser(userId),
-      };
-
-      todos.push(newTodo);
-    };
 
     newTodos();
     setTitle('');
@@ -69,10 +82,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={newTitle}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={enterInput}
           />
           {titleError && (
             <span className="error">
@@ -86,10 +96,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
+            onChange={chooseUser}
           >
             <option
               value="0"
