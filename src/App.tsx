@@ -27,15 +27,16 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
 
   const nextId = Math.max(...todos.map(todo => todo.id));
-  const newTodos = () => {
-    const newTodo = {
-      id: nextId + 1,
-      title: newTitle,
-      completed: false,
-      userId: +userId,
-      user: getUser(userId),
-    };
 
+  const newTodo = {
+    id: nextId + 1,
+    title: newTitle,
+    completed: false,
+    userId: +userId,
+    user: getUser(userId),
+  };
+
+  const newTodos = () => {
     todos.push(newTodo);
   };
 
