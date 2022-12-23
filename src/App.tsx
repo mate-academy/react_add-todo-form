@@ -27,9 +27,13 @@ export const App = () => {
   }));
 
   function addTodo() {
-    if (titleInput && userSelect > 0) {
+    if (titleInput
+       && titleInput !== '-'
+       && userSelect > 0) {
+      const maxId = Math.max(...currentTodos.map(object => object.id));
+
       setTodos((todoList) => [...todoList, {
-        id: todoList.length + 1,
+        id: maxId + 1,
         title: titleInput,
         completed: false,
         userId: userSelect,
@@ -57,7 +61,10 @@ export const App = () => {
         onSubmit={(ev) => {
           ev.preventDefault();
           addTodo();
-          (ev.target as HTMLFormElement).reset();
+          if (userSelect !== 0
+          && titleInput !== '') {
+            (ev.target as HTMLFormElement).reset();
+          }
         }}
       >
         <div className="field">
