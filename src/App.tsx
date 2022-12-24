@@ -20,6 +20,7 @@ export const App = () => {
   const [currentTodos, setTodos] = useState(todosFromServer);
   const [userSelect, setUserSelect] = useState(0);
   const [titleInput, setTitleInput] = useState('');
+  const [inputError, setError] = useState(false);
 
   const todos: Todo[] = currentTodos.map(todo => ({
     ...todo,
@@ -27,9 +28,7 @@ export const App = () => {
   }));
 
   function addTodo() {
-    if (titleInput
-       && titleInput !== '-'
-       && userSelect > 0) {
+    if (titleInput && userSelect > 0) {
       const maxId = Math.max(...currentTodos.map(object => object.id));
 
       setTodos((todoList) => [...todoList, {
@@ -47,9 +46,18 @@ export const App = () => {
     }
 
     if (titleInput === '') {
-      setTitleInput('-');
+      setError(true);
     }
   }
+
+  const addNewTodo = (event) => {
+    event.preventDefault();
+    addTodo();
+    if (userSelect !== 0
+    && titleInput !== '') {
+      (event.target).reset();
+    }
+  };
 
   return (
     <div className="App">
@@ -58,14 +66,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(ev) => {
-          ev.preventDefault();
-          addTodo();
-          if (userSelect !== 0
-          && titleInput !== '') {
-            (ev.target as HTMLFormElement).reset();
-          }
-        }}
+        onSubmit={addNewTodo}
       >
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
@@ -76,13 +77,15 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
+            value={titleInput}
             onChange={(event) => {
               setTitleInput(
                 event.target.value.replace(/[^A-Za-zА-Яа-я0-9\s]/g, ''),
               );
+              setError(false);
             }}
           />
-          {titleInput === '-'
+          {inputError
           && <span className="error">Please enter a title</span>}
         </div>
 
