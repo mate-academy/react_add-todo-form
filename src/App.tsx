@@ -7,12 +7,12 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+const getUser = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
   return foundUser || null;
-}
+};
 
 export const todosMapped: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -29,18 +29,19 @@ export const App: React.FC = () => {
   const maxId = Math.max(...todosMapped.map(todo => todo.id));
   const addTodo = (formTitle: string, formUserId: string) => {
     if (titleNew.trim().length !== 0 && +formUserId > 0) {
-      // todosMapped.push(newTodo);
       setTitle('');
       setUserID('0');
+      const todo = {
+        id: maxId + 1,
+        title: formTitle,
+        completed: false,
+        userId: +formUserId,
+        user: getUser(+formUserId),
+      };
+
       setTodos([
         ...todos,
-        {
-          id: maxId + 1,
-          title: formTitle,
-          completed: false,
-          userId: +formUserId,
-          user: getUser(+formUserId),
-        },
+        todo,
       ]);
     }
 
@@ -53,8 +54,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const hadleTitleChange = (e: { target:
-  { value: React.SetStateAction<string>; }; }) => {
+  const hadleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setTitleError('');
   };
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
               value={titleNew}
               onChange={hadleTitleChange}
             />
-            {(titleError)
+            {titleError
             && <span className="error">Please enter a title</span>}
 
           </label>
@@ -103,7 +103,7 @@ export const App: React.FC = () => {
                 <option value={user.id} key={user.id}>{user.name}</option>
               ))}
             </select>
-            {(userError)
+            {userError
             && <span className="error">Please choose a user</span>}
           </label>
         </div>
