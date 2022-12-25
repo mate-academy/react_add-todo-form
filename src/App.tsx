@@ -53,8 +53,7 @@ export const App = () => {
   const addNewTodo = (event) => {
     event.preventDefault();
     addTodo();
-    if (userSelect !== 0
-    && titleInput !== '') {
+    if (userSelect && titleInput) {
       (event.target).reset();
     }
   };
