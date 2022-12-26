@@ -94,10 +94,9 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {isErrorOnTitleInput
-            && (
-              <span className="error">Please enter a title</span>
-            )}
+          {isErrorOnTitleInput && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -123,10 +122,9 @@ export const App = () => {
             ))}
           </select>
 
-          {isErrorOnUserSelect
-            && (
-              <span className="error">Please choose a user</span>
-            )}
+          {isErrorOnUserSelect && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
