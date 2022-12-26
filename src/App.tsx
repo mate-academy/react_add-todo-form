@@ -7,7 +7,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-const getUser = (userId: number): User | null => {
+const getUserByID = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
@@ -16,7 +16,7 @@ const getUser = (userId: number): User | null => {
 
 export const todosMapped: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserByID(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
         title: formTitle,
         completed: false,
         userId: +formUserId,
-        user: getUser(+formUserId),
+        user: getUserByID(+formUserId),
       };
 
       setTodos([
@@ -54,13 +54,12 @@ export const App: React.FC = () => {
     }
   };
 
-  const hadleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setTitleError('');
   };
 
-  const handleUserChange = (e: { target:
-  { value: React.SetStateAction<string>; }; }) => {
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setUserID(e.target.value);
     setUserError('');
   };
@@ -81,10 +80,10 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               name="title"
               value={titleNew}
-              onChange={hadleTitleChange}
+              onChange={handleTitleChange}
             />
             {titleError
-            && <span className="error">Please enter a title</span>}
+              && <span className="error">Please enter a title</span>}
 
           </label>
         </div>
@@ -104,7 +103,7 @@ export const App: React.FC = () => {
               ))}
             </select>
             {userError
-            && <span className="error">Please choose a user</span>}
+              && <span className="error">Please choose a user</span>}
           </label>
         </div>
 

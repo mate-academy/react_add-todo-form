@@ -21,7 +21,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       key={id}
     >
       <h2 className="TodoInfo__title">{title}</h2>
+
       <UserInfo user={user} />
+
     </article>
   );
 };
