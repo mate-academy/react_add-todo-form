@@ -9,7 +9,7 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 function getUserById(id: number, users: User[]) {
-  return users.find(user => id === user.id) as User;
+  return users.find(user => id === user.id) || null;
 }
 
 const todoList: Todo[] = todosFromServer.map(todo => ({
@@ -18,11 +18,11 @@ const todoList: Todo[] = todosFromServer.map(todo => ({
 }));
 
 function getUserByName(name: string, users: User[]) {
-  return users.find(user => name === user.name) as User;
+  return users.find(user => name === user.name) || null;
 }
 
 function getLargestTodoId(todos: Todo[]) {
-  return [...todos].sort((todo1, todo2) => todo2.id - todo1.id)[0].id;
+  return Math.max(...todos.map(todo => todo.id));
 }
 
 export const App: React.FC = () => {
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
         id: newTodoId,
         title,
         completed: false,
-        userId: newUser.id,
+        userId: newUser ? newUser.id : null,
         user: newUser,
       };
 
