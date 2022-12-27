@@ -1,25 +1,114 @@
+import { useState } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
+
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
+import type { User } from './types/User';
+import type { Todo } from './types/Todo';
+
+import { TodoList } from './components/TodoList/TodoList';
+
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find((user) => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map((todo) => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
+  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState('');
+  const [isUser, setIsUser] = useState(false);
+  const [isTitle, setIsTitle] = useState(false);
+  const [isTitleAlphanumeric, setIsTitleAlphanumeric] = useState(true);
+  const [todosToRender, setTodosToRender] = useState(todos);
+
+  const checkTitle = (text: string): void => {
+    const regex = /^[A-Za-z0-9]*$/;
+
+    setIsTitleAlphanumeric(regex.test(text));
+  };
+
+  const selectUser = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setIsUser(false);
+  };
+
+  const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    checkTitle(event.target.value);
+    setTitle(event.target.value);
+    setIsTitle(false);
+  };
+
+  const addTodo = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    checkTitle(title);
+
+    setIsTitle(!title);
+    setIsUser(!(+userId));
+
+    if (!title || !userId || !isTitleAlphanumeric) {
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: todosToRender.sort((a, b) => b.id - a.id)[0].id + 1,
+      userId,
+      title,
+      completed: false,
+      user: getUser(userId),
+    };
+
+    setTodosToRender((prevTodos) => [...prevTodos, newTodo]);
+
+    setTitle('');
+    setUserId(0);
+
+    setIsTitle(false);
+    setIsUser(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form action="/api/users" method="POST" onSubmit={addTodo}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            onChange={changeTitle}
+            placeholder="Title"
+          />
+          {isTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <select data-cy="userSelect" value={userId} onChange={selectUser}>
+            <option value="0" disabled>
+              Choose a user
+            </option>
+            {usersFromServer.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {isUser && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -27,35 +116,15 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+      {
+        !isTitleAlphanumeric && (
+          <div>
+            <p>Please enter only letters and numbers</p>
+          </div>
+        )
+      }
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todosToRender} />
     </div>
   );
 };
