@@ -108,7 +108,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label htmlFor="titleState">
-            Title:
+            Title:&nbsp;
             <input
               id="titleState"
               type="text"
@@ -123,7 +123,7 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="userState">
-            User:
+            User:&nbsp;
             <select
               id="userState"
               data-cy="userState"
