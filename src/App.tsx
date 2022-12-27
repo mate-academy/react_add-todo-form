@@ -27,13 +27,14 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [isUser, setIsUser] = useState(false);
   const [isTitle, setIsTitle] = useState(false);
-  const [isTitleAlphanumeric, setIsTitleAlphanumeric] = useState(true);
-  const [todosToRender, setTodosToRender] = useState(todos);
+  const [todosList, setTodosList] = useState(todos);
 
-  const checkTitle = (text: string): void => {
-    const regex = /^[A-Za-z0-9]*$/;
+  const clearForm = () => {
+    setTitle('');
+    setUserId(0);
 
-    setIsTitleAlphanumeric(regex.test(text));
+    setIsTitle(false);
+    setIsUser(false);
   };
 
   const selectUser = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -42,7 +43,6 @@ export const App = () => {
   };
 
   const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    checkTitle(event.target.value);
     setTitle(event.target.value);
     setIsTitle(false);
   };
@@ -50,30 +50,26 @@ export const App = () => {
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    checkTitle(title);
-
     setIsTitle(!title);
     setIsUser(!(+userId));
 
-    if (!title || !userId || !isTitleAlphanumeric) {
+    if (!title || !userId) {
       return;
     }
 
     const newTodo: Todo = {
-      id: todosToRender.sort((a, b) => b.id - a.id)[0].id + 1,
+      id: todos.sort((a, b) => b.id - a.id)[0].id + 1,
       userId,
       title,
       completed: false,
       user: getUser(userId),
     };
 
-    setTodosToRender((prevTodos) => [...prevTodos, newTodo]);
+    setTodosList((prevTodos) => (
+      [...prevTodos, newTodo]
+    ));
 
-    setTitle('');
-    setUserId(0);
-
-    setIsTitle(false);
-    setIsUser(false);
+    clearForm();
   };
 
   return (
@@ -115,16 +111,7 @@ export const App = () => {
           Add
         </button>
       </form>
-
-      {
-        !isTitleAlphanumeric && (
-          <div>
-            <p>Please enter only letters and numbers</p>
-          </div>
-        )
-      }
-
-      <TodoList todos={todosToRender} />
+      <TodoList todos={todosList} />
     </div>
   );
 };
