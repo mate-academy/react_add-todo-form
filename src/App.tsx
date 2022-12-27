@@ -108,11 +108,11 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label htmlFor="titleState">
-            Title:&nbsp;
+            Title:&nbsp
             <input
               id="titleState"
               type="text"
-              data-cy="titleState"
+              data-cy="titleInput"
               placeholder="Enter a title"
               value={titleName}
               onChange={handleTitle}
@@ -123,10 +123,10 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="userState">
-            User:&nbsp;
+            User:&nbsp
             <select
               id="userState"
-              data-cy="userState"
+              data-cy="userSelect"
               value={userName}
               onChange={handleUser}
             >
