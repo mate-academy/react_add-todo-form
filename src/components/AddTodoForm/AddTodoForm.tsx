@@ -22,8 +22,8 @@ export const AddTodoForm = ({ handleSubmit, users }: Props) => {
   const [user, setUser] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [errors, setErrors] = useState({
-    isUserNotSelected: false,
-    isTitleEmpty: false,
+    isUserSelected: true,
+    isTitle: true,
   });
 
   const clearForm = useCallback(
@@ -44,15 +44,15 @@ export const AddTodoForm = ({ handleSubmit, users }: Props) => {
         case ChangeType.TITLE:
           setTitle(e.target.value);
           setErrors(prev => ({
-            isUserNotSelected: prev.isUserNotSelected,
-            isTitleEmpty: false,
+            isUserSelected: prev.isUserSelected,
+            isTitle: true,
           }));
           break;
         case ChangeType.USER:
           setUser(Number.parseInt(e.target.value, 10));
           setErrors(prev => ({
-            isUserNotSelected: false,
-            isTitleEmpty: prev.isTitleEmpty,
+            isUserSelected: true,
+            isTitle: prev.isTitle,
           }));
           break;
         default: // ChangeType.COMPLETED
@@ -67,11 +67,11 @@ export const AddTodoForm = ({ handleSubmit, users }: Props) => {
   ) => {
     e.preventDefault();
     setErrors({
-      isUserNotSelected: user === 0,
-      isTitleEmpty: title.length === 0,
+      isUserSelected: !!user,
+      isTitle: !!title,
     });
 
-    if (user === 0 || title.length === 0) {
+    if (!user || !title) {
       return;
     }
 
@@ -112,7 +112,7 @@ export const AddTodoForm = ({ handleSubmit, users }: Props) => {
           onChange={e => handleChange(e, ChangeType.TITLE)}
           placeholder="Enter title..."
         />
-        {errors.isTitleEmpty && (
+        {!errors.isTitle && (
           <span className="error">
             Please enter a title
           </span>
@@ -143,8 +143,11 @@ export const AddTodoForm = ({ handleSubmit, users }: Props) => {
             </option>
           ))}
         </select>
-        {errors.isUserNotSelected
-        && <span className="error">Please choose a user</span>}
+        {!errors.isUserSelected && (
+          <span className="error">
+            Please choose a user
+          </span>
+        )}
       </div>
 
       <div
