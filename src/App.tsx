@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -23,7 +24,7 @@ const todos: Todo[] = todosFromServer.map(todo => {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userSelect, setUserSelect] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   const [todosToRender, setTodosToRender] = useState(todos);
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
@@ -34,7 +35,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelect(event.currentTarget.value);
+    setSelectedUser(event.currentTarget.value);
     setErrorOnUserSelect(false);
   };
 
@@ -42,39 +43,38 @@ export const App = () => {
     event.preventDefault();
 
     setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!userSelect);
+    setErrorOnUserSelect(!selectedUser);
 
-    if (title.trim() === '' || !userSelect) {
+    if (title.trim() === '' || !selectedUser) {
       return;
     }
 
-    const maxTodoId = Math.max(...todosToRender.map(todo => todo.id));
-    const userToAdd = findUserByName(userSelect);
+    const userToAdd = findUserByName(selectedUser);
 
-    setTodosToRender(current => [
-      ...current,
-      {
-        id: maxTodoId + 1,
-        title,
-        completed: false,
-        userId: userToAdd ? userToAdd.id : null,
-        user: userToAdd,
-      },
-    ]);
+    setTodosToRender(current => {
+      const maxTodoId = Math.max(...current.map(todo => todo.id));
+
+      return [
+        ...current,
+        {
+          id: maxTodoId + 1,
+          title,
+          completed: false,
+          userId: userToAdd ? userToAdd.id : null,
+          user: userToAdd,
+        },
+      ];
+    });
 
     setTitle('');
-    setUserSelect('');
+    setSelectedUser('');
   };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="fs-1 m-3 fw-bold">Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
+      <form className="form" onSubmit={handleSubmit}>
         <div className="field">
           <label
             htmlFor="title"
@@ -89,7 +89,7 @@ export const App = () => {
             id="title"
             name="title"
             value={title}
-            className="form__input"
+            className="form-control mb-3"
             placeholder="Enter title of task"
             onChange={handleTitleChange}
           />
@@ -111,8 +111,8 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
-            value={userSelect}
-            className="form__input"
+            value={selectedUser}
+            className="form-select mb-3"
             onChange={handleUserChange}
           >
             <option value="" disabled>Choose a user</option>
@@ -130,7 +130,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          className="button"
+          className="button btn btn-primary"
         >
           Add
         </button>

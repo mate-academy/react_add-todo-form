@@ -19,11 +19,11 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     <article
       data-id={id}
       className={classNames(
-        'TodoInfo',
-        { 'TodoInfo--completed': completed },
+        'TodoInfo card text-bg-danger bg-gradient bg-opacity-50 shadow p-2 m-3',
+        { 'TodoInfo--completed bg-success': completed },
       )}
     >
-      <h2 className="TodoInfo__title">
+      <h2 className="TodoInfo__title fs-5 text-dark">
         {title}
       </h2>
 
