@@ -15,7 +15,7 @@ function findUserByName(userName: string): User | null {
   return usersFromServer.find(user => (user.name === userName)) || null;
 }
 
-const todos: Todo[] = todosFromServer.map(todo => {
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: findUserById(todo.userId),
@@ -25,7 +25,7 @@ const todos: Todo[] = todosFromServer.map(todo => {
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [todosToRender, setTodosToRender] = useState(todos);
+  const [todos, setTodos] = useState(preparedTodos);
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
 
@@ -51,7 +51,7 @@ export const App = () => {
 
     const userToAdd = findUserByName(selectedUser);
 
-    setTodosToRender(current => {
+    setTodos(current => {
       const maxTodoId = Math.max(...current.map(todo => todo.id));
 
       return [
@@ -136,7 +136,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosToRender} />
+      <TodoList todos={todos} />
     </div>
   );
 };
