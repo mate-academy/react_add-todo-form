@@ -6,11 +6,11 @@ type Props = {
 
 export const SelectList: React.FC<Props> = ({ users }) => (
   <div className="field">
-    <label htmlFor="userState">
+    <label htmlFor="setUserName">
       User:
       <select
-        id="userState"
-        data-cy="userState"
+        id="setUserName"
+        data-cy="setUserName"
         value="Leanne Graham"
       >
         {users.map(user => (
