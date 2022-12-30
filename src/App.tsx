@@ -9,18 +9,19 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 function getUser(searchParameter: number | string): User | null {
-  const foundUserById
-  = usersFromServer.find(user => user.id === searchParameter);
+  const foundUserById = usersFromServer.find(
+    user => user.id === searchParameter,
+  );
 
-  const foundUserByName
-  = usersFromServer.find(user => user.name === searchParameter);
+  const foundUserByName = usersFromServer.find(
+    user => user.name === searchParameter,
+  );
 
-  switch (typeof searchParameter) {
-    case 'string':
-      return foundUserByName || null;
-    default:
-      return foundUserById || null;
+  if (typeof searchParameter === 'string') {
+    return foundUserByName || null;
   }
+
+  return foundUserById || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -32,8 +33,6 @@ export const App: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [titleName, setTitleName] = useState('');
   const [userName, setUserName] = useState('');
-  const [titleBoolean, setTitleBoolean] = useState(false);
-  const [userBoolean, setUserBoolean] = useState(false);
   const [todosArray, setTodosArray] = useState(todos);
 
   const titleValueModified = (titleValue: string) => {
@@ -58,18 +57,11 @@ export const App: React.FC = () => {
 
     setIsClicked(true);
 
-    if (!modifiedTitle) {
-      setTitleBoolean(true);
-    }
-
-    if (!userName) {
-      setUserBoolean(true);
-    }
-
     if (userName && modifiedTitle) {
       setTodosArray(current => [...current, newTodo]);
       setTitleName('');
       setUserName('');
+      setIsClicked(false);
     }
   };
 
@@ -77,20 +69,12 @@ export const App: React.FC = () => {
     const { value } = event.target;
 
     setUserName(value);
-
-    if (isClicked && value) {
-      setUserBoolean(false);
-    }
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitleName(value);
-
-    if (isClicked && value) {
-      setTitleBoolean(false);
-    }
   };
 
   return (
@@ -116,7 +100,9 @@ export const App: React.FC = () => {
               onChange={handleTitle}
             />
           </label>
-          {titleBoolean && <span className="error">Please enter a title</span>}
+          {isClicked
+          && !titleValueModified(titleName)
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -140,7 +126,9 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userBoolean && <span className="error">Please choose a user</span>}
+          {isClicked
+          && !userName
+          && <span className="error">Please choose a user</span>}
         </div>
 
         <button
