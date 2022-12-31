@@ -24,7 +24,7 @@ function getUser(searchParameter: number | string): User | null {
   return foundUserById || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const todosModified: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [titleName, setTitleName] = useState('');
   const [userName, setUserName] = useState('');
-  const [todosArray, setTodosArray] = useState(todos);
+  const [todos, setTodos] = useState<Todo[]>(todosModified);
 
   const titleValueModified = (titleValue: string) => {
     const regexChars = /[\wа-я\s]/ig;
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
   const handleFormData = () => {
     const currentUser = getUser(userName);
     const id = currentUser?.id;
-    const todosIdCollection = todosArray.map(todo => todo.id);
+    const todosIdCollection = todos.map(todo => todo.id);
     const todosIdMaxValue = Math.max(...todosIdCollection);
     const modifiedTitle = titleValueModified(titleName);
     const newTodo: Todo | undefined = {
@@ -58,20 +58,20 @@ export const App: React.FC = () => {
     setIsClicked(true);
 
     if (userName && modifiedTitle) {
-      setTodosArray(current => [...current, newTodo]);
+      setTodos(current => [...current, newTodo]);
       setTitleName('');
       setUserName('');
       setIsClicked(false);
     }
   };
 
-  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUserName(value);
   };
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitleName(value);
@@ -97,7 +97,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={titleName}
-              onChange={handleTitle}
+              onChange={handleTitleChange}
             />
           </label>
           {isClicked
@@ -112,7 +112,7 @@ export const App: React.FC = () => {
               id="setUserName"
               data-cy="userSelect"
               value={userName}
-              onChange={handleUser}
+              onChange={handleUserChange}
             >
               <option value="" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -140,7 +140,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosArray} />
+      <TodoList todos={todos} />
 
     </div>
   );
