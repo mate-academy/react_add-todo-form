@@ -25,33 +25,33 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
 export const App = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isUser, setIsUser] = useState(false);
-  const [isTitle, setIsTitle] = useState(false);
+  const [isUser, setIsUser] = useState(true);
+  const [isTitle, setIsTitle] = useState(true);
   const [todosList, setTodosList] = useState(todos);
 
   const clearForm = () => {
     setTitle('');
     setUserId(0);
 
-    setIsTitle(false);
-    setIsUser(false);
+    setIsTitle(true);
+    setIsUser(true);
   };
 
   const selectUser = (event: ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsUser(false);
+    setIsUser(true);
   };
 
   const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitle(false);
+    setIsTitle(true);
   };
 
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsTitle(!title);
-    setIsUser(!(+userId));
+    setIsTitle(Boolean(title));
+    setIsUser(Boolean(userId));
 
     if (!title || !userId) {
       return;
@@ -85,7 +85,7 @@ export const App = () => {
             onChange={changeTitle}
             placeholder="Title"
           />
-          {isTitle && (
+          {!isTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -102,7 +102,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isUser && (
+          {!isUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>

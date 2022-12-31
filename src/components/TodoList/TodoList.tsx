@@ -12,6 +12,6 @@ export const TodoList: FC<Props> = ({ todos }) => (
   <section className="TodoList">
     {todos.map((todo) => (
       <TodoInfo key={todo.id} todo={todo} />
-    ))}
+    )).sort((a, b) => a.props.todo.id - b.props.todo.id)}
   </section>
 );
