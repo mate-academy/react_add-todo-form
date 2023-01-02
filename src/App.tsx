@@ -6,10 +6,10 @@ import todosFromServer from './api/todos';
 
 export const App = () => {
   const [titleInput, setTitleInput] = useState('');
-  const [userSelect, setUserSelect] = useState('');
+  const [userSelect, setUserSelect] = useState(0);
   const [checkInput, setCheckInput] = useState(false);
-  const [showSpanTitle, setShowSpanTile] = useState(false);
-  const [showSpanUser, setShowSpanUser] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState([...todosFromServer]);
 
   useEffect(() => {
@@ -18,15 +18,15 @@ export const App = () => {
     }
 
     if (titleInput.length !== 0) {
-      setShowSpanTile(false);
+      setIsTitleError(false);
     }
 
     if (+userSelect !== 0) {
-      setShowSpanUser(false);
+      setIsUserError(false);
     } else {
       setCheckInput(false);
     }
-  });
+  }, [titleInput, userSelect]);
 
   const addTodo = () => {
     if (checkInput) {
@@ -35,25 +35,24 @@ export const App = () => {
       const newTodo = {
         id: id + 1,
         title: titleInput,
-        userId: +userSelect || 0,
+        userId: +userSelect,
         completed: false,
       };
 
-      // return visibleTodos;
       setVisibleTodos([
         ...visibleTodos, newTodo,
       ]);
 
       setTitleInput('');
-      setUserSelect('0');
+      setUserSelect(0);
     }
 
     if (titleInput.length === 0) {
-      setShowSpanTile(true);
+      setIsTitleError(true);
     }
 
     if (+userSelect === 0) {
-      setShowSpanUser(true);
+      setIsUserError(true);
     }
   };
 
@@ -72,9 +71,8 @@ export const App = () => {
             }}
           />
           {
-            showSpanTitle
-              ? <span className="error">Please enter a title</span>
-              : <></>
+            isTitleError
+            && (<span className="error">Please enter a title</span>)
           }
         </div>
 
@@ -83,7 +81,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userSelect || '0'}
             onChange={(event) => {
-              setUserSelect(event.target.value);
+              setUserSelect(+event.target.value);
             }}
           >
             <option
@@ -92,32 +90,22 @@ export const App = () => {
             >
               Choose a user
             </option>
-            {
-              usersFromServer.map(
-                (user) => {
-                  return (
-                    <option
-                      key={user.id}
-                      value={user.id}
-                    >
-                      {user.name}
-                    </option>
-                  );
-                },
-              )
-            }
+            {usersFromServer.map((user) => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
           </select>
-          {showSpanUser
-            ? <span className="error">Please choose a user</span>
-            : <></>}
+          {isUserError && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button
           type="button"
           data-cy="submitButton"
-          onClick={() => {
-            addTodo();
-          }}
+          onClick={addTodo}
         >
           Add
         </button>
@@ -126,9 +114,9 @@ export const App = () => {
       <section className="TodoList">
 
         {visibleTodos.map((todo) => {
-          const todoUser = usersFromServer.filter((user) => {
+          const todoUser = usersFromServer.find((user) => {
             return user.id === todo.userId;
-          });
+          }) || usersFromServer[0];
 
           return (
             <article
@@ -140,8 +128,8 @@ export const App = () => {
                 {todo.title}
               </h2>
 
-              <a className="UserInfo" href={`mailto:${todoUser[0].email}`}>
-                {todoUser[0].name}
+              <a className="UserInfo" href={`mailto:${todoUser.email}`}>
+                {todoUser.name}
               </a>
             </article>
           );
