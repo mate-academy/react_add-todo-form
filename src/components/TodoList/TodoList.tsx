@@ -1,5 +1,6 @@
 import { Todo } from '../../types/types';
 import { TodoInfo } from '../TodoInfo';
+import './TodoList.scss';
 
 type Props = {
   todos: Todo[],

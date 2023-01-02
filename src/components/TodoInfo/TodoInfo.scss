@@ -1,0 +1,14 @@
+.TodoInfo {
+  width: 50%;
+  padding: 8px;
+  margin: 12px 0;
+  border: 1px solid #000;
+  border-radius: 8px;
+  color: antiquewhite;
+  text-align: center;
+  background-color: #f00;
+
+  &--completed {
+    background-color: #080;
+  }
+}

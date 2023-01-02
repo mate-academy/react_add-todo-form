@@ -6,34 +6,31 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.App {
+  &__title {
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+
+  &__input {
+    width: 250px;
+  }
+}
+
 label,
 button {
   cursor: pointer;
 }
 
-.error {
+.title-error {
+  visibility: hidden;
   color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
+  transition: visibility 0.1s, color 0.1s;
 }

@@ -1,5 +1,14 @@
 import './App.scss';
 import React, { useState } from 'react';
+import cn from 'classnames';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -94,59 +103,91 @@ export const App = () => {
     });
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setInfo({
-      ...info,
-      userId: event.target.value,
-      isValidUserId: true,
-    });
-  };
-
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <label htmlFor="titleInput">Title: </label>
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            id="titleInput"
-            value={info.title}
-            onChange={handleTitleChange}
-            autoComplete="off"
-          />
-          {!info.isValidTitle
-            && (<span className="error"> Please enter a title</span>)}
+      <form
+        action="/api/users"
+        method="POST"
+        className="App__form"
+      >
+        <div className="App__field">
+          <FormControl error={!info.isValidTitle}>
+            <TextField
+              id="outlined-error-helper-text"
+              label="Title"
+              variant="outlined"
+              className="App__input"
+              value={info.title}
+              onChange={handleTitleChange}
+              autoComplete="off"
+              data-cy="titleInput"
+              error={!info.isValidTitle}
+            />
+            <FormHelperText className={cn(
+              { 'title-error': info.isValidTitle },
+            )}
+            >
+              Please choose a user
+            </FormHelperText>
+          </FormControl>
+
         </div>
 
-        <div className="field">
-          <label htmlFor="userSelect">User: </label>
-          <select
-            data-cy="userSelect"
-            value={info.userId}
-            onChange={handleSelectChange}
-            id="userSelect"
-          >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={`${user.id}`}>{user.name}</option>
-            ))}
-          </select>
+        <div className="App__field">
 
-          {!info.isValidUserId
-            && (<span className="error"> Please choose a user</span>)}
+          <FormControl error={!info.isValidUserId}>
+            <InputLabel id="demo-simple-select-helper-label">
+              User
+            </InputLabel>
+
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={info.userId}
+              label="User"
+              className="App__input"
+              onChange={event => {
+                setInfo({
+                  ...info,
+                  userId: event.target.value,
+                  isValidUserId: true,
+                });
+              }}
+            >
+              <MenuItem value="0" disabled>
+                <em>Choose a user</em>
+              </MenuItem>
+
+              {usersFromServer.map(user => (
+                <MenuItem key={user.id} value={`${user.id}`}>
+                  {user.name}
+                </MenuItem>
+              ))}
+
+            </Select>
+
+            <FormHelperText className={cn(
+              { 'user-error': info.isValidUserId },
+            )}
+            >
+              Please choose a user
+            </FormHelperText>
+          </FormControl>
         </div>
 
-        <button
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
           type="submit"
           data-cy="submitButton"
           onClick={handleClick}
+          className="App__Button"
         >
-          Add
-        </button>
+          Send
+        </Button>
+
       </form>
 
       <TodoList todos={info.todos} />

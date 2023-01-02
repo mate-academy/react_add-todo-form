@@ -1,0 +1,11 @@
+.UserInfo {
+  display: block;
+  font-style: italic;
+  color: antiquewhite;
+}
+
+.user-error {
+  visibility: hidden;
+  color: red;
+  transition: visibility 0.1s, color 0.1s;
+}
