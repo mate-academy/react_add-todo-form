@@ -129,7 +129,7 @@ export const App = () => {
               { 'title-error': info.isValidTitle },
             )}
             >
-              Please choose a user
+              Please write a title
             </FormHelperText>
           </FormControl>
 
