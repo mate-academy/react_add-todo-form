@@ -1,33 +1,42 @@
-import cn from 'classnames';
-import { Todo } from '../../types/types';
+import classNames from 'classnames';
+import React, { useState } from 'react';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
-import './TodoInfo.scss';
+// import { TodoForm } from "../TodoForm";
 
 type Props = {
-  todo: Todo
+  todo: Todo;
+  onTodoDeleted: (todoID: number) => void,
+  // onTodoUpdate: (todo: Todo) => void,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const {
-    user,
-    title,
-    id,
-    completed,
-  } = todo;
+export const TodoInfo: React.FC<Props> = ({ todo, onTodoDeleted }) => {
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <article
-      data-id={`${id}`}
-      className={cn(
-        'TodoInfo',
-        { 'TodoInfo--completed': completed },
-      )}
+      data-id={todo.id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
     >
+      {isEditing && <p> Form </p> }
+
       <h2 className="TodoInfo__title">
-        {title}
+        {todo.title}
+
+        <button type="button" onClick={() => onTodoDeleted(todo.id)}>
+          x
+        </button>
+
+        <button type="button" onClick={() => setIsEditing(true)}>
+          edit
+        </button>
       </h2>
 
-      {user && <UserInfo user={user} />}
+      {todo.user && (
+        <UserInfo user={todo.user}/>
+      )}
     </article>
   );
-};
+}
