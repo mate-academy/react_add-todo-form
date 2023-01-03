@@ -21,7 +21,7 @@ const getId = (array: Todo[]) => {
   const ids = array.map(el => el.id);
 
   return Math.max(...ids) + 1;
-}
+};
 
 export const App = () => {
   const [userSelect, setUserSelect] = useState('0');
