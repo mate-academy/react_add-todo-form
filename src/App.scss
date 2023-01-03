@@ -11,6 +11,15 @@ button {
   cursor: pointer;
 }
 
+form {
+  margin: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
 .error {
   color: red;
 }
