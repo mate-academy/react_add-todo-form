@@ -8,13 +8,13 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUserById(id: number, users: User[]) {
+function getUserById(users: User[], id: number) {
   return users.find(user => id === user.id) || null;
 }
 
 const todoList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId, usersFromServer),
+  user: getUserById(usersFromServer, todo.userId),
 }));
 
 function getUserByName(name: string, users: User[]) {
@@ -27,49 +27,60 @@ function getLargestTodoId(todos: Todo[]) {
 
 export const App: React.FC = () => {
   const titleDefaultValue = '';
-  const userDefaultValue = 'Choose a user';
+  const userNameDefaultValue = 'Choose a user';
 
   const [title, setTitle] = useState(titleDefaultValue);
-  const [user, setUser] = useState(userDefaultValue);
+  const [selectedUserName, setUser] = useState(userNameDefaultValue);
   const [todos, setTodos] = useState(todoList);
-  const [isUserSelected, setIsUserSelected] = useState(true);
-  const [isTitleEntered, setIsTitleEntered] = useState(true);
+  const [isErrorOnUserSelect, setIsErrorOnUserSelect] = useState(false);
+  const [isErrorOnTitleInput, setIsErrorOnTitleInput] = useState(false);
+
+  const clearForm = (defaultTitle: string, defaultUserName: string) => {
+    setTitle(defaultTitle);
+    setUser(defaultUserName);
+  };
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
-    if (user !== userDefaultValue && title !== titleDefaultValue) {
-      const newUser = getUserByName(user, usersFromServer);
-      const newTodoId = getLargestTodoId(todos) + 1;
-      const newTodo: Todo = {
-        id: newTodoId,
-        title,
-        completed: false,
-        userId: newUser ? newUser.id : null,
-        user: newUser,
-      };
 
-      setTodos(currentTodo => [...currentTodo, newTodo]);
-      setTitle(titleDefaultValue);
-      setUser(userDefaultValue);
+    if (
+      selectedUserName !== userNameDefaultValue && title !== titleDefaultValue
+    ) {
+      const newUser = getUserByName(selectedUserName, usersFromServer);
+
+      setTodos(currentTodo => (
+        [
+          ...currentTodo,
+          {
+            id: getLargestTodoId(todos) + 1,
+            title,
+            completed: false,
+            userId: newUser ? newUser.id : null,
+            user: newUser,
+          },
+        ]
+      ));
+
+      clearForm(titleDefaultValue, userNameDefaultValue);
     }
 
-    if (user === userDefaultValue) {
-      setIsUserSelected(false);
+    if (selectedUserName === userNameDefaultValue) {
+      setIsErrorOnUserSelect(true);
     }
 
     if (title === titleDefaultValue) {
-      setIsTitleEntered(false);
+      setIsErrorOnTitleInput(true);
     }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setIsTitleEntered(true);
+    setIsErrorOnTitleInput(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUser(event.currentTarget.value);
-    setIsUserSelected(true);
+    setIsErrorOnUserSelect(false);
   };
 
   return (
@@ -96,7 +107,7 @@ export const App: React.FC = () => {
             onChange={handleTitleChange}
             autoComplete="off"
           />
-          {!isTitleEntered && (
+          {isErrorOnTitleInput && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -110,11 +121,11 @@ export const App: React.FC = () => {
             id="userSelect"
             name="userSelect"
             data-cy="userSelect"
-            value={user}
+            value={selectedUserName}
             onChange={handleUserChange}
           >
-            <option value={userDefaultValue} disabled>
-              {userDefaultValue}
+            <option value={userNameDefaultValue} disabled>
+              {userNameDefaultValue}
             </option>
             {usersFromServer.map(userInfo => (
               <option value={userInfo.name} key={userInfo.id}>
@@ -123,7 +134,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!isUserSelected && (
+          {isErrorOnUserSelect && (
             <span className="error">Please choose a user</span>
           )}
         </div>
