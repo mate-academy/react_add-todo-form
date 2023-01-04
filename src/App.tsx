@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import Paper from '@mui/material/Paper';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -78,73 +86,102 @@ export const App: React.FC = () => {
     setIsErrorOnTitleInput(false);
   };
 
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(event.currentTarget.value);
+  const handleUserChange = (event: SelectChangeEvent) => {
+    setUser(event.target.value);
     setIsErrorOnUserSelect(false);
   };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmitForm}
+      <Paper
+        sx={{ padding: '16px' }}
+        elevation={3}
       >
-        <div className="field">
-          <label htmlFor="titleInput">
-            {'Title: '}
-          </label>
+        <h1>Add todo form</h1>
 
-          <input
-            type="text"
-            id="titleInput"
-            name="titleInput"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={title}
-            onChange={handleTitleChange}
-            autoComplete="off"
-          />
-          {isErrorOnTitleInput && (
-            <span className="error">Please enter a title</span>
-          )}
-        </div>
-
-        <div className="field">
-          <label htmlFor="userSelect">
-            {'User: '}
-          </label>
-
-          <select
-            id="userSelect"
-            name="userSelect"
-            data-cy="userSelect"
-            value={selectedUserName}
-            onChange={handleUserChange}
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmitForm}
+          className="App__form"
+        >
+          <FormControl
+            sx={{ marginBottom: '32px', width: '300px' }}
+            error={isErrorOnTitleInput}
           >
-            <option value={userNameDefaultValue} disabled>
-              {userNameDefaultValue}
-            </option>
-            {usersFromServer.map(userInfo => (
-              <option value={userInfo.name} key={userInfo.id}>
-                {userInfo.name}
-              </option>
-            ))}
-          </select>
 
-          {isErrorOnUserSelect && (
-            <span className="error">Please choose a user</span>
-          )}
-        </div>
+            <TextField
+              error={isErrorOnTitleInput}
+              id="outlined-error-helper-text"
+              type="text"
+              name="titleInput"
+              label="Title: "
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="Enter a title"
+              data-cy="titleInput"
+              autoComplete="off"
+            />
+            {isErrorOnTitleInput && (
+              <FormHelperText
+                sx={{ position: 'absolute', bottom: '-20px' }}
+              >
+                Please enter a title
+              </FormHelperText>
+            )}
+          </FormControl>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <FormControl
+            sx={{ marginBottom: '32px', width: '300px' }}
+            error={isErrorOnUserSelect}
+          >
+            <InputLabel id="demo-simple-select-error-label">
+              {'User: '}
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-error-label"
+              id="demo-simple-select-helper"
+              name="userSelect"
+              value={selectedUserName}
+              label="User: "
+              onChange={handleUserChange}
+              data-cy="userSelect"
+            >
+              <MenuItem value={userNameDefaultValue} disabled>
+                {userNameDefaultValue}
+              </MenuItem>
+              {usersFromServer.map(userInfo => (
+                <MenuItem value={userInfo.name} key={userInfo.id}>
+                  {userInfo.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {isErrorOnUserSelect && (
+              <FormHelperText
+                sx={{ position: 'absolute', bottom: '-20px' }}
+              >
+                Please choose a user
+              </FormHelperText>
+            )}
+          </FormControl>
 
-      <TodoList todos={todos} />
+          <Button
+            sx={{ display: 'block' }}
+            type="submit"
+            variant="contained"
+            data-cy="submitButton"
+            color={(
+              isErrorOnTitleInput || isErrorOnUserSelect
+                ? 'error'
+                : 'primary'
+            )}
+          >
+            Add
+          </Button>
+        </form>
+
+        <TodoList todos={todos} />
+      </Paper>
     </div>
   );
 };
