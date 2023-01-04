@@ -35,6 +35,20 @@ export const App: React.FC = () => {
     });
   };
 
+  const handleChangeTitleInput = (event: { target: { value: string }; }) => {
+    const { value } = event.target;
+
+    setTitleInputValue(value);
+    setTitleOnPaper(true);
+  };
+
+  const handleChangeUserSelect = (event: { target: { value: string }; }) => {
+    const { value } = event.target;
+
+    setOption(value);
+    setUserIsSelected(true);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -49,15 +63,18 @@ export const App: React.FC = () => {
             setUserIsSelected(false);
           }
 
-          if (!titleInputValue.length) {
+          if (!titleInputValue.trim().length) {
             setTitleOnPaper(false);
           }
 
-          if (titleInputValue.length && option !== '0') {
+          if (titleInputValue.trim().length && option !== '0') {
             setAllTodos([
               ...allTodos,
               addTodo(),
             ]);
+
+            setOption('0');
+            setTitleInputValue('');
           }
         }}
       >
@@ -72,10 +89,7 @@ export const App: React.FC = () => {
             id="titleInput"
             placeholder="Enter a title"
             value={titleInputValue}
-            onChange={(event) => {
-              setTitleInputValue(event.target.value);
-              setTitleOnPaper(true);
-            }}
+            onChange={handleChangeTitleInput}
           />
 
           {!titleOnPaper && <span className="error">Please enter a title</span>}
@@ -90,10 +104,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="userSelect"
             value={option}
-            onChange={(event) => {
-              setOption(event.target.value);
-              setUserIsSelected(true);
-            }}
+            onChange={handleChangeUserSelect}
           >
             <option value="0" disabled>Choose a user</option>
 
@@ -106,8 +117,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!userIsSelected
-            && <span className="error">Please choose a user</span>}
+          {!userIsSelected && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
