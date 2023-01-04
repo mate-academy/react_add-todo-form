@@ -23,6 +23,10 @@ export const App: React.FC<{}> = () => {
   const [showTitleError, setTitleError] = useState(false);
   const [showUserError, setUserError] = useState(false);
 
+  const generateId = () => (
+    Math.max(...todos.map(todo => todo.id)) + 1
+  );
+
   const createTodo = () => {
     setTitleError(!title);
     setUserError(!selectedUser);
@@ -30,7 +34,7 @@ export const App: React.FC<{}> = () => {
     if (title && selectedUser) {
       setTodos(state => (
         state.concat({
-          id: Math.trunc(Math.random() * 20),
+          id: generateId(),
           user: getUserById(+selectedUser),
           userId: +selectedUser,
           completed: false,
