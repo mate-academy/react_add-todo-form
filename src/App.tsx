@@ -78,7 +78,6 @@ export const App: FC = () => {
               type="text"
               id="outlined-basic"
               label="Title"
-              placeholder="Title"
               variant="outlined"
               data-cy="titleInput"
               value={title}
