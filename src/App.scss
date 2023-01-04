@@ -1,9 +1,16 @@
+@import "./reset";
+
 iframe {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
 }
 
 label,
@@ -15,25 +22,39 @@ button {
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 15px 20px;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__form {
+    width: 100%;
   }
-}
 
-.UserInfo {
-  font-style: italic;
+  &__form-field {
+    position: relative;
+    padding-bottom: 30px;
+  }
+
+  &__form-input {
+    width: 100%;
+  }
+
+  &__form-btn {
+    display: flex;
+    justify-content: center;
+  }
+  &__form-eror {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+  }
 }
