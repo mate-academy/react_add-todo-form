@@ -13,15 +13,17 @@ export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState([...todosFromServer]);
 
   useEffect(() => {
-    if (titleInput.length !== 0 && +userSelect !== 0) {
+    if (Boolean(titleInput.trim().length) && Boolean(+userSelect)) {
       setCheckInput(true);
     }
 
-    if (titleInput.length !== 0) {
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (Boolean(titleInput.length)) {
       setIsTitleError(false);
     }
 
-    if (+userSelect !== 0) {
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (Boolean(+userSelect)) {
       setIsUserError(false);
     } else {
       setCheckInput(false);
@@ -29,9 +31,8 @@ export const App = () => {
   }, [titleInput, userSelect]);
 
   const addTodo = () => {
-    if (checkInput) {
+    if (checkInput && Boolean(titleInput.trim().length)) {
       const id = Math.max(...visibleTodos.map(todo => todo.id));
-
       const newTodo = {
         id: id + 1,
         title: titleInput,
@@ -47,7 +48,7 @@ export const App = () => {
       setUserSelect(0);
     }
 
-    if (titleInput.length === 0) {
+    if (titleInput.trim().length === 0) {
       setIsTitleError(true);
     }
 
@@ -65,6 +66,7 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={titleInput}
             onChange={(event) => {
               setTitleInput(event.target.value);
@@ -79,7 +81,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={userSelect || '0'}
+            value={userSelect}
             onChange={(event) => {
               setUserSelect(+event.target.value);
             }}
@@ -90,12 +92,12 @@ export const App = () => {
             >
               Choose a user
             </option>
-            {usersFromServer.map((user) => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
@@ -113,23 +115,25 @@ export const App = () => {
 
       <section className="TodoList">
 
-        {visibleTodos.map((todo) => {
-          const todoUser = usersFromServer.find((user) => {
-            return user.id === todo.userId;
+        {visibleTodos.map(({
+          userId, id, completed, title,
+        }) => {
+          const { name, email } = usersFromServer.find((user) => {
+            return user.id === userId;
           }) || usersFromServer[0];
 
           return (
             <article
-              key={todo.id}
-              data-id={todo.id}
-              className={`TodoInfo ${todo.completed ? ' TodoInfo--completed' : ''}`}
+              key={id}
+              data-id={id}
+              className={`TodoInfo ${completed ? ' TodoInfo--completed' : ''}`}
             >
               <h2 className="TodoInfo__title">
-                {todo.title}
+                {title}
               </h2>
 
-              <a className="UserInfo" href={`mailto:${todoUser.email}`}>
-                {todoUser.name}
+              <a className="UserInfo" href={`mailto:${email}`}>
+                {name}
               </a>
             </article>
           );
