@@ -1,25 +1,149 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { useState } from 'react';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+class CustomTodo implements Todo {
+  id: number;
+
+  userId: number;
+
+  title: string;
+
+  completed: boolean;
+
+  user: User | null;
+
+  constructor(
+    userId: number,
+    todoTitle: string,
+    currToDos: Todo[],
+    completed = false,
+  ) {
+    this.userId = +userId;
+    this.title = todoTitle;
+    this.completed = completed;
+    this.user = getUser(userId);
+    this.id = this.createToDoId(currToDos);
+  }
+
+  createToDoId = (toDos: Todo[]) => {
+    const idS = toDos.map(todo => todo.id);
+
+    return Math.max(...idS) + 1;
+  };
+}
 
 export const App = () => {
+  const [inputTitle, setInputTitle] = useState('');
+  const [inputUser, setInputUser] = useState(0);
+  const [toDosForRender, setToDosForRender] = useState(todos);
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!inputTitle || !inputUser) {
+      setTitleError(!inputTitle);
+      setUserError(!inputUser);
+
+      return;
+    }
+
+    setToDosForRender(
+      (curr) => [...curr, new CustomTodo(inputUser, inputTitle, curr)],
+    );
+    setInputTitle('');
+    setInputUser(0);
+    setTitleError(!inputTitle);
+    setUserError(!inputUser);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    if (e.target.name === 'title') {
+      setInputTitle(e.target.value);
+      setTitleError(false);
+    } else {
+      setInputUser(+e.target.value);
+      setUserError(false);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/"
+        method="get"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            {'Title: '}
+
+            <input
+              type="text"
+              name="title"
+              data-cy="titleInput"
+              placeholder="Title"
+              value={inputTitle}
+              onChange={handleChange}
+            />
+          </label>
+
+          {isTitleError && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            {'User: '}
 
-          <span className="error">Please choose a user</span>
+            <select
+              data-cy="userSelect"
+              id="user"
+              name="user"
+              value={inputUser}
+              onChange={handleChange}
+            >
+              <option value="0" disabled>Choose a user</option>
+
+              {usersFromServer.map(({ name, id }) => (
+                <option key={name} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {isUserError && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -27,35 +151,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={toDosForRender} />
     </div>
   );
 };
