@@ -23,6 +23,11 @@ button {
 }
 
 .App {
+  padding: 15px 0;
+  min-height: 100vh;
+  background-image: url("https://cdn.wallpapersafari.com/25/0/vN61WO.jpg");
+  background-repeat: repeat;
+  background-size: contain;
 
   &__content {
     display: flex;
@@ -33,6 +38,8 @@ button {
     max-width: 500px;
     margin: 0 auto;
     padding: 15px 20px;
+
+    background-color: transparent;
   }
 
   &__form {

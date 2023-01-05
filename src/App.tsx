@@ -3,7 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import './App.scss';
-import { Button } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { TodoList } from './components/TodoList';
 
@@ -68,7 +68,7 @@ export const App: FC = () => {
 
   return (
     <div className="App">
-      <div className="App__content">
+      <Paper className="App__content" elevation={5}>
         <h1>Add todo form</h1>
 
         <form className="App__form" onSubmit={handleSubmit}>
@@ -78,6 +78,7 @@ export const App: FC = () => {
               type="text"
               id="outlined-basic"
               label="Title"
+              placeholder="Enter Title"
               variant="outlined"
               data-cy="titleInput"
               value={title}
@@ -124,7 +125,7 @@ export const App: FC = () => {
         </form>
 
         <TodoList todos={todos} />
-      </div>
+      </Paper>
     </div>
   );
 };
