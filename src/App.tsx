@@ -32,15 +32,18 @@ export const App: React.FC<{}> = () => {
     setUserError(!selectedUser);
 
     if (title && selectedUser) {
-      setTodos(state => (
-        state.concat({
+      const newTodo = {
           id: generateId(),
           user: getUserById(+selectedUser),
           userId: +selectedUser,
           completed: false,
           title,
-        })
-      ));
+        }
+      
+      setTodos([
+        ...todos,
+        newTodo
+      ]);
 
       setTitle('');
       setUser('');
