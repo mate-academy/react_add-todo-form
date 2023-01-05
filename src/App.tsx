@@ -20,7 +20,7 @@ function getUserById(users: User[], id: number) {
   return users.find(user => id === user.id) || null;
 }
 
-const todoList: Todo[] = todosFromServer.map(todo => ({
+const todosWithUser: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(usersFromServer, todo.userId),
 }));
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
 
   const [title, setTitle] = useState(titleDefaultValue);
   const [selectedUserName, setUser] = useState(userNameDefaultValue);
-  const [todos, setTodos] = useState(todoList);
+  const [todos, setTodos] = useState(todosWithUser);
   const [isErrorOnUserSelect, setIsErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setIsErrorOnTitleInput] = useState(false);
 
