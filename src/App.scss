@@ -1,9 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 label,
@@ -11,29 +15,49 @@ button {
   cursor: pointer;
 }
 
-.error {
-  color: red;
+h1 {
+  text-align: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  margin: auto;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 400px;
   padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
+  margin-top: 16px;
+
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #f84121af;
+  color: darkred;
 
   &__title {
-    margin: 4px 0;
+    margin: 8px 0 24px;
     font-size: inherit;
-    color: #f00;
+  }
+
+  &--completed {
+    background-color: #13af1bb0;
   }
 
   &--completed &__title {
-    color: #080;
+    color: darkgreen;
   }
 }
 
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
 }
