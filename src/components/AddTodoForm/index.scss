@@ -1,0 +1,78 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: #333;
+  margin-bottom: 50px;
+
+  &__title {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  &field {
+    width: 100%;
+    padding: 0 10px;
+
+    &__label {
+      width: 100%;
+      box-sizing: border-box;
+
+      font-size: 14px;
+      user-select: none;
+
+      &--cb {
+        display: block;
+        margin-top: 5px;
+      }
+    }
+
+    &__input,
+    &__select {
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+
+      margin: 5px 0;
+      padding: 10px;
+      line-height: 16px;
+
+      background-color: antiquewhite;
+      border: 1px solid #000;
+      border-radius: 9px;
+    }
+
+    &__submit {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__completed {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__button {
+      margin-right: 3px;
+      padding: 5px 15px;
+
+      background-color: #fff;
+      border: 1px solid #aaa;
+
+      line-height: 15px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: antiquewhite;
+      }
+    }
+
+    &__checkbox {
+      min-width: 25px;
+      height: 25px;
+    }
+  }
+}
