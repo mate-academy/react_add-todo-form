@@ -116,7 +116,10 @@ export const App = () => {
       <section className="TodoList">
 
         {visibleTodos.map(({
-          userId, id, completed, title,
+          userId,
+          id,
+          completed,
+          title,
         }) => {
           const { name, email } = usersFromServer.find((user) => {
             return user.id === userId;
