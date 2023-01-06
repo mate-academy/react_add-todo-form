@@ -25,14 +25,14 @@ export const App = () => {
   const [titleInput, setTitleInput] = useState('');
   const [newTodos, setNewTodos] = useState(todos);
   const [emtyTitle, setEmtyTitle] = useState(false);
-  const [emtyId, setEmtyId] = useState(false);
+  const [emtyId, setEmtyUser] = useState(false);
 
   const allId = newTodos.map(todo => todo.id);
   const maxId = Math.max(...allId);
 
   const handleSumbit = () => {
     if (!userSelect) {
-      setEmtyId(true);
+      setEmtyUser(true);
     }
 
     if (!titleInput.trim()) {
@@ -60,17 +60,23 @@ export const App = () => {
     setTitleInput('');
   };
 
+  const checkInput = (value: string) => {
+    const result = value.match(/[a-zA-Zа-яА-Я\d\s]+/g);
+
+    return result ? result.join('') : '';
+  };
+
   const handleCgange = (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
 
     if (input.id === 'titleInput') {
-      setTitleInput(input.value);
+      setTitleInput(checkInput(input.value));
       setEmtyTitle(false);
     }
 
     if (input.id === 'userSelect') {
       setUserSelect(input.value);
-      setEmtyId(false);
+      setEmtyUser(false);
     }
   };
 
