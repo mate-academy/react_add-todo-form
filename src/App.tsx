@@ -108,7 +108,7 @@ export const App: FC = () => {
         >
 
           <FormControl
-            error={errorForSelect}
+            error={errorForTitle}
           >
             <div className="field">
 
@@ -122,7 +122,7 @@ export const App: FC = () => {
                 value={title}
                 onChange={handleInput}
                 data-cy="titleInput"
-                error={errorForSelect}
+                error={errorForTitle}
               />
               {errorForTitle
                 && (<FormHelperText>Please enter a title</FormHelperText>)}
@@ -146,9 +146,6 @@ export const App: FC = () => {
               error={errorForSelect}
               size="medium"
             >
-              {/* <MenuItem value="" disabled>
-                Choose a user
-              </MenuItem> */}
 
               {usersFromServer.map((user) => (
                 <MenuItem
