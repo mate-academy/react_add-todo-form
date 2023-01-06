@@ -31,7 +31,7 @@ export const App: FC = () => {
   const defaultValueInput = '';
 
   const [title, setInput] = useState<string>(defaultValueInput);
-  const [selectedUserID, setUser] = useState<string>(defaultValueInput);
+  const [selectedUserName, setUser] = useState<string>(defaultValueInput);
   const [todos, setTasks] = useState<Todo[]>(todosWithUsers);
   const [errorForTitle, setErrorForTitle] = useState<boolean>(false);
   const [errorForSelect, setErrorForUserSelect] = useState<boolean>(false);
@@ -47,14 +47,14 @@ export const App: FC = () => {
 
   const getUser = (array: User[]) => {
     return array.find(person => (
-      person.id === selectedUserID
+      person.name === selectedUserName
     )) || null;
   };
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const fieldsNotEmpty = selectedUserID && title;
+    const fieldsNotEmpty = selectedUserName && title;
 
     if (fieldsNotEmpty) {
       const id = getLargestUserId(todos) + 1;
@@ -73,7 +73,7 @@ export const App: FC = () => {
       clearForm(defaultValueInput);
     }
 
-    if (selectedUserID === defaultValueInput) {
+    if (selectedUserName === defaultValueInput) {
       setErrorForUserSelect(true);
     }
 
@@ -140,7 +140,7 @@ export const App: FC = () => {
             <Select
               labelId="select-label"
               name="userSelect"
-              value={selectedUserID}
+              value={selectedUserName}
               id="userSelect"
               onChange={handleUserSelect}
               label="User: "
@@ -152,7 +152,7 @@ export const App: FC = () => {
               {usersFromServer.map((user) => (
                 <MenuItem
                   key={user.id}
-                  value={user.id}
+                  value={user.name}
                 >
                   {user.name}
                 </MenuItem>
