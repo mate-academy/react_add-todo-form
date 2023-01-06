@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
 
@@ -35,14 +35,16 @@ export const App: React.FC = () => {
     });
   };
 
-  const handleChangeTitleInput = (event: { target: { value: string }; }) => {
+  const handleChangeTitleInput
+  = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitleInputValue(value);
     setTitleOnPaper(true);
   };
 
-  const handleChangeUserSelect = (event: { target: { value: string }; }) => {
+  const handleChangeUserSelect
+  = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setOption(value);
@@ -111,6 +113,7 @@ export const App: React.FC = () => {
             {usersFromServer.map(user => (
               <option
                 value={user.id}
+                key={user.id}
               >
                 {user.name}
               </option>
