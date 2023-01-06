@@ -13,6 +13,7 @@ import { Paper } from '@mui/material';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import { Stars } from './components/Stars-backgound/Stars';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
@@ -30,7 +31,7 @@ export const App: FC = () => {
   const defaultValueInput = '';
 
   const [title, setInput] = useState<string>(defaultValueInput);
-  const [selectedUserName, setUser] = useState<string>(defaultValueInput);
+  const [selectedUserID, setUser] = useState<string>(defaultValueInput);
   const [todos, setTasks] = useState<Todo[]>(todosWithUsers);
   const [errorForTitle, setErrorForTitle] = useState<boolean>(false);
   const [errorForSelect, setErrorForUserSelect] = useState<boolean>(false);
@@ -46,14 +47,14 @@ export const App: FC = () => {
 
   const getUser = (array: User[]) => {
     return array.find(person => (
-      person.name === selectedUserName
+      person.name === selectedUserID
     )) || null;
   };
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const fieldsNotEmpty = selectedUserName && title;
+    const fieldsNotEmpty = selectedUserID && title;
 
     if (fieldsNotEmpty) {
       const id = getLargestUserId(todos) + 1;
@@ -72,7 +73,7 @@ export const App: FC = () => {
       clearForm(defaultValueInput);
     }
 
-    if (selectedUserName === defaultValueInput) {
+    if (selectedUserID === defaultValueInput) {
       setErrorForUserSelect(true);
     }
 
@@ -97,6 +98,7 @@ export const App: FC = () => {
 
   return (
     <div className="App">
+      <Stars />
       <Paper className="container">
         <h1>Add todo form</h1>
 
@@ -138,7 +140,7 @@ export const App: FC = () => {
             <Select
               labelId="select-label"
               name="userSelect"
-              value={selectedUserName}
+              value={selectedUserID}
               id="userSelect"
               onChange={handleUserSelect}
               label="User: "
@@ -150,7 +152,7 @@ export const App: FC = () => {
               {usersFromServer.map((user) => (
                 <MenuItem
                   key={user.id}
-                  value={user.name}
+                  value={user.id}
                 >
                   {user.name}
                 </MenuItem>
