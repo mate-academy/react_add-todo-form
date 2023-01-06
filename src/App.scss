@@ -15,23 +15,61 @@ button {
   color: red;
 }
 
+.titleInput {
+  width: 300px;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  margin-bottom: 36px;
+}
+
+.container {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 36px;
+}
+
+.TodoList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .TodoInfo {
-  width: max-content;
+  width: 300px;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
   background-color: antiquewhite;
+  color: white;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
-  }
+    margin-bottom: 16px;
 
-  &--completed &__title {
-    color: #080;
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
+}
+
+.TodoInfo a {
+  color: #000;
+}
+
+.completed-task {
+  background-color: #080;
+}
+
+.uncompleted-task {
+  background-color: #f00;
 }
 
 .UserInfo {

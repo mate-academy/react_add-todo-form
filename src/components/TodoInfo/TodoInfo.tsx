@@ -23,6 +23,8 @@ export const TodoInfo: React.FC<Props> = React.memo(
         className={cn(
           'TodoInfo',
           { 'TodoInfo--completed': completed },
+          { 'completed-task': completed },
+          { 'uncompleted-task': !completed },
         )}
       >
         <h2 className="TodoInfo__title">
