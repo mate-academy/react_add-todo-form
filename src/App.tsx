@@ -47,7 +47,7 @@ export const App: FC = () => {
 
   const getUser = (array: User[]) => {
     return array.find(person => (
-      person.name === selectedUserID
+      person.id === selectedUserID
     )) || null;
   };
 
