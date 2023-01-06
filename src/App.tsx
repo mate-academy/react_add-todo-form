@@ -27,7 +27,7 @@ const todoForUser: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userInfo, setUserInfo] = useState(0);
+  const [userInfo, setUserInfo] = useState<string>('');
   const [todos, setTodos] = useState(todoForUser);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
@@ -42,7 +42,7 @@ export const App = () => {
       return;
     }
 
-    const newUser = getUserById(userInfo);
+    const newUser = getUserById(+userInfo);
 
     setTodos(prevTodo => {
       const maxId = Math.max(...todos.map(todo => todo.id));
@@ -60,7 +60,7 @@ export const App = () => {
     });
 
     setTitle('');
-    setUserInfo(0);
+    setUserInfo('');
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
