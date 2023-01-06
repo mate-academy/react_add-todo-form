@@ -13,7 +13,6 @@ import { Paper } from '@mui/material';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
-import { Stars } from './components/Stars-backgound/Stars';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
@@ -30,15 +29,16 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
 export const App: FC = () => {
   const defaultValueInput = '';
 
-  const [title, setInput] = useState<string>(defaultValueInput);
-  const [selectedUserName, setUser] = useState<string>(defaultValueInput);
-  const [todos, setTasks] = useState<Todo[]>(todosWithUsers);
+  const [title, setTitle] = useState<string>(defaultValueInput);
+  const [selectedUserName, setSelectedUserName]
+    = useState<string>(defaultValueInput);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [errorForTitle, setErrorForTitle] = useState<boolean>(false);
-  const [errorForSelect, setErrorForUserSelect] = useState<boolean>(false);
+  const [errorForUserSelect, setErrorForUserSelect] = useState<boolean>(false);
 
   const clearForm = (defaultValue: string) => {
-    setInput(defaultValue);
-    setUser(defaultValue);
+    setTitle(defaultValue);
+    setSelectedUserName(defaultValue);
   };
 
   const getLargestUserId = (array: Todo[]) => {
@@ -60,7 +60,7 @@ export const App: FC = () => {
       const id = getLargestUserId(todos) + 1;
       const user = getUser(usersFromServer);
 
-      setTasks(currenTodos => [
+      setTodos(currenTodos => [
         ...currenTodos,
         {
           id,
@@ -86,19 +86,18 @@ export const App: FC = () => {
     const { value } = event.target;
 
     setErrorForUserSelect(false);
-    setUser(value);
+    setSelectedUserName(value);
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setInput(value);
+    setTitle(value);
     setErrorForTitle(false);
   };
 
   return (
     <div className="App">
-      <Stars />
       <Paper className="container">
         <h1>Add todo form</h1>
 
@@ -133,7 +132,7 @@ export const App: FC = () => {
 
           <FormControl
             sx={{ width: '300px' }}
-            error={errorForSelect}
+            error={errorForUserSelect}
           >
             <InputLabel id="select-label">User: </InputLabel>
 
@@ -145,7 +144,7 @@ export const App: FC = () => {
               onChange={handleUserSelect}
               label="User: "
               data-cy="userSelect"
-              error={errorForSelect}
+              error={errorForUserSelect}
               size="medium"
             >
 
@@ -159,7 +158,7 @@ export const App: FC = () => {
               ))}
             </Select>
 
-            {errorForSelect && (
+            {errorForUserSelect && (
               <FormHelperText>Please choose a user</FormHelperText>
             )}
           </FormControl>
