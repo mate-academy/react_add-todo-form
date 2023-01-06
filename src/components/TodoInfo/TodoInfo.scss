@@ -1,0 +1,26 @@
+.TodoInfo {
+  margin: 20px 20px 0 0;
+  padding: 20px;
+  width: 200px;
+  min-height: 10px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s;
+  background: radial-gradient(#f7a0b0, #c64141);
+
+  &__title {
+    margin: 4px 0;
+    font-size: inherit;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  &--completed {
+    background: radial-gradient(#60efbc, #58d5c9);
+  }
+}
+
+.TodoInfo:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.01);
+}
