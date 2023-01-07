@@ -45,7 +45,6 @@ export const App = () => {
     setUserId(event.target.value);
     setUserIdCorrect(true);
   };
-  // : React.ChangeEvent<HTMLSelectElement>
 
   const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
