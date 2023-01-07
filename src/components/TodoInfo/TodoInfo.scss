@@ -1,11 +1,12 @@
 .TodoInfo {
-  width: 300px;
+  width: 350px;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
   background-color: lightgrey;
   color: red;
+  transition: 0.5s transform ease;
 
   &__title {
     margin: 4px 0;
@@ -15,4 +16,9 @@
   &--completed &__title {
     color: #080;
   }
+
+  &:hover {
+    transform: translateX(10%);
+  }
+
 }

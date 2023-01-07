@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   Button,
   FormControl,
-  FormHelperText,
+  FormHelperText, InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -105,19 +105,23 @@ export const App = () => {
           </div>
 
           <div className="field">
-            <Select
-              labelId="select-label"
-              value={userInfo}
-              id="userSelect"
-              data-cy="userSelect"
-              error={errorTitle}
-              onChange={handleUserChange}
-              fullWidth
-            >
-              {usersFromServer.map(user => (
-                <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
-              ))}
-            </Select>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">User:</InputLabel>
+              <Select
+                labelId="select-label"
+                label="User"
+                value={userInfo}
+                id="userSelect"
+                data-cy="userSelect"
+                error={errorTitle}
+                onChange={handleUserChange}
+                fullWidth
+              >
+                {usersFromServer.map(user => (
+                  <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             {errorUser && (
               <FormHelperText
