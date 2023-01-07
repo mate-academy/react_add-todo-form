@@ -19,7 +19,7 @@ export const TodoInfo: React.FC<Props> = ({ todo, maxId }) => {
       data-id={maxId}
       className={classNames(
         'TodoInfo',
-        { 'TodoInfo--completed': completed === true },
+        { 'TodoInfo--completed': completed },
       )}
     >
       <h2 className="TodoInfo__title">{title}</h2>

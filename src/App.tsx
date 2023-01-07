@@ -24,19 +24,19 @@ export const App = () => {
   const [userSelect, setUserSelect] = useState('');
   const [titleInput, setTitleInput] = useState('');
   const [newTodos, setNewTodos] = useState(todos);
-  const [emtyTitle, setEmtyTitle] = useState(false);
-  const [emtyId, setEmtyUser] = useState(false);
+  const [emptyTitle, setEmptyTitle] = useState(false);
+  const [emptyId, setEmptyId] = useState(false);
 
   const allId = newTodos.map(todo => todo.id);
   const maxId = Math.max(...allId);
 
   const handleSumbit = () => {
     if (!userSelect) {
-      setEmtyUser(true);
+      setEmptyId(true);
     }
 
     if (!titleInput.trim()) {
-      setEmtyTitle(true);
+      setEmptyTitle(true);
     }
 
     if (!userSelect || !titleInput.trim()) {
@@ -51,10 +51,10 @@ export const App = () => {
       user: getUser(+userSelect),
     };
 
-    setNewTodos([
-      ...newTodos,
+    setNewTodos(prevTodos => ([
+      ...prevTodos,
       newTodo,
-    ]);
+    ]));
 
     setUserSelect('');
     setTitleInput('');
@@ -66,17 +66,17 @@ export const App = () => {
     return result ? result.join('') : '';
   };
 
-  const handleCgange = (e: ChangeEvent) => {
+  const handleChange = (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
 
     if (input.id === 'titleInput') {
       setTitleInput(checkInput(input.value));
-      setEmtyTitle(false);
+      setEmptyTitle(false);
     }
 
     if (input.id === 'userSelect') {
       setUserSelect(input.value);
-      setEmtyUser(false);
+      setEmptyId(false);
     }
   };
 
@@ -96,10 +96,10 @@ export const App = () => {
             data-cy="titleInput"
             id="titleInput"
             placeholder="Enter a title"
-            onChange={event => handleCgange(event)}
+            onChange={event => handleChange(event)}
           />
 
-          {emtyTitle && (
+          {emptyTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -109,7 +109,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userSelect}
             id="userSelect"
-            onChange={event => handleCgange(event)}
+            onChange={event => handleChange(event)}
           >
             <option value="" disabled>Choose a user</option>
 
@@ -118,7 +118,7 @@ export const App = () => {
             ))}
           </select>
 
-          {emtyId && (
+          {emptyId && (
             <span className="error">Please choose a user</span>
           )}
         </div>
