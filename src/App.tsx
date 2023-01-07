@@ -92,6 +92,7 @@ export const App = () => {
               id="title"
               data-cy="titleInput"
               value={title}
+              error={errorTitle}
               onChange={handleTitleChange}
             />
 
@@ -113,7 +114,7 @@ export const App = () => {
                 value={userInfo}
                 id="userSelect"
                 data-cy="userSelect"
-                error={errorTitle}
+                error={errorUser}
                 onChange={handleUserChange}
                 fullWidth
               >
