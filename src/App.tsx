@@ -1,61 +1,190 @@
+import React, { FC, useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import {
+  Button,
+  FormControl,
+  TextField,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+  InputLabel,
+  FormHelperText,
+  Paper,
+} from '@mui/material';
 
-export const App = () => {
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
+const getUserById = (array: User[], id: number) => {
+  return array.find(user => user.id === id) || null;
+};
+
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(usersFromServer, todo.userId),
+}));
+
+enum DefaultValue {
+  TITLE = '',
+  SELECT = '',
+}
+
+export const App: FC = () => {
+  const [title, setTitle] = useState<string>(DefaultValue.TITLE);
+  const [selectedUserName, setSelectedUserName]
+    = useState<string>(DefaultValue.SELECT);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
+  const [errorForTitle, setErrorForTitle] = useState<boolean>(false);
+  const [errorForUserSelect, setErrorForUserSelect] = useState<boolean>(false);
+
+  const clearForm = () => {
+    setTitle(DefaultValue.TITLE);
+    setSelectedUserName(DefaultValue.SELECT);
+  };
+
+  const getLargestUserId = (array: Todo[]) => {
+    return Math.max(...array.map(item => item.id));
+  };
+
+  const getUser = (array: User[]) => {
+    return array.find(person => (
+      person.name === selectedUserName
+    )) || null;
+  };
+
+  const handleSubmitForm = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const fieldsNotEmpty = selectedUserName && title;
+
+    if (fieldsNotEmpty) {
+      const id = getLargestUserId(todos) + 1;
+      const user = getUser(usersFromServer);
+
+      setTodos(currenTodos => [
+        ...currenTodos,
+        {
+          id,
+          title,
+          completed: false,
+          userId: user ? user.id : null,
+          user,
+        }]);
+
+      clearForm();
+    }
+
+    if (title === DefaultValue.TITLE) {
+      setErrorForTitle(true);
+    }
+
+    if (selectedUserName === DefaultValue.SELECT) {
+      setErrorForUserSelect(true);
+    }
+  };
+
+  const handleUserSelect = (event: SelectChangeEvent) => {
+    const { value } = event.target;
+
+    setErrorForUserSelect(false);
+    setSelectedUserName(value);
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setTitle(value);
+    setErrorForTitle(false);
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <Paper className="container">
+        <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form
+          action="/api/users"
+          method="POST"
+          className="App__form"
+          onSubmit={handleSubmitForm}
+        >
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <FormControl
+            error={errorForTitle}
+          >
+            <div className="field">
 
-          <span className="error">Please choose a user</span>
-        </div>
+              <TextField
+                label="Title: "
+                className="titleInput"
+                id="titleInput"
+                name="titleInput"
+                type="text"
+                size="medium"
+                value={title}
+                onChange={handleInput}
+                data-cy="titleInput"
+                error={errorForTitle}
+              />
+              {errorForTitle
+                && (<FormHelperText>Please enter a title</FormHelperText>)}
+            </div>
+          </FormControl>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <FormControl
+            sx={{ width: '300px' }}
+            error={errorForUserSelect}
+          >
+            <InputLabel id="select-label">User: </InputLabel>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+            <Select
+              labelId="select-label"
+              name="userSelect"
+              value={selectedUserName}
+              id="userSelect"
+              onChange={handleUserSelect}
+              label="User: "
+              data-cy="userSelect"
+              error={errorForUserSelect}
+              size="medium"
+            >
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+              {usersFromServer.map((user) => (
+                <MenuItem
+                  key={user.id}
+                  value={user.name}
+                >
+                  {user.name}
+                </MenuItem>
+              ))}
+            </Select>
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
+            {errorForUserSelect && (
+              <FormHelperText>Please choose a user</FormHelperText>
+            )}
+          </FormControl>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+          <Button
+            data-cy="submitButton"
+            type="submit"
+            className="button"
+            variant="contained"
+            color={
+              (!errorForUserSelect && !errorForTitle)
+                ? 'primary'
+                : 'error'
+            }
+          >
+            Add
+          </Button>
+        </form>
+        <TodoList todos={todos} />
+      </Paper>
     </div>
   );
 };
