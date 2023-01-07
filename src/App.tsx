@@ -1,14 +1,17 @@
 import React, { FC, useState } from 'react';
 import './App.scss';
 
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import { Paper } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  TextField,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+  InputLabel,
+  FormHelperText,
+  Paper,
+} from '@mui/material';
 
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
@@ -26,19 +29,22 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(usersFromServer, todo.userId),
 }));
 
-export const App: FC = () => {
-  const defaultValueInput = '';
+enum DefaultValue {
+  TITLE = '',
+  SELECT = '',
+}
 
-  const [title, setTitle] = useState<string>(defaultValueInput);
+export const App: FC = () => {
+  const [title, setTitle] = useState<string>(DefaultValue.TITLE);
   const [selectedUserName, setSelectedUserName]
-    = useState<string>(defaultValueInput);
+    = useState<string>(DefaultValue.SELECT);
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [errorForTitle, setErrorForTitle] = useState<boolean>(false);
   const [errorForUserSelect, setErrorForUserSelect] = useState<boolean>(false);
 
-  const clearForm = (defaultValue: string) => {
-    setTitle(defaultValue);
-    setSelectedUserName(defaultValue);
+  const clearForm = () => {
+    setTitle(DefaultValue.TITLE);
+    setSelectedUserName(DefaultValue.SELECT);
   };
 
   const getLargestUserId = (array: Todo[]) => {
@@ -70,15 +76,15 @@ export const App: FC = () => {
           user,
         }]);
 
-      clearForm(defaultValueInput);
+      clearForm();
     }
 
-    if (selectedUserName === defaultValueInput) {
-      setErrorForUserSelect(true);
-    }
-
-    if (title === defaultValueInput) {
+    if (title === DefaultValue.TITLE) {
       setErrorForTitle(true);
+    }
+
+    if (selectedUserName === DefaultValue.SELECT) {
+      setErrorForUserSelect(true);
     }
   };
 
@@ -168,6 +174,11 @@ export const App: FC = () => {
             type="submit"
             className="button"
             variant="contained"
+            color={
+              (!errorForUserSelect && !errorForTitle)
+                ? 'primary'
+                : 'error'
+            }
           >
             Add
           </Button>

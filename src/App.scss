@@ -52,6 +52,11 @@ button {
   border-radius: 8px;
   background-color: antiquewhite;
   color: white;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-16px);
+  }
 
   &__title {
     margin: 4px 0;
