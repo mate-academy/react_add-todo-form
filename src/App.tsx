@@ -17,13 +17,11 @@ export const App = () => {
       setCheckInput(true);
     }
 
-    // eslint-disable-next-line no-extra-boolean-cast
-    if (Boolean(titleInput.length)) {
+    if (titleInput.length) {
       setIsTitleError(false);
     }
 
-    // eslint-disable-next-line no-extra-boolean-cast
-    if (Boolean(+userSelect)) {
+    if (+userSelect) {
       setIsUserError(false);
     } else {
       setCheckInput(false);
@@ -72,10 +70,9 @@ export const App = () => {
               setTitleInput(event.target.value);
             }}
           />
-          {
-            isTitleError
-            && (<span className="error">Please enter a title</span>)
-          }
+          {isTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -101,7 +98,9 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {isUserError && (<span className="error">Please choose a user</span>)}
+          {isUserError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
