@@ -14,6 +14,8 @@ const todos = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+let maxId = Math.max(...todos.map(todo => todo.id));
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
@@ -22,10 +24,10 @@ export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
 
   const createNewTodo = () => {
-    const maxId = Math.max(...visibleTodos.map(todo => todo.id));
+    maxId += 1;
 
     return {
-      id: maxId + 1,
+      id: maxId,
       title,
       completed: false,
       userId: Number(selectedUser),
