@@ -19,8 +19,8 @@ let maxId = Math.max(...todos.map(todo => todo.id));
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [hasTitleError, setTitleError] = useState(false);
-  const [hasUserError, setUserError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState(todos);
 
   const createNewTodo = () => {
@@ -38,8 +38,8 @@ export const App: React.FC = () => {
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserError(!selectedUser);
+    setHasTitleError(!title);
+    setHasUserError(!selectedUser);
 
     if (title && selectedUser) {
       const newTodo = createNewTodo();
@@ -56,12 +56,12 @@ export const App: React.FC = () => {
 
   const handleTitleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''));
-    setTitleError(false);
+    setHasTitleError(false);
   };
 
   const handleUserChange = (event:React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
-    setUserError(false);
+    setHasUserError(false);
   };
 
   return (
@@ -98,7 +98,6 @@ export const App: React.FC = () => {
             onChange={handleUserChange}
           >
             <option value="" disabled>Choose a user</option>
-
             {usersFromServer.map(user => (
               <option
                 key={user.id}
