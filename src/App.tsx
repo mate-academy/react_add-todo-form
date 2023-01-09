@@ -35,16 +35,34 @@ export const App: React.FC = () => {
     });
   };
 
-  const handleChangeTitleInput
-  = (event: ChangeEvent<HTMLInputElement>) => {
+  const changesOnSubmit = () => {
+    if (option === '0') {
+      setUserIsSelected(false);
+    }
+
+    if (!titleInputValue.trim().length) {
+      setTitleOnPaper(false);
+    }
+
+    if (titleInputValue.trim().length && option !== '0') {
+      setAllTodos([
+        ...allTodos,
+        addTodo(),
+      ]);
+
+      setOption('0');
+      setTitleInputValue('');
+    }
+  };
+
+  const handleChangeTitleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitleInputValue(value);
     setTitleOnPaper(true);
   };
 
-  const handleChangeUserSelect
-  = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeUserSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setOption(value);
@@ -61,23 +79,7 @@ export const App: React.FC = () => {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (option === '0') {
-            setUserIsSelected(false);
-          }
-
-          if (!titleInputValue.trim().length) {
-            setTitleOnPaper(false);
-          }
-
-          if (titleInputValue.trim().length && option !== '0') {
-            setAllTodos([
-              ...allTodos,
-              addTodo(),
-            ]);
-
-            setOption('0');
-            setTitleInputValue('');
-          }
+          changesOnSubmit();
         }}
       >
         <div className="field">
