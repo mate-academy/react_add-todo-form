@@ -64,7 +64,7 @@ export const App = () => {
     if (userId && title) {
       const id = Math.max(...todos.map(todo => todo.id));
 
-      const obj: Todos = {
+      const newTodo: Todos = {
         title,
         userId: +userId,
         completed: false,
@@ -72,7 +72,7 @@ export const App = () => {
         user: getUserById(+userId),
       };
 
-      setTodos(prev => [...prev, obj]);
+      setTodos(prev => [...prev, newTodo]);
       setTitle('');
       setUserId('');
     }
