@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.scss';
+import 'bulma/css/bulma.min.css';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -60,13 +61,21 @@ export const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div
+      className="
+        App
+        is-flex
+        is-flex-direction-column
+        is-align-items-center
+      "
+    >
+      <h1 className="title">Add todo form</h1>
 
       <form
         onSubmit={addTodo}
         action="/api/users"
         method="POST"
+        className="form"
       >
         <div className="field">
           <input
@@ -78,6 +87,7 @@ export const App = () => {
               setTitele(event.currentTarget.value);
               setTitleValidation(false);
             }}
+            className="input is-medium"
           />
           {
             incorrectTitle
@@ -93,6 +103,7 @@ export const App = () => {
               setUser(+event.currentTarget.value);
               setUserValidation(false);
             }}
+            className="select is-medium"
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(person => (
@@ -114,6 +125,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
+          className="button is-success"
         >
           Add
         </button>
