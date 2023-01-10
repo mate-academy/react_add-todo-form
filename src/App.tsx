@@ -71,7 +71,10 @@ export const App = () => {
               name="title"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitle(event.target.value
+                  .replace(/[^a-z\sа-я]/gi, ''));
+              }}
             />
           </label>
 
