@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const idUsers = [...todos].map((person) => person.id);
+    const idUsers = todos.map((person) => person.id);
     const largestId = Math.max(...idUsers);
 
     const user = getUserById(Number(userInfo));
