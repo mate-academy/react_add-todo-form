@@ -55,14 +55,14 @@ export const App = () => {
     }
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitele(event.currentTarget.value);
-    setTitleError(false);
-  };
-
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.currentTarget.value);
     setUserError(false);
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitele(event.currentTarget.value);
+    setTitleError(false);
   };
 
   return (
