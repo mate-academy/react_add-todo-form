@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { Todo } from '../../types/Todo';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo,
@@ -20,9 +21,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
-        Leanne Graham
-      </a>
+      { todo.user && (
+        <UserInfo user={todo.user} />
+      )}
     </article>
   );
 };
