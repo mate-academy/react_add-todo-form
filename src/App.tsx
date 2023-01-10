@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import 'bulma/css/bulma.min.css';
 import { TodoList } from './components/TodoList';
@@ -10,32 +10,27 @@ import { getTheLargestId } from './additionalFunction/getTheLargestId';
 import { getUser } from './additionalFunction/getUser';
 
 export const App = () => {
-  const [todos, setTodos] = useState(
-    todosFromServer.map(todo => ({
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [userId, setUserId] = useState(0);
+  const [title, setTitele] = useState('');
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
+
+  useEffect(() => {
+    const editedTodos = todosFromServer.map(todo => ({
       ...todo,
       user: getUser(usersFromServer, todo.userId),
-    })),
-  );
-  const [userForTodo, setUser] = useState(0);
-  const [titleForTodo, setTitele] = useState('');
-  const [incorrectTitle, setTitleValidation] = useState(false);
-  const [incorrectUser, setUserValidation] = useState(false);
+    }));
+
+    setTodos(editedTodos);
+  }, []);
 
   const isDataCorrect = () => {
-    const isTitleCorrect = titleForTodo !== '';
-    const isUserCorrect = userForTodo !== 0;
+    const isTitleCorrect = title !== '';
+    const isUserCorrect = userId !== 0;
 
-    if (!isTitleCorrect) {
-      setTitleValidation(true);
-    } else {
-      setTitleValidation(false);
-    }
-
-    if (!isUserCorrect) {
-      setUserValidation(true);
-    } else {
-      setUserValidation(false);
-    }
+    setTitleError(!isTitleCorrect);
+    setUserError(!isUserCorrect);
 
     return isTitleCorrect && isUserCorrect;
   };
@@ -48,16 +43,26 @@ export const App = () => {
     if (isDataCorrect()) {
       const newTodo: Todo = {
         id: getTheLargestId(todos) + 1,
-        title: titleForTodo,
+        title,
         completed: false,
-        userId: userForTodo,
-        user: getUser(usersFromServer, userForTodo),
+        userId,
+        user: getUser(usersFromServer, userId),
       };
 
       setTodos(currentList => [...currentList, newTodo]);
-      setUser(0);
+      setUserId(0);
       setTitele('');
     }
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitele(event.currentTarget.value);
+    setTitleError(false);
+  };
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.currentTarget.value);
+    setUserError(false);
   };
 
   return (
@@ -73,8 +78,6 @@ export const App = () => {
 
       <form
         onSubmit={addTodo}
-        action="/api/users"
-        method="POST"
         className="form"
       >
         <div className="field">
@@ -82,15 +85,12 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={titleForTodo}
-            onChange={(event) => {
-              setTitele(event.currentTarget.value);
-              setTitleValidation(false);
-            }}
+            value={title}
+            onChange={handleInput}
             className="input is-medium"
           />
           {
-            incorrectTitle
+            isTitleError
             && (<span className="error">Please enter a title</span>)
           }
         </div>
@@ -98,11 +98,8 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={userForTodo}
-            onChange={(event) => {
-              setUser(+event.currentTarget.value);
-              setUserValidation(false);
-            }}
+            value={userId}
+            onChange={handleSelect}
             className="select is-medium"
           >
             <option value="0" disabled>Choose a user</option>
@@ -117,7 +114,7 @@ export const App = () => {
           </select>
 
           {
-            incorrectUser
+            isUserError
             && (<span className="error">Please choose a user</span>)
           }
         </div>
