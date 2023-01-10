@@ -37,10 +37,12 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
+    setErrorOnTitleInput(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.currentTarget.value);
+    setErrorOnUserSelect(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
