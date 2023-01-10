@@ -6,9 +6,21 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+body {
+  margin-left: 50px;
+}
+
 label,
 button {
   cursor: pointer;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
 }
 
 .error {
