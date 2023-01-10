@@ -33,9 +33,9 @@ const findLastTodoId = (todos: Todo[]) => {
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [title, setTitle] = useState('');
-  const [showTitleError, setShowTitleError] = useState(false);
+  const [shouldShowTitleError, setShouldShowTitleError] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [showUserError, setShowUserError] = useState(false);
+  const [shouldShowUserError, setShouldShowUserError] = useState(false);
 
   const clearForm = () => {
     setTitle('');
@@ -44,20 +44,20 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setShowTitleError(false);
+    setShouldShowTitleError(false);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(event.target.value);
-    setShowUserError(false);
+    setShouldShowUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmedTitle = title.trim();
 
-    setShowTitleError(!trimmedTitle);
-    setShowUserError(!selectedUserId);
+    setShouldShowTitleError(!trimmedTitle);
+    setShouldShowUserError(!selectedUserId);
 
     if (trimmedTitle && selectedUserId) {
       clearForm();
@@ -99,7 +99,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {showTitleError && (
+          {shouldShowTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -121,7 +121,7 @@ export const App = () => {
             ))}
           </select>
 
-          {showUserError && (
+          {shouldShowUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
