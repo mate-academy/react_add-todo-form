@@ -2,8 +2,21 @@ iframe {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body,
+h1 {
+  margin: 0;
+}
+
+body {
+  background: rgb(208, 208, 254);
 }
 
 label,
@@ -12,28 +25,77 @@ button {
 }
 
 .error {
-  color: red;
+  color: rgb(219, 92, 92);
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: 375px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 100px 0;
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
+    margin-bottom: 20px;
 
-  &--completed &__title {
-    color: #080;
+    text-align: center;
+    text-transform: uppercase;
   }
 }
 
-.UserInfo {
-  font-style: italic;
+.form {
+  width: 100%;
+  margin-bottom: 50px;
+
+  &__field {
+    margin-bottom: 15px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 5px;
+
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+  }
+
+  &__element {
+    width: 100%;
+    height: 45px;
+    padding-left: 20px;
+    margin-bottom: 5px;
+
+    font-size: 20px;
+
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.12);
+    outline: none;
+
+    transition: box-shadow 0.5s;
+
+    &:focus {
+      box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    &--select {
+      -webkit-appearance: none;
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  &__submit {
+    padding: 0;
+
+    background: rgb(118, 118, 189);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1.3px;
+  }
 }

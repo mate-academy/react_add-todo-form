@@ -81,16 +81,18 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo form</h1>
 
       <form
+        className="form"
         action="/api/users"
         method="POST"
         onSubmit={handleSubmit}
       >
-        <div className="field">
-          <label htmlFor="title">Title: </label>
+        <div className="form__field">
+          <label className="form__label" htmlFor="title">Title: </label>
           <input
+            className="form__element"
             type="text"
             name="title"
             id="title"
@@ -104,9 +106,10 @@ export const App = () => {
           )}
         </div>
 
-        <div className="field">
-          <label htmlFor="user">User: </label>
+        <div className="form__field">
+          <label className="form__label" htmlFor="user">User: </label>
           <select
+            className="form__element form__element--select"
             data-cy="userSelect"
             name="selectedUserId"
             id="user"
@@ -126,7 +129,11 @@ export const App = () => {
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          className="form__element form__submit"
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
