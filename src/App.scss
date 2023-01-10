@@ -1,9 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
 iframe {
   display: none;
 }
 
+h1 {
+  text-align: center;
+}
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.App {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
 }
 
 label,
@@ -12,28 +26,77 @@ button {
 }
 
 .error {
-  color: red;
+  display: block;
+  margin-top: 10px;
+  color: rgb(223, 38, 38);
+}
+
+.field {
+  margin-bottom: 30px;
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 100%;
   padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  margin-bottom: 20px;
+
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(248, 223, 229);
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
   }
 
-  &--completed &__title {
-    color: #080;
+  &--completed {
+    background-color: rgb(201, 248, 223);
   }
 }
 
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+  color: black;
+}
+
+.userName,
+.title {
+  padding: 5px 10px;
+  width: 100%;
+  height: 45px;
+
+  border-radius: 4px;
+  border: 1px solid rgb(45, 45, 192);
+
+  transition: border 0.3s ease, background-color 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border: 2px solid rgb(45, 45, 192);
+    background-color: rgb(235, 244, 249);
+  }
+}
+
+.submit {
+  display: block;
+  margin: 0 auto 35px;
+  height: 30px;
+  width: 50%;
+
+  color: #fff;
+  background-color: rgb(45, 45, 192);
+  border: none;
+  border-radius: 4px;
+
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+
+  &:hover {
+    color: rgb(45, 45, 192);
+    background-color: #fff;
+    border: 1px solid rgb(45, 45, 192);
+  }
+
+  &:active {
+    background-color: rgb(235, 244, 249);
+  }
 }

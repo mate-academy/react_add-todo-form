@@ -84,7 +84,7 @@ export const App = () => {
         onSubmit={handleChange}
       >
         <div className="field">
-          <label>
+          <label className="label">
             {'Title: '}
             <input
               id="title"
@@ -94,6 +94,7 @@ export const App = () => {
               placeholder="Enter a title"
               value={title}
               onChange={handleTitile}
+              className="title"
             />
             {shouldTitleError && (
               <span className="error">Please enter a title</span>
@@ -105,11 +106,12 @@ export const App = () => {
           <label>
             {'User: '}
             <select
+              id="userName"
+              name="User"
               data-cy="userSelect"
               value={userName}
               onChange={handleUserName}
-              id="userName"
-              name="User"
+              className="userName"
             >
               <option value="" disabled>Choose a user</option>
 
@@ -127,6 +129,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
+          className="submit"
         >
           Add
         </button>
