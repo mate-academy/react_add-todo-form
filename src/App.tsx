@@ -4,9 +4,22 @@ import './App.scss';
 // import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 // import { TodoList } from './components/TodoList';
+// import { Todo } from './types/Todo';
+// import { User } from './types/User';
+
+// function getUserById(id: number): User | null {
+//   return usersFromServer.find(user => user.id === id) || null;
+// }
+
+// function getTodosFromServer(): Todo[] {
+//   return todosFromServer.map(todo => ({
+//     ...todo,
+//     user: getUserById(todo.userId),
+//   }));
+// }
 
 export const App = () => {
-  // const [todos, setTodos] = useState(todosFromServer);
+  // const [todos, setTodos] = useState(getTodosFromServer());
 
   return (
     <div className="App">
@@ -39,7 +52,6 @@ export const App = () => {
         </button>
       </form>
 
-      {/* <TodoList todos={todos} /> */}
     </div>
   );
 };
