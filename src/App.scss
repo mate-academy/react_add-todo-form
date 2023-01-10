@@ -16,7 +16,7 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 100;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
@@ -36,4 +36,16 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.form {
+  width: 50%;
+}
+
+.field {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
 }
