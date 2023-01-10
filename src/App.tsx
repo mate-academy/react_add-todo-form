@@ -25,10 +25,10 @@ function getUsersFromServer(): User[] {
 }
 
 export const App = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [todos, setTodos] = useState(getTodosFromServer());
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
+  const [isErrorDisplayed, setIsErrorDisplayed] = useState(false);
 
   return (
     <div className="App">
@@ -41,6 +41,8 @@ export const App = () => {
           event.preventDefault();
 
           if (title.trim() === '' || userId === 0) {
+            setIsErrorDisplayed(true);
+
             return;
           }
 
@@ -55,6 +57,7 @@ export const App = () => {
 
           setTodos(prevTodos => [...prevTodos, todo]);
 
+          setIsErrorDisplayed(false);
           setUserId(0);
           setTitle('');
         }}
@@ -68,11 +71,13 @@ export const App = () => {
               name="title"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => setTitle(event.target.value.trim())}
+              onChange={(event) => setTitle(event.target.value)}
             />
           </label>
 
-          <span className="error">Please enter a title</span>
+          {title.trim() === '' && isErrorDisplayed && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -82,7 +87,9 @@ export const App = () => {
               data-cy="userSelect"
               onChange={(event) => setUserId(+event.target.value)}
             >
-              <option value={userId} disabled selected>Choose a user</option>
+              <option value="0" selected={userId === 0} disabled>
+                Choose a user
+              </option>
 
               {getUsersFromServer().map(currentUser => (
                 <option value={currentUser.id} key={currentUser.id}>
@@ -91,8 +98,9 @@ export const App = () => {
               ))}
             </select>
           </label>
-
-          <span className="error">Please choose a user</span>
+          {userId === 0 && isErrorDisplayed && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
