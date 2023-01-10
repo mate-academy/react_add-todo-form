@@ -97,5 +97,15 @@ button {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1.3px;
+
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: rgb(100, 100, 160);
+    }
+
+    &:active {
+      background-color: rgb(87, 87, 136);
+    }
   }
 }
