@@ -1,25 +1,26 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
-// import { TodoList } from './components/TodoList';
-// import { Todo } from './types/Todo';
-// import { User } from './types/User';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
-// function getUserById(id: number): User | null {
-//   return usersFromServer.find(user => user.id === id) || null;
-// }
+function getUserById(id: number): User | null {
+  return usersFromServer.find(user => user.id === id) || null;
+}
 
-// function getTodosFromServer(): Todo[] {
-//   return todosFromServer.map(todo => ({
-//     ...todo,
-//     user: getUserById(todo.userId),
-//   }));
-// }
+function getTodosFromServer(): Todo[] {
+  return todosFromServer.map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
+  }));
+}
 
 export const App = () => {
-  // const [todos, setTodos] = useState(getTodosFromServer());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [todos, setTodos] = useState(getTodosFromServer());
 
   return (
     <div className="App">
@@ -36,6 +37,8 @@ export const App = () => {
               placeholder="Enter a title"
             />
           </label>
+
+          <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
@@ -45,6 +48,8 @@ export const App = () => {
               <option value="0" disabled>Choose a user</option>
             </select>
           </label>
+
+          <span className="error">Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -52,6 +57,7 @@ export const App = () => {
         </button>
       </form>
 
+      <TodoList todos={todos} />
     </div>
   );
 };
