@@ -65,8 +65,8 @@ export const App = () => {
       };
 
       setTodos(prev => [...prev, newTodo]);
-      setTitle('');
       setUserId('');
+      setTitle('');
     }
   };
 
