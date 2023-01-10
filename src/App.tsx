@@ -1,9 +1,43 @@
+import React, { useState } from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './components/Types/Todo';
+import { User } from './components/Types/User';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+function findUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
+}
+
+function findUserByName(userName: string): User | null {
+  return usersFromServer.find(user => userName === user.name) || null;
+}
+
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: findUserById(todo.userId),
+  };
+});
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [selectedUser, setSelectedUser] = userState('');
+  const [todos, setTodos] = useState(preparedTodos);
+  const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
+  const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value);
+    setErrorOnTitleInput(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(event.currentTarget.value);
+    setErrorOnUserSelect(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -11,15 +45,15 @@ export const App = () => {
       <form action="/api/users" method="POST">
         <div className="field">
           <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <span className="error">  Please enter a title</span>
         </div>
 
         <div className="field">
           <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+            <option value="0" disabled>  Choose a user</option>
           </select>
 
-          <span className="error">Please choose a user</span>
+          <span className="error">  Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
