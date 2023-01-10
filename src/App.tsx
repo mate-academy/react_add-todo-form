@@ -32,6 +32,9 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState(prepTodos);
 
+  const [shouldErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
+  const [shouldErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
   };
@@ -42,6 +45,9 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setErrorOnTitleInput(!title.trim());
+    setErrorOnUserSelect(!selectedUser);
 
     if (title.trim() === '' || !selectedUser) {
       return;
@@ -87,7 +93,9 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          <span className="error">Please enter a title</span>
+          {shouldErrorOnTitleInput && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -107,11 +115,9 @@ export const App = () => {
             ))}
           </select>
 
-          <span
-            className="error"
-          >
-            Please choose a user
-          </span>
+          {shouldErrorOnUserSelect && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
