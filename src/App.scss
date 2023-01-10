@@ -2,12 +2,29 @@ iframe {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: rgb(48, 45, 45);
+}
+
+h1 {
+  margin: 0 auto;
+  padding-bottom: 20px;
+
+  text-align: center;
+}
+
+label {
   cursor: pointer;
 }
 
@@ -16,12 +33,11 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(246, 245, 242);
 
   &__title {
     margin: 4px 0;
@@ -35,5 +51,57 @@ button {
 }
 
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  font-style: normal;
+  transition: 0.5s;
+
+  &:hover {
+    color: rebeccapurple;
+  }
+}
+
+.App {
+  display: block;
+  margin: 20px auto;
+  padding: 60px;
+  width: 600px;
+
+  border: 1px solid gray;
+  box-shadow: 10px 4px 5px 5px black;
+  background-color: rgb(240, 123, 123);
+}
+
+.field {
+  padding: auto;
+  margin-bottom: 40px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#title,
+#userSelect {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  transition: 0.5s;
+
+  &:hover {
+    border: 2px solid #080;
+  }
+}
+
+button {
+  width: 100px;
+  height: 30px;
+  border-radius: 4px;
+  transition: 0.5s;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgb(250, 214, 253);
+  }
+
+  cursor: pointer;
 }
