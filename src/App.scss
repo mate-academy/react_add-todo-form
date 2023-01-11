@@ -17,6 +17,7 @@ button {
   align-items: center;
 
   &__title {
+    margin: 30px 0;
     color: #454141;
   }
 
@@ -27,6 +28,7 @@ button {
   }
   .button {
     margin: 10px;
+    width: 98%;
   }
 }
 
