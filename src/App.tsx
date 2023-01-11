@@ -13,8 +13,8 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function getLargestTodoId(todos: Todo[]) {
-  return Math.max(...todos.map(todo => todo.id));
+function getNewId(todos: Todo[]) {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
 }
 
 export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
@@ -30,6 +30,11 @@ export const App: React.FC = () => {
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
 
+  const reset = () => {
+    setNewTitle('');
+    setSelectedUser(0);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -37,18 +42,19 @@ export const App: React.FC = () => {
     setUserError(!selectedUser);
 
     if (newTitle && selectedUser) {
-      setNewTitle('');
-      setSelectedUser(0);
+      setTodos(prev => {
+        const newTodo = {
+          id: getNewId(prev),
+          title: newTitle,
+          userId: selectedUser,
+          completed: false,
+          user: getUserById(+selectedUser),
+        };
 
-      const newTodo = {
-        id: getLargestTodoId(todos) + 1,
-        title: newTitle,
-        userId: selectedUser,
-        completed: false,
-        user: getUserById(+selectedUser),
-      };
+        return [...prev, newTodo];
+      });
 
-      setTodos([...todos, newTodo]);
+      reset();
     }
   };
 
