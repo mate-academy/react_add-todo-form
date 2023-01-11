@@ -6,10 +6,15 @@ import usersFromServer from './api/users';
 
 export const App: React.FC = () => {
   const [selectedName, setSelectedName] = useState('');
+  const [customInput, setcustomInput] = useState('');
 
-  const handleChange = () => {
-    setSelectedName('name');
-  };
+  function handleUserChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedName(event.currentTarget.value);
+  }
+
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setcustomInput(event.currentTarget.value);
+  }
 
   return (
     <div className="App">
@@ -17,24 +22,31 @@ export const App: React.FC = () => {
 
       <form action="/api/users" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="User">Title: </label>
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            title="User"
+            value={customInput}
+            onChange={handleTitleChange}
+          />
         </div>
 
         <div className="field">
+          <label htmlFor="name">User: </label>
           <select
             data-cy="userSelect"
             name="name"
             value={selectedName}
-            onChange={handleChange}
+            onChange={handleUserChange}
 
           >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.name}>{user.name}</option>))}
-          </select>
+            <option value="0" selected>Choose a user</option>
 
-          <span className="error">Please choose a user</span>
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.name}>{user.name}</option>))}
+          </select>
         </div>
 
         <button type="submit" data-cy="submitButton">
