@@ -1,5 +1,17 @@
 import './App.scss';
 import React, { useState } from 'react';
+
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -36,8 +48,8 @@ export const App = () => {
     setIsTitleError(false);
   };
 
-  const handleUserName = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserName(event.currentTarget.value);
+  const handleUserName = (event: SelectChangeEvent) => {
+    setUserName(event.target.value);
     setIsUserNameError(false);
   };
 
@@ -74,17 +86,19 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo form</h1>
 
       <form
+        className="App__form"
         action="/api/users"
         method="POST"
         onSubmit={handleChange}
       >
-        <div className="field">
-          <label className="label">
-            {'Title: '}
-            <input
+        <FormControl sx={{ width: '40ch' }}>
+          <div className="field">
+            <TextField
+              fullWidth
+              label="Enter a title"
               id="title"
               name="title"
               type="text"
@@ -95,37 +109,55 @@ export const App = () => {
               className="title"
             />
             {isTitleError && (
-              <span className="error">Please enter a title</span>
+              <FormHelperText
+                className="error"
+              >
+                Please enter a title
+              </FormHelperText>
             )}
-          </label>
-        </div>
-
-        <div className="field">
-          <label>
-            {'User: '}
-            <select
-              id="userName"
-              name="User"
-              data-cy="userSelect"
-              value={userName}
-              onChange={handleUserName}
-              className="userName"
-            >
-              <option value="" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option value={user.name} key={user.id}>{user.name}</option>
-              ))}
-            </select>
-
+          </div>
+          <div className="field">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                User
+              </InputLabel>
+              <Select
+                labelId="select-label"
+                id="userName"
+                name="User"
+                data-cy="userSelect"
+                value={userName}
+                onChange={handleUserName}
+                className="userName"
+                fullWidth
+              >
+                {usersFromServer.map(user => (
+                  <MenuItem value={user.name} key={user.id}>
+                    {user.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             {isUserNameError && (
-              <span className="error">Please choose a user</span>
+              <FormHelperText
+                className="error"
+              >
+                Please choose a user
+              </FormHelperText>
             )}
-          </label>
-        </div>
+          </div>
+        </FormControl>
 
-        <button type="submit" data-cy="submitButton">
+        <Button
+          className="button"
+          type="submit"
+          data-cy="submitButton"
+          variant="contained"
+          color="success"
+          size="large"
+        >
           Add
-        </button>
+        </Button>
       </form>
       <TodoList todos={todos} />
     </div>
