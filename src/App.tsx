@@ -63,6 +63,7 @@ export const App = () => {
 
   const handleChangeNewTitle = (value: string) => {
     setNewTitle(value);
+    setNewTitleErrorMessage('');
   };
 
   const handleChangeNewUserNameId = (value: string) => {
