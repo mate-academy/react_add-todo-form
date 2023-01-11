@@ -15,8 +15,37 @@ button {
   color: red;
 }
 
+.container {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 36px;
+}
+
+.App__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.TodoList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleInput {
+  width: 300px;
+}
+
+.userSelect {
+  width: 305px;
+}
+
 .TodoInfo {
-  width: max-content;
+  width: 300px;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
@@ -27,6 +56,7 @@ button {
     margin: 4px 0;
     font-size: inherit;
     color: #f00;
+    margin-bottom: 20px;
   }
 
   &--completed &__title {
