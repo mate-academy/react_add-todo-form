@@ -1,3 +1,4 @@
+import AnimatedCursor from "react-animated-cursor";
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
@@ -73,6 +74,14 @@ export const App = () => {
 
   return (
     <div className="App">
+      <AnimatedCursor
+        innerSize={10}
+        outerSize={60}
+        color="255, 255, 255"
+        outerAlpha={0.2}
+        innerScale={0.7}
+        outerScale={1.2}
+      />
       <div className="noise">
         <></>
       </div>
