@@ -1,4 +1,3 @@
-import './UserInfo.scss';
 import { FC } from 'react';
 import { User } from '../../types/User';
 
