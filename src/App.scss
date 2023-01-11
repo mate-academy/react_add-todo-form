@@ -15,25 +15,49 @@ button {
   color: red;
 }
 
-.TodoInfo {
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
   width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
 
   &__title {
-    margin: 4px 0;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.TodoInfo {
+  width: 500px;
+  padding: 8px;
+  margin-top: 16px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background-color: rgb(230, 223, 246);
+
+  &__title {
+    text-align: center;
+    margin: 16px;
     font-size: inherit;
     color: #f00;
   }
 
   &--completed &__title {
+    font-size: inherit;
     color: #080;
   }
 }
 
 .UserInfo {
   font-style: italic;
+  text-decoration: none;
+  font-weight: 600;
+  color: #000;
 }
