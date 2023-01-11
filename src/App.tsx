@@ -100,6 +100,7 @@ export const App: React.FC = () => {
             >
               <option
                 value=""
+                disabled
               >
                 Choose a user
               </option>
