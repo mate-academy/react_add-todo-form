@@ -123,8 +123,8 @@ export const App = () => {
               </InputLabel>
               <Select
                 labelId="select-label"
+                label="User"
                 id="userName"
-                name="User"
                 data-cy="userSelect"
                 value={userName}
                 onChange={handleUserName}
