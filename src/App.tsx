@@ -1,4 +1,8 @@
 import './App.scss';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
@@ -93,9 +97,12 @@ export const App = () => {
           />
 
           {isErrorOnTitle && (
-            <span className="error">
+            <Alert
+              className="error"
+              severity="error"
+            >
               Please enter a title
-            </span>
+            </Alert>
           )}
         </div>
 
@@ -104,7 +111,7 @@ export const App = () => {
             htmlFor="userSelect"
             className="label"
           >
-            Select user:
+            Choose user:
           </label>
 
           <select
@@ -123,7 +130,12 @@ export const App = () => {
           </select>
 
           {isErrorUserSelect && (
-            <span className="error">Please choose a user</span>
+            <Alert
+              className="error"
+              severity="error"
+            >
+              Please choose a user
+            </Alert>
           )}
         </div>
 
@@ -135,7 +147,25 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      {' '}
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 1,
+            width: 'fit-content',
+            height: '100%',
+            padding: '10px',
+          },
+        }}
+      >
+        <Paper elevation={24}>
+          <TodoList todos={todos} />
+
+        </Paper>
+      </Box>
+
     </div>
   );
 };
