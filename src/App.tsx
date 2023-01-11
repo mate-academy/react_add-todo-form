@@ -89,8 +89,9 @@ export const App = () => {
             <select
               data-cy="userSelect"
               onChange={(event) => setUserId(+event.target.value)}
+              value={userId}
             >
-              <option value="0" selected={userId === 0} disabled>
+              <option value="0" disabled>
                 Choose a user
               </option>
 
