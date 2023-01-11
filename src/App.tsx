@@ -25,6 +25,11 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
+  const clearFields = () => {
+    setName('');
+    setTitle('');
+  };
+
   const handleAddButton = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -49,20 +54,14 @@ export const App = () => {
         {
           id: maxId + 1,
           title,
-          userId: maxId + 1,
+          userId: selectedUser.id,
           completed: false,
-          user: {
-            id: maxId + 1,
-            name,
-            username: selectedUser.username,
-            email: selectedUser.email,
-          },
+          user: selectedUser,
         },
       ];
 
       setTodo(newTodo);
-      setName('');
-      setTitle('');
+      clearFields();
     }
   };
 
