@@ -1,25 +1,5 @@
-iframe {
-  display: none;
-}
-
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
-ul {
-  padding: 0;
-}
-
-.error {
-  color: red;
-}
-
 .TodoInfo {
+  list-style-type: none;
   width: max-content;
   padding: 8px;
   margin: 12px 0;
@@ -36,8 +16,4 @@ ul {
   &--completed &__title {
     color: #080;
   }
-}
-
-.UserInfo {
-  font-style: italic;
 }
