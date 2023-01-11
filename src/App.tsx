@@ -1,22 +1,44 @@
 import './App.scss';
-
+import { useState } from 'react';
 // import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [userName] = useState('1');
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
+          <span>Title: </span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
+          />
           <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <span>User: </span>
+          <select
+            data-cy="userSelect"
+            value={userName}
+          >
+            <option value="1" disabled>Choose a user</option>
           </select>
 
           <span className="error">Please choose a user</span>
