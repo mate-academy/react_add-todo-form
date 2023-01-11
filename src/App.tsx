@@ -65,12 +65,6 @@ export const App = () => {
       return;
     }
 
-    if (!userId) {
-      setNoUserError(true);
-
-      return;
-    }
-
     setTodoList(prevList => {
       const newTask = {
         id: getId(prevList),
