@@ -5,9 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-// import { User } from './types/User';
 import { Todo } from './types/Todo';
-// import users from './api/users';
 
 function findUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -27,9 +25,16 @@ const preparedTodoList: Todo[] = todosFromServer.map(todo => {
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
+
   const [todoList, setTodoList] = useState(preparedTodoList);
+
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
+
+  const shouldResetForm = () => {
+    setTitle('');
+    setSelectedUser('');
+  };
 
   const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
@@ -53,20 +58,23 @@ export const App: React.FC = () => {
 
     const userToAdd = findUserByName(selectedUser);
 
-    setTodoList(current => {
-      const maxTodoId = Math.max(...current.map(todo => todo.id));
+    const getNewId = (array: { id: number }[]) => (
+      Math.max(...array.map(todo => todo.id)) + 1
+    );
 
-      return [
-        ...current,
-        {
-          title,
-          user: userToAdd,
-          userId: userToAdd ? userToAdd.id : null,
-          id: maxTodoId + 1,
-          completed: false,
-        },
-      ];
+    setTodoList(prev => {
+      const newTodo: Todo = {
+        title,
+        user: userToAdd,
+        userId: userToAdd ? userToAdd.id : null,
+        id: getNewId(prev),
+        completed: false,
+      };
+
+      return [...prev, newTodo];
     });
+
+    shouldResetForm();
   };
 
   return (
@@ -82,6 +90,7 @@ export const App: React.FC = () => {
           </label>
 
           <input
+            className="input"
             type="text"
             data-cy="titleInput"
             id="title"
@@ -102,6 +111,7 @@ export const App: React.FC = () => {
           </label>
 
           <select
+            className="select"
             data-cy="userSelect"
             id="userSelect"
             value={selectedUser}
