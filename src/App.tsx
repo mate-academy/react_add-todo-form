@@ -24,7 +24,7 @@ const todosWithUsers: Todos[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(0);
   const [titleCorrect, setTitleCorrect] = useState(true);
   const [userIdCorrect, setUserIdCorrect] = useState(true);
 
@@ -34,7 +34,7 @@ export const App = () => {
   };
 
   const changeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setUserId(+event.target.value);
     setUserIdCorrect(true);
   };
 
@@ -65,8 +65,8 @@ export const App = () => {
       };
 
       setTodos(prev => [...prev, newTodo]);
-      setUserId('');
       setTitle('');
+      setUserId(0);
     }
   };
 
@@ -90,14 +90,23 @@ export const App = () => {
           />
 
           {!titleCorrect && (
-            <FormHelperText>Please enter a title</FormHelperText>
+            <FormHelperText className="error">
+              Please enter a title
+            </FormHelperText>
           )}
         </div>
 
         <div className="field">
           User:
-          <select data-cy="userSelect" onChange={changeUserId}>
-            <option>
+          <select
+            data-cy="userSelect"
+            onChange={changeUserId}
+            value={userId}
+          >
+            <option
+              disabled
+              value={0}
+            >
               Choose a user
             </option>
 
@@ -112,7 +121,9 @@ export const App = () => {
           </select>
 
           {!userIdCorrect && (
-            <FormHelperText>Please choose a user</FormHelperText>
+            <FormHelperText className="error">
+              Please choose a user
+            </FormHelperText>
           )}
 
         </div>
