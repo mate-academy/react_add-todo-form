@@ -3,17 +3,20 @@ import cn from 'classnames';
 import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList';
 
-const findUserById = (userId: number) => (
-  usersFromServer.find((user) => user.id === userId)
-);
+function findUserById(userId: number): User | null {
+  return usersFromServer.find((user) => user.id === userId) || null;
+}
 
-const GetTodosWithUsers = () => (
-  todosFromServer.map(todo => ({
+function GetTodosWithUsers(): Todo[] {
+  return todosFromServer.map(todo => ({
     ...todo,
     user: findUserById(todo.userId),
-  }))
-);
+  }));
+}
 
 const getNewId = (array: { id: number }[]) => (
   Math.max(...array.map(el => el.id)) + 1
@@ -21,10 +24,8 @@ const getNewId = (array: { id: number }[]) => (
 
 export const App = () => {
   const [todos, setTodos] = useState(GetTodosWithUsers);
-
   const [newTitle, setNewTitle] = useState('');
   const [newUserNameId, setNewUserNameId] = useState(0);
-
   const [newTitleErrorMessage, setNewTitleErrorMessage] = useState('');
   const [newUserNameIdErrorMessage, setNewUserNameIdErrorMessage]
    = useState('');
@@ -47,10 +48,10 @@ export const App = () => {
     }
 
     setTodos(prev => {
-      const newTodo = {
-        completed: false,
+      const newTodo: Todo = {
         id: getNewId(prev),
         title: newTitle,
+        completed: false,
         userId: newUserNameId,
         user: findUserById(newUserNameId),
       };
@@ -140,28 +141,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id="1"
-            className={cn(todo.completed
-              ? 'TodoInfo TodoInfo--completed'
-              : 'TodoInfo')}
-            key={todo.id}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            <a
-              className={todo.user?.username}
-              href={`mailto:${todo.user?.email}`}
-            >
-              {todo.user?.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
