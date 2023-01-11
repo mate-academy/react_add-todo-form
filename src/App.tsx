@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import './App.scss';
 
+import Box from '@mui/material/Box';
+import { Button, MenuItem } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import FormHelperText from '@mui/material/FormHelperText';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -71,68 +76,87 @@ export const App = () => {
   };
 
   const handleSelectedUserChange
-    = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSelectedUser(event.target.value);
       setSelectedUserErrorAlert(false);
     };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title">Add todo form</h1>
 
       <form
         action="/api/users"
         method="POST"
         onSubmit={handleSubmit}
+        className="form"
       >
         <div className="field">
-          <label htmlFor="text">Title: </label>
-          <input
+          <TextField
+            sx={{ display: 'flex' }}
             data-cy="titleInput"
             type="text"
             id="title"
             name="title"
+            label="Title: "
             placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
           />
 
           {titleErrorAlert && (
-            <span className="error">
+            <FormHelperText sx={{ position: 'absolute' }}>
               Please enter a title
-            </span>
+            </FormHelperText>
           )}
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">User: </label>
-          <select
+          <TextField
+            sx={{
+              display: 'flex',
+              borderColor: { color: 'rgb(255, 247, 247)' },
+              input: { color: 'rgb(255, 247, 247)' },
+            }}
+            select
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
             value={selectedUser}
+            label="User: "
             onChange={handleSelectedUserChange}
           >
-            <option value={defaultUserOption} disabled>
+            <MenuItem value={defaultUserOption} disabled>
               {defaultUserOption}
-            </option>
+            </MenuItem>
 
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>{user.name}</option>
+              <MenuItem
+                // sx={{ color}}
+                key={user.id}
+                value={user.name}
+              >
+                {user.name}
+              </MenuItem>
             ))}
-          </select>
+          </TextField>
 
           {selectedUserErrorAlert && (
-            <span className="error">Please choose a user</span>
+            <FormHelperText sx={{ position: 'absolute' }}>
+              Please choose a user
+            </FormHelperText>
           )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
-          Add
-        </button>
+        <Box textAlign="center">
+          <Button
+            variant="contained"
+            type="submit"
+            data-cy="submitButton"
+          >
+            Add
+          </Button>
+        </Box>
       </form>
 
       <TodoList todos={todos} />
