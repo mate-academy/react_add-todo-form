@@ -1,0 +1,19 @@
+.TodoInfo {
+    width: max-content;
+    padding: 8px;
+    margin: 12px 0;
+    border: 1px solid rgba(192,192,192,1.0);
+    border-radius: 8px;
+    background-color:rgba(255,20,0,0.5);
+    box-shadow: 1px 1px 3px 1px;
+
+    &__title {
+      margin: 4px 0;
+      font-size: inherit;
+      color: rgb(0,0,0);
+    }
+
+    &--completed {
+      background-color:rgba(50,195,0,0.5);
+    }
+  }
