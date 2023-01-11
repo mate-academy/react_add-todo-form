@@ -1,4 +1,5 @@
 import './App.scss';
+import { Button, Paper, FormControl } from '@mui/material';
 import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -65,64 +66,82 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <Paper
+      className="Paper"
+      sx={{
+        margin: '0 auto',
+        width: 'max-content',
+      }}
+      elevation={23}
+    >
+      <div className="App">
+        <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-        <div className="field">
-          <label htmlFor="title">
-            {'Title: '}
-          </label>
+        <form
+          className="Form"
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <div className="field">
+            <FormControl fullWidth>
+              <label htmlFor="title">
+                {'Title: '}
+              </label>
 
-          <input
-            id="title"
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={changeTitle}
-            placeholder="Enter a title"
-          />
-          {isTitleEmpty
+              <input
+                id="title"
+                type="text"
+                data-cy="titleInput"
+                value={title}
+                onChange={changeTitle}
+                placeholder="Enter a title"
+              />
+            </FormControl>
+            {isTitleEmpty
             && <span className="error">Please enter a title</span>}
-        </div>
+          </div>
 
-        <div className="field">
-          <label htmlFor="username">
-            {'User: '}
-          </label>
-
-          <select
-            id="username"
-            data-cy="userSelect"
-            value={userId}
-            onChange={changeUser}
-          >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                value={user.id}
-                key={user.id}
+          <div className="field">
+            <label htmlFor="username">
+              {'User: '}
+            </label>
+            <FormControl fullWidth>
+              <select
+                id="username"
+                data-cy="userSelect"
+                value={userId}
+                onChange={changeUser}
               >
-                {user.name}
-              </option>
-            ))}
+                <option value="0" disabled>Choose a user</option>
+                {usersFromServer.map(user => (
+                  <option
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))}
 
-          </select>
+              </select>
+            </FormControl>
+            {isUserNotSelected
+              && <span className="error">Please choose a user</span>}
+          </div>
 
-          {isUserNotSelected
-            && <span className="error">Please choose a user</span>}
-        </div>
+          <Button
+            className="Button"
+            type="submit"
+            data-cy="submitButton"
+            variant="contained"
+            color="secondary"
+          >
+            Add
+          </Button>
+        </form>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <TodoList todos={todosWithUsers} />
-    </div>
+        <TodoList todos={todosWithUsers} />
+      </div>
+    </Paper>
   );
 };
