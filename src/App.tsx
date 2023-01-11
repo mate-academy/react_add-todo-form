@@ -11,6 +11,10 @@ const getUserById = (userId:number): User | null => {
   return usersFromServer.find((user) => userId === user.id) || null;
 };
 
+const getNewId = (array: { id: number }[]) => {
+  return Math.max(...array.map((person) => person.id)) + 1;
+};
+
 const preparedTodos: Todo[] = todosFromServer.map((todo) => {
   return {
     ...todo,
@@ -50,21 +54,22 @@ export const App: React.FC = () => {
       return;
     }
 
-    const largestId = Math.max(...todos.map((person) => person.id));
     const user = getUserById(Number(userId));
-
-    const newTodo = {
-      id: largestId + 1,
-      title,
-      completed: false,
-      userId: user ? user.id : null,
-      user,
-    };
 
     setTitle('');
     setUserId(0);
 
-    setTodos([...todos, newTodo]);
+    setTodos(prev => {
+      const newTodo = {
+        id: getNewId(prev),
+        title,
+        completed: false,
+        userId: user ? user.id : null,
+        user,
+      };
+
+      return [...prev, newTodo];
+    });
   };
 
   return (
