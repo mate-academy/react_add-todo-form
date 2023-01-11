@@ -21,31 +21,68 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [todoList, setTodoList] = useState(todos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
+  const [noTitleError, setNoTitleError] = useState(false);
+  const [noUserError, setNoUserError] = useState(false);
 
-  function createNewTask(event: React.FormEvent) {
+  const getId = (taskList: { id: number }[]) => (
+    (Math.max(...taskList.map(task => task.id)) + 1)
+  );
+
+  const handleChangeTitle = (newValue: string) => {
+    setTitle(newValue);
+    setNoTitleError(false);
+  };
+
+  const handleChangeUser = (newValue: number) => {
+    setUserId(newValue);
+    setNoUserError(false);
+  };
+
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const task = {
-      id: todoList.length,
-      title,
-      userId,
-      completed: false,
-      user: getUser(userId),
-    };
+    if (!title || !userId) {
+      setNoTitleError(!title);
+      setNoUserError(!userId);
 
-    setTodoList([...todoList, task]);
-  }
+      return;
+    }
+
+    if (!userId) {
+      setNoUserError(true);
+
+      return;
+    }
+
+    setTodoList(prevList => {
+      const newTask = {
+        id: getId(prevList),
+        title,
+        userId,
+        completed: false,
+        user: getUser(userId),
+      };
+
+      return ([...todoList, newTask]);
+    });
+
+    reset();
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={createNewTask}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -55,10 +92,13 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => handleChangeTitle(event.target.value)}
             />
           </label>
-          <span className="error">Please enter a title</span>
+
+          {noTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -67,7 +107,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => setUserId(+event.target.value)}
+              onChange={(event) => handleChangeUser(+event.target.value)}
             >
               <option value={0}>Choose a user</option>
 
@@ -79,13 +119,12 @@ export const App = () => {
             </select>
           </label>
 
-          <span className="error">Please choose a user</span>
+          {noUserError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
