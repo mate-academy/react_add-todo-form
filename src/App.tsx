@@ -4,12 +4,14 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
+import { User } from './types/User';
+import { Todo } from './types/Todo';
 
-const getUserById = (userId:number) => {
-  return usersFromServer.find((user) => userId === user.id);
+const getUserById = (userId:number): User | null => {
+  return usersFromServer.find((user) => userId === user.id) || null;
 };
 
-const todosFormat = todosFromServer.map((todo) => {
+const preparedTodos: Todo[] = todosFromServer.map((todo) => {
   return {
     ...todo,
     user: getUserById(todo.userId) || null,
@@ -18,8 +20,8 @@ const todosFormat = todosFromServer.map((todo) => {
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userInfo, setUserInfo] = useState('');
-  const [todos, setTodos] = useState(todosFormat);
+  const [userId, setUserId] = useState(0);
+  const [todos, setTodos] = useState(preparedTodos);
   const [error, setError] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
@@ -28,43 +30,41 @@ export const App: React.FC = () => {
     setTitle(event.currentTarget.value);
   };
 
-  const handleChangeName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setErrorUser(false);
-    setUserInfo(event.currentTarget.value);
+    setUserId(Number(event.currentTarget.value));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const idUsers = todos.map((person) => person.id);
-    const largestId = Math.max(...idUsers);
-
-    const user = getUserById(Number(userInfo));
-
     if (title.trim() === '') {
       setError(true);
     }
 
-    if (userInfo === '') {
+    if (userId === 0) {
       setErrorUser(true);
     }
 
-    if (!(title === '' || userInfo === '')) {
-      setTodos((prev): any => {
-        const addedTodo = {
-          id: largestId + 1,
-          title,
-          completed: false,
-          userId: user ? user.id : null,
-          user,
-        };
-
-        setTitle('');
-        setUserInfo('');
-
-        return [...prev, addedTodo];
-      });
+    if (title === '' || userId === 0) {
+      return;
     }
+
+    const largestId = Math.max(...todos.map((person) => person.id));
+    const user = getUserById(Number(userId));
+
+    const newTodo = {
+      id: largestId + 1,
+      title,
+      completed: false,
+      userId: user ? user.id : null,
+      user,
+    };
+
+    setTitle('');
+    setUserId(0);
+
+    setTodos([...todos, newTodo]);
   };
 
   return (
@@ -91,14 +91,14 @@ export const App: React.FC = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              onChange={handleChangeName}
-              value={userInfo}
+              onChange={handleChangUser}
+              value={userId}
             >
-              <option value="" disabled selected>
+              <option value="0" disabled selected>
                 Choose a user
               </option>
               {usersFromServer.map((user) => (
-                <option value={user.id}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.name}</option>
               ))}
             </select>
           </label>
