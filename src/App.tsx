@@ -8,18 +8,18 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUserById(userId: number): User | null {
+function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function getUserByName(userName: string): User | null {
+function findUserByName(userName: string): User | null {
   return usersFromServer.find(user => user.name === userName) || null;
 }
 
 const allTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: getUserById(todo.userId),
+    user: findUserById(todo.userId),
   };
 });
 
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   const [isUserSelected, setIsUserSelected] = useState(false);
   const [isTitle, setIsTitle] = useState(false);
   const [title, setTitle] = useState('');
-  const [userSelected, setUserSelected] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState(allTodos);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelected(event.target.value);
+    setSelectedUser(event.target.value);
     setIsUserSelected(false);
   };
 
@@ -44,13 +44,13 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setIsTitle(!title.trim());
-    setIsUserSelected(!userSelected);
+    setIsUserSelected(!selectedUser);
 
-    if (!userSelected || title.trim() === '') {
+    if (!selectedUser || title.trim() === '') {
       return;
     }
 
-    const userToAdd = getUserByName(userSelected);
+    const userToAdd = findUserByName(selectedUser);
 
     setTodos(current => {
       const MaxId = Math.max(...current.map(todo => todo.id));
@@ -68,7 +68,7 @@ export const App: React.FC = () => {
     });
 
     setTitle('');
-    setUserSelected('');
+    setSelectedUser('');
   };
 
   return (
@@ -114,7 +114,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             name="select"
-            value={userSelected}
+            value={selectedUser}
             onChange={handleUserSelect}
             className="formElement selector"
           >
