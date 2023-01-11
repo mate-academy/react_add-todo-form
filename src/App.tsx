@@ -113,11 +113,7 @@ export const App = () => {
 
         <div className="field">
           <TextField
-            sx={{
-              display: 'flex',
-              borderColor: { color: 'rgb(255, 247, 247)' },
-              input: { color: 'rgb(255, 247, 247)' },
-            }}
+            sx={{ display: 'flex' }}
             select
             data-cy="userSelect"
             id="userSelect"
@@ -131,11 +127,7 @@ export const App = () => {
             </MenuItem>
 
             {usersFromServer.map(user => (
-              <MenuItem
-                // sx={{ color}}
-                key={user.id}
-                value={user.name}
-              >
+              <MenuItem key={user.id} value={user.name}>
                 {user.name}
               </MenuItem>
             ))}
