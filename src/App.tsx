@@ -49,16 +49,11 @@ export const App = () => {
   const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title) {
-      setTitleCorrect(true);
-    } else {
+    if (!title || !userId) {
       setTitleCorrect(false);
-    }
-
-    if (userId) {
-      setUserIdCorrect(true);
-    } else {
       setUserIdCorrect(false);
+
+      return;
     }
 
     if (userId && title) {
