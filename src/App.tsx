@@ -31,7 +31,7 @@ export const App = () => {
   const [shouldTitleError, setShouldTitleError] = useState(false);
   const [shouldUserNameError, setShouldUserNameError] = useState(false);
 
-  const handleTitile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setShouldTitleError(false);
   };
@@ -93,7 +93,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleTitile}
+              onChange={handleTitle}
               className="title"
             />
             {shouldTitleError && (
