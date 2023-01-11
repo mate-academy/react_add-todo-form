@@ -95,7 +95,7 @@ export const App = () => {
               })}
             />
           </label>
-          <span className={cn('Please enter a title', 'errorMessage', {
+          <span className={cn('Please enter a title', 'error', {
             errorMessageVisible: Boolean(newTitleErrorMessage),
           })}
           >
@@ -128,7 +128,7 @@ export const App = () => {
             </select>
           </label>
 
-          <span className={cn('ErrorMessage', 'errorMessage', {
+          <span className={cn('ErrorMessage', 'error', {
             errorMessageVisible: Boolean(newUserNameId),
           })}
           >
