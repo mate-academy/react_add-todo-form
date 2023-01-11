@@ -1,6 +1,15 @@
 import './App.scss';
 import { useState } from 'react';
 
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
@@ -79,55 +88,58 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title">Add todo form</h1>
 
-      <form
-        onSubmit={handleSubmit}
-      >
-        <div className="field">
-          <label>
-            Title:
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={title}
-              onChange={(event) => handleChangeTitle(event.target.value)}
-            />
-          </label>
-
-          {noTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
-        </div>
-
-        <div className="field">
-          <label>
-            User:
-            <select
+      <Box>
+        <form onSubmit={handleSubmit}>
+          <FormControl fullWidth onSubmit={handleSubmit}>
+            <InputLabel id="demo-simple-select-label">User</InputLabel>
+            <Select
+              sx={{ marginBottom: 2 }}
               data-cy="userSelect"
               value={userId}
               onChange={(event) => handleChangeUser(+event.target.value)}
+              label="User"
             >
-              <option value={0}>Choose a user</option>
+              <MenuItem value={0}>Choose a user</MenuItem>
 
               {usersFromServer.map(person => (
-                <option value={person.id} key={person.id}>
+                <MenuItem value={person.id} key={person.id}>
                   {person.name}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </label>
+            </Select>
 
-          {noUserError && (
-            <span className="error">Please choose a user</span>
-          )}
-        </div>
+            {noUserError && (
+              <span className="error">Please choose a user</span>
+            )}
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+            <TextField
+              sx={{ marginBottom: 2 }}
+              placeholder="Please enter a title"
+              data-cy="titleInput"
+              id="outlined-basic"
+              label="Title"
+              variant="outlined"
+              value={title}
+              onChange={(event) => handleChangeTitle(event.target.value)}
+            />
+
+            {noTitleError && (
+              <span className="error">Please enter a title</span>
+            )}
+          </FormControl>
+
+          <Button
+            type="submit"
+            data-cy="submitButton"
+            variant="contained"
+            endIcon={<SendIcon />}
+          >
+            Add task
+          </Button>
+        </form>
+      </Box>
 
       <TodoList todos={todoList} />
     </div>

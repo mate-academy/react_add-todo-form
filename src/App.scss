@@ -1,3 +1,5 @@
+$main-color: #1976d2;
+
 iframe {
   display: none;
 }
@@ -11,17 +13,29 @@ button {
   cursor: pointer;
 }
 
+.App {
+
+  padding: 20px;
+  border: 2px solid $main-color;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.title {
+  color: $main-color;
+}
+
 .error {
   color: red;
+  margin-bottom: 5px;
 }
 
 .TodoInfo {
-  width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 1px solid $main-color;
   border-radius: 8px;
-  background-color: antiquewhite;
 
   &__title {
     margin: 4px 0;
