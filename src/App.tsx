@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import './App.scss';
 
-import { FormHelperText } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -24,7 +32,7 @@ const todosWithUsers: Todos[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [titleCorrect, setTitleCorrect] = useState(true);
   const [userIdCorrect, setUserIdCorrect] = useState(true);
 
@@ -33,8 +41,8 @@ export const App = () => {
     setTitleCorrect(true);
   };
 
-  const changeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+  const changeUserId = (event: SelectChangeEvent) => {
+    setUserId(event.target.value);
     setUserIdCorrect(true);
   };
 
@@ -66,74 +74,69 @@ export const App = () => {
 
       setTodos(prev => [...prev, newTodo]);
       setTitle('');
-      setUserId(0);
+      setUserId('');
     }
   };
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title">Add todo form</h1>
 
       <form
         action="/api/users"
         method="POST"
         onSubmit={handleSubmit}
+        className="form"
       >
         <div className="field">
-          Title:
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
+          <TextField
+            sx={{ width: '200px' }}
+            id="outlined-basic"
+            label="Title"
+            variant="outlined"
             value={title}
             onChange={changeTitle}
+            error={!titleCorrect}
           />
-
-          {!titleCorrect && (
-            <FormHelperText className="error">
-              Please enter a title
-            </FormHelperText>
-          )}
         </div>
 
         <div className="field">
-          User:
-          <select
-            data-cy="userSelect"
-            onChange={changeUserId}
-            value={userId}
-          >
-            <option
-              disabled
-              value={0}
+          <FormControl fullWidth>
+            <InputLabel
+              id="demo-simple-select-label"
+              error={!userIdCorrect}
             >
-              Choose a user
-            </option>
-
-            {usersFromServer.map((person) => (
-              <option
-                value={person.id}
-                key={person.id}
-              >
-                {person.name}
-              </option>
-            ))}
-          </select>
-
-          {!userIdCorrect && (
-            <FormHelperText className="error">
-              Please choose a user
-            </FormHelperText>
-          )}
-
+              User
+            </InputLabel>
+            <Select
+              sx={{ width: '200px' }}
+              data-cy="userSelect"
+              value={userId}
+              onChange={changeUserId}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="User"
+              error={!userIdCorrect}
+            >
+              {usersFromServer.map((person) => (
+                <MenuItem
+                  value={person.id}
+                  key={person.id}
+                >
+                  {person.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
 
-        <button
+        <Button
+          variant="contained"
           type="submit"
           data-cy="submitButton"
         >
           Add
-        </button>
+        </Button>
       </form>
 
       <TodoList todos={todos} />

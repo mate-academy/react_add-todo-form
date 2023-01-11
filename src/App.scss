@@ -4,6 +4,10 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 label,
@@ -11,6 +15,13 @@ button {
   cursor: pointer;
 }
 
-.error {
-  color: red;
+.title {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
