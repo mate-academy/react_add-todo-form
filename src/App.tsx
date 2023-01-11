@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './App.scss';
+
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
