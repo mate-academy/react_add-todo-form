@@ -4,6 +4,7 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: antiquewhite;
 }
 
 label,
@@ -11,8 +12,25 @@ button {
   cursor: pointer;
 }
 
+button {
+  margin: 10px 0;
+  height: 30px;
+  width: 80px;
+  background-color: #ffb5b5;
+  border-color: transparent;
+  border-radius: 40px;
+}
+
 .error {
   color: red;
+}
+
+.formElement {
+  margin-left: 5px;
+}
+
+.selector {
+  margin-top: 15px;
 }
 
 .TodoInfo {
