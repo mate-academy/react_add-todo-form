@@ -26,7 +26,6 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
-
   const [isTitleError, setTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
 
