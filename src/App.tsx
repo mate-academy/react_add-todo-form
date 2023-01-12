@@ -11,55 +11,56 @@ const getUserById = (userId: number): User | null => (
   usersFromServer.find(user => user.id === userId) || null
 );
 
-const theBiggestTodoId = (todos: Todo[]) => {
-  return Math.max(...todos.map(todo => todo.id));
-};
-
 const todosWithUser = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
+const theBiggestTodoId = (array: { id: number }[]) => (
+  Math.max(...array.map(todo => todo.id)) + 1
+);
+
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
-  const [selectedUserId, setSelectedUserId] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [enteredTitle, setenteredTitle] = useState('');
   const [selectUserError, setSelectUserError] = useState(false);
   const [enteredTitleError, setEnteredTitleError] = useState(false);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(event.currentTarget.value);
+    setSelectedUserId(+event.currentTarget.value);
     setSelectUserError(false);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setenteredTitle(event.currentTarget.value.trim());
+    setenteredTitle(event.currentTarget.value);
     setEnteredTitleError(false);
   };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setEnteredTitleError(!enteredTitle);
-    setSelectUserError(!selectedUserId);
+    if (!enteredTitle || !selectedUserId) {
+      setEnteredTitleError(!enteredTitle);
+      setSelectUserError(!selectedUserId);
 
-    if (enteredTitle && selectedUserId) {
-      setTodos(currentTodos => {
-        return [
-          ...currentTodos,
-          {
-            id: theBiggestTodoId(todos) + 1,
-            title: enteredTitle,
-            completed: false,
-            userId: +selectedUserId,
-            user: getUserById(+selectedUserId),
-          },
-        ];
-      });
+      return;
     }
 
+    setTodos(prev => {
+      const newTodo: Todo = {
+        id: theBiggestTodoId(prev),
+        title: enteredTitle.trim(),
+        completed: false,
+        userId: selectedUserId,
+        user: getUserById(selectedUserId),
+      };
+
+      return ([...prev, newTodo]);
+    });
+
     setenteredTitle('');
-    setSelectedUserId('');
+    setSelectedUserId(0);
   };
 
   return (
@@ -94,7 +95,7 @@ export const App = () => {
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value="0">Choose a user</option>
 
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>{user.name}</option>))}

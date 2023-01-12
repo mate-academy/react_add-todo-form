@@ -4,6 +4,13 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: rgb(255, 214, 214);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 label,
@@ -36,4 +43,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.field {
+  margin-bottom: 5px;
 }
