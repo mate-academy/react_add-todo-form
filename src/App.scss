@@ -37,3 +37,14 @@ button {
 .UserInfo {
   font-style: italic;
 }
+
+.App {
+  display: block;
+  margin: 50px auto;
+  padding: 60px;
+  width: 500px;
+
+  border: 1px solid gray;
+  box-shadow: 5px 4px 5px 5px black;
+  background-color: rgb(226, 218, 218);
+}

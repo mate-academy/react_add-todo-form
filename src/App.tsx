@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './components/Types/Todo';
 import { User } from './components/Types/User';
+import 'bulma/css/bulma.css';
 
 function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -71,7 +72,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title is-1">Add todo form</h1>
 
       <form className="form" onSubmit={handleSubmit}>
         <div className="field">
@@ -82,7 +83,7 @@ export const App = () => {
             id="title"
             name="title"
             value={title}
-            className="form-control mb-3"
+            className="input is-rounded"
             placeholder="Enter title of task"
             onChange={handleTitleChange}
           />
@@ -105,7 +106,7 @@ export const App = () => {
             id="userSelect"
             name="userSelect"
             value={selectedUser}
-            className="form-select mb-3"
+            className="input is-rounded"
             onChange={handleUserChange}
           >
             <option value="" disabled>Choose a user</option>
@@ -123,7 +124,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          className="button btn btn-primary"
+          className="button is-primary is-light is-medium is-rounded"
         >
           Add
         </button>
