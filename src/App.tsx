@@ -1,5 +1,5 @@
 import './App.scss';
-
+import classNames from 'classnames';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-const getUserById = (userId:number): User | null => {
+const getUserById = (userId: number): User | null => {
   return usersFromServer.find((user) => userId === user.id) || null;
 };
 
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
     setTitle('');
     setUserId(0);
 
-    setTodos(prev => {
+    setTodos((prev) => {
       const newTodo = {
         id: getNewId(prev),
         title,
@@ -75,46 +75,63 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      <div className="wrapper">
+        <form
+          className="form"
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <div className="field">
+            <label>
+              {'Title: '}
+              <input
+                type="text"
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                value={title}
+                onChange={handleChangeTitle}
+                className={classNames('select', { borderRed: isTitleError })}
+              />
+            </label>
+            <div className="er">
+              {isTitleError && (
+                <span className="error">Please enter a title</span>
+              )}
+            </div>
+          </div>
 
-      <form action="/api/users" method="POST" onSubmit={handleSubmit}>
-        <div className="field">
-          <label>
-            {'Title: '}
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={title}
-              onChange={handleChangeTitle}
-            />
-          </label>
-          {isTitleError && <span className="error">Please enter a title</span>}
-        </div>
+          <div className="field">
+            <label>
+              {'User: '}
+              <select
+                className={classNames('select', { borderRed: isUserError })}
+                data-cy="userSelect"
+                onChange={handleChangUser}
+                value={userId}
+              >
+                <option value="0" disabled selected>
+                  Choose a user
+                </option>
+                {usersFromServer.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="er">
+              {isUserError && (
+                <span className="error">Please choose a user</span>
+              )}
+            </div>
+          </div>
 
-        <div className="field">
-          <label>
-            {'User: '}
-            <select
-              data-cy="userSelect"
-              onChange={handleChangUser}
-              value={userId}
-            >
-              <option value="0" disabled selected>
-                Choose a user
-              </option>
-              {usersFromServer.map((user) => (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              ))}
-            </select>
-          </label>
-
-          {isUserError && <span className="error">Please choose a user</span>}
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <button type="submit" data-cy="submitButton" className="btn-submit">
+            Add
+          </button>
+        </form>
+      </div>
 
       <TodoList todos={todos} />
     </div>
