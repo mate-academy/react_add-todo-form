@@ -26,16 +26,17 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
-  const [error, setError] = useState(false);
-  const [errorUser, setErrorUser] = useState(false);
+
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setError(false);
+    setTitleError(false);
     setTitle(event.currentTarget.value);
   };
 
   const handleChangUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setErrorUser(false);
+    setUserError(false);
     setUserId(Number(event.currentTarget.value));
   };
 
@@ -43,11 +44,11 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     if (title.trim() === '') {
-      setError(true);
+      setTitleError(true);
     }
 
     if (userId === 0) {
-      setErrorUser(true);
+      setUserError(true);
     }
 
     if (title === '' || userId === 0) {
@@ -78,7 +79,7 @@ export const App: React.FC = () => {
 
       <form action="/api/users" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="">
+          <label>
             {'Title: '}
             <input
               type="text"
@@ -88,11 +89,11 @@ export const App: React.FC = () => {
               onChange={handleChangeTitle}
             />
           </label>
-          {error && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor="">
+          <label>
             {'User: '}
             <select
               data-cy="userSelect"
@@ -108,7 +109,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {errorUser && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
