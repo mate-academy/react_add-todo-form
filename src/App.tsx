@@ -98,10 +98,7 @@ export const App: React.FC = () => {
               value={selectedUser}
               onChange={handleChangeUser}
             >
-              <option
-                value=""
-                disabled
-              >
+              <option value={0} disabled>
                 Choose a user
               </option>
 
