@@ -84,8 +84,6 @@ export const App = () => {
 
         <form
           className="form"
-          action="/api/users"
-          method="POST"
           onSubmit={handleSubmitForm}
         >
           <div className="form__field">
