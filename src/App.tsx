@@ -3,14 +3,16 @@ import './App.scss';
 import 'bulma/css/bulma.css';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
-import { getUserById, findUserByName } from './helpers/helpers';
+import { getUserById, findUserById } from './helpers/helpers';
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
   const [todos, setTodos] = useState(getUserById);
+
+  const removeSpacesFromTittle = title.trim();
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
@@ -18,21 +20,21 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.currentTarget.value);
+    setSelectedUserId(+event.currentTarget.value);
     setErrorOnUserSelect(false);
   };
 
   const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!selectedUser);
+    setErrorOnTitleInput(!removeSpacesFromTittle);
+    setErrorOnUserSelect(!selectedUserId);
 
-    if (title.trim() === '' || !selectedUser) {
+    if (removeSpacesFromTittle === '' || !selectedUserId) {
       return;
     }
 
-    const userToAdd = findUserByName(selectedUser);
+    const userToAdd = findUserById(selectedUserId);
 
     setTodos(current => {
       const getNewId = Math.max(...current.map(todo => todo.id));
@@ -50,7 +52,7 @@ export const App = () => {
     });
 
     setTitle('');
-    setSelectedUser('');
+    setSelectedUserId(0);
   };
 
   return (
@@ -98,13 +100,13 @@ export const App = () => {
                 data-cy="userSelect"
                 id="userSelect"
                 name="userSelect"
-                value={selectedUser}
+                value={selectedUserId}
                 className="select"
                 onChange={handleUserChange}
               >
-                <option value="" disabled>Choose a user</option>
+                <option value={0} disabled>Choose a user</option>
                 {usersFromServer.map(user => (
-                  <option key={user.id} value={user.name}>{user.name}</option>
+                  <option key={user.id} value={user.id}>{user.name}</option>
                 ))}
               </select>
             </span>

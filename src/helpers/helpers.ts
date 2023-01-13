@@ -13,7 +13,3 @@ export const getUserById: Todo[] = todosFromServer.map(todo => {
     user: findUserById(todo.userId),
   };
 });
-
-export function findUserByName(userName: string): User | null {
-  return usersFromServer.find(user => (user.name === userName)) || null;
-}
