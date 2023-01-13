@@ -11,10 +11,6 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function getUserByName(userName: string): User | null {
-  return usersFromServer.find(user => user.name === userName) || null;
-}
-
 export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -24,12 +20,12 @@ export const App = () => {
   const defaultOption = 'Choose a user';
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(defaultOption);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [selectedUserError, setSelectedUserError] = useState(false);
   const [todos, setTodos] = useState(preparedTodos);
 
   const handleChange = (event:React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUserId(+event.target.value);
     setSelectedUserError(false);
   };
 
@@ -38,9 +34,13 @@ export const App = () => {
     setTitleError(false);
   };
 
+  const addTodo = (todo:Todo) => {
+    setTodos((current) => [...current, todo]);
+  };
+
   const clear = () => {
     setTitle('');
-    setSelectedUser(defaultOption);
+    setSelectedUserId(0);
   };
 
   const handleSubmit = (event:React.ChangeEvent<HTMLFormElement>) => {
@@ -50,23 +50,22 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (selectedUser === defaultOption) {
+    if (selectedUserId === 0) {
       setSelectedUserError(true);
     }
 
-    if (title !== '' && selectedUser !== defaultOption) {
-      setTodos(current => {
-        const getTheBiggestId = Math.max(...todos.map((todo) => todo.id));
-        const newUser = getUserByName(selectedUser);
+    if (title !== '' && selectedUserId !== 0) {
+      const getTheBiggestId = Math.max(...todos.map((todo) => todo.id));
+      const newUser = getUserById(selectedUserId);
+      const newTodo = {
+        id: getTheBiggestId + 1,
+        title,
+        completed: false,
+        userId: selectedUserId,
+        user: newUser,
+      };
 
-        return [...current, {
-          id: getTheBiggestId + 1,
-          title,
-          completed: false,
-          userId: getUserById(+selectedUser),
-          user: newUser,
-        }];
-      });
+      addTodo(newTodo);
       clear();
     }
   };
@@ -100,11 +99,11 @@ export const App = () => {
             <select
               data-cy="userSelect"
               onChange={handleChange}
-              value={selectedUser}
+              value={selectedUserId}
             >
-              <option value={defaultOption} disabled>{defaultOption}</option>
+              <option value={0} disabled>{defaultOption}</option>
               {usersFromServer.map(user => (
-                <option key={user.id} value={user.name}>{user.name}</option>))}
+                <option key={user.id} value={user.id}>{user.name}</option>))}
             </select>
           </label>
 
