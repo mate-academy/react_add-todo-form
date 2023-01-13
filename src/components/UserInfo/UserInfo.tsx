@@ -1,4 +1,4 @@
-import { User } from '../../types/User';
+import { User } from '../../type/User';
 
 interface Props {
   user: User;
