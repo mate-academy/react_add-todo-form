@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const newId = Math.max(...newTodos.map(todo => todo.id)) + 1;
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setInTitle(event.target.value.replace(/\W\s/, ''));
+    setInTitle(event.target.value.replace(/[^a-zа-я0-9\s]/ui, ''));
     setCheckInTitle(false);
   };
 
