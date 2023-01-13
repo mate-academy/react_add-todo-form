@@ -33,8 +33,8 @@ export const App = () => {
   const [todoList, setTodoList] = useState(todos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [noTitleError, setNoTitleError] = useState(false);
-  const [noUserError, setNoUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const getId = (taskList: { id: number }[]) => (
     (Math.max(...taskList.map(task => task.id)) + 1)
@@ -42,12 +42,12 @@ export const App = () => {
 
   const handleChangeTitle = (newValue: string) => {
     setTitle(newValue);
-    setNoTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleChangeUser = (newValue: number) => {
     setUserId(newValue);
-    setNoUserError(false);
+    setIsUserError(false);
   };
 
   const reset = () => {
@@ -59,8 +59,8 @@ export const App = () => {
     event.preventDefault();
 
     if (!title || !userId) {
-      setNoTitleError(!title);
-      setNoUserError(!userId);
+      setIsTitleError(!title);
+      setIsUserError(!userId);
 
       return;
     }
@@ -104,7 +104,7 @@ export const App = () => {
               ))}
             </Select>
 
-            {noUserError && (
+            {isUserError && (
               <span className="error">Please choose a user</span>
             )}
 
@@ -119,7 +119,7 @@ export const App = () => {
               onChange={(event) => handleChangeTitle(event.target.value)}
             />
 
-            {noTitleError && (
+            {isTitleError && (
               <span className="error">Please enter a title</span>
             )}
           </FormControl>
