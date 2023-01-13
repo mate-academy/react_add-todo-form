@@ -24,26 +24,8 @@ function getNewTodoId(todos: Todo[]): number {
   return Math.max(...todos.map(todo => todo.id)) + 1;
 }
 
-function getVisibleTodos(
-  todos: Todo[],
-  selectedUser: string,
-  title: string,
-): Todo[] {
-  const todoId = getNewTodoId(todos);
-  const userId = getUserId(selectedUser);
-  const todo = {
-    id: todoId,
-    userId,
-    title: title.trim(),
-    completed: false,
-    user: getUser(userId),
-  };
-
-  return [...todos, todo];
-}
-
-function inputControl(event: React.ChangeEvent<HTMLInputElement>): boolean {
-  const lastSymbol = event.target.value[event.target.value.length - 1];
+function inputControl(inputValue: string): boolean {
+  const lastSymbol = inputValue[inputValue.length - 1];
 
   return /\p{sc=Latn}|\p{sc=Cyrillic}| |\d/u.test(lastSymbol);
 }
@@ -61,6 +43,45 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState(false);
   let error = false;
 
+  const handleInputTitle = (inputValue: string) => {
+    if (inputControl(inputValue)) {
+      setTitle(inputValue);
+      setErrorTitle(false);
+    }
+  };
+
+  const getVisibleTodos = (currentTodos: Todo[]): Todo[] => {
+    const todoId = getNewTodoId(currentTodos);
+    const userId = getUserId(selectedUser);
+    const todo = {
+      id: todoId,
+      userId,
+      title: title.trim(),
+      completed: false,
+      user: getUser(userId),
+    };
+
+    return [...currentTodos, todo];
+  };
+
+  const handleSubmit = () => {
+    if (!title) {
+      setErrorTitle(true);
+      error = true;
+    }
+
+    if (selectedUser === 'Choose a user') {
+      setErrorUser(true);
+      error = true;
+    }
+
+    if (!error) {
+      setTodos(currentTodos => getVisibleTodos(currentTodos));
+      setTitle('');
+      setSelectedUser('Choose a user');
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -70,21 +91,7 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (title.length === 0) {
-            setErrorTitle(true);
-            error = true;
-          }
-
-          if (selectedUser === 'Choose a user') {
-            setErrorUser(true);
-            error = true;
-          }
-
-          if (!error) {
-            setTodos(getVisibleTodos(todos, selectedUser, title));
-            setTitle('');
-            setSelectedUser('Choose a user');
-          }
+          handleSubmit();
         }}
       >
         <div className="field">
@@ -97,10 +104,7 @@ export const App = () => {
               data-cy="titleInput"
               value={title}
               onChange={(event) => {
-                if (inputControl(event)) {
-                  setTitle(event.target.value);
-                  setErrorTitle(false);
-                }
+                handleInputTitle(event.target.value);
               }}
             />
           </label>
