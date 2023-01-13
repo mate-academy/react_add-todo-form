@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import './App.scss';
 
-import { Button, Typography, Paper } from '@mui/material';
+import {
+  Button,
+  Typography,
+  Paper,
+  TextField,
+  Box,
+  FormControl,
+  MenuItem,
+} from '@mui/material';
 import { TodoList } from './components/TodoList';
 
 import todosFromServer from './api/todos';
@@ -64,7 +72,7 @@ export const App: React.FC = () => {
     setIsTitleError(false);
   };
 
-  const handleSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectedUser = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedUser(+event.target.value);
     setUserError(false);
   };
@@ -80,45 +88,56 @@ export const App: React.FC = () => {
           className="App__form"
           onSubmit={handleSubmit}
         >
-          <div className="field">
-            <label>
-              {'Title: '}
-              <input
+          <Box
+            component="form"
+          >
+            <FormControl fullWidth>
+              <TextField
+                error={isTitleError}
+                id="outlined-basic"
+                label="Title: "
+                variant="outlined"
                 type="text"
-                className="titleInput"
                 data-cy="titleInput"
                 placeholder="Enter a title"
                 value={newTitle}
                 onChange={handleNewTitle}
+                helperText={isTitleError && 'Please enter a title'}
+                sx={{
+                  marginBottom: 3,
+                  marginTop: 3,
+                }}
               />
-            </label>
-            {isTitleError && (
-              <span className="error">Please enter a title</span>
-            )}
-          </div>
+            </FormControl>
 
-          <div className="field">
-            <label>
-              {'User: '}
-              <select
+            <FormControl fullWidth>
+              <TextField
+                select
+                error={isUserError}
+                id="demo-simple-select"
+                label="User: "
                 data-cy="userSelect"
-                className="userSelect"
                 value={selectedUser}
                 onChange={handleSelectedUser}
+                helperText={isUserError && 'Please choose a user'}
               >
-                <option value="0" disabled>Choose a user</option>
-
+                <MenuItem
+                  value="0"
+                  disabled
+                  sx={{
+                    color: 'grey',
+                  }}
+                >
+                  <em>Choose a user</em>
+                </MenuItem>
                 {usersFromServer.map((user) => (
-                  <option value={user.id} key={user.id}>
+                  <MenuItem value={user.id} key={user.id}>
                     {user.name}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-            {isUserError && (
-              <span className="error">Please choose a user</span>
-            )}
-          </div>
+              </TextField>
+            </FormControl>
+          </Box>
 
           <Button
             variant="contained"
