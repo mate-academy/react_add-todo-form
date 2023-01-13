@@ -39,49 +39,51 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserNameError, setIsUserNameError] = useState(false);
 
-  const handleTitile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTitile = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
     setIsTitleError(false);
   };
 
-  const handleUserName = (event: SelectChangeEvent) => {
-    setUserName(event.target.value);
+  const handleChangeUser = (event: SelectChangeEvent) => {
+    setUserId(event.target.value);
     setIsUserNameError(false);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setIsTitleError(!title.trim());
-    setIsUserNameError(!userName);
+    setIsUserNameError(!userId);
 
-    if (title.trim() === '' || !userName) {
+    if (title.trim() === '' || !userId) {
       return;
     }
 
-    const userToAdd = getUserName(userName);
+    const userToAdd = getUserName(userId);
 
     setTodos(current => {
       const maxTodoId = Math.max(...current.map(todo => todo.id));
 
+      const todoItem = {
+        id: maxTodoId + 1,
+        title,
+        completed: false,
+        userId: userToAdd ? userToAdd.id : null,
+        user: userToAdd,
+      };
+
       return [
         ...current,
-        {
-          id: maxTodoId + 1,
-          title,
-          completed: false,
-          userId: userToAdd ? userToAdd.id : null,
-          user: userToAdd,
-        },
+        todoItem,
       ];
     });
 
     setTitle('');
-    setUserName('');
+    setUserId('');
   };
 
   return (
@@ -90,9 +92,7 @@ export const App = () => {
 
       <form
         className="App__form"
-        action="/api/users"
-        method="POST"
-        onSubmit={handleChange}
+        onSubmit={handleSubmit}
       >
         <FormControl sx={{ width: '40ch' }}>
           <div className="field">
@@ -105,7 +105,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleTitile}
+              onChange={handleChangeTitile}
               className="title"
             />
             {isTitleError && (
@@ -126,8 +126,8 @@ export const App = () => {
                 label="User"
                 id="userName"
                 data-cy="userSelect"
-                value={userName}
-                onChange={handleUserName}
+                value={userId}
+                onChange={handleChangeUser}
                 className="userName"
                 fullWidth
               >

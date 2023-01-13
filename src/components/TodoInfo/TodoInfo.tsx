@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-import { CardActionArea, CardContent } from '@mui/material';
+import { CardActionArea, CardContent, Paper } from '@mui/material';
 
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
@@ -28,16 +28,19 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
         },
       )}
     >
-      <CardActionArea>
-        <CardContent>
-          <h2 className="TodoInfo__title">
-            {title}
-          </h2>
 
-          {user && (
-            <UserInfo key={userId} user={user} />
-          )}
-        </CardContent>
+      <CardActionArea>
+        <Paper elevation={8}>
+          <CardContent>
+            <h2 className="TodoInfo__title">
+              {title}
+            </h2>
+
+            {user && (
+              <UserInfo key={userId} user={user} />
+            )}
+          </CardContent>
+        </Paper>
       </CardActionArea>
     </article>
   );
