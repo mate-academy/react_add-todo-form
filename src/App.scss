@@ -7,13 +7,17 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-image: url(./background.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20px;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #000;
 }
 
 label,
@@ -21,75 +25,51 @@ button {
   cursor: pointer;
 }
 
-.noise::before {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 50vw;
-  height: 100vh;
-  content: "";
-  opacity: 1;
-  z-index: 1500;
-  pointer-events: none;
-  background: url(./waiting.gif);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.error {
-  color: red;
-}
-
 .App {
-  position: fixed;
-  top: 0;
-  right: 0;
-  margin: 100px 200px;
-  background-image: url("./back.png");
-  background-repeat: no-repeat;
-  object-fit: contain;
-  background-size: contain;
-}
-
-.field {
-  display: flex;
-  margin: auto 30px;
-  margin-top: 10px;
-
-  &__add {
-    margin: auto 30px;
-    margin-top: 10px;
-  }
+  margin: 0 auto;
+  padding: 15px;
 }
 
 .TodoInfo {
+  &:first-child {
+    margin-top: 10px;
+  }
   width: fit-content;
-  border: 1px solid #000;
-  background-color: antiquewhite;
+  background-color: rgba($color: #ddc8c8, $alpha: 0.5);
 
   &__title {
-    margin: 4px 0;
-    font-size: 6px;
-    color: #f00;
-  }
+    display: flex;
+    padding: 5px;
+    margin-bottom: 5px;
 
-  &--completed &__title {
-    color: #080;
+    font-size: 16px;
   }
 }
 
 .UserInfo {
   display: flex;
-  max-width: 100px;
+  padding: 5px;
 
   font-style: italic;
-  font-size: 10px;
 }
 
-.result {
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  color: white;
-  font-size: 24px;
+.error {
+  padding-left: 15px;
+  color: red;
+}
+
+.field {
+  &__select {
+    width: 150px;
+    margin-bottom: 15px;
+
+    border: none;
+    background-color: #ddc8c8;
+  }
+
+  &__add {
+    width: 50px;
+    height: 20px;
+    background: radial-gradient(#b8b8b8, #be7373);
+  }
 }

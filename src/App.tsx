@@ -1,4 +1,3 @@
-import AnimatedCursor from "react-animated-cursor";
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
@@ -74,18 +73,6 @@ export const App = () => {
 
   return (
     <div className="App">
-      <AnimatedCursor
-        innerSize={10}
-        outerSize={60}
-        color="255, 255, 255"
-        outerAlpha={0.2}
-        innerScale={0.7}
-        outerScale={1.2}
-      />
-      <div className="noise">
-        <></>
-      </div>
-
       <h1>Add todo form</h1>
 
       <form
@@ -106,7 +93,7 @@ export const App = () => {
             onChange={handleOnTitleChange}
           />
           {titleError && (
-            <span className="error">Please enter a title</span>
+            <span className="error">◅ Please enter a title</span>
           )}
         </div>
 
@@ -131,7 +118,7 @@ export const App = () => {
           </select>
 
           {userError && (
-            <span className="error">Please choose a user</span>
+            <span className="error">◅ Please choose a user</span>
           )}
         </div>
 
@@ -144,7 +131,6 @@ export const App = () => {
         </button>
       </form>
       <TodoList todos={todos} />
-      <p className="result">My best project!</p>
     </div>
   );
 };
