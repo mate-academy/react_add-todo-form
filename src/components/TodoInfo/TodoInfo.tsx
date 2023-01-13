@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Todo } from '../../types/Todo';
+import { PreparedTodo } from '../../types/PreparedTodo';
 import { UserInfo } from '../UserInfo/UserInfo';
 
 type Props = {
-  todo: Todo;
+  todo: PreparedTodo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {

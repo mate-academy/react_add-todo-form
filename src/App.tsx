@@ -2,56 +2,47 @@ import { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
-
-import { Todo } from './types/Todo';
-import { User } from './types/User';
-
 import { TodoList } from './components/TodoList';
 
-function getUserByID(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
-
-const todosWithUser: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserByID(todo.userId),
-}));
+import {
+  findUserByID,
+  getPreparedTodos,
+  getHighestTodoID,
+} from './helpers/helpers';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosWithUser);
+  const [todos, setTodos] = useState(getPreparedTodos);
   const [title, setTitle] = useState('');
-  const [selectedUserID, setSelectedUserID] = useState('');
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
-  const getHighestTodoID = () => {
-    const userIDs = todos.map(todo => todo.id);
-
-    return Math.max(...userIDs) + 1;
-  };
+  const [selectedUserID, setSelectedUserID] = useState(0);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserIdError, setIsUserIdError] = useState(false);
 
   const clearForm = () => {
     setTitle('');
-    setSelectedUserID('');
-    setIsFormSubmitted(false);
+    setSelectedUserID(0);
+    setIsTitleError(false);
+    setIsUserIdError(false);
   };
 
-  const handleSubmitForm = () => {
-    setIsFormSubmitted(true);
-
+  const handleFormSubmit = () => {
     if (!title || !selectedUserID) {
+      setIsTitleError(!title);
+      setIsUserIdError(!selectedUserID);
+
       return;
     }
 
-    const newTodo = {
-      id: getHighestTodoID(),
-      title,
-      completed: false,
-      userId: +selectedUserID,
-      user: getUserByID(+selectedUserID),
-    };
+    setTodos((prevTodos => {
+      const newTodo = {
+        id: getHighestTodoID(todos),
+        title,
+        completed: false,
+        userId: +selectedUserID,
+        user: findUserByID(+selectedUserID),
+      };
 
-    setTodos([...todos, newTodo]);
+      return [...prevTodos, newTodo];
+    }));
 
     clearForm();
   };
@@ -65,7 +56,7 @@ export const App: React.FC = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          handleSubmitForm();
+          handleFormSubmit();
         }}
       >
         <div className="field">
@@ -75,11 +66,15 @@ export const App: React.FC = () => {
               placeholder="Write your title"
               data-cy="titleInput"
               value={title}
-              onChange={(event) => setTitle(event.currentTarget.value)}
+              onChange={(event) => {
+                setIsTitleError(false);
+                setTitle(event.currentTarget.value);
+              }}
             />
 
-            {isFormSubmitted && !title
-              && <span className="error">Please enter a title</span>}
+            {isTitleError && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
@@ -87,9 +82,12 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUserID}
-            onChange={(event) => setSelectedUserID(event.currentTarget.value)}
+            onChange={(event) => {
+              setIsUserIdError(false);
+              setSelectedUserID(+event.currentTarget.value);
+            }}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(user => {
               return (
@@ -100,8 +98,9 @@ export const App: React.FC = () => {
             })}
           </select>
 
-          {isFormSubmitted && !selectedUserID
-            && <span className="error">Please choose a user</span>}
+          {isUserIdError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
