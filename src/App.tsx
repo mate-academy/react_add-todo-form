@@ -4,7 +4,7 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/todo';
+import { Todo } from './types/Todo';
 import { User } from './types/User';
 
 function getUser(userId: number): User | null {
