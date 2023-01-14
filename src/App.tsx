@@ -60,10 +60,10 @@ export const App: React.FC = () => {
           user: getUserById(+selectedUser),
         },
       ]);
-    }
 
-    setInTitle('');
-    setSelectedUser('');
+      setInTitle('');
+      setSelectedUser('');
+    }
   };
 
   return (
