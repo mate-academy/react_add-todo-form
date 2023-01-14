@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.scss';
+import 'bulma/css/bulma.css';
 
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
@@ -48,8 +49,8 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App section content">
+      <h1 className="title is-1">Add todo form</h1>
 
       <form
         action="/api/users"
@@ -64,6 +65,7 @@ export const App: React.FC = () => {
             <input
               type="text"
               placeholder="Write your title"
+              className="input"
               data-cy="titleInput"
               value={title}
               onChange={(event) => {
@@ -78,7 +80,7 @@ export const App: React.FC = () => {
           </label>
         </div>
 
-        <div className="field">
+        <div className="field select mr-2">
           <select
             data-cy="userSelect"
             value={selectedUserID}
@@ -102,8 +104,7 @@ export const App: React.FC = () => {
             <span className="error">Please choose a user</span>
           )}
         </div>
-
-        <button type="submit" data-cy="submitButton">
+        <button type="submit" className="button mb-5" data-cy="submitButton">
           Add
         </button>
       </form>
