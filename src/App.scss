@@ -11,12 +11,12 @@ button {
   cursor: pointer;
 }
 
-.error {
-  color: red;
+.App {
+  max-width: 600px;
+  margin: auto;
 }
 
 .TodoInfo {
-  width: max-content;
   padding: 8px;
   margin: 12px 0;
   border: 2px solid #e1e7ed;
@@ -36,4 +36,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.error {
+  color: red;
 }
