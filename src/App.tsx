@@ -14,20 +14,20 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(getPreparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUserID, setSelectedUserID] = useState(0);
-  const [isTitleError, setIsTitleError] = useState(false);
-  const [isUserIdError, setIsUserIdError] = useState(false);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isUserIdEmpty, setIsUserIdEmpty] = useState(false);
 
   const clearForm = () => {
     setTitle('');
     setSelectedUserID(0);
-    setIsTitleError(false);
-    setIsUserIdError(false);
+    setIsTitleEmpty(false);
+    setIsUserIdEmpty(false);
   };
 
   const handleFormSubmit = () => {
     if (!title || !selectedUserID) {
-      setIsTitleError(!title);
-      setIsUserIdError(!selectedUserID);
+      setIsTitleEmpty(!title);
+      setIsUserIdEmpty(!selectedUserID);
 
       return;
     }
@@ -37,8 +37,8 @@ export const App: React.FC = () => {
         id: getHighestTodoID(todos),
         title,
         completed: false,
-        userId: +selectedUserID,
-        user: findUserByID(+selectedUserID),
+        userId: selectedUserID,
+        user: findUserByID(selectedUserID),
       };
 
       return [...prevTodos, newTodo];
@@ -67,12 +67,12 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               value={title}
               onChange={(event) => {
-                setIsTitleError(false);
+                setIsTitleEmpty(false);
                 setTitle(event.currentTarget.value);
               }}
             />
 
-            {isTitleError && (
+            {isTitleEmpty && (
               <span className="error">Please enter a title</span>
             )}
           </label>
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             value={selectedUserID}
             onChange={(event) => {
-              setIsUserIdError(false);
+              setIsUserIdEmpty(false);
               setSelectedUserID(+event.currentTarget.value);
             }}
           >
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
             })}
           </select>
 
-          {isUserIdError && (
+          {isUserIdEmpty && (
             <span className="error">Please choose a user</span>
           )}
         </div>
