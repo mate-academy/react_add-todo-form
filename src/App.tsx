@@ -45,14 +45,9 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
-      setErrorMessageEmptyTitle(true);
-
-      return;
-    }
-
-    if (userSelect === '') {
-      setErrorMessageEmptyUser(true);
+    if (!title || !userSelect) {
+      setErrorMessageEmptyTitle(!title);
+      setErrorMessageEmptyUser(!userSelect);
 
       return;
     }
