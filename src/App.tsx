@@ -24,7 +24,7 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
   const [todos, setTodos] = useState(preparedTodos);
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
@@ -35,7 +35,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.currentTarget.value);
+    setSelectedUserId(event.currentTarget.value);
     setErrorOnUserSelect(false);
   };
 
@@ -43,31 +43,33 @@ export const App = () => {
     event.preventDefault();
 
     setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!selectedUser);
+    setErrorOnUserSelect(!selectedUserId);
 
-    if (title.trim() === '' || !selectedUser) {
+    if (title.trim() === '' || !selectedUserId) {
       return;
     }
 
-    const userToAdd = findUserByName(selectedUser);
+    const userToAdd = findUserByName(selectedUserId);
 
     setTodos(current => {
       const maxTodoId = Math.max(...current.map(todo => todo.id));
 
+      const todoItem = {
+        id: maxTodoId + 1,
+        title,
+        completed: false,
+        userId: userToAdd ? userToAdd.id : null,
+        user: userToAdd,
+      };
+
       return [
         ...current,
-        {
-          id: maxTodoId + 1,
-          title,
-          completed: false,
-          userId: userToAdd ? userToAdd.id : null,
-          user: userToAdd,
-        },
+        todoItem,
       ];
     });
 
     setTitle('');
-    setSelectedUser('');
+    setSelectedUserId('');
   };
 
   return (
@@ -105,7 +107,7 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
-            value={selectedUser}
+            value={selectedUserId}
             className="input is-rounded"
             onChange={handleUserChange}
           >
