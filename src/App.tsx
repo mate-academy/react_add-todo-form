@@ -10,21 +10,17 @@ import { TodoList } from './components/TodoList';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
-
-// export const todos: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
 
 export const App: React.FC = () => {
   const visibleUsers = [...usersFromServer];
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completed, setCompleted] = useState(false);
+  const [tittleError, setTittleError] = useState(false);
+  const [selectedError, setSelectedError] = useState(false);
 
   useEffect(() => {
     setTodos(todosFromServer.map(todo => ({
@@ -33,15 +29,22 @@ export const App: React.FC = () => {
     })));
   }, []);
 
-  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const reset = () => {
+    setTitle('');
+    setCompleted(false);
+    setSelectedUser(0);
+    setSelectedError(false);
+    setTittleError(false);
+  };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setTodos((prev) => {
       const todo = {
         title,
-        userId: +(selectedUser),
+        userId: (selectedUser),
         completed,
-        user: getUser(Number(selectedUser)),
+        user: getUser(selectedUser),
         id: Math.max(...prev.map(item => item.id)) + 1,
       };
 
@@ -53,9 +56,7 @@ export const App: React.FC = () => {
       );
     });
 
-    setTitle('');
-    setCompleted(false);
-    setSelectedUser('0');
+    reset();
   };
 
   return (
@@ -65,10 +66,22 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!selectedUser && title.length === 0) {
+            setSelectedError(true);
+            setTittleError(true);
+          } else if (!selectedUser) {
+            setSelectedError(true);
+          } else if (title.length === 0) {
+            setTittleError(true);
+          } else {
+            handleSubmit(event);
+          }
+        }}
       >
         <div className="field">
-          <span className="error">Title:</span>
+          <span className="field__text">Title:</span>
           <input
             type="text"
             data-cy="titleInput"
@@ -76,29 +89,39 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
+              setTittleError(false);
             }}
           />
+          { tittleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <span className="error">Completed:</span>
+          <label
+            className="field__text"
+            htmlFor="completed"
+          >
+            Completed:
+          </label>
           <input
             type="checkbox"
             data-cy="completed"
+            id="completed"
             checked={completed}
             onChange={() => {
-              setCompleted((prev) => !prev);
+              setCompleted((state) => !state);
             }}
           />
         </div>
 
         <div className="field">
-          <span className="error">User:</span>
+          <span className="field__text">User:</span>
           <select
             data-cy="userSelect"
             value={selectedUser}
             onChange={(event) => {
-              setSelectedUser(event.target.value);
+              setSelectedUser(Number(event.target.value));
+              setSelectedError(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -108,7 +131,8 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-
+          { selectedError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button

@@ -12,10 +12,14 @@ button {
 }
 
 .error {
-  color: black;
+  color: red;
   display: inline-flexbox;
 }
 
 .field {
   display: flex;
+
+  &__text {
+    color: black;
+  }
 }
