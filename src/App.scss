@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
 
 body {
   margin: 0;
@@ -11,24 +11,24 @@ body {
   justify-content: center;
   place-items: center;
   overflow: hidden;
-  font-family: poppins;
+  font-family: poppins, sans-serif;
 }
 
 .App {
-    position: relative;
-    width: 550px;
-    border-radius: 20px;
-    padding: 40px;
-    box-sizing: border-box;
-    background: #ecf0f3;
-    box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  position: relative;
+  width: 550px;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
 }
 
 h1 {
   margin-top: 10px;
   font-weight: 900;
   font-size: 1.8rem;
-  color: #1DA1F2;
+  color: #1da1f2;
   letter-spacing: 1px;
 }
 
@@ -37,7 +37,10 @@ h1 {
   margin-top: 30px;
 }
 
-label, input, button, select {
+label,
+input,
+button,
+select {
   display: block;
   padding: 0;
   width: 100%;
@@ -55,7 +58,8 @@ input::placeholder {
   color: gray;
 }
 
-input, select {
+input,
+select {
   background: #ecf0f3;
   padding: 10px;
   padding-left: 20px;
@@ -66,17 +70,17 @@ input, select {
 }
 
 select {
-  color: #778899
+  color: #789;
 }
 
 input {
-  caret-color: #B0C4DE;
+  caret-color: #b0c4de;
 }
 
 button {
   color: white;
   margin-top: 20px;
-  background: #1DA1F2;
+  background: #1da1f2;
   height: 40px;
   border-radius: 20px;
   cursor: pointer;
@@ -94,31 +98,29 @@ iframe {
 }
 
 .error {
-  color: #8A2BE2;
+  color: #8a2be2;
 }
 
 .TodoInfo {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #D3D3D3;
-  border-radius: 8px;
+  border: 1px solid #d3d3d3;
   background-color: #ecf0f3;
   border-radius: 20px;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    
-    color: #4169E1
+    color: #4169e1;
   }
 
   &--completed &__title {
-    color: #9400D3;
+    color: #9400d3;
   }
 }
 
 .UserInfo {
   font-style: italic;
-  color:#808080;
+  color: #808080;
 }

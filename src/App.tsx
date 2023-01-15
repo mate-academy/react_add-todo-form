@@ -5,6 +5,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
@@ -60,7 +61,6 @@ export const App = () => {
     event.preventDefault();
 
     const re = /^[A-Za-z1-9\s]*$/;
-
     const valid = re.test(title);
 
     if (title.length === 0) {
@@ -122,7 +122,7 @@ export const App = () => {
               value={userId}
               onChange={e => userHandler(e)}
             >
-              <option value="0" disabled style={{color: "red"}}>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option key={user.id} value={user.id}>{user.name}</option>
               ))}
