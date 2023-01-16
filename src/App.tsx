@@ -1,6 +1,6 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
+import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 
 export const App = () => {
@@ -10,13 +10,29 @@ export const App = () => {
 
       <form action="/api/users" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Please enter a title"
+          />
+          <span
+            className="error"
+          >
+            Please enter a title
+          </span>
         </div>
 
         <div className="field">
           <select data-cy="userSelect">
             <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(user => (
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
           </select>
 
           <span className="error">Please choose a user</span>
