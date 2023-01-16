@@ -9,9 +9,9 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-const getUserById = (userId: number): User | null => {
-  return usersFromServer.find(user => user.id === userId) || null;
-};
+const getUserById = (userId: number): User | null => (
+  usersFromServer.find(user => user.id === userId) || null
+);
 
 const startTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -22,8 +22,8 @@ export const App: FC = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
   const [todos, setTodos] = useState<Todo[]>(startTodos);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const clearForm = () => {
     setTitle('');
@@ -37,9 +37,9 @@ export const App: FC = () => {
     return largestId;
   };
 
-  const getIdByUsername = (userName: string): number | null => {
-    return usersFromServer.find(person => person.name === userName)?.id || null;
-  };
+  const getIdByUsername = (userName: string): number | null => (
+    usersFromServer.find(person => person.name === userName)?.id || null
+  );
 
   const getUserByUsername = (userName: string): User | null => {
     return usersFromServer.find(
@@ -63,11 +63,11 @@ export const App: FC = () => {
     event.preventDefault();
 
     if (title === '') {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (user === '') {
-      setUserError(true);
+      setIsUserError(true);
     }
 
     if (title && user) {
@@ -96,12 +96,12 @@ export const App: FC = () => {
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
-                setTitleError(false);
+                setIsTitleError(false);
               }}
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -115,7 +115,7 @@ export const App: FC = () => {
               value={user}
               onChange={(event) => {
                 setUser(event.target.value);
-                setUserError(false);
+                setIsUserError(false);
               }}
             >
               <option value="" disabled>
@@ -133,7 +133,7 @@ export const App: FC = () => {
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import classNames from 'classnames';
+import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
@@ -20,7 +20,7 @@ export const TodoInfo:FC<Props> = ({ todo }) => {
     <article
       key={id}
       data-id={id}
-      className={classNames(
+      className={cn(
         'TodoInfo',
         {
           'TodoInfo--completed': completed,
