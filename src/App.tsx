@@ -19,6 +19,9 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
   user: getUserFromId(todo.userId),
 }));
 
+let lastId = Math.max(...todos
+  .map(({ id }) => id));
+
 export const App: FC = () => {
   const [displayedTodos, setDisplayedTodos] = useState(todos);
   const [title, setTitle] = useState('');
@@ -27,8 +30,9 @@ export const App: FC = () => {
   const [hasUserError, setHasUserError] = useState(false);
 
   const getNewTodo = () => {
-    const newId = Math.max(...todos
-      .map(({ id }) => id));
+    const newId = lastId + 1;
+
+    lastId += 1;
 
     return {
       id: newId,
