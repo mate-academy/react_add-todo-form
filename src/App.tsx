@@ -42,14 +42,14 @@ export const App = () => {
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (selectedUserId === 0) {
-      setIsSelectedUserErrorOccured(true);
+    if (selectedUserId === 0 || title === '') {
+      if (title === '') {
+        setIsTitleErrorOccured(true);
+      }
 
-      return;
-    }
-
-    if (title === '') {
-      setIsTitleErrorOccured(true);
+      if (selectedUserId === 0) {
+        setIsSelectedUserErrorOccured(true);
+      }
 
       return;
     }
