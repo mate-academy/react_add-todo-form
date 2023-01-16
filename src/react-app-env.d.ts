@@ -3,13 +3,13 @@
 interface Todo {
   id: number;
   title: string;
-  userId: number | undefined;
+  userId: number | null;
   completed: boolean;
-  user: User | undefined;
+  user: User | null;
 }
 
 interface User {
-  id: number | undefined;
+  id: number | null;
   name: string;
   email: string;
 }

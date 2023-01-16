@@ -15,6 +15,13 @@ button {
   color: red;
 }
 
+.TodoList {
+  &__item {
+    list-style-type: none;
+    padding: 0 4px;
+  }
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -24,6 +31,7 @@ button {
   background-color: antiquewhite;
 
   &__title {
+    display: block;
     margin: 4px 0;
     font-size: inherit;
     color: #f00;

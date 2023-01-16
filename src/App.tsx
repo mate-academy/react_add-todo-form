@@ -6,18 +6,21 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | undefined {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || undefined;
-}
-
-export const todos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
 export const App: React.FC = () => {
+  const getUser = (param: number | string): User | null => {
+    const foundUser
+    = typeof param === 'number'
+      ? usersFromServer.find(user => user.id === param)
+      : usersFromServer.find(user => user.name === param);
+
+    return foundUser || null;
+  };
+
+  const todos: Todo[] = todosFromServer.map(todo => ({
+    ...todo,
+    user: getUser(todo.userId),
+  }));
+
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newTodoUserName, setNewTodoUserName] = useState('');
   const [renderedTodos, setRenderedTodos] = useState(todos);
@@ -25,7 +28,9 @@ export const App: React.FC = () => {
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const rightValue = value.replace(/[^a-zA-Z0-9 ]/g, '');
+    const rightValue = value.trim().length > 0
+      ? value.replace(/[^a-zA-Z0-9 ]/g, '')
+      : '';
 
     setNewTodoTitle(rightValue);
   };
@@ -38,19 +43,17 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newTodoUser: User | undefined = usersFromServer.find(
-      user => user.name === newTodoUserName,
-    );
+    const newTodoUser: User | null = getUser(newTodoUserName);
     const newTodo: Todo = {
       id: Math.max(...renderedTodos.map(todo => todo.id)) + 1,
       title: newTodoTitle,
-      userId: newTodoUser ? newTodoUser.id : undefined,
+      userId: newTodoUser ? newTodoUser.id : null,
       completed: false,
       user: newTodoUser,
     };
 
     setNeedCheck(true);
-    if (newTodoTitle !== '' && newTodoUserName !== '') {
+    if (newTodoTitle.length && newTodoUserName.length) {
       setRenderedTodos([...renderedTodos, newTodo]);
       setNewTodoTitle('');
       setNewTodoUserName('');
@@ -74,7 +77,7 @@ export const App: React.FC = () => {
               value={newTodoTitle}
               onChange={handleChangeInput}
             />
-            {(newTodoTitle === '' && needCheck)
+            {(!newTodoTitle.length && needCheck)
               && (<span className="error">Please enter a title</span>)}
           </label>
         </div>
@@ -88,7 +91,7 @@ export const App: React.FC = () => {
               value={newTodoUserName}
               onChange={handleChangeSelect}
             >
-              <option value="" disabled>Choose a user</option>
+              <option disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option
                   value={user.name}
@@ -98,9 +101,8 @@ export const App: React.FC = () => {
                 </option>
               ))}
             </select>
-            {!newTodoUserName.length && needCheck && (
-              <span className="error">Please choose a user</span>
-            )}
+            {(!newTodoUserName.length && needCheck)
+              && (<span className="error">Please choose a user</span>)}
           </label>
         </div>
 

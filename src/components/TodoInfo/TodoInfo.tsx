@@ -20,7 +20,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       data-id={id}
       className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
     >
-      <h2 className="TodoInfo_title">
+      <h2 className="TodoInfo__title">
         {title}
       </h2>
 
