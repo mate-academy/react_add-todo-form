@@ -1,4 +1,8 @@
 import classNames from 'classnames';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+
 import React from 'react';
 import { Todo } from '../types/Todo';
 import { UserInfo } from '../UserInfo';
@@ -8,18 +12,26 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => (
-  <>
-    <article
-      data-id={todo.id}
-      className={classNames(
-        'TodoInfo',
-        {
-          'TodoInfo--completed': todo.completed === true,
-        },
-      )}
+  <Card
+    data-id={todo.id}
+    className={classNames(
+      'TodoInfo',
+      {
+        'TodoInfo--completed': todo.completed === true,
+      },
+    )}
+  >
+    <Typography
+      gutterBottom
+      variant="h6"
+      component="h2"
+      className="TodoInfo__title"
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-      {todo.user && <UserInfo user={todo.user} />}
-    </article>
-  </>
+      {todo.title}
+    </Typography>
+
+    {todo.user && (
+      <UserInfo user={todo.user} />
+    )}
+  </Card>
 );

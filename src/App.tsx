@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './App.scss';
 
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -35,7 +39,7 @@ export const App: React.FC = () => {
     setTitleError(false);
   };
 
-  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUser = (event: SelectChangeEvent<number>) => {
     setSelectedUser(+event.target.value);
     setUserError(false);
   };
@@ -72,25 +76,25 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
       <form
         action="/api/users"
         method="POST"
         onSubmit={hadleSubmit}
       >
-        <div className="field">
-          <label>
-            {' '}
-            Title:
-            {' '}
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={selectedTitle}
-              onChange={handleTitle}
-            />
-          </label>
+        <div
+          className="field"
+        >
+          Title:
+          <TextField
+            id="outlined-basic"
+            label="Enter a title"
+            variant="outlined"
+            type="text"
+            data-cy="titleInput"
+            value={selectedTitle}
+            onChange={handleTitle}
+          />
+
           {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
@@ -98,32 +102,35 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label>
-            {' '}
             User:
-            {' '}
-            <select
+            <Select
               data-cy="userSelect"
               value={selectedUser}
               onChange={handleUser}
             >
-              <option value="0" disabled>Choose a user</option>
+              <MenuItem value="0" disabled>Choose a user</MenuItem>
 
               {usersFromServer.map(user => (
-                <option key={user.id} value={user.id}>{user.name}</option>
+                <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
               ))}
-            </select>
+            </Select>
           </label>
           {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
 
-        <button
+        <Button
+          sx={{ mt: 1 }}
           type="submit"
           data-cy="submitButton"
+          variant="contained"
+          color={isUserError || isTitleError
+            ? 'error'
+            : 'success'}
         >
           Add
-        </button>
+        </Button>
       </form>
       <TodoList todos={todos} />
     </div>
