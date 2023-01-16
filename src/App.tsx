@@ -15,12 +15,10 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const prepTodos: Todo[] = todosFromServer.map(todo => {
-  return {
-    ...todo,
-    user: getUserById(todo.userId),
-  };
-});
+const prepTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
