@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
@@ -34,7 +39,7 @@ export const App = () => {
       return;
     }
 
-    const addedUser = findUserById(selectedUser);
+    const addedUser = findUserById(+selectedUser);
 
     setTodos(current => {
       const nextTodo = Math.max(...current.map(todo => todo.id)) + 1;
@@ -55,13 +60,17 @@ export const App = () => {
     setSelectedUser(0);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+  const handleTitleChange = (
+    { target }: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTitle(target.value);
     setTitleError(false);
   };
 
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(Number(event.target.value));
+  const handleUserChange = (
+    { target }: SelectChangeEvent,
+  ) => {
+    setSelectedUser((+target.value));
     setUserError(false);
   };
 
@@ -70,8 +79,11 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form className="form" onSubmit={handleSubmit}>
-        <div className="field">
-          <input
+        <div
+          className="field"
+        >
+          <TextField
+            sx={{ input: { background: 'white' } }}
             type="text"
             className="form__field-input"
             placeholder="Enter a title"
@@ -88,31 +100,36 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            id="userSelect"
-            name="userSelect"
-            value={selectedUser}
-            onChange={handleUserChange}
-          >
-            <option value="0" disabled>Choose a user</option>
+          <FormControl sx={{ m: 0, minWidth: 195, background: 'white' }}>
+            <Select
+              data-cy="userSelect"
+              id="userSelect"
+              name="userSelect"
+              value={selectedUser.toString()}
+              onChange={handleUserChange}
+            >
+              <MenuItem value={0} disabled>
+                <span>Choose a user</span>
+              </MenuItem>
 
-            {usersFromServer.map(({ id, name }) => (
-              <option key={id} value={id}>{name}</option>
-            ))}
-          </select>
+              {usersFromServer.map(({ id, name }) => (
+                <MenuItem key={id} value={id}>{name}</MenuItem>
+              ))}
+            </Select>
 
-          {isUserError && (
-            <span className="error">Please choose a user</span>
-          )}
+            {isUserError && (
+              <span className="error">Please choose a user</span>
+            )}
+          </FormControl>
         </div>
 
-        <button
+        <Button
+          variant="contained"
           type="submit"
           data-cy="submitButton"
         >
           Add
-        </button>
+        </Button>
       </form>
 
       <TodoList todos={todos} />

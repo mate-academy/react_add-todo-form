@@ -4,6 +4,11 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  background-image: url("./images/user-people-network-circuit-board-link-connection-technology.jpg");
+  background-size: cover;
+  color: white;
 }
 
 label,
@@ -19,9 +24,8 @@ button {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: white;
 
   &__title {
     margin: 4px 0;
@@ -36,4 +40,5 @@ button {
 
 .UserInfo {
   font-style: italic;
+  text-decoration: none;
 }
