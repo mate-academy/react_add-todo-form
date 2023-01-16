@@ -9,50 +9,47 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  // if there is no user with a given userId
-  return foundUser || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function findUserFullname(fullName: string): User | null {
+function findUserByFullname(fullName: string): User | null {
   return usersFromServer.find(user => user.name === fullName) || null;
 }
 
 export const initialTodosList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [userSelect, setUserSelect] = useState('');
+  const [selectedUser, setselectedUser] = useState('');
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState(initialTodosList);
-  const [isErrorMessageEmptyTitle, setErrorMessageEmptyTitle] = useState(false);
-  const [isErrorMessageEmptyUser, setErrorMessageEmptyUser] = useState(false);
+  const [isTitleErrorMessage, setIsTitleErrorMessage] = useState(false);
+  const [isUserErrorMessage, setIsUserErrorMessage] = useState(false);
 
   const handleTitleEnter = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setErrorMessageEmptyTitle(false);
+    setIsTitleErrorMessage(false);
   };
 
   const handleChooseUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelect(event.currentTarget.value);
-    setErrorMessageEmptyUser(false);
+    setselectedUser(event.currentTarget.value);
+    setIsUserErrorMessage(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !userSelect) {
-      setErrorMessageEmptyTitle(!title);
-      setErrorMessageEmptyUser(!userSelect);
+    if (!title || !selectedUser) {
+      setIsTitleErrorMessage(!title);
+      setIsUserErrorMessage(!selectedUser);
 
       return;
     }
 
-    const addNewTodo = findUserFullname(userSelect);
+    const addNewTodo = findUserByFullname(selectedUser);
 
     setTodos(currentTodos => {
       const largestTodoId = Math.max(...currentTodos.map(todo => todo.id));
@@ -68,7 +65,7 @@ export const App: React.FC = () => {
       return [...currentTodos, choosenTodo];
     });
 
-    setUserSelect('');
+    setselectedUser('');
     setTitle('');
   };
 
@@ -105,7 +102,7 @@ export const App: React.FC = () => {
               </FormControl>
             </label>
 
-            {isErrorMessageEmptyTitle
+            {isTitleErrorMessage
               && <span className="error">Please enter a title</span>}
           </div>
 
@@ -115,9 +112,9 @@ export const App: React.FC = () => {
 
               <FormControl fullWidth>
                 <select
-                  data-cy="userSelect"
-                  id="userSelect"
-                  value={userSelect}
+                  data-cy="selectedUser"
+                  id="selectedUser"
+                  value={selectedUser}
                   onChange={handleChooseUser}
                 >
                   <option
@@ -136,7 +133,7 @@ export const App: React.FC = () => {
               </FormControl>
             </label>
 
-            {isErrorMessageEmptyUser
+            {isUserErrorMessage
               && <span className="error">Please choose a user</span>}
           </div>
 
