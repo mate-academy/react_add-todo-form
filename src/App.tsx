@@ -19,13 +19,13 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-function getUserName(userName: string): User | null {
+function getUserByName(userName: string): User | null {
   const foundUser = usersFromServer.find(user => user.name === userName);
 
   return foundUser || null;
@@ -33,40 +33,44 @@ function getUserName(userName: string): User | null {
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserNameError, setIsUserNameError] = useState(false);
 
   const handleChangeTitile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.currentTarget.value);
-    setIsTitleError(false);
+    if (isTitleError === false) {
+      setTitle(event.currentTarget.value);
+      setIsTitleError(false);
+    }
   };
 
   const handleChangeUser = (event: SelectChangeEvent) => {
-    setUserId(event.target.value);
-    setIsUserNameError(false);
+    if (isUserNameError === false) {
+      setSelectedUser(event.target.value);
+      setIsUserNameError(false);
+    }
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setIsTitleError(!title.trim());
-    setIsUserNameError(!userId);
+    setIsUserNameError(!selectedUser);
 
-    if (title.trim() === '' || !userId) {
+    if (title.trim() === '' || !selectedUser) {
       return;
     }
 
-    const userToAdd = getUserName(userId);
+    const userToAdd = getUserByName(selectedUser);
 
-    setTodos(current => {
-      const maxTodoId = Math.max(...current.map(todo => todo.id));
+    setTodos(prevTodo => {
+      const maxTodoId = Math.max(...prevTodo.map(todo => todo.id));
 
       const todoItem = {
         id: maxTodoId + 1,
@@ -77,13 +81,13 @@ export const App = () => {
       };
 
       return [
-        ...current,
+        ...prevTodo,
         todoItem,
       ];
     });
 
     setTitle('');
-    setUserId('');
+    setSelectedUser('');
   };
 
   return (
@@ -126,7 +130,7 @@ export const App = () => {
                 label="User"
                 id="userName"
                 data-cy="userSelect"
-                value={userId}
+                value={selectedUser}
                 onChange={handleChangeUser}
                 className="userName"
                 fullWidth
