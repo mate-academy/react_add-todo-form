@@ -25,12 +25,6 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-function getUserByName(userName: string): User | null {
-  const foundUser = usersFromServer.find(user => user.name === userName);
-
-  return foundUser || null;
-}
-
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -39,7 +33,7 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserNameError, setIsUserNameError] = useState(false);
 
@@ -52,7 +46,7 @@ export const App = () => {
 
   const handleChangeUser = (event: SelectChangeEvent) => {
     if (isUserNameError === false) {
-      setSelectedUser(event.target.value);
+      setSelectedUser(+event.target.value);
       setIsUserNameError(false);
     }
   };
@@ -67,7 +61,7 @@ export const App = () => {
       return;
     }
 
-    const userToAdd = getUserByName(selectedUser);
+    const userToAdd = getUserById(selectedUser);
 
     setTodos(prevTodo => {
       const maxTodoId = Math.max(...prevTodo.map(todo => todo.id));
@@ -87,7 +81,7 @@ export const App = () => {
     });
 
     setTitle('');
-    setSelectedUser('');
+    setSelectedUser(0);
   };
 
   return (
@@ -130,13 +124,13 @@ export const App = () => {
                 label="User"
                 id="userName"
                 data-cy="userSelect"
-                value={selectedUser}
+                value={selectedUser.toString()}
                 onChange={handleChangeUser}
                 className="userName"
                 fullWidth
               >
                 {usersFromServer.map(user => (
-                  <MenuItem value={user.name} key={user.id}>
+                  <MenuItem value={user.id} key={user.id}>
                     {user.name}
                   </MenuItem>
                 ))}
