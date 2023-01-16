@@ -39,6 +39,14 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setTittleError(!title);
+    setSelectedError(!selectedUser);
+
+    if (!title || !selectedUser) {
+      return;
+    }
+
     setTodos((prev) => {
       const todo = {
         title,
@@ -66,19 +74,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!selectedUser && title.length === 0) {
-            setSelectedError(true);
-            setTittleError(true);
-          } else if (!selectedUser) {
-            setSelectedError(true);
-          } else if (title.length === 0) {
-            setTittleError(true);
-          } else {
-            handleSubmit(event);
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <span className="field__text">Title:</span>
@@ -92,7 +88,7 @@ export const App: React.FC = () => {
               setTittleError(false);
             }}
           />
-          { tittleError
+          {tittleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -126,12 +122,12 @@ export const App: React.FC = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {visibleUsers.map((person) => (
-              <option value={person.id}>
+              <option value={person.id} key={person.id}>
                 {person.name}
               </option>
             ))}
           </select>
-          { selectedError
+          {selectedError
             && <span className="error">Please choose a user</span>}
         </div>
 
