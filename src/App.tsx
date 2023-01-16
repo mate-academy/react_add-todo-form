@@ -25,7 +25,7 @@ let lastId = Math.max(...todos
 export const App: FC = () => {
   const [displayedTodos, setDisplayedTodos] = useState(todos);
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
@@ -49,7 +49,7 @@ export const App: FC = () => {
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUserId(event.target.value);
     setHasUserError(false);
   };
 
@@ -66,7 +66,7 @@ export const App: FC = () => {
       ]);
 
       setTitle('');
-      setSelectedUser('');
+      setSelectedUserId('');
     }
   };
 
