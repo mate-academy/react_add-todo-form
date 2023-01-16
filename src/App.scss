@@ -37,3 +37,41 @@ button {
 .UserInfo {
   font-style: italic;
 }
+
+.input {
+  width: 150px;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+
+  &:focus {
+    border-color: #aaa;
+  }
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #3e8e41;
+  }
+
+  &:active {
+    background-color: #3e8e41;
+    transform: translateY(2px);
+}
+}

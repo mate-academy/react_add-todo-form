@@ -8,7 +8,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -20,7 +20,7 @@ function getLargestTodoId(todos: Todo[]) {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -28,13 +28,13 @@ export const App: React.FC = () => {
   const [newTodoUserId, setNewTodoUserId] = useState('');
   const [todosState, setTodos] = useState(todos);
 
-  const [isTitleError, setIsTitleError] = useState(false);
+  const [isTitleError, setTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsTitleError(!newTodoTitle);
+    setTitleError(!newTodoTitle);
     setUserError(!newTodoUserId);
 
     if (newTodoTitle && newTodoUserId) {
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
         title: newTodoTitle,
         userId: Number(newTodoUserId),
         completed: false,
-        user: getUser(Number(newTodoUserId)),
+        user: getUserById(Number(newTodoUserId)),
       };
 
       setTodos([...todosState, newTodo]);
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     const title = event.target.value;
 
     setNewTodoTitle(title.replace(/[^a-zA-Z0-9\s]/g, ''));
-    setIsTitleError(false);
+    setTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -72,6 +72,7 @@ export const App: React.FC = () => {
         <label htmlFor="title">
           Title:
           <input
+            className="input"
             data-cy="titleInput"
             type="text"
             id="title"
@@ -87,6 +88,7 @@ export const App: React.FC = () => {
         <label htmlFor="user">
           User:
           <select
+            className="input"
             data-cy="userSelect"
             id="user"
             value={newTodoUserId}
@@ -104,7 +106,13 @@ export const App: React.FC = () => {
           )}
         </label>
         <br />
-        <button type="submit" data-cy="submitButton">Add</button>
+        <button
+          className="button"
+          type="submit"
+          data-cy="submitButton"
+        >
+          Add
+        </button>
       </form>
     </div>
   );
