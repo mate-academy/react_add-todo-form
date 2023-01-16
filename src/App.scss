@@ -2,8 +2,22 @@ iframe {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-image: url(./background.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 
 label,
@@ -11,29 +25,51 @@ button {
   cursor: pointer;
 }
 
-.error {
-  color: red;
+.App {
+  margin: 0 auto;
+  padding: 15px;
 }
 
 .TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  &:first-child {
+    margin-top: 10px;
+  }
+  width: fit-content;
+  background-color: rgba($color: #ddc8c8, $alpha: 0.5);
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
+    display: flex;
+    padding: 5px;
+    margin-bottom: 5px;
 
-  &--completed &__title {
-    color: #080;
+    font-size: 16px;
   }
 }
 
 .UserInfo {
+  display: flex;
+  padding: 5px;
+
   font-style: italic;
+}
+
+.error {
+  padding-left: 15px;
+  color: red;
+}
+
+.field {
+  &__select {
+    width: 150px;
+    margin-bottom: 15px;
+
+    border: none;
+    background-color: #ddc8c8;
+  }
+
+  &__add {
+    width: 50px;
+    height: 20px;
+    background: radial-gradient(#b8b8b8, #be7373);
+  }
 }

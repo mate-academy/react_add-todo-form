@@ -1,0 +1,13 @@
+.TodoInfo {
+  color: red;
+
+  &--completed {
+    color: green;
+  }
+
+  &__title {
+    font-size: 10px;
+    width: fit-content;
+    background: none;
+  }
+}
