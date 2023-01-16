@@ -24,61 +24,66 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => {
   };
 });
 
-function findUserByName(userName: string): User | null {
-  return usersFromServer.find(user => user.name === userName) || null;
+function findUserByName(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const App = () => {
   const defaultUserOption = 'Choose a user';
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState(defaultUserOption);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
-  const [titleErrorAlert, setTitleErrorAlert] = useState(false);
-  const [selectedUserErrorAlert, setSelectedUserErrorAlert] = useState(false);
+  const [isTitleErrorOccured, setIsTitleErrorOccured] = useState(false);
+  const [
+    isSelectedUserErrorOccured,
+    setIsSelectedUserErrorOccured,
+  ] = useState(false);
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (selectedUser !== defaultUserOption && title !== '') {
-      const newUser = findUserByName(selectedUser);
+    if (selectedUserId === 0) {
+      setIsSelectedUserErrorOccured(true);
 
-      setTodos(currentTodo => {
-        const maxTodoId = Math.max(...currentTodo.map(todo => todo.id));
-
-        setTitle('');
-        setSelectedUser(defaultUserOption);
-
-        return [
-          ...currentTodo,
-          {
-            id: maxTodoId + 1,
-            title,
-            completed: false,
-            userId: newUser ? newUser.id : null,
-            user: newUser,
-          },
-        ];
-      });
-    }
-
-    if (selectedUser === defaultUserOption) {
-      setSelectedUserErrorAlert(true);
+      return;
     }
 
     if (title === '') {
-      setTitleErrorAlert(true);
+      setIsTitleErrorOccured(true);
+
+      return;
     }
+
+    const newUser = findUserByName(selectedUserId);
+
+    setTodos(currentTodo => {
+      const maxTodoId = Math.max(...currentTodo.map(todo => todo.id));
+
+      setTitle('');
+      setSelectedUserId(0);
+
+      return [
+        ...currentTodo,
+        {
+          id: maxTodoId + 1,
+          title,
+          completed: false,
+          userId: newUser ? newUser.id : null,
+          user: newUser,
+        },
+      ];
+    });
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleErrorAlert(false);
+    setIsTitleErrorOccured(false);
   };
 
   const handleSelectedUserChange
     = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSelectedUser(event.target.value);
-      setSelectedUserErrorAlert(false);
+      setSelectedUserId(+event.target.value);
+      setIsSelectedUserErrorOccured(false);
     };
 
   return (
@@ -104,7 +109,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {titleErrorAlert && (
+          {isTitleErrorOccured && (
             <FormHelperText sx={{ position: 'absolute' }}>
               Please enter a title
             </FormHelperText>
@@ -118,22 +123,22 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
-            value={selectedUser}
+            value={selectedUserId}
             label="User: "
             onChange={handleSelectedUserChange}
           >
-            <MenuItem value={defaultUserOption} disabled>
+            <MenuItem value="0" disabled>
               {defaultUserOption}
             </MenuItem>
 
             {usersFromServer.map(user => (
-              <MenuItem key={user.id} value={user.name}>
+              <MenuItem key={user.id} value={user.id}>
                 {user.name}
               </MenuItem>
             ))}
           </TextField>
 
-          {selectedUserErrorAlert && (
+          {isSelectedUserErrorOccured && (
             <FormHelperText sx={{ position: 'absolute' }}>
               Please choose a user
             </FormHelperText>
