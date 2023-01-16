@@ -22,29 +22,41 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [userEntered, setUser] = useState('');
   const [title, setTitle] = useState('');
-  const [isAddClicked, setClickAdd] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
   const [addTodo, setAddTodo] = useState(todos);
 
   const addNewTodo = () => {
-    if (title && userEntered) {
-      const newTodo = {
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
-        userId: +userEntered,
-        title,
-        completed: false,
-        user: getUser(+userEntered),
-      };
-
-      setAddTodo((state) => (
-        [
-          ...state,
-          newTodo,
-        ]));
-
-      setTitle('');
-      setUser('');
-      setClickAdd(false);
+    if (!userEntered) {
+      setUserError(true);
     }
+
+    if (!title) {
+      setTitleError(true);
+    }
+
+    if (!userEntered || !title) {
+      return;
+    }
+
+    const newTodo = {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      userId: +userEntered,
+      title,
+      completed: false,
+      user: getUser(+userEntered),
+    };
+
+    setAddTodo((state) => (
+      [
+        ...state,
+        newTodo,
+      ]));
+
+    setTitle('');
+    setUser('');
+    setUserError(false);
+    setTitleError(false);
   };
 
   return (
@@ -57,6 +69,8 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
           addNewTodo();
+          setUserError(!userEntered);
+          setTitleError(!title);
         }}
       >
         <div className="field">
@@ -70,10 +84,10 @@ export const App = () => {
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
-                setClickAdd(false);
+                setTitleError(false);
               }}
             />
-            {(title === '' && isAddClicked === true) && (
+            {titleError && (
               <span className="error">Please enter a title</span>
             )}
           </label>
@@ -88,7 +102,7 @@ export const App = () => {
               value={userEntered}
               onChange={(event) => {
                 setUser(event.target.value);
-                setClickAdd(false);
+                setUserError(false);
               }}
             >
               <option value="" disabled>Choose a user</option>
@@ -102,7 +116,7 @@ export const App = () => {
               ))}
 
             </select>
-            {(userEntered === '' && isAddClicked === true) && (
+            {userError && (
               <span className="error">Please choose a user</span>
             )}
           </label>
@@ -111,9 +125,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            setClickAdd(true);
-          }}
         >
           Add
         </button>
