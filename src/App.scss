@@ -6,6 +6,10 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+body {
+  background-color: transparent;
+}
+
 label,
 button {
   cursor: pointer;
@@ -16,24 +20,60 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 95%;
   padding: 8px;
-  margin: 12px 0;
+  margin: 15px 0;
+  margin-right: 10px;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(241, 200, 187);
+  box-shadow: 1px 1px 3px 1px;
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    margin-bottom: 20px;
+    color: black;
   }
 
   &--completed &__title {
-    color: #080;
+    color: black;
   }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+.Paper {
+  padding: 15px 0;
+  min-height: 100vh;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px 20px;
+
+  gap: 20px;
+
+}
+
+.Form {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.Button {
+  width: 100%;
+}
+
+.TodoList {
+  width: 100%;
 }
