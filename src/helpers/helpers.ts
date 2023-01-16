@@ -7,7 +7,7 @@ export function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-export const getUserById: Todo[] = todosFromServer.map(todo => {
+export const todosWithUser: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: findUserById(todo.userId),

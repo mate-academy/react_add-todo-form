@@ -3,25 +3,31 @@ import './App.scss';
 import 'bulma/css/bulma.css';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
-import { getUserById, findUserById } from './helpers/helpers';
+import { todosWithUser, findUserById } from './helpers/helpers';
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
-  const [todos, setTodos] = useState(getUserById);
+  const [todos, setTodos] = useState(todosWithUser);
 
   const removeSpacesFromTittle = title.trim();
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isErrorOnTitleInput) {
+      setErrorOnTitleInput(false);
+    }
+
     setTitle(event.currentTarget.value);
-    setErrorOnTitleInput(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (isErrorOnUserSelect) {
+      setErrorOnUserSelect(false);
+    }
+
     setSelectedUserId(+event.currentTarget.value);
-    setErrorOnUserSelect(false);
   };
 
   const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
@@ -34,19 +40,19 @@ export const App = () => {
       return;
     }
 
-    const userToAdd = findUserById(selectedUserId);
+    const selectedUser = findUserById(selectedUserId);
 
-    setTodos(current => {
-      const getNewId = Math.max(...current.map(todo => todo.id));
+    setTodos(prev => {
+      const getNewId = Math.max(...prev.map(todo => todo.id));
 
       return [
-        ...current,
+        ...prev,
         {
           id: getNewId + 1,
           title,
           completed: false,
-          userId: userToAdd ? userToAdd.id : null,
-          user: userToAdd,
+          userId: selectedUser ? selectedUser.id : null,
+          user: selectedUser,
         },
       ];
     });
