@@ -11,9 +11,9 @@ function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function findUserByName(userName: string): User | null {
-  return usersFromServer.find(user => userName === user.name) || null;
-}
+// function findUserByName(userName: string): User | null {
+//   return usersFromServer.find(user => userName === user.name) || null;
+// }
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
@@ -30,46 +30,40 @@ export const App = () => {
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.currentTarget.value);
+    setTitle(event.target.value);
     setErrorOnTitleInput(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(event.currentTarget.value);
+    setSelectedUserId(event.target.value);
     setErrorOnUserSelect(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!selectedUserId);
+    if (!title || !selectedUserId) {
+      setErrorOnTitleInput(!title);
+      setErrorOnUserSelect(!selectedUserId);
 
-    if (title.trim() === '' || !selectedUserId) {
       return;
     }
 
-    const userToAdd = findUserByName(selectedUserId);
+    if (selectedUserId && title) {
+      const maxTodoId = Math.max(...todos.map(todo => todo.id));
 
-    setTodos(current => {
-      const maxTodoId = Math.max(...current.map(todo => todo.id));
-
-      const todoItem = {
-        id: maxTodoId + 1,
+      const newTodo: Todo = {
         title,
+        userId: +selectedUserId,
         completed: false,
-        userId: userToAdd ? userToAdd.id : null,
-        user: userToAdd,
+        id: maxTodoId + 1,
+        user: findUserById(+selectedUserId),
       };
 
-      return [
-        ...current,
-        todoItem,
-      ];
-    });
-
-    setTitle('');
-    setSelectedUserId('');
+      setTodos(prev => [...prev, newTodo]);
+      setTitle('');
+      setSelectedUserId('');
+    }
   };
 
   return (
@@ -114,7 +108,7 @@ export const App = () => {
             <option value="" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>{user.name}</option>
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
 
