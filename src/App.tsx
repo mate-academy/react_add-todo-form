@@ -11,10 +11,6 @@ function findUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function findUserByName(userName: string) {
-  return usersFromServer.find(user => user.name === userName) || null;
-}
-
 const preparedTodoList: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
@@ -22,18 +18,22 @@ const preparedTodoList: Todo[] = todosFromServer.map(todo => {
   };
 });
 
+const getNewId = (array: { id: number }[]) => (
+  Math.max(...array.map(todo => todo.id)) + 1
+);
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
 
-  const [todoList, setTodoList] = useState(preparedTodoList);
+  const [todos, setTodos] = useState(preparedTodoList);
 
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
 
-  const shouldResetForm = () => {
+  const resetForm = () => {
     setTitle('');
-    setSelectedUser('');
+    setSelectedUserId(0);
   };
 
   const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
   };
 
   const handleUserChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.currentTarget.value);
+    setSelectedUserId(+event.currentTarget.value);
     setErrorOnUserSelect(false);
   };
 
@@ -50,19 +50,15 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!selectedUser);
+    setErrorOnUserSelect(!selectedUserId);
 
-    if (title.trim() === '' || !selectedUser) {
+    if (title.trim() === '' || !selectedUserId) {
       return;
     }
 
-    const userToAdd = findUserByName(selectedUser);
+    const userToAdd = findUserById(selectedUserId);
 
-    const getNewId = (array: { id: number }[]) => (
-      Math.max(...array.map(todo => todo.id)) + 1
-    );
-
-    setTodoList(prev => {
+    setTodos(prev => {
       const newTodo: Todo = {
         title,
         user: userToAdd,
@@ -74,7 +70,7 @@ export const App: React.FC = () => {
       return [...prev, newTodo];
     });
 
-    shouldResetForm();
+    resetForm();
   };
 
   return (
@@ -114,13 +110,13 @@ export const App: React.FC = () => {
             className="select"
             data-cy="userSelect"
             id="userSelect"
-            value={selectedUser}
+            value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
@@ -136,7 +132,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todoList} />
+      <TodoList todos={todos} />
     </div>
   );
 };
