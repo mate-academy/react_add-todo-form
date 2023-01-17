@@ -1,6 +1,8 @@
 import React, { FormEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/material/Icon';
+import Input from '@mui/material/TextField';
+import NativeSelect from '@mui/material/NativeSelect';
 import './App.scss';
 import cn from 'classnames';
 import { TodoList } from './components/TodoList';
@@ -9,6 +11,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+
+const ariaLabel = { 'aria-label': 'description' };
 
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -84,10 +88,9 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label>
-            {' '}
             Title:
             {' '}
-            <input
+            <Input
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
@@ -95,6 +98,7 @@ export const App: React.FC = () => {
               onChange={
                 (event) => handleChangeNewTitle(event.target.value)
               }
+              inputProps={ariaLabel}
             />
           </label>
           <span className={cn('error', { errorVisible: Boolean(titleError) })}>
@@ -104,10 +108,9 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label>
-            {' '}
             User:
             {' '}
-            <select
+            {/* <select
               data-cy="userSelect"
               value={selectedUserId}
               onChange={
@@ -118,7 +121,20 @@ export const App: React.FC = () => {
               {usersFromServer.map(user => (
                 <option key={user.id} value={user.id}>{user.name}</option>
               ))}
-            </select>
+            </select> */}
+
+            <NativeSelect
+              data-cy="userSelect"
+              value={selectedUserId}
+              onChange={
+                (event) => handleChangeNewSelectedUserId(event.target.value)
+              }
+            >
+              <option value={0} disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
+            </NativeSelect>
           </label>
 
           <span
@@ -129,13 +145,6 @@ export const App: React.FC = () => {
             Please choose a user
           </span>
         </div>
-
-        {/* <button
-          type="submit"
-          data-cy="submitButton"
-        >
-          Add
-        </button> */}
         <Button
           variant="contained"
           endIcon={<SendIcon />}
