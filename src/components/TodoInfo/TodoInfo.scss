@@ -1,0 +1,14 @@
+.TodoInfo {
+  padding: 8px;
+  margin: 12px 0;
+
+  &__title {
+    margin: 4px 0;
+    font-size: inherit;
+    color: rgb(237, 233, 156);
+  }
+
+  &--completed &__title {
+    color: rgb(145, 255, 150);
+  }
+}
