@@ -16,8 +16,6 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
     user,
   } = todo;
 
-  const isUserExist = !!user;
-
   return (
     <article
       data-id={id}
@@ -30,7 +28,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
       </h2>
 
       {
-        isUserExist && (<UserInfo user={user} />)
+        !!user && (<UserInfo user={user} />)
       }
     </article>
   );

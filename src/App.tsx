@@ -52,6 +52,7 @@ export const App: FC = () => {
         id: getNewId(prev),
         title,
         completed: false,
+        userId,
         user: getUserById(userId),
       };
 
@@ -75,7 +76,11 @@ export const App: FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <label htmlFor="titleInput">
             {'Title: '}
@@ -87,7 +92,7 @@ export const App: FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => handleInputChange(event)}
+            onChange={handleInputChange}
           />
 
           <label
@@ -111,7 +116,12 @@ export const App: FC = () => {
             <option value={0} disabled>Choose a user</option>
             {
               usersFromServer.map(userFromServer => (
-                <option value={userFromServer.id}>{userFromServer.name}</option>
+                <option
+                  key={userFromServer.id}
+                  value={userFromServer.id}
+                >
+                  {userFromServer.name}
+                </option>
               ))
             }
           </select>
@@ -128,7 +138,6 @@ export const App: FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleSubmit}
         >
           Add
         </button>
