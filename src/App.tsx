@@ -1,61 +1,140 @@
+import { useState } from 'react';
 import './App.scss';
-
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import 'bulma/css/bulma.css';
+import { TodoList } from './components/TodoList';
+import usersFromServer from './api/users';
+import { todosWithUser, findUserById } from './helpers/helpers';
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
+  const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
+  const [todos, setTodos] = useState(todosWithUser);
+
+  const removeSpacesFromTittle = title.trim();
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isErrorOnTitleInput) {
+      setErrorOnTitleInput(false);
+    }
+
+    setTitle(event.currentTarget.value);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (isErrorOnUserSelect) {
+      setErrorOnUserSelect(false);
+    }
+
+    setSelectedUserId(+event.currentTarget.value);
+  };
+
+  const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setErrorOnTitleInput(!removeSpacesFromTittle);
+    setErrorOnUserSelect(!selectedUserId);
+
+    if (removeSpacesFromTittle === '' || !selectedUserId) {
+      return;
+    }
+
+    const selectedUser = findUserById(selectedUserId);
+
+    setTodos(prev => {
+      const getNewId = Math.max(...prev.map(todo => todo.id));
+
+      return [
+        ...prev,
+        {
+          id: getNewId + 1,
+          title,
+          completed: false,
+          userId: selectedUser ? selectedUser.id : null,
+          user: selectedUser,
+        },
+      ];
+    });
+
+    setTitle('');
+    setSelectedUserId(0);
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <div className="box has-text-centered">
+        <h1 className="title is-1">Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="field">
+            <label
+              htmlFor="title"
+              className="label"
+            >
+              Write down your task:
+            </label>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+            <input
+              data-cy="titleInput"
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              className="input"
+              placeholder="Enter a title"
+              onChange={handleTitleChange}
+            />
 
-          <span className="error">Please choose a user</span>
-        </div>
+            {isErrorOnTitleInput && (
+              <span className="error">
+                <br />
+                Please enter a title
+              </span>
+            )}
+          </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <div className="field">
+            <label
+              htmlFor="userSelect"
+              className="label"
+            >
+              Choose user:
+            </label>
+            <span className="select">
+              <select
+                data-cy="userSelect"
+                id="userSelect"
+                name="userSelect"
+                value={selectedUserId}
+                className="select"
+                onChange={handleUserChange}
+              >
+                <option value={0} disabled>Choose a user</option>
+                {usersFromServer.map(user => (
+                  <option key={user.id} value={user.id}>{user.name}</option>
+                ))}
+              </select>
+            </span>
+            {isErrorOnUserSelect && (
+              <span className="error">
+                <br />
+                Please choose a user
+              </span>
+            )}
+          </div>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+          <button
+            type="submit"
+            data-cy="submitButton"
+            className="button is-primary"
+          >
+            Add
+          </button>
+        </form>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+        <TodoList todos={todos} />
+      </div>
     </div>
   );
 };

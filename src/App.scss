@@ -16,7 +16,7 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 100%;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
@@ -30,10 +30,24 @@ button {
   }
 
   &--completed &__title {
-    color: #080;
+    color: rgb(0, 151, 0);
   }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
 }
