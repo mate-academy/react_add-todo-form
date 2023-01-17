@@ -162,7 +162,6 @@ export const App = () => {
       >
         <Paper elevation={24}>
           <TodoList todos={todos} />
-
         </Paper>
       </Box>
 
