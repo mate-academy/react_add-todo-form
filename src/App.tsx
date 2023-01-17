@@ -80,11 +80,14 @@ export const App: React.FC = () => {
             value={newTodoTitle}
             onChange={handleTitleChange}
           />
+
           {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </label>
+
         <br />
+
         <label htmlFor="user">
           User:
           <select
@@ -95,17 +98,21 @@ export const App: React.FC = () => {
             onChange={handleUserChange}
           >
             <option value="">Choose a user</option>
+
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
+
           {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </label>
+
         <br />
+
         <button
           className="button"
           type="submit"
