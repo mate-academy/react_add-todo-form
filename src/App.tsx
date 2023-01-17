@@ -1,4 +1,6 @@
 import React, { FormEvent, useState } from 'react';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/material/Icon';
 import './App.scss';
 import cn from 'classnames';
 import { TodoList } from './components/TodoList';
@@ -128,12 +130,20 @@ export const App: React.FC = () => {
           </span>
         </div>
 
-        <button
+        {/* <button
           type="submit"
           data-cy="submitButton"
         >
           Add
-        </button>
+        </button> */}
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          type="submit"
+          data-cy="submitButton"
+        >
+          Add
+        </Button>
       </form>
       <TodoList todos={todos} />
     </div>
