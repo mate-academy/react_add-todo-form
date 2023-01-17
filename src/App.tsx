@@ -38,15 +38,15 @@ export const App = () => {
   const [isUserNameError, setIsUserNameError] = useState(false);
 
   const handleChangeTitile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isTitleError === false) {
-      setTitle(event.currentTarget.value);
+    setTitle(event.currentTarget.value);
+    if (isTitleError) {
       setIsTitleError(false);
     }
   };
 
   const handleChangeUser = (event: SelectChangeEvent) => {
-    if (isUserNameError === false) {
-      setSelectedUser(+event.target.value);
+    setSelectedUser(+event.target.value);
+    if (isUserNameError) {
       setIsUserNameError(false);
     }
   };

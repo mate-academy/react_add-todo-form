@@ -1,5 +1,5 @@
+import React, { memo } from 'react';
 import cn from 'classnames';
-
 import { CardActionArea, CardContent, Paper } from '@mui/material';
 
 import { Todo } from '../../types/Todo';
@@ -10,7 +10,7 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo:React.FC<Props> = ({ todo }) => {
+export const TodoInfo:React.FC<Props> = memo(({ todo }) => {
   const {
     completed,
     title,
@@ -44,4 +44,4 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
       </CardActionArea>
     </article>
   );
-};
+});
