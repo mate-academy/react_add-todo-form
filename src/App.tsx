@@ -25,6 +25,22 @@ export const App: React.FC = () => {
     setIsUserIdEmpty(false);
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value);
+
+    if (isTitleEmpty) {
+      setIsTitleEmpty(false);
+    }
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserID(+event.currentTarget.value);
+
+    if (isUserIdEmpty) {
+      setIsUserIdEmpty(false);
+    }
+  };
+
   const handleFormSubmit = () => {
     if (!title || !selectedUserID) {
       setIsTitleEmpty(!title);
@@ -68,10 +84,7 @@ export const App: React.FC = () => {
               className="input"
               data-cy="titleInput"
               value={title}
-              onChange={(event) => {
-                setIsTitleEmpty(false);
-                setTitle(event.currentTarget.value);
-              }}
+              onChange={handleTitleChange}
             />
 
             {isTitleEmpty && (
@@ -84,10 +97,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUserID}
-            onChange={(event) => {
-              setIsUserIdEmpty(false);
-              setSelectedUserID(+event.currentTarget.value);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
 
