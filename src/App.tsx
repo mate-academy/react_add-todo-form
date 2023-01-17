@@ -11,7 +11,7 @@ function findUserById(userId: number): User | null {
   return usersFromServer.find((user) => user.id === userId) || null;
 }
 
-function GetTodosWithUsers(): Todo[] {
+function getTodosWithUsers(): Todo[] {
   return todosFromServer.map(todo => ({
     ...todo,
     user: findUserById(todo.userId),
@@ -23,20 +23,20 @@ const getNewId = (array: { id: number }[]) => (
 );
 
 export const App = () => {
-  const [todos, setTodos] = useState(GetTodosWithUsers);
+  const [todos, setTodos] = useState(getTodosWithUsers);
   const [newTitle, setNewTitle] = useState('');
   const [newUserNameId, setNewUserNameId] = useState(0);
   const [newTitleErrorMessage, setNewTitleErrorMessage] = useState('');
   const [newUserNameIdErrorMessage, setNewUserNameIdErrorMessage]
    = useState('');
 
+  const reset = () => {
+    setNewTitle('');
+    setNewUserNameId(0);
+  };
+
   const heandleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const reset = () => {
-      setNewTitle('');
-      setNewUserNameId(0);
-    };
 
     if (!newUserNameId || !newTitle) {
       setNewTitleErrorMessage(!newTitle ? 'Please enter a title' : '');

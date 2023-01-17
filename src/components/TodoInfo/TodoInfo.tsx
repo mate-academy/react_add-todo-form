@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
@@ -6,7 +7,7 @@ interface Props {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = memo(({ todo }) => {
   const {
     id,
     completed,
@@ -30,4 +31,4 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </article>
     </>
   );
-};
+});

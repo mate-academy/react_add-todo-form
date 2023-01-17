@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { User } from '../../types/User';
 
 interface Props {
   user: User;
 }
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
+export const UserInfo: React.FC<Props> = memo(({ user }) => {
   const {
     email,
     name,
@@ -18,4 +19,4 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
       {name}
     </a>
   );
-};
+});
