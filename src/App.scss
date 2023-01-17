@@ -10,9 +10,11 @@ label,
 button {
   cursor: pointer;
 }
+
 .wrapper {
   width: 400px;
 }
+
 .App {
   height: 100vh;
   display: flex;
@@ -25,8 +27,12 @@ button {
 }
 
 .error {
-  width:max-content;
+  width: max-content;
   color: red;
+}
+
+.noError {
+  visibility: hidden;
 }
 
 .TodoInfo {

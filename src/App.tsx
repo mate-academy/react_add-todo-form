@@ -95,6 +95,8 @@ export const App: FC = () => {
               value={title}
               onChange={handleTitleChange}
             />
+            {!isTitleError
+              && <span className="noError">Please enter a title</span>}
             {isTitleError
               && <span className="error">Please enter a title</span>}
           </div>
@@ -121,6 +123,8 @@ export const App: FC = () => {
             </select>
             {isUserError
               && <span className="error">Please choose a user</span>}
+            {!isUserError
+              && <span className="noError">Please choose a user</span>}
           </div>
 
           <button
