@@ -5,7 +5,7 @@ import { User } from './Types/User';
 import { Todo } from './Types/Todo';
 
 import './App.scss';
-
+import 'bulma/css/bulma.css';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -73,15 +73,21 @@ export const App: FC = () => {
   return (
     <div className="App">
       <div className="wrapper">
-        <h1>Add todo form</h1>
+        <h1 className="title is-1">Add todo form</h1>
         <form
           action="/api/users"
           method="POST"
           onSubmit={handleFormSubmit}
         >
           <div className="field">
-            <label htmlFor="#title">Title:</label>
+            <label
+              className="title is-5"
+              htmlFor="#title"
+            >
+              Title:
+            </label>
             <input
+              className="input is-small w-max"
               id="title"
               type="text"
               data-cy="titleInput"
@@ -94,8 +100,14 @@ export const App: FC = () => {
           </div>
 
           <div className="field">
-            <label htmlFor="#userSelect">User:</label>
+            <label
+              className="title is-5"
+              htmlFor="#userSelect"
+            >
+              User:
+            </label>
             <select
+              className="input is-small"
               data-cy="userSelect"
               id="userSelect"
               value={selectedUser}
@@ -111,7 +123,11 @@ export const App: FC = () => {
               && <span className="error">Please choose a user</span>}
           </div>
 
-          <button type="submit" data-cy="submitButton">
+          <button
+            className="button is-black"
+            type="submit"
+            data-cy="submitButton"
+          >
             Add
           </button>
         </form>
