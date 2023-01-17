@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import cn from 'classnames';
 import Paper from '@mui/material/Paper';
 import { Todo } from '../../types/Todo';
@@ -9,7 +9,7 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = memo(({ todo }) => {
   return (
     <Paper
       sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
@@ -25,4 +25,4 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       {todo.user && <UserInfo user={todo.user} />}
     </Paper>
   );
-};
+});

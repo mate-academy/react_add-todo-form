@@ -24,10 +24,6 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => {
   };
 });
 
-function findUserByName(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
-
 export const App = () => {
   const defaultUserOption = 'Choose a user';
   const [title, setTitle] = useState('');
@@ -38,6 +34,11 @@ export const App = () => {
     isSelectedUserErrorOccured,
     setIsSelectedUserErrorOccured,
   ] = useState(false);
+
+  const clearForm = () => {
+    setTitle('');
+    setSelectedUserId(0);
+  };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,13 +55,12 @@ export const App = () => {
       return;
     }
 
-    const newUser = findUserByName(selectedUserId);
+    const newUser = findUserById(selectedUserId);
 
     setTodos(currentTodo => {
       const maxTodoId = Math.max(...currentTodo.map(todo => todo.id));
 
-      setTitle('');
-      setSelectedUserId(0);
+      clearForm();
 
       return [
         ...currentTodo,
@@ -77,13 +77,17 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleErrorOccured(false);
+    if (isTitleErrorOccured) {
+      setIsTitleErrorOccured(false);
+    }
   };
 
   const handleSelectedUserChange
     = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSelectedUserId(+event.target.value);
-      setIsSelectedUserErrorOccured(false);
+      if (isSelectedUserErrorOccured) {
+        setIsSelectedUserErrorOccured(false);
+      }
     };
 
   return (
