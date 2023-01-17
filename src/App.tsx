@@ -1,9 +1,15 @@
 import './App.scss';
-import { Button, Paper, FormControl } from '@mui/material';
+import {
+  Button,
+  Paper,
+  FormControl,
+  TextField,
+  MenuItem,
+} from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types/Todo';
 import { TodoWithUser } from './types/TodoWithUser';
 import { TodoList } from './components/TodoList';
 
@@ -11,10 +17,15 @@ const getUserById = (id: number) => {
   return usersFromServer.find(user => user.id === id) || null;
 };
 
+const todosWithUsers: TodoWithUser[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState(todosWithUsers);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isUserNotSelected, setIsUserNotSelected] = useState(false);
 
@@ -23,42 +34,32 @@ export const App: React.FC = () => {
     setIsTitleEmpty(false);
   };
 
-  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const changeUser = (event: SelectChangeEvent<number>) => {
     setUserId(+event.target.value);
     setIsUserNotSelected(false);
-  };
-
-  const todosWithUsers: TodoWithUser[] = todos
-    .map(todo => ({
-      ...todo,
-      user: getUserById(todo.userId) || null,
-    }));
-
-  const maxId: number = todosWithUsers.reduce((max, currentUser) => {
-    return max >= currentUser.id
-      ? max
-      : currentUser.id;
-  }, 0);
-
-  const newTodo: Todo = {
-    id: maxId + 1,
-    title,
-    completed: false,
-    userId,
-  };
-  const clearForm = () => {
-    setTitle('');
-    setUserId(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setIsTitleEmpty(!title.trim());
+    setIsUserNotSelected(!userId);
+
     if (userId && title.trim()) {
+      setTitle('');
+      setUserId(0);
+
+      const id = Math.max(...todos.map(todo => todo.id));
+
+      const newTodo = {
+        title,
+        userId: +userId,
+        completed: false,
+        id: id + 1,
+        user: getUserById(+userId),
+      };
+
       setTodos((currentTodos) => [...currentTodos, newTodo]);
-      clearForm();
-      setIsTitleEmpty(false);
-      setIsUserNotSelected(false);
     }
 
     setIsTitleEmpty(!title.trim());
@@ -89,7 +90,7 @@ export const App: React.FC = () => {
                 {'Title: '}
               </label>
 
-              <input
+              <TextField
                 id="title"
                 type="text"
                 data-cy="titleInput"
@@ -107,23 +108,22 @@ export const App: React.FC = () => {
               {'User: '}
             </label>
             <FormControl fullWidth>
-              <select
-                id="username"
+              <Select
                 data-cy="userSelect"
                 value={userId}
                 onChange={changeUser}
               >
-                <option value="0" disabled>Choose a user</option>
+                <MenuItem value="0" disabled>Choose a user</MenuItem>
                 {usersFromServer.map(user => (
-                  <option
+                  <MenuItem
                     value={user.id}
                     key={user.id}
                   >
                     {user.name}
-                  </option>
+                  </MenuItem>
                 ))}
 
-              </select>
+              </Select>
             </FormControl>
             {isUserNotSelected
               && <span className="error">Please choose a user</span>}
@@ -134,13 +134,12 @@ export const App: React.FC = () => {
             type="submit"
             data-cy="submitButton"
             variant="contained"
-            color="secondary"
           >
             Add
           </Button>
         </form>
 
-        <TodoList todos={todosWithUsers} />
+        <TodoList todos={todos} />
       </div>
     </Paper>
   );
