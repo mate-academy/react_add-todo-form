@@ -87,7 +87,8 @@ export const App: React.FC = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasTitleError
+            && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
