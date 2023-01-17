@@ -24,7 +24,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
-  const [addTodo, setAddTodo] = useState(todos);
+  const [todoList, setAddTodo] = useState(todos);
 
   const addNewTodo = () => {
     if (!userEntered) {
@@ -47,9 +47,9 @@ export const App = () => {
       user: getUser(+userEntered),
     };
 
-    setAddTodo((state) => (
+    setAddTodo((prevTodos) => (
       [
-        ...state,
+        ...prevTodos,
         newTodo,
       ]));
 
@@ -76,7 +76,6 @@ export const App = () => {
         <div className="field">
           <label>
             Title:
-            <> </>
             <input
               type="text"
               data-cy="titleInput"
@@ -96,7 +95,6 @@ export const App = () => {
         <div className="field">
           <label>
             User:
-            <> </>
             <select
               data-cy="userSelect"
               value={userEntered}
@@ -130,7 +128,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={addTodo} />
+      <TodoList todos={todoList} />
 
     </div>
   );
