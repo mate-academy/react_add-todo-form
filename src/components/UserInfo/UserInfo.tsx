@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { User } from '../../types/User';
 
 type Props = {
   user: User;
 };
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
-  const { name, email } = user;
+export const UserInfo: React.FC<Props> = memo(
+  ({ user }) => {
+    const { name, email } = user;
 
-  return (
-    <a
-      className="UserInfo"
-      href={`mailto:${email}`}
-    >
-      {name}
-    </a>
-  );
-};
+    return (
+      <a
+        className="UserInfo"
+        href={`mailto:${email}`}
+      >
+        {name}
+      </a>
+    );
+  },
+);
