@@ -11,10 +11,6 @@ function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-// function findUserByName(userName: string): User | null {
-//   return usersFromServer.find(user => userName === user.name) || null;
-// }
-
 const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
@@ -29,13 +25,13 @@ export const App = () => {
   const [isErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [isErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
     setErrorOnTitleInput(false);
   };
 
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(event.target.value);
+  const handleUserChange = (value: string) => {
+    setSelectedUserId(value);
     setErrorOnUserSelect(false);
   };
 
@@ -81,7 +77,7 @@ export const App = () => {
             value={title}
             className="input is-rounded"
             placeholder="Enter title of task"
-            onChange={handleTitleChange}
+            onChange={(event) => handleTitleChange(event.target.value)}
           />
 
           {isErrorOnTitleInput && (
@@ -103,7 +99,7 @@ export const App = () => {
             name="userSelect"
             value={selectedUserId}
             className="input is-rounded"
-            onChange={handleUserChange}
+            onChange={(event) => handleUserChange(event.target.value)}
           >
             <option value="" disabled>Choose a user</option>
 
