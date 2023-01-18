@@ -27,7 +27,7 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
   const [isUserError, setUserError] = useState(false);
-  const [isTitleEror, setTitleError] = useState(false);
+  const [isTitleError, setTitleError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,14 +64,20 @@ export const App = () => {
     { target }: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setTitle(target.value);
-    setTitleError(false);
+
+    if (isTitleError) {
+      setTitleError(false);
+    }
   };
 
   const handleUserChange = (
     { target }: SelectChangeEvent,
   ) => {
     setSelectedUser((+target.value));
-    setUserError(false);
+
+    if (isUserError) {
+      setUserError(false);
+    }
   };
 
   return (
@@ -94,7 +100,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {isTitleEror && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
