@@ -59,20 +59,20 @@ export const App = () => {
       currentTitle = '';
       titleIsCorrect = false;
 
-      setInfo({
-        ...info,
+      setInfo(prev => ({
+        ...prev,
         title: currentTitle,
         isValidTitle: titleIsCorrect,
-      });
+      }));
     }
 
     if (userErrorCondition) {
-      setInfo({
-        ...info,
+      setInfo(prev => ({
+        ...prev,
         title: currentTitle,
         isValidTitle: titleIsCorrect,
         isValidUserId: false,
-      });
+      }));
     }
 
     if (buttonCondition) {
@@ -86,21 +86,21 @@ export const App = () => {
         user: newUser,
       };
 
-      setInfo({
-        ...info,
+      setInfo(prev => ({
+        ...prev,
         userId: '0',
         todos: [...todos, newTodo],
         title: '',
-      });
+      }));
     }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo({
-      ...info,
+    setInfo(prev => ({
+      ...prev,
       title: event.target.value,
       isValidTitle: true,
-    });
+    }));
   };
 
   return (
@@ -149,11 +149,11 @@ export const App = () => {
               label="User"
               className="App__input"
               onChange={event => {
-                setInfo({
-                  ...info,
+                setInfo(prev => ({
+                  ...prev,
                   userId: event.target.value,
                   isValidUserId: true,
-                });
+                }));
               }}
             >
               <MenuItem value="0" disabled>
