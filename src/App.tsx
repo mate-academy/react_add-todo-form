@@ -16,14 +16,14 @@ const todosWithUser = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-const theBiggestTodoId = (array: { id: number }[]) => (
+const getNewId = (array: { id: number }[]) => (
   Math.max(...array.map(todo => todo.id)) + 1
 );
 
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [enteredTitle, setenteredTitle] = useState('');
+  const [enteredTitle, setEnteredTitle] = useState('');
   const [selectUserError, setSelectUserError] = useState(false);
   const [enteredTitleError, setEnteredTitleError] = useState(false);
 
@@ -33,7 +33,7 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setenteredTitle(event.currentTarget.value);
+    setEnteredTitle(event.currentTarget.value);
     setEnteredTitleError(false);
   };
 
@@ -49,7 +49,7 @@ export const App = () => {
 
     setTodos(prev => {
       const newTodo: Todo = {
-        id: theBiggestTodoId(prev),
+        id: getNewId(prev),
         title: enteredTitle.trim(),
         completed: false,
         userId: selectedUserId,
@@ -59,7 +59,7 @@ export const App = () => {
       return ([...prev, newTodo]);
     });
 
-    setenteredTitle('');
+    setEnteredTitle('');
     setSelectedUserId(0);
   };
 

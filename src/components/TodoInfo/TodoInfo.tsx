@@ -8,12 +8,12 @@ type Props = {
 };
 
 export const TodoInfo: FC<Props> = ({ todo }) => {
-  const { title, user } = todo;
+  const { title, user, completed } = todo;
 
   return (
     <article
       data-id={todo.id}
-      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
+      className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
     >
       <h2 className="TodoInfo__title">
         {title}
