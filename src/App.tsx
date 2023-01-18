@@ -42,12 +42,16 @@ export const App = () => {
 
   const handleTitleCHange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setErrorTitle(false);
+    if (isTitleError) {
+      setErrorTitle(false);
+    }
   };
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setUserName(event.target.value);
-    setUserError(false);
+    if (isUserError) {
+      setUserError(false);
+    }
   };
 
   const clearForm = () => {

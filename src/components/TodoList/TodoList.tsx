@@ -6,7 +6,7 @@ type Props = {
   todos: Todo[]
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = React.memo(({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
@@ -14,4 +14,4 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
       ))}
     </section>
   );
-};
+});

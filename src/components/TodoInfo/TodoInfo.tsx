@@ -7,7 +7,7 @@ type Props = {
   todo: Todo
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = React.memo(({ todo }) => {
   const {
     id,
     title,
@@ -29,4 +29,4 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       {user && <UserInfo user={user} />}
     </article>
   );
-};
+});
