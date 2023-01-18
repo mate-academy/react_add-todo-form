@@ -10,6 +10,7 @@ export interface User {
 export interface Todo {
   id: number
   title: string
+  description?: string
   completed: boolean
   userId: number
   user: User | null
