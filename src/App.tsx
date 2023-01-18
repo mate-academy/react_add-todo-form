@@ -31,12 +31,16 @@ export const App: React.FC = () => {
 
   const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEmpty(false);
+    if (setIsTitleEmpty) {
+      setIsTitleEmpty(false);
+    }
   };
 
   const changeUser = (event: SelectChangeEvent<number>) => {
     setUserId(+event.target.value);
-    setIsUserNotSelected(false);
+    if (setIsUserNotSelected) {
+      setIsUserNotSelected(false);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,9 +50,6 @@ export const App: React.FC = () => {
     setIsUserNotSelected(!userId);
 
     if (userId && title.trim()) {
-      setTitle('');
-      setUserId(0);
-
       const id = Math.max(...todos.map(todo => todo.id));
 
       const newTodo = {
@@ -62,8 +63,8 @@ export const App: React.FC = () => {
       setTodos((currentTodos) => [...currentTodos, newTodo]);
     }
 
-    setIsTitleEmpty(!title.trim());
-    setIsUserNotSelected(!userId);
+    setTitle('');
+    setUserId(0);
   };
 
   return (

@@ -1,10 +1,11 @@
+import React from 'react';
 import { User } from '../../types/User';
 
 type Props = {
   user: User,
 };
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
+export const UserInfo: React.FC<Props> = React.memo(({ user }) => {
   const { email, name } = user;
 
   return (
@@ -12,4 +13,4 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
       {name}
     </a>
   );
-};
+});
