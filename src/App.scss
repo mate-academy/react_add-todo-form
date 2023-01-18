@@ -1,3 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
 iframe {
   display: none;
 }
@@ -16,21 +25,36 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  position: relative;
+  width: 400px;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 3px solid red;
   border-radius: 8px;
   background-color: antiquewhite;
 
   &__title {
     margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    font-size: 14px;
+    color: black;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__img {
+    position: absolute;
+    top: 35%;
+    left: 90%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  &__description {
+    padding-right: 30px;
+    margin-bottom: 2px;
+  }
+
+  &--completed {
+    border-color: green;
   }
 }
 
