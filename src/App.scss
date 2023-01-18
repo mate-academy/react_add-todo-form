@@ -6,6 +6,7 @@ p {
   padding: 0;
   margin: 0;
 }
+
 iframe {
   display: none;
 }
@@ -25,7 +26,7 @@ button {
 
 .TodoInfo {
   position: relative;
-    width: 400px;
+  width: 400px;
   padding: 8px;
   margin: 12px 0;
   border: 3px solid red;
@@ -34,27 +35,26 @@ button {
 
   &__title {
     margin: 4px 0;
-    font-size: inherit;
     font-size: 14px;
-      color: black;
-    }
-
-    &__img {
-      position: absolute;
-      top: 35%;
-      left: 90%;
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-    }
-
-    &__description {
-      padding-right: 30px;
-      margin-bottom: 2px;
+    color: black;
   }
 
-        &--completed {
-          border-color: green;
+  &__img {
+    position: absolute;
+    top: 35%;
+    left: 90%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  &__description {
+    padding-right: 30px;
+    margin-bottom: 2px;
+  }
+
+  &--completed {
+    border-color: green;
   }
 }
 
