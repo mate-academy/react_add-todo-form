@@ -39,7 +39,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
       </p>
 
       {
-        !!user && (<UserInfo user={user} />)
+        user && (<UserInfo user={user} />)
       }
 
       <img

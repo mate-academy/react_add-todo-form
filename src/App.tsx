@@ -86,7 +86,11 @@ export const App: FC = () => {
   };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleErrorMessage('');
+    if (title) {
+      setTitleErrorMessage('');
+      setShowTitleError(!title);
+    }
+
     setTitle(event.target.value);
   };
 
@@ -99,6 +103,11 @@ export const App: FC = () => {
   const handleSelectChange = (
     event: React.SelectChangeEvent<HTMLSelectElement>,
   ) => {
+    if (!userId) {
+      setUserErrorMessage('');
+      setShowUserError(false);
+    }
+
     setUserErrorMessage('');
     setUserId(+event.target.value);
   };
