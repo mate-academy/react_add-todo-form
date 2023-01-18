@@ -1,61 +1,147 @@
 import './App.scss';
+import {
+  Button,
+  Paper,
+  FormControl,
+  TextField,
+  MenuItem,
+} from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React, { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoWithUser } from './types/TodoWithUser';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const getUserById = (id: number) => {
+  return usersFromServer.find(user => user.id === id) || null;
+};
 
-export const App = () => {
+const todosWithUsers: TodoWithUser[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
+export const App: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [todos, setTodos] = useState(todosWithUsers);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isUserNotSelected, setIsUserNotSelected] = useState(false);
+
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    if (setIsTitleEmpty) {
+      setIsTitleEmpty(false);
+    }
+  };
+
+  const changeUser = (event: SelectChangeEvent<number>) => {
+    setUserId(+event.target.value);
+    if (setIsUserNotSelected) {
+      setIsUserNotSelected(false);
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsTitleEmpty(!title.trim());
+    setIsUserNotSelected(!userId);
+
+    if (userId && title.trim()) {
+      const id = Math.max(...todos.map(todo => todo.id));
+
+      const newTodo = {
+        title,
+        userId: +userId,
+        completed: false,
+        id: id + 1,
+        user: getUserById(+userId),
+      };
+
+      setTodos((currentTodos) => [...currentTodos, newTodo]);
+    }
+
+    setTitle('');
+    setUserId(0);
+  };
+
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <Paper
+      className="Paper"
+      sx={{
+        margin: '0 auto',
+        width: 'max-content',
+      }}
+      elevation={23}
+    >
+      <div className="App">
+        <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form
+          className="Form"
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <div className="field">
+            <FormControl fullWidth>
+              <label htmlFor="title">
+                {'Title: '}
+              </label>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+              <TextField
+                id="title"
+                type="text"
+                data-cy="titleInput"
+                value={title}
+                onChange={changeTitle}
+                placeholder="Enter a title"
+              />
+            </FormControl>
+            {isTitleEmpty
+            && <span className="error">Please enter a title</span>}
+          </div>
 
-          <span className="error">Please choose a user</span>
-        </div>
+          <div className="field">
+            <label htmlFor="username">
+              {'User: '}
+            </label>
+            <FormControl fullWidth>
+              <Select
+                data-cy="userSelect"
+                value={userId}
+                onChange={changeUser}
+              >
+                <MenuItem value="0" disabled>Choose a user</MenuItem>
+                {usersFromServer.map(user => (
+                  <MenuItem
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </MenuItem>
+                ))}
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+              </Select>
+            </FormControl>
+            {isUserNotSelected
+              && <span className="error">Please choose a user</span>}
+          </div>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+          <Button
+            className="Button"
+            type="submit"
+            data-cy="submitButton"
+            variant="contained"
+          >
+            Add
+          </Button>
+        </form>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-    </div>
+        <TodoList todos={todos} />
+      </div>
+    </Paper>
   );
 };

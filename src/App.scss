@@ -16,24 +16,51 @@ button {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 95%;
   padding: 8px;
-  margin: 12px 0;
+  margin: 15px 0;
+  margin-right: 10px;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(139, 206, 77);
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    margin-bottom: 20px;
+    color: black;
   }
 
   &--completed &__title {
-    color: #080;
+    color: black;
   }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.Form {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.Button {
+  width: 100%;
+}
+
+.TodoList {
+  width: 100%;
 }
