@@ -27,12 +27,16 @@ export const App = () => {
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
-    setErrorOnTitleInput(false);
+    if (isErrorOnTitleInput) {
+      setErrorOnTitleInput(false);
+    }
   };
 
   const handleUserChange = (value: string) => {
     setSelectedUserId(value);
-    setErrorOnUserSelect(false);
+    if (isErrorOnUserSelect) {
+      setErrorOnUserSelect(false);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
