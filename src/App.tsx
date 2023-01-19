@@ -46,28 +46,25 @@ export const App = () => {
   const handleSubmit = (event:React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
-      setTitleError(true);
+    if (!title || !selectedUserId) {
+      setTitleError(!title);
+      setSelectedUserError(!selectedUserId);
+
+      return;
     }
 
-    if (selectedUserId === 0) {
-      setSelectedUserError(true);
-    }
+    const getTheBiggestId = Math.max(...todos.map((todo) => todo.id));
+    const newUser = getUserById(selectedUserId);
+    const newTodo = {
+      id: getTheBiggestId + 1,
+      title,
+      completed: false,
+      userId: selectedUserId,
+      user: newUser,
+    };
 
-    if (title !== '' && selectedUserId !== 0) {
-      const getTheBiggestId = Math.max(...todos.map((todo) => todo.id));
-      const newUser = getUserById(selectedUserId);
-      const newTodo = {
-        id: getTheBiggestId + 1,
-        title,
-        completed: false,
-        userId: selectedUserId,
-        user: newUser,
-      };
-
-      addTodo(newTodo);
-      clear();
-    }
+    addTodo(newTodo);
+    clear();
   };
 
   return (
