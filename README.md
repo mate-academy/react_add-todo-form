@@ -8,7 +8,7 @@ Implement the ability to add TODOs to the `TodoList` implemented in the [Static 
 1. Create a form to add new TODOs:
     - don't create a separate component for the form (later, we will learn how to do it);
     - there should be a text input for the `title` with `data-cy="titleInput"` attribute;
-    - add a `<select>` with `data-cy="userSelect"` attribute showing all the given users;
+    - add a `<select>` with `data-cy="userSelect"` attribute showing all the given users;y
     - add labels and placeholders where they are needed;
     - add a new todo to the list after clicking the `Add` button;
     - each TODO should have `id`, `title`, `userId`, and `completed` (`false` by default);
@@ -27,4 +27,4 @@ Implement the ability to add TODOs to the `TodoList` implemented in the [Static 
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://Sveta-Kryukova.github.io/react_add-todo-form/) and add it to the PR description.
