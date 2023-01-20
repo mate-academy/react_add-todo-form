@@ -9,19 +9,19 @@ import 'bulma/css/bulma.css';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-function getUserbyName(userName: string): User | null {
+function getUserByName(userName: string): User | null {
   return usersFromServer.find(user => (user.name === userName)) || null;
 }
 
 export const todoss: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: FC = () => {
@@ -53,7 +53,7 @@ export const App: FC = () => {
 
     const newId = Math.max(...todos.map(todoElement => todoElement.id)) + 1;
 
-    const addedUser = getUserbyName(selectedUser);
+    const addedUser = getUserByName(selectedUser);
 
     setTodos(prev => ([
       ...prev,
@@ -95,8 +95,6 @@ export const App: FC = () => {
               value={title}
               onChange={handleTitleChange}
             />
-            {!isTitleError
-              && <span className="noError">Please enter a title</span>}
             {isTitleError
               && <span className="error">Please enter a title</span>}
           </div>
@@ -123,8 +121,7 @@ export const App: FC = () => {
             </select>
             {isUserError
               && <span className="error">Please choose a user</span>}
-            {!isUserError
-              && <span className="noError">Please choose a user</span>}
+
           </div>
 
           <button
