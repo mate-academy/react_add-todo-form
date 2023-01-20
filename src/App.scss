@@ -20,6 +20,14 @@ button {
   visibility: visible;
 }
 
+.field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  line-height: 40px;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;

@@ -98,6 +98,7 @@ export const App: React.FC = () => {
               onChange={
                 (event) => handleChangeNewTitle(event.target.value)
               }
+              size="small"
               inputProps={ariaLabel}
             />
           </label>
@@ -110,19 +111,6 @@ export const App: React.FC = () => {
           <label>
             User:
             {' '}
-            {/* <select
-              data-cy="userSelect"
-              value={selectedUserId}
-              onChange={
-                (event) => handleChangeNewSelectedUserId(event.target.value)
-              }
-            >
-              <option value={0} disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              ))}
-            </select> */}
-
             <NativeSelect
               data-cy="userSelect"
               value={selectedUserId}
