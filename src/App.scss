@@ -11,12 +11,31 @@ button {
   cursor: pointer;
 }
 
+.wrapper {
+  width: 400px;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(90deg,
+  rgba(131, 58, 180, 1) 0%,
+  rgba(253, 29, 29, 1) 86%,
+  rgba(252, 176, 69, 1) 100%);
+}
+
 .error {
+  width: max-content;
   color: red;
 }
 
+.noError {
+  visibility: hidden;
+}
+
 .TodoInfo {
-  width: max-content;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
