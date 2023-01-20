@@ -38,7 +38,9 @@ export const App: React.FC = () => {
 
   const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setErrorOnTitleInput(false);
+    if (isErrorOnTitleInput) {
+      setErrorOnTitleInput(false);
+    }
   };
 
   const handleUserChange = (event: React.FormEvent<HTMLSelectElement>) => {
