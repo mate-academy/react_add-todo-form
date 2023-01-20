@@ -24,9 +24,9 @@ export const App = () => {
   const [todos, setTodos] = useState(modifiedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
-  const [titleErrorValidation, setTitleErrorValidation] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserIdError, setIsUserIdError] = useState(false);
+  const [isTitleErrorValidation, setIsTitleErrorValidation] = useState(false);
 
   const addNewTodo = () => {
     const uniqueId = Math.max(...todos.map(todo => todo.id)) + 1;
@@ -47,14 +47,14 @@ export const App = () => {
     setUserId(0);
   };
 
-  const titleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
-  const userHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(e.target.value));
-    setUserIdError(false);
+    setIsUserIdError(false);
   };
 
   const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -64,15 +64,15 @@ export const App = () => {
     const valid = re.test(title);
 
     if (title.length === 0) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!valid) {
-      setTitleErrorValidation(true);
+      setIsTitleErrorValidation(true);
     }
 
     if (!userId) {
-      setUserIdError(true);
+      setIsUserIdError(true);
     }
 
     if (title && valid && userId) {
@@ -83,7 +83,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title">Add todo form</h1>
 
       <form
         action="/api/users"
@@ -91,20 +91,24 @@ export const App = () => {
         onSubmit={handleFormSubmit}
       >
         <div className="field">
-          <label>
+          <label
+            className="label"
+          >
             Title:&nbsp;
             <input
+              className="input"
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
               name="title"
               value={title}
-              onChange={e => titleHandler(e)}
+              onChange={e => handleTitleChange(e)}
             />
           </label>
 
-          {titleError && <span className="error">Please enter a title</span>}
-          {titleErrorValidation
+          {isTitleError && <span className="error">Please enter a title</span>}
+
+          {isTitleErrorValidation
             && (
               <span className="error">
                 Only letters, digits and spaces are allowed
@@ -114,13 +118,14 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label>
+          <label className="field__label">
             User:&nbsp;
             <select
+              className="select"
               data-cy="userSelect"
               name="user"
               value={userId}
-              onChange={e => userHandler(e)}
+              onChange={e => handleUserChange(e)}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -128,11 +133,13 @@ export const App = () => {
               ))}
             </select>
 
-            {userIdError && <span className="error">Please choose a user</span>}
+            {isUserIdError
+              && <span className="error">Please choose a user</span>}
           </label>
         </div>
 
         <button
+          className="button"
           type="submit"
           data-cy="submitButton"
         >

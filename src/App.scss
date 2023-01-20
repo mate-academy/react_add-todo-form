@@ -1,95 +1,94 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
 
 body {
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  display: flex;
+  overflow: hidden;
   margin: 0;
   width: 100vw;
   height: 100vh;
   background: #ecf0f3;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  place-items: center;
-  overflow: hidden;
   font-family: poppins, sans-serif;
+  text-align: center;
 }
 
 .App {
   position: relative;
-  width: 550px;
-  border-radius: 20px;
-  padding: 40px;
-  box-sizing: border-box;
-  background: #ecf0f3;
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  border-radius: 20px;
+  box-sizing: border-box;
+  width: 550px;
+  padding: 40px;
+  background: #ecf0f3;
 }
 
-h1 {
+.title {
   margin-top: 10px;
   font-weight: 900;
-  font-size: 1.8rem;
-  color: #1da1f2;
   letter-spacing: 1px;
+  color: #1da1f2;
 }
 
 .field {
-  text-align: center;
   margin-top: 30px;
+  text-align: center;
 }
 
-label,
-input,
-button,
-select {
+.label,
+.input,
+.button,
+.select {
   display: block;
-  padding: 0;
-  width: 100%;
   border: none;
-  outline: none;
   box-sizing: border-box;
+  outline: none;
+  width: 100%;
+  padding: 0;
   cursor: pointer;
 }
 
-label {
+.label {
   margin-bottom: 4px;
 }
 
-input::placeholder {
-  color: gray;
-}
-
-input,
-select {
-  background: #ecf0f3;
-  padding: 10px;
-  padding-left: 20px;
-  height: 50px;
-  font-size: 14px;
-  border-radius: 50px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
-}
-
-select {
-  color: #789;
-}
-
-input {
+.input {
   caret-color: #b0c4de;
 }
 
-button {
-  color: white;
-  margin-top: 20px;
-  background: #1da1f2;
-  height: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 900;
-  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
-  transition: 0.5s;
+.input::placeholder {
+  color: gray;
 }
 
-button:hover {
+.input,
+.select {
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  border-radius: 50px;
+  height: 50px;
+  padding: 10px;
+  padding-left: 20px;
+  background: #ecf0f3;
+  font-size: 14px;
+}
+
+.select {
+  color: #789;
+}
+
+.button {
+  transition: 0.5s;
+  margin-top: 20px;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  border-radius: 20px;
+  height: 40px;
+  background: #1da1f2;
+  cursor: pointer;
+  font-weight: 900;
+  color: white;
+}
+
+.button:hover {
   box-shadow: none;
 }
 
@@ -102,12 +101,13 @@ iframe {
 }
 
 .TodoInfo {
-  width: max-content;
-  padding: 8px;
   margin: 12px 0;
   border: 1px solid #d3d3d3;
-  background-color: #ecf0f3;
   border-radius: 20px;
+  width: max-content;
+  padding: 8px;
+  background-color: #ecf0f3;
+  
 
   &__title {
     margin: 4px 0;
