@@ -1,39 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
+
+body {
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  display: flex;
+  overflow: hidden;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ecf0f3;
+  font-family: poppins, sans-serif;
+  text-align: center;
+}
+
+.App {
+  position: relative;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  border-radius: 20px;
+  box-sizing: border-box;
+  width: 550px;
+  padding: 40px;
+  background: #ecf0f3;
+}
+
+.title {
+  margin-top: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #1da1f2;
+}
+
+.field {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.label,
+.input,
+.button,
+.select {
+  display: block;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.label {
+  margin-bottom: 4px;
+}
+
+.input {
+  caret-color: #b0c4de;
+}
+
+.input::placeholder {
+  color: gray;
+}
+
+.input,
+.select {
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  border-radius: 50px;
+  height: 50px;
+  padding: 10px;
+  padding-left: 20px;
+  background: #ecf0f3;
+  font-size: 14px;
+}
+
+.select {
+  color: #789;
+}
+
+.button {
+  transition: 0.5s;
+  margin-top: 20px;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  border-radius: 20px;
+  height: 40px;
+  background: #1da1f2;
+  cursor: pointer;
+  font-weight: 900;
+  color: white;
+}
+
+.button:hover {
+  box-shadow: none;
+}
+
 iframe {
   display: none;
 }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
 .error {
-  color: red;
+  color: #8a2be2;
 }
 
 .TodoInfo {
+  margin: 12px 0;
+  border: 1px solid #d3d3d3;
+  border-radius: 20px;
   width: max-content;
   padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #ecf0f3;
+  
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: #4169e1;
   }
 
   &--completed &__title {
-    color: #080;
+    color: #9400d3;
   }
 }
 
 .UserInfo {
   font-style: italic;
+  color: #808080;
 }
