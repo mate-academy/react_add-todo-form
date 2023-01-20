@@ -1,61 +1,161 @@
+import React, { useState } from 'react';
 import './App.scss';
+import ClearIcon from '@mui/icons-material/Clear';
+import {
+  TextField,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+  FormHelperText,
+  Button,
+} from '@mui/material';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+import { TodoList } from './components/TodoList';
+
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
+}
+
+const todosWithUser: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState(todosWithUser);
+  const [newTitle, setNewTitle] = useState('');
+  const [newUserId, setNewUserId] = useState(0);
+  const [showTitleError, setTitleError] = useState(false);
+  const [showUserError, setUserError] = useState(false);
+
+  const getNewId = (array: { id: number }[]) => (
+    Math.max(...array.map(el => el.id)) + 1
+  );
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+
+    if (showTitleError) {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserChange = (event: SelectChangeEvent<number>) => {
+    setNewUserId(+event.target.value);
+
+    if (showUserError) {
+      setUserError(false);
+    }
+  };
+
+  const reset = () => {
+    setNewTitle('');
+    setNewUserId(0);
+    setTitleError(false);
+    setUserError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!newTitle) {
+      setTitleError(true);
+    }
+
+    if (!newUserId) {
+      setUserError(true);
+    }
+
+    if (newTitle && newUserId) {
+      setTodos(prev => {
+        const newTodo = {
+          id: getNewId(prev),
+          title: newTitle,
+          completed: false,
+          userId: newUserId,
+          user: getUserById(newUserId),
+        };
+
+        return [...prev, newTodo];
+      });
+
+      reset();
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <TextField
+            sx={{ m: 2, width: '250px' }}
+            data-cy="titleInput"
+            label="Title"
+            placeholder="Enter a title"
+            helperText={showTitleError ? 'Please enter a title' : ''}
+            error={showTitleError}
+            value={newTitle}
+            onChange={handleTitleChange}
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  onClick={() => setNewTitle('')}
+                  sx={{ visibility: newTitle ? 'visible' : 'hidden' }}
+                >
+                  <ClearIcon />
+                </IconButton>
+              ),
+            }}
+          />
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <FormControl error={showUserError} sx={{ m: 2, width: '250px' }}>
+            <InputLabel id="select-label">User</InputLabel>
+            <Select
+              data-cy="userSelect"
+              id="demo-simple-select"
+              value={newUserId}
+              onChange={handleUserChange}
+              labelId="select-label"
+              label="User"
+            >
+              <MenuItem value="0" disabled>Choose a user</MenuItem>
+              {usersFromServer.map(user => (
+                <MenuItem value={user.id} key={user.id}>{user.name}</MenuItem>
+              ))}
+            </Select>
 
-          <span className="error">Please choose a user</span>
+            {showUserError && (
+              <FormHelperText>Please choose a user</FormHelperText>
+            )}
+          </FormControl>
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <Button
+          type="submit"
+          size="large"
+          data-cy="submitButton"
+          variant="contained"
+        >
           Add
-        </button>
+        </Button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
