@@ -7,8 +7,9 @@ html {
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  padding: 20px;
 
   display: flex;
   justify-content: center;
@@ -28,4 +29,3 @@ button {
   box-shadow: 0 5px 10px blue;
   border-radius: 30px;
 }
-

@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
   Select,
+  SelectChangeEvent,
   MenuItem,
   FormHelperText,
   Button,
@@ -40,6 +41,22 @@ export const App: React.FC = () => {
     Math.max(...array.map(el => el.id)) + 1
   );
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+
+    if (showTitleError) {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserChange = (event: SelectChangeEvent<number>) => {
+    setNewUserId(+event.target.value);
+
+    if (showUserError) {
+      setUserError(false);
+    }
+  };
+
   const reset = () => {
     setNewTitle('');
     setNewUserId(0);
@@ -47,7 +64,9 @@ export const App: React.FC = () => {
     setUserError(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!newTitle) {
       setTitleError(true);
     }
@@ -80,10 +99,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <TextField
@@ -94,10 +110,7 @@ export const App: React.FC = () => {
             helperText={showTitleError ? 'Please enter a title' : ''}
             error={showTitleError}
             value={newTitle}
-            onChange={event => {
-              setNewTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
             InputProps={{
               endAdornment: (
                 <IconButton
@@ -118,10 +131,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               id="demo-simple-select"
               value={newUserId}
-              onChange={event => {
-                setNewUserId(+event.target.value);
-                setUserError(false);
-              }}
+              onChange={handleUserChange}
               labelId="select-label"
               label="User"
             >
