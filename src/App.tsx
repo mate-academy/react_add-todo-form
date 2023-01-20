@@ -1,61 +1,148 @@
+import React, { FormEvent, useState } from 'react';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/material/Icon';
+import Input from '@mui/material/TextField';
+import NativeSelect from '@mui/material/NativeSelect';
 import './App.scss';
+import cn from 'classnames';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
-export const App = () => {
+const ariaLabel = { 'aria-label': 'description' };
+
+function getUserById(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const preparedTodo: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
+export const getNewId = (array: { id: number }[]) => (
+  Math.max(...array.map(el => el.id)) + 1
+);
+
+export const App: React.FC = () => {
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [todos, setTodos] = useState(preparedTodo);
+  const [title, setTitle] = useState('');
+
+  const [selectedUserIdError, setSelectedUserIdError] = useState('');
+  const [titleError, setTitleError] = useState('');
+
+  const reset = () => {
+    setSelectedUserId(0);
+    setTitle('');
+  };
+
+  const hadleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!selectedUserId || !title) {
+      setSelectedUserIdError(!selectedUserId ? 'Please choose a user' : '');
+      setTitleError(!title ? 'Please enter a title' : '');
+
+      return;
+    }
+
+    const newTodo:Todo = {
+      id: getNewId(todos),
+      userId: selectedUserId,
+      title,
+      completed: false,
+      user: getUserById(selectedUserId),
+    };
+
+    setTodos(
+      [...todos, newTodo],
+    );
+
+    reset();
+  };
+
+  const handleChangeNewSelectedUserId = (value: string) => {
+    setSelectedUserId(+value);
+    setSelectedUserIdError('');
+  };
+
+  const handleChangeNewTitle = (value: string) => {
+    setTitle(value);
+    setTitleError('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={hadleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            Title:
+            {' '}
+            <Input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={
+                (event) => handleChangeNewTitle(event.target.value)
+              }
+              size="small"
+              inputProps={ariaLabel}
+            />
+          </label>
+          <span className={cn('error', { errorVisible: Boolean(titleError) })}>
+            Please enter a title
+          </span>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            User:
+            {' '}
+            <NativeSelect
+              data-cy="userSelect"
+              value={selectedUserId}
+              onChange={
+                (event) => handleChangeNewSelectedUserId(event.target.value)
+              }
+            >
+              <option value={0} disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
+            </NativeSelect>
+          </label>
 
-          <span className="error">Please choose a user</span>
+          <span
+            className={cn('error', {
+              errorVisible: Boolean(selectedUserIdError),
+            })}
+          >
+            Please choose a user
+          </span>
         </div>
-
-        <button type="submit" data-cy="submitButton">
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
-        </button>
+        </Button>
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
