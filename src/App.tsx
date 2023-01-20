@@ -67,6 +67,10 @@ export const App = () => {
       setIsTitleError(true);
     }
 
+    if (!title.trim()) {
+      setIsTitleError(true);
+    }
+
     if (!valid) {
       setIsTitleErrorValidation(true);
     }
@@ -75,7 +79,7 @@ export const App = () => {
       setIsUserIdError(true);
     }
 
-    if (title && valid && userId) {
+    if (title.trim() && userId && valid) {
       addNewTodo();
       clearForm();
     }
@@ -102,19 +106,17 @@ export const App = () => {
               placeholder="Enter a title"
               name="title"
               value={title}
-              onChange={e => handleTitleChange(e)}
+              onChange={handleTitleChange}
             />
           </label>
 
           {isTitleError && <span className="error">Please enter a title</span>}
 
-          {isTitleErrorValidation
-            && (
-              <span className="error">
-                Only letters, digits and spaces are allowed
-              </span>
-            )}
-
+          {isTitleErrorValidation && (
+            <span className="error">
+              Only letters, digits and spaces are allowed
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -125,7 +127,7 @@ export const App = () => {
               data-cy="userSelect"
               name="user"
               value={userId}
-              onChange={e => handleUserChange(e)}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -133,8 +135,9 @@ export const App = () => {
               ))}
             </select>
 
-            {isUserIdError
-              && <span className="error">Please choose a user</span>}
+            {isUserIdError && (
+              <span className="error">Please choose a user</span>
+            )}
           </label>
         </div>
 
