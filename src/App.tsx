@@ -1,6 +1,10 @@
 import React, { FC, useState } from 'react';
 import './App.scss';
 
+import {
+  TextField, Box, MenuItem, Button, Typography, Paper,
+} from '@mui/material';
+
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
@@ -20,14 +24,14 @@ const startTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: FC = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState<Todo[]>(startTodos);
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
 
   const clearForm = () => {
     setTitle('');
-    setUser('');
+    setSelectedUser('');
   };
 
   const getMaxId = (): number => {
@@ -38,22 +42,22 @@ export const App: FC = () => {
   };
 
   const getIdByUsername = (userName: string): number | null => (
-    usersFromServer.find(person => person.name === userName)?.id || null
+    usersFromServer.find(user => user.name === userName)?.id || null
   );
 
   const getUserByUsername = (userName: string): User | null => {
     return usersFromServer.find(
-      person => person.name === userName,
+      user => user.name === userName,
     ) || null;
   };
 
   const handleAdding = () => {
     const todoToAdd = {
       id: getMaxId() + 1,
-      userId: getIdByUsername(user),
+      userId: getIdByUsername(selectedUser),
       title,
       completed: false,
-      user: getUserByUsername(user),
+      user: getUserByUsername(selectedUser),
     };
 
     setTodos((prev) => ([...prev, todoToAdd]));
@@ -66,87 +70,129 @@ export const App: FC = () => {
       setIsTitleError(true);
     }
 
-    if (user === '') {
+    if (selectedUser === '') {
       setIsUserError(true);
     }
 
-    if (title && user) {
+    if (title && selectedUser) {
       handleAdding();
       clearForm();
     }
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
+      <Paper
+        sx={{
+          width: '300px',
+          padding: '20px 32px',
+          margin: '32px 0',
+        }}
+        elevation={4}
       >
-        <div className="field">
-          <label>
-            Title:
-            <input
-              type="text"
+        <Typography
+          variant="h4"
+          component="h1"
+          textAlign="center"
+          marginBottom={5}
+        >
+          Add todo form
+        </Typography>
+
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <Box
+            sx={{
+              mb: 2,
+            }}
+          >
+            <TextField
+              label="Title:"
               name="title"
-              data-cy="titleInput"
-              placeholder="Enter a title"
+              fullWidth
               value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
                 setIsTitleError(false);
               }}
+              error={isTitleError}
+              helperText={
+                isTitleError
+                  ? 'Please enter a title'
+                  : 'Enter a title'
+              }
+              type="text"
+              size="small"
+              color="secondary"
             />
-          </label>
+          </Box>
 
-          {isTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
-        </div>
-
-        <div className="field">
-          <label>
-            User:
-            <select
+          <Box
+            sx={{
+              mb: 2,
+            }}
+          >
+            <TextField
+              label="User:"
               name="user"
-              data-cy="userSelect"
-              value={user}
+              select
+              value={selectedUser}
               onChange={(event) => {
-                setUser(event.target.value);
+                setSelectedUser(event.target.value);
                 setIsUserError(false);
               }}
+              fullWidth
+              size="small"
+              color="secondary"
+              error={isUserError}
+              helperText={
+                isUserError
+                  ? 'Please choose a user'
+                  : 'Choose a user'
+              }
             >
-              <option value="" disabled>
+              <MenuItem value="" disabled>
                 Choose a user
-              </option>
+              </MenuItem>
 
-              {usersFromServer.map(person => (
-                <option
-                  key={person.id}
-                  value={person.name}
+              {usersFromServer.map((user) => (
+                <MenuItem
+                  key={user.id}
+                  value={user.name}
                 >
-                  {person.name}
-                </option>
+                  {user.name}
+                </MenuItem>
               ))}
-            </select>
-          </label>
+            </TextField>
+          </Box>
 
-          {isUserError && (
-            <span className="error">Please choose a user</span>
-          )}
-        </div>
+          <Box
+            sx={{
+              mb: 2,
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+            >
+              Add
+            </Button>
+          </Box>
+        </form>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
-          Add
-        </button>
-      </form>
-
-      <TodoList todos={todos} />
-    </div>
+        <TodoList todos={todos} />
+      </Paper>
+    </Box>
   );
 };

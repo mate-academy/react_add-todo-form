@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import { Link } from '@mui/material';
 import { User } from '../../types/User';
 
 interface Props {
@@ -10,8 +10,8 @@ export const UserInfo: FC<Props> = ({ user }) => {
   const { name, email } = user;
 
   return (
-    <a className="UserInfo" href={`mailto:${email}`}>
+    <Link href={`mailto:${email}`} variant="body2" underline="hover">
       {name}
-    </a>
+    </Link>
   );
 };
