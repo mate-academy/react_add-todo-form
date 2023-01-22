@@ -1,5 +1,6 @@
 import './App.scss';
-import { useState } from 'react';
+import 'bulma/css/bulma.css';
+import { FormEvent, useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -9,14 +10,13 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-function getUserByName(userName: string): User | null {
-  return usersFromServer.find(user => (user.name === userName)) || null;
-}
+// function getUserByName(userName: string): User | null {
+//   return usersFromServer.find(user => (user.name === userName)) || null;
+// }
 
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -29,7 +29,7 @@ const prepTodos: Todo[] = todosFromServer.map(todo => {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [todos, setTodos] = useState(prepTodos);
 
   const [shouldErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
@@ -37,25 +37,32 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    setErrorOnTitleInput(false);
+    if (shouldErrorOnTitleInput === true) {
+      setErrorOnTitleInput(false);
+    }
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.currentTarget.value);
-    setErrorOnUserSelect(false);
+    setSelectedUser(+event.currentTarget.value);
+    if (shouldErrorOnUserSelect === true) {
+      setErrorOnUserSelect(false);
+    }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     setErrorOnTitleInput(!title.trim());
     setErrorOnUserSelect(!selectedUser);
 
-    if (title.trim() === '' || !selectedUser) {
+    if (title.trim() === '' || selectedUser === 0) {
+      setErrorOnTitleInput(title.trim() === '');
+      setErrorOnUserSelect(selectedUser === 0);
+
       return;
     }
 
-    const userToAdd = getUserByName(selectedUser);
+    // const userToAdd = getUserById(selectedUser);
 
     setTodos(current => {
       const maxTodoId = Math.max(...current.map(todo => todo.id));
@@ -66,14 +73,14 @@ export const App = () => {
           id: maxTodoId + 1,
           title,
           completed: false,
-          userId: userToAdd ? userToAdd.id : null,
-          user: userToAdd,
+          userId: selectedUser,
+          user: getUserById(selectedUser),
         },
       ];
     });
 
     setTitle('');
-    setSelectedUser('');
+    setSelectedUser(0);
   };
 
   return (
@@ -113,7 +120,7 @@ export const App = () => {
             <option value="" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>{user.name}</option>
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo/UserInfo';
@@ -8,7 +8,7 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
+export const TodoInfo: React.FC<Props> = memo(({ todo }) => (
   <article
     data-id={todo.id}
     className={classNames(
@@ -22,4 +22,4 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
       <UserInfo user={todo.user} />
     )}
   </article>
-);
+));
