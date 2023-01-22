@@ -44,11 +44,11 @@ export const App = () => {
 
     if (!userId) {
       setUserId(0);
-      setIsUserSelected(false);
+      setIsUserSelected(true);
     }
 
     if (!title.trim()) {
-      setIsTitleEntered(false);
+      setIsTitleEntered(true);
     }
   };
 

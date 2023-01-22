@@ -1,18 +1,23 @@
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
+import './TodoInfo.scss';
 
 type Props = {
   todo: Todo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { title, completed, user } = todo;
+  const {
+    title, completed, user, id,
+  } = todo;
 
   return (
-    <article className={classNames('TodoInfo', {
-      'TodoInfo--completed': completed,
-    })}
+    <article
+      data-id={id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
