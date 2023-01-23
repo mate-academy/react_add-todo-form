@@ -47,16 +47,16 @@ export const App = () => {
       return;
     }
 
-    setTodos(prev => {
+    setTodos(prevTodos => {
       const newTodo: Todo = {
-        id: getNewId(prev),
+        id: getNewId(prevTodos),
         title: enteredTitle.trim(),
         completed: false,
         userId: selectedUserId,
         user: getUserById(selectedUserId),
       };
 
-      return ([...prev, newTodo]);
+      return ([...prevTodos, newTodo]);
     });
 
     setEnteredTitle('');
