@@ -43,6 +43,14 @@ export const App: React.FC = () => {
     setTittleError(!title);
     setSelectedError(!selectedUser);
 
+    // if (!title) {
+    //   setTittleError(true);
+    // }
+
+    // if (!selectedUser) {
+    //   setSelectedError(true);
+    // }
+
     if (!title || !selectedUser) {
       return;
     }
@@ -57,10 +65,7 @@ export const App: React.FC = () => {
       };
 
       return (
-        [
-          ...prev,
-          todo,
-        ]
+        [...prev, todo]
       );
     });
 
@@ -127,8 +132,9 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {selectedError
-            && <span className="error">Please choose a user</span>}
+          {selectedError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
