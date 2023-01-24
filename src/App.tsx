@@ -45,11 +45,6 @@ export const App = () => {
       setCurrentTodos([...currentTodos, newTodo]);
     }
 
-    if (!userId) {
-      setUserId(0);
-      setIsUserSelected(false);
-    }
-
     if (!title.trim()) {
       setIsTitleEntered(false);
     }
