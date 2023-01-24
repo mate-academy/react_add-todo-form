@@ -81,9 +81,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1
-        className="title is-1"
-      >
+      <h1 className="title is-1">
         Add todo form
       </h1>
 
