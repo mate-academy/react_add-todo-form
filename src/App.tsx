@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
@@ -22,7 +22,7 @@ export const App = () => {
   const [hasUserError, setHasUserError] = useState(false);
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  function getNewTodo() {
+  function addNewTodo() {
     const newId = Math.max(...currentTodos.map(todo => todo.id)) + 1;
 
     return {
@@ -34,17 +34,17 @@ export const App = () => {
     };
   }
 
-  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const selectedUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setselectedUserId(+event.target.value);
     setHasUserError(false);
   };
 
-  const buttonHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setHasTitleError(!title);
@@ -53,11 +53,11 @@ export const App = () => {
     if (title && selectedUserId) {
       setCurrentTodos([
         ...currentTodos,
-        getNewTodo(),
+        addNewTodo(),
       ]);
 
       setTitle('');
-      setselectedUserId(+'');
+      setselectedUserId(0);
     }
   };
 
@@ -66,7 +66,7 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={buttonHandler}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -74,7 +74,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={titleHandler}
+            onChange={changeTitle}
           />
           {hasTitleError && (
             <span
@@ -89,7 +89,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={selectedUserHandler}
+            onChange={selectUser}
           >
             <option
               value="0"
