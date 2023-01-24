@@ -1,9 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 
-import './todoinfo.scss';
-
 import { Todo } from '../../types/Todo';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
@@ -32,9 +31,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       {user && (
-        <a className="UserInfo" href={`mailto:${user.email}`}>
-          {user.name}
-        </a>
+        <UserInfo user={user} />
       )}
     </article>
   );
