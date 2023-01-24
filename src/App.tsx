@@ -10,10 +10,6 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-// function getUserByName(userName: string): User | null {
-//   return usersFromServer.find(user => (user.name === userName)) || null;
-// }
-
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
@@ -29,7 +25,7 @@ const prepTodos: Todo[] = todosFromServer.map(todo => {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [todos, setTodos] = useState(prepTodos);
 
   const [shouldErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
@@ -43,7 +39,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(+event.currentTarget.value);
+    setSelectedUserId(+event.currentTarget.value);
     if (shouldErrorOnUserSelect === true) {
       setErrorOnUserSelect(false);
     }
@@ -53,11 +49,11 @@ export const App = () => {
     event.preventDefault();
 
     setErrorOnTitleInput(!title.trim());
-    setErrorOnUserSelect(!selectedUser);
+    setErrorOnUserSelect(!selectedUserId);
 
-    if (title.trim() === '' || selectedUser === 0) {
+    if (title.trim() === '' || selectedUserId === 0) {
       setErrorOnTitleInput(title.trim() === '');
-      setErrorOnUserSelect(selectedUser === 0);
+      setErrorOnUserSelect(selectedUserId === 0);
 
       return;
     }
@@ -73,14 +69,14 @@ export const App = () => {
           id: maxTodoId + 1,
           title,
           completed: false,
-          userId: selectedUser,
-          user: getUserById(selectedUser),
+          userId: selectedUserId,
+          user: getUserById(selectedUserId),
         },
       ];
     });
 
     setTitle('');
-    setSelectedUser(0);
+    setSelectedUserId(0);
   };
 
   return (
@@ -88,8 +84,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -114,10 +108,10 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
-            value={selectedUser}
+            value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="" disabled>Choose a user</option>
+            <option disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>{user.name}</option>
