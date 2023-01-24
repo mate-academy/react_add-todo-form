@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './type/Todo';
 import { User } from './type/User';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,14 +15,14 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 let maxId = Math.max(...todos.map(todo => todo.id));
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState(todos);
@@ -34,9 +34,28 @@ export const App = () => {
       id: maxId,
       title,
       completed: false,
-      userId: Number(selectedUser),
-      user: getUser(Number(selectedUser)),
+      userId: Number(selectedUserId),
+      user: getUserById(Number(selectedUserId)),
     };
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setHasTitleError(!title);
+    setHasUserError(!selectedUserId);
+
+    if (title && selectedUserId) {
+      const newTodo = createNewTodo();
+
+      setVisibleTodos([
+        ...visibleTodos,
+        newTodo,
+      ]);
+
+      setTitle('');
+      setSelectedUserId('');
+    }
   };
 
   return (
@@ -44,24 +63,7 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-
-          setHasTitleError(!title);
-          setHasUserError(!selectedUser);
-
-          if (title && selectedUser) {
-            const newTodo = createNewTodo();
-
-            setVisibleTodos([
-              ...visibleTodos,
-              newTodo,
-            ]);
-
-            setTitle('');
-            setSelectedUser('');
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">{'Title: '}</label>
@@ -87,9 +89,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="user"
-            value={selectedUser}
+            value={selectedUserId}
             onChange={(event) => {
-              setSelectedUser(event.target.value);
+              setSelectedUserId(event.target.value);
               setHasUserError(false);
             }}
           >
