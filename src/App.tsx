@@ -16,7 +16,7 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-const prepTodos: Todo[] = todosFromServer.map(todo => {
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: getUserById(todo.userId),
@@ -26,7 +26,7 @@ const prepTodos: Todo[] = todosFromServer.map(todo => {
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [todos, setTodos] = useState(prepTodos);
+  const [todos, setTodos] = useState(preparedTodos);
 
   const [shouldErrorOnUserSelect, setErrorOnUserSelect] = useState(false);
   const [shouldErrorOnTitleInput, setErrorOnTitleInput] = useState(false);
@@ -57,8 +57,6 @@ export const App = () => {
 
       return;
     }
-
-    // const userToAdd = getUserById(selectedUser);
 
     setTodos(current => {
       const maxTodoId = Math.max(...current.map(todo => todo.id));
@@ -119,7 +117,7 @@ export const App = () => {
               value={selectedUserId}
               onChange={handleUserChange}
             >
-              <option disabled>Choose a user</option>
+              <option value={0} disabled>User:</option>
 
               {usersFromServer.map(user => (
                 <option key={user.id} value={user.id}>{user.name}</option>
