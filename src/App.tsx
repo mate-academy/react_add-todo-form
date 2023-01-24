@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import cn from 'classnames';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { User } from './types/User';
+// import { Todo } from './types/Todo';
 
-const getUser = (id: number) => {
+import { TodoList } from './components/TodoList';
+
+const getUserById = (id: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
@@ -19,7 +22,8 @@ export const App = () => {
   const [isTitleOnSubmit, setIsTitleOnSubmit] = useState(false);
   const [isUserOnSubmit, setIsUserOnSubmit] = useState(false);
 
-  const selectedUser = getUser(newTodoUserId);
+  const selectedUser = getUserById(newTodoUserId);
+  // const user = getUserById(todo.userId);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -75,9 +79,6 @@ export const App = () => {
               value={newTodoUserId}
               onChange={event => {
                 setNewTodoUserId(+event.target.value);
-                setNewTodoUserId(
-                  Number(event.target.value),
-                );
               }}
             >
               <option value="0" disabled>Choose a user</option>
@@ -113,31 +114,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => {
-          const user = getUser(todo.userId);
-
-          return (
-            <article
-              key={todo.id}
-              data-id={todo.id}
-              className={cn('TodoInfo', {
-                'TodoInfo--completed': todo.completed,
-              })}
-            >
-              <h2 className="TodoInfo__title">
-                {todo.title}
-              </h2>
-
-              {user && (
-                <a className="UserInfo" href={`mailto:${user.email}`}>
-                  {user.name}
-                </a>
-              )}
-            </article>
-          );
-        })}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
