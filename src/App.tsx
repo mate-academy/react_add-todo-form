@@ -29,12 +29,16 @@ export const App = () => {
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.currentTarget.value);
-    setSelectUserError(false);
+    if (selectUserError) {
+      setSelectUserError(false);
+    }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredTitle(event.currentTarget.value);
-    setEnteredTitleError(false);
+    if (enteredTitleError) {
+      setEnteredTitleError(false);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,8 +72,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
