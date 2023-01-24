@@ -1,25 +1,111 @@
+import React, { useState } from 'react';
+import cn from 'classnames';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+const getUser = (id: number) => {
+  const foundUser = usersFromServer.find(user => user.id === id);
+
+  return foundUser || null;
+};
 
 export const App = () => {
+  const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [newTodoUserId, setNewTodoUserId] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [todos, setTodos] = useState(todosFromServer);
+  const [isTitleOnSubmit, setIsTitleOnSubmit] = useState(false);
+  const [isUserOnSubmit, setIsUserOnSubmit] = useState(false);
+
+  const selectedUser = getUser(newTodoUserId);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const newTodo = {
+      id: Date.now(),
+      title: newTodoTitle,
+      userId: newTodoUserId,
+      completed,
+    };
+
+    setIsTitleOnSubmit(!newTodoTitle);
+    setIsUserOnSubmit(!newTodoUserId);
+
+    if (newTodoTitle && newTodoUserId) {
+      setNewTodoTitle('');
+      setNewTodoUserId(0);
+      setTodos([...todos, newTodo]);
+    }
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1>{selectedUser ? selectedUser.name : 'No user selected'}</h1>
 
-      <form action="/api/users" method="POST">
+      <form onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={newTodoTitle}
+              onChange={(event) => {
+                setNewTodoTitle(event.target.value);
+              }}
+            />
+          </label>
+          {isTitleOnSubmit && (
+            <span
+              className="error"
+            >
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              value={newTodoUserId}
+              onChange={event => {
+                setNewTodoUserId(+event.target.value);
+                setNewTodoUserId(
+                  Number(event.target.value),
+                );
+              }}
+            >
+              <option value="0" disabled>Choose a user</option>
 
-          <span className="error">Please choose a user</span>
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {isUserOnSubmit && (
+            <span className="error">Please choose a user</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label>
+            <input
+              type="checkbox"
+              checked={completed}
+              onChange={(event) => {
+                setCompleted(event.target.checked);
+              }}
+            />
+            Is Completed
+          </label>
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -28,33 +114,29 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+        {todos.map(todo => {
+          const user = getUser(todo.userId);
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+          return (
+            <article
+              key={todo.id}
+              data-id={todo.id}
+              className={cn('TodoInfo', {
+                'TodoInfo--completed': todo.completed,
+              })}
+            >
+              <h2 className="TodoInfo__title">
+                {todo.title}
+              </h2>
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+              {user && (
+                <a className="UserInfo" href={`mailto:${user.email}`}>
+                  {user.name}
+                </a>
+              )}
+            </article>
+          );
+        })}
       </section>
     </div>
   );
