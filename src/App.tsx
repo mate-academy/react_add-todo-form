@@ -14,13 +14,22 @@ const getUserById = (id: number): User | null => {
   return foundUser || null;
 };
 
+const newTodos = todosFromServer.map(todo => (
+  {
+    ...todo,
+    user: getUserById(todo.userId),
+  }
+));
+
 export const App = () => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newTodoUserId, setNewTodoUserId] = useState(0);
   const [completed, setCompleted] = useState(false);
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(newTodos);
   const [isTitleOnSubmit, setIsTitleOnSubmit] = useState(false);
   const [isUserOnSubmit, setIsUserOnSubmit] = useState(false);
+
+  // console.log(todosFromServer);
 
   const selectedUser = getUserById(newTodoUserId);
   // const user = getUserById(todo.userId);
@@ -32,6 +41,7 @@ export const App = () => {
       title: newTodoTitle,
       userId: newTodoUserId,
       completed,
+      user: getUserById(newTodoUserId),
     };
 
     setIsTitleOnSubmit(!newTodoTitle);
