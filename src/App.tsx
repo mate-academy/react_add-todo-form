@@ -81,7 +81,11 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1
+        className="title is-1"
+      >
+        Add todo form
+      </h1>
 
       <form
         onSubmit={handleSubmit}
@@ -91,6 +95,7 @@ export const App = () => {
 
           <input
             type="text"
+            className="input is-info"
             data-cy="titleInput"
             placeholder="Enter title of task"
             value={title}
@@ -102,21 +107,27 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="title">Choose a user:</label>
-
-          <select
-            data-cy="userSelect"
-            id="userSelect"
-            name="userSelect"
-            value={selectedUserId}
-            onChange={handleUserChange}
+          <label
+            htmlFor="title"
           >
-            <option disabled>Choose a user</option>
+            Choose a user:
+          </label>
 
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
-            ))}
-          </select>
+          <div className="select is-info">
+            <select
+              data-cy="userSelect"
+              id="userSelect"
+              name="userSelect"
+              value={selectedUserId}
+              onChange={handleUserChange}
+            >
+              <option disabled>Choose a user</option>
+
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
+            </select>
+          </div>
 
           {shouldErrorOnUserSelect && (
             <span className="error">Please choose a user</span>
@@ -126,6 +137,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
+          className="button is-info"
         >
           Add
         </button>
