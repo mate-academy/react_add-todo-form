@@ -1,7 +1,6 @@
 // import React, { useState } from 'react';
 import './App.scss';
-import { useEffect, useState } from 'react';
-import { Todo } from './Types/Todo';
+import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './Types/User';
@@ -13,24 +12,22 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
+const visibleTodos = todosFromServer.map((todo) => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App: React.FC = () => {
   const visibleUsers = [...usersFromServer];
-  const [title, setTitle] = useState('');
+  const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState(visibleTodos);
   const [completed, setCompleted] = useState(false);
   const [tittleError, setTittleError] = useState(false);
   const [selectedError, setSelectedError] = useState(false);
 
-  useEffect(() => {
-    setTodos(todosFromServer.map(todo => ({
-      ...todo,
-      user: getUser(todo.userId),
-    })));
-  }, []);
-
   const reset = () => {
-    setTitle('');
+    setTodoTitle('');
     setCompleted(false);
     setSelectedUser(0);
     setSelectedError(false);
@@ -40,7 +37,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTittleError(!title);
+    setTittleError(!todoTitle);
     setSelectedError(!selectedUser);
 
     // if (!title) {
@@ -51,13 +48,13 @@ export const App: React.FC = () => {
     //   setSelectedError(true);
     // }
 
-    if (!title || !selectedUser) {
+    if (!todoTitle || !selectedUser) {
       return;
     }
 
     setTodos((prev) => {
       const todo = {
-        title,
+        title: todoTitle,
         userId: (selectedUser),
         completed,
         user: getUser(selectedUser),
@@ -87,9 +84,9 @@ export const App: React.FC = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title}
+            value={todoTitle}
             onChange={(event) => {
-              setTitle(event.target.value);
+              setTodoTitle(event.target.value);
               setTittleError(false);
             }}
           />
