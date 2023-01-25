@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import cn from 'classnames';
 import './TodoInfo.scss';
 import { Todo } from '../../types/Todo';
@@ -8,7 +8,7 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = memo(({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -24,4 +24,4 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
-};
+});
