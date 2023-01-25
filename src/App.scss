@@ -6,34 +6,45 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
-  cursor: pointer;
+body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0;
+  background-color: bisque;
+}
+
+.App {
+  position: relative;
+  padding: 16px;
+  border-radius: 10px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.2;
+    border-radius: 10px;
+    z-index: -1;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.field {
+  margin: 0 0 30px;
 }
 
 .error {
   color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
 }
