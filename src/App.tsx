@@ -40,14 +40,6 @@ export const App: React.FC = () => {
     setTittleError(!todoTitle);
     setSelectedError(!selectedUser);
 
-    // if (!title) {
-    //   setTittleError(true);
-    // }
-
-    // if (!selectedUser) {
-    //   setSelectedError(true);
-    // }
-
     if (!todoTitle || !selectedUser) {
       return;
     }
