@@ -4,8 +4,6 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
-// import { Todo } from './types/Todo';
-
 import { TodoList } from './components/TodoList';
 
 const getUserById = (id: number): User | null => {
@@ -29,10 +27,7 @@ export const App = () => {
   const [isTitleOnSubmit, setIsTitleOnSubmit] = useState(false);
   const [isUserOnSubmit, setIsUserOnSubmit] = useState(false);
 
-  // console.log(todosFromServer);
-
   const selectedUser = getUserById(newTodoUserId);
-  // const user = getUserById(todo.userId);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
