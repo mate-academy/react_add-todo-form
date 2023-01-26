@@ -6,8 +6,19 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
+label {
+  display: block;
+  cursor: pointer;
+}
+
+span {
+  display: block;
+  margin-bottom: 12px;
+}
+
 button {
+  padding: 12px;
+  margin: 12px 0;
   cursor: pointer;
 }
 
@@ -15,13 +26,17 @@ button {
   color: red;
 }
 
+.TodoList {
+  padding: 0;
+  list-style: none;
+}
+
 .TodoInfo {
-  width: max-content;
-  padding: 8px;
+  width: 50%;
+  padding: 12px;
   margin: 12px 0;
   border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(247, 244, 244);
 
   &__title {
     margin: 4px 0;
@@ -36,4 +51,6 @@ button {
 
 .UserInfo {
   font-style: italic;
+  text-decoration: none;
+  color: #000;
 }
