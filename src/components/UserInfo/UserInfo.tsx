@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import './UserInfo.scss';
 
 type Props = {
   user: User,

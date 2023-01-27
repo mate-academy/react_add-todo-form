@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
+import './TodoInfo.scss';
 
 type Props = {
   todo: Todo,
