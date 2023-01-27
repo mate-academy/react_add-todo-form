@@ -16,11 +16,12 @@ export const App = () => {
       user: users.find(user => user.id === todo.userId) || null,
     })),
   );
-  const getNewId = () => {
-    return Math.max(
+
+  const getNewId = () => (
+    Math.max(
       ...todos.map(todo => todo.id),
-    ) + 1;
-  };
+    ) + 1
+  );
 
   const resetForm = () => {
     setSelectedUserName('');
