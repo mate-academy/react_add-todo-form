@@ -6,16 +6,16 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: users.find(user => user.id === todo.userId) || null,
+}));
+
 export const App = () => {
   const [inputTitle, setInputTitle] = useState('');
   const [selectedUserName, setSelectedUserName] = useState('');
   const [hadFailedSubmit, setHadFailedSubmit] = useState(false);
-  const [todos, setTodos] = useState(
-    todosFromServer.map(todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId) || null,
-    })),
-  );
+  const [todos, setTodos] = useState(preparedTodos);
 
   const getNewId = () => (
     Math.max(
@@ -29,7 +29,7 @@ export const App = () => {
     setHadFailedSubmit(false);
   };
 
-  const createTodo = () => {
+  const addTodo = () => {
     const selectedUser = users.find(user => user.name === selectedUserName);
 
     if (!selectedUser) {
@@ -59,7 +59,7 @@ export const App = () => {
       return;
     }
 
-    createTodo();
+    addTodo();
     resetForm();
   };
 
