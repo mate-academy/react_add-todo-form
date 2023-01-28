@@ -1,6 +1,5 @@
 import './App.scss';
 import React, { useState } from 'react';
-// import React from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -18,25 +17,37 @@ const prepareTodos = (
   }));
 };
 
-const todos = prepareTodos(usersFromServer, todosFromServer);
+const prepareTodo = (
+  currentUser: User,
+  title: string,
+  todos: Todo[],
+): FullTodo => {
+  const maxId = Math.max(...todos.map(todo => todo.id));
+
+  return ({
+    id: maxId + 1,
+    title,
+    completed: false,
+    userId: currentUser.id,
+    user: currentUser,
+  });
+};
+
+const visibleTodos = prepareTodos(usersFromServer, todosFromServer);
 const users = usersFromServer;
 
 export const App: React.FC = () => {
-  const [userFromSelect, setUser] = useState('0');
+  const [userSelected, setUserSelected] = useState('0');
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [todosArr, setTodo] = useState(todos);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+  const [todos, setTodos] = useState(visibleTodos);
 
   const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserError(false);
     const { value } = event.target;
 
-    setUser(value);
+    setUserSelected(value);
   };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +57,16 @@ export const App: React.FC = () => {
     setTitle(value);
   };
 
-  const handleAddTodo = () => {
+  const resetForm = () => {
+    setTitle('');
+    setUserSelected('0');
+  };
+
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const currentUser = users
-      .find(user => user.name === userFromSelect) || null;
+      .find(user => user.name === userSelected) || null;
 
     if (!currentUser) {
       setUserError(true);
@@ -59,22 +77,14 @@ export const App: React.FC = () => {
     }
 
     if (currentUser && title) {
-      const maxId = Math.max(...todos.map(todo => todo.id));
-      const todo: FullTodo = {
-        id: maxId + 1,
-        title,
-        completed: false,
-        userId: currentUser.id,
-        user: currentUser,
-      };
+      const todo = prepareTodo(currentUser, title, visibleTodos);
 
-      setTodo(current => ([
+      setTodos(current => ([
         ...current,
         todo,
       ]));
 
-      setTitle('');
-      setUser('0');
+      resetForm();
     }
   };
 
@@ -85,7 +95,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <label>
@@ -108,15 +118,12 @@ export const App: React.FC = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={userFromSelect}
+              value={userSelected}
               onChange={handleChangeSelect}
             >
               <option value="0" disabled>Choose a user</option>
               {users.map((user) => (
-                <option
-                  value={user.name}
-                  key={user.id}
-                >
+                <option value={user.name} key={user.id}>
                   {user.name}
                 </option>
               ))}
@@ -127,17 +134,13 @@ export const App: React.FC = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          onClick={handleAddTodo}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todosArr} />
+        <TodoList todos={todos} />
       </section>
     </div>
   );
