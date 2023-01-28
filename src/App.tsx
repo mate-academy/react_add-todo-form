@@ -49,17 +49,15 @@ export const App: React.FC = () => {
       return;
     }
 
-    setTodos((prevTodos => {
-      const newTodo = {
-        id: getHighestTodoID(todos),
-        title,
-        completed: false,
-        userId: selectedUserID,
-        user: findUserByID(selectedUserID),
-      };
+    const newTodo = {
+      id: getHighestTodoID(todos),
+      title,
+      completed: false,
+      userId: selectedUserID,
+      user: findUserByID(selectedUserID),
+    };
 
-      return [...prevTodos, newTodo];
-    }));
+    setTodos((prevTodos => [newTodo, ...prevTodos]));
 
     clearForm();
   };
