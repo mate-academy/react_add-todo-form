@@ -57,7 +57,7 @@ export const App: React.FC = () => {
       user: findUserByID(selectedUserID),
     };
 
-    setTodos((prevTodos => [newTodo, ...prevTodos]));
+    setTodos((prevTodos => [...prevTodos, newTodo]));
 
     clearForm();
   };
