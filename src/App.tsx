@@ -25,40 +25,44 @@ export const App = () => {
   const [showUserError, setShowUserError] = useState(false);
   const [showTitleError, setShowTitleError] = useState(false);
 
+  const submitTodoForm = () => {
+    let shouldExit = false;
+
+    if (userId === '0') {
+      setShowUserError(true);
+      shouldExit = true;
+    }
+
+    if (!title.trim()) {
+      setShowTitleError(true);
+      shouldExit = true;
+    }
+
+    if (shouldExit) {
+      return;
+    }
+
+    const newTodo = {
+      id: Math.max(...storedTodos.map(todo => todo.id)) + 1,
+      title,
+      userId: +userId,
+      completed: false,
+      user: getUser(+userId),
+    };
+
+    setStoredTodos([...storedTodos, newTodo]);
+
+    setTitle('');
+    setUserId('0');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form onSubmit={(event) => {
         event.preventDefault();
-        let shouldExit = false;
-
-        if (userId === '0') {
-          setShowUserError(true);
-          shouldExit = true;
-        }
-
-        if (!title.trim()) {
-          setShowTitleError(true);
-          shouldExit = true;
-        }
-
-        if (shouldExit) {
-          return;
-        }
-
-        const newTodo = {
-          id: Math.max(...storedTodos.map(todo => todo.id)) + 1,
-          title,
-          userId: +userId,
-          completed: false,
-          user: getUser(+userId),
-        };
-
-        setStoredTodos([...storedTodos, newTodo]);
-
-        setTitle('');
-        setUserId('0');
+        submitTodoForm();
       }}
       >
         <div className="field">
@@ -89,7 +93,12 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
 
