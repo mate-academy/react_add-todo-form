@@ -7,9 +7,7 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -50,7 +48,7 @@ export const App: React.FC = () => {
     setHasUserError(false);
   };
 
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setHasTitleError(!title);
@@ -72,7 +70,7 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={submit}
+        onSubmit={onSubmit}
       >
         <div className="field">
           <input
