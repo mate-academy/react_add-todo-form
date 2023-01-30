@@ -1,29 +1,9 @@
 import './App.scss';
 import React, { useState } from 'react';
-import cn from 'classnames';
 import users from './api/users';
 import importedTodos from './api/todos';
-
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
-
-interface Todo {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number
-}
-
-interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-}
-
-function findUserById(id: number): User | null {
-  return users.find(user => user.id === id) || null;
-}
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
 
 function findBiggestTodoId(todoList: Todo[]): number {
   return todoList.reduce((prev, todo) => (prev > todo.id ? prev : todo.id), 0);
@@ -135,25 +115,7 @@ export const App: React.FC = () => {
       </form>
 
       <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id={todo.id}
-            className={cn('TodoInfo', {
-              'TodoInfo--completed': todo.completed,
-            })}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            <a
-              className="UserInfo"
-              href={`mailto:${findUserById(todo.userId)?.email}`}
-            >
-              {findUserById(todo.userId)?.name}
-            </a>
-          </article>
-        ))}
+        <TodoList todos={todos} />
       </section>
     </div>
   );
