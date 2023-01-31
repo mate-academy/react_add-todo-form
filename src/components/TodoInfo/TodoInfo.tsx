@@ -8,7 +8,11 @@ type Props = {
 };
 
 export const TodoInfo:React.FC<Props> = ({ todo }) => {
-  const { title, completed, user } = todo;
+  const {
+    title,
+    completed,
+    user,
+  } = todo;
 
   return (
     <article
