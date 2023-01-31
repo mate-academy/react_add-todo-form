@@ -48,7 +48,11 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={submit}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={submit}
+      >
         <div className="field">
           <span className="field__title">Title:</span>
 
