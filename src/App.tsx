@@ -4,6 +4,8 @@ import {
   FormEvent,
   useMemo,
   useState,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 
 import { TodoList } from './components/TodoList';
@@ -30,15 +32,11 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: FC = () => {
-  const [formFields, setFormFields] = useState({
-    todoTitle: '',
-    selectedUserId: 0,
-  });
-  const [formValidity, setFormValidity] = useState({
-    isTitleValid: true,
-    isUserSelected: true,
-  });
-  const [todos, setTodos] = useState([...todosWithUsers]);
+  const [todoTitle, setTodoTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserSelected, setIsUserSelected] = useState(true);
+  const [todos, setTodos] = useState(todosWithUsers);
 
   const largestTodoId = useMemo(() => {
     return Math.max(...todos.map(todo => todo.id));
@@ -47,13 +45,9 @@ export const App: FC = () => {
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    const { todoTitle, selectedUserId } = formFields;
-
     if (!todoTitle || !selectedUserId) {
-      setFormValidity({
-        isTitleValid: !!todoTitle,
-        isUserSelected: !!selectedUserId,
-      });
+      setIsTitleValid(!!todoTitle);
+      setIsUserSelected(!!selectedUserId);
 
       return;
     }
@@ -70,30 +64,20 @@ export const App: FC = () => {
       ...todos,
       newTodo,
     ]);
-    setFormFields({
-      todoTitle: '',
-      selectedUserId: 0,
-    });
+    setTodoTitle('');
+    setSelectedUserId(0);
   }
 
-  function handleChange<
-    K extends keyof typeof formFields,
-    T extends keyof typeof formValidity,
-  >(
-    formField: K,
-    newValue: string | number,
-    validityField: T,
+  function handleFieldChange<T>(
+    setFormField: Dispatch<SetStateAction<T>>,
+    newValue: T,
+    setValidityField: Dispatch<SetStateAction<boolean>>,
+    oldValidityValue: boolean,
   ): void {
-    setFormFields({
-      ...formFields,
-      [formField]: newValue,
-    });
+    setFormField(newValue);
 
-    if (!formValidity[validityField]) {
-      setFormValidity({
-        ...formValidity,
-        [validityField]: true,
-      });
+    if (!oldValidityValue) {
+      setValidityField(true);
     }
   }
 
@@ -103,11 +87,18 @@ export const App: FC = () => {
       .value
       .replace(/[^a-z\p{sc=Cyrillic} \d]/giu, '');
 
-    handleChange('todoTitle', input, 'isTitleValid');
+    handleFieldChange(setTodoTitle, input, setIsTitleValid, isTitleValid);
   }
 
   function handleSelectChange(event: ChangeEvent<HTMLSelectElement>): void {
-    handleChange('selectedUserId', +event.target.value, 'isUserSelected');
+    const newValue = +event.target.value;
+
+    handleFieldChange(
+      setSelectedUserId,
+      newValue,
+      setIsUserSelected,
+      isUserSelected,
+    );
   }
 
   return (
@@ -126,11 +117,11 @@ export const App: FC = () => {
             name="todoTitle"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={formFields.todoTitle}
+            value={todoTitle}
             onChange={handleTitleChange}
           />
 
-          {!formValidity.isTitleValid
+          {!isTitleValid
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -140,7 +131,7 @@ export const App: FC = () => {
             <select
               name="selectedUserId"
               data-cy="userSelect"
-              value={formFields.selectedUserId}
+              value={selectedUserId}
               onChange={handleSelectChange}
             >
               <option value="0" disabled>Choose a user</option>
@@ -156,7 +147,7 @@ export const App: FC = () => {
             </select>
           </label>
 
-          {!formValidity.isUserSelected
+          {!isUserSelected
             && <span className="error">Please choose a user</span>}
         </div>
 
