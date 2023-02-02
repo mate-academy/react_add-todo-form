@@ -49,6 +49,12 @@ export const App: React.FC = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setUserName('');
+    setSubmit(false);
+  };
+
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -57,9 +63,7 @@ export const App: React.FC = () => {
 
     if (selectedUserName && title) {
       addTodo();
-      setTitle('');
-      setUserName('');
-      setSubmit(false);
+      resetForm();
     }
   };
 
