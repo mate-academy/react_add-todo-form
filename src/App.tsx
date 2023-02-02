@@ -22,26 +22,28 @@ export const App: React.FC = () => {
         }
       }
 
-      setMaxId(maxValue + 1);
+      setMaxId(current => current + maxValue + 1);
     } else {
       setMaxId(current => current + 1);
     }
 
-    const person = usersFromServer
-      .filter(human => human.id === +selectedUser)[0];
+    if (selectedUser !== '') {
+      const person = usersFromServer
+        .find(human => human.id === +selectedUser);
 
-    if (titleText && selectedUser) {
-      const newUser = {
-        id: maxId,
-        title: titleText,
-        completed: false,
-        userId: person.id,
-      };
+      if (titleText && selectedUser && person) {
+        const newUser = {
+          id: maxId,
+          title: titleText,
+          completed: false,
+          userId: person.id,
+        };
 
-      setTodos([...todos, newUser]);
-      setTitleText('');
-      setSelectedUser('');
-      setEmptyField(false);
+        setTodos([...todos, newUser]);
+        setTitleText('');
+        setSelectedUser('');
+        setEmptyField(false);
+      }
     }
   };
 
