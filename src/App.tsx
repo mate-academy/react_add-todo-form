@@ -38,7 +38,9 @@ export const App: React.FC = () => {
     setIsUserErrorVisible(!selectedUserId);
 
     if (todoTitle && selectedUserId) {
-      setTodoList([...todoList, createNewTodo()]);
+      setTodoList(currentTodoList => (
+        [...currentTodoList, createNewTodo()]
+      ));
       setTodoTitle('');
       setSelectedUserId('');
     }
