@@ -8,10 +8,11 @@ import { TodoList } from './components/TodoList';
 
 export const App: React.FC = () => {
   const getUser = (param: number | string): User | null => {
-    const foundUser
-    = typeof param === 'number'
-      ? usersFromServer.find(user => user.id === param)
-      : usersFromServer.find(user => user.name === param);
+    const foundUser = usersFromServer.find(user => (
+      typeof param === 'number'
+        ? user.id === param
+        : user.name === param
+    ));
 
     return foundUser || null;
   };
