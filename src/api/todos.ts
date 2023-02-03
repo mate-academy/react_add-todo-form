@@ -7,7 +7,7 @@ export default [
   },
   {
     id: 15,
-    title: 'some other todo',
+    title: 'delectus aut autem',
     completed: false,
     userId: 1,
   },
