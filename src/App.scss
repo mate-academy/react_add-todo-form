@@ -1,9 +1,15 @@
+@import "./reset";
+
+* {
+  box-sizing: border-box;
+}
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 label,
@@ -15,25 +21,64 @@ button {
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
+  padding: 15px 0;
+  min-height: 100vh;
+  background-color: #ced4da;
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    max-width: 400px;
+
+    margin: 0 auto;
+    padding: 15px 20px;
+
+    background-image: url(./imgs/Untitled-1.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
   }
 
-  &--completed &__title {
-    color: #080;
-  }
-}
+  &__form {
+    width: 100%;
+    margin-top: 20px;
 
-.UserInfo {
-  font-style: italic;
+    &-field {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    &-select {
+      margin-bottom: 5px;
+
+      width: 100%;
+      height: 55px;
+
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+    }
+
+    &-input {
+      margin-bottom: 5px;
+
+      width: 100%;
+      height: 55px;
+
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+    }
+
+    &-button {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-error {
+      font-style: italic;
+      font-size: large;
+    }
+  }
 }

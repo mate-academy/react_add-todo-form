@@ -1,19 +1,19 @@
 export default [
   {
     id: 1,
-    title: 'delectus aut autem',
+    title: 'Steal the "Relic"',
     completed: true,
     userId: 1,
   },
   {
     id: 15,
-    title: 'some other todo',
+    title: 'Sell the "Relic" to NetWatch',
     completed: false,
     userId: 1,
   },
   {
     id: 2,
-    title: 'quis ut nam facilis et officia qui',
+    title: 'Destroy Militech',
     completed: false,
     userId: 4,
   },

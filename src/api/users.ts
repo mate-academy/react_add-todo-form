@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    name: 'Leanne Graham',
+    name: 'Yorinobu Arasaka',
     username: 'Bret',
     email: 'Sincere@april.biz',
   },
@@ -19,7 +19,7 @@ export default [
   },
   {
     id: 4,
-    name: 'Patricia Lebsack',
+    name: 'Saburo Arasaka',
     username: 'Karianne',
     email: 'Julianne.OConner@kory.org',
   },
