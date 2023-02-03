@@ -20,10 +20,10 @@ export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [selectedUserName, setUserName] = useState('');
+  const [selectedUserName, setSelectedUserName] = useState('');
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [isSubmitted, setSubmit] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const getNewId = () => (
     Math.max(...todos.map(todo => todo.id)) + 1
@@ -51,21 +51,25 @@ export const App: React.FC = () => {
 
   const resetForm = () => {
     setTitle('');
-    setUserName('');
-    setSubmit(false);
+    setSelectedUserName('');
+    setIsSubmitted(false);
   };
 
   const handleSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
-    setSubmit(true);
+    setIsSubmitted(true);
 
     if (selectedUserName && title) {
       addTodo();
       resetForm();
     }
   };
+
+  const showErrorMessage = (condition: boolean, message: string) => (
+    condition && (<span className="error">{message}</span>)
+  );
 
   return (
     <div className="App">
@@ -82,9 +86,8 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-          {!title && isSubmitted && (
-            <span className="error">Please enter a title</span>
-          )}
+
+          {showErrorMessage(!title && isSubmitted, 'Please enter a title')}
         </div>
 
         <div className="field">
@@ -92,7 +95,7 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUserName}
-            onChange={(event) => setUserName(event.target.value)}
+            onChange={(event) => setSelectedUserName(event.target.value)}
           >
             <option value="" disabled>Choose a user</option>
             {usersFromServer.map(user => {
@@ -106,8 +109,9 @@ export const App: React.FC = () => {
             })}
           </select>
 
-          {!selectedUserName && isSubmitted && (
-            <span className="error">Please choose a user</span>
+          {showErrorMessage(
+            !selectedUserName && isSubmitted,
+            'Please choose a user',
           )}
         </div>
 
