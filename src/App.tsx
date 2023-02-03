@@ -29,9 +29,7 @@ export const App: React.FC = () => {
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const rightValue = value.trim().length > 0
-      ? value.replace(/[^a-zA-Z0-9 ]/g, '')
-      : '';
+    const rightValue = value.replace(/[^a-zA-Z0-9 ]/g, '');
 
     setNewTodoTitle(rightValue);
   };
