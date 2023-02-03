@@ -59,12 +59,16 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleErrorStatus(false);
+    if (titleErrorStatus === true) {
+      setTitleErrorStatus(false);
+    }
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(Number(event.target.value));
-    setUserErrorStatus(false);
+    if (userErrorStatus === true) {
+      setUserErrorStatus(false);
+    }
   };
 
   return (
