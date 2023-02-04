@@ -20,8 +20,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
   const [updatedTodos, setUpdatedTodos] = useState(todos);
-  const [noUser, setNoUser] = useState(false);
-  const [noTitle, setNoTitle] = useState(false);
+  const [userSelected, setUserSelected] = useState(false);
+  const [titleSelected, setTitleSeleected] = useState(false);
 
   const maxTodoId = Math.max(
     ...updatedTodos.map(updatedTodo => updatedTodo.id),
@@ -34,13 +34,8 @@ export const App = () => {
   }
 
   function submitHandler() {
-    if (!user) {
-      setNoUser(true);
-    }
-
-    if (!title.trim()) {
-      setNoTitle(true);
-    }
+    setUserSelected(!user);
+    setTitleSeleected(!title.trim());
 
     if (!user || !title.trim()) {
       return;
@@ -54,12 +49,10 @@ export const App = () => {
       user: getUser(+user),
     };
 
-    setUpdatedTodos(currentToDo => (
-      [
-        ...currentToDo,
-        newTodo,
-      ]
-    ));
+    setUpdatedTodos(currentToDo => ([
+      ...currentToDo,
+      newTodo,
+    ]));
 
     setTitle('');
     setUser('');
@@ -68,14 +61,17 @@ export const App = () => {
   function changeHandler(e: ChangeEvent) {
     const target = e.target as HTMLInputElement;
 
-    if (target.id === 'select') {
-      setUser(target.value);
-      setNoUser(false);
-    }
-
-    if (target.id === 'title') {
-      setTitle(spellingChecker(target.value));
-      setNoTitle(false);
+    switch (target.id) {
+      case 'select':
+        setUser(target.value);
+        setUserSelected(false);
+        break;
+      case 'title':
+        setTitle(spellingChecker(target.value));
+        setTitleSeleected(false);
+        break;
+      default:
+        break;
     }
   }
 
@@ -91,7 +87,7 @@ export const App = () => {
         <div className="field">
           <label
             htmlFor="title"
-            style={{ marginRight: 5 }}
+            className="field__label"
           >
             Title:
           </label>
@@ -101,9 +97,9 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={e => changeHandler(e)}
+            onChange={changeHandler}
           />
-          {noTitle && (
+          {titleSelected && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -111,7 +107,7 @@ export const App = () => {
         <div className="field">
           <label
             htmlFor="select"
-            style={{ marginRight: 5 }}
+            className="field__label"
           >
             User:
           </label>
@@ -119,7 +115,7 @@ export const App = () => {
             data-cy="userSelect"
             id="select"
             value={user}
-            onChange={e => changeHandler(e)}
+            onChange={changeHandler}
           >
             <option
               value=""
@@ -137,7 +133,7 @@ export const App = () => {
             ))}
           </select>
 
-          {noUser && (
+          {userSelected && (
             <span className="error">Please choose a user</span>
           )}
         </div>

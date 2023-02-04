@@ -15,6 +15,12 @@ button {
   color: red;
 }
 
+.field {
+  &__label {
+    margin-right: 5px;
+  }
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -31,6 +37,15 @@ button {
 
   &--completed &__title {
     color: #080;
+  }
+}
+
+.TodoList {
+  margin: 0;
+  padding: 0;
+  
+  &__item {
+    list-style: none;
   }
 }
 

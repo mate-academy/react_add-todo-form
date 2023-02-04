@@ -7,10 +7,12 @@ type ToDo = {
 
 export const TodoList: React.FC<ToDo> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <ul className="TodoList">
       {todos.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} />
+        <li key={todo.id} className="TodoList__item">
+          <TodoInfo todo={todo} />
+        </li>
       ))}
-    </section>
+    </ul>
   );
 };
