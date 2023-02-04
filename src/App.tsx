@@ -5,6 +5,7 @@ import todosFromServer from './api/todos';
 
 import { User } from './types/User';
 import { Todo } from './types/Todo';
+import { EventForm } from './types/EventForm';
 
 import { TodoList } from './components/TodoList';
 
@@ -47,28 +48,30 @@ export const App: React.FC = () => {
     const reg = /[a-zA-Zа-яА-ЯГЄІЇ\d\s]/g;
     const matches = inputValue.match(reg);
 
-    if (matches === null) {
+    if (!matches) {
       setlanguageError(true);
     }
 
-    return matches ? matches.join('') : '';
+    return matches?.join('') || '';
   }
 
-  type Event = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
-
-  const handleField = (e: Event) => {
+  const handleField = (e: EventForm) => {
     const { value } = e.target;
 
-    if (e.target.id === 'title') {
-      setTitleError(false);
-      setlanguageError(false);
+    switch (e.target.id) {
+      case 'title':
+        setTitleError(false);
+        setlanguageError(false);
+        setTitle(checkValue(value));
+        break;
 
-      setTitle(checkValue(value));
-    }
+      case 'select':
+        setUserId(value);
+        setUserError(false);
+        break;
 
-    if (e.target.id === 'select') {
-      setUserId(value);
-      setUserError(false);
+      default:
+        break;
     }
   };
 
@@ -78,7 +81,7 @@ export const App: React.FC = () => {
     setTitleError(!title);
     setUserError(!userId);
 
-    if (title && userId) {
+    if (title.trim() && userId) {
       const newTodo = createTodo();
 
       setVisibleTodos([
@@ -108,12 +111,14 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={e => handleField(e)}
+              onChange={handleField}
             />
             {languageError
               && (
-                // eslint-disable-next-line max-len
-                <span className="error">The title supports only EN and UA letters and numbers</span>
+                <span className="error">
+                  The title supports only
+                  EN and UA letters and numbers
+                </span>
               )}
 
             {isTitleError && (
@@ -130,7 +135,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               value={userId}
               id="select"
-              onChange={e => handleField(e)}
+              onChange={handleField}
             >
 
               <option value="" disabled>Choose a user</option>
