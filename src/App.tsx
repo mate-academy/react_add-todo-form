@@ -49,6 +49,9 @@ export const App: React.FC = () => {
   const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
 
+    if(name === 'title' && value !== '') {
+      setErrorTitle(false);
+    }
     setValues({
       ...values,
       [name]: value,
@@ -63,6 +66,8 @@ export const App: React.FC = () => {
     } else if (values.user === '') {
       setErrorName(true);
     } else if (values.title === '') {
+      setErrorTitle(true);
+    } else if (values.title.trim().length === 0) {
       setErrorTitle(true);
     } else {
       setValues({
@@ -82,9 +87,9 @@ export const App: React.FC = () => {
   useEffect(() => {
     const user = getUserByName(values.user);
 
-    if (values.user !== '') {
+    if (values.user.length > 0) {
       setErrorName(false);
-    } else if (values.title !== '') {
+    } else if (values.title.length > 0) {
       setErrorTitle(false);
     }
 
@@ -96,7 +101,7 @@ export const App: React.FC = () => {
       completed: values.completed,
       user: getUserByName(values.user),
     });
-  }, [values]);
+  }, [values.title, values.user]);
 
   return (
     <div className="App">
