@@ -22,7 +22,7 @@ export const App = () => {
   const handleInputChange = (event: Input) => {
     const { value } = event.target;
 
-    setTitle(value);
+    setTitle(value.trim());
 
     if (!title) {
       setIsTitle(false);
