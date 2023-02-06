@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -30,7 +30,7 @@ export const App = () => {
     setChoosedUserError(false);
   };
 
-  const addTodo = (event: MouseEvent<HTMLButtonElement>) => {
+  const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (title && choosedUser) {
       const newId = [...todos].sort((idOne, idTwo) => {
@@ -67,7 +67,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form action="/api/users" method="POST" onSubmit={addTodo}>
         <div className="field">
           <input
             type="text"
@@ -112,7 +112,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={addTodo}
         >
           Add
         </button>
