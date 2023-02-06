@@ -101,7 +101,7 @@ export const App:React.FC = () => {
           <input
             type="text"
             data-cy="titleInput"
-            placeholder="Title"
+            placeholder="Enter a title"
             value={title}
             onChange={handleTitle}
           />
