@@ -69,9 +69,6 @@ export const App: React.FC = () => {
     });
   };
 
-  // eslint-disable-next-line no-console
-  console.log(todosForRender);
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
