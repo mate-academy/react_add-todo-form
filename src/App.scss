@@ -11,29 +11,30 @@ button {
   cursor: pointer;
 }
 
+.input,
+.select {
+  width: 230px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
 .error {
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
+  margin: 8px;
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+  &__form {
+    padding: 15px;
+    width: max-content;
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%);
+    border-radius: 15px;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__field {
+    display: flex;
+    align-items: center;
   }
-}
-
-.UserInfo {
-  font-style: italic;
 }
