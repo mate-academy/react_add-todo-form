@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 import 'bulma/css/bulma.css';
 
@@ -17,34 +17,35 @@ const initialTodos: Todo[] = todosFromServer.map(todo => (
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [showTitleError, setShowTitleError] = useState(false);
-  const [showSelectError, setShowSelectError] = useState(false);
+  const [canShowTitleError, setCanShowTitleError] = useState(false);
+  const [canShowSelectError, setCanShowSelectError] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUserId(+value);
-    setShowSelectError(false);
+    setCanShowSelectError(false);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value);
-    setShowTitleError(false);
+    setCanShowTitleError(false);
   };
 
   const reset = () => {
     setTitle('');
     setUserId(0);
-    setShowTitleError(false);
-    setShowSelectError(false);
+    setCanShowTitleError(false);
+    setCanShowSelectError(false);
   };
 
-  const handleSubmit = () => {
-    setShowTitleError(true);
-    setShowSelectError(true);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setCanShowTitleError(true);
+    setCanShowSelectError(true);
 
     if (title.length > 0 && userId !== 0) {
       const todoId = Math.max(...todos.map(todo => todo.id)) + 1;
@@ -71,10 +72,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title" className="label">Title:</label>
@@ -89,7 +87,7 @@ export const App: React.FC = () => {
             onChange={handleTitleChange}
           />
 
-          {(showTitleError && title.length === 0)
+          {(canShowTitleError && title.length === 0)
             && <span className="error mt-3">Please enter a title</span>}
         </div>
 
@@ -117,7 +115,7 @@ export const App: React.FC = () => {
             </select>
           </div>
 
-          {(showSelectError && userId === 0)
+          {(canShowSelectError && userId === 0)
             && <span className="error mt-3">Please choose a user</span>}
         </div>
 
