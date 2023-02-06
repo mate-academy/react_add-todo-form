@@ -25,9 +25,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-type ChangeEvent =
-  React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>;
-
+type ChangeEvent = React.ChangeEvent<HTMLSelectElement | HTMLInputElement>;
 export const App: React.FC = () => {
   const [errorName, setErrorName] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
@@ -49,9 +47,6 @@ export const App: React.FC = () => {
   const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
 
-    if(name === 'title' && value !== '') {
-      setErrorTitle(false);
-    }
     setValues({
       ...values,
       [name]: value,
@@ -60,28 +55,38 @@ export const App: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (values.user === '' && values.title === '') {
-      setErrorName(true);
-      setErrorTitle(true);
-    } else if (values.user === '') {
-      setErrorName(true);
-    } else if (values.title === '') {
-      setErrorTitle(true);
-    } else if (values.title.trim().length === 0) {
-      setErrorTitle(true);
-    } else {
-      setValues({
-        ...values,
-        user: '',
-        title: '',
-        id: values.id + 1,
-      });
+    const { user, title } = values;
 
-      setVisibleTodos([
-        ...visibleTodos,
-        todo,
-      ]);
+    if (!user || !title) {
+      setErrorName(Boolean(!user));
+      setErrorTitle(Boolean(!title));
+
+      return;
     }
+
+    if(user === '0') {
+      setErrorName(true);
+
+      return;
+    }
+
+    if (title.trim().length === 0) {
+      setErrorTitle(Boolean(title));
+
+      return;
+    }
+
+    setValues({
+      ...values,
+      user: '',
+      title: '',
+      id: values.id + 1,
+    });
+
+    setVisibleTodos([
+      ...visibleTodos,
+      todo,
+    ]);
   };
 
   useEffect(() => {
