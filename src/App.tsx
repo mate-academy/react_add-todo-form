@@ -7,64 +7,66 @@ import todosFromServer from './api/todos';
 
 const copyTodosFromServer = [...todosFromServer];
 
-const prepareTodos = (todos: Todo[], users: User[]): FullTodo[] => {
-  return todos.map(todo => ({
+const prepareTodos = (todos: Todo[], users: User[]): FullTodo[] => (
+  todos.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId) || null,
-  }));
-};
+  }))
+);
 
 export const App: React.FC = () => {
   const [todosForRender, setTodosForRender] = useState<Todo[]>(
     copyTodosFromServer,
   );
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserName, setSelectedUserName] = useState('');
   const [titleForTodo, setTitleForTodo] = useState('');
-  const [isEmptyTitle, setIsEmptyTitle] = useState(true);
+  const [errorTitle, setErrorTitle] = useState(true);
   const [isEmptyUser, setIsEmptyUser] = useState(true);
 
   const preparedTodos = prepareTodos(todosForRender, usersFromServer);
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleForTodo(event.target.value);
-    setIsEmptyTitle(true);
+    setErrorTitle(true);
   };
 
   const handleChooseUser = ((event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUserName(event.target.value);
     setIsEmptyUser(true);
   });
 
-  const handleAddTodo = () => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!titleForTodo) {
-      setIsEmptyTitle(false);
+      setErrorTitle(false);
     }
 
-    if (!selectedUser) {
+    if (!selectedUserName) {
       setIsEmptyUser(false);
     }
 
     setTodosForRender(prevState => {
-      const allIdTodos: number[] = [];
-      const idForUser = usersFromServer.find(
-        person => person.name === selectedUser,
+      const idTodos: number[] = [];
+      const user = usersFromServer.find(
+        person => person.name === selectedUserName,
       );
 
-      if (!idForUser || !titleForTodo) {
+      if (!user || !titleForTodo) {
         return [...prevState];
       }
 
-      prevState.map(todo => allIdTodos.push(todo.id));
+      prevState.forEach(todo => idTodos.push(todo.id));
 
       setTitleForTodo('');
-      setSelectedUser('');
+      setSelectedUserName('');
 
       return (
         [...prevState, {
-          id: Math.max(...allIdTodos) + 1,
+          id: Math.max(...idTodos) + 1,
           title: titleForTodo,
           completed: false,
-          userId: idForUser.id,
+          userId: user.id,
         }]);
     });
   };
@@ -73,12 +75,11 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={(event) => event.preventDefault()}>
+      <form onSubmit={handleAddTodo}>
         <div className="field">
 
           <label htmlFor="">
-            Title:
-            {' '}
+            {'Title: '}
             <input
               type="text"
               data-cy="titleInput"
@@ -88,18 +89,17 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {!isEmptyTitle && (
+          {!errorTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
           <label>
-            User:
-            {' '}
+            {'User: '}
             <select
               data-cy="userSelect"
-              value={selectedUser}
+              value={selectedUserName}
               onChange={handleChooseUser}
             >
               <option value="" disabled>Choose a user</option>
@@ -120,7 +120,6 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleAddTodo}
         >
           Add
         </button>
