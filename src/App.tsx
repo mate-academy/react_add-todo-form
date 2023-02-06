@@ -25,8 +25,15 @@ export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
   const [isSubmited, setIsSubmited] = useState(false);
 
-  const updateTodoList = (event: FormEvent<HTMLFormElement>) => {
+  const resetForm = () => {
+    setTodoTitle('');
+    setSelectedUserName('');
+    setIsSubmited(false);
+  };
+
+  const handleTodos = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setIsSubmited(true);
 
     const selectedUser = usersFromServer.find((user) => (
@@ -50,9 +57,8 @@ export const App = () => {
     };
 
     setVisibleTodos([...visibleTodos, todoToAdd]);
-    setTodoTitle('');
-    setSelectedUserName('');
-    setIsSubmited(false);
+
+    resetForm();
   };
 
   const emptyTodoTitle = isSubmited && !todoTitle;
@@ -65,11 +71,12 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={updateTodoList}
+        onSubmit={handleTodos}
       >
         <div className="field">
           <label>
-            Title:&nbsp;
+            {'Title '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -87,7 +94,8 @@ export const App = () => {
 
         <div className="field">
           <label>
-            User:&nbsp;
+            {'Title '}
+
             <select
               data-cy="userSelect"
               value={selectedUserName}
