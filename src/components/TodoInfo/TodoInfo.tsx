@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Todo } from '../../utiles/Todo';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = { todo: Todo };
@@ -18,12 +18,16 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
       data-id={id}
       className={classNames(
         'TodoInfo',
+        'is-light',
+        'notification',
         {
+          'is-info': completed,
+          'is-warning': !completed,
           'TodoInfo--completed': completed,
         },
       )}
     >
-      <h2 className="TodoInfo__title">
+      <h2 className="TodoInfo__title title is-6">
         {title}
       </h2>
       {user && (<UserInfo user={user} />)}

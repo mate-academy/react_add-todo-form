@@ -1,10 +1,11 @@
 import { FormEvent, ChangeEvent, useState } from 'react';
 import './App.scss';
+import 'bulma/css/bulma.min.css';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './utiles/Todo';
+import { Todo } from './types/Todo';
 import { getNewId } from './utiles/getNewId';
 import { getUserbyId } from './utiles/getUserById';
 
@@ -32,9 +33,15 @@ export const App = () => {
     if (title && userId) {
       const newToDoId = getNewId(todos);
       const newTodoUSer = getUserbyId(usersFromServer, userId);
-      const newTodo = new Todo(newToDoId, title, userId, newTodoUSer);
+      const newTodo: Todo = {
+        id: newToDoId,
+        title,
+        completed: false,
+        userId,
+        user: newTodoUSer,
+      };
 
-      setTodos((prevTodos) => ([
+      setTodos((prevTodos:Todo[]) => ([
         ...prevTodos,
         newTodo,
       ]));
@@ -61,57 +68,63 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title is-1">Add todo form</h1>
+      <div className="box">
+        <form onSubmit={handleSubmit}>
+          <div className="field container">
+            <input
+              className="inputRestyle"
+              type="text "
+              data-cy="titleInput"
+              placeholder="Enter tittle"
+              value={title}
+              onChange={handleImput}
+            />
 
-      <form onSubmit={handleSubmit}>
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter tittle"
-            value={title}
-            onChange={handleImput}
-          />
-
-          {
-            !titleSetted
+            {
+              !titleSetted
             && (
               <span className="error">
                 Please enter a title
               </span>
             )
-          }
-        </div>
+            }
+          </div>
 
-        <div className="field">
-
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={handleSelect}
-          >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          {
-            !userNameSetted
+          <div className="field container">
+            <select
+              className="select inputRestyle"
+              data-cy="userSelect"
+              value={userId}
+              onChange={handleSelect}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {
+              !userNameSetted
             && (
               <span className="error">
                 Please choose a user
               </span>
             )
-          }
+            }
 
-        </div>
+          </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <button
+            className="button is-dark is-rounded"
+            type="submit"
+            data-cy="submitButton"
+          >
+            Add
+          </button>
+        </form>
+      </div>
 
       <TodoList todos={todos} />
 
