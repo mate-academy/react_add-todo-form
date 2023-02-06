@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import { FullTodo, Todo } from './types/Todo';
@@ -24,6 +24,14 @@ export const App = () => {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
   const [isSubmited, setIsSubmited] = useState(false);
+
+  const handleTodoTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+  };
+
+  const handleSelectedUserName = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserName(event.target.value);
+  };
 
   const resetForm = () => {
     setTodoTitle('');
@@ -82,9 +90,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={todoTitle}
-              onChange={(event) => {
-                setTodoTitle(event.target.value);
-              }}
+              onChange={handleTodoTitle}
             />
           </label>
           {emptyTodoTitle && (
@@ -99,9 +105,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUserName}
-              onChange={(event) => {
-                setSelectedUserName(event.target.value);
-              }}
+              onChange={handleSelectedUserName}
             >
               <option value="" disabled>Choose a user</option>
 
