@@ -1,5 +1,6 @@
-import { User } from '../../types/User';
 import './UserInfo.scss';
+
+import { User } from '../../types/User';
 
 type Props = {
   user: User;
