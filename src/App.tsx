@@ -20,12 +20,12 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [showedTodos, setShowedTodos] = useState(todos);
-  const [titleError, setTitleError] = useState(true);
+  const [visibleTodos, setVisibleTodos] = useState(todos);
+  const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(true);
 
   const addTodo = (id: number) => {
-    const maxId = Math.max(...showedTodos.map(todo => todo.id)) + 1;
+    const maxId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
 
     if (getUser(id) && title.trim()) {
       const newTodo = {
@@ -36,12 +36,10 @@ export const App: React.FC = () => {
         user: getUser(userId),
       };
 
-      setShowedTodos(currentTodos => {
-        return [
-          ...currentTodos,
-          newTodo,
-        ];
-      });
+      setVisibleTodos(currentTodos => ([
+        ...currentTodos,
+        newTodo,
+      ]));
 
       setUserId(0);
       setTitle('');
@@ -53,7 +51,7 @@ export const App: React.FC = () => {
     }
 
     if (!title.trim()) {
-      setTitleError(false);
+      setTitleError(true);
     }
   };
 
@@ -123,7 +121,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={showedTodos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
