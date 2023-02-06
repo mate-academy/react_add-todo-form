@@ -24,7 +24,9 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const getNewId = () => (
+    Math.max(...todos.map(todo => todo.id)) + 1
+  );
   const addTodo = () => {
     const selectedUser = usersFromServer.find(
       user => user.name === selectedUserName,
@@ -35,7 +37,7 @@ export const App: React.FC = () => {
     }
 
     const newTodo = {
-      id: todos.length + 1,
+      id: getNewId(),
       title,
       completed: false,
       userId: selectedUser.id,
