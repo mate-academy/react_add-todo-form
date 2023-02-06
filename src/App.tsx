@@ -44,8 +44,14 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCanShowTitleError(true);
-    setCanShowSelectError(true);
+
+    if (title.length === 0) {
+      setCanShowTitleError(true);
+    }
+
+    if (userId === 0) {
+      setCanShowSelectError(true);
+    }
 
     if (title.length > 0 && userId !== 0) {
       const todoId = Math.max(...todos.map(todo => todo.id)) + 1;
@@ -87,7 +93,7 @@ export const App: React.FC = () => {
             onChange={handleTitleChange}
           />
 
-          {(canShowTitleError && title.length === 0)
+          {canShowTitleError
             && <span className="error mt-3">Please enter a title</span>}
         </div>
 
@@ -115,7 +121,7 @@ export const App: React.FC = () => {
             </select>
           </div>
 
-          {(canShowSelectError && userId === 0)
+          {canShowSelectError
             && <span className="error mt-3">Please choose a user</span>}
         </div>
 
