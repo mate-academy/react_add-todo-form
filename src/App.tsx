@@ -22,7 +22,7 @@ export const App = () => {
   const handleInputChange = (event: Input) => {
     const { value } = event.target;
 
-    setTitle(value.trim());
+    setTitle(value);
 
     if (!title) {
       setIsTitle(false);
@@ -46,11 +46,12 @@ export const App = () => {
       setIsUser(true);
     }
 
-    if (!title) {
+    if (!title || !title.trim()) {
       setIsTitle(true);
+      setTitle('');
     }
 
-    if (title && user) {
+    if (title.trim() && user) {
       const todo = {
         id: createTodoInfoId(),
         title,
