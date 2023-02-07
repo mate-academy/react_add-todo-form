@@ -8,16 +8,19 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
+const getUserById = (userId: number) => usersFromServer
+  .find(user => user.id === userId);
+
 const todosWithUser: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
+    user: getUserById(todo.userId) || null,
   };
 });
 
 export const App: React.FC = () => {
   const [titleInput, setTitleInput] = useState('');
-  const [userSelect, setUserSelect] = useState('');
+  const [userSelectedByName, setUserSelectedByName] = useState('');
   const [isFormChecked, setFormChecked] = useState(false);
   const [todos, setTodos] = useState(todosWithUser);
 
@@ -25,13 +28,13 @@ export const App: React.FC = () => {
 
   const resetForm = () => {
     setTitleInput('');
-    setUserSelect('');
+    setUserSelectedByName('');
     setFormChecked(false);
   };
 
   const addNewTodo = () => {
     const selectedUser = usersFromServer
-      .find(user => user.name === userSelect) as User;
+      .find(user => user.name === userSelectedByName) as User;
 
     const newTodo = {
       id: MaxId + 1,
@@ -54,7 +57,7 @@ export const App: React.FC = () => {
 
     setFormChecked(true);
 
-    if (titleInput && userSelect) {
+    if (titleInput && userSelectedByName && titleInput.trim() !== '') {
       addNewTodo();
     }
   };
@@ -90,9 +93,9 @@ export const App: React.FC = () => {
             <label>
               {'User: '}
               <select
-                data-cy="userSelect"
-                value={userSelect}
-                onChange={(event) => setUserSelect(event.target.value)}
+                data-cy="userSelectedByName"
+                value={userSelectedByName}
+                onChange={(event) => setUserSelectedByName(event.target.value)}
               >
                 <option value="0">Choose a user</option>
                 {usersFromServer.map(({ id, name }) => (
@@ -101,7 +104,7 @@ export const App: React.FC = () => {
               </select>
             </label>
 
-            {(isFormChecked && !userSelect) && (
+            {(isFormChecked && !userSelectedByName) && (
               <span className="error">Please choose a user</span>
             )}
           </div>
