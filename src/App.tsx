@@ -31,7 +31,7 @@ export const App = () => {
   const [errorMessage, setErrorMessage] = useState(false);
 
   const getNewId = () => (
-    todos.length + 1
+    new Date().getTime()
   );
 
   const addTodo = (arr: Todo[]) => {
