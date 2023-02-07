@@ -40,10 +40,7 @@ export const App: React.FC = () => {
         user: newUser,
       };
 
-      setTodos([
-        ...todos,
-        newTodo,
-      ]);
+      setTodos(currTodo => [...currTodo, newTodo]);
     }
   };
 
