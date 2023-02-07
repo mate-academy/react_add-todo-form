@@ -1,11 +1,11 @@
 import './App.scss';
 
+import { ChangeEvent, FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
-import { ChangeEvent, FormEvent, useState } from 'react';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -19,37 +19,53 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [selectPersonName, setselectPersonName] = useState('');
+  const [selectUserId, setselectUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [listTodos, setListTodos] = useState(todos);
+  const [listTodos, setListTodos] = useState<Todo[]>(todos);
+
+  const [hasNameError, setHasNameError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+
+  const valideData = `zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTY
+  UIOPячсмитьбюЯЧСМИТЬБЮфывапролджэФЫВАПРОЛДЖЭйцукенгшщзхъЙЦУКЕНГШЩЗХёЁ123456789`;
+
+  const resetForm = () => {
+    setTitle('');
+    setselectUserId(0);
+  };
+
+  const selectInput = (event: ChangeEvent<HTMLSelectElement>) => {
+    setselectUserId(+event.target.value);
+    setHasNameError(false);
+  };
+
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value
+      .split('')
+      .every(letter => valideData.includes(letter))) {
+      setTitle(event.target.value);
+      setHasTitleError(false);
+    }
+  };
 
   const sendForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const selectedUser = usersFromServer.find(
-      user => user.name === selectPersonName,
-    );
-
-    if (!selectedUser) {
-      return;
-    }
 
     const newTodo = {
-      id: todos.length + 1,
+      id: Math.max(...listTodos.map(todo => todo.id)) + 1,
       title,
       completed: false,
-      userId: selectedUser.id,
-      user: selectedUser,
+      userId: selectUserId,
+      user: getUser(selectUserId),
     };
 
-    setListTodos([...listTodos, newTodo]);
-  };
+    if (selectUserId && title) {
+      setListTodos([...listTodos, newTodo]);
+      resetForm();
+    }
 
-  // const selectInput = (event: FormEventHandler<HTMLOptionElement>) => {
-  //   setselectPersonName(event.target.value);
-  // };
-
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setHasNameError(!selectUserId);
+    setHasTitleError(!title);
   };
 
   return (
@@ -68,7 +84,8 @@ export const App = () => {
               onChange={handleInput}
             />
           </label>
-          {!title && <span className="error">Please enter a title</span>}
+          {hasTitleError
+            && <span className="error">Please enter a title</span>}
 
         </div>
 
@@ -77,20 +94,22 @@ export const App = () => {
             User:
             <select
               data-cy="userSelect"
-              value={selectPersonName}
-              onChange={(event) => setselectPersonName(event.target.value)}
+              value={selectUserId}
+              onChange={selectInput}
             >
-              <option value="" disabled>Choose a user:</option>
+              <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option
-                  value={user.name}
+                  value={user.id}
+                  key={user.id}
                 >
                   {user.name}
                 </option>
               ))}
             </select>
           </label>
-          <span className="error">Please choose a user</span>
+          {hasNameError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button
