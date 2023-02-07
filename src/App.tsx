@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, useState } from 'react';
+import React, { FormEvent, ChangeEvent, useState } from 'react';
 import './App.scss';
 import 'bulma/css/bulma.min.css';
 
@@ -17,7 +17,7 @@ const prepearedTodos:Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [todos, setTodos] = useState(prepearedTodos);
+  const [todos, setTodos] = useState<Todo[]>(prepearedTodos);
   const [titleSetted, setTitleSetted] = useState(true);
   const [userNameSetted, setUserNameSetted] = useState(true);
 
