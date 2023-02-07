@@ -45,8 +45,10 @@ export const App: React.FC = () => {
     setTitleError(!title);
     setUserIdError(!userId);
 
+    const newId = Math.max(...todos.map((todo) => todo.id)) + 1;
+
     const newTodo: Todo = {
-      id: new Date().getTime(),
+      id: newId,
       userId,
       title,
       completed: false,
