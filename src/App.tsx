@@ -30,16 +30,14 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
 
-  const getNewId = () => (
-    new Date().getTime()
-  );
-
   const addTodo = (arr: Todo[]) => {
     const correctUser = getUserByName(selectedUser);
 
     if (correctUser) {
+      const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+
       const newTodo: Todo = {
-        id: getNewId(),
+        id: newId,
         userId: correctUser.id,
         title,
         completed: false,
