@@ -24,25 +24,31 @@ export const App: React.FC = () => {
   const [titleEntered, setTitleEntered] = useState(true);
   const [userChosen, setUserChosen] = useState(true);
 
-  const nextTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+  const nextTodoId = () => {
+    return Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+  };
+
+  const handleReset = () => {
+    setUserId(0);
+    setTitle('');
+  };
 
   const addTodo = (id: number) => {
     if (getUser(id) && title.trim()) {
       const createNewUser = {
-        id: nextTodoId,
+        id: nextTodoId(),
         userId,
         title,
         completed: false,
         user: getUser(userId),
       };
 
-      setVisibleTodos((prevTodos) => ({
+      setVisibleTodos((prevTodos) => ([
         ...prevTodos,
         createNewUser,
-      }
+      ]
       ));
-      setUserId(0);
-      setTitle('');
+      handleReset();
     }
 
     if (!userId) {
