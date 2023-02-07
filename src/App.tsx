@@ -5,6 +5,9 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const validationString
+= 'ABCDEFGHIJKLMNOPQRSTUVWXYАБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ123456789 ';
+
 const findUserByUserId = (userId: number) => {
   return usersFromServer.find(({ id }) => id === userId) || null;
 };
@@ -28,7 +31,14 @@ export const App = () => {
   const getNewId = () => (Math.max(...todos.map(({ id }) => id)) + 1);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const { value } = event.target;
+    const shouldTitleUpdate
+    = validationString.includes((value[value.length - 1] || '').toUpperCase());
+
+    if (shouldTitleUpdate) {
+      setTitle(value);
+    }
+
     setTitleValidity(true);
   };
 
@@ -98,7 +108,7 @@ export const App = () => {
             <option disabled value={-1}>Choose a user</option>
             {
               usersFromServer.map(({ id, name }) => (
-                <option value={id}>{name}</option>
+                <option key={id} value={id}>{name}</option>
               ))
             }
           </select>
