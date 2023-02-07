@@ -51,15 +51,15 @@ export const App = () => {
   const sendForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newTodo = {
-      id: Math.max(...listTodos.map(todo => todo.id)) + 1,
-      title,
-      completed: false,
-      userId: selectUserId,
-      user: getUser(selectUserId),
-    };
-
     if (selectUserId && title) {
+      const newTodo = {
+        id: Math.max(...listTodos.map(todo => todo.id)) + 1,
+        title,
+        completed: false,
+        userId: selectUserId,
+        user: getUser(selectUserId),
+      };
+
       setListTodos([...listTodos, newTodo]);
       resetForm();
     }
