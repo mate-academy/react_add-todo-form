@@ -14,11 +14,11 @@ const combineTodosAndUser = todosFromServer.map(todo => (
 ));
 
 export const App = () => {
-  const [title, setTitle] = useState<string>('');
-  const [choosedUser, setChoosedUser] = useState<string>('');
+  const [title, setTitle] = useState('');
+  const [choosedUserId, setChoosedUserId] = useState(0);
   const [todos, setTodos] = useState<TodosList>(combineTodosAndUser);
-  const [titleError, setTittleError] = useState<boolean>(false);
-  const [choosedUserError, setChoosedUserError] = useState<boolean>(false);
+  const [titleError, setTittleError] = useState(false);
+  const [choosedUserError, setChoosedUserError] = useState(false);
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -26,40 +26,39 @@ export const App = () => {
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setChoosedUser(event.target.value);
+    setChoosedUserId(+event.target.value);
     setChoosedUserError(false);
+  };
+
+  const reset = () => {
+    setTitle('');
+    setChoosedUserId(0);
   };
 
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (title && choosedUser) {
-      const newId = [...todos].sort((idOne, idTwo) => {
-        return idTwo.id - idOne.id;
-      })[0].id + 1;
-
-      const findedUser = usersFromServer.find(user => user.id === +choosedUser);
+    if (title && choosedUserId) {
+      const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+      const findedUser = usersFromServer.find(user => (
+        user.id === choosedUserId
+      ));
 
       const newTodo = {
         id: newId,
         title,
         completed: false,
-        userId: +choosedUser,
+        userId: choosedUserId,
         user: findedUser,
       };
 
       setTodos((prevTodos) => (
         [...prevTodos, newTodo]
       ));
-      setTitle('');
-      setChoosedUser('');
-    } else {
-      if (!title) {
-        setTittleError(true);
-      }
 
-      if (!choosedUser) {
-        setChoosedUserError(true);
-      }
+      reset();
+    } else {
+      setTittleError(!title);
+      setChoosedUserError(!choosedUserId);
     }
   };
 
@@ -87,10 +86,10 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={choosedUser}
+            value={choosedUserId}
             onChange={handleSelect}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
               <option
                 value={user.id}
