@@ -6,6 +6,6 @@ export interface Good {
   colorId: number;
 }
 
-export interface GoodWithoutColor extends Good {
+export interface GoodWithColor extends Good {
   color: Color | null;
 }
