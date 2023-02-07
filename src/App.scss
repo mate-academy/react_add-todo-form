@@ -9,10 +9,16 @@ html {
 label,
 button {
   cursor: pointer;
+  margin: 8px 0 0;
+}
+
+.forms {
+  margin: 8px 0;
 }
 
 .error {
   color: red;
+  padding-left: 8px;
 }
 
 .TodoInfo {
