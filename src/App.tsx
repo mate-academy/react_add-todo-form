@@ -81,6 +81,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               value={title}
               onChange={handleChangeTitle}
+              placeholder="Enter a title"
             />
           </label>
           {isTitleError && (
