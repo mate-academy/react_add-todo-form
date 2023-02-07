@@ -13,12 +13,6 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-function getUserByName(userName: string) {
-  const foundUser = usersFromServer.find(({ name }) => userName === name);
-
-  return foundUser || null;
-}
-
 export const serverTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
@@ -26,7 +20,7 @@ export const serverTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [todos, setTodos] = useState(serverTodos);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
@@ -37,15 +31,13 @@ export const App = () => {
   );
 
   const addTodo = (array: Todo[]) => {
-    const foundUser = getUserByName(selectedUser);
-
-    if (foundUser) {
+    if (selectedUser) {
       const newTodo: Todo = {
         id: getNewId(),
-        userId: foundUser.id,
+        userId: selectedUser,
         title,
         completed: false,
-        user: foundUser,
+        user: getUser(selectedUser),
       };
 
       setTodos([...array, newTodo]);
@@ -53,13 +45,13 @@ export const App = () => {
   };
 
   const clearForm = () => {
-    setSelectedUser('');
+    setSelectedUser(0);
     setTitle('');
     setShowErrorMessage(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUser(+event.target.value);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,10 +106,10 @@ export const App = () => {
             value={selectedUser}
             onChange={handleUserChange}
           >
-            <option value="" disabled selected>Choose a user</option>
+            <option value="0" disabled selected>Choose a user</option>
 
             {usersFromServer.map((user) => (
-              <option value={user.name} key={user.id}>
+              <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
