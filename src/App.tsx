@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { TodoList } from './components/TodoList';
 
@@ -21,16 +21,49 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [name, setName] = useState('');
+  const [personName, setPersonName] = useState(0);
   const [title, setTitle] = useState('');
-  const [prepareTodo, setPrepareTodo] = useState(todos);
-  const [isAdded, setAdded] = useState(false);
+  const [prepareTodo, setPrepareTodo] = useState<Todo[]>(todos);
 
-  const isVisibleTitle = title.length === 0
-    && isAdded;
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasPersonNameError, setHasPersonNameError] = useState(false);
 
-  const isVisibleSelect = name.length === 0
-    && isAdded;
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setPersonName(+event.target.value);
+    setHasPersonNameError(false);
+  };
+
+  const resetForm = () => {
+    setPersonName(0);
+    setTitle('');
+  };
+
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    setHasPersonNameError(!personName);
+    setHasTitleError(!title);
+
+    const newPerson: Todo = {
+      id: Math.max(...prepareTodo.map(todo => todo.id)) + 1,
+      userId: personName,
+      title,
+      completed: false,
+      user: getUser(personName),
+    };
+
+    if (newPerson && title && personName) {
+      setPrepareTodo((currentPrepareTodo) => (
+        [...currentPrepareTodo, newPerson]
+      ));
+      resetForm();
+    }
+  };
 
   return (
     <div className="App">
@@ -39,29 +72,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          const person = usersFromServer.find(user => user.name === name);
-
-          setAdded(true);
-
-          if (!person || !title || !name) {
-            return;
-          }
-
-          setPrepareTodo([...prepareTodo, {
-            id: Math.max(...prepareTodo.map(todo => todo.id)) + 1,
-            userId: person.id,
-            title,
-            completed: false,
-            user: person,
-          }]);
-
-          setAdded(false);
-          setName('');
-          setTitle('');
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
@@ -69,12 +80,10 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => (
-              setTitle(event.target.value)
-            )}
+            onChange={handleInput}
           />
 
-          {isVisibleTitle && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -82,13 +91,11 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={name}
-            onChange={event => (
-              setName(event.target.value)
-            )}
+            value={personName}
+            onChange={handleSelect}
           >
             <option
-              value=""
+              value="0"
               disabled
             >
               Choose a user
@@ -96,7 +103,7 @@ export const App: React.FC = () => {
 
             {usersFromServer.map(user => (
               <option
-                value={user.name}
+                value={user.id}
                 key={user.id}
               >
                 {user.name}
@@ -104,7 +111,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isVisibleSelect && (
+          {hasPersonNameError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
