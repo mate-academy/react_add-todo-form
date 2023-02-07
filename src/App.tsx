@@ -30,11 +30,11 @@ const getTodo = (
 };
 
 export const App = () => {
-  const [userSelected, setUserSelected] = useState('');
+  const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(getTodos);
+  const [todos, setTodos] = useState<Todo[]>(getTodos);
 
   const handleChangeTitle = (event:React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -43,21 +43,21 @@ export const App = () => {
   };
 
   const handleSelectUser = (event:React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelected(event.target.value);
+    setUserId(+event.target.value);
 
     setUserError(false);
   };
 
   const resetForm = () => {
     setTitle('');
-    setUserSelected('');
+    setUserId(0);
   };
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const currentUser = usersFromServer
-      .find(user => user.name === userSelected) || null;
+      .find(user => user.id === +userId) || null;
 
     if (!currentUser) {
       setUserError(true);
@@ -112,13 +112,13 @@ export const App = () => {
 
             <select
               data-cy="userSelect"
-              value={userSelected}
+              value={userId}
               onChange={handleSelectUser}
             >
-              <option value="" disabled>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
 
               {usersFromServer.map(user => (
-                <option value={user.name} key={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
