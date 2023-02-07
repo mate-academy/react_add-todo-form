@@ -36,6 +36,16 @@ export const App = () => {
     });
   };
 
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(Number(event.target.value));
+    setUseError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -43,11 +53,11 @@ export const App = () => {
       setUseError(true);
     }
 
-    if (title.trim().length === 0) {
+    if (!title.trim().length) {
       setTitleError(true);
     }
 
-    if (title.trim().length > 0 && selectedUser) {
+    if (title.trim().length && selectedUser) {
       newTodo();
       setTitle('');
       setUser(0);
@@ -67,9 +77,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={() => {
-                setTitleError(false);
-              }}
+              onChange={handleTitleInput}
             />
           </label>
           {titleError && <span className="error">Please enter a title</span>}
@@ -80,10 +88,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={(event) => {
-                setUser(Number(event.target.value));
-                setUseError(false);
-              }}
+              onChange={handleUserSelection}
             >
               <option value="0" disabled>
                 Choose a user

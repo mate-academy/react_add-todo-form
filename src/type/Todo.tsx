@@ -7,6 +7,3 @@ export interface Todo {
   userId: number,
   user: User | null,
 }
-
-
-
