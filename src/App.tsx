@@ -64,7 +64,7 @@ export const App: React.FC = () => {
       return;
     }
 
-    if(user === '0') {
+    if (user === '0') {
       setErrorName(true);
 
       return;
@@ -118,35 +118,43 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            name="title"
-            value={values.title}
-            onChange={handleChange}
-            placeholder="Please enter a title"
-          />
+          <label>
+            Title:
+            {' '}
+            <input
+              type="text"
+              data-cy="titleInput"
+              name="title"
+              value={values.title}
+              onChange={handleChange}
+              placeholder="Please enter a title"
+            />
+          </label>
           {errorTitle && <span className="error">Please enter a title</span>}
+
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            name="user"
-            value={values.user}
-            onChange={handleChange}
-          >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                value={user.name}
-                key={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
-
+          <label>
+            User:
+            {' '}
+            <select
+              data-cy="userSelect"
+              name="user"
+              value={values.user}
+              onChange={handleChange}
+            >
+              <option value="0">Choose a user</option>
+              {usersFromServer.map(user => (
+                <option
+                  value={user.name}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
           {errorName && <span className="error">Please choose a user</span>}
         </div>
 
