@@ -10,6 +10,6 @@ interface Todo {
   id: number,
   title: string,
   completed: boolean,
-  userId: number,
+  userId: number | null,
   user: User | null,
 }

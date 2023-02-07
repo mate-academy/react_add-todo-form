@@ -7,12 +7,10 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const todosWithUsers = todosFromServer.map(todo => {
-  const { userId } = todo;
-
+const todosWithUsers = todosFromServer.map((todo) => {
   return {
     ...todo,
-    user: usersFromServer.find(user => user.id === userId) || null,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
   };
 });
 
@@ -20,55 +18,23 @@ const todosIds = todosWithUsers.map(todo => todo.id);
 const nextId = Math.max(...todosIds) + 1;
 
 export const App:React.FC = () => {
-  const [todos, setTodos] = useState(todosWithUsers);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [id, setId] = useState(nextId);
-  const [isEmptyTitle, setIsEmptyTitle] = useState(false);
-  const [isEmptyUser, setIsEmptyUser] = useState(false);
+  const [hasTitleError, setIsEmptyTitle] = useState(false);
+  const [hasUserError, setIsEmptyUser] = useState(false);
 
-  const addTodo = () => {
-    const user = usersFromServer.find(selectUser => (
-      selectUser.name === userName
-    ));
-
-    if (!title) {
-      setIsEmptyTitle(true);
-    }
-
-    if (!userName) {
-      setIsEmptyUser(true);
-    }
-
-    if (user && title) {
-      setTodos(current => {
-        const newTodo: Todo = {
-          title: title.trim(),
-          user,
-          id,
-          completed: false,
-          userId: user.id,
-        };
-
-        setTitle('');
-        setUserName('');
-        setId(currentId => currentId + 1);
-
-        return [
-          ...current,
-          newTodo,
-        ];
-      });
-    }
+  const resetForm = () => {
+    setTitle('');
+    setUserName('');
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const reg = /[^A-Za-z0-9a-я ]/;
 
-    if (isEmptyTitle) {
-      setIsEmptyTitle(false);
-    }
+    setIsEmptyTitle(!hasTitleError);
 
     setTitle(value.replace(reg, ''));
   };
@@ -76,16 +42,35 @@ export const App:React.FC = () => {
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    if (isEmptyUser) {
-      setIsEmptyUser(false);
-    }
+    setIsEmptyUser(!hasUserError);
 
     setUserName(value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTodo();
+
+    const user = usersFromServer.find(selectUser => (
+      selectUser.name === userName
+    )) || null;
+
+    setIsEmptyTitle(!title);
+
+    setIsEmptyUser(!userName);
+
+    const newTodo: Todo = {
+      title: title.trim(),
+      user,
+      id,
+      completed: false,
+      userId: user?.id || null,
+    };
+
+    if (user && title) {
+      setTodos(current => [...current, newTodo]);
+      setId(currentId => currentId + 1);
+      resetForm();
+    }
   };
 
   return (
@@ -105,7 +90,7 @@ export const App:React.FC = () => {
             value={title}
             onChange={handleTitle}
           />
-          {isEmptyTitle && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -123,11 +108,16 @@ export const App:React.FC = () => {
               Choose a user
             </option>
             {usersFromServer.map(user => (
-              <option key={user.id} value={user.name}>{user.name}</option>
+              <option
+                key={user.id}
+                value={user.name}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
 
-          {isEmptyUser && <span className="error">Please choose a user</span>}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
