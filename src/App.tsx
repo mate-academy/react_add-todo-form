@@ -21,12 +21,23 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [inputTitle, setInputTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [hasNoInput, setHasNoInput] = useState(true);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasSelectedError, setHasSelectedError] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-  const addTodo = () => {
+  const clearForm = () => {
+    setInputTitle('');
+    setSelectedUserId(0);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setHasTitleError(!inputTitle);
+    setHasSelectedError(!selectedUserId);
+
     const newUser = usersFromServer.find(
       user => user.id === selectedUserId,
     );
@@ -40,35 +51,21 @@ export const App: React.FC = () => {
         user: newUser,
       };
 
-      setTodos(currTodo => [...currTodo, newTodo]);
+      if (inputTitle && selectedUserId) {
+        setTodos(currTodo => [...currTodo, newTodo]);
+        clearForm();
+      }
     }
-  };
-
-  const clearForm = () => {
-    setInputTitle('');
-    setSelectedUserId(0);
-    setHasNoInput(true);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!inputTitle || !selectedUserId) {
-      setHasNoInput(false);
-
-      return;
-    }
-
-    addTodo();
-    clearForm();
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTitle(event.target.value);
+    setHasTitleError(false);
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
+    setHasSelectedError(false);
   };
 
   return (
@@ -92,7 +89,7 @@ export const App: React.FC = () => {
               onChange={handleInput}
             />
           </label>
-          {(!hasNoInput && !inputTitle) && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -116,7 +113,7 @@ export const App: React.FC = () => {
               ))}
             </select>
           </label>
-          {(!hasNoInput && !selectedUserId) && (
+          {hasSelectedError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
