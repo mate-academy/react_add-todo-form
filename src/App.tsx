@@ -20,10 +20,12 @@ export const App: React.FC = () => {
   const [isTitleError, setTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState(updatedTodos);
-
+  let nextUserId = Math.max(...updatedTodos.map(todo => todo.id));
   const getNewTodo = () => {
+    nextUserId += 1;
+
     return ({
-      id: new Date().getTime(),
+      id: nextUserId,
       title,
       completed: false,
       userId: +userId,
