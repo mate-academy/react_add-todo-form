@@ -5,7 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { User } from './types/User';
-import { Todos } from './types/Todos'
+import { Todos } from './types/Todos';
 import { TodoList } from './components/TodoList';
 
 function getUser(userId: number): User | null {
@@ -20,7 +20,7 @@ export const todos: Todos[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [visibleTodos, setVisibleTodos] = useState(todos);
+  const [visibleTodos, setVisibleTodos] = useState<Todos[]>(todos);
   const [titleEntered, setTitleEntered] = useState(true);
   const [userChosen, setUserChosen] = useState(true);
 
@@ -28,7 +28,7 @@ export const App: React.FC = () => {
 
   const addTodo = (id: number) => {
     if (getUser(id) && title.trim()) {
-      const foundedUser = {
+      const createNewUser = {
         id: nextTodoId,
         userId,
         title,
@@ -36,13 +36,11 @@ export const App: React.FC = () => {
         user: getUser(userId),
       };
 
-      setVisibleTodos(prevTodos => {
-        return [
-          ...prevTodos,
-          foundedUser,
-        ];
-      });
-
+      setVisibleTodos((prevTodos) => ({
+        ...prevTodos,
+        createNewUser,
+      }
+      ));
       setUserId(0);
       setTitle('');
     }
@@ -76,7 +74,11 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={handleSubmit}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <label htmlFor="titleInput">Title:</label>
 
