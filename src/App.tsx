@@ -21,7 +21,7 @@ export const staticTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todoTitle, setTodoTitle] = useState('');
-  const [todoUser, setTodoUser] = useState(0);
+  const [todoUserId, settodoUserId] = useState(0);
   const [todos, setTodos] = useState(staticTodos);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
@@ -32,7 +32,7 @@ export const App = () => {
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setTodoUser(+event.target.value);
+    settodoUserId(+event.target.value);
     setUserError(false);
   };
 
@@ -43,17 +43,17 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (!todoUser) {
+    if (!todoUserId) {
       setUserError(true);
     }
 
-    if (todoTitle.length && todoUser) {
+    if (todoTitle.length && todoUserId) {
       const newTodo = {
         completed: false,
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title: todoTitle,
-        user: getUser(todoUser),
-        userId: todoUser,
+        user: getUser(todoUserId),
+        userId: todoUserId,
       };
 
       setTodos((currentTodos: Todo[]) => (
@@ -63,7 +63,7 @@ export const App = () => {
         ]
       ));
 
-      setTodoUser(0);
+      settodoUserId(0);
       setTodoTitle('');
     }
   };
@@ -92,7 +92,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={todoUser}
+            value={todoUserId}
             onChange={handleSelect}
           >
             <option value="0" disabled>
