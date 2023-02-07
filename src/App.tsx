@@ -45,7 +45,7 @@ export const App: React.FC = () => {
     setTitleError(!title);
     setUserIdError(!userId);
 
-    const newId = Math.max(...todos.map((todo) => todo.id)) + 1;
+    const newId = Math.max(...newTodos.map((todo) => todo.id)) + 1;
 
     const newTodo: Todo = {
       id: newId,
