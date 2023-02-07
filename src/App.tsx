@@ -7,70 +7,60 @@ import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const prepareTodos = (
-  todos: Todo[],
-  users: User[],
-): FullTodo[] => (
-  todos.map(todo => ({
-    ...todo,
-    user: users.find((user) => user.id === todo.userId) || null,
-  }))
-);
+const getUser = (todoId: number): User | null => {
+  const foundedUser = usersFromServer.find((user) => user.id === todoId);
 
-const preparedTodos = prepareTodos(todosFromServer, usersFromServer);
+  return foundedUser || null;
+};
+
+const preparedTodos = todosFromServer.map((todo: Todo): FullTodo => ({
+  ...todo,
+  user: getUser(todo.id) || null,
+}));
 
 export const App = () => {
-  const [todoTitle, setTodoTitle] = useState('');
-  const [selectedUserName, setSelectedUserName] = useState('');
-  const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [todos, setTodos] = useState(preparedTodos);
 
-  const handleTodoTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setTodoTitle(event.target.value);
+  const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
   };
 
-  const handleSelectedUserName = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserName(event.target.value);
+  const handleUserId = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setHasUserIdError(false);
   };
 
   const resetForm = () => {
-    setTodoTitle('');
-    setSelectedUserName('');
-    setIsSubmited(false);
+    setTitle('');
+    setUserId(0);
   };
 
   const handleTodos = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsSubmited(true);
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
 
-    const selectedUser = usersFromServer.find((user) => (
-      user.name === selectedUserName
-    ));
+    const id = Math.max(...todos.map((todo) => todo.id)) + 1;
 
-    if (!selectedUser
-      || !selectedUserName
-      || !todoTitle) {
-      return;
-    }
-
-    const generatedId = Math.max(...visibleTodos.map((todo) => todo.id)) + 1;
-
-    const todoToAdd = {
-      id: generatedId,
-      title: todoTitle,
+    const todo = {
+      id,
+      title,
       completed: false,
-      userId: selectedUser.id,
-      user: selectedUser || null,
+      userId,
+      user: getUser(userId) || null,
     };
 
-    setVisibleTodos([...visibleTodos, todoToAdd]);
-
-    resetForm();
+    if (title && userId) {
+      setTodos((currentTodos) => [...currentTodos, todo]);
+      resetForm();
+    }
   };
-
-  const emptyTodoTitle = isSubmited && !todoTitle;
-  const emptyTodoUser = isSubmited && !selectedUserName;
 
   return (
     <div className="App">
@@ -89,12 +79,12 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={todoTitle}
-              onChange={handleTodoTitle}
+              value={title}
+              onChange={handleTitle}
             />
           </label>
-          {emptyTodoTitle && (
-            <span className="error">Please enter a title</span>
+          {hasTitleError && (
+            <span className="error">{' Please enter a title'}</span>
           )}
         </div>
 
@@ -104,20 +94,20 @@ export const App = () => {
 
             <select
               data-cy="userSelect"
-              value={selectedUserName}
-              onChange={handleSelectedUserName}
+              value={userId}
+              onChange={handleUserId}
             >
-              <option value="" disabled>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
 
               {usersFromServer.map((user) => (
-                <option key={user.id} value={user.name}>
+                <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
           </label>
-          {emptyTodoUser && (
-            <span className="error">Please choose a user</span>
+          {hasUserIdError && (
+            <span className="error">{' Please choose a user'}</span>
           )}
         </div>
 
@@ -129,7 +119,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
