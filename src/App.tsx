@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -41,6 +41,16 @@ export const App = () => {
     });
   };
 
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
+    setUserError(false);
+  };
+
   const handleAddTodoForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -77,10 +87,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setTitleError(false);
-              }}
+              onChange={handleInput}
             />
             {isTitleError && (
               <span className="error">Please enter a title</span>
@@ -95,10 +102,7 @@ export const App = () => {
               data-cy="userSelect"
               id="userSelect"
               value={userId}
-              onChange={(event) => {
-                setUserId(event.target.value);
-                setUserError(false);
-              }}
+              onChange={handleSelect}
             >
               <option
                 value=""
