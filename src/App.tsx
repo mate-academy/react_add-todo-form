@@ -19,7 +19,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [newTodos, setNewTodos] = useState(todos);
+  const [newTodos, setNewTodos] = useState<Todo[]>(todos);
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setTitleError] = useState(false);
   const [hasUserIdError, setUserIdError] = useState(false);
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
     };
 
     if (userId && title) {
-      setNewTodos(currTodo => [...currTodo, newTodo]);
+      setNewTodos(currTodos => [...currTodos, newTodo]);
       resetForm();
     }
   };
