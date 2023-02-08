@@ -44,6 +44,13 @@ export const App: React.FC = () => {
     user: null,
   });
 
+  const {
+    user,
+    title,
+    id,
+    completed,
+  } = values;
+
   const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
 
@@ -55,7 +62,6 @@ export const App: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { user, title } = values;
 
     if (!user || !title) {
       setErrorName(Boolean(!user));
@@ -80,7 +86,7 @@ export const App: React.FC = () => {
       ...values,
       user: '',
       title: '',
-      id: values.id + 1,
+      id: id + 1,
     });
 
     setVisibleTodos([
@@ -90,23 +96,25 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const user = getUserByName(values.user);
+    const userAdd = getUserByName(user);
 
-    if (values.user.length > 0) {
+    if (user.length > 0) {
       setErrorName(false);
-    } else if (values.title.length > 0) {
+    }
+
+    if (title.length > 0) {
       setErrorTitle(false);
     }
 
     setTodo({
       ...todo,
-      id: values.id,
-      userId: user !== null ? user.id : 0,
-      title: values.title,
-      completed: values.completed,
-      user: getUserByName(values.user),
+      id,
+      userId: userAdd !== null ? userAdd.id : 0,
+      title,
+      completed,
+      user: getUserByName(user),
     });
-  }, [values.title, values.user]);
+  }, [title, user]);
 
   return (
     <div className="App">
@@ -141,16 +149,16 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               name="user"
-              value={values.user}
+              value={values.user || '0'}
               onChange={handleChange}
             >
-              <option value="0">Choose a user</option>
-              {usersFromServer.map(user => (
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(userFromServer => (
                 <option
-                  value={user.name}
-                  key={user.id}
+                  value={userFromServer.name}
+                  key={userFromServer.id}
                 >
-                  {user.name}
+                  {userFromServer.name}
                 </option>
               ))}
             </select>
