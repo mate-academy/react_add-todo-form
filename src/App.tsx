@@ -87,7 +87,7 @@ export const App = () => {
           </label>
 
           {hasTitleError && (
-            <span className="error">Please type title</span>
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
