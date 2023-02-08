@@ -1,61 +1,129 @@
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList/TodoList';
+
+const getUserById = (userId: number) => usersFromServer
+  .find(user => user.id === userId);
+
+const todosWithUser: Todo[] = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: getUserById(todo.userId) || null,
+  };
+});
+
+export const App: React.FC = () => {
+  const [titleInput, setTitleInput] = useState('');
+  const [userSelectedByName, setUserSelectedByName] = useState('');
+  const [isFormChecked, setFormChecked] = useState(false);
+  const [todos, setTodos] = useState(todosWithUser);
+
+  const maxId = Math.max(...todos.map(todo => todo.id));
+
+  const resetForm = () => {
+    setTitleInput('');
+    setUserSelectedByName('');
+    setFormChecked(false);
+  };
+
+  const addNewTodo = () => {
+    const selectedUser = usersFromServer
+      .find(user => user.name === userSelectedByName) as User;
+
+    const newTodo = {
+      id: maxId + 1,
+      title: titleInput,
+      completed: false,
+      userId: selectedUser.id,
+      user: selectedUser,
+    };
+
+    setTodos(prevTodos => ([
+      ...prevTodos,
+      newTodo,
+    ]));
+
+    resetForm();
+  };
+
+  const handleSubmitTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setFormChecked(true);
+
+    if (titleInput && userSelectedByName && titleInput.trim() !== '') {
+      addNewTodo();
+    }
+  };
+
+  const handleChangeTitle = (
+    (event: React.FormEvent<HTMLInputElement>) => (
+      setUserSelectedByName(event.currentTarget.value)));
+
+  const handleChangeUser = (
+    (event: React.FormEvent<HTMLSelectElement>) => (
+      setUserSelectedByName(event.currentTarget.value)));
+
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div>
+      <div className="App">
+        <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmitTodo}
+        >
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <div className="field" />
+          <label>
+            {'Title: '}
+            <input
+              type="text"
+              value={titleInput}
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              onChange={handleChangeTitle}
+            />
+          </label>
 
-          <span className="error">Please choose a user</span>
-        </div>
+          {(isFormChecked && !titleInput) && (
+            <span className="error">Please enter a title</span>
+          )}
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <div className="field">
+            <label>
+              {'User: '}
+              <select
+                data-cy="userSelect"
+                value={userSelectedByName}
+                onChange={handleChangeUser}
+              >
+                <option value="0">Choose a user</option>
+                {usersFromServer.map(({ id, name }) => (
+                  <option key={id} value={name}>{name}</option>
+                ))}
+              </select>
+            </label>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+            {(isFormChecked && !userSelectedByName) && (
+              <span className="error">Please choose a user</span>
+            )}
+          </div>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+          <button type="submit" data-cy="submitButton">
+            Add
+          </button>
+        </form>
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+        <TodoList todos={todos} />
+      </div>
     </div>
   );
 };
