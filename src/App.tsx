@@ -45,7 +45,7 @@ export const App : React.FC = () => {
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    SetTitleError(!titleName);
+    SetTitleError(titleName.trim().length === 0);
     SetUserError(!selectedUserId);
 
     const newTodo: Todo = {
@@ -56,7 +56,7 @@ export const App : React.FC = () => {
       completed: false,
     };
 
-    if (titleName && selectedUserId) {
+    if (titleName.trim().length !== 0 && selectedUserId) {
       setTodo(currentTodo => [...currentTodo, newTodo]);
       resetForm();
     }
