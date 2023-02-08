@@ -26,7 +26,8 @@ export const App : React.FC = () => {
   const [hasUserError, setUserError] = useState(false);
 
   // const idForNewTodo = Math.max(...todos.map(todo => todo.id)) + 1;
-  const idForNewTodo = new Date().getTime();
+  const maxTodoId = Math.max(...todos.map(todo => todo.id));
+  let idForNewTodo = maxTodoId + 1;
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleName(event.target.value);
@@ -60,6 +61,7 @@ export const App : React.FC = () => {
     if (titleName.trim().length !== 0 && selectedUserId) {
       setTodo(currentTodo => [...currentTodo, newTodo]);
       resetForm();
+      idForNewTodo += 1;
     }
   };
 
