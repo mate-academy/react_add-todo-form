@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   const [isFormChecked, setFormChecked] = useState(false);
   const [todos, setTodos] = useState(todosWithUser);
 
-  const MaxId = Math.max(...todos.map(todo => todo.id));
+  const maxId = Math.max(...todos.map(todo => todo.id));
 
   const resetForm = () => {
     setTitleInput('');
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
       .find(user => user.name === userSelectedByName) as User;
 
     const newTodo = {
-      id: MaxId + 1,
+      id: maxId + 1,
       title: titleInput,
       completed: false,
       userId: selectedUser.id,
@@ -62,6 +62,14 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleChangeTitle = (
+    (event: React.FormEvent<HTMLInputElement>) => (
+      setUserSelectedByName(event.currentTarget.value)));
+
+  const handleChangeUser = (
+    (event: React.FormEvent<HTMLSelectElement>) => (
+      setUserSelectedByName(event.currentTarget.value)));
+
   return (
     <div>
       <div className="App">
@@ -81,7 +89,7 @@ export const App: React.FC = () => {
               value={titleInput}
               data-cy="titleInput"
               placeholder="Enter a title"
-              onChange={(event) => setTitleInput(event.target.value)}
+              onChange={handleChangeTitle}
             />
           </label>
 
@@ -93,9 +101,9 @@ export const App: React.FC = () => {
             <label>
               {'User: '}
               <select
-                data-cy="userSelectedByName"
+                data-cy="userSelect"
                 value={userSelectedByName}
-                onChange={(event) => setUserSelectedByName(event.target.value)}
+                onChange={handleChangeUser}
               >
                 <option value="0">Choose a user</option>
                 {usersFromServer.map(({ id, name }) => (
