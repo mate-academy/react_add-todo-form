@@ -6,11 +6,9 @@ import { Todo } from './components/TodoInfo';
 import { User } from './components/UserInfo';
 import { TodoList } from './components/TodoList';
 
-export function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
+export const getUser = (userId: number): User | null => (
+  usersFromServer.find(({ id }) => id === userId) || null
+);
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -25,11 +23,13 @@ export const App: React.FC = () => {
   const [userError, setUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isValid = /^[a-zA-Z0-9 ]*$/.test(event.target.value);
+
     if (titleError) {
       setTitleError(false);
     }
 
-    if (/^[a-zA-Z0-9 ]*$/.test(event.target.value)) {
+    if (isValid) {
       setTitle(event.target.value);
     }
   };
@@ -47,7 +47,7 @@ export const App: React.FC = () => {
 
     let isError = false;
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
       isError = true;
     }
@@ -62,8 +62,7 @@ export const App: React.FC = () => {
     }
 
     const id = todos
-      .map(todo => todo.id)
-      .sort((a, b) => a - b)[todos.length - 1] + 1;
+      .sort((prevTodo, nextTodo) => nextTodo.id - prevTodo.id)[0]?.id + 1;
 
     const user = getUser(Number(userId));
 
