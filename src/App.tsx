@@ -13,7 +13,7 @@ const getUserById = (userId: number): User | null => {
   return foundUser || null;
 };
 
-export const todosList: Todo[] = todosFromServer.map((todo) => ({
+const todosList: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -21,35 +21,35 @@ export const todosList: Todo[] = todosFromServer.map((todo) => ({
 export const App : React.FC = () => {
   const [todos, setTodo] = useState<Todo[]>(todosList);
   const [titleName, setTitleName] = useState('');
-  const [selectedUserId, SetSelectedUserID] = useState(0);
-  const [hasTitleError, SetTitleError] = useState(false);
-  const [hasUserError, SetUserError] = useState(false);
+  const [selectedUserId, setSelectedUserID] = useState(0);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasUserError, setUserError] = useState(false);
 
-  const idForNewTodo = Math.max(...todos.map(todo => todo.id));
+  const idForNewTodo = Math.max(...todos.map(todo => todo.id)) + 1;
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleName(event.target.value);
-    SetTitleError(false);
+    setTitleError(false);
   };
 
   const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
-    SetSelectedUserID(+event.target.value);
-    SetUserError(false);
+    setSelectedUserID(+event.target.value);
+    setUserError(false);
   };
 
   const resetForm = () => {
     setTitleName('');
-    SetSelectedUserID(0);
+    setSelectedUserID(0);
   };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    SetTitleError(titleName.trim().length === 0);
-    SetUserError(!selectedUserId);
+    setTitleError(titleName.trim().length === 0);
+    setUserError(!selectedUserId);
 
     const newTodo: Todo = {
-      id: idForNewTodo + 1,
+      id: idForNewTodo,
       title: titleName,
       userId: selectedUserId,
       user: getUserById(selectedUserId),
