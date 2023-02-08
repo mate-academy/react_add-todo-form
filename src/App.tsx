@@ -25,7 +25,8 @@ export const App : React.FC = () => {
   const [hasTitleError, setTitleError] = useState(false);
   const [hasUserError, setUserError] = useState(false);
 
-  const idForNewTodo = Math.max(...todos.map(todo => todo.id)) + 1;
+  // const idForNewTodo = Math.max(...todos.map(todo => todo.id)) + 1;
+  const idForNewTodo = new Date().getTime();
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleName(event.target.value);
