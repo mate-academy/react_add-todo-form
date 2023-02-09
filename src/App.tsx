@@ -33,26 +33,29 @@ export const App: React.FC = () => {
     setTitle('');
   };
 
-  const addTodo = (id: number) => {
-    if (getUser(id) && title.trim()) {
-      const createNewTodo = {
-        id: generateTodoId(),
-        userId,
-        title,
-        completed: false,
-        user: getUser(userId),
-      };
+  const addTodo = () => {
+    const createNewTodo = {
+      id: generateTodoId(),
+      userId,
+      title,
+      completed: false,
+      user: getUser(userId),
+    };
 
-      setVisibleTodos((prevTodos) => ([
-        ...prevTodos,
-        createNewTodo,
-      ]
-      ));
-    }
+    setVisibleTodos((prevTodos) => ([
+      ...prevTodos,
+      createNewTodo,
+    ]
+    ));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (getUser(userId) && title.trim()) {
+      addTodo();
+      handleReset();
+    }
+
     if (!userId) {
       setUserId(0);
       setUserChosen(false);
@@ -61,9 +64,6 @@ export const App: React.FC = () => {
     if (!title.trim()) {
       setTitleEntered(false);
     }
-
-    addTodo(userId);
-    handleReset();
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
