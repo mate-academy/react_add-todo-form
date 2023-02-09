@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { nanoid } from 'nanoid';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/userType';
@@ -24,8 +23,6 @@ export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(fullTodoInfo);
   const [titleEntered, setTitleEntered] = useState(true);
   const [userChosen, setUserChosen] = useState(true);
-
-  const inputAddTodoId = nanoid();
 
   const generateTodoId = () => {
     return Math.max(...visibleTodos.map(todo => todo.id)) + 1;
@@ -88,12 +85,12 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <label htmlFor={inputAddTodoId}>Title:</label>
+          <label htmlFor="inputAddTodoId">Title:</label>
 
           <input
             type="text"
             data-cy="titleInput"
-            id={inputAddTodoId}
+            id="inputAddTodoId"
             placeholder="Enter a title"
             value={title}
             onChange={handleTitle}
