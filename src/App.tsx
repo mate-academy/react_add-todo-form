@@ -6,13 +6,13 @@ import { Todo } from './components/TodoInfo';
 import { User } from './components/UserInfo';
 import { TodoList } from './components/TodoList';
 
-export const getUser = (userId: number): User | null => (
+const getUserById = (userId: number): User | null => (
   usersFromServer.find(({ id }) => id === userId) || null
 );
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
     const id = todos
       .sort((prevTodo, nextTodo) => nextTodo.id - prevTodo.id)[0]?.id + 1;
 
-    const user = getUser(Number(userId));
+    const user = getUserById(Number(userId));
 
     const todo = {
       id,
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
       user,
     };
 
-    setTodoList([...todos, todo]);
+    setTodoList([...todoList, todo]);
     setTitle('');
     setUserId('0');
   };
