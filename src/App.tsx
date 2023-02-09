@@ -60,7 +60,8 @@ export const App = () => {
         user: getUser(selectUserId),
       };
 
-      setListTodos([...listTodos, newTodo]);
+      setListTodos(current => [...current, newTodo]);
+
       resetForm();
     }
 
