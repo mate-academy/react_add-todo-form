@@ -53,7 +53,8 @@ export const App: React.FC = () => {
   };
 
   const handleTitle = (value: string) => {
-    const match = value.match(/[0-9a-zA-Za-яА-Я\s]+/u) || '';
+    const regexp = /[0-9a-zA-Za-яА-Я\s]+/u;
+    const match = value.match(regexp) || '';
 
     setTitle(match[0]);
     setIsTitle(true);
