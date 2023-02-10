@@ -5,20 +5,17 @@ import { TodoUser } from './types/todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User } from "./types/user";
 
-const todosWithUser: TodoUser[] = todosFromServer.map(todo => {
-  return {
-    ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
-  };
-});
+const todosWithUser: TodoUser[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
 export const App: React.FC = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userSelect, setUserSelect] = useState('');
   const [isFormChecked, setFormChecked] = useState(false);
-  const [todos, setTodos] = useState(todosWithUser);
+  const [todos, setTodos] = useState<TodoUser[]>(todosWithUser);
 
   const setTodoId = () => {
     const listId = todos.map(todo => todo.id);
@@ -33,19 +30,18 @@ export const App: React.FC = () => {
   };
 
   const addNewTodo = () => {
-    const selectedUser = usersFromServer.find(user => user.name === userSelect);
+    const selectedUser = usersFromServer.find(user => user.id === +userSelect);
 
-    // if (!selectedUser) {
-    //   throw new Error('no such user');
-    // }
+    if (!selectedUser) {
+      throw new Error('no such user');
+    }
 
-    // Used here type assertions couse I'm sure that I will get User object, above, my second option.
     const newTodo = {
       id: setTodoId(),
       title: titleInput,
       completed: false,
-      userId: (selectedUser as User).id,
-      user: selectedUser as User,
+      userId: selectedUser.id,
+      user: selectedUser,
     };
 
     setTodos(prevTodos => ([
@@ -65,6 +61,9 @@ export const App: React.FC = () => {
       addNewTodo();
     }
   };
+
+  const isUserSelected = isFormChecked && !userSelect;
+  const isTitleFilled = isFormChecked && !titleInput;
 
   return (
     <div className="App">
@@ -87,7 +86,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {(isFormChecked && !titleInput) && (
+          {isTitleFilled && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -102,12 +101,12 @@ export const App: React.FC = () => {
             >
               <option value="0">Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
-                <option key={id} value={name}>{name}</option>
+                <option key={id} value={id}>{name}</option>
               ))}
             </select>
           </label>
 
-          {(isFormChecked && !userSelect) && (
+          {isUserSelected && (
             <span className="error">Please choose a user</span>
           )}
         </div>
