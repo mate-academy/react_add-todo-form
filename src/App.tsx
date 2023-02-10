@@ -1,96 +1,103 @@
-import './App.scss';
 import React, { useState } from 'react';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
+import './App.scss';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number) {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-  return foundUser || null;
-}
+const getUserById = (userId: number) => usersFromServer
+  .find(user => user.id === userId)
+  || null;
 
-const newTodos = todosFromServer.map(todo => ({
+const todos = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
-let maxId = Math.max(...newTodos.map(todo => todo.id));
+let maxId = Math.max(...todos.map(todo => todo.id));
 
 export const App: React.FC = () => {
-  const [activeUser, setActiveUser] = useState(0);
-  const [message, setMessage] = useState('');
-  const [visibleTodos, setVisibleTodos] = useState(newTodos);
-  const [hasMessageError, setHasMessageError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
+  const [visibleTodos, setVisibleTodos] = useState(todos);
 
-  const newTodo = () => {
+  const createNewTodo = () => {
     maxId += 1;
 
     return {
       id: maxId,
-      title: message,
+      title,
       completed: false,
-      userId: activeUser,
-      user: getUser(activeUser),
+      userId: Number(selectedUser),
+      user: getUserById(Number(selectedUser)),
     };
   };
 
-  const handleAdd = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setHasMessageError(!message);
-    setHasUserError(!activeUser);
 
-    if (message && activeUser) {
-      const updatedTodo = newTodo();
+    setHasTitleError(!title);
+    setHasUserError(!selectedUser);
+
+    if (title && selectedUser) {
+      const newTodo = createNewTodo();
 
       setVisibleTodos([
         ...visibleTodos,
-        updatedTodo,
+        newTodo,
       ]);
-    }
 
-    setMessage('');
-    setActiveUser(0);
+      setTitle('');
+      setSelectedUser('');
+    }
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''));
+    setHasTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(event.target.value);
+    setHasUserError(false);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="Get" onSubmit={handleAdd}>
+      <form
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <span>Title: </span>
-          <input
-            placeholder="Enter a title"
-            type="text"
-            data-cy="titleInput"
-            value={message}
-            onChange={(event) => {
-              setMessage(event.target.value);
-            }}
-          />
-          {hasMessageError && (
+          <label htmlFor="title">
+            {'Title: '}
+            <input
+              type="text"
+              id="title"
+              data-cy="titleInput"
+              value={title}
+              placeholder="Enter a title"
+              onChange={handleTitleChange}
+            />
+          </label>
+
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
-          <span>User: </span>
-
+          <label htmlFor="user">User: </label>
           <select
             data-cy="userSelect"
-            value={activeUser}
-            onChange={(event) => {
-              setActiveUser(+event.target.value);
-            }}
+            id="user"
+            value={selectedUser}
+            onChange={handleUserChange}
           >
-            <option
-              value="0"
-              disabled
-            >
-              Choose a user
-            </option>
+            <option value="" disabled>Choose a user</option>
             {usersFromServer.map(user => (
               <option
                 key={user.id}
@@ -100,15 +107,14 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
+
           {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
+
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
