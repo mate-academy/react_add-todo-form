@@ -30,9 +30,9 @@ export const App: React.FC = () => {
   const addTodo = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (!selectedUser || !title) {
+    if (!selectedUser || !title.trim()) {
       setIsUser(Boolean(selectedUser));
-      setIsTitle(Boolean(title));
+      setIsTitle(Boolean(title.trim()));
 
       return;
     }
