@@ -12,56 +12,53 @@ function getUser(userId: number): User | null {
   return currentUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const visibleTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [selectedUser, setSelectedUser] = useState(false);
-  const [enteredTitle, setEnteredTitle] = useState(false);
+  const [isTitleEntered, setIsTitleEntered] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>(visibleTodos);
 
-  const newId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-  const addTodo = (id: number) => {
-    if (getUser(id) && title.trim()) {
-      todos.push({
-        id: newId,
-        userId,
-        title,
-        completed: false,
-        user: getUser(userId),
-      });
-
-      setUserId(0);
-      setTitle('');
-    }
-
-    if (!userId) {
-      setUserId(0);
-      setSelectedUser(true);
-    }
-
-    if (!title.trim()) {
-      setEnteredTitle(true);
-    }
-  };
+  const newId = Math.max(...todos.map(todo => todo.id));
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setEnteredTitle(false);
+    setIsTitleEntered(false);
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    setSelectedUserId(+event.target.value);
     setSelectedUser(false);
   };
 
-  const handleForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const resetForm = () => {
+    setTitle('');
+    setSelectedUserId(0);
+  };
+
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTodo(userId);
+
+    setSelectedUser(!selectedUser);
+    setIsTitleEntered(!isTitleEntered);
+
+    const newTodo: Todo = {
+      id: newId + 1,
+      userId: selectedUserId,
+      title,
+      completed: false,
+      user: getUser(selectedUserId),
+    };
+
+    if (title && selectedUserId) {
+      setTodos(currentTodos => [...currentTodos, newTodo]);
+      resetForm();
+    }
   };
 
   return (
@@ -71,7 +68,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleForm}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -85,7 +82,7 @@ export const App = () => {
             />
           </label>
 
-          {enteredTitle && (
+          {isTitleEntered && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -95,7 +92,7 @@ export const App = () => {
             User:
             <select
               data-cy="userSelect"
-              value={userId}
+              value={selectedUserId}
               onChange={handleUser}
             >
               <option value="0" disabled>Choose a user</option>
