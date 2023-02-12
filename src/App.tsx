@@ -83,17 +83,24 @@ export const App: React.FC = () => {
 
       <form action="/api/users" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+
+          <label>
+            {'Title: '}
           <input
             type="text"
             data-cy="titleInput"
             value={IsInput}
             onChange={handleInputChange}
+            placeholder="Enter a title"
           />
+          </label>
           {(!hasNoInput && !IsInput)
               && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label>
+            {'User: '}
           <select
             value={userSelected}
             data-cy="userSelect"
@@ -117,6 +124,7 @@ export const App: React.FC = () => {
               );
             })}
           </select>
+          </label>
 
           {(!hasNoInput && !userSelected)
               && <span className="error">Please choose a user</span>}
