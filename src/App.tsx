@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import './App.scss';
 
@@ -8,14 +8,8 @@ import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userValue: number | string): User | null {
-  let foundUser = null;
-
-  if (typeof userValue === 'number') {
-    foundUser = usersFromServer.find(user => user.id === userValue);
-  } else {
-    foundUser = usersFromServer.find(user => user.name === userValue);
-  }
+function getUser(userValue: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userValue);
 
   return foundUser || null;
 }
@@ -31,30 +25,23 @@ export const newTodoID = (todosArr: Todo[]) => (
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [todosList, setTodosList] = useState(todos);
   const [todoId, setTodoId] = useState(newTodoID(todosList));
   const [submitButton, setSubmitButton] = useState(false);
-
-  const getUserId = () => {
-    const user = getUser(selectedUser);
-
-    if (user !== null) {
-      return user.id;
-    }
-
-    return null;
-  };
+  const isTitleFilled = !title && submitButton;
+  const isUserSelected = !selectedUserId && submitButton;
 
   const newTodo = () => ({
     id: todoId,
     title,
     completed: false,
-    userId: getUserId(),
-    user: getUser(selectedUser),
+    userId: selectedUserId,
+    user: getUser(selectedUserId),
   });
-  const TodosAdder = () => {
-    if (selectedUser && title) {
+
+  const addTodo = () => {
+    if (selectedUserId && title) {
       setTodosList(
         [
           ...todosList,
@@ -63,9 +50,23 @@ export const App = () => {
       );
       setTodoId((prevId) => prevId + 1);
       setTitle('');
-      setSelectedUser('');
+      setSelectedUserId(0);
       setSubmitButton(false);
     }
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitButton(true);
+    addTodo();
+  };
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
   };
 
   return (
@@ -75,11 +76,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          setSubmitButton(true);
-          TodosAdder();
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
@@ -87,27 +84,22 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => {
-              setTitle(event.target.value);
-            }}
+            onChange={handleTitle}
           />
-          {!title && submitButton
-            ? <span className="error">Please enter a title</span>
-            : null}
+          {isTitleFilled
+          && <span className="error">Please enter a title</span>}
         </div>
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedUser}
-            onChange={(event) => {
-              setSelectedUser(event.target.value);
-            }}
+            value={selectedUserId}
+            onChange={handleUserId}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => {
               return (
                 <option
-                  value={user.name}
+                  value={user.id}
                   key={user.id}
                 >
                   {user.name}
@@ -115,9 +107,8 @@ export const App = () => {
               );
             })}
           </select>
-          {!selectedUser && submitButton
-            ? <span className="error">Please choose a user</span>
-            : null}
+          {isUserSelected
+          && <span className="error">Please choose a user</span>}
         </div>
 
         <button
