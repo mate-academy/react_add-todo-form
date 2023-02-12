@@ -21,12 +21,12 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [personName, setPersonName] = useState(0);
+  const [personId, setPersonId] = useState(0);
   const [title, setTitle] = useState('');
-  const [prepareTodo, setPrepareTodo] = useState<Todo[]>(todos);
+  const [preparedTodo, setPreparedTodo] = useState<Todo[]>(todos);
 
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasPersonNameError, setHasPersonNameError] = useState(false);
+  const [hasPersonIdError, setHasPersonIdError] = useState(false);
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -34,32 +34,32 @@ export const App: React.FC = () => {
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setPersonName(+event.target.value);
-    setHasPersonNameError(false);
+    setPersonId(+event.target.value);
+    setHasPersonIdError(false);
   };
 
   const resetForm = () => {
-    setPersonName(0);
+    setPersonId(0);
     setTitle('');
   };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setHasPersonNameError(!personName);
+    setHasPersonIdError(!personId);
     setHasTitleError(!title);
 
     const newPerson: Todo = {
-      id: Math.max(...prepareTodo.map(todo => todo.id)) + 1,
-      userId: personName,
+      id: Math.max(...preparedTodo.map(todo => todo.id)) + 1,
+      userId: personId,
       title,
       completed: false,
-      user: getUser(personName),
+      user: getUser(personId),
     };
 
-    if (newPerson && title && personName) {
-      setPrepareTodo((currentPrepareTodo) => (
-        [...currentPrepareTodo, newPerson]
+    if (newPerson && title && personId) {
+      setPreparedTodo((currentpreparedTodo) => (
+        [...currentpreparedTodo, newPerson]
       ));
       resetForm();
     }
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={personName}
+            value={personId}
             onChange={handleSelect}
           >
             <option
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {hasPersonNameError && (
+          {hasPersonIdError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={prepareTodo} />
+      <TodoList todos={preparedTodo} />
     </div>
   );
 };
