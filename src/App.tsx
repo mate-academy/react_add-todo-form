@@ -17,6 +17,9 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
   user: getUser(todo.userId),
 }));
 
+const allowedChars
+    = '0123456789abcdefghigklmnopqrstuvwxyz абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+
 export const App: React.FC = () => {
   const [todoList, setTodoList] = useState(todos);
 
@@ -30,8 +33,6 @@ export const App: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const allowedChars
-    = '0123456789abcdefghigklmnopqrstuvwxyz абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
     const { name, value } = e.target;
 
     if (
