@@ -47,7 +47,7 @@ export const App: React.FC = () => {
 
     if (!userId) {
       setUserId(0);
-      setHasUserError(false);
+      setHasUserError(true);
     }
 
     if (!title.trim()) {
@@ -78,11 +78,11 @@ export const App: React.FC = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setHasTitleError(true);
+              setHasTitleError(false);
             }}
           />
 
-          {!hasTitleError && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -96,7 +96,7 @@ export const App: React.FC = () => {
             value={userId}
             onChange={(event) => {
               setUserId(+event.target.value);
-              setHasUserError(true);
+              setHasUserError(false);
             }}
           >
             {usersFromServer.map(user => (
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!hasUserError && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
