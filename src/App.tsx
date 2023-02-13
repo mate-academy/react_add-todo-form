@@ -30,9 +30,14 @@ export const App: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
+    const allowedChars
+    = '0123456789abcdefghigklmnopqrstuvwxyz абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
     const { name, value } = e.target;
 
-    if (name === 'title') {
+    if (
+      name === 'title'
+      && allowedChars.includes(value.slice(-1).toLowerCase())
+    ) {
       setNewTodo((todo) => ({
         ...todo,
         [name]: value,
