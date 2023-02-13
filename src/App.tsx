@@ -4,9 +4,10 @@ import { TodoList } from './components/TodoList';
 import { findUser, todos } from './utils/findUser';
 import { createUserId } from './utils/createUserId';
 import usersFromServer from './api/users';
+import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
-  const [todoList, setTodoList] = useState(todos);
+  const [todoList, setTodoList] = useState<Todo[]>(todos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
   const [isTitleErrorVisible, setIsTitleErrorVisible] = useState(false);
@@ -20,7 +21,7 @@ export const App: React.FC = () => {
     user: findUser(+selectedUserId),
   });
 
-  const addTodo = (
+  const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setTodoTitle(event.target.value);
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
     setIsUserErrorVisible(false);
   };
 
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsTitleErrorVisible(!todoTitle);
     setIsUserErrorVisible(!selectedUserId);
@@ -53,7 +54,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <span className="field__title">Title:</span>
@@ -61,7 +62,7 @@ export const App: React.FC = () => {
           <input
             placeholder="Please enter a title"
             value={todoTitle}
-            onChange={addTodo}
+            onChange={handleChange}
             type="text"
             data-cy="titleInput"
           />
