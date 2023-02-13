@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
+
 import './App.scss';
 
 import { TodoList } from './components/TodoList';
@@ -18,12 +19,21 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
 }));
 
 const allowedChars
-    = '0123456789abcdefghigklmnopqrstuvwxyz абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+  = `0123456789 
+  abcdefghigklmnopqrstuvwxyz
+  абвгдеёжзийклмнопрстуфхцчшщъыьэюяґєії`;
+
+type NewTodo = {
+  title: string;
+  userName: string;
+  isTitleValid: boolean;
+  isUserNameValid: boolean;
+};
 
 export const App: React.FC = () => {
-  const [todoList, setTodoList] = useState(todos);
+  const [todoList, setTodoList] = useState<Todo[]>(todos);
 
-  const [newTodo, setNewTodo] = useState({
+  const [newTodo, setNewTodo] = useState<NewTodo>({
     title: '',
     userName: '',
     isTitleValid: true,
@@ -55,33 +65,29 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleAddTodo = () => {
+  const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (!newTodo.title && !newTodo.userName) {
-      setNewTodo((todo) => ({
+      return setNewTodo((todo) => ({
         ...todo,
         isTitleValid: false,
         isUserNameValid: false,
       }));
-
-      return;
     }
 
     if (!newTodo.title) {
-      setNewTodo((todo) => ({
+      return setNewTodo((todo) => ({
         ...todo,
         isTitleValid: false,
       }));
-
-      return;
     }
 
     if (!newTodo.userName) {
-      setNewTodo((todo) => ({
+      return setNewTodo((todo) => ({
         ...todo,
         isUserNameValid: false,
       }));
-
-      return;
     }
 
     const lastTodoId = Math.max(...todoList.map((todo) => todo.id));
@@ -99,12 +105,10 @@ export const App: React.FC = () => {
     };
 
     setTodoList((prevTodos) => {
-      prevTodos.push(todoToAdd);
-
-      return [...prevTodos];
+      return [...prevTodos, todoToAdd];
     });
 
-    setNewTodo({
+    return setNewTodo({
       title: '',
       userName: '',
       isTitleValid: true,
@@ -116,13 +120,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form action="/api/users" method="POST" onSubmit={handleAddTodo}>
         <div className="field">
           <label htmlFor="todoTitle">Title: </label>
           <input
@@ -163,7 +161,7 @@ export const App: React.FC = () => {
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton" onClick={handleAddTodo}>
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
