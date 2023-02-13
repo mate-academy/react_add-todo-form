@@ -4,9 +4,15 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 const validationString
 = 'ABCDEFGHIJKLMNOPQRSTUVWXYАБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ123456789 ';
+
+type TodoWithUser = Todo & {
+  user: User | null,
+};
 
 const findUserByUserId = (userId: number) => {
   return usersFromServer.find(({ id }) => id === userId) || null;
@@ -22,9 +28,12 @@ const todosWithUser = todosFromServer.map(todo => {
 });
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosWithUser);
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(-1);
+  const defaultTitle = '';
+  const defaultUserId = 0;
+
+  const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser);
+  const [title, setTitle] = useState(defaultTitle);
+  const [userId, setUserId] = useState(defaultUserId);
   const [titleValid, setTitleValidity] = useState(true);
   const [userIdValid, setUserIdValidity] = useState(true);
 
@@ -32,8 +41,9 @@ export const App = () => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const shouldTitleUpdate
-    = validationString.includes((value[value.length - 1] || '').toUpperCase());
+    const shouldTitleUpdate = (
+      validationString.includes((value[value.length - 1] || '').toUpperCase())
+    );
 
     if (shouldTitleUpdate) {
       setTitle(value);
@@ -52,7 +62,7 @@ export const App = () => {
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title !== '' && userId !== -1) {
+    if (title !== defaultTitle && userId !== defaultUserId) {
       setTodos((currentTodos) => ([
         ...currentTodos,
         {
@@ -64,17 +74,17 @@ export const App = () => {
         },
       ]));
 
-      setTitle('');
-      setUserId(-1);
+      setTitle(defaultTitle);
+      setUserId(defaultUserId);
 
       return;
     }
 
-    if (title === '') {
+    if (title === defaultTitle) {
       setTitleValidity(false);
     }
 
-    if (userId === -1) {
+    if (userId === defaultUserId) {
       setUserIdValidity(false);
     }
   };
@@ -105,7 +115,7 @@ export const App = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option disabled value={-1}>Choose a user</option>
+            <option disabled value={defaultUserId}>Choose a user</option>
             {
               usersFromServer.map(({ id, name }) => (
                 <option key={id} value={id}>{name}</option>
