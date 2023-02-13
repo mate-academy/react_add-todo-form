@@ -20,15 +20,15 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [hasTitle, setHasTitle] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [hasUser, setHasUser] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserError(!userId);
+    setHasTitle(!title);
+    setHasUser(!userId);
 
     if (!title || !userId) {
       return;
@@ -48,6 +48,18 @@ export const App: React.FC = () => {
     setUserId(0);
   };
 
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value
+      .replace(/[^a-z0-9а-я\s]/gi, '')
+      .trimStart());
+    setHasTitle(false);
+  };
+
+  const handleChangeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setHasUser(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -62,14 +74,11 @@ export const App: React.FC = () => {
               name="title"
               placeholder="Enter a title"
               value={title}
-              onChange={event => {
-                setTitle(event.target.value.replace(/[^a-z0-9а-я\s]/gi, ''));
-                setTitleError(false);
-              }}
+              onChange={handleChangeTitle}
             />
           </label>
 
-          {titleError && <span className="error">Please enter a title</span>}
+          {hasTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -79,10 +88,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               name="user"
               value={userId}
-              onChange={event => {
-                setUserId(+event.target.value);
-                setUserError(false);
-              }}
+              onChange={handleChangeUserId}
             >
               <option value={0} disabled>Choose a user</option>
               {
@@ -95,7 +101,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {hasUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
