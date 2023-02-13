@@ -1,25 +1,58 @@
 /* eslint-disable max-len */
+import { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-/* import { Todo } from './types/Todo'; */
+import { getUser } from './components/TodoInfo';
+import { Todo } from './types/Todo';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
-/* function getMaxId(todosArray:Todo[]) {
-  const idArray: number[] = [];
-
-  todosArray.map(todo => idArray.push(todo.id));
-
-  return Math.max.apply(null, idArray);
-} */
+const visibleTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId) || null,
+}));
 
 export const App = () => {
+  const [todos, setTodos] = useState(visibleTodos);
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
+  const newId = Math.max(...todos.map(todo => todo.id));
+
+  const resetForm = () => {
+    setUser(0);
+    setTitle('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setTitleError(!title);
+          setUserError(!user);
+
+          const newTodo:Todo = {
+            id: newId + 1,
+            title,
+            userId: user,
+            completed: false,
+            user: getUser(user),
+          };
+
+          if (user && title) {
+            setTodos(currentTodos => [...currentTodos, newTodo]);
+            resetForm();
+          }
+        }}
+      >
         <div className="field">
           <label>
             {'Title: '}
@@ -27,8 +60,19 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setTitleError(false);
+              }}
             />
-            <span className="error" hidden>Please enter a title</span>
+            { titleError && (
+              <span
+                className="error"
+              >
+                Please enter a title
+              </span>
+            )}
           </label>
 
         </div>
@@ -36,21 +80,44 @@ export const App = () => {
         <div className="field">
           <label>
             {'User: '}
-            <select data-cy="userSelect" defaultValue={0}>
+            <select
+              data-cy="userSelect"
+              name="user"
+              value={user}
+              onChange={(event) => {
+                setUser(+event.target.value);
+                setUserError(false);
+              }}
+            >
               <option
                 value="0"
                 disabled
               >
                 Choose a user
               </option>
-              {usersFromServer.map(user => {
+              {usersFromServer.map(userFromServer => {
+                const {
+                  id,
+                  name,
+                } = userFromServer;
+
                 return (
-                  <option value={user.id} key={user.id}>{user.name}</option>
+                  <option
+                    value={id}
+                    key={id}
+                  >
+                    {name}
+                  </option>
                 );
               })}
             </select>
-
-            <span className="error" hidden>Please choose a user</span>
+            { userError && (
+              <span
+                className="error"
+              >
+                Please choose a user
+              </span>
+            )}
           </label>
         </div>
 
@@ -59,7 +126,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };

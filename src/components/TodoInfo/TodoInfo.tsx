@@ -7,10 +7,10 @@ type Props = {
   todo: Todo;
 };
 
-function getUser(userId: number):User | undefined {
+export function getUser(userId: number):User | null {
   const foundUser = usersFromServer.find(user => userId === user.id);
 
-  return foundUser || undefined;
+  return foundUser || null;
 }
 
 export const TodoInfo:React.FC<Props> = ({ todo }) => {
