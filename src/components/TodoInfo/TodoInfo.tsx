@@ -14,18 +14,18 @@ function getUser(userId: number):User | undefined {
 }
 
 export const TodoInfo:React.FC<Props> = ({ todo }) => {
-  const { id, title, userId } = todo;
+  const {
+    title,
+    userId,
+  } = todo;
 
   return (
-    <article
-      data-id={id}
-      className="TodoInfo"
-    >
+    <>
       <h2 className="TodoInfo__title">
         {title}
       </h2>
 
       <UserInfo user={getUser(userId)} />
-    </article>
+    </>
   );
 };

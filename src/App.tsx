@@ -4,6 +4,7 @@ import { TodoList } from './components/TodoList';
 /* import { Todo } from './types/Todo'; */
 
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
 /* function getMaxId(todosArray:Todo[]) {
   const idArray: number[] = [];
@@ -27,7 +28,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
             />
-            <span className="error">Please enter a title</span>
+            <span className="error" hidden>Please enter a title</span>
           </label>
 
         </div>
@@ -35,18 +36,21 @@ export const App = () => {
         <div className="field">
           <label>
             {'User: '}
-            <select data-cy="userSelect">
+            <select data-cy="userSelect" defaultValue={0}>
               <option
-                value=""
+                value="0"
                 disabled
-                selected
               >
                 Choose a user
               </option>
-              <option value="1">user</option>
+              {usersFromServer.map(user => {
+                return (
+                  <option value={user.id} key={user.id}>{user.name}</option>
+                );
+              })}
             </select>
 
-            <span className="error">Please choose a user</span>
+            <span className="error" hidden>Please choose a user</span>
           </label>
         </div>
 
