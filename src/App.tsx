@@ -2,26 +2,33 @@ import React, { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { getUsersFromServer } from './utils';
 
 import './App.scss';
+import { Todo } from './types';
+
+const preparedTodos = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: getUsersFromServer(usersFromServer, todo),
+  };
+});
 
 export const App: React.FC = () => {
-  const preparedTodos = todosFromServer.map(todo => {
-    return {
-      ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId) || null,
-    };
-  });
-
-  const [todos, setTodos] = useState(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isUserSelected, setIsUserSelected] = useState(true);
+  const [isUserEmpty, setIsUserEmpty] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitleEmpty(false);
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -32,7 +39,7 @@ export const App: React.FC = () => {
     }
 
     if (!userId) {
-      setIsUserSelected(false);
+      setIsUserEmpty(true);
     }
 
     if (title && userId) {
@@ -46,14 +53,14 @@ export const App: React.FC = () => {
           user: usersFromServer.find(user => user.id === userId) || null,
         },
       ]));
-      setTitle('');
-      setUserId(0);
+
+      resetForm();
     }
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsUserSelected(true);
+    setIsUserEmpty(false);
   };
 
   return (
@@ -86,16 +93,14 @@ export const App: React.FC = () => {
             onChange={handleSelect}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => {
-              return (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          {!isUserSelected
+          {isUserEmpty
             && <span className="error">Please choose a user</span>}
 
         </div>
