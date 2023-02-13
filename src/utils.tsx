@@ -1,12 +1,6 @@
-import { User } from './types';
+import { User } from './types/user';
+import usersFromServer from './api/users';
 
-export interface Todo {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-}
-
-export const getUsersFromServer = (usersFromServer: User[], todo: Todo) => {
-  return usersFromServer.find(user => user.id === todo.userId) || null;
+export const getUserById = (id: number): User | null => {
+  return usersFromServer.find(user => user.id === id) || null;
 };

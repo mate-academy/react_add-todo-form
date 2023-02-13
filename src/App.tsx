@@ -2,15 +2,15 @@ import React, { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { getUsersFromServer } from './utils';
+import { getUserById } from './utils';
+import { Todo } from './types/todo';
 
 import './App.scss';
-import { Todo } from './types';
 
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: getUsersFromServer(usersFromServer, todo),
+    user: getUserById(todo.id),
   };
 });
 
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
           title,
           completed: false,
           userId,
-          user: usersFromServer.find(user => user.id === userId) || null,
+          user: getUserById(userId),
         },
       ]));
 
@@ -81,8 +81,9 @@ export const App: React.FC = () => {
             onChange={handleTitle}
           />
 
-          {isTitleEmpty
-            && <span className="error">Please enter a title</span>}
+          {isTitleEmpty && (
+            <span className="error">Please enter a title</span>
+          )}
 
         </div>
 
@@ -100,8 +101,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isUserEmpty
-            && <span className="error">Please choose a user</span>}
+          {isUserEmpty && (
+            <span className="error">Please choose a user</span>
+          )}
 
         </div>
 
