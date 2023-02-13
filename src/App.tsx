@@ -20,20 +20,20 @@ const prepearedTodos: Todo[] = todosFromServer.map((todo) => ({
 }));
 
 export const App: React.FC = () => {
-  const [userSelected, setUserSelect] = useState(0);
-  const [IsInput, setInput] = useState('');
+  const [userSelectedId, setUserSelectId] = useState(0);
+  const [title, setTitle] = useState('');
   const [hasNoInput, setHasNoInput] = useState(true);
   const [todos, setTodo] = useState<Todo[]>(prepearedTodos);
 
   const newId = Math.max(...todosFromServer.map((todo) => todo.id + 1));
 
   const addTodo = () => {
-    const newUser = usersFromServer.find(user => user.id === userSelected);
+    const newUser = usersFromServer.find(user => user.id === userSelectedId);
 
     if (newUser) {
       const newTodo = {
         id: newId,
-        title: IsInput,
+        title: title,
         completed: false,
         userId: newUser.id,
         user: newUser,
@@ -48,14 +48,14 @@ export const App: React.FC = () => {
 
   const clearFields = () => {
     setHasNoInput(true);
-    setInput('');
-    setUserSelect(0);
+    setTitle('');
+    setUserSelectId(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!IsInput || !userSelected) {
+    if (!title || !userSelectedId) {
       setHasNoInput(false);
 
       return;
@@ -68,13 +68,13 @@ export const App: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    return setInput(value);
+    return setTitle(value);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    return setUserSelect(+value);
+    return setUserSelectId(+value);
   };
 
   return (
@@ -86,47 +86,47 @@ export const App: React.FC = () => {
 
           <label>
             {'Title: '}
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={IsInput}
-            onChange={handleInputChange}
-            placeholder="Enter a title"
-          />
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              onChange={handleInputChange}
+              placeholder="Enter a title"
+            />
           </label>
-          {(!hasNoInput && !IsInput)
+          {(!hasNoInput && !title)
               && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label>
             {'User: '}
-          <select
-            value={userSelected}
-            data-cy="userSelect"
-            onChange={handleSelectChange}
-          >
-            <option
-              value="0"
-              disabled
+            <select
+              value={userSelectedId}
+              data-cy="userSelect"
+              onChange={handleSelectChange}
             >
-              Choose a user
-            </option>
+              <option
+                value="0"
+                disabled
+              >
+                Choose a user
+              </option>
 
-            {usersFromServer.map((user) => {
-              return (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              );
-            })}
-          </select>
+              {usersFromServer.map((user) => {
+                return (
+                  <option
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.name}
+                  </option>
+                );
+              })}
+            </select>
           </label>
 
-          {(!hasNoInput && !userSelected)
+          {(!hasNoInput && !userSelectedId)
               && <span className="error">Please choose a user</span>}
         </div>
 
