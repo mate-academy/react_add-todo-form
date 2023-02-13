@@ -26,11 +26,11 @@ export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [selectedUser, setSelectedUser] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
 
-  const addTodo = (arr: Todo[]) => {
+  const addTodo = () => {
     const correctUser = getUserByName(selectedUser);
 
     if (correctUser) {
@@ -44,7 +44,7 @@ export const App = () => {
         user: correctUser,
       };
 
-      setTodos([...arr, newTodo]);
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
     }
   };
 
@@ -62,7 +62,7 @@ export const App = () => {
     setSelectedUser(event.target.value);
   };
 
-  const handleTitleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title || !selectedUser) {
@@ -71,7 +71,7 @@ export const App = () => {
       return;
     }
 
-    addTodo(todos);
+    addTodo();
     clearForm();
   };
 
@@ -85,7 +85,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleTitleSubmit}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
