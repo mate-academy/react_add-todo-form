@@ -7,17 +7,11 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-function getUserById(userId: number): User | null {
+const getUserById = (userId: number): User | null => {
   const correctUser = usersFromServer.find(user => user.id === userId);
 
   return correctUser || null;
-}
-
-function getUserByName(userName: string) {
-  const correctUser = usersFromServer.find(({ name }) => userName === name);
-
-  return correctUser || null;
-}
+};
 
 export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -27,56 +21,46 @@ export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
-  const [selectedUser, setSelectedUser] = useState('');
-  const [errorMessage, setErrorMessage] = useState(false);
-
-  const addTodo = () => {
-    const correctUser = getUserByName(selectedUser);
-
-    if (correctUser) {
-      const newId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-      const newTodo: Todo = {
-        id: newId,
-        userId: correctUser.id,
-        title,
-        completed: false,
-        user: correctUser,
-      };
-
-      setTodos((prevTodos) => [...prevTodos, newTodo]);
-    }
-  };
-
-  const clearForm = () => {
-    setSelectedUser('');
-    setTitle('');
-    setErrorMessage(false);
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
-  };
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [hasSelectedError, setHasSelectedError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !selectedUser) {
-      setErrorMessage(true);
+    setHasSelectedError(!selectedUserId);
+    setHasTitleError(!title);
 
-      return;
+    const getMaxId = Math.max(...todos.map(todo => todo.id)) + 1;
+
+    const clearForm = () => {
+      setTitle('');
+      setSelectedUserId(0);
+    };
+
+    const newTodo = {
+      id: getMaxId,
+      title,
+      completed: false,
+      userId: +selectedUserId,
+      user: getUserById(+selectedUserId),
+    };
+
+    if (title && selectedUserId) {
+      setTodos((currentTodos) => [...currentTodos, newTodo]);
+      clearForm();
     }
-
-    addTodo();
-    clearForm();
   };
 
-  const titleErrorStatus = !title && errorMessage;
-  const userErrorStatus = !selectedUser && errorMessage;
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+    setHasSelectedError(false);
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
 
   return (
     <div className="App">
@@ -95,9 +79,9 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={handleTitleChange}
+            onChange={handleInput}
           />
-          {titleErrorStatus && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -107,18 +91,18 @@ export const App = () => {
           <select
             id="user"
             data-cy="userSelect"
-            value={selectedUser}
-            onChange={handleUserChange}
+            value={selectedUserId}
+            onChange={handleSelect}
           >
-            <option value="" disabled selected>Choose a user</option>
+            <option value="0" disabled selected>Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.name} key={user.id}>
+              <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
-          {userErrorStatus && (
+          {hasSelectedError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
