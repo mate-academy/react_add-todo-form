@@ -12,16 +12,18 @@ const todosWithUsers = todosFromServer.map((todo) => {
   };
 });
 
-const todosIds = todosWithUsers.map(todo => todo.id);
-const nextId = Math.max(...todosIds) + 1;
-
 export const App:React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
-  const [id, setId] = useState(nextId);
   const [hasTitleError, setIsEmptyTitle] = useState(false);
   const [hasUserError, setIsEmptyUser] = useState(false);
+
+  const nextId = () => {
+    const todosIds = todos.map(todo => todo.id);
+
+    return (Math.max(...todosIds) + 1);
+  };
 
   const resetForm = () => {
     setTitle('');
@@ -32,7 +34,7 @@ export const App:React.FC = () => {
     const { value } = event.target;
     const reg = /[^A-Za-z0-9a-я ]/;
 
-    setIsEmptyTitle(!hasTitleError);
+    setIsEmptyTitle(false);
 
     setTitle(value.replace(reg, ''));
   };
@@ -40,7 +42,7 @@ export const App:React.FC = () => {
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setIsEmptyUser(!hasUserError);
+    setIsEmptyUser(false);
 
     setUserName(value);
   };
@@ -57,16 +59,15 @@ export const App:React.FC = () => {
     setIsEmptyUser(!userName);
 
     const newTodo: Todo = {
+      id: nextId(),
       title: title.trim(),
-      user,
-      id,
       completed: false,
       userId: user?.id || null,
+      user,
     };
 
     if (user && title) {
       setTodos(current => [...current, newTodo]);
-      setId(currentId => currentId + 1);
       resetForm();
     }
   };
@@ -99,7 +100,7 @@ export const App:React.FC = () => {
             onChange={handleUser}
           >
             <option
-              selected
+              defaultValue="Choose a user"
               disabled
               value=""
             >
