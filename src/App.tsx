@@ -27,6 +27,40 @@ export const App = () => {
     setTitle('');
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setTitleError(!title);
+    setUserError(!user);
+
+    const newTodo:Todo = {
+      id: newId + 1,
+      title,
+      userId: user,
+      completed: false,
+      user: getUser(user),
+    };
+
+    if (user && title) {
+      setTodos(currentTodos => [...currentTodos, newTodo]);
+      resetForm();
+    }
+  };
+
+  const inputTitle = (value: string) => {
+    if (value !== ' ') {
+      setTitleError(false);
+      setTitle(value);
+    } else {
+      setTitleError(true);
+    }
+  };
+
+  const selectUser = (value: number) => {
+    setUser(value);
+    setUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -35,22 +69,7 @@ export const App = () => {
         action="/api/users"
         method="POST"
         onSubmit={(event) => {
-          event.preventDefault();
-          setTitleError(!title);
-          setUserError(!user);
-
-          const newTodo:Todo = {
-            id: newId + 1,
-            title,
-            userId: user,
-            completed: false,
-            user: getUser(user),
-          };
-
-          if (user && title) {
-            setTodos(currentTodos => [...currentTodos, newTodo]);
-            resetForm();
-          }
+          handleSubmit(event);
         }}
       >
         <div className="field">
@@ -62,8 +81,7 @@ export const App = () => {
               placeholder="Enter a title"
               value={title}
               onChange={(event) => {
-                setTitle(event.target.value);
-                setTitleError(false);
+                inputTitle(event.target.value);
               }}
             />
             { titleError && (
@@ -85,8 +103,7 @@ export const App = () => {
               name="user"
               value={user}
               onChange={(event) => {
-                setUser(+event.target.value);
-                setUserError(false);
+                selectUser(+event.target.value);
               }}
             >
               <option
