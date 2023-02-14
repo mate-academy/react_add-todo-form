@@ -1,0 +1,15 @@
+.UserInfo {
+  text-decoration: none;
+  color: #555555;
+  font-weight: 600;
+
+  &:hover,
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.15);
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+}

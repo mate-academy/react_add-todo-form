@@ -1,0 +1,60 @@
+.TodoInfo {
+  width: max-content;
+  padding: 8px;
+  margin: 12px 0;
+  border: 3px solid rgb(131, 151, 213);
+  border-radius: 8px;
+  background-color: rgb(194, 207, 255);
+  font-size: 16px;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  align-items: center;
+
+  &:hover {
+    transition: cubic-bezier(.83,.31,.17,.95);
+  }
+
+  &__title {
+    margin: 4px 0;
+    font-size: inherit;
+    color: #f00;
+  }
+
+  &__toggle {
+    margin: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.65);
+    display: inline-flex;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      background-color: #F0F0F1;
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+      color: rgba(0, 0, 0, 0.85);
+      transform: translateY(0);
+    }
+  }
+
+  &--completed &__title {
+    color: #080;
+  }
+}
