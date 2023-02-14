@@ -7,28 +7,28 @@ import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+const getUser = (userId: number): User | null => {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
-}
+};
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [hasTitle, setHasTitle] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [hasUser, setHasUser] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasTitle(!title);
-    setHasUser(!userId);
+    setHasTitleError(!title);
+    setHasUserError(!userId);
 
     if (!title || !userId) {
       return;
@@ -52,12 +52,12 @@ export const App: React.FC = () => {
     setTitle(event.target.value
       .replace(/[^a-z0-9а-я\s]/gi, '')
       .trimStart());
-    setHasTitle(false);
+    setHasTitleError(false);
   };
 
   const handleChangeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUser(false);
+    setHasUserError(false);
   };
 
   return (
@@ -78,7 +78,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {hasTitle && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {hasUser && <span className="error">Please choose a user</span>}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
