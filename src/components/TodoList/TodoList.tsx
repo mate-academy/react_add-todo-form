@@ -7,7 +7,7 @@ type Props = {
   deleteTodo: (todoId: number) => void;
 };
 
-export const TodoList: React.FC<Props> = ({ todos, deleteTodo }) => {
+export const TodoList: React.FC<Props> = React.memo(({ todos, deleteTodo }) => {
   return (
     <section className="TodoList">
       {todos.map((todo) => (
@@ -15,4 +15,4 @@ export const TodoList: React.FC<Props> = ({ todos, deleteTodo }) => {
       ))}
     </section>
   );
-};
+});
