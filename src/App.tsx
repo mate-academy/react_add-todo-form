@@ -10,7 +10,7 @@ import './App.scss';
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: getUserById(todo.id),
+    user: getUserById(todo.userId),
   };
 });
 
@@ -18,12 +18,12 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isUserEmpty, setIsUserEmpty] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserSelectError, setHasUserSelectError] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEmpty(false);
+    setHasTitleError(false);
   };
 
   const resetForm = () => {
@@ -35,11 +35,11 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     if (!title) {
-      setIsTitleEmpty(true);
+      setHasTitleError(true);
     }
 
     if (!userId) {
-      setIsUserEmpty(true);
+      setHasUserSelectError(true);
     }
 
     if (title && userId) {
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsUserEmpty(false);
+    setHasUserSelectError(false);
   };
 
   return (
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
             onChange={handleTitle}
           />
 
-          {isTitleEmpty && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
 
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isUserEmpty && (
+          {hasUserSelectError && (
             <span className="error">Please choose a user</span>
           )}
 
