@@ -33,7 +33,7 @@ export const App: React.FC = () => {
     if (newUser) {
       const newTodo = {
         id: newId,
-        title: title,
+        title,
         completed: false,
         userId: newUser.id,
         user: newUser,
@@ -68,7 +68,11 @@ export const App: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    return setTitle(value);
+    if (value !== ' ') {
+      return setTitle(value.replace(/[^A-Za-z0-9\s^А-яЁё]/i, ''));
+    }
+
+    return 0;
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
