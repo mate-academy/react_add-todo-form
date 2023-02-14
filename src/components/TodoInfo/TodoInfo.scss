@@ -7,14 +7,13 @@
   background-color: rgb(194, 207, 255);
   font-size: 16px;
 
-
   display: flex;
   flex-direction: column;
-  justify-content:flex-start;
+  justify-content: flex-start;
   align-items: center;
 
   &:hover {
-    transition: cubic-bezier(.83,.31,.17,.95);
+    transition: cubic-bezier(0.83, 0.31, 0.17, 0.95);
   }
 
   &__title {
@@ -25,9 +24,9 @@
 
   &__toggle {
     margin: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffff;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
     box-sizing: border-box;
     color: rgba(0, 0, 0, 0.65);
@@ -46,7 +45,7 @@
     }
 
     &:active {
-      background-color: #F0F0F1;
+      background-color: #f0f0f1;
       border-color: rgba(0, 0, 0, 0.15);
       box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
       color: rgba(0, 0, 0, 0.85);
