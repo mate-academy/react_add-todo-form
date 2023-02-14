@@ -18,8 +18,7 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
   user: getUser(todo.userId),
 }));
 
-const allowedChars
-  = `0123456789 
+const allowedChars = `0123456789 
   abcdefghigklmnopqrstuvwxyz
   абвгдеёжзийклмнопрстуфхцчшщъыьэюяґєії`;
 
@@ -30,15 +29,19 @@ type NewTodo = {
   isUserNameValid: boolean;
 };
 
+const emptyTodo: NewTodo = {
+  title: '',
+  userName: '',
+  isTitleValid: true,
+  isUserNameValid: true,
+};
+
+let nextTodoId = Math.max(...todosFromServer.map((todo) => todo.id)) + 1;
+
 export const App: React.FC = () => {
   const [todoList, setTodoList] = useState<Todo[]>(todos);
 
-  const [newTodo, setNewTodo] = useState<NewTodo>({
-    title: '',
-    userName: '',
-    isTitleValid: true,
-    isUserNameValid: true,
-  });
+  const [newTodo, setNewTodo] = useState<NewTodo>(emptyTodo);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -68,52 +71,31 @@ export const App: React.FC = () => {
   const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!newTodo.title && !newTodo.userName) {
+    if (!newTodo.title || !newTodo.userName) {
       return setNewTodo((todo) => ({
         ...todo,
-        isTitleValid: false,
-        isUserNameValid: false,
+        isTitleValid: !!newTodo.title,
+        isUserNameValid: !!newTodo.userName,
       }));
     }
-
-    if (!newTodo.title) {
-      return setNewTodo((todo) => ({
-        ...todo,
-        isTitleValid: false,
-      }));
-    }
-
-    if (!newTodo.userName) {
-      return setNewTodo((todo) => ({
-        ...todo,
-        isUserNameValid: false,
-      }));
-    }
-
-    const lastTodoId = Math.max(...todoList.map((todo) => todo.id));
 
     const todoUser: User | undefined = usersFromServer.find(
       (user) => user.name === newTodo.userName,
     );
 
     const todoToAdd: Todo = {
-      id: lastTodoId + 1,
+      id: nextTodoId,
       title: newTodo.title,
       userId: todoUser?.id,
       completed: false,
       user: todoUser,
     };
 
-    setTodoList((prevTodos) => {
-      return [...prevTodos, todoToAdd];
-    });
+    setTodoList((prevTodos) => [...prevTodos, todoToAdd]);
 
-    return setNewTodo({
-      title: '',
-      userName: '',
-      isTitleValid: true,
-      isUserNameValid: true,
-    });
+    nextTodoId += 1;
+
+    return setNewTodo(emptyTodo);
   };
 
   return (
