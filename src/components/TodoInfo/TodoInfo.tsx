@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
+import { TodosContext } from '../TodosProvider';
 
 type Props = {
   todo: Todo;
-  deleteTodo: (todoId: number) => void;
 };
 
-export const TodoInfo: React.FC<Props> = React.memo(({ todo, deleteTodo }) => {
+export const TodoInfo: React.FC<Props> = React.memo(({ todo }) => {
   const {
     id, completed, title, user,
   } = todo;
 
-  useEffect(() => {
-    console.log('TodoInfo rendered: Todo changed');
-  }, [todo]);
-
-  useEffect(() => {
-    console.log('TodoInfo rendered: DeleteTodo changed');
-  }, [deleteTodo]);
+  const { deleteTodo } = useContext(TodosContext);
 
   return (
     <article

@@ -4,14 +4,13 @@ import { Todo } from '../../types/Todo';
 
 type Props = {
   todos: Todo[],
-  deleteTodo: (todoId: number) => void;
 };
 
-export const TodoList: React.FC<Props> = React.memo(({ todos, deleteTodo }) => {
+export const TodoList: React.FC<Props> = React.memo(({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map((todo) => (
-        <TodoInfo key={todo.id} todo={todo} deleteTodo={deleteTodo} />
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
   );
