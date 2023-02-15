@@ -49,8 +49,8 @@ export const App: React.FC = () => {
     const { name, value } = e.target;
 
     if (
-      name === 'title'
-      && allowedChars.includes(value.slice(-1).toLowerCase())
+      name === 'title' &&
+      allowedChars.includes(value.slice(-1).toLowerCase())
     ) {
       setNewTodo((todo) => ({
         ...todo,
@@ -148,7 +148,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      {todos.length && <TodoList todos={todoList} />}
+      {!!todos.length && <TodoList todos={todoList} />}
     </div>
   );
 };
