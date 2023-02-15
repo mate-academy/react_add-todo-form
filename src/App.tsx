@@ -1,61 +1,53 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import {
+  useCallback, useContext, useMemo, useState,
+} from 'react';
+import debounce from 'lodash/debounce';
+import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm';
+import { TodosContext } from './components/TodosProvider';
 
 export const App = () => {
+  const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
+  const [count, setCount] = useState(0);
+
+  const { todos } = useContext(TodosContext);
+
+  const lowerQuery = appliedQuery.toLowerCase();
+
+  const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
+
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => (
+      todo.title.toLowerCase().includes(lowerQuery)
+    ));
+  }, [todos, lowerQuery]);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <button
+        type="button"
+        onClick={() => setCount((currentCount) => currentCount + 1)}
+      >
+        {`Click me: ${count}`}
+      </button>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+      <input
+        type="text"
+        value={query}
+        onChange={(event) => {
+          setQuery(event.target.value);
+          applyQuery(event.target.value);
+        }}
+      />
 
-          <span className="error">Please choose a user</span>
-        </div>
+      <TodoForm />
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={filteredTodos} />
     </div>
   );
 };
