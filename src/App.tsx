@@ -5,32 +5,21 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { FullTodo } from './types/FullTodo';
 
+const getUserById = (userId:number) => (
+  usersFromServer.find((user) => user.id === userId) || null
+);
+
 export const App = () => {
-  const [todos, setTodos] = useState([...todosFromServer]);
+  const [todos, setTodos] = useState(todosFromServer);
   const [selectedUserId, setSelectedUserId] = useState('');
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [chooseUserError, setChooseUserError] = useState(false);
 
-  const getUserById = (userId:number) => (
-    usersFromServer.find((user) => user.id === userId) || null
-  );
-
-  const fullTodos: FullTodo[] = todos.map(todo => (
-    {
-      ...todo,
-      user: getUserById(todo.userId),
-    }
-  ));
-
-  const createNewTodo = () => {
-    setTodos([...todos, {
-      id: todos.length + 1,
-      title,
-      userId: Number(selectedUserId),
-      completed: false,
-    }]);
-  };
+  const fullTodos: FullTodo[] = todos.map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
+  }));
 
   const clearForm = () => {
     setTitle('');
@@ -52,7 +41,13 @@ export const App = () => {
       return;
     }
 
-    createNewTodo();
+    setTodos([...todos, {
+      id: todos.length + 1,
+      title,
+      userId: Number(selectedUserId),
+      completed: false,
+    }]);
+
     clearForm();
   };
 
@@ -90,10 +85,8 @@ export const App = () => {
               }}
             />
           </label>
-          {
-            titleError
-              && <span className="error">Please enter a title</span>
-          }
+          {titleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -107,11 +100,9 @@ export const App = () => {
               }}
             >
               <option value="" disabled>Choose a user</option>
-              {
-                usersFromServer.map(user => (
-                  <option value={user.id}>{user.username}</option>
-                ))
-              }
+              {usersFromServer.map(user => (
+                <option value={user.id}>{user.username}</option>
+              ))}
             </select>
           </label>
           {

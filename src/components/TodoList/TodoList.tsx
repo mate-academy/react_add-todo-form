@@ -6,12 +6,10 @@ type Props = {
   fullTodos: FullTodo[],
 };
 
-export const TodoList: React.FC<Props> = ({ fullTodos }) => {
-  return (
-    <section className="TodoList">
-      {fullTodos.map((fullTodo:FullTodo) => (
-        <TodoInfo fullTodo={fullTodo} key={fullTodo.id} />
-      ))}
-    </section>
-  );
-};
+export const TodoList: React.FC<Props> = ({ fullTodos }) => (
+  <section className="TodoList">
+    {fullTodos.map((fullTodo:FullTodo) => (
+      <TodoInfo fullTodo={fullTodo} key={fullTodo.id} />
+    ))}
+  </section>
+);
