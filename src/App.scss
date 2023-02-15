@@ -7,8 +7,14 @@ html {
 }
 
 label,
+select,
 button {
   cursor: pointer;
+}
+
+input,
+select {
+  margin: 5px 5px 0;
 }
 
 .error {
@@ -36,4 +42,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.button {
+  margin-top: 10px;
 }
