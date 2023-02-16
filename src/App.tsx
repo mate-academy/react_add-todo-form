@@ -107,7 +107,7 @@ export const App: React.FC = () => {
               setErrorTitle(true);
             }
 
-            if (user === '0' && title === '') {
+            if (user === '0' || title === '') {
               return;
             }
 
