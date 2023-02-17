@@ -14,6 +14,23 @@ export const App = () => {
   const [errorTitle, setErrorTitle] = useState<boolean>(false);
   const [errorUser, setErrorUser] = useState<boolean>(false);
 
+  const addUser = () => {
+    const id = [...todos].sort(
+      (todo1, todo2) => todo2.id - todo1.id,
+    )[0].id + 1;
+
+    setTodos(
+      [
+        ...todos,
+        {
+          id,
+          title,
+          completed: false,
+          userId,
+        }],
+    );
+  };
+
   const handleSubmitButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!userId) {
@@ -25,20 +42,7 @@ export const App = () => {
     }
 
     if (userId && title) {
-      const id = [...todos].sort(
-        (todo1, todo2) => todo2.id - todo1.id,
-      )[0].id + 1;
-
-      setTodos(
-        [
-          ...todos,
-          {
-            id,
-            title,
-            completed: false,
-            userId,
-          }],
-      );
+      addUser();
       setUserId(0);
       setTitle('');
     }
