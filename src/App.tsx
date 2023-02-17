@@ -29,7 +29,7 @@ export const App = () => {
         (todo1, todo2) => todo2.id - todo1.id,
       )[0].id + 1;
 
-      setTodos((
+      setTodos(
         [
           ...todos,
           {
@@ -37,8 +37,8 @@ export const App = () => {
             title,
             completed: false,
             userId,
-          }]
-      ));
+          }],
+      );
       setUserId(0);
       setTitle('');
     }
