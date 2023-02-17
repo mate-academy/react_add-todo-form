@@ -103,11 +103,11 @@ export const App: React.FC = () => {
               setErrorUser(true);
             }
 
-            if (title === '') {
+            if (title.trim() === '') {
               setErrorTitle(true);
             }
 
-            if (user === '0' || title === '') {
+            if (user === '0' || title.trim() === '') {
               return;
             }
 
