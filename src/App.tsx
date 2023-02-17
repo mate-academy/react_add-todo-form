@@ -4,10 +4,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
 
 export const App = () => {
-  const users:User[] = usersFromServer;
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [userId, setUserId] = useState<number>(0);
   const [title, setTitle] = useState<string>('');
@@ -19,16 +17,15 @@ export const App = () => {
       (todo1, todo2) => todo2.id - todo1.id,
     )[0].id + 1;
 
-    setTodos(
+    setTodos((prevState) => (
       [
-        ...todos,
+        ...prevState,
         {
           id,
           title,
           completed: false,
           userId,
-        }],
-    );
+        }]));
   };
 
   const handleSubmitButton = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -88,7 +85,7 @@ export const App = () => {
             >
               <option value="0" disabled>Choose a user</option>
               {
-                users.map(user => (
+                usersFromServer.map(user => (
                   <option value={user.id} key={user.id}>{user.name}</option>))
               }
             </select>
@@ -104,7 +101,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} users={users} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };
