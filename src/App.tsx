@@ -7,8 +7,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-const validationString
-= 'ABCDEFGHIJKLMNOPQRSTUVWXYАБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ123456789 ';
+const validationString = /[0-9A-ZА-ЩЬЮЯҐЄІЇ ]/;
 
 type TodoWithUser = Todo & {
   user: User | null,
@@ -41,8 +40,9 @@ export const App = () => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+
     const shouldTitleUpdate = (
-      validationString.includes((value[value.length - 1] || '').toUpperCase())
+      (value[value.length - 1] || 'a').toUpperCase().match(validationString)
     );
 
     if (shouldTitleUpdate) {
