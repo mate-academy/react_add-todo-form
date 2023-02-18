@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { User } from './types/User';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
-import { TodoWithUser } from './types/TodoWithUser';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
@@ -16,24 +15,6 @@ export const App = () => {
   const [errorObject, setErrorobject] = useState(
     { errorUser: true, errorTitle: true },
   );
-
-  const renderListTodoWithUser = () => {
-    const result: TodoWithUser[] = [];
-
-    todos.forEach((todo: Todo) => {
-      const selectUser = users
-        .filter((el: User) => el.id === todo.userId)[0];
-
-      if (selectUser) {
-        result.push({
-          ...todo,
-          user: selectUser,
-        });
-      }
-    });
-
-    return result;
-  };
 
   const addElement = (comment: string, userId: number) => {
     const selectUser = users.filter((el: User) => el.id === userId)[0].id;
@@ -52,7 +33,17 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={(event) => event.preventDefault()}>
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        setErrorobject({ errorTitle: !!title, errorUser: !!user });
+
+        if (title && user) {
+          addElement(title, user);
+          setTitle('');
+          setUser(0);
+        }
+      }}
+      >
         <div className="field">
           Title:
           <input
@@ -91,20 +82,20 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            setErrorobject({ errorTitle: !!title, errorUser: !!user });
-
-            if (title && user) {
-              addElement(title, user);
-              setTitle('');
-              setUser(0);
-            }
-          }}
         >
           Add
         </button>
       </form>
-      <TodoList todos={renderListTodoWithUser()} />
+      <TodoList todos={useMemo(() => {
+        return todos.map((todo: Todo) => {
+          return {
+            ...todo,
+            user: users
+              .filter((el: User) => el.id === todo.userId)[0],
+          };
+        });
+      }, [user, title])}
+      />
     </div>
   );
 };
