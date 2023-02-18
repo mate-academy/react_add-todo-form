@@ -29,21 +29,38 @@ export const App = () => {
       }]);
   };
 
+  const onSubmithandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorobject({ errorTitle: !!title, errorUser: !!user });
+
+    if (title && user) {
+      addElement(title, user);
+      setTitle('');
+      setUser(0);
+    }
+  };
+
+  const onChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLSelectElement>,
+    type: string,
+  ) => {
+    if (type === 'title') {
+      setErrorobject({ ...errorObject, errorTitle: true });
+      setTitle(event.target.value);
+    }
+
+    if (type === 'user') {
+      setErrorobject({ ...errorObject, errorUser: true });
+      setUser(+event.target.value);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={(event) => {
-        event.preventDefault();
-        setErrorobject({ errorTitle: !!title, errorUser: !!user });
-
-        if (title && user) {
-          addElement(title, user);
-          setTitle('');
-          setUser(0);
-        }
-      }}
-      >
+      <form onSubmit={(event) => onSubmithandler(event)}>
         <div className="field">
           Title:
           <input
@@ -51,10 +68,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => {
-              setErrorobject({ ...errorObject, errorTitle: true });
-              setTitle(event.target.value);
-            }}
+            onChange={(event) => onChangeHandler(event, 'title')}
           />
           {!errorObject.errorTitle
             && <span className="error">Please enter a title</span>}
@@ -64,10 +78,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={user}
-            onChange={(event) => {
-              setErrorobject({ ...errorObject, errorUser: true });
-              setUser(+event.target.value);
-            }}
+            onChange={(event) => onChangeHandler(event, 'user')}
           >
             <option value="0" disabled={user !== 0}>Choose a user</option>
             {usersFromServer.map((el: User, index: number) => {
