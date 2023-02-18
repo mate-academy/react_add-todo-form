@@ -56,6 +56,16 @@ export const App = () => {
     }
   };
 
+  const converter = useMemo(() => {
+    return todos.map((todo: Todo) => {
+      return {
+        ...todo,
+        user: users
+          .filter((el: User) => el.id === todo.userId)[0],
+      };
+    });
+  }, [user, title]);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -97,16 +107,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={useMemo(() => {
-        return todos.map((todo: Todo) => {
-          return {
-            ...todo,
-            user: users
-              .filter((el: User) => el.id === todo.userId)[0],
-          };
-        });
-      }, [user, title])}
-      />
+      <TodoList todos={converter} />
     </div>
   );
 };
