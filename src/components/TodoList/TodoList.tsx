@@ -7,12 +7,10 @@ type Props = {
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
-  const arrId = todos.map(todo => todo.id);
-
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} largestId={Math.max(...arrId)} />
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
   );

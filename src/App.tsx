@@ -17,7 +17,7 @@ const todos = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [selectUserId, setSelectUserId] = useState('0');
+  const [selectUserId, setSelectUserId] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [title, setTitle] = useState('');
   const [todoList, setTodoList] = useState(todos);
@@ -34,8 +34,16 @@ export const App = () => {
     setTodoList([...todoList, newTodo]);
 
     setTitle('');
-    setSelectUserId('0');
+    setSelectUserId(0);
     setSubmit(false);
+  };
+
+  const clickHandler = () => {
+    if (selectUserId && title) {
+      return addTodo();
+    }
+
+    return setSubmit(true);
   };
 
   return (
@@ -74,17 +82,17 @@ export const App = () => {
               data-cy="userSelect"
               value={selectUserId}
               onChange={(e) => {
-                setSelectUserId(e.target.value);
+                setSelectUserId(+e.target.value);
               }}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option key={user.id} value={`${user.id}`}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.name}</option>
               ))}
             </select>
           </label>
 
-          {(submit && selectUserId === '0') && (
+          {(submit && !selectUserId) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -92,13 +100,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            if (selectUserId !== '0' && title) {
-              return addTodo();
-            }
-
-            return setSubmit(true);
-          }}
+          onClick={clickHandler}
         >
           Add
         </button>
