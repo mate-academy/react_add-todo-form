@@ -41,16 +41,14 @@ export const App = () => {
   };
 
   const onChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-    | React.ChangeEvent<HTMLSelectElement>,
-    type: string,
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    if (type === 'title') {
+    if (event.target.tagName === 'INPUT') {
       setErrorobject({ ...errorObject, errorTitle: true });
       setTitle(event.target.value);
     }
 
-    if (type === 'user') {
+    if (event.target.tagName === 'SELECT') {
       setErrorobject({ ...errorObject, errorUser: true });
       setUser(+event.target.value);
     }
@@ -70,7 +68,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={(event) => onSubmithandler(event)}>
+      <form onSubmit={onSubmithandler}>
         <div className="field">
           Title:
           <input
@@ -78,7 +76,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => onChangeHandler(event, 'title')}
+            onChange={onChangeHandler}
           />
           {!errorObject.errorTitle
             && <span className="error">Please enter a title</span>}
@@ -88,7 +86,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={user}
-            onChange={(event) => onChangeHandler(event, 'user')}
+            onChange={onChangeHandler}
           >
             <option value="0" disabled={user !== 0}>Choose a user</option>
             {usersFromServer.map((el: User, index: number) => {
