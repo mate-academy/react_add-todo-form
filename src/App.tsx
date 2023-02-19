@@ -1,63 +1,87 @@
 import React from 'react';
 import './App.scss';
-import { TodoList } from './components/TodoList';
-import { todos } from './helpers/getTodos';
-import users from './api/users';
-import { User } from './types/User';
-import { Todo } from './types/Todo';
-import { getUser } from './helpers/getUser';
 
-type State = Todo;
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
+import users from './api/users';
+
+import { getUser } from './helpers/getUser';
+import { todos } from './helpers/getTodos';
+
+import { TodoList } from './components/TodoList';
+
+type State = {
+  currentTodo: Todo,
+  todos: Todo[],
+  re: RegExp,
+  inputStatusMonitoring: boolean,
+};
 
 export class App extends React.Component<{}, State> {
   state = {
-    id: Math.max(...todos.map(todo => todo.id)) + 1,
-    title: '',
-    userId: 0,
-    completed: false,
+    currentTodo: {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      title: '',
+      userId: 0,
+      completed: false,
+    },
+    todos,
+    re: /^[A-Za-zА-Яа-я0-9 ]*$/i,
+    inputStatusMonitoring: false,
   };
-
-  inputStatusMonitoring = false; // this property used in order to comply with this requirement: "errors should appear only after clicking the `Add` button"
 
   handleChange = (event:
   React.FormEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLSelectElement>) => { // 2 types for events of input change ang select tag change
     const { name, value } = event.target as HTMLInputElement;
 
-    if (value.match(/^[A-Za-zА-Яа-я0-9 ]*$/i)) {
+    if (value.match(this.state.re)) {
       this.setState((prevState => ({ // used prevState to avoid type script error (2345)
         ...prevState,
-        [name]: value,
+        currentTodo: {
+          ...prevState.currentTodo,
+          [name]: value,
+        },
       })));
     }
   };
 
-  handleSubmit = () => {
-    if (this.state.userId && this.state.title.length) {
-      todos.push({
-        ...this.state,
-        user: getUser(this.state.userId),
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (this.state.currentTodo.userId && this.state.currentTodo.title.trim()) {
+      this.state.todos.push({
+        ...this.state.currentTodo,
+        user: getUser(this.state.currentTodo.userId),
       });
       this.iterateEventId();
-      this.clearTheForm();
+      this.handleResetForm();
     } else {
-      this.inputStatusMonitoring = true;
+      this.state.inputStatusMonitoring = true;
       this.forceUpdate();
     }
   };
 
   iterateEventId = () => {
-    this.setState(state => ({
-      id: state.id + 1,
+    this.setState(prevState => ({
+      ...prevState,
+      todo: {
+        ...prevState.currentTodo,
+        id: prevState.currentTodo.id + 1,
+      },
     }));
   };
 
-  clearTheForm = () => {
-    this.setState({
-      title: '',
-      userId: 0,
-    });
-    this.inputStatusMonitoring = false;
+  handleResetForm = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      currentTodo: {
+        ...prevState.currentTodo,
+        title: '',
+        userId: 0,
+      },
+    }));
+    this.state.inputStatusMonitoring = false;
   };
 
   render() {
@@ -68,10 +92,7 @@ export class App extends React.Component<{}, State> {
         <form
           action="/api/users"
           method="POST"
-          onSubmit={(e) => {
-            e.preventDefault();
-            this.handleSubmit();
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="field">
             <label>
@@ -81,11 +102,12 @@ export class App extends React.Component<{}, State> {
                 type="text"
                 data-cy="titleInput"
                 placeholder="Enter a title"
-                value={this.state.title}
+                value={this.state.currentTodo.title}
                 onChange={this.handleChange}
               />
             </label>
-            {!this.state.title && this.inputStatusMonitoring && (
+            {!this.state.currentTodo.title.trim()
+            && this.state.inputStatusMonitoring && (
               <span className="error">Please enter a title</span>
             )}
           </div>
@@ -96,16 +118,17 @@ export class App extends React.Component<{}, State> {
               <select
                 data-cy="userSelect"
                 name="userId"
-                value={this.state.userId}
+                value={this.state.currentTodo.userId}
                 onChange={this.handleChange}
               >
-                <option value="">Choose a user</option>
-                {users.map((user: User) => (
-                  <option value={user.id}>{user.name}</option>
+                <option value="0" disabled selected>Choose a user</option>
+                {users.map(({ id, name }: User) => (
+                  <option key={id} value={id}>{name}</option>
                 ))}
               </select>
             </label>
-            {!this.state.userId && this.inputStatusMonitoring && (
+            {!this.state.currentTodo.userId
+            && this.state.inputStatusMonitoring && (
               <span className="error">Please choose a user</span>
             )}
           </div>
