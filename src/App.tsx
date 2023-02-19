@@ -33,12 +33,11 @@ export class App extends React.Component<{}, State> {
 
   handleChange = (event:
   React.FormEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLSelectElement>) => { // 2 types for events of input change ang select tag change
+  | React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target as HTMLInputElement;
 
     if (value.match(this.state.re)) {
-      this.setState((prevState => ({ // used prevState to avoid type script error (2345)
-        ...prevState,
+      this.setState((prevState => ({
         currentTodo: {
           ...prevState.currentTodo,
           [name]: value,
@@ -51,20 +50,24 @@ export class App extends React.Component<{}, State> {
     e.preventDefault();
 
     if (this.state.currentTodo.userId && this.state.currentTodo.title.trim()) {
-      const newTodo = {
-        ...this.state.currentTodo,
-        user: getUser(this.state.currentTodo.userId),
-      };
+      this.setState(prevState => {
+        const newTodo = {
+          ...this.state.currentTodo,
+          user: getUser(this.state.currentTodo.userId),
+        };
 
-      this.setState(prevState => ({
-        ...prevState,
-        todos: [
-          ...prevState.todos,
-          newTodo,
-        ],
-      }));
-
-      this.iterateEventId();
+        return {
+          ...prevState,
+          currentTodo: {
+            ...prevState.currentTodo,
+            id: prevState.currentTodo.id + 1,
+          },
+          todos: [
+            ...prevState.todos,
+            newTodo,
+          ],
+        };
+      });
 
       this.handleResetForm();
     } else {
@@ -72,16 +75,6 @@ export class App extends React.Component<{}, State> {
 
       this.forceUpdate();
     }
-  };
-
-  iterateEventId = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      currentTodo: {
-        ...prevState.currentTodo,
-        id: prevState.currentTodo.id + 1,
-      },
-    }));
   };
 
   handleResetForm = () => {
