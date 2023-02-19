@@ -26,7 +26,7 @@ export class App extends React.Component<{}, State> {
       userId: 0,
       completed: false,
     },
-    todos,
+    todos: [...todos],
     re: /^[A-Za-zА-Яа-я0-9 ]*$/i,
     inputStatusMonitoring: false,
   };
@@ -49,15 +49,27 @@ export class App extends React.Component<{}, State> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (this.state.currentTodo.userId && this.state.currentTodo.title.trim()) {
-      this.state.todos.push({
+      const newTodo = {
         ...this.state.currentTodo,
         user: getUser(this.state.currentTodo.userId),
-      });
+      };
+
+      this.setState(prevState => ({
+        ...prevState,
+        todos: [
+          ...prevState.todos,
+          newTodo,
+        ],
+      }));
+
       this.iterateEventId();
+
       this.handleResetForm();
     } else {
       this.state.inputStatusMonitoring = true;
+
       this.forceUpdate();
     }
   };
@@ -65,7 +77,7 @@ export class App extends React.Component<{}, State> {
   iterateEventId = () => {
     this.setState(prevState => ({
       ...prevState,
-      todo: {
+      currentTodo: {
         ...prevState.currentTodo,
         id: prevState.currentTodo.id + 1,
       },
@@ -81,6 +93,7 @@ export class App extends React.Component<{}, State> {
         userId: 0,
       },
     }));
+
     this.state.inputStatusMonitoring = false;
   };
 
@@ -107,10 +120,10 @@ export class App extends React.Component<{}, State> {
               />
             </label>
             {!this.state.currentTodo.title.trim()
-            && this.state.inputStatusMonitoring
-            && (
-              <span className="error">Please enter a title</span>
-            )}
+              && this.state.inputStatusMonitoring
+              && (
+                <span className="error">Please enter a title</span>
+              )}
           </div>
 
           <div className="field">
@@ -119,10 +132,11 @@ export class App extends React.Component<{}, State> {
               <select
                 data-cy="userSelect"
                 name="userId"
+                defaultValue="0"
                 value={this.state.currentTodo.userId}
                 onChange={this.handleChange}
               >
-                <option value="0" disabled selected>Choose a user</option>
+                <option value="0" disabled>Choose a user</option>
                 {users.map(({ id, name }: User) => (
                   <option
                     key={id}
@@ -134,10 +148,10 @@ export class App extends React.Component<{}, State> {
               </select>
             </label>
             {!this.state.currentTodo.userId
-            && this.state.inputStatusMonitoring
-            && (
-              <span className="error">Please choose a user</span>
-            )}
+              && this.state.inputStatusMonitoring
+              && (
+                <span className="error">Please choose a user</span>
+              )}
           </div>
 
           <button type="submit" data-cy="submitButton">
@@ -145,7 +159,7 @@ export class App extends React.Component<{}, State> {
           </button>
         </form>
 
-        <TodoList todos={todos} />
+        <TodoList todos={this.state.todos} />
       </div>
     );
   }
