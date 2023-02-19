@@ -107,7 +107,8 @@ export class App extends React.Component<{}, State> {
               />
             </label>
             {!this.state.currentTodo.title.trim()
-            && this.state.inputStatusMonitoring && (
+            && this.state.inputStatusMonitoring
+            && (
               <span className="error">Please enter a title</span>
             )}
           </div>
@@ -123,12 +124,18 @@ export class App extends React.Component<{}, State> {
               >
                 <option value="0" disabled selected>Choose a user</option>
                 {users.map(({ id, name }: User) => (
-                  <option key={id} value={id}>{name}</option>
+                  <option
+                    key={id}
+                    value={id}
+                  >
+                    {name}
+                  </option>
                 ))}
               </select>
             </label>
             {!this.state.currentTodo.userId
-            && this.state.inputStatusMonitoring && (
+            && this.state.inputStatusMonitoring
+            && (
               <span className="error">Please choose a user</span>
             )}
           </div>
