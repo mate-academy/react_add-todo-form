@@ -132,7 +132,6 @@ export class App extends React.Component<{}, State> {
               <select
                 data-cy="userSelect"
                 name="userId"
-                defaultValue="0"
                 value={this.state.currentTodo.userId}
                 onChange={this.handleChange}
               >
