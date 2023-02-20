@@ -6,6 +6,8 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
 export const App = () => {
+  const MY_REGEX = /[^a-z-а-я-0-9-' ']/gi;
+
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [userId, setUserId] = useState<number>(0);
   const [title, setTitle] = useState<string>('');
@@ -13,15 +15,13 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState<boolean>(false);
 
   const addUser = () => {
-    const id = [...todos].sort(
-      (todo1, todo2) => todo2.id - todo1.id,
-    )[0].id + 1;
+    const newId = Math.max(...todos.map(({ id }) => id)) + 1;
 
     setTodos((prevState) => (
       [
         ...prevState,
         {
-          id,
+          id: newId,
           title,
           completed: false,
           userId,
@@ -46,7 +46,7 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.replace(/[^a-z-а-я-0-9-' ']/gi, ''));
+    setTitle(event.target.value.replace(MY_REGEX, ''));
     setErrorTitle(false);
   };
 
