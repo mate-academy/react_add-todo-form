@@ -70,9 +70,7 @@ export class App extends React.Component<{}, State> {
 
       this.handleResetForm();
     } else {
-      this.setState({
-        inputStatusMonitoring: true,
-      });
+      this.switchInputMonitoring();
     }
   };
 
@@ -86,9 +84,14 @@ export class App extends React.Component<{}, State> {
       },
     }));
 
-    this.setState({
-      inputStatusMonitoring: false,
-    });
+    this.switchInputMonitoring();
+  };
+
+  switchInputMonitoring = () => {
+    return this.setState(prevState => ({
+      ...prevState,
+      inputStatusMonitoring: !prevState.inputStatusMonitoring,
+    }));
   };
 
   render() {
