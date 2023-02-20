@@ -74,7 +74,7 @@ export class App extends React.Component<{}, State> {
     }
   };
 
-  handleResetForm = () => {
+  handleResetForm() {
     this.setState(prevState => ({
       ...prevState,
       currentTodo: {
@@ -85,7 +85,7 @@ export class App extends React.Component<{}, State> {
     }));
 
     this.switchInputMonitoring();
-  };
+  }
 
   switchInputMonitoring = () => {
     return this.setState(prevState => ({
