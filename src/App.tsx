@@ -14,7 +14,6 @@ import { TodoList } from './components/TodoList';
 type State = {
   currentTodo: Todo,
   todos: Todo[],
-  re: RegExp,
   inputStatusMonitoring: boolean,
 };
 
@@ -27,16 +26,16 @@ export class App extends React.Component<{}, State> {
       completed: false,
     },
     todos: [...todos],
-    re: /^[A-Za-zА-Яа-я0-9 ]*$/i,
     inputStatusMonitoring: false,
   };
 
-  handleChange = (event:
-  React.FormEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target as HTMLInputElement;
+  handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+    const re = /^[A-Za-zА-Яа-я0-9 ]*$/i;
 
-    if (value.match(this.state.re)) {
+    if (value.match(re)) {
       this.setState((prevState => ({
         currentTodo: {
           ...prevState.currentTodo,
@@ -71,9 +70,9 @@ export class App extends React.Component<{}, State> {
 
       this.handleResetForm();
     } else {
-      this.state.inputStatusMonitoring = true;
-
-      this.forceUpdate();
+      this.setState({
+        inputStatusMonitoring: true,
+      });
     }
   };
 
@@ -87,7 +86,9 @@ export class App extends React.Component<{}, State> {
       },
     }));
 
-    this.state.inputStatusMonitoring = false;
+    this.setState({
+      inputStatusMonitoring: false,
+    });
   };
 
   render() {
