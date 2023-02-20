@@ -7,3 +7,7 @@ export interface Todo {
   userId: number,
   user: User | null,
 }
+
+export type TodoWithUser = Todo & {
+  user: User | null,
+};

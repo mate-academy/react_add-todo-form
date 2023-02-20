@@ -4,16 +4,12 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
+import { TodoWithUser } from './types/Todo';
 import { User } from './types/User';
 
 const validationString = /[0-9A-ZА-ЩЬЮЯҐЄІЇ ]/;
 
-type TodoWithUser = Todo & {
-  user: User | null,
-};
-
-const findUserByUserId = (userId: number) => {
+const findUserByUserId = (userId: number): User | null => {
   return usersFromServer.find(({ id }) => id === userId) || null;
 };
 
@@ -26,6 +22,10 @@ const todosWithUser = todosFromServer.map(todo => {
   };
 });
 
+const getNewId = (todos: TodoWithUser[]): number => (
+  Math.max(...todos.map(({ id }) => id)) + 1
+);
+
 export const App = () => {
   const defaultTitle = '';
   const defaultUserId = 0;
@@ -33,10 +33,8 @@ export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser);
   const [title, setTitle] = useState(defaultTitle);
   const [userId, setUserId] = useState(defaultUserId);
-  const [titleValid, setTitleValidity] = useState(true);
-  const [userIdValid, setUserIdValidity] = useState(true);
-
-  const getNewId = () => (Math.max(...todos.map(({ id }) => id)) + 1);
+  const [isTitleValid, setIsTitleValidity] = useState(true);
+  const [isUserIdValid, setIsUserIdValidity] = useState(true);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -49,14 +47,14 @@ export const App = () => {
       setTitle(value);
     }
 
-    setTitleValidity(true);
+    setIsTitleValidity(true);
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUserId(+value);
-    setUserIdValidity(true);
+    setIsUserIdValidity(true);
   };
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -66,7 +64,7 @@ export const App = () => {
       setTodos((currentTodos) => ([
         ...currentTodos,
         {
-          id: getNewId(),
+          id: getNewId(todos),
           title,
           completed: false,
           userId,
@@ -81,11 +79,11 @@ export const App = () => {
     }
 
     if (title === defaultTitle) {
-      setTitleValidity(false);
+      setIsTitleValidity(false);
     }
 
     if (userId === defaultUserId) {
-      setUserIdValidity(false);
+      setIsUserIdValidity(false);
     }
   };
 
@@ -104,7 +102,9 @@ export const App = () => {
             onChange={handleInputChange}
           />
           {
-            !titleValid && <span className="error">Please enter a title</span>
+            !isTitleValid && (
+              <span className="error">Please enter a title</span>
+            )
           }
         </label>
 
@@ -115,7 +115,9 @@ export const App = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option disabled value={defaultUserId}>Choose a user</option>
+            <option disabled value={defaultUserId}>
+              Choose a user
+            </option>
             {
               usersFromServer.map(({ id, name }) => (
                 <option key={id} value={id}>{name}</option>
@@ -124,7 +126,9 @@ export const App = () => {
           </select>
 
           {
-            !userIdValid && <span className="error">Please choose a user</span>
+            !isUserIdValid && (
+              <span className="error">Please choose a user</span>
+            )
           }
         </div>
 
