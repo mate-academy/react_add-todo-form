@@ -47,7 +47,10 @@ export const App = () => {
 
   const handleSubmitButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    isValidData();
+    if (!isValidData()) {
+      return;
+    }
+
     addUser();
     resetFields();
     setCounter(state => state + 1);
