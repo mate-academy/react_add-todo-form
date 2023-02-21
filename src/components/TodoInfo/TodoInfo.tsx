@@ -19,14 +19,14 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     <li
       data-id={id}
       className={classNames(
-        'todoInfo',
+        'TodoInfo',
         {
-          'todoInfo--completed': completed,
+          'TodoInfo--completed': completed,
         },
       )}
     >
 
-      <h2 className="todoInfo__title">{title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
       {user && <UserInfo user={user} />}
     </li>
