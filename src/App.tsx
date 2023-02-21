@@ -49,8 +49,8 @@ export const App: React.FC = () => {
     const { name, value } = e.target;
 
     if (
-      name === 'title' &&
-      allowedChars.includes(value.slice(-1).toLowerCase())
+      name === 'title'
+      && allowedChars.includes(value.slice(-1).toLowerCase())
     ) {
       setNewTodo((todo) => ({
         ...todo,
@@ -71,10 +71,10 @@ export const App: React.FC = () => {
   const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!newTodo.title || !newTodo.userName) {
+    if (!newTodo.title.trim() || !newTodo.userName) {
       return setNewTodo((todo) => ({
         ...todo,
-        isTitleValid: !!newTodo.title,
+        isTitleValid: !!newTodo.title.trim(),
         isUserNameValid: !!newTodo.userName,
       }));
     }
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
 
     const todoToAdd: Todo = {
       id: nextTodoId,
-      title: newTodo.title,
+      title: newTodo.title.trim(),
       userId: todoUser?.id,
       completed: false,
       user: todoUser,
