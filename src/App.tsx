@@ -11,6 +11,8 @@ import { todos } from './helpers/getTodos';
 
 import { TodoList } from './components/TodoList';
 
+import { re } from './constants/LETTERS_NUMBERS_REGEXP';
+
 type State = {
   currentTodo: Todo,
   todos: Todo[],
@@ -33,7 +35,6 @@ export class App extends React.Component<{}, State> {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
-    const re = /^[A-Za-zА-Яа-я0-9 ]*$/i;
 
     if (value.match(re)) {
       this.setState((prevState => ({
