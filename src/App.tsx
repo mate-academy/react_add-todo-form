@@ -3,33 +3,20 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
+
+const MY_REGEX = /[^a-z-а-я-0-9-' ']/gi;
 
 export const App = () => {
-  const MY_REGEX = /[^a-z-а-я-0-9-' ']/gi;
+  const [todos, setTodos] = useState(todosFromServer);
+  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState('');
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
+  const [counter, setCounter] = useState(
+    Math.max(...todos.map(({ id }) => id)) + 1,
+  );
 
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const [userId, setUserId] = useState<number>(0);
-  const [title, setTitle] = useState<string>('');
-  const [errorTitle, setErrorTitle] = useState<boolean>(false);
-  const [errorUser, setErrorUser] = useState<boolean>(false);
-
-  const addUser = () => {
-    const newId = Math.max(...todos.map(({ id }) => id)) + 1;
-
-    setTodos((prevState) => (
-      [
-        ...prevState,
-        {
-          id: newId,
-          title,
-          completed: false,
-          userId,
-        }]));
-  };
-
-  const handleSubmitButton = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const isValidData = () => {
     if (!userId) {
       setErrorUser(true);
     }
@@ -38,11 +25,32 @@ export const App = () => {
       setErrorTitle(true);
     }
 
-    if (userId && title) {
-      addUser();
-      setUserId(0);
-      setTitle('');
-    }
+    return !!userId && !!title;
+  };
+
+  const resetFields = () => {
+    setUserId(0);
+    setTitle('');
+  };
+
+  const addUser = () => {
+    setTodos((prevState) => (
+      [
+        ...prevState,
+        {
+          id: counter,
+          title,
+          completed: false,
+          userId,
+        }]));
+  };
+
+  const handleSubmitButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    isValidData();
+    addUser();
+    resetFields();
+    setCounter(state => state + 1);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
