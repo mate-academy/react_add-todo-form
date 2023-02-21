@@ -1,61 +1,160 @@
+import React from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
-export const App = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+import users from './api/users';
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+import { getUser } from './helpers/getUser';
+import { todos } from './helpers/getTodos';
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+import { TodoList } from './components/TodoList';
 
-          <span className="error">Please choose a user</span>
-        </div>
+import { re } from './constants/LETTERS_NUMBERS_REGEXP';
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-    </div>
-  );
+type State = {
+  currentTodo: Todo,
+  todos: Todo[],
+  inputStatusMonitoring: boolean,
 };
+
+export class App extends React.Component<{}, State> {
+  state = {
+    currentTodo: {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      title: '',
+      userId: 0,
+      completed: false,
+    },
+    todos: [...todos],
+    inputStatusMonitoring: false,
+  };
+
+  handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    if (value.match(re)) {
+      this.setState((prevState => ({
+        currentTodo: {
+          ...prevState.currentTodo,
+          [name]: value,
+        },
+      })));
+    }
+  };
+
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (this.state.currentTodo.userId && this.state.currentTodo.title.trim()) {
+      this.setState(prevState => {
+        const newTodo = {
+          ...this.state.currentTodo,
+          user: getUser(this.state.currentTodo.userId),
+        };
+
+        return {
+          ...prevState,
+          currentTodo: {
+            ...prevState.currentTodo,
+            id: prevState.currentTodo.id + 1,
+          },
+          todos: [
+            ...prevState.todos,
+            newTodo,
+          ],
+        };
+      });
+
+      this.handleResetForm();
+    } else {
+      this.setState({
+        inputStatusMonitoring: true,
+      });
+    }
+  };
+
+  handleResetForm() {
+    this.setState(prevState => ({
+      ...prevState,
+      currentTodo: {
+        ...prevState.currentTodo,
+        title: '',
+        userId: 0,
+      },
+    }));
+
+    this.setState({
+      inputStatusMonitoring: false,
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={this.handleSubmit}
+        >
+          <div className="field">
+            <label>
+              Title:&nbsp;
+              <input
+                name="title"
+                type="text"
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                value={this.state.currentTodo.title}
+                onChange={this.handleChange}
+              />
+            </label>
+            {!this.state.currentTodo.title.trim()
+              && this.state.inputStatusMonitoring
+              && (
+                <span className="error">Please enter a title</span>
+              )}
+          </div>
+
+          <div className="field">
+            <label>
+              User:&nbsp;
+              <select
+                data-cy="userSelect"
+                name="userId"
+                value={this.state.currentTodo.userId}
+                onChange={this.handleChange}
+              >
+                <option value="0" disabled>Choose a user</option>
+                {users.map(({ id, name }: User) => (
+                  <option
+                    key={id}
+                    value={id}
+                  >
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {!this.state.currentTodo.userId
+              && this.state.inputStatusMonitoring
+              && (
+                <span className="error">Please choose a user</span>
+              )}
+          </div>
+
+          <button type="submit" data-cy="submitButton">
+            Add
+          </button>
+        </form>
+
+        <TodoList todos={this.state.todos} />
+      </div>
+    );
+  }
+}
