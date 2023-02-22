@@ -16,6 +16,7 @@ export const App = () => {
     Math.max(...todos.map(({ id }) => id)) + 1,
   );
 
+
   const isValidData = () => {
     if (!userId) {
       setErrorUser(true);
@@ -33,15 +34,20 @@ export const App = () => {
     setTitle('');
   };
 
-  const addUser = () => {
+  const addUser = (
+    id: number,
+    newTitle: string,
+    completed: boolean,
+    newUserId: number,
+  ) => {
     setTodos((prevState) => (
       [
         ...prevState,
         {
-          id: counter,
-          title,
-          completed: false,
-          userId,
+          id,
+          title: newTitle,
+          completed,
+          userId: newUserId,
         }]));
   };
 
@@ -51,7 +57,7 @@ export const App = () => {
       return;
     }
 
-    addUser();
+    addUser(counter, title, false, userId);
     resetFields();
     setCounter(state => state + 1);
   };
@@ -95,10 +101,8 @@ export const App = () => {
               onChange={handleSelect}
             >
               <option value="0" disabled>Choose a user</option>
-              {
-                usersFromServer.map(user => (
-                  <option value={user.id} key={user.id}>{user.name}</option>))
-              }
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>{user.name}</option>))}
             </select>
           </label>
           {errorUser && <span className="error">Please, choose a user</span>}
