@@ -7,7 +7,3 @@ export interface Todo {
   completed: boolean,
   user: User | null,
 }
-
-export interface AllTodo extends Todo {
-  user: User | null,
-}

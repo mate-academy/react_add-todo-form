@@ -22,16 +22,16 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [hasSelectedError, setHasSelectedError] = useState(false);
+  const [hasSelectedUserError, sethasSelectedUserError] = useState(false);
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasSelectedError(!selectedUserId);
+    sethasSelectedUserError(!selectedUserId);
     setHasTitleError(!title);
 
-    const getMaxId = Math.max(...todos.map(todo => todo.id)) + 1;
+    const MaxId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const clearForm = () => {
       setTitle('');
@@ -39,11 +39,11 @@ export const App = () => {
     };
 
     const newTodo = {
-      id: getMaxId,
+      id: MaxId,
       title,
       completed: false,
-      userId: +selectedUserId,
-      user: getUserById(+selectedUserId),
+      userId: selectedUserId,
+      user: getUserById(selectedUserId),
     };
 
     if (title && selectedUserId) {
@@ -54,7 +54,7 @@ export const App = () => {
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
-    setHasSelectedError(false);
+    sethasSelectedUserError(false);
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +102,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasSelectedError && (
+          {hasSelectedUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
