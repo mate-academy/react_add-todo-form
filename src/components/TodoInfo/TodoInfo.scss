@@ -1,18 +1,24 @@
+$completedTitleColor: #080;
+$notCompletedTitleColor: #f00;
+$todoBackgroundColor: antiquewhite;
+$todoBorderColor: #000;
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 1px solid $todoBorderColor;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: $todoBackgroundColor;
+  list-style: none;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: $notCompletedTitleColor;
   }
 
   &--completed &__title {
-    color: #080;
+    color: $completedTitleColor;
   }
 }
