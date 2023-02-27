@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 import './App.scss';
 
@@ -28,7 +28,9 @@ export const App: React.FC = () => {
   const [userSelectError, setUserSelectError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const handleUserSelect = (value: string) => {
+  const handleUserSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+
     setUserSelect(value);
 
     if (value.length) {
@@ -36,7 +38,9 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleTitleInput = (value: string) => {
+  const handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
     setTitleInput(value);
 
     if (value.length) {
@@ -49,7 +53,9 @@ export const App: React.FC = () => {
     setUserSelect('');
   };
 
-  const addTodo = () => {
+  const addTodo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     setUserSelectError(!userSelect.length);
     setTitleError(!titleInput.length);
 
@@ -81,10 +87,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          addTodo();
-        }}
+        onSubmit={addTodo}
       >
         <div className="field">
           <label>
@@ -96,7 +99,7 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               data-cy="titleInput"
               value={titleInput}
-              onChange={({ target }) => handleTitleInput(target.value)}
+              onChange={handleTitleInput}
             />
           </label>
           {titleError && (
@@ -112,7 +115,7 @@ export const App: React.FC = () => {
               className="userSelect"
               data-cy="userSelect"
               value={userSelect}
-              onChange={({ target }) => handleUserSelect(target.value)}
+              onChange={handleUserSelect}
             >
               <option value="" disabled>
                 Choose a user
