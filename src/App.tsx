@@ -23,14 +23,14 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [isUserChoosen, setIsUserChoosen] = useState(true);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isTitleEmpty, setTitleEmpty] = useState(false);
   const todoId = Math.max(...todosList.map(todo => todo.id)) + 1;
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleEmpty(false);
+    setTitleEmpty(false);
     if (!event.target.value.trim()) {
-      setIsTitleEmpty(true);
+      setTitleEmpty(true);
     }
   };
 
@@ -47,7 +47,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim()) {
-      setIsTitleEmpty(true);
+      setTitleEmpty(true);
     }
 
     if (!getUser(userId)) {
@@ -76,9 +76,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          handleSubmit(event);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">
@@ -90,7 +88,7 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             id="titleInput"
             value={title}
-            onChange={(event) => handleTitleChange(event)}
+            onChange={handleTitleChange}
           />
           {isTitleEmpty && (
             <span className="error">Please enter a title</span>
@@ -105,7 +103,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="userSelect"
             value={userId}
-            onChange={(event) => handleSelectChange(event)}
+            onChange={handleSelectChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => {
