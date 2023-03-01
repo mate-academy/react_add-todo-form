@@ -25,6 +25,24 @@ export const App = () => {
   const [isNotSelected, setIsNotSelected] = useState(false);
   const [todoList, setTodoList] = useState(todos);
 
+  const handleTodoAdd = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+
+    setIsTitleEmpty(!title);
+    setIsNotSelected(!user);
+    if (title && user) {
+      setTodoList([...todoList, {
+        id: Math.max(...todoList.map(todo => todo.id)) + 1,
+        title,
+        userId: +user,
+        completed: false,
+        user: getUser(+user),
+      }]);
+      setTitle('');
+      setUser('');
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -79,23 +97,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            event.preventDefault();
-
-            setIsTitleEmpty(!title);
-            setIsNotSelected(!user);
-            if (title && user) {
-              setTodoList([...todoList, {
-                id: Math.max(...todoList.map(todo => todo.id)) + 1,
-                title,
-                userId: +user,
-                completed: false,
-                user: getUser(+user),
-              }]);
-              setTitle('');
-              setUser('');
-            }
-          }}
+          onClick={handleTodoAdd}
         >
           Add
         </button>
