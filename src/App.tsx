@@ -21,9 +21,9 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [correctTitle, addTitle] = useState(false);
-  const [userId, addUserId] = useState(0);
-  const [chosenUser, chooseUser] = useState(false);
+  const [correctTitle, setCorrectTitle] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [chosenUser, setChosenUser] = useState(false);
 
   const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
 
@@ -41,16 +41,16 @@ export const App = () => {
     if (getUser(id) && title.trim().match(regex)) {
       todos.push(toDoItem);
 
-      addUserId(0);
+      setUserId(0);
       setTitle('');
     }
 
     if (!title.trim().match(regex)) {
-      addTitle(true);
+      setCorrectTitle(true);
     }
 
     if (!userId) {
-      chooseUser(true);
+      setChosenUser(true);
     }
   };
 
@@ -61,12 +61,12 @@ export const App = () => {
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    addTitle(false);
+    setCorrectTitle(false);
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    addUserId(+event.target.value);
-    chooseUser(false);
+    setUserId(+event.target.value);
+    setChosenUser(false);
   };
 
   return (

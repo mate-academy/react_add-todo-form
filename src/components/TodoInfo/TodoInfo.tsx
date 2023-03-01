@@ -17,10 +17,10 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     user,
   } = todo;
 
-  const [isCompleted, setCompleted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleToggle = () => {
-    setCompleted(!isCompleted);
+    setIsCompleted(!isCompleted);
   };
 
   return (
