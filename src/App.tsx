@@ -21,32 +21,36 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [addedTitle, setAddedTitle] = useState(false);
-  const [userId, setUserId] = useState(0);
-  const [addedUser, setAddedUser] = useState(false);
+  const [correctTitle, addTitle] = useState(false);
+  const [userId, addUserId] = useState(0);
+  const [chosenUser, chooseUser] = useState(false);
 
   const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
 
-  const addTodo = (id: number) => {
-    if (getUser(id) && title.trim()) {
-      todos.push({
-        id: newTodoId,
-        title,
-        userId,
-        completed: false,
-        user: getUser(userId),
-      });
+  const toDoItem = {
+    id: newTodoId,
+    title,
+    userId,
+    completed: false,
+    user: getUser(userId),
+  };
 
-      setUserId(0);
+  const regex = /^[\p{L}\d\s]+$/u;
+
+  const addTodo = (id: number) => {
+    if (getUser(id) && title.trim().match(regex)) {
+      todos.push(toDoItem);
+
+      addUserId(0);
       setTitle('');
     }
 
-    if (!title.trim()) {
-      setAddedTitle(true);
+    if (!title.trim().match(regex)) {
+      addTitle(true);
     }
 
     if (!userId) {
-      setAddedUser(true);
+      chooseUser(true);
     }
   };
 
@@ -57,12 +61,12 @@ export const App = () => {
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setAddedTitle(false);
+    addTitle(false);
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
-    setAddedUser(false);
+    addUserId(+event.target.value);
+    chooseUser(false);
   };
 
   return (
@@ -83,8 +87,13 @@ export const App = () => {
             className="field__input"
             value={title}
             onChange={handleTitle}
+            title={'Your title can include only letters, digits, and "spaces"'}
           />
-          {addedTitle && (<span className="error">Please enter a title</span>)}
+          {correctTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -110,7 +119,7 @@ export const App = () => {
             ))}
           </select>
 
-          {addedUser && (<span className="error">Please choose a user</span>)}
+          {chosenUser && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button

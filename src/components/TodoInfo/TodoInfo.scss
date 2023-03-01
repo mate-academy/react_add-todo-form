@@ -1,5 +1,7 @@
 .TodoInfo {
-  width: max-content;
+  max-width: fit-content;
+  min-width: 300px;
+  height: fit-content;
   padding: 8px;
   margin: 12px 0;
   border: 3px solid rgb(131, 151, 213);
@@ -11,10 +13,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
-  &:hover {
-    transition: cubic-bezier(0.83, 0.31, 0.17, 0.95);
-  }
 
   &__title {
     margin: 4px 0;
@@ -53,7 +51,9 @@
     }
   }
 
+  &--completed,
   &--completed &__title {
     color: #080;
+    background-color: rgb(54, 198, 164);
   }
 }

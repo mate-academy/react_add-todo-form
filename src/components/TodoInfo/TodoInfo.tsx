@@ -24,7 +24,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   };
 
   return (
-    <article
+    <li
       data-id={id}
       className={
         classNames(
@@ -48,6 +48,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       >
         Completed
       </button>
-    </article>
+    </li>
   );
 };

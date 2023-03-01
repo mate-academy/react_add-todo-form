@@ -35,11 +35,11 @@ BAD EXAMPLE:
 ```jsx
 const CatInfo: FC<Props> = (props) => {
   const { cat } = props;
-  
+
   return (
-    {cat 
+    {cat
      ? <p>{cat.name}</p>
-     : null
+     : null}
   );
 }
 ```
@@ -48,7 +48,7 @@ GOOD EXAMPLE:
 ```jsx
 const CatInfo: FC<Props> = (props) => {
   const { cat } = props;
-  
+
   return (
     <p>{cat.name}</p>
   );
@@ -57,8 +57,8 @@ const CatInfo: FC<Props> = (props) => {
 ....
 
 
-{cat 
-  ? <CatInfo cat={cat} /> 
+{cat
+  ? <CatInfo cat={cat} />
   : <p>No cat found</p>
 }
 ```
@@ -72,9 +72,9 @@ import owners from './owners';
 const CatInfo: FC<Props> = (props) => {
   const { cat } = props;
   const { ownerId } = props;
-  
+
   const foundOwner = owners.find(owner => owner.id === ownerId);
-  
+
   return (
     <>
      <p>{cat.name}</p>
@@ -95,7 +95,7 @@ const catWithOwner = {
 
 const App: FC = () => {
   return (
-    {catWithOwner 
+    {catWithOwner
       ? <CatInfo cat={catWithOwner} />
       : <p>No cat was found</p>
     }
@@ -108,7 +108,7 @@ import owners from './owners';
 const CatInfo: FC<Props> = (props) => {
   const { cat } = props;
   const { owner, name } = props;
-  
+
   return (
     <>
      <p>{name}</p>
@@ -125,10 +125,10 @@ BAD EXAMPLE:
 
 const AddCatForm: FC<Props> = (props) => {
   const handleSubmit = () => {};
-  
+
   return (
     <form>
-      <input type="text />
+      <input type="text />">
       <button type="submit" onClick={handleSubmit}>
         Add cat
       </button>
@@ -142,7 +142,7 @@ GOOD EXAMPLE:
 
 const AddCatForm: FC<Props> = (props) => {
   const handleSubmit = () => {};
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input type="text />
