@@ -25,7 +25,7 @@ export const App = () => {
   const [isNotSelected, setIsNotSelected] = useState(false);
   const [todoList, setTodoList] = useState(todos);
 
-  const handleTodoAdd = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTodoAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     setIsTitleEmpty(!title);
