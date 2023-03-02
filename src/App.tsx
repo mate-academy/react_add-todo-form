@@ -13,29 +13,26 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
+  const reset = () => {
+    setTitle('');
+    setUser('');
+    setTitleError(false);
+    setUserError(false);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let largestId = 0;
-
-    todos.forEach(t => {
-      if (t.id > largestId) {
-        largestId = t.id;
-      }
-    });
-
-    const todo = {
-      id: largestId + 1,
-      title,
-      userId: +user,
-      completed: false,
-    };
 
     if (title.trim() && user) {
+      const todo = {
+        id: Math.max(...todos.map((t) => t.id)) + 1,
+        title,
+        userId: +user,
+        completed: false,
+      };
+
       setTodos([...todos, todo]);
-      setTitle('');
-      setUser('');
-      setTitleError(false);
-      setUserError(false);
+      reset();
     } else {
       if (!title.trim()) {
         setTitleError(true);
@@ -45,6 +42,16 @@ export const App = () => {
         setUserError(true);
       }
     }
+  };
+
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleError(false);
+    setTitle(e.target.value);
+  };
+
+  const handleUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserError(false);
+    setUser(e.target.value);
   };
 
   return (
@@ -63,10 +70,7 @@ export const App = () => {
               name="title"
               placeholder="Enter a title"
               value={title}
-              onChange={e => {
-                setTitleError(false);
-                setTitle(e.target.value);
-              }}
+              onChange={handleTitle}
             />
           </label>
           {titleError && <span className="error">Please enter a title</span>}
@@ -81,10 +85,7 @@ export const App = () => {
               id="user"
               name="user"
               value={user}
-              onChange={e => {
-                setUserError(false);
-                setUser(e.target.value);
-              }}
+              onChange={handleUser}
             >
               <option value="" disabled>Choose a user</option>
               {users.map(u => {
