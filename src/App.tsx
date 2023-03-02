@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './components/types/Todo';
 import { User } from './components/types/User';
@@ -25,10 +25,15 @@ export const App = () => {
   const [isNotSelected, setIsNotSelected] = useState(false);
   const [todoList, setTodoList] = useState(todos);
 
+  const clearEntry = () => {
+    setTitle('');
+    setUser('');
+  };
+
   const handleTodoAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    setIsTitleEmpty(!title);
+    setIsTitleEmpty(!title.trim());
     setIsNotSelected(!user);
     if (title && user) {
       setTodoList([...todoList, {
@@ -38,9 +43,24 @@ export const App = () => {
         completed: false,
         user: getUser(+user),
       }]);
-      setTitle('');
-      setUser('');
+      clearEntry();
     }
+  };
+
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (value.slice(-1).match(regEx)) {
+      setTitle(value);
+      setIsTitleEmpty(false);
+    }
+  };
+
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setUser(value);
+    setIsNotSelected(false);
   };
 
   return (
@@ -53,12 +73,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={(event) => {
-              if (event.target.value.slice(-1).match(regEx)) {
-                setTitle(event.target.value);
-                setIsTitleEmpty(false);
-              }
-            }}
+            onChange={handleTitleInput}
             placeholder="Enter a title"
           />
           {isTitleEmpty && <span className="error">Please enter a title</span>}
@@ -68,12 +83,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={user}
-            onChange={
-              (event) => {
-                setUser(event.target.value);
-                setIsNotSelected(false);
-              }
-            }
+            onChange={handleUserSelect}
             placeholder="select a user"
           >
             <option
