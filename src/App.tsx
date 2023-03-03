@@ -9,7 +9,7 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [titleElement, titleElementEdit] = useState('');
   const [userElement, userElementEdit] = useState('0');
-  const [isButtonClick, isButtonClickEdit] = useState(false);
+  const [isErrorClick, isErrorClickEdit] = useState(false);
   const [visibleTodosFromServer, visibleTodosFromServerEdit] = useState([
     ...todosFromServer,
   ]);
@@ -33,22 +33,22 @@ export const App = () => {
     );
   }
 
-  const titleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     titleElementEdit(value);
   };
 
-  const userChoose = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     userElementEdit(value);
   };
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const maxId = Math.max(...visibleTodosFromServer.map(todo => todo.id));
+    const maxId = Math.max(...visibleTodosFromServer.map((todo) => todo.id));
     const newTodoBlock = {
       id: maxId + 1,
       title: titleElement,
@@ -73,7 +73,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => submitForm(event)}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <div className="field">
           {'Title: '}
@@ -82,14 +82,12 @@ export const App = () => {
             data-cy="titleInput"
             name="title"
             placeholder="Please enter a title"
-            onChange={(event) => titleInput(event)}
+            onChange={(event) => handleChangeTitle(event)}
             value={titleElement}
             required
           />
-          {isButtonClick && titleElement === '' && (
-            <span className="error title-error">
-              Please enter a title
-            </span>
+          {isErrorClick && titleElement === '' && (
+            <span className="error title-error">Please enter a title</span>
           )}
         </div>
 
@@ -98,14 +96,14 @@ export const App = () => {
           <select
             data-cy="userSelect"
             name="user"
-            onChange={(event) => userChoose(event)}
+            onChange={(event) => handleChangeUser(event)}
             value={userElement}
             required
           >
             <SelectUser />
           </select>
 
-          {isButtonClick && userElement === '0' && (
+          {isErrorClick && userElement === '0' && (
             <span className="error user-error">Please choose a user</span>
           )}
         </div>
@@ -114,7 +112,9 @@ export const App = () => {
           type="submit"
           data-cy="submitButton"
           className="buttonSubmit"
-          onClick={() => isButtonClickEdit(true)}
+          onClick={() => isErrorClickEdit(
+            userElement === '0' || titleElement === '',
+          )}
         >
           Add
         </button>
