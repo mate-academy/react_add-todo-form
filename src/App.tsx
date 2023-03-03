@@ -10,14 +10,14 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
   const [users] = useState([...usersFromServer]);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const reset = () => {
     setTitle('');
     setUser('');
-    setTitleError(false);
-    setUserError(false);
+    setIsTitleError(false);
+    setIsUserError(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,22 +35,22 @@ export const App = () => {
       reset();
     } else {
       if (!title.trim()) {
-        setTitleError(true);
+        setIsTitleError(true);
       }
 
       if (!user) {
-        setUserError(true);
+        setIsUserError(true);
       }
     }
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
+    setIsTitleError(false);
     setTitle(e.target.value);
   };
 
   const handleUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserError(false);
+    setIsUserError(false);
     setUser(e.target.value);
   };
 
@@ -73,7 +73,7 @@ export const App = () => {
               onChange={handleTitle}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -88,13 +88,17 @@ export const App = () => {
               onChange={handleUser}
             >
               <option value="" disabled>Choose a user</option>
-              {users.map(u => {
-                return <option value={u.id} key={u.id}>{u.name}</option>;
+              {users.map(usersItem => {
+                return (
+                  <option value={usersItem.id} key={usersItem.id}>
+                    {usersItem.name}
+                  </option>
+                );
               })}
             </select>
 
           </label>
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">

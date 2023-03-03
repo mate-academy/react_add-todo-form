@@ -12,18 +12,20 @@ export const TodoList = (props: Props) => {
 
   return (
     <section className="TodoList">
-      {todos.map(t => {
-        const user = users.find(u => u.id === t.userId);
+      {todos.map(todo => {
+        const user = users.find(u => u.id === todo.userId);
 
         return (
           <article
-            data-id={t.id}
+            data-id={todo.id}
             className={classNames('TodoInfo',
-              { TodoInfo: !t.completed, 'TodoInfo--completed': t.completed })}
-            key={t.id}
+              {
+                'TodoInfo--completed': todo.completed,
+              })}
+            key={todo.id}
           >
             <h2 className="TodoInfo__title">
-              {t.title}
+              {todo.title}
             </h2>
 
             {user && <UserInfo user={user} />}
