@@ -25,15 +25,15 @@ export const App = () => {
   const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
 
-  const addTitle = (e: React.SyntheticEvent) => {
-    const newTitle = (e.target as HTMLInputElement).value;
+  const addTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
 
     setTitleError(false);
     setTitle(newTitle);
   };
 
-  const addUser = (e: React.SyntheticEvent) => {
-    const newUser = (e.target as HTMLInputElement).value;
+  const addUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newUser = e.target.value;
 
     setUserError(false);
     setUser(newUser);
@@ -43,6 +43,13 @@ export const App = () => {
     e.preventDefault();
     const nextId = todoList.sort((a, b) => b.id - a.id)[0].id + 1;
     const nextUser = usersFromServer.find(u => u.name === user);
+
+    if (!title && !user) {
+      setTitleError(true);
+      setUserError(true);
+
+      return;
+    }
 
     if (!title) {
       setTitleError(true);
@@ -57,18 +64,16 @@ export const App = () => {
     }
 
     if (nextUser) {
-      setTodoList(prevState => {
-        return [
-          {
-            id: nextId,
-            userId: nextUser.id,
-            title: title.replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ''),
-            completed: false,
-            user: nextUser,
-          },
-          ...prevState,
-        ];
-      });
+      setTodoList(prevState => [
+        {
+          id: nextId,
+          userId: nextUser.id,
+          title: title.replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ''),
+          completed: false,
+          user: nextUser,
+        },
+        ...prevState,
+      ]);
     }
 
     setTitle('');
