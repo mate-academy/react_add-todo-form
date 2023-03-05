@@ -60,7 +60,7 @@ export const App = () => {
 
       <form action="/api/users" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="">
+          <label>
             Title:
             {' '}
             <input
@@ -88,13 +88,11 @@ export const App = () => {
               onChange={handleUser}
             >
               <option value="" disabled>Choose a user</option>
-              {users.map(usersItem => {
-                return (
-                  <option value={usersItem.id} key={usersItem.id}>
-                    {usersItem.name}
-                  </option>
-                );
-              })}
+              {users.map(usersItem => (
+                <option value={usersItem.id} key={usersItem.id}>
+                  {usersItem.name}
+                </option>
+              ))}
             </select>
 
           </label>
