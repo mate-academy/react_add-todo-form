@@ -20,8 +20,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [todos, setTodos] = useState([...prepareTodos]);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const generateNewTodo = () => {
     setTodos(currentTodos => (
@@ -42,11 +42,11 @@ export const App = () => {
     const regExp = /^[A-Za-zА-Яа-я0-9\s]+$/;
 
     if (!title.trim().length || !regExp.test(title)) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!selectedUserId) {
-      setUserError(true);
+      setIsUserError(true);
     }
   };
 
@@ -67,12 +67,12 @@ export const App = () => {
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(Number(event.target.value));
-    setUserError(false);
+    setIsUserError(false);
   };
 
   return (
@@ -93,7 +93,7 @@ export const App = () => {
             placeholder="Enter a title"
             onChange={handleChangeTitle}
           />
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -112,7 +112,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
