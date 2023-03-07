@@ -72,10 +72,6 @@ export const App = () => {
             placeholder="Please enter a title"
             value={title}
             onChange={(event) => {
-              if (event.target.value.match(/a/)) {
-                return event.target.value.length - 1;
-              }
-
               return setTitle(event.target.value);
             }}
           />
