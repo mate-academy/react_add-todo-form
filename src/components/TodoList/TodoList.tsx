@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 
@@ -10,7 +11,9 @@ export const TodoList:React.FC<Props> = ({ todos }) => (
     {todos.map(todo => (
       <article
         data-id={todo.id}
-        className={`TodoInfo TodoInfo${todo.completed && '--completed'}`}
+        className={
+          classNames('TodoInfo', { 'TodoInfo--completed': todo.completed })
+        }
         key={todo.id}
       >
         <TodoInfo todo={todo} />
