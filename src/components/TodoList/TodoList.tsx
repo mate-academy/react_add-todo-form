@@ -9,7 +9,7 @@ export const TodoList:React.FC<Props> = ({ todos }) => (
   <section className="TodoList">
     {todos.map(todo => (
       <article
-        data-id="1"
+        data-id={todo.id}
         className={`TodoInfo TodoInfo${todo.completed && '--completed'}`}
         key={todo.id}
       >
