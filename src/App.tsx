@@ -13,14 +13,12 @@ function getUser(userId: number): User | null {
   return findUser || null;
 }
 
-const todos = todosFromServer.map((todo) => {
-  return (
-    {
-      ...todo,
-      user: getUser(todo.userId),
-    }
-  );
-});
+const todos = todosFromServer.map((todo) => (
+  {
+    ...todo,
+    user: getUser(todo.userId),
+  }
+));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -29,11 +27,30 @@ export const App = () => {
   const [isSubmited, changeSubmited] = useState(true);
 
   const createId = (lastTodos: Todo[]) => {
-    const allIdes = lastTodos.map(todo => {
-      return (todo.id);
-    });
+    const allIdes = lastTodos.map(todo => todo.id);
 
     return Math.max(...allIdes) + 1;
+  };
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (+selectedUser > 0 && title.length > 0) {
+      addTodo((prevTodos) => ([
+        ...prevTodos,
+        {
+          id: createId(prevTodos),
+          title,
+          completed: false,
+          userId: +selectedUser,
+          user: getUser(+selectedUser),
+        },
+      ]));
+      setTitle('');
+      chooseUser('0');
+      changeSubmited(true);
+    } else {
+      changeSubmited(false);
+    }
   };
 
   return (
@@ -43,27 +60,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (+selectedUser > 0 && title.length > 0) {
-            addTodo((prevTodos) => ([
-              ...prevTodos,
-              {
-                id: createId(prevTodos),
-                title,
-                completed: false,
-                userId: +selectedUser,
-                user: getUser(+selectedUser),
-              },
-            ]));
-            setTitle('');
-            chooseUser('0');
-            changeSubmited(true);
-          } else {
-            changeSubmited(false);
-          }
-        }}
+        onSubmit={onSubmit}
       >
         <div className="field">
           <input
@@ -72,7 +69,16 @@ export const App = () => {
             placeholder="Please enter a title"
             value={title}
             onChange={(event) => {
-              return setTitle(event.target.value);
+              const { value } = event.target;
+              const lastCharacter = value[value.length - 1];
+
+              if (lastCharacter !== undefined) {
+                if (lastCharacter.match(/[a-zA-Zа-яА-Я0-9 ]/)) {
+                  setTitle(event.target.value);
+                }
+              } else {
+                setTitle('');
+              }
             }}
           />
           {(!isSubmited && title.length === 0) && (
@@ -94,11 +100,9 @@ export const App = () => {
             >
               Choose a user
             </option>
-            {usersFromServer.map(user => {
-              return (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
           </select>
           {(+selectedUser === 0 && !isSubmited) && (
             <span className="error">Please choose a user</span>
