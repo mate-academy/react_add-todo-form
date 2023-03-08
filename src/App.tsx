@@ -21,28 +21,28 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const [todosList, setTodosList] = useState(todos);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUser(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim()) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!user) {
-      setUserError(true);
+      setIsUserError(true);
     }
 
     if (user && title.trim()) {
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             onChange={handleTitleChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
