@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
@@ -22,20 +22,25 @@ const todos = todosFromServer.map((todo) => (
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, chooseUser] = useState('0');
-  const [newTodos, addTodo] = useState(todos);
-  const [isSubmited, changeSubmited] = useState(true);
+  const [selectedUser, setSelectedUser] = useState('0');
+  const [newTodos, setNewTodos] = useState(todos);
+  const [isSubmited, setIsSubmitted] = useState(true);
 
-  const createId = (lastTodos: Todo[]) => {
+  const createId = useCallback((lastTodos: Todo[]) => {
     const allIdes = lastTodos.map(todo => todo.id);
 
     return Math.max(...allIdes) + 1;
-  };
+  }, [newTodos]);
+
+  const reset = useCallback(() => {
+    setTitle('');
+    setSelectedUser('0');
+  }, [newTodos]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (+selectedUser > 0 && title.length > 0) {
-      addTodo((prevTodos) => ([
+      setNewTodos((prevTodos) => [
         ...prevTodos,
         {
           id: createId(prevTodos),
@@ -44,12 +49,24 @@ export const App = () => {
           userId: +selectedUser,
           user: getUser(+selectedUser),
         },
-      ]));
-      setTitle('');
-      chooseUser('0');
-      changeSubmited(true);
+      ]);
+      reset();
+      setIsSubmitted(true);
     } else {
-      changeSubmited(false);
+      setIsSubmitted(false);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const lastCharacter = value[value.length - 1];
+
+    if (lastCharacter !== undefined) {
+      if (lastCharacter.match(/[a-zA-Zа-яА-Я0-9 ]/)) {
+        setTitle(event.target.value);
+      }
+    } else {
+      setTitle('');
     }
   };
 
@@ -68,18 +85,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Please enter a title"
             value={title}
-            onChange={(event) => {
-              const { value } = event.target;
-              const lastCharacter = value[value.length - 1];
-
-              if (lastCharacter !== undefined) {
-                if (lastCharacter.match(/[a-zA-Zа-яА-Я0-9 ]/)) {
-                  setTitle(event.target.value);
-                }
-              } else {
-                setTitle('');
-              }
-            }}
+            onChange={handleChange}
           />
           {(!isSubmited && title.length === 0) && (
             <span className="error">Please enter a title</span>
@@ -90,9 +96,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => {
-              return chooseUser(event.target.value);
-            }}
+            onChange={(event) => setSelectedUser(event.target.value)}
           >
             <option
               value="0"
