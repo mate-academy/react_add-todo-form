@@ -37,7 +37,7 @@ export const App = () => {
     setTitleError(false);
   };
 
-  const handleUser = (value: number) => {
+  const handleUserId = (value: number) => {
     setUserId(value);
 
     setUserError(false);
@@ -115,7 +115,7 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={userId}
-            onChange={(e) => handleUser(+e.target.value)}
+            onChange={(e) => handleUserId(+e.target.value)}
           >
             <option
               value="0"
