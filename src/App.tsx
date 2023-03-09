@@ -18,14 +18,17 @@ export const startingTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [isClicked, setIsClicked] = useState(false);
   const [titleName, setTitleName] = useState('');
   const [userName, setUserName] = useState('0');
   const [todos, setTodos] = useState(startingTodos);
+  const [titleError, setTitleError] = useState(false);
+  const [selectError, setSelectError] = useState(false);
 
   const handleChange = (inputValue: string) => {
     const reg = new RegExp('[a-zA-Zа-яА-Я\\d ]+');
     const letter = inputValue[inputValue.length - 1];
+
+    setTitleError(false);
 
     if (letter !== undefined) {
       if (letter.search(reg) !== -1) {
@@ -37,13 +40,13 @@ export const App = () => {
   };
 
   const chooseSelect = (selectedValue: string) => {
+    setSelectError(false);
     setUserName(selectedValue);
   };
 
   const clearingForm = () => {
     setUserName('0');
     setTitleName('');
-    setIsClicked(false);
   };
 
   const addTodo = () => {
@@ -61,6 +64,23 @@ export const App = () => {
     };
 
     setTodos([...todos, newTodo]);
+  };
+
+  const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (!titleName.trim().length) {
+      setTitleError(true);
+    }
+
+    if (userName === '0') {
+      setSelectError(true);
+    }
+
+    if (userName !== '0' && titleName.trim().length > 0) {
+      addTodo();
+      clearingForm();
+    }
   };
 
   return (
@@ -82,10 +102,8 @@ export const App = () => {
             />
           </label>
 
-          {isClicked && (
-            !titleName.trim().length && (
-              <span className="error">Please enter a title</span>
-            )
+          { titleError && (
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
@@ -118,8 +136,7 @@ export const App = () => {
             </select>
           </label>
 
-          {isClicked && (
-            userName === '0') && (
+          {selectError && (
             <span className="error">Please choose a user</span>
           )}
 
@@ -128,14 +145,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            event.preventDefault();
-            setIsClicked(true);
-            if (userName !== '0' && titleName.trim().length > 0) {
-              addTodo();
-              clearingForm();
-            }
-          }}
+          onClick={(event) => onSubmit(event)}
         >
           Add
         </button>
