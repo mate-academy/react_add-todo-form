@@ -9,8 +9,9 @@ type TodoInfoProps = {
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   const {
-    completed, title, user, userId, id,
+    title, user, userId, id,
   } = todo;
+  const isCompleted = todo.completed;
 
   return (
     <article
@@ -18,7 +19,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       className={classNames(
         'TodoInfo',
         {
-          'TodoInfo--completed': completed,
+          'TodoInfo--completed': isCompleted,
         },
       )}
     >
@@ -26,8 +27,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
         {`${title}`}
       </h2>
 
-      {user
-        && <UserInfo key={userId} user={user} />}
+      {user && <UserInfo key={userId} user={user} />}
     </article>
   );
 };

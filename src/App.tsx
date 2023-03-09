@@ -1,6 +1,11 @@
 import './App.scss';
 
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+} from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
@@ -10,37 +15,47 @@ import { UsersSelect } from './components/UsersSelect/UsersSelect';
 
 type HandleChangeTypes = HTMLInputElement | HTMLSelectElement;
 
+enum ChangeOptions {
+  Title = 'title',
+  Select = 'select',
+}
+
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
 
   return foundUser || null;
 }
 
-export const allTodos: Todo[] = todosFromServer.map((todo) => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(allTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [selectValue, setSelectValue] = useState(0);
   const [inputValidation, setInputValidation] = useState(true);
   const [selectValidation, setSelectValidation] = useState(true);
 
+  useEffect(() => {
+    const allTodos: Todo[] = todosFromServer.map(todo => ({
+      ...todo,
+      user: getUser(todo.userId),
+    }));
+
+    setTodos(allTodos);
+  }, []);
+
   const handleChange = (event: ChangeEvent<HandleChangeTypes>) => {
     const element = event.target;
 
     switch (element.name) {
-      case 'title':
+      case ChangeOptions.Title:
         setInputValue(element.value);
         setInputValidation(true);
         break;
 
-      case 'select':
+      case ChangeOptions.Select:
         setSelectValue(+element.value);
         setSelectValidation(true);
         break;
+
       default:
         break;
     }
@@ -62,11 +77,13 @@ export const App: React.FC = () => {
     return isValid;
   };
 
-  const handleFormSubmit = (e: FormEvent): void => {
+  const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     if (!isFormValid()) {
       return;
     }
+
     const todosId = todos.map(todo => todo.id);
     const largestId = Math.max(...todosId);
     const user = getUser(selectValue);
@@ -95,11 +112,11 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(e) => handleFormSubmit(e)}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="titleField">
-            Title:
+            <span>Title:</span>
             <input
               id="titleField"
               name="title"
@@ -107,11 +124,11 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={inputValue}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
           </label>
 
-          {inputValidation || (
+          {!inputValidation && (
             <span className="error">
               Please enter a title
             </span>
@@ -120,13 +137,13 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="selectField">
-            User:
+            <span>User:</span>
             <select
               name="select"
               id="selectField"
               data-cy="userSelect"
               value={selectValue}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             >
               <option value="0" disabled>
                 Choose a user
@@ -136,7 +153,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {selectValidation || (
+          {!selectValidation && (
             <span className="error">
               Please choose a user
             </span>
