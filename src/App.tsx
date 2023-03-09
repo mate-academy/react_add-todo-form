@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
@@ -18,135 +18,106 @@ const todoList: Todo[] = todosFromServer.map(todo => (
   }
 ));
 
-type State = {
-  todos: Todo[],
-  title: string,
-  showTitleError: boolean,
-  showUserError: boolean,
-  userId: number,
-};
+export const App = () => {
+  const [todos, setTodos] = useState(todoList);
+  const [title, setTitle] = useState('');
+  const [showTitleError, setShowTitleError] = useState(false);
+  const [showUserError, setShowUserError] = useState(false);
+  const [userId, setUserId] = useState(0);
 
-export class App extends React.Component<{}, State> {
-  state = {
-    todos: todoList,
-    title: '',
-    showTitleError: false,
-    showUserError: false,
-    userId: 0,
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setShowTitleError(false);
   };
 
-  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-      showTitleError: false,
-    });
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setShowUserError(false);
   };
 
-  handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({
-      userId: Number(event.target.value),
-      showUserError: false,
-    });
-  };
-
-  handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (this.state.userId && this.state.title.trim()) {
+    if (userId && title.trim()) {
       const newTodo = {
-        id: Math.max(...this.state.todos.map(todo => todo.id)) + 1,
-        title: this.state.title,
+        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        title,
         completed: false,
-        userId: this.state.userId,
-        user: findUser(this.state.userId),
+        userId,
+        user: findUser(userId),
       };
 
-      this.setState(state => ({
-        todos: [
-          ...state.todos,
-          newTodo,
-        ],
-        title: '',
-        userId: 0,
-        showTitleError: false,
-        showUserError: false,
-      }));
+      setTodos(state => [...state, newTodo]);
+      setTitle('');
+      setUserId(0);
+      setShowTitleError(false);
+      setShowUserError(false);
     }
 
-    if (!this.state.userId) {
-      this.setState({ showUserError: true });
+    if (!userId) {
+      setShowUserError(true);
     }
 
-    if (!this.state.title.trim()) {
-      this.setState({ showTitleError: true });
+    if (!title.trim()) {
+      setShowTitleError(true);
     }
   };
 
-  render() {
-    const {
-      todos,
-      title,
-      showTitleError,
-      showUserError,
-      userId,
-    } = this.state;
+  return (
+    <div className="App">
+      <h1>Add todo form</h1>
 
-    return (
-      <div className="App">
-        <h1>Add todo form</h1>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
+        <div className="field">
+          <label htmlFor="title">Title: </label>
+          <input
+            id="title"
+            type="text"
+            data-cy="titleInput"
+            placeholder="Title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+          {showTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
+        </div>
 
-        <form
-          action="/api/users"
-          method="POST"
-          onSubmit={this.handleSubmit}
-        >
-          <div className="field">
-            <label htmlFor="title">Title: </label>
-            <input
-              id="title"
-              type="text"
-              data-cy="titleInput"
-              placeholder="Title"
-              value={title}
-              onChange={this.handleTitleChange}
-            />
-            {showTitleError && (
-              <span className="error">Please enter a title</span>
-            )}
-          </div>
-
-          <div className="field">
-            <label htmlFor="user">User: </label>
-            <select
-              id="user"
-              data-cy="userSelect"
-              value={userId}
-              onChange={this.handleUserChange}
-            >
-              <option value="0" disabled>Choose a user</option>
-
-              {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-
-            {showUserError && (
-              <span className="error">Please choose a user</span>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            data-cy="submitButton"
+        <div className="field">
+          <label htmlFor="user">User: </label>
+          <select
+            id="user"
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserChange}
           >
-            Add
-          </button>
-        </form>
+            <option value="0" disabled>Choose a user</option>
 
-        <TodoList todos={todos} />
-      </div>
-    );
-  }
-}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          {showUserError && (
+            <span className="error">Please choose a user</span>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
+          Add
+        </button>
+      </form>
+
+      <TodoList todos={todos} />
+    </div>
+  );
+};
