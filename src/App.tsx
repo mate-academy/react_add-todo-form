@@ -6,7 +6,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -14,26 +14,26 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [visibilityError, setVisibilityTheError] = useState(true);
+  const [isError, setIsError] = useState(true);
   const [userId, setUserId] = useState(0);
-  const [userChosen, setUserChosen] = useState(true);
+  const [isUserChosen, setIsUserChosen] = useState(true);
   const [visibilityTodos, setVisibilityTodos] = useState(todos);
 
   const largestTodosId = Math.max(...visibilityTodos.map(todo => todo.id)) + 1;
 
   const addTodo = (id: number) => {
-    if (getUser(id) && title.trim()) {
+    if (getUserById(id) && title.trim()) {
       const userToCreate = {
         id: largestTodosId,
         userId,
         title,
         completed: false,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setVisibilityTodos(prevTodos => {
@@ -49,11 +49,28 @@ export const App: React.FC = () => {
 
     if (!userId) {
       setUserId(0);
-      setUserChosen(false);
+      setIsUserChosen(false);
     }
 
     if (!title.trim()) {
-      setVisibilityTheError(false);
+      setIsError(false);
+    }
+  };
+
+  const handlerUserValue = (event: React.ChangeEvent<HTMLSelectElement>
+  | React.ChangeEvent<HTMLInputElement>) => {
+    switch (event.target.tagName) {
+      case 'INPUT':
+        setTitle(event.target.value);
+        setIsError(true);
+        break;
+
+      case 'SELECT':
+        setUserId(+event.target.value);
+        setIsUserChosen(true);
+        break;
+
+      default:
     }
   };
 
@@ -79,11 +96,10 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             value={title}
             onChange={(event) => {
-              setTitle(event.target.value);
-              setVisibilityTheError(true);
+              handlerUserValue(event);
             }}
           />
-          {!visibilityError && (
+          {!isError && (
             <span className="error">Please enter a title</span>
           )}
 
@@ -97,8 +113,7 @@ export const App: React.FC = () => {
             id="user"
             value={userId}
             onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserChosen(true);
+              handlerUserValue(event);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -107,7 +122,7 @@ export const App: React.FC = () => {
               <option key={id} value={id}>{name}</option>
             ))}
           </select>
-          {!userChosen && (
+          {!isUserChosen && (
             <span className="error">Please choose a user</span>
           )}
 
