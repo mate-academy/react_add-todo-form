@@ -145,6 +145,8 @@ export class App extends React.Component<{}, State> {
     this.setState(oldState => ({
       ...oldState,
       todos: [...oldState.todos, newTodo],
+      newTitle: '',
+      newUser: '0',
     }));
   };
 
@@ -153,17 +155,13 @@ export class App extends React.Component<{}, State> {
     | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
-    const {
-      newTitle,
-      newUser,
-    } = this.state;
 
-    if (name === newTitle) {
+    if (name === 'newTitle') {
       this.setState(oldState => ({
         ...oldState,
         newTitle: value,
       }));
-    } else if (name === newUser) {
+    } else if (name === 'newUser') {
       this.setState(oldState => ({
         ...oldState,
         newUser: value,
