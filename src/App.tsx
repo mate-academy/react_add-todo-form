@@ -17,22 +17,24 @@ export const App = () => {
   const [todos, setTodosFromServer] = useState([...combined]);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newId, setNewId] = useState(0);
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorUser, setErrorUser] = useState(false);
+  const [isEmptyTitle, setErrorTitle] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
-  const reset = () => {
+  const handleReset = () => {
     setNewTodoTitle('');
     setErrorTitle(false);
-    setErrorUser(false);
+    setIsUserError(false);
   };
 
-  const handleAddTodo = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (newTodoTitle === '') {
       setErrorTitle(true);
     }
 
     if (newId === 0) {
-      setErrorUser(true);
+      setIsUserError(true);
     }
 
     if (newTodoTitle === '' || newId === 0) {
@@ -45,32 +47,30 @@ export const App = () => {
       return;
     }
 
+    const user = usersFromServer[newId - 1];
+
     const newTodo: TodoWithUser = {
       id: todosFromServer.length + 1,
       title: newTodoTitle,
       completed: false,
       userId: newId,
       user: {
-        email: usersFromServer[newId - 1].email,
+        email: user.email,
         id: newId,
-        name: usersFromServer[newId - 1].name,
-        username: usersFromServer[newId - 1].username,
+        name: user.name,
+        username: user.username,
       },
     };
 
-    setTodosFromServer([...todos, newTodo]);
-    reset();
+    setTodosFromServer(currentTodos => ([...currentTodos, newTodo]));
+    handleReset();
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <span>Title:</span>
           <input
@@ -80,7 +80,7 @@ export const App = () => {
             value={newTodoTitle}
             onChange={(e) => setNewTodoTitle(e.target.value)}
           />
-          {(newTodoTitle.trim() === '' && errorTitle)
+          {isEmptyTitle && newTodoTitle.trim() === ''
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -90,7 +90,7 @@ export const App = () => {
             data-cy="userSelect"
             id="mySelect"
             onChange={(e) => {
-              return (setNewId(+e.target.value), setErrorUser(false));
+              return (setNewId(+e.target.value), setIsUserError(false));
             }}
           >
             <option value="0" key="0" disabled selected>Choose a user</option>
@@ -103,14 +103,12 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {(errorUser)
-            && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleAddTodo}
         >
           Add
         </button>
