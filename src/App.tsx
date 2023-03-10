@@ -5,20 +5,26 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { TodoWithUser } from './types/TodoWithUser';
 
+const combined = todosFromServer.map(todo => {
+  const user = usersFromServer.find(
+    userServer => userServer.id === todo.userId,
+  );
+
+  return { ...todo, user };
+});
+
 export const App = () => {
-  const combined = todosFromServer.map(todo => {
-    const user = usersFromServer.find(
-      userServer => userServer.id === todo.userId,
-    );
-
-    return { ...todo, user };
-  });
-
-  const [newArr, setTodosFromServer] = useState([...combined]);
+  const [todos, setTodosFromServer] = useState([...combined]);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newId, setNewId] = useState(0);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
+
+  const reset = () => {
+    setNewTodoTitle('');
+    setErrorTitle(false);
+    setErrorUser(false);
+  };
 
   const handleAddTodo = () => {
     if (newTodoTitle === '') {
@@ -30,6 +36,12 @@ export const App = () => {
     }
 
     if (newTodoTitle === '' || newId === 0) {
+      return;
+    }
+
+    if (newTodoTitle.trim() === '') {
+      setErrorTitle(true);
+
       return;
     }
 
@@ -46,10 +58,8 @@ export const App = () => {
       },
     };
 
-    setTodosFromServer([...newArr, newTodo]);
-    setNewTodoTitle('');
-    setErrorTitle(false);
-    setErrorUser(false);
+    setTodosFromServer([...todos, newTodo]);
+    reset();
   };
 
   return (
@@ -70,7 +80,7 @@ export const App = () => {
             value={newTodoTitle}
             onChange={(e) => setNewTodoTitle(e.target.value)}
           />
-          {(newTodoTitle === '' && errorTitle)
+          {(newTodoTitle.trim() === '' && errorTitle)
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -106,7 +116,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={newArr} />
+      <TodoList todos={todos} />
     </div>
   );
 };
