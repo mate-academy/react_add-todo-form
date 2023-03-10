@@ -4,6 +4,7 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import './App.scss';
 
 
 const getUser = (userId: number): User | null => {
