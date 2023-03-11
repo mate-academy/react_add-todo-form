@@ -81,7 +81,7 @@ type State = {
   todos: Todo[],
   users: User[],
   newTitle: string,
-  newUser: string,
+  newUser: number,
   titleWarning: boolean,
   userWarning: boolean,
 };
@@ -91,33 +91,26 @@ export class App extends React.Component<{}, State> {
     todos: todosWhole,
     users: usersFromServer,
     newTitle: '',
-    newUser: '0',
+    newUser: 0,
     titleWarning: false,
     userWarning: false,
   };
 
   getId = () => {
-    let maxId = 0;
-
-    this.state.todos.map(todo => {
-      if (maxId < todo.id) {
-        maxId = todo.id;
-      }
-
-      return todo;
-    });
+    const idArr = this.state.todos.map(todo => todo.id);
+    const maxId = Math.max.apply(null, idArr);
 
     return maxId + 1;
   };
 
   verifyInput = () => {
-    if (this.state.newTitle === '') {
+    if (!this.state.newTitle.trim()) {
       this.setState({ titleWarning: true });
 
       return false;
     }
 
-    if (this.state.newUser === '0') {
+    if (!this.state.newUser) {
       this.setState({ userWarning: true });
 
       return false;
@@ -127,7 +120,6 @@ export class App extends React.Component<{}, State> {
   };
 
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(this.state);
     event.preventDefault();
 
     if (!this.verifyInput()) {
@@ -146,7 +138,7 @@ export class App extends React.Component<{}, State> {
       ...oldState,
       todos: [...oldState.todos, newTodo],
       newTitle: '',
-      newUser: '0',
+      newUser: 0,
     }));
   };
 
@@ -156,17 +148,10 @@ export class App extends React.Component<{}, State> {
   ) => {
     const { name, value } = event.target;
 
-    if (name === 'newTitle') {
-      this.setState(oldState => ({
-        ...oldState,
-        newTitle: value,
-      }));
-    } else if (name === 'newUser') {
-      this.setState(oldState => ({
-        ...oldState,
-        newUser: value,
-      }));
-    }
+    this.setState(oldState => ({
+      ...oldState,
+      [name]: value,
+    }));
 
     this.setState({ titleWarning: false });
     this.setState({ userWarning: false });
@@ -197,8 +182,9 @@ export class App extends React.Component<{}, State> {
                 onChange={this.handleChange}
               />
             </label>
-            {titleWarning
-              && <span className="error">Please enter a title</span>}
+            {titleWarning && (
+              <span className="error">Please enter a title</span>
+            )}
           </div>
 
           <div className="field">
@@ -210,7 +196,7 @@ export class App extends React.Component<{}, State> {
                 value={this.state.newUser}
                 onChange={this.handleChange}
               >
-                <option value="0" disabled>Choose a user</option>
+                <option value={0} disabled>Choose a user</option>
                 {users.map(user => (
                   <option value={user.id}>{user.name}</option>
                 ))}
