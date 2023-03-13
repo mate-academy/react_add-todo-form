@@ -6,11 +6,16 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
-  cursor: pointer;
+.error {
+  margin-bottom: 8px;
+
+  color: red;
 }
 
-.error {
-  color: red;
+.title {
+  text-align: center;
+}
+
+.field {
+  margin-bottom: 10px;
 }
