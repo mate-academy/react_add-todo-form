@@ -6,34 +6,16 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
-  cursor: pointer;
-}
-
 .error {
+  margin-bottom: 8px;
+
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+.title {
+  text-align: center;
 }
 
-.UserInfo {
-  font-style: italic;
+.field {
+  margin-bottom: 10px;
 }
