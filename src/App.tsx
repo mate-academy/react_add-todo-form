@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './Types/Types';
 
 import './App.scss';
@@ -28,16 +28,15 @@ export const App: FC = () => {
 
   const [selectUserId, setSelectUserId] = useState(0);
   const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [todoForList, setTodoForList] = useState('');
 
   const [validTitle, setValidTitle] = useState(false);
   const [validSelect, setValidSelect] = useState(false);
 
-  let checkInput = '';
-
   function checkValidInput() {
-    checkInput = newTodoTitle.replace(/[^A-Za-z\s\d\u0400-\u04FF]/g, '');
+    setTodoForList(newTodoTitle.replace(/[^A-Za-z\s\d\u0400-\u04FF]/g, ''));
 
-    if (selectUserId === 0 || checkInput === '') {
+    if (selectUserId === 0 || todoForList === '') {
       setValidSelect(selectUserId === 0);
       setValidTitle(newTodoTitle === '');
 
@@ -63,7 +62,7 @@ export const App: FC = () => {
 
     const newTodo = {
       id: Math.max(...todos.map(({ id }) => id)) + 1,
-      title: checkInput,
+      title: todoForList,
       completed: false,
       userId: selectUserId,
       user: findUser(selectUserId),
