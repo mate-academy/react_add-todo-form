@@ -9,7 +9,7 @@ import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
@@ -18,7 +18,7 @@ function getUser(userId: number): User | null {
 
 const addUserTodo: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -27,8 +27,8 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [validInputTitle, setValidInputTitle] = useState(false);
-  const [validInputUser, setValidInputUser] = useState(false);
+  const [isValidTitle, setIsValidTitle] = useState(false);
+  const [isValidUser, setIsValidIUser] = useState(false);
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -40,7 +40,7 @@ export const App: React.FC = () => {
     setTitle(validValue);
 
     if (validValue) {
-      setValidInputTitle(false);
+      setIsValidTitle(false);
     }
   };
 
@@ -50,17 +50,17 @@ export const App: React.FC = () => {
     setUserId(+value);
 
     if (value) {
-      setValidInputUser(false);
+      setIsValidIUser(false);
     }
   };
 
   const checkValidate = () => {
     if (!title.trim().length) {
-      setValidInputTitle(true);
+      setIsValidTitle(true);
     }
 
     if (!userId) {
-      setValidInputUser(true);
+      setIsValidIUser(true);
     }
 
     return !title.length || !userId;
@@ -69,8 +69,8 @@ export const App: React.FC = () => {
   const resetForm = () => {
     setTitle('');
     setUserId(0);
-    setValidInputUser(false);
-    setValidInputTitle(false);
+    setIsValidIUser(false);
+    setIsValidTitle(false);
   };
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
       title,
       completed: false,
       userId,
-      user: getUser(userId),
+      user: getUserById(userId),
     };
 
     setTodo([
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleInputTitle}
           />
-          {validInputTitle
+          {isValidTitle
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -131,7 +131,7 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {validInputUser
+          {isValidUser
             && <span className="error">Please choose a user</span>}
         </div>
 
