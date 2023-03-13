@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import './App.scss';
 
 import { TodoList } from './components/TodoList';
@@ -19,7 +19,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todoList, setTodoList] = useState(todos);
@@ -35,6 +35,11 @@ export const App: React.FC = () => {
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setUserError(false);
+  };
+
+  const resetform = () => {
+    setTitle('');
+    setUserId(0);
   };
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,8 +63,7 @@ export const App: React.FC = () => {
       };
 
       setTodoList([...todoList, newTodo]);
-      setTitle('');
-      setUserId(0);
+      resetform();
     }
   };
 
