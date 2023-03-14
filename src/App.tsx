@@ -1,30 +1,13 @@
 import { FC, useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
-import { Todo } from './Types/Types';
 
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function findUser(userId: number) {
-  return usersFromServer.find(({ id }) => id === userId);
-}
-
-function getTodos(todos: Todo[]) {
-  return todos.map(todo => {
-    const cloneTodo = { ...todo };
-
-    cloneTodo.user = findUser(cloneTodo.userId);
-
-    return cloneTodo;
-  });
-}
-
 export const App: FC = () => {
-  const visibleTodo = getTodos(todosFromServer);
-
-  const [todos, setTodos] = useState(visibleTodo);
+  const [todos, setTodos] = useState(todosFromServer);
 
   const [selectUserId, setSelectUserId] = useState(0);
   const [newTodoTitle, setNewTodoTitle] = useState('');
@@ -65,11 +48,22 @@ export const App: FC = () => {
       title: todoForList,
       completed: false,
       userId: selectUserId,
-      user: findUser(selectUserId),
     };
 
     setTodos([...todos, newTodo]);
     resetForm();
+  };
+
+  const handleOnChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoTitle(event.target.value);
+    setValidTitle(false);
+  };
+
+  const handleOnChangeSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectUserId(+event.target.value);
+    setValidSelect(false);
   };
 
   return (
@@ -88,10 +82,7 @@ export const App: FC = () => {
             placeholder="enter a title"
             data-cy="titleInput"
             value={newTodoTitle}
-            onChange={({ target }) => {
-              setNewTodoTitle(target.value);
-              setValidTitle(false);
-            }}
+            onChange={handleOnChangeInput}
           />
           {validTitle
           && <span className="error">Please enter a title</span>}
@@ -102,10 +93,7 @@ export const App: FC = () => {
           <select
             data-cy="userSelect"
             value={selectUserId}
-            onChange={({ target }) => {
-              setSelectUserId(+target.value);
-              setValidSelect(false);
-            }}
+            onChange={handleOnChangeSelect}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(({ id, name }) => (
@@ -121,7 +109,7 @@ export const App: FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };

@@ -2,12 +2,15 @@ import { FC } from 'react';
 import classNames from 'classnames';
 import { TodoInfo } from '../TodoInfo';
 import { UserInfo } from '../UserInfo';
-import { Todo } from '../../Types/Types';
+import { TodoListType } from '../../Types/Types';
 
-export const TodoList: FC<{ todos: Todo[] }> = ({ todos }) => (
+export const TodoList: FC<TodoListType> = ({ todos, users }) => (
   <section className="TodoList">
     {todos.map(({
-      title, user, id, completed,
+      title,
+      id,
+      completed,
+      userId,
     }) => (
       <article
         data-id={id}
@@ -19,7 +22,7 @@ export const TodoList: FC<{ todos: Todo[] }> = ({ todos }) => (
       >
         <TodoInfo title={title} />
 
-        <UserInfo name={user?.name || ''} email={user?.email || ''} />
+        <UserInfo user={users.find(user => user.id === userId) || null} />
       </article>
     ))}
   </section>
