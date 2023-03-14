@@ -13,15 +13,15 @@ export const App: FC = () => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [todoForList, setTodoForList] = useState('');
 
-  const [validTitle, setValidTitle] = useState(false);
-  const [validSelect, setValidSelect] = useState(false);
+  const [isValidTitle, setIsValidTitle] = useState(false);
+  const [isValidSelect, setIsValidSelect] = useState(false);
 
   function checkValidInput() {
     setTodoForList(newTodoTitle.replace(/[^A-Za-z\s\d\u0400-\u04FF]/g, ''));
 
     if (selectUserId === 0 || todoForList === '') {
-      setValidSelect(selectUserId === 0);
-      setValidTitle(newTodoTitle === '');
+      setIsValidSelect(selectUserId === 0);
+      setIsValidTitle(newTodoTitle === '');
 
       return true;
     }
@@ -32,8 +32,8 @@ export const App: FC = () => {
   const resetForm = () => {
     setSelectUserId(0);
     setNewTodoTitle('');
-    setValidTitle(false);
-    setValidSelect(false);
+    setIsValidTitle(false);
+    setIsValidSelect(false);
   };
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,14 +56,14 @@ export const App: FC = () => {
 
   const handleOnChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodoTitle(event.target.value);
-    setValidTitle(false);
+    setIsValidTitle(false);
   };
 
   const handleOnChangeSelect = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setSelectUserId(+event.target.value);
-    setValidSelect(false);
+    setIsValidSelect(false);
   };
 
   return (
@@ -84,7 +84,7 @@ export const App: FC = () => {
             value={newTodoTitle}
             onChange={handleOnChangeInput}
           />
-          {validTitle
+          {isValidTitle
           && <span className="error">Please enter a title</span>}
         </label>
 
@@ -100,7 +100,7 @@ export const App: FC = () => {
               <option value={id} key={id}>{name}</option>
             ))}
           </select>
-          {validSelect
+          {isValidSelect
           && <span className="error">Please choose a user</span>}
         </div>
 
