@@ -18,6 +18,10 @@ const todoList: Todo[] = todosFromServer.map(todo => (
   }
 ));
 
+function getId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+}
+
 export const App = () => {
   const [todos, setTodos] = useState(todoList);
   const [title, setTitle] = useState('');
@@ -35,12 +39,19 @@ export const App = () => {
     setShowUserError(false);
   };
 
+  const clear = () => {
+    setTitle('');
+    setUserId(0);
+    setShowTitleError(false);
+    setShowUserError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (userId && title.trim()) {
       const newTodo = {
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        id: getId(todos),
         title,
         completed: false,
         userId,
@@ -48,10 +59,7 @@ export const App = () => {
       };
 
       setTodos(state => [...state, newTodo]);
-      setTitle('');
-      setUserId(0);
-      setShowTitleError(false);
-      setShowUserError(false);
+      clear();
     }
 
     if (!userId) {
@@ -97,11 +105,15 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
 
           {showUserError && (
