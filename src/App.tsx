@@ -35,7 +35,7 @@ export const App = () => {
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.nativeEvent.preventDefault();
+    event.preventDefault();
 
     const trimmedTitle = title.trim();
 
@@ -77,7 +77,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => handleFormSubmit(event)}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">
@@ -88,7 +88,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => handleTitleChange(event)}
+              onChange={handleTitleChange}
             />
           </label>
           {shouldShowTitleError && (
@@ -104,7 +104,7 @@ export const App = () => {
               id="userSelect"
               placeholder="Choose a user"
               value={selectedUserId}
-              onChange={(event) => handleUserChange(event)}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>
                 Choose a user
