@@ -22,8 +22,8 @@ export const App = () => {
   const [newTitle, setNewTitle] = useState('');
   const [userID, setUserID] = useState(0);
   const [newTodos, addNewTodo] = useState(todosWithUsers);
-  const [titleError, setTitleError] = useState(false);
-  const [userIDError, setUserIDError] = useState(false);
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserIDError, setUserIDError] = useState(false);
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -50,13 +50,16 @@ export const App = () => {
       setUserIDError(true);
     }
 
-    if (newTitle && userID) {
+    if (newTitle.trim() && userID) {
+      const todoId = Math.max(...newTodos.map(todo => todo.id)) + 1;
+      const user = getUser(userID);
+
       const createTodo = {
-        id: Math.max(...newTodos.map(todo => todo.id)) + 1,
+        id: todoId,
         title: newTitle,
         completed: false,
         userId: userID,
-        user: getUser(userID),
+        user,
       };
 
       addNewTodo(current => ([...current, createTodo]));
@@ -86,7 +89,7 @@ export const App = () => {
               onChange={handleChangeTitle}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -110,7 +113,7 @@ export const App = () => {
             </select>
           </label>
 
-          {userIDError && <span className="error">Please choose a user</span>}
+          {isUserIDError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
