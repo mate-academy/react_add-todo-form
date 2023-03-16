@@ -1,28 +1,16 @@
 import { FC } from 'react';
-import classNames from 'classnames';
 import { TodoInfo } from '../TodoInfo';
-import { UserInfo } from '../UserInfo';
 import { TodoListType } from '../../Types/Types';
 
-export const TodoList: FC<TodoListType> = ({ todos, users }) => (
+export const TodoList: FC<{ todos: TodoListType[] }> = ({ todos }) => (
   <section className="TodoList">
-    {todos.map(({
-      title,
-      id,
-      completed,
-      userId,
-    }) => (
+    {todos.map(todo => (
       <article
-        data-id={id}
-        key={id}
-        className={classNames(
-          'TodoInfo',
-          { 'TodoInfo--completed': completed },
-        )}
+        data-id={todo.id}
+        key={todo.id}
+        className={`TodoInfo${!todo.completed ? '' : ' TodoInfo--completed'}`}
       >
-        <TodoInfo title={title} />
-
-        <UserInfo user={users.find(user => user.id === userId) || null} />
+        <TodoInfo todo={todo} />
       </article>
     ))}
   </section>

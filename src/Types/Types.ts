@@ -3,7 +3,6 @@ export interface Todo {
   title: string,
   completed: boolean,
   userId: number,
-  user?: User,
 }
 
 export interface User {
@@ -11,4 +10,12 @@ export interface User {
   name: string,
   username: string,
   email: string,
+}
+
+export type TodoListType = {
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+  user: User | null,
 }
