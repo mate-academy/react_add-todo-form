@@ -50,7 +50,7 @@ export const App = () => {
         user: getUser(selectedUserId),
       };
 
-      setTodos([...todos, newTodo]);
+      setTodos((prevTodo => [...prevTodo, newTodo]));
 
       handleClear();
     }
@@ -103,7 +103,7 @@ export const App = () => {
               id="userSelect"
               placeholder="Choose a user"
               value={selectedUserId}
-              onChange={(event) => handleUser(event)}
+              onChange={handleUser}
             >
               <option value="0">
                 Choose a user
