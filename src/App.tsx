@@ -78,7 +78,7 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
-              placeholder='Enter a title'
+              placeholder="Enter a title"
               value={newTitle}
               onChange={(event) => {
                 setNewTitle(event.target.value);
