@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const [todoList, setTodo] = useState(todosFromServer);
-  const [basicData, setData] = useState({
+  const [todoState, setData] = useState({
     title: '',
     select: '0',
   });
@@ -28,7 +28,7 @@ export const App = () => {
     }
 
     setData({
-      ...basicData,
+      ...todoState,
       [name]: value,
     });
   };
@@ -36,22 +36,22 @@ export const App = () => {
   const addTodo = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    if (!basicData.title) {
+    if (!todoState.title) {
       setTitileError(true);
     }
 
-    if (basicData.select === '0') {
+    if (todoState.select === '0') {
       setSelectError(true);
     }
 
     const currentUser = usersFromServer
-      .find(user => user.name === basicData.select);
+      .find(user => user.name === todoState.select);
 
     const currentUserId = currentUser !== undefined
       ? currentUser.id
       : null;
 
-    if (!currentUserId || !basicData.title) {
+    if (!currentUserId || !todoState.title) {
       return;
     }
 
@@ -60,7 +60,7 @@ export const App = () => {
 
     const todo = {
       id: maxId + 1,
-      title: basicData.title.trim(),
+      title: todoState.title.trim(),
       completed: false,
       userId: currentUserId,
     };
@@ -88,7 +88,7 @@ export const App = () => {
             {' '}
             <input
               name="title"
-              value={basicData.title}
+              value={todoState.title}
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
@@ -108,7 +108,7 @@ export const App = () => {
             {' '}
             <select
               data-cy="userSelect"
-              value={basicData.select}
+              value={todoState.select}
               name="select"
               onChange={(event) => {
                 handleChange(event);
