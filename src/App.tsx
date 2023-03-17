@@ -27,9 +27,9 @@ const todos: Todo[] = todosFromServer.map((todo) => {
 });
 
 export const App = () => {
-  const [todosList, addTodo] = useState(todos);
-  const [choosedUser, changeUser] = useState(0);
-  const [inputValue, changeInput] = useState('');
+  const [todosList, changeTodosList] = useState(todos);
+  const [choosedUserId, changeUserId] = useState(0);
+  const [inputValue, changeInputValue] = useState('');
   const [showInputError, toggleInputError] = useState(false);
   const [showUserError, toggleUserError] = useState(false);
 
@@ -38,7 +38,7 @@ export const App = () => {
       toggleInputError(true);
     }
 
-    if (!choosedUser) {
+    if (!choosedUserId) {
       toggleUserError(true);
     }
   };
@@ -46,7 +46,7 @@ export const App = () => {
   const addTask = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!inputValue || !choosedUser) {
+    if (!inputValue || !choosedUserId) {
       printError();
 
       return;
@@ -56,21 +56,21 @@ export const App = () => {
       id: newTaskId,
       title: inputValue,
       completed: false,
-      userId: choosedUser,
-      user: getUser(choosedUser),
+      userId: choosedUserId,
+      user: getUser(choosedUserId),
     };
 
     newTaskId += 1;
 
-    addTodo((tasks) => {
+    changeTodosList((tasks) => {
       return [
         ...tasks,
         newTask,
       ];
     });
 
-    changeUser(0);
-    changeInput('');
+    changeUserId(0);
+    changeInputValue('');
   };
 
   const handleInput = (
@@ -81,17 +81,20 @@ export const App = () => {
       id,
     } = event.target;
 
-    if (id === 'titleInput') {
-      const validatedValue = value.replace(/[^а-яА-ЯіІїЇ'a-zA-Z0-9 ]/g, '');
+    switch (id) {
+      case 'titleInput':
+        changeInputValue(value.replace(/[^а-яА-ЯіІїЇ'a-zA-Z0-9 ]/g, ''));
+        toggleInputError(false);
+        break;
 
-      changeInput(validatedValue);
-      toggleInputError(false);
+      case 'userSelect':
+        changeUserId(+value);
+        toggleUserError(false);
+        break;
 
-      return;
+      default:
+        throw new Error(`invalid input id: ${id}`);
     }
-
-    changeUser(+value);
-    toggleUserError(false);
   };
 
   return (
@@ -126,7 +129,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="userSelect"
-            value={choosedUser}
+            value={choosedUserId}
             onChange={handleInput}
           >
             <option value="0" disabled>Choose a user</option>
