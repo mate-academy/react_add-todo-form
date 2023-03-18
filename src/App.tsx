@@ -7,43 +7,44 @@ import { Todo, TodoForRender } from './components/types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const localUsers: User[] = usersFromServer.map(user => ({ ...user }));
-let localTodos: Todo[] = todosFromServer.map(todo => ({ ...todo }));
-
-function prepareTodos(): TodoForRender[] {
+const initialData = (): TodoForRender[] => {
   return (
-    localTodos.map(todo => {
+    todosFromServer.map((todo: Todo) => {
       return ({
         ...todo,
-        user: localUsers.find(user => user.id === todo.userId) || null,
+        user: usersFromServer
+          .find((user: User) => user.id === todo.userId) || null,
       });
     })
   );
-}
+};
 
 export const App = () => {
-  const [todosToRender, setTodosToRender] = useState(prepareTodos());
+  const [todosToRender, setTodosToRender] = useState(initialData);
   const [newTitle, setNewTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
   const [errTitle, setErrTitle] = useState(false);
   const [errUser, setErrUser] = useState(false);
 
-  const todoCreator = () => {
+  const todoUpdater = () => {
     const maxId = todosToRender.reduce((max, { id }) => {
       return (max < id) ? id : max;
     }, 0);
 
-    const newTodo: Todo = {
+    const newTodo: TodoForRender = {
       id: (maxId + 1),
       title: newTitle,
       completed: false,
       userId: +selectedUserId,
+      user: usersFromServer
+        .find((user: User) => user.id === +selectedUserId) || null,
     };
 
-    localTodos = localTodos.map(todo => ({ ...todo }));
-    localTodos.push(newTodo);
+    const updatedTodos = todosToRender.map(todo => ({ ...todo }));
 
-    setTodosToRender(prepareTodos());
+    updatedTodos.push(newTodo);
+
+    setTodosToRender(updatedTodos);
     setNewTitle('');
     setSelectedUserId('');
   };
@@ -60,7 +61,7 @@ export const App = () => {
     }
 
     if (selectedUserId && newTitle) {
-      todoCreator();
+      todoUpdater();
     }
   };
 
@@ -104,7 +105,7 @@ export const App = () => {
             >
               <option value="" disabled>Choose a user</option>
 
-              {localUsers.map(person => (
+              {usersFromServer.map(person => (
                 <option
                   value={person.id}
                   key={person.id}
