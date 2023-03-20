@@ -7,7 +7,11 @@ type Todos = {
 export const TodoList = ({ todos } : Todos) => (
   <ul>
     {todos.map(todo => (
-      <li data-id={todo.id} className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}>
+      <li
+        data-id={todo.id}
+        className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+        key={todo.id}
+      >
         <TodoInfo todo={todo} />
       </li>
     ))}

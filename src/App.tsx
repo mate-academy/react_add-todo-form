@@ -24,6 +24,7 @@ export const App: React.FC = () => {
   const [list, setList] = useState(todos);
   const [input, setInput] = useState('');
   const [userId, setUserId] = useState('');
+  const emptyString = '';
 
   const addTodo = (event: any) => {
     event.preventDefault();
@@ -35,7 +36,9 @@ export const App: React.FC = () => {
       user: getUser(+userId),
     };
 
-    setList((prevState) => [...prevState, newTodo]);
+    if (input !== emptyString && userId !== emptyString) {
+      setList((prevState) => [...prevState, newTodo]);
+    }
   };
 
   return (
@@ -48,11 +51,10 @@ export const App: React.FC = () => {
           <input
             type="text"
             data-cy="titleInput"
-            onChange={event => setInput(event.target.value)}
+            onChange={event => setInput(event.target.value.trim())}
           />
           <span
-            className="error"
-            style={{ display: input === '' ? 'inline' : 'none' }}
+            className={`error ${input && 'invisible'}`}
           >
             Please enter a title
           </span>
@@ -73,8 +75,7 @@ export const App: React.FC = () => {
           </select>
 
           <span
-            className="error"
-            style={{ display: userId === '' ? 'inline' : 'none' }}
+            className={`error ${userId && 'invisible'}`}
           >
             Please choose a user
           </span>
