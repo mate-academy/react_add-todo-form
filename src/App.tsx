@@ -31,11 +31,35 @@ export const App = () => {
   const [userId, addUserId] = useState(0);
   const [todos, addTodos] = useState(todosList);
 
-  const clear = () => {
+  const reset = () => {
     setTitle('');
     addUserId(0);
     setErrorTitle(false);
     setErrorUser(false);
+  };
+
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (userId && title.trim()) {
+      const newTodo = {
+        id: findMax(todos),
+        title,
+        completed: false,
+        userId,
+        user: getUser(userId),
+      };
+
+      addTodos([...todos, newTodo]);
+      reset();
+    }
+
+    if (!userId) {
+      setErrorUser(true);
+    }
+
+    if (!title.trim()) {
+      setErrorTitle(true);
+    }
   };
 
   return (
@@ -45,29 +69,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (userId && title.trim()) {
-            const newTodo = {
-              id: findMax(todos),
-              title,
-              completed: false,
-              userId,
-              user: getUser(userId),
-            };
-
-            addTodos([...todos, newTodo]);
-            clear();
-          }
-
-          if (!userId) {
-            setErrorUser(true);
-          }
-
-          if (!title.trim()) {
-            setErrorTitle(true);
-          }
-        }}
+        onSubmit={addTodo}
       >
         <div className="field">
           <label htmlFor="titleInput">
@@ -100,14 +102,24 @@ export const App = () => {
                 setErrorUser(false);
               }}
             >
-              <option value="0" selected disabled>Choose a user</option>
+              <option value="0" disabled>Choose a user</option>
 
               {usersFromServer.map((user) => (
-                <option value={user.id} key={user.id}>{user.name}</option>
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
-          {errorUser && <span className="error">Please choose a user</span>}
+          {errorUser
+           && (
+             <span className="error">
+               Please choose a user
+             </span>
+           )}
         </div>
 
         <button
