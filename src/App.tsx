@@ -20,7 +20,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState(0);
-  const [todosList, setTodosList] = useState(todos);
+  const [todoList, setTodoList] = useState(todos);
   const [hasTitleError, setTitleError] = useState(false);
   const [hasUserError, setUserError] = useState(false);
 
@@ -48,14 +48,14 @@ export const App: React.FC = () => {
 
     if (trimmedTitle && user) {
       const newTodo = {
-        id: Math.max(...todosList.map((todo) => todo.id)) + 1,
+        id: Math.max(...todoList.map((todo) => todo.id)) + 1,
         title: trimmedTitle,
         completed: false,
         userId: user,
         user: getUser(user),
       };
 
-      setTodosList([...todosList, newTodo]);
+      setTodoList([...todoList, newTodo]);
       setTitle('');
       setUser(0);
     }
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
