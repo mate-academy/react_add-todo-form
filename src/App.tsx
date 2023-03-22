@@ -1,25 +1,83 @@
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
+import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserIdValid, setIsUserIdValid] = useState(true);
+
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    setIsTitleValid(Boolean(title));
+    setIsUserIdValid(Boolean(userId));
+
+    if (title && userId) {
+      window.console.log('Data valid!');
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="todoTitle">
+            {'Title: '}
+            <input
+              type="text"
+              name="title"
+              id="todoTitle"
+              placeholder="Ener a title"
+              data-cy="titleInput"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </label>
+
+          {!isTitleValid && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label htmlFor="todoUser">
+            {'User: '}
+            <select
+              id="todoUser"
+              data-cy="userSelect"
+              value={userId}
+              onChange={(event) => setUserId(Number(event.target.value))}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
 
-          <span className="error">Please choose a user</span>
+            {!isUserIdValid && (
+              <span className="error">
+                Please choose a user
+              </span>
+            )}
+          </label>
         </div>
 
         <button type="submit" data-cy="submitButton">
