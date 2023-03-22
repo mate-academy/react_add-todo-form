@@ -14,11 +14,6 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-// const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
-
 export const App = () => {
   const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
