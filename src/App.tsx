@@ -5,13 +5,31 @@ import './App.scss';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+// const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
+//   ...todo,
+//   user: getUser(todo.userId),
+// }));
 
 export const App = () => {
   const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
   const [isTitle, setIsTitle] = useState(false);
   const [isUser, setIsUser] = useState(false);
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: getUser(todo.userId),
+    })),
+  );
 
   const handleInputChange = (event: Input) => {
     const { value } = event.target;
@@ -51,9 +69,10 @@ export const App = () => {
         title,
         completed: false,
         userId: +user,
+        user: getUser(+user),
       };
 
-      setTodos(prevTodos => [
+      setTodos((prevTodos: Todo[]): Todo[] => [
         ...prevTodos,
         todo,
       ]);
