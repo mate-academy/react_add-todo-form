@@ -14,17 +14,17 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App = () => {
   const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
   const [isTitle, setIsTitle] = useState(false);
   const [isUser, setIsUser] = useState(false);
-  const [todos, setTodos] = useState(
-    todosFromServer.map(todo => ({
-      ...todo,
-      user: getUser(todo.userId),
-    })),
-  );
+  const [todos, setTodos] = useState(todosWithUsers);
 
   const handleInputChange = (event: Input) => {
     const { value } = event.target;
