@@ -19,6 +19,10 @@ function getTodos(): Todo[] {
   });
 }
 
+function getNextId(todos: Todo[]): number {
+  return Math.max(...(todos.map(({ id }) => id))) + 1;
+}
+
 function getUserByName(fullName: string): User | null {
   return usersFromServer.find(user => user.name === fullName) || null;
 }
@@ -44,7 +48,7 @@ export const App = () => {
 
     setTodos(previous => {
       const newTask: Todo = {
-        id: Math.max(...(previous.map(({ id }) => id))) + 1,
+        id: getNextId(previous),
         completed: false,
         title,
         user: getUserByName(fullName),
@@ -72,7 +76,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={handleSubmit}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <input
             type="text"
