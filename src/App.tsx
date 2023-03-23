@@ -71,14 +71,11 @@ export const App = () => {
 
     const isEachFieldValid = validateFields();
 
-    if (!isEachFieldValid) {
-      return;
+    if (isEachFieldValid) {
+      addNewTodo();
+      setTitle('');
+      setUserId(0);
     }
-
-    addNewTodo();
-
-    setTitle('');
-    setUserId(0);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
