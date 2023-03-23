@@ -38,11 +38,15 @@ export const App = () => {
     if (!title) {
       setIsTitleValid(false);
       isFieldsValid = false;
+    } else {
+      setIsTitleValid(true);
     }
 
     if (!userId) {
       setIsUserIdValid(false);
       isFieldsValid = false;
+    } else {
+      setIsUserIdValid(true);
     }
 
     return isFieldsValid;
@@ -73,19 +77,21 @@ export const App = () => {
 
     if (isEachFieldValid) {
       addNewTodo();
+
       setTitle('');
       setUserId(0);
+      setIsFormSubmitted(false);
     }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleValid(true);
+    setIsFormSubmitted(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsUserIdValid(true);
+    setIsFormSubmitted(false);
   };
 
   return (
