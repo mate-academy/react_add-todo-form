@@ -32,6 +32,35 @@ export const App = () => {
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
+  const checkTitleValidity = (newTitle: string): boolean => {
+    const isDigit = (letter: string): boolean => (
+      '0123456789'.includes(letter)
+    );
+    const isEnglishOrRussianLetter = (letter: string): boolean => {
+      const charCode = letter.charCodeAt(0);
+
+      return (
+        (charCode >= 65 && charCode <= 90)
+        || (charCode >= 97 && charCode <= 122) // upper en
+        || (charCode >= 1040 && charCode <= 1103) // ru
+      );
+    };
+
+    for (let i = 0; i < newTitle.length; i += 1) {
+      const symbol = newTitle[i];
+
+      if (
+        !isDigit(symbol)
+        && !isEnglishOrRussianLetter(symbol)
+        && symbol !== ' '
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const validateFields = (): boolean => {
     let isFieldsValid = true;
 
@@ -85,13 +114,17 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setIsFormSubmitted(false);
+    const { value: newTitle } = event.target;
+
+    if (checkTitleValidity(newTitle)) {
+      setTitle(newTitle);
+      setIsTitleValid(true);
+    }
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsFormSubmitted(false);
+    setIsUserIdValid(true);
   };
 
   return (
