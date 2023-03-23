@@ -13,7 +13,6 @@ import { Todo } from './types/Todo';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -28,7 +27,9 @@ export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [hasTitle, setHasTitle] = useState(true);
   const [hasUser, setHasUser] = useState(true);
-  const addTodo = () => {
+  const addTodo = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
     const newUser = usersFromServer.find(
       user => user.name === inputUser,
     ) || null;
@@ -56,6 +57,10 @@ export const App: React.FC = () => {
     }
   };
 
+  const trimTitle = (title: string) => (
+    title[0] === ' ' ? title.trim() : title
+  );
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -63,11 +68,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          addTodo();
-        }}
+        onSubmit={addTodo}
       >
         <div className="field">
           <label>
@@ -79,7 +80,7 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               value={inputTitle}
               onChange={(event) => {
-                setInputTitle(event.target.value);
+                setInputTitle(trimTitle(event.target.value));
               }}
             />
           </label>
@@ -100,7 +101,12 @@ export const App: React.FC = () => {
             >
               <option value="" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.name}>{user.name}</option>
+                <option
+                  value={user.name}
+                  key={user.username}
+                >
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
