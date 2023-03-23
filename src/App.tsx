@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
 import './App.scss';
 
+import { TodoList } from './components/TodoList';
+
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+
 import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
+
+function getUserById(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -20,6 +36,16 @@ export const App = () => {
     if (title && userId) {
       window.console.log('Data valid!');
     }
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleValid(true);
+  };
+
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setIsUserIdValid(true);
   };
 
   return (
@@ -41,7 +67,7 @@ export const App = () => {
               placeholder="Ener a title"
               data-cy="titleInput"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -59,7 +85,7 @@ export const App = () => {
               id="todoUser"
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => setUserId(Number(event.target.value))}
+              onChange={handleUserIdChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -85,35 +111,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
