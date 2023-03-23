@@ -37,16 +37,16 @@ export const App: React.FC = () => {
       id: (visibleTodos.reduce(
         (acc, curr) => (acc.id > curr.id ? acc : curr),
       )).id + 1,
-      userId: newUser !== null ? newUser.id : null,
+      userId: newUser?.id || null,
       title: inputTitle,
       completed: false,
       user: newUser,
     };
 
-    setHasTitle(inputTitle !== '');
-    setHasUser(inputUser !== '');
+    setHasTitle(!!inputTitle);
+    setHasUser(!!inputUser);
 
-    if (inputTitle !== '' && inputUser !== '') {
+    if (!!inputTitle && !!inputUser) {
       setVisibleTodos(current => [
         ...current,
         newTodo,
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
               }}
             />
           </label>
-          {(hasTitle === false && inputTitle === '') && (
+          {(!hasTitle && !inputTitle) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {(hasUser === false && inputUser === '') && (
+          {(!hasUser && !inputUser) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
