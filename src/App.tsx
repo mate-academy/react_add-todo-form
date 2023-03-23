@@ -32,26 +32,23 @@ export const App = () => {
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  // const validateFields = () => {
-  //   let isFieldsValid = true;
+  const validateFields = (): boolean => {
+    let isFieldsValid = true;
 
-  //   if (!title) {
-  //     setTitle(false);
-  //     isFieldsValid = false;
-  //   }
-  // }
-
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setIsFormSubmitted(true);
-
-    setIsTitleValid(Boolean(title));
-    setIsUserIdValid(Boolean(userId));
-
-    if (!title || !userId) {
-      return;
+    if (!title) {
+      setIsTitleValid(false);
+      isFieldsValid = false;
     }
 
+    if (!userId) {
+      setIsUserIdValid(false);
+      isFieldsValid = false;
+    }
+
+    return isFieldsValid;
+  };
+
+  const addNewTodo = (): void => {
     const newTodo: Todo = {
       id: nextTodoId,
       userId,
@@ -66,6 +63,19 @@ export const App = () => {
     ]);
 
     nextTodoId += 1;
+  };
+
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setIsFormSubmitted(true);
+
+    const isEachFieldValid = validateFields();
+
+    if (!isEachFieldValid) {
+      return;
+    }
+
+    addNewTodo();
 
     setTitle('');
     setUserId(0);
