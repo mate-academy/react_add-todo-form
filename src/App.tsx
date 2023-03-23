@@ -15,27 +15,60 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-const todos: Todo[] = todosFromServer.map(todo => ({
+const todosInitial: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
+let nextTodoId = Math.max(...todosInitial.map(todo => todo.id)) + 1;
+
 export const App = () => {
+  const [todos, setTodos] = useState(todosInitial);
+
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isUserIdValid, setIsUserIdValid] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  // const validateFields = () => {
+  //   let isFieldsValid = true;
+
+  //   if (!title) {
+  //     setTitle(false);
+  //     isFieldsValid = false;
+  //   }
+  // }
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
+    setIsFormSubmitted(true);
 
     setIsTitleValid(Boolean(title));
     setIsUserIdValid(Boolean(userId));
 
-    if (title && userId) {
-      window.console.log('Data valid!');
+    if (!title || !userId) {
+      return;
     }
+
+    const newTodo: Todo = {
+      id: nextTodoId,
+      userId,
+      title,
+      completed: false,
+      user: getUserById(userId),
+    };
+
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      newTodo,
+    ]);
+
+    nextTodoId += 1;
+
+    setTitle('');
+    setUserId(0);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +104,7 @@ export const App = () => {
             />
           </label>
 
-          {!isTitleValid && (
+          {isFormSubmitted && !isTitleValid && (
             <span className="error">
               Please enter a title
             </span>
@@ -98,7 +131,7 @@ export const App = () => {
               ))}
             </select>
 
-            {!isUserIdValid && (
+            {isFormSubmitted && !isUserIdValid && (
               <span className="error">
                 Please choose a user
               </span>
