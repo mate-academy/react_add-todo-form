@@ -15,7 +15,11 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map((todo) => ({
+function getMaximalId(todoes: Todo[]) {
+  return Math.max(...todoes.map((todo) => todo.id)) + 1;
+}
+
+export const todoesList: Todo[] = [...todosFromServer].map((todo) => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -23,6 +27,7 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selected, setSelected] = useState<number>(0);
+  const [todoes, setNewTodo] = useState(todoesList);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -31,14 +36,34 @@ export const App = () => {
   const handleChangeSelected = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSelected(+event.target.value);
+    setSelected(Number(event.target.value));
+  };
+
+  const reset = () => {
+    setTitle('');
+    setSelected(0);
+  };
+
+  const addNewTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newTodo: Todo = {
+      id: getMaximalId(todoes),
+      title,
+      completed: false,
+      userId: selected,
+      user: getUser(selected),
+    };
+
+    setNewTodo([...todoes, newTodo]);
+
+    reset();
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form action="/api/users" method="POST" onSubmit={addNewTodo}>
         <div className="field">
           <input
             type="text"
@@ -59,10 +84,7 @@ export const App = () => {
               Choose a user
             </option>
             {usersFromServer.map((user) => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
@@ -76,7 +98,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todoes} />
     </div>
   );
 };
