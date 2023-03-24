@@ -1,9 +1,7 @@
 import './App.scss';
 import { useState } from 'react';
-
 import { User } from './types/User';
 import { Todo } from './types/Todo';
-
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -26,22 +24,28 @@ export const todoesList: Todo[] = [...todosFromServer].map((todo) => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selected, setSelected] = useState<number>(0);
+  const [userId, setUserId] = useState<number>(0);
   const [todoes, setNewTodo] = useState(todoesList);
+  const [isHaveTitle, setIsHaveTitle] = useState(false);
+  const [isHaveUserId, setIsHaveUserId] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setIsHaveTitle(false);
   };
 
   const handleChangeSelected = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSelected(Number(event.target.value));
+    setUserId(Number(event.target.value));
+    setIsHaveUserId(false);
   };
 
-  const reset = () => {
+  const resetState = () => {
     setTitle('');
-    setSelected(0);
+    setUserId(0);
+    setIsHaveTitle(false);
+    setIsHaveUserId(false);
   };
 
   const addNewTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -50,13 +54,23 @@ export const App = () => {
       id: getMaximalId(todoes),
       title,
       completed: false,
-      userId: selected,
-      user: getUser(selected),
+      userId,
+      user: getUser(userId),
     };
 
-    setNewTodo([...todoes, newTodo]);
+    if (title.length === 0) {
+      setIsHaveTitle(true);
+    }
 
-    reset();
+    if (userId < 1) {
+      setIsHaveUserId(true);
+    }
+
+    if (!isHaveTitle && userId > 0) {
+      setNewTodo([...todoes, newTodo]);
+
+      resetState();
+    }
   };
 
   return (
@@ -71,13 +85,13 @@ export const App = () => {
             value={title}
             onChange={handleChangeTitle}
           />
-          <span className="error">Please enter a title</span>
+          {isHaveTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
-            value={+selected}
+            value={Number(userId)}
             onChange={handleChangeSelected}
           >
             <option disabled value={0}>
@@ -90,7 +104,7 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {isHaveUserId && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
