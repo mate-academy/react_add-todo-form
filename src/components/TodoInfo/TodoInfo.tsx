@@ -6,7 +6,6 @@ type Props = {
   todo: Todo;
 };
 
-
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
     title,

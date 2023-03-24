@@ -1,14 +1,10 @@
-import React from "react";
-import "./App.scss";
-
-import usersFromServer from "./api/users";
-import todosFromServer from "./api/todos";
-import { TodoList } from "./components/TodoList";
-import { useState } from "react";
+import { useState } from 'react';
+import './App.scss';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 import { User } from './api/types/User';
 import { Todo } from './api/types/Todo';
-
-
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
@@ -21,17 +17,15 @@ const newUsers = todosFromServer.map((todo) => ({
   user: getUser(todo.userId),
 }));
 
-
-
 export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [list, setList] = useState(newUsers);
   const [errorUser, showErrorUser] = useState(false);
   const [errorTitle, showErrorTitle] = useState(false);
 
   const handleClear = () => {
-    setTitle("");
+    setTitle('');
     setSelectedUserId(0);
   };
 
@@ -49,13 +43,13 @@ export const App = () => {
     if (title.trim() && selectedUserId) {
       const newTodo: Todo = {
         id: Math.max(...list.map((todo) => todo.id)) + 1,
-        title: title,
+        title,
         completed: false,
         userId: selectedUserId,
         user: getUser(selectedUserId),
       };
-  
-      setList((ananas => [...ananas, newTodo]));
+
+      setList((ananas) => [...ananas, newTodo]);
       handleClear();
     }
   };
@@ -80,35 +74,35 @@ export const App = () => {
 
       <form action="/api/users" method="POST" onSubmit={formSubmit}>
         <div>
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            placeholder='Please enter a title'
-            onChange={handleTitle}
-          />
-          { errorTitle && (<span className="error">Please enter a title</span>)}
-        </div>
+          <div className="field">
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              placeholder="Please enter a title"
+              onChange={handleTitle}
+            />
+            {errorTitle && <span className="error">Please enter a title</span>}
+          </div>
 
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            onChange={handleUser}
-            value={selectedUserId}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map((user) => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+          <div className="field">
+            <select
+              data-cy="userSelect"
+              onChange={handleUser}
+              value={selectedUserId}
+            >
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {usersFromServer.map((user) => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
 
-          { errorUser && (<span className="error">Please choose a user</span>)}
-        </div>
+            {errorUser && <span className="error">Please choose a user</span>}
+          </div>
         </div>
 
         <button type="submit" data-cy="submitButton">
