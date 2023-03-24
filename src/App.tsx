@@ -29,18 +29,6 @@ export const App = () => {
   const [isHaveTitle, setIsHaveTitle] = useState(false);
   const [isHaveUserId, setIsHaveUserId] = useState(false);
 
-  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setIsHaveTitle(false);
-  };
-
-  const handleChangeSelected = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setUserId(Number(event.target.value));
-    setIsHaveUserId(false);
-  };
-
   const resetState = () => {
     setTitle('');
     setUserId(0);
@@ -66,7 +54,7 @@ export const App = () => {
       setIsHaveUserId(true);
     }
 
-    if (!isHaveTitle && userId > 0) {
+    if (title.length > 0 && userId > 0) {
       setNewTodo([...todoes, newTodo]);
 
       resetState();
@@ -77,14 +65,26 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={addNewTodo}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={addNewTodo}
+      >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={handleChangeTitle}
-          />
+          <label htmlFor="input">
+            {'User: '}
+            <input
+              id="title"
+              placeholder="Enter a title"
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setIsHaveTitle(false);
+              }}
+            />
+          </label>
           {isHaveTitle && <span className="error">Please enter a title</span>}
         </div>
 
@@ -92,22 +92,35 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={Number(userId)}
-            onChange={handleChangeSelected}
+            onChange={(event) => {
+              setUserId(Number(event.target.value));
+              setIsHaveUserId(false);
+            }}
           >
             <option disabled value={0}>
               Choose a user
             </option>
             {usersFromServer.map((user) => (
-              <option key={user.id} value={user.id}>
+              <option
+                key={user.id}
+                value={user.id}
+              >
                 {user.name}
               </option>
             ))}
           </select>
 
-          {isHaveUserId && <span className="error">Please choose a user</span>}
+          {isHaveUserId && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
