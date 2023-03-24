@@ -14,3 +14,43 @@ button {
 .error {
   color: red;
 }
+
+.App {
+  padding-top: 48px;
+  margin: 0 auto;
+  max-width: 1024px;
+  min-height: 100vh;
+}
+
+.title {
+  text-align: center;
+}
+
+.input {
+  margin-bottom: 4px;
+}
+
+.select {
+  margin-bottom: 4px;
+}
+
+.user-select {
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 16px;
+
+    &--last {
+      margin-bottom: 32px;
+    }
+  }
+}

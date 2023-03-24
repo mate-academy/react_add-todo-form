@@ -1,10 +1,10 @@
 .TodoInfo {
-  width: max-content;
+  font-size: 1.23rem;
+  width: 100%;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #eee;
 
   &__title {
     margin: 4px 0;

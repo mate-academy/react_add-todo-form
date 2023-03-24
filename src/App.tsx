@@ -6,6 +6,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
 import './App.scss';
+import 'bulma/css/bulma.min.css';
 
 const getUserById = (userId: number) => {
   return usersFromServer.find(({ id }) => id === userId) || null;
@@ -19,14 +20,9 @@ const initialTodos = todosFromServer.map(todo => (
 ));
 
 const isAppropriateChar = (ch: string) => {
-  const correctCharSet = [
-    'abcdefghijklmnopqrstuvwxyz',
-    'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
-    '0123456789',
-    ' ',
-  ];
+  const regex = new RegExp('^[a-z0-9]+$');
 
-  return correctCharSet.some(charSet => charSet.includes(ch.toLowerCase()));
+  return regex.test(ch);
 };
 
 export const App = () => {
@@ -34,6 +30,15 @@ export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
   const [shouldShowError, setShouldShowError] = useState(false);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const { length } = value;
+
+    if (length === 0 || isAppropriateChar(value[length - 1])) {
+      setTodoTitle(value);
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,32 +67,25 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title is-2">
+        Add todo form
+      </h1>
 
       <form
         action="/api/users"
         method="POST"
+        className="form"
         onSubmit={handleSubmit}
       >
-        <div className="field">
-          <label>
-            {'Title: '}
-
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={todoTitle}
-              onChange={(event) => {
-                const { value } = event.target;
-                const { length } = value;
-
-                if (length === 0 || isAppropriateChar(value[length - 1])) {
-                  setTodoTitle(value);
-                }
-              }}
-            />
-          </label>
+        <div className="form__field">
+          <input
+            type="text"
+            className="input is-medium"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={todoTitle}
+            onChange={handleTitleChange}
+          />
 
           {
             shouldShowError
@@ -100,11 +98,10 @@ export const App = () => {
           }
         </div>
 
-        <div className="field">
-          <label>
-            {'User: '}
-
+        <div className="form__field form__field--last">
+          <div className="select is-medium">
             <select
+              className="user-select"
               data-cy="userSelect"
               value={selectedUserId}
               onChange={(event) => {
@@ -128,7 +125,7 @@ export const App = () => {
                 );
               })}
             </select>
-          </label>
+          </div>
 
           {
             shouldShowError
@@ -141,7 +138,11 @@ export const App = () => {
           }
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          className="button is-info is-medium"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
