@@ -20,7 +20,7 @@ const initialTodos = todosFromServer.map(todo => (
 ));
 
 const isAppropriateChar = (ch: string) => {
-  const regex = new RegExp('^[a-z0-9]+$');
+  const regex = new RegExp('^[a-zA-Z0-9 _]+$');
 
   return regex.test(ch);
 };
