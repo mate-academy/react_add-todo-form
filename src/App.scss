@@ -6,11 +6,6 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
-  cursor: pointer;
-}
-
 .error {
   color: red;
 }
@@ -36,4 +31,9 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+select,
+input {
+  width: 50% !important;
 }

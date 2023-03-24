@@ -1,4 +1,6 @@
 import './App.scss';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
@@ -61,68 +63,57 @@ export const App = () => {
     }
   };
 
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsHaveTitle(false);
+  };
+
+  const handleChangeSelected = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(Number(event.target.value));
+    setIsHaveUserId(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={addNewTodo}
-      >
+      <form action="/api/users" method="POST" onSubmit={addNewTodo}>
         <div className="field">
-          <label htmlFor="input">
-            {'User: '}
-            <input
-              id="title"
-              placeholder="Enter a title"
-              type="text"
-              data-cy="titleInput"
-              value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setIsHaveTitle(false);
-              }}
-            />
-          </label>
+          <Form.Control
+            id="title"
+            placeholder="Enter a title"
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            onChange={handleChangeInput}
+          />
           {isHaveTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select
+          <Form.Select
             data-cy="userSelect"
             value={Number(userId)}
-            onChange={(event) => {
-              setUserId(Number(event.target.value));
-              setIsHaveUserId(false);
-            }}
+            onChange={handleChangeSelected}
           >
             <option disabled value={0}>
               Choose a user
             </option>
             {usersFromServer.map((user) => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
-          </select>
+          </Form.Select>
 
-          {isHaveUserId && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
+          {isHaveUserId && <span className="error">Please choose a user</span>}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
+        <Button variant="outline-success" type="submit" data-cy="submitButton">
           Add
-        </button>
+        </Button>
       </form>
 
       <TodoList todos={todoes} />
