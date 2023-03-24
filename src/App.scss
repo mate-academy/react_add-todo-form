@@ -1,9 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: 'Libre Baskerville', serif;
+}
+
+#root {
+  width: max-content;
+  margin: 40px auto;
+  background-color: antiquewhite;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+input, select {
+  box-sizing: border-box;
+  padding: 0 0 0 20px;
+  margin-bottom: 10px;
+  height: 40px;
+  width: 100%;
+  border-radius: 20px;
+  border: 2px #FF8C00 solid;
+  background-color: #20B2AA;
+  color: #FF8C00;
+  font-family: 'Libre Baskerville', serif;
+  text-decoration: none;
+  text-shadow: 1px 0 0 #000;
+  transition: 0.3s;
+  outline: none;
+  &:focus {
+    background-color: #FF8C00;
+    color: #20B2AA;
+    border: 2px #20B2AA solid;
+  }
+}
+
+button {
+  border: 2px solid currentColor;
+  height: 100px;
+  width: 120px;
+  border-radius: 30px;
+  margin-left: 20px;
+  color: #FF8C00;
+  text-shadow: 1px 0 0 #000;
+  font-size: 40px;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  transition: 0.2s transform ease-in-out;
+  will-change: transform;
+  z-index: 0;
+  background-color: #20B2AA;
+}
+button::after {
+  background-color: #FF8C00;
+  border-radius: 30px;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-100%, 0) rotate(10deg);
+  transform-origin: top left;
+  transition: 0.2s transform ease-out;
+  will-change: transform;
+  z-index: -1;
+}
+button:hover::after {
+  transform: translate(0, 0);
+}
+button:hover {
+  border: 2px solid transparent;
+  color: #20B2AA;
+  transform: scale(1.05);
+  will-change: transform;
 }
 
 label,
@@ -13,6 +94,8 @@ button {
 
 .error {
   color: red;
+  font-size: 10px;
+  font-style: italic;
 }
 
 .TodoInfo {
