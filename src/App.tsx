@@ -28,9 +28,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [isTitleValid, setIsTitleValid] = useState(false);
-  const [isUserIdValid, setIsUserIdValid] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isTitleErrorShown, setIsTitleErrorShown] = useState(false);
+  const [isUserIdErrorShown, setIsUserIdErrorShown] = useState(false);
 
   const checkTitleValidity = (newTitle: string): boolean => {
     const isDigit = (letter: string): boolean => (
@@ -65,17 +64,13 @@ export const App = () => {
     let isFieldsValid = true;
 
     if (!title) {
-      setIsTitleValid(false);
       isFieldsValid = false;
-    } else {
-      setIsTitleValid(true);
+      setIsTitleErrorShown(true);
     }
 
     if (!userId) {
-      setIsUserIdValid(false);
       isFieldsValid = false;
-    } else {
-      setIsUserIdValid(true);
+      setIsUserIdErrorShown(true);
     }
 
     return isFieldsValid;
@@ -100,7 +95,6 @@ export const App = () => {
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    setIsFormSubmitted(true);
 
     const isEachFieldValid = validateFields();
 
@@ -109,7 +103,6 @@ export const App = () => {
 
       setTitle('');
       setUserId(0);
-      setIsFormSubmitted(false);
     }
   };
 
@@ -118,13 +111,13 @@ export const App = () => {
 
     if (checkTitleValidity(newTitle)) {
       setTitle(newTitle);
-      setIsTitleValid(true);
+      setIsTitleErrorShown(false);
     }
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsUserIdValid(true);
+    setIsUserIdErrorShown(false);
   };
 
   return (
@@ -150,7 +143,7 @@ export const App = () => {
             />
           </label>
 
-          {isFormSubmitted && !isTitleValid && (
+          {isTitleErrorShown && (
             <span className="error">
               Please enter a title
             </span>
@@ -177,7 +170,7 @@ export const App = () => {
               ))}
             </select>
 
-            {isFormSubmitted && !isUserIdValid && (
+            {isUserIdErrorShown && (
               <span className="error">
                 Please choose a user
               </span>
