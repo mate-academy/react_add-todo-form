@@ -1,22 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
-
-interface Users {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-}
-
-interface Lists {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: Users | undefined,
-}
+import { UserInfo } from '../UserInfo';
+import { Todo } from '../../types/Todo';
 
 type Props = {
-  todo: Lists,
+  todo: Todo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -39,10 +27,8 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      {userId !== undefined && (
-        <a className="UserInfo" href={userId.email}>
-          {userId.name}
-        </a>
+      {userId !== null && (
+        <UserInfo users={userId} />
       )}
     </article>
   );

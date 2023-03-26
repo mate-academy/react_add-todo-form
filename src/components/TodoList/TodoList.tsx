@@ -1,21 +1,9 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-
-interface Users {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-}
-interface Lists {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: Users | undefined,
-}
+import { Todo } from '../../types/Todo';
 
 type Props = {
-  todolist: Lists[],
+  todolist: Todo[],
 };
 
 export const TodoList: React.FC<Props> = ({ todolist }) => {

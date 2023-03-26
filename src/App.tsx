@@ -4,6 +4,13 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find((user) => user.id === userId);
+
+  return foundUser || null;
+}
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -13,11 +20,9 @@ export const App: React.FC = () => {
   const [userError, setUserError] = useState(false);
 
   const toDoData = todolist.map(todo => {
-    const getUser = usersFromServer.find(users => users.id === todo.userId);
-
     return {
       ...todo,
-      userId: getUser,
+      userId: getUser(todo.userId),
     };
   });
 
@@ -34,7 +39,7 @@ export const App: React.FC = () => {
             setTodolist([
               ...todolist,
               {
-                id: todolist.length,
+                id: Math.max(...todolist.map(todo => todo.id)) + 1,
                 title: title.toLowerCase(),
                 completed: false,
                 userId: Number(user),
