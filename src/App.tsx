@@ -1,25 +1,84 @@
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
-export const App = () => {
+export const App: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('0');
+  const [todolist, setTodolist] = useState(todosFromServer);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
+  const toDoData = todolist.map(todo => {
+    const getUser = usersFromServer.find(users => users.id === todo.userId);
+
+    return {
+      ...todo,
+      userId: getUser,
+    };
+  });
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          setTitleError(!title.trim());
+          setUserError(user === '0');
+          if (title.trim() !== '' && user !== '0') {
+            setTodolist([
+              ...todolist,
+              {
+                id: todolist.length,
+                title: title.toLowerCase(),
+                completed: false,
+                userId: Number(user),
+              },
+            ]);
+            setTitle('');
+            setUser('0');
+          }
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            placeholder="Enter Title"
+            value={title}
+            type="text"
+            data-cy="titleInput"
+            onChange={(element) => {
+              const validateTitle = element.target.value
+                .split('').filter(char => {
+                  return char.match(/^[A-Za-z]*$/) || char.match(/\s/);
+                });
+
+              setTitle(validateTitle.join(''));
+            }}
+          />
+          {titleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <select
+            value={user}
+            data-cy="userSelect"
+            onChange={(element) => setUser(element.target.value)}
+          >
             <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(users => (
+              <option value={users.id}>{users.name}</option>
+            ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {userError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -27,35 +86,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todolist={toDoData} />
     </div>
   );
 };
