@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import './App.scss';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import usersFromServer from './api/users';
 import { todoList, getTodoId, getUser } from './helpers/helpers';
 import { TodoList } from './components/TodoList';
-
-import './App.scss';
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
