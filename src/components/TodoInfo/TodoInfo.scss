@@ -1,0 +1,39 @@
+@import "../../styles/variables";
+
+.TodoInfo {
+  width: max-content;
+  padding: 15px 35px;
+  margin: 0 35px 25px;
+  background-color: $colorPrimaryYellow;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    border-left: 20px solid $colorPrimaryDarkViolet;
+    border-top: 20px solid $colorPrimaryYellow;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    border-left: 20px solid $colorPrimaryYellow;
+    border-top: 20px solid $colorPrimaryDarkViolet;
+  }
+
+  &__title {
+    margin: 10px 0;
+    font-size: 22px;
+    color: $colorPrimaryRed;
+  }
+
+  &--completed &__title {
+    color: $colorFont;
+  }
+}
