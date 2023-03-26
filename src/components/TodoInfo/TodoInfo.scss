@@ -1,0 +1,12 @@
+.TodoInfo {
+  padding: 10px;
+
+  &__title {
+    font-size: inherit;
+    color: #eb0000;
+  }
+
+  &--completed &__title {
+    color: #198754;
+  }
+}
