@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
-
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find((user) => user.id === userId);
-
-  return foundUser || null;
-}
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -19,51 +12,45 @@ export const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const toDoData = todolist.map(todo => {
-    return {
-      ...todo,
-      userId: getUser(todo.userId),
-    };
-  });
+  const handleTitleChange = (value: string) => {
+    const validateTitle = value.split('').filter(char => {
+      return char.match(/^[A-Za-z]*$/) || char.match(/\s/);
+    });
+
+    setTitle(validateTitle.join(''));
+  };
+
+  const handleOnSubmit = (eventsubmit: FormEvent) => {
+    eventsubmit.preventDefault();
+    setTitleError(!title.trim());
+    setUserError(user === '0');
+    if (title.trim() !== '' && user !== '0') {
+      setTodolist([
+        ...todolist,
+        {
+          id: Math.max(...todolist.map(todo => todo.id)) + 1,
+          title: title.toLowerCase(),
+          completed: false,
+          userId: Number(user),
+        },
+      ]);
+      setTitle('');
+      setUser('0');
+    }
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setTitleError(!title.trim());
-          setUserError(user === '0');
-          if (title.trim() !== '' && user !== '0') {
-            setTodolist([
-              ...todolist,
-              {
-                id: Math.max(...todolist.map(todo => todo.id)) + 1,
-                title: title.toLowerCase(),
-                completed: false,
-                userId: Number(user),
-              },
-            ]);
-            setTitle('');
-            setUser('0');
-          }
-        }}
-      >
+      <form onSubmit={(eventsubmit) => handleOnSubmit(eventsubmit)}>
         <div className="field">
           <input
             placeholder="Enter Title"
             value={title}
             type="text"
             data-cy="titleInput"
-            onChange={(element) => {
-              const validateTitle = element.target.value
-                .split('').filter(char => {
-                  return char.match(/^[A-Za-z]*$/) || char.match(/\s/);
-                });
-
-              setTitle(validateTitle.join(''));
-            }}
+            onChange={(element) => handleTitleChange(element.target.value)}
           />
           {titleError && (
             <span className="error">Please enter a title</span>
@@ -91,7 +78,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todolist={toDoData} />
+      <TodoList todolist={todolist} userlist={usersFromServer} />
     </div>
   );
 };

@@ -2,13 +2,16 @@ import React from 'react';
 import { User } from '../../types/User';
 
 type Props = {
-  users: User,
+  userid: number,
+  userD: User[],
 };
 
-export const UserInfo: React.FC<Props> = ({ users }) => {
+export const UserInfo: React.FC<Props> = ({ userid, userD }) => {
+  const foundUser = userD.find(userdata => userdata.id === userid);
+
   return (
-    <a className="UserInfo" href={`mailto:${users.email}`}>
-      {users.name}
+    <a className="UserInfo" href={`mailto:${foundUser ? foundUser.email : ''}`}>
+      {foundUser ? foundUser.name : ''}
     </a>
   );
 };
