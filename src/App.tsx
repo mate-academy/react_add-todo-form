@@ -67,7 +67,7 @@ export const App = () => {
       >
         <div className="field">
           <label>
-            {'Title: '}
+            Title:&nbsp;
             <input
               type="text"
               data-cy="titleInput"
@@ -82,7 +82,7 @@ export const App = () => {
 
         <div className="field">
           <label>
-            {'User: '}
+            User:&nbsp;
             <select
               data-cy="userSelect"
               value={selectedUserId}

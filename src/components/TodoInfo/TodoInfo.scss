@@ -1,3 +1,8 @@
+:root {
+  --color-title: #f00;
+  --color-copleted-title: #080;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -9,10 +14,10 @@
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: var(--color-title);
   }
 
   &--completed &__title {
-    color: #080;
+    color: var(--color-copleted-title);
   }
 }
