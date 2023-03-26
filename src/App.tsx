@@ -23,21 +23,37 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [list, setList] = useState(todos);
   const [input, setInput] = useState('');
-  const [userId, setUserId] = useState('');
-  const emptyString = '';
+  const [userId, setUserId] = useState(0);
+  const [inputError, setInputError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
-  const addTodo = (event: any) => {
+  const clearFormFields = () => {
+    setInput('');
+    setUserId(0);
+  };
+
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newTodo : Todo = {
-      id: Math.floor(Math.random() * 100),
-      userId: +userId,
-      title: input,
-      completed: false,
-      user: getUser(+userId),
-    };
 
-    if (input !== emptyString && userId !== emptyString) {
+    if (!input.trim()) {
+      setInputError(true);
+    }
+
+    if (!userId) {
+      setUserError(true);
+    }
+
+    if (!userError && !inputError) {
+      const newTodo : Todo = {
+        id: Math.floor(Math.random() * 100),
+        userId: +userId,
+        title: input,
+        completed: false,
+        user: getUser(+userId),
+      };
+
       setList((prevState) => [...prevState, newTodo]);
+      clearFormFields();
     }
   };
 
@@ -45,16 +61,25 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={addTodo}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={addTodo}
+      >
         <div className="field">
           Title:
           <input
             type="text"
             data-cy="titleInput"
-            onChange={event => setInput(event.target.value.trim())}
+            value={input}
+            onChange={event => {
+              setInput(event.target.value.trim());
+              setInputError(false);
+            }}
           />
+
           <span
-            className={`error ${input && 'invisible'}`}
+            className={`error ${!inputError && 'invisible'}`}
           >
             Please enter a title
           </span>
@@ -65,7 +90,8 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             onChange={event => {
-              setUserId(event.target.value);
+              setUserId(+event.target.value);
+              setInputError(false);
             }}
           >
             <option value="0" selected disabled>Choose a user</option>
@@ -75,7 +101,7 @@ export const App: React.FC = () => {
           </select>
 
           <span
-            className={`error ${userId && 'invisible'}`}
+            className={`error ${!userError && 'invisible'}`}
           >
             Please choose a user
           </span>
