@@ -2,38 +2,47 @@ iframe {
   display: none;
 }
 
+* {
+  margin: 0;
+}
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 label,
 button {
+  margin-bottom: 8px;
   cursor: pointer;
 }
 
 .error {
   color: red;
+  margin-left: 8px;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
+  height: 100vh;
 
-  &--completed &__title {
-    color: #080;
-  }
+  background: linear-gradient(25deg, #006f83, #01323b);
+  background-size: 400% 400%;
+
+  animation: pulse-gradient 10s ease-in-out infinite;
 }
 
-.UserInfo {
-  font-style: italic;
+@keyframes pulse-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
