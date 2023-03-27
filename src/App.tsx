@@ -22,8 +22,15 @@ export const App: React.FC = () => {
 
   const handleOnSubmit = (eventsubmit: FormEvent) => {
     eventsubmit.preventDefault();
-    setTitleError(!title.trim());
-    setUserError(user === '0');
+
+    if (!title.trim()) {
+      setTitleError(true);
+    }
+
+    if (user === '0') {
+      setUserError(true);
+    }
+
     if (title.trim() !== '' && user !== '0') {
       setTodolist([
         ...todolist,
@@ -78,7 +85,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todolist={todolist} userlist={usersFromServer} />
+      <TodoList todoList={todolist} userList={usersFromServer} />
     </div>
   );
 };

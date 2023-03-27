@@ -6,10 +6,10 @@ import { User } from '../../types/User';
 
 type Props = {
   todo: Todo,
-  user: User[],
+  users: User[],
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
   const {
     id,
     title,
@@ -30,7 +30,7 @@ export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
       </h2>
 
       {userId && (
-        <UserInfo userid={userId} userD={user} />
+        <UserInfo userId={userId} users={users} />
       )}
     </article>
   );
