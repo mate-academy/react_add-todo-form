@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -24,20 +24,25 @@ export const App = () => {
   const [userId, setNewId] = useState(0);
   const [userSelected, isUserSelected] = useState(true);
   const [titleCreated, isTitleCreated] = useState(true);
+  const [todoList, updateTodoList] = useState(todosWithUser);
 
-  const maxTodoId = Math.max(...todosWithUser.map(todo => todo.id)) + 1;
+  const maxTodoId = Math.max(...todoList.map(todo => todo.id)) + 1;
 
   const addNewTodo = (todoId: number) => {
     const newUser = usersFromServer.find(user => user.id === todoId);
 
     if (newUser && title) {
-      todosWithUser.push({
-        id: maxTodoId,
-        userId: todoId,
-        title,
-        completed: false,
-        user: newUser,
-      });
+      updateTodoList(current => (
+        [...current,
+          {
+            id: maxTodoId,
+            userId: todoId,
+            title,
+            completed: false,
+            user: newUser,
+          },
+        ]
+      ));
 
       setNewTitle('');
       setNewId(0);
@@ -52,6 +57,21 @@ export const App = () => {
     }
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addNewTodo(userId);
+  };
+
+  const selectTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+    isTitleCreated(true);
+  };
+
+  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNewId(+event.target.value);
+    isUserSelected(true);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -59,10 +79,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addNewTodo(userId);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="newTitle">
@@ -73,10 +90,7 @@ export const App = () => {
               id="newTitle"
               value={title}
               placeholder="Enter a title"
-              onChange={(event) => {
-                setNewTitle(event.target.value);
-                isTitleCreated(true);
-              }}
+              onChange={selectTitle}
             />
           </label>
           {!titleCreated && (
@@ -91,10 +105,7 @@ export const App = () => {
               data-cy="userSelect"
               value={userId}
               id="newUser"
-              onChange={(event) => {
-                setNewId(+event.target.value);
-                isUserSelected(true);
-              }}
+              onChange={selectUser}
             >
               <option value="0" disabled> Choose a user </option>
               {usersFromServer.map((user) => (
@@ -113,7 +124,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todosWithUser} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
