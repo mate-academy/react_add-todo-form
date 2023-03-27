@@ -7,19 +7,4 @@
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  position: relative;
-
-  &::after {
-    content: "";
-    position: absolute;
-    margin-left: 35px;
-    width: 80%;
-    bottom: 36px;
-    height: 9px;
-    display: block;
-    background-color: $colorPrimaryBlue;
-    rotate: 180deg;
-    clip-path: polygon(0 0, 0 100%, 10% 100%,
-    calc(10% + 6px) 2px, 100% 2px, 100% 0);
-  }
 }
