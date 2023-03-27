@@ -1,8 +1,6 @@
 import { mount } from '@cypress/react';
 import { TodoInfo } from './TodoInfo';
 
-import usersFromServer from './api/users';
-
 describe('TodoInfo', () => {
   it('should have a correct title', () => {
     const user1 = {
