@@ -11,8 +11,8 @@ import { TodoList } from './components/TodoList';
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasUserError, setUserError] = useState(false);
   const [todos, setTodos] = useState(todoList);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
         user: getUser(userId),
       };
 
-      setTodos([...todoList, newTodo]);
+      setTodos((prevTodoList) => [...prevTodoList, newTodo]);
       clearStates();
     }
 
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
           <Form.Label>
             Title:
 
-            {titleError && (
+            {hasTitleError && (
               <span className="error"> Please enter a title</span>
             )}
 
@@ -90,7 +90,7 @@ export const App: React.FC = () => {
           <Form.Label>
             User:
 
-            {userError && (
+            {hasUserError && (
               <span className="error"> Please choose a user</span>
             )}
 
