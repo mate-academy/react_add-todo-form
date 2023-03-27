@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
 label,
@@ -11,29 +11,47 @@ button {
   cursor: pointer;
 }
 
+.title {
+  color: #333;
+  text-align: center;
+}
+
 .error {
+  font-size: 16px;
+  padding-left: 10px;
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
+.field {
+  font-size: 18px;
+  font-style: italic;
+  padding-bottom: 10px;
 
-  &--completed &__title {
-    color: #080;
+  &__input {
+    font-family: inherit;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
 }
 
-.UserInfo {
-  font-style: italic;
+.add-button {
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0062cc;
+  }
 }
