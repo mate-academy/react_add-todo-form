@@ -12,28 +12,22 @@ button {
 }
 
 .error {
-  color: red;
+  display: block;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+.form {
+  width: 25vw;
 }
 
-.UserInfo {
-  font-style: italic;
+.select-custom {
+  width: 100%;
+}
+
+.form__button {
+  width: 100px;
+}
+
+.select,
+.width-100 {
+  width: 100%;
 }
