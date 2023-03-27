@@ -43,7 +43,7 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (!userError && !inputError) {
+    if (input.trim() && userId) {
       const newTodo : Todo = {
         id: Math.floor(Math.random() * 100),
         userId: +userId,
@@ -88,10 +88,11 @@ export const App: React.FC = () => {
         <div className="field">
           User:
           <select
+            value={userId}
             data-cy="userSelect"
             onChange={event => {
               setUserId(+event.target.value);
-              setInputError(false);
+              setUserError(false);
             }}
           >
             <option value="0" selected disabled>Choose a user</option>
