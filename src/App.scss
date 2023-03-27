@@ -11,6 +11,15 @@ html {
   font-family: "Courier New", Courier, monospace;
 }
 
+body {
+  background-image: url(img/ms95.jpg);
+  background-size: cover;
+}
+
+.window {
+  margin: 40px 200px;
+}
+
 label,
 button {
   cursor: pointer;
