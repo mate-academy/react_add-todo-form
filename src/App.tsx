@@ -7,21 +7,15 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId:number): User | null {
-  return usersFromServer
-    .find(user => userId === user.id) || null;
-}
+const getUser = (userId: number): User | null => (
+  usersFromServer.find(user => userId === user.id) || null
+);
 
-function getValidId(todos: Todo[]): number {
+const getValidId = (todos: Todo[]): number => {
   const existingIds = todos.map(todo => todo.id);
-  let newId = 1;
 
-  while (existingIds.includes(newId)) {
-    newId += 1;
-  }
-
-  return newId;
-}
+  return Math.max(...existingIds) + 1;
+};
 
 const todosWithUser: Todo[] = todosFromServer
   .map(todo => ({
@@ -29,21 +23,27 @@ const todosWithUser: Todo[] = todosFromServer
     user: getUser(todo.userId),
   }));
 
-/* eslint-disable no-console */
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
+  const [hasNoTitleError, setHasNoTitleError] = useState(false);
+  const [userNotSelectedError, setUserNotSelectedError] = useState(false);
 
-  console.log('here is the todos:', todos);
-  console.log('here is the title:', title);
-  console.log('here is the user:', selectedUser);
+  const clearForm = () => {
+    setTitle('');
+    setSelectedUser(0);
+  };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserNotSelectedError(false);
+
     setSelectedUser(+event.currentTarget.value);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHasNoTitleError(false);
+
     const newTitle = event.currentTarget.value;
 
     setTitle(newTitle);
@@ -52,20 +52,32 @@ export const App = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!title) {
+      setHasNoTitleError(true);
+    }
+
+    if (!selectedUser) {
+      setUserNotSelectedError(true);
+    }
+
     const newtitle = title.trim();
 
-    const newTodo = {
-      id: getValidId(todos),
-      userId: selectedUser,
-      title: newtitle,
-      completed: false,
-      user: getUser(selectedUser),
-    };
+    if (title && selectedUser) {
+      const newTodo = {
+        id: getValidId(todos),
+        userId: selectedUser,
+        title: newtitle,
+        completed: false,
+        user: getUser(selectedUser),
+      };
 
-    setTodos((prevTodos) => ([
-      ...prevTodos,
-      newTodo,
-    ]));
+      setTodos((prevTodos) => ([
+        ...prevTodos,
+        newTodo,
+      ]));
+
+      clearForm();
+    }
   };
 
   return (
@@ -90,9 +102,11 @@ export const App = () => {
             />
           </label>
 
-          <span className="error">
-            Please enter a title
-          </span>
+          {hasNoTitleError && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -119,9 +133,11 @@ export const App = () => {
             </select>
           </label>
 
-          <span className="error">
-            Please choose a user
-          </span>
+          {userNotSelectedError && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button
