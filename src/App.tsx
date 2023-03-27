@@ -59,14 +59,16 @@ export const App = () => {
     resetForm();
   };
 
+  const validTitle = newTitle.replace(/[^a-zA-Z ]/g, '');
+
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (newTitle && selectedUserId) {
-      addNewTodo(newTitle, selectedUserId);
+    if (validTitle && selectedUserId) {
+      addNewTodo(validTitle, selectedUserId);
     }
 
-    if (!newTitle) {
+    if (!validTitle) {
       setHasTitleError(true);
     }
 
@@ -91,7 +93,7 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={newTitle}
+              value={validTitle}
               onChange={handleChangeTitle}
             />
             {hasTitleError && (
