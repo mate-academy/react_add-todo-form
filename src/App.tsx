@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -40,6 +41,9 @@ export const App = () => {
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setErrorUser(!userId);
+    setErrorTitle(!title);
+
     if (userId && title.trim()) {
       const newTodo = {
         id: findMax(todos),
@@ -52,14 +56,18 @@ export const App = () => {
       addTodos([...todos, newTodo]);
       reset();
     }
+  };
 
-    if (!userId) {
-      setErrorUser(true);
-    }
+  const handleAddTitle = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTitle(event.target.value);
+    setErrorTitle(false);
+  };
 
-    if (!title.trim()) {
-      setErrorTitle(true);
-    }
+  const handleAddUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    addUserId(+event.target.value);
+    setErrorUser(false);
   };
 
   return (
@@ -80,14 +88,15 @@ export const App = () => {
               id="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setErrorTitle(false);
-              }}
+              onChange={handleAddTitle}
             />
           </label>
 
-          {errorTitle && <span className="error">Please enter a title</span>}
+          {errorTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -97,10 +106,7 @@ export const App = () => {
               data-cy="userSelect"
               id="userSelect"
               value={userId}
-              onChange={(event) => {
-                addUserId(+event.target.value);
-                setErrorUser(false);
-              }}
+              onChange={handleAddUser}
             >
               <option value="0" disabled>Choose a user</option>
 
@@ -122,12 +128,13 @@ export const App = () => {
            )}
         </div>
 
-        <button
+        <Button
           type="submit"
           data-cy="submitButton"
+          variant="success"
         >
           Add
-        </button>
+        </Button>
       </form>
 
       <TodoList todos={todos} />
