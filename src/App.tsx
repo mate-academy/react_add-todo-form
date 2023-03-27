@@ -46,7 +46,9 @@ export const App = () => {
 
     const newTitle = event.currentTarget.value;
 
-    setTitle(newTitle);
+    const filteredTitle = newTitle.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
+
+    setTitle(filteredTitle);
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
