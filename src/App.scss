@@ -22,6 +22,7 @@ button {
   border: 1px solid #000;
   border-radius: 8px;
   background-color: antiquewhite;
+  list-style-type: none;
 
   &__title {
     margin: 4px 0;
@@ -36,4 +37,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.invisible {
+  display: none;
 }
