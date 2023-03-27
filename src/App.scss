@@ -11,21 +11,20 @@ html {
 }
 
 .TodoInfo {
-  width: max-content;
+  width: 100%;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgba(255, 136, 0, 0.12);
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
   }
 
-  &--completed &__title {
-    color: #080;
+  &--completed {
+    background-color: #c7fa9d5b;
   }
 }
 
@@ -33,7 +32,15 @@ html {
   font-style: italic;
 }
 
-select,
-input {
-  width: 50% !important;
+.App {
+  margin: 20px auto;
+  width: 50%;
+
+  &__title {
+    text-align: center;
+  }
+}
+
+.field {
+  margin-bottom: 20px;
 }

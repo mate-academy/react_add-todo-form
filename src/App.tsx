@@ -77,7 +77,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo form</h1>
 
       <form action="/api/users" method="POST" onSubmit={addNewTodo}>
         <div className="field">
