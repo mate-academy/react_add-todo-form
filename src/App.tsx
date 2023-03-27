@@ -41,7 +41,6 @@ export const App: React.FC = () => {
     event.preventDefault();
     const trimmedTitle = title.trim();
 
-    // check if title only consist of eng and ua letters, numbers and spaces
     const isValid = trimmedTitle.replace(
       /[ a-z0-9\u0400-\u04FF]/gi, '',
     ).length === 0;
@@ -96,29 +95,36 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={title}
-            onChange={handleTitleChange}
-          />
-          {showTitleError
-            && <span className="error">Please enter a title</span>}
+          <label htmlFor="titleInput">
+            <p>Title</p>
+            <input
+              type="text"
+              id="titleInput"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={handleTitleChange}
+            />
+            {showTitleError
+              && <span className="error">Please enter a title</span>}
+          </label>
         </div>
 
         <div className="field">
-          <select
-            name="userSelection"
-            data-cy="userSelect"
-            value={selectedUserId}
-            onChange={handleUserChange}
-          >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(({ name, id }) => (
-              <option key={id} value={id}>{name}</option>
-            ))}
-          </select>
+          <label htmlFor="userSelection">
+            <p>User</p>
+            <select
+              name="userSelection"
+              data-cy="userSelect"
+              value={selectedUserId}
+              onChange={handleUserChange}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(({ name, id }) => (
+                <option key={id} value={id}>{name}</option>
+              ))}
+            </select>
+          </label>
 
           {showUserError
             && <span className="error">Please choose a user</span>}
