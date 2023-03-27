@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
+
 import './App.scss';
+import 'bulma/css/bulma.css';
 
 import { TodoList } from './components/TodoList';
 
@@ -30,35 +33,6 @@ export const App = () => {
 
   const [isTitleErrorShown, setIsTitleErrorShown] = useState(false);
   const [isUserIdErrorShown, setIsUserIdErrorShown] = useState(false);
-
-  const checkTitleValidity = (newTitle: string): boolean => {
-    const isDigit = (letter: string): boolean => (
-      '0123456789'.includes(letter)
-    );
-    const isEnglishOrRussianLetter = (letter: string): boolean => {
-      const charCode = letter.charCodeAt(0);
-
-      return (
-        (charCode >= 65 && charCode <= 90)
-        || (charCode >= 97 && charCode <= 122) // upper en
-        || (charCode >= 1040 && charCode <= 1103) // ru
-      );
-    };
-
-    for (let i = 0; i < newTitle.length; i += 1) {
-      const symbol = newTitle[i];
-
-      if (
-        !isDigit(symbol)
-        && !isEnglishOrRussianLetter(symbol)
-        && symbol !== ' '
-      ) {
-        return false;
-      }
-    }
-
-    return true;
-  };
 
   const validateFields = (): boolean => {
     let isFieldsValid = true;
@@ -107,12 +81,10 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: newTitle } = event.target;
+    const { value: newString } = event.target;
 
-    if (checkTitleValidity(newTitle)) {
-      setTitle(newTitle);
-      setIsTitleErrorShown(false);
-    }
+    setTitle(newString.replace(/[^0-9a-zа-яіїєґ\s]/gi, ''));
+    setIsTitleErrorShown(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -122,68 +94,100 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <div className="container">
+        <h1 className="title">Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-        <div className="field">
-          <label htmlFor="todoTitle">
-            {'Title: '}
-            <input
-              type="text"
-              name="title"
-              id="todoTitle"
-              placeholder="Ener a title"
-              data-cy="titleInput"
-              value={title}
-              onChange={handleTitleChange}
-            />
-          </label>
-
-          {isTitleErrorShown && (
-            <span className="error">
-              Please enter a title
-            </span>
-          )}
-        </div>
-
-        <div className="field">
-          <label htmlFor="todoUser">
-            {'User: '}
-            <select
-              id="todoUser"
-              data-cy="userSelect"
-              value={userId}
-              onChange={handleUserIdChange}
-            >
-              <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option
-                  value={user.id}
-                  key={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-
-            {isUserIdErrorShown && (
-              <span className="error">
-                Please choose a user
-              </span>
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <div className="field">
+            <div className="control">
+              <label
+                htmlFor="todoTitle"
+                className="label"
+              >
+                {'Title: '}
+                <input
+                  type="text"
+                  name="title"
+                  className={classNames(
+                    'input',
+                    {
+                      'is-danger': isTitleErrorShown,
+                    },
+                  )}
+                  id="todoTitle"
+                  placeholder="Enter a title"
+                  data-cy="titleInput"
+                  value={title}
+                  onChange={handleTitleChange}
+                />
+              </label>
+            </div>
+            {isTitleErrorShown && (
+              <p className="help is-danger error">
+                Please enter a title
+              </p>
             )}
-          </label>
-        </div>
+          </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <div className="field">
+            <label
+              htmlFor="todoUser"
+              className="label"
+            >
+              {'User: '}
+            </label>
+            <div className="control">
+              <div className={classNames(
+                'select',
+                {
+                  'is-danger': isUserIdErrorShown,
+                },
+              )}
+              >
+                <select
+                  id="todoUser"
+                  data-cy="userSelect"
+                  value={userId}
+                  onChange={handleUserIdChange}
+                >
+                  <option value="0" disabled>Choose a user</option>
+                  {usersFromServer.map(user => (
+                    <option
+                      value={user.id}
+                      key={user.id}
+                    >
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {isUserIdErrorShown && (
+              <p className="help is-danger error">
+                Please choose a user
+              </p>
+            )}
+          </div>
 
-      <TodoList todos={todos} />
+          <div className="field">
+            <button
+              type="submit"
+              data-cy="submitButton"
+              className="button is-primary"
+            >
+              Add
+            </button>
+          </div>
+
+          <div className="is-divider" />
+        </form>
+
+        <TodoList todos={todos} />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 .TodoInfo {
-  width: max-content;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
@@ -8,7 +7,7 @@
 
   &__title {
     margin: 4px 0;
-    font-size: inherit;
+    font-size: 28px;
     color: #f00;
   }
 
