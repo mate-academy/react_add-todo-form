@@ -1,9 +1,14 @@
+@font-face {
+  font-family: "ms-sans-ser";
+  src: url(./fonts/ms-sans-ser-bold.ttf);
+}
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Courier New", Courier, monospace;
 }
 
 label,
@@ -12,6 +17,7 @@ button {
 }
 
 .error {
+  display: block;
   color: red;
 }
 
