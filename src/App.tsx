@@ -1,6 +1,7 @@
 import './App.scss';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+
 import { useState } from 'react';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
@@ -15,7 +16,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-function getMaximalId(todoes: Todo[]) {
+function getMaximalId(todoes: Todo[]): number {
   return Math.max(...todoes.map((todo) => todo.id)) + 1;
 }
 
@@ -40,6 +41,7 @@ export const App = () => {
 
   const addNewTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const newTodo: Todo = {
       id: getMaximalId(todoes),
       title,
@@ -48,15 +50,15 @@ export const App = () => {
       user: getUser(userId),
     };
 
-    if (title.length === 0) {
+    if (!title.length) {
       setIsHaveTitle(true);
     }
 
-    if (userId < 1) {
+    if (!userId) {
       setIsHaveUserId(true);
     }
 
-    if (title.length > 0 && userId > 0) {
+    if (title.length && userId) {
       setNewTodo([...todoes, newTodo]);
 
       resetState();
@@ -79,7 +81,11 @@ export const App = () => {
     <div className="App">
       <h1 className="App__title">Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={addNewTodo}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={addNewTodo}
+      >
         <div className="field">
           <Form.Control
             id="title"
@@ -89,7 +95,12 @@ export const App = () => {
             value={title}
             onChange={handleChangeInput}
           />
-          {isHaveTitle && <span className="error">Please enter a title</span>}
+
+          {isHaveTitle && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -98,9 +109,11 @@ export const App = () => {
             value={Number(userId)}
             onChange={handleChangeSelected}
           >
+
             <option disabled value={0}>
               Choose a user
             </option>
+
             {usersFromServer.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -108,10 +121,18 @@ export const App = () => {
             ))}
           </Form.Select>
 
-          {isHaveUserId && <span className="error">Please choose a user</span>}
+          {isHaveUserId && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
-        <Button variant="outline-success" type="submit" data-cy="submitButton">
+        <Button
+          variant="outline-success"
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </Button>
       </form>
