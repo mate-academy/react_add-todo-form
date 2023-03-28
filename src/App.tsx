@@ -28,15 +28,15 @@ export const App = () => {
 
   const maxTodoId = Math.max(...todoList.map(todo => todo.id)) + 1;
 
-  const addNewTodo = (todoId: number) => {
-    const newUser = usersFromServer.find(user => user.id === todoId);
+  const addNewTodo = (todoUserId: number) => {
+    const newUser = usersFromServer.find(user => user.id === todoUserId);
 
     if (newUser && title) {
       updateTodoList(current => (
         [...current,
           {
             id: maxTodoId,
-            userId: todoId,
+            userId: todoUserId,
             title,
             completed: false,
             user: newUser,
