@@ -22,7 +22,13 @@ body {
 
 label,
 button {
+  margin-top: 10px;
   cursor: pointer;
+}
+
+input,
+select {
+  height: 20px;
 }
 
 .error {
@@ -35,8 +41,9 @@ button {
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(255, 194, 194);
+  -webkit-box-shadow: 3px 3px 0 0 #000;
+  box-shadow: 3px 3px 0 0 #000;
 
   &__title {
     margin: 4px 0;
