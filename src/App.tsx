@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 
 import { TodoList } from './components/TodoList';
@@ -25,7 +25,6 @@ export const App = () => {
   const [showTitleError, setShowTitleError] = useState(false);
   const [showUserError, setShowUserError] = useState(false);
 
-  const getIdByMaxArrayValue = todos.length;
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const validTitle = event.target.value.replace(/[^a-zA-Za-яA-Я ]/g, '');
 
@@ -34,7 +33,7 @@ export const App = () => {
 
   const addNewTodo = (title: string, userId: number, id: number) => {
     const newTodo: Todo = {
-      id,
+      id: id + 1,
       title,
       completed: false,
       userId,
@@ -44,6 +43,8 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const currentMaxId = Math.max(...todos.map(todo => todo.id));
+
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -51,13 +52,20 @@ export const App = () => {
     setShowUserError(!selectedUserId);
 
     if (newTodoTitle && selectedUserId) {
-      addNewTodo(newTodoTitle, selectedUserId, getIdByMaxArrayValue);
+      addNewTodo(newTodoTitle, selectedUserId, currentMaxId);
     }
   };
 
+  useEffect(() => {
+    setNewTodoTitle('');
+    setSelectedUserId(0);
+  }, [todos.length]);
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1>
+        Add todo form
+      </h1>
 
       <form
         action="/api/users"
@@ -101,7 +109,10 @@ export const App = () => {
               )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
