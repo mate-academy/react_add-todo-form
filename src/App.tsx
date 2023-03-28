@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId) || null,
+  user: getUser(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -38,17 +38,15 @@ export const App: React.FC = () => {
     setHasTitleError(!inputTitle);
     setHasSelectedError(!selectedUserId);
 
-    const newUser = usersFromServer.find(
-      user => user.id === selectedUserId,
-    );
+    const selectedUser = getUser(selectedUserId);
 
-    if (newUser) {
+    if (selectedUser) {
       const newTodo = {
         id: newId,
         title: inputTitle,
         completed: false,
-        userId: newUser.id,
-        user: newUser,
+        userId: selectedUser.id,
+        user: selectedUser,
       };
 
       if (inputTitle && selectedUserId) {
