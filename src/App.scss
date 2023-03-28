@@ -1,17 +1,38 @@
+@font-face {
+  font-family: "ms-sans-ser";
+  src: url(./fonts/ms-sans-ser-bold.ttf);
+}
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Courier New", Courier, monospace;
+}
+
+body {
+  background-image: url(img/ms95.jpg);
+  background-size: cover;
+}
+
+.window {
+  margin: 40px 200px;
 }
 
 label,
 button {
+  margin-top: 10px;
   cursor: pointer;
 }
 
+input,
+select {
+  height: 20px;
+}
+
 .error {
+  display: block;
   color: red;
 }
 
@@ -20,8 +41,9 @@ button {
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(255, 194, 194);
+  -webkit-box-shadow: 3px 3px 0 0 #000;
+  box-shadow: 3px 3px 0 0 #000;
 
   &__title {
     margin: 4px 0;
