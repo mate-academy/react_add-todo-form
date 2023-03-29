@@ -63,59 +63,74 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>
-        Add todo form
-      </h1>
+      <header className="header">
+        <div className="header-content">
+          <h1 className="header__title">
+            Add todo form
+          </h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleFormSubmit}
-      >
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={newTodoTitle}
-            onChange={handleTitleChange}
-          />
-
-          {showTitleError
-            && !newTodoTitle
-              && (
-                <span className="error">{Error.TitleAbsence}</span>
-              )}
-        </div>
-
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            value={selectedUserId}
-            onChange={event => setSelectedUserId(Number(event.target.value))}
+          <form
+            action="/api/users"
+            method="POST"
+            className="header__form"
+            onSubmit={handleFormSubmit}
           >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+            <div className="form-content">
+              <div className="field form-field">
+                <input
+                  type="text"
+                  className="header__field input"
+                  data-cy="titleInput"
+                  placeholder="Enter a title"
+                  value={newTodoTitle}
+                  onChange={handleTitleChange}
+                />
 
-          {showUserError
-            && !selectedUserId
-              && (
-                <span className="error">{Error.UserAbsence}</span>
-              )}
+                {showTitleError
+                  && !newTodoTitle
+                    && (
+                      <div>
+                        <span className="error">{Error.TitleAbsence}</span>
+                      </div>
+                    )}
+              </div>
+
+              <div className="field">
+                <select
+                  data-cy="userSelect"
+                  className="header__field select"
+                  value={selectedUserId}
+                  onChange={event => (
+                    setSelectedUserId(Number(event.target.value)))}
+                >
+                  <option value="0" disabled>Choose a user</option>
+                  {usersFromServer.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+
+                {showUserError
+                  && !selectedUserId
+                    && (
+                      <div>
+                        <span className="error">{Error.UserAbsence}</span>
+                      </div>
+                    )}
+              </div>
+
+              <button
+                type="submit"
+                data-cy="submitButton"
+                className="button"
+              >
+                Add
+              </button>
+            </div>
+          </form>
         </div>
-
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
-          Add
-        </button>
-      </form>
+      </header>
 
       <TodoList todos={todos} />
     </div>

@@ -1,39 +1,110 @@
+@import "./utils/Normalize.scss";
+@import "./utils/Reset.scss";
+@import "./utils/Mixins.scss";
+@import "./utils/variables.scss";
+
 iframe {
   display: none;
 }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+.App {
+  @include flex-column;
 }
 
-label,
-button {
-  cursor: pointer;
+.header {
+  background-color: $-color-background;
+  color: $-color-white;
+
+  padding: 20px 10px;
+
+  &__title {
+    text-align: center;
+    text-transform: uppercase;
+
+    margin-bottom: $-margin;
+  }
+
+  &__form {
+    @include center;
+
+    padding: 20px 0;
+
+    border: 1px solid $-color-white;
+    border-radius: $-border-radius;
+  }
+
+  &__field {
+    width: calc(100% - 15px);
+
+    font-size: 20px;
+    line-height: $-field-heigth;
+
+    background-color: $-color-white;
+
+    border: none;
+    border-radius: $-border-radius;
+
+    transition: $-transition;
+
+    &:hover {
+      box-shadow: 2px 6px 18px $-color-shadow;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.field {
+  margin-bottom: $-margin;
+
+  @include onTablet {
+    margin-right: $-margin;
+    margin-bottom: 0;
+  }
+
+  @include onDesktop {
+    margin-right: ($-margin * 3);
+  }
+}
+
+.input {
+  padding: 5px 0 5px 15px;
+}
+
+.select {
+  color: $-color-text-gray;
+  padding: 14px 10px;
+  width: 100%;
+}
+
+.button {
+  border: 1px solid $-color-white;
+  background-color: $-color-background;
+  color: $-color-white;
+  padding: 15px 60px;
+  border-radius: $-border-radius;
+  height: 52px;
+
+  transition: $-transition;
+
+  &:hover {
+    background-color: $-color-white;
+    color: $-color-background;
+    box-shadow: 2px 6px 18px $-color-shadow;
+  }
+}
+
+.form-content {
+  @include flex-column;
+
+  @include onTablet {
+    flex-direction: row;
+  }
 }
 
 .error {
-  color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
-}
-
-.UserInfo {
-  font-style: italic;
+  color: $-color-error;
+  display: inline-block;
 }

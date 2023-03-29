@@ -1,6 +1,8 @@
 import classNames from 'classnames';
-import { Todo } from '../../types';
+import './TodoInfo.scss';
 import { UserInfo } from '../UserInfo';
+
+import { Todo } from '../../types';
 
 type Props = {
   todo: Todo;
@@ -15,20 +17,22 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   } = todo;
 
   return (
-    <article
-      data-id={id}
-      className={classNames(
-        'TodoInfo',
-        { 'TodoInfo--completed': completed },
-      )}
-    >
+    <div className="todo-content">
+      <article
+        data-id={id}
+        className={classNames(
+          'TodoInfo',
+          { 'TodoInfo--completed': completed },
+        )}
+      >
 
-      <h2 className="TodoInfo__title">
-        {title}
-      </h2>
+        <h2 className="TodoInfo__title">
+          {title}
+        </h2>
 
-      {user
-        && <UserInfo user={user} />}
-    </article>
+        {user
+          && <UserInfo user={user} />}
+      </article>
+    </div>
   );
 };
