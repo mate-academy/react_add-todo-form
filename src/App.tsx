@@ -5,11 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { Todo } from './types/Todo';
-// import { User } from './types/User';
+import { User } from './types/User';
 
 import { TodoList } from './components/TodoList';
 
-function findUser(id: number) {
+function findUser(id: number): User | null {
   return usersFromServer.find(user => user.id === id) || null;
 }
 
@@ -20,7 +20,7 @@ const todoList: Todo[] = todosFromServer.map(todo => (
   }
 ));
 
-function calculateId(todos: Todo[]) {
+function calculateId(todos: Todo[]): number {
   const idArray = todos.map(todo => todo.id).sort((a, b) => b - a);
 
   return idArray[0] + 1;
@@ -67,7 +67,7 @@ export const App = () => {
     }
 
     if (title && userId) {
-      const newtodo = {
+      const newTodo = {
         id: calculateId(todos),
         title,
         completed: false,
@@ -75,7 +75,7 @@ export const App = () => {
         user: findUser(userId),
       };
 
-      setTodos(state => [...state, newtodo]);
+      setTodos(state => [...state, newTodo]);
 
       clear();
     }
