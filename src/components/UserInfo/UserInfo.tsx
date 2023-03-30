@@ -7,7 +7,10 @@ interface UserInfoProps {
 }
 
 export const UserInfo: FC<UserInfoProps> = ({ user }) => {
-  const { name, email } = user;
+  const {
+    name,
+    email,
+  } = user;
 
   return (
     <a className="UserInfo" href={`mailto:${email}`}>
