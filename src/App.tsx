@@ -10,9 +10,8 @@ function findUser(id: number) {
   return usersFromServer.find(user => user.id === id) || null;
 }
 
-const preparedUsers: Todo[] = todosFromServer.map(todo => {
-  const userFound = usersFromServer.find(userFromServer => (
-    todo.userId === userFromServer.id));
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
+  const userFound = findUser(todo.userId);
 
   return {
     ...todo,
@@ -21,7 +20,7 @@ const preparedUsers: Todo[] = todosFromServer.map(todo => {
 });
 
 export const App = () => {
-  const [todos, setTODO] = useState<Todo[]>(preparedUsers);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [errorTitle, setErrorTitle] = useState(false);
@@ -36,7 +35,7 @@ export const App = () => {
       user: findUser(selectedUserId),
     };
 
-    setTODO((previousTODO) => [...previousTODO, newTODO]);
+    setTodos((previousTODO) => [...previousTODO, newTODO]);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
@@ -48,13 +47,8 @@ export const App = () => {
       setSelectedUserId(0);
     }
 
-    if (!title) {
-      setErrorTitle(true);
-    }
-
-    if (!selectedUserId) {
-      setErrorUser(true);
-    }
+    setErrorTitle(!title);
+    setErrorUser(!selectedUserId);
   };
 
   return (
@@ -85,7 +79,7 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
 
