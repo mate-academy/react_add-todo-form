@@ -6,13 +6,17 @@ interface Props {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
+export const TodoInfo: React.FC<Props> = ({
+  todo: {
+    id, title, completed, user,
+  },
+}) => (
   <article
-    data-id={todo.id}
+    data-id={id}
     className={classNames('TodoInfo',
-      { 'TodoInfo--completed': todo.completed })}
+      { 'TodoInfo--completed': completed })}
   >
-    <h2 className="TodoInfo__title">{todo.title}</h2>
-    <UserInfo user={todo.user} />
+    <h2 className="TodoInfo__title">{title}</h2>
+    <UserInfo user={user} />
   </article>
 );

@@ -33,13 +33,15 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setTitleError(!title.trim());
+    const trimmedTitle = title.trim();
+
+    setTitleError(!trimmedTitle);
     setUserError(!userId);
 
-    if (title.trim() && userId) {
+    if (trimmedTitle && userId) {
       const newTodo: Todo = {
         id: Math.max(...todoList.map(todo => todo.id)) + 1,
-        title: title.trim(),
+        title: trimmedTitle,
         userId,
         user: getUser(userId),
         completed: false,
