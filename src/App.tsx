@@ -32,6 +32,7 @@ export const App: React.FC = () => {
   const [newTodoUser, setNewTodoUser] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
+
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -73,82 +74,84 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1 className="title has-text-centered">Add todo form</h1>
+    <div className="App-container">
+      <div className="App">
+        <h1 className="title has-text-centered centered">Add todo form</h1>
 
-      <div className="columns">
-        <div className="column">
-          <TodoList todos={sourceTodos} />
-        </div>
+        <div className="columns">
+          <div className="column">
+            <TodoList todos={sourceTodos} />
+          </div>
 
-        <div className="section column">
-          <form
-            onSubmit={handleSubmitForm}
-            className="form"
-          >
-            <div className="field">
-              <div className="control">
-                <input
-                  data-cy="titleInput"
-                  name="title"
-                  type="text"
-                  value={newTodoTitle}
-                  placeholder="Enter a title"
-                  onChange={handleTitleChange}
-                  className="input"
-                />
-                {hasTitleError && (
-                  <span className="error help is-danger">
+          <div className="section column centered">
+            <form
+              onSubmit={handleSubmitForm}
+              className="form centered"
+            >
+              <div className="field">
+                <div className="control">
+                  <input
+                    data-cy="titleInput"
+                    name="title"
+                    type="text"
+                    value={newTodoTitle}
+                    placeholder="Enter a title"
+                    onChange={handleTitleChange}
+                    className="input"
+                  />
+                  {hasTitleError && (
+                    <span className="error help is-danger">
                     Please enter a title
                   </span>
-                )}
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="control">
-                <div className="select">
-                  <select
-                    data-cy="userSelect"
-                    name="user"
-                    value={newTodoUser}
-                    onChange={handleUserSelect}
-                    className="width-100"
-                  >
-                    <option value="0" disabled>
-                      Choose a user
-                    </option>
-
-                    {usersFromServer.map(user => (
-                      <option
-                        value={user.id}
-                        key={user.id}
-                      >
-                        {user.name}
-                      </option>
-                    ))}
-                  </select>
+                  )}
                 </div>
-                {hasUserError && (
-                  <span className="error help is-danger">
+              </div>
+
+              <div className="field">
+                <div className="control">
+                  <div className="select">
+                    <select
+                      data-cy="userSelect"
+                      name="user"
+                      value={newTodoUser}
+                      onChange={handleUserSelect}
+                      className="width-100"
+                    >
+                      <option value="0" disabled>
+                        Choose a user
+                      </option>
+
+                      {usersFromServer.map(user => (
+                        <option
+                          value={user.id}
+                          key={user.id}
+                        >
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {hasUserError && (
+                    <span className="error help is-danger">
                     Please choose a user
                   </span>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="field has-text-centered">
-              <div className="control">
-                <button
-                  type="submit"
-                  data-cy="submitButton"
-                  className="form__button button is-centered"
-                >
-                  Add
-                </button>
+              <div className="field has-text-centered">
+                <div className="control">
+                  <button
+                    type="submit"
+                    data-cy="submitButton"
+                    className="form__button button is-centered"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
