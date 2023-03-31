@@ -1,16 +1,17 @@
 import React from 'react';
-import { User } from '../../react-app-env';
-
-type Props = {
-  user: User
-};
+import { Props } from './UserInfo.types';
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   const { name, email } = user;
 
   return (
-    <a className="UserInfo message-body" href={`mailto:${email}`}>
-      {name}
-    </a>
+    <label title="User email">
+      <a
+        className="UserInfo message-body"
+        href={`mailto:${email}`}
+      >
+        {name}
+      </a>
+    </label>
   );
 };

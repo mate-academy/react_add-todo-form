@@ -12,16 +12,10 @@ function getUserById(userId: number): User | null {
 }
 
 function getLargestTodoId(todos: Todo[]): number {
-  const todoWithLargestId = [...todos].sort(
-    (todo1, todo2) => (
-      todo2.id - todo1.id
-    ),
-  )[0];
-
-  return todoWithLargestId.id;
+  return Math.max(...todos.map(todo => todo.id));
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const todos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));

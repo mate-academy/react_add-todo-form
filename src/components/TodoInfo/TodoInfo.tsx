@@ -1,12 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Todo } from '../../react-app-env';
 import { UserInfo } from '../UserInfo';
-import './TodoInfo.scss';
+import { Props } from './TodoIndo.types';
 
-type Props = {
-  todo: Todo
-};
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
     id,
