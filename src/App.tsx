@@ -5,69 +5,59 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function findUser(id: number) {
+function findUserById(id: number) {
   return usersFromServer.find(user => user.id === id) || null;
 }
 
-const toDoList = todosFromServer.map(todo => (
+const todoList = todosFromServer.map(todo => (
   {
     ...todo,
-    user: findUser(todo.userId),
+    user: findUserById(todo.userId),
   }
 ));
 
 export const App = () => {
-  const [titleFornewTodos, setTitleFornewTodos] = useState('');
-  const [userIdFornewTodos, setUserIdFornewTodos] = useState(0);
-  const [newTodos, setnewTodos] = useState(toDoList);
+  const [titleForNewTodos, setTitleForNewTodos] = useState('');
+  const [userIdForNewTodos, setUserIdForNewTodos] = useState(0);
+  const [newTodos, setNewTodos] = useState(todoList);
   const [invalidTitle, setInvalidTitle] = useState(false);
   const [invalidUser, setInvalidUser] = useState(false);
 
-  function getId(todos: Todo[]): number {
+  function getMaxId(todos: Todo[]): number {
     return Math.max(...todos.map(todo => todo.id)) + 1;
   }
 
   const handleNewTitle = ((event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleFornewTodos(event.target.value);
+    setTitleForNewTodos(event.target.value);
     setInvalidTitle(false);
   });
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserIdFornewTodos(Number(event.target.value));
+    setUserIdForNewTodos(Number(event.target.value));
     setInvalidUser(false);
   };
 
-  const clear = () => {
-    setInvalidTitle(false);
-    setInvalidUser(false);
-    setUserIdFornewTodos(0);
-    setTitleFornewTodos('');
-  };
-
-  const handleNewTodos = (event: React.FormEvent) => {
+  const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userIdFornewTodos && titleFornewTodos) {
+    if (userIdForNewTodos && titleForNewTodos) {
       const todoToAdd = {
-        id: getId(newTodos),
-        title: titleFornewTodos,
+        id: getMaxId(newTodos),
+        title: titleForNewTodos,
         completed: false,
-        userId: userIdFornewTodos,
-        user: findUser(userIdFornewTodos),
+        userId: userIdForNewTodos,
+        user: findUserById(userIdForNewTodos),
       };
 
-      setnewTodos(prevTodos => [...prevTodos, todoToAdd]);
+      setNewTodos(prevTodos => [...prevTodos, todoToAdd]);
 
-      clear();
+      setUserIdForNewTodos(0);
+      setTitleForNewTodos('');
     }
 
-    if (!userIdFornewTodos) {
-      setInvalidUser(true);
-    }
+    setInvalidUser(!userIdForNewTodos);
 
-    if (!titleFornewTodos) {
-      setInvalidTitle(true);
-    }
+    setInvalidTitle(!titleForNewTodos);
   };
 
   return (
@@ -76,13 +66,13 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleNewTodos}
+        onSubmit={handleSubmitForm}
       >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
-            value={titleFornewTodos}
+            value={titleForNewTodos}
             onChange={handleNewTitle}
             placeholder="title..."
           />
@@ -94,7 +84,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             placeholder="Choose a user"
-            value={userIdFornewTodos}
+            value={userIdForNewTodos}
             onChange={handleSelectUser}
           >
             <option value="0" disabled>Choose a user</option>

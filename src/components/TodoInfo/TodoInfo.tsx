@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: ToDoList,
+  todo: todoList,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
