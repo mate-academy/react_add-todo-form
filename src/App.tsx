@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.scss';
+import 'bulma/css/bulma.css';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -59,7 +60,7 @@ export const App = () => {
     resetForm();
   };
 
-  const validTitle = newTitle.replace(/[^a-zA-Z ]/g, '');
+  const validTitle = newTitle.replace(/[^a-zA-Z а-яА-Я ]/g, '');
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -79,67 +80,73 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleFormSubmit}
-      >
-        <div className="field">
-          <label htmlFor="titleInput">
-            Title:
-            <input
-              id="titleInput"
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={validTitle}
-              onChange={handleChangeTitle}
-            />
-            {hasTitleError && (
+      <div className="App__TodoForm">
+        <h1 className="title is-2 has-text-white">Add todo form</h1>
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={handleFormSubmit}
+        >
+          <div className="field">
+            <label htmlFor="titleInput">
+              <input
+                id="titleInput"
+                type="text"
+                className="input"
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                value={validTitle}
+                onChange={handleChangeTitle}
+              />
+              {hasTitleError && (
+                <span className="error">
+                  Please enter a title
+                </span>
+              )}
+            </label>
+          </div>
+
+          <div className="field">
+            <label htmlFor="selectUser">
+              <div className="select is-pink is-multiple is-fullwidth">
+                <select
+                  id="selectUser"
+                  data-cy="userSelect"
+                  value={selectedUserId}
+                  onChange={handleChangeUser}
+                >
+                  <option value="0" disabled>
+                    Choose a user
+                  </option>
+
+                  {usersFromServer.map(({ id, name }) => (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
+
+                </select>
+              </div>
+            </label>
+            <br />
+            {hasSelectedUserError && (
               <span className="error">
-                Please enter a title
+                Please choose a user
               </span>
             )}
-          </label>
-        </div>
+          </div>
 
-        <div className="field">
-          <label htmlFor="selectUser">
-            User:
-            <select
-              id="selectUser"
-              data-cy="userSelect"
-              placeholder="Choose a user"
-              value={selectedUserId}
-              onChange={handleChangeUser}
-            >
-              <option value="0" disabled>
-                Choose a user
-              </option>
+          <button
+            type="submit"
+            data-cy="submitButton"
+            className="button is-info is-default is-responsive is-fullwidth"
+          >
+            Add
+          </button>
+        </form>
 
-              {usersFromServer.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-
-            </select>
-          </label>
-
-          {hasSelectedUserError && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <TodoList todos={todos} />
+        <TodoList todos={todos} />
+      </div>
     </div>
   );
 };
