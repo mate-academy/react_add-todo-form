@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import { Todo, User } from './react-app-env';
+import { Todo, TodoWithUser, User } from './react-app-env';
 import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number): User | null {
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newTodo: Todo = {
+    const newTodo: TodoWithUser = {
       id: getLargestTodoId(sourceTodos) + 1,
       userId: newTodoUser,
       title: newTodoTitle,
@@ -101,8 +101,8 @@ export const App: React.FC = () => {
                   />
                   {hasTitleError && (
                     <span className="error help is-danger">
-                    Please enter a title
-                  </span>
+                      Please enter a title
+                    </span>
                   )}
                 </div>
               </div>
@@ -133,8 +133,8 @@ export const App: React.FC = () => {
                   </div>
                   {hasUserError && (
                     <span className="error help is-danger">
-                    Please choose a user
-                  </span>
+                      Please choose a user
+                    </span>
                   )}
                 </div>
               </div>
