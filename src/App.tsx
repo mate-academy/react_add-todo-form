@@ -14,7 +14,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -22,8 +22,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [option, setOption] = useState(0);
   const [title, setTitle] = useState('');
-  const [initialTodos, setNewTodo] = useState(todosFromServer
-    .map(todo => ({ ...todo, user: getUser(todo.userId) })));
+  const [todos, setNewTodo] = useState(initialTodos);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,7 +35,11 @@ export const App = () => {
       user: getUser(option),
     };
 
-    setNewTodo([...initialTodos, newTodo]);
+    if (option === 0 || title === '') {
+      return;
+    }
+
+    setNewTodo([...todos, newTodo]);
   };
 
   const userChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,7 +47,9 @@ export const App = () => {
   };
 
   const titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value
+      .replace(/[^a-zа-яё0-9\s]/gi, ' ')
+      .replace(/[^a-z]/g, ''));
   };
 
   return (
@@ -67,6 +72,8 @@ export const App = () => {
               value={title}
               onChange={titleChange}
             />
+            {title === ''
+              && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
@@ -90,6 +97,8 @@ export const App = () => {
                 </option>
               ))}
             </select>
+            {option === 0
+              && <span className="error">Please choose a user</span>}
           </label>
         </div>
 
@@ -97,7 +106,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={initialTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
