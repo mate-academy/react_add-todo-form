@@ -1,88 +1,76 @@
 import './App.scss';
-import React, { useState } from 'react';
 
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { FullTodo, Todo } from './types/Todo';
+import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-const prepareTodos = (
-  users: User[],
-  todos: Todo[],
-): FullTodo[] => (
-  todos.map((todo) => ({
-    ...todo,
-    user: users.find((user) => user.id === todo.userId) || null,
-  }))
-);
-
-const prepareTodo = (
-  currentUser: User,
-  title: string,
-  todos: Todo[],
-): FullTodo => {
-  const maxId = Math.max(...todos.map(todo => todo.id));
-
-  return ({
-    id: maxId + 1,
-    title,
-    completed: false,
-    userId: currentUser.id,
-    user: currentUser,
+const getUserById = (id: number): User | null => {
+  const user = usersFromServer.find(({ id: userId }) => {
+    return userId === id;
   });
+
+  return user || null;
 };
 
-const visibleTodos = prepareTodos(usersFromServer, todosFromServer);
-const users = usersFromServer;
+const todos: Todo[] = todosFromServer.map(todo => {
+  const user = getUserById(todo.userId);
 
-export const App: React.FC = () => {
-  const [userSelected, setUserSelected] = useState('0');
+  return {
+    ...todo,
+    user,
+  };
+});
+
+export const App = () => {
+  const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [allTodos, setAllTodos] = useState(todos);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
-  const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(visibleTodos);
 
-  const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserError(false);
-    const { value } = event.target;
-
-    setUserSelected(value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setTitleError(false);
+    setNewTodoTitle(e.target.value);
   };
 
-  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
-    const { value } = event.target;
-
-    setTitle(value);
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setUserError(false);
+    setSelectedUserId(+e.target.value);
   };
 
   const resetForm = () => {
-    setTitle('');
-    setUserSelected('0');
+    setNewTodoTitle('');
+    setSelectedUserId(0);
   };
 
-  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const currentUser = users
-      .find(user => user.name === userSelected) || null;
+    const currentUser = getUserById(selectedUserId) || null;
 
     if (!currentUser) {
       setUserError(true);
     }
 
-    if (!title.length) {
+    if (!newTodoTitle.length) {
       setTitleError(true);
     }
 
-    if (currentUser && title) {
-      const todo = prepareTodo(currentUser, title, visibleTodos);
+    const maxId = Math.max(...allTodos.map(todo => todo.id));
 
-      setTodos(current => ([
-        ...current,
-        todo,
-      ]));
+    if (currentUser && newTodoTitle) {
+      const newTodo = {
+        id: maxId + 1,
+        title: newTodoTitle,
+        completed: false,
+        userId: currentUser.id,
+        user: currentUser,
+      };
+
+      setAllTodos([...allTodos, newTodo]);
 
       resetForm();
     }
@@ -90,65 +78,73 @@ export const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1 className="title">Add todo form</h1>
+      <div className="container">
+        <h1 className="title">Add todo form</h1>
 
-      <form
-        className="form"
-        action="/api/users"
-        method="POST"
-        onSubmit={handleAddTodo}
-      >
-        <div className="field">
-          <label>
-            {'Title: '}
-            <input
-              className="field__input"
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={title}
-              onChange={handleChangeTitle}
-            />
-          </label>
-          {titleError && (
-            <span className="error">Please enter a title</span>
-          )}
-        </div>
+        <div className="container__block">
+          <form
+            action="/api/users"
+            method="POST"
+            className="form"
+            onSubmit={handleAddTodo}
+          >
+            <div className="form__fields">
+              <div className="form__field">
+                <p className="form__label">Title</p>
+                <input
+                  className="form__input"
+                  type="text"
+                  data-cy="titleInput"
+                  placeholder="Enter a title"
+                  value={newTodoTitle}
+                  onChange={handleTitleChange}
+                />
 
-        <div className="field">
-          <label>
-            {'User: '}
-            <select
-              className="field__input"
-              data-cy="userSelect"
-              value={userSelected}
-              onChange={handleChangeSelect}
+                {titleError && (
+                  <span className="error">Please enter a title</span>
+                )}
+              </div>
+
+              <div className="form__field">
+                <p className="form__label">User</p>
+                <select
+                  className="form__input"
+                  data-cy="userSelect"
+                  value={selectedUserId}
+                  onChange={handleUserChange}
+                >
+                  <option value="0" disabled>Choose a user</option>
+
+                  {usersFromServer.map(({ id, name }) => (
+                    <option
+                      key={id}
+                      value={id}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </select>
+
+                {userError && (
+                  <span className="error">Please choose a user</span>
+                )}
+              </div>
+            </div>
+
+            <button
+              className="add-button"
+              type="submit"
+              data-cy="submitButton"
             >
-              <option value="0" disabled>Choose a user</option>
-              {users.map((user) => (
-                <option value={user.name} key={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          {userError && (
-            <span className="error">Please choose a user</span>
-          )}
+              Add todo
+            </button>
+          </form>
         </div>
 
-        <button
-          className="add-button"
-          type="submit"
-          data-cy="submitButton"
-        >
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <TodoList todos={todos} />
-      </section>
+        <div className="container__block">
+          <TodoList todos={allTodos} />
+        </div>
+      </div>
     </div>
   );
 };

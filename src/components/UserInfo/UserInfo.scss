@@ -1,3 +1,11 @@
 .UserInfo {
-  font-style: italic;
+  text-decoration: none;
+  text-transform: none;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.4s ease-in-out;
+
+  &:hover {
+    color: #a36f6f;
+  }
 }

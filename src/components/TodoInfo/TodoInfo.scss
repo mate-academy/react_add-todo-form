@@ -1,16 +1,16 @@
 .TodoInfo {
-  font-size: 18px;
-  max-width: 500px;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
+  margin-bottom: 5px;
+  padding: 5px;
+  max-height: max-content;
+  font-size: 25px;
+  text-transform: uppercase;
+  background-color: #ffe6e6f6;
   border-radius: 8px;
-  background-color: #cffdea;
 
   &__title {
-    word-wrap: break-word;
-    margin: 5px 0;
+    margin: 0;
     font-size: inherit;
+    word-wrap: break-word;
     color: #f00;
   }
 

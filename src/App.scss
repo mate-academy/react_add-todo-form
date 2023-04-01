@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 iframe {
   display: none;
 }
@@ -6,52 +10,79 @@ html {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
-label,
-button {
-  cursor: pointer;
+body, h1, p {
+  margin: 0;
+}
+
+body {
+  background-color: #333;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 50px 20px;
+  max-width: 1024px;
+
+  &__block {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #534f4f;
+    border-radius: 5px;
+  }
 }
 
 .title {
-  color: #333;
+  margin-bottom: 40px;
+  font-size: 40px;
+  color: #fff;
   text-align: center;
 }
 
 .error {
-  font-size: 16px;
   padding-left: 10px;
+  font-size: 16px;
   color: red;
 }
 
 .form {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-}
 
-.field {
-  font-size: 18px;
-  font-style: italic;
-  padding-bottom: 10px;
+  &__fields {
+    display: flex;
+  }
+
+  &__field {
+    margin-right: 20px;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: #fff;
+  }
 
   &__input {
+    padding: 10px;
     font-family: inherit;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    text-transform: uppercase;
+    border-radius: 20px;
   }
 }
 
 .add-button {
+  padding: 0 15px;
+  height: 40px;
   font-size: 16px;
-  background-color: #007bff;
   color: #fff;
-  padding: 10px 50px;
+  background-color: #d89948;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: #0062cc;
+    background-color: #e6b16c;
   }
 }

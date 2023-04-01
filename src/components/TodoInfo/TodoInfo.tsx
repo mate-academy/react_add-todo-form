@@ -1,12 +1,11 @@
 import './TodoInfo.scss';
 
 import classNames from 'classnames';
-import React from 'react';
-import { FullTodo } from '../../types/Todo';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: FullTodo,
+  todo: Todo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -20,9 +19,12 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={id}
-      className={classNames('TodoInfo', {
-        'TodoInfo--completed': completed,
-      })}
+      className={classNames(
+        'TodoInfo',
+        {
+          'TodoInfo--completed': completed,
+        },
+      )}
     >
       <h2 className="TodoInfo__title">
         {title}
