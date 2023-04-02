@@ -10,9 +10,9 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const getUser = (id: number): User | null => {
-  const foundUser = usersFromServer.find(user => user.id === id);
+  const currentUser = usersFromServer.find(user => user.id === id);
 
-  return foundUser || null;
+  return currentUser || null;
 };
 
 export const todosWithUser: Todo[] = todosFromServer.map(todo => ({
@@ -20,7 +20,7 @@ export const todosWithUser: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-const getId = (todos: Todo[]) => {
+const getNextId = (todos: Todo[]) => {
   return Math.max(...todos.map(todo => todo.id)) + 1;
 };
 
@@ -32,37 +32,37 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
 
   const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.currentTarget.value
+    setTitle(event.target.value
       .replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
     setIsTitleError(false);
   };
 
   const handleChangeUser = (event: ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.currentTarget.value);
+    setUserId(+event.target.value);
     setIsUserError(false);
   };
 
-  const selectedUser = userId !== 0;
-  const emptyTitle = !title.trim();
+  const isUserSelected = userId !== 0;
+  const isTitleEmpty = !title.trim();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!selectedUser) {
+    if (!isUserSelected) {
       setIsUserError(true);
     }
 
-    if (emptyTitle) {
+    if (isTitleEmpty) {
       setIsTitleError(true);
     }
 
-    if (selectedUser && !emptyTitle) {
+    if (isUserSelected && !isTitleEmpty) {
       const newTodo = {
         title,
         completed: false,
         userId,
         user: getUser(userId),
-        id: getId(todos),
+        id: getNextId(todos),
       };
 
       setTodos(prevState => [...prevState, newTodo]);
