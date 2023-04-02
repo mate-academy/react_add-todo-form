@@ -1,0 +1,87 @@
+@import "variables";
+
+@mixin animation-slices {
+  $slice-0: $slice-0;
+  $slice-1: $slice-1;
+  $slice-2: $slice-2;
+  $slice-3: $slice-3;
+  $slice-4: $slice-4;
+  $slice-5: $slice-5;
+  clip-path: $slice-0;
+}
+
+@mixin animation-keyframes {
+  @keyframes glitch {
+    0% {
+      clip-path: $slice-1;
+      transform: translate(-20px, -10px);
+    }
+
+    10% {
+      clip-path: $slice-3;
+      transform: translate(10px, 10px);
+    }
+
+    20% {
+      clip-path: $slice-1;
+      transform: translate(-10px, 10px);
+    }
+
+    30% {
+      clip-path: $slice-3;
+      transform: translate(0, 5px);
+    }
+
+    40% {
+      clip-path: $slice-2;
+      transform: translate(-5px, 0);
+    }
+
+    50% {
+      clip-path: $slice-3;
+      transform: translate(5px, 0);
+    }
+
+    60% {
+      clip-path: $slice-4;
+      transform: translate(5px, 10px);
+    }
+
+    70% {
+      clip-path: $slice-2;
+      transform: translate(-10px, 10px);
+    }
+
+    80% {
+      clip-path: $slice-5;
+      transform: translate(20px, -10px);
+    }
+
+    90% {
+      clip-path: $slice-1;
+      transform: translate(-10px, 0);
+    }
+
+    100% {
+      clip-path: $slice-1;
+      transform: translate(0);
+    }
+  }
+}
+
+@mixin delay-animation {
+  @keyframes delay-animation {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    40.01% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}

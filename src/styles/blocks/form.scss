@@ -1,0 +1,147 @@
+@import "../variables";
+@import "../mixins";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+
+  &__field-wrapper {
+    width: 450px;
+    background: linear-gradient(180deg, $colorFont 20%, $colorPrimaryBlue 20%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 34px;
+      left: 0;
+      border-left: 20px solid $colorPrimaryBlue;
+      border-top: 20px solid $colorFont;
+      width: 0;
+    }
+
+    &::after {
+      content: "Add todo form";
+      font-family: Cyberpunk, monospace;
+      font-size: 45px;
+      top: -30px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-weight: bold;
+      text-align: right;
+      position: absolute;
+      height: 80px;
+      z-index: 2;
+
+      @include animation-slices;
+      background: linear-gradient(
+        45deg,
+        transparent 3%,
+        $colorFont 3%,
+        $colorFont 5%,
+        $colorPrimaryYellow 5%
+      );
+      text-shadow: -3px -3px 0 #f8f005, 3px 3px 0 $colorPrimaryRed;
+      animation: 1s infinite glitch, delay-animation 9s infinite;
+      animation-timing-function: steps(2, end);
+    }
+
+    @include delay-animation;
+  }
+
+  &__field {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  &__label {
+    display: block;
+    min-height: 85px;
+    cursor: pointer;
+  }
+
+  &__title {
+    color: $colorFont;
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+
+  &__input,
+  &__select {
+    font-family: BlenderProBook, monospace;
+    position: relative;
+    width: 100%;
+    padding: 0 10px;
+    height: 35px;
+    border: none;
+    background-color: rgb(224, 231, 236);
+    color: $colorFont;
+    margin-bottom: 5px;
+    font-size: 18px;
+
+    &::placeholder {
+      color: $colorFont;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__button {
+    font-family: BlenderProBook, monospace;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 25px;
+    padding: 10px 15px;
+    font-size: 18px;
+    background: linear-gradient(45deg, transparent 5%, $colorPrimaryRed 5%);
+    border: 0;
+    color: $colorFont;
+    letter-spacing: 3px;
+    line-height: 1;
+    box-shadow: 6px 0 0 $colorFont;
+    outline: transparent;
+    position: relative;
+
+    &::after {
+      @include animation-slices;
+      content: "ADD";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        transparent 3%,
+        $colorFont 3%,
+        $colorFont 5%,
+        $colorPrimaryRed 5%
+      );
+      text-shadow: -3px -3px 0 $colorPrimaryYellow, 3px 3px 0 $colorFont;
+    }
+
+    &:hover::after {
+      animation: 1s glitch;
+      animation-timing-function: steps(2, end);
+    }
+    @include animation-keyframes;
+  }
+
+  .error {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 15px;
+    color: $colorPrimaryRed;
+  }
+}
