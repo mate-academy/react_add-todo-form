@@ -1,11 +1,14 @@
+$color-primary-grey: #333;
+$color-secondary-grey: #534f4f;
+
 .UserInfo {
   text-decoration: none;
   text-transform: none;
-  font-size: 18px;
-  color: #333;
+  font-size: 1.2rem;
+  color: $color-primary-grey;
   transition: color 0.4s ease-in-out;
 
   &:hover {
-    color: #a36f6f;
+    color: $color-secondary-grey;
   }
 }

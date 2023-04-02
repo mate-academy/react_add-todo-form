@@ -1,3 +1,13 @@
+$color-primary-grey: #333;
+$color-secondary-grey: #534f4f;
+$color-orange: #d89948;
+$color-orange-hover: #e6b16c;
+$color-white: #fff;
+
+$padding-primary: 15px;
+
+$border-radius-primary: 20px;
+
 * {
   box-sizing: border-box;
 }
@@ -17,32 +27,31 @@ p {
 }
 
 body {
-  background-color: #333;
+  background-color: $color-primary-grey;
 }
 
 .container {
   margin: 0 auto;
-  padding: 50px 20px;
+  padding: (2*$padding-primary) $padding-primary;
   max-width: 1024px;
 
-  &__block {
+  &__section {
     margin-bottom: 20px;
-    padding: 20px;
-    background-color: #534f4f;
+    padding: $padding-primary;
+    background-color: $color-secondary-grey;
     border-radius: 5px;
   }
 }
 
 .title {
   margin-bottom: 40px;
-  font-size: 40px;
-  color: #fff;
+  font-size: 3rem;
+  color: $color-white;
   text-align: center;
 }
 
 .error {
-  padding-left: 10px;
-  font-size: 16px;
+  padding-left: $padding-primary;
   color: red;
 }
 
@@ -62,29 +71,29 @@ body {
   &__label {
     margin-bottom: 8px;
     font-size: 20px;
-    color: #fff;
+    color: $color-white;
   }
 
-  &__input {
-    padding: 10px;
+  &__text-field {
+    padding: $padding-primary;
     font-family: inherit;
     text-transform: uppercase;
-    border-radius: 20px;
+    border-radius: $border-radius-primary;
   }
 }
 
 .add-button {
-  padding: 0 15px;
+  padding: 0 $padding-primary;
   height: 40px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #d89948;
+  font-size: 1rem;
+  color: $color-white;
+  background-color: $color-orange;
   border: none;
-  border-radius: 20px;
+  border-radius: $border-radius-primary;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: #e6b16c;
+    background-color: $color-orange-hover;
   }
 }

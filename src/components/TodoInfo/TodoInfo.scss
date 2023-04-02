@@ -1,20 +1,19 @@
 .TodoInfo {
   margin-bottom: 5px;
   padding: 5px;
-  max-height: max-content;
-  font-size: 25px;
+  font-size: 1.5rem;
   text-transform: uppercase;
-  background-color: #ffe6e6f6;
+  background-color: white;
   border-radius: 8px;
 
   &__title {
     margin: 0;
     font-size: inherit;
     word-wrap: break-word;
-    color: #f00;
+    color: red;
   }
 
   &--completed &__title {
-    color: #080;
+    color: green;
   }
 }

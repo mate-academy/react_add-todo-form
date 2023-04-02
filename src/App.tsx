@@ -7,7 +7,7 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-const getUserById = (id: number): User | null => {
+const findUserById = (id: number): User | null => {
   const user = usersFromServer.find(({ id: userId }) => {
     return userId === id;
   });
@@ -16,7 +16,7 @@ const getUserById = (id: number): User | null => {
 };
 
 const todos: Todo[] = todosFromServer.map(todo => {
-  const user = getUserById(todo.userId);
+  const user = findUserById(todo.userId);
 
   return {
     ...todo,
@@ -25,46 +25,46 @@ const todos: Todo[] = todosFromServer.map(todo => {
 });
 
 export const App = () => {
-  const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
   const [allTodos, setAllTodos] = useState(todos);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTitleError(false);
-    setNewTodoTitle(e.target.value);
+    setTitle(e.target.value);
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+  const onUserChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setUserError(false);
-    setSelectedUserId(+e.target.value);
+    setUserId(+e.target.value);
   };
 
-  const resetForm = () => {
-    setNewTodoTitle('');
-    setSelectedUserId(0);
+  const clearForm = () => {
+    setTitle('');
+    setUserId(0);
   };
 
-  const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
+  const onAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const currentUser = getUserById(selectedUserId) || null;
+    const currentUser = findUserById(userId) || null;
 
     if (!currentUser) {
       setUserError(true);
     }
 
-    if (!newTodoTitle.length) {
+    if (!title.length) {
       setTitleError(true);
     }
 
     const maxId = Math.max(...allTodos.map(todo => todo.id));
 
-    if (currentUser && newTodoTitle) {
+    if (currentUser && title) {
       const newTodo = {
         id: maxId + 1,
-        title: newTodoTitle,
+        title,
         completed: false,
         userId: currentUser.id,
         user: currentUser,
@@ -72,7 +72,7 @@ export const App = () => {
 
       setAllTodos([...allTodos, newTodo]);
 
-      resetForm();
+      clearForm();
     }
   };
 
@@ -81,23 +81,23 @@ export const App = () => {
       <div className="container">
         <h1 className="title">Add todo form</h1>
 
-        <div className="container__block">
+        <div className="container__section">
           <form
             action="/api/users"
             method="POST"
             className="form"
-            onSubmit={handleAddTodo}
+            onSubmit={onAddTodo}
           >
             <div className="form__fields">
               <div className="form__field">
                 <p className="form__label">Title</p>
                 <input
-                  className="form__input"
+                  className="form__text-field"
                   type="text"
                   data-cy="titleInput"
                   placeholder="Enter a title"
-                  value={newTodoTitle}
-                  onChange={handleTitleChange}
+                  value={title}
+                  onChange={onTitleChange}
                 />
 
                 {titleError && (
@@ -108,10 +108,10 @@ export const App = () => {
               <div className="form__field">
                 <p className="form__label">User</p>
                 <select
-                  className="form__input"
+                  className="form__text-field"
                   data-cy="userSelect"
-                  value={selectedUserId}
-                  onChange={handleUserChange}
+                  value={userId}
+                  onChange={onUserChange}
                 >
                   <option value="0" disabled>Choose a user</option>
 
@@ -141,7 +141,7 @@ export const App = () => {
           </form>
         </div>
 
-        <div className="container__block">
+        <div className="container__section">
           <TodoList todos={allTodos} />
         </div>
       </div>
