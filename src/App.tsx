@@ -23,20 +23,20 @@ function getNextId(todos: Todo[]): number {
   return Math.max(...(todos.map(({ id }) => id))) + 1;
 }
 
-function getUserByName(fullName: string): User | null {
-  return usersFromServer.find(user => user.name === fullName) || null;
+function getUserById(id: number): User | null {
+  return usersFromServer.find(user => user.id === id) || null;
 }
 
 export const App = () => {
   const [todos, setTodos] = useState(getTodos());
   const [title, setTitle] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [userId, setUserId] = useState(0);
   const [submitError, setSubmitError] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!fullName || !title) {
+    if (!userId || !title) {
       setSubmitError(true);
 
       return;
@@ -51,13 +51,13 @@ export const App = () => {
         id: getNextId(previous),
         completed: false,
         title,
-        user: getUserByName(fullName),
+        user: getUserById(userId),
       };
 
       return [...previous, newTask];
     });
     setTitle('');
-    setFullName('');
+    setUserId(0);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,10 +66,10 @@ export const App = () => {
     setTitle(value);
   };
 
-  const handleChangeUser = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setFullName(value);
+    setUserId(Number(value));
   };
 
   return (
@@ -82,13 +82,16 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            placeholder="title"
-            onChange={handleTitleChange}
-          />
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              placeholder="title"
+              onChange={handleTitleChange}
+            />
+          </label>
           {
             submitError
             && !title
@@ -97,26 +100,29 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            onChange={handleChangeUser}
-            value={fullName}
-          >
-            <option value="">Choose a user</option>
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              onChange={handleUserChange}
+              value={userId}
+            >
+              <option value="">Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.name}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+              {usersFromServer.map(({ name, id }) => (
+                <option
+                  key={id}
+                  value={id}
+                >
+                  {name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {
             submitError
-            && !fullName
+            && !userId
             && <span className="error">Please choose a user</span>
           }
         </div>
