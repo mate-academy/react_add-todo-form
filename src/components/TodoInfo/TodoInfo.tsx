@@ -17,13 +17,19 @@ export const TodoInfo: React.FC<Props> = ({
     user,
   } = todo;
 
+  const {
+    name,
+    email,
+    id: userId,
+  } = user;
+
   return (
     <article
       data-id={id}
-      className={
-        classNames('TodoInfo',
-          { 'TodoInfo--completed': completed })
-      }
+      className={classNames(
+        'TodoInfo',
+        { 'TodoInfo--completed': completed },
+      )}
     >
       <h2 className="TodoInfo__title">
         {title}
@@ -31,9 +37,9 @@ export const TodoInfo: React.FC<Props> = ({
 
       <UserInfo
         user={user}
-        id={0}
-        name=""
-        email=""
+        id={userId}
+        name={name}
+        email={email}
       />
     </article>
   );
