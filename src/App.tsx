@@ -16,7 +16,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-const getLastTodoId = (prevTodos: Todo[]) => {
+const getNextTodoId = (prevTodos: Todo[]) => {
   const findLastId = Math.max(...prevTodos.map(todo => todo.id));
 
   return findLastId + 1;
@@ -25,23 +25,28 @@ const getLastTodoId = (prevTodos: Todo[]) => {
 export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isGoodToSubmit, setIsGoodToSubmit] = useState(false);
+  const [
+    shouldShowValidationErrors,
+    setShouldShowValidationErrors,
+  ] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState(todos);
+
+  const selectedUser = getUserById(userId) || null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!userId || !title.trim()) {
-      setIsGoodToSubmit(true);
+    if (!selectedUser || !title.trim()) {
+      setShouldShowValidationErrors(true);
     }
 
-    if (userId && title.trim()) {
+    if (selectedUser && title.trim()) {
       const addedTodo = {
-        id: getLastTodoId(selectedTodos),
+        id: getNextTodoId(selectedTodos),
         title,
         completed: false,
         userId,
-        user: getUserById(userId),
+        user: selectedUser,
       };
 
       setSelectedTodos(curTodos => ([
@@ -51,7 +56,7 @@ export const App: React.FC = () => {
 
       setUserId(0);
       setTitle('');
-      setIsGoodToSubmit(false);
+      setShouldShowValidationErrors(false);
     }
   };
 
@@ -73,11 +78,7 @@ export const App: React.FC = () => {
         Add todo form
       </h1>
 
-      <form
-        onSubmit={handleSubmit}
-        action="/api/users"
-        method="POST"
-      >
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
@@ -86,7 +87,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleTitle}
           />
-          {!title && isGoodToSubmit && (
+          {!title && shouldShowValidationErrors && (
             <span className="error">Please enter a title</span>)}
         </div>
 
@@ -109,7 +110,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!userId && isGoodToSubmit && (
+          {!userId && shouldShowValidationErrors && (
             <span className="error">Please choose a user</span>)}
         </div>
 
