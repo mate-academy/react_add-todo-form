@@ -15,7 +15,7 @@ const findUserById = (id: number): User | null => {
   return user || null;
 };
 
-const todos: Todo[] = todosFromServer.map(todo => {
+const initialTodos: Todo[] = todosFromServer.map(todo => {
   const user = findUserById(todo.userId);
 
   return {
@@ -27,7 +27,7 @@ const todos: Todo[] = todosFromServer.map(todo => {
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [allTodos, setAllTodos] = useState(todos);
+  const [todos, setAllTodos] = useState(initialTodos);
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
@@ -59,7 +59,7 @@ export const App = () => {
       setTitleError(true);
     }
 
-    const maxId = Math.max(...allTodos.map(todo => todo.id));
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
     if (currentUser && title) {
       const newTodo = {
@@ -70,7 +70,7 @@ export const App = () => {
         user: currentUser,
       };
 
-      setAllTodos([...allTodos, newTodo]);
+      setAllTodos([...todos, newTodo]);
 
       clearForm();
     }
@@ -142,7 +142,7 @@ export const App = () => {
         </div>
 
         <div className="container__section">
-          <TodoList todos={allTodos} />
+          <TodoList todos={todos} />
         </div>
       </div>
     </div>
