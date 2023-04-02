@@ -19,7 +19,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-const getBiggestId = (todo: Todo[]): number => {
+const getNextId = (todo: Todo[]): number => {
   return Math.max(...todo.map(newTodo => newTodo.id)) + 1;
 };
 
@@ -30,9 +30,9 @@ export const App: React.FC = () => {
   const [showTitleError, setShowTitleError] = useState(false);
   const [showUserError, setShowUserError] = useState(false);
 
-  const createNewTodo = (title: string, userId: number) => {
+  const handleCreateNewTodo = (title: string, userId: number) => {
     const newTodo: Todo = {
-      id: getBiggestId(todos),
+      id: getNextId(todos),
       title,
       userId,
       completed: false,
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
     setShowUserError(!newUserId);
 
     if (newTitle && newUserId) {
-      createNewTodo(newTitle, newUserId);
+      handleCreateNewTodo(newTitle, newUserId);
     }
   };
 
