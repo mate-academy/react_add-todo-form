@@ -58,13 +58,15 @@ export const App: React.FC = () => {
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo({
-      ...newTodo,
-      title: e.target.value,
-    });
+    const title = e.target.value;
+
+    setNewTodo(prevState => ({
+      ...prevState,
+      title,
+    }));
     setFieldErrors({
       ...fieldErrors,
-      title: newTodo.title === '' ? 'Please enter a title' : '',
+      title: title.trim().length === 0 ? 'Please enter a title' : '',
     });
   };
 
