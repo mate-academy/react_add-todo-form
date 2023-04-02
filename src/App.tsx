@@ -23,7 +23,9 @@ const todosInitial: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-let nextTodoId = Math.max(...todosInitial.map(todo => todo.id)) + 1;
+function getNextTodoId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+}
 
 export const App = () => {
   const [todos, setTodos] = useState(todosInitial);
@@ -31,28 +33,12 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [isTitleErrorShown, setIsTitleErrorShown] = useState(false);
-  const [isUserIdErrorShown, setIsUserIdErrorShown] = useState(false);
-
-  const validateFields = (): boolean => {
-    let isFieldsValid = true;
-
-    if (!title) {
-      isFieldsValid = false;
-      setIsTitleErrorShown(true);
-    }
-
-    if (!userId) {
-      isFieldsValid = false;
-      setIsUserIdErrorShown(true);
-    }
-
-    return isFieldsValid;
-  };
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const addNewTodo = (): void => {
     const newTodo: Todo = {
-      id: nextTodoId,
+      id: getNextTodoId(todos),
       userId,
       title,
       completed: false,
@@ -63,16 +49,15 @@ export const App = () => {
       ...prevTodos,
       newTodo,
     ]);
-
-    nextTodoId += 1;
   };
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    const isEachFieldValid = validateFields();
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
 
-    if (isEachFieldValid) {
+    if (title && userId) {
       addNewTodo();
 
       setTitle('');
@@ -84,12 +69,12 @@ export const App = () => {
     const { value: newString } = event.target;
 
     setTitle(newString.replace(/[^0-9a-zа-яіїєґ\s]/gi, ''));
-    setIsTitleErrorShown(false);
+    setHasTitleError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsUserIdErrorShown(false);
+    setHasUserIdError(false);
   };
 
   return (
@@ -115,7 +100,7 @@ export const App = () => {
                   className={classNames(
                     'input',
                     {
-                      'is-danger': isTitleErrorShown,
+                      'is-danger': hasTitleError,
                     },
                   )}
                   id="todoTitle"
@@ -126,7 +111,7 @@ export const App = () => {
                 />
               </label>
             </div>
-            {isTitleErrorShown && (
+            {hasTitleError && (
               <p className="help is-danger error">
                 Please enter a title
               </p>
@@ -144,7 +129,7 @@ export const App = () => {
               <div className={classNames(
                 'select',
                 {
-                  'is-danger': isUserIdErrorShown,
+                  'is-danger': hasUserIdError,
                 },
               )}
               >
@@ -166,7 +151,7 @@ export const App = () => {
                 </select>
               </div>
             </div>
-            {isUserIdErrorShown && (
+            {hasUserIdError && (
               <p className="help is-danger error">
                 Please choose a user
               </p>
