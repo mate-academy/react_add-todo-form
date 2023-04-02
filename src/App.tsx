@@ -64,7 +64,7 @@ export const App: React.FC = () => {
     });
     setFieldErrors({
       ...fieldErrors,
-      title: newTodo.title.trim() === '' ? 'Please enter a title' : '',
+      title: newTodo.title === '' ? 'Please enter a title' : '',
     });
   };
 
