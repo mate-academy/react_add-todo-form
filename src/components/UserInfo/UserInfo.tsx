@@ -3,11 +3,7 @@ import './UserInfo.scss';
 import { User } from '../../types/User';
 
 interface Props {
-  user: User,
-  // eslint-disable-next-line react/no-unused-prop-types
-  id: number,
-  name: string,
-  email: string
+  user: User;
 }
 
 export const UserInfo: React.FC<Props> = ({ user }) => {

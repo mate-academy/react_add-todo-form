@@ -17,12 +17,6 @@ export const TodoInfo: React.FC<Props> = ({
     user,
   } = todo;
 
-  const {
-    name,
-    email,
-    id: userId,
-  } = user;
-
   return (
     <article
       data-id={id}
@@ -35,12 +29,7 @@ export const TodoInfo: React.FC<Props> = ({
         {title}
       </h2>
 
-      <UserInfo
-        user={user}
-        id={userId}
-        name={name}
-        email={email}
-      />
+      <UserInfo user={user} />
     </article>
   );
 };

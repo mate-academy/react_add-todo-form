@@ -44,7 +44,7 @@ export const App = () => {
     return Math.max(...todosWithUsers.map(({ id }) => id));
   };
 
-  const getUseById = (idFoundBy: number) => {
+  const getUserById = (idFoundBy: number) => {
     return usersFromServer
       .find(
         (userFromServer) => userFromServer.id === idFoundBy,
@@ -60,7 +60,7 @@ export const App = () => {
       title: newTodoTitle,
       completed: false,
       userId: newTodoUserId,
-      user: getUseById(newTodoUserId),
+      user: getUserById(newTodoUserId),
     };
 
     setTodosWithUsers((
@@ -94,10 +94,10 @@ export const App = () => {
   ) => {
     const { target: { value } } = event;
 
-    const validTitle = value.replace(/[^A-Za-zА-Яа-я0-9 ]/g, '');
+    const sanitizedTitle = value.replace(/[^A-Za-zА-Яа-я0-9 ]/g, '');
 
-    setTodoTitle(validTitle);
-    setHasTodoTitleError(!validTitle.length);
+    setHasTodoTitleError(!sanitizedTitle.length);
+    setTodoTitle(sanitizedTitle);
   };
 
   const handleSelectUser = (
