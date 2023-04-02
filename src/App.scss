@@ -1,39 +1,99 @@
+$color-primary-grey: #333;
+$color-secondary-grey: #534f4f;
+$color-orange: #d89948;
+$color-orange-hover: #e6b16c;
+$color-white: #fff;
+
+$padding-primary: 15px;
+
+$border-radius-primary: 20px;
+
+* {
+  box-sizing: border-box;
+}
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
-label,
-button {
-  cursor: pointer;
+body,
+h1,
+p {
+  margin: 0;
+}
+
+body {
+  background-color: $color-primary-grey;
+}
+
+.container {
+  margin: 0 auto;
+  padding: (2*$padding-primary) $padding-primary;
+  max-width: 1024px;
+
+  &__section {
+    margin-bottom: 20px;
+    padding: $padding-primary;
+    background-color: $color-secondary-grey;
+    border-radius: 5px;
+  }
+}
+
+.title {
+  margin-bottom: 40px;
+  font-size: 3rem;
+  color: $color-white;
+  text-align: center;
 }
 
 .error {
+  padding-left: $padding-primary;
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+  &__fields {
+    display: flex;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__field {
+    margin-right: 20px;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: $color-white;
+  }
+
+  &__text-field {
+    padding: $padding-primary;
+    font-family: inherit;
+    text-transform: uppercase;
+    border-radius: $border-radius-primary;
   }
 }
 
-.UserInfo {
-  font-style: italic;
+.add-button {
+  padding: 0 $padding-primary;
+  height: 40px;
+  font-size: 1rem;
+  color: $color-white;
+  background-color: $color-orange;
+  border: none;
+  border-radius: $border-radius-primary;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: $color-orange-hover;
+  }
 }

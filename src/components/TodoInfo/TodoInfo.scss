@@ -1,0 +1,19 @@
+.TodoInfo {
+  margin-bottom: 5px;
+  padding: 5px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  background-color: white;
+  border-radius: 8px;
+
+  &__title {
+    margin: 0;
+    font-size: inherit;
+    word-wrap: break-word;
+    color: red;
+  }
+
+  &--completed &__title {
+    color: green;
+  }
+}
