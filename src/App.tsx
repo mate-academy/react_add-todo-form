@@ -118,6 +118,7 @@ export const App: React.FC = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Please enter a title"
             value={newTodo.title}
             onChange={handleTitle}
           />
