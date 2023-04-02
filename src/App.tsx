@@ -1,61 +1,161 @@
 import './App.scss';
+import { FormEventHandler, useState } from 'react';
+import { TodoList, getUser } from './components/TodoList';
+import usersFromServer from './api/users';
+import { Todo } from './types/Todo';
+import todosFromServer from './api/todos';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+function findMaxId(items: Title[]) {
+  let maxId = 0;
 
-export const App = () => {
+  items.forEach(item => {
+    if (item.id > maxId) {
+      maxId = item.id;
+    }
+  });
+
+  return maxId;
+}
+
+type Title = {
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+};
+
+export const App: React.FC = () => {
+  const [newTodo, setNewTodo] = useState<Title>({
+    id: 0,
+    title: '',
+    completed: false,
+    userId: 0,
+  });
+
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+
+  const [todos, setTodos] = useState<Todo[]>(() => todosFromServer
+    .map((todo) => ({
+      ...todo,
+      user: getUser(todo.userId),
+    })));
+
+  const [selectedUserId, setSelectedUserId] = useState({
+    select: 0,
+  });
+
+  const handleSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    setSelectedUserId(prevState => ({
+      ...prevState,
+      [name]: +value,
+    }));
+    setFieldErrors({
+      ...fieldErrors,
+      select: value === '0' ? 'Please choose a user' : '',
+    });
+  };
+
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodo({
+      ...newTodo,
+      title: e.target.value,
+    });
+    setFieldErrors({
+      ...fieldErrors,
+      title: newTodo.title.trim() === '' ? 'Please enter a title' : '',
+    });
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+    const titleError = newTodo.title.trim() === ''
+      ? 'Please enter a title' : '';
+    const selectError = selectedUserId.select === 0
+      ? 'Please choose a user' : '';
+
+    setFieldErrors({
+      title: titleError,
+      select: selectError,
+    });
+    if (titleError === '' && selectError === '') {
+      const maxId = findMaxId(todos);
+      const nextId = maxId + 1;
+      const newTodoItem = {
+        ...newTodo, id: nextId, userId: selectedUserId.select,
+      };
+
+      setNewTodo(newTodoItem);
+
+      const newTodos = [...todos, {
+        ...newTodoItem, user: getUser(newTodoItem.userId),
+      }];
+
+      setTodos(
+        newTodos,
+      );
+      setNewTodo({
+        id: 0,
+        title: '',
+        completed: false,
+        userId: 0,
+      });
+      setSelectedUserId({
+        select: 0,
+      });
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form action="/api/users" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            value={newTodo.title}
+            onChange={handleTitle}
+          />
+          {fieldErrors.title
+            && <span className="error">{fieldErrors.title}</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <select
+            data-cy="userSelect"
+            name="select"
+            value={selectedUserId.select}
+            onChange={handleSelected}
+          >
+            <option value="0">Choose a user</option>
+            <>
+              {usersFromServer.map((user) => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </>
           </select>
-
-          <span className="error">Please choose a user</span>
+          {fieldErrors.select
+            && <span className="error">{fieldErrors.select}</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
