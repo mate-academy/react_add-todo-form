@@ -7,40 +7,40 @@ import { User } from './types/user';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const todosList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [listOfTodos, setTodos] = useState(todos);
-  const [newTodoWrite, setNewTodo] = useState('');
+  const [todos, setTodos] = useState(todosList);
+  const [newTodo, setNewTodo] = useState('');
   const [selectUserId, setSelectUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
-  const [todoError, setTodoError] = useState(false);
+  const [hasUserError, setUserError] = useState(false);
+  const [hasTodoError, setTodoError] = useState(false);
 
   const handleFromServer = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newTodo = {
+    const newTodoFromForm = {
       id: todos[todos.length - 1].id + 1,
-      title: newTodoWrite,
+      title: newTodo,
       userId: selectUserId,
       completed: false,
-      user: getUser(selectUserId),
+      user: getUserById(selectUserId),
     };
 
-    setUserError(!newTodo.user);
-    setTodoError(!newTodo.title);
+    setUserError(!newTodoFromForm.user);
+    setTodoError(!newTodoFromForm.title.trim());
 
-    if (newTodo.user && newTodo.title.trim()) {
-      setTodos([...listOfTodos, newTodo]);
+    if (newTodoFromForm.user && newTodoFromForm.title.trim()) {
+      setTodos([...todos, newTodoFromForm]);
       setNewTodo('');
       setSelectUserId(0);
     }
@@ -76,22 +76,23 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={newTodoWrite}
+              value={newTodo}
               onChange={handleTitle}
             />
-            {todoError && (
+            {hasTodoError && (
               <span className="error">Please enter a title</span>
             )}
           </label>
         </div>
 
         <div className="field">
-          <label htmlFor="">
+          <label htmlFor="select">
             User:
             <select
               data-cy="userSelect"
               value={selectUserId}
               onChange={handleUser}
+              id="select"
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -100,7 +101,7 @@ export const App = () => {
             </select>
           </label>
 
-          {userError && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -110,7 +111,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={listOfTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
