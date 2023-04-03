@@ -20,8 +20,8 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(todoList);
-  const [isInvalidTitle, setIsInvalidTitle] = useState(false);
-  const [isInvalidUser, setIsInvalidUser] = useState(false);
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
+  const [isUserInvalid, setIsUserInvalid] = useState(false);
 
   function getNextId(aviableTodos: Todo[]): number {
     return Math.max(...aviableTodos.map(todo => todo.id)) + 1;
@@ -29,12 +29,12 @@ export const App = () => {
 
   const handleNewTitle = ((event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsInvalidTitle(false);
+    setIsTitleInvalid(false);
   });
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setIsInvalidUser(false);
+    setIsUserInvalid(false);
   };
 
   const handleSubmitForm = (event: React.FormEvent) => {
@@ -55,9 +55,9 @@ export const App = () => {
       setTitle('');
     }
 
-    setIsInvalidUser(!userId);
+    setIsUserInvalid(!userId);
 
-    setIsInvalidTitle(!title);
+    setIsTitleInvalid(!title);
   };
 
   return (
@@ -76,7 +76,7 @@ export const App = () => {
             onChange={handleNewTitle}
             placeholder="title..."
           />
-          {isInvalidTitle
+          {isTitleInvalid
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -98,8 +98,9 @@ export const App = () => {
             ))}
           </select>
 
-          {isInvalidUser
-          && <span className="error">Please choose a user</span>}
+          {isUserInvalid
+          && (<span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
