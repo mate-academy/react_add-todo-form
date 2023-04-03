@@ -17,47 +17,47 @@ const todoList = todosFromServer.map(todo => (
 ));
 
 export const App = () => {
-  const [titleForNewTodos, setTitleForNewTodos] = useState('');
-  const [userIdForNewTodos, setUserIdForNewTodos] = useState(0);
-  const [newTodos, setNewTodos] = useState(todoList);
-  const [invalidTitle, setInvalidTitle] = useState(false);
-  const [invalidUser, setInvalidUser] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [todos, setTodos] = useState(todoList);
+  const [isInvalidTitle, setIsInvalidTitle] = useState(false);
+  const [isInvalidUser, setIsInvalidUser] = useState(false);
 
-  function getMaxId(todos: Todo[]): number {
-    return Math.max(...todos.map(todo => todo.id)) + 1;
+  function getNextId(aviableTodos: Todo[]): number {
+    return Math.max(...aviableTodos.map(todo => todo.id)) + 1;
   }
 
   const handleNewTitle = ((event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleForNewTodos(event.target.value);
-    setInvalidTitle(false);
+    setTitle(event.target.value);
+    setIsInvalidTitle(false);
   });
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserIdForNewTodos(Number(event.target.value));
-    setInvalidUser(false);
+    setUserId(Number(event.target.value));
+    setIsInvalidUser(false);
   };
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userIdForNewTodos && titleForNewTodos) {
+    if (userId && title) {
       const todoToAdd = {
-        id: getMaxId(newTodos),
-        title: titleForNewTodos,
+        id: getNextId(todos),
+        title,
         completed: false,
-        userId: userIdForNewTodos,
-        user: findUserById(userIdForNewTodos),
+        userId,
+        user: findUserById(userId),
       };
 
-      setNewTodos(prevTodos => [...prevTodos, todoToAdd]);
+      setTodos(prevTodos => [...prevTodos, todoToAdd]);
 
-      setUserIdForNewTodos(0);
-      setTitleForNewTodos('');
+      setUserId(0);
+      setTitle('');
     }
 
-    setInvalidUser(!userIdForNewTodos);
+    setIsInvalidUser(!userId);
 
-    setInvalidTitle(!titleForNewTodos);
+    setIsInvalidTitle(!title);
   };
 
   return (
@@ -72,11 +72,11 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            value={titleForNewTodos}
+            value={title}
             onChange={handleNewTitle}
             placeholder="title..."
           />
-          {invalidTitle
+          {isInvalidTitle
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -84,7 +84,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             placeholder="Choose a user"
-            value={userIdForNewTodos}
+            value={userId}
             onChange={handleSelectUser}
           >
             <option value="0" disabled>Choose a user</option>
@@ -98,7 +98,7 @@ export const App = () => {
             ))}
           </select>
 
-          {invalidUser
+          {isInvalidUser
           && <span className="error">Please choose a user</span>}
         </div>
 
@@ -106,7 +106,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={newTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
