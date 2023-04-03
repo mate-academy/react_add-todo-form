@@ -6,9 +6,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import './App.scss';
 
-const getUser = (userId: number): User | null => usersFromServer.find(user => user.id === userId) ?? null;
+const getUser = (userId: number): User | null => usersFromServer
+  .find(user => user.id === userId) ?? null;
 
-const todoList = todosFromServer.map(todo => ({ ...todo, user: getUser(todo.userId) }));
+const todoList = todosFromServer.map(todo => (
+  { ...todo, user: getUser(todo.userId) }));
 
 export const App = () => {
   const [todos, setTodos] = useState(todoList);
@@ -91,7 +93,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} /> {/* <-- Use todos here */}
+      <TodoList todos={todos} />
     </div>
   );
 };
