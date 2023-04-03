@@ -6,34 +6,34 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.App-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
 label,
 button {
   cursor: pointer;
 }
 
 .error {
-  color: red;
+  display: block;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+.form {
+  width: 25vw;
+  max-width: 300px;
 }
 
-.UserInfo {
-  font-style: italic;
+.select-custom {
+  width: 100%;
+}
+
+.select,
+.width-100 {
+  width: 100%;
+}
+
+.centered {
+  margin: 0 auto;
 }
