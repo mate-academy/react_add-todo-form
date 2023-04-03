@@ -20,7 +20,7 @@ const todoList: Todo[] = todosFromServer.map(todo => (
   }
 ));
 
-function calculateId(todos: Todo[]): number {
+function generateNextId(todos: Todo[]): number {
   const idArray = todos.map(todo => todo.id).sort((a, b) => b - a);
 
   return idArray[0] + 1;
@@ -39,24 +39,21 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const { value } = event.target;
 
+    setTitle(value);
     setTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    const { value } = event.target;
 
+    setUserId(+value);
     setUserError(false);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (!title && !userId) {
-      setUserError(true);
-      setTitleError(true);
-    }
 
     if (!userId) {
       setUserError(true);
@@ -68,7 +65,7 @@ export const App = () => {
 
     if (title && userId) {
       const newTodo = {
-        id: calculateId(todos),
+        id: generateNextId(todos),
         title,
         completed: false,
         userId,
@@ -133,7 +130,6 @@ export const App = () => {
       </form>
 
       <TodoList todos={todos} />
-
     </div>
   );
 };
