@@ -10,71 +10,77 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find((user) => user.id === userId);
+function getUserById(userId: number): User | null {
+  const user = usersFromServer.find((person) => person.id === userId);
 
-  return foundUser || null;
+  return user || null;
 }
 
-function getMaximalId(todoes: Todo[]): number {
-  return Math.max(...todoes.map((todo) => todo.id)) + 1;
+function getMaxId(todos: Todo[]): number {
+  return Math.max(...todos.map((todo) => todo.id)) + 1;
 }
 
-export const todoesList: Todo[] = [...todosFromServer].map((todo) => ({
+export const initialTodos: Todo[] = [...todosFromServer].map((todo) => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState<number>(0);
-  const [todoes, setNewTodo] = useState(todoesList);
-  const [isHaveTitle, setIsHaveTitle] = useState(false);
-  const [isHaveUserId, setIsHaveUserId] = useState(false);
+  const [todos, setNewTodo] = useState(initialTodos);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
 
-  const resetState = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
-    setIsHaveTitle(false);
-    setIsHaveUserId(false);
+    setIsTitleValid(false);
+    setIsUserIdValid(false);
   };
 
-  const addNewTodo = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newTodo: Todo = {
-      id: getMaximalId(todoes),
+      id: getMaxId(todos),
       title,
       completed: false,
       userId,
-      user: getUser(userId),
+      user: getUserById(userId),
     };
 
     if (!title.length) {
-      setIsHaveTitle(true);
+      setIsTitleValid(true);
     }
 
     if (!userId) {
-      setIsHaveUserId(true);
+      setIsUserIdValid(true);
     }
 
-    if (title.length && userId) {
-      setNewTodo([...todoes, newTodo]);
+    setNewTodo((prevTodos) => {
+      if (title.length && userId) {
+        const updatedTodos = [...prevTodos, newTodo];
 
-      resetState();
-    }
+        resetForm();
+
+        return updatedTodos;
+      }
+
+      return prevTodos;
+    });
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsHaveTitle(false);
+    setIsTitleValid(false);
   };
 
   const handleChangeSelected = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setUserId(Number(event.target.value));
-    setIsHaveUserId(false);
+    setIsUserIdValid(false);
   };
 
   return (
@@ -84,7 +90,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={addNewTodo}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <Form.Control
@@ -96,7 +102,7 @@ export const App = () => {
             onChange={handleChangeInput}
           />
 
-          {isHaveTitle && (
+          {isTitleValid && (
             <span className="error">
               Please enter a title
             </span>
@@ -109,7 +115,6 @@ export const App = () => {
             value={Number(userId)}
             onChange={handleChangeSelected}
           >
-
             <option disabled value={0}>
               Choose a user
             </option>
@@ -121,7 +126,7 @@ export const App = () => {
             ))}
           </Form.Select>
 
-          {isHaveUserId && (
+          {isUserIdValid && (
             <span className="error">
               Please choose a user
             </span>
@@ -137,7 +142,7 @@ export const App = () => {
         </Button>
       </form>
 
-      <TodoList todos={todoes} />
+      <TodoList todos={todos} />
     </div>
   );
 };

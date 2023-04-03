@@ -2,9 +2,9 @@
   width: 100%;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 1px solid black;
   border-radius: 8px;
-  background-color: rgba(255, 136, 0, 0.12);
+  background-color: #ff000048;
 
   &__title {
     margin: 4px 0;
@@ -12,6 +12,6 @@
   }
 
   &--completed {
-    background-color: #c7fa9d5b;
+    background-color: #73ff005b;
   }
 }
