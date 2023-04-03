@@ -1,76 +1,71 @@
 import './App.scss';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
 
-export const App = () => {
-  const [todoList, setTodo] = useState(todosFromServer);
-  const [todoState, setData] = useState({
-    title: '',
-    select: '0',
-  });
-  const [titleError, setTitileError] = useState(false);
-  const [selectError, setSelectError] = useState(false);
+function getUserById(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
 
-  const handleChange = (event:
-  React.ChangeEvent<HTMLSelectElement> |
-  React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.currentTarget;
+  return foundUser || null;
+}
 
-    if (name === 'title' && value) {
-      setTitileError(false);
-    }
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
-    if (name === 'select' && value !== '0') {
-      setSelectError(false);
-    }
+let lastId = Math.max(...todos.map(({ id }) => id));
 
-    setData({
-      ...todoState,
-      [name]: value,
-    });
+export const App: React.FC = () => {
+  const [newTodos, setNewTodos] = useState(todos);
+  const [title, setTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
+  const [hasUserError, setHasUserError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+
+  const getNewTodo = () => {
+    const newId = lastId + 1;
+
+    lastId += 1;
+
+    return {
+      id: newId,
+      title,
+      completed: false,
+      userId: +selectedUserId,
+      user: getUserById(+selectedUserId),
+    };
   };
 
-  const addTodo = (event: React.FormEvent<HTMLFormElement>): void => {
+  const titleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(event.target.value);
+    setHasUserError(false);
+  };
+
+  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!todoState.title) {
-      setTitileError(true);
+    setHasTitleError(!title);
+    setHasUserError(!selectedUserId);
+
+    if (title && selectedUserId) {
+      setNewTodos([
+        ...newTodos,
+        getNewTodo(),
+      ]);
+
+      setTitle('');
+      setSelectedUserId('');
     }
-
-    if (todoState.select === '0') {
-      setSelectError(true);
-    }
-
-    const currentUser = usersFromServer
-      .find(user => user.name === todoState.select);
-
-    const currentUserId = currentUser !== undefined
-      ? currentUser.id
-      : null;
-
-    if (!currentUserId || !todoState.title) {
-      return;
-    }
-
-    const maxId = todoList
-      .reduce((max, item) => (item.id > max ? item.id : max), 0);
-
-    const todo = {
-      id: maxId + 1,
-      title: todoState.title.trim(),
-      completed: false,
-      userId: currentUserId,
-    };
-
-    setTodo([...todoList, todo]);
-
-    setData({
-      title: '',
-      select: '0',
-    });
   };
 
   return (
@@ -78,65 +73,45 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
-        onSubmit={addTodo}
+        onSubmit={addNewTodo}
       >
-        <div className="field">
-          <label>
-            Title:
-            {' '}
-            <input
-              name="title"
-              value={todoState.title}
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            />
-          </label>
 
-          {titleError
-          && (<span className="error">Please enter a title</span>)}
+        <div className="field">
+
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Please enter a title"
+            value={title}
+            onChange={titleInput}
+          />
+
+          {hasTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <label>
-            User:
-            {' '}
-            <select
-              data-cy="userSelect"
-              value={todoState.select}
-              name="select"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            >
+
+          <select
+            data-cy="userSelect"
+            value={selectedUserId}
+            onChange={selectUser}
+          >
+            <option value="" disabled>Choose a user</option>
+            {usersFromServer.map(user => (
               <option
-                value="0"
-                disabled
+                value={user.id}
+                key={user.id}
               >
-                Choose a user
+                {user.name}
               </option>
+            ))}
+          </select>
 
-              {[...usersFromServer].map(user => (
-                <option
-                  id={`${user.id}`}
-                  value={user.name}
-                  data-username={user.username}
-                  data-email={user.email}
-                >
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {selectError
-          && (<span className="error">Please choose a user</span>)}
-
+          {hasUserError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -144,7 +119,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todoList} userList={usersFromServer} />
+      <TodoList todos={newTodos} />
     </div>
   );
 };
