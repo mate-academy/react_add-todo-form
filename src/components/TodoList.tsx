@@ -4,27 +4,19 @@ import TodoInfo from './TodoInfo';
 import UserInfo from './UserInfo';
 
 type Props = {
-  allUsers: UsersList[]
+  allTodos: UsersList[]
 };
 
-const TodoList: React.FC<Props> = ({ allUsers }) => {
+const TodoList: React.FC<Props> = ({ allTodos }) => {
   return (
     <>
-      {allUsers.map((item, index) => (
+      {allTodos.map((item, index) => (
         <div
-          style={{
-            width: '400px',
-            border: '1px solid teal',
-          }}
+          className="todo-list"
           key={item.id}
         >
-          <UserInfo
-            user={item.user}
-            userIndex={index}
-          />
-          <TodoInfo
-            userTitle={item.title}
-          />
+          <UserInfo user={item.user} userIndex={index} />
+          <TodoInfo userTitle={item.title} />
         </div>
       ))}
     </>

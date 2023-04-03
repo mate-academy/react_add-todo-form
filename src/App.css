@@ -1,3 +1,8 @@
 .App {
   text-align: center;
 }
+
+.todo-list {
+  width: 400px;
+  border: 1px solid teal;
+}

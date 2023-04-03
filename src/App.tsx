@@ -1,92 +1,96 @@
 import React from 'react';
 import './App.css';
 
-import users from './api/users';
-import todos from './api/todos';
+import usersApi from './api/users';
+import todosApi from './api/todos';
 import { UsersList } from './types/UserList';
 import TodoList from './components/TodoList';
+import { User } from './types/User';
 
 type State = {
-  users: UsersList[];
-  newPost: {
-    userId: number;
-    id: number;
-    title: string;
-    user: {
-      name: string;
-    }
-  }
+  users: User[];
+  todos: UsersList[];
+  choosenUser: string;
+  newPost: UsersList;
 };
 
-const preparedTodos: UsersList[] = todos.map(todo => {
-  const newUser = users.find(user => user.id === todo.userId);
+const preparedTodos: UsersList[] = todosApi.map((todo) => {
+  const newUser = usersApi.find((user) => user.id === todo.userId);
 
   return { ...todo, user: newUser };
 });
 
 class App extends React.Component<{}, State> {
   state = {
-    users: preparedTodos,
+    users: usersApi,
+    todos: preparedTodos,
+    choosenUser: '',
     newPost: {
       userId: 0,
       id: 0,
       title: '',
-      user: {
-        name: '',
-      },
+      user: undefined,
     },
   };
 
-  handleSubmit = (event: { preventDefault: () => void; }) => {
+  handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const newPost = {
-      userId: this.state.users.length + 1,
-      id: this.state.users.length + 1,
+
+    if (!this.state.newPost.title.trim()) {
+      return;
+    }
+
+    const newTodo: UsersList = {
+      userId: this.state.newPost.userId,
+      id: +(new Date()),
       title: this.state.newPost.title,
-      user: {
-        name: this.state.newPost.user.name,
-      },
+      user: this.state.newPost.user,
     };
 
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      users: [...state.users, newPost],
-    }));
-
-    this.setState({
+      todos: [...state.todos, newTodo],
       newPost: {
         userId: 0,
         id: 0,
         title: '',
-        user: {
-          name: '',
-        },
+        user: undefined,
       },
-    });
+    }));
   };
 
   render() {
+    const { users, todos, choosenUser } = this.state;
+    const { title } = this.state.newPost;
+
     return (
       <>
         <form onSubmit={this.handleSubmit}>
           <select
-            value={this.state.newPost.user.name}
+            value={choosenUser}
             onChange={(event) => {
-              this.setState(state => ({
-                newPost: {
-                  ...state.newPost,
-                  user: {
-                    name: event.target.value,
+              const newUser = this.state.users.find(
+                (item) => item.name === event.target.value,
+              );
+
+              if (newUser) {
+                this.setState((state) => ({
+                  ...state,
+                  choosenUser: newUser.name,
+                  newPost: {
+                    ...state.newPost,
+                    userId: newUser.id,
+                    user: newUser,
                   },
-                },
-              }));
+                }));
+              }
             }}
             required
           >
             <option value="" disabled>
               Choose a user
             </option>
-            {users.map(user => (
+            {users.map((user) => (
               <option value={user.name} key={user.id}>
                 {user.name}
               </option>
@@ -94,9 +98,9 @@ class App extends React.Component<{}, State> {
           </select>
           <input
             type="text"
-            value={this.state.newPost.title}
+            value={title}
             onChange={(event) => {
-              this.setState(state => ({
+              this.setState((state) => ({
                 newPost: {
                   ...state.newPost,
                   title: event.target.value,
@@ -107,19 +111,12 @@ class App extends React.Component<{}, State> {
           />
           <button
             type="submit"
-            onClick={() => {
-              if (!this.state.newPost.title) {
-                <h1>
-                  Неработает
-                </h1>;
-              }
-            }}
           >
             Add
           </button>
         </form>
         <br />
-        <TodoList allUsers={this.state.users} />
+        <TodoList allTodos={todos} />
       </>
     );
   }
