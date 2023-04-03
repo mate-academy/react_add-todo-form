@@ -6,8 +6,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import './App.scss';
 
-const getUser = (userId: number): User | null => usersFromServer
-  .find(user => user.id === userId) ?? null;
+const getUser = (userId: number): User => usersFromServer
+  .find(user => user.id === userId) ?? { id: 0, name: '', email: '' };
 
 const todoList = todosFromServer.map(todo => (
   { ...todo, user: getUser(todo.userId) }));
