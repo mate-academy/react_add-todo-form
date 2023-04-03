@@ -13,7 +13,7 @@ export interface Todo {
   user: User | null;
 }
 
-export enum Error {
-  UserAbsence = 'Please choose a user',
-  TitleAbsence = 'Please enter a title',
+export enum FormError {
+  userFieldIsRequired = 'Please choose a user',
+  titleFieldIsRequired = 'Please enter a title',
 }

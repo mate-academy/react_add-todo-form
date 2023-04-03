@@ -6,7 +6,9 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { Todo, Error } from './types';
+import { Todo, FormError } from './types';
+
+import { currentMaxId, formatedTitle } from './heplers';
 
 const getUserById = (userId: number) => {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -26,7 +28,7 @@ export const App = () => {
   const [showUserError, setShowUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const validTitle = event.target.value.replace(/[^a-zA-Za-яA-Я ]/g, '');
+    const validTitle = formatedTitle(event.target.value);
 
     setNewTodoTitle(validTitle);
   };
@@ -43,8 +45,6 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
-  const currentMaxId = Math.max(...todos.map(todo => todo.id));
-
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -52,7 +52,7 @@ export const App = () => {
     setShowUserError(!selectedUserId);
 
     if (newTodoTitle && selectedUserId) {
-      addNewTodo(newTodoTitle, selectedUserId, currentMaxId);
+      addNewTodo(newTodoTitle, selectedUserId, currentMaxId(todos));
     }
   };
 
@@ -90,7 +90,9 @@ export const App = () => {
                   && !newTodoTitle
                     && (
                       <div>
-                        <span className="error">{Error.TitleAbsence}</span>
+                        <span className="error">
+                          {FormError.titleFieldIsRequired}
+                        </span>
                       </div>
                     )}
               </div>
@@ -104,9 +106,9 @@ export const App = () => {
                     setSelectedUserId(Number(event.target.value)))}
                 >
                   <option value="0" disabled>Choose a user</option>
-                  {usersFromServer.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
+                  {usersFromServer.map((selectedUser) => (
+                    <option key={selectedUser.id} value={selectedUser.id}>
+                      {selectedUser.name}
                     </option>
                   ))}
                 </select>
@@ -115,7 +117,9 @@ export const App = () => {
                   && !selectedUserId
                     && (
                       <div>
-                        <span className="error">{Error.UserAbsence}</span>
+                        <span className="error">
+                          {FormError.userFieldIsRequired}
+                        </span>
                       </div>
                     )}
               </div>
