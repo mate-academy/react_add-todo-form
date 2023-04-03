@@ -46,16 +46,13 @@ export const App = () => {
     clearErrors();
   };
 
-  const handleAddingTodos = () => {
-    if (!title) {
-      setIsTitleEmpty(true);
-    }
-
-    if (!userId) {
-      sethasUserId(true);
-    }
+  const handleAddingTodos = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!title || !userId) {
+      setIsTitleEmpty(!title);
+      sethasUserId(!userId);
+
       return;
     }
 
@@ -75,10 +72,6 @@ export const App = () => {
     setUserId(0);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
   return (
     <div className="App">
       <h1 className="App_heading">Add todo form</h1>
@@ -86,7 +79,6 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -119,7 +111,7 @@ export const App = () => {
             ))}
           </select>
 
-          { hasUserId && <span className="error">Please choose a user</span> }
+          {hasUserId && <span className="error">Please choose a user</span>}
         </div>
 
         <button
