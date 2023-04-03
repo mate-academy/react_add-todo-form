@@ -1,4 +1,4 @@
-import { User } from '../../react-app-env';
+import { User } from '../../types';
 
 export type Props = {
   user: User

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import { Todo, TodoWithUser, User } from './react-app-env';
+import { Todo, TodoWithUser, User } from './types';
 import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number): User | null {
