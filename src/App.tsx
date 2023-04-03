@@ -3,20 +3,20 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types/Todo';
+import { TodoWithUser } from './types/TodoWithUser';
 
 import { TodoList } from './components/TodoList';
 
-const getUserById = (id: number) => {
+const findUserById = (id: number) => {
   return usersFromServer.find(user => user.id === id) || null;
 };
 
-const todosWithUser: Todo[] = todosFromServer.map(todo => ({
+const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
-const generateNewId = (todos: Todo[]) => {
+const getNewId = (todos: TodoWithUser[]) => {
   const maxId = Math.max(...todos.map(todo => todo.id));
 
   return maxId + 1;
@@ -30,12 +30,12 @@ export const App = () => {
   const [hasUserError, setHasUserError] = useState(false);
 
   const addNewTodo = (title: string, userId: number) => {
-    const newTodo: Todo = {
-      id: generateNewId(todos),
+    const newTodo: TodoWithUser = {
+      id: getNewId(todos),
       title,
       completed: false,
       userId,
-      user: getUserById(userId),
+      user: findUserById(userId),
     };
 
     setTodos((previousTodos) => [...previousTodos, newTodo]);
@@ -64,8 +64,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleFormSubmit}
       >
         <div className="field">
@@ -98,7 +96,12 @@ export const App = () => {
             >
               <option value="0" selected disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id}>{user.name}</option>
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>

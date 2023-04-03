@@ -17,10 +17,4 @@ export default [
     completed: false,
     userId: 4,
   },
-  {
-    id: 3,
-    title: 'quis ut nam facilis et officia qui',
-    completed: false,
-    userId: 3,
-  },
 ];
