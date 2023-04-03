@@ -6,13 +6,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import './App.scss';
 
-const getUser = (userId: number): User | null => usersFromServer
-  .find(user => user.id === userId) ?? null;
+const getUser = (userId: number): User | null => usersFromServer.find(user => user.id === userId) ?? null;
+
+const todoList = todosFromServer.map(todo => ({ ...todo, user: getUser(todo.userId) }));
 
 export const App = () => {
-  const [todoList, setTodoList] = useState(
-    todosFromServer.map(todo => ({ ...todo, user: getUser(todo.userId) })),
-  );
+  const [todos, setTodos] = useState(todoList);
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
@@ -40,14 +39,14 @@ export const App = () => {
 
     if (trimmedTitle && userId) {
       const newTodo: Todo = {
-        id: Math.max(...todoList.map(todo => todo.id)) + 1,
+        id: Math.max(...todos.map(todo => todo.id)) + 1,
         title: trimmedTitle,
         userId,
         user: getUser(userId),
         completed: false,
       };
 
-      setTodoList([...todoList, newTodo]);
+      setTodos([...todos, newTodo]);
       setTitle('');
       setUserId(0);
     }
@@ -92,7 +91,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todoList} />
+      <TodoList todos={todos} /> {/* <-- Use todos here */}
     </div>
   );
 };
