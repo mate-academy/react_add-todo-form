@@ -5,6 +5,7 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { UserList } from './components/UserList/UserList';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -50,6 +51,12 @@ export const App: React.FC = () => {
     }
   };
 
+  const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setTitle(value.trim());
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -66,11 +73,7 @@ export const App: React.FC = () => {
             placeholder="Enter a tittle"
             name="title"
             value={title}
-            onChange={(e) => {
-              const { value } = e.target;
-
-              setTitle(value);
-            }}
+            onChange={addTitle}
           />
           {isError
             && !title
@@ -85,26 +88,10 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(e) => setUserId(+(e.target.value))}
+              onChange={(event) => setUserId(+(event.target.value))}
             >
-              <option
-                value="0"
-                disabled
-                selected
-              >
-                Choose a user
-              </option>
-              {usersFromServer.map(user => {
-                return (
-                  <option
-                    value={user.id}
-                    key={user.id}
-                  >
-                    {user.name}
-                  </option>
-                );
-              })}
 
+              <UserList users={usersFromServer} />
             </select>
           </label>
           {isError && !userId
