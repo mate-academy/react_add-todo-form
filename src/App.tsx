@@ -7,7 +7,7 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import { UserList } from './components/UserList/UserList';
 
-function getUser(userId: number): User | null {
+function findUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
 const getNewId = (allTodos: Todo[]) => {
@@ -28,18 +28,18 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [newTodos, addNewTodos] = useState(todos);
   const [isError, setError] = useState(false);
-  const [userId, setUserId] = useState(0);
+  const [selectedUserId, setUserId] = useState(0);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && userId) {
+    if (title && selectedUserId) {
       const todo = {
         id: getNewId(newTodos),
         title,
-        userId,
+        userId: selectedUserId,
         completed: false,
-        user: getUser(userId),
+        user: findUserById(selectedUserId),
       };
 
       addNewTodos([...newTodos, todo]);
@@ -51,10 +51,10 @@ export const App: React.FC = () => {
     }
   };
 
-  const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setTitle(value.trim());
+    setTitle(value.trimStart());
   };
 
   return (
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <input
@@ -73,7 +73,7 @@ export const App: React.FC = () => {
             placeholder="Enter a tittle"
             name="title"
             value={title}
-            onChange={addTitle}
+            onChange={handleTitleChange}
           />
           {isError
             && !title
@@ -87,14 +87,14 @@ export const App: React.FC = () => {
           <label htmlFor="">
             <select
               data-cy="userSelect"
-              value={userId}
+              value={selectedUserId}
               onChange={(event) => setUserId(+(event.target.value))}
             >
 
               <UserList users={usersFromServer} />
             </select>
           </label>
-          {isError && !userId
+          {isError && !selectedUserId
             && (
               <span className="error">Please choose a user</span>
             )}
