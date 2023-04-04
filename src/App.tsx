@@ -38,7 +38,12 @@ export const App: React.FC = () => {
       ...prevValues,
       title: filteredValue,
     }));
-    setIsTitle(true);
+
+    if (!filteredValue.trim()) {
+      setIsTitle(false);
+    } else {
+      setIsTitle(true);
+    }
   };
 
   const handleGetUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,7 +62,7 @@ export const App: React.FC = () => {
     setIsTitle(!!title);
     setIsUser(!!userId);
 
-    if (title && userId) {
+    if (title.trim() && userId) {
       setNewTodos([
         ...newTodos,
         {
