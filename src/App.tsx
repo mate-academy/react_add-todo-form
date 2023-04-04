@@ -16,7 +16,7 @@ function getUserById(userId: number): User | null {
   return user || null;
 }
 
-function getMaxId(todos: Todo[]): number {
+function getNextTodoId(todos: Todo[]): number {
   return Math.max(...todos.map((todo) => todo.id)) + 1;
 }
 
@@ -27,60 +27,55 @@ export const initialTodos: Todo[] = [...todosFromServer].map((todo) => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState<number>(0);
+  const [userId, setUserId] = useState(0);
   const [todos, setNewTodo] = useState(initialTodos);
-  const [isTitleValid, setIsTitleValid] = useState(false);
-  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isHasTitle, setIsHasTitle] = useState(false);
+  const [isUserIdInvalid, setIsUserIdInvalid] = useState(false);
 
   const resetForm = () => {
     setTitle('');
     setUserId(0);
-    setIsTitleValid(false);
-    setIsUserIdValid(false);
+    setIsHasTitle(false);
+    setIsUserIdInvalid(false);
   };
 
   const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newTodo: Todo = {
-      id: getMaxId(todos),
+      id: getNextTodoId(todos),
       title,
       completed: false,
       userId,
       user: getUserById(userId),
     };
 
-    if (!title.length) {
-      setIsTitleValid(true);
-    }
+    if (!title.length || !userId) {
+      setIsHasTitle(!title.length);
+      setIsUserIdInvalid(!userId);
 
-    if (!userId) {
-      setIsUserIdValid(true);
+      return;
     }
 
     setNewTodo((prevTodos) => {
-      if (title.length && userId) {
-        const updatedTodos = [...prevTodos, newTodo];
+      const updatedTodos = [...prevTodos, newTodo];
 
-        resetForm();
-
-        return updatedTodos;
-      }
-
-      return prevTodos;
+      return updatedTodos;
     });
+
+    resetForm();
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleValid(false);
+    setIsHasTitle(false);
   };
 
   const handleChangeSelected = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setUserId(Number(event.target.value));
-    setIsUserIdValid(false);
+    setIsUserIdInvalid(false);
   };
 
   return (
@@ -102,7 +97,7 @@ export const App = () => {
             onChange={handleChangeInput}
           />
 
-          {isTitleValid && (
+          {isHasTitle && (
             <span className="error">
               Please enter a title
             </span>
@@ -126,7 +121,7 @@ export const App = () => {
             ))}
           </Form.Select>
 
-          {isUserIdValid && (
+          {isUserIdInvalid && (
             <span className="error">
               Please choose a user
             </span>
