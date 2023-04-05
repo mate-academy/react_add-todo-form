@@ -55,7 +55,7 @@ export const App: React.FC = () => {
     const newMaxId = maxId + 1;
     const { title, userId } = formValues;
 
-    setIsTitle(!!title);
+    setIsTitle(!!title.trim());
     setIsUser(!!userId);
 
     if (title.trim() && userId) {
