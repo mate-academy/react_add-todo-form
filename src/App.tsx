@@ -39,11 +39,7 @@ export const App: React.FC = () => {
       title: filteredValue,
     }));
 
-    if (!filteredValue.trim()) {
-      setIsTitle(false);
-    } else {
-      setIsTitle(true);
-    }
+    setIsTitle(!!filteredValue.trim());
   };
 
   const handleGetUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
