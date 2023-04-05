@@ -1,0 +1,23 @@
+.TodoInfo {
+  width: 200px;
+  padding: 8px;
+  margin: 12px 0;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background-color: rgb(247, 205, 149);
+  font-family: "Franklin Gothic Medium", Arial, sans-serif;
+
+  &__title {
+    margin: 4px 0;
+    font-size: inherit;
+    color: #f00;
+  }
+
+  &--completed &__title {
+    color: #080;
+  }
+}
+
+.TodoInfo:hover {
+  box-shadow: #000 3px 8px;
+}
