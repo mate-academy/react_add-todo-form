@@ -12,7 +12,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -20,9 +20,16 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleHasError, setTitleHasError] = useState(false);
-  const [userHasError, setUserHasError] = useState(false);
-  const [newTodos, setNewTodos] = useState(todos);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
+  const [newTodos, setNewTodos] = useState(initialTodos);
+
+  const reset = () => {
+    setUserId(0);
+    setTitle('');
+    setIsUserError(false);
+    setIsTitleError(false);
+  };
 
   const addTodo = () => {
     if (userId && title) {
@@ -37,19 +44,15 @@ export const App: React.FC = () => {
       };
 
       setNewTodos((currentTodos) => ([...currentTodos, newTodo]));
-
-      setUserId(0);
-      setTitle('');
-      setUserHasError(false);
-      setTitleHasError(false);
+      reset();
     }
 
     if (!userId) {
-      setUserHasError(true);
+      setIsUserError(true);
     }
 
     if (!title) {
-      setTitleHasError(true);
+      setIsTitleError(true);
     }
   };
 
@@ -60,12 +63,12 @@ export const App: React.FC = () => {
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleHasError(false);
+    setIsTitleError(false);
   };
 
   const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setUserHasError(false);
+    setIsUserError(false);
   };
 
   return (
@@ -83,12 +86,12 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={title}
+              value={title.replace(/[^a-z\d\s]+/gi, '')}
               onChange={handleTitle}
             />
           </label>
 
-          {titleHasError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -107,18 +110,18 @@ export const App: React.FC = () => {
               >
                 Choose a user
               </option>
-              {usersFromServer.map(user => (
+              {usersFromServer.map(({ id, name }) => (
                 <option
-                  key={user.id}
-                  value={user.id}
+                  key={id}
+                  value={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))}
             </select>
           </label>
 
-          {userHasError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
