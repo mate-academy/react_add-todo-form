@@ -14,17 +14,17 @@ const getUserById = (userId: number): User | null => {
   return foundUser || null;
 };
 
-const usersWithTodo: Todo[] = todosFromServer.map((todo) => ({
+const todos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
-const getNewId = (todos: Todo[]): number => {
-  return Math.max(...todos.map(todo => todo.id)) + 1;
+const getNewId = (newTodo: Todo[]): number => {
+  return Math.max(...newTodo.map(todo => todo.id)) + 1;
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState(usersWithTodo);
+  const [todoList, setTodos] = useState(todos);
   const [newTitle, setNewTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -124,7 +124,6 @@ export const App = () => {
                       {name}
                     </option>
                   ))}
-
                 </select>
               </div>
             </label>
@@ -145,7 +144,7 @@ export const App = () => {
           </button>
         </form>
 
-        <TodoList todos={todos} />
+        <TodoList todos={todoList} />
       </div>
     </div>
   );
