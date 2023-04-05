@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -21,30 +21,64 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [selectedTitle, setTitle] = useState('');
-  const [selectedUser, setUser] = useState('');
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
   const [addNewTodo, setTodo] = useState(todos);
-  const [validationTitle, setValTitle] = useState(true);
-  const [validationUser, setValUser] = useState(true);
+  const [isTitleSelected, setIsTitleSelected] = useState(true);
+  const [isUserSelected, setIsUserSelected] = useState(true);
 
   const clearForm = () => {
     setTitle('');
     setUser('');
   };
 
-  useEffect(() => {
-    return () => {
-      return clearForm();
+  const addTodo = () => {
+    const findUser = usersFromServer.find(
+      userFS => userFS.name === user,
+    );
+
+    const largeId = Math.max(...todos.map(todo => todo.id)) + 1;
+
+    const newTodo = {
+      id: largeId,
+      title,
+      completed: false,
+      userId: findUser?.id && undefined,
+      user: findUser,
     };
-  }, [addNewTodo]);
 
-  useEffect(() => {
-    setValTitle(true);
-  }, [selectedTitle]);
+    const newAdd = [...addNewTodo];
 
-  useEffect(() => {
-    setValUser(true);
-  }, [selectedUser]);
+    newAdd.push(newTodo);
+
+    if (title && user) {
+      setTodo(newAdd);
+      clearForm();
+    }
+
+    if (!title) {
+      setIsTitleSelected(false);
+    }
+
+    if (!user) {
+      setIsUserSelected(false);
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addTodo();
+  };
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleSelected(true);
+  };
+
+  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
+    setIsUserSelected(true);
+  };
 
   return (
     <div className="App">
@@ -53,9 +87,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleId">
@@ -65,16 +97,12 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             name="titleId"
-            value={selectedTitle}
+            value={title}
             placeholder="Please enter a title"
-            onChange={event => {
-              const { target } = event;
-
-              setTitle(target.value);
-            }}
+            onChange={handleTitle}
           />
 
-          {!validationTitle
+          {!isTitleSelected
           && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -86,65 +114,28 @@ export const App = () => {
           <select
             name="userSelectedId"
             data-cy="userSelect"
-            value={selectedUser}
-            onChange={event => {
-              const { target } = event;
-
-              setUser(target.value);
-            }}
+            value={user}
+            onChange={handleUser}
           >
             <option value="" disabled>Choose a user</option>
 
-            {usersFromServer.map(user => (
+            {usersFromServer.map(userFS => (
               <option
-                key={user.id}
-                value={user.name}
+                key={userFS.id}
+                value={userFS.name}
               >
-                {user.name}
+                {userFS.name}
               </option>
             ))}
           </select>
 
-          {!validationUser
+          {!isUserSelected
           && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            const findUser = usersFromServer.find(
-              user => user.name === selectedUser,
-            );
-
-            const largeId = [...todos].sort(
-              (a, b) => a.id - b.id,
-            )[todos.length - 1].id;
-
-            const newTodo = {
-              id: largeId + 1,
-              title: selectedTitle,
-              completed: false,
-              userId: findUser?.id && undefined,
-              user: findUser,
-            };
-
-            const newAdd = [...addNewTodo];
-
-            newAdd.push(newTodo);
-
-            if (selectedTitle && selectedUser) {
-              setTodo(newAdd);
-            }
-
-            if (!selectedTitle) {
-              setValTitle(false);
-            }
-
-            if (!selectedUser) {
-              setValUser(false);
-            }
-          }}
         >
           Add
         </button>
