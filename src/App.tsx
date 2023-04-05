@@ -1,4 +1,8 @@
 import './App.scss';
+import {
+  Box,
+  Paper,
+} from '@mui/material';
 
 import { useState } from 'react';
 import usersFromServer from './api/users';
@@ -7,18 +11,18 @@ import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-const getUserbyId = (userId: number): User | undefined => {
+const getUserById = (userId: number): User | undefined => {
   return usersFromServer.find((user) => user.id === userId);
 };
 
 const todosWithUsers = todosFromServer.map((todo) => (
   {
     ...todo,
-    user: getUserbyId(todo.userId),
+    user: getUserById(todo.userId),
   }
 ));
 
-const getNewId = (todos: Todo[]) => {
+const getNewTodoId = (todos: Todo[]) => {
   return Math.max(...todos.map(todo => todo.id)) + 1;
 };
 
@@ -33,11 +37,11 @@ export const App = () => {
 
     if (title && userId) {
       const newTodo = {
-        id: getNewId(todoList),
+        id: getNewTodoId(todoList),
         title,
         completed: false,
         userId,
-        user: getUserbyId(userId),
+        user: getUserById(userId),
       };
 
       setTodoList([...todoList, newTodo]);
@@ -51,138 +55,93 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
+      <Paper
+        elevation={3}
+        sx={{
+          width: 'max-content',
+          margin: 'auto',
+          padding: 5,
+          backgroundColor: '#a9de70',
+        }}
       >
+        <Box>
+          <h1>Add todo form</h1>
 
-        <div className="field">
-          <label>
-            {'Title: '}
+          <form
+            action="/api/users"
+            className="form"
+            method="POST"
+            onSubmit={handleSubmit}
+          >
 
-            <input
-              type="text"
-              data-cy="titleInput"
-              value={title}
-              placeholder="Enter a title"
-              onChange={(event) => {
-                const { value } = event.target;
+            <div className="field">
+              <label>
+                Title:
 
-                setTitle(value);
-              }}
-            />
-          </label>
+                <input
+                  type="text"
+                  data-cy="titleInput"
+                  value={title}
+                  placeholder="Enter a title"
+                  onChange={(event) => {
+                    const { value } = event.target;
 
-          {showError
-              && !title
-              && (
+                    setTitle(value);
+                  }}
+                />
+              </label>
+
+              {showError && !title && (
                 <span className="error">
                   Please enter a title
                 </span>
               )}
-        </div>
+            </div>
 
-        <div className="field">
-          <label>
-            {'User: '}
-            <select
-              data-cy="userSelect"
-              value={userId}
-              onChange={(event) => {
-                const { value } = event.target;
+            <div className="field">
+              <label>
+                User:
 
-                setUserId(+value);
-              }}
-            >
-              <option value="0" disabled>Choose a user</option>
+                <select
+                  data-cy="userSelect"
+                  value={userId}
+                  onChange={(event) => {
+                    const { value } = event.target;
 
-              {usersFromServer.map((user) => {
-                const { id, name } = user;
+                    setUserId(+value);
+                  }}
+                >
+                  <option value="0" disabled>Choose a user</option>
 
-                return (
-                  <option value={id} key={id}>
-                    {name}
-                  </option>
-                );
-              })}
-            </select>
-          </label>
+                  {usersFromServer.map((user) => {
+                    const { id, name } = user;
 
-          {showError
-              && !userId
-              && (
-                <span className="error">
-                  Please choose a user
-                </span>
-              )}
-        </div>
+                    return (
+                      <option value={id} key={id}>
+                        {name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+              {showError
+                  && !userId
+                  && (
+                    <span className="error">
+                      Please choose a user
+                    </span>
+                  )}
+            </div>
 
-      <TodoList todos={todoList} />
-    </div>
-  );
-};
+            <button type="submit" data-cy="submitButton">
+              Add
+            </button>
+          </form>
 
-export const App2 = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+          <TodoList todos={todoList} />
+        </Box>
+      </Paper>
     </div>
   );
 };
