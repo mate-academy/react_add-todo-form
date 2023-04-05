@@ -86,7 +86,7 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={title.replace(/[^a-z\d\s]+/gi, '')}
+              value={title.replace(/[^a-z\d\s]+/gi, '').trim()}
               onChange={handleTitle}
             />
           </label>
