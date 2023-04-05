@@ -99,7 +99,6 @@ select,
   border-width: 0;
   border-radius: 20px;
   font-family: "Roboto", sans-serif;
-  cursor: pointer;
 }
 
 .form-inner input,
@@ -125,6 +124,10 @@ select {
 
 .error {
   color: red;
+}
+
+select {
+  cursor: pointer;
 }
 
 .TodoInfo {

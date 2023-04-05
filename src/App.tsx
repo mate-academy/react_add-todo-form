@@ -1,7 +1,7 @@
 import './App.scss';
 import React, { useState } from 'react';
 
-import { Todos } from './types/Todos';
+import { Todo } from './types/Todos';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -11,14 +11,14 @@ function getUserById(id: number) {
   return usersFromServer.find((user) => user.id === id) || null;
 }
 
-const todosWithUsers: Todos[] = todosFromServer.map((todo) => (
+const todosWithUsers: Todo[] = todosFromServer.map((todo) => (
   {
     ...todo,
     user: getUserById(todo.userId),
   }
 ));
 
-function getMaxId(todos: Todos[]): number {
+function getMaxId(todos: Todo[]): number {
   return Math.max(...todos.map((todo) => todo.id)) + 1;
 }
 
@@ -99,7 +99,7 @@ export const App = () => {
           )}
 
           <select
-            id="title"
+            id="userId"
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
