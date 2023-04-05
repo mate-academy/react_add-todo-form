@@ -1,0 +1,16 @@
+html {
+  margin: 0 auto;
+  background: linear-gradient(90deg, rgb(187, 70, 197),
+  rgb(48, 233, 177) 49%,
+  rgb(42, 202, 234) 100%);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+iframe {
+  display: none;
+}
+
+label,
+button {
+  cursor: pointer;
+}

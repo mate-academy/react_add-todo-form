@@ -1,6 +1,8 @@
-iframe {
-  display: none;
-}
+@import './Normalize.scss';
+@import './Reset.scss';
+@import './StyleEror.scss';
+@import './Variables.scss';
+
 
 .title {
   font-size: 50px;
@@ -42,7 +44,6 @@ iframe {
       font-weight: 500;
       font-family: inherit;
       border-radius: 6px;
-      -webkit-appearance: none;
       border: 1px solid var(--input-border);
       transition: border 0.3s ease;
 
@@ -73,8 +74,8 @@ iframe {
 .submit-button {
   width: 200px;
   appearance: button;
-  background-color: #1652f0;
-  border: 1px solid #1652f0;
+  background-color: $color;
+  border: 1px solid $color;
   border-radius: 4px;
   box-sizing: border-box;
   color: #fff;
@@ -88,7 +89,6 @@ iframe {
   text-transform: none;
   transition: all 80ms ease-in-out;
   user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
 }
 
@@ -97,28 +97,7 @@ iframe {
   height: 36px;
   border-radius: 5px;
   border: none;
-  background: aqua;
-}
-
-html {
-  margin: 0 auto;
-  background: linear-gradient(90deg, rgb(187, 70, 197),
-  rgb(48, 233, 177) 49%,
-  rgb(42, 202, 234) 100%);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
-body {
-  margin: 0;
-}
-
-.error {
-  color: red;
+  background: $BGcolor;
 }
 
 .UserInfo {

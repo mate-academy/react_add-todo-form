@@ -1,5 +1,5 @@
 import { User } from '../../types/types';
-import './UserInfo.scss';
+import '../../Reset.scss';
 
 export type UserInfoProps = {
   user: User;

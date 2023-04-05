@@ -6,7 +6,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
 
   return foundUser || null;
@@ -14,7 +14,7 @@ function getUser(userId: number): User | null {
 
 const initialTodos = todosFromServer.map((todo) => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -24,7 +24,7 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value);
@@ -64,7 +64,7 @@ export const App = () => {
         userId: selectedUserId,
         title,
         completed: false,
-        user: getUser(selectedUserId),
+        user: getUserById(selectedUserId),
       };
 
       setTodos((prevTodo => [...prevTodo, newTodo]));
@@ -96,10 +96,11 @@ export const App = () => {
                 className="field-form"
                 data-cy="titleInput"
                 value={title}
-                onChange={handleTitle}
+                onChange={handleChangeTitle}
                 placeholder="Enter a title"
               />
             </label>
+
             {errorTitle && (
               <span className="error">
                 Please enter a title
