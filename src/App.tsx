@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
@@ -23,6 +23,24 @@ export const App = () => {
   const [option, setOption] = useState(0);
   const [title, setTitle] = useState('');
   const [todos, setNewTodo] = useState(initialTodos);
+  const [titleError, setTitleError] = useState(false);
+  const [selectUserError, setSelectUserError] = useState(false);
+
+  useEffect(() => {
+    if (title === '') {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (option === 0) {
+      setSelectUserError(true);
+    } else {
+      setSelectUserError(false);
+    }
+  }, [option]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,11 +53,14 @@ export const App = () => {
       user: getUser(option),
     };
 
-    if (option === 0 || title === '') {
+    if (titleError || selectUserError) {
       return;
     }
 
     setNewTodo([...todos, newTodo]);
+
+    setTitle('');
+    setOption(0);
   };
 
   const userChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
