@@ -63,7 +63,7 @@ export const App: React.FC = () => {
   const isValid = (value: string) => {
     const regEx = /^[a-zA-Z0-9 ]*$/;
 
-    return regEx.test(value.trim());
+    return regEx.test(value);
   };
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
