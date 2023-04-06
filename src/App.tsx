@@ -35,7 +35,7 @@ export const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    if (title && userId) {
+    if (title.trim() && userId) {
       const newTodo = {
         id: getId(),
         title,
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
       setIsUserIdEmpty(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleEmpty(false);
     }
 
@@ -63,7 +63,12 @@ export const App: React.FC = () => {
   const isValid = (value: string) => {
     const regEx = /^[a-zA-Z0-9 ]*$/;
 
-    return regEx.test(value);
+    return regEx.test(value.trim());
+  };
+
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addTodo();
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +79,11 @@ export const App: React.FC = () => {
     setIsTitleEmpty(true);
   };
 
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setIsUserIdEmpty(true);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -81,10 +91,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addTodo();
-        }}
+        onSubmit={handleOnSubmit}
       >
         <div className="field">
           <label htmlFor="title">
@@ -113,10 +120,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               id="user"
               value={userId}
-              onChange={event => {
-                setUserId(+event.target.value);
-                setIsUserIdEmpty(true);
-              }}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>
                 Choose a user
