@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -9,75 +9,65 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number): User | undefined {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  return foundUser || undefined;
+  return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
-export const App = () => {
+let lastId = Math.max(...todos.map(({ id }) => id));
+
+export const App: React.FC = () => {
+  const [newTodos, setNewTodos] = useState(todos);
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('');
-  const [addNewTodo, setTodo] = useState(todos);
-  const [isTitleSelected, setIsTitleSelected] = useState(true);
-  const [isUserSelected, setIsUserSelected] = useState(true);
+  const [selectedUserId, setSelectedUserId] = useState('');
+  const [userHasError, setUserHasError] = useState(false);
+  const [titleHasError, setTitleHasError] = useState(false);
 
-  const clearForm = () => {
-    setTitle('');
-    setUser('');
-  };
+  const getNewTodo = () => {
+    const newId = lastId + 1;
 
-  const addTodo = () => {
-    const findUser = usersFromServer.find(
-      userFS => userFS.name === user,
-    );
+    lastId += 1;
 
-    const largeId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-    const newTodo = {
-      id: largeId,
+    return {
+      id: newId,
       title,
       completed: false,
-      userId: findUser?.id && undefined,
-      user: findUser,
+      userId: +selectedUserId,
+      user: getUserById(+selectedUserId),
     };
-
-    const newAdd = [...addNewTodo];
-
-    newAdd.push(newTodo);
-
-    if (title && user) {
-      setTodo(newAdd);
-      clearForm();
-    }
-
-    if (!title) {
-      setIsTitleSelected(false);
-    }
-
-    if (!user) {
-      setIsUserSelected(false);
-    }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    addTodo();
-  };
-
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const titleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsTitleSelected(true);
+    setTitleHasError(false);
   };
 
-  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(event.target.value);
-    setIsUserSelected(true);
+  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(event.target.value);
+    setUserHasError(false);
+  };
+
+  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setTitleHasError(!title);
+    setUserHasError(!selectedUserId);
+
+    if (title && selectedUserId) {
+      setNewTodos([
+        ...newTodos,
+        getNewTodo(),
+      ]);
+
+      setTitle('');
+      setSelectedUserId('');
+    }
   };
 
   return (
@@ -87,7 +77,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={addNewTodo}
       >
         <div className="field">
           <label htmlFor="titleId">
@@ -99,10 +89,10 @@ export const App = () => {
             name="titleId"
             value={title}
             placeholder="Please enter a title"
-            onChange={handleTitle}
+            onChange={titleInput}
           />
 
-          {!isTitleSelected
+          {titleHasError
           && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -114,22 +104,22 @@ export const App = () => {
           <select
             name="userSelectedId"
             data-cy="userSelect"
-            value={user}
-            onChange={handleUser}
+            value={selectedUserId}
+            onChange={selectUser}
           >
             <option value="" disabled>Choose a user</option>
 
-            {usersFromServer.map(userFS => (
+            {usersFromServer.map(user => (
               <option
-                key={userFS.id}
-                value={userFS.name}
+                key={user.id}
+                value={user.id}
               >
-                {userFS.name}
+                {user.name}
               </option>
             ))}
           </select>
 
-          {!isUserSelected
+          {userHasError
           && (<span className="error">Please choose a user</span>)}
         </div>
 
@@ -141,7 +131,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={addNewTodo} />
+      <TodoList todos={newTodos} />
     </div>
   );
 };
