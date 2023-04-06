@@ -3,25 +3,25 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { Todos } from './types/Todos';
+import { Todo } from './types/Todos';
 import { User } from './types/User';
 
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function findUserById(userId: number): User | null {
   const findUser = usersFromServer.find(user => user.id === userId);
 
   return findUser || null;
 }
 
-export const todos: Todos[] = todosFromServer.map(todo => ({
+export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [newTitle, setNewTitle] = useState('');
-  const [newUser, setNewUser] = useState(todos);
+  const [todo, setTodo] = useState(todos);
   const [userIdCount, setUserIdCount] = useState(0);
 
   const [errorUser, setErrorUser] = useState(false);
@@ -44,20 +44,18 @@ export const App: React.FC = () => {
     setErrorUser(!userIdCount);
     setErrorTitle(!titleTrim);
 
-    const maxId = Math.max(...newUser.map(todo => todo.id));
+    const maxId = Math.max(...todo.map(tod => tod.id));
 
     if (titleTrim && userIdCount) {
-      setNewUser(() => [
-        ...newUser,
-        {
-          id: maxId + 1,
-          completed: false,
-          title: titleTrim,
-          userId: userIdCount,
-          user: getUser(userIdCount),
-        },
-      ]);
+      const newTodo = {
+        id: maxId + 1,
+        completed: false,
+        title: titleTrim,
+        userId: userIdCount,
+        user: findUserById(userIdCount),
+      };
 
+      setTodo([...todo, newTodo]);
       setNewTitle('');
       setUserIdCount(0);
     }
@@ -97,18 +95,16 @@ export const App: React.FC = () => {
               value={userIdCount}
               onChange={changeUser}
             >
-              <option
-                value="0"
-              >
+              <option value="0">
                 Choose a user
               </option>
 
-              {usersFromServer.map(user => (
+              {usersFromServer.map(({ name, id }) => (
                 <option
-                  value={user.id}
-                  key={user.id}
+                  value={id}
+                  key={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))}
 
@@ -128,7 +124,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={newUser} />
+      <TodoList todos={todo} />
     </div>
   );
 };
