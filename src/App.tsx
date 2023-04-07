@@ -56,7 +56,7 @@ export const App = () => {
       setHasUser(false);
     }
 
-    if (title && user) {
+    if (title.trim() && user) {
       const newId = Math.max(...todos.map(todo => todo.id));
       const userOfToDo = usersFromServer.find(userFromServer => (
         userFromServer.name.includes(user)
