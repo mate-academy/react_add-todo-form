@@ -1,4 +1,6 @@
 import './App.scss';
+import './service/reset.scss';
+import './service/normalize.scss';
 import React, { useState } from 'react';
 
 import { Todo } from './types/Todos';
@@ -49,26 +51,23 @@ export const App = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userId && title.trim()) {
-      const newTodo = {
-        id: getMaxId(todos),
-        title,
-        completed: false,
-        userId,
-        user: getUserById(userId),
-      };
+    if (!userId || !title) {
+      setHasUserError(!userId);
+      setHasTitleError(!title);
 
-      setTodos(prevTodos => [...prevTodos, newTodo]);
-      clearAll();
+      return;
     }
 
-    if (!userId) {
-      setHasUserError(true);
-    }
+    const newTodo = {
+      id: getMaxId(todos),
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId),
+    };
 
-    if (!title) {
-      setHasTitleError(true);
-    }
+    setTodos(prevTodos => [...prevTodos, newTodo]);
+    clearAll();
   };
 
   return (
@@ -76,7 +75,6 @@ export const App = () => {
       <form
         className="decor"
         action="/api/users"
-        method="POST"
         onSubmit={handleFormSubmit}
       >
         <div className="form-left-decoration" />
@@ -106,22 +104,22 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map((user) => {
-              const { id, name } = user;
-
-              return (
-                <option value={id} key={id}>
-                  {name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
+              </option>
+            ))}
           </select>
 
           {hasUserError && (
             <span className="error">Please choose a user</span>
           )}
 
-          <button type="submit" data-cy="submitButton">
+          <button
+            type="submit"
+            data-cy="submitButton"
+            className="button"
+          >
             Add
           </button>
         </div>

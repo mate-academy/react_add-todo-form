@@ -1,19 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-iframe {
-  display: none;
-}
-
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-body {
-  background: #f69a73;
-}
-
 .decor {
   position: relative;
   max-width: 400px;
@@ -126,10 +110,6 @@ select {
   color: red;
 }
 
-select {
-  cursor: pointer;
-}
-
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -153,7 +133,7 @@ select {
   font-style: italic;
 }
 
-button {
+.button {
   background-color: #eee;
   border: none;
   padding: 1rem;
@@ -165,18 +145,18 @@ button {
   cursor: pointer;
 }
 
-button:active {
+.button:active {
   color: white;
   box-shadow: 0 0.2rem #dfd9d9;
   transform: translateY(0.2rem);
 }
 
-button:disabled {
+.button:disabled {
   cursor: auto;
   color: grey;
 }
 
-button:hover:not(:disabled) {
+.button:hover:not(:disabled) {
   background: lightcoral;
   color: white;
   text-shadow: 0 0.1rem #bcb4b4;
