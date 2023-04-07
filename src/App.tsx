@@ -29,7 +29,7 @@ export const App: React.FC = () => {
   const [userHasError, setUserHasError] = useState(false);
   const [titleHasError, setTitleHasError] = useState(false);
 
-  const getNewTodo = () => {
+  const createNewTodo = () => {
     const newId = lastId + 1;
 
     lastId += 1;
@@ -43,17 +43,19 @@ export const App: React.FC = () => {
     };
   };
 
-  const titleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setTitleHasError(false);
-  };
+  const handleTitleInputChange
+    = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(event.target.value);
+      setTitleHasError(false);
+    };
 
-  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(event.target.value);
-    setUserHasError(false);
-  };
+  const handleUserSelectionChange
+    = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedUserId(event.target.value);
+      setUserHasError(false);
+    };
 
-  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAddNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setTitleHasError(!title);
@@ -62,7 +64,7 @@ export const App: React.FC = () => {
     if (title && selectedUserId) {
       setNewTodos([
         ...newTodos,
-        getNewTodo(),
+        createNewTodo(),
       ]);
 
       setTitle('');
@@ -77,7 +79,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={addNewTodo}
+        onSubmit={handleAddNewTodo}
       >
         <div className="field">
           <label htmlFor="titleId">
@@ -89,7 +91,7 @@ export const App: React.FC = () => {
             name="titleId"
             value={title}
             placeholder="Please enter a title"
-            onChange={titleInput}
+            onChange={handleTitleInputChange}
           />
 
           {titleHasError
@@ -105,7 +107,7 @@ export const App: React.FC = () => {
             name="userSelectedId"
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={selectUser}
+            onChange={handleUserSelectionChange}
           >
             <option value="" disabled>Choose a user</option>
 
