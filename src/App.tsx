@@ -7,7 +7,7 @@ import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
 
   return foundUser || null;
@@ -15,14 +15,14 @@ function getUser(userId: number): User | null {
 
 const initialTodos = todosFromServer.map((todo) => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [errorTitle, showErrorTitle] = useState(false);
-  const [errorUser, showErrorUser] = useState(false);
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
   const [title, setTitle] = useState('');
 
   const handleClear = () => {
@@ -33,12 +33,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim()) {
-      showErrorTitle(true);
-    }
+    if (!title.trim() || !selectedUserId) {
+      setErrorTitle(!title.trim());
+      setErrorUser(!selectedUserId);
 
-    if (!selectedUserId) {
-      showErrorUser(true);
+      return;
     }
 
     if (title.trim() && selectedUserId) {
@@ -47,7 +46,7 @@ export const App = () => {
         userId: selectedUserId,
         title,
         completed: false,
-        user: getUser(selectedUserId),
+        user: getUserById(selectedUserId),
       };
 
       setTodos((prevTodo => [...prevTodo, newTodo]));
@@ -56,27 +55,31 @@ export const App = () => {
     }
   };
 
-  const handleTittle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTittle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value);
-    showErrorTitle(false);
+    setErrorTitle(false);
 
     setTitle(value.replace(/[^A-Za-z\s\d\u0400-\u04FF]/g, ''));
   };
 
-  const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setSelectedUserId(Number(value));
-    showErrorUser(false);
+    setErrorUser(false);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST" onSubmit={handleSubmit}>
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <label htmlFor="titleInput">
             Title:
@@ -84,10 +87,11 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               value={title}
-              onChange={handleTittle}
+              onChange={handleChangeTittle}
               placeholder="Enter a title"
             />
           </label>
+
           {errorTitle && (
             <span className="error">
               Please enter a title
@@ -103,7 +107,7 @@ export const App = () => {
               id="userSelect"
               placeholder="Choose a user"
               value={selectedUserId}
-              onChange={handleUser}
+              onChange={handleChangeUser}
             >
               <option value="0">
                 Choose a user
