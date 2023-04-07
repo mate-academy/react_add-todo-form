@@ -32,14 +32,14 @@ export const App = () => {
   }, [title, user]);
 
   function handleChange(e: React.BaseSyntheticEvent) {
-    const { name } = e.target;
+    const { name, value } = e.target;
 
     if (name === 'title') {
-      setTitle(e.target.value);
+      setTitle(value);
     }
 
     if (name === 'user') {
-      setUser(e.target.value);
+      setUser(value);
     }
   }
 
@@ -56,7 +56,14 @@ export const App = () => {
       setHasUser(false);
     }
 
-    if (title.trim() && user) {
+    if (title.startsWith(' ')) {
+      setHasTitle(false);
+      setTitle('');
+
+      return;
+    }
+
+    if (title && user) {
       const newId = Math.max(...todos.map(todo => todo.id));
       const userOfToDo = usersFromServer.find(userFromServer => (
         userFromServer.name.includes(user)
