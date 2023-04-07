@@ -35,7 +35,9 @@ export const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    if (title.trim() && userId) {
+    const trimedTitle = title.trim();
+
+    if (trimedTitle && userId) {
       const newTodo = {
         id: getId(),
         title,
@@ -51,7 +53,7 @@ export const App: React.FC = () => {
       setIsUserIdEmpty(true);
     }
 
-    if (!title.trim()) {
+    if (!trimedTitle) {
       setIsTitleEmpty(false);
     }
 
