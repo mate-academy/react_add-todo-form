@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
 
 import { TodoList } from './components/TodoList';
@@ -14,22 +14,10 @@ const todosInfo: ToDo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosInfo);
+  const [todos, setTodos] = useState<ToDo[]>(todosInfo);
   const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
-  const [hasUser, setHasUser] = useState(false);
-  const [hasTitle, setHasTitle] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (title) {
-      setHasTitle(true);
-    }
-
-    if (user) {
-      setHasUser(true);
-    }
-  }, [title, user]);
 
   function handleChange(e: React.BaseSyntheticEvent) {
     const { name, value } = e.target;
@@ -48,22 +36,15 @@ export const App = () => {
 
     setFormSubmitted(true);
 
-    if (!title) {
-      setHasTitle(false);
+    if (!title.trim()) {
+      setTitle('');
     }
 
     if (!user) {
-      setHasUser(false);
+      setUser('');
     }
 
-    if (title.startsWith(' ')) {
-      setHasTitle(false);
-      setTitle('');
-
-      return;
-    }
-
-    if (title && user) {
+    if (title.trim() && user) {
       const newId = Math.max(...todos.map(todo => todo.id));
       const userOfToDo = usersFromServer.find(userFromServer => (
         userFromServer.name.includes(user)
@@ -84,8 +65,6 @@ export const App = () => {
 
       setUser('');
       setTitle('');
-      setHasTitle(false);
-      setHasUser(false);
       setFormSubmitted(false);
     }
   }
@@ -113,7 +92,7 @@ export const App = () => {
           </label>
 
           {
-            !hasTitle && formSubmitted && (
+            !title && formSubmitted && (
               <span className="error">Please enter a title</span>
             )
           }
@@ -137,7 +116,7 @@ export const App = () => {
           </label>
 
           {
-            !hasUser && formSubmitted && (
+            !user && formSubmitted && (
               <span className="error">Please choose a user</span>
             )
           }
