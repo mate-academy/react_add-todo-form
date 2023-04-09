@@ -7,19 +7,17 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-let newTodosId = 0;
-
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-const todosWithUser: Todo[] = todosFromServer.map(todo => {
-  if (todo.id >= newTodosId) {
-    newTodosId = todo.id + 1;
-  }
+function getMaxTodoId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id));
+}
 
+const todosWithUser: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: getUser(todo.userId),
@@ -27,7 +25,7 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => {
 });
 
 export const App: React.FC = () => {
-  const [todos, setTodo] = useState<Todo[]>(todosWithUser);
+  const [todo, setTodo] = useState<Todo[]>(todosWithUser);
   const [newTodoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -35,14 +33,12 @@ export const App: React.FC = () => {
 
   const addNewTodo = (title: string, userId: number) => {
     const newTodo: Todo = {
-      id: newTodosId,
+      id: getMaxTodoId(todo) + 1,
       title,
       userId,
       completed: false,
       user: getUser(userId),
     };
-
-    newTodosId += 1;
 
     setTodo((previoutTodo) => [...previoutTodo, newTodo]);
   };
@@ -129,7 +125,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todo} />
     </div>
   );
 };
