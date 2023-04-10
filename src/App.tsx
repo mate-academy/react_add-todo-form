@@ -11,7 +11,6 @@ import todosFromServer from './api/todos';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -71,8 +70,7 @@ export const App = () => {
       >
         <div className="field">
           <label>
-            Title:
-            {' '}
+            {'Title: '}
             <input
               type="text"
               data-cy="titleInput"
@@ -80,15 +78,14 @@ export const App = () => {
               value={title}
               onChange={titleChange}
             />
-            {title === ''
+            {titleError
               && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
         <div className="field">
           <label>
-            User:
-            {' '}
+            {'User: '}
             <select
               data-cy="userSelect"
               value={option}
@@ -105,7 +102,7 @@ export const App = () => {
                 </option>
               ))}
             </select>
-            {option === 0
+            {selectUserError
               && <span className="error">Please choose a user</span>}
           </label>
         </div>
