@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import './App.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
@@ -26,24 +27,14 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [selectUserError, setSelectUserError] = useState(false);
 
-  useEffect(() => {
-    if (title === '') {
-      setTitleError(true);
-    } else {
-      setTitleError(false);
-    }
-  }, [title]);
-
-  useEffect(() => {
-    if (option === 0) {
-      setSelectUserError(true);
-    } else {
-      setSelectUserError(false);
-    }
-  }, [option]);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setTitleError(Boolean(!title));
+    setSelectUserError(Boolean(!option));
+    if (!title || !option) {
+      return;
+    }
 
     const newTodo: Todo = {
       id: Math.max(...initialTodos.map(todo => todo.id)) + 1,
@@ -52,10 +43,6 @@ export const App = () => {
       userId: option,
       user: getUser(option),
     };
-
-    if (titleError || selectUserError) {
-      return;
-    }
 
     setNewTodo([...todos, newTodo]);
 
