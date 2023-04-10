@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoForm } from '../TodoForm';
-import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
@@ -31,10 +30,6 @@ export const TodoInfo: React.FC<Props> = ({ todo, onDelete, onUpdate }) => {
       ) : (
         <>
           <h2 className="TodoInfo__title">{todo.title}</h2>
-
-          {todo.user && (
-            <UserInfo user={todo.user} />
-          )}
 
           <button type="button" onClick={onDelete}>
             x

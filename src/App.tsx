@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
-import todosFromServer from './api/todos';
+import { addTodoOnServer, deleteTodosFromSevrer, getTodos } from './api/todos';
 
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
-import { getUser, TodoForm } from './components/TodoForm';
-
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
+import { TodoForm } from './components/TodoForm';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  const addTodo = (todoData: Omit<Todo, 'id'>) => {
-    const newTodo = {
-      ...todoData,
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-    };
+  const loadTodos = async () => {
+    const todosFromServer = await getTodos();
 
-    setTodos(currentTodos => [...currentTodos, newTodo]);
+    setTodos(todosFromServer);
   };
 
-  const deleteTodo = (todoId: number) => {
-    setTodos(currentTodos => currentTodos.filter(
-      todo => todo.id !== todoId,
-    ));
+  useEffect(() => {
+    loadTodos();
+  }, []);
+
+  const addTodo = async (todoData: Omit<Todo, 'id'>) => {
+    const newTodo = {
+      ...todoData,
+    };
+
+    await addTodoOnServer(newTodo);
+
+    // setTodos((prevTodos) => [...prevTodos, addedTodo]);
+
+    await loadTodos();
+  };
+
+  const deleteTodo = async (todoId: number) => {
+    await deleteTodosFromSevrer(todoId);
+
+    // setTodos(currentTodos => currentTodos.filter(
+    //   todo => todo.id !== todoId,
+    // ));
+
+    await loadTodos();
   };
 
   const updateTodo = (updatedTodo: Todo) => {

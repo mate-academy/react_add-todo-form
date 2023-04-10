@@ -1,47 +1,50 @@
 import { useState } from 'react';
-import usersFromServer from '../api/users';
+import { USER_ID } from '../api/todos';
 import { Todo } from '../types/Todo';
-import { User } from '../types/User';
-
-export function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
 
 type Props = {
   todo?: Todo;
-  onSubmit: (todo: Omit<Todo, 'id'>) => void;
+  onSubmit: (todo: Omit<Todo, 'id'>) => Promise<void>;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit, todo }) => {
   const [title, setTitle] = useState(todo?.title || '');
-  const [userId, setUserId] = useState(todo?.userId || 0);
   const [completed, setCompleted] = useState(todo?.completed || false);
 
   const [hasTitleError, setTitleError] = useState(false);
-  const [hasUserError, setUserError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasAddingError, setHasAddingError] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     setTitleError(!title);
-    setUserError(!userId);
 
-    if (!title || !userId) {
+    if (!title) {
       return;
     }
 
-    const user = getUser(userId);
+    setHasAddingError(false);
+    setIsLoading(true);
 
-    onSubmit({
-      title, userId, completed, user,
-    });
+    try {
+      await onSubmit({
+        title,
+        userId: USER_ID,
+        completed,
+      });
+    } catch {
+      setHasAddingError(true);
+    }
 
+    setIsLoading(false);
     setCompleted(false);
     setTitle('');
-    setUserId(0);
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form action="/api/users" method="POST" onSubmit={handleSubmit}>
@@ -67,32 +70,6 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todo }) => {
 
       <div className="field">
         <label>
-          {'User: '}
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={event => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
-          >
-            <option value="0" disabled>Choose a user</option>
-
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        {hasUserError && (
-          <span className="error">Please choose a user</span>
-        )}
-      </div>
-
-      <div className="field">
-        <label>
           Done:
           <input
             type="checkbox"
@@ -105,6 +82,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todo }) => {
       <button type="submit" data-cy="submitButton">
         Save
       </button>
+
+      {hasAddingError && (
+        <p>Todo adding failed. Try again</p>
+      )}
     </form>
   );
 };
