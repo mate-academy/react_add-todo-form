@@ -14,40 +14,6 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-// export const todos: Todo[] = todosFromServer.map(todo => ({
-//   ...todo,
-//   user: getUser(todo.userId),
-// }));
-
-// export const App: React.FC = () => {
-//   return (
-//     <div className="App">
-//       <h1>Add todo form</h1>
-
-//       <form action="/api/users" method="POST">
-//         <div className="field">
-//           <input type="text" data-cy="titleInput" />
-//           <span className="error">Please enter a title</span>
-//         </div>
-
-//         <div className="field">
-//           <select data-cy="userSelect">
-//             <option value="0" disabled>Choose a user</option>
-//           </select>
-
-//           <span className="error">Please choose a user</span>
-//         </div>
-
-//         <button type="submit" data-cy="submitButton">
-//           Add
-//         </button>
-//       </form>
-
-//       <TodoList todos={todos} />
-//     </div>
-//   );
-// };
-
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer.map(todo => ({
     ...todo,
@@ -73,23 +39,13 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!selectedUserId) {
-      setUserError('Please choose a user');
-      if (!title.trim()) {
-        setTitleError('Please enter a title');
-
-        return;
-      }
-
-      return;
-    }
-
-    if (!title.trim()) {
-      setTitleError('Please enter a title');
+    if (!selectedUserId || !title.trim()) {
       if (!selectedUserId) {
         setUserError('Please choose a user');
+      }
 
-        return;
+      if (!title.trim()) {
+        setTitleError('Please enter a title');
       }
 
       return;
