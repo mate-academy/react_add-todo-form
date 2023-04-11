@@ -41,11 +41,9 @@ export const App: React.FC = () => {
   };
 
   const inputHandler = (value: string) => {
-    setShowErrorTitle(false);
-
-    return setTitle(
-      value.replace(/[^A-Za-z0-9\s^А-яЁё]/i, ''),
-    );
+    const filteredValue = value.replace(/[^A-Za-z0-9\s^А-яЁё]/i, '');
+    setShowErrorTitle(filteredValue.trim().length === 0);
+    setTitle(filteredValue);
   };
 
   const selectHandler = (value: number) => {
