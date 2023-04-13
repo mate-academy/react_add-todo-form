@@ -102,7 +102,7 @@ export const App = () => {
         action="/api/users"
         method="POST"
         className="form"
-        onSubmit={event => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label className="formField" htmlFor="titleId">Title: </label>
