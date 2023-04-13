@@ -6,13 +6,43 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-label,
-button {
+label {
   cursor: pointer;
+  width: 50px;
+}
+
+input,
+select {
+  width: 250px;
+}
+
+h1 {
+  width: 500px;
+  text-align: center;
 }
 
 .error {
   color: red;
+  width: 155px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
+}
+
+.field {
+  display: flex;
+  justify-content: start;
+}
+
+.submitButton {
+  cursor: pointer;
+  width: 50px;
+  background: greenyellow;
+  margin: 0 auto;
 }
 
 .TodoInfo {
@@ -21,19 +51,26 @@ button {
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
     color: #f00;
+    background-color: #ffcdd2;
   }
 
   &--completed &__title {
     color: #080;
+    background-color: greenyellow;
   }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }

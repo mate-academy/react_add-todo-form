@@ -1,61 +1,169 @@
 import './App.scss';
+import React, { useState } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+
+type ErrorMessage = {
+  titleError: string,
+  userError: string,
+};
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
+  const [titleTodo, setTitleTodo] = useState('');
+  const [allTodos, setAllTodos] = useState(todos);
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const largestId = Math.max(...allTodos.map(todo => todo.id));
+  const [errorMessage, setErrorMessage] = useState({
+    titleError: '',
+    userError: '',
+  });
+  const validation = () => {
+    const errors: ErrorMessage = {
+      titleError: '',
+      userError: '',
+    };
+    let isError = false;
+
+    if (!titleTodo) {
+      errors.titleError = 'Please enter a title';
+      isError = true;
+    }
+
+    if (!selectedUserId) {
+      errors.userError = 'Please choose a user';
+      isError = true;
+    }
+
+    if (isError) {
+      setErrorMessage(errors);
+    }
+
+    return isError;
+  };
+
+  const clearForm = () => {
+    setTitleTodo('');
+    setSelectedUserId(0);
+  };
+
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (validation()) {
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: largestId + 1,
+      title: titleTodo,
+      completed: false,
+      userId: selectedUserId,
+      user: getUser(selectedUserId),
+    };
+
+    setAllTodos(oldArr => [...oldArr, newTodo]);
+    clearForm();
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const regex = new RegExp(/^[a-zA-Z0-9А-Яа-я\s]*$/);
+
+    if (!regex.test(event.target.value)) {
+      return;
+    }
+
+    setTitleTodo(event.target.value);
+    if (titleTodo !== event.target.value) {
+      errorMessage.titleError = '';
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        className="form"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label className="formField" htmlFor="titleId">Title: </label>
+          <input
+            id="titleId"
+            type="text"
+            name="titleTodo"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={titleTodo}
+            onChange={handleInputChange}
+          />
+          <span
+            className="error"
+          >
+            {errorMessage.titleError}
+          </span>
         </div>
-
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <label className="formField" htmlFor="userId">User: </label>
+          <select
+            data-cy="userSelect"
+            value={selectedUserId}
+            onChange={event => {
+              setSelectedUserId(+event.target.value);
+              if (selectedUserId !== +event.target.value) {
+                errorMessage.userError = '';
+              }
+            }}
+          >
+            <option id="userId" value={0} disabled>Choose a user</option>
+            {
+              usersFromServer.map((user: User) => (
+                <option
+                  id="userId"
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))
+            }
           </select>
 
-          <span className="error">Please choose a user</span>
+          <span
+            className="error"
+          >
+            {errorMessage.userError}
+          </span>
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="submitButton"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={allTodos} />
     </div>
   );
 };
