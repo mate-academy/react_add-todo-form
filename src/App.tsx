@@ -113,7 +113,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={titleTodo}
-            onChange={event => handleInputChange(event)}
+            onChange={handleInputChange}
           />
           <span
             className="error"
