@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -62,6 +62,38 @@ export const App = () => {
     setSelectedUserId(0);
   };
 
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (validation()) {
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: largestId + 1,
+      title: titleTodo,
+      completed: false,
+      userId: selectedUserId,
+      user: getUser(selectedUserId),
+    };
+
+    setAllTodos(oldArr => [...oldArr, newTodo]);
+    clearForm();
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const regex = new RegExp(/^[a-zA-Z0-9А-Яа-я\s]*$/);
+
+    if (!regex.test(event.target.value)) {
+      return;
+    }
+
+    setTitleTodo(event.target.value);
+    if (titleTodo !== event.target.value) {
+      errorMessage.titleError = '';
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -70,24 +102,7 @@ export const App = () => {
         action="/api/users"
         method="POST"
         className="form"
-        onSubmit={event => {
-          event.preventDefault();
-
-          if (validation()) {
-            return;
-          }
-
-          const newTodo: Todo = {
-            id: largestId + 1,
-            title: titleTodo,
-            completed: false,
-            userId: selectedUserId,
-            user: getUser(selectedUserId),
-          };
-
-          setAllTodos(oldArr => [...oldArr, newTodo]);
-          clearForm();
-        }}
+        onSubmit={event => handleSubmit(event)}
       >
         <div className="field">
           <label className="formField" htmlFor="titleId">Title: </label>
@@ -98,18 +113,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={titleTodo}
-            onChange={event => {
-              const regex = new RegExp(/^[a-zA-Z0-9А-Яа-я\s]*$/);
-
-              if (!regex.test(event.target.value)) {
-                return;
-              }
-
-              setTitleTodo(event.target.value);
-              if (titleTodo !== event.target.value) {
-                errorMessage.titleError = '';
-              }
-            }}
+            onChange={event => handleInputChange(event)}
           />
           <span
             className="error"
