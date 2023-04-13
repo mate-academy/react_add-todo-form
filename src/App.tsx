@@ -40,15 +40,15 @@ export const App = () => {
 
     setTitleError(!title);
     setUserError(!userId);
-    const formattedTitle = title.trim();
+    const trimmedTitle = title.trim();
 
-    if (!title || !userId || !formattedTitle) {
+    if (!userId || !trimmedTitle) {
       return;
     }
 
     const addedTodo = {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title: formattedTitle,
+      title: trimmedTitle,
       userId,
       completed: false,
       user: getUser(userId),
@@ -64,8 +64,6 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
