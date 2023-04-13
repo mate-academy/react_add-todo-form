@@ -45,7 +45,7 @@ export const App = () => {
       isError = true;
     }
 
-    if (selectedUserId === 0) {
+    if (!selectedUserId) {
       errors.userError = 'Please choose a user';
       isError = true;
     }
