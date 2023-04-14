@@ -16,7 +16,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-let todos: Todo[] = todosFromServer.map(todo => ({
+const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -36,28 +36,58 @@ export const App = () => {
       return;
     }
 
-    let maxId = 0;
+    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+    const newTodo = {
+      id: newId,
+      title: inputTitle,
+      completed: false,
+      userId: +selectedUserId,
+      user: getUser(+selectedUserId),
+    };
 
-    todos.forEach(todo => {
-      if (todo.id > maxId) {
-        maxId = todo.id;
-      }
-    });
-
-    todos = [
-      ...todos,
-      {
-        id: maxId + 1,
-        title: inputTitle,
-        completed: false,
-        userId: +selectedUserId,
-        user: getUser(+selectedUserId),
-      },
-    ];
-
-    setTodos(todos);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
     setInputTitle('');
     setUser('0');
+  };
+
+  const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const regex = /\d|[a-z]|[а-я]|\s/i;
+    const target = event.target as HTMLInputElement;
+    const currValue = target.value;
+
+    if (regex.test(currValue.slice(-1)) || currValue === '') {
+      setInputTitle(currValue);
+    }
+
+    setTitleErrorStatus(false);
+  };
+
+  const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+    const target = event.target as HTMLSelectElement;
+    const currValue = target.value;
+
+    setUser(currValue);
+    setUserErrorStatus(false);
+  };
+
+  const handleButtonChange = (event: React.FormEvent<HTMLButtonElement>) => {
+    if (inputTitle && +selectedUserId) {
+      return addTodo(event);
+    }
+
+    if (inputTitle) {
+      setTitleErrorStatus(false);
+    } else {
+      setTitleErrorStatus(true);
+    }
+
+    if (+selectedUserId) {
+      setUserErrorStatus(false);
+    } else {
+      setUserErrorStatus(true);
+    }
+
+    return event.preventDefault();
   };
 
   return (
@@ -72,16 +102,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter the title"
               value={inputTitle}
-              onChange={event => {
-                const regex = /\d|[a-z]|[а-я]|\s/i;
-                const currValue = event.target.value;
-
-                if (regex.test(currValue.slice(-1)) || currValue === '') {
-                  setInputTitle(event.target.value);
-                }
-
-                setTitleErrorStatus(false);
-              }}
+              onChange={handleInputChange}
             />
           </label>
           {
@@ -96,10 +117,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={event => {
-                setUser(event.target.value);
-                setUserErrorStatus(false);
-              }}
+              onChange={handleSelectChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -120,25 +138,7 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => {
-            if (inputTitle && +selectedUserId) {
-              return addTodo(event);
-            }
-
-            if (inputTitle) {
-              setTitleErrorStatus(false);
-            } else {
-              setTitleErrorStatus(true);
-            }
-
-            if (+selectedUserId) {
-              setUserErrorStatus(false);
-            } else {
-              setUserErrorStatus(true);
-            }
-
-            return event.preventDefault();
-          }}
+          onClick={handleButtonChange}
         >
           Add
         </button>
