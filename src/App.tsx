@@ -13,27 +13,27 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-const todos = todosFromServer.map(todo => ({
+const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App = () => {
-  const [initTodos, setTodos] = useState(todos);
+  const [todos, setTodos] = useState(initialTodos);
   const [title, setTitle] = useState('');
-  const [emptyTitle, setEmptyTitle] = useState(false);
+  const [isValidTitle, setIsValidTitle] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [emptyUser, setEmptyUser] = useState(false);
+  const [isValidUser, setIsValidUser] = useState(false);
 
   let count = 15;
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setEmptyUser(false);
+    setIsValidUser(false);
     setUserId(+event.target.value);
   };
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmptyTitle(false);
+    setIsValidTitle(false);
     setTitle(event.target.value);
   };
 
@@ -41,15 +41,15 @@ export const App = () => {
     event.preventDefault();
 
     if (!title.trim()) {
-      setEmptyTitle(true);
+      setIsValidTitle(true);
     }
 
     if (!userId) {
-      setEmptyUser(true);
+      setIsValidUser(true);
     }
 
-    if (!title.trim() || userId === 0) {
-      return false;
+    if (!title.trim() || !userId) {
+      return;
     }
 
     count += 1;
@@ -62,15 +62,9 @@ export const App = () => {
       user: getUser(userId),
     };
 
-    const form = document.querySelector('form');
-
-    if (!form) {
-      return false;
-    }
-
-    form.reset();
-
-    return setTodos([...initTodos, newTodo]);
+    setTitle('');
+    setUserId(0);
+    setTodos([...todos, newTodo]);
   };
 
   return (
@@ -84,11 +78,12 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
+              value={title}
               onChange={handleTitle}
               placeholder="Enter a title"
             />
           </label>
-          {emptyTitle
+          {isValidTitle
             && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -98,15 +93,15 @@ export const App = () => {
             <select
               data-cy="userSelect"
               onChange={handleSelect}
-              defaultValue="0"
+              value={userId}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={`${user.id}`} key={`${user.id}`}>{user.name}</option>
+                <option value={user.id} key={`${user.id}`}>{user.name}</option>
               ))}
             </select>
           </label>
-          {emptyUser
+          {isValidUser
             && (<span className="error">Please choose a user</span>)}
         </div>
 
@@ -120,7 +115,7 @@ export const App = () => {
       </form>
 
       <TodoList
-        todos={initTodos}
+        todos={todos}
       />
     </div>
   );
