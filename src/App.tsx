@@ -24,8 +24,7 @@ export const App = () => {
   const [isValidTitle, setIsValidTitle] = useState(false);
   const [userId, setUserId] = useState(0);
   const [isValidUser, setIsValidUser] = useState(false);
-
-  let count = 15;
+  const [movieId, setMovieId] = useState(16);
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     setIsValidUser(false);
@@ -52,10 +51,10 @@ export const App = () => {
       return;
     }
 
-    count += 1;
+    setMovieId(movieId + 1);
 
     const newTodo = {
-      id: count,
+      id: movieId,
       title,
       completed: false,
       userId,
