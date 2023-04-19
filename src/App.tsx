@@ -4,16 +4,16 @@ import {
   Paper,
 } from '@mui/material';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-const getUserById = (userId: number): User | undefined => {
-  return usersFromServer.find((user) => user.id === userId);
-};
+const getUserById = (userId: number): User | null => (
+  usersFromServer.find((user) => user.id === userId) || null
+);
 
 const todosWithUsers = todosFromServer.map((todo) => (
   {
@@ -30,27 +30,41 @@ export const App = () => {
   const [todoList, setTodoList] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [showError, setShowError] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setTitle(value);
+  };
+
+  const handleChangeUser = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setUserId(+value);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && userId) {
-      const newTodo = {
-        id: getNewTodoId(todoList),
-        title,
-        completed: false,
-        userId,
-        user: getUserById(userId),
-      };
+    if (!title || !userId) {
+      setHasError(true);
 
-      setTodoList([...todoList, newTodo]);
-      setTitle('');
-      setUserId(0);
-      setShowError(false);
-    } else {
-      setShowError(true);
+      return;
     }
+
+    const newTodo = {
+      id: getNewTodoId(todoList),
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId),
+    };
+
+    setTodoList([...todoList, newTodo]);
+    setTitle('');
+    setUserId(0);
+    setHasError(false);
   };
 
   return (
@@ -73,7 +87,6 @@ export const App = () => {
             method="POST"
             onSubmit={handleSubmit}
           >
-
             <div className="field">
               <label>
                 Title:
@@ -83,15 +96,11 @@ export const App = () => {
                   data-cy="titleInput"
                   value={title}
                   placeholder="Enter a title"
-                  onChange={(event) => {
-                    const { value } = event.target;
-
-                    setTitle(value);
-                  }}
+                  onChange={handleInputChange}
                 />
               </label>
 
-              {showError && !title && (
+              {hasError && !title && (
                 <span className="error">
                   Please enter a title
                 </span>
@@ -105,33 +114,23 @@ export const App = () => {
                 <select
                   data-cy="userSelect"
                   value={userId}
-                  onChange={(event) => {
-                    const { value } = event.target;
-
-                    setUserId(+value);
-                  }}
+                  onChange={handleChangeUser}
                 >
                   <option value="0" disabled>Choose a user</option>
 
-                  {usersFromServer.map((user) => {
-                    const { id, name } = user;
-
-                    return (
-                      <option value={id} key={id}>
-                        {name}
-                      </option>
-                    );
-                  })}
+                  {usersFromServer.map(({ id, name }) => (
+                    <option value={id} key={id}>
+                      {name}
+                    </option>
+                  ))}
                 </select>
               </label>
 
-              {showError
-                  && !userId
-                  && (
-                    <span className="error">
-                      Please choose a user
-                    </span>
-                  )}
+              {hasError && !userId && (
+                <span className="error">
+                  Please choose a user
+                </span>
+              )}
             </div>
 
             <button type="submit" data-cy="submitButton">
