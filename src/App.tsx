@@ -55,10 +55,7 @@ export const App = () => {
 
     let isValidValues = true;
 
-    const titleOnlyWithLetters = title.replace(/[0-9]/g, '')
-      .split(' ')
-      .filter(letter => letter !== '')
-      .join(' ');
+    const titleOnlyWithLetters = title.replace(/[0-9]/g, '').trim();
 
     if (!titleOnlyWithLetters) {
       setIsValidTitle(false);
