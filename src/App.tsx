@@ -21,26 +21,28 @@ const newTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
+let maxId = Math.max(...newTodos.map(({ id }) => id));
+
 export const App = () => {
   const [todos, setTodos] = useState(newTodos);
   const [user, setUser] = useState('0');
   const [title, setTitle] = useState('');
 
-  const [invalidUser, setInvalidUser] = useState(false);
-  const [invalidTitle, setInvalidTitle] = useState(false);
+  const [isValidUser, setIsValidUser] = useState(true);
+  const [isValidTitle, setIsValidTitle] = useState(true);
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     setUser(value);
-    setInvalidUser(false);
+    setIsValidUser(true);
   };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value);
-    setInvalidTitle(false);
+    setIsValidTitle(true);
   };
 
   const resetForm = () => {
@@ -51,31 +53,36 @@ export const App = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let invalidValues = false;
-    const titleOnlyWithLetters = title.replace(/[0-9]/g, '');
+    let isValidValues = true;
+
+    const titleOnlyWithLetters = title.replace(/[0-9]/g, '')
+      .split(' ')
+      .filter(letter => letter !== '')
+      .join(' ');
 
     if (!titleOnlyWithLetters) {
-      setInvalidTitle(true);
-      invalidValues = true;
+      setIsValidTitle(false);
+
+      isValidValues = false;
     }
 
     if (user === '0') {
-      setInvalidUser(true);
-      invalidValues = true;
+      setIsValidUser(false);
+
+      isValidValues = false;
     }
 
-    if (invalidValues) {
+    if (!isValidValues) {
       return;
     }
 
     const findUser = usersFromServer.find(({ id }) => id === +user);
-    const newId = Math.max(...todos.map(({ id }) => id)) + 1;
 
     if (findUser) {
       setTodos([
         ...todos,
         {
-          id: newId,
+          id: maxId += 1,
           title: titleOnlyWithLetters,
           completed: false,
           userId: findUser.id,
@@ -108,7 +115,7 @@ export const App = () => {
             />
           </label>
 
-          {invalidTitle && (
+          {!isValidTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -130,7 +137,7 @@ export const App = () => {
             </select>
           </label>
 
-          {invalidUser && (
+          {!isValidUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -141,7 +148,6 @@ export const App = () => {
       </form>
 
       <TodoList todos={todos} />
-
     </div>
   );
 };
