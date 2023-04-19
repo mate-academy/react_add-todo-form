@@ -6,15 +6,15 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 type ChangeableElement = HTMLInputElement | HTMLSelectElement;
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
 
       case 'userSelectForm':
         setUserErrorStatus(false);
-        setChosenUser(getUser(+value));
+        setChosenUser(getUserById(+value));
         break;
 
       default: throw new Error('error');
@@ -47,31 +47,29 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let havingError = false;
-
     if (!chosenUser) {
       setUserErrorStatus(true);
-      havingError = true;
     }
 
-    if (!newTodoTitle) {
+    if (!newTodoTitle.trim()) {
       setTitleErrorStatus(true);
-      havingError = true;
     }
 
-    if (havingError) {
+    if (!chosenUser || !newTodoTitle.trim()) {
       return;
     }
 
+    const newTodo = {
+      id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
+      userId: chosenUser ? chosenUser.id : -1,
+      title: newTodoTitle,
+      completed: false,
+      user: chosenUser,
+    };
+
     setTodos([
       ...visibleTodos,
-      {
-        id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
-        userId: chosenUser ? chosenUser.id : -1,
-        title: newTodoTitle,
-        completed: false,
-        user: chosenUser,
-      },
+      newTodo,
     ]);
 
     setChosenUser(null);
