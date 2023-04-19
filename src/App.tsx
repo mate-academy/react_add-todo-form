@@ -8,7 +8,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -16,7 +16,7 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 const maxId = Math.max(...todosFromServer.map(todo => todo.id));
@@ -24,11 +24,11 @@ const maxId = Math.max(...todosFromServer.map(todo => todo.id));
 export const App: React.FC = () => {
   const [formValues, setFormValues] = useState({
     title: '',
-    userId: '',
+    userId: 0,
   });
   const [newTodos, setNewTodos] = useState(todos);
-  const [isTitle, setIsTitle] = useState(true);
-  const [isUser, setIsUser] = useState(true);
+  const [isTitleError, setIsTitleError] = useState(true);
+  const [isUserError, setIsUserError] = useState(true);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -39,40 +39,41 @@ export const App: React.FC = () => {
       title: filteredValue,
     }));
 
-    setIsTitle(!!filteredValue.trim());
+    setIsTitleError(!!filteredValue.trim());
   };
 
   const handleGetUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFormValues(prevValues => ({
       ...prevValues,
-      userId: event.target.value,
+      userId: +event.target.value,
     }));
-    setIsUser(true);
+    setIsUserError(true);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
     const newMaxId = maxId + 1;
     const { title, userId } = formValues;
+    const addTodo = {
+      id: newMaxId,
+      userId: Number(userId),
+      title,
+      completed: false,
+      user: getUserById(Number(userId)),
+    };
 
-    setIsTitle(!!title.trim());
-    setIsUser(!!userId);
+    setIsTitleError(!!title.trim());
+    setIsUserError(!!userId);
 
     if (title.trim() && userId) {
       setNewTodos([
         ...newTodos,
-        {
-          id: newMaxId,
-          userId: Number(userId),
-          title,
-          completed: false,
-          user: getUser(Number(userId)),
-        },
+        addTodo,
       ]);
 
       setFormValues({
         title: '',
-        userId: '',
+        userId: 0,
       });
     }
   };
@@ -90,7 +91,8 @@ export const App: React.FC = () => {
             value={formValues.title}
             onChange={handleTitle}
           />
-          {!isTitle && (<span className="error">Please enter a title</span>)}
+          {!isTitleError
+            && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
@@ -100,13 +102,14 @@ export const App: React.FC = () => {
             value={formValues.userId}
             onChange={handleGetUserId}
           >
-            <option value="0">Choose a user</option>
+            <option value="0" defaultChecked disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
-          {!isUser && (<span className="error">Please choose a user</span>)}
+          {!isUserError
+            && (<span className="error">Please choose a user</span>)}
         </div>
         <button type="submit" data-cy="submitButton">Add</button>
       </form>
