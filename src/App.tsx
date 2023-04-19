@@ -26,10 +26,12 @@ export const App = () => {
        return;
      }
 
-     const id: number = todosFromServer.sort((a, b) => b.id - a.id)[0].id + 1;
+     const newTodoId: number = todosFromServer.sort(
+       (a, b) => b.id - a.id,
+     )[0].id + 1;
 
      setTodos((prevState) => [...prevState, {
-       id,
+       id: newTodoId,
        title,
        completed: false,
        userId: +user,
@@ -87,7 +89,6 @@ export const App = () => {
                 <option
                   value={userFromServer.id.toString()}
                   key={userFromServer.id}
-
                 >
                   {userFromServer.name}
                 </option>

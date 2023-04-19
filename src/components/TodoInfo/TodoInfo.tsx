@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Todo } from '../../types/todo';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
@@ -21,9 +22,10 @@ export const TodoInfo = ({ todo }: TodoInfoInt) => {
   return (
 
     <article
-      key={todo.id}
       data-id={todo.id}
-      className={todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
     >
       <h2 className="TodoInfo__title">
         {todo.title}
