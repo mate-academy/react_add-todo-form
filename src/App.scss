@@ -15,25 +15,50 @@ button {
   color: red;
 }
 
+.App {
+  height: 100vh;
+  padding-top: 15px;
+  background: rgb(36,47,61);
+
+  &__TodoForm {
+    background-color: rgb(17, 27, 41);
+    margin: 0 auto;
+    width: 350px;
+    padding: 10px;
+    border: 1px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px black;
+  }
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 1px;
+  box-shadow: 0 1px 5px black;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(27,39,52);
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: rgb(255, 0, 0);
   }
 
   &--completed &__title {
-    color: #080;
+    color: rgb(0, 206, 62);
   }
 }
 
 .UserInfo {
-  font-style: italic;
+  color: aliceblue;
+}
+
+.UserInfo:hover {
+  color: rgb(83, 153, 214);
+}
+
+.Error {
+  display: inline;
 }
