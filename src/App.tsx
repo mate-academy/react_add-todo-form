@@ -31,6 +31,8 @@ export const App = () => {
   const [hasSelectedUserError, setHasSelectedUserError] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    newTitle.replace(/[^a-zA-Z а-яА-Я ]/g, '');
+
     setNewTitle(event.target.value);
     setHasTitleError(false);
   };
@@ -60,31 +62,26 @@ export const App = () => {
     resetForm();
   };
 
-  const validTitle = newTitle.replace(/[^a-zA-Z а-яА-Я ]/g, '');
-
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (validTitle && selectedUserId) {
-      addNewTodo(validTitle, selectedUserId);
+    if (!newTitle || !selectedUserId) {
+      setHasTitleError(!newTitle);
+      setHasSelectedUserError(!selectedUserId);
+
+      return;
     }
 
-    if (!validTitle) {
-      setHasTitleError(true);
-    }
-
-    if (!selectedUserId) {
-      setHasSelectedUserError(true);
-    }
+    addNewTodo(newTitle, selectedUserId);
   };
 
   return (
     <div className="App">
       <div className="App__TodoForm">
         <h1 className="title is-2 has-text-white">Add todo form</h1>
+
         <form
           action="/api/users"
-          method="POST"
           onSubmit={handleFormSubmit}
         >
           <div className="field">
@@ -95,9 +92,10 @@ export const App = () => {
                 className="input"
                 data-cy="titleInput"
                 placeholder="Enter a title"
-                value={validTitle}
+                value={newTitle}
                 onChange={handleChangeTitle}
               />
+
               {hasTitleError && (
                 <span className="error">
                   Please enter a title
@@ -128,6 +126,7 @@ export const App = () => {
               </div>
             </label>
             <br />
+
             {hasSelectedUserError && (
               <span className="error">
                 Please choose a user
