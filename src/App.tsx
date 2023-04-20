@@ -32,12 +32,10 @@ function createTodo(
     throw new Error(`User '${nameUser}' not found.`);
   }
 
-  const todoMaxId = todosList.reduce((prev, curr) => {
-    return prev.id > curr.id ? prev : curr;
-  });
+  const todoMaxId = Math.max(...todosList.map(({ id }) => id));
 
   return {
-    id: todoMaxId.id + 1,
+    id: todoMaxId + 1,
     title: titleTodo,
     completed: false,
     userId: foundUser.id,
@@ -53,8 +51,7 @@ export const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [nameError, setNameError] = useState(false);
 
-  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleAddTodo = () => {
     if (!name.trim()) {
       setNameError(true);
     }
@@ -78,6 +75,11 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleAddTodo();
+  };
+
   const titleHandler = (event: React.FormEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
     setTitleError(false);
@@ -95,9 +97,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          handleAddTodo(event);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -106,9 +106,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => {
-              titleHandler(event);
-            }}
+            onChange={titleHandler}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -118,7 +116,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             name="name"
             value={name}
-            onChange={(event) => nameHandler(event)}
+            onChange={nameHandler}
           >
             <option value="" disabled>Choose a user</option>
             {usersFromServer.map(user => (
