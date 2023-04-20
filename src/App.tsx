@@ -78,6 +78,16 @@ export const App: React.FC = () => {
     }
   };
 
+  const titleHandler = (event: React.FormEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value);
+    setTitleError(false);
+  };
+
+  const nameHandler = (event: React.FormEvent<HTMLSelectElement>) => {
+    setName(event.currentTarget.value);
+    setNameError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -96,7 +106,9 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => {
+              titleHandler(event);
+            }}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -106,7 +118,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             name="name"
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) => nameHandler(event)}
           >
             <option value="" disabled>Choose a user</option>
             {usersFromServer.map(user => (
