@@ -7,12 +7,12 @@ import todosFromServer from './api/todos';
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('0');
+  const [userId, setUserId] = useState('0');
   const [isClicked, setIsClicked] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
 
   const clearForm = () => {
-    setUser('0');
+    setUserId('0');
     setTitle('');
     setIsClicked(false);
   };
@@ -22,7 +22,7 @@ export const App = () => {
      event.preventDefault();
      setIsClicked(true);
 
-     if (!title || user === '0') {
+     if (!title || userId === '0') {
        return;
      }
 
@@ -34,7 +34,7 @@ export const App = () => {
        id: newTodoId,
        title,
        completed: false,
-       userId: +user,
+       userId: +userId,
      }]);
 
      clearForm();
@@ -46,7 +46,7 @@ export const App = () => {
     };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(event.target.value);
+    setUserId(event.target.value);
   };
 
   return (
@@ -78,16 +78,15 @@ export const App = () => {
           <label htmlFor="userSelect">User: </label>
           <select
             data-cy="userSelect"
-            defaultValue="0"
             id="userSelect"
-            value={user}
+            value={userId}
             onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((userFromServer) => {
               return (
                 <option
-                  value={userFromServer.id.toString()}
+                  value={userFromServer.id}
                   key={userFromServer.id}
                 >
                   {userFromServer.name}
@@ -96,7 +95,7 @@ export const App = () => {
             })}
           </select>
 
-          {(user === '0' && isClicked)
+          {(userId === '0' && isClicked)
           && <span className="error">Please choose a user</span>}
         </div>
 
