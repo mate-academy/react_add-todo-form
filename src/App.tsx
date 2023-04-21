@@ -71,33 +71,40 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            name="title"
-            placeholder="Enter a title"
-            value={title}
-            onChange={handleChangeTitle}
-          />
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              name="title"
+              placeholder="Enter a title"
+              value={title}
+              onChange={handleChangeTitle}
+            />
+          </label>
+
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            name="user"
-            value={userId}
-            onChange={handleChangeUserId}
-          >
-            <option value={0} disabled>Choose a user</option>
-            {
-              usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))
-            }
-          </select>
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              name="user"
+              value={userId}
+              onChange={handleChangeUserId}
+            >
+              <option value={0} disabled>Choose a user</option>
+              {
+                usersFromServer.map(user => (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                ))
+              }
+            </select>
+          </label>
           {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
