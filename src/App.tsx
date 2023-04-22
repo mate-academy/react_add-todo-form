@@ -24,6 +24,7 @@ export const App: React.FC = () => {
   const [todoList, setTodoList] = useState(todos);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isUserEmpty, setIsUserEmpty] = useState(false);
+
   const maxId = todoList.reduce((max, todo) => Math.max(max, todo.id), 0);
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,11 +46,13 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleTodoAddition = () => {
-    setIsTitleEmpty(title === '');
+  const handleTodoAddition = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsTitleEmpty(title.trim() === '');
     setIsUserEmpty(userId === '0');
 
-    if (userId !== '0' && title !== '') {
+    if (userId !== '0' && title.trim() !== '') {
       setTodoList([
         ...todoList,
         {
@@ -73,9 +76,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={handleTodoAddition}
       >
         <div className="field">
           <label>
@@ -107,6 +108,7 @@ export const App: React.FC = () => {
               onChange={handleUserSelect}
             >
               <option value="0" disabled>Choose a user</option>
+
               {usersFromServer.map(userName => (
                 <option value={userName.id}>{userName.name}</option>
               ))}
@@ -122,7 +124,6 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleTodoAddition}
         >
           Add
         </button>
