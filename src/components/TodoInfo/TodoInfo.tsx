@@ -4,15 +4,17 @@ import { User } from '../../types/user';
 
 type Props = {
   todo: Todo,
-  users: User[],
+  user: User,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
+export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
   const {
     title,
     completed,
     userId,
   } = todo;
+
+  const { name, email } = user;
 
   return (
     <article
@@ -28,8 +30,8 @@ export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
         {title}
       </h2>
 
-      <a className="UserInfo" href={users[userId - 1].email}>
-        {users[userId - 1].name}
+      <a className="UserInfo" href={`mailto: ${email}`}>
+        {name}
       </a>
     </article>
   );
