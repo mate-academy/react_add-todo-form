@@ -7,14 +7,13 @@ type Props = {
   user: User,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
     title,
     completed,
     userId,
+    user,
   } = todo;
-
-  const { name, email } = user;
 
   return (
     <article
@@ -30,9 +29,11 @@ export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
         {title}
       </h2>
 
-      <a className="UserInfo" href={`mailto: ${email}`}>
-        {name}
-      </a>
+      {user && (
+        <a className="UserInfo" href={`mailto: ${user.email}`}>
+          {user.name}
+        </a>
+      )}
     </article>
   );
 };
