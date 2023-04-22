@@ -42,8 +42,8 @@ export const App = () => {
     user: {
       id: 1,
       name: '',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
+      username: '',
+      email: '',
     },
   };
 
