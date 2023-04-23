@@ -4,8 +4,8 @@ export interface TodosInterFace {
   id: number,
   title: string,
   completed: boolean,
-  userId: number,
-  user: User | null,
+  userId: number | undefined,
+  person: User | null,
 }
 
 export default [

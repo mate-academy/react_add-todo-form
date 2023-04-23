@@ -4,12 +4,12 @@ import { UserInfo } from '../UserInfo';
 
 export const TodoInfo: React.FC<TodosInterFace> = ({
   title,
-  user,
+  person,
 }) => (
   <article className="TodoInfo TodoInfo--completed">
     <h2 className="TodoInfo__title">
       {title}
     </h2>
-    {user && <UserInfo {...user} />}
+    {person && <UserInfo {...person} key={title} />}
   </article>
 );

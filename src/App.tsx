@@ -7,48 +7,40 @@ import todoList, { TodosInterFace } from './api/todos';
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
 export const todos: TodosInterFace[] = todoList.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  person: getUser(todo.userId),
 }));
 
 export const App = () => {
-  // const todoCopy = todos;
   const [newtitle, setTitle] = useState('');
   const [idOfTodo, setId] = useState(16);
   const [name, setName] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [personError, setPersonError] = useState(false);
 
-  let newUserId = 0;
+  const foundPerson = usersFromServer.find(user => user.name === name);
 
-  usersFromServer.map((person) => {
-    if (person.name === name) {
-      newUserId = person.id;
-    }
-
-    return 0;
-  });
+  const newUserId = foundPerson?.id;
 
   const newObj: TodosInterFace = {
     id: idOfTodo,
     title: newtitle,
     completed: false,
     userId: newUserId,
-    user: {
+    person: {
       id: 1,
-      name: '',
-      username: '',
+      name,
+      username: name,
       email: '',
     },
   };
 
   const newTodo = () => {
-    if (newObj.user?.name !== '' && newtitle !== '') {
+    if (newObj.person?.name !== '' && newtitle !== '') {
       setId(current => current + 1);
       todos.push(newObj);
     }
@@ -57,7 +49,7 @@ export const App = () => {
       setTitleError(current => !current);
     }
 
-    if (newObj.user?.name === '') {
+    if (newObj.person?.name === '') {
       setPersonError(current => !current);
     }
   };
@@ -70,14 +62,13 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
       <form
-        action="/api/users"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
+            required
             onChange={(event) => {
               setTitle(event.target.value);
             }}
@@ -89,22 +80,19 @@ export const App = () => {
           <select
             data-cy="userSelect"
             placeholder="Chose a user"
+            required
             onChange={(event) => {
               setName(event.target.value);
             }}
           >
-            <option
-              value="person"
-
-            >
+            <option value="person">
               Chose a user
-
             </option>
-            {usersFromServer.map((person) => {
+            {usersFromServer.map((user) => {
               return (
-                <option value={person.name}>
+                <option value={user.name}>
                   {' '}
-                  {person.name}
+                  {user.name}
                   {' '}
                 </option>
               );
