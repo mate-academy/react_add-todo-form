@@ -4,7 +4,7 @@ export interface TodosInterFace {
   id: number,
   title: string,
   completed: boolean,
-  userId: number | undefined,
+  userId: number,
   person: User | null,
 }
 

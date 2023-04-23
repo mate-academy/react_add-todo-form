@@ -24,7 +24,11 @@ export const App = () => {
 
   const foundPerson = usersFromServer.find(user => user.name === name);
 
-  const newUserId = foundPerson?.id;
+  let newUserId = foundPerson?.id;
+
+  if (newUserId === undefined) {
+    newUserId = 0;
+  }
 
   const newObj: TodosInterFace = {
     id: idOfTodo,
