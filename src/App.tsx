@@ -65,6 +65,7 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Enter new todo"
             name="todoTitle"
             value={todoTitle}
             onChange={(e) => {
