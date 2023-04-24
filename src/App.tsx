@@ -6,6 +6,11 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
+enum FormType {
+  newTitleForm = 'newTitleForm',
+  userSelectForm = 'userSelectForm',
+}
+
 function getUserById(id: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === id);
 
@@ -30,12 +35,12 @@ export const App: React.FC = () => {
     const { name, value } = event.target;
 
     switch (name) {
-      case 'newTitleForm':
+      case FormType.newTitleForm.toString():
         setTitleErrorStatus(false);
         setTodoTitle(value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
         break;
 
-      case 'userSelectForm':
+      case FormType.userSelectForm.toString():
         setUserErrorStatus(false);
         setChosenUser(getUserById(+value));
         break;
@@ -59,8 +64,10 @@ export const App: React.FC = () => {
       return;
     }
 
+    const newTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
     const newTodo = {
-      id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
+      id: newTodoId,
       userId: chosenUser ? chosenUser.id : -1,
       title: newTodoTitle,
       completed: false,
@@ -118,7 +125,11 @@ export const App: React.FC = () => {
             )) }
           </select>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {userError && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button
