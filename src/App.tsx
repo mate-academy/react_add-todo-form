@@ -69,7 +69,7 @@ export const App = () => {
             name="todoTitle"
             value={todoTitle}
             onChange={(e) => {
-              const value = e.target.value.trim();
+              const value = e.target.value.trimStart();
               const regexp = /[\sа-яa-z\d]/gi;
               const validateValue = value.match(regexp)?.join('');
 
