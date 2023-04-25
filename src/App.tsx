@@ -6,21 +6,21 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(id: number): User | null {
+function getUserById(id: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
   const [visibleTodos, setVisibleTodos] = useState(todos);
+  const [title, setTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [userIsntSelected, setUserIsntSelected] = useState(false);
 
@@ -30,37 +30,39 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setSelectedUser(getUserById(+event.target.value));
     setUserIsntSelected(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
-      setIsTitleEmpty(true);
-    }
-
-    if (userId === '0') {
+    if (!selectedUser) {
       setUserIsntSelected(true);
     }
 
-    if (title !== '' && userId !== '0') {
-      const newTodo: Todo = {
-        id: todos.length + 1,
-        title: title.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''),
+    if (!title.trim()) {
+      setIsTitleEmpty(true);
+    }
+
+    if (title.trim() && selectedUser) {
+      const newTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
+      const newTodo = {
+        id: newTodoId,
+        userId: selectedUser ? selectedUser.id : -1,
+        title,
         completed: false,
-        userId: parseInt(userId, 10),
-        user: getUser(parseInt(userId, 10)),
+        user: selectedUser,
       };
 
-      visibleTodos.push(newTodo);
+      setVisibleTodos([
+        ...visibleTodos,
+        newTodo,
+      ]);
 
+      setSelectedUser(null);
       setTitle('');
-      setUserId('0');
-      setIsTitleEmpty(false);
-      setUserIsntSelected(false);
-      setVisibleTodos(visibleTodos);
     }
   };
 
@@ -99,7 +101,7 @@ export const App = () => {
 
             <select
               data-cy="userSelect"
-              value={userId}
+              value={selectedUser?.id || 0}
               onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
