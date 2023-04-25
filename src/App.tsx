@@ -10,19 +10,24 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const todos: TodosInterFace[] = todoList.map(todo => ({
-  ...todo,
-  person: getUser(todo.userId),
-}));
-
 export const App = () => {
   const [newtitle, setTitle] = useState('');
   const [idOfTodo, setId] = useState(16);
   const [name, setName] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [personError, setPersonError] = useState(false);
+  const [todosArr, setTodos] = useState(todoList);
 
-  const foundPerson = usersFromServer.find(user => user.name === name);
+  const placeHolder = 'Enter a title';
+
+  const finishedArr: TodosInterFace[] = todosArr.map(todo => ({
+    ...todo,
+    person: getUser(todo.userId),
+  }));
+
+  const foundPerson = usersFromServer.find(user => {
+    return user.name === name;
+  });
 
   let newUserId = foundPerson?.id;
 
@@ -36,25 +41,33 @@ export const App = () => {
     completed: false,
     userId: newUserId,
     person: {
-      id: 1,
+      id: newUserId,
       name,
       username: name,
-      email: '',
+      email: 'Sincere@april.biz',
     },
   };
 
   const newTodo = () => {
     if (newObj.person?.name !== '' && newtitle !== '') {
       setId(current => current + 1);
-      todos.push(newObj);
+      setTodos([...todosArr, newObj]);
+      setPersonError(false);
+      setTitleError(false);
+      setTitle('');
+      setName('');
     }
 
     if (newtitle === '') {
-      setTitleError(current => !current);
+      setTitleError(true);
+    } else if (newtitle !== '') {
+      setTitleError(false);
     }
 
-    if (newObj.person?.name === '') {
-      setPersonError(current => !current);
+    if (name === '') {
+      setPersonError(true);
+    } else if (name !== '') {
+      setPersonError(false);
     }
   };
 
@@ -65,14 +78,14 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit} id="create-course-form">
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             required
+            placeholder={placeHolder}
+            value={newtitle}
             onChange={(event) => {
               setTitle(event.target.value);
             }}
@@ -83,21 +96,17 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            placeholder="Chose a user"
             required
+            value={name}
             onChange={(event) => {
               setName(event.target.value);
             }}
           >
-            <option value="person">
-              Chose a user
-            </option>
+            <option value="" disabled selected>Choose user</option>
             {usersFromServer.map((user) => {
               return (
-                <option value={user.name}>
-                  {' '}
+                <option value={user.name} key={user.name}>
                   {user.name}
-                  {' '}
                 </option>
               );
             })}
@@ -115,37 +124,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-
-      <TodoList todos={todos} />
+      <TodoList todos={finishedArr} />
     </div>
   );
 };

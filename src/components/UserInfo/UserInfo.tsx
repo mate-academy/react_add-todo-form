@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface User {
-  name: string,
-  email: string,
+interface Props {
+  name: string
+  email: string
 }
 
-export const UserInfo: React.FC<User> = ({ name, email }) => (
+export const UserInfo: React.FC<Props> = ({ email, name }) => (
   <a className="UserInfo" href={email}>
     {name}
   </a>
