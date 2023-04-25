@@ -79,14 +79,16 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          Title:
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={handleInputChange}
-            placeholder="Enter new title"
-          />
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              onChange={handleInputChange}
+              placeholder="Enter new title"
+            />
+          </label>
           {isTitleError
           && (
             <span className="error">
@@ -96,27 +98,29 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          User:
-          <select
-            data-cy="userSelect"
-            value={selectedUser ? selectedUser.id : 0}
-            onChange={handleSelectChange}
-          >
-            <option
-              value="0"
-              disabled
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              value={selectedUser ? selectedUser.id : 0}
+              onChange={handleSelectChange}
             >
-              Choose a user
-            </option>
-            {usersFromServer.map((user) => (
               <option
-                value={user.id}
-                key={user.id}
+                value="0"
+                disabled
               >
-                {user.name}
+                Choose a user
               </option>
-            ))}
-          </select>
+              {usersFromServer.map((user) => (
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
           {isUserError
           && (
             <span className="error">
