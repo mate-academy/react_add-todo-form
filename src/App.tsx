@@ -1,61 +1,149 @@
+import { FC, useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList';
 
-export const App = () => {
+enum Field {
+  Title = 'title',
+  Select = 'select',
+}
+
+const findUser = (id: number) => (
+  usersFromServer.find(user => user.id === id) || null
+);
+
+const todos = (): Todo[] => todosFromServer.map(todo => ({
+  ...todo,
+  user: findUser(todo.userId),
+}));
+
+export const App: FC = () => {
+  const [vissibleTodos, setVissibleTodos] = useState<Todo[]>(todos);
+  const [inputTitle, setInputTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState<number>(0);
+  const [showTitleError, setShowTitleError] = useState(false);
+  const [showUserError, setShowUserError] = useState(false);
+
+  const newId = Math.max(...vissibleTodos.map(todo => todo.id)) + 1;
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case Field.Title:
+        setInputTitle(value.replace(/[^A-Za-zА-Яа-яЁё\s]/g, ''));
+        setShowTitleError(false);
+        break;
+
+      case Field.Select:
+        setSelectedUser(Number(event.target.value));
+        setShowUserError(false);
+        break;
+
+      // eslint-disable-next-line no-useless-escape
+      default: throw new Error('Something went wrong ¯\_(ツ)_/¯');
+        break;
+    }
+  };
+
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const foundUser = findUser(Number(selectedUser));
+    const newTodo: Todo = {
+      id: newId,
+      title: inputTitle,
+      completed: false,
+      userId: selectedUser,
+      user: foundUser || null,
+    };
+
+    if (!inputTitle) {
+      setShowTitleError(true);
+    } else {
+      setShowTitleError(false);
+    }
+
+    if (!selectedUser) {
+      setShowUserError(true);
+    } else {
+      setShowUserError(false);
+    }
+
+    if (!inputTitle || !selectedUser) {
+      return;
+    }
+
+    setVissibleTodos([...vissibleTodos, newTodo]);
+    setInputTitle('');
+    setSelectedUser(0);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={submitHandler}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            Title:&nbsp;
+            <input
+              placeholder="Enter a title"
+              type="text"
+              data-cy="titleInput"
+              name={Field.Title}
+              value={inputTitle}
+              onChange={handleChange}
+            />
+          </label>
+          {showTitleError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label htmlFor="select">
+            User:&nbsp;
+            <select
+              id="select"
+              data-cy="userSelect"
+              name={Field.Select}
+              value={selectedUser}
+              onChange={handleChange}
+            >
+              <option value={0} disabled>Choose a user</option>
 
-          <span className="error">Please choose a user</span>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+
+            </select>
+          </label>
+          {showUserError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={vissibleTodos} />
     </div>
   );
 };
