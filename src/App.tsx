@@ -63,7 +63,7 @@ export const App: React.FC = () => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setIsUserError(value.length === 0);
+    setIsUserError(value === '0');
 
     setSelectedUser(getUserById(Number(value)));
   };
