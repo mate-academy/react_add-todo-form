@@ -1,3 +1,13 @@
+import { User } from './users';
+
+export interface TodosInterFace {
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+  person: User | null,
+}
+
 export default [
   {
     id: 1,
