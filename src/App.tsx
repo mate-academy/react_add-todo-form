@@ -13,11 +13,11 @@ const todos = todosFromServer.map((todo) => {
 });
 
 export const App = () => {
-  const [title, handleTitle] = useState('');
-  const [userName, handleOption] = useState('');
+  const [title, setTitle] = useState('');
+  const [userName, setUserName] = useState('');
   const [visibleTodos, setTodos] = useState(todos);
-  const [titleIsValid, setTitle] = useState(true);
-  const [userNameIsValid, setUsername] = useState(true);
+  const [isTitleValid, checkTitle] = useState(true);
+  const [isUserNameValid, checkUserName] = useState(true);
 
   return (
     <div className="App">
@@ -30,7 +30,7 @@ export const App = () => {
           event.preventDefault();
           if (title && userName) {
             const newTodoId = [...visibleTodos]
-              .sort((a, b) => a.id - b.id).reverse()[0].id;
+              .sort((todoA, todoB) => todoA.id - todoB.id).reverse()[0].id;
             const newUser = usersFromServer
               .find(user => user.name === userName) || null;
             const newTodo: Todo = {
@@ -46,16 +46,16 @@ export const App = () => {
               newTodo,
             ]);
 
-            handleTitle('');
-            handleOption('');
+            setTitle('');
+            setUserName('');
           }
 
           if (!title) {
-            setTitle(false);
+            checkTitle(false);
           }
 
           if (!userName) {
-            setUsername(false);
+            checkUserName(false);
           }
         }}
       >
@@ -68,12 +68,12 @@ export const App = () => {
             onChange={(event) => {
               const { value } = event.target;
 
-              setTitle(true);
-              handleTitle(value);
+              checkTitle(true);
+              setTitle(value);
             }}
           />
 
-          {!titleIsValid && <span className="error">Please enter a title</span>}
+          {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -83,8 +83,8 @@ export const App = () => {
             onChange={(event) => {
               const { value } = event.target;
 
-              setUsername(true);
-              handleOption(value);
+              checkUserName(true);
+              setUserName(value);
             }}
           >
             <option value="" disabled>
@@ -95,7 +95,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!userNameIsValid
+          {!isUserNameValid
             && <span className="error">Please choose a user</span>}
         </div>
 
