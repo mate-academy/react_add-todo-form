@@ -18,24 +18,18 @@ export const App = () => {
     return { ...todo, user };
   }));
 
-  const handleErrorsReset = () => {
-    setIsTitleEmpty(false);
-    setIsUserSelected(false);
-  };
-
   const handleTitleChange = (event: FormEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
-    handleErrorsReset();
+    setIsTitleEmpty(false);
   };
 
   const handleUserChange = (event: FormEvent<HTMLSelectElement>) => {
     setUserName(event.currentTarget.value);
-    handleErrorsReset();
+    setIsUserSelected(false);
   };
 
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const selectedUser = usersFromServer.find(user => user.name === userName);
     const idArr = todos.map(todo => todo.id);
     const maxId = Math.max(...idArr);
@@ -72,10 +66,11 @@ export const App = () => {
         onSubmit={addTodo}
       >
         <div className="field">
+          {'Title: '}
           <input
             type="text"
             data-cy="titleInput"
-            placeholder="..."
+            placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
           />
