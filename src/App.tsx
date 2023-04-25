@@ -37,16 +37,21 @@ export const App = () => {
     event.preventDefault();
 
     const selectedUser = usersFromServer.find(user => user.name === userName);
+    const idArr = todos.map(todo => todo.id);
+    const maxId = Math.max(...idArr);
 
     if (title.length < 1) {
       setIsTitleEmpty(true);
+      if (!selectedUser) {
+        setIsUserSelected(true);
+      }
     } else if (!selectedUser) {
       setIsUserSelected(true);
     } else {
       setTodos([
         ...todos,
         {
-          id: todos.length + 1,
+          id: maxId + 1,
           userId: selectedUser?.id,
           title,
           completed: false,
