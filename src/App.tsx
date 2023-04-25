@@ -41,15 +41,17 @@ export const App: React.FC = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
+    const trimedTitle = title.trim();
+
     if (!selectedUser) {
       setIsUserSelected(true);
     }
 
-    if (!title) {
+    if (!trimedTitle) {
       setIsTitleEmpty(true);
     }
 
-    if (title && selectedUser) {
+    if (trimedTitle && selectedUser) {
       const todosId = [...visibleTodos].map(el => el.id);
       const newTodoId = Math.max(...todosId);
 
