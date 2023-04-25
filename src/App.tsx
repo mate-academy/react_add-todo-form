@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
@@ -26,40 +26,61 @@ export const App = () => {
   const [isSelectedUser, setIsSelectedUser] = useState(true);
   const [isTodoTitle, setIsTodoTitle] = useState(true);
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (selectedUser === '0') {
+      setIsSelectedUser(false);
+    }
+
+    if (!todoTitle) {
+      setIsTodoTitle(false);
+    }
+
+    if (selectedUser !== '0' && todoTitle) {
+      const todosId = todos.map(todo => todo.id);
+      const largestId = Math.max(...todosId);
+      const newTodo = {
+        id: largestId + 1,
+        title: todoTitle,
+        completed: false,
+        userId: +selectedUser,
+        user: getUser(+selectedUser),
+      };
+
+      setVisibleTodos([...todos, newTodo]);
+      setIsSelectedUser(true);
+      setIsTodoTitle(true);
+      setSelectedUser('0');
+      setTodoTitle('');
+    }
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trimStart();
+    const regexp = /[\sа-яa-z\d]/gi;
+    const validateValue = value.match(regexp)?.join('');
+
+    if (validateValue) {
+      setTodoTitle(validateValue);
+      setIsTodoTitle(true);
+    }
+  };
+
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(e.target.value);
+
+    if (e.target.value !== '0') {
+      setIsSelectedUser(true);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          if (selectedUser === '0') {
-            setIsSelectedUser(false);
-          }
-
-          if (!todoTitle) {
-            setIsTodoTitle(false);
-          }
-
-          if (selectedUser !== '0' && todoTitle) {
-            const todosId = todos.map(todo => todo.id);
-            const largestId = Math.max(...todosId);
-            const newTodo = {
-              id: largestId + 1,
-              title: todoTitle,
-              completed: false,
-              userId: +selectedUser,
-              user: getUser(+selectedUser),
-            };
-
-            setVisibleTodos([...todos, newTodo]);
-            setIsSelectedUser(true);
-            setIsTodoTitle(true);
-            setSelectedUser('0');
-            setTodoTitle('');
-          }
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
@@ -68,16 +89,7 @@ export const App = () => {
             placeholder="Enter new todo"
             name="todoTitle"
             value={todoTitle}
-            onChange={(e) => {
-              const value = e.target.value.trimStart();
-              const regexp = /[\sа-яa-z\d]/gi;
-              const validateValue = value.match(regexp)?.join('');
-
-              if (validateValue) {
-                setTodoTitle(validateValue);
-                setIsTodoTitle(true);
-              }
-            }}
+            onChange={handleInputChange}
           />
           {!isTodoTitle && (
             <span className="error">Please enter a title</span>
@@ -89,13 +101,7 @@ export const App = () => {
             data-cy="userSelect"
             name="user"
             value={selectedUser}
-            onChange={(e) => {
-              setSelectedUser(e.target.value);
-
-              if (e.target.value !== '0') {
-                setIsSelectedUser(true);
-              }
-            }}
+            onChange={handleSelectChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
