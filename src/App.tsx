@@ -10,19 +10,18 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const todos: Todo[] = todosFromServer.map(todo => ({
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [visibleTodos, setTodos] = useState(todos);
+  const [todos, setTodos] = useState(todosWithUsers);
   const [user, setUser] = useState<User | null>(null);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
   const [title, setTitle] = useState('');
-  let todoId = todosFromServer.map(todo => +todo.id)
-    .sort((id1, id2) => id1 - id2)[0];
+  const newId = Math.max(...todos.map(({ id }) => id));
 
   const onTitleChange = (el: React.FormEvent<HTMLInputElement>) => {
     setTitleError(false);
@@ -37,7 +36,7 @@ export const App = () => {
   const addTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -45,21 +44,19 @@ export const App = () => {
       setUserError(true);
     }
 
-    if (!title || !user) {
+    if (!title.trim() || !user) {
       return;
     }
 
-    todoId += 1;
-
     const newTodo: Todo = {
-      id: todoId,
+      id: newId + 1,
       userId: user ? user.id : -1,
       title,
       completed: false,
       user,
     };
 
-    setTodos([...visibleTodos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     setUser(null);
     setTitle('');
   };
@@ -113,7 +110,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
