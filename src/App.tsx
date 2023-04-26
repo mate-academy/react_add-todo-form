@@ -29,7 +29,8 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isTitleEmpty = !title.length;
+
+    const isTitleEmpty = !title.trim().length;
     const isUserNotChosen = !selectedUser;
     const isBothFieldsNotEmpty = !isUserNotChosen && !isTitleEmpty;
 
@@ -37,16 +38,18 @@ export const App: React.FC = () => {
     setIsUserError(isUserNotChosen);
 
     if (isBothFieldsNotEmpty) {
-      setTodos(current => ([
-        ...current,
-        {
-          id: findMaxId(current) + 1,
+      setTodos(current => {
+        const id = findMaxId(current) + 1;
+        const newTodo = {
+          id,
           title,
           completed: false,
           userId: selectedUser.id,
           user: selectedUser,
-        },
-      ]));
+        };
+
+        return ([...current, newTodo]);
+      });
 
       setTitle('');
       setSelectedUser(null);
@@ -84,6 +87,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label>
             Title:
+
             <input
               type="text"
               data-cy="titleInput"
@@ -92,6 +96,7 @@ export const App: React.FC = () => {
               placeholder="Enter new title"
             />
           </label>
+
           {isTitleError
           && (
             <span className="error">
@@ -103,6 +108,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label>
             User:
+
             <select
               data-cy="userSelect"
               value={selectedUser ? selectedUser.id : 0}
@@ -115,6 +121,7 @@ export const App: React.FC = () => {
                 Choose a user
               </option>
               {usersFromServer.map((user) => (
+
                 <option
                   value={user.id}
                   key={user.id}
@@ -124,6 +131,7 @@ export const App: React.FC = () => {
               ))}
             </select>
           </label>
+
           {isUserError
           && (
             <span className="error">
