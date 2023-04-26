@@ -96,6 +96,7 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          {'Title: '}
           <input
             type="text"
             data-cy="titleInput"
@@ -110,6 +111,7 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          {'User: '}
           <select
             data-cy="userSelect"
             name="userId"
