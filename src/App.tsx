@@ -55,8 +55,13 @@ export const App = () => {
     }
   };
 
-  const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => (
-    setTitle(event.target.value));
+  const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value;
+    const regex = /[^a-zA-Zа-яА-Я0-9\s]/g;
+    const output = input.replace(regex, '');
+
+    setTitle(output);
+  };
 
   const handleChangeSelect = (event: ChangeEvent<HTMLSelectElement>) => (
     setUserSelect(event.target.value));
