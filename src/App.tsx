@@ -29,13 +29,20 @@ export const App = () => {
   const [visibleTodos, addTodo] = useState(todos);
   const [showOnStart, setShowOnStart] = useState(false);
 
-  const newId = Math.max(...visibleTodos.map(({ id }) => id)) + 1;
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setShowOnStart(true);
-    if (title.trim() && userSelect) {
+
+    const isValidTitle = title.split('').every(letter => letter === ' ');
+
+    if (isValidTitle) {
+      setTitle('');
+    }
+
+    if (!isValidTitle && userSelect) {
       const user = getUserByName(userSelect);
+      const newId = Math.max(...visibleTodos.map(({ id }) => id)) + 1;
       const todo = {
         id: newId,
         title,
@@ -87,8 +94,11 @@ export const App = () => {
             />
           </label>
 
-          {showHint(showOnStart, title)
-            && <span className="error">Please enter a title</span>}
+          {showHint(showOnStart, title) && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -108,8 +118,11 @@ export const App = () => {
             </select>
           </label>
 
-          {showHint(showOnStart, userSelect)
-            && <span className="error">Please choose a user</span>}
+          {showHint(showOnStart, userSelect) && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
