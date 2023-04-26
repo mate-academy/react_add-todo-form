@@ -6,12 +6,10 @@ type Props = {
   todos: PreparedTodo[];
 };
 
-export const TodoList: FC<Props> = ({ todos }) => {
-  return (
-    <section className="TodoList">
-      {todos.map(todo => (
-        <TodoInfo todo={todo} key={todo.id} />
-      ))}
-    </section>
-  );
-};
+export const TodoList: FC<Props> = ({ todos }) => (
+  <section className="TodoList">
+    {todos.map(todo => (
+      <TodoInfo todo={todo} key={todo.id} />
+    ))}
+  </section>
+);

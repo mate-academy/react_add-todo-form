@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -63,7 +63,9 @@ export const App = () => {
     setUserIdSelect(0);
   };
 
-  const handleTodoAdd = () => {
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
     if (!validateForm()) {
       return;
     }
@@ -94,10 +96,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleTodoAdd();
-        }}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label>

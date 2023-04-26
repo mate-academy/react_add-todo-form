@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import classNames from 'classnames';
-import { PreparedTodo } from '../../types/PreparedTodo';
 import { UserInfo } from '../UserInfo';
+import { PreparedTodo } from '../../types/PreparedTodo';
 
 type Props = {
   todo: PreparedTodo;
