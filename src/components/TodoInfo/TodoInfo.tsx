@@ -1,5 +1,5 @@
 import './TodoInfo.scss';
-import classNames from 'classnames';
+import classNames from 'classNames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
 
