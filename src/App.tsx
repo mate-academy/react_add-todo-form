@@ -35,39 +35,39 @@ const createTodo = (
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(getTodos);
   const [isUserError, setIsUserError] = useState(false);
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [isUserSelected, setIsUserSelected] = useState('0');
+  const [userSelectedId, setUserSelectedId] = useState('0');
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
 
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setIsUserSelected(event.target.value);
+    setUserSelectedId(event.target.value);
 
     setIsUserError(false);
   };
 
   const resetForm = () => {
     setTitle('');
-    setIsUserSelected('0');
+    setUserSelectedId('0');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const currentUser = usersFromServer
-      .find(user => user.name === isUserSelected) || null;
+      .find(user => user.name === userSelectedId) || null;
 
     if (!currentUser) {
       setIsUserError(true);
     }
 
     if (!title.trim()) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (currentUser && title.trim()) {
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -115,7 +115,7 @@ export const App: React.FC = () => {
 
             <select
               data-cy="userSelect"
-              value={isUserSelected}
+              value={userSelectedId}
               onChange={handleSelectUser}
             >
               <option value="0" disabled>Choose a user</option>
