@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -19,6 +19,10 @@ const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+function showHint(showOnStart: boolean, value: string) {
+  return showOnStart && !value;
+}
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userSelect, setUserSelect] = useState('');
@@ -27,7 +31,7 @@ export const App = () => {
 
   const newId = Math.max(...visibleTodos.map(({ id }) => id)) + 1;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setShowOnStart(true);
     if (title.trim() && userSelect) {
@@ -36,7 +40,7 @@ export const App = () => {
         id: newId,
         title,
         completed: false,
-        userId: user?.id,
+        userId: user ? user.id : null,
       };
 
       const newTodo = {
@@ -50,6 +54,12 @@ export const App = () => {
       setShowOnStart(false);
     }
   };
+
+  const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => (
+    setTitle(event.target.value));
+
+  const handleChangeSelect = (event: ChangeEvent<HTMLSelectElement>) => (
+    setUserSelect(event.target.value));
 
   return (
     <div className="App">
@@ -68,11 +78,11 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="EnterTitle"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={handleChangeTitle}
             />
           </label>
 
-          {(showOnStart && !title)
+          {showHint(showOnStart, title)
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -82,7 +92,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userSelect}
-              onChange={(event) => setUserSelect(event.target.value)}
+              onChange={handleChangeSelect}
             >
               <option value="">Choose a user</option>
               {usersFromServer.map(({ name, id }) => (
@@ -93,7 +103,7 @@ export const App = () => {
             </select>
           </label>
 
-          {(showOnStart && !userSelect)
+          {showHint(showOnStart, userSelect)
             && <span className="error">Please choose a user</span>}
         </div>
 
@@ -102,7 +112,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList visibleTodos={visibleTodos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
