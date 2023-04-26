@@ -18,6 +18,8 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const findMaxId = (todos: Todo[]) => Math.max(...todos.map(todo => todo.id));
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -27,17 +29,18 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isTitleEmpty = title.length === 0;
-    const isUserNotChosen = selectedUser === null;
+    const isTitleEmpty = !title.length;
+    const isUserNotChosen = !selectedUser;
+    const isBothFieldsNotEmpty = !isUserNotChosen && !isTitleEmpty;
 
     setIsTitleError(isTitleEmpty);
     setIsUserError(isUserNotChosen);
 
-    if (!isUserNotChosen && !isTitleEmpty) {
+    if (isBothFieldsNotEmpty) {
       setTodos(current => ([
         ...current,
         {
-          id: Math.max(...current.map(todo => todo.id)) + 1,
+          id: findMaxId(current) + 1,
           title,
           completed: false,
           userId: selectedUser.id,
@@ -55,7 +58,7 @@ export const App: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setIsTitleError(value.length === 0);
+    setIsTitleError(!value.length);
 
     setTitle(value);
   };
