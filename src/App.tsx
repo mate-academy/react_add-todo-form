@@ -8,16 +8,22 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-const getUser = (userId: number): User | null => {
-  const foundedUser = usersFromServer.find(user => user.id === userId);
+const getUserById = (id: number): User | null => {
+  const foundedUser = usersFromServer.find(user => user.id === id);
 
   return foundedUser || null;
 };
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
+
+const getNewTodoId = (visibleTodos: Todo[]) => {
+  const todosId = [...visibleTodos].map(el => el.id);
+
+  return Math.max(...todosId);
+};
 
 export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
@@ -52,8 +58,8 @@ export const App: React.FC = () => {
     }
 
     if (trimedTitle && selectedUser) {
-      const todosId = [...visibleTodos].map(el => el.id);
-      const newTodoId = Math.max(...todosId);
+      const newTodoId = getNewTodoId(visibleTodos);
+      const user = getUserById(selectedUser);
 
       setVisibleTodos((prevVisibleTodos) => {
         const newTodo = {
@@ -61,7 +67,7 @@ export const App: React.FC = () => {
           title,
           userId: selectedUser,
           completed: false,
-          user: getUser(selectedUser),
+          user,
         };
 
         return [...prevVisibleTodos, newTodo];
@@ -84,6 +90,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label>
             Title:
+
             <input
               type="text"
               placeholder="Enter a title"
@@ -93,6 +100,7 @@ export const App: React.FC = () => {
               onChange={handleTitle}
             />
           </label>
+
           {isTitleEmpty
           && <span className="error">Please enter a title</span>}
         </div>
@@ -100,12 +108,14 @@ export const App: React.FC = () => {
         <div className="field">
           <label>
             User:
+
             <select
               data-cy="userSelect"
               name="user"
               value={selectedUser}
               onChange={handleUser}
             >
+
               <option value={0} disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option

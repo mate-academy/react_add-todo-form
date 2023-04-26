@@ -3,7 +3,7 @@ import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
 interface Props {
-  todos:Todo[]
+  todos:Todo[];
 }
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
