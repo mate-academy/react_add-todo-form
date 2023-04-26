@@ -4,21 +4,26 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { PreparedTodo } from './types/PreparedTodo';
+import { User } from './types/User';
+
+const findUser = (users: User[], userId: number) => {
+  return users.find(user => user.id === userId) || null;
+};
 
 const getNewTodoId = (todoList: PreparedTodo[]) => {
   const usedIds = todoList.map(todo => todo.id).sort((a, b) => a - b);
-  const freeId = usedIds.findIndex((usId, index) => usId !== index + 1);
-  const newId = freeId !== -1 ? freeId + 1 : usedIds.length + 1;
+  const largestId = usedIds[usedIds.length - 1];
+  const newId = largestId + 1;
 
   return newId;
 };
 
-export const App = () => {
-  const initialTodoList: PreparedTodo[] = todosFromServer.map(todo => ({
-    ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
-  }));
+const initialTodoList: PreparedTodo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: findUser(usersFromServer, todo.userId),
+}));
 
+export const App = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userIdSelect, setUserIdSelect] = useState(0);
   const [preparedTodoList, setPreparedTodoList] = useState(initialTodoList);
@@ -27,7 +32,7 @@ export const App = () => {
 
   const handleTitleEnter = (value: string) => {
     setTitleInput(value);
-    if (titleError === true) {
+    if (titleError) {
       setTitleError(false);
     }
   };
@@ -40,15 +45,15 @@ export const App = () => {
   };
 
   const validateForm = () => {
-    const noTitle = titleInput === '';
-    const noUser = userIdSelect === 0;
+    const isNoTitle = titleInput === '';
+    const isNoUser = userIdSelect === 0;
 
-    if (noTitle || noUser) {
-      if (noTitle) {
+    if (isNoTitle || isNoUser) {
+      if (isNoTitle) {
         setTitleError(true);
       }
 
-      if (noUser) {
+      if (isNoUser) {
         setUserError(true);
       }
 
@@ -63,7 +68,7 @@ export const App = () => {
     setUserIdSelect(0);
   };
 
-  const handleFormSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (!validateForm()) {
@@ -71,21 +76,19 @@ export const App = () => {
     }
 
     const id = getNewTodoId(preparedTodoList);
-    const user = usersFromServer
-      .find(person => person.id === userIdSelect) || null;
+    const user = findUser(usersFromServer, userIdSelect);
 
-    setPreparedTodoList(currentList => {
-      const newList = [...currentList];
-
-      newList.push({
-        id,
-        title: titleInput,
-        completed: false,
-        user,
-      });
-
-      return newList;
-    });
+    setPreparedTodoList(currentList => (
+      [
+        ...currentList,
+        {
+          id,
+          title: titleInput,
+          completed: false,
+          user,
+        },
+      ]
+    ));
 
     clearForm();
   };
@@ -96,11 +99,12 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -109,12 +113,16 @@ export const App = () => {
               onChange={event => handleTitleEnter(event.target.value)}
             />
           </label>
-          {titleError && <span className="error">Please enter a title</span>}
+
+          {titleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
           <label>
             {'User: '}
+
             <select
               data-cy="userSelect"
               value={userIdSelect}
@@ -132,7 +140,10 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {userError && <span className="error">Please choose a user</span>}
+
+          {userError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
