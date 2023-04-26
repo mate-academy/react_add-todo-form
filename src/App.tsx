@@ -105,7 +105,7 @@ export const App: React.FC = () => {
             id="userSelect"
             placeholder="Choose a user"
             data-cy="userSelect"
-            value={selectedUser ? selectedUser.id : 0}
+            value={selectedUser ? selectedUser.id : -1}
             onChange={handleChange}
           >
             <option value="">Choose a user</option>
