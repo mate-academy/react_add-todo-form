@@ -7,16 +7,16 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const isFind = (todo: Todo) => {
+const getUserById = (todo: Todo) => {
   return usersFromServer.find(user => user.id === todo.userId) || null;
 };
 
 const getTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: isFind(todo),
+  user: getUserById(todo),
 }));
 
-const getTodo = (
+const createTodo = (
   selectedUser: User,
   title: string,
   todos: Todo[],
@@ -34,10 +34,10 @@ const getTodo = (
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(getTodos);
-  const [userError, setUserError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [userSelected, setUserSelected] = useState('0');
+  const [isUserSelected, setIsUserSelected] = useState('0');
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -46,32 +46,32 @@ export const App: React.FC = () => {
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelected(event.target.value);
+    setIsUserSelected(event.target.value);
 
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const resetForm = () => {
     setTitle('');
-    setUserSelected('0');
+    setIsUserSelected('0');
   };
 
-  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const currentUser = usersFromServer
-      .find(user => user.name === userSelected) || null;
+      .find(user => user.name === isUserSelected) || null;
 
     if (!currentUser) {
-      setUserError(true);
+      setIsUserError(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
-    if (currentUser && title) {
-      const todo = getTodo(currentUser, title, getTodos);
+    if (currentUser && title.trim()) {
+      const todo = createTodo(currentUser, title, getTodos);
 
       setTodos(current => ([
         ...current,
@@ -89,11 +89,12 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleAddTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -114,7 +115,7 @@ export const App: React.FC = () => {
 
             <select
               data-cy="userSelect"
-              value={userSelected}
+              value={isUserSelected}
               onChange={handleSelectUser}
             >
               <option value="0" disabled>Choose a user</option>
@@ -128,7 +129,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
