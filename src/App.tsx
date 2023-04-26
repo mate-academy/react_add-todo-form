@@ -99,7 +99,7 @@ export const App = () => {
               value={userSelect}
               onChange={handleChangeSelect}
             >
-              <option value="">Choose a user</option>
+              <option value="" disabled>Choose a user</option>
               {usersFromServer.map(({ name, id }) => (
                 <option value={name} key={id}>
                   {name}
