@@ -8,6 +8,7 @@ interface Props {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
+    id,
     title,
     completed,
     user,
@@ -15,7 +16,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
   return (
     <article
-      data-id="1"
+      data-id={id}
       className={classNames(
         'TodoInfo', {
           'TodoInfo--completed': completed,
