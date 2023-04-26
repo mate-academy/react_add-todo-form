@@ -1,5 +1,5 @@
 import './App.scss';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
