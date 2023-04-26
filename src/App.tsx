@@ -8,15 +8,15 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -26,31 +26,23 @@ export const App = () => {
   const [addTitle, setAddTitle] = useState<string>('');
   const [addTodos, setAddTodos] = useState<Todo[]>(todos);
 
-  const handleAddTodo = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const title = addTitle.trim();
     const newIndex = Math.max(...addTodos.map(todo => todo.id)) + 1;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    !title
-      ? setTitleError(true)
-      : setTitleError(false);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    !addUser
-      ? setUserError(true)
-      : setUserError(false);
+    setTitleError(!title);
+    setUserError(!addUser);
 
     if (title && addUser) {
+      const user = getUserById(+addUser);
       const newTodo: Todo = {
         id: newIndex,
         title,
         completed: false,
         userId: 1,
-        user: getUser(+addUser),
+        user,
       };
 
       setAddTodos([
@@ -77,7 +69,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleAddTodo}
+      >
         <div className="field">
           <span className="label">Title: </span>
           <input
@@ -121,7 +117,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event) => handleAddTodo(event)}
         >
           Add
         </button>
