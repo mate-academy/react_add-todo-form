@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 
 import './App.scss';
 
@@ -21,11 +21,9 @@ export const todosList: Todo[] = todosFromServer.map((todo) => ({
   user: getUser(todo.userId),
 }));
 
-function highestTodoId(list: Todo[]): number {
-  const highest = Math.max(...list.map((todo) => todo.id));
-
-  return highest;
-}
+const highestTodoId = (list: Todo[]): number => {
+  return Math.max(...list.map((todo) => todo.id));
+};
 
 export const App: FC = () => {
   const [todos, setTodos] = useState(todosList);
@@ -48,10 +46,15 @@ export const App: FC = () => {
     }
   }
 
-  function handleSubmit(event: any) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const { title, user } = event.currentTarget;
+    const target = event.target as typeof event.target & {
+      title: { value: string };
+      user: { value: string };
+    };
+
+    const { title, user } = target;
 
     if (!title.value.trim()) {
       setTitleError(true);
