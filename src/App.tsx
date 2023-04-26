@@ -5,8 +5,8 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const users = usersFromServer;
-  const todos = todosFromServer;
+  const users = [...usersFromServer];
+  const todos = [...todosFromServer];
 
   const [selectedUser, setSelectedUser] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
