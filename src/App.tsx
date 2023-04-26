@@ -25,8 +25,6 @@ export const App: React.FC = () => {
   const [titleEmpty, setTitleEmpty] = useState(false);
   const [userEmpty, setUserEmpty] = useState(false);
 
-  const maxId = todoList.reduce((max, todo) => Math.max(max, todo.id), 0);
-
   const userSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserSelected(+event.target.value);
     setUserEmpty(false);
@@ -43,11 +41,13 @@ export const App: React.FC = () => {
     setTitleEmpty(title.trim() === '');
     setUserEmpty(userSelected === 0);
 
+    const newTodoId = Math.max(...todoList.map(todo => todo.id)) + 1;
+
     if (userSelected !== 0 && title.trim() !== '') {
       setTodoList([
         ...todoList,
         {
-          id: maxId + 1,
+          id: newTodoId,
           userId: +userSelected,
           title,
           completed: false,
