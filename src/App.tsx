@@ -101,8 +101,9 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {isTitleEmpty
-          && <span className="error">Please enter a title</span>}
+          {isTitleEmpty && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -117,6 +118,7 @@ export const App: React.FC = () => {
             >
 
               <option value={0} disabled>Choose a user</option>
+
               {usersFromServer.map(user => (
                 <option
                   value={user.id}
