@@ -22,7 +22,7 @@ const beforTodos: Todo[] = todosFromServer.map((todo) => {
   };
 });
 
-export const App = () => {
+export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState<Todo[]>(beforTodos);
