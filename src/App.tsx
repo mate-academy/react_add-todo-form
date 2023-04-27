@@ -32,30 +32,31 @@ export const App: React.FC = () => {
 
     const isTitleEmpty = !title.trim().length;
     const isUserNotChosen = !selectedUser;
-    const isBothFieldsNotEmpty = !isUserNotChosen && !isTitleEmpty;
 
     setIsTitleError(isTitleEmpty);
     setIsUserError(isUserNotChosen);
 
-    if (isBothFieldsNotEmpty) {
-      setTodos(current => {
-        const id = findMaxId(current) + 1;
-        const newTodo = {
-          id,
-          title,
-          completed: false,
-          userId: selectedUser.id,
-          user: selectedUser,
-        };
-
-        return ([...current, newTodo]);
-      });
-
-      setTitle('');
-      setSelectedUser(null);
-      setIsUserError(false);
-      setIsTitleError(false);
+    if (isTitleEmpty || isUserNotChosen) {
+      return;
     }
+
+    setTodos(current => {
+      const id = findMaxId(current) + 1;
+      const newTodo = {
+        id,
+        title,
+        completed: false,
+        userId: selectedUser.id,
+        user: selectedUser,
+      };
+
+      return ([...current, newTodo]);
+    });
+
+    setTitle('');
+    setSelectedUser(null);
+    setIsUserError(false);
+    setIsTitleError(false);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,8 +98,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {isTitleError
-          && (
+          {isTitleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -120,8 +120,8 @@ export const App: React.FC = () => {
               >
                 Choose a user
               </option>
-              {usersFromServer.map((user) => (
 
+              {usersFromServer.map((user) => (
                 <option
                   value={user.id}
                   key={user.id}
@@ -132,8 +132,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {isUserError
-          && (
+          {isUserError && (
             <span className="error">
               Please choose a user
             </span>
