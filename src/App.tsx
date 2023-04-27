@@ -19,7 +19,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [todoList, setTodoList] = useState(todos);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
@@ -28,7 +28,8 @@ export const App: React.FC = () => {
   const maxId = todoList.reduce((max, todo) => Math.max(max, todo.id), 0);
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setUserId(+event.target.value);
+
     if (isUserEmpty) {
       setIsUserEmpty(false);
     }
@@ -39,10 +40,11 @@ export const App: React.FC = () => {
     const regex = /^[a-zA-Zа-яА-Я0-9\s]+$/;
 
     if (regex.test(inputText) || inputText === '') {
-      setTitle(event.target.value);
-      if (isTitleEmpty) {
-        setIsTitleEmpty(false);
-      }
+      setTitle(inputText);
+    }
+
+    if (isTitleEmpty) {
+      setIsTitleEmpty(false);
     }
   };
 
@@ -50,9 +52,9 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setIsTitleEmpty(title.trim() === '');
-    setIsUserEmpty(userId === '0');
+    setIsUserEmpty(userId === 0);
 
-    if (userId !== '0' && title.trim() !== '') {
+    if (userId !== 0 && title.trim() !== '') {
       setTodoList([
         ...todoList,
         {
@@ -60,11 +62,11 @@ export const App: React.FC = () => {
           userId: +userId,
           title,
           completed: false,
-          user: getUser(+userId),
+          user: getUser(userId),
         },
       ]);
 
-      setUserId('0');
+      setUserId(0);
       setTitle('');
     }
   };
@@ -92,7 +94,9 @@ export const App: React.FC = () => {
           </label>
 
           {isTitleEmpty && (
-            <span className="error">Please enter a title</span>
+            <span className="error">
+              Please enter a title
+            </span>
           )}
         </div>
 
@@ -107,16 +111,22 @@ export const App: React.FC = () => {
               value={userId}
               onChange={handleUserSelect}
             >
-              <option value="0" disabled>Choose a user</option>
+              <option value="0" disabled>
+                Choose a user
+              </option>
 
-              {usersFromServer.map(userName => (
-                <option value={userName.id}>{userName.name}</option>
+              {usersFromServer.map(user => (
+                <option value={user.id}>
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
 
           {isUserEmpty && (
-            <span className="error">Please choose a user</span>
+            <span className="error">
+              Please choose a user
+            </span>
           )}
 
         </div>
