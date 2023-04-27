@@ -6,13 +6,13 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const isExist = (todo: Todo) => {
+const userWithTodo = (todo: Todo) => {
   return usersFromServer.find(user => user.id === todo.userId) || null;
 };
 
 const getTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: isExist(todo),
+  user: userWithTodo(todo),
 }));
 
 const getTodo = (
@@ -39,7 +39,12 @@ export const App: React.FC = () => {
   const [userSelected, setUserSelected] = useState('0');
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const input = event.target.value;
+    const filteredInput = input.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
+
+    setTitle(/^\s*$/.test(filteredInput)
+      ? ''
+      : filteredInput);
 
     setTitleError(false);
   };
