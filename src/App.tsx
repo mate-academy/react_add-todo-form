@@ -6,8 +6,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const userWithProperty = (property: keyof User, value: string | number) => {
+  return usersFromServer.find(user => user[property] === value) || null;
+};
+
 const userWithTodo = (todo: Todo) => {
-  return usersFromServer.find(user => user.id === todo.userId) || null;
+  return userWithProperty('id', todo.userId);
 };
 
 const getTodos: Todo[] = todosFromServer.map((todo) => ({
@@ -63,8 +67,7 @@ export const App: React.FC = () => {
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const currentUser = usersFromServer
-      .find(user => user.name === userSelected) || null;
+    const currentUser = userWithProperty('name', userSelected);
 
     if (!currentUser) {
       setUserError(true);
@@ -98,6 +101,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -125,7 +129,6 @@ export const App: React.FC = () => {
 
               {usersFromServer.map(user => (
                 <option value={user.name} key={user.id}>
-
                   {user.name}
                 </option>
               ))}
