@@ -21,12 +21,51 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App:FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setSelectedUserId] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [visibleTodos, setTodo] = useState(todos);
   const [isEmptyTitle, isEmptyTitleCheck] = useState(true);
   const [isUserSelected, isUserSelectedCheck] = useState(true);
 
-  const newId = Math.max(...visibleTodos.map(todo => todo.id));
+  const maxId = Math.max(...visibleTodos.map(todo => todo.id));
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!title) {
+      isEmptyTitleCheck(false);
+
+      return;
+    }
+
+    if (!userId) {
+      isUserSelectedCheck(false);
+
+      return;
+    }
+
+    if (title && userId) {
+      const selectedUser = getUser(userId) || null;
+
+      const newTodo: Todo = {
+        id: maxId + 1,
+        title,
+        completed: false,
+        userId: selectedUser?.id || null,
+        user: selectedUser,
+      };
+
+      setTodo((state) => ([...state, newTodo]));
+      setTitle('');
+      setUserId(0);
+    }
+  };
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setTitle(event.target.value);
+    isEmptyTitleCheck(true);
+  };
 
   return (
     <div className="App">
@@ -35,33 +74,7 @@ export const App:FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!title) {
-            isEmptyTitleCheck(false);
-          }
-
-          if (!userId) {
-            isUserSelectedCheck(false);
-          }
-
-          if (title && userId) {
-            const selectedUser = usersFromServer
-              .find(person => person.id === userId) || null;
-
-            const newTodo: Todo = {
-              id: newId + 1,
-              title,
-              completed: false,
-              userId: selectedUser?.id || null,
-              user: selectedUser,
-            };
-
-            setTodo((state) => ([...state, newTodo]));
-            setTitle('');
-            setSelectedUserId(0);
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -71,12 +84,10 @@ export const App:FC = () => {
               data-cy="titleInput"
               value={title}
               placeholder="Enter a title"
-              onChange={(event) => {
-                setTitle(event.target.value);
-                isEmptyTitleCheck(true);
-              }}
+              onChange={handleChange}
             />
           </label>
+
           {!isEmptyTitle && (
             <span className="error">Please enter a title</span>
           )}
@@ -90,17 +101,20 @@ export const App:FC = () => {
               data-cy="userSelect"
               value={userId}
               onChange={(event) => {
-                setSelectedUserId(+event.target.value);
+                setUserId(Number(event.target.value));
                 isUserSelectedCheck(true);
               }}
             >
               <option value="0" disabled>Choose a user</option>
 
               {usersFromServer.map(person => (
-                <option value={person.id} key={person.id}>{person.name}</option>
+                <option value={person.id} key={person.id}>
+                  {person.name}
+                </option>
               ))}
             </select>
           </label>
+
           {!isUserSelected && (
             <span className="error">Please choose a user</span>
           )}
