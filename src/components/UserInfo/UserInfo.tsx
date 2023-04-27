@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { User } from '../../types/types';
+import { User } from '../../types/User';
 import './UserInfo.scss';
 
 interface Props {

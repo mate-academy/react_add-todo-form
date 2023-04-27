@@ -1,19 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { Todo, User } from './types/types';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import './App.scss';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 const updatedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId) || null,
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -24,16 +25,25 @@ export const App = () => {
   const [isTitleError, setTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
 
-  const newTodoId = Math.max(...todos.map(todo => todo.id));
-
   const resetForm = () => {
     setTitle('');
     setUserName(0);
   };
 
+  const createNewTodoId = () => (
+    Math.max(...todos.map(todo => todo.id)) + 1
+  );
+
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setTitleError(false);
+    const regex = /^[a-zA-Zа-яА-Я0-9\s]*$/;
+    const input = event.target.value.trimStart();
+
+    if (regex.test(input)) {
+      setTitle(input);
+      setTitleError(false);
+    } else {
+      setTitleError(true);
+    }
   };
 
   const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -42,17 +52,19 @@ export const App = () => {
   };
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const user = getUserById(userName);
+
     event.preventDefault();
 
     setTitleError(!title);
     setUserError(!userName);
 
     const newTodo: Todo = {
-      id: newTodoId + 1,
+      id: createNewTodoId(),
       userId: userName,
       title,
       completed: false,
-      user: getUser(userName),
+      user,
     };
 
     if (title && userName) {
@@ -73,6 +85,7 @@ export const App = () => {
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               placeholder="Enter a title"
@@ -89,12 +102,14 @@ export const App = () => {
         <div className="field">
           <label>
             {'User: '}
+
             <select
               value={userName}
               onChange={handleUser}
               data-cy="userSelect"
             >
               <option value="0" disabled>Choose a user</option>
+
               {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>{user.name}</option>
               ))}

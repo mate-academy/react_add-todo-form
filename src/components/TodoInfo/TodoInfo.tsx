@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import classNames from 'classnames';
-import { Todo } from '../../types/types';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 import './TodoInfo.scss';
 
