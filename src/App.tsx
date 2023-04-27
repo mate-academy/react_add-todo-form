@@ -20,8 +20,20 @@ export const App: React.FC = () => {
     }));
 
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(todosWithUser);
+  const [titleEmptyError, setTitleEmptyError] = useState(false);
+  const [userEmptyError, setUserEmptyError] = useState(false);
+
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setUserEmptyError(false);
+  };
+
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleEmptyError(false);
+  };
 
   const addTodo = (): void => {
     if (title.trim() && userId) {
@@ -29,8 +41,8 @@ export const App: React.FC = () => {
         id: todos.length,
         title,
         completed: false,
-        userId: +userId,
-        user: findUserById(+userId),
+        userId,
+        user: findUserById(userId),
       };
 
       setTodos(prevTodos => ([
@@ -39,7 +51,17 @@ export const App: React.FC = () => {
       ]));
 
       setTitle('');
-      setUserId('0');
+      setUserId(0);
+
+      return;
+    }
+
+    if (!title.trim()) {
+      setTitleEmptyError(true);
+    }
+
+    if (!userId) {
+      setUserEmptyError(true);
     }
   };
 
@@ -62,10 +84,10 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             id="title"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={handleTitleInput}
           />
-          {title.trim() !== ''
-            || <span className="error">Please enter a title</span>}
+          {titleEmptyError
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -75,7 +97,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               id="user"
               value={userId}
-              onChange={event => setUserId(event.target.value)}
+              onChange={handleUserSelect}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(person => (
@@ -84,8 +106,8 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userId !== '0'
-            || <span className="error">Please choose a user</span>}
+          {userEmptyError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
