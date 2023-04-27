@@ -9,7 +9,10 @@ type Props = {
 
 export const TodoInfo: FC<Props> = ({ todo }) => {
   const {
-    id, title, completed, user,
+    id,
+    title,
+    completed,
+    user,
   } = todo;
 
   return (
@@ -23,7 +26,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      {(user)
+      {user
         ? <UserInfo user={user} />
         : 'NoName'}
     </article>

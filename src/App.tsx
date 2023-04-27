@@ -22,6 +22,16 @@ const beforTodos: Todo[] = todosFromServer.map((todo) => {
   };
 });
 
+const getMaxId = (todos: Todo[]) => {
+  return todos.reduce((acumulator: number, todo: Todo) => {
+    if (todo.id > acumulator) {
+      return todo.id;
+    }
+
+    return acumulator;
+  }, 0);
+};
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
@@ -43,37 +53,28 @@ export const App: React.FC = () => {
     setUserId(Number(value));
   };
 
-  const getMaxId = () => {
-    return todos.reduce((acumulator: number, todo: Todo) => {
-      if (todo.id > acumulator) {
-        return todo.id;
-      }
-
-      return acumulator;
-    }, 0);
-  };
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    const titleWithoutExtraSpaces = title.trim();
 
     if (userId === 0) {
       setIsUser(true);
     }
 
-    if (title === '') {
+    if (titleWithoutExtraSpaces === '') {
       setIsTitle(true);
     }
 
-    if (title === '' || userId === 0) {
+    if (titleWithoutExtraSpaces === '' || userId === 0) {
       return;
     }
 
-    const id = getMaxId() + 1;
+    const id = getMaxId(todos) + 1;
 
     setTodos(() => {
       return [...todos, {
         id,
-        title,
+        title: titleWithoutExtraSpaces,
         completed: false,
         userId,
         user: getUserById(Number(userId)),
@@ -124,6 +125,7 @@ export const App: React.FC = () => {
             >
               Choose a user
             </option>
+
             {usersFromServer.map((user) => (
               <option
                 value={user.id}
