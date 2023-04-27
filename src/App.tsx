@@ -1,11 +1,10 @@
 import './App.scss';
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
-
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -19,24 +18,40 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: FC = () => {
-  const [titleValue, setTitleValue] = useState('');
-  const [usersValue, setUsersValue] = useState<string>('0');
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
+  const [titleValue, setTitleValue] = useState('');
+  const [usersValue, setUsersValue] = useState('0');
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUsers, setErrorUsers] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const newIndex = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+    if (!titleValue) {
+      setErrorTitle(true);
+    }
 
-    const elementToAdd: Todo = {
-      id: newIndex,
-      title: titleValue,
-      completed: false,
-      userId: +usersValue,
-      user: getUser(+usersValue),
-    };
+    if (usersValue === '0') {
+      setErrorUsers(true);
+    }
 
-    setVisibleTodos([...visibleTodos, elementToAdd]);
+    if (titleValue && usersValue !== '0') {
+      const newId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
+      const elementToAdd: Todo = {
+        id: newId,
+        title: titleValue,
+        completed: false,
+        userId: +usersValue,
+        user: getUser(+usersValue),
+      };
+
+      setVisibleTodos([...visibleTodos, elementToAdd]);
+      setTitleValue('');
+      setUsersValue('0');
+      setErrorTitle(false);
+      setErrorUsers(false);
+    }
   };
 
   return (
@@ -45,38 +60,41 @@ export const App: FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <label>
+          <label htmlFor="newTodoTitle">
             Title:
             <input
               type="text"
+              id="newTodoTitle"
               data-cy="titleInput"
               placeholder="Enter a title here"
+              autoComplete="off"
               value={titleValue}
               onChange={event => setTitleValue(event.target.value)}
             />
-            <span className="error">Please enter a title</span>
+            {errorTitle && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
         <div className="field">
-          <label>
+          <label htmlFor="newTodoUser">
             User:
             <select
+              id="newTodoUser"
               data-cy="userSelect"
               value={usersValue}
               onChange={(event) => setUsersValue(event.target.value)}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map((user) => (
+              {usersFromServer.map(({ id, name }) => (
                 <option
-                  value={user.id}
-                  key={user.id}
+                  value={id}
+                  key={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))}
             </select>
-            <span className="error">Please choose a user</span>
+            {errorUsers && <span className="error">Please choose a user</span>}
           </label>
         </div>
 
