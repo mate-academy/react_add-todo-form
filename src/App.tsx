@@ -17,6 +17,10 @@ const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const getNewTodoId = (visibleTodos: Todo[]) => {
+  return Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+};
+
 export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [title, setTitle] = useState('');
@@ -46,7 +50,7 @@ export const App = () => {
     }
 
     if (title.trim() && selectedUser) {
-      const newTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+      const newTodoId = getNewTodoId(visibleTodos);
 
       const newTodo = {
         id: newTodoId,
@@ -105,13 +109,11 @@ export const App = () => {
               onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map((user) => {
-                return (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                );
-              })}
+              {usersFromServer.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
             </select>
           </label>
 
