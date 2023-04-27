@@ -1,25 +1,83 @@
 import './App.scss';
+import { FC, useState } from 'react';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
-export const App = () => {
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+export const App: FC = () => {
+  const [titleValue, setTitleValue] = useState('');
+  const [usersValue, setUsersValue] = useState<string>('0');
+  const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newIndex = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
+    const elementToAdd: Todo = {
+      id: newIndex,
+      title: titleValue,
+      completed: false,
+      userId: +usersValue,
+      user: getUser(+usersValue),
+    };
+
+    setVisibleTodos([...visibleTodos, elementToAdd]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title here"
+              value={titleValue}
+              onChange={event => setTitleValue(event.target.value)}
+            />
+            <span className="error">Please enter a title</span>
+          </label>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
-
-          <span className="error">Please choose a user</span>
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              value={usersValue}
+              onChange={(event) => setUsersValue(event.target.value)}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map((user) => (
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            <span className="error">Please choose a user</span>
+          </label>
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -27,35 +85,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
