@@ -1,14 +1,18 @@
 import './App.scss';
-import { useState } from 'react';
+import {FormEvent, useState} from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
+const findUserById = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
+
 const todos = todosFromServer.map((todo) => {
   return {
     ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
+    user: findUserById(todo.userId),
   };
 });
 
@@ -18,6 +22,52 @@ export const App = () => {
   const [visibleTodos, setTodos] = useState(todos);
   const [isTitleValid, checkTitle] = useState(true);
   const [isUserNameValid, checkUserName] = useState(true);
+  const handleTitle = (titleValue: string) => {
+    checkTitle(true);
+    setTitle(titleValue);
+  };
+
+  const handleUserName = (userNameValue: string) => {
+    checkUserName(true);
+    setUserName(userNameValue);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title) {
+      checkTitle(false);
+    }
+
+    if (!userName) {
+      checkUserName(false);
+    }
+
+    if (title && userName) {
+      const allTodoId = visibleTodos.map(todo => todo.id);
+      const todoId = Math.max(...allTodoId) + 1;
+
+      const selectedUser = usersFromServer
+        .find(user => user.name === userName) || null;
+
+      if (selectedUser) {
+        const newTodo: Todo = {
+          id: todoId,
+          title,
+          completed: false,
+          userId: selectedUser.id,
+          user: selectedUser,
+        };
+
+        setTodos([
+          ...visibleTodos,
+          newTodo,
+        ]);
+
+        setTitle('');
+        setUserName('');
+      }
+    }
+  };
 
   return (
     <div className="App">
@@ -26,38 +76,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (title && userName) {
-            const newTodoId = [...visibleTodos]
-              .sort((todoA, todoB) => todoA.id - todoB.id).reverse()[0].id;
-            const newUser = usersFromServer
-              .find(user => user.name === userName) || null;
-            const newTodo: Todo = {
-              id: newTodoId + 1,
-              title,
-              completed: false,
-              userId: newUser?.id || 0,
-              user: newUser,
-            };
-
-            setTodos([
-              ...visibleTodos,
-              newTodo,
-            ]);
-
-            setTitle('');
-            setUserName('');
-          }
-
-          if (!title) {
-            checkTitle(false);
-          }
-
-          if (!userName) {
-            checkUserName(false);
-          }
-        }}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <div className="field">
           <input
@@ -65,12 +84,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              const { value } = event.target;
-
-              checkTitle(true);
-              setTitle(value);
-            }}
+            onChange={(event) => handleTitle(event.target.value)}
           />
 
           {!isTitleValid && <span className="error">Please enter a title</span>}
@@ -80,23 +94,20 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userName}
-            onChange={(event) => {
-              const { value } = event.target;
-
-              checkUserName(true);
-              setUserName(value);
-            }}
+            onChange={(event) => handleUserName(event.target.value)}
           >
             <option value="" disabled>
               Choose a user
             </option>
+
             {usersFromServer.map((user) => (
               <option key={user.id}>{user.name}</option>
             ))}
           </select>
 
-          {!isUserNameValid
-            && <span className="error">Please choose a user</span>}
+          {!isUserNameValid && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
