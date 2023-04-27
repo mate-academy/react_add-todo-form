@@ -3,29 +3,47 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo, User, TodosWithUser } from './types/Types';
 
 export const App = () => {
-  const users = [...usersFromServer];
-  const todos = [...todosFromServer];
+  const users: User[] = usersFromServer;
+  const todos: Todo[] = todosFromServer;
+
+  function preparedTodosWithUsers(): TodosWithUser[] {
+    return (
+      todos.map(todo => ({
+        ...todo,
+        user: users.find(user => user.id === todo.userId) || null,
+      }))
+    );
+  }
 
   const [selectedUser, setSelectedUser] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
-  const [postAdded, setPostAdded] = useState(true);
+  // eslint-disable-next-line max-len
+  const [todosWithUsers, setTodosWithUsers] = useState<TodosWithUser[]>(preparedTodosWithUsers());
+  const [addValidated, setAddValidated] = useState(true);
 
-  const buttonAction = () => {
-    if (currentTitle && selectedUser) {
-      todos.push({
-        id: (todos.sort((a, b) => b.id - a.id)[0].id + 1),
-        title: currentTitle,
-        userId: Number(selectedUser),
-        completed: false,
-      });
+  const validatedTitleAndUser = currentTitle && selectedUser;
 
-      setPostAdded(true);
+  const handleAddButton = () => {
+    if (validatedTitleAndUser) {
+      setTodosWithUsers(
+        [...todosWithUsers,
+          {
+            id: (todos.sort((a, b) => b.id - a.id)[0].id + 1),
+            title: currentTitle,
+            userId: Number(selectedUser),
+            completed: false,
+            user: users.find(user => user.id === Number(selectedUser)) || null,
+          },
+        ],
+      );
+      setAddValidated(true);
       setSelectedUser('');
       setCurrentTitle('');
     } else {
-      setPostAdded(false);
+      setAddValidated(false);
     }
   };
 
@@ -46,7 +64,7 @@ export const App = () => {
             value={currentTitle}
             onChange={event => setCurrentTitle(event.target.value)}
           />
-          {(!currentTitle && !postAdded) && (
+          {(!addValidated && !currentTitle) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -74,7 +92,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {(!selectedUser && !postAdded) && (
+          {(!addValidated && !selectedUser) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -83,18 +101,17 @@ export const App = () => {
           type="submit"
           data-cy="submitButton"
           onClick={() => {
-            buttonAction();
+            handleAddButton();
           }}
         >
           Add
         </button>
       </form>
 
-      {todos.map(todo => (
+      {todosWithUsers.map(todo => (
         <TodoList
           key={todo.id}
           todo={todo}
-          user={users.find(user => user.id === todo.userId)}
         />
       ))}
     </div>

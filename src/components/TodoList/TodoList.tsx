@@ -1,15 +1,13 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { User } from '../../types/User';
-import { Todo } from '../../types/Todo';
+import { TodosWithUser } from '../../types/Types';
 
 type Props = {
-  user: User;
-  todo: Todo;
+  todo: TodosWithUser
 };
 
-export const TodoList:React.FC <Props> = ({ user, todo }) => (
+export const TodoList:React.FC <Props> = ({ todo }) => (
   <section className="TodoList">
-    <TodoInfo user={user} todo={todo} />
+    <TodoInfo todo={todo} />
   </section>
 );
