@@ -1,12 +1,17 @@
 import './App.scss';
-import { FC, FormEvent, useState } from 'react';
+import {
+  FC,
+  FormEvent,
+  ChangeEvent,
+  useState,
+} from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserByID(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -14,44 +19,60 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserByID(todo.userId),
 }));
 
 export const App: FC = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
-  const [titleValue, setTitleValue] = useState('');
+  const [title, setTitle] = useState('');
   const [usersValue, setUsersValue] = useState('0');
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUsers, setErrorUsers] = useState(false);
 
+  const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    if (errorTitle) {
+      setErrorTitle(false);
+    }
+
+    setTitle(event.target.value);
+  };
+
+  const handleChangeUsers = (event: ChangeEvent<HTMLSelectElement>) => {
+    setErrorUsers(false);
+
+    setUsersValue(event.target.value);
+  };
+
+  const user = getUserByID(+usersValue);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!titleValue) {
+    if (!title.trim()) {
       setErrorTitle(true);
     }
 
-    if (usersValue === '0') {
+    if (!user) {
       setErrorUsers(true);
     }
 
-    if (titleValue && usersValue !== '0') {
-      const newId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
-
-      const elementToAdd: Todo = {
-        id: newId,
-        title: titleValue,
-        completed: false,
-        userId: +usersValue,
-        user: getUser(+usersValue),
-      };
-
-      setVisibleTodos([...visibleTodos, elementToAdd]);
-      setTitleValue('');
-      setUsersValue('0');
-      setErrorTitle(false);
-      setErrorUsers(false);
+    if (!title.trim() || !user) {
+      return;
     }
+
+    const newId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
+    const elementToAdd: Todo = {
+      id: newId,
+      title,
+      completed: false,
+      userId: user.id,
+      user,
+    };
+
+    setVisibleTodos([...visibleTodos, elementToAdd]);
+    setTitle('');
+    setUsersValue('0');
   };
 
   return (
@@ -68,8 +89,8 @@ export const App: FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title here"
               autoComplete="off"
-              value={titleValue}
-              onChange={event => setTitleValue(event.target.value)}
+              value={title}
+              onChange={handleChangeTitle}
             />
             {errorTitle && <span className="error">Please enter a title</span>}
           </label>
@@ -82,7 +103,7 @@ export const App: FC = () => {
               id="newTodoUser"
               data-cy="userSelect"
               value={usersValue}
-              onChange={(event) => setUsersValue(event.target.value)}
+              onChange={handleChangeUsers}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
