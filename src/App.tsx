@@ -29,6 +29,11 @@ export const App: FC = () => {
 
   const newId = Math.max(...vissibleTodos.map(todo => todo.id)) + 1;
 
+  const reset = () => {
+    setInputTitle('');
+    setSelectedUser(0);
+  };
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -65,14 +70,10 @@ export const App: FC = () => {
 
     if (!inputTitle) {
       setShowTitleError(true);
-    } else {
-      setShowTitleError(false);
     }
 
     if (!selectedUser) {
       setShowUserError(true);
-    } else {
-      setShowUserError(false);
     }
 
     if (!inputTitle || !selectedUser) {
@@ -80,8 +81,7 @@ export const App: FC = () => {
     }
 
     setVissibleTodos([...vissibleTodos, newTodo]);
-    setInputTitle('');
-    setSelectedUser(0);
+    reset();
   };
 
   return (
