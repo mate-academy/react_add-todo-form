@@ -1,10 +1,11 @@
+import React from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodoInfo } from '../TodoInfo';
-import { TodoWithuser } from '../../type/TodoWithUser';
+import { TodoWithUser } from '../../type/TodoWithUser';
 
 type Props = {
-  todos: TodoWithuser[];
+  todos: TodoWithUser[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
