@@ -6,21 +6,21 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('0');
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -32,25 +32,31 @@ export const App = () => {
     setUserError(false);
   };
 
-  const todoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
-
-  const handleSubmitting = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim()) {
+    const user = getUserById(Number(selectedUser));
+
+    const isTitle = title.trim();
+
+    if (!isTitle) {
       setTitleError(true);
     }
 
-    const user = getUser(Number(selectedUser));
-
-    if (selectedUser === '0' || !user) {
+    if (!user) {
       setUserError(true);
+    }
 
+    if (!user || !isTitle) {
       return;
     }
 
+    const createTodoId = (listOfTodos: Todo[]) => (
+      Math.max(...listOfTodos.map(todo => todo.id)) + 1
+    );
+
     const todoToAdd: Todo = {
-      id: todoId,
+      id: createTodoId(visibleTodos),
       title,
       userId: user.id,
       completed: false,
@@ -71,7 +77,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmitting}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -86,7 +92,7 @@ export const App = () => {
             />
           </label>
 
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -106,7 +112,7 @@ export const App = () => {
               ))}
             </select>
 
-            {userError && <span className="error">Please choose a user</span>}
+            {isUserError && <span className="error">Please choose a user</span>}
           </label>
         </div>
 
