@@ -11,10 +11,14 @@ import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUserByID(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserByID(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
+}
+
+function getMaxId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -25,36 +29,34 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: FC = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
   const [title, setTitle] = useState('');
-  const [usersValue, setUsersValue] = useState('0');
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorUsers, setErrorUsers] = useState(false);
+  const [userId, setUserId] = useState('0');
+  const [isErrorTitle, setIsErrorTitle] = useState(false);
+  const [isErrorUsers, setIsErrorUsers] = useState(false);
 
   const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setErrorTitle(false);
+    setIsErrorTitle(false);
     setTitle(event.target.value);
   };
 
   const handleChangeUsers = (event: ChangeEvent<HTMLSelectElement>) => {
-    setErrorUsers(false);
-    setUsersValue(event.target.value);
+    setIsErrorUsers(false);
+    setUserId(event.target.value);
   };
-
-  const user = getUserByID(+usersValue);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
+    const user = getUserByID(+userId);
 
-    setErrorTitle(!trimmedTitle);
-    setErrorUsers(!user);
+    setIsErrorTitle(!trimmedTitle);
+    setIsErrorUsers(!user);
 
     if (!trimmedTitle || !user) {
       return;
     }
 
-    const newId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
-
+    const newId = getMaxId(visibleTodos);
     const elementToAdd: Todo = {
       id: newId,
       title,
@@ -65,7 +67,7 @@ export const App: FC = () => {
 
     setVisibleTodos([...visibleTodos, elementToAdd]);
     setTitle('');
-    setUsersValue('0');
+    setUserId('0');
   };
 
   return (
@@ -76,6 +78,7 @@ export const App: FC = () => {
         <div className="field">
           <label htmlFor="newTodoTitle">
             Title:
+
             <input
               type="text"
               id="newTodoTitle"
@@ -85,17 +88,21 @@ export const App: FC = () => {
               value={title}
               onChange={handleChangeTitle}
             />
-            {errorTitle && <span className="error">Please enter a title</span>}
+
+            {isErrorTitle && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
         <div className="field">
           <label htmlFor="newTodoUser">
             User:
+
             <select
               id="newTodoUser"
               data-cy="userSelect"
-              value={usersValue}
+              value={userId}
               onChange={handleChangeUsers}
             >
               <option value="0" disabled>Choose a user</option>
@@ -108,7 +115,10 @@ export const App: FC = () => {
                 </option>
               ))}
             </select>
-            {errorUsers && <span className="error">Please choose a user</span>}
+
+            {isErrorUsers && (
+              <span className="error">Please choose a user</span>
+            )}
           </label>
         </div>
 
