@@ -7,15 +7,15 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -31,7 +31,12 @@ export const App = () => {
   };
 
   const handleTitle = ((event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const input = event.target.value;
+    const filteredInput = input.replace(/[^A-Za-zA-Яa-я0-9\s]/g, '');
+
+    setTitle(/^\s*$/.test(filteredInput)
+      ? ''
+      : filteredInput);
     setErrorTitle(false);
   });
 
@@ -52,7 +57,7 @@ export const App = () => {
       title,
       completed: false,
       userId: userName,
-      user: getUser(userName),
+      user: getUserById(userName),
     };
 
     if (title && userName) {
@@ -76,6 +81,7 @@ export const App = () => {
       >
         <div className="field">
           <label htmlFor="todoTitle">Title: </label>
+
           <input
             type="text"
             data-cy="titleInput"
@@ -84,6 +90,7 @@ export const App = () => {
             id="#todoTitle"
             onChange={handleTitle}
           />
+
           {isErrorTitle && (
             <span className="error">Please enter a title</span>
           )}
@@ -91,6 +98,7 @@ export const App = () => {
 
         <div className="field">
           <label htmlFor="userSelect">User: </label>
+
           <select
             data-cy="userSelect"
             id="#userSelect"
@@ -102,6 +110,7 @@ export const App = () => {
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
+
           {isErrorUserName
             && <span className="error">Please choose a user</span>}
         </div>
