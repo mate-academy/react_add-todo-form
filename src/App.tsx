@@ -5,12 +5,12 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-type Todo = {
+interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-};
+}
 
 const getMaxId = (todos: Todo[]): number => {
   const todosOfId = todos.map(todo => todo.id);
@@ -18,7 +18,7 @@ const getMaxId = (todos: Todo[]): number => {
   return Math.max(...todosOfId);
 };
 
-const getAddUser = (todoList: Todo[]) => {
+const makeNormalizedTodos = (todoList: Todo[]) => {
   return todoList.map(todo => {
     const findUser = usersFromServer.find(user => user.id === todo.userId);
 
@@ -29,9 +29,9 @@ const getAddUser = (todoList: Todo[]) => {
 export const App = () => {
   const [todos, setTodos] = useState([...todosFromServer]);
   const [inputValue, setInputValue] = useState('');
-  const [hasTitle, setHasTitle] = useState(false);
+  const [hasTitle, setHasTitle] = useState(true);
   const [userId, setUserId] = useState(0);
-  const [isUserOption, setUserOption] = useState(false);
+  const [isUserOption, setUserOption] = useState(true);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -41,7 +41,9 @@ export const App = () => {
     }
   };
 
-  const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => { //eslint-disable-line
+  const handleSelectionChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setUserId(+event.target.value);
 
     if (event.target.value) {
@@ -55,7 +57,11 @@ export const App = () => {
     if (!inputValue.length || !userId) {
       setHasTitle(Boolean(inputValue.length));
       setUserOption(Boolean(userId));
-    } else {
+
+      return;
+    }
+
+    if (inputValue.length || userId) {
       setTodos((currentTodo) => {
         const newTodo = {
           id: getMaxId(currentTodo) + 1,
@@ -72,6 +78,8 @@ export const App = () => {
     setUserId(0);
   };
 
+  const calculatedId = makeNormalizedTodos(todos);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -83,6 +91,7 @@ export const App = () => {
       >
         <div className="field">
           <label htmlFor="user-input">Title: </label>
+
           <input
             type="text"
             data-cy="titleInput"
@@ -91,7 +100,10 @@ export const App = () => {
             value={inputValue}
             onChange={handleInputChange}
           />
-          {!hasTitle && <span className="error">Please enter a title</span>}
+
+          {!hasTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -126,7 +138,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={getAddUser(todos)} />
+      <TodoList todos={calculatedId} />
     </div>
   );
 };
