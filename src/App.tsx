@@ -30,16 +30,12 @@ export const App: FC = () => {
   const [errorUsers, setErrorUsers] = useState(false);
 
   const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    if (errorTitle) {
-      setErrorTitle(false);
-    }
-
+    setErrorTitle(false);
     setTitle(event.target.value);
   };
 
   const handleChangeUsers = (event: ChangeEvent<HTMLSelectElement>) => {
     setErrorUsers(false);
-
     setUsersValue(event.target.value);
   };
 
@@ -48,15 +44,12 @@ export const App: FC = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim()) {
-      setErrorTitle(true);
-    }
+    const trimmedTitle = title.trim();
 
-    if (!user) {
-      setErrorUsers(true);
-    }
+    setErrorTitle(!trimmedTitle);
+    setErrorUsers(!user);
 
-    if (!title.trim() || !user) {
+    if (!trimmedTitle || !user) {
       return;
     }
 
