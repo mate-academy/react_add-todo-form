@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 import { User } from './components/types/User';
 import { Todo } from './components/types/Todo';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,19 +15,24 @@ function getUser(userId: number): User | null {
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [userSelected, setUserSelected] = useState(0);
+  const [userSelectedId, setUserSelectedId] = useState(0);
   const [title, setTitle] = useState('');
   const [todoList, setTodoList] = useState(todos);
   const [titleEmpty, setTitleEmpty] = useState(false);
   const [userEmpty, setUserEmpty] = useState(false);
 
   const userSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelected(+event.target.value);
+    setUserSelectedId(+event.target.value);
     setUserEmpty(false);
+  };
+
+  const resetForm = () => {
+    setUserSelectedId(0);
+    setTitle('');
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,25 +43,24 @@ export const App: React.FC = () => {
   const handleAddition = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleEmpty(title.trim() === '');
-    setUserEmpty(userSelected === 0);
+    setTitleEmpty(!title.trim());
+    setUserEmpty(!userSelectedId);
 
     const newTodoId = Math.max(...todoList.map(todo => todo.id)) + 1;
 
-    if (userSelected !== 0 && title.trim() !== '') {
+    if (userSelectedId && title.trim()) {
       setTodoList([
         ...todoList,
         {
           id: newTodoId,
-          userId: +userSelected,
+          userId: +userSelectedId,
           title,
           completed: false,
-          user: getUser(+userSelected),
+          user: getUserById(+userSelectedId),
         },
       ]);
 
-      setUserSelected(0);
-      setTitle('');
+      resetForm();
     }
   };
 
@@ -95,13 +99,16 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               required
               name="user"
-              value={userSelected}
+              value={userSelectedId}
               onChange={userSelect}
             >
               <option value="0" disabled>Choose a user</option>
 
               {usersFromServer.map(userName => (
-                <option value={userName.id}>{userName.name}</option>
+                <option key={userName.id} value={userName.id}>
+
+                  {userName.name}
+                </option>
               ))}
             </select>
           </label>
