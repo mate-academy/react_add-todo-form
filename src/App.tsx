@@ -50,9 +50,12 @@ export const App = () => {
       .find((user) => (user.name === userName)) || null;
 
     if (title && userName) {
+      const userIds = usersFromServer.map((user) => user.id);
+      const maxUserId = Math.max(...userIds) + 1;
+
       if (chosenUser) {
         const newTodo: Todo = {
-          id: Date.now(),
+          id: maxUserId,
           title,
           userId: chosenUser.id,
           completed: false,
