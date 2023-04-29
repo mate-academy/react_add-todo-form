@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -27,34 +27,38 @@ export const App = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userIdSelect, setUserIdSelect] = useState(0);
   const [preparedTodoList, setPreparedTodoList] = useState(initialTodoList);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
-  const handleTitleEnter = (value: string) => {
-    setTitleInput(value);
-    if (titleError) {
-      setTitleError(false);
+  const handleTitleEnter = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitleInput(event.target.value);
+
+    if (isTitleError) {
+      setIsTitleError(false);
     }
   };
 
-  const handleUserSelect = (value: number) => {
+  const handleUserSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = Number(event.target.value);
+
     setUserIdSelect(value);
-    if (userError === true) {
-      setUserError(false);
+
+    if (isUserError === true) {
+      setIsUserError(false);
     }
   };
 
   const validateForm = () => {
-    const isNoTitle = titleInput === '';
+    const isNoTitle = titleInput.trim() === '';
     const isNoUser = userIdSelect === 0;
 
     if (isNoTitle || isNoUser) {
       if (isNoTitle) {
-        setTitleError(true);
+        setIsTitleError(true);
       }
 
       if (isNoUser) {
-        setUserError(true);
+        setIsUserError(true);
       }
 
       return false;
@@ -110,11 +114,11 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={titleInput}
-              onChange={event => handleTitleEnter(event.target.value)}
+              onChange={handleTitleEnter}
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -126,7 +130,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userIdSelect}
-              onChange={event => handleUserSelect(Number(event.target.value))}
+              onChange={handleUserSelect}
             >
               <option value="0" disabled>Choose a user</option>
 
@@ -141,7 +145,7 @@ export const App = () => {
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
