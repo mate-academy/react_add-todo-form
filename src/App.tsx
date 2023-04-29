@@ -26,15 +26,8 @@ export const App:React.FC = () => {
   };
 
   const validateForm = () => {
-    if (!title.trim()) {
-      setError({ ...error, title: true });
-    }
-
-    if (!userName.trim()) {
-      setError({ title: false, user: true });
-    }
-
-    return title && userName;
+    setError((prev) => ({ ...prev, title: !title.trim() }));
+    setError((prev) => ({ ...prev, user: !userName.trim() }));
   };
 
   const resetForm = () => {
@@ -45,7 +38,8 @@ export const App:React.FC = () => {
 
   const handleAdd = (e:React.MouseEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    validateForm();
+    if (title && userName) {
       saveTodo();
       resetForm();
     }
@@ -65,8 +59,12 @@ export const App:React.FC = () => {
             placeholder="Enter a title"
             value={title}
             onChange={(e) => {
-              setTitle(e.target.value.replace(/[^A-Za-z0-9 ]/, ''));
+              if (e.target.value.match(/^[a-zA-Z0-9\sа-яА-Я]*$/)) {
+                setTitle(e.target.value);
+                setError((prev) => ({ ...prev, title: false }));
+              }
             }}
+            onBlur={() => validateForm()}
           />
           {error.title && <span className="error">Please enter a title</span>}
         </div>
@@ -79,8 +77,9 @@ export const App:React.FC = () => {
             value={userName}
             onChange={(e) => {
               setUserName(e.target.value);
-              setError({ ...error, user: false });
+              setError((prev) => ({ ...prev, user: false }));
             }}
+            onBlur={() => validateForm()}
           >
             <option value="">Choose a user</option>
             {users.map(user => (
@@ -93,7 +92,7 @@ export const App:React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(e) => handleAdd(e)}
+          onClick={handleAdd}
         >
           Add
         </button>
