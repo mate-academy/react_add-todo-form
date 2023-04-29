@@ -15,7 +15,7 @@ function getUserById(userId: number) {
   return foundUser || null;
 }
 
-const beforTodos: Todo[] = todosFromServer.map((todo) => {
+const preparedTodos: Todo[] = todosFromServer.map((todo) => {
   return {
     ...todo,
     user: getUserById(todo.userId),
@@ -35,14 +35,14 @@ const getMaxId = (todos: Todo[]) => {
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [todos, setTodos] = useState<Todo[]>(beforTodos);
-  const [isTitle, setIsTitle] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
+  const [isTitle, setIsTitleError] = useState(false);
   const [isUser, setIsUser] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setIsTitle(false);
+    setIsTitleError(false);
     setTitle(value);
   };
 
@@ -57,31 +57,32 @@ export const App: React.FC = () => {
     event.preventDefault();
     const titleWithoutExtraSpaces = title.trim();
 
-    if (userId === 0) {
+    if (!userId) {
       setIsUser(true);
     }
 
-    if (titleWithoutExtraSpaces === '') {
-      setIsTitle(true);
+    if (!titleWithoutExtraSpaces) {
+      setIsTitleError(true);
     }
 
-    if (titleWithoutExtraSpaces === '' || userId === 0) {
+    if (!titleWithoutExtraSpaces || !userId) {
       return;
     }
 
     const id = getMaxId(todos) + 1;
+    const user = getUserById(Number(userId));
 
-    setTodos(() => {
-      return [...todos, {
+    setTodos((currentTodos) => {
+      return [...currentTodos, {
         id,
         title: titleWithoutExtraSpaces,
         completed: false,
         userId,
-        user: getUserById(Number(userId)),
+        user,
       }];
     });
 
-    if (title !== '' && userId !== 0) {
+    if (title && userId) {
       setTitle('');
       setUserId(0);
     }
@@ -98,6 +99,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           {'Title: '}
+
           <input
             type="text"
             data-cy="titleInput"
@@ -106,6 +108,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleChange}
           />
+
           <span className="error">
             {(isTitle) && 'Please enter a title'}
           </span>
@@ -113,6 +116,7 @@ export const App: React.FC = () => {
 
         <div className="field">
           {'User: '}
+
           <select
             data-cy="userSelect"
             name="userId"
