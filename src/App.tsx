@@ -27,17 +27,35 @@ export class App extends React.Component {
   ) => {
     const { name, value } = event.target;
 
-    if (name === 'title') {
-      this.setState({ isTitleValid: true });
-    }
+    switch (name) {
+      case 'title': this.setState({ isTitleValid: true });
 
-    if (name === 'user') {
-      this.setState({ isUserValid: true });
+        break;
+
+      case 'user': this.setState({ isUserValid: true });
+
+        break;
+
+      default:
+
+        return;
     }
 
     this.setState({
       [name]: value,
     });
+
+    // if (name === 'title') {
+    //   this.setState({ isTitleValid: true });
+    // }
+
+    // if (name === 'user') {
+    //   this.setState({ isUserValid: true });
+    // }
+
+    // this.setState({
+    //   [name]: value,
+    // });
   };
 
   addNewTodos = (event: React.FormEvent<HTMLFormElement>) => {
@@ -97,8 +115,7 @@ export class App extends React.Component {
 
   render() {
     const {
-      isTitleValid: validationTitle, isUserValid: validationUser,
-      title, user, todos, users,
+      isTitleValid, isUserValid, title, user, todos, users,
     } = this.state;
 
     return (
@@ -123,7 +140,7 @@ export class App extends React.Component {
               />
             </label>
 
-            {!validationTitle && (
+            {!isTitleValid && (
               <span
                 className="error"
               >
@@ -155,7 +172,7 @@ export class App extends React.Component {
               </select>
             </label>
 
-            {!validationUser && (
+            {!isUserValid && (
               <span
                 className="error"
               >
