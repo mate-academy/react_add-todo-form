@@ -1,61 +1,191 @@
+import React from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
-export const App = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+const todosWithUser = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(
+    (user) => todo.userId === user.id,
+  ) || null,
+}));
 
-      <form action="/api/users" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+export class App extends React.Component {
+  state = {
+    todos: todosWithUser,
+    users: usersFromServer,
+    isTitleValid: true,
+    title: '',
+    isUserValid: true,
+    user: '0',
+  };
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+  handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
 
-          <span className="error">Please choose a user</span>
-        </div>
+    switch (name) {
+      case 'title': this.setState({ isTitleValid: true });
+        break;
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+      case 'user': this.setState({ isUserValid: true });
+        break;
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+      default:
+        return;
+    }
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+    this.setState({
+      [name]: value,
+    });
+  };
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
+  addNewTodos = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+    const {
+      title,
+      user,
+      todos,
+      users,
+    } = this.state;
 
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
+    const titleRemovedSpace = title.trim();
 
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-    </div>
-  );
-};
+    if (titleRemovedSpace === '' && user === '0') {
+      this.setState({
+        isTitleValid: false,
+        isUserValid: false,
+      });
+
+      return;
+    }
+
+    if (titleRemovedSpace === '') {
+      this.setState({ isTitleValid: false });
+
+      return;
+    }
+
+    if (user === '0') {
+      this.setState({ isUserValid: false });
+
+      return;
+    }
+
+    const { id } = [...todos].sort((a, b) => b.id - a.id)[0];
+    const userForNewTodo = users.find(
+      user1 => user1.name === user,
+    );
+
+    const newTodo = {
+      id: id + 1,
+      title: title.replace(/[^a-zA-Zа-яА-Я0-9\s]+/g, ''),
+      comleted: false,
+      userId: userForNewTodo?.id,
+      user: userForNewTodo,
+    };
+
+    this.setState({
+      todos: [
+        ...todos,
+        newTodo,
+      ],
+      isTitleValid: true,
+      title: '',
+      isUserValid: true,
+      user: '0',
+    });
+  };
+
+  render() {
+    const {
+      isTitleValid,
+      isUserValid,
+      title,
+      user,
+      todos,
+      users,
+    } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+
+        <form
+          action="/api/users"
+          method="POST"
+          onSubmit={this.addNewTodos}
+        >
+          <div className="field">
+            <label>
+              {'Title: '}
+              <input
+                name="title"
+                type="text"
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                value={title}
+                onChange={this.handleChange}
+              />
+            </label>
+
+            {!isTitleValid && (
+              <span
+                className="error"
+              >
+                Please enter a title
+              </span>
+            )}
+          </div>
+
+          <div className="field">
+            <label>
+              {'User: '}
+              <select
+                data-cy="userSelect"
+                name="user"
+                value={user}
+                onChange={this.handleChange}
+              >
+                <option
+                  value="0"
+                  disabled
+                >
+                  Choose a user
+                </option>
+                {users.map(optionUser => (
+                  <option key={optionUser.id} value={optionUser.name}>
+                    {optionUser.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {!isUserValid && (
+              <span
+                className="error"
+              >
+                Please choose a user
+              </span>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            data-cy="submitButton"
+          >
+            Add
+          </button>
+        </form>
+
+        <TodoList
+          todos={todos}
+        />
+      </div>
+    );
+  }
+}
