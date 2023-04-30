@@ -5,7 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-const todosWithUser = [...todosFromServer].map(todo => ({
+const todosWithUser = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find(
     (user) => todo.userId === user.id,
@@ -29,40 +29,28 @@ export class App extends React.Component {
 
     switch (name) {
       case 'title': this.setState({ isTitleValid: true });
-
         break;
 
       case 'user': this.setState({ isUserValid: true });
-
         break;
 
       default:
-
         return;
     }
 
     this.setState({
       [name]: value,
     });
-
-    // if (name === 'title') {
-    //   this.setState({ isTitleValid: true });
-    // }
-
-    // if (name === 'user') {
-    //   this.setState({ isUserValid: true });
-    // }
-
-    // this.setState({
-    //   [name]: value,
-    // });
   };
 
   addNewTodos = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const {
-      title, user, todos, users,
+      title,
+      user,
+      todos,
+      users,
     } = this.state;
 
     const titleRemovedSpace = title.trim();
@@ -115,7 +103,12 @@ export class App extends React.Component {
 
   render() {
     const {
-      isTitleValid, isUserValid, title, user, todos, users,
+      isTitleValid,
+      isUserValid,
+      title,
+      user,
+      todos,
+      users,
     } = this.state;
 
     return (
