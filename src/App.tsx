@@ -9,28 +9,30 @@ const todosWithUser = [...todosFromServer].map(todo => ({
   ...todo,
   user: usersFromServer.find(
     (user) => todo.userId === user.id,
-  ) || usersFromServer[0],
+  ) || null,
 }));
 
 export class App extends React.Component {
   state = {
     todos: todosWithUser,
     users: usersFromServer,
-    validationTitle: true,
+    isTitleValid: true,
     title: '',
-    validationUser: true,
+    isUserValid: true,
     user: '0',
   };
 
-  handleChange = (event: { target: { name: string; value: string; }; }) => {
+  handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.target;
 
     if (name === 'title') {
-      this.setState({ validationTitle: true });
+      this.setState({ isTitleValid: true });
     }
 
     if (name === 'user') {
-      this.setState({ validationUser: true });
+      this.setState({ isUserValid: true });
     }
 
     this.setState({
@@ -38,30 +40,32 @@ export class App extends React.Component {
     });
   };
 
-  addNewTodos = (event: { preventDefault: () => void; }) => {
+  addNewTodos = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const {
       title, user, todos, users,
     } = this.state;
 
-    if (title === '' && user === '0') {
+    const titleRemovedSpace = title.trim();
+
+    if (titleRemovedSpace === '' && user === '0') {
       this.setState({
-        validationTitle: false,
-        validationUser: false,
+        isTitleValid: false,
+        isUserValid: false,
       });
 
       return;
     }
 
-    if (title === '') {
-      this.setState({ validationTitle: false });
+    if (titleRemovedSpace === '') {
+      this.setState({ isTitleValid: false });
 
       return;
     }
 
     if (user === '0') {
-      this.setState({ validationUser: false });
+      this.setState({ isUserValid: false });
 
       return;
     }
@@ -74,7 +78,7 @@ export class App extends React.Component {
     const newTodo = {
       id: id + 1,
       title: title.replace(/[^a-zA-Zа-яА-Я0-9\s]+/g, ''),
-      comlete: false,
+      comleted: false,
       userId: userForNewTodo?.id,
       user: userForNewTodo,
     };
@@ -84,16 +88,17 @@ export class App extends React.Component {
         ...todos,
         newTodo,
       ],
-      validationTitle: true,
+      isTitleValid: true,
       title: '',
-      validationUser: true,
+      isUserValid: true,
       user: '0',
     });
   };
 
   render() {
     const {
-      validationTitle, validationUser, title, user, todos, users,
+      isTitleValid: validationTitle, isUserValid: validationUser,
+      title, user, todos, users,
     } = this.state;
 
     return (
@@ -119,13 +124,11 @@ export class App extends React.Component {
             </label>
 
             {!validationTitle && (
-              <>
-                <span
-                  className="error"
-                >
-                  Please enter a title
-                </span>
-              </>
+              <span
+                className="error"
+              >
+                Please enter a title
+              </span>
             )}
           </div>
 
@@ -153,13 +156,11 @@ export class App extends React.Component {
             </label>
 
             {!validationUser && (
-              <>
-                <span
-                  className="error"
-                >
-                  Please choose a user
-                </span>
-              </>
+              <span
+                className="error"
+              >
+                Please choose a user
+              </span>
             )}
           </div>
 
@@ -173,7 +174,6 @@ export class App extends React.Component {
 
         <TodoList
           todos={todos}
-          // users={users}
         />
       </div>
     );

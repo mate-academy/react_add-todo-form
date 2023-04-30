@@ -2,23 +2,23 @@ import React from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
-interface Todos {
-  user: User;
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
+interface Todo {
+  user: User | null;
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
 }
 
 interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 }
 
 type Props = {
-  todo: Todos,
+  todo: Todo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -29,7 +29,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={id}
-      key={id}
       className={
         classNames(
           'TodoInfo',
@@ -42,7 +41,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
 
     </article>
   );
