@@ -11,13 +11,13 @@ enum Field {
   Select = 'select',
 }
 
-const findUser = (id: number) => (
+const getUserById = (id: number) => (
   usersFromServer.find(user => user.id === id) || null
 );
 
 const todos = (): Todo[] => todosFromServer.map(todo => ({
   ...todo,
-  user: findUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: FC = () => {
@@ -26,8 +26,6 @@ export const App: FC = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const [showTitleError, setShowTitleError] = useState(false);
   const [showUserError, setShowUserError] = useState(false);
-
-  const newId = Math.max(...vissibleTodos.map(todo => todo.id)) + 1;
 
   const reset = () => {
     setInputTitle('');
@@ -59,7 +57,9 @@ export const App: FC = () => {
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const foundUser = findUser(Number(selectedUser));
+    const trimedTitle = inputTitle.trim();
+    const foundUser = getUserById(Number(selectedUser));
+    const newId = Math.max(...vissibleTodos.map(todo => todo.id)) + 1;
 
     const newTodo: Todo = {
       id: newId,
@@ -69,7 +69,7 @@ export const App: FC = () => {
       user: foundUser,
     };
 
-    if (!inputTitle) {
+    if (!trimedTitle) {
       setShowTitleError(true);
     }
 
@@ -77,7 +77,7 @@ export const App: FC = () => {
       setShowUserError(true);
     }
 
-    if (!inputTitle || !selectedUser) {
+    if (!trimedTitle || !selectedUser) {
       return;
     }
 
@@ -97,6 +97,7 @@ export const App: FC = () => {
         <div className="field">
           <label>
             Title:&nbsp;
+
             <input
               placeholder="Enter a title"
               type="text"
@@ -106,6 +107,7 @@ export const App: FC = () => {
               onChange={handleChange}
             />
           </label>
+
           {showTitleError && (
             <span className="error">
               Please enter a title
@@ -116,6 +118,7 @@ export const App: FC = () => {
         <div className="field">
           <label htmlFor="select">
             User:&nbsp;
+
             <select
               id="select"
               data-cy="userSelect"

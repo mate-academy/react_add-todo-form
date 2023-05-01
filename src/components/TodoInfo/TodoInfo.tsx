@@ -27,9 +27,6 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      {/* <a className="UserInfo" href={`mailto:${user?.email}`}>
-        {user?.name}
-      </a> */}
       {user && <UserInfo user={user} />}
     </article>
   );
