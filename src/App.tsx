@@ -56,7 +56,7 @@ export const App = () => {
 
     if (!inputValue.length || !userId) {
       setHasTitle(Boolean(inputValue.length));
-      setUserOption(Boolean(userId));
+      setUserOption(false);
 
       return;
     }
@@ -77,8 +77,6 @@ export const App = () => {
     setInputValue('');
     setUserId(0);
   };
-
-  const calculatedId = makeNormalizedTodos(todos);
 
   return (
     <div className="App">
@@ -117,14 +115,10 @@ export const App = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map((person) => {
-              const { id, name } = person;
 
+            {usersFromServer.map(({ id, name }) => {
               return (
-                <option
-                  key={id}
-                  value={id}
-                >
+                <option key={id} value={id}>
                   {name}
                 </option>
               );
@@ -138,7 +132,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={calculatedId} />
+      <TodoList todos={makeNormalizedTodos(todos)} />
     </div>
   );
 };
