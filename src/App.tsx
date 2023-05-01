@@ -34,7 +34,10 @@ export const App: FC = () => {
   const [isErrorUsers, setIsErrorUsers] = useState(false);
 
   const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsErrorTitle(false);
+    if (isErrorTitle) {
+      setIsErrorTitle(false);
+    }
+
     setTitle(event.target.value);
   };
 
@@ -49,14 +52,20 @@ export const App: FC = () => {
     const trimmedTitle = title.trim();
     const user = getUserByID(+userId);
 
-    setIsErrorTitle(!trimmedTitle);
-    setIsErrorUsers(!user);
+    if (!trimmedTitle) {
+      setIsErrorTitle(true);
+    }
+
+    if (!user) {
+      setIsErrorUsers(true);
+    }
 
     if (!trimmedTitle || !user) {
       return;
     }
 
     const newId = getMaxId(visibleTodos);
+
     const elementToAdd: Todo = {
       id: newId,
       title,
@@ -106,6 +115,7 @@ export const App: FC = () => {
               onChange={handleChangeUsers}
             >
               <option value="0" disabled>Choose a user</option>
+
               {usersFromServer.map(({ id, name }) => (
                 <option
                   value={id}
