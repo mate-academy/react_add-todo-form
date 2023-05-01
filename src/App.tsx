@@ -7,15 +7,15 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -51,24 +51,33 @@ export const App: React.FC = () => {
   const handleTodoAddition = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsTitleEmpty(title.trim() === '');
-    setIsUserEmpty(userId === 0);
-
-    if (userId !== 0 && title.trim() !== '') {
-      setTodoList([
-        ...todoList,
-        {
-          id: maxId + 1,
-          userId: +userId,
-          title,
-          completed: false,
-          user: getUser(userId),
-        },
-      ]);
-
-      setUserId(0);
-      setTitle('');
+    if (!title.trim()) {
+      setIsTitleEmpty(true);
     }
+
+    const user = getUserById(userId);
+
+    if (!user) {
+      setIsUserEmpty(true);
+    }
+
+    if (!title.trim() || !user) {
+      return;
+    }
+
+    setTodoList([
+      ...todoList,
+      {
+        id: maxId + 1,
+        userId: +userId,
+        title,
+        completed: false,
+        user,
+      },
+    ]);
+
+    setUserId(0);
+    setTitle('');
   };
 
   return (
