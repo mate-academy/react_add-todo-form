@@ -19,8 +19,8 @@ export const App: FC = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [todoTitle, setTodoTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -29,12 +29,12 @@ export const App: FC = () => {
 
     switch (id) {
       case 'titleInputForm':
-        setTitleError(false);
+        setIsTitleError(false);
         setTodoTitle(value);
         break;
 
       case 'userInputForm':
-        setUserError(false);
+        setIsUserError(false);
         setSelectedUser(getUserId(Number(value)));
         break;
 
@@ -47,11 +47,11 @@ export const App: FC = () => {
     event.preventDefault();
 
     if (!todoTitle) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!selectedUser) {
-      setUserError(true);
+      setIsUserError(true);
     }
 
     if (!todoTitle || !selectedUser || todoTitle.trim() === '') {
@@ -94,10 +94,8 @@ export const App: FC = () => {
             onChange={handleChange}
           />
 
-          {titleError && (
-            <span
-              className="error"
-            >
+          {isTitleError && (
+            <span className="error">
               Please enter a title
             </span>
           )}
@@ -125,10 +123,8 @@ export const App: FC = () => {
             ))}
           </select>
 
-          {userError && (
-            <span
-              className="error"
-            >
+          {isUserError && (
+            <span className="error">
               Please choose a user
             </span>
           )}
