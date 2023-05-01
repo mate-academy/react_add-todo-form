@@ -22,23 +22,18 @@ export const App: React.FC = () => {
   const [noUsers, setNoUsers] = useState(false);
   const [noTodos, setNoTodos] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value, id } = event.target;
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
 
-    switch (id) {
-      case 'title':
-        setNoTodos(false);
-        setTitle(value);
-        break;
+    setNoTodos(false);
+    setTitle(value);
+  };
 
-      case 'user':
-        setNoUsers(false);
-        setSelectedUser(getUserById(Number(value)));
-        break;
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
 
-      default:
-        break;
-    }
+    setNoUsers(false);
+    setSelectedUser(getUserById(Number(value)));
   };
 
   const isCompleted = () => {
@@ -70,7 +65,7 @@ export const App: React.FC = () => {
       };
     };
 
-    setTodos([...visibleTodos, titleToObj(todoTitle)]);
+    setTodos([...visibleTodos, titleToObj()]);
     setTitle('');
     setSelectedUser(null);
   };
@@ -93,7 +88,7 @@ export const App: React.FC = () => {
             id="title"
             placeholder="Enter a title"
             value={todoTitle}
-            onChange={handleChange}
+            onChange={handleChangeTitle}
           />
 
           {noTodos && (
@@ -110,7 +105,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             name="user"
             value={selectedUser?.id || ''}
-            onChange={handleChange}
+            onChange={handleChangeUser}
             id="user"
           >
             <option value="" disabled>Choose a user</option>
