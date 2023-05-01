@@ -54,7 +54,7 @@ export const App: FC = () => {
       setUserError(true);
     }
 
-    if (!todoTitle || !selectedUser) {
+    if (!todoTitle || !selectedUser || todoTitle.trim() === '') {
       return;
     }
 
