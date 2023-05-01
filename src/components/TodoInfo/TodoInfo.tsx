@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import className from 'classnames';
+import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
@@ -18,8 +18,9 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={id}
-      className={className('TodoInfo',
-        { 'TodoInfo--completed': completed })}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
       key={id}
     >
       <h2 className="TodoInfo__title">

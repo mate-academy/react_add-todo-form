@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -23,7 +23,7 @@ const todos = (): Todo[] => todosFromServer.map(todo => ({
 export const App: FC = () => {
   const [vissibleTodos, setVissibleTodos] = useState<Todo[]>(todos);
   const [inputTitle, setInputTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState<number>(0);
+  const [selectedUser, setSelectedUser] = useState(0);
   const [showTitleError, setShowTitleError] = useState(false);
   const [showUserError, setShowUserError] = useState(false);
 
@@ -35,7 +35,7 @@ export const App: FC = () => {
   };
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -60,12 +60,13 @@ export const App: FC = () => {
     event.preventDefault();
 
     const foundUser = findUser(Number(selectedUser));
+
     const newTodo: Todo = {
       id: newId,
       title: inputTitle,
       completed: false,
       userId: selectedUser,
-      user: foundUser || null,
+      user: foundUser,
     };
 
     if (!inputTitle) {
@@ -105,8 +106,11 @@ export const App: FC = () => {
               onChange={handleChange}
             />
           </label>
-          {showTitleError
-            && <span className="error">Please enter a title</span>}
+          {showTitleError && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -119,20 +123,21 @@ export const App: FC = () => {
               value={selectedUser}
               onChange={handleChange}
             >
-              <option value={0} disabled>Choose a user</option>
+              <option value={0} disabled>
+                Choose a user
+              </option>
 
               {usersFromServer.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
+                <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
               ))}
 
             </select>
           </label>
-          {showUserError && <span className="error">Please choose a user</span>}
+          {showUserError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
