@@ -34,8 +34,13 @@ export const App = () => {
   const [isUserNameValid, checkUserName] = useState(true);
 
   const handleTitle = (titleValue: string) => {
-    checkTitle(true);
-    setTitle(titleValue);
+    if (title.trim() !== '') {
+      checkTitle(true);
+      setTitle(titleValue);
+    } else {
+      checkTitle(true);
+      setTitle(titleValue.trim());
+    }
   };
 
   const handleUserName = (userNameValue: string) => {
@@ -93,15 +98,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              const { value } = event.target;
-
-              if (value.trim() !== '') {
-                handleTitle(value);
-              } else {
-                handleTitle(value.trim());
-              }
-            }}
+            onChange={(event) => handleTitle(event.target.value)}
           />
 
           {!isTitleValid && <span className="error">Please enter a title</span>}
