@@ -61,14 +61,6 @@ export const App: FC = () => {
     const foundUser = getUserById(Number(selectedUser));
     const newId = Math.max(...vissibleTodos.map(todo => todo.id)) + 1;
 
-    const newTodo: Todo = {
-      id: newId,
-      title: inputTitle,
-      completed: false,
-      userId: selectedUser,
-      user: foundUser,
-    };
-
     if (!trimedTitle) {
       setShowTitleError(true);
     }
@@ -80,6 +72,14 @@ export const App: FC = () => {
     if (!trimedTitle || !selectedUser) {
       return;
     }
+
+    const newTodo: Todo = {
+      id: newId,
+      title: inputTitle,
+      completed: false,
+      userId: selectedUser,
+      user: foundUser,
+    };
 
     setVissibleTodos([...vissibleTodos, newTodo]);
     reset();
