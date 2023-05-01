@@ -8,7 +8,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -16,7 +16,7 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App:FC = () => {
@@ -26,46 +26,55 @@ export const App:FC = () => {
   const [isEmptyTitle, isEmptyTitleCheck] = useState(true);
   const [isUserSelected, isUserSelectedCheck] = useState(true);
 
-  const maxId = Math.max(...visibleTodos.map(todo => todo.id));
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    const trimmedTitle = title.trim();
+
+    const maxId = Math.max(...visibleTodos.map(todo => todo.id));
+
+    if (!trimmedTitle) {
       isEmptyTitleCheck(false);
 
       return;
     }
 
-    if (!userId) {
+    const user = getUserById(userId);
+
+    if (!user) {
       isUserSelectedCheck(false);
 
       return;
     }
 
-    if (title && userId) {
-      const selectedUser = getUser(userId) || null;
+    const selectedUser = getUserById(userId);
 
-      const newTodo: Todo = {
-        id: maxId + 1,
-        title,
-        completed: false,
-        userId: selectedUser?.id || null,
-        user: selectedUser,
-      };
+    const newTodo: Todo = {
+      id: maxId + 1,
+      title,
+      completed: false,
+      userId: selectedUser?.id || null,
+      user: selectedUser,
+    };
 
-      setTodo((state) => ([...state, newTodo]));
-      setTitle('');
-      setUserId(0);
-    }
+    setTodo((state) => ([...state, newTodo]));
+    setTitle('');
+    setUserId(0);
   };
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  const handleTitleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setTitle(event.target.value);
     isEmptyTitleCheck(true);
   };
+
+  const handleUserChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(Number(event.target.value));
+    isUserSelectedCheck(true);
+  }
 
   return (
     <div className="App">
@@ -84,7 +93,7 @@ export const App:FC = () => {
               data-cy="titleInput"
               value={title}
               placeholder="Enter a title"
-              onChange={handleChange}
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -100,10 +109,7 @@ export const App:FC = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={(event) => {
-                setUserId(Number(event.target.value));
-                isUserSelectedCheck(true);
-              }}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
 
