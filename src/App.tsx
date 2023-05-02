@@ -6,20 +6,20 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
+const retrieveUser = (): Todo[] => {
+  return todosFromServer.map(todo => {
+    const user = usersFromServer
+      .find(serverUser => serverUser.id === todo.userId) || null;
+
+    return { ...todo, user };
+  });
+};
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isUserSelected, setIsUserSelected] = useState(false);
-
-  const retrieveUser = (): Todo[] => {
-    return todosFromServer.map(todo => {
-      const user = usersFromServer
-        .find(serverUser => serverUser.id === todo.userId) || null;
-
-      return { ...todo, user };
-    });
-  };
 
   const retrievedUser = retrieveUser();
   const [todos, setTodos] = useState(retrievedUser);
@@ -34,14 +34,15 @@ export const App = () => {
     setIsUserSelected(false);
   };
 
+  const getMaxId = () => Math.max(...todos.map(todo => todo.id));
+
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const selectedUser = usersFromServer.find(user => user.name === userName);
-    const todosIds = todos.map(todo => todo.id);
-    const maxId = Math.max(...todosIds);
+    const maxId = getMaxId();
     const trimedTitle = title.trim();
 
-    if (title.length < 1 || trimedTitle.length < 1) {
+    if (!trimedTitle) {
       setIsTitleEmpty(true);
     }
 
@@ -49,24 +50,20 @@ export const App = () => {
       setIsUserSelected(true);
     }
 
-    if (
-      !isTitleEmpty
-      && !isUserSelected
-      && trimedTitle
-      && selectedUser
-    ) {
-      setTodos([
-        ...todos,
-        {
-          id: maxId + 1,
-          userId: selectedUser?.id,
-          title: trimedTitle,
-          completed: false,
-          user: selectedUser || null,
-        }]);
-      setTitle('');
-      setUserName('');
+    if (!trimedTitle && !selectedUser) {
+      return;
     }
+
+    setTodos([
+      ...todos, {
+        id: maxId + 1,
+        userId: selectedUser?.id,
+        title: trimedTitle,
+        completed: false,
+        user: selectedUser || null,
+      }]);
+    setTitle('');
+    setUserName('');
   };
 
   return (
@@ -87,6 +84,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
+
           {(isTitleEmpty) && (
             <span className="error">
               Please enter a title
@@ -100,7 +98,8 @@ export const App = () => {
             onChange={handleUserChange}
             value={userName}
           >
-            <option defaultChecked>Choose a user</option>
+            <option defaultChecked>Choose the user</option>
+
             {usersFromServer.map(user => (
               <option key={user.id}>
                 {user.name}
