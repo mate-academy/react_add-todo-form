@@ -1,5 +1,5 @@
 import './App.scss';
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -27,6 +27,16 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState('0');
   const [selectError, setSelectError] = useState(false);
   const [titleError, setTitleError] = useState(false);
+
+  const handleToChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleToChangeSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(event.target.value);
+    setSelectError(false);
+  };
 
   const handleReset = () => {
     setTodoTitle('');
@@ -78,9 +88,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={todoTitle}
-              onChange={(event) => {
-                setTodoTitle(event.target.value);
-              }}
+              onChange={handleToChangeTitle}
             />
 
             {titleError && (
@@ -98,9 +106,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={(event) => {
-                setSelectedUser(event.target.value);
-              }}
+              onChange={handleToChangeSelection}
             >
               <option value="0" disabled>Choose a user</option>
 
