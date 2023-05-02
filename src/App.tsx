@@ -12,6 +12,10 @@ function getUserById(id: number):User | null {
   return foundUser || null;
 }
 
+function finderBiggestId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id));
+}
+
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -39,26 +43,28 @@ export const App: FC = () => {
 
   const submitHandler = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    if (!title) {
+
+    const biggerId = finderBiggestId(visibleTodos);
+    const exactlyUser = getUserById(userId);
+    const formattedTitle = title.trim();
+
+    if (!formattedTitle) {
       setTitleError(true);
     }
 
-    if (!userId) {
+    if (!exactlyUser) {
       setSelectionError(true);
     }
 
-    if (!title || !userId) {
+    if (!formattedTitle || !exactlyUser) {
       return;
     }
 
-    const biggerId = Math.max(...todosFromServer.map(todo => todo.id));
-    const exactlyUser = getUserById(userId);
-
     const newTodo: Todo = {
       id: biggerId + 1,
-      title,
+      title: formattedTitle,
       completed: false,
-      userId: exactlyUser?.id,
+      userId: exactlyUser.id,
       user: exactlyUser,
     };
 
@@ -113,10 +119,7 @@ export const App: FC = () => {
               <option value="0">Choose a user</option>
               {usersFromServer.map(({ id, name }) => {
                 return (
-                  <option
-                    key={id}
-                    value={id}
-                  >
+                  <option key={id} value={id}>
                     {name}
                   </option>
                 );
