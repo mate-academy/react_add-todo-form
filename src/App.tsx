@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './App.scss';
+import { v4 as uuidv4 } from 'uuid';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -56,10 +57,10 @@ export const App = () => {
   ) => {
     const { name, value } = event.target;
 
-    setValues({
-      ...values,
+    setValues(prevValues => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
   };
 
   useEffect(() => {
@@ -76,14 +77,16 @@ export const App = () => {
     setTodo({
       ...todo,
       id,
-      userId: addUser !== null ? addUser.id : 0,
+      userId: addUser !== null
+        ? addUser.id
+        : uuidv4(),
       title,
       completed,
       user: getUserByName(user),
     });
   }, [title, user]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleAddingTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!user || !title) {
@@ -125,7 +128,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={handleAddingTodo}
       >
         <div className="field">
           <label>

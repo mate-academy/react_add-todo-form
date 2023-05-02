@@ -1,3 +1,4 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 
