@@ -1,50 +1,61 @@
 import './App.scss';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
-function getFindedUser(id: number) {
+function getUserById(id: number) {
   return usersFromServer.find(user => user.id === id);
 }
 
-let visibleTodos: Todo[] = todosFromServer.map(todo => {
-  const userOfTodo = getFindedUser(todo.userId);
+function getMaxId(todos: Todo[]) {
+  return todos
+    .reduce((prev, cur) => ((prev.id > cur.id) ? prev : cur)).id;
+}
+
+const visibleTodos: Todo[] = todosFromServer.map(todo => {
+  const userOfTodo = getUserById(todo.userId);
   const newTodo: Todo = { ...todo, user: userOfTodo || null };
 
   return newTodo;
 });
 
 export const App = () => {
+  const [todos, setTodos] = useState(visibleTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('0');
-  const [isAdd, setIsAdd] = useState(false);
+  const [selectError, setSelectError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
 
   const handleReset = () => {
     setTodoTitle('');
     setSelectedUser('0');
-    setIsAdd(false);
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsAdd(true);
 
-    if (todoTitle !== '' && selectedUser !== '0') {
-      const userOfTodo = getFindedUser(+selectedUser);
+    const title = todoTitle.trim();
+    const userOfTodo = getUserById(+selectedUser);
+    const nextTodoId = getMaxId(todos) + 1;
 
-      const nextTodoId = visibleTodos
-        .reduce((prev, cur) => ((prev.id > cur.id) ? prev : cur)).id + 1;
+    setTitleError(title === '');
+    setSelectError(selectedUser === '0');
 
+    if (title === '' || selectedUser === '0') {
+      return;
+    }
+
+    if (userOfTodo) {
       const newTodo: Todo = {
         id: nextTodoId,
-        title: todoTitle.trim(),
+        title,
         completed: false,
-        user: userOfTodo || null,
+        user: userOfTodo,
       };
 
-      visibleTodos = [...visibleTodos, newTodo];
+      setTodos([...todos, newTodo]);
       handleReset();
     }
   };
@@ -53,7 +64,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <label>
             <span>Title: </span>
@@ -68,7 +83,7 @@ export const App = () => {
               }}
             />
 
-            {(todoTitle === '' && isAdd) && (
+            {titleError && (
               <span className="error">
                 Please enter a title
               </span>
@@ -89,13 +104,13 @@ export const App = () => {
             >
               <option value="0" disabled>Choose a user</option>
 
-              {usersFromServer.map(user => {
-                return (<option value={user.id}>{user.name}</option>);
-              })}
+              {usersFromServer.map(user => (
+                <option value={user.id}>{user.name}</option>
+              ))}
             </select>
           </label>
 
-          {(selectedUser === '0' && isAdd) && (
+          {selectError && (
             <span className="error">
               Please choose a user
             </span>
@@ -105,13 +120,12 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={handleSubmit}
         >
           Add
         </button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
