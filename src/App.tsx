@@ -19,48 +19,48 @@ export const App: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [todoTitle, setTitle] = useState('');
   const [visibleTodos, setTodos] = useState(todos);
-  const [noUsers, setNoUsers] = useState(false);
-  const [noTodos, setNoTodos] = useState(false);
+  const [isNoUsers, setIsNoUsers] = useState(false);
+  const [isNoTodos, setIsNoTodos] = useState(false);
+
+  const title = todoTitle.trim();
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setNoTodos(false);
+    setIsNoTodos(false);
     setTitle(value);
   };
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setNoUsers(false);
+    setIsNoUsers(false);
     setSelectedUser(getUserById(Number(value)));
   };
 
-  const isCompleted = () => {
-    return false;
-  };
-
-  const handleAddTodo = (event: { preventDefault: () => void; }) => {
+  const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle) {
-      setNoTodos(true);
+    if (!title) {
+      setIsNoTodos(true);
     }
 
     if (!selectedUser) {
-      setNoUsers(true);
+      setIsNoUsers(true);
     }
 
-    if (!todoTitle || !selectedUser) {
+    if (!title || !selectedUser) {
       return;
     }
 
+    const newId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
     const titleToObj = () => {
       return {
-        id: Math.random(),
-        title: todoTitle,
-        completed: isCompleted(),
-        userId: selectedUser.id || -1,
+        id: newId,
+        title,
+        completed: false,
+        userId: selectedUser.id,
         user: selectedUser,
       };
     };
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
             onChange={handleChangeTitle}
           />
 
-          {noTodos && (
+          {isNoTodos && (
             <p className="error">
               Please enter a title
             </p>
@@ -120,7 +120,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {noUsers && (
+          {isNoUsers && (
             <p className="error">
               Please choose a user
             </p>
