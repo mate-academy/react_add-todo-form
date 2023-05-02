@@ -28,15 +28,19 @@ export const App: React.FC = () => {
   const [visibleTodos, setTodos] = useState(todos);
   const [chosenUser, setChosenUser] = useState<User | null>(null);
   const [newTodoTitle, setTodoTitle] = useState('');
-  const [titleError, setTitleErrorStatus] = useState(false);
+  const [istitleError, setIsTitleErrorStatus] = useState(false);
   const [userError, setUserErrorStatus] = useState(false);
+
+  function getMaxTodoId(getTodos: Todo[]) {
+    return Math.max(...getTodos.map(todo => todo.id));
+  }
 
   const handleChange = (event: React.ChangeEvent<ChangeableElement>) => {
     const { name, value } = event.target;
 
     switch (name) {
       case FormType.newTitleForm.toString():
-        setTitleErrorStatus(false);
+        setIsTitleErrorStatus(false);
         setTodoTitle(value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
         break;
 
@@ -51,20 +55,21 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const trimmedTitle = newTodoTitle.trim();
 
     if (!chosenUser) {
       setUserErrorStatus(true);
     }
 
-    if (!newTodoTitle.trim()) {
-      setTitleErrorStatus(true);
+    if (!trimmedTitle) {
+      setIsTitleErrorStatus(true);
     }
 
     if (!chosenUser || !newTodoTitle.trim()) {
       return;
     }
 
-    const newTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+    const newTodoId = getMaxTodoId(visibleTodos) + 1;
 
     const newTodo = {
       id: newTodoId,
@@ -94,6 +99,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label htmlFor="newTitleForm">Title: </label>
+
           <input
             name="newTitleForm"
             type="text"
@@ -102,7 +108,8 @@ export const App: React.FC = () => {
             value={newTodoTitle}
             onChange={handleChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+
+          {istitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -124,6 +131,7 @@ export const App: React.FC = () => {
               </option>
             )) }
           </select>
+
           {userError && (
             <span className="error">
               Please choose a user
