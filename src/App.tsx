@@ -6,59 +6,51 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './api/types/interface';
 
-function getUserByName(nameUser: string) {
-  return usersFromServer.find(({ name }) => name === nameUser) || null;
-}
-
-function getUserById(userId: number) {
-  return usersFromServer.find(({ id }) => id === userId) || null;
+function getMaxTodoId(todos: Todo[]) {
+  return Math.max(...todos.map(({ id }) => id)) + 1;
 }
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: usersFromServer.find(({ id }) => id === todo.userId) || null,
 }));
-
-function showHint(showOnStart: boolean, value: string) {
-  return showOnStart && !value;
-}
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userSelect, setUserSelect] = useState('');
   const [visibleTodos, addTodo] = useState(todos);
-  const [showOnStart, setShowOnStart] = useState(false);
+  const [showTitleError, setShowTitleError] = useState(false);
+  const [showUserError, setShowUserError] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setShowOnStart(true);
+    const trimmedTitle = title.trim();
+    const isValidTitle = !!trimmedTitle;
 
-    const isValidTitle = title.split('').every(letter => letter === ' ');
+    setShowTitleError(!isValidTitle);
 
-    if (isValidTitle) {
-      setTitle('');
-    }
+    const isValidUser = !!userSelect;
 
-    if (!isValidTitle && userSelect) {
-      const user = getUserByName(userSelect);
-      const newId = Math.max(...visibleTodos.map(({ id }) => id)) + 1;
-      const todo = {
+    setShowUserError(!isValidUser);
+
+    if (isValidTitle && isValidUser) {
+      const user = usersFromServer
+        .find(({ name }) => name === userSelect) || null;
+      const newId = getMaxTodoId(visibleTodos);
+      const newTodo: Todo = {
         id: newId,
-        title,
+        title: trimmedTitle,
         completed: false,
-        userId: user ? user.id : null,
-      };
-
-      const newTodo = {
-        ...todo,
+        userId: user?.id ?? null,
         user,
       };
 
       addTodo(state => [...state, newTodo]);
       setUserSelect('');
       setTitle('');
-      setShowOnStart(false);
+      setShowTitleError(false);
+      setShowUserError(false);
     }
   };
 
@@ -92,7 +84,7 @@ export const App = () => {
             />
           </label>
 
-          {showHint(showOnStart, title) && (
+          {showTitleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -108,6 +100,7 @@ export const App = () => {
               onChange={handleChangeSelect}
             >
               <option value="" disabled>Choose a user</option>
+
               {usersFromServer.map(({ name, id }) => (
                 <option value={name} key={id}>
                   {name}
@@ -116,7 +109,7 @@ export const App = () => {
             </select>
           </label>
 
-          {showHint(showOnStart, userSelect) && (
+          {showUserError && (
             <span className="error">
               Please choose a user
             </span>
