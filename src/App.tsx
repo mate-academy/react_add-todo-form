@@ -39,7 +39,7 @@ export const App: React.FC = () => {
 
   const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
     setUserName(+event.target.value);
-    setTitleError(false);
+    setUserError(false);
   };
 
   const handleFormSubmit = (event:FormEvent<HTMLFormElement>) => {
