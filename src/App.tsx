@@ -10,13 +10,13 @@ const userWithProperty = (property: keyof User, value: string | number) => {
   return usersFromServer.find(user => user[property] === value) || null;
 };
 
-const userWithTodo = (todo: Todo) => {
+const getUserWithTodo = (todo: Todo) => {
   return userWithProperty('id', todo.userId);
 };
 
 const getTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: userWithTodo(todo),
+  user: getUserWithTodo(todo),
 }));
 
 const getTodo = (
@@ -37,10 +37,10 @@ const getTodo = (
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(getTodos);
-  const [userError, setUserError] = useState(false);
-  const [titleError, setTitleError] = useState(false);
+  const [isUserError, setisUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [userSelected, setUserSelected] = useState('0');
+  const [userSelectedId, setuserSelectedId] = useState('0');
 
   const handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -50,43 +50,45 @@ export const App: React.FC = () => {
       ? ''
       : filteredInput);
 
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelected(event.target.value);
+    setuserSelectedId(event.target.value);
 
-    setUserError(false);
+    setisUserError(false);
   };
 
-  const resetForm = () => {
+  const handleReset = () => {
     setTitle('');
-    setUserSelected('0');
+    setuserSelectedId('0');
   };
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const currentUser = userWithProperty('name', userSelected);
+    const currentUser = userWithProperty('name', userSelectedId);
 
     if (!currentUser) {
-      setUserError(true);
+      setisUserError(true);
     }
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
-    if (currentUser && title) {
-      const todo = getTodo(currentUser, title, getTodos);
-
-      setTodos(current => ([
-        ...current,
-        todo,
-      ]));
-
-      resetForm();
+    if (!currentUser || !title) {
+      return;
     }
+
+    const todo = getTodo(currentUser, title, getTodos);
+
+    setTodos(current => ([
+      ...current,
+      todo,
+    ]));
+
+    handleReset();
   };
 
   return (
@@ -111,7 +113,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -122,7 +124,7 @@ export const App: React.FC = () => {
 
             <select
               data-cy="userSelect"
-              value={userSelected}
+              value={userSelectedId}
               onChange={handleSelectUser}
             >
               <option value="0" disabled>Choose a user</option>
@@ -135,7 +137,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
