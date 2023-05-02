@@ -16,7 +16,11 @@ const findUser = (userId: number, userName = '') => {
 };
 
 const findLastId = (todos: Todo[]) => {
-  return Math.max(...todos.map(todo => todo.id)) + 1;
+  if (todos.length) {
+    return Math.max(...todos.map(todo => todo.id)) + 1;
+  }
+
+  return 1;
 };
 
 const todos = todosFromServer.map((todo) => {
