@@ -19,54 +19,69 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [userName, setUserName] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [visibleTodos, setTodos] = useState(todos);
-  const [isErrorTitle, setErrorTitle] = useState(false);
-  const [isErrorUserName, setErrorUserName] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const handleChangeUser = (event: ChangeEvent<HTMLSelectElement>) => {
-    setUserName(Number(event.target.value));
-    setErrorUserName(false);
+    setUserId(Number(event.target.value));
+    setIsUserError(false);
   };
 
   const handleTitle = ((event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
-    const filteredInput = input.replace(/[^A-Za-zA-Яa-я0-9\s]/g, '');
+    const regexp = /[^A-Za-zA-Яa-я0-9\s]/g;
+    const filteredInput = input.replace(regexp, '');
 
     setTitle(/^\s*$/.test(filteredInput)
       ? ''
       : filteredInput);
-    setErrorTitle(false);
+    setIsTitleError(false);
   });
 
-  const resetForm = () => {
-    setUserName(0);
+  const handleReset = () => {
+    setUserId(0);
     setTitle('');
   };
 
-  const newTodoId = Math.max(...visibleTodos.map(todo => todo.id));
-
   const handleFormSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setErrorTitle(!title);
-    setErrorUserName(!userName);
+
+    const normalizedTitle = title.trim();
+
+    if (!normalizedTitle) {
+      setIsTitleError(true);
+    }
+
+    const user = getUserById(userId);
+
+    if (!user) {
+      setIsUserError(true);
+    }
+
+    if (!normalizedTitle || !user) {
+      return;
+    }
+
+    const newTodoId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
 
     const newTodo: Todo = {
-      id: newTodoId + 1,
+      id: newTodoId,
       title,
       completed: false,
-      userId: userName,
-      user: getUserById(userName),
+      userId,
+      user: getUserById(userId),
     };
 
-    if (title && userName) {
+    if (title && userId) {
       setTodos(currentTodo => [
         ...currentTodo,
         newTodo,
       ]);
 
-      resetForm();
+      handleReset();
     }
   };
 
@@ -91,7 +106,7 @@ export const App = () => {
             onChange={handleTitle}
           />
 
-          {isErrorTitle && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -102,7 +117,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="#userSelect"
-            value={userName}
+            value={userId}
             onChange={handleChangeUser}
           >
             <option value="0" disabled>Choose a user</option>
@@ -111,7 +126,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isErrorUserName
+          {isUserError
             && <span className="error">Please choose a user</span>}
         </div>
 
