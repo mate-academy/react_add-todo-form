@@ -26,8 +26,9 @@ export const App = () => {
 
   const validatedTitleAndUser = currentTitle && selectedUser;
 
-  const handleAddButton = () => {
+  const handleAddButton = (event:React.FormEvent<HTMLInputElement>) => {
     if (validatedTitleAndUser) {
+      event.preventDefault()
       setTodosWithUsers(
         [...todosWithUsers,
           {
@@ -54,44 +55,48 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => (event.preventDefault())}
+        onSubmit={(event) => (handleAddButton(event))}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={currentTitle}
-            onChange={event => setCurrentTitle(event.target.value)}
-          />
+          <label htmlFor="titleInput">
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={currentTitle}
+              onChange={event => setCurrentTitle(event.target.value)}
+            />
+          </label>
           {(!addValidated && !currentTitle) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={selectedUser}
-            onChange={event => setSelectedUser(event.target.value)}
-          >
-            <option
-              value=""
-              selected
-              disabled
+          <label htmlFor="userSelect">
+            <select
+              data-cy="userSelect"
+              value={selectedUser}
+              onChange={event => setSelectedUser(event.target.value)}
             >
-              Choose a user
-            </option>
-
-            {users.map(user => (
               <option
-                key={user.id}
-                value={user.id}
+                value=""
+                selected
+                disabled
               >
-                {user.name}
+                Choose a user
               </option>
-            ))}
-          </select>
+
+              {users.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
           {(!addValidated && !selectedUser) && (
             <span className="error">Please choose a user</span>
           )}
@@ -100,9 +105,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => {
-            handleAddButton();
-          }}
         >
           Add
         </button>
