@@ -49,8 +49,8 @@ export const App = () => {
   };
 
   const validateForm = () => {
-    const isNoTitle = titleInput.trim() === '';
-    const isNoUser = userIdSelect === 0;
+    const isNoTitle = !titleInput.trim();
+    const isNoUser = !userIdSelect;
 
     if (isNoTitle || isNoUser) {
       if (isNoTitle) {
