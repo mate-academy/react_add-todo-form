@@ -8,22 +8,26 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
+
+function getNextTodoId(): number {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+}
 
 export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
   const handleChange = (
@@ -31,13 +35,13 @@ export const App: React.FC = () => {
   ) => {
     switch (event.target.id) {
       case 'titleInput':
-        setTitleError(false);
-        setTitle(event.target.value);
+        setIsTitleError(false);
+        setTitle(event.target.value.trimStart());
         break;
 
       case 'userSelect':
         setUserError(false);
-        setSelectedUser(getUser(+(event.target.value)));
+        setSelectedUser(getUserById(+(event.target.value)));
         break;
 
       default:
@@ -49,7 +53,7 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!selectedUser) {
@@ -61,9 +65,9 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: getNextTodoId(),
       title,
-      userId: selectedUser ? selectedUser.id : -1,
+      userId: selectedUser.id,
       completed: false,
       user: selectedUser,
     };
@@ -94,7 +98,8 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleChange}
           />
-          {titleError && (
+
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
