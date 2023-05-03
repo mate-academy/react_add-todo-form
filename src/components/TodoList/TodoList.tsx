@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 
