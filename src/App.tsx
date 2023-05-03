@@ -24,26 +24,26 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState(0);
 
-  const [userError, setUserError] = useState(false);
-  const [titleError, setTitleError] = useState(false);
+  const [isUserErrored, setUserErrored] = useState(false);
+  const [isTitleErrored, setTitleErrored] = useState(false);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    setTitleError(false);
+    setTitleErrored(false);
   };
 
   const handleUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setUser(+e.target.value);
-    setUserError(false);
+    setUserErrored(false);
   };
 
   const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const titleTrim = title.trim();
 
-    setTitleError(!titleTrim);
+    setTitleErrored(!titleTrim);
 
-    setUserError(!user);
+    setUserErrored(!user);
 
     if (titleTrim && user) {
       const newTodo = {
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
             onChange={handleTitle}
           />
 
-          {titleError && (
+          {isTitleErrored && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -103,7 +103,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userError && (
+          {isUserErrored && (
             <span className="error">Please choose a user</span>
           )}
         </div>
