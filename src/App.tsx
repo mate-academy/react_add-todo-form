@@ -47,10 +47,13 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!title.length || !userId) {
-      setIsValidTitle(!!title.length);
-      setIsValidUser(!!userId);
-    } else {
+    const isValidTitleField = title.length > 0;
+    const isValidUserField = !!userId;
+
+    setIsValidTitle(isValidTitleField);
+    setIsValidUser(isValidUserField);
+
+    if (isValidTitleField && isValidUserField) {
       setTodos((prevTodos) => {
         const newTodo = {
           id: getMaxTodoId(prevTodos) + 1,
@@ -75,6 +78,7 @@ export const App = () => {
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -83,6 +87,7 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
+
           {!isValidTitle && <span className="error">Please enter a title</span>}
         </div>
 
