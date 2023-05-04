@@ -5,22 +5,24 @@ import { TodoInfo } from '../TodoInfo';
 type Props = {
   todos: Todo[];
   onTodoDelete: (todoId: number) => void;
-  onTodoUpdate: (todo: Todo) => void;
 };
 
-export const TodoList: React.FC<Props> = ({
+export const TodoList: React.FC<Props> = React.memo(({
   todos,
   onTodoDelete,
-  onTodoUpdate,
-}) => (
-  <section className="TodoList">
-    {todos.map(todo => (
-      <TodoInfo
-        key={todo.id}
-        todo={todo}
-        onDelete={() => onTodoDelete(todo.id)}
-        onUpdate={onTodoUpdate}
-      />
-    ))}
-  </section>
-);
+}) => {
+  // eslint-disable-next-line no-console
+  console.log('TodoList is rendering');
+
+  return (
+    <section className="TodoList">
+      {todos.map(todo => (
+        <TodoInfo
+          key={todo.id}
+          todo={todo}
+          onDelete={() => onTodoDelete(todo.id)}
+        />
+      ))}
+    </section>
+  );
+});

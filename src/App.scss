@@ -32,6 +32,14 @@ button {
   &--completed &__title {
     color: #080;
   }
+
+  &__button {
+    margin: 0 8px;
+    padding: 4px 8px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    background-color: #fff;
+  }
 }
 
 .UserInfo {
