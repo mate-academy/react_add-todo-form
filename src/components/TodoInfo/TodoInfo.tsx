@@ -6,7 +6,7 @@ import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
-  onDelete: () => void;
+  onDelete: (todoId: number) => void;
 };
 
 export const TodoInfo: React.FC<Props> = React.memo((
@@ -25,7 +25,11 @@ export const TodoInfo: React.FC<Props> = React.memo((
         <UserInfo user={todo.user} />
       )}
 
-      <button className="TodoInfo__button" type="button" onClick={onDelete}>
+      <button
+        className="TodoInfo__button"
+        type="button"
+        onClick={() => onDelete(todo.id)}
+      >
         x
       </button>
     </article>
