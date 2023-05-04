@@ -11,9 +11,6 @@ export const TodoList: React.FC<Props> = React.memo(({
   todos,
   onTodoDelete,
 }) => {
-  // eslint-disable-next-line no-console
-  console.log('TodoList is rendering');
-
   return (
     <section className="TodoList">
       {todos.map(todo => (
