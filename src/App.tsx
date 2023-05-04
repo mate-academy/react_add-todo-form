@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import './App.scss';
+import debounce from 'lodash.debounce';
 import todosFromServer from './api/todos';
 
 import { Todo } from './types/Todo';
@@ -13,10 +14,20 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodos);
-  const [query, setQuery] = useState('');
+  // const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
+
   const [counter, setCounter] = useState(0);
 
-  const lowerCaseQuery = query.toLowerCase().trim();
+  // eslint-disable-next-line no-console
+  console.log('App is rendering...');
+
+  const applyQuery = useCallback(
+    debounce(setAppliedQuery, 1000), [appliedQuery],
+  );
+
+  // ''
+  const lowerCaseQuery = appliedQuery.toLowerCase().trim();
 
   // [1, 2, 3]
   const visibleTodos = useMemo(() => {
@@ -55,8 +66,10 @@ export const App: React.FC = () => {
 
       <input
         type="text"
-        value={query}
-        onChange={event => setQuery(event.target.value)}
+        onChange={event => {
+          // setQuery(event.target.value);
+          applyQuery(event.target.value);
+        }}
       />
 
       <TodoForm addTodo={addTodo} />
