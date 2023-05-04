@@ -72,7 +72,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId),
+      user,
     };
 
     if (title && userId) {
