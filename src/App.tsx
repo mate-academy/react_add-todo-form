@@ -104,8 +104,11 @@ export const App = () => {
             id="titleInput"
             value={title}
             onChange={event => {
-              setTitle(event.target.value);
-              setTitleError(false);
+              const value = event.target.value;
+              if (/^[a-zA-Zа-яА-Я0-9\s]*$/i.test(value)) {
+                setTitle(value);
+                setTitleError(false);
+              }
             }}
           />
 
