@@ -46,9 +46,10 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const maxId = getMaxId(todos);
+    const trimmedTitle = title.trim();
 
-    if (!title.length || !userId) {
-      setIsValidTitle(!!title.length);
+    if (!trimmedTitle.length || !userId) {
+      setIsValidTitle(!!trimmedTitle.length);
       setIsValidUser(!!userId);
     } else {
       const newTodo = {
