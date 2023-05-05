@@ -11,7 +11,7 @@ const getMaxId = (todos: Omit<Todo, 'user'>[]) => {
   return Math.max(...todoIds);
 };
 
-const fillTodosWithUser = (todos: Omit<Todo, 'user'>[]) => {
+const getPrepatedTodos = (todos: Omit<Todo, 'user'>[]) => {
   return todos.map((todo) => {
     const findUser = usersFromServer.find((user) => user.id === todo.userId);
 
@@ -43,10 +43,9 @@ export const App = () => {
     }
   };
 
-  const maxId = getMaxId(todos);
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    const maxId = getMaxId(todos);
 
     if (!title.length || !userId) {
       setIsValidTitle(!!title.length);
@@ -73,6 +72,7 @@ export const App = () => {
         <div className="field">
           <label>
             {'Title: '}
+
             <input
               type="text"
               data-cy="titleInput"
@@ -81,7 +81,10 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {!isValidTitle && <span className="error">Please enter a title</span>}
+
+          {!isValidTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -95,6 +98,7 @@ export const App = () => {
               <option value="0" disabled>
                 Choose a user
               </option>
+
               {usersFromServer.map(({ id, name }) => (
                 <option value={id} key={id}>
                   {name}
@@ -102,9 +106,10 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {!isValidUser
-            && (<span className="error">Please choose a user</span>
-            )}
+
+          {!isValidUser && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -112,7 +117,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={fillTodosWithUser(todos)} />
+      <TodoList todos={getPrepatedTodos(todos)} />
     </div>
   );
 };
