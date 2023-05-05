@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import usersFromServer from '../api/users';
-import { Todo } from '../types/Todo';
 import { User } from '../types/User';
+import { TodosContext } from './TodosProvider';
 
 export function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -9,16 +9,13 @@ export function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-type Props = {
-  addTodo: (todo: Omit<Todo, 'id'>) => void,
-};
-
-export const TodoForm: React.FC<Props> = ({ addTodo }) => {
+export const TodoForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserError, setUserError] = useState(false);
 
+  const { addTodo } = useContext(TodosContext);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 

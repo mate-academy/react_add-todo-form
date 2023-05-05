@@ -1,17 +1,19 @@
 /* eslint-disable no-console */
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
+import { TodosContext } from '../TodosProvider';
 
 type Props = {
   todo: Todo;
-  onDelete: (todoId: number) => void;
 };
 
 export const TodoInfo: React.FC<Props> = React.memo((
-  { todo, onDelete },
+  { todo },
 ) => {
+  const { deleteTodo } = useContext(TodosContext);
+
   return (
     <article
       data-id={todo.id}
@@ -28,7 +30,7 @@ export const TodoInfo: React.FC<Props> = React.memo((
       <button
         className="TodoInfo__button"
         type="button"
-        onClick={() => onDelete(todo.id)}
+        onClick={() => deleteTodo(todo.id)}
       >
         x
       </button>
