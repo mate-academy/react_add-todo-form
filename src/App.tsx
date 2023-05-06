@@ -17,20 +17,24 @@ export const todos: Todo[] = todosFromServer.map((todo) => ({
   user: getUserById(todo.userId),
 }));
 
+const createTodoId = (listOfTodos: Todo[]) => (
+  Math.max(...listOfTodos.map(todo => todo.id)) + 1
+);
+
 export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(todos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('0');
-  const [titleEmpty, setTitleEmpty] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState('0');
+  const [IsTitleEmpty, setIsTitleEmpty] = useState(false);
   const [userSelected, setuserSelected] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleEmpty(false);
+    setIsTitleEmpty(false);
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUserId(event.target.value);
     setuserSelected(false);
   };
 
@@ -40,10 +44,10 @@ export const App = () => {
     const trimmedTitle = title.trim();
 
     if (!trimmedTitle) {
-      setTitleEmpty(true);
+      setIsTitleEmpty(true);
     }
 
-    const user = getUserById(Number(selectedUser));
+    const user = getUserById(Number(selectedUserId));
 
     if (!user) {
       setuserSelected(true);
@@ -53,10 +57,6 @@ export const App = () => {
       return;
     }
 
-    const createTodoId = (listOfTodos: Todo[]) => (
-      Math.max(...listOfTodos.map(todo => todo.id)) + 1
-    );
-
     const todoToAdd: Todo = {
       id: createTodoId(visibleTodos),
       title,
@@ -65,11 +65,9 @@ export const App = () => {
       user,
     };
 
-    if (title && selectedUser !== '0') {
-      setVisibleTodos([...visibleTodos, todoToAdd]);
-      setTitle('');
-      setSelectedUser('0');
-    }
+    setVisibleTodos([...visibleTodos, todoToAdd]);
+    setTitle('');
+    setSelectedUserId('0');
   };
 
   return (
@@ -93,7 +91,7 @@ export const App = () => {
             />
           </label>
 
-          {titleEmpty
+          {IsTitleEmpty
             && <span className="error">Please enter a title</span>}
         </div>
         <div className="field">
@@ -103,7 +101,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               id="user"
-              value={selectedUser}
+              value={selectedUserId}
               onChange={handleUser}
             >
               <option value="0" disabled>
