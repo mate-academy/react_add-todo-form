@@ -8,64 +8,68 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+function getUserById(id: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === id);
 
   return foundUser || null;
 }
 
+const findMaxId = (arrOfTodos: Todo[]) => {
+  const todosId = arrOfTodos.map(todo => todo.id);
+
+  return Math.max(...todosId) + 1;
+};
+
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [newTitle, setNewTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [visibleTodos, setVisibleTodos] = useState(todos);
-  const [selectedUserName, setSelectedUserName] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [isTitle, setIsTitle] = useState(true);
   const [isUserChose, setIsUserChose] = useState(true);
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.target.value);
+    setTitle(event.target.value);
     setIsTitle(true);
   };
 
-  const handleUserNameLSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserName(event.target.value);
+  const handleUserSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
     setIsUserChose(true);
   };
 
   const hendleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
+    const trimedTitle = title.trim();
 
-    if (newTitle && selectedUserName) {
-      const newUser = usersFromServer
-        .find(user => user.name === selectedUserName) || null;
+    if (!trimedTitle) {
+      setIsTitle(false);
+    }
 
-      const todosId = visibleTodos.map(todo => todo.id);
-      const newTodoId = Math.max(...todosId) + 1;
+    if (!selectedUser) {
+      setIsUserChose(false);
+    }
+
+    if (trimedTitle && selectedUser) {
+      const newUser = getUserById(selectedUser);
+      const newTodoId = findMaxId(visibleTodos);
 
       const newTodo: Todo = {
         id: newTodoId,
-        title: newTitle,
-        userId: newUser?.id || null,
+        title,
+        userId: selectedUser,
         completed: false,
         user: newUser,
       };
 
       setVisibleTodos([...visibleTodos, newTodo]);
 
-      setNewTitle('');
-      setSelectedUserName('');
-    }
-
-    if (!newTitle) {
-      setIsTitle(false);
-    }
-
-    if (!selectedUserName) {
-      setIsUserChose(false);
+      setTitle('');
+      setSelectedUser(0);
     }
   };
 
@@ -86,7 +90,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             name="title"
-            value={newTitle}
+            value={title}
             onChange={handleTitle}
           />
           {!isTitle && (
@@ -101,12 +105,17 @@ export const App: React.FC = () => {
           <select
             id="user"
             data-cy="userSelect"
-            value={selectedUserName}
-            onChange={handleUserNameLSelect}
+            value={selectedUser}
+            onChange={handleUserSelect}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option key={user.id}>{user.name}</option>
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
           {!isUserChose && (
