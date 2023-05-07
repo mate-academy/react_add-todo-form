@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   };
 
   const normalizeTitle = (currentTitle: string) => currentTitle
-    .replace(/[^а-яА-ЯёЁA-Za-z\s\d]/g, '');
+    .replace(/[^а-яА-ЯёЁA-Za-z\s\d]/g, '').trimStart();
 
   const createId = () => {
     const ids = currentTodos.map(todo => todo.id);
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
   };
 
   const addTodo = () => {
-    if (!todoTitle) {
+    if (!normalizeTitle(todoTitle)) {
       setTitleError(true);
     }
 
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (todoTitle && userId) {
+    if (normalizeTitle(todoTitle) && userId) {
       const newTodo = {
         id: createId(),
         userId: +userId,
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             value={todoTitle}
             onChange={(event) => {
-              setTitle(event.target.value.trimStart());
+              setTitle(event.target.value);
               setTitleError(false);
             }}
           />
