@@ -8,7 +8,7 @@ interface Props {
 
 export const TodoList: FC<Props> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <section className="todo-list">
       {todos.map(todo => (
         <TodoInfo todo={todo} key={todo.id} />
       ))}

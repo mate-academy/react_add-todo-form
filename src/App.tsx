@@ -1,5 +1,5 @@
 import './App.scss';
-import { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
@@ -12,7 +12,7 @@ function getUserById(id: number):User | null {
   return foundUser || null;
 }
 
-function finderBiggestId(todos: Todo[]): number {
+function findMaxTodoId(todos: Todo[]): number {
   return Math.max(...todos.map(todo => todo.id));
 }
 
@@ -41,10 +41,10 @@ export const App: FC = () => {
     }
   };
 
-  const submitHandler = (event: { preventDefault: () => void; }) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const biggerId = finderBiggestId(visibleTodos);
+    const biggerId = findMaxTodoId(visibleTodos);
     const exactlyUser = getUserById(userId);
     const formattedTitle = title.trim();
 
@@ -73,7 +73,8 @@ export const App: FC = () => {
     setUserId(0);
   };
 
-  const handleSelectionChange = (event: { target: { value: string; }; }) => {
+  const handleSelectionChange = (event:
+  React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
     if (value) {
