@@ -22,9 +22,9 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [todoTitle, setTitle] = useState('');
-  const [currentTodos, setTodo] = useState(todos);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [currentTodos, setCurrentTodos] = useState(todos);
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
 
   const clearForm = () => {
     setUserId(0);
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
         user: getUser(+userId),
       };
 
-      setTodo((prevTodos) => [...prevTodos, newTodo]);
+      setCurrentTodos((prevTodos) => [...prevTodos, newTodo]);
       clearForm();
     }
   };
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
               setTitleError(false);
             }}
           />
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
