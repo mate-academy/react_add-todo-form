@@ -1,5 +1,5 @@
+import { ChangeEvent, useState } from 'react';
 import './App.scss';
-import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -13,15 +13,9 @@ const getUserByID = (id: number) => {
 };
 
 const findMaxId = (todos: Todo[]) => {
-  let maxId = 0;
+  const ids = todos.map(todo => todo.id);
 
-  todos.forEach((todo) => {
-    if (todo.id > maxId) {
-      maxId = todo.id;
-    }
-  });
-
-  return maxId + 1;
+  return Math.max(...ids) + 1;
 };
 
 export const App = () => {
@@ -33,6 +27,44 @@ export const App = () => {
   })));
   const [error, setError] = useState({ title: false, user: false });
 
+  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!id || !title.trim()) {
+      setError({
+        title: !title,
+        user: !id,
+      });
+
+      return;
+    }
+
+    const newTodo = {
+      id: findMaxId(todos),
+      title,
+      completed: false,
+      userId: id,
+      user: getUserByID(id),
+    };
+
+    setTodos([...todos, newTodo]);
+    setTitle('');
+    setId(0);
+    setError({ title: false, user: false });
+  };
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setError((prevState) => ({ ...prevState, title: false }));
+  };
+
+  const handleIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setId(+event.target.value);
+    setError((prevState) => (
+      { ...prevState, user: event.target.value === '0' }
+    ));
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -40,31 +72,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (!id || !title) {
-            setError({
-              title: !title,
-              user: !id,
-            });
-
-            return;
-          }
-
-          const newTodo = {
-            id: findMaxId(todos),
-            title,
-            completed: false,
-            userId: id,
-            user: getUserByID(id),
-          };
-
-          setTodos([...todos, newTodo]);
-          setTitle('');
-          setId(0);
-          setError({ title: false, user: false });
-        }}
+        onSubmit={addNewTodo}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -75,10 +83,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setError({ ...error, title: false });
-            }}
+            onChange={handleTitleChange}
           />
 
           {(error.title) && (
@@ -92,10 +97,7 @@ export const App = () => {
             id="userSelect"
             data-cy="userSelect"
             value={id}
-            onChange={(event) => {
-              setId(+event.target.value);
-              setError({ ...error, user: event.target.value === '0' });
-            }}
+            onChange={handleIdChange}
           >
             <option
               value={0}
@@ -108,7 +110,6 @@ export const App = () => {
               <option
                 key={user.id}
                 value={user.id}
-
               >
                 {user.name}
               </option>

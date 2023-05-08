@@ -7,19 +7,23 @@ interface Props {
 }
 
 export const TodoInfo = ({ todo }: Props) => {
+  const {
+    id,
+    title,
+    user,
+  } = todo;
+
   return (
     <article
-      data-id={todo.id}
-      className={classNames(
-        'TodoInfo', todo.completed
-          ? 'TodoInfo--completed'
-          : '',
-      )}
+      data-id={id}
+      className={
+        classNames(['TodoInfo', todo.completed && 'TodoInfo--completed'])
+      }
     >
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
-      {todo.user && <UserInfo user={todo.user} />}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
