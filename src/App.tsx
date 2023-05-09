@@ -29,10 +29,11 @@ export const App = () => {
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const trimmedTitle = title.trim();
 
-    if (!id || !title.trim()) {
+    if (!id || !trimmedTitle) {
       setError({
-        title: !title,
+        title: !trimmedTitle,
         user: !id,
       });
 
@@ -41,7 +42,7 @@ export const App = () => {
 
     const newTodo = {
       id: findMaxId(todos),
-      title,
+      title: trimmedTitle,
       completed: false,
       userId: id,
       user: getUserByID(id),
