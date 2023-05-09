@@ -20,11 +20,11 @@ Implement the ability to add TODOs to the `TodoList` implemented in the [Static 
     - errors should appear only after clicking the `Add` button;
     - hide the message immediately after any change of the field with an error;
 1. If the form is valid, add a todo to the list and clear the form.
-1. (* **Optional**) Allow entering only letters (`ru` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
+1. (* **Optional**) Allow entering only letters (`ua` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
 
 ## Instructions
 
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://andrii-kovalskyi02.github.io/react_add-todo-form/) and add it to the PR description.
