@@ -47,8 +47,9 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const normalizedTitle = title.trim();
 
-    if (!title.trim()) {
+    if (!normalizedTitle) {
       setIsTitleEntered(false);
     }
 
@@ -56,7 +57,7 @@ export const App = () => {
       setIsUserIdSelected(false);
     }
 
-    if (title && userId) {
+    if (normalizedTitle && userId) {
       const newTodo: Todo = {
         id: Math.max(...todoList.map(todo => todo.id)) + 1,
         title,
