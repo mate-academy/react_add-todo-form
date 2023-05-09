@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -22,47 +22,51 @@ export const App = () => {
   const [todos, setTodos] = useState(newTodos);
   const [newTitle, setNewTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.target.value);
-    setTitleError(false);
+  const handleTitleChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(changeEvent.target.value);
+    setIsTitleError(false);
   };
 
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(+event.target.value);
-    setUserError(false);
+  const handleUserChange = (changeEvent: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+changeEvent.target.value);
+    setIsUserError(false);
   };
 
-  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleAddTodo = (formEvent: FormEvent<HTMLFormElement>) => {
+    formEvent.preventDefault();
 
     if (!newTitle.trim()) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!selectedUser) {
-      setUserError(true);
+      setIsUserError(true);
     }
 
     if (!selectedUser || !newTitle.trim()) {
       return;
     }
 
+    const getMaxId = (someTodos: Todo[]) => {
+      if (someTodos.length) {
+        return Math.max(...someTodos.map(todo => todo.id)) + 1;
+      }
+
+      return 1;
+    };
+
     const newTodo: Todo = {
-      id: todos.length
-        ? Math.max(...todos.map(todo => todo.id)) + 1
-        : 1,
+      id: getMaxId(todos),
       title: newTitle.trim(),
       userId: selectedUser,
       completed: false,
       user: getUserById(selectedUser),
     };
 
-    if (selectedUser && newTitle.trim() !== '') {
-      setTodos([...todos, newTodo]);
-    }
+    setTodos([...todos, newTodo]);
 
     setNewTitle('');
     setSelectedUser(0);
@@ -89,7 +93,7 @@ export const App = () => {
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -116,7 +120,7 @@ export const App = () => {
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
