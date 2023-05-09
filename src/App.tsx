@@ -31,6 +31,13 @@ export const App = () => {
 
     setIsSent(true);
 
+    if (!title && !selectedUser) {
+      setIsTitleProvided(false);
+      setIsUserSelected(false);
+
+      return;
+    }
+
     if (!title) {
       setIsTitleProvided(false);
 
