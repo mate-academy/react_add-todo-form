@@ -26,8 +26,12 @@ export const App = () => {
   const [isUserError, setIsUserError] = useState(false);
 
   const handleTitleChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(changeEvent.target.value);
+    if (isTitleError) {
+      setIsTitleError(true);
+    }
+
     setIsTitleError(false);
+    setNewTitle(changeEvent.target.value);
   };
 
   const handleUserChange = (changeEvent: ChangeEvent<HTMLSelectElement>) => {
@@ -38,7 +42,9 @@ export const App = () => {
   const handleAddTodo = (formEvent: FormEvent<HTMLFormElement>) => {
     formEvent.preventDefault();
 
-    if (!newTitle.trim()) {
+    const isEmpty = (todoProp: string) => todoProp.trim() === '';
+
+    if (isEmpty(newTitle)) {
       setIsTitleError(true);
     }
 
@@ -46,13 +52,15 @@ export const App = () => {
       setIsUserError(true);
     }
 
-    if (!selectedUser || !newTitle.trim()) {
+    if (isEmpty(newTitle) || !selectedUser) {
       return;
     }
 
     const getMaxId = (someTodos: Todo[]) => {
+      const maxId = Math.max(...someTodos.map(todo => todo.id));
+
       if (someTodos.length) {
-        return Math.max(...someTodos.map(todo => todo.id)) + 1;
+        return maxId + 1;
       }
 
       return 1;
@@ -60,16 +68,20 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: getMaxId(todos),
-      title: newTitle.trim(),
+      title: newTitle,
       userId: selectedUser,
       completed: false,
       user: getUserById(selectedUser),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(() => [...todos, newTodo]);
 
-    setNewTitle('');
-    setSelectedUser(0);
+    const clearForm = () => {
+      setNewTitle('');
+      setSelectedUser(0);
+    };
+
+    clearForm();
   };
 
   return (
