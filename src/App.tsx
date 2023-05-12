@@ -5,16 +5,20 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
-const findUserById = (userId: number) => {
-  return usersFromServer.find((user) => (
-    user.id === userId
-  )) || null;
+const findUser = (userId: number, userName = '') => {
+  return usersFromServer.find(user => {
+    if (userName) {
+      return user.name === userName;
+    }
+
+    return user.id === userId;
+  }) || null;
 };
 
 const todos = todosFromServer.map((todo) => {
   return {
     ...todo,
-    user: findUserById(todo.userId),
+    user: findUser(todo.userId),
   };
 });
 
@@ -22,16 +26,16 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
   const [visibleTodos, setTodos] = useState(todos);
-  const [titleValid, checkTitleValid] = useState(true);
-  const [userNameValid, checkUserNameValid] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserNameValid, setIsUserNameValid] = useState(true);
 
   const handleTitle = (titleValue: string) => {
-    checkTitleValid(true);
-    setTitle(titleValue);
+    setIsTitleValid(true);
+    setTitle(titleValue.trim());
   };
 
   const handleUser = (chosenValue: string) => {
-    checkUserNameValid(true);
+    setIsUserNameValid(true);
     setUserName(chosenValue);
   };
 
@@ -39,37 +43,38 @@ export const App = () => {
     event.preventDefault();
 
     if (!title) {
-      checkTitleValid(false);
+      setIsTitleValid(false);
     }
 
     if (!userName) {
-      checkUserNameValid(false);
+      setIsUserNameValid(false);
     }
 
-    const chosenUser = usersFromServer
-      .find((user) => (user.name === userName)) || null;
+    if (!title || !userName) {
+      return;
+    }
 
-    if (title && userName) {
-      const userIds = usersFromServer.map((user) => user.id);
-      const maxUserId = Math.max(...userIds) + 1;
+    const chosenUser = findUser(0, userName);
 
-      if (chosenUser) {
-        const newTodo: Todo = {
-          id: maxUserId,
-          title,
-          userId: chosenUser.id,
-          completed: false,
-          user: chosenUser,
-        };
+    const userIds = usersFromServer.map((user) => user.id);
+    const maxUserId = Math.max(...userIds) + 1;
 
-        setTodos([
-          ...visibleTodos,
-          newTodo,
-        ]);
+    if (chosenUser) {
+      const newTodo: Todo = {
+        id: maxUserId,
+        title,
+        userId: chosenUser.id,
+        completed: false,
+        user: chosenUser,
+      };
 
-        setTitle('');
-        setUserName('');
-      }
+      setTodos([
+        ...visibleTodos,
+        newTodo,
+      ]);
+
+      setTitle('');
+      setUserName('');
     }
   };
 
@@ -80,10 +85,11 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">
+
             Enter title:
             <input
               type="text"
@@ -94,11 +100,13 @@ export const App = () => {
               onChange={(event) => handleTitle(event.target.value)}
             />
           </label>
-          {!titleValid && <span className="error">Please enter a title</span>}
+
+          {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label htmlFor="userSelect">
+
             Choose user:
             <select
               data-cy="userSelect"
@@ -115,7 +123,8 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {!userNameValid
+
+          {!isUserNameValid
             && <span className="error">Please choose a user</span>}
         </div>
 
