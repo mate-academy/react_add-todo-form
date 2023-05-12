@@ -1,72 +1,51 @@
+/* eslint-disable max-len */
 import { FormEventHandler, useState, ChangeEvent } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 
-import { Todo } from './components/TodoInfo';
-import { User } from './components/UserInfo';
+import {
+  getUser, getNewId, getTodos, validateTitleInput,
+} from './utils/appHelper';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find((user) => user.id === userId);
+type FormInputErrors = {
+  title: boolean,
+  selectedUser: boolean;
+};
 
-  return foundUser || null;
-}
+const initialFormValues = {
+  title: '',
+  selectedUser: 0,
+};
 
-function getNewId(todos: Todo[]) {
-  return (
-    todos.reduce((acc, curr) => {
-      return Math.max(acc, curr.id);
-    }, 0) + 1
-  );
-}
-
-function getTodos() {
-  return todosFromServer.map((todo) => ({
-    ...todo,
-    user: getUser(todo.userId),
-  }));
-}
-
-const validateInput = (string: string) => {
-  const regex = /^[a-zA-Zа-яА-ЯёЁ\d\s]*$/;
-
-  if (!regex.test(string)) {
-    return false;
-  }
-
-  return true;
+const initialFormErrors: FormInputErrors = {
+  title: false,
+  selectedUser: false,
 };
 
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [formInputValues, setFormInputValues] = useState(initialFormValues);
+  const [formInputErrors, setFormInputErrors] = useState(initialFormErrors);
   const [todos, setTodos] = useState(getTodos());
 
-  const lookForError = () => {
-    if (!title && !selectedUser) {
-      setTitleError(true);
-      setUserError(true);
-    } else if (!selectedUser) {
-      setUserError(true);
-    } else if (!title) {
-      setTitleError(true);
-    }
-  };
+  const { title, selectedUser } = formInputValues;
+  const { title: titleError, selectedUser: selectedUserError } = formInputErrors;
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
+
     if (!title || !selectedUser) {
-      lookForError();
+      setFormInputErrors({
+        title: !title,
+        selectedUser: !selectedUser,
+      });
 
       return;
     }
 
     const newTodo = {
-      id: getNewId(todos),
+      id: getNewId(),
       title,
       completed: false,
       userId: selectedUser,
@@ -75,8 +54,7 @@ export const App = () => {
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
 
-    setSelectedUser(0);
-    setTitle('');
+    setFormInputValues(initialFormValues);
   };
 
   const handleChange = (
@@ -84,15 +62,19 @@ export const App = () => {
   ) => {
     const { name, value } = e.target;
 
-    if (name === 'title') {
-      if (validateInput(value)) {
-        setTitle(value);
-        setTitleError(false);
-      }
-    } else {
-      setSelectedUser(+value);
-      setUserError(false);
+    if (name === 'title' && !validateTitleInput(value)) {
+      return;
     }
+
+    setFormInputErrors(prevState => ({
+      ...prevState,
+      [name]: prevState[name as keyof FormInputErrors] ? !value : false,
+    }));
+
+    setFormInputValues(prevState => ({
+      ...prevState,
+      [name]: name === 'title' ? value : +value,
+    }));
   };
 
   return (
@@ -122,7 +104,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="user"
-            name="user"
+            name="selectedUser"
             value={selectedUser}
             onChange={handleChange}
           >
@@ -136,7 +118,7 @@ export const App = () => {
             ))}
           </select>
           {' '}
-          {userError && <span className="error">Please choose a user</span>}
+          {selectedUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
