@@ -7,20 +7,19 @@ import todosFromServer from './api/todos';
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
-  const [isErrorTitle, setErorroTitle] = useState(false);
-  const [isErrorUser, setErorroUser] = useState(false);
-  const [users] = useState(usersFromServer);
+  const [isErrorTitle, setErrorTitle] = useState(false);
+  const [isErrorUser, setErrorUser] = useState(false);
   const [todos, setNewTodos] = useState(todosFromServer);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement
+  | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
     switch (name) {
-      case ('title'):
+      case 'title':
         return setTitle(value);
 
-      case ('userId'):
+      case 'userId':
         return setUserId(value);
 
       default:
@@ -29,12 +28,12 @@ export const App: React.FC = () => {
   };
 
   const handleCheckValue = () => {
-    setErorroTitle(!title);
-    setErorroUser(!userId);
+    setErrorTitle(!title);
+    setErrorUser(!userId);
   };
 
   const handleAddTodo = (getTitle:string, getUserId:string) => {
-    const lastIdTodo = Math.max(...users.map(todo => todo.id));
+    const lastIdTodo = Math.max(...todos.map(todo => todo.id));
     const newTodo = {
       id: lastIdTodo + 1,
       title: getTitle,
@@ -110,7 +109,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList users={users} todos={todos} />
+      <TodoList users={usersFromServer} todos={todos} />
     </div>
   );
 };

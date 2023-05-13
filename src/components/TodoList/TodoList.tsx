@@ -14,7 +14,7 @@ export const TodoList: React.FC<TodoListType> = ({ todos, users }) => {
         const userTodos = users.find(user => user.id === todo.userId);
 
         return (
-          <TodoInfo todo={todo} user={userTodos} />
+          <TodoInfo todo={todo} user={userTodos} key={todo.id} />
         );
       })}
     </section>
