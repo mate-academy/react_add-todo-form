@@ -16,11 +16,13 @@ export const App = () => {
 
   const handleAddTitle = (
     e: React.ChangeEvent<HTMLInputElement>,
-  ) => setNewTitle(e.target.value);
+  ) => setNewTitle(e.target.value );
 
   const handleSelectUser = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => setSelectedUser(e.target.value);
+
+  console.log(handleSelectUser);
 
   const handleAddTodo = () => setTodos(prev => [...prev, {
     id: prev.length,
@@ -38,6 +40,8 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
+          setNewTitle('');
+          setSelectedUser('');
         }}
       >
         <div className="field">
@@ -82,7 +86,7 @@ export const App = () => {
           type="submit"
           data-cy="submitButton"
           className="btn"
-          disabled={!selectedUser || !newTitle}
+          disabled={!selectedUser || !newTitle.trim()}
           onClick={handleAddTodo}
         >
           Add
