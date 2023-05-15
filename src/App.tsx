@@ -10,78 +10,83 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(todoUserId: number): User | null {
+function getUserById(todoUserId: number): User | null {
   const userObj = usersFromServer.find(user => user.id === todoUserId);
 
   return userObj || null;
 }
 
-export const newTodos: Todo[] = todosFromServer.map((todo) => {
+export const preparedTodos: Todo[] = todosFromServer.map((todo) => {
   return {
     id: todo.id,
     title: todo.title,
     userId: todo.userId,
     completed: todo.completed,
-    user: getUser(todo.userId),
+    user: getUserById(todo.userId),
   };
 });
+
+function newTodoId(todos: Todo[]) {
+  let { id } = todos[0];
+
+  todos.forEach(todo => {
+    if (id < todo.id) {
+      id = todo.id;
+    }
+  });
+
+  return id;
+}
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userName, setOption] = useState('0');
-  const [tittleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
-  const [todos, setTodo] = useState(newTodos);
+  const [isTittleError, setTitleError] = useState(false);
+  const [isUserError, setUserError] = useState(false);
+  const [todos, setTodo] = useState(preparedTodos);
 
-  function newTodoId() {
-    let { id } = todos[0];
+  const handlerInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
 
-    for (let i = 0; i < todos.length; i += 1) {
-      if (id < todos[i].id) {
-        id = todos[i].id;
-      }
+    if (/^[a-zA-Zа-яА-Я0-9\s]*$/i.test(value)) {
+      setTitle(value);
+      setTitleError(false);
     }
-
-    return id;
-  }
+  };
 
   const handlerSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (title !== '' && userName !== '0') {
-      const user = usersFromServer
-        .find((userFromServer) => (
-          userFromServer.id === Number(userName))) || null;
 
-      const todoId = newTodoId();
+    const clearedTitle = title.trim();
 
-      setTodo([
-        ...todos,
-        {
-          id: todoId + 1,
-          title,
-          completed: false,
-          userId: user?.id || null,
-          user,
-        },
-      ]);
+    if (!clearedTitle || userName === '0') {
+      setTitleError(!clearedTitle);
+      setUserError(userName === '0');
 
-      setTitle('');
-      setOption(('0'));
-      setTitleError(false);
-      setUserError(false);
-    } else {
-      if (title === '') {
-        setTitleError(true);
-      } else {
-        setTitleError(false);
-      }
-
-      if (userName === '0') {
-        setUserError(true);
-      } else {
-        setUserError(false);
-      }
+      return;
     }
+
+    const user = usersFromServer
+      .find((userFromServer) => (
+        userFromServer.id === Number(userName))) || null;
+
+    const todoId = newTodoId(todos);
+
+    setTodo([
+      ...todos,
+      {
+        id: todoId + 1,
+        title,
+        completed: false,
+        userId: user?.id || null,
+        user,
+      },
+    ]);
+
+    setTitle('');
+    setOption(('0'));
+    setTitleError(false);
+    setUserError(false);
   };
 
   return (
@@ -103,16 +108,10 @@ export const App = () => {
             placeholder="Enter a title"
             id="titleInput"
             value={title}
-            onChange={event => {
-              const value = event.target.value;
-              if (/^[a-zA-Zа-яА-Я0-9\s]*$/i.test(value)) {
-                setTitle(value);
-                setTitleError(false);
-              }
-            }}
+            onChange={handlerInputChange}
           />
 
-          {tittleError && (
+          {isTittleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -138,7 +137,7 @@ export const App = () => {
             })}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
