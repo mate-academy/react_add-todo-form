@@ -7,9 +7,9 @@ import todosFromServer from './api/todos';
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
-  const [isErrorTitle, setErrorTitle] = useState(false);
-  const [isErrorUser, setErrorUser] = useState(false);
-  const [todos, setNewTodos] = useState(todosFromServer);
+  const [isErrorTitle, setIsErrorTitle] = useState(false);
+  const [isErrorUser, setIsErrorUser] = useState(false);
+  const [todos, setTodos] = useState(todosFromServer);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement
   | HTMLSelectElement>) => {
@@ -28,8 +28,8 @@ export const App: React.FC = () => {
   };
 
   const handleCheckValue = () => {
-    setErrorTitle(!title);
-    setErrorUser(!userId);
+    setIsErrorTitle(!title);
+    setIsErrorUser(!userId);
   };
 
   const handleAddTodo = (getTitle:string, getUserId:string) => {
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
       userId: Number(getUserId),
     };
 
-    setNewTodos([...todos, newTodo]);
+    setTodos([...todos, newTodo]);
   };
 
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
             >
               <option value="0">Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>{user.name}</option>
               ))}
             </select>
           </label>

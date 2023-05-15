@@ -4,7 +4,7 @@ import { User } from '../../types/users';
 import { Todo } from '../../types/todo';
 
 type TodoInfoType = {
-  user:User | undefined;
+  user? :User;
   todo:Todo;
 };
 
