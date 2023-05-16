@@ -1,129 +1,150 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
-import { useState, useEffect } from 'react';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+import { TodoList } from './components/TodoList';
 
-import { User, Todo } from './types';
+export function getUserById(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
 
-import { TodoList } from './components/TodoList/TodoList';
+  return foundUser || null;
+}
+
+export const newTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
-  const [copyTodos, setCopyTodos] = useState([...todosFromServer]);
-  const [selectedUserName, getSelectedUserName] = useState('');
-  const [newTitle, getNewTitle] = useState('');
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorUser, setErrorUser] = useState(false);
+  const [users] = useState(usersFromServer);
+  const [todos, setTodos] = useState(newTodos);
+  const [newTitle, setNewTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
-  let maxId = Math.max(...todosFromServer.map(todo => +todo.id));
-  const findUser = (userName: string): User | null => {
-    return usersFromServer.find(user => user.name === userName) || null;
-  };
-
-  const checkError = () => {
-    if (!newTitle) {
-      setErrorTitle(true);
+  const handleTitleChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
+    if (isTitleError) {
+      setIsTitleError(true);
     }
 
-    if (!selectedUserName) {
-      setErrorUser(true);
-    }
+    setIsTitleError(false);
+    setNewTitle(changeEvent.target.value);
   };
 
-  const createTodo = () => {
-    const user = findUser(selectedUserName);
+  const handleUserChange = (changeEvent: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+changeEvent.target.value);
+    setIsUserError(false);
+  };
 
-    if (user && newTitle) {
-      const newTodo = {
-        id: maxId += 1,
-        title: newTitle,
-        completed: false,
-        userId: user.id,
-      };
+  const handleAddTodo = (formEvent: FormEvent<HTMLFormElement>) => {
+    formEvent.preventDefault();
 
-      setCopyTodos(todos => [...todos, newTodo]);
-      getNewTitle('');
-      getSelectedUserName('');
+    const isEmpty = (todoProp: string) => todoProp.trim() === '';
+
+    if (isEmpty(newTitle)) {
+      setIsTitleError(true);
     }
 
-    return null;
-  };
+    if (!selectedUser) {
+      setIsUserError(true);
+    }
 
-  const addHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    createTodo();
-    checkError();
-  };
+    if (isEmpty(newTitle) || !selectedUser) {
+      return;
+    }
 
-  const todos: Todo[] = copyTodos.map(todo => {
-    return {
-      ...todo,
-      user: usersFromServer.find(user => todo.userId === user.id),
+    const getMaxId = (someTodos: Todo[]) => {
+      const maxId = Math.max(...someTodos.map(todo => todo.id));
+
+      if (someTodos.length) {
+        return maxId + 1;
+      }
+
+      return 1;
     };
-  });
 
-  useEffect(() => {
-    if (newTitle) {
-      setErrorTitle(false);
-    }
+    const newTodo: Todo = {
+      id: getMaxId(todos),
+      title: newTitle,
+      userId: selectedUser,
+      completed: false,
+      user: getUserById(selectedUser),
+    };
 
-    if (selectedUserName) {
-      setErrorUser(false);
-    }
-  });
+    setTodos(() => [...todos, newTodo]);
+
+    const clearForm = () => {
+      setNewTitle('');
+      setSelectedUser(0);
+    };
+
+    clearForm();
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <form action="/api/users" method="POST">
+
+      <form
+        action="/api/users"
+        method="POST"
+        onSubmit={handleAddTodo}
+      >
         <div className="field">
-          <label>
-            Title:
+          <label htmlFor="title">
+            <span>Title: </span>
             <input
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTitle}
-              onChange={(e) => {
-                getNewTitle(e.currentTarget.value);
-              }}
+              onChange={handleTitleChange}
             />
           </label>
-          {(errorTitle
-            && <span className="error">Please enter a title</span>)}
+
+          {isTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <label>
-            User:
+          <label htmlFor="user">
+            <span>User: </span>
             <select
               data-cy="userSelect"
-              onChange={(e) => getSelectedUserName(e.target.value)}
+              onChange={handleUserChange}
+              value={selectedUser}
             >
-              {!selectedUserName
-              && (<option value="0" disabled selected>Choose a user</option>)}
-
-              {usersFromServer.map(user => (
-                <option
-                  key={user.name}
-                  value={user.name}
-                >
+              <option
+                value="0"
+                disabled
+              >
+                Choose a user
+              </option>
+              {users.map(user => (
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
           </label>
-          {errorUser
-          && (<span className="error">Please choose a user</span>)}
+
+          {isUserError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
+
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(e) => addHandler(e)}
         >
           Add
         </button>
       </form>
+
       <TodoList todos={todos} />
     </div>
   );

@@ -1,13 +1,17 @@
 import React from 'react';
+import classNames from 'classnames';
+
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
-import { Todo } from '../../types';
+import './TodoInfo.scss';
 
-type Props = {
-  todo: Todo,
-};
+interface Props {
+  todo: Todo;
+}
 
-export const TodoInfo:React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
+    id,
     title,
     completed,
     user,
@@ -15,8 +19,10 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
 
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+      data-id={id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
     >
       <h2 className="TodoInfo__title">
         {title}
