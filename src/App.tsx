@@ -1,4 +1,5 @@
 import './App.scss';
+import classNames from 'classnames';
 
 import { useState } from 'react';
 import usersFromServer from './api/users';
@@ -16,18 +17,16 @@ export const App = () => {
 
   const handleAddTitle = (
     e: React.ChangeEvent<HTMLInputElement>,
-  ) => setNewTitle(e.target.value );
+  ) => setNewTitle(e.target.value);
 
   const handleSelectUser = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => setSelectedUser(e.target.value);
 
-  console.log(handleSelectUser);
-
   const handleAddTodo = () => setTodos(prev => [...prev, {
     id: prev.length,
     title: newTitle,
-    completed: !!Math.floor(Math.random() * (1 - 0 + 1) + 0),
+    completed: false,
     userId: Number(selectedUser),
   }]);
 
@@ -98,7 +97,7 @@ export const App = () => {
           <article
             data-id={todo.id}
             className={
-              todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'
+              classNames('TodoInfo', { 'TodoInfo--completed': todo.completed })
             }
           >
             <h2 className="TodoInfo__title">
