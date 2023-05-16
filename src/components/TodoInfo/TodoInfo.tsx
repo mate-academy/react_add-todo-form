@@ -19,7 +19,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
+      <a className="UserInfo" href={todo.user?.email}>
         {todo.user && <UserInfo user={todo.user} />}
       </a>
     </article>
