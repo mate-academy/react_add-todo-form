@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { FormEventHandler, useState, ChangeEvent } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
@@ -6,7 +5,10 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 
 import {
-  getUser, getNewId, getTodos, validateTitleInput,
+  getUser,
+  getNewId,
+  getTodos,
+  validateTitleInput,
 } from './utils/appHelper';
 
 type FormInputErrors = {
@@ -30,7 +32,10 @@ export const App = () => {
   const [todos, setTodos] = useState(getTodos());
 
   const { title, selectedUser } = formInputValues;
-  const { title: titleError, selectedUser: selectedUserError } = formInputErrors;
+  const {
+    title: titleError,
+    selectedUser: selectedUserError,
+  } = formInputErrors;
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -84,7 +89,9 @@ export const App = () => {
       <form action="/api/users" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="title">Title:</label>
+
           {' '}
+
           <input
             type="text"
             data-cy="titleInput"
@@ -94,13 +101,17 @@ export const App = () => {
             name="title"
             onChange={handleChange}
           />
+
           {' '}
+
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label htmlFor="user">User:</label>
+
           {' '}
+
           <select
             data-cy="userSelect"
             id="user"
@@ -111,19 +122,25 @@ export const App = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {
+              usersFromServer.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))
+            }
           </select>
+
           {' '}
-          {selectedUserError && <span className="error">Please choose a user</span>}
+
+          {
+            selectedUserError
+              && <span className="error">Please choose a user</span>
+          }
+
         </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
+        <button type="submit" data-cy="submitButton">Add</button>
       </form>
 
       <TodoList todos={todos} />

@@ -1,10 +1,13 @@
-/* eslint-disable max-len */
 import usersFromServer from '../api/users';
 import todosFromServer from '../api/todos';
 
-export const getUser = (userId: number) => usersFromServer.find((user) => user.id === userId) ?? null;
+export const getUser = (userId: number) => {
+  return usersFromServer.find((user) => user.id === userId) ?? null;
+};
 
-export const getNewId = () => todosFromServer.reduce((acc, curr) => Math.max(acc, curr.id), 0) + 1;
+export const getNewId = () => {
+  return todosFromServer.reduce((acc, curr) => Math.max(acc, curr.id), 0) + 1;
+};
 
 export const getTodos = () => todosFromServer.map((todo) => ({
   ...todo,
