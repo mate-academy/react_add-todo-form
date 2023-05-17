@@ -38,7 +38,7 @@ export const App = () => {
 
   const validatedTitleAndUser = currentTitle && selectedUser;
 
-  const handleAddButton = (event:React.FormEvent<HTMLInputElement>) => {
+  const handleAddButton = (event:React.FormEvent<HTMLFormElement>) => {
     if (validatedTitleAndUser) {
       event.preventDefault();
       setTodosWithUsers(
@@ -58,6 +58,7 @@ export const App = () => {
     }
 
     if (!validatedTitleAndUser) {
+      event.preventDefault();
       setIsValid(false);
     }
   };
@@ -66,14 +67,9 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={() => handleAddButton}
-      >
+      <form onSubmit={handleAddButton}>
         <div className="field">
           <label htmlFor="titleInput">
-
             <input
               type="text"
               data-cy="titleInput"
@@ -83,7 +79,7 @@ export const App = () => {
             />
           </label>
 
-          {(!isValid && !currentTitle) && (
+          {!isValid && !currentTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -95,42 +91,29 @@ export const App = () => {
               value={selectedUser}
               onChange={event => setSelectedUser(event.target.value)}
             >
-              <option
-                value=""
-                selected
-                disabled
-              >
+              <option value="" disabled>
                 Choose a user
               </option>
 
               {users.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
+                <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
           </label>
-          {(!isValid && !selectedUser) && (
+          {!isValid && !selectedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
 
       {todosWithUsers.map(todo => (
-        <TodoList
-          key={todo.id}
-          todo={todo}
-        />
+        <TodoList key={todo.id} todo={todo} />
       ))}
     </div>
   );
