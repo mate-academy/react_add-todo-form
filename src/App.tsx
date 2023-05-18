@@ -27,20 +27,12 @@ export const preparedTodos: Todo[] = todosFromServer.map((todo) => {
 });
 
 function newTodoId(todos: Todo[]) {
-  let { id } = todos[0];
-
-  todos.forEach(todo => {
-    if (id < todo.id) {
-      id = todo.id;
-    }
-  });
-
-  return id;
+  return Math.max(...todos.map((todo => todo.id)));
 }
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userName, setOption] = useState('0');
+  const [userId, setUserId] = useState('0');
   const [isTittleError, setTitleError] = useState(false);
   const [isUserError, setUserError] = useState(false);
   const [todos, setTodo] = useState(preparedTodos);
@@ -59,16 +51,16 @@ export const App = () => {
 
     const clearedTitle = title.trim();
 
-    if (!clearedTitle || userName === '0') {
+    if (!clearedTitle || userId === '0') {
       setTitleError(!clearedTitle);
-      setUserError(userName === '0');
+      setUserError(userId === '0');
 
       return;
     }
 
     const user = usersFromServer
       .find((userFromServer) => (
-        userFromServer.id === Number(userName))) || null;
+        userFromServer.id === Number(userId))) || null;
 
     const todoId = newTodoId(todos);
 
@@ -84,7 +76,7 @@ export const App = () => {
     ]);
 
     setTitle('');
-    setOption(('0'));
+    setUserId(('0'));
     setTitleError(false);
     setUserError(false);
   };
@@ -123,9 +115,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="userSelect"
-            value={userName}
+            value={userId}
             onChange={event => {
-              setOption(event.target.value);
+              setUserId(event.target.value);
               setUserError(false);
             }}
           >
