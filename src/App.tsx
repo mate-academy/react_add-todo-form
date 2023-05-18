@@ -6,7 +6,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -14,14 +14,14 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const [newTodos, setNewTodos] = useState(todos);
 
   const addTodo = () => {
@@ -33,23 +33,23 @@ export const App = () => {
         title,
         userId,
         completed: false,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setNewTodos([...todos, newTodo]);
 
       setTitle('');
       setUserId(0);
-      setTitleError(false);
-      setUserError(false);
+      setIsTitleError(false);
+      setIsUserError(false);
     }
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
 
     if (!userId) {
-      setUserError(true);
+      setIsUserError(true);
     }
   };
 
@@ -60,12 +60,12 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(Number(event.target.value));
-    setUserError(false);
+    setIsUserError(false);
   };
 
   return (
@@ -85,7 +85,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -98,17 +98,20 @@ export const App = () => {
             onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return (
+                <option
+                  key={id}
+                  value={id}
+                >
+                  {name}
+                </option>
+              )})}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
