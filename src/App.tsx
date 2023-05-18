@@ -6,33 +6,34 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-export const todosFull: Todo[] = todosFromServer.map(todo => ({
+export const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
-  const [isUserSelected, setUserSelected] = useState(true);
-  const [isTitleSelected, setTitleSelected] = useState(true);
-  const [todos, setTodos] = useState(todosFull);
+  const [isUserSelected, setIsUserSelected] = useState(true);
+  const [isTitleSelected, setIsTitleSelected] = useState(true);
+  const [todos, setTodos] = useState(todosWithUsers);
 
-  const handleTitle: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setTitle(event.target.value);
-    setTitleSelected(true);
-  };
+  const handleTitleInput: React.ChangeEventHandler<HTMLInputElement>
+    = (event) => {
+      setTitle(event.target.value);
+      setIsTitleSelected(true);
+    };
 
   const handleUserChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event,
   ) => {
-    setUserSelected(true);
+    setIsUserSelected(true);
     setUser(event.target.value);
   };
 
@@ -44,8 +45,8 @@ export const App = () => {
   const handleSubmit: React.ChangeEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     if (!title || !user) {
-      setTitleSelected(false);
-      setUserSelected(false);
+      setIsTitleSelected(false);
+      setIsUserSelected(false);
 
       return;
     }
@@ -73,8 +74,6 @@ export const App = () => {
     clearFormFields();
   };
 
-  window.console.log('todos:', todos);
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -89,11 +88,11 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={handleTitle}
+            onChange={handleTitleInput}
           />
-          {!isTitleSelected
-            && (
-              <span className="error">Please enter a title</span>)}
+          {!isTitleSelected && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -104,8 +103,8 @@ export const App = () => {
             id={user}
           >
             <option value="" disabled>Choose a user</option>
-            {usersFromServer.map(userS => {
-              const { id, name } = userS;
+            {usersFromServer.map(userItem => {
+              const { id, name } = userItem;
 
               return (
                 <option key={id} id={name}>
@@ -116,7 +115,8 @@ export const App = () => {
           </select>
 
           {!isUserSelected && (
-            <span className="error">Please choose a user</span>)}
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
