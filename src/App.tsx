@@ -9,16 +9,15 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -33,15 +32,19 @@ export const App = () => {
     userId: 0,
     title: '',
     completed: false,
-    user: getUser(1),
+    user: getUserById(1),
   });
 
   const [isTitle, setIsTitle] = useState(true);
   const [isUser, setIsUser] = useState(true);
 
-  const users = usersFromServer.map(user => (
-    <option value={user.id} key={user.id}>{user.name}</option>
-  ));
+  const users = usersFromServer.map(user => {
+    const { id, name } = user;
+
+    return (
+      <option value={id} key={id}>{name}</option>
+    );
+  });
 
   const handleTitleChange = (title: string) => {
     setIsTitle(true);
@@ -58,12 +61,12 @@ export const App = () => {
     setNewTodo(prevState => ({
       ...prevState,
       userId: Number(userId),
-      user: getUser(Number(userId)),
+      user: getUserById(Number(userId)),
     }
     ));
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setNewTodo(prevState => ({
       ...prevState,
       title: '',
@@ -71,7 +74,7 @@ export const App = () => {
     }));
   };
 
-  const addUser: FormEventHandler = (event) => {
+  const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
     setCounter(counter + 1);
@@ -96,7 +99,7 @@ export const App = () => {
 
     if (newTodo.userId > 0 && newTodo.title.length > 0) {
       todos.push(newTodo);
-      reset();
+      handleReset();
     }
   };
 
@@ -107,7 +110,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={addUser}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">
