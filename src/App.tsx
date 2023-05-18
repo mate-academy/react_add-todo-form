@@ -4,6 +4,11 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+enum BlockName {
+  TITLE = 'title',
+  USERID = 'userId',
+}
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
@@ -16,10 +21,10 @@ export const App: React.FC = () => {
     const { name, value } = e.target;
 
     switch (name) {
-      case 'title':
+      case BlockName.TITLE:
         return setTitle(value);
 
-      case 'userId':
+      case BlockName.USERID:
         return setUserId(value);
 
       default:
@@ -66,8 +71,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label>
-            Title:
-            {' '}
+            {'Title: '}
             <input
               name="title"
               type="text"
@@ -82,8 +86,7 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label>
-            User:
-            {' '}
+            {'User: '}
             <select
               name="userId"
               data-cy="userSelect"
