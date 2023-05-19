@@ -2,7 +2,7 @@ import { UserInfo } from '../UserInfo/UserInfo';
 import { Todo } from '../../types/Todo';
 
 interface TodoInfoProps {
-  todo: Todo
+  todo: Todo,
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {

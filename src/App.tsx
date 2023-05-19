@@ -22,8 +22,8 @@ export const App = () => {
   const [isUserError, setIsUserError] = useState(false);
 
   const findUniqueTodoId = (): number => {
-    const temp = [...todos].sort((a, b) => b.id - a.id);
-    const lastId = temp[0]?.id || 0;
+    const copyOfTodos = [...todos].sort((todo1, todo2) => todo2.id - todo1.id);
+    const lastId = copyOfTodos[0]?.id || 0;
 
     return lastId + 1;
   };
