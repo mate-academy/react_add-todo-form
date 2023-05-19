@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todos } from './types/Todos';
 
-function combinedArray(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
 
   return foundUser || null;
@@ -17,7 +17,7 @@ function combinedArray(userId: number): User | null {
 function InitialArray(): Todos[] {
   return todosFromServer.map(todo => ({
     ...todo,
-    user: combinedArray(todo.userId),
+    user: getUserById(todo.userId),
   }));
 }
 
@@ -39,7 +39,7 @@ export const App = () => {
       title: inputValue,
       completed: false,
       userId: 0,
-      user: combinedArray(userId),
+      user: getUserById(userId),
     };
 
     if (inputValue.length === 0) {
