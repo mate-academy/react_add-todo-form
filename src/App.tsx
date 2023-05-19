@@ -46,9 +46,10 @@ export const App = () => {
     );
   });
 
-  const handleTitleChange = (title: string) => {
-    setIsTitle(true);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const title = event.target.value;
 
+    setIsTitle(true);
     setNewTodo(prevState => ({
       ...prevState,
       title,
@@ -56,7 +57,9 @@ export const App = () => {
     ));
   };
 
-  const handleUserChange = (userId: string) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const userId = event.target.value;
+
     setIsUser(true);
     setNewTodo(prevState => ({
       ...prevState,
@@ -122,7 +125,7 @@ export const App = () => {
             placeholder="Ender a title"
             id="title"
             value={newTodo.title}
-            onChange={(event) => handleTitleChange(event.target.value)}
+            onChange={handleTitleChange}
           />
           {!isTitle
           && (
@@ -138,7 +141,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="user"
-            onChange={(event) => handleUserChange(event.target.value)}
+            onChange={handleUserChange}
             defaultValue={0}
             value={newTodo.userId}
           >
