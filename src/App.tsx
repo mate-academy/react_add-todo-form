@@ -47,7 +47,7 @@ export const App = () => {
     }
 
     const newTodos = {
-      title,
+      title: title.trim(),
       user: getUser(user),
       completed: false,
       id: newId,
@@ -76,7 +76,9 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => setTitle(
+              event.target.value,
+            )}
           />
           {titleError && <span className="error">Please enter a title</span>}
 

@@ -7,11 +7,9 @@ type TodoType = {
 };
 
 export const TodoList:React.FC<TodoType> = ({ todos }) => (
-  <>
-    <section className="TodoList">
-      {todos.map((todo) => (
-        <TodoInfo key={todo.id} todo={todo} />
-      ))}
-    </section>
-  </>
+  <section className="TodoList">
+    {todos.map((todo) => (
+      <TodoInfo key={todo.id} todo={todo} />
+    ))}
+  </section>
 );
