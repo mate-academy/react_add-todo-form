@@ -4,30 +4,20 @@ import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
-import { Todo } from './types/Todo';
-
-interface TodoFromServer {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-}
 
 function findUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const mapTodosWithUsers = (todos: TodoFromServer[]): Todo[] => {
-  return todos.map(todo => ({
-    ...todo,
-    user: findUserById(todo.userId),
-  }));
-};
+const mapTodosWithUsers = todosFromServer.map(todo => ({
+  ...todo,
+  user: findUserById(todo.userId),
+}));
 
 export const App = () => {
   const [userId, setUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
-  const [todos, setTodos] = useState(mapTodosWithUsers(todosFromServer));
+  const [todos, setTodos] = useState(mapTodosWithUsers);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
