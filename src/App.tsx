@@ -1,6 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
-
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from '../types/Todo';
@@ -11,29 +10,27 @@ const getTodos = (): Todo[] => {
     const todoExecutor = usersFromServer
       .find(user => user.id === todo.userId) || null;
 
+    const { title, completed, id } = todo;
+
     return {
-      title: todo.title,
-      completed: todo.completed,
-      id: todo.id,
+      title,
+      completed,
+      id,
       user: todoExecutor,
     };
   });
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState(getTodos());
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
   const newTodoDefault = {
     title: '',
     completed: false,
     id: -1,
     user: null,
   };
-
-  const [newTodo, setNewTodo] = useState<Todo>({
-    ...newTodoDefault,
-  });
+  const [todos, setTodos] = useState(getTodos());
+  const [isAddPressed, setIsAddPressed] = useState(false);
+  const [newTodo, setNewTodo] = useState<Todo>(newTodoDefault);
 
   let currentId: number = Math.max(...todos.map(todo => todo.id)) + 1;
 
@@ -56,13 +53,14 @@ export const App = () => {
 
   const submitNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitted(true);
-    if (newTodo.title.length && newTodo.user) {
+    setIsAddPressed(true);
+
+    if (newTodo.title && newTodo.user) {
       newTodo.id = currentId;
       currentId += 1;
       setTodos([...todos, newTodo]);
-      setIsSubmitted(false);
-      setNewTodo({ ...newTodoDefault });
+      setIsAddPressed(false);
+      setNewTodo(newTodoDefault);
     }
   };
 
@@ -83,10 +81,10 @@ export const App = () => {
             id="titleInput"
             placeholder="Enter a title"
             value={newTodo.title}
-            onChange={(event) => getTitle(event)}
+            onChange={getTitle}
           />
-          {!newTodo.title.length && isSubmitted
-            && <span className="error">Please enter a title</span>}
+          {!newTodo.title && isAddPressed
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -95,15 +93,17 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             value={newTodo.user?.id ? newTodo.user.id : '0'}
-            onChange={(event) => getUser(event)}
+            onChange={getUser}
           >
             <option value="0" disabled selected>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return <option value={id} key={id}>{name}</option>;
+            })}
           </select>
 
-          {!newTodo.user && isSubmitted
+          {!newTodo.user && isAddPressed
             && <span className="error">Please choose a user</span>}
         </div>
 
