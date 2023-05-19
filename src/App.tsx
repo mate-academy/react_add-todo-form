@@ -18,8 +18,8 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
   const [todos, setTodos] = useState(mapTodosWithUsers);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const findUniqueTodoId = (): number => {
     const temp = [...todos].sort((a, b) => b.id - a.id);
@@ -40,15 +40,15 @@ export const App = () => {
     event.preventDefault();
 
     if (userId === 0) {
-      setUserError(true);
+      setIsUserError(true);
     } else {
-      setUserError(false);
+      setIsUserError(false);
     }
 
     if (todoTitle === '') {
-      setTitleError(true);
+      setIsTitleError(true);
     } else {
-      setTitleError(false);
+      setIsTitleError(false);
     }
 
     if (userId > 0 && todoTitle !== '') {
@@ -72,11 +72,11 @@ export const App = () => {
             placeholder="Task title..."
             onChange={event => {
               setTodoTitle(event.target.value);
-              setTitleError(false);
+              setIsTitleError(false);
             }}
             value={todoTitle}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -86,7 +86,7 @@ export const App = () => {
             data-cy="userSelect"
             onChange={event => {
               setUserId(+event.target.value);
-              setUserError(false);
+              setIsUserError(false);
             }}
             defaultValue={0}
             value={userId}
@@ -97,7 +97,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
