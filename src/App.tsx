@@ -1,12 +1,12 @@
-import "./App.scss";
+import './App.scss';
 
-import { useEffect, useState } from "react";
-import usersFromServer from "./api/users";
-import todosFromServer from "./api/todos";
-import { TodoList } from "./components/TodoList";
-import { User } from "./types/user";
-import { Todo } from "./types/todo";
-import { findUserByTodoUserId } from "./helpers/findUserByTodoUserId";
+import { useEffect, useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { User } from './types/user';
+import { Todo } from './types/todo';
+import { findUserByTodoUserId } from './helpers/findUserByTodoUserId';
 
 interface FormValue {
   userId: string;
@@ -19,8 +19,8 @@ export const App = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [formValue, setFormValue] = useState<FormValue>({
-    userId: "0",
-    title: "",
+    userId: '0',
+    title: '',
     emptyTitleError: false,
     emptyUserError: false,
   });
@@ -36,12 +36,12 @@ export const App = () => {
     const { title, userId } = formValue;
     let error = false;
 
-    if (userId === "0") {
+    if (userId === '0') {
       setFormValue((prevState) => ({ ...prevState, emptyUserError: true }));
       error = true;
     }
 
-    if (title === "") {
+    if (title === '') {
       setFormValue((prevState) => ({ ...prevState, emptyTitleError: true }));
       error = true;
     }
@@ -67,8 +67,8 @@ export const App = () => {
     }
 
     setFormValue({
-      userId: "0",
-      title: "",
+      userId: '0',
+      title: '',
       emptyTitleError: false,
       emptyUserError: false,
     });
@@ -88,7 +88,7 @@ export const App = () => {
             value={title}
             placeholder="Enter a title"
             onChange={(event) => {
-              if (formValue.emptyTitleError && event.target.value !== "") {
+              if (formValue.emptyTitleError && event.target.value !== '') {
                 setFormValue((prevState) => ({
                   ...prevState,
                   emptyTitleError: false,
@@ -112,7 +112,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userId}
             onChange={(event) => {
-              if (formValue.emptyUserError && event.target.value !== "0") {
+              if (formValue.emptyUserError && event.target.value !== '0') {
                 setFormValue((prevState) => ({
                   ...prevState,
                   emptyUserError: false,
