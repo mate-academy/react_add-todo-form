@@ -3,11 +3,11 @@ import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 import './todoInfo.scss';
 
-interface Props {
+interface TodoInfoProps {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   const {
     title,
     completed,

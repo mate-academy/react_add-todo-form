@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -17,13 +17,13 @@ function getUser(userId: number): User | null {
 
 export const renderList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [titleError, setHasTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [title, setTitle] = useState('');
-  const [userError, setHasUserError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
   const [todos, setTodos] = useState(renderList);
 
@@ -34,7 +34,7 @@ export const App = () => {
     userId: selectedUser,
     title,
     completed: false,
-    user: getUser(selectedUser),
+    user: getUserById(selectedUser),
   };
 
   const clearSelection = () => {
@@ -86,7 +86,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleInput}
           />
-          {titleError && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>)}
         </div>
 
@@ -99,17 +99,17 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {
-              usersFromServer.map(user => (
+              usersFromServer.map(({ id, name }) => (
                 <option
-                  key={user.id}
-                  value={user.id}
+                  key={id}
+                  value={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))
             }
           </select>
-          {userError && (
+          {hasUserError && (
             <span className="error">Please choose a user</span>)}
         </div>
 
