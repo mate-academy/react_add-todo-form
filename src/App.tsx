@@ -45,7 +45,7 @@ export const App = () => {
       setIsUserError(false);
     }
 
-    if (todoTitle === '') {
+    if (!todoTitle) {
       setIsTitleError(true);
     } else {
       setIsTitleError(false);
@@ -56,6 +56,16 @@ export const App = () => {
       setUserId(0);
       setTodoTitle('');
     }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    setIsTitleError(false);
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setIsUserError(false);
   };
 
   return (
@@ -70,10 +80,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Task title..."
-            onChange={event => {
-              setTodoTitle(event.target.value);
-              setIsTitleError(false);
-            }}
+            onChange={handleInputChange}
             value={todoTitle}
           />
           {isTitleError && <span className="error">Please enter a title</span>}
@@ -84,10 +91,7 @@ export const App = () => {
           <select
             id="userSelect"
             data-cy="userSelect"
-            onChange={event => {
-              setUserId(+event.target.value);
-              setIsUserError(false);
-            }}
+            onChange={handleSelectChange}
             defaultValue={0}
             value={userId}
           >
