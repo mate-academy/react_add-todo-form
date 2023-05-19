@@ -1,4 +1,4 @@
-import { User } from '../../react-app-env';
+import { User } from '../../types/User';
 
 interface UserInfoProps {
   user: User,

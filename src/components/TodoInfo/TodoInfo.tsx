@@ -1,8 +1,8 @@
-import { Task } from '../../react-app-env';
+import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
-  todo: Task;
+  todo: Todo;
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {

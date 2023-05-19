@@ -1,8 +1,8 @@
-import { Task } from '../../react-app-env';
+import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
 interface TodoListProps {
-  todos: Task[];
+  todos: Todo[];
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
