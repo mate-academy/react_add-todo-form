@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 
 export const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -24,12 +24,12 @@ export const App = () => {
   const [todos, setTodos] = useState(todosWithUsers);
   const [isUserSelected, setIsUserSelected] = useState(false);
   const [isTitleProvided, setIsTitleProvided] = useState(false);
-  const [isSent, setIsSent] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const handleFormSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    setIsSent(true);
+    setIsFormSubmitted(true);
 
     if (!title && !selectedUser) {
       setIsTitleProvided(false);
@@ -101,7 +101,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {!isTitleProvided && isSent
+          {!isTitleProvided && isFormSubmitted
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -122,7 +122,7 @@ export const App = () => {
             })}
           </select>
 
-          {!isUserSelected && isSent
+          {!isUserSelected && isFormSubmitted
             && <span className="error">Please choose a user</span>}
         </div>
 
