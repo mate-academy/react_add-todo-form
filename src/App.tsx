@@ -6,7 +6,7 @@ import { User } from './components/UserInfo';
 import users from './api/users';
 import todos from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = users.find(user => user.id === userId);
 
   return foundUser || null;
@@ -14,7 +14,7 @@ function getUser(userId: number): User | null {
 
 export const usedTodos: Todo[] = todos.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 function getMaxTodoId(tasks: Todo[]) {
@@ -24,18 +24,10 @@ function getMaxTodoId(tasks: Todo[]) {
     todoIds.push(tasks[i].id);
   }
 
-  return todoIds.sort((task1, task2) => task2 - task1)[0];
+  return todoIds.sort((firstTask, secondTask) => secondTask - firstTask)[0];
 }
 
 export const App = () => {
-  /* const [todosWithUser, setTodos] = useState<Todo[]>(() => usedTodos.map(
-    todo => ({
-      ...todo,
-      user: users.find(user => user.id === todo.userId) || null,
-    }),
-  ));
-  */
-
   const [newTodos, setTodos] = useState(usedTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
@@ -51,6 +43,12 @@ export const App = () => {
       setHasUserError(false);
       setSelectedUser(+event.target.value);
     }
+  };
+
+  const handleTitleChange: React.ChangeEventHandler<HTMLInputElement>
+  = (event) => {
+    setTodoTitle(event.target.value);
+    setHasTitleError(!(event.target.value.length > 0));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -74,7 +72,7 @@ export const App = () => {
         title: todoTitle,
         completed: false,
         userId: Number(selectedUser),
-        user: getUser(Number(selectedUser)),
+        user: getUserById(Number(selectedUser)),
       };
 
       if (newTask !== undefined) {
@@ -100,10 +98,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
-            onChange={event => {
-              setTodoTitle(event.target.value);
-              setHasTitleError(!(event.target.value.length > 0));
-            }}
+            onChange={handleTitleChange}
             placeholder="Enter a title"
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
