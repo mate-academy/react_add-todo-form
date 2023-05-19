@@ -9,7 +9,7 @@ import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -17,44 +17,44 @@ function getUser(userId: number): User | null {
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('0');
+  const [user, setUser] = useState(0);
   const [todos, setTodos] = useState(initialTodos);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
   const handleSetUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(event.target.value);
+    setUser(Number(event.target.value));
   };
 
   const clearForm = () => {
     setTitle('');
-    setUser('0');
-    setFormSubmitted(false);
+    setUser(0);
+    setIsFormSubmitted(false);
   };
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (user !== '0' && title !== '') {
+    if (user && title) {
       const newTodo: Todo = {
         userId: Number(user),
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
         completed: false,
-        user: getUser(Number(user)),
+        user: getUserById(Number(user)),
       };
 
       setTodos([...todos, newTodo]);
       clearForm();
     } else {
-      setFormSubmitted(true);
+      setIsFormSubmitted(true);
     }
   };
 
@@ -75,8 +75,8 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleSetTitle}
           />
-          {formSubmitted
-          && title === ''
+          {isFormSubmitted
+          && !title
           && <span className="error">Please enter a title</span>}
         </div>
 
@@ -86,16 +86,18 @@ export const App: React.FC = () => {
             value={user}
             onChange={handleSetUser}
           >
-            <option value="0" selected disabled>Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(userFromServer => {
+              const { id, name } = userFromServer;
+
               return (
-                <option value={userFromServer.id}>{userFromServer.name}</option>
+                <option key={id} value={id}>{name}</option>
               );
             })}
           </select>
 
-          {formSubmitted
-          && user === '0'
+          {isFormSubmitted
+          && !user
           && <span className="error">Please choose a user</span>}
         </div>
 
