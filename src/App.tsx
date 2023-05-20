@@ -36,6 +36,10 @@ export const App = () => {
         user: getUser(userId),
       };
 
+      if (title === ' ') {
+        return;
+      }
+
       setNewTodos((actualTodos) => ([...actualTodos, newTodo]));
       setUserId(0);
       setTitel('');
@@ -79,6 +83,7 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
+            pattern="^((?!\s{2}).)*$"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
