@@ -14,17 +14,19 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const App: React.FC = () => {
-  const [user, setUser] = useState('0');
-  const [title, setTitle] = useState('');
-  const [todos, setTodos] = useState(todosFromServer);
-  const [userNotSelected, setUserNotSelected] = useState(false);
-  const [titleNotSelected, setTitleNotSelected] = useState(false);
-
-  const todosWithUsers: Todo[] = todos.map(todo => ({
+function createTodos(): Todo[] {
+  return todosFromServer.map(todo => ({
     ...todo,
     user: getUser(todo.userId),
   }));
+}
+
+export const App: React.FC = () => {
+  const [user, setUser] = useState('0');
+  const [title, setTitle] = useState('');
+  const [todos, setTodos] = useState(() => createTodos());
+  const [userNotSelected, setUserNotSelected] = useState(false);
+  const [titleNotSelected, setTitleNotSelected] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,15 +36,17 @@ export const App: React.FC = () => {
 
     const { todoTitle, userId } = Object.fromEntries(formData.entries());
 
+    const trimmedTitle = todoTitle.toString().trim();
+
     if (!userId) {
       setUserNotSelected(true);
     }
 
-    if (!todoTitle) {
+    if (!trimmedTitle) {
       setTitleNotSelected(true);
     }
 
-    if (!userId || !todoTitle) {
+    if (!userId || !trimmedTitle) {
       return;
     }
 
@@ -50,9 +54,10 @@ export const App: React.FC = () => {
 
     const newTodo = {
       id: largestId + 1,
-      title: todoTitle.toString(),
+      title: trimmedTitle,
       userId: +userId,
       completed: false,
+      user: getUser(+userId),
     };
 
     setTodos(t => ([
@@ -123,7 +128,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosWithUsers} />
+      <TodoList todos={todos} />
     </div>
   );
 };
