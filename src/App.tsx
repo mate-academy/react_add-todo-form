@@ -18,8 +18,18 @@ export const App = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userSelected, setUserSelected] = useState(0);
   const [newTodos, setNewTodos] = useState(todosFormServer);
-  const [errorMassegeTitle, setErrorMassegeTitle] = useState(false);
-  const [errorMassegeUser, setErrorMassegeUser] = useState(false);
+  const [errorMassegeTitle, setErrorMessageTitle] = useState(false);
+  const [errorMassegeUser, setErrorMessageUser] = useState(false);
+
+  function handleErrorMessageTitle(event: React.ChangeEvent<HTMLInputElement>) {
+    setErrorMessageTitle(false);
+    setTitleInput(event.target.value);
+  }
+
+  function handleErrorMessageUser(event: React.ChangeEvent<HTMLSelectElement>) {
+    setErrorMessageUser(false);
+    setUserSelected(+event.target.value);
+  }
 
   function createTodo(
     id: number, title: string, completed: boolean, userId: number,
@@ -44,15 +54,15 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
           if (titleInput === '') {
-            setErrorMassegeTitle(true);
+            setErrorMessageTitle(true);
           } else {
-            setErrorMassegeTitle(false);
+            setErrorMessageTitle(false);
           }
 
           if (!userSelected) {
-            setErrorMassegeUser(true);
+            setErrorMessageUser(true);
           } else {
-            setErrorMassegeUser(false);
+            setErrorMessageUser(false);
           }
 
           if (titleInput && userSelected) {
@@ -78,10 +88,7 @@ export const App = () => {
             data-cy="titleInput"
             value={titleInput}
             placeholder="Enter a title"
-            onChange={({ target }) => {
-              setErrorMassegeTitle(false);
-              setTitleInput(target.value);
-            }}
+            onChange={(event) => (handleErrorMessageTitle(event))}
           />
 
           {errorMassegeTitle
@@ -98,9 +105,7 @@ export const App = () => {
             data-cy="userSelect"
             id="select"
             value={userSelected}
-            onChange={
-              ({ target }) => (setUserSelected(+target.value))
-            }
+            onChange={(event) => (handleErrorMessageUser(event))}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(({
