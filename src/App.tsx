@@ -25,13 +25,25 @@ export const App = () => {
 
       <form action="/api/users" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
+          <label htmlFor="titleInput">Title: </label>
+          <input
+            name="titleInput"
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+          />
           <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <label htmlFor="userSelect">User: </label>
+          <select name="userSelect" data-cy="userSelect" defaultValue="0">
             <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map((user: User) => {
+              return (
+                <option value={user.id}>{user.name}</option>
+              );
+            })}
           </select>
 
           <span className="error">Please choose a user</span>
