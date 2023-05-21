@@ -5,9 +5,11 @@ interface UserInfoProps {
 }
 
 export const UserInfo = ({ user }: UserInfoProps) => {
+  const { name } = user;
+
   return (
     <a className="UserInfo" href={`mailto:${user?.email}`}>
-      {user?.name}
+      {name}
     </a>
   );
 };

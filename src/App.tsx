@@ -1,5 +1,5 @@
 import './App.scss';
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { Todo } from './types/Todo';
 import { User } from './types/User';
@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
 
 export const serverTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -51,11 +51,26 @@ export const App = () => {
         title,
         completed: false,
         userId: +userId,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setTodos([...todos, addTodo]);
       resetForm();
+    }
+  };
+
+  const handleHasErrorTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+
+    if (hasTitleError) {
+      setHasTitleError(false);
+    }
+  };
+
+  const handleHasErrorUser = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    if (hasUserError) {
+      setHasUserError(false);
     }
   };
 
@@ -76,12 +91,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              if (hasTitleError) {
-                setHasTitleError(false);
-              }
-            }}
+            onChange={handleHasErrorTitle}
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
@@ -93,19 +103,18 @@ export const App = () => {
             data-cy="userSelect"
             name="user"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              if (hasUserError) {
-                setHasUserError(false);
-              }
-            }}
+            onChange={handleHasErrorUser}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
           {hasUserError && <span className="error">Please choose a user</span>}
         </div>
