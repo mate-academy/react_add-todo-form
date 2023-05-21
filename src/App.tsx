@@ -1,30 +1,37 @@
 import { useState } from 'react';
 import './App.scss';
+import cn from 'classnames';
 
 import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
 
 type Todo = {
+  id: number,
   title: string,
-  user: string,
+  completed: boolean,
+  userId: number,
 };
 
-const todos: Todo[] = [{
-  title: 'title',
-  user: 'user',
-}];
+const todosFormServer: Todo[] = [...todosFromServer];
 
 export const App = () => {
   const [titleInput, setTitleInput] = useState('');
-  const [userSelected, setUserSelected] = useState('');
+  const [userSelected, setUserSelected] = useState(0);
+  const [newTodos, setNewTodos] = useState(todosFormServer);
+  const [errorMassegeTitle, setErrorMassegeTitle] = useState(false);
+  const [errorMassegeUser, setErrorMassegeUser] = useState(false);
 
-  function addTodo(title: string, user: string) {
+  function createTodo(
+    id: number, title: string, completed: boolean, userId: number,
+  ) {
     const newTodo = {
+      id,
       title,
-      user,
+      completed,
+      userId,
     };
 
-    todos.push(newTodo);
+    setNewTodos([...newTodos, newTodo]);
   }
 
   return (
@@ -36,46 +43,82 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          addTodo(titleInput, userSelected);
+          if (titleInput === '') {
+            setErrorMassegeTitle(true);
+          } else {
+            setErrorMassegeTitle(false);
+          }
+
+          if (!userSelected) {
+            setErrorMassegeUser(true);
+          } else {
+            setErrorMassegeUser(false);
+          }
+
+          if (titleInput && userSelected) {
+            createTodo(
+              newTodos.length + 1,
+              titleInput,
+              false,
+              userSelected,
+            );
+            setTitleInput('');
+            setUserSelected(0);
+          }
         }}
       >
         <div className="field">
+          <label htmlFor="input">
+            <span>Title: </span>
+          </label>
+
           <input
             type="text"
             id="input"
             data-cy="titleInput"
             value={titleInput}
-            onChange={({ target }) => (setTitleInput(target.value))}
-            placeholder="Please enter a title"
+            placeholder="Enter a title"
+            onChange={({ target }) => {
+              setErrorMassegeTitle(false);
+              setTitleInput(target.value);
+            }}
           />
 
-          <label htmlFor="input">
-            <span className="error">Please enter a title</span>
-          </label>
+          {errorMassegeTitle
+           && <span className="error">Please enter a title</span>}
+
         </div>
 
         <div className="field">
+          <label htmlFor="select">
+            <span>User: </span>
+          </label>
+
           <select
             data-cy="userSelect"
             id="select"
             value={userSelected}
             onChange={
-              ({ currentTarget }) => (setUserSelected(currentTarget.value))
+              ({ target }) => (setUserSelected(+target.value))
             }
           >
-            <option value="" disabled>Choose a user</option>
-            {usersFromServer.map(({ id, username, name }) => {
+            <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(({
+              username, id, name,
+            }) => {
               return (
-                <option value={name} key={id}>
-                  {username}
+                <option
+                  value={id}
+                  key={username}
+                >
+                  {name}
                 </option>
               );
             })}
           </select>
 
-          <label htmlFor="select">
-            <span className="error">Please choose a user</span>
-          </label>
+          {errorMassegeUser
+           && <span className="error">Please choose a user</span>}
 
         </div>
 
@@ -116,23 +159,35 @@ export const App = () => {
           </a>
         </article>
 
-        {todos.map((todo, index) => {
+        {newTodos.map((todo, index) => {
+          const userOfCurrentTodo = usersFromServer.find(
+            user => user.id === todo.userId,
+          ) || {
+            name: 'unknow user',
+            email: '@',
+            completed: false,
+          };
+
           return (
             <article
-              data-id={index}
-              className="TodoInfo"
+              data-id={index + 1}
+              className={
+                cn(
+                  'TodoInfo',
+                  { 'TodoInfo--completed': todo.completed },
+                )
+              }
               key={todo.title}
             >
-              <h2 className="TodoInfo__title" key={todo.title}>
+              <h2 className="TodoInfo__title">
                 {todo.title}
               </h2>
 
               <a
                 className="UserInfo"
-                href="mailto:Julianne.OConner@kory.org"
-                key={todo.user}
+                href={`mailto:${userOfCurrentTodo.email}`}
               >
-                {todo.user}
+                {userOfCurrentTodo.name}
               </a>
             </article>
           );
