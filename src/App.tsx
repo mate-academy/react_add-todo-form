@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
@@ -14,9 +14,10 @@ function getUser(userId: number): User | null {
 }
 
 export const App = () => {
-  const [newTaskTitle, setNewTaskTitle] = useState('asdasd');
-  const [newTaskUserId, setNewTaskUserId] = useState(1);
-  // const [todoList, setTodoList] = useState<Todo[]>(todos);
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [newTaskUserId, setNewTaskUserId] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const todos: Todo[] = todosFromServer.map(todo => ({
     ...todo,
@@ -25,14 +26,29 @@ export const App = () => {
 
   const addNewTask: FormEventHandler = (event) => {
     event.preventDefault();
-    todosFromServer.push({
-      title: newTaskTitle,
-      completed: false,
-      userId: newTaskUserId,
-      id: Math.random(),
-    });
-    setNewTaskTitle('');
-    setNewTaskUserId(0);
+    const emptyTaskTitle = (newTaskTitle === '');
+    const invalidUserId = (newTaskUserId === 0);
+
+    setTitleError(emptyTaskTitle);
+    setUserError(invalidUserId);
+
+    if (!emptyTaskTitle && !invalidUserId) {
+      todosFromServer.push({
+        title: newTaskTitle,
+        completed: false,
+        userId: newTaskUserId,
+        id: Math.random(),
+      });
+      setNewTaskTitle('');
+      setNewTaskUserId(0);
+    }
+  };
+
+  const validateTitleField = (event: ChangeEvent<HTMLInputElement>) => {
+    const validatedTitle
+    = (event.target.value).replace(/([^a-z0-9а-я\s])/gi, '');
+
+    setNewTaskTitle(validatedTitle);
   };
 
   return (
@@ -52,9 +68,15 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTaskTitle}
-            onChange={event => setNewTaskTitle(event.target.value)}
+            onChange={(event) => {
+              setTitleError(false);
+              validateTitleField(event);
+            }}
           />
-          <span className="error">Please enter a title</span>
+
+          {titleError
+            ? <span className="error">Please enter a title</span>
+            : undefined}
         </div>
 
         <div className="field">
@@ -64,7 +86,10 @@ export const App = () => {
             data-cy="userSelect"
             defaultValue={0}
             value={newTaskUserId}
-            onChange={event => setNewTaskUserId(Number(event.target.value))}
+            onChange={(event) => {
+              setUserError(false);
+              setNewTaskUserId(Number(event.target.value));
+            }}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map((user: User) => {
@@ -74,7 +99,9 @@ export const App = () => {
             })}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {userError
+            ? <span className="error">Please choose a user</span>
+            : undefined}
         </div>
 
         <button
