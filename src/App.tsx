@@ -15,7 +15,7 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const getTodos: Todo[] = todosFromServer.map(todo => ({
+export const userTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -29,7 +29,7 @@ export function correctTitle(str: string) {
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userSelect, setUserSelect] = useState(0);
-  const [todos, setTodos] = useState(getTodos);
+  const [todos, setTodos] = useState(userTodos);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
