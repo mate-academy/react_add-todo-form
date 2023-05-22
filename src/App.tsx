@@ -27,21 +27,9 @@ export const App = () => {
   const [errorEmptyselectedUser, seterrorEmptyselectedUser] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const correctionTodo = (title: string, selectedUser: number) => {
-    let correctTitle = '';
-
-    if (title) {
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < title.length; i++) {
-        if ((title[i].toLocaleLowerCase() !== title[i].toLocaleUpperCase())
-          || Number.isInteger(+title[i])) {
-          correctTitle += title[i];
-        }
-      }
-    }
-
+  const handleTodoAdd = (title: string, selectedUser: number) => {
     const newTodo = {
-      title: correctTitle,
+      title: title.trim(),
       userId: selectedUser,
       id: Math.max(...newTodos.map(todo => todo.id)) + 1,
       completed: false,
@@ -54,16 +42,21 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title && selectedUser) {
-      correctionTodo(title, selectedUser);
+    if (title.trim() && selectedUser) {
+      handleTodoAdd(title, selectedUser);
       setTitle('');
       setSelectedUser(0);
 
       return;
     }
 
-    setErrorEmptyTitle(true);
-    seterrorEmptyselectedUser(true);
+    if (title.trim() === '') {
+      setErrorEmptyTitle(true);
+    }
+
+    if (!selectedUser) {
+      seterrorEmptyselectedUser(true);
+    }
   };
 
   return (
