@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -6,7 +6,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 
 import { User } from './types/User';
-import { Todos } from './types/Todos';
+import { Todo } from './types/Todo';
 
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find((user) => user.id === userId);
@@ -14,7 +14,7 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-function InitialArray(): Todos[] {
+function InitialArray(): Todo[] {
   return todosFromServer.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
@@ -24,17 +24,29 @@ function InitialArray(): Todos[] {
 export const App = () => {
   const [sectionValue, setSectionValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [CopyToDoList, setCopyToDoList] = useState<Todos[]>(InitialArray());
+  const [todoList, setToDoList] = useState<Todo[]>(InitialArray());
 
-  const [titleState, setTitleState] = useState(false);
-  const [selectState, setselectState] = useState(false);
+  const [titleState, setErrorTitleState] = useState(false);
+  const [selectState, setErrorSelectState] = useState(false);
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSectionValue(event.target.value);
+    setErrorSelectState(false);
+  };
+
+  const resetForm = () => {
+    setInputValue('');
+    setSectionValue('');
+    setErrorTitleState(false);
+    setErrorSelectState(false);
+  };
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newId = Math.max(...CopyToDoList.map((elem) => elem.id));
+    const newId = Math.max(...todoList.map((elem) => elem.id));
     const userId = +sectionValue;
 
-    const todo: Todos = {
+    const todo: Todo = {
       id: newId + 1,
       title: inputValue,
       completed: false,
@@ -43,19 +55,16 @@ export const App = () => {
     };
 
     if (inputValue.length === 0) {
-      setTitleState(true);
+      setErrorTitleState(true);
     }
 
     if (sectionValue.length === 0) {
-      setselectState(true);
+      setErrorSelectState(true);
     }
 
     if (sectionValue.length > 0 && inputValue.length > 0) {
-      setCopyToDoList([...CopyToDoList, todo]);
-      setInputValue('');
-      setSectionValue('');
-      setTitleState(false);
-      setselectState(false);
+      setToDoList([...todoList, todo]);
+      resetForm();
     }
   };
 
@@ -72,7 +81,7 @@ export const App = () => {
             value={inputValue}
             onChange={(event) => {
               setInputValue(event.target.value);
-              setTitleState(false);
+              setErrorTitleState(false);
             }}
           />
           {titleState
@@ -83,10 +92,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={sectionValue}
-            onChange={(event) => {
-              setSectionValue(event.target.value);
-              setselectState(false);
-            }}
+            onChange={handleSelectChange}
           >
             <option value="" disabled>
               Choose a user
@@ -106,10 +112,8 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <TodoList todos={CopyToDoList} />
-      </section>
+      <TodoList todos={todoList} />
+
     </div>
   );
 };
-
