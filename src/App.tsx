@@ -32,7 +32,10 @@ export const App: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formValues.userId !== 0 && formValues.title !== '') {
+
+    const hasTitle = formValues.title.trim() !== '';
+
+    if (formValues.userId !== 0 && hasTitle) {
       visibleTodos.push(formValues);
       setFormValues({
         ...formValues,
@@ -44,14 +47,16 @@ export const App: React.FC = () => {
       return;
     }
 
-    if (formValues.title === '') {
+    if (!hasTitle) {
       const titleSelect = document.querySelector('#title');
 
-      if (!titleSelect?.nextSibling) {
+      if (titleSelect?.nextSibling?.nodeName !== 'SPAN') {
         titleSelect?.insertAdjacentHTML(
           'afterend', '<span class="error">Please enter a title</span>',
         );
       }
+
+      setFormValues({ ...formValues, title: '' });
     }
 
     if (formValues.userId === 0) {
