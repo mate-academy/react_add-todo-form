@@ -53,17 +53,8 @@ export const App = () => {
         method="POST"
         onSubmit={(event) => {
           event.preventDefault();
-          if (titleInput === '') {
-            setErrorMessageTitle(true);
-          } else {
-            setErrorMessageTitle(false);
-          }
-
-          if (!userSelected) {
-            setErrorMessageUser(true);
-          } else {
-            setErrorMessageUser(false);
-          }
+          setErrorMessageTitle(!titleInput);
+          setErrorMessageUser(!userSelected);
 
           if (titleInput && userSelected) {
             createTodo(
