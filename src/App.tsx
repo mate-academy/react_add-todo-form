@@ -18,8 +18,8 @@ export const App = () => {
   const [titleInput, setTitleInput] = useState('');
   const [userSelected, setUserSelected] = useState(0);
   const [newTodos, setNewTodos] = useState(todosFormServer);
-  const [errorMassegeTitle, setErrorMessageTitle] = useState(false);
-  const [errorMassegeUser, setErrorMessageUser] = useState(false);
+  const [errorMessegaTitle, setErrorMessageTitle] = useState(false);
+  const [errorMessageUser, setErrorMessageUser] = useState(false);
 
   function handleErrorMessageTitle(event: React.ChangeEvent<HTMLInputElement>) {
     setErrorMessageTitle(false);
@@ -44,6 +44,23 @@ export const App = () => {
     setNewTodos([...newTodos, newTodo]);
   }
 
+  function handleSumbmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setErrorMessageTitle(!titleInput.trim());
+    setErrorMessageUser(!userSelected);
+
+    if (titleInput.trim() && userSelected) {
+      createTodo(
+        newTodos.length + 1,
+        titleInput,
+        false,
+        userSelected,
+      );
+      setTitleInput('');
+      setUserSelected(0);
+    }
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -51,22 +68,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          setErrorMessageTitle(!titleInput);
-          setErrorMessageUser(!userSelected);
-
-          if (titleInput && userSelected) {
-            createTodo(
-              newTodos.length + 1,
-              titleInput,
-              false,
-              userSelected,
-            );
-            setTitleInput('');
-            setUserSelected(0);
-          }
-        }}
+        onSubmit={handleSumbmit}
       >
         <div className="field">
           <label htmlFor="input">
@@ -79,10 +81,10 @@ export const App = () => {
             data-cy="titleInput"
             value={titleInput}
             placeholder="Enter a title"
-            onChange={(event) => (handleErrorMessageTitle(event))}
+            onChange={handleErrorMessageTitle}
           />
 
-          {errorMassegeTitle
+          {errorMessegaTitle
            && <span className="error">Please enter a title</span>}
 
         </div>
@@ -96,7 +98,7 @@ export const App = () => {
             data-cy="userSelect"
             id="select"
             value={userSelected}
-            onChange={(event) => (handleErrorMessageUser(event))}
+            onChange={handleErrorMessageUser}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(({
@@ -113,7 +115,7 @@ export const App = () => {
             })}
           </select>
 
-          {errorMassegeUser
+          {errorMessageUser
            && <span className="error">Please choose a user</span>}
 
         </div>
