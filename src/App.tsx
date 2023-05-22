@@ -13,6 +13,8 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
+let highestId = Math.max.apply(null, todosFromServer.map(todo => todo.id));
+
 export const App = () => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskUserId, setNewTaskUserId] = useState(0);
@@ -33,11 +35,12 @@ export const App = () => {
     setUserError(invalidUserId);
 
     if (!emptyTaskTitle && !invalidUserId) {
+      highestId += 1;
       todosFromServer.push({
         title: newTaskTitle,
         completed: false,
         userId: newTaskUserId,
-        id: Math.random(),
+        id: highestId,
       });
       setNewTaskTitle('');
       setNewTaskUserId(0);
