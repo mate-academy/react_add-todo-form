@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -18,12 +18,12 @@ let highestId = Math.max.apply(null, todosFromServer.map(todo => todo.id));
 export const App = () => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskUserId, setNewTaskUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [hasEmptyTitle, setHasEmptyTitle] = useState(false);
+  const [hasEmptyUser, setHasEmptyUser] = useState(false);
 
   const todos: Todo[] = todosFromServer.map(todo => ({
     ...todo,
-    user: getUser(todo.userId),
+    user: getUserById(todo.userId),
   }));
 
   const addNewTask: FormEventHandler = (event) => {
@@ -31,8 +31,8 @@ export const App = () => {
     const emptyTaskTitle = (newTaskTitle === '');
     const invalidUserId = (newTaskUserId === 0);
 
-    setTitleError(emptyTaskTitle);
-    setUserError(invalidUserId);
+    setHasEmptyTitle(emptyTaskTitle);
+    setHasEmptyUser(invalidUserId);
 
     if (!emptyTaskTitle && !invalidUserId) {
       highestId += 1;
@@ -72,14 +72,12 @@ export const App = () => {
             placeholder="Enter a title"
             value={newTaskTitle}
             onChange={(event) => {
-              setTitleError(false);
+              setHasEmptyTitle(false);
               validateTitleField(event);
             }}
           />
 
-          {titleError
-            ? <span className="error">Please enter a title</span>
-            : undefined}
+          {hasEmptyTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -90,7 +88,7 @@ export const App = () => {
             defaultValue={0}
             value={newTaskUserId}
             onChange={(event) => {
-              setUserError(false);
+              setHasEmptyUser(false);
               setNewTaskUserId(Number(event.target.value));
             }}
           >
@@ -102,9 +100,7 @@ export const App = () => {
             })}
           </select>
 
-          {userError
-            ? <span className="error">Please choose a user</span>
-            : undefined}
+          {hasEmptyUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button
