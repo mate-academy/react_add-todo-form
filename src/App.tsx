@@ -6,7 +6,7 @@ import { User } from './Types/User';
 import { Todo } from './Types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -14,18 +14,20 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const [newTodos, setNewTodos] = useState(todos);
 
-  const addTodo = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (userId && title) {
       const newId = Math.max(...newTodos.map(todo => todo.id)) + 1;
 
@@ -34,39 +36,34 @@ export const App: React.FC = () => {
         userId,
         completed: false,
         title,
-        user: getUser(userId),
+        user: getUserById(userId),
       };
 
       setNewTodos((currentTodos) => ([...currentTodos, newTodo]));
 
       setUserId(0);
       setTitle('');
-      setUserError(false);
-      setTitleError(false);
+      setIsUserError(false);
+      setIsTitleError(false);
     }
 
     if (!userId) {
-      setUserError(true);
+      setIsUserError(true);
     }
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleError(true);
     }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    addTodo();
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   return (
@@ -89,7 +86,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -103,15 +100,17 @@ export const App: React.FC = () => {
               onChange={handleUserId}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
+              {usersFromServer.map(user => {
+                const { id, name } = user;
+
+                return (
+                  <option value={id} key={id}>{name}</option>
+                );
+              })}
             </select>
           </label>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>

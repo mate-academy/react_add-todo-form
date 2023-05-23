@@ -3,11 +3,11 @@ import classname from 'classnames';
 import { Todo } from '../../Types/Todo';
 import { UserInfo } from '../UserInfo';
 
-type Props = {
+interface TodoInfoProps {
   todo: Todo,
-};
+}
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   const {
     title,
     completed,
