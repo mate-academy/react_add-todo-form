@@ -19,23 +19,27 @@ export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
   const userList = usersFromServer;
-  let highestTodoId = Math.max(...todos.map(todo => (todo.id)));
+  const highestTodoId = Math.max(...todos.map(todo => (todo.id)));
+
+  function resetForm() {
+    setUserId(0);
+    setTitle('');
+  }
 
   function changeTitle(event: React.ChangeEvent<HTMLInputElement>) {
     // I opted to do the optional instruction
-    const legalCharacters = 'abcdefghijklmnopqrstuvwxyz1234567890 ' /* 'en' */
-      + 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'; /* 'ru' */
+    const legalCharacters = /^[\wа-яА-Яa-zA-Z ]+/;
     const croppedInput = event.target.value.split('').filter((char) => (
-      legalCharacters.includes(char.toLowerCase()) || char === ' '
+      legalCharacters.test(char)
     )).join('');
 
     setTitle(croppedInput);
 
-    if (titleError && croppedInput.length > 0) {
-      setTitleError(false);
+    if (isTitleError && croppedInput.length > 0) {
+      setIsTitleError(false);
     }
   }
 
@@ -47,14 +51,14 @@ export const App = () => {
     }
   }
 
-  function submitForm(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (title.length > 0 && userId > 0) {
-      highestTodoId += 1;
+      const newTodoId = highestTodoId + 1;
 
       const newTodo = {
-        id: highestTodoId + 0, // This is to ensure it isn't a reference
+        id: newTodoId,
         title,
         completed: false,
         userId,
@@ -62,11 +66,10 @@ export const App = () => {
       };
 
       setTodos([...todos, newTodo]);
-      setUserId(0);
-      setTitle('');
+      resetForm();
     } else {
       if (title.length === 0) {
-        setTitleError(true);
+        setIsTitleError(true);
       }
 
       if (userId <= 0) {
@@ -82,7 +85,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submitForm}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">
@@ -96,7 +99,7 @@ export const App = () => {
             value={title}
             onChange={changeTitle}
           />
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -133,7 +136,7 @@ export const App = () => {
         </button>
       </form>
 
-      {todos && <TodoList todos={todos} />}
+      <TodoList todos={todos} />
     </div>
   );
 };
