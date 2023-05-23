@@ -25,6 +25,9 @@ export const App: React.FC = () => {
     userId: 0,
   });
 
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
+
   const todos: Todo[] = visibleTodos.map(todo => ({
     ...todo,
     user: getUser(todo.userId),
@@ -34,8 +37,9 @@ export const App: React.FC = () => {
     e.preventDefault();
 
     const hasTitle = formValues.title.trim() !== '';
+    const hasUser = formValues.userId !== 0;
 
-    if (formValues.userId !== 0 && hasTitle) {
+    if (hasUser && hasTitle) {
       visibleTodos.push(formValues);
       setFormValues({
         ...formValues,
@@ -48,25 +52,12 @@ export const App: React.FC = () => {
     }
 
     if (!hasTitle) {
-      const titleSelect = document.querySelector('#title');
-
-      if (titleSelect?.nextSibling?.nodeName !== 'SPAN') {
-        titleSelect?.insertAdjacentHTML(
-          'afterend', '<span class="error">Please enter a title</span>',
-        );
-      }
-
+      setTitleError('Please enter a title');
       setFormValues({ ...formValues, title: '' });
     }
 
-    if (formValues.userId === 0) {
-      const userSelect = document.querySelector('#userSelect');
-
-      if (!userSelect?.nextSibling) {
-        userSelect?.insertAdjacentHTML(
-          'afterend', '<span class="error">Please choose a user</span',
-        );
-      }
+    if (!hasUser) {
+      setUserError('Please choose a user');
     }
   };
 
@@ -91,12 +82,11 @@ export const App: React.FC = () => {
             placeholder="Enter a title"
             value={formValues.title}
             onChange={(e) => {
-              const title = document.querySelector('#title');
-
-              title?.nextSibling?.replaceWith('');
+              setTitleError('');
               setFormValues({ ...formValues, title: e.target.value });
             }}
           />
+          <span className="error">{titleError}</span>
         </div>
 
         <div className="field">
@@ -106,9 +96,7 @@ export const App: React.FC = () => {
             id="userSelect"
             value={formValues.userId}
             onChange={(e) => {
-              const userSelect = document.querySelector('#userSelect');
-
-              userSelect?.nextSibling?.replaceWith('');
+              setUserError('');
               setFormValues({ ...formValues, userId: +e.target.value });
             }}
           >
@@ -117,6 +105,7 @@ export const App: React.FC = () => {
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
+          <span className="error">{userError}</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
