@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -15,12 +15,12 @@ function getUser(userId: number): User | null {
 
 export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [todos, setTodos] = useState(() => preparedTodos);
-  const [totoTitle, setTotoTitle] = useState('');
+  const [todoTitle, setTodoTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
@@ -28,7 +28,7 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!totoTitle) {
+    if (!todoTitle) {
       setHasTitleError(true);
     }
 
@@ -36,17 +36,31 @@ export const App = () => {
       setHasUserError(true);
     }
 
-    if (totoTitle && selectedUser) {
+    if (todoTitle && selectedUser) {
       setTodos((prevTodos) => [...prevTodos, {
         id: Math.max(...prevTodos.map(todo => todo.id)) + 1,
         userId: selectedUser,
-        title: totoTitle,
+        title: todoTitle,
         completed: false,
-        user: getUser(selectedUser) || null,
+        user: getUserById(selectedUser) || null,
       }]);
 
-      setTotoTitle('');
+      setTodoTitle('');
       setSelectedUser(0);
+    }
+  };
+
+  const handleTodoTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    if (hasTitleError) {
+      setHasTitleError(false);
+    }
+  };
+
+  const handleSelectedUser = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(Number(event.target.value));
+    if (hasUserError) {
+      setHasUserError(false);
     }
   };
 
@@ -64,13 +78,8 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={totoTitle}
-            onChange={(event) => {
-              setTotoTitle(event.target.value);
-              if (hasTitleError) {
-                setHasTitleError(false);
-              }
-            }}
+            value={todoTitle}
+            onChange={handleTodoTitle}
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
@@ -81,23 +90,22 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => {
-              setSelectedUser(Number(event.target.value));
-              if (hasUserError) {
-                setHasUserError(false);
-              }
-            }}
+            onChange={handleSelectedUser}
           >
             <option value="0" disabled>Choose a user</option>
             {
-              usersFromServer.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              ))
+              usersFromServer.map(user => {
+                const { id, name } = user;
+
+                return (
+                  <option
+                    key={id}
+                    value={id}
+                  >
+                    {name}
+                  </option>
+                );
+              })
             }
           </select>
           {hasUserError && (
