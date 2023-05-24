@@ -17,16 +17,6 @@ export const usedTodos: Todo[] = todos.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-function getMaxTodoId(tasks: Todo[]) {
-  const todoIds = [];
-
-  for (let i = 0; i < tasks.length; i += 1) {
-    todoIds.push(tasks[i].id);
-  }
-
-  return todoIds.sort((firstTask, secondTask) => secondTask - firstTask)[0];
-}
-
 export const App = () => {
   const [newTodos, setTodos] = useState(usedTodos);
   const [todoTitle, setTodoTitle] = useState('');
@@ -37,18 +27,14 @@ export const App = () => {
   const handleUserChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    if (hasUserError) {
-      setHasUserError(false);
-    } else {
-      setHasUserError(false);
-      setSelectedUser(+event.target.value);
-    }
+    setHasUserError(false);
+    setSelectedUser(+event.target.value);
   };
 
   const handleTitleChange: React.ChangeEventHandler<HTMLInputElement>
   = (event) => {
     setTodoTitle(event.target.value);
-    setHasTitleError(!(event.target.value.length > 0));
+    setHasTitleError(!event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -68,14 +54,14 @@ export const App = () => {
 
     if (todoTitle && selectedUser) {
       const newTask = {
-        id: getMaxTodoId(usedTodos) + 1,
+        id: Math.max(...usedTodos.map(todo => todo.id)) + 1,
         title: todoTitle,
         completed: false,
         userId: Number(selectedUser),
         user: getUserById(Number(selectedUser)),
       };
 
-      if (newTask !== undefined) {
+      if (newTask) {
         setTodos([...newTodos, newTask]);
       }
 
