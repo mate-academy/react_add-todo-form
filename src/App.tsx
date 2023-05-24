@@ -15,24 +15,24 @@ export const todosData: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [usertitle, setUserTitle] = useState('');
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorName, setErrorName] = useState(false);
-  const [user, setUser] = useState(0);
+  const [userTitle, setUserTitle] = useState('');
+  const [isErrorTitle, setIsErrorTitle] = useState(false);
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [user, setUser] = useState<number | null>(null);
   const [todos, setTodos] = useState(todosData);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!usertitle) {
-      setErrorTitle(true);
+    if (!userTitle) {
+      setIsErrorTitle(true);
     }
 
     if (!user) {
-      setErrorName(true);
+      setIsErrorName(true);
     }
 
-    if (!usertitle || !user) {
+    if (!userTitle || !user) {
       return;
     }
 
@@ -40,7 +40,7 @@ export const App = () => {
 
     const todoItem = {
       id: todoId,
-      title: usertitle,
+      title: userTitle,
       userId: user,
       completed: false,
       user: findUser(user),
@@ -48,7 +48,7 @@ export const App = () => {
 
     setTodos(prevTodos => [...prevTodos, todoItem]);
     setUserTitle('');
-    setUser(0);
+    setUser(null);
   };
 
   const handleChange
@@ -57,12 +57,12 @@ export const App = () => {
 
       if (name === 'usertitle') {
         setUserTitle(value);
-        setErrorTitle(false);
+        setIsErrorTitle(false);
       }
 
       if (name === 'username') {
         setUser(+value);
-        setErrorName(false);
+        setIsErrorName(false);
       }
     };
 
@@ -81,16 +81,16 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={usertitle}
+            value={userTitle}
             onChange={handleChange}
           />
-          {errorTitle && <span className="error">Please enter a title</span>}
+          {isErrorTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             name="username"
-            value={user}
+            value={user || ''}
             onChange={handleChange}
             data-cy="userSelect"
           >
@@ -105,7 +105,7 @@ export const App = () => {
             ))}
           </select>
 
-          {errorName && <span className="error">Please choose a user</span>}
+          {isErrorName && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
