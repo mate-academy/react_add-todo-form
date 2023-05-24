@@ -67,11 +67,11 @@ export const App = () => {
       setTodos([...todos, newTodo]);
       resetForm();
     } else {
-      if (title.length === 0) {
+      if (!title) {
         setIsTitleError(true);
       }
 
-      if (userId <= 0) {
+      if (!userId) {
         setUserIdError(true);
       }
     }
