@@ -1,12 +1,12 @@
-import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './components/TodoInfo';
+import { Todo } from './Types/Todo';
+import './App.scss';
 
 export const findUser = (userId: number) => {
-  return usersFromServer.find(user => user.id === userId) || null;
+  return usersFromServer.find(user => user.id === userId);
 };
 
 export const todosData: Todo[] = todosFromServer.map(todo => ({
@@ -46,7 +46,7 @@ export const App = () => {
       user: findUser(user),
     };
 
-    setTodos([...todos, todoItem]);
+    setTodos(prevTodos => [...prevTodos, todoItem]);
     setUserTitle('');
     setUser(0);
   };

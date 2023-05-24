@@ -1,11 +1,5 @@
 import React from 'react';
-
-export type User = {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-};
+import { User } from '../../Types/User'
 
 type Props = {
   user: User,
