@@ -14,14 +14,10 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-function InitialArray(): Todo[] {
-  return todosFromServer.map(todo => ({
-    ...todo,
-    user: getUserById(todo.userId),
-  }));
-}
-
-const startingArray = InitialArray();
+const startingArray: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
   const [sectionValue, setSectionValue] = useState('');
