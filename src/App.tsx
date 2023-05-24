@@ -21,10 +21,12 @@ function InitialArray(): Todo[] {
   }));
 }
 
+const startingArray = InitialArray();
+
 export const App = () => {
   const [sectionValue, setSectionValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [todoList, setToDoList] = useState<Todo[]>(InitialArray());
+  const [todoList, setToDoList] = useState<Todo[]>(startingArray);
 
   const [titleState, setErrorTitleState] = useState(false);
   const [selectState, setErrorSelectState] = useState(false);
