@@ -21,7 +21,6 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [isTitleError, setIsTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
-  const userList = usersFromServer;
   const highestTodoId = Math.max(...todos.map(todo => (todo.id)));
 
   function resetForm() {
@@ -38,7 +37,7 @@ export const App = () => {
 
     setTitle(croppedInput);
 
-    if (isTitleError && croppedInput.length > 0) {
+    if (isTitleError && croppedInput) {
       setIsTitleError(false);
     }
   }
@@ -54,7 +53,7 @@ export const App = () => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (title.length > 0 && userId > 0) {
+    if (title && userId) {
       const newTodoId = highestTodoId + 1;
 
       const newTodo = {
@@ -115,7 +114,7 @@ export const App = () => {
             onChange={changeUser}
           >
             <option value="0" disabled>Choose a user</option>
-            {userList.map((person) => {
+            {usersFromServer.map((person) => {
               const { id, name } = person;
 
               return (
