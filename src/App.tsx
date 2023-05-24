@@ -28,13 +28,11 @@ export const App = () => {
 
   const addNewTask: FormEventHandler = (event) => {
     event.preventDefault();
-    const emptyTaskTitle = (newTaskTitle === '');
-    const invalidUserId = (newTaskUserId === 0);
 
-    setHasEmptyTitle(emptyTaskTitle);
-    setHasEmptyUser(invalidUserId);
+    setHasEmptyTitle(!newTaskTitle);
+    setHasEmptyUser(!newTaskUserId);
 
-    if (!emptyTaskTitle && !invalidUserId) {
+    if (newTaskTitle && newTaskUserId) {
       highestId += 1;
       todosFromServer.push({
         title: newTaskTitle,
