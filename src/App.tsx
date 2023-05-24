@@ -51,20 +51,20 @@ export const App = () => {
     setUser(0);
   };
 
-  const handleChange = 
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleChange
+    = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
 
-    if (name === 'usertitle') {
-      setUserTitle(value);
-      setErrorTitle(false);
-    }
+      if (name === 'usertitle') {
+        setUserTitle(value);
+        setErrorTitle(false);
+      }
 
-    if (name === 'username') {
-      setUser(+value);
-      setErrorName(false);
-    }
-  };
+      if (name === 'username') {
+        setUser(+value);
+        setErrorName(false);
+      }
+    };
 
   return (
     <div className="App">
@@ -94,14 +94,14 @@ export const App = () => {
             onChange={handleChange}
             data-cy="userSelect"
           >
-            <option value="0">Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(currentUser => (
               <option
-              key={currentUser.id}
-              value={currentUser.id}
-            >
-              {currentUser.name}
-            </option>
+                key={currentUser.id}
+                value={currentUser.id}
+              >
+                {currentUser.name}
+              </option>
             ))}
           </select>
 

@@ -22,9 +22,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <>
       <article key={id} data-id={id} className="TodoInfo TodoInfo--completed">
-        <h2 
+        <h2
           className={classNames(
-            'TodoInfo', { 'TodoInfo--completed': completed }
+            'TodoInfo', { 'TodoInfo--completed': completed },
           )}
         >
           {title}
