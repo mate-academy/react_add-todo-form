@@ -49,15 +49,15 @@ export const App = () => {
   const handleAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isTitleError) {
-      setIsTitleError(true);
-    }
-
     if (!selectedUser) {
       setIsUserError(true);
     }
 
-    if (!titleOfTodo || !selectedUser) {
+    if (!titleOfTodo.trim()) {
+      setIsTitleError(true);
+    }
+
+    if (!titleOfTodo.trim() || !selectedUser) {
       return;
     }
 
