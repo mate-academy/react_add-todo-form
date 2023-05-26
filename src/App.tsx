@@ -18,6 +18,10 @@ const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const getNewTodoId = (visibleTodos: Todo[]) => {
+  return Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+};
+
 type Element = HTMLInputElement | HTMLSelectElement;
 
 export const App = () => {
@@ -61,7 +65,7 @@ export const App = () => {
       return;
     }
 
-    const newTodoId = Math.max(...preparedTodos.map(todo => todo.id)) + 1;
+    const newTodoId = getNewTodoId(preparedTodos);
 
     const newTodo: Todo = {
       id: newTodoId,
@@ -71,7 +75,10 @@ export const App = () => {
       user: selectedUser,
     };
 
-    setTodos([...preparedTodos, newTodo]);
+    setTodos([
+      ...preparedTodos,
+      newTodo,
+    ]);
     setSelectedUser(null);
     setTitle('');
   };
