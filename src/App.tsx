@@ -10,7 +10,7 @@ const getTodoId = (todos: Omit<Todo, 'user'>[]) => {
   return todos.reduce((maxId, todo) => Math.max(maxId, todo.id), 0);
 };
 
-const preparedTodo = (todos: Omit<Todo, 'user'>[]) => {
+const getPreparedTodo = (todos: Omit<Todo, 'user'>[]) => {
   return todos.map((todo) => {
     const findUser = usersFromServer.find((user) => user.id === todo.userId);
 
@@ -25,12 +25,14 @@ export const App = () => {
   const [isValidTitle, setIsValidTitle] = useState(true);
   const [isValidUser, setIsValidUser] = useState(true);
 
+  const todosList = getPreparedTodo(todos);
+  const isTitleNotEmpty = !!title.trim().length;
+  const isUserSelected = !!userId;
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const isFormValid = title.length && userId;
-
-    if (isFormValid) {
+    if (isTitleNotEmpty && isUserSelected) {
       setTodos((prevTodos) => {
         const newTodo = {
           id: getTodoId(prevTodos) + 1,
@@ -44,23 +46,23 @@ export const App = () => {
       setTitle('');
       setUserId(0);
     } else {
-      setIsValidTitle(Boolean(title.length));
-      setIsValidUser(Boolean(userId));
+      setIsValidTitle(isTitleNotEmpty);
+      setIsValidUser(isUserSelected);
     }
   };
 
-  const handleChangeTitle = (
-    { target: { value } }: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
     setTitle(value);
-    setIsValidTitle(Boolean(value) || !userId);
+    setIsValidTitle(!!value);
   };
 
-  const handleChangeUserId = (
-    { target: { value } }: ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handleChangeUserId = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
     setUserId(+value);
-    setIsValidUser(Boolean(value) || !title);
+    setIsValidUser(!!value);
   };
 
   return (
@@ -125,7 +127,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={preparedTodo(todos)} />
+      <TodoList todos={todosList} />
     </div>
   );
 };
