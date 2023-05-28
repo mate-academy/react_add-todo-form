@@ -23,7 +23,7 @@ export const userTodos: Todo[] = todosFromServer.map(todo => ({
 type HandleChangeType = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
 export function correctTitle(str: string) {
-  return str.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+  return str.trim().replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
 }
 
 export const App: React.FC = () => {
