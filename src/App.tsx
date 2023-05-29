@@ -69,8 +69,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={activeUser}
-            onChange={(event) =>
-            {
+            onChange={(event) => {
               setUser(event.target.value);
               setUserError('0');
             }}
@@ -80,10 +79,12 @@ export const App = () => {
               Choose a user
             </option>
             {users
-              .map(user => <option value={user.id}>
-                {user.name}
-              </option>
-              )};
+              .map(user => (
+                <option value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            ;
           </select>
 
           <span
@@ -100,10 +101,11 @@ export const App = () => {
 
       <section className="TodoList">
         {todos
-          .map(todo =>
-            (<article
+          .map(todo => (
+            <article
               data-id={todo.id}
-              className={`TodoInfo ${todo.completed && 'TodoInfo--completed'}`}>
+              className={`TodoInfo ${todo.completed && 'TodoInfo--completed'}`}
+            >
 
               <h2 className="TodoInfo__title">
                 {todo.title}
@@ -116,7 +118,8 @@ export const App = () => {
 
                 {users.find(user => user.id === todo.userId)?.name}
               </a>
-            </article>))}
+            </article>
+          ))}
       </section>
     </div>
   );
