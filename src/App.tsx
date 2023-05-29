@@ -23,8 +23,7 @@ export const userTodos: Todo[] = todosFromServer.map(todo => ({
 type HandleChangeType = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
 export function correctTitle(str: string) {
-  return str.trim()
-    .replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+  return str.trim().replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
 }
 
 export const App: React.FC = () => {
@@ -37,7 +36,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!correctTitle(title)) {
       setTitleError(true);
     }
 
@@ -45,7 +44,7 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (!title || !userSelect) {
+    if (!correctTitle(title) || !userSelect) {
       return;
     }
 
@@ -67,7 +66,7 @@ export const App: React.FC = () => {
     const { name, value } = event.target;
 
     if (name === 'title') {
-      setTitle(correctTitle(value));
+      setTitle(value);
       setTitleError(false);
     } else
     if (name === 'user') {
