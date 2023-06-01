@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 import { User } from './types/User';
-import { Todos } from './types/Todo';
+import { Todos } from './types/Todos';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
