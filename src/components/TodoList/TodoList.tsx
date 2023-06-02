@@ -24,6 +24,7 @@ function createNewTodo(
     return acc < todo.id ? todo.id : acc;
   }, 0);
 
+  // const newId = Math.max(...todos.map(todo => todo.id)) + 1;
   const newId = largestId + 1;
 
   return {
@@ -82,7 +83,9 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
             onChange={(titleEvent) => setNewTitle(titleEvent.target.value)}
           />
           {titleError && (
-            <span style={{ color: '#ff0000' }}>Please enter a title</span>
+            <span style={{ color: '#ff0000' }} className="error">
+              Please enter a title
+            </span>
           )}
         </label>
 
@@ -100,7 +103,9 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
           </select>
 
           {idError && (
-            <span style={{ color: '#ff0000' }}>Please choose a user</span>
+            <span style={{ color: '#ff0000' }} className="error">
+              Please choose a user
+            </span>
           )}
         </label>
 
