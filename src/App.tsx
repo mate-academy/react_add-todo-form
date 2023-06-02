@@ -12,12 +12,12 @@ function getUser(userId: number): User | null {
   return foundUser || null;
 }
 
-export const mapedTodos: Todo[] = todosFromServer.map(todo => ({
+const mappedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
-export const mapedUsers = usersFromServer.map(user => {
+const mappedUsers = usersFromServer.map(user => {
   const { id, name } = user;
 
   return (
@@ -26,7 +26,7 @@ export const mapedUsers = usersFromServer.map(user => {
 });
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(mapedTodos);
+  const [todos, setTodos] = useState(mappedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [isValidTitle, setIsValidTitle] = useState(true);
@@ -116,7 +116,7 @@ export const App: React.FC = () => {
             id="user"
           >
             <option value="0" disabled>Choose a user</option>
-            {mapedUsers}
+            {mappedUsers}
           </select>
 
           {!isValidUser && (
