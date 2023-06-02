@@ -46,27 +46,24 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
 
   const handleSubmit = (submitEvent: React.SyntheticEvent) => {
     submitEvent.preventDefault();
-    setSubmited(true);
     setIdError(!id && true);
     setTitleError(!newTitle && true);
+    setSubmited(current => (!current));
   };
 
   useEffect(() => {
-    setIdError(id !== 0 && false);
+    setIdError(id === null);
   }, [id]);
 
   useEffect(() => {
-    setTitleError(newTitle !== '' && false);
+    setTitleError(newTitle === null);
   }, [newTitle]);
 
   useEffect(() => {
-    setSubmited((idError || titleError) && false);
-
     if (id && newTitle) {
       const newTodo = createNewTodo(todoList, id, newTitle);
 
       setTodoList(current => [...current, newTodo]);
-      setSubmited(false);
       setNewTitle('');
       setId(0);
     }
