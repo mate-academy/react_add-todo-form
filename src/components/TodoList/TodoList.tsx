@@ -24,7 +24,6 @@ function createNewTodo(
     return acc < todo.id ? todo.id : acc;
   }, 0);
 
-  // const newId = Math.max(...todos.map(todo => todo.id)) + 1;
   const newId = largestId + 1;
 
   return {
