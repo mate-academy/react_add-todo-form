@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
@@ -38,7 +38,6 @@ function createNewTodo(
 export const TodoList: React.FC<Props> = ({ todos }) => {
   const [id, setId] = useState(0);
   const [newTitle, setNewTitle] = useState('');
-  const [submited, setSubmited] = useState(false);
   const [todoList, setTodoList] = useState(todos);
 
   const [idError, setIdError] = useState(false);
@@ -46,20 +45,10 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
 
   const handleSubmit = (submitEvent: React.SyntheticEvent) => {
     submitEvent.preventDefault();
+
     setIdError(!id && true);
     setTitleError(!newTitle && true);
-    setSubmited(current => (!current));
-  };
 
-  useEffect(() => {
-    setIdError(id === null);
-  }, [id]);
-
-  useEffect(() => {
-    setTitleError(newTitle === null);
-  }, [newTitle]);
-
-  useEffect(() => {
     if (id && newTitle) {
       const newTodo = createNewTodo(todoList, id, newTitle);
 
@@ -67,28 +56,36 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
       setNewTitle('');
       setId(0);
     }
-  }, [submited]);
+  };
 
   return (
     <section className="TodoList">
       <form onSubmit={submitEvent => handleSubmit(submitEvent)}>
-        <label style={{ display: 'block' }}>
+        <label>
           Title:
           <input
             data-cy="titleInput"
             type="text"
             value={newTitle}
             placeholder="Enter a title"
-            onChange={(titleEvent) => setNewTitle(titleEvent.target.value)}
+            onChange={
+              (titleEvent) => setNewTitle(
+                (
+                  /\S/.test(titleEvent.target.value)
+                    ? titleEvent.target.value
+                    : ''
+                ),
+              )
+            }
           />
           {titleError && (
-            <span style={{ color: '#ff0000' }} className="error">
+            <span className="error">
               Please enter a title
             </span>
           )}
         </label>
 
-        <label style={{ display: 'block' }}>
+        <label>
           User:
           <select
             data-cy="userSelect"
@@ -97,12 +94,17 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
 
           {idError && (
-            <span style={{ color: '#ff0000' }} className="error">
+            <span className="error">
               Please choose a user
             </span>
           )}
