@@ -1,37 +1,24 @@
 import { useState } from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
-import { User } from '../../types/User';
 import usersFromServer from '../../api/users';
+import { getUser } from '../../utils';
 
 type Props = {
   todos: Todo[],
 };
-
-function getUser(id:number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === id);
-
-  return foundUser || null;
-}
 
 function createNewTodo(
   todos: Todo[],
   id: number,
   title: string,
 ) {
-  const foundUser = getUser(id);
-  const largestId = todos.reduce((acc, todo) => {
-    return acc < todo.id ? todo.id : acc;
-  }, 0);
-
-  const newId = largestId + 1;
-
   return {
     userId: id,
-    id: newId,
+    id: Math.max(...todos.map(todo => todo.id)) + 1,
     title,
     completed: false,
-    user: foundUser,
+    user: getUser(id),
   };
 }
 
