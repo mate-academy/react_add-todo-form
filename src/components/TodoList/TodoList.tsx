@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 import usersFromServer from '../../api/users';
-import { getUser } from '../../utils';
+import { getUser } from '../../utils/function';
 
 type Props = {
   todos: Todo[],
