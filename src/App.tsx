@@ -1,5 +1,6 @@
 import React from 'react';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import { getUser } from './utils/function';
@@ -7,7 +8,7 @@ import './App.scss';
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUser(todo.userId, usersFromServer),
 }));
 
 export const App: React.FC = () => (

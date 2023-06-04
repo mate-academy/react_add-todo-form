@@ -18,7 +18,7 @@ function createNewTodo(
     id: Math.max(...todos.map(todo => todo.id)) + 1,
     title,
     completed: false,
-    user: getUser(id),
+    user: getUser(id, usersFromServer),
   };
 }
 
