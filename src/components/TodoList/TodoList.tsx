@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 import usersFromServer from '../../api/users';
@@ -44,6 +44,14 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
       setId(0);
     }
   };
+
+  useEffect(() => {
+    setIdError(id === null);
+  }, [id]);
+
+  useEffect(() => {
+    setTitleError(newTitle === null);
+  }, [newTitle]);
 
   return (
     <section className="TodoList">
