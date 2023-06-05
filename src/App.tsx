@@ -46,13 +46,17 @@ export const App = () => {
       setUserSelectError(true);
     }
 
+    if (!userSelect || !title) {
+      return;
+    }
+
     setTodos([...todos, newTodo]);
     setTitle('');
     setUserSelect(0);
   };
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
 
