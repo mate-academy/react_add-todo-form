@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
@@ -6,30 +6,32 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
-function getUserId(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
-
-const getTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserId(todo.userId),
-}));
-
-function filterInputValue(value: string): string {
-  return value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
-}
-
 export const App = () => {
+  function getUserId(userId: number): User | null {
+    const foundUser = usersFromServer.find(user => user.id === userId);
+
+    return foundUser || null;
+  }
+
+  const getTodos: Todo[] = todosFromServer.map(todo => ({
+    ...todo,
+    user: getUserId(todo.userId),
+  }));
+
+  function filterInputValue(value: string): string {
+    return value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+  }
+
   const [todos, setTodos] = useState(getTodos);
   const [todoTitle, setTodoTitle] = useState('');
-  const [selectUser, setSelectUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [isErrorUser, setIsErrorUser] = useState(false);
   const [isErrorTitle, setIsErrorTitle] = useState(false);
-  const maxId = todos.length > 0
-    ? Math.max(...todos.map(todo => todo.id)) + 1
-    : 1;
+  const maxId = useMemo(() => {
+    return todos.length > 0
+      ? Math.max(...todos.map(todo => todo.id)) + 1
+      : 1;
+  }, [todos]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -38,29 +40,29 @@ export const App = () => {
       setIsErrorTitle(true);
     }
 
-    if (!selectUser) {
+    if (!selectedUserId) {
       setIsErrorUser(true);
     }
 
-    if (selectUser && todoTitle) {
+    if (selectedUserId !== null && todoTitle) {
       const newTodo: Todo = {
         id: maxId,
         title: todoTitle,
-        userId: selectUser,
+        userId: selectedUserId,
         completed: false,
-        user: getUserId(selectUser),
+        user: getUserId(selectedUserId),
       };
 
-      setTodos([...todos, newTodo]);
+      setTodos(prevTodos => [...prevTodos, newTodo]);
       setTodoTitle('');
-      setSelectUser(0);
+      setSelectedUserId(null);
       setIsErrorUser(false);
       setIsErrorTitle(false);
     }
   };
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -72,7 +74,7 @@ export const App = () => {
     }
 
     if (name === 'user') {
-      setSelectUser(Number(value));
+      setSelectedUserId(value !== '0' ? Number(value) : null);
       setIsErrorUser(false);
     }
   };
@@ -88,7 +90,6 @@ export const App = () => {
       >
         <div className="field">
           Title:
-          {' '}
           <input
             type="text"
             name="title"
@@ -96,22 +97,23 @@ export const App = () => {
             onChange={handleChange}
             data-cy="titleInput"
             placeholder="Enter a title"
+            className="input-title"
           />
           {isErrorTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           User:
-          {' '}
           <select
             name="user"
-            value={selectUser}
+            value={selectedUserId !== null ? selectedUserId : '0'}
             onChange={handleChange}
             data-cy="userSelect"
+            className="user-select"
           >
             <option
               disabled
-              value={0}
+              value="0"
             >
               Choose a user
             </option>
