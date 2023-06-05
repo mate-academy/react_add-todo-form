@@ -17,6 +17,10 @@ const getTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserId(todo.userId),
 }));
 
+function filterInputValue(value: string): string {
+  return value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+}
+
 export const App = () => {
   const [todos, setTodos] = useState(getTodos);
   const [todoTitle, setTodoTitle] = useState('');
@@ -55,12 +59,15 @@ export const App = () => {
     }
   };
 
-  const handleChange = (event:
-  React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
 
     if (name === 'title') {
-      setTodoTitle(value);
+      const filteredValue = filterInputValue(value);
+
+      setTodoTitle(filteredValue);
       setIsErrorTitle(false);
     }
 
@@ -81,6 +88,7 @@ export const App = () => {
       >
         <div className="field">
           Title:
+          {' '}
           <input
             type="text"
             name="title"
@@ -94,7 +102,9 @@ export const App = () => {
 
         <div className="field">
           User:
+          {' '}
           <select
+            name="user"
             value={selectUser}
             onChange={handleChange}
             data-cy="userSelect"
