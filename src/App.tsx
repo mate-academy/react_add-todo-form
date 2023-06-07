@@ -89,7 +89,7 @@ export const App = () => {
             onChange={handleChange}
           />
 
-          {!isTitleValid && (
+          {isTitleValid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
