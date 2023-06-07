@@ -19,23 +19,23 @@ function getName(name: string): User | null {
   return foundName || null;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const preparedTodosFromServer: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App = () => {
-  const [newTodos, setTodos] = useState<Todo[]>(todos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodosFromServer);
   const [title, setTitle] = useState('');
-  const [userName, setUserName] = useState('');
-  const [titleErrorMessage, setTitleError] = useState(true);
-  const [userErrorMessage, setUserError] = useState(true);
+  const [username, setUsername] = useState('');
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserValid, setIsUserValid] = useState(true);
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const maxId = Math.max(...newTodos.map((todo) => todo.id));
-    const newUser = getName(userName);
+    const maxId = Math.max(...todos.map((todo) => todo.id));
+    const newUser = getName(username);
 
     const newTodo: Todo = {
       id: maxId + 1,
@@ -45,17 +45,17 @@ export const App = () => {
       user: newUser,
     };
 
-    setTitleError(Boolean(title.trim()));
-    setUserError(Boolean(userName));
+    setIsTitleValid(Boolean(title.trim()));
+    setIsUserValid(Boolean(username));
 
-    if (!title || !userName) {
+    if (!title || !username) {
       return;
     }
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
 
     setTitle('');
-    setUserName('');
+    setUsername('');
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement
@@ -66,12 +66,12 @@ export const App = () => {
       switch (id) {
         case 'title':
           setTitle(value.replace(/[^a-zA-Zа-яА-ЯїЇіІєЄёЁ0-9\s]+/g, ''));
-          setTitleError(Boolean(value));
+          setIsTitleValid(Boolean(value));
           break;
 
         case 'user':
-          setUserName(value);
-          setUserError(Boolean(value));
+          setUsername(value);
+          setIsUserValid(Boolean(value));
           break;
 
         default:
@@ -100,7 +100,7 @@ export const App = () => {
             onChange={handleChange}
           />
 
-          {!titleErrorMessage
+          {!isTitleValid
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -110,7 +110,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="user"
-            value={userName}
+            value={username}
             onChange={handleChange}
           >
             <option
@@ -127,7 +127,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!userErrorMessage
+          {!isUserValid
             && <span className="error">Please choose a user</span>}
         </div>
 
@@ -136,7 +136,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={newTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
