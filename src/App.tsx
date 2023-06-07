@@ -21,9 +21,9 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [pickUserError, setPickUserError] = useState(false);
-  const [pickedUser, pickUser] = useState(0);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
+  const [user, setUser] = useState(0);
   const [actualTodos, setTodos] = useState(todos);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,26 +34,26 @@ export const App = () => {
     const addedTodo: Todo = {
       id: newId,
       completed: false,
-      user: getUser(Number(pickedUser)),
+      user: getUser(Number(user)),
       title: title.trim(),
-      userId: Number(pickedUser),
+      userId: Number(user),
     };
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleValid(true);
     }
 
-    if (!pickedUser) {
-      setPickUserError(true);
+    if (!user) {
+      setIsUserValid(true);
     }
 
-    if (!pickedUser || !title) {
+    if (!user || !title) {
       return;
     }
 
     setTodos([...actualTodos, addedTodo]);
     setTitle('');
-    pickUser(0);
+    setUser(0);
   };
 
   const handleChange = (
@@ -63,10 +63,10 @@ export const App = () => {
 
     if (name === 'title') {
       setTitle(value);
-      setTitleError(false);
+      setIsTitleValid(false);
     } else {
-      pickUser(Number(value));
-      setPickUserError(false);
+      setUser(Number(value));
+      setIsUserValid(false);
     }
   };
 
@@ -89,7 +89,7 @@ export const App = () => {
             onChange={handleChange}
           />
 
-          {titleError && (
+          {!isTitleValid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -97,21 +97,21 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={pickedUser}
+            value={user}
             onChange={handleChange}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(userFromServer => (
               <option
-                value={user.id}
-                key={user.id}
+                value={userFromServer.id}
+                key={userFromServer.id}
               >
-                {user.name}
+                {userFromServer.name}
               </option>
             ))}
           </select>
 
-          {pickUserError && (
+          {isUserValid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
