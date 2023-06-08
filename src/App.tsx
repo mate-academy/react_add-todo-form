@@ -39,7 +39,7 @@ export const App = () => {
       userId: Number(user),
     };
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleValid(true);
     }
 
@@ -47,7 +47,7 @@ export const App = () => {
       setIsUserValid(true);
     }
 
-    if (!user || !title) {
+    if (!user || !title.trim()) {
       return;
     }
 
