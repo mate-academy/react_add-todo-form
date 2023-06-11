@@ -6,22 +6,33 @@ import todos from './api/todos';
 // import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 
+type Todo = {
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+};
+
+const finder = (todo: Todo) => {
+  return users.find(user => user.id === todo.userId);
+};
+
 export const App = () => {
   const [description, setDescription] = useState('');
   const [activeUser, setUser] = useState('0');
-  const [userError, setUserError] = useState('0');
-  const [descriptionError, setDescriptionError] = useState('0');
+  const [userError, setUserError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   const handleInput: React.ChangeEventHandler <HTMLInputElement> = (event) => {
     event.preventDefault();
-    setDescriptionError('0');
+    setDescriptionError(false);
     setDescription(event.target.value);
   };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (description !== '' && activeUser !== '0') {
+    if (description && activeUser !== '0') {
       todos.push(
         {
           userId: +activeUser,
@@ -36,11 +47,11 @@ export const App = () => {
     }
 
     if (activeUser === '0') {
-      setUserError('1');
+      setUserError(true);
     }
 
     if (description === '') {
-      setDescriptionError('1');
+      setDescriptionError(true);
     }
   };
 
@@ -52,7 +63,6 @@ export const App = () => {
         <div
           className="field"
         >
-
           <input
             type="text"
             data-cy="titleInput"
@@ -61,7 +71,7 @@ export const App = () => {
           />
 
           <span className="error">
-            {descriptionError === '1' && 'Please enter a title'}
+            {descriptionError && 'Please enter a title'}
           </span>
         </div>
 
@@ -71,16 +81,15 @@ export const App = () => {
             value={activeUser}
             onChange={(event) => {
               setUser(event.target.value);
-              setUserError('0');
+              setUserError(false);
             }}
           >
-
             <option value="0" disabled>
               Choose a user
             </option>
             {users
               .map(user => (
-                <option value={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
@@ -90,7 +99,7 @@ export const App = () => {
           <span
             className="error"
           >
-            {userError === '1' && 'Please choose a user'}
+            {userError && 'Please choose a user'}
           </span>
         </div>
 
@@ -105,18 +114,18 @@ export const App = () => {
             <article
               data-id={todo.id}
               className={`TodoInfo ${todo.completed && 'TodoInfo--completed'}`}
+              key={todo.id}
             >
-
               <h2 className="TodoInfo__title">
                 {todo.title}
               </h2>
 
               <a
                 className="UserInfo"
-                href={users.find(user => user.id === todo.userId)?.email}
+                href={finder(todo)?.email}
               >
 
-                {users.find(user => user.id === todo.userId)?.name}
+                {finder(todo)?.name}
               </a>
             </article>
           ))}
