@@ -20,45 +20,55 @@ export const initialTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [todoList, updateTodolist] = useState(initialTodos);
+  const [todoList, setTodolist] = useState(initialTodos);
   const [title, setTitle] = useState('');
-  const [userSelect, setUser] = useState('');
-  const [hasTitle, showTitleError] = useState(false);
-  const [hasUser, showUserError] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [titleError, showTitleError] = useState(false);
+  const [userError, showUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const userId = +userSelect;
+    const newUserId = +userId;
     const maxId = Math.max(...todoList.map(el => el.id));
 
     const newTodo = {
       id: maxId + 1,
       title: title.toString().trim(),
       completed: false,
-      userId: 0,
-      user: getUserById(userId),
+      userId: newUserId,
+      user: getUserById(newUserId),
     };
 
     if (!title) {
       showTitleError(true);
     }
 
-    if (!userSelect) {
+    if (!userId) {
       showUserError(true);
     }
 
-    if (!title || !userSelect) {
+    if (!title || !userId) {
       return;
     }
 
-    updateTodolist([
+    setTodolist([
       ...todoList,
       newTodo,
     ]);
 
-    setUser('0');
+    setUserId('');
     setTitle('');
+  };
+
+  const handleInput = (evnt: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(evnt.target.value.replaceAll(/[^(a-z)(a-я)\d\s]/gi, ''));
+    showTitleError(false);
+  };
+
+  const handleSelect = (evnt: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(evnt.target.value);
+    showUserError(false);
   };
 
   return (
@@ -78,14 +88,11 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(evnt) => {
-                setTitle(evnt.target.value);
-                showTitleError(false);
-              }}
+              onChange={handleInput}
             />
           </label>
 
-          {hasTitle
+          {titleError
             && (
               <span className="error">Please enter a title</span>
             )}
@@ -97,11 +104,8 @@ export const App: React.FC = () => {
 
             <select
               data-cy="userSelect"
-              value={userSelect}
-              onChange={(evnt) => {
-                setUser(evnt.target.value);
-                showUserError(false);
-              }}
+              value={userId}
+              onChange={handleSelect}
             >
               <option value="0">
                 Choose a user
@@ -114,7 +118,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {hasUser
+          {userError
           && (
             <span className="error">Please choose a user</span>
           )}
