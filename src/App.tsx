@@ -45,10 +45,10 @@ export const App = () => {
       user: newUser,
     };
 
-    setIsTitleValid(Boolean(title));
+    setIsTitleValid(Boolean(title.trim()));
     setIsUserValid(Boolean(username));
 
-    if (!title || !username) {
+    if (!title.trim() || !username) {
       return;
     }
 
