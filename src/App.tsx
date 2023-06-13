@@ -1,15 +1,24 @@
 import { FormEvent, useState } from 'react';
 import './App.scss';
+import {
+  FormControl, InputLabel, MenuItem, Select,
+  Button,
+  TextField,
+  Container,
+  Box,
+  // FormHelperText,
+} from '@mui/material';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { TodoFullInfo } from './types/todoFullInfo';
 import { getTodosInfo } from './helpers/getTodosInfo';
+import { removeByPattern } from './helpers/removeByPattern';
 
 const todosInfo = getTodosInfo();
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState(todosInfo);
   const [errorTitle, setErrorTitle] = useState('');
   const [errorSelectedUser, setErrorSelectedUser] = useState('');
@@ -27,12 +36,15 @@ export const App = () => {
       setErrorTitle('');
     }
 
-    setTitle(newTitle);
+    const pattern = /[@^#$/%^&*()_+-\\{}[\]]/g;
+    const patternedTitle = removeByPattern(newTitle, pattern);
+
+    setTitle(patternedTitle);
   };
 
   const clearForm = () => {
     setTitle('');
-    setSelectedUser('0');
+    setSelectedUser('');
   };
 
   const isValid = (): boolean => {
@@ -44,7 +56,7 @@ export const App = () => {
       result = false;
     }
 
-    if (selectedUser === '0') {
+    if (selectedUser === '') {
       setErrorSelectedUser('Please choose a user');
 
       result = false;
@@ -83,44 +95,89 @@ export const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <form
-        onSubmit={(event) => submit(event)}
+    <>
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
       >
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter title"
-            value={title}
-            onChange={(event) => changeTitle(event.target.value)}
-          />
-          <span className="error">{errorTitle}</span>
-        </div>
 
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            value={selectedUser}
-            onChange={(event) => changeUser(event.target.value)}
+        <h1>Add todo form</h1>
+
+        <Box
+          sx={{
+            width: '50%',
+            mb: 5,
+          }}
+        >
+          <form
+            onSubmit={(event) => submit(event)}
           >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option key={user.id}>{user.name}</option>
-            ))}
-          </select>
 
-          <span className="error">{errorSelectedUser}</span>
-        </div>
+            <FormControl
+              fullWidth
+              error={errorTitle !== ''}
+              size="small"
+            >
+              <TextField
+                data-cy="titleInput"
+                label="Enter title"
+                onChange={event => changeTitle(event.target.value)}
+                type="text"
+                sx={{ mb: 3 }}
+                fullWidth
+                value={title}
+                error={errorTitle !== ''}
+              />
+            </FormControl>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+            <FormControl fullWidth>
+              <InputLabel id="user-select-label">
+                Choose user
+              </InputLabel>
+              <Select
+                data-cy="userSelect"
+                labelId="user-select-label"
+                id="user-simple-select"
+                sx={{ mb: 3 }}
+                value={selectedUser}
+                label="Choose user"
+                onChange={(event) => changeUser(event.target.value)}
+                error={errorSelectedUser !== ''}
+              >
+                {usersFromServer.map(user => (
+                  <MenuItem
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-      <TodoList todos={todos} />
-    </div>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button
+                data-cy="submitButton"
+                type="submit"
+                color="success"
+              >
+                Add
+              </Button>
+            </Box>
+
+          </form>
+        </Box>
+        <TodoList todos={todos} />
+      </Container>
+    </>
   );
 };

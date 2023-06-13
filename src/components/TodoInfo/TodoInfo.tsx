@@ -27,29 +27,5 @@ export const TodoInfo: FC<TodoProps> = ({ todo }) => {
         : ('unknown user')}
 
     </article>
-    // <article
-    //   data-id={todo.id}
-    //   // className="row"
-    //   className={classNames(
-    //     'row',
-    //     'TodoInfo',
-    //     {
-    //       'TodoInfo--completed': todo.completed,
-    //     },
-    //   )}
-    // >
-    //   <div className="col s12 m6">
-    //     <div className="card blue-grey darken-1">
-    //       <div className="card-content white-text">
-    //         <span className="card-title">
-    //           {todo.title}
-    //         </span>
-    //         {todo.user
-    //           ? (<UserInfo user={todo.user} />)
-    //           : ('unknown user')}
-    //       </div>
-    //     </div>
-    //   </div>
-    // </article>
   );
 };
