@@ -90,6 +90,7 @@ export const App = () => {
 
         <div className="field">
           User:&nbsp;
+
           <select
             data-cy="userSelect"
             value={selectedUser}
