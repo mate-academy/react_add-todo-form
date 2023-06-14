@@ -24,10 +24,10 @@ export const App = () => {
   const [selectError, setSelectError] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [todosForRender, setTodos] = useState(initialData);
+  const [todos, setTodos] = useState(initialData);
 
   const todoUpdater = () => {
-    const maxId = Math.max(...todosForRender.map(({ id }) => id), 0);
+    const maxId = Math.max(...todos.map(({ id }) => id), 0);
 
     const newTodo: Todo = {
       id: (maxId + 1),
@@ -38,11 +38,7 @@ export const App = () => {
         .find((user: User) => user.id === +selectedUserId) || null,
     };
 
-    const updatedTodos = todosForRender.map(todo => ({ ...todo }));
-
-    updatedTodos.push(newTodo);
-
-    setTodos(updatedTodos);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     setNewTitle('');
     setSelectedUserId('');
   };
@@ -50,7 +46,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!newTitle) {
+    if (!newTitle || newTitle.trim() === '') {
       setTitleError(true);
     }
 
@@ -58,9 +54,19 @@ export const App = () => {
       setSelectError(true);
     }
 
-    if (selectedUserId && newTitle) {
+    if (selectedUserId && newTitle.trim()) {
       todoUpdater();
     }
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(event.target.value);
+    setSelectError(false);
   };
 
   return (
@@ -80,10 +86,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTitle}
-              onChange={(event) => {
-                setNewTitle(event.target.value);
-                setTitleError(false);
-              }}
+              onChange={handleInput}
             />
           </label>
           {titleError && (
@@ -99,10 +102,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={(event) => {
-                setSelectedUserId(event.target.value);
-                setSelectError(false);
-              }}
+              onChange={handleSelect}
             >
               <option value="" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -127,7 +127,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosForRender} />
+      <TodoList todos={todos} />
     </div>
   );
 };
