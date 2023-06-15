@@ -22,45 +22,59 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [stateTodos, setStateTodos] = useState(todos);
-  const [titleInput, setTitleInput] = useState('');
-  const [userSelect, setUserSelect] = useState('Choose');
-  const [showErrorInput, setShowErrorInput] = useState(true);
-  const [showErrorSelect, setShowErrorSelect] = useState(true);
+  const [formData, setFormData] = useState({
+    titleInput: '',
+    userSelect: 'Choose',
+  });
+  const [errorState, setErrorState] = useState({
+    showErrorInput: true,
+    showErrorSelect: true,
+  });
+
   const handlerSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const input = e.target[0] as HTMLInputElement;
-    const select = e.target[1] as HTMLSelectElement;
-
-    const inputValue = input.value;
-    const selectValue = +select.value;
+    const [input, select] = e.target;
+    const inputValue = (input as HTMLInputElement).value;
+    const selectValue = +(select as HTMLSelectElement).value;
 
     if (!inputValue || !selectValue) {
-      setShowErrorInput(!!inputValue);
-      setShowErrorSelect(!!selectValue);
+      setErrorState({
+        showErrorInput: !!inputValue,
+        showErrorSelect: !!selectValue,
+      });
 
       return;
     }
 
     setStateTodos([...stateTodos, {
-      id: Math.random(),
+      id: stateTodos.length + 1,
       title: inputValue,
       completed: false,
       userId: selectValue,
       user: getUser(selectValue),
     }]);
 
-    setTitleInput('');
-    setUserSelect('Choose');
+    setFormData({ titleInput: '', userSelect: 'Choose' });
   };
 
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowErrorInput(true);
-    setTitleInput(e.target.value);
+    setErrorState({
+      showErrorInput: true,
+      showErrorSelect: errorState.showErrorSelect,
+    });
+    setFormData({
+      titleInput: e.target.value, userSelect: formData.userSelect,
+    });
   };
 
   const handlerSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setShowErrorSelect(true);
-    setUserSelect(e.target.value);
+    setErrorState({
+      showErrorInput: errorState.showErrorInput,
+      showErrorSelect: true,
+    });
+    setFormData({
+      titleInput: formData.titleInput, userSelect: e.target.value,
+    });
   };
 
   return (
@@ -76,12 +90,12 @@ export const App: React.FC = () => {
             id="titleInput"
             placeholder="Enter a title"
             name="titleInput"
-            value={titleInput}
+            value={formData.titleInput}
             onChange={handlerInput}
           />
           <span
             className="error"
-            hidden={showErrorInput}
+            hidden={errorState.showErrorInput}
           >
             Please enter a title
           </span>
@@ -93,7 +107,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="userSelect"
             name="userSelect"
-            value={userSelect}
+            value={formData.userSelect}
             onChange={handlerSelect}
           >
             <option value="Choose" disabled>Choose a user</option>
@@ -104,7 +118,7 @@ export const App: React.FC = () => {
 
           <span
             className="error"
-            hidden={showErrorSelect}
+            hidden={errorState.showErrorSelect}
           >
             Please choose a user
           </span>
