@@ -25,18 +25,15 @@ export const App = () => {
   const [userSelectError, setUserSelectError] = useState(false);
   const [todos, setTodos] = useState(getTodos);
 
+  function getNewTodoId() {
+    const todoIds = todos.map(todo => todo.id);
+    const maxId = Math.max(...todoIds);
+
+    return maxId + 1;
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-    const newTodo: Todo = {
-      id: newTodoId,
-      completed: false,
-      user: getUserById(Number(userSelect)),
-      title: title.trim(),
-      userId: Number(userSelect),
-    };
 
     if (!title) {
       setTitleError(true);
@@ -50,23 +47,33 @@ export const App = () => {
       return;
     }
 
+    const newTodoId = getNewTodoId();
+
+    const newTodo: Todo = {
+      id: newTodoId,
+      completed: false,
+      user: getUserById(Number(userSelect)),
+      title: title.trim(),
+      userId: Number(userSelect),
+    };
+
     setTodos([...todos, newTodo]);
     setTitle('');
     setUserSelect(0);
   };
 
-  const handleChange = (
+  const handleChangeTitle = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value } = event.target;
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
 
-    if (name === 'title') {
-      setTitle(value);
-      setTitleError(false);
-    } else {
-      setUserSelect(Number(value));
-      setUserSelectError(false);
-    }
+  const handleChangeUser = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setUserSelect(Number(event.target.value));
+    setUserSelectError(false);
   };
 
   return (
@@ -89,7 +96,7 @@ export const App = () => {
               name="title"
               placeholder="Title"
               value={title}
-              onChange={handleChange}
+              onChange={handleChangeTitle}
             />
           </label>
 
@@ -107,7 +114,7 @@ export const App = () => {
               name="user"
               id="user"
               value={userSelect}
-              onChange={handleChange}
+              onChange={handleChangeUser}
             >
               <option value="0" disabled>Choose a user</option>
 
