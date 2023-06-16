@@ -1,8 +1,14 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
+import { getPreparedData } from './helpers/getPreparedData';
 
-// import usersFromServer from './api/users';
+import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+
+const preparedData = getPreparedData(
+  todosFromServer,
+  usersFromServer,
+);
 
 export const App = () => {
   return (
@@ -27,7 +33,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todosFromServer} />
+      <TodoList todos={preparedData} />
     </div>
   );
 };
