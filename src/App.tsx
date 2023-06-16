@@ -102,6 +102,7 @@ export const App = () => {
             {usersFromServer.map(user => (
               <option
                 value={user.id}
+                key={user.id}
               >
                 {user.name}
               </option>
