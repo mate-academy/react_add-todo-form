@@ -31,7 +31,10 @@ export const App = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleError(false);
-    setTitle(validateTheTitle(event.target.value));
+
+    if (validateTheTitle(event.target.value) !== ' ') {
+      setTitle(validateTheTitle(event.target.value));
+    }
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
