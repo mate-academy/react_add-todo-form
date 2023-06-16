@@ -4,6 +4,7 @@ import './App.scss';
 import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
+import { getNewTodoId } from './utils/helpes';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -25,13 +26,6 @@ export const App = () => {
   const [userSelectError, setUserSelectError] = useState(false);
   const [todos, setTodos] = useState(getTodos);
 
-  function getNewTodoId() {
-    const todoIds = todos.map(todo => todo.id);
-    const maxId = Math.max(...todoIds);
-
-    return maxId + 1;
-  }
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -47,10 +41,8 @@ export const App = () => {
       return;
     }
 
-    const newTodoId = getNewTodoId();
-
     const newTodo: Todo = {
-      id: newTodoId,
+      id: getNewTodoId(todos),
       completed: false,
       user: getUserById(Number(userSelect)),
       title: title.trim(),
