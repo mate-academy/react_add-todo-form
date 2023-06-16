@@ -1,10 +1,18 @@
+import { FC } from 'react';
+import { Todo } from '../../Types';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo = () => {
+interface Props {
+  todoItem: Todo
+}
+
+export const TodoInfo:FC<Props> = ({ todoItem }) => {
+  const { id, title } = todoItem;
+
   return (
-    <article data-id="1" className="TodoInfo TodoInfo--completed">
+    <article data-id={id} className="TodoInfo TodoInfo--completed">
       <h2 className="TodoInfo__title">
-        delectus aut autem
+        {title}
       </h2>
 
       <UserInfo />

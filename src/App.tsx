@@ -2,7 +2,7 @@ import './App.scss';
 import { TodoList } from './components/TodoList';
 
 // import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
 
 export const App = () => {
   return (
@@ -27,7 +27,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList />
+      <TodoList todos={todosFromServer} />
     </div>
   );
 };
