@@ -4,28 +4,42 @@ import { FormEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  // if there is no user with a given userId
+  return foundUser || null;
+}
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState('0');
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(true);
-  const [userError, setUserError] = useState(true);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (selectedUser === '0') {
-      setUserError(false);
+      setUserError(true);
     }
 
-    if (!title) {
-      setTitleError(false);
+    if (!title || title.trim().length === 0) {
+      return setTitleError(true);
     }
 
     const copyTitle = title.slice().split('');
 
     // eslint-disable-next-line max-len
-    const validation = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789йцукенгґшщзхїфівапролджєячсмитьбюЙЦУКЕНГҐШЩЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ';
+    const validation = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789йцукенгґшщзхїфівапролджєячсмитьбюЙЦУКЕНГҐШЩЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ ';
 
     if (copyTitle.length !== copyTitle
       .filter((letter: string) => validation.includes(letter)).length) {
@@ -33,15 +47,16 @@ export const App: React.FC = () => {
     }
 
     const user = usersFromServer
-      .find(userFromServer => userFromServer.name === selectedUser);
+      .find(userFromServer => userFromServer.id === +selectedUser);
 
     if (user !== undefined) {
-      todosFromServer.push({
-        id: todosFromServer
+      todos.push({
+        id: todos
           .sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1,
         title,
         completed: false,
         userId: user.id,
+        user,
       });
 
       setSelectedUser('0');
@@ -70,17 +85,18 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               onChange={(e) => {
                 setTitle(e.currentTarget.value);
-                setTitleError(true);
+                setTitleError(false);
               }}
             />
           </label>
 
-          <span
-            className="error"
-            hidden={titleError}
-          >
-            Please enter a title
-          </span>
+          {titleError && (
+            <span
+              className="error"
+            >
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -90,7 +106,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             onChange={(e) => {
               setSelectedUser(e.target.value);
-              setUserError(true);
+              setUserError(false);
             }}
           >
             <option
@@ -102,19 +118,20 @@ export const App: React.FC = () => {
 
             {usersFromServer.map(userFromServer => (
               <option
-                value={userFromServer.name}
+                value={userFromServer.id}
               >
                 {userFromServer.name}
               </option>
             ))}
           </select>
 
-          <span
-            className="error"
-            hidden={userError}
-          >
-            Please choose a user
-          </span>
+          {userError && (
+            <span
+              className="error"
+            >
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -122,7 +139,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosFromServer} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };

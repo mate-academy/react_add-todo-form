@@ -1,9 +1,4 @@
-interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-}
+import { User } from '../../types/User';
 
 type UserProps = {
   user: User,
