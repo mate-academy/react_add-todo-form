@@ -10,7 +10,7 @@ export const TodoList:FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todoItem => (
-        <TodoInfo key={todoItem.id} todoItem={todoItem} />
+        <TodoInfo key={todoItem.id} todo={todoItem} />
       ))}
     </section>
   );

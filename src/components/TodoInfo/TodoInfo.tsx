@@ -4,16 +4,16 @@ import { TodoWithUser } from '../../Types';
 import { UserInfo } from '../UserInfo';
 
 interface Props {
-  todoItem: TodoWithUser;
+  todo: TodoWithUser;
 }
 
-export const TodoInfo:FC<Props> = ({ todoItem }) => {
+export const TodoInfo:FC<Props> = ({ todo }) => {
   const {
     id,
     title,
     completed,
     user,
-  } = todoItem;
+  } = todo;
 
   return (
     <article

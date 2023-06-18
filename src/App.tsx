@@ -81,6 +81,7 @@ export const App = () => {
               type="text"
               name="title"
               data-cy="titleInput"
+              placeholder="Enter a title"
               value={titleQueue}
               onChange={handleTitleChange}
             />
