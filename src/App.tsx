@@ -46,10 +46,16 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setHasEmptyTitle(false);
     const validatedTitle
     = (event.target.value).replace(/([^a-z0-9а-я\s])/gi, '');
 
     setNewTaskTitle(validatedTitle);
+  };
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setHasEmptyUser(false);
+    setNewTaskUserId(Number(event.target.value));
   };
 
   return (
@@ -69,10 +75,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTaskTitle}
-            onChange={(event) => {
-              setHasEmptyTitle(false);
-              handleTitleChange(event);
-            }}
+            onChange={handleTitleChange}
           />
 
           {hasEmptyTitle && <span className="error">Please enter a title</span>}
@@ -85,10 +88,7 @@ export const App = () => {
             data-cy="userSelect"
             defaultValue={0}
             value={newTaskUserId}
-            onChange={(event) => {
-              setHasEmptyUser(false);
-              setNewTaskUserId(Number(event.target.value));
-            }}
+            onChange={handleUserChange}
           >
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map((user: User) => {
