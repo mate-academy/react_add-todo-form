@@ -5,16 +5,33 @@ import { getPreparedData } from './helpers/getPreparedData';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-const preparedData = getPreparedData(
-  todosFromServer,
-  usersFromServer,
-);
+import { getId } from './helpers/getId';
+import { Todo } from './Types';
 
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleQueue, setTitleQueue] = useState('');
   const [isFieldsEmpty, setIsFieldsEmpty] = useState(false);
+
+  const preparedData = getPreparedData(
+    todosFromServer,
+    usersFromServer,
+  );
+
+  const addNewTodo = (
+    userId: number,
+    title: string,
+    todos: Todo[],
+  ) => {
+    const newTodo: Todo = {
+      id: getId(todosFromServer),
+      title,
+      completed: false,
+      userId,
+    };
+
+    todos.push(newTodo);
+  };
 
   const clearForm = () => {
     setSelectedUser(0);
@@ -25,11 +42,12 @@ export const App = () => {
     event: React.FormEvent,
   ) => {
     event.preventDefault();
-    const isInputsValue = selectedUser && titleQueue;
+    const isInputsValid = selectedUser && titleQueue;
 
-    if (isInputsValue) {
+    if (isInputsValid) {
       clearForm();
       setIsFieldsEmpty(false);
+      addNewTodo(selectedUser, titleQueue, todosFromServer);
     } else {
       setIsFieldsEmpty(true);
     }
