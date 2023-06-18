@@ -13,18 +13,17 @@ function getUserById(userId: number): User | null {
   return foundUser || null;
 }
 
-let highestId = Math.max.apply(null, todosFromServer.map(todo => todo.id));
+let highestId = Math.max(...todosFromServer.map(todo => todo.id));
 
 export const App = () => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskUserId, setNewTaskUserId] = useState(0);
   const [hasEmptyTitle, setHasEmptyTitle] = useState(false);
   const [hasEmptyUser, setHasEmptyUser] = useState(false);
-
-  const todos: Todo[] = todosFromServer.map(todo => ({
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
-  }));
+  })));
 
   const addNewTask: FormEventHandler = (event) => {
     event.preventDefault();
@@ -34,18 +33,19 @@ export const App = () => {
 
     if (newTaskTitle && newTaskUserId) {
       highestId += 1;
-      todosFromServer.push({
+      setTodos([...todos, {
         title: newTaskTitle,
         completed: false,
         userId: newTaskUserId,
         id: highestId,
-      });
+        user: getUserById(newTaskUserId),
+      }]);
       setNewTaskTitle('');
       setNewTaskUserId(0);
     }
   };
 
-  const validateTitleField = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const validatedTitle
     = (event.target.value).replace(/([^a-z0-9а-я\s])/gi, '');
 
@@ -62,7 +62,7 @@ export const App = () => {
         onSubmit={addNewTask}
       >
         <div className="field">
-          <label htmlFor="titleInput">Title: </label>
+          <label id="titleInput" htmlFor="titleInput">Title: </label>
           <input
             name="titleInput"
             type="text"
@@ -71,7 +71,7 @@ export const App = () => {
             value={newTaskTitle}
             onChange={(event) => {
               setHasEmptyTitle(false);
-              validateTitleField(event);
+              handleTitleChange(event);
             }}
           />
 
@@ -79,7 +79,7 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">User: </label>
+          <label id="userSelect" htmlFor="userSelect">User: </label>
           <select
             name="userSelect"
             data-cy="userSelect"
@@ -93,7 +93,7 @@ export const App = () => {
             <option value={0} disabled>Choose a user</option>
             {usersFromServer.map((user: User) => {
               return (
-                <option value={user.id}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.name}</option>
               );
             })}
           </select>
