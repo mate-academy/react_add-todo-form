@@ -14,13 +14,25 @@ const preparedData = getPreparedData(
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleQueue, setTitleQueue] = useState('');
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isFieldsEmpty, setIsFieldsEmpty] = useState(false);
+
+  const clearForm = () => {
+    setSelectedUser(0);
+    setTitleQueue('');
+  };
 
   const handleFormSubmit = (
     event: React.FormEvent,
   ) => {
     event.preventDefault();
-    setIsSubmited(true);
+    const isInputsValue = selectedUser && titleQueue;
+
+    if (isInputsValue) {
+      clearForm();
+      setIsFieldsEmpty(false);
+    } else {
+      setIsFieldsEmpty(true);
+    }
   };
 
   const handleTitleChange = (
@@ -55,7 +67,7 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {(isSubmited && !titleQueue)
+          {(isFieldsEmpty && !titleQueue)
           && <span className="error">Please enter a title</span>}
         </div>
 
@@ -80,7 +92,7 @@ export const App = () => {
             </select>
           </label>
 
-          {(isSubmited && !selectedUser)
+          {(isFieldsEmpty && !selectedUser)
           && <span className="error">Please choose a user</span>}
         </div>
 
