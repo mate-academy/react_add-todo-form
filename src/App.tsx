@@ -22,7 +22,7 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [selectedUserId, setselectedUserId] = useState('0');
+  const [selectedUserId, setSelectedUserId] = useState('0');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
         user,
       });
 
-      setselectedUserId('0');
+      setSelectedUserId('0');
       setTitle('');
     }
 
@@ -103,7 +103,7 @@ export const App: React.FC = () => {
             value={selectedUserId}
             data-cy="userSelect"
             onChange={(e) => {
-              setselectedUserId(e.target.value);
+              setSelectedUserId(e.target.value);
               setUserError(false);
             }}
           >
