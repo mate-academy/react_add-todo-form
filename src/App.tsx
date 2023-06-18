@@ -14,12 +14,27 @@ const preparedData = getPreparedData(
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleQueue, setTitleQueue] = useState('');
+  const [isSubmited, setIsSubmited] = useState(false);
 
   const handleFormSubmit = (
-    event: React.FormEvent<HTMLFormElement>,
+    event: React.FormEvent,
   ) => {
     event.preventDefault();
+    setIsSubmited(true);
+  };
 
+  const handleTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setIsSubmited(false);
+    setTitleQueue(e.target.value);
+  };
+
+  const handleUserSelect = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setIsSubmited(false);
+    setSelectedUser(+e.target.value);
   };
 
   return (
@@ -36,12 +51,14 @@ export const App = () => {
             <span>Title: </span>
             <input
               type="text"
+              name="title"
               data-cy="titleInput"
               value={titleQueue}
-              onChange={(e) => setTitleQueue(e.target.value)}
+              onChange={handleTitleChange}
             />
           </label>
-          {/* <span className="error">Please enter a title</span> */}
+          {/* {showEmptyTitleError
+          && <span className="error">Please enter a title</span>} */}
         </div>
 
         <div className="field">
@@ -49,8 +66,9 @@ export const App = () => {
             <span>User: </span>
             <select
               data-cy="userSelect"
+              name="username"
               value={selectedUser}
-              onChange={(e) => setSelectedUser(+e.target.value)}
+              onChange={handleUserSelect}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -64,7 +82,8 @@ export const App = () => {
             </select>
           </label>
 
-          {/* <span className="error">Please choose a user</span> */}
+          {(isSubmited && !selectedUser)
+          && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
