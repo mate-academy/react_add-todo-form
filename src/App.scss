@@ -13,6 +13,11 @@ button {
 
 .error {
   color: red;
+  display: none;
+}
+
+.show-error {
+  display: inline;
 }
 
 .TodoInfo {
