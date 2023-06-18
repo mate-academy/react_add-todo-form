@@ -11,3 +11,7 @@ export interface User {
   username: string;
   email: string;
 }
+
+export interface TodoWithUser extends Todo {
+  user: User | undefined;
+}
