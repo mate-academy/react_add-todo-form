@@ -26,14 +26,12 @@ export const App = () => {
   const handleTitleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setIsSubmited(false);
     setTitleQueue(e.target.value);
   };
 
   const handleUserSelect = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setIsSubmited(false);
     setSelectedUser(+e.target.value);
   };
 
@@ -57,8 +55,8 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {/* {showEmptyTitleError
-          && <span className="error">Please enter a title</span>} */}
+          {(isSubmited && !titleQueue)
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
