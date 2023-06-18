@@ -20,7 +20,7 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUserId, setSelectedUserId] = useState('0');
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
