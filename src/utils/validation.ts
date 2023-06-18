@@ -1,0 +1,2 @@
+// eslint-disable-next-line max-len
+export const validation = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789йцукенгґшщзхїфівапролджєячсмитьбюЙЦУКЕНГҐШЩЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ ';

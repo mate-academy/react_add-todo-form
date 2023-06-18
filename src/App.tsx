@@ -6,6 +6,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import { validation } from './utils/validation';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -20,15 +21,15 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [selectedUserId, setSelectedUserId] = useState('0');
   const [title, setTitle] = useState('');
+  const [selectedUserId, setselectedUserId] = useState('0');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (selectedUser === '0') {
+    if (selectedUserId === '0') {
       setUserError(true);
     }
 
@@ -38,16 +39,13 @@ export const App: React.FC = () => {
 
     const copyTitle = title.slice().split('');
 
-    // eslint-disable-next-line max-len
-    const validation = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789йцукенгґшщзхїфівапролджєячсмитьбюЙЦУКЕНГҐШЩЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ ';
-
     if (copyTitle.length !== copyTitle
       .filter((letter: string) => validation.includes(letter)).length) {
       return null;
     }
 
     const user = usersFromServer
-      .find(userFromServer => userFromServer.id === +selectedUser);
+      .find(userFromServer => userFromServer.id === +selectedUserId);
 
     if (user !== undefined) {
       todos.push({
@@ -59,7 +57,7 @@ export const App: React.FC = () => {
         user,
       });
 
-      setSelectedUser('0');
+      setselectedUserId('0');
       setTitle('');
     }
 
@@ -102,10 +100,10 @@ export const App: React.FC = () => {
         <div className="field">
           {'User: '}
           <select
-            value={selectedUser}
+            value={selectedUserId}
             data-cy="userSelect"
             onChange={(e) => {
-              setSelectedUser(e.target.value);
+              setselectedUserId(e.target.value);
               setUserError(false);
             }}
           >
