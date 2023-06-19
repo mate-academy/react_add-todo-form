@@ -88,6 +88,7 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
+              value={title}
               onChange={changeTitle}
             />
           </label>
