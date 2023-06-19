@@ -1,0 +1,20 @@
+.UserInfo {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+
+  background-color: #332c3940;
+  color: #609ea2;
+  border-radius: 5px;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #332c39;
+    color: #f0eeed;
+  }
+
+}
