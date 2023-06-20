@@ -2,35 +2,40 @@ import './App.scss';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { getPreparedData } from './helpers/getPreparedData';
+import { getUser } from './helpers/getUser';
+import { getId } from './helpers/getNewTodoId';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { getId } from './helpers/getId';
-import { Todo } from './Types';
+import { TodoWithUser } from './Types';
+
+const preparedData = getPreparedData(
+  todosFromServer,
+  usersFromServer,
+);
 
 export const App = () => {
+  const [preparedDodos, setPreparedTodos] = useState(preparedData);
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleQueue, setTitleQueue] = useState('');
   const [isFieldsEmpty, setIsFieldsEmpty] = useState(false);
 
-  const preparedData = getPreparedData(
-    todosFromServer,
-    usersFromServer,
-  );
-
   const addNewTodo = (
     userId: number,
     title: string,
-    todos: Todo[],
   ) => {
-    const newTodo: Todo = {
+    const newTodo: TodoWithUser = {
       id: getId(todosFromServer),
       title,
       completed: false,
       userId,
+      user: getUser(userId, usersFromServer),
     };
 
-    todos.push(newTodo);
+    setPreparedTodos((currentTodos) => ([
+      ...currentTodos,
+      newTodo,
+    ]));
   };
 
   const clearForm = () => {
@@ -47,7 +52,7 @@ export const App = () => {
     if (isInputsValid) {
       clearForm();
       setIsFieldsEmpty(false);
-      addNewTodo(selectedUser, titleQueue, todosFromServer);
+      addNewTodo(selectedUser, titleQueue);
     } else {
       setIsFieldsEmpty(true);
     }
@@ -119,7 +124,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={preparedData} />
+      <TodoList todos={preparedDodos} />
     </div>
   );
 };
