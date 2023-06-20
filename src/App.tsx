@@ -29,33 +29,31 @@ export const App = () => {
   const formOnSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
+    if (!title) {
       setTitleError(true);
     }
 
-    if (selectedUser === 0) {
+    if (!selectedUser) {
       setUserError(true);
     }
 
-    if (title === '' && selectedUser === 0) {
-      setTitleError(true);
-      setUserError(true);
+    if (!selectedUser || !title) {
+      return;
     }
 
-    if (title !== '' && selectedUser !== 0) {
-      const maxId = todos.map((todo) => (todo.id));
-      const newId = Math.max(...maxId) + 1;
 
-      const newTodo: Todo = {
-        id: newId,
-        completed: false,
-        user: getUser(selectedUser),
-        title,
-        userId: selectedUser,
-      };
+    const maxId = todos.map((todo) => (todo.id));
+    const newId = Math.max(...maxId) + 1;
 
-      setTodos([...todos, newTodo]);
-    }
+    const newTodo: Todo = {
+      id: newId,
+      completed: false,
+      user: getUser(Number(selectedUser)),
+      title: title.trim(),
+      userId: selectedUser,
+    };
+
+    setTodos([...todos, newTodo]);
 
     setTitle('');
     setSelectedUser(0);
