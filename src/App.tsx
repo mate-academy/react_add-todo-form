@@ -92,7 +92,7 @@ export const App = () => {
                 const { id, name } = user;
 
                 return (
-                  <option value={id}>{name}</option>
+                  <option value={id} key={id}>{name}</option>
                 );
               })}
             </select>

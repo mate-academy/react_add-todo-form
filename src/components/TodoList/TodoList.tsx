@@ -9,9 +9,8 @@ interface Props {
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todos.map(todo => {
-        return <TodoInfo todo={todo} />;
-      })}
+      {todos.map(todo => (
+        <TodoInfo todo={todo} key={todo.id} />))}
     </section>
   );
 };
