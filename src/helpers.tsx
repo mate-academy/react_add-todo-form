@@ -2,25 +2,29 @@ import { User } from './types/User';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-export const getUser = (userId: number): User | null => {
+export const getUser = (userId: number): User => {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  return foundUser || null;
+  if (!foundUser) {
+    throw new Error('User was not found');
+  }
+
+  return foundUser;
 };
 
-export const prepareTodo = (userName: string, title: string) => {
-  const userToAddToDo = usersFromServer
-    .find(user => user.name === userName);
-  const freeId = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
+export const prepareTodo = (username: string, title: string) => {
+  const foundUser = usersFromServer
+    .find(user => user.name === username);
+  const id = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
 
-  if (!userToAddToDo) {
-    throw new Error('No user found');
+  if (!foundUser) {
+    throw new Error('User was not found');
   }
 
   return {
-    id: freeId,
+    id,
     title,
     completed: false,
-    userId: userToAddToDo.id,
+    userId: foundUser.id,
   };
 };

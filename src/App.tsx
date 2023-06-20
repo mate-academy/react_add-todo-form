@@ -15,13 +15,13 @@ interface Event {
 }
 
 export const App = () => {
-  const [userNameToAdd, setUserNameToAdd] = useState('');
-  const [titleToAdd, setTitleToAdd] = useState('');
-  const [userIsSelected, setUserIsSelected] = useState(false);
-  const [titleIsFilled, setTitleIsFilled] = useState(false);
-  const [ToDos, setToDos] = useState(todosFromServer);
+  const [username, setUsername] = useState('');
+  const [title, setTitle] = useState('');
+  const [isUserSelected, setIsUserSelected] = useState(false);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [todos, setTodos] = useState(todosFromServer);
 
-  const visibleTodos: Todo[] = ToDos.map(todo => ({
+  const visibleTodos: Todo[] = todos.map(todo => ({
     ...todo,
     user: getUser(todo.userId),
   }));
@@ -29,35 +29,35 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!titleToAdd) {
-      setTitleIsFilled(true);
+    if (!title) {
+      setIsTitleValid(true);
     }
 
-    if (!userNameToAdd) {
-      setUserIsSelected(true);
+    if (!username) {
+      setIsUserSelected(true);
     }
 
-    if (userNameToAdd && titleToAdd) {
-      const todoToAdd = prepareTodo(userNameToAdd, titleToAdd);
+    if (username && title) {
+      const todoToAdd = prepareTodo(username, title);
 
-      setToDos(current => ([...current, todoToAdd]));
-      setTitleToAdd('');
-      setUserNameToAdd('');
+      setTodos(current => ([...current, todoToAdd]));
+      setTitle('');
+      setUsername('');
     }
   };
 
   const handleUserChange = (event: Event) => {
     const { value } = event.target;
 
-    setUserNameToAdd(value);
-    setUserIsSelected(false);
+    setUsername(value);
+    setIsUserSelected(false);
   };
 
   const handleTitleChange = (event: Event) => {
     const { value } = event.target;
 
-    setTitleToAdd(value);
-    setTitleIsFilled(false);
+    setTitle(value);
+    setIsTitleValid(false);
   };
 
   return (
@@ -77,11 +77,11 @@ export const App = () => {
             data-cy="titleInput"
             id="titleInput"
             placeholder="Enter a title"
-            value={titleToAdd}
+            value={title}
             onChange={handleTitleChange}
           />
 
-          {titleIsFilled && (
+          {isTitleValid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -90,7 +90,7 @@ export const App = () => {
           <label htmlFor="userSelect">User: </label>
 
           <select
-            value={userNameToAdd}
+            value={username}
             onChange={handleUserChange}
             data-cy="userSelect"
             id="userSelect"
@@ -98,13 +98,16 @@ export const App = () => {
             <option value="" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option value={user.name}>
+              <option
+                value={user.name}
+                key={user.id}
+              >
                 {user.name}
               </option>
             ))}
           </select>
 
-          {userIsSelected && (
+          {isUserSelected && (
             <span className="error">Please choose a user</span>
           )}
         </div>
