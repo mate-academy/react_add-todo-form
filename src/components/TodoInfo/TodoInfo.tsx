@@ -3,9 +3,6 @@ import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
-// import usersFromServer from './api/users';
-// import { User } from '../../types/User';
-
 interface Props {
   todo: Todo;
 }
@@ -17,7 +14,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     completed,
     user,
   } = todo;
-  // const responsibleUser = usersFromServer.
 
   return (
     <article
@@ -26,7 +22,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       className={classNames('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
-      // className="TodoInfo TodoInfo--completed"
     >
       <h2 className="TodoInfo__title">
         {title}

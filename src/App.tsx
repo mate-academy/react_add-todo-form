@@ -1,75 +1,50 @@
 import './App.scss';
 import { useState } from 'react';
-import { TodoList } from './components/TodoList';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
+import { getTodoId, getUser } from './helper';
 
 export const App = () => {
-  function getUser(userId: number): User | null {
-    const foundUser = usersFromServer.find(user => user.id === userId);
-
-    return foundUser || null;
-  }
-
   const todos: Todo[] = todosFromServer.map(todo => ({
     ...todo,
     user: getUser(todo.userId),
   }));
 
-  const getTaskId = (tasks: Todo[]) => {
-    const tasksIds = tasks.map(task => task.id);
-    const newId = Math.max(...tasksIds) + 1;
-
-    return newId;
-  };
-
   const [currentTodos, setCurrentTodos] = useState(todos);
-  const [newTitle, setnewTitle] = useState('');
-  const [newTaskUserId, setNewTaskUserId] = useState('');
-  const newTaskUser = usersFromServer
-    .find(user => user.id === +newTaskUserId);
+  const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [newTodoUserId, setNewTodoUserId] = useState('');
+  const newTodoUser = usersFromServer
+    .find(user => user.id === +newTodoUserId);
 
   const [error, setError] = useState(false);
-  // const [errorTitle, setErrorTitle] = useState(false);
-  // const [errorUser, setErrorUser] = useState(false);
 
-  const AddTodo = () => {
-    if (newTitle === '' || +newTaskUserId === 0) {
+  const AddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (newTodoTitle === '' || +newTodoUserId === 0) {
       setError(true);
 
       return;
     }
-    // if (newTitle === '') {
-    //   setErrorTitle(true);
 
-    //   return;
-    // }
-
-    // if (+newTaskUserId === 0) {
-    //   setErrorUser(true);
-
-    //   return;
-    // }
-
-    setCurrentTodos((prevTasks) => {
+    setCurrentTodos((prevTodos) => {
       const newTodo = {
-        id: getTaskId(prevTasks),
-        title: newTitle,
+        id: getTodoId(prevTodos),
+        title: newTodoTitle,
         completed: false,
-        userId: +newTaskUserId,
-        user: newTaskUser,
+        userId: +newTodoUserId,
+        user: newTodoUser,
       };
 
-      return [...prevTasks, newTodo];
+      return [...prevTodos, newTodo];
     });
-    setnewTitle('');
-    setNewTaskUserId('');
+    setNewTodoTitle('');
+    setNewTodoUserId('');
+    setError(false);
   };
 
-  // console.log(currentTodos)
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -77,10 +52,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          AddTodo();
-        }}
+        onSubmit={AddTodo}
       >
         <div className="field">
           <label htmlFor="title">
@@ -90,16 +62,13 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={newTitle}
+              value={newTodoTitle}
               onChange={(event) => {
-                // setError(false);
-                const { value } = event.target;
-
-                setnewTitle(value);
+                setNewTodoTitle(event.target.value);
               }}
             />
           </label>
-          {error && newTitle === '' && (
+          {error && newTodoTitle === '' && (
             <span className="error">
               Please enter a title
             </span>
@@ -113,10 +82,9 @@ export const App = () => {
               name="user"
               id="user"
               data-cy="userSelect"
-              value={newTaskUserId}
+              value={newTodoUserId}
               onChange={(event) => {
-                // setError(false);
-                setNewTaskUserId(event.target.value);
+                setNewTodoUserId(event.target.value);
               }}
             >
               <option value="0" selected>Choose a user</option>
@@ -130,7 +98,7 @@ export const App = () => {
             </select>
           </label>
 
-          {error && +newTaskUserId === 0 && (
+          {error && +newTodoUserId === 0 && (
             <span className="error">
               Please choose a user
             </span>
