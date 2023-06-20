@@ -4,7 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { getTodoId, getUserById } from './helper';
+import { getTodoId, getUserById, handleChanges } from './helper';
 
 export const App = () => {
   const todos: Todo[] = todosFromServer.map(todo => ({
@@ -63,9 +63,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTodoTitle}
-              onChange={(event) => {
-                setNewTodoTitle(event.target.value);
-              }}
+              onChange={handleChanges(setNewTodoTitle)}
             />
           </label>
           {error && newTodoTitle === '' && (
@@ -83,9 +81,7 @@ export const App = () => {
               id="user"
               data-cy="userSelect"
               value={newTodoUserId}
-              onChange={(event) => {
-                setNewTodoUserId(event.target.value);
-              }}
+              onChange={handleChanges(setNewTodoUserId)}
             >
               <option value="0" selected>Choose a user</option>
               {usersFromServer.map(user => {
@@ -95,6 +91,9 @@ export const App = () => {
                   <option value={id} key={id}>{name}</option>
                 );
               })}
+              {/* {usersFromServer.map({ id, name } => (
+                <option value={id} key={id}>{name}</option>
+              ))} */}
             </select>
           </label>
 

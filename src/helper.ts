@@ -14,3 +14,11 @@ export const getTodoId = (todos: Todo[]) => {
 
   return newId;
 };
+
+export const handleChanges = (
+  func: React.Dispatch<React.SetStateAction<string>>,
+) => {
+  return (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    func(event.target.value);
+  };
+};
