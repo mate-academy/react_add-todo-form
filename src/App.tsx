@@ -7,13 +7,13 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
 }
 
-function getName(name: string): User | null {
+function getUserByName(name: string): User | null {
   const foundName = usersFromServer.find(user => user.name === name);
 
   return foundName || null;
@@ -21,32 +21,32 @@ function getName(name: string): User | null {
 
 export const preparedTodosFromServer: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodosFromServer);
   const [title, setTitle] = useState('');
   const [username, setUsername] = useState('');
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isUserValid, setIsUserValid] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
 
-  const handleOnSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const maxId = Math.max(...todos.map((todo) => todo.id));
-    const newUser = getName(username);
+    const id = Math.max(...todos.map((todo) => todo.id)) + 1;
+    const newUser = getUserByName(username);
 
     const newTodo: Todo = {
-      id: maxId + 1,
+      id,
       title,
       completed: false,
       userId: newUser ? newUser.id : null,
       user: newUser,
     };
 
-    setIsTitleValid(Boolean(title.trim()));
-    setIsUserValid(Boolean(username));
+    setIsTitleValid(Boolean(!title.trim()));
+    setIsUserValid(Boolean(!username));
 
     if (!title.trim() || !username) {
       return;
@@ -66,12 +66,12 @@ export const App = () => {
       switch (id) {
         case 'title':
           setTitle(value.replace(/[^a-zA-Zа-яА-ЯїЇіІєЄёЁ0-9\s]+/g, ''));
-          setIsTitleValid(Boolean(value));
+          setIsTitleValid(Boolean(!value));
           break;
 
         case 'user':
           setUsername(value);
-          setIsUserValid(Boolean(value));
+          setIsUserValid(Boolean(!value));
           break;
 
         default:
@@ -86,7 +86,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleOnSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -100,7 +100,7 @@ export const App = () => {
             onChange={handleChange}
           />
 
-          {!isTitleValid
+          {isTitleValid
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -127,7 +127,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!isUserValid
+          {isUserValid
             && <span className="error">Please choose a user</span>}
         </div>
 
