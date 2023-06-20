@@ -29,7 +29,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleValid(true);
     }
 
@@ -37,7 +37,7 @@ export const App = () => {
       setIsUserSelected(true);
     }
 
-    if (username && title) {
+    if (username && title.trim()) {
       const todoToAdd = prepareTodo(username, title);
 
       setTodos(current => ([...current, todoToAdd]));
