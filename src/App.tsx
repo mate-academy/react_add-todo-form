@@ -3,7 +3,7 @@ import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './Types/Todo';
 import './App.scss';
 
-import { getUser } from './Helpers/getUser';
+import { getUserById } from './Helpers/getUser';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -18,10 +18,12 @@ export const App: React.FC = () => {
 
   const todosWithUsers: Todo[] = todos.map(todo => ({
     ...todo,
-    user: getUser(todo.userId, usersFromServer),
+    user: getUserById(todo.userId, usersFromServer),
   }));
 
-  const addTodo = () => {
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!title || !userId) {
       if (!title) {
         setIsTitleValid(false);
@@ -36,7 +38,7 @@ export const App: React.FC = () => {
 
     const maxId = Math.max(...todos.map(todo => todo.id));
 
-    const user = getUser(+userId, usersFromServer);
+    const user = getUserById(+userId, usersFromServer);
 
     if (user) {
       setTodos((current => [
@@ -55,8 +57,14 @@ export const App: React.FC = () => {
     setUserId('');
   };
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
+    setIsUserSelected(true);
+  };
+
+  const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleValid(true);
   };
 
   return (
@@ -66,7 +74,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submitHandler}
+        onSubmit={addTodo}
       >
         <div className="field">
           <input
@@ -75,10 +83,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             name="todoTitle"
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setIsTitleValid(true);
-            }}
+            onChange={addTitle}
           />
           {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
@@ -86,10 +91,7 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             name="userSelect"
-            onChange={(event) => {
-              setUserId(event.target.value);
-              setIsUserSelected(true);
-            }}
+            onChange={selectUser}
             data-cy="userSelect"
             value={userId}
           >
@@ -115,7 +117,6 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={addTodo}
         >
           Add
         </button>
