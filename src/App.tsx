@@ -6,68 +6,76 @@ import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
-const getUserById = (userId: number): User | null => {
-  return usersFromServer.find((user) => user.id === userId) || null;
-};
+const getUser = (value: number | string): User | null => {
+  switch (typeof value) {
+    case 'number':
+      return usersFromServer.find((user) => user.id === value) || null;
 
-const getUserByName = (userName: string): User | null => {
-  return usersFromServer.find((user) => user.name === userName) || null;
+    case 'string':
+      return usersFromServer.find((user) => user.name === value) || null;
+
+    default:
+      return null;
+  }
 };
 
 const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUser(todo.userId),
 }));
 
 export const App = () => {
-  const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [selectedUserName, setSelectedUserName] = useState('');
+  const [title, setTitle] = useState('');
+  const [selectedUser, setselectedUser] = useState('');
   const [todos, setTodos] = useState(todosWithUsers);
-  const [isNewTitleValid, setIsNewTitleValid] = useState(true);
-  const [isSelectedUserValid, setIsSelectedUserValid] = useState(true);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserSelectError, setIsUserSelectError] = useState(false);
 
-  const changeTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setNewTodoTitle(value);
+    setTitle(value);
+    setIsTitleError(false);
   };
 
-  const changeSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setSelectedUserName(value);
+    setselectedUser(value);
+    setIsUserSelectError(false);
   };
 
-  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newTodoTitleTrimmed = newTodoTitle.trim();
+    if (!title) {
+      setIsTitleError(true);
+    }
 
-    setIsNewTitleValid(Boolean(newTodoTitleTrimmed));
-    setIsSelectedUserValid(Boolean(selectedUserName));
+    if (!selectedUser) {
+      setIsUserSelectError(true);
+    }
 
-    if (!newTodoTitleTrimmed || !selectedUserName) {
+    if (!selectedUser || !title) {
       return;
     }
 
-    const lastTodoId = [...todos]
-      .sort((todoA, todoB) => todoB.id - todoA.id)[0].id;
-
-    const userForNewTodo = getUserByName(selectedUserName);
+    const lastTodoId = Math.max(...todos.map(todo => todo.id));
+    const userForNewTodo = getUser(selectedUser);
 
     setTodos([
       ...todos,
       {
         id: lastTodoId + 1,
-        title: newTodoTitle,
+        title,
         completed: false,
         userId: userForNewTodo?.id,
         user: userForNewTodo,
       },
     ]);
 
-    setNewTodoTitle('');
-    setSelectedUserName('');
+    setTitle('');
+    setselectedUser('');
   };
 
   return (
@@ -77,7 +85,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="TODO"
-        onSubmit={addNewTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -85,13 +93,13 @@ export const App = () => {
             <input
               type="text"
               data-cy="titleInput"
-              value={newTodoTitle}
-              onChange={changeTodoTitle}
+              value={title}
+              onChange={handleTitleChange}
               placeholder="Enter a title"
             />
           </label>
 
-          {!isNewTitleValid && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -101,8 +109,8 @@ export const App = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={selectedUserName}
-              onChange={changeSelectedUser}
+              value={selectedUser}
+              onChange={handleUserChange}
             >
               <option value="" disabled>Choose a user</option>
 
@@ -114,7 +122,7 @@ export const App = () => {
             </select>
           </label>
 
-          {!isSelectedUserValid && (
+          {isUserSelectError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
