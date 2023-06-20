@@ -23,8 +23,8 @@ export const App = () => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [selectedUserName, setSelectedUserName] = useState('');
   const [todos, setTodos] = useState(todosWithUsers);
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isUserValid, setIsUserValid] = useState(true);
+  const [isNewTitleValid, setIsNewTitleValid] = useState(true);
+  const [isSelectedUserValid, setIsSelectedUserValid] = useState(true);
 
   const changeTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -43,8 +43,8 @@ export const App = () => {
 
     const newTodoTitleTrimmed = newTodoTitle.trim();
 
-    setIsTitleValid(Boolean(newTodoTitleTrimmed));
-    setIsUserValid(Boolean(selectedUserName));
+    setIsNewTitleValid(Boolean(newTodoTitleTrimmed));
+    setIsSelectedUserValid(Boolean(selectedUserName));
 
     if (!newTodoTitleTrimmed || !selectedUserName) {
       return;
@@ -91,7 +91,7 @@ export const App = () => {
             />
           </label>
 
-          {!isTitleValid && (
+          {!isNewTitleValid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -114,7 +114,7 @@ export const App = () => {
             </select>
           </label>
 
-          {!isUserValid && (
+          {!isSelectedUserValid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
