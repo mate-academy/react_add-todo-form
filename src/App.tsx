@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
 import './App.scss';
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import {
   Container,
   Typography,
@@ -103,7 +105,12 @@ export const App: FC = () => {
           </FormControl>
 
           <FormControl fullWidth>
-            <InputLabel htmlFor="user-select">User</InputLabel>
+            <InputLabel
+              error={Boolean(userError)}
+              htmlFor="user-select"
+            >
+              User
+            </InputLabel>
             <Select
               id="user-select"
               value={selectedUser}
@@ -132,14 +139,12 @@ export const App: FC = () => {
             type="submit"
             data-cy="submitButton"
             variant="contained"
-            size="large"
             fullWidth
             sx={{
-              display: 'block',
-              margin: '0 auto',
               marginTop: '20px',
               fontSize: '20px',
             }}
+            endIcon={<AddCircleIcon />}
           >
             Add
           </Button>
