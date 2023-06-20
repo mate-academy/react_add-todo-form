@@ -7,7 +7,7 @@ import { Todo } from './components/TodoInfo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
@@ -16,7 +16,7 @@ function getUser(userId: number): User | null {
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -29,17 +29,19 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const validTitle = title.trim();
+
     const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const addedTodo: Todo = {
       id: newId,
       completed: false,
-      user: getUser(Number(user)),
-      title: title.trim(),
+      user: getUserById(Number(user)),
+      title: validTitle,
       userId: Number(user),
     };
 
-    if (!title.trim()) {
+    if (validTitle) {
       setIsTitleValid(true);
     }
 
@@ -47,7 +49,7 @@ export const App = () => {
       setIsUserValid(true);
     }
 
-    if (!user || !title.trim()) {
+    if (!user || validTitle) {
       return;
     }
 
