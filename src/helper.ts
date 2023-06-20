@@ -2,7 +2,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 
-export function getUser(userId: number): User | null {
+export function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;

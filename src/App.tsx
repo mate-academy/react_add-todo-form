@@ -4,12 +4,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { getTodoId, getUser } from './helper';
+import { getTodoId, getUserById } from './helper';
 
 export const App = () => {
   const todos: Todo[] = todosFromServer.map(todo => ({
     ...todo,
-    user: getUser(todo.userId),
+    user: getUserById(todo.userId),
   }));
 
   const [currentTodos, setCurrentTodos] = useState(todos);
