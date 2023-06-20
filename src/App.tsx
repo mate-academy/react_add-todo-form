@@ -8,7 +8,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   return foundUser || null;
@@ -16,29 +16,34 @@ function getUser(userId: number): User | null {
 
 export const getTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
+
+const getNewTodoId = (todos: Todo[]) => {
+  const todoIds = todos.map(todo => todo.id);
+  const maxId = Math.max(...todoIds);
+
+  return Number.isFinite(maxId)
+    ? maxId + 1
+    : 1;
+};
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(getTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
-
-  const newTodoId: number = Math.max(
-    ...todosFromServer.map(todo => todo.id),
-  ) + 1;
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!userId) {
-      setUserError(true);
+      setIsUserValid(true);
     }
 
     if (!title) {
-      setTitleError(true);
+      setIsTitleValid(true);
     }
 
     if (!userId || !title) {
@@ -46,9 +51,9 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todo = {
-      id: newTodoId,
+      id: getNewTodoId(todos),
       completed: false,
-      user: getUser(Number(userId)),
+      user: getUserById(Number(userId)),
       title: title.trim(),
       userId: Number(userId),
     };
@@ -61,14 +66,14 @@ export const App: React.FC = () => {
   const changeTitle = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setTitleError(false);
+    setIsTitleValid(false);
     setTitle(event.target.value);
   };
 
   const changeUser = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setUserError(false);
+    setIsUserValid(false);
     setUserId(+event.target.value);
   };
 
@@ -93,7 +98,7 @@ export const App: React.FC = () => {
             />
           </label>
 
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -115,7 +120,7 @@ export const App: React.FC = () => {
             </select>
           </label>
 
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserValid && <span className="error">Please choose a user</span>}
         </div>
 
         <button
