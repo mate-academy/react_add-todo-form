@@ -18,7 +18,7 @@ export const App: FC = () => {
   useEffect(() => {
     setTimeout(() => {
       setTodos(todosWithUsers);
-    }, 500)
+    }, 500);
   }, []);
 
   const handleSelectUserChange = (
@@ -46,23 +46,25 @@ export const App: FC = () => {
     setSelectedUserId(0);
     setTitleError(false);
     setSelectUserError(false);
-  }
+  };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !selectedUserId) {
+    if (!(title.trim()) || !selectedUserId) {
       setTitleError(
-        title
-          ? false
-          : true
-      )
+        !(title.trim())
+          ? true
+          : false
+      );
 
       setSelectUserError(
-        selectedUserId
-          ? false
-          : true
-      )
+        !selectedUserId
+          ? true
+          : false
+      );
+
+      return;
     } else {
       setTodos((prevTodos) => {
         const newTodo = {
@@ -71,14 +73,14 @@ export const App: FC = () => {
           completed: false,
           userId: selectedUserId,
           user: getUser(selectedUserId),
-        }
+        };
 
-        return [...prevTodos, newTodo]
-      })
+        return [...prevTodos, newTodo];
+      });
 
       clearForm();
     }
-  }
+  };
 
   return (
     <div className="App">
