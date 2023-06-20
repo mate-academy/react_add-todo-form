@@ -21,12 +21,54 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => (
   }
 ));
 
+const newId = (todos: Todo[]) => {
+  const maxId = (todos.map((todo) => (todo.id)));
+
+  return Math.max(...maxId) + 1;
+};
+
 export const App = () => {
   const [user, setUser] = useState(0);
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState([...todosWithUser]);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
+
+  const handleTitleSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(+event.target.value);
+    setUserError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title) {
+      setTitleError(true);
+    }
+
+    if (!user) {
+      setUserError(true);
+    }
+
+    if (title !== '' && user !== 0) {
+      const newTodo: Todo = {
+        id: newId(todos),
+        userId: user,
+        title,
+        completed: false,
+        user: getUser(user),
+      };
+
+      setTodos([...todos, newTodo]);
+
+      setTitle('');
+      setUser(0);
+    }
+  };
 
   return (
     <div className="App">
@@ -35,38 +77,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (title === '') {
-            setTitleError(true);
-          }
-
-          if (user === 0) {
-            setUserError(true);
-          }
-
-          if (title === '' && user === 0) {
-            setTitleError(true);
-            setUserError(true);
-          }
-
-          if (title !== '' && user !== 0) {
-            const maxId = todos.map((todo) => (todo.id));
-            const newId = Math.max(...maxId) + 1;
-            const newTodo: Todo = {
-              id: newId,
-              userId: user,
-              title,
-              completed: false,
-              user: getUser(user),
-            };
-
-            setTodos([...todos, newTodo]);
-
-            setTitle('');
-            setUser(0);
-          }
-        }}
+        onSubmit={(event) => (handleSubmit(event))}
       >
         <div className="field">
           <input
@@ -74,10 +85,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={(event) => (handleTitleSelect(event))}
           />
           {titleError && (<span className="error">Please enter a title</span>)}
         </div>
@@ -86,10 +94,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={user}
-            onChange={(event) => {
-              setUser(+event.target.value);
-              setUserError(false);
-            }}
+            onChange={(event) => (handleUserSelect(event))}
           >
             <option value={0} disabled>
               Choose a user
