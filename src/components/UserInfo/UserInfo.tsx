@@ -11,7 +11,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
     <a
       className="UserInfo"
-      href={`mailto: ${email}`}
+      href={`mailto:${email}`}
     >
       {name}
     </a>

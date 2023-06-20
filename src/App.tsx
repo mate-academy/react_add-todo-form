@@ -26,34 +26,30 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setselectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
   const [todos, setTodos] = useState(todosWithUsers);
-  const [isTitleError, setIsTitleError] = useState(false);
-  const [isUserSelectError, setIsUserSelectError] = useState(false);
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
+  const [isUserInvalid, setIsUserInvalid] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    setTitle(value);
-    setIsTitleError(false);
+    setTitle(event.target.value);
+    setIsTitleInvalid(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-
-    setselectedUser(value);
-    setIsUserSelectError(false);
+    setSelectedUser(event.target.value);
+    setIsUserInvalid(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title) {
-      setIsTitleError(true);
+      setIsTitleInvalid(true);
     }
 
     if (!selectedUser) {
-      setIsUserSelectError(true);
+      setIsUserInvalid(true);
     }
 
     if (!selectedUser || !title) {
@@ -75,7 +71,7 @@ export const App = () => {
     ]);
 
     setTitle('');
-    setselectedUser('');
+    setSelectedUser('');
   };
 
   return (
@@ -99,7 +95,7 @@ export const App = () => {
             />
           </label>
 
-          {isTitleError && (
+          {isTitleInvalid && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -115,14 +111,14 @@ export const App = () => {
               <option value="" disabled>Choose a user</option>
 
               {usersFromServer.map(user => (
-                <option value={user.name} key={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
             </select>
           </label>
 
-          {isUserSelectError && (
+          {isUserInvalid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
