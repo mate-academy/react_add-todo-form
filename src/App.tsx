@@ -19,9 +19,12 @@ export const App: FC = () => {
   const [isUserError, setisUserError] = useState(false);
   const [todos, setTodos] = useState(preparedTodos);
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!title) {
+
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
       setisTitleError(true);
     }
 
@@ -29,29 +32,31 @@ export const App: FC = () => {
       setisUserError(true);
     }
 
-    if (!title || !selectedUser) {
+    if (!trimmedTitle || !selectedUser) {
       return;
     }
 
-    const newTodo: Todo = {
-      id: newTodoId,
-      title: title.trim(),
-      completed: false,
-      userId: Number(selectedUser),
-      user: findUserById(Number(selectedUser)),
-    };
+    setTodos((prevTodos) => {
+      const newTodo: Todo = {
+        id: newTodoId,
+        title: trimmedTitle,
+        completed: false,
+        userId: Number(selectedUser),
+        user: findUserById(selectedUser),
+      };
 
-    setTodos([...todos, newTodo]);
+      return [...prevTodos, newTodo];
+    });
     setTitle('');
     setSelectedUser(0);
   };
 
-  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setisTitleError(false);
   };
 
-  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(Number(event.target.value));
     setisUserError(false);
   };
@@ -63,7 +68,7 @@ export const App: FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submitForm}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -73,7 +78,7 @@ export const App: FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={changeTitle}
+              onChange={handleTitleChange}
             />
           </label>
           {isTitleError && (
@@ -86,7 +91,7 @@ export const App: FC = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={changeUser}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>
                 Choose a user
