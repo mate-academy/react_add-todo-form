@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { Todo } from '../../Types/Todo';
-import { UserInfo } from '../UserInfo';
+import { UserInfo } from '../UserInfo/UserInfo';
 
 type Props = {
   todo: Todo;
@@ -18,7 +18,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={id}
-      className={cn('TodoInfo', { 'TodoInfo--completed': completed === true })}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': completed === true,
+      })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
       {user && <UserInfo user={user} />}

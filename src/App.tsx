@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './Types/Todo';
 import './App.scss';
 
@@ -10,58 +10,53 @@ import todosFromServer from './api/todos';
 import { User } from './Types/User';
 
 export const App: React.FC = () => {
-  const [listOfTodos, setListOfTodos] = useState<Todo[]>(todosFromServer);
-  const [newTodoTitle, setnewTodoTitle] = useState<string>('');
-  const [selectedUser, setSelectedUser] = useState<number | string>(0);
-  const [noTitle, setNoTitle] = useState<boolean>(false);
-  const [noUserSelected, setNoUserSelected] = useState<boolean>(false);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number | string>('');
+  const [isTitleValid, setIsTitleValid] = useState<boolean>(true);
+  const [isUserSelected, setIsUserSelected] = useState<boolean>(true);
 
-  const todos: Todo[] = listOfTodos.map(todo => ({
+  const todosWithUsers: Todo[] = todos.map(todo => ({
     ...todo,
     user: getUser(todo.userId, usersFromServer),
   }));
 
   const addTodo = () => {
-    if (newTodoTitle.length === 0 && selectedUser === 0) {
-      setNoTitle(true);
-      setNoUserSelected(true);
+    if (!title || !userId) {
+      if (!title) {
+        setIsTitleValid(false);
+      }
+
+      if (!userId) {
+        setIsUserSelected(false);
+      }
 
       return;
     }
 
-    if (newTodoTitle.length === 0) {
-      setNoTitle(true);
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
-      return;
+    const user = getUser(+userId, usersFromServer);
+
+    if (user) {
+      setTodos((current => [
+        ...current,
+        {
+          id: maxId + 1,
+          userId: user.id,
+          title,
+          completed: false,
+          user,
+        },
+      ]));
     }
 
-    if (selectedUser === 0) {
-      setNoUserSelected(true);
+    setTitle('');
+    setUserId('');
+  };
 
-      return;
-    }
-
-    const findUser = usersFromServer.find(user => user.id === +selectedUser);
-
-    const findMaxId = Math.max(...listOfTodos.map(todo => todo.id));
-
-    if (findUser) {
-      setListOfTodos((current => {
-        return [
-          ...current,
-          {
-            id: findMaxId + 1,
-            userId: findUser.id,
-            title: newTodoTitle,
-            completed: false,
-            user: findUser,
-          },
-        ];
-      }));
-    }
-
-    setnewTodoTitle('');
-    setSelectedUser(0);
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
 
   return (
@@ -71,37 +66,35 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={submitHandler}
       >
         <div className="field">
           <input
             type="text"
             placeholder="Enter a title"
             data-cy="titleInput"
-            value={newTodoTitle}
+            value={title}
             name="todoTitle"
             onChange={(event) => {
-              setnewTodoTitle(event.currentTarget.value);
-              setNoTitle(false);
+              setTitle(event.target.value);
+              setIsTitleValid(true);
             }}
           />
-          {noTitle && <span className="error">Please enter a title</span>}
+          {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             name="userSelect"
             onChange={(event) => {
-              setSelectedUser(event.target.value);
-              setNoUserSelected(false);
+              setUserId(event.target.value);
+              setIsUserSelected(true);
             }}
             data-cy="userSelect"
-            value={selectedUser}
+            value={userId}
           >
             <option
-              value={0}
+              value=""
               disabled
             >
               Choose a user
@@ -115,7 +108,7 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {noUserSelected
+          {!isUserSelected
             && <span className="error">Please choose a user</span>}
         </div>
 
@@ -127,7 +120,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };
