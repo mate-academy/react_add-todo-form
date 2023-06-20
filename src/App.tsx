@@ -24,7 +24,7 @@ export const newToDos: ToDo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setToDo] = useState(newToDos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState<string>('');
+  const [selectedUser, setSelectedUser] = useState<string>('Choose a user');
   const [isTitleValid, setIsTitleValid] = useState(false);
   const [isUserValid, setIsUserValid] = useState(false);
 
@@ -70,7 +70,7 @@ export const App = () => {
 
     setToDo([...todos, newToDo]);
     setTitle('');
-    setSelectedUser('');
+    setSelectedUser('Choose a user');
   };
 
   return (
@@ -94,7 +94,7 @@ export const App = () => {
             />
           </label>
           {isTitleValid && (
-            <span className="Valid">Please enter a title</span>
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
@@ -107,7 +107,7 @@ export const App = () => {
               value={selectedUser}
               onChange={handleUserChange}
             >
-              <option value="0" disabled>Choose a user</option>
+              <option value="Choose a user" disabled>Choose a user</option>
               {usersFromServer.map(user => (
                 <option
                   value={user.id}
@@ -120,7 +120,7 @@ export const App = () => {
           </label>
 
           {isUserValid && (
-            <span className="Valid">Please choose a user</span>
+            <span className="error">Please choose a user</span>
           )}
         </div>
 
