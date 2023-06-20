@@ -16,9 +16,11 @@ export const getTodoId = (todos: Todo[]) => {
 };
 
 export const handleChanges = (
-  func: React.Dispatch<React.SetStateAction<string>>,
+  stateFunc: React.Dispatch<React.SetStateAction<string>>,
+  errorFunc: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   return (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    func(event.target.value);
+    stateFunc(event.target.value);
+    errorFunc(false);
   };
 };

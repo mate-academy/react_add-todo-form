@@ -17,15 +17,21 @@ export const App = () => {
   const [newTodoUserId, setNewTodoUserId] = useState('');
   const newTodoUser = usersFromServer
     .find(user => user.id === +newTodoUserId);
-
-  const [error, setError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [selectError, setSelectError] = useState(false);
 
   const AddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (newTodoTitle === '' || +newTodoUserId === 0) {
-      setError(true);
+    if (!newTodoTitle) {
+      setTitleError(true);
+    }
 
+    if (!newTodoUserId) {
+      setSelectError(true);
+    }
+
+    if (!newTodoUserId || !newTodoTitle) {
       return;
     }
 
@@ -42,7 +48,6 @@ export const App = () => {
     });
     setNewTodoTitle('');
     setNewTodoUserId('');
-    setError(false);
   };
 
   return (
@@ -63,10 +68,10 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTodoTitle}
-              onChange={handleChanges(setNewTodoTitle)}
+              onChange={handleChanges(setNewTodoTitle, setTitleError)}
             />
           </label>
-          {error && newTodoTitle === '' && (
+          {titleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -81,7 +86,7 @@ export const App = () => {
               id="user"
               data-cy="userSelect"
               value={newTodoUserId}
-              onChange={handleChanges(setNewTodoUserId)}
+              onChange={handleChanges(setNewTodoUserId, setSelectError)}
             >
               <option value="0" selected>Choose a user</option>
               {usersFromServer.map(user => {
@@ -97,7 +102,7 @@ export const App = () => {
             </select>
           </label>
 
-          {error && +newTodoUserId === 0 && (
+          {selectError && (
             <span className="error">
               Please choose a user
             </span>
