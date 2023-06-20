@@ -24,44 +24,44 @@ export const newToDos: ToDo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setToDo] = useState(newToDos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('0');
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<string>('');
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleValid(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
-    setUserError(false);
+    setIsUserValid(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const user = findUser(+selectedUser);
-    const isTitleValid = title.trim();
+    const titleValidation = title.trim();
 
-    if (!isTitleValid) {
-      setTitleError(true);
+    if (!titleValidation) {
+      setIsTitleValid(true);
     }
 
     if (!user) {
-      setUserError(true);
+      setIsUserValid(true);
     }
 
-    if (!user || !isTitleValid) {
+    if (!user || !titleValidation) {
       return;
     }
 
-    const nextToDoId = (toDoList: ToDo[]) => (
+    const getNextToDoId = (toDoList: ToDo[]) => (
       Math.max(...toDoList.map(todo => todo.id)) + 1
     );
 
     const newToDo: ToDo = {
-      id: nextToDoId(todos),
+      id: getNextToDoId(todos),
       title,
       userId: user.id,
       completed: false,
@@ -70,7 +70,7 @@ export const App = () => {
 
     setToDo([...todos, newToDo]);
     setTitle('');
-    setSelectedUser('0');
+    setSelectedUser('');
   };
 
   return (
@@ -93,8 +93,8 @@ export const App = () => {
               onChange={handleTitleChange}
             />
           </label>
-          {titleError && (
-            <span className="error">Please enter a title</span>
+          {isTitleValid && (
+            <span className="Valid">Please enter a title</span>
           )}
         </div>
 
@@ -119,8 +119,8 @@ export const App = () => {
             </select>
           </label>
 
-          {userError && (
-            <span className="error">Please choose a user</span>
+          {isUserValid && (
+            <span className="Valid">Please choose a user</span>
           )}
         </div>
 
