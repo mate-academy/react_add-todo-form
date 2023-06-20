@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
 
 import './App.scss';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { getNewId } from './helper';
-
-function findUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
+import { getNewId, getUserById } from './helper';
 
 const fullTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: findUser(todo.userId),
+  user: getUserById(todo.userId, usersFromServer),
 }));
 
 export const App:React.FC = () => {
@@ -26,14 +19,6 @@ export const App:React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [userError, setUserError] = useState('');
   const [titleError, setTitleError] = useState('');
-
-  const newTodo = {
-    id: getNewId(todos),
-    title,
-    userId,
-    completed: false,
-    user: findUser(userId),
-  };
 
   const clearFormFields = () => {
     setTitle('');
@@ -63,13 +48,21 @@ export const App:React.FC = () => {
       setUserError('Please choose a user');
     }
 
-    if (!title) {
+    if (title.trim() === '') {
       setTitleError('Please enter a title');
     }
 
-    if (!userId || !title) {
+    if (!userId || title.trim() === '') {
       return;
     }
+
+    const newTodo = {
+      id: getNewId(todos),
+      title,
+      userId,
+      completed: false,
+      user: getUserById(userId, usersFromServer),
+    };
 
     setTodos((prev) => [...prev, newTodo]);
     clearFormFields();
