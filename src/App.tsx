@@ -18,17 +18,17 @@ const todosInfo = getTodosInfo();
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState<string>('');
   const [todos, setTodos] = useState(todosInfo);
   const [errorTitle, setErrorTitle] = useState('');
   const [errorSelectedUser, setErrorSelectedUser] = useState('');
 
-  const changeUser = (name: string) => {
-    if (name !== '') {
+  const changeUser = (id: string) => {
+    if (id !== '') {
       setErrorSelectedUser('');
     }
 
-    setSelectedUser(name);
+    setSelectedUser(id);
   };
 
   const changeTitle = (newTitle: string) => {
@@ -36,7 +36,7 @@ export const App = () => {
       setErrorTitle('');
     }
 
-    const pattern = /[@^#$/%^&*()_+-\\{}[\]]/g;
+    const pattern = /[@^#$/%^&*()_+-\\{}[\] ]/g;
     const patternedTitle = removeByPattern(newTitle, pattern);
 
     setTitle(patternedTitle);
@@ -56,7 +56,7 @@ export const App = () => {
       result = false;
     }
 
-    if (selectedUser === '') {
+    if (!selectedUser) {
       setErrorSelectedUser('Please choose a user');
 
       result = false;
@@ -73,7 +73,7 @@ export const App = () => {
     }
 
     const userInfo = usersFromServer
-      .find(user => user.name === selectedUser);
+      .find(user => user.id === +selectedUser);
 
     if (!userInfo) {
       throw new Error('User not found');
