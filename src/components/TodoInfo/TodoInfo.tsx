@@ -18,11 +18,15 @@ export const TodoInfo:FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={id}
-      className={cn('TodoInfo', {
+      className={cn('TodoInfo box p-3 has-text-danger', {
         'TodoInfo--completed': completed,
       })}
     >
-      <h2 className="TodoInfo__title">
+      <h2
+        className={cn('TodoInfo__title is-size-5 has-text-weight-bold', {
+          'has-text-success': completed,
+        })}
+      >
         {title}
       </h2>
 

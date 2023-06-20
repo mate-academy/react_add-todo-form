@@ -1,4 +1,5 @@
-import './App.scss';
+// import './App.scss';
+import 'bulma';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { getPreparedData } from './helpers/getPreparedData';
@@ -71,18 +72,20 @@ export const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App container p-3">
+      <h1 className="panel-heading">Add todo form</h1>
 
       <form
+        className="panel p-3"
         action="/api/users"
         method="POST"
         onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label>
-            <span>Title: </span>
+            <p className="has-text-weight-semibold">Title: </p>
             <input
+              className="input"
               type="text"
               name="title"
               data-cy="titleInput"
@@ -92,35 +95,58 @@ export const App = () => {
             />
           </label>
           {(isFieldsEmpty && !titleQueue)
-          && <span className="error">Please enter a title</span>}
+          && (
+            <span
+              className="error has-text-danger"
+            >
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
           <label>
-            <span>User: </span>
-            <select
-              data-cy="userSelect"
-              name="username"
-              value={selectedUser}
-              onChange={handleUserSelect}
-            >
-              <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
+            <p className="has-text-weight-semibold">User: </p>
+            <div className="select">
+              <select
+                data-cy="userSelect"
+                name="username"
+                value={selectedUser}
+                onChange={handleUserSelect}
+              >
                 <option
-                  value={user.id}
-                  key={user.id}
+                  value="0"
+                  disabled
                 >
-                  {user.name}
+                  Choose a user
                 </option>
-              ))}
-            </select>
+                {usersFromServer.map(user => (
+                  <option
+                    value={user.id}
+                    key={user.id}
+                  >
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </label>
 
           {(isFieldsEmpty && !selectedUser)
-          && <span className="error">Please choose a user</span>}
+          && (
+            <span
+              className="error has-text-danger"
+            >
+              Please choose a user
+            </span>
+          )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="button is-success is-fullwidth"
+        >
           Add
         </button>
       </form>
