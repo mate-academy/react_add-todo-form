@@ -21,7 +21,7 @@ export const App: FC = () => {
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!title) {
+    if (!title.trim()) {
       setisTitleError(true);
     }
 
@@ -29,7 +29,7 @@ export const App: FC = () => {
       setisUserError(true);
     }
 
-    if (!title || !selectedUser) {
+    if (!title.trim() || !selectedUser) {
       return;
     }
 
