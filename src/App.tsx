@@ -44,11 +44,11 @@ export const App: React.FC = () => {
     const preparedTitle = title.replace(/[^а-яА-Яa-zA-Z\d\s]/g, '').trim();
 
     if (!userId) {
-      setTitle('');
       setSelectUserError(true);
     }
 
     if (!preparedTitle) {
+      setTitle('');
       setHasTitleError(true);
     }
 
