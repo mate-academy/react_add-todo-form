@@ -1,8 +1,8 @@
 import { Todo } from '../types/Todo';
-import { getUser } from './userUtils';
+import { getUserById } from './userUtils';
 import todosFromServer from '../api/todos';
 
 export const todosUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));

@@ -18,7 +18,7 @@ import {
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
-import { getUser } from './helpers/userUtils';
+import { getUserById } from './helpers/userUtils';
 import { todosUsers } from './helpers/todoUtils';
 import '@fontsource/roboto/700.css';
 
@@ -43,11 +43,13 @@ export const App: FC = () => {
       setUserError('Please choose a user');
     }
 
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
       setTitleError('Please enter a title');
     }
 
-    if (!selectedUser || !title.trim()) {
+    if (!selectedUser || !trimmedTitle) {
       return;
     }
 
@@ -55,7 +57,7 @@ export const App: FC = () => {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
       completed: false,
-      user: getUser(selectedUser),
+      user: getUserById(selectedUser),
       userId: selectedUser,
     };
 
@@ -132,7 +134,7 @@ export const App: FC = () => {
               ))}
             </Select>
 
-            {Boolean(userError) && (
+            {!!userError && (
               <FormHelperText error>{userError}</FormHelperText>
             )}
           </FormControl>
