@@ -1,15 +1,14 @@
+import { FC } from 'react';
 import { User } from '../../types/User';
-import { Todo } from '../../types/Todo';
-import usersFromServer from '../../api/users';
 
-export const UserInfo = ({ todo }: { todo: Todo }) => {
-  const findUser = usersFromServer.find((user: User) => (
-    user.id === todo.userId
-  ));
+interface Props {
+  user: User,
+}
 
+export const UserInfo: FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${findUser ? findUser.email : null}`}>
-      {findUser ? findUser.name : null}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
     </a>
   );
 };
