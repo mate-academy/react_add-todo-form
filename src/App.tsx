@@ -1,8 +1,6 @@
 import { FC, useState } from 'react';
 import './App.scss';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import {
   Container,
   Typography,
@@ -31,6 +29,13 @@ export const App: FC = () => {
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
 
+  const clearForm = () => {
+    setTitle('');
+    setSelectedUser(0);
+    setTitleError('');
+    setUserError('');
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -56,10 +61,7 @@ export const App: FC = () => {
 
     setTodos([...todos, newTodo]);
 
-    setTitle('');
-    setSelectedUser(0);
-    setTitleError('');
-    setUserError('');
+    clearForm();
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
