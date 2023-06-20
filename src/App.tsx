@@ -36,26 +36,24 @@ export const App = () => {
     const { value } = event.target;
 
     setSelectedUserName(value);
-    setIsUserValid(Boolean(value));
   };
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsTitleValid(Boolean(newTodoTitle.trim()));
+    const newTodoTitleTrimmed = newTodoTitle.trim();
+
+    setIsTitleValid(Boolean(newTodoTitleTrimmed));
     setIsUserValid(Boolean(selectedUserName));
 
-    const currentNewTodoTitle = newTodoTitle;
-    const currentSelectedUserName = selectedUserName;
+    if (!newTodoTitleTrimmed || !selectedUserName) {
+      return;
+    }
 
     const lastTodoId = [...todos]
       .sort((todoA, todoB) => todoB.id - todoA.id)[0].id;
 
     const userForNewTodo = getUserByName(selectedUserName);
-
-    if (!currentNewTodoTitle || !currentSelectedUserName) {
-      return;
-    }
 
     setTodos([
       ...todos,
@@ -89,6 +87,7 @@ export const App = () => {
               data-cy="titleInput"
               value={newTodoTitle}
               onChange={changeTodoTitle}
+              placeholder="Enter a title"
             />
           </label>
 
