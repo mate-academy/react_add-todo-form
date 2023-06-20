@@ -24,8 +24,8 @@ export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isUserValid, setIsUserValid] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -61,7 +61,9 @@ export const App = () => {
           id: maxTodoId + 1,
           title,
           completed: false,
-          userId: newUser ? newUser.id : -1,
+          userId: newUser
+            ? newUser.id
+            : -1,
           user: newUser,
         },
       ];
