@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-export const getUserById = (userId: number): User | null => {
-  const findUser = usersFromServer.find((user) => (user.id === userId));
-
-  return findUser || null;
-};
-
-export const getTodoId = (listTodos: Todo[]): number => {
-  const todosId = listTodos.map(todo => todo.id);
-
-  return Math.max(...todosId) + 1;
-};
+import { getUserById, getTodoId } from './components/helpers';
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
