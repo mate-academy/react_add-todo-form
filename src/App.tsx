@@ -7,19 +7,19 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const getUserById = (userId: number): User | null => {
+export const getUserById = (userId: number): User | null => {
   const findUser = usersFromServer.find((user) => (user.id === userId));
 
   return findUser || null;
 };
 
-const getTodoId = (listTodos: Todo[]): number => {
+export const getTodoId = (listTodos: Todo[]): number => {
   const todosId = listTodos.map(todo => todo.id);
 
   return Math.max(...todosId) + 1;
 };
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -31,20 +31,22 @@ export const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setTitle(value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
     setTitleError(false);
-    setTitle(event.target.value);
   };
 
-  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserError(false);
     setUser(Number(event.target.value));
   };
 
-  const submit = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -52,19 +54,21 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (title && user) {
-      const newTodo: Todo = {
-        id: getTodoId(listTodos),
-        title,
-        userId: user,
-        completed: false,
-        user: getUserById(user),
-      };
-
-      setListTodos(prevlist => [...prevlist, newTodo]);
-      setTitle('');
-      setUser(0);
+    if (!title.trim() || !user) {
+      return;
     }
+
+    const newTodo: Todo = {
+      id: getTodoId(listTodos),
+      title,
+      userId: user,
+      completed: false,
+      user: getUserById(user),
+    };
+
+    setListTodos(prevlist => [...prevlist, newTodo]);
+    setTitle('');
+    setUser(0);
   };
 
   return (
@@ -74,7 +78,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={submit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="textId">
@@ -87,7 +91,7 @@ export const App: React.FC = () => {
             name="Enter a title"
             placeholder="Enter a title"
             value={title}
-            onChange={changeTitle}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -101,7 +105,7 @@ export const App: React.FC = () => {
             id="usertId"
             name="user"
             value={user}
-            onChange={changeUser}
+            onChange={handleUserChange}
           >
             <option
               value="0"
