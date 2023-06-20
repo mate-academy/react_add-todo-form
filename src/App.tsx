@@ -1,19 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-const getUserById = (userId: number): User | null => (
-  usersFromServer.find(user => user.id === userId) || null
-);
-
-const getUserByName = (name: string): User | null => (
-  usersFromServer.find(user => user.name === name) || null
-);
+import { getUserById, getNextId } from './helpers';
 
 const refactoredTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
@@ -23,7 +15,7 @@ const refactoredTodos: Todo[] = todosFromServer.map((todo) => ({
 export const App = () => {
   const [todos, setTodos] = useState(refactoredTodos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
   const [titleValid, setTitleValid] = useState(true);
   const [userValid, setUserValid] = useState(true);
 
@@ -33,28 +25,28 @@ export const App = () => {
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    setSelectedUser(+event.target.value);
     setUserValid(Boolean(event.target.value));
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleValid(Boolean(title));
+    setTitleValid(Boolean(title.trim()));
     setUserValid(Boolean(selectedUser));
 
-    if (!selectedUser || !title) {
+    if (!selectedUser || !title.trim()) {
       return;
     }
 
     setTodos((currentTodos) => {
-      const maxId = Math.max(...currentTodos.map(todo => todo.id));
-      const newUser = getUserByName(selectedUser);
+      const nextId = getNextId(currentTodos);
+      const newUser = getUserById(selectedUser);
 
       return [
         ...currentTodos,
         {
-          id: maxId + 1,
+          id: nextId,
           title,
           completed: false,
           userId: newUser ? newUser.id : null,
@@ -64,7 +56,7 @@ export const App = () => {
     });
 
     setTitle('');
-    setSelectedUser('');
+    setSelectedUser(0);
   };
 
   return (
@@ -85,6 +77,7 @@ export const App = () => {
               data-cy="titleInput"
               value={title}
               onChange={handleTitleChange}
+              placeholder="Enter a title"
             />
             {!titleValid && (
               <span className="error">Please enter a title</span>
@@ -102,7 +95,7 @@ export const App = () => {
               onChange={handleUserChange}
             >
               <option
-                value=""
+                value="0"
                 disabled
               >
                 Choose a user
@@ -111,7 +104,7 @@ export const App = () => {
               {usersFromServer.map((user) => (
                 <option
                   key={user.id}
-                  value={user.name}
+                  value={user.id}
                 >
                   {user.name}
                 </option>
