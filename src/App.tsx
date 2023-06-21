@@ -46,29 +46,30 @@ export const App = () => {
 
   const handleFormSubmit = (
     event: React.FormEvent,
+  // eslint-disable-next-line consistent-return
   ) => {
     event.preventDefault();
-    const isInputsValid = selectedUser && titleQueue;
+    const isInputsValid = selectedUser && titleQueue.trim();
 
-    if (isInputsValid) {
-      clearForm();
-      setIsFieldsEmpty(false);
-      addNewTodo(selectedUser, titleQueue);
-    } else {
-      setIsFieldsEmpty(true);
+    if (!isInputsValid) {
+      return setIsFieldsEmpty(true);
     }
+
+    clearForm();
+    setIsFieldsEmpty(false);
+    addNewTodo(selectedUser, titleQueue);
   };
 
   const handleTitleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setTitleQueue(e.target.value);
+    setTitleQueue(event.target.value);
   };
 
   const handleUserSelect = (
-    e: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSelectedUser(+e.target.value);
+    setSelectedUser(+event.target.value);
   };
 
   return (
