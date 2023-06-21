@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import './App.scss';
@@ -40,19 +40,15 @@ export const App = () => {
     }
 
     setTodos((currentTodos) => {
-      const nextId = getNextId(currentTodos);
-      const newUser = getUserById(selectedUser);
+      const newTodo = {
+        id: getNextId(currentTodos),
+        title,
+        completed: false,
+        userId: selectedUser,
+        user: getUserById(selectedUser),
+      };
 
-      return [
-        ...currentTodos,
-        {
-          id: nextId,
-          title,
-          completed: false,
-          userId: newUser ? newUser.id : null,
-          user: newUser,
-        },
-      ];
+      return ([...currentTodos, newTodo]);
     });
 
     setTitle('');
