@@ -1,0 +1,24 @@
+.TodoInfo {
+  min-width: 300px;
+  width: max-content;
+
+  box-shadow: 0 1px 3px;
+  border-radius: 5px;
+
+  &__title {
+    padding: 5px;
+    margin: 0 0 25px;
+
+    color: #c92c6d;
+    background-color: #332c39;
+    border-radius: 5px 5px 0 0;
+
+    text-align: center;
+    font-size: inherit;
+    text-transform: capitalize;
+  }
+
+  &--completed &__title {
+    color: #609ea2;
+  }
+}
