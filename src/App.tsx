@@ -15,8 +15,8 @@ export const App = () => {
   const [currentTodos, setCurrentTodos] = useState(todos);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newTodoUserId, setNewTodoUserId] = useState('');
-  const newTodoUser = usersFromServer
-    .find(user => user.id === +newTodoUserId);
+  // const newTodoUser = usersFromServer
+  //   .find(user => user.id === +newTodoUserId);
   const [titleError, setTitleError] = useState(false);
   const [selectError, setSelectError] = useState(false);
 
@@ -51,7 +51,7 @@ export const App = () => {
         title: newTodoTitle,
         completed: false,
         userId: +newTodoUserId,
-        user: newTodoUser,
+        user: getUserById(+newTodoUserId),
       };
 
       return [...prevTodos, newTodo];
