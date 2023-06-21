@@ -24,14 +24,12 @@ export const App = () => {
   const [isTitleValid, setIsTitleValid] = useState(false);
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [actualTodos, setTodos] = useState(todos);
+  const [actualTodos, setListTodos] = useState(todos);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const validTitle = title.trim();
-
-    const newId = newTodoId(todos);
 
     if (validTitle) {
       setIsTitleValid(true);
@@ -46,14 +44,14 @@ export const App = () => {
     }
 
     const addedTodo: Todo = {
-      id: newId,
+      id: newTodoId(todos),
       completed: false,
-      user: getUserById(Number(userId)),
+      user: getUserById(userId),
       title: validTitle,
-      userId: Number(userId),
+      userId,
     };
 
-    setTodos([...actualTodos, addedTodo]);
+    setListTodos(prevlist => [...prevlist, addedTodo]);
     setTitle('');
     setUserId(0);
   };
