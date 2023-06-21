@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { User } from './components/UserInfo';
 import { Todo } from './components/TodoInfo';
+import { newTodoId } from './helpers';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -10,7 +11,6 @@ import todosFromServer from './api/todos';
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -22,8 +22,8 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [isTitleValid, setIsTitleValid] = useState(false);
-  const [isUserValid, setIsUserValid] = useState(false);
-  const [user, setUser] = useState(0);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [userId, setUserId] = useState(0);
   const [actualTodos, setTodos] = useState(todos);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,45 +31,45 @@ export const App = () => {
 
     const validTitle = title.trim();
 
-    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
-
-    const addedTodo: Todo = {
-      id: newId,
-      completed: false,
-      user: getUserById(Number(user)),
-      title: validTitle,
-      userId: Number(user),
-    };
+    const newId = newTodoId(todos);
 
     if (validTitle) {
       setIsTitleValid(true);
     }
 
-    if (!user) {
-      setIsUserValid(true);
+    if (!userId) {
+      setIsUserIdValid(true);
     }
 
-    if (!user || validTitle) {
+    if (!userId || validTitle) {
       return;
     }
 
+    const addedTodo: Todo = {
+      id: newId,
+      completed: false,
+      user: getUserById(Number(userId)),
+      title: validTitle,
+      userId: Number(userId),
+    };
+
     setTodos([...actualTodos, addedTodo]);
     setTitle('');
-    setUser(0);
+    setUserId(0);
   };
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  const handleInput = (
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const { name, value } = event.target;
+    setTitle(event.target.value);
+    setIsTitleValid(false);
+  };
 
-    if (name === 'title') {
-      setTitle(value);
-      setIsTitleValid(false);
-    } else {
-      setUser(Number(value));
-      setIsUserValid(false);
-    }
+  const handleSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(Number(event.target.value));
+    setIsUserIdValid(false);
   };
 
   return (
@@ -88,7 +88,7 @@ export const App = () => {
             value={title}
             data-cy="titleInput"
             placeholder="Enter a title"
-            onChange={handleChange}
+            onChange={handleInput}
           />
 
           {isTitleValid && (
@@ -99,8 +99,8 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={user}
-            onChange={handleChange}
+            value={userId}
+            onChange={handleSelect}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(userFromServer => (
@@ -113,7 +113,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isUserValid && (
+          {isUserIdValid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
