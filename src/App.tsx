@@ -67,7 +67,7 @@ export const App: FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <label htmlFor="titleInput">
+          <label>
             Title:
 
             <input
@@ -87,7 +87,7 @@ export const App: FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">
+          <label>
             User:
 
             <select

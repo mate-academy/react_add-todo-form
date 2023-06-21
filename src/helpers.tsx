@@ -13,7 +13,7 @@ export const prepareTodos = (
 ): TodoWithUser[] => (
   todos.map(todo => ({
     ...todo,
-    user: getUserById(users, todo.id),
+    user: getUserById(users, todo.userId),
   }))
 );
 
