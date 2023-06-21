@@ -23,4 +23,7 @@ export const handleChanges = (
     stateFunc(event.target.value);
     errorFunc(false);
   };
+
+  // export const handleTitleChanges = (event) => {
+  // }
 };

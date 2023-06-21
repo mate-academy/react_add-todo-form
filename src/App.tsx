@@ -4,7 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { getTodoId, getUserById, handleChanges } from './helper';
+import { getTodoId, getUserById } from './helper';
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -19,6 +19,16 @@ export const App = () => {
     .find(user => user.id === +newTodoUserId);
   const [titleError, setTitleError] = useState(false);
   const [selectError, setSelectError] = useState(false);
+
+  const handleTitleChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChanges = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNewTodoUserId(event.target.value);
+    setSelectError(false);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,6 +56,7 @@ export const App = () => {
 
       return [...prevTodos, newTodo];
     });
+
     setNewTodoTitle('');
     setNewTodoUserId('');
   };
@@ -68,7 +79,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTodoTitle}
-              onChange={handleChanges(setNewTodoTitle, setTitleError)}
+              onChange={handleTitleChanges}
             />
           </label>
           {titleError && (
@@ -86,7 +97,7 @@ export const App = () => {
               id="user"
               data-cy="userSelect"
               value={newTodoUserId}
-              onChange={handleChanges(setNewTodoUserId, setSelectError)}
+              onChange={handleUserChanges}
             >
               <option value="0" selected>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
