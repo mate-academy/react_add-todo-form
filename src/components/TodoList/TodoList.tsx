@@ -1,5 +1,3 @@
-// import todosFromServer from '../../api/todos';
-
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 

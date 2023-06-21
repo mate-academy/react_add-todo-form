@@ -1,25 +1,19 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import { Todo } from './types/Todo';
-import { getUser, todosWithUsers, getNewId } from './helpers';
+import { getUserById, todosWithUsers, getNewId } from './helpers';
 
 export const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
 
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState<number>(0);
 
   const [titleError, setTitleError] = useState(false);
   const [selectUserError, setSelectUserError] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTodos(todosWithUsers);
-    }, 500);
-  }, []);
 
   const handleSelectUserChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -52,34 +46,23 @@ export const App: FC = () => {
     event.preventDefault();
 
     if (!(title.trim()) || !selectedUserId) {
-      setTitleError(
-        !(title.trim())
-          ? true
-          : false
-      );
-
-      setSelectUserError(
-        !selectedUserId
-          ? true
-          : false
-      );
+      setTitleError(!(title.trim()));
+      setSelectUserError(!selectedUserId);
 
       return;
-    } else {
-      setTodos((prevTodos) => {
-        const newTodo = {
-          id: getNewId(prevTodos),
-          title,
-          completed: false,
-          userId: selectedUserId,
-          user: getUser(selectedUserId),
-        };
-
-        return [...prevTodos, newTodo];
-      });
-
-      clearForm();
     }
+
+    const newTodo = {
+      id: getNewId(todos),
+      title,
+      completed: false,
+      userId: selectedUserId,
+      user: getUserById(selectedUserId),
+    };
+
+    setTodos([...todos, newTodo]);
+
+    clearForm();
   };
 
   return (
