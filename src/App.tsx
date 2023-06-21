@@ -6,12 +6,12 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { getTodoId, getUserById, handleChanges } from './helper';
 
-export const App = () => {
-  const todos: Todo[] = todosFromServer.map(todo => ({
-    ...todo,
-    user: getUserById(todo.userId),
-  }));
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
+export const App = () => {
   const [currentTodos, setCurrentTodos] = useState(todos);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newTodoUserId, setNewTodoUserId] = useState('');
@@ -20,10 +20,10 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [selectError, setSelectError] = useState(false);
 
-  const AddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!newTodoTitle) {
+    if (!newTodoTitle.trim()) {
       setTitleError(true);
     }
 
@@ -31,7 +31,7 @@ export const App = () => {
       setSelectError(true);
     }
 
-    if (!newTodoUserId || !newTodoTitle) {
+    if (!newTodoTitle.trim() || !newTodoUserId) {
       return;
     }
 
@@ -57,7 +57,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={AddTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">
