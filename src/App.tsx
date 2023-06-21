@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
+import { getUserById, getNewTodoId } from './helpers';
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -26,18 +21,16 @@ export const App: React.FC = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const addTodo = (titleString: string, user: number) => {
-    const lastTodoId = Math.max(...visibleTodos.map(todo => todo.id));
     const newTodo = {
-      id: lastTodoId + 1,
+      id: getNewTodoId(visibleTodos),
       title: titleString,
       completed: false,
       userId: user,
-      user: getUser(user),
+      user: getUserById(user),
     };
 
     setVisibleTodos(state => [...state, newTodo]);
   };
-  //
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
