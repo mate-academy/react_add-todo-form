@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-import { TodoFullInfo } from './types/todoFullInfo';
 import { getTodosInfo } from './helpers/getTodosInfo';
 import { removeByPattern } from './helpers/removeByPattern';
 
@@ -31,12 +30,14 @@ export const App = () => {
     setSelectedUser(id);
   };
 
-  const changeTitle = (newTitle: string) => {
+  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = event.target.value;
+
     if (newTitle !== '') {
       setErrorTitle('');
     }
 
-    const pattern = /[@^#$/%^&*()_+-\\{}[\] ]/g;
+    const pattern = /[@^#$/%^&*()_+-\\{}[\]]/g;
     const patternedTitle = removeByPattern(newTitle, pattern);
 
     setTitle(patternedTitle);
@@ -47,28 +48,13 @@ export const App = () => {
     setSelectedUser('');
   };
 
-  const isValid = (): boolean => {
-    let result = true;
-
-    if (title === '') {
-      setErrorTitle('Please enter a title');
-
-      result = false;
-    }
-
-    if (!selectedUser) {
-      setErrorSelectedUser('Please choose a user');
-
-      result = false;
-    }
-
-    return result;
-  };
-
-  const submit = (event:FormEvent) => {
+  const handleSubmit = (event:FormEvent) => {
     event.preventDefault();
 
-    if (!isValid()) {
+    if (!title || !selectedUser) {
+      setErrorTitle(title ? 'Please enter a title' : '');
+      setErrorSelectedUser(selectedUser ? 'Please choose a user' : '');
+
       return;
     }
 
@@ -82,13 +68,15 @@ export const App = () => {
     setTodos((prev) => {
       const maxId = Math.max(...prev.map(todo => todo.id));
 
-      return [...prev, {
+      const newTodo = {
         id: maxId + 1,
         title,
         userId: userInfo.id,
         completed: false,
         user: userInfo,
-      } as TodoFullInfo];
+      };
+
+      return [...prev, newTodo];
     });
 
     clearForm();
@@ -114,7 +102,7 @@ export const App = () => {
           }}
         >
           <form
-            onSubmit={(event) => submit(event)}
+            onSubmit={handleSubmit}
           >
 
             <FormControl
@@ -125,7 +113,7 @@ export const App = () => {
               <TextField
                 data-cy="titleInput"
                 label="Enter title"
-                onChange={event => changeTitle(event.target.value)}
+                onChange={changeTitle}
                 type="text"
                 sx={{ mb: 3 }}
                 fullWidth
