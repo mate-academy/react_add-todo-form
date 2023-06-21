@@ -4,24 +4,25 @@ import { Todo } from './Types/Todo';
 import './App.scss';
 
 import { getUserById } from './Helpers/getUser';
+import { getNewTodoId } from './Helpers/getNewTodoId';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './Types/User';
 
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId, usersFromServer),
+}));
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number | string>('');
   const [isTitleValid, setIsTitleValid] = useState<boolean>(true);
   const [isUserSelected, setIsUserSelected] = useState<boolean>(true);
 
-  const todosWithUsers: Todo[] = todos.map(todo => ({
-    ...todo,
-    user: getUserById(todo.userId, usersFromServer),
-  }));
-
-  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title || !userId) {
@@ -36,33 +37,26 @@ export const App: React.FC = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const newTodo = {
+      id: getNewTodoId(todos),
+      userId: +userId,
+      title,
+      completed: false,
+      user: getUserById(+userId, usersFromServer),
+    };
 
-    const user = getUserById(+userId, usersFromServer);
-
-    if (user) {
-      setTodos((current => [
-        ...current,
-        {
-          id: maxId + 1,
-          userId: user.id,
-          title,
-          completed: false,
-          user,
-        },
-      ]));
-    }
+    setTodos((current => [...current, newTodo]));
 
     setTitle('');
     setUserId('');
   };
 
-  const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(event.target.value);
     setIsUserSelected(true);
   };
 
-  const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitleValid(true);
   };
@@ -74,7 +68,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={addTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -83,7 +77,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             name="todoTitle"
-            onChange={addTitle}
+            onChange={handleTitleChange}
           />
           {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
@@ -91,7 +85,7 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             name="userSelect"
-            onChange={selectUser}
+            onChange={handleUserChange}
             data-cy="userSelect"
             value={userId}
           >
@@ -121,7 +115,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todosWithUsers} />
+      <TodoList todos={todos} />
     </div>
   );
 };
