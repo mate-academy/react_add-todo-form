@@ -89,16 +89,9 @@ export const App = () => {
               onChange={handleChanges(setNewTodoUserId, setSelectError)}
             >
               <option value="0" selected>Choose a user</option>
-              {usersFromServer.map(user => {
-                const { id, name } = user;
-
-                return (
-                  <option value={id} key={id}>{name}</option>
-                );
-              })}
-              {/* {usersFromServer.map({ id, name } => (
+              {usersFromServer.map(({ id, name }) => (
                 <option value={id} key={id}>{name}</option>
-              ))} */}
+              ))}
             </select>
           </label>
 
