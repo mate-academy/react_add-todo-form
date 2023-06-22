@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-// import todos from '../../api/todos';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
