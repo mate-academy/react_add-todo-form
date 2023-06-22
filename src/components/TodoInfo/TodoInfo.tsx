@@ -1,6 +1,11 @@
 import React from 'react';
 import { UserInfo } from '../UserInfo';
-import { TodoInfoProps } from './type';
+import { Todo, User } from '../../interfaces';
+
+export type TodoInfoProps = {
+  todo: Todo;
+  user: User;
+};
 
 export const TodoInfo:React.FC<TodoInfoProps> = React.memo(({ todo, user }) => {
   return (

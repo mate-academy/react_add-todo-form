@@ -1,7 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-console */
 import React from 'react';
-import { UserInfoProps } from './type';
+import { User } from '../../interfaces';
+
+export type UserInfoProps = {
+  user: User;
+};
 
 export const UserInfo: React.FC<UserInfoProps> = React.memo(({ user }) => {
   return (

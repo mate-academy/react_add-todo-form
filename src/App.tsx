@@ -8,9 +8,54 @@ import { TodoList } from './components/TodoList/TodoList';
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userName, setUserName] = useState('');
-  const [todoList, setTodoList] = useState([...todosFromServer]);
-  const [warningTitle, setWarningTitle] = useState(false);
-  const [warningUser, setWarningUser] = useState(false);
+  const [todoList, setTodoList] = useState(todosFromServer);
+  const [isWarningTitle, setIsWarningTitle] = useState(false);
+  const [isWarningUser, setIsWarningUser] = useState(false);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    let status = false;
+
+    if (!userName) {
+      status = true;
+
+      setIsWarningUser(true);
+    }
+
+    if (!title.trim() || !title) {
+      status = true;
+
+      setTitle('');
+      setIsWarningTitle(true);
+    }
+
+    if (status) {
+      return;
+    }
+
+    const user = [...usersFromServer].find(
+      (userItem) => userItem.name === userName,
+    );
+
+    if (!user) {
+      throw new Error('Submit error, user not defined');
+    }
+
+    if (user) {
+      const todo = {
+        id: todoList.length,
+        title,
+        completed: true,
+        userId: user.id,
+      };
+
+      setIsWarningUser(false);
+      setIsWarningTitle(false);
+      setTodoList((prev) => [...prev, todo]);
+      setUserName('');
+      setTitle('');
+    }
+  };
 
   return (
     <div className="App">
@@ -20,46 +65,7 @@ export const App = () => {
         action="/api/users"
         method="POST"
         // eslint-disable-next-line consistent-return
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          let status = false;
-
-          if (!userName) {
-            status = true;
-
-            setWarningUser(true);
-          }
-
-          if (!title) {
-            status = true;
-
-            setWarningTitle(true);
-          }
-
-          if (status) {
-            return;
-          }
-
-          const user = [...usersFromServer].find(
-            (userItem) => userItem.name === userName,
-          );
-
-          if (user) {
-            const todo = {
-              id: todoList.length,
-              title,
-              completed: true,
-              userId: user.id,
-            };
-
-            setWarningUser(false);
-            setWarningTitle(false);
-            setTodoList((prev) => [...prev, todo]);
-            setUserName('');
-            setTitle('');
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
@@ -70,11 +76,11 @@ export const App = () => {
               placeholder="Enter a title"
               value={title}
               onChange={(event) => {
-                setTitle(() => event.target.value);
-                setWarningTitle(false);
+                setTitle(event.target.value);
+                setIsWarningTitle(false);
               }}
             />
-            {warningTitle && (
+            {isWarningTitle && (
               <span className="error">Please enter a title</span>
             )}
           </label>
@@ -88,7 +94,7 @@ export const App = () => {
               value={userName}
               onChange={(e) => {
                 setUserName(e.target.value);
-                setWarningUser(false);
+                setIsWarningUser(false);
               }}
             >
               <option value="" disabled>
@@ -102,7 +108,7 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {warningUser && <span className="error">Please choose a user</span>}
+          {isWarningUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
