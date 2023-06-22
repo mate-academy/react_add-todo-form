@@ -2,9 +2,9 @@ import './App.scss';
 import { useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import { getCurrentTodos, getNewId } from './helpers';
+import { findUserById, getNewId } from './helpers';
 
-import { InitialTodo } from './types/Todo';
+import { InitialTodo, Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 export const App: React.FC = () => {
@@ -17,7 +17,10 @@ export const App: React.FC = () => {
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserSelectError, setIsUserSelectError] = useState(false);
 
-  const todosWithUsers = getCurrentTodos(todos, users);
+  const todosWithUsers: Todo[] = todos.map(todo => ({
+    ...todo,
+    user: findUserById(users, todo.userId),
+  }));
 
   const clearForm = () => {
     setSelectedUserId(0);
@@ -26,12 +29,23 @@ export const App: React.FC = () => {
     setIsUserSelectError(false);
   };
 
-  const addTodo = ((event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSetTitle = ((event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoTitle(event.target.value);
+    setIsTitleError(false);
+  });
 
-    if (selectedUserId === 0 || newTodoTitle === '') {
-      setIsTitleError(newTodoTitle === '');
-      setIsUserSelectError(selectedUserId === 0);
+  const handleSelect = ((event: React.ChangeEvent<HTMLSelectElement>) => {
+    setIsUserSelectError(false);
+    setSelectedUserId(+event.target.value);
+  });
+
+  const handleSubmit = ((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const validatedNewTitle = newTodoTitle.trim();
+
+    if (!selectedUserId || !validatedNewTitle) {
+      setIsTitleError(!validatedNewTitle);
+      setIsUserSelectError(!selectedUserId);
 
       return;
     }
@@ -39,7 +53,7 @@ export const App: React.FC = () => {
     setTodos((prevTodos) => {
       const newTodo = {
         id: getNewId(prevTodos),
-        title: newTodoTitle.trim(),
+        title: validatedNewTitle,
         userId: selectedUserId,
         completed: false,
       };
@@ -57,7 +71,7 @@ export const App: React.FC = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={addTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleTodo">
@@ -70,10 +84,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={newTodoTitle}
-            onChange={((event) => {
-              setNewTodoTitle(event.target.value);
-              setIsTitleError(false);
-            })}
+            onChange={handleSetTitle}
           />
 
           {isTitleError && (
@@ -90,10 +101,7 @@ export const App: React.FC = () => {
           <select
             id="userSelector"
             data-cy="userSelect"
-            onChange={((event) => {
-              setIsUserSelectError(false);
-              setSelectedUserId(+event.target.value);
-            })}
+            onChange={handleSelect}
             value={selectedUserId}
           >
             <option value="0">
