@@ -44,7 +44,7 @@ export const App = () => {
       setUserError('Please choose a user');
     }
 
-    if (title.trim() === '') {
+    if (!title.trim()) {
       setTitleError('Please enter a title');
     }
 
