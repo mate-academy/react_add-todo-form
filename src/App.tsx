@@ -49,12 +49,12 @@ export const App: React.FC = () => {
     }
   };
 
-  const titleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError('');
   };
 
-  const userChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const changeUser = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
     setUserError('');
   };
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             id="titleInput"
             value={title}
-            onChange={titleChange}
+            onChange={changeTitle}
             placeholder="Enter a title"
           />
           {titleError && <span className="error">{titleError}</span>}
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
             id="userSelect"
             data-cy="userSelect"
             value={selectedUser}
-            onChange={userChange}
+            onChange={changeUser}
           >
             <option value="" disabled>
               Choose a user
@@ -107,26 +107,31 @@ export const App: React.FC = () => {
       </form>
 
       <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id="1"
-            className={classNames(
-              'TodoInfo',
-              { 'TodoInfo--completed': todo.completed },
-            )}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
+        {todos.map(todo => {
+          const findTodo = usersFromServer
+            .find((user) => user.id === todo.userId);
 
-            <a
-              className="UserInfo"
-              href={`mailto:${usersFromServer.find((user) => user.id === todo.userId)?.email}`}
+          return (
+            <article
+              data-id="1"
+              className={classNames(
+                'TodoInfo',
+                { 'TodoInfo--completed': todo.completed },
+              )}
             >
-              {usersFromServer.find((user) => user.id === todo.userId)?.name}
-            </a>
-          </article>
-        ))}
+              <h2 className="TodoInfo__title">
+                {todo.title}
+              </h2>
+
+              <a
+                className="UserInfo"
+                href={`mailto:${findTodo?.email}`}
+              >
+                {findTodo?.name}
+              </a>
+            </article>
+          );
+        })}
       </section>
     </div>
   );
