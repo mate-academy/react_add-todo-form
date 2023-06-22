@@ -52,8 +52,8 @@ export const App = () => {
     event.preventDefault();
 
     if (!title || !selectedUser) {
-      setErrorTitle(title ? 'Please enter a title' : '');
-      setErrorSelectedUser(selectedUser ? 'Please choose a user' : '');
+      setErrorTitle(title ? '' : 'Please enter a title');
+      setErrorSelectedUser(selectedUser ? '' : 'Please choose a user');
 
       return;
     }
