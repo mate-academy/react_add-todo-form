@@ -20,10 +20,8 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.trim() !== '') {
-      setTitle(event.target.value);
-      setTitleError(false);
-    }
+    setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,8 +31,11 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
+      setTitle('');
+
+      return;
     }
 
     if (!userId) {
