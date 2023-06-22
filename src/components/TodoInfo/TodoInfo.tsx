@@ -15,10 +15,9 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
     user,
   } = todo;
 
-  const todoClass = classNames(
-    'TodoInfo',
-    { 'TodoInfo--completed': completed },
-  );
+  const todoClass = classNames('TodoInfo', {
+    'TodoInfo--completed': completed,
+  });
 
   return (
     <article data-id={id} className={todoClass}>

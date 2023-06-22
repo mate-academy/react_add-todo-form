@@ -4,32 +4,17 @@ import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { getNewTodoId, getUserById } from './components/helpers/helpers';
 
-function getUserById(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
-
-export const getTodos: Todo[] = todosFromServer.map(todo => ({
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(usersFromServer, todo.userId),
 }));
 
-const getNewTodoId = (todos: Todo[]) => {
-  const todoIds = todos.map(todo => todo.id);
-  const maxId = Math.max(...todoIds);
-
-  return Number.isFinite(maxId)
-    ? maxId + 1
-    : 1;
-};
-
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(getTodos);
+  const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [isTitleValid, setIsTitleValid] = useState(false);
@@ -42,18 +27,18 @@ export const App: React.FC = () => {
       setIsUserValid(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleValid(true);
     }
 
-    if (!userId || !title) {
+    if (!userId || !title.trim()) {
       return;
     }
 
     const newTodo: Todo = {
       id: getNewTodoId(todos),
       completed: false,
-      user: getUserById(Number(userId)),
+      user: getUserById(usersFromServer, Number(userId)),
       title: title.trim(),
       userId: Number(userId),
     };
