@@ -35,27 +35,29 @@ export const App: React.FC = () => {
       return;
     }
 
-    const newTodo: Todo = {
-      id: getNewTodoId(todos),
-      completed: false,
-      user: getUserById(usersFromServer, Number(userId)),
-      title: title.trim(),
-      userId: Number(userId),
-    };
+    setTodos((prevTodos) => {
+      const newTodo: Todo = {
+        id: getNewTodoId(todos),
+        completed: false,
+        user: getUserById(usersFromServer, Number(userId)),
+        title: title.trim(),
+        userId,
+      };
 
-    setTodos([...todos, newTodo]);
+      return [...prevTodos, newTodo];
+    });
     setTitle('');
     setUserId(0);
   };
 
-  const changeTitle = (
+  const handleTitleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setIsTitleValid(false);
     setTitle(event.target.value);
   };
 
-  const changeUser = (
+  const handleUserChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setIsUserValid(false);
@@ -79,7 +81,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={changeTitle}
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -92,7 +94,7 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={changeUser}
+              onChange={handleUserChange}
             >
               <option value="0" disabled>
                 Choose a user
