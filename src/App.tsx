@@ -4,7 +4,6 @@ import { TodoList } from './components/TodoList';
 import { User } from './components/UserInfo';
 import { Todo } from './components/TodoInfo';
 import { newTodoId } from './helpers';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
