@@ -3,36 +3,36 @@ import { FC, useState } from 'react';
 import { getNewId, findUserById, preparedTodo } from './helpers';
 import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
-import { FullTodo } from './types';
+import { Todo } from './types';
 
 export const App: FC = () => {
-  const [todos, setTodos] = useState<FullTodo[]>(preparedTodo);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodo);
 
   const [queryTitle, setQueryTitle] = useState('');
   const [userId, setuserId] = useState(0);
 
-  const [userValueError, setuserValueError] = useState('');
-  const [titleValueError, settitleValueError] = useState('');
+  const [userError, setUserError] = useState('');
+  const [titleError, setTitleError] = useState('');
 
   const selectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setuserValueError('');
+    setUserError('');
     setuserId(+value);
   };
 
   const handleQueryTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    settitleValueError('');
+    setTitleError('');
     setQueryTitle(value);
   };
 
   const clearForm = () => {
     setQueryTitle('');
     setuserId(0);
-    settitleValueError('');
-    setuserValueError('');
+    setTitleError('');
+    setUserError('');
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,11 +40,11 @@ export const App: FC = () => {
 
     if (!queryTitle || !userId) {
       if (!userId) {
-        setuserValueError('Please choose a user');
+        setUserError('Please choose a user');
       }
 
       if (!queryTitle) {
-        settitleValueError('Please enter a title');
+        setTitleError('Please enter a title');
       }
 
       return;
@@ -53,7 +53,7 @@ export const App: FC = () => {
     setTodos(prevTodos => {
       const newTodo = {
         id: getNewId(prevTodos),
-        title: queryTitle,
+        title: queryTitle.trim(),
         completed: false,
         userId,
         user: findUserById(+userId),
@@ -86,7 +86,7 @@ export const App: FC = () => {
               onChange={handleQueryTitle}
             />
           </label>
-          {titleValueError && <span className="error">{titleValueError}</span>}
+          {titleError && <span className="error">{titleError}</span>}
         </div>
 
         <div className="field">
@@ -108,7 +108,7 @@ export const App: FC = () => {
               ))}
             </select>
           </label>
-          {userValueError && <span className="error">{userValueError}</span>}
+          {userError && <span className="error">{userError}</span>}
         </div>
 
         <button

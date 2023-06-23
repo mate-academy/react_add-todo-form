@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
-import { FullTodo } from '../../types';
+import { Todo } from '../../types';
 
 type Props = {
-  todos: FullTodo[];
+  todos: Todo[];
 };
 
 export const TodoList: FC<Props> = ({ todos }) => {

@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
-import { FullTodo } from '../../types';
+import { Todo } from '../../types';
 
 interface Props {
-  todo: FullTodo;
+  todo: Todo;
 }
 
 export const TodoInfo: FC<Props> = ({ todo }) => {

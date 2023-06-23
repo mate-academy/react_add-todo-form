@@ -3,6 +3,7 @@ export interface Todo {
   title: string,
   completed: boolean,
   userId: number,
+  user?: User | null
 }
 
 export interface User {
@@ -10,8 +11,4 @@ export interface User {
   name: string,
   username: string,
   email: string,
-}
-
-export interface FullTodo extends Todo {
-  user: User | null,
 }
