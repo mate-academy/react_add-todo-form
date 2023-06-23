@@ -38,12 +38,14 @@ export const App: FC = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!queryTitle || !userId) {
+    const titleValidation = queryTitle.trim();
+
+    if (!titleValidation || !userId) {
       if (!userId) {
         setUserError('Please choose a user');
       }
 
-      if (!queryTitle) {
+      if (!titleValidation) {
         setTitleError('Please enter a title');
       }
 
@@ -53,7 +55,7 @@ export const App: FC = () => {
     setTodos(prevTodos => {
       const newTodo = {
         id: getNewId(prevTodos),
-        title: queryTitle.trim(),
+        title: queryTitle,
         completed: false,
         userId,
         user: findUserById(+userId),
