@@ -4,7 +4,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import { getUser } from './helpers/getUser';
-import { todosList } from './todosList';
+import { todosList } from './helpers/todosList';
 
 export const App: FC = () => {
   const [todos, setTodos] = useState([...todosList]);
@@ -64,7 +64,7 @@ export const App: FC = () => {
             placeholder="Enter a title"
             value={title}
             onChange={(event) => {
-              setTitle(event.target.value);
+              setTitle(event.target.value.trim());
               seTtitleErrorField(false);
             }}
           />
