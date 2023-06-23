@@ -7,6 +7,7 @@ import todosFromServer from './api/todos';
 
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { maxTodoId } from './helpers';
 
 const getUserById = (userId: number) => (
   usersFromServer.find(user => user.id === userId) || null
@@ -28,7 +29,7 @@ export const App = () => {
     event.preventDefault();
 
     const hasErrorTitle = !title.trim();
-    const hasErrorUser = selectedUser === 0;
+    const hasErrorUser = !selectedUser;
 
     setErrorTitle(hasErrorTitle);
     setErrorUser(hasErrorUser);
@@ -38,7 +39,7 @@ export const App = () => {
     }
 
     setTodos(prevTodos => {
-      const newId = Math.max(...prevTodos.map(todo => todo.id)) + 1;
+      const newId = maxTodoId(prevTodos);
 
       const newTodo = {
         id: newId,
@@ -58,20 +59,14 @@ export const App = () => {
     setSelectedUser(0);
   };
 
-  const onChange = (
-    event:
-    React.ChangeEvent<HTMLInputElement>
-    | React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    if (event.target.name === 'title') {
-      setTitle(event.target.value);
-      setErrorTitle(false);
-    }
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setErrorTitle(false);
+  };
 
-    if (event.target.name === 'user') {
-      setSelectedUser(Number(event.target.value));
-      setErrorUser(false);
-    }
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(Number(event.target.value));
+    setErrorUser(false);
   };
 
   return (
@@ -92,7 +87,7 @@ export const App = () => {
               data-cy="titleInput"
               name="title"
               value={title}
-              onChange={onChange}
+              onChange={handleChangeTitle}
               placeholder="Enter a title"
             />
           </label>
@@ -110,7 +105,7 @@ export const App = () => {
               data-cy="userSelect"
               name="user"
               value={selectedUser}
-              onChange={onChange}
+              onChange={handleChangeUser}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -118,10 +113,9 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {
-            errorUser
-            && <span className="error">Please choose a user</span>
-          }
+          {errorUser && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
