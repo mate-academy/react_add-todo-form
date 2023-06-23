@@ -22,7 +22,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      { todo.user && <UserInfo user={todo.user} />}
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };

@@ -5,16 +5,22 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
 
-const findUserById = (todoUserId: Todo['userId'], users:User[]) => {
-  return users.find(user => user.id === todoUserId) || null;
+const findUserById = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId) || null;
 };
 
 const todoWithUsers = todosFromServer.map(todo => ({
   ...todo,
-  user: findUserById(todo.userId, usersFromServer),
+  user: findUserById(todo.userId),
 }));
+
+const calculateNewId = (array: Todo[]) => {
+  const maxId = (Math.max(...array.map(element => element.id)));
+  const newId = maxId + 1;
+
+  return newId;
+};
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -33,30 +39,36 @@ export const App = () => {
     setIsValidSelectedOption(true);
   };
 
-  const addNewTodo = (() => setTodos(prevTodos => [...prevTodos, {
-    id: Math.max(...prevTodos.map(todo => todo.id)) + 1,
-    title,
-    completed: false,
-    userId: selectedOption,
-    user: findUserById(selectedOption, usersFromServer),
-  }]));
+  const addNewTodo = (() => setTodos(prevTodos => {
+    const newTodo = {
+      id: calculateNewId(prevTodos),
+      title,
+      completed: false,
+      userId: selectedOption,
+      user: findUserById(selectedOption),
+    };
+
+    return ([...prevTodos, newTodo]);
+  }));
 
   const handleFormSubmit = (
     (event:React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      if (title.length && selectedOption !== 0) {
+      if (title.trim() && selectedOption) {
         addNewTodo();
         setTitle('');
         setSelectedOption(0);
-      } else {
-        if (selectedOption === 0) {
-          setIsValidSelectedOption(false);
-        }
 
-        if (title.length === 0) {
-          setIsValidTitle(false);
-        }
+        return;
+      }
+
+      if (!selectedOption) {
+        setIsValidSelectedOption(false);
+      }
+
+      if (!title.trim()) {
+        setIsValidTitle(false);
       }
     });
 
@@ -93,8 +105,8 @@ export const App = () => {
             ))}
           </select>
 
-          {!isValidSelectedOption
-          && <span className="error">Please choose a user</span>}
+          {!isValidSelectedOption && (
+            <span className="error">Please choose a user</span>)}
         </div>
 
         <button
