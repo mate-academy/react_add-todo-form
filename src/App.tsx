@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -14,22 +14,22 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let status = false;
+    let inputIsEmpty = false;
 
     if (!userName) {
-      status = true;
+      inputIsEmpty = true;
 
       setIsWarningUser(true);
     }
 
     if (!title.trim() || !title) {
-      status = true;
+      inputIsEmpty = true;
 
       setTitle('');
       setIsWarningTitle(true);
     }
 
-    if (status) {
+    if (inputIsEmpty) {
       return;
     }
 
@@ -45,7 +45,7 @@ export const App = () => {
       const todo = {
         id: todoList.length,
         title,
-        completed: true,
+        completed: false,
         userId: user.id,
       };
 
@@ -55,6 +55,16 @@ export const App = () => {
       setUserName('');
       setTitle('');
     }
+  };
+
+  const handleTitleInput = (event) => {
+    setTitle(event.target.value);
+    setIsWarningTitle(false);
+  };
+
+  const handleUserNameInput = (event) => {
+    setUserName(event.target.value);
+    setIsWarningUser(false);
   };
 
   return (
@@ -75,10 +85,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setIsWarningTitle(false);
-              }}
+              onChange={handleTitleInput}
             />
             {isWarningTitle && (
               <span className="error">Please enter a title</span>
@@ -92,10 +99,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userName}
-              onChange={(e) => {
-                setUserName(e.target.value);
-                setIsWarningUser(false);
-              }}
+              onChange={handleUserNameInput}
             >
               <option value="" disabled>
                 Choose a user
