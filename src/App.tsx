@@ -50,8 +50,10 @@ export const App = () => {
   const handleSubmit = (event:FormEvent) => {
     event.preventDefault();
 
-    if (!title || !selectedUser) {
-      setErrorTitle(title ? '' : 'Please enter a title');
+    const trimedTitle = title.trim();
+
+    if (!trimedTitle || !selectedUser) {
+      setErrorTitle(trimedTitle ? '' : 'Please enter a title');
       setErrorSelectedUser(selectedUser ? '' : 'Please choose a user');
 
       return;
@@ -69,7 +71,7 @@ export const App = () => {
 
       const newTodo = {
         id: maxId + 1,
-        title,
+        title: trimedTitle,
         userId: userInfo.id,
         completed: false,
         user: userInfo,
