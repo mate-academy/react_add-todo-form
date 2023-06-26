@@ -20,20 +20,20 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [titleError, setTitleError] = useState<boolean>(false);
-  const [userError, setUserError] = useState<boolean>(false);
+  const [isTitleValid, setIsTitleValid] = useState<boolean>(false);
+  const [isUserValid, setIsUserValid] = useState<boolean>(false);
   const [addUser, setAddUser] = useState<string>('');
   const [addTitle, setAddTitle] = useState<string>('');
   const [addTodos, setAddTodos] = useState<Todo[]>(todos);
 
-  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const title = addTitle.trim();
     const newIndex = Math.max(...addTodos.map(todo => todo.id)) + 1;
 
-    setTitleError(!title);
-    setUserError(!addUser);
+    setIsTitleValid(!title);
+    setIsUserValid(!addUser);
 
     if (title && addUser) {
       const user = getUserById(+addUser);
@@ -57,12 +57,12 @@ export const App = () => {
 
   const handleSetAddUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAddUser(event.target.value);
-    setUserError(false);
+    setIsUserValid(false);
   };
 
   const handleSetAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleValid(false);
   };
 
   return (
@@ -72,7 +72,7 @@ export const App = () => {
       <form
         action="/api/users"
         method="POST"
-        onSubmit={handleAddTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <span className="label">Title: </span>
@@ -84,7 +84,7 @@ export const App = () => {
             onChange={handleSetAddTitle}
           />
           <span className="error">
-            {titleError && ('Please enter a title')}
+            {isTitleValid && ('Please enter a title')}
           </span>
         </div>
 
@@ -110,7 +110,7 @@ export const App = () => {
           </select>
 
           <span className="error">
-            {userError && ('Please choose a user')}
+            {isUserValid && ('Please choose a user')}
           </span>
         </div>
 
