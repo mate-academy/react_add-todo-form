@@ -35,28 +35,30 @@ export const App: FC = () => {
     setTodosList([...data]);
   }, []);
 
-  useEffect(() => {
-    if (selectedUser) {
-      setSelectedUserError(false);
-    }
+  const handleInput = (event : ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
 
-    if (title) {
+    if (value.trim()) {
       setTitleError(false);
     }
-  }, [selectedUser, title]);
 
-  const handleInput = (event : ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(value);
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(event.target.value);
+    const { value } = event.target;
+
+    if (value.trim()) {
+      setSelectedUserError(false);
+    }
+
+    setSelectedUser(value);
   };
 
   const handleSubmit = (event : ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
