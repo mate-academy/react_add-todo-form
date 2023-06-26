@@ -29,7 +29,7 @@ export const App = () => {
   const formOnSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -37,10 +37,9 @@ export const App = () => {
       setUserError(true);
     }
 
-    if (!selectedUser || !title) {
+    if (!selectedUser || !title.trim()) {
       return;
     }
-
 
     const maxId = todos.map((todo) => (todo.id));
     const newId = Math.max(...maxId) + 1;
