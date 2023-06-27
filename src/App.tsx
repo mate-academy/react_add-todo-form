@@ -21,61 +21,57 @@ const visibleTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedUser, setSelectedUser] = useState(0);
-  const [validTitle, setValidTitle] = useState(false);
-  const [validName, setValidName] = useState(false);
+  const [title, setTitle] = useState('');
+  const [selectedUser, setSelectedUser] = useState<number | null>(null);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
   const [todos, setTodos] = useState(visibleTodos);
 
   const handleQueryChange = ((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+    setTitle(event.target.value);
 
-    setValidTitle(false);
+    setIsTitleValid(false);
   });
 
   const handleSelectChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
 
-    setValidName(false);
+    setIsNameValid(false);
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!searchQuery.length && selectedUser === 0) {
-      setValidTitle(true);
-      setValidName(true);
+    if (!title.length || !selectedUser) {
+      if (!selectedUser) {
+        setIsNameValid(true);
+      }
+
+      if (!title.length) {
+        setIsTitleValid(true);
+      }
 
       return;
     }
 
-    if (selectedUser === 0) {
-      setValidName(true);
-
-      return;
-    }
-
-    if (!searchQuery.length) {
-      setValidTitle(true);
-
-      return;
-    }
+    const getNewId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title: searchQuery,
+      id: getNewId,
+      title,
       completed: false,
       userId: selectedUser,
       user: getUser(selectedUser),
     };
 
-    if (searchQuery.trim() && selectedUser) {
-      setTodos(
-        [...todos, newTodo],
-      );
+    if (title.trim() && selectedUser) {
+      setTodos((currentTodos) => [
+        ...currentTodos,
+        newTodo,
+      ]);
 
-      setSearchQuery('');
-      setSelectedUser(0);
+      setTitle('');
+      setSelectedUser(null);
     }
   };
 
@@ -95,10 +91,10 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={searchQuery}
+            value={title}
             onChange={handleQueryChange}
           />
-          {validTitle && <span className="error">Please enter a title</span>}
+          {isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -106,10 +102,15 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="userSelect"
-            value={selectedUser}
+            value={selectedUser?.toString() || ''}
             onChange={handleSelectChange}
           >
-            <option value="0" disabled>Choose a user</option>
+            <option
+              value=""
+              disabled
+            >
+              Choose a user
+            </option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
@@ -118,7 +119,7 @@ export const App = () => {
             ))}
           </select>
 
-          {validName && <span className="error">Please choose a user</span>}
+          {isNameValid && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
