@@ -8,7 +8,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/users" method="POST">
+      <form action="/api/todos" method="POST">
         <div className="field">
           <input type="text" data-cy="titleInput" />
           <span className="error">Please enter a title</span>
