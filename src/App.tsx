@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './App.scss';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
@@ -24,6 +24,48 @@ export const App = () => {
   const [hasUser, setHasUser] = useState(true);
   const [hasTitle, setHasTitle] = useState(true);
 
+  const validateAndUpdateList = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (title.trim() && user) {
+      const newTodo = {
+        id: Math.max(...todosFromServer.map(todo => todo.id)) + 1,
+        title,
+        completed: false,
+        userId: user,
+        user: getUser(user),
+      };
+
+      updateTodos([
+        ...todos,
+        newTodo,
+      ]);
+
+      setUser(0);
+      setTitle('');
+
+      return;
+    }
+
+    if (!title.trim()) {
+      setHasTitle(false);
+    }
+
+    if (!user) {
+      setHasUser(false);
+    }
+  };
+
+  const updateTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setHasTitle(true);
+    setTitle(event.target.value);
+  };
+
+  const selectUser = (event: ChangeEvent<HTMLSelectElement>) => {
+    setHasUser(true);
+    setUser(+event.target.value);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -32,37 +74,7 @@ export const App = () => {
         action="/api/users"
         method="POST"
         id="form"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (title && user) {
-            const newTodo = {
-              id: Math.max(...todosFromServer.map(todo => todo.id)) + 1,
-              title,
-              completed: false,
-              userId: user,
-              user: getUser(user),
-            };
-
-            updateTodos([
-              ...todos,
-              newTodo,
-            ]);
-
-            setUser(0);
-            setTitle('');
-
-            return;
-          }
-
-          if (!title) {
-            setHasTitle(false);
-          }
-
-          if (!user) {
-            setHasUser(false);
-          }
-        }}
+        onSubmit={(event) => validateAndUpdateList(event)}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -71,10 +83,7 @@ export const App = () => {
             data-cy="titleInput"
             id="title"
             value={title}
-            onChange={event => {
-              setHasTitle(true);
-              setTitle(event.target.value);
-            }}
+            onChange={event => updateTitle(event)}
             placeholder="Enter a title"
           />
           {!hasTitle && (
@@ -88,10 +97,7 @@ export const App = () => {
             data-cy="userSelect"
             id="user"
             value={user}
-            onChange={event => {
-              setHasUser(true);
-              setUser(+event.target.value);
-            }}
+            onChange={event => selectUser(event)}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(userFromServer => (

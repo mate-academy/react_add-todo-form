@@ -6,14 +6,20 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const completed = `TodoInfo${
-    todo.completed ? ' TodoInfo--completed' : ''}`;
+  const {
+    completed,
+    id,
+    user,
+    title,
+  } = todo;
+
+  const IsCompleted = `TodoInfo${completed ? ' TodoInfo--completed' : ''}`;
 
   return (
-    <article className={completed} data-id={todo.id}>
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+    <article className={IsCompleted} data-id={id}>
+      <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo user={todo.user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
