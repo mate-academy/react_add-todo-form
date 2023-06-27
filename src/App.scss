@@ -6,12 +6,25 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.App {
+  margin-left: 20px;
+}
+
+.box {
+  width: 400px;
+}
+
+.input {
+  width: 172px;
+}
+
 label,
 button {
   cursor: pointer;
 }
 
 .error {
+  margin-left: 5px;
   color: red;
 }
 
