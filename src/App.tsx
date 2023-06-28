@@ -82,7 +82,7 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/users"
+        action="/api/todos"
         method="POST"
         onSubmit={handleSubmit}
       >
