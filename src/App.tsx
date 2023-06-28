@@ -13,21 +13,22 @@ function getUser(userId: number): User | null {
 }
 
 export const App: FC = () => {
-  const [currentTodos, setTodos] = useState<Todo[]>(todosFromServer
-    .map(todo => ({
-      ...todo,
-      user: getUser(todo.userId),
-    })));
+  const initialTodos = todosFromServer.map(todo => ({
+    ...todo,
+    user: getUser(todo.userId),
+  }));
+
+  const [todo, setTodos] = useState<Todo[]>(initialTodos);
 
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState<number>(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [formErrors, setFormErrors]
     = useState<{ title?: string, user?: string }>({});
 
   const handleFormSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!selectedUser) {
+    if (!selectedUserId) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         user: 'Please choose a user',
@@ -41,23 +42,23 @@ export const App: FC = () => {
       }));
     }
 
-    if (selectedUser && title.trim() !== '') {
+    if (selectedUserId && title.trim() !== '') {
       const newId
-        = currentTodos.reduce((maxId, todo) => Math.max(maxId, todo.id), 0) + 1;
+        = todo.reduce((maxId, item) => Math.max(maxId, item.id), 0) + 1;
 
-      const newUser = getUser(selectedUser);
+      const newUser = getUser(selectedUserId);
 
       const newTodo: Todo = {
         id: newId,
         title: title.trim(),
-        userId: selectedUser,
+        userId: selectedUserId,
         completed: false,
         user: newUser,
       };
 
-      setTodos([...currentTodos, newTodo]);
+      setTodos([...todo, newTodo]);
       setTitle('');
-      setSelectedUser(0);
+      setSelectedUserId(0);
       setFormErrors({});
     }
   };
@@ -72,14 +73,14 @@ export const App: FC = () => {
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const selectedUserId = Number(event.target.value);
+    const selectedValue = Number(event.target.value);
 
-    setSelectedUser(selectedUserId);
+    setSelectedUserId(selectedValue);
     setFormErrors(prevErrors => ({ ...prevErrors, user: '' }));
   };
 
-  const selectedUserName = selectedUser
-    ? usersFromServer.find(user => user.id === selectedUser)?.name
+  const selectedUserIdName = selectedUserId
+    ? usersFromServer.find(user => user.id === selectedUserId)?.name
     : '';
 
   return (
@@ -104,7 +105,7 @@ export const App: FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedUser}
+            value={selectedUserId}
             onChange={handleUserChange}
           >
             <option value={0}>Choose a user</option>
@@ -126,9 +127,9 @@ export const App: FC = () => {
         </button>
       </form>
 
-      {selectedUserName && <p>{`Selected user: ${selectedUserName}`}</p>}
+      {selectedUserIdName && <p>{`Selected user: ${selectedUserIdName}`}</p>}
 
-      <TodoList todos={currentTodos} />
+      <TodoList todos={todo} />
     </div>
   );
 };
