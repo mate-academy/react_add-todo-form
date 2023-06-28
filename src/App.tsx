@@ -25,11 +25,6 @@ export const App = () => {
   const [isUserSelectError, setIsUserSelectError] = useState(false);
   const [isTitleError, setIsTitleError] = useState(false);
 
-  // const todosWithUsers: Todo[] = todos.map(todo => ({
-  //   ...todo,
-  //   user: getUser(todo.userId),
-  // }));
-
   const clearForm = () => {
     setSelectedUserId(0);
     setNewTodoTitle('');
