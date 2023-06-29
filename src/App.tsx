@@ -9,15 +9,18 @@ import { User } from './types/User';
 import { validation } from './utils/validation';
 
 function getUserById(id: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+  const foundUser = usersFromServer.find(user => user.id === id);
 
-  // if there is no user with a given userId
   return foundUser || null;
+}
+
+function getMaxId(todos: Todo[]) {
+  return todos.sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1;
 }
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -45,12 +48,12 @@ export const App: React.FC = () => {
     }
 
     const user = usersFromServer.find(
-      userFromServer => userFromServer.id === Number(selectedUserId)
+      userFromServer => userFromServer.id === Number(selectedUserId),
     );
 
     if (user) {
       todos.push({
-        id: getMaxId(todos)
+        id: getMaxId(todos),
         title,
         completed: false,
         userId: user.id,
@@ -89,11 +92,7 @@ export const App: React.FC = () => {
           </label>
 
           {titleError && (
-            <span
-              className="error"
-            >
-              Please enter a title
-            </span>
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
@@ -109,24 +108,24 @@ export const App: React.FC = () => {
           >
             <option
               value="0"
+              key={0}
               disabled
             >
               Choose a user
             </option>
 
             {usersFromServer.map(userFromServer => (
-              <option value={userFromServer.id}>
+              <option
+                value={userFromServer.id}
+                key={userFromServer.id}
+              >
                 {userFromServer.name}
               </option>
             ))}
           </select>
 
           {userError && (
-            <span
-              className="error"
-            >
-              Please choose a user
-            </span>
+            <span className="error">Please choose a user</span>
           )}
         </div>
 
