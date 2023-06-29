@@ -48,7 +48,7 @@ export const App: React.FC = () => {
       userFromServer => userFromServer.id === Number(selectedUserId)
     );
 
-    if (user !== undefined) {
+    if (user) {
       todos.push({
         id: todos
           .sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1,
