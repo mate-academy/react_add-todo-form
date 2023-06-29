@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import './App.scss';
+import { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -88,7 +88,7 @@ export const App = () => {
       >
         <div className="field">
           <label htmlFor="taskTitle">
-            {'Title: '}
+            Title:
           </label>
 
           <input
@@ -109,7 +109,7 @@ export const App = () => {
 
         <div className="field">
           <label htmlFor="select">
-            {'User: '}
+            User:
           </label>
 
           <select
