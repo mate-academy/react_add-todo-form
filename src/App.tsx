@@ -50,8 +50,7 @@ export const App: React.FC = () => {
 
     if (user) {
       todos.push({
-        id: todos
-          .sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1,
+        id: getMaxId(todos)
         title,
         completed: false,
         userId: user.id,
