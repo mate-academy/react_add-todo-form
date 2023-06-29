@@ -43,12 +43,12 @@ export const App: React.FC = () => {
   };
 
   const inputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.currentTarget.value);
     setTitleError(false);
   };
 
   const selectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectUserId(event.target.value);
+    setSelectUserId(event.currentTarget.value);
     setUserError(false);
   };
 
