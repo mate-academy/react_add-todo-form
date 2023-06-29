@@ -20,7 +20,8 @@ Cypress.on('fail', (e) => {
 
 describe('Page', () => {
   beforeEach(() => {
-    if (failed) Cypress.runner.stop();
+    // Other tests are executed anyway, so it is better to see all errors
+    // if (failed) Cypress.runner.stop();
 
     cy.visit('/');
   });
