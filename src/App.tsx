@@ -44,8 +44,9 @@ export const App: React.FC = () => {
       return null;
     }
 
-    const user = usersFromServer
-      .find(userFromServer => userFromServer.id === +selectedUserId);
+    const user = usersFromServer.find(
+      userFromServer => userFromServer.id === Number(selectedUserId)
+    );
 
     if (user !== undefined) {
       todos.push({
