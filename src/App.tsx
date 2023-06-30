@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { User } from './types/user';
 import { Todo } from './types/todo';
+import { getUserById, getUserByName } from './helpers/helpers';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-const getUserById = (userId: number): User | null => (
-  usersFromServer.find((user) => (user.id === userId)) || null
-);
-
-const getUserByName = (userName: string): User | null => (
-  usersFromServer.find((user) => (user.name === userName)) || null
-);
 
 const preparedTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
@@ -24,14 +16,14 @@ export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [isTitleValid, setIsTitleValid] = useState(false);
-  const [isUserValid, setIsUserValid] = useState(false);
+  const [isTitleValid, setIsTitleValid] = useState<string | boolean>(false);
+  const [isUserValid, setIsUserValid] = useState<string | boolean>(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setTitle(value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
-    setIsTitleValid(Boolean(value));
+    setIsTitleValid(value);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,8 +36,8 @@ export const App = () => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsTitleValid(Boolean(title.trim()));
-    setIsUserValid(Boolean(selectedUser));
+    setIsTitleValid(title.trim());
+    setIsUserValid(selectedUser);
 
     if (!title.trim() || !selectedUser) {
       return;
