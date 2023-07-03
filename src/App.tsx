@@ -25,7 +25,6 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !userId) {
       if (!title) {
         setIsTitleValid(false);
       }
@@ -34,8 +33,9 @@ export const App: React.FC = () => {
         setIsUserSelected(false);
       }
 
-      return;
-    }
+     if (!title || !userId) {
+        return;
+      }
 
     const newTodo = {
       id: getNewTodoId(todos),
