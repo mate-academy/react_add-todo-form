@@ -25,7 +25,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 function titleValidation(value: string) {
-  return value.replace(/^[a-zA-Zа-яА-Я0-9\s]+$/g, '');
+  return value.replace(/[^a-zA-Zа-яА-Я0-9\s]+$/g, '');
 }
 
 export const App: React.FC = () => {
