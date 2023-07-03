@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setUserId(Number(event.target.value));
     setIsUserSelected(true);
   };
 
