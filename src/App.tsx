@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
+import { TodoInterface } from './types/Todo';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { getUserById, getTodoId } from './components/helpers';
 
-const todos: Todo[] = todosFromServer.map(todo => ({
+const todos: TodoInterface[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
       return;
     }
 
-    const newTodo: Todo = {
+    const newTodo: TodoInterface = {
       id: getTodoId(listTodos),
       title,
       userId: user,
