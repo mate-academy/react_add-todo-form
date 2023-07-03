@@ -1,61 +1,136 @@
 import './App.scss';
+import { useState } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+import { User } from './components/types/User';
+import { Todo } from './components/types/Todo';
+import { TodoList } from './components/TodoList';
+
+function getNewId(array: Todo[]): number {
+  const biggestId = array.reduce((maxId, obj) => {
+    return obj.id > maxId ? obj.id : maxId;
+  }, 0);
+
+  return biggestId + 1;
+}
+
+export const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find((user: User) => user.id === todo.userId),
+}));
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState(todosWithUsers);
+  const [selectedUserId, setSelectedUserId] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [isInvalidField, setIsInvalidField] = useState({
+    userId: false,
+    title: false,
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsInvalidField(currentIsInvalid => ({
+      ...currentIsInvalid,
+      userId: selectedUserId === '',
+      title: newTitle.trim() === '',
+    }));
+
+    if (selectedUserId && newTitle.trim()) {
+      const newTodo: Todo = {
+        id: getNewId(todosWithUsers),
+        userId: +selectedUserId,
+        title: newTitle,
+        completed: false,
+        user: usersFromServer.find((user: User) => user.id === +selectedUserId),
+      };
+
+      setTodos(currentTodos => [...currentTodos, newTodo]);
+      setNewTitle('');
+      setSelectedUserId('');
+    }
+  };
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { value, type } = event.target;
+
+    if (type === 'text') {
+      setNewTitle(value);
+    } else {
+      setSelectedUserId(value);
+    }
+
+    setIsInvalidField({
+      userId: false,
+      title: false,
+    });
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label>
+            Title:
+            <input
+              type="text"
+              name="title"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={newTitle}
+              onChange={handleChange}
+            />
+          </label>
+
+          {isInvalidField.title && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+          <label>
+            User:
+            <select
+              name="user id"
+              data-cy="userSelect"
+              value={selectedUserId}
+              onChange={handleChange}
+            >
+              <option value="" disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
-          <span className="error">Please choose a user</span>
+          {isInvalidField.userId && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
