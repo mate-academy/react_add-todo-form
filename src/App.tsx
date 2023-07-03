@@ -8,14 +8,6 @@ import { User } from './components/types/User';
 import { Todo } from './components/types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getNewId(array: Todo[]): number {
-  const biggestId = array.reduce((maxId, obj) => {
-    return obj.id > maxId ? obj.id : maxId;
-  }, 0);
-
-  return biggestId + 1;
-}
-
 export const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find((user: User) => user.id === todo.userId),
@@ -41,11 +33,12 @@ export const App: React.FC = () => {
 
     if (selectedUserId && newTitle.trim()) {
       const newTodo: Todo = {
-        id: getNewId(todosWithUsers),
-        userId: +selectedUserId,
+        id: Math.max(...todosWithUsers.map(todo => todo.id)) + 1,
+        userId: Number(selectedUserId),
         title: newTitle,
         completed: false,
-        user: usersFromServer.find((user: User) => user.id === +selectedUserId),
+        user: usersFromServer
+          .find((user: User) => user.id === Number(selectedUserId)),
       };
 
       setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -58,17 +51,21 @@ export const App: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { value, type } = event.target;
+    const TEXT_INPUT = 'text';
 
-    if (type === 'text') {
+    if (type === TEXT_INPUT) {
       setNewTitle(value);
+      setIsInvalidField(currentIsInvalid => ({
+        ...currentIsInvalid,
+        title: false,
+      }));
     } else {
       setSelectedUserId(value);
+      setIsInvalidField(currentIsInvalid => ({
+        ...currentIsInvalid,
+        userId: false,
+      }));
     }
-
-    setIsInvalidField({
-      userId: false,
-      title: false,
-    });
   };
 
   return (
