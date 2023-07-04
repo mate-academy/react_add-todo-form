@@ -28,8 +28,10 @@ export const App: FC = () => {
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [todosList, setTodosList] = useState<Todo[]>([]);
-  const [titleError, setTitleError] = useState<boolean>(false);
-  const [selectedUserError, setSelectedUserError] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState<boolean | null>(null);
+  const [selectedUserError, setSelectedUserError] = (
+    useState<boolean | null>(null)
+  );
 
   useEffect(() => {
     setTodosList([...data]);
@@ -38,8 +40,8 @@ export const App: FC = () => {
   const handleInput = (event : ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    if (value.trim()) {
-      setTitleError(false);
+    if (value) {
+      setTitleError(null);
     }
 
     setTitle(value);
@@ -48,17 +50,22 @@ export const App: FC = () => {
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    if (value.trim()) {
-      setSelectedUserError(false);
+    if (value) {
+      setSelectedUserError(null);
     }
 
     setSelectedUser(value);
   };
 
+  const resetForm = () => {
+    setSelectedUser('');
+    setTitle('');
+  };
+
   const handleSubmit = (event : ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim()) {
+    if (!title) {
       setTitleError(true);
     }
 
@@ -87,8 +94,7 @@ export const App: FC = () => {
       newTodo,
     ]);
 
-    setSelectedUser('');
-    setTitle('');
+    resetForm();
   };
 
   return (
@@ -111,7 +117,7 @@ export const App: FC = () => {
 
           {
             titleError
-            && <span className="error">Please enter a title</span>
+              && <span className="error">Please enter a title</span>
           }
         </div>
 
@@ -136,7 +142,7 @@ export const App: FC = () => {
 
           {
             selectedUserError
-            && <span className="error">Please choose a user</span>
+              && <span className="error">Please choose a user</span>
           }
         </div>
 
