@@ -70,7 +70,7 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-        <label>
+          <label>
             {'Title: '}
             <input
               value={title}
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-        <label>
+          <label>
             {'User: '}
             <select
               data-cy="userSelect"
