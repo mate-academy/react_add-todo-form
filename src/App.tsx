@@ -19,7 +19,7 @@ const todosArr: Todo[] = todosFromServer.map((todo) => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [selectUser, setSelectUser] = useState('');
+  const [selectUser, setSelectUser] = useState('0');
   const [todos, setTodos] = useState<Todo[]>(todosArr);
   const [isTitleValid, setIsTitleValid] = useState(true);
   const [isSelectUserValid, setIsSelectUserValid] = useState(true);
