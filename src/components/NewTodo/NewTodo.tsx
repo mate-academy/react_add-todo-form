@@ -15,7 +15,6 @@ export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
   const [userSelectHasError, setUserSelectHasError] = useState(false);
 
   const isAllowedSymbols = (input: string): boolean => {
-    // const pattern = /^[a-zA-Z А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9]+$/;
     const pattern = /^[^@!#№$;%:&?8(){}*."\\/|'^,]+$/;
 
     if (!input) {
