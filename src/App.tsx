@@ -6,21 +6,52 @@ import todosFromServer from './api/todos';
 import { NewTodo } from './components/NewTodo';
 import { TodoList } from './components/TodoList';
 
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
 import './App.scss';
 
-import { Todo } from './types/Todo';
+const users: User[] = [...usersFromServer];
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  // if there is no user with a given userId
+  return foundUser || null;
+}
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+type IndexedUsers = {
+  [index: number]: User;
+};
+
+const indexedUsers = users.reduce((
+  total: IndexedUsers, current: User,
+): IndexedUsers => {
+  // eslint-disable-next-line no-param-reassign
+  total[current.id] = { ...current };
+
+  return total;
+}, {});
 
 export const App = () => {
-  const [listTodo, setListTodo] = useState([...todosFromServer]);
+  const [todosToRender, setTodosToRender] = useState(todos);
 
   const addTodo = (todo: Omit<Todo, 'id'>) => {
-    const lastTodoIndex = listTodo.reduce((maxI, curI) => {
+    const lastTodoIndex = todosToRender.reduce((maxI, curI) => {
       return curI.id > maxI ? curI.id : maxI;
     }, 0);
 
-    setListTodo(currrentList => [...currrentList, {
+    const user = indexedUsers[todo.userId];
+
+    setTodosToRender(currentList => [...currentList, {
       ...todo,
       id: lastTodoIndex + 1,
+      user,
     }]);
   };
 
@@ -29,14 +60,12 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <NewTodo
-        users={usersFromServer}
-        onAdd={(todo) => {
-          addTodo((todo));
-        }}
+        users={users}
+        onAdd={addTodo}
       />
 
       <TodoList
-        todos={listTodo}
+        todos={todosToRender}
       />
     </div>
   );

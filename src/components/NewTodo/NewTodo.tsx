@@ -11,11 +11,12 @@ export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
   const [title, setTitle] = useState('');
   const [titleHasError, setTitleHasError] = useState(false);
 
-  const [userSelect, setUserSelect] = useState(0);
+  const [userSelect, setUserSelect] = useState<number | null>(null);
   const [userSelectHasError, setUserSelectHasError] = useState(false);
 
   const isAllowedSymbols = (input: string): boolean => {
-    const pattern = /^[a-zA-Z А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9]+$/;
+    // const pattern = /^[a-zA-Z А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9]+$/;
+    const pattern = /^[^@!#№$;%:&?8(){}*."\\/|'^,]+$/;
 
     if (!input) {
       return true;
@@ -26,11 +27,10 @@ export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
 
   const clearTodoFields = () => {
     setTitle('');
-    setUserSelect(0);
+    setUserSelect(null);
   };
 
   const handlerTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // setTitle(event.target.value);
     setTitle(currentTitle => {
       return isAllowedSymbols(event.target.value)
         ? event.target.value
@@ -52,7 +52,12 @@ export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
       return;
     }
 
-    onAdd({ title, completed: false, userId: userSelect });
+    onAdd({
+      title,
+      completed: false,
+      userId: userSelect,
+      user: null,
+    });
     clearTodoFields();
   };
 
@@ -82,7 +87,7 @@ export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
         <select
           data-cy="userSelect"
           id="userSelect"
-          value={userSelect}
+          value={userSelect === null ? 0 : userSelect}
           onChange={(event) => handlerUserSelect(event)}
         >
           <option
