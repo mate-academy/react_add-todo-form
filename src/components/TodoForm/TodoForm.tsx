@@ -27,14 +27,15 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title || !userId || title.startsWith(' ')) {
       return;
     }
 
     onSubmit({
       id: 0,
       userId,
-      title,
+      title: title.trim(),
+      completed: false,
       user: getUserById(userId),
     });
 
@@ -70,7 +71,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           type="text"
           data-cy="titleInput"
           placeholder="Title input"
-          value={title.trim()}
+          value={title}
           onChange={handleTitleChange}
         />
 

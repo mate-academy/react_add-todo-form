@@ -12,21 +12,25 @@ export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-function getNewTodotId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
+// function getNewTodotId(todos: Todo[]) {
+//   const maxId = Math.max(...todos.map(todo => todo.id));
 
-  return maxId + 1;
-}
+//   return maxId + 1;
+// }
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  const addTodo = ({ id, ...data }: Todo) => {
-    const newTodo = {
-      id: getNewTodotId(todos),
-      ...data,
-    };
+  const getNewTodotId = () => {
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
-    setTodos(currentTodo => [...currentTodo, newTodo]);
+    return maxId + 1;
+  };
+
+  const addTodo = (newTodo: Todo) => {
+    setTodos(currentTodos => [...currentTodos, {
+      ...newTodo,
+      id: getNewTodotId(),
+    }]);
   };
 
   return (
