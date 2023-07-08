@@ -40,7 +40,9 @@ export const App: React.FC = () => {
       setIsUserSelected(false);
     }
 
-    if (!title || !userId) {
+    if (!title || !userId || title.trim().length === 0) {
+      setIsTitleValid(false);
+
       return;
     }
 
@@ -63,9 +65,9 @@ export const App: React.FC = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const trimmed = event.target.value.trim();
+    const targetValue = event.target.value;
 
-    setTitle(trimmed);
+    setTitle(targetValue);
     setIsTitleValid(true);
   };
 
