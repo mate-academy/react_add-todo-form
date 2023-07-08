@@ -63,7 +63,9 @@ export const App: React.FC = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const trimmed = event.target.value.trim();
+
+    setTitle(trimmed);
     setIsTitleValid(true);
   };
 
