@@ -4,5 +4,6 @@ export type Todo = {
   id: number,
   title: string,
   completed: boolean,
-  user: User,
+  userId: number | null,
+  user: User | null,
 };
