@@ -11,6 +11,15 @@ button {
   cursor: pointer;
 }
 
+.label {
+  display: block;
+  padding: 5px 0;
+}
+
+.button {
+  margin-top: 10px;
+}
+
 .error {
   color: red;
 }
