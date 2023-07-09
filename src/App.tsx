@@ -16,8 +16,8 @@ export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [isTitleValid, setIsTitleValid] = useState<string | boolean>(false);
-  const [isUserValid, setIsUserValid] = useState<string | boolean>(false);
+  const [isTitleValid, setIsTitleValid] = useState<string | boolean>(true);
+  const [isUserValid, setIsUserValid] = useState<string | boolean>(true);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
