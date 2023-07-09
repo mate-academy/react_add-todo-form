@@ -1,6 +1,6 @@
 import React from 'react';
 import { getUserById } from '../../services/helpers';
-import { Todo } from '../../services/todo'
+import { Todo } from '../../services/todo';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {

@@ -24,7 +24,7 @@ export const App: React.FC = () => {
     setUserId(0);
     setHasTitleError(false);
     setHasUserError(false);
-  }
+  };
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,22 +40,22 @@ export const App: React.FC = () => {
       id: getNewTodoId(todos),
       title,
       completed: false,
-      userId
-    }
+      userId,
+    };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
     reset();
-  }
+  };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
-  }
+  };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserError(false);
-  }
+  };
 
   return (
     <div className="App">
@@ -65,8 +65,8 @@ export const App: React.FC = () => {
         <div className="field">
           <label htmlFor="title">Title: </label>
 
-          <input 
-            type="text" 
+          <input
+            type="text"
             id="title"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -81,9 +81,9 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="user">User: </label>
-          
-          <select 
-            data-cy="userSelect" 
+
+          <select
+            data-cy="userSelect"
             id="user"
             value={userId}
             onChange={handleUserChange}
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
             <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option 
+              <option
                 value={user.id}
                 key={user.id}
               >
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList 
+      <TodoList
         todos={todos}
       />
     </div>
