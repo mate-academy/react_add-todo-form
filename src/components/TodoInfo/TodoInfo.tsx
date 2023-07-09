@@ -1,3 +1,5 @@
+import './TodoInfo.scss';
+
 import cn from 'classnames';
 import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
