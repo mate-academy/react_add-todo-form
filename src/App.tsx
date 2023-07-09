@@ -20,7 +20,7 @@ const getPostId = (posts: Post[]) => {
 
 export const App = () => {
   const [title, setTitle] = useState<string>('');
-  const [todos, setTodos] = useState<Post[]>(todosFromServer);
+  const [todos, setTodos] = useState<Post[]>([...todosFromServer]);
   const [titleError, setTitleError] = useState<boolean>(false);
   const [userError, setUserError] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
