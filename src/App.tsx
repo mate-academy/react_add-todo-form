@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title || title.trim().length === 0) {
       setIsTitleValid(false);
     }
 
@@ -41,8 +41,6 @@ export const App: React.FC = () => {
     }
 
     if (!title || !userId || title.trim().length === 0) {
-      setIsTitleValid(false);
-
       return;
     }
 
