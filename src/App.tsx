@@ -5,12 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './services/todo';
-
-function getNewTodoId(todos: Todo[]): number {
-  const maxId = Math.max(...todos.map(todo => todo.id));
-
-  return maxId + 1;
-}
+import { getNewTodoId } from './services/helpers';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
