@@ -110,7 +110,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
           </option>
 
           {users.map(user => (
-            <option value={user.id}>
+            <option value={user.id} key={user.id}>
               {user.name}
             </option>
           ))}

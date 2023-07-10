@@ -12,6 +12,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
         <TodoInfo
           todo={todo}
           data-id={todo.id}
+          key={todo.id}
         />
       ))}
     </section>
