@@ -57,6 +57,7 @@ export const App = () => {
       }]);
 
     setTitle('');
+    setSelect(0);
   };
 
   return (
@@ -78,7 +79,7 @@ export const App = () => {
             id="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => handleTitle(event)}
+            onChange={handleTitle}
           />
 
           {titleError && (
@@ -92,9 +93,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="userSelect"
-            defaultValue={0}
+            defaultValue={select}
             required
-            onChange={event => handleSelect(event)}
+            onChange={handleSelect}
           >
             <option value="0" disabled>Choose a user</option>
 
