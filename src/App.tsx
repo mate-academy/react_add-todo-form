@@ -19,7 +19,7 @@ const todosWithUser = (): Todo[] => {
   });
 };
 
-const titlePatter = /[^a-zA-Zбвгґджзклмнпрстфхцчшщйаеєиіїоуюяь\d\s]/gm;
+const titlePatter = /[^a-zA-ZА-ЩЬЮЯҐЄІЇа-щьюяґєії\d\s]/gm;
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
