@@ -43,8 +43,23 @@ export const App = () => {
     setHasUserIdError(false);
   };
 
+  const resetFields = () => {
+    setTitle('');
+    setUserId(0);
+    setHasTitleError(false);
+    setHasUserIdError(false);
+  };
+
+  const getNewId = (todos: Todos[]) => {
+    const maxId = Math.max(
+      ...todos.map(todo => todo.id),
+    );
+
+    return maxId + 1;
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
+    event.preventDefault();
 
     setHasTitleError(!title);
     setHasUserIdError(!userId);
@@ -54,12 +69,14 @@ export const App = () => {
     }
 
     addNewTodo({
-      id: 0,
+      id: getNewId(allTodos),
       title,
       completed: false,
       userId,
       user: findUser(userId),
     });
+
+    resetFields();
   };
 
   return (
@@ -83,6 +100,7 @@ export const App = () => {
             placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
+            onBlur={() => setHasTitleError(!title)}
           />
 
           {hasTitleError && (
@@ -102,6 +120,7 @@ export const App = () => {
               id="user-id"
               value={userId}
               onChange={handleUserIdChange}
+              onBlur={() => setHasUserIdError(!userId)}
             >
               <option value="0" disabled>Choose a user</option>
 
