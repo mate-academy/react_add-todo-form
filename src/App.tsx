@@ -1,28 +1,24 @@
-/*eslint-disable*/
-import "./App.scss";
+import './App.scss';
 
-import usersFromServer from "./api/users";
-import todosFromServer from "./api/todos";
-import { TodoList } from "./components/TodoList";
-import React, { useState } from "react";
-import { Todo } from "./types/ToDo";
+import React, { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/ToDo';
 
 const posts = todosFromServer.map((todo) => {
   const user = usersFromServer.find((person) => person.id === todo.userId);
+
   return { ...todo, user };
 });
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(posts);
-  const [titleField, setTitleField] = useState("");
-  const [userName, setUserName] = useState("");
+  const [titleField, setTitleField] = useState('');
+  const [userName, setUserName] = useState('');
 
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorName, setErrorName] = useState(false);
-
-  const nextId = Math.max(...todos.map((todo) => todo.id)) + 1;
-
-  // const isDisabled = !!userName;
 
   const addPost = (todo: Todo) => {
     setTodos((prev) => [...prev, todo]);
@@ -39,8 +35,8 @@ export const App = () => {
   };
 
   const reset = () => {
-    setUserName("");
-    setTitleField("");
+    setUserName('');
+    setTitleField('');
 
     setErrorName(false);
     setErrorTitle(false);
@@ -48,6 +44,8 @@ export const App = () => {
 
   const sendPost = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const nextId = Math.max(...todos.map((todo) => todo.id)) + 1;
 
     const objToAdd = {
       id: +nextId,
@@ -60,6 +58,7 @@ export const App = () => {
     if (!titleField) {
       setErrorTitle(true);
     }
+
     if (!userName) {
       setErrorName(true);
     }
@@ -72,6 +71,7 @@ export const App = () => {
 
     reset();
   };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
