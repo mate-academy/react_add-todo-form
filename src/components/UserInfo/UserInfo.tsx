@@ -1,18 +1,14 @@
-import { getUserById } from '../../services/todo';
+import { User } from '../../types/user';
 
 type Props = {
-  userId: number,
+  user: User,
 };
 
-export const UserInfo: React.FC<Props> = ({ userId }) => {
-  const user = getUserById(userId);
-
-  return (
-    <a
-      className="UserInfo"
-      href={`mailto:${user?.email}`}
-    >
-      {user?.name}
-    </a>
-  );
-};
+export const UserInfo: React.FC<Props> = ({ user }) => (
+  <a
+    className="UserInfo"
+    href={`mailto:${user?.email}`}
+  >
+    {user?.name}
+  </a>
+);

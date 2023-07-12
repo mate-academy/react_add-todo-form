@@ -5,6 +5,21 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { getNewTodosId } from './services/todo';
 import { TodoList } from './components/TodoList';
+import { User } from './types/user';
+import { Todo } from './types/todo';
+
+function getPreparedTodos(todos: Todo[]) {
+  return todos.map(todo => {
+    const findedUser = usersFromServer.find(
+      (user: User) => user.id === todo.userId,
+    );
+
+    return {
+      ...todo,
+      user: findedUser || null,
+    };
+  });
+}
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -52,6 +67,8 @@ export const App = () => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
+
+  const preparedTodos = getPreparedTodos(todos);
 
   return (
     <div className="App">
@@ -116,7 +133,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={preparedTodos} />
 
     </div>
   );
