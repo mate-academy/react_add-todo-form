@@ -20,8 +20,10 @@ const todosWithUser = todosFromServer.map(todo => {
 
 export const App = () => {
   const [allTodos, setAllTodos] = useState(todosWithUser);
+
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
+
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
@@ -104,7 +106,7 @@ export const App = () => {
           />
 
           {hasTitleError && (
-            <span className="help is-danger">Please enter a title</span>
+            <span className="error help is-danger">Please enter a title</span>
           )}
         </div>
 
@@ -131,7 +133,7 @@ export const App = () => {
           </div>
 
           {hasUserIdError && (
-            <span className="help is-danger">Please choose a user</span>
+            <span className="error help is-danger">Please choose a user</span>
           )}
         </div>
 

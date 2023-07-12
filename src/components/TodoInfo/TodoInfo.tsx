@@ -11,7 +11,7 @@ interface Props{
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
-      data-id="1"
+      data-id={todo.id}
       className={classNames(
         'TodoInfo box', { 'TodoInfo--completed': todo.completed },
       )}
