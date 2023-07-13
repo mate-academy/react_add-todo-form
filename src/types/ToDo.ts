@@ -1,7 +1,7 @@
 import { User } from './User';
 
 export interface ToDo {
-  user: User | undefined;
+  user?: User;
 
   id: number;
   title: string;

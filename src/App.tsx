@@ -70,16 +70,20 @@ export const App: React.FC = () => {
         onSubmit={formSubmit}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Title"
-            value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
-          />
+          <label>
+            Title:&nbsp;
+
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Title"
+              value={title}
+              onChange={event => {
+                setTitle(event.target.value);
+                setTitleError(false);
+              }}
+            />
+          </label>
 
           {titleError && (
             <span className="error">Please enter a title</span>
@@ -87,24 +91,28 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={event => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
-          >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <label>
+            User:&nbsp;
+
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={event => {
+                setUserId(+event.target.value);
+                setUserError(false);
+              }}
+            >
+              <option value="0">Choose a user</option>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {userError && (
             <span className="error">Please choose a user</span>
