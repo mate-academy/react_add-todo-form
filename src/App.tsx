@@ -6,7 +6,6 @@ import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-
 function getUserId(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
@@ -81,7 +80,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label htmlFor="textId">
-            Title:
+            {'Title: '}
           </label>
           <input
             type="text"
@@ -97,7 +96,7 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="usertId">
-            User:
+            {'User: '}
           </label>
           <select
             data-cy="userSelect"
