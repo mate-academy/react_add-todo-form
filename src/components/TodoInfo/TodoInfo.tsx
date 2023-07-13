@@ -3,12 +3,16 @@ import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
 import users from '../../api/users';
 import { UserInfo } from '../UserInfo';
+import { User } from '../../types/User';
 
 type Props = {
   todo: Todo
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const todoOwner: User | undefined
+  = users.find((user) => user.id === todo.userId);
+
   return (
     <article
       data-id={todo.id}
@@ -20,8 +24,8 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      {users.map((user) => (user.id === todo.userId && (
-        <UserInfo user={user} key={user.id} />
+      {users.map((user) => (user === todoOwner && (
+        <UserInfo user={todoOwner} key={todoOwner.id} />
       )))}
     </article>
   );
