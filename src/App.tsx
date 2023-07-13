@@ -19,7 +19,7 @@ const todosWithUser = (): Todo[] => {
   });
 };
 
-const titlePatter = /[^a-zA-ZА-ЩЬЮЯҐЄІЇа-щьюяґєії\d\s]/gm;
+const titlePatter = /[^a-zа-щьюяґєії\d\s]/gi;
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
@@ -30,7 +30,7 @@ export const App = () => {
   const [user, setUser] = useState(0);
   const [isUserValid, setIsUserValid] = useState(true);
 
-  const [completed] = useState(false);
+  const completed = false;
 
   const reset = () => {
     setTitle('');
@@ -114,7 +114,9 @@ export const App = () => {
             <option value="0">Choose a user</option>
 
             {usersFromServer.map(({ id, name }) => (
-              <option value={id}>{name}</option>
+              <option value={id} key={id}>
+                {name}
+              </option>
             ))}
           </select>
 
