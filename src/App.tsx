@@ -3,124 +3,107 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
-import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function getUserId(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
+const findUserById = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
 
-  return foundUser || null;
-}
-
-function getTodoId(listTodos: Todo[]): number {
-  const todosId = listTodos.map(todo => todo.id);
-
-  return Math.max(...todosId) + 1;
-}
-
-export const todos: Todo[] = todosFromServer.map(todo => ({
+const todoWithUsers = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserId(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
-function titleValidation(value: string) {
-  return value.replace(/[^a-zA-Zа-яА-Я0-9\s]+$/g, '');
-}
+const calculateNewId = (array: Todo[]) => {
+  const maxId = (Math.max(...array.map(element => element.id)));
+  const newId = maxId + 1;
 
-export const App: React.FC = () => {
-  const [listTodos, setListTodos] = useState(todos);
+  return newId;
+};
+
+export const App = () => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isValidTitle, setIsValidTitle] = useState(true);
+  const [selectedOption, setSelectedOption] = useState(0);
+  const [isValidSelectedOption, setIsValidSelectedOption] = useState(true);
+  const [todos, setTodos] = useState(todoWithUsers);
 
-  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
-    setTitle(titleValidation(event.target.value));
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsValidTitle(true);
   };
 
-  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserError(false);
-    setUser(Number(event.target.value));
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(+event.target.value);
+    setIsValidSelectedOption(true);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const addNewTodo = (() => setTodos(prevTodos => {
+    const newTodo = {
+      id: calculateNewId(prevTodos),
+      title,
+      completed: false,
+      userId: selectedOption,
+      user: findUserById(selectedOption),
+    };
 
-    if (!title) {
-      setTitleError(true);
-    }
+    return ([...prevTodos, newTodo]);
+  }));
 
-    if (!user) {
-      setUserError(true);
-    }
+  const handleFormSubmit = (
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    if (title && user) {
-      const newTodo: Todo = {
-        id: getTodoId(listTodos),
-        title,
-        userId: user,
-        completed: false,
-        user: getUserId(user),
-      };
+      if (title.trim() && selectedOption) {
+        addNewTodo();
+        setTitle('');
+        setSelectedOption(0);
 
-      setListTodos(prevlist => [...prevlist, newTodo]);
-      setTitle('');
-      setUser(0);
-    }
-  };
+        return;
+      }
+
+      if (!selectedOption) {
+        setIsValidSelectedOption(false);
+      }
+
+      if (!title.trim()) {
+        setIsValidTitle(false);
+      }
+    });
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <form
-        action="/api/users"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleFormSubmit}>
         <div className="field">
-          <label htmlFor="textId">
-            {'Title: '}
-          </label>
+          <label htmlFor="title">{'Title: '}</label>
+
           <input
             type="text"
-            id="textId"
             data-cy="titleInput"
-            name="Enter a title"
-            placeholder="Enter a title"
             value={title}
-            onChange={handleChangeTitle}
+            placeholder="Enter a title"
+            onChange={handleInputChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {!isValidTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor="usertId">
-            {'User: '}
-          </label>
+          <label htmlFor="user">{'User: '}</label>
+
           <select
             data-cy="userSelect"
-            id="usertId"
-            name="user"
-            value={user}
-            onChange={handleChangeUser}
+            value={selectedOption}
+            onChange={handleSelectChange}
           >
-            <option
-              value="0"
-              disabled
-            >
-              Choose a user
-            </option>
-            {usersFromServer.map(userFromServer => (
-              <option
-                key={userFromServer.id}
-                value={userFromServer.id}
-              >
-                {userFromServer.name}
-              </option>
+            <option value="0" disabled>Choose a user</option>
+
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
-          {userError && <span className="error">Please choose a user</span>}
+          {!isValidSelectedOption && (
+            <span className="error">Please choose a user</span>)}
         </div>
         <button
           type="submit"
@@ -129,7 +112,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={listTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
