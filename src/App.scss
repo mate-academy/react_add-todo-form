@@ -11,6 +11,11 @@ button {
   cursor: pointer;
 }
 
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
 .error {
   color: red;
 }
