@@ -3,18 +3,18 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types/Todo';
-import { User } from './types/User';
+import { TodoType } from './types/TodoType';
+import { UserType } from './types/UserType';
 import { TodoList } from './components/TodoList';
 
-function getUser(userId: number): User | null {
+function getUser(userId: number): UserType | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
   return foundUser || null;
 }
 
-export const getTodos: Todo[] = todosFromServer.map(todo => ({
+export const getTodos: TodoType[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -44,7 +44,7 @@ export const App = () => {
     const maxId = todos.map((todo) => (todo.id));
     const newId = Math.max(...maxId) + 1;
 
-    const newTodo: Todo = {
+    const newTodo: TodoType = {
       id: newId,
       completed: false,
       user: getUser(Number(selectedUser)),
