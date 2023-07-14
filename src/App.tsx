@@ -26,13 +26,13 @@ export const App = () => {
   const nextId = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
 
   const hasErrors = {
-    title: touched && !todoTitle,
+    title: touched && !todoTitle.trim(),
     user: touched && !selectedUserId,
   };
 
   const newTodo:Todo = {
     id: nextId,
-    title: todoTitle,
+    title: todoTitle.trim(),
     completed: false,
     userId: selectedUserId,
     user: getUserById(selectedUserId),
@@ -43,7 +43,7 @@ export const App = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const regex = /^[a-zA-Zа-яА-ЯёЁ0-9\s]*$/;
+    const regex = /^(?=.*[a-zA-Zа-яА-ЯёЁ0-9])[\w\s]*$/;
     const input = e.target.value;
 
     if (regex.test(input)) {
@@ -61,7 +61,7 @@ export const App = () => {
     e.preventDefault();
     setTouched(true);
 
-    if (!todoTitle || !selectedUserId) {
+    if (!todoTitle.trim() || !selectedUserId) {
       setTouched(true);
 
       return;
