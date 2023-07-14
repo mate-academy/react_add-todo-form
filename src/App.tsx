@@ -36,10 +36,12 @@ export const App = () => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const trimmedTitle = title.trim();
+
     setIsTitleValid(title.trim());
     setIsUserValid(selectedUser);
 
-    if (!title.trim() || !selectedUser) {
+    if (!trimmedTitle || !selectedUser) {
       return;
     }
 
@@ -51,11 +53,11 @@ export const App = () => {
         ...currentTodos,
         {
           id: maxTodoId + 1,
-          title,
+          title: trimmedTitle,
           completed: false,
           userId: newUser
             ? newUser.id
-            : -1,
+            : null,
           user: newUser,
         },
       ];
