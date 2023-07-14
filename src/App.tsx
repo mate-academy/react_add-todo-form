@@ -1,61 +1,72 @@
+import { useState } from 'react';
+
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+import { NewTodo } from './components/NewTodo';
+import { TodoList } from './components/TodoList';
+
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const users: User[] = [...usersFromServer];
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  // if there is no user with a given userId
+  return foundUser || null;
+}
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+type IndexedUsers = {
+  [index: number]: User;
+};
+
+const indexedUsers = users.reduce((
+  total: IndexedUsers, current: User,
+): IndexedUsers => {
+  // eslint-disable-next-line no-param-reassign
+  total[current.id] = { ...current };
+
+  return total;
+}, {});
 
 export const App = () => {
+  const [todosToRender, setTodosToRender] = useState<Todo[]>(todos);
+
+  const addTodo = (todo: Omit<Todo, 'id'>) => {
+    const lastTodoIndex = todosToRender.reduce((maxI, curI) => {
+      return curI.id > maxI ? curI.id : maxI;
+    }, 0);
+
+    const user = indexedUsers[todo.userId];
+
+    setTodosToRender(currentList => [...currentList, {
+      ...todo,
+      id: lastTodoIndex + 1,
+      user,
+    }]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <NewTodo
+        users={users}
+        onAdd={addTodo}
+      />
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList
+        todos={todosToRender}
+      />
     </div>
   );
 };
