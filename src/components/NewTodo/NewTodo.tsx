@@ -13,7 +13,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
   const [hasTitleErorr, setHasTitleErorr] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [hasIserIdErorr, setHasIserIdErorr] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -22,7 +22,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
 
   const handleTitleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasIserIdErorr(false);
+    setHasUserIdError(false);
   };
 
   const resetForm = () => {
@@ -34,7 +34,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
     event.preventDefault();
 
     setHasTitleErorr(!title);
-    setHasIserIdErorr(!userId);
+    setHasUserIdError(!userId);
 
     if (!title || !userId) {
       return;
@@ -94,7 +94,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
             </select>
           </label>
 
-          {hasIserIdErorr && (
+          {hasUserIdError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
