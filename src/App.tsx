@@ -39,7 +39,7 @@ const indexedUsers = users.reduce((
 }, {});
 
 export const App = () => {
-  const [todosToRender, setTodosToRender] = useState(todos);
+  const [todosToRender, setTodosToRender] = useState<Todo[]>(todos);
 
   const addTodo = (todo: Omit<Todo, 'id'>) => {
     const lastTodoIndex = todosToRender.reduce((maxI, curI) => {

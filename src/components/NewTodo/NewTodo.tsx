@@ -8,11 +8,11 @@ type Props = {
 };
 
 export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [titleHasError, setTitleHasError] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [titleHasError, setTitleHasError] = useState<boolean>(false);
 
   const [userSelect, setUserSelect] = useState<number | null>(null);
-  const [userSelectHasError, setUserSelectHasError] = useState(false);
+  const [userSelectHasError, setUserSelectHasError] = useState<boolean>(false);
 
   const isAllowedSymbols = (input: string): boolean => {
     const pattern = /^[^@!#№$;%:&?8(){}*."\\/|'^,]+$/;

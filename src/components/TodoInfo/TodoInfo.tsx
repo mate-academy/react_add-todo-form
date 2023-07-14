@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { useState } from 'react';
 
 import { UserInfo } from '../UserInfo';
 
@@ -17,11 +16,9 @@ export const TodoInfo: React.FC<Props> = ({
     user,
   },
 }) => {
-  const [todoId] = useState({ 'data-id': id });
-
   return (
     <article
-      {...todoId}
+      data-id={id}
       className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
     >
       <h2 className="TodoInfo__title">
