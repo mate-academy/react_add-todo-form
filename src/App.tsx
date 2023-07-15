@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 } from 'uuid';
 import './App.scss';
 import classNames from 'classnames';
 
@@ -6,12 +7,13 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
   const [userValue, setUserValue] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const idCreator = () => todosFromServer.length + 1;
+  const idCreator = () => v4();
 
   const createToDo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,12 +30,14 @@ export const App = () => {
       return;
     }
 
-    todosFromServer.push({
-      id: idCreator(),
+    const newTodo = {
+      id: +idCreator(),
       title: todoTitle,
       completed: false,
       userId: userValue,
-    });
+    };
+
+    setTodos(() => [...todos, newTodo]);
 
     setUserValue(0);
     setTodoTitle('');
@@ -58,8 +62,10 @@ export const App = () => {
             value={todoTitle}
             data-cy="titleInput"
             placeholder="Enter a title"
-            onClick={() => setTitleError(false)}
-            onChange={e => setTodoTitle(e.target.value)}
+            onChange={e => {
+              setTitleError(false);
+              setTodoTitle(e.target.value);
+            }}
           />
           { titleError && <span className="error">Please enter a title</span> }
         </div>
@@ -70,14 +76,16 @@ export const App = () => {
             data-cy="userSelect"
             id="select"
             value={userValue}
-            onClick={() => setUserError(false)}
-            onChange={e => setUserValue(+e.target.value)}
+            onChange={e => {
+              setUserError(false);
+              setUserValue(+e.target.value);
+            }}
           >
             <option value="0" disabled>Choose a user</option>
             {
               usersFromServer.map((user) => {
                 return (
-                  <option value={user.id}>{user.name}</option>
+                  <option key={user.id} value={user.id}>{user.name}</option>
                 );
               })
             }
@@ -92,7 +100,7 @@ export const App = () => {
 
       <section className="TodoList">
         {
-          todosFromServer.map(({
+          todos.map(({
             id,
             title,
             completed,
