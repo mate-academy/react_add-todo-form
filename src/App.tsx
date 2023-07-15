@@ -99,10 +99,10 @@ export const App = () => {
             <select
               data-cy="userSelect"
               onChange={(e) => setSelectedUserName(e.target.value)}
-              value="0"
+              value={!selectedUserName ? '0' : selectedUserName}
             >
               {!selectedUserName
-               && (<option value="0" disabled>Choose a user</option>)}
+               && (<option value="0" disabled selected>Choose a user</option>)}
               {usersFromServer.map(user => (
                 <option
                   key={user.name}
