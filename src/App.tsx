@@ -15,7 +15,7 @@ export const App = () => {
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
 
-  const maxId = Math.max(...todosFromServer.map(todo => +todo.id));
+  const maxId = Math.max(...todosFromServer.map(todo => todo.id));
   const findUser = (userName: string): User | null => {
     return usersFromServer.find(user => user.name === userName) || null;
   };
@@ -45,15 +45,13 @@ export const App = () => {
       setNewTitle('');
       setSelectedUserName('');
     }
-
-    return null;
   };
 
   const addHandler
   = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    createTodo();
     checkError();
+    createTodo();
   };
 
   const todos: Todo[] = copyTodos.map(todo => {
@@ -71,7 +69,7 @@ export const App = () => {
     if (selectedUserName) {
       setErrorUser(false);
     }
-  });
+  }, [newTitle, selectedUserName]);
 
   return (
     <div className="App">
@@ -101,9 +99,10 @@ export const App = () => {
             <select
               data-cy="userSelect"
               onChange={(e) => setSelectedUserName(e.target.value)}
+              value="0"
             >
               {!selectedUserName
-               && (<option value="0" disabled selected>Choose a user</option>)}
+               && (<option value="0" disabled>Choose a user</option>)}
               {usersFromServer.map(user => (
                 <option
                   key={user.name}
