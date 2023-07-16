@@ -4,6 +4,7 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: antiquewhite;
 }
 
 label,
@@ -15,13 +16,19 @@ button {
   color: red;
 }
 
+.TodoList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .TodoInfo {
-  width: max-content;
+  width: 350px;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(178, 236, 196);
 
   &__title {
     margin: 4px 0;
