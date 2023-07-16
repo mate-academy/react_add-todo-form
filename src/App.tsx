@@ -47,14 +47,6 @@ export const App = () => {
 
     const nextId = Math.max(...todos.map((todo) => todo.id)) + 1;
 
-    const objToAdd = {
-      id: +nextId,
-      title: titleField,
-      completed: false,
-      userId: nextId,
-      user: usersFromServer.find((user) => user.name === userName) || null,
-    };
-
     if (!titleField) {
       setErrorTitle(true);
     }
@@ -67,6 +59,14 @@ export const App = () => {
       return;
     }
 
+    const objToAdd = {
+      id: +nextId,
+      title: titleField,
+      completed: false,
+      userId: nextId,
+      user: usersFromServer.find((user) => user.name === userName) || null,
+    };
+
     addPost(objToAdd);
 
     reset();
@@ -74,39 +74,53 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <div className="box">
+        <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={sendPost}>
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={titleField}
-            onChange={onChangeTitle}
-            placeholder="Enter a title"
-          />
-          {errorTitle && <span className="error">Please enter a title</span>}
-        </div>
+        <form action="/api/todos" method="POST" onSubmit={sendPost}>
+          <div className="field">
+            <label className="mr-2" htmlFor="title">
+              Title:
+            </label>
+            <input
+              id="title"
+              type="text"
+              data-cy="titleInput"
+              value={titleField}
+              onChange={onChangeTitle}
+              placeholder="Enter a title"
+            />
+            {errorTitle && <span className="error">Please enter a title</span>}
+          </div>
 
-        <div className="field">
-          <select onChange={onChangeName} data-cy="userSelect" value={userName}>
-            <option value="">Choose a user</option>
-            {usersFromServer.map((user) => (
-              <option key={user.id} value={user.name}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <div className="field">
+            <label className="mr-2" htmlFor="user">
+              User:
+            </label>
+            <select
+              id="user"
+              onChange={onChangeName}
+              data-cy="userSelect"
+              value={userName}
+            >
+              <option value="">Choose a user</option>
+              {usersFromServer.map((user) => (
+                <option key={user.id} value={user.name}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
 
-          {errorName && <span className="error">Please choose a user</span>}
-        </div>
+            {errorName && <span className="error">Please choose a user</span>}
+          </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <button type="submit" data-cy="submitButton">
+            Add
+          </button>
+        </form>
 
-      <TodoList todos={todos} />
+        <TodoList todos={todos} />
+      </div>
     </div>
   );
 };
