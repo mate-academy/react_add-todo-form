@@ -7,11 +7,16 @@ import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 
-function findeUserById(id: number): User | null {
-  const foundeduser = usersFromServer.find(user => user.id === id);
+function findUserById(id: number): User | null {
+  const foundedUser = usersFromServer.find(user => user.id === id);
 
-  return foundeduser || null;
+  return foundedUser || null;
 }
+
+export const todosWithUser = todosFromServer.map(todo => ({
+  ...todo,
+  user: findUserById(todo.userId),
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -20,7 +25,7 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [hasuserIdError, setHasUserIdError] = useState(false);
 
-  const [todosToView, setTodosToView] = useState(todosFromServer);
+  const [todosToView, setTodosToView] = useState(todosWithUser);
 
   function getNewTodoId(todos: Todo[]) {
     const maxId = Math.max(...todos.map(post => post.id));
@@ -53,6 +58,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
+      user: findUserById(userId),
     };
 
     setTodosToView(prevTodos => [...prevTodos, newTodo]);
@@ -121,9 +127,11 @@ export const App = () => {
               {todo.title}
             </h2>
 
-            <a className="UserInfo" href={findeUserById(todo.userId)?.email}>
-              {findeUserById(todo.userId)?.name}
-            </a>
+            {todo.user && (
+              <a className="UserInfo" href={`mailto:${todo.user.email}`}>
+                {todo.user.name}
+              </a>
+            )}
           </article>
         ))}
       </section>
