@@ -23,7 +23,7 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [hasuserIdError, setHasUserIdError] = useState(false);
+  const [hasUserIdError, sethasUserIdError] = useState(false);
 
   const [todosToView, setTodosToView] = useState(todosWithUser);
 
@@ -34,20 +34,20 @@ export const App = () => {
   }
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
     setHasTitleError(false);
   };
 
   const handleIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUserIdError(false);
+    sethasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasUserIdError(!userId);
+    sethasUserIdError(!userId);
 
     if (!title || !userId) {
       return;
@@ -55,7 +55,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: getNewTodoId(todosToView),
-      title,
+      title: title.trim(),
       completed: false,
       userId,
       user: findUserById(userId),
@@ -104,7 +104,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasuserIdError
+          {hasUserIdError
           && <span className="error">Please choose a user</span>}
         </div>
 
