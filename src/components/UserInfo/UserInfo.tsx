@@ -1,6 +1,6 @@
 import { UserType } from '../../types/UserType';
 
-type UserInfoProps  = {
+type UserInfoProps = {
   user?: UserType | null;
 };
 

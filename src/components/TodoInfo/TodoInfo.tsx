@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import { TodoType } from '../../types/TodoType';
 import { UserInfo } from '../UserInfo';
 
-type Props = {
+type TodoInfoType = {
   todo: TodoType;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoType> = ({ todo }) => {
   const todoInfoClasses = classNames('TodoInfo', {
     'TodoInfo--completed': todo.completed,
   });

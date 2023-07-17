@@ -4,17 +4,10 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoType } from './types/TodoType';
-import { UserType } from './types/UserType';
 import { TodoList } from './components/TodoList';
+import { getNewId, getUser } from './components/helpers';
 
-function getUser(userId: number): UserType | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  // if there is no user with a given userId
-  return foundUser || null;
-}
-
-export const getTodos: TodoType[] = todosFromServer.map(todo => ({
+const getTodos: TodoType[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
@@ -22,9 +15,11 @@ export const getTodos: TodoType[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState(getTodos);
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUserID, setSelectedUserID] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
+
+  const isTitleExist = !selectedUserID || !title.trim();
 
   const formOnSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,33 +28,32 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (!selectedUser) {
+    if (!selectedUserID) {
       setUserError(true);
     }
 
-    if (!selectedUser || !title.trim()) {
+    if (isTitleExist) {
       return;
     }
 
-    const maxId = todos.map((todo) => (todo.id));
-    const newId = Math.max(...maxId) + 1;
+    const newId = getNewId(todos);
 
     const newTodo: TodoType = {
       id: newId,
       completed: false,
-      user: getUser(Number(selectedUser)),
+      user: getUser(Number(selectedUserID)),
       title: title.trim(),
-      userId: selectedUser,
+      userId: selectedUserID,
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
 
     setTitle('');
-    setSelectedUser(0);
+    setSelectedUserID(0);
   };
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(+event.target.value);
+    setSelectedUserID(+event.target.value);
     setUserError(false);
   };
 
@@ -87,7 +81,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedUser}
+            value={selectedUserID}
             onChange={handleChangeUser}
           >
             <option value="0" disabled>Choose a user</option>
