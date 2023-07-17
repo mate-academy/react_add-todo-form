@@ -92,7 +92,7 @@ export const App = () => {
             onChange={handleSetUserId}
           >
 
-            <option value="0">Choose a user</option>
+            <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
               <option
                 key={user.id}
