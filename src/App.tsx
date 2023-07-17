@@ -77,9 +77,9 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          <label htmlFor="123456">Title: </label>
+          <label htmlFor="input--title--add-todo-name">Title: </label>
           <input
-            id="123456"
+            id="input--title--add-todo-name"
             placeholder="Enter a title"
             type="text"
             data-cy="titleInput"
@@ -91,9 +91,9 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="234567">User: </label>
+          <label htmlFor="select--user--add-todo-user">User: </label>
           <select
-            id="234567"
+            id="select--user--add-todo-user"
             data-cy="userSelect"
             value={selectUserId}
             onChange={handleSelectUser}
