@@ -1,1 +1,1 @@
-export const TodoInfo = () => {};
+export const TodoInfo = () => { };

@@ -1,5 +1,4 @@
 import './App.scss';
-
 // import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 

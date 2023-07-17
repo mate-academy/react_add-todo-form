@@ -1,1 +1,1 @@
-export const UserInfo = () => {};
+export const UserInfo = () => { };
