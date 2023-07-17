@@ -61,7 +61,7 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (!userIdError) {
+    if (!userId) {
       setUserIdError(true);
     }
 
