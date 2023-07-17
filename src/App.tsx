@@ -59,11 +59,7 @@ export const App = () => {
     setUserName(newUserName);
     setNewTodo(prevInput => ({
       ...prevInput,
-      user: {
-        ...initialUserState,
-        name: newUserName,
-        email: foundUser?.email || '',
-      },
+      user: foundUser || initialUserState,
     }));
   };
 
@@ -120,6 +116,7 @@ export const App = () => {
             data-cy="titleInput"
             value={newTodo.title}
             onChange={(event) => onTitleChange(event.target.value)}
+            required
           />
 
           {hasTitleError && (
@@ -132,6 +129,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userName}
             onChange={(event) => onUserChange(event.target.value)}
+            required
           >
             <option value="">Choose a user</option>
 
