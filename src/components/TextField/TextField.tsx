@@ -35,19 +35,19 @@ export const TextField: React.FC<Props> = ({
   const pattern = /^(?=.*[a-zA-Z0-9А-ЩЬЮЯҐЄІЇа-щьюяґєії])[a-zA-Z0-9А-ЩЬЮЯҐЄІЇа-щьюяґєії\s]*$/u;
 
   if (name === 'title') {
-    hasError = touched && required && !pattern.test(value);
+    hasError = (touched || formTouched) && required && !pattern.test(value);
     errorMessage = 'Only UA or EN letters, digits, and spaces are allowed';
   }
 
   if (!value.trim()) {
-    hasError = touched && required && !value.trim();
+    hasError = (touched || formTouched) && required && !value.trim();
     errorMessage = `Please enter a ${name}`;
   }
 
-  if (formTouched) {
-    hasError = required && !value.trim();
-    errorMessage = `Please enter a ${name}`;
-  }
+  const handleChange = (newValue: string) => {
+    onChange(newValue);
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
       <input
         id={id}
         value={value}
-        onChange={event => onChange(event.target.value)}
+        onChange={event => handleChange(event.target.value)}
         onBlur={() => setTouched(true)}
         type="text"
         data-cy="titleInput"
