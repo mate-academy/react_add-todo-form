@@ -5,11 +5,14 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
+const getUserById = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
+
 const preparedTodos = todosFromServer.map(todo => {
   return ({
     ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId)
-      || null,
+    user: getUserById(todo.userId),
   });
 });
 
@@ -38,10 +41,10 @@ export const App = () => {
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title || !title.trim());
+    setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !title.trim() || !userId) {
+    if (!title || !userId) {
       return;
     }
 
@@ -50,7 +53,7 @@ export const App = () => {
       title: title.trim(),
       completed: false,
       userId,
-      user: usersFromServer.find(user => user.id === userId) || null,
+      user: getUserById(userId),
     };
 
     setTodos([...todos, newTodo]);
