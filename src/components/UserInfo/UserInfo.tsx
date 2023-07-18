@@ -1,7 +1,7 @@
 import { User } from '../../services/User';
 
 type Props = {
-  user: User | null;
+  user: User;
 };
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
