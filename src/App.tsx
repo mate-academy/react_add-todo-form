@@ -117,7 +117,7 @@ export const App = () => {
             value={newTodo.title}
             placeholder="Enter a title"
             onChange={(event) => onTitleChange(event.target.value)}
-            required
+            required={hasTitleError}
           />
 
           {hasTitleError && (
@@ -130,7 +130,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userName}
             onChange={(event) => onUserChange(event.target.value)}
-            required
+            required={hasNameError}
           >
             <option value="">Choose a user</option>
 
