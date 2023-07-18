@@ -1,8 +1,8 @@
-import { Users } from "./User";
+import { User } from './User';
 
 export interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  user?: Users | null;
+  user?: User | null;
 }

@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [titleIsValid, setTitleIsValid] = useState(true);
 
-  const [userSelect, setUserSelect] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [userSelectValid, setUserSelectValid] = useState(true);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelect(+event.target.value);
+    setUserId(+event.target.value);
 
     setUserSelectValid(true);
   };
@@ -41,15 +41,15 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title.trim() === '') {
+    if (!title.trim()) {
       setTitleIsValid(false);
     }
 
-    if (userSelect === 0) {
+    if (!userId) {
       setUserSelectValid(false);
     }
 
-    if (title.trim() !== '' && userSelect !== 0) {
+    if (title.trim() && userId) {
       setTodos((newTodos) => {
         return [
           ...newTodos,
@@ -58,15 +58,15 @@ export const App: React.FC = () => {
               (maxId, todo) => Math.max(maxId, todo.id), 0,
             ) + 1,
             title: title.trim(),
-            userId: userSelect,
+            userId: userId,
             completed: false,
-            user: getUserById(+userSelect),
+            user: getUserById(+userId),
           },
         ];
       });
 
       setTitle('');
-      setUserSelect(0);
+      setUserId(0);
     }
   };
 
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             User:
             <select
               data-cy="userSelect"
-              value={userSelect}
+              value={userId}
               onChange={handleUser}
             >
               <option value="0" disabled>Choose a user</option>
