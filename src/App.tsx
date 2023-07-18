@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React, { useState } from 'react';
 import './App.scss';
 
@@ -6,6 +5,9 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
+
+import { TodoList } from './components/TodoList';
+import { getNewTodoId } from './services/TodoId';
 
 function findUserById(id: number): User | null {
   const foundedUser = usersFromServer.find(user => user.id === id);
@@ -26,12 +28,6 @@ export const App = () => {
   const [hasUserIdError, sethasUserIdError] = useState(false);
 
   const [todosToView, setTodosToView] = useState(todosWithUser);
-
-  function getNewTodoId(todos: Todo[]) {
-    const maxId = Math.max(...todos.map(post => post.id));
-
-    return maxId + 1;
-  }
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.trimStart());
@@ -112,29 +108,7 @@ export const App = () => {
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        {todosToView.map(todo => (
-          <article
-            data-id={todo.id}
-            className={cn(
-              'TodoInfo',
-              { 'TodoInfo--completed': todo.completed },
-            )}
-            key={todo.id}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            {todo.user && (
-              <a className="UserInfo" href={`mailto:${todo.user.email}`}>
-                {todo.user.name}
-              </a>
-            )}
-          </article>
-        ))}
-      </section>
+      <TodoList todosToView={todosToView} />
     </div>
   );
 };
