@@ -1,6 +1,9 @@
 import React from 'react';
 
+import classNames from 'classnames';
+import { User } from '../../types/User';
 import { UserInfo } from '../UserInfo';
+import usersFromServer from '../../api/users';
 
 type Props = {
   completed: boolean,
@@ -11,13 +14,17 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({
   completed, title, todoId, userId,
-}) => (
-  <article
-    data-id={todoId}
-    className={`TodoInfo ${completed && 'TodoInfo--completed'}`}
-  >
-    <h2 className="TodoInfo__title">{title}</h2>
+}) => {
+  const userDate = usersFromServer.find((user: User) => user.id === userId);
 
-    <UserInfo userId={userId} />
-  </article>
-);
+  return (
+    <article
+      data-id={todoId}
+      className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
+
+      {userDate && <UserInfo user={userDate} />}
+    </article>
+  );
+};

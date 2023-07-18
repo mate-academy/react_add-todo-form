@@ -22,7 +22,7 @@ export const App = () => {
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const { value } = event.target;
     const text = value.length === 1 ? value.trim() : value;
 
     if (/^[A-Za-zА-Яа-я0-9 ]*$/.test(text)) {
