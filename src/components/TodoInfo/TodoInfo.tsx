@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import './TodoInfo.scss';
 import { UserInfo } from '../UserInfo';
 import { ToDo } from '../../types/ToDo';
 
