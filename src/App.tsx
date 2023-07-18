@@ -85,6 +85,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
           />
+
           {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
@@ -94,6 +95,7 @@ export const App: React.FC = () => {
           <label htmlFor="user">
             User:&nbsp;
           </label>
+
           <select
             id="user"
             value={userId}
@@ -106,6 +108,7 @@ export const App: React.FC = () => {
             >
               Choose a user
             </option>
+
             {usersFromServer.map(user => (
               <option
                 key={user.id}
@@ -115,6 +118,7 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
+
           {hasUserIdError && (
             <span className="error">Please choose a user</span>
           )}
