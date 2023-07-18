@@ -17,7 +17,7 @@ export const App: React.FC = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const formatedValue = event.target.value
-      .replace(/[^A-Za-z0-9а-яА-ЯіІїЇєЄ\s]/g, '');
+      .replace(/[^A-Za-z0-9А-ЩЬЮЯҐЄІЇа-щьюяґєії\s]/g, '');
 
     setTitle(formatedValue);
     setHasTitleError(false);
