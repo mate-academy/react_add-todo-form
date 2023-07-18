@@ -37,8 +37,19 @@ export const TodoForm: React.FC<Props> = ({
         placeholder="Enter a title"
         value={title}
         onChange={(event) => {
-          setTitle(event.target.value);
-          setTitleError('');
+          const input = event.target.value;
+
+          const filteredInput = input
+            .replace(/[^a-zA-Z0-9\s\u0400-\u04FF]+/g, '');
+
+          setTitle(filteredInput);
+          if (input !== filteredInput) {
+            setTitleError(
+              'Only letters (ua, en), numbers, and spaces are allowed',
+            );
+          } else {
+            setTitleError('');
+          }
         }}
       />
       {titleError && (
