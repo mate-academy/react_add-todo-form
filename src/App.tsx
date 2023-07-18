@@ -41,10 +41,10 @@ export const App: React.FC = () => {
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
