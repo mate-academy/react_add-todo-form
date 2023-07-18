@@ -47,7 +47,7 @@ export const App = () => {
     event.preventDefault();
 
     setUserIdError(!selectedUserId);
-    setTitleError(!title);
+    setTitleError(!title.trim());
 
     if (!title || !selectedUserId) {
       return;
@@ -74,7 +74,9 @@ export const App = () => {
         onSubmit={onSubmit}
       >
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -89,7 +91,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userId">User: </label>
           <select
+            id="userId"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={handleUserIdChange}
