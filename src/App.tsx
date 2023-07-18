@@ -5,6 +5,9 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+const VALID_CHARS
+= 'qwertyuiopasdfghjklzxcvbnmйцукенгшщзхїфівапролджєячсмитьбю1234567890 ';
+
 const getUserById = (id: number) => {
   return usersFromServer.find(user => user.id === id);
 };
@@ -71,7 +74,15 @@ export const App = () => {
             placeholder="Enter title of your post"
             data-cy="titleInput"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              const etv = event.target.value;
+
+              if (VALID_CHARS.includes(
+                etv[etv.length - 1].toLocaleLowerCase(),
+              )) {
+                setTitle(etv);
+              }
+            }}
             onBlur={() => setIsTitleClicked(true)}
           />
           {!title && isTitleClicked && (
