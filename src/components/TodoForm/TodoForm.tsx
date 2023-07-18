@@ -11,13 +11,20 @@ import { getUserById } from '../../getUserById';
 type Props = {
   users: User[],
   onAddTodo: (newTodo: Todo) => void,
+  newId: number,
 };
 
-export const TodoForm: FC<Props> = ({ users, onAddTodo }) => {
+export const TodoForm: FC<Props> = ({ users, onAddTodo, newId }) => {
   const [title, setTitle] = useState<string>('');
   const [titleError, setTitleError] = useState<boolean>(false);
   const [option, setOption] = useState<number>(0);
   const [optionError, setOptionError] = useState<boolean>(false);
+
+  const sanitizeTitle = (str: string) => {
+    const regex = /[^\w\sа-яА-ЯїЇіІ'0-9]/g;
+
+    return str.replace(regex, '');
+  };
 
   const resetForm = () => {
     setTitle('');
@@ -42,8 +49,8 @@ export const TodoForm: FC<Props> = ({ users, onAddTodo }) => {
     }
 
     const newTodo: Todo = {
-      id: Math.floor(Math.random() * 1000),
-      title,
+      id: newId,
+      title: sanitizeTitle(title),
       completed: false,
       userId: option,
       user: getUserById(option, users),

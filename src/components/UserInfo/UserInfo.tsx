@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const UserInfo: FC<Props> = ({ user }) => (
-  <a className="UserInfo" href={user.email}>
+  <a className="UserInfo" href={`mailto:${user.email}`}>
     {user.name}
   </a>
 );
