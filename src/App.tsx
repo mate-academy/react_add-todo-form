@@ -88,6 +88,8 @@ export const App: React.FC<Props> = () => {
     setTodos([...visibleTodos, newTodo]);
     setName('');
     setTitle('');
+
+    visibleTodos.push(newTodo);
   };
 
   return (
