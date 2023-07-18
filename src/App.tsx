@@ -50,7 +50,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title: title.trim(),
+      title,
       completed: false,
       userId,
       user: getUserById(userId),
