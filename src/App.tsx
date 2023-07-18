@@ -6,12 +6,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
-function getUser(id: number) {
+function getUserId(id: number) {
   return usersFromServer.find(person => id === person.id);
 }
 
 const todosWithUser = todosFromServer.map(todo => {
-  const user = getUser(todo.userId);
+  const user = getUserId(todo.userId);
 
   return {
     ...todo,
@@ -19,7 +19,7 @@ const todosWithUser = todosFromServer.map(todo => {
   };
 });
 
-function getId(todos: Todo[]) {
+function getMaxId(todos: Todo[]) {
   const ids = todos.map(todo => todo.id);
   const newId = Math.max(...ids) + 1;
 
@@ -30,7 +30,7 @@ export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [formValues, setFormValues] = useState({
     todoTitle: '',
-    todoUser: '0',
+    todoUserId: '0',
   });
   const [formErrors, setFormErrors] = useState({
     titleError: false,
@@ -40,7 +40,7 @@ export const App = () => {
   function formReset() {
     setFormValues({
       todoTitle: '',
-      todoUser: '0',
+      todoUserId: '0',
     });
   }
 
@@ -52,7 +52,7 @@ export const App = () => {
       }));
     }
 
-    if (!+formValues.todoUser) {
+    if (!+formValues.todoUserId) {
       setFormErrors(prevErrors => ({
         ...prevErrors,
         userError: true,
@@ -73,7 +73,7 @@ export const App = () => {
       }));
     }
 
-    if (formErrors.userError && event.target.name === 'todoUser') {
+    if (formErrors.userError && event.target.name === 'todoUserId') {
       setFormErrors(prevErrors => ({
         ...prevErrors,
         userError: false,
@@ -84,19 +84,19 @@ export const App = () => {
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    const user = getUser(+formValues.todoUser);
+    const user = getUserId(+formValues.todoUserId);
 
     const newTodo = {
-      id: getId(todos),
+      id: getMaxId(todos),
       title: formValues.todoTitle,
       completed: false,
-      userId: +formValues.todoUser,
+      userId: +formValues.todoUserId,
       user,
     };
 
     handleSubmitErrors();
 
-    if (!formValues.todoTitle.trim() || !+formValues.todoUser) {
+    if (!formValues.todoTitle.trim() || !+formValues.todoUserId) {
       return;
     }
 
@@ -130,12 +130,12 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="todoUser">User: </label>
+          <label htmlFor="todoUserId">User: </label>
           <select
             data-cy="userSelect"
-            id="todoUser"
-            name="todoUser"
-            value={formValues.todoUser}
+            id="todoUserId"
+            name="todoUserId"
+            value={formValues.todoUserId}
             onChange={handleChanges}
           >
             <option value="0" disabled>Choose a user</option>
