@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import './App.scss';
 
@@ -6,10 +6,10 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList/TodoList';
-import { Todo } from "./types/Todo";
+import { Todo } from './types/Todo';
 
 const getUserById = (userId: number) => {
-  return usersFromServer.find((user) => user.id === userId) || null
+  return usersFromServer.find((user) => user.id === userId) || null;
 };
 
 const TodoArr: Todo[] = todosFromServer.map((todo) => ({
@@ -41,11 +41,11 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(title.trim() === '') {
+    if (title.trim() === '') {
       setTitleIsValid(false);
     }
 
-    if(userSelect === 0) {
+    if (userSelect === 0) {
       setUserSelectValid(false);
     }
 
@@ -57,11 +57,11 @@ export const App: React.FC = () => {
             id: todos.reduce(
               (maxId, todo) => Math.max(maxId, todo.id), 0,
             ) + 1,
-              title: title.trim(),
-              userId: userSelect,
-              completed: false,
-              user: getUserById(+userSelect),
-          }
+            title: title.trim(),
+            userId: userSelect,
+            completed: false,
+            user: getUserById(+userSelect),
+          },
         ];
       });
 
@@ -82,41 +82,41 @@ export const App: React.FC = () => {
         <div className="field">
           <label htmlFor="post-title">
             Title:
-              <input
-                type="text"
-                data-cy="titleInput"
-                placeholder="Enter a title"
-                id="post-title"
-                value={title}
-                onChange={handleTitle}
-              />
-                {!titleIsValid &&(
-                  <span className="error">Please enter a title</span>
-                )}
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              id="post-title"
+              value={title}
+              onChange={handleTitle}
+            />
+            {!titleIsValid && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
         <div className="field">
-        <label>
+          <label>
             User:
             <select
-            data-cy="userSelect"
-            value={userSelect}
-            onChange={handleUser}
-          >
-          <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-           </select>
+              data-cy="userSelect"
+              value={userSelect}
+              onChange={handleUser}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option
+                  key={user.id}
+                  value={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </label>
 
-          {! userSelectValid && (
+          {!userSelectValid && (
             <span className="error">Please choose a user</span>
           )}
         </div>
