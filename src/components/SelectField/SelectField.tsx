@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { User } from '../../types';
 
 type Props<T> = {
@@ -28,8 +28,7 @@ export const SelectField: React.FC<Props<User>> = ({
   required = false,
   onChange = () => {},
 }) => {
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
+  const id = `${name}-${getRandomDigits()}`;
   const hasError = required && formTouched && value === '0';
   const errorMessage = `Please choose a ${name}`;
 

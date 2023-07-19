@@ -25,9 +25,9 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
 
+  const id = `${name}-${getRandomDigits()}`;
   let hasError = false;
   let errorMessage = '';
 

@@ -72,7 +72,7 @@ export const App: React.FC = () => {
 
       <form
         key={count}
-        onSubmit={(event) => handleSubmit(event)}
+        onSubmit={handleSubmit}
       >
         <TextField
           name="title"
