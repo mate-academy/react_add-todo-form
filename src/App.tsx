@@ -12,7 +12,7 @@ const getUser = (userId: number) => {
   return foundUser || null;
 };
 
-const completeTodos: Todo[] = todosFromServer.map(todo => ({
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.id),
 }));
@@ -22,34 +22,29 @@ const getHeighestId = (todos: Todo[]) => {
 };
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(completeTodos);
+  const [todos, setTodos] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUserId, setSelectedUserId] = useState('0');
   const [selectedUserError, setSelectedUserError] = useState(false);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    if (title && (selectedUser !== '0')) {
-      setTodos(oldTodos => {
-        const tasks = [...oldTodos];
+    if (title && (selectedUserId !== '0')) {
+      const newTodo = {
+        id: getHeighestId(todos) + 1,
+        title,
+        completed: false,
+        userId: +selectedUserId,
+        user: getUser(+selectedUserId),
+      };
 
-        tasks.push({
-          id: getHeighestId(tasks) + 1,
-          title,
-          completed: false,
-          userId: +selectedUser,
-          user: getUser(+selectedUser),
-        });
-
-        setTitle('');
-        setSelectedUser('0');
-        setTitleError(false);
-        setSelectedUserError(false);
-
-        return tasks;
-      });
+      setTodos(oldTodos => [...oldTodos, newTodo]);
+      setTitle('');
+      setSelectedUserId('0');
+      setTitleError(false);
+      setSelectedUserError(false);
     } else {
       setTitleError(true);
       setSelectedUserError(true);
@@ -87,9 +82,9 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             name="selectedUser"
             id="selectedUser"
-            value={selectedUser}
+            value={selectedUserId}
             onChange={(event) => {
-              setSelectedUser(event.target.value);
+              setSelectedUserId(event.target.value);
               setSelectedUserError(false);
             }}
           >
@@ -99,7 +94,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {(selectedUser === '0' && selectedUserError)
+          {(selectedUserId === '0' && selectedUserError)
           && <span className="error">Please choose a user</span>}
         </div>
 
