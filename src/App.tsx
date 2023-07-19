@@ -23,16 +23,16 @@ export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
 
   const [newTitle, setNewTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
 
   const [newUser, setNewUser] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   function reset() {
     setNewTitle('');
     setNewUser(0);
-    setTitleError(false);
-    setUserError(false);
+    setIsTitleError(false);
+    setIsUserError(false);
   }
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -42,19 +42,19 @@ export const App = () => {
       setNewTitle(event.target.value);
     }
 
-    setTitleError(false);
+    setIsTitleError(false);
   }
 
   function handleUserInput(event: React.ChangeEvent<HTMLSelectElement>) {
     setNewUser(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   }
 
   function handleFormSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    setUserError(!newUser);
-    setTitleError(!newTitle);
+    setIsUserError(!newUser);
+    setIsTitleError(!newTitle);
 
     if (!newTitle || !newUser) {
       return;
@@ -96,7 +96,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -111,17 +111,17 @@ export const App = () => {
             onChange={handleUserInput}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
