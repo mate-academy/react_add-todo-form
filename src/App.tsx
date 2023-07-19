@@ -28,75 +28,56 @@ function getMaxId(todos: Todo[]) {
 
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
-  const [formValues, setFormValues] = useState({
-    todoTitle: '',
-    todoUserId: '0',
-  });
-  const [formErrors, setFormErrors] = useState({
-    titleError: false,
-    userError: false,
-  });
+  const [todoTitle, setTodoTitle] = useState('');
+  const [todoUserId, setTodoUserId] = useState('0');
+  const [titleError, setTitleError] = useState(false);
+  const [userIdError, setUserIdError] = useState(false);
 
   function formReset() {
-    setFormValues({
-      todoTitle: '',
-      todoUserId: '0',
-    });
+    setTodoTitle('');
+    setTodoUserId('0');
   }
 
   function handleSubmitErrors() {
-    if (!formValues.todoTitle.trim()) {
-      setFormErrors(prevErrors => ({
-        ...prevErrors,
-        titleError: true,
-      }));
+    if (!todoTitle.trim()) {
+      setTitleError(true);
     }
 
-    if (!+formValues.todoUserId) {
-      setFormErrors(prevErrors => ({
-        ...prevErrors,
-        userError: true,
-      }));
+    if (!+todoUserId) {
+      setUserIdError(true);
     }
   }
 
-  function handleChanges(event: React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLSelectElement>) {
-    setFormValues(prevFormValues => ({
-      ...prevFormValues,
-      [event.target.name]: event.target.value,
-    }));
-    if (formErrors.titleError && event.target.name === 'todoTitle') {
-      setFormErrors(prevErrors => ({
-        ...prevErrors,
-        titleError: false,
-      }));
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setTodoTitle(event.target.value);
+    if (titleError) {
+      setTitleError(false);
     }
+  }
 
-    if (formErrors.userError && event.target.name === 'todoUserId') {
-      setFormErrors(prevErrors => ({
-        ...prevErrors,
-        userError: false,
-      }));
+  function handleUserIdChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setTodoUserId(event.target.value);
+    if (userIdError) {
+      setUserIdError(false);
     }
   }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    const user = getUserId(+formValues.todoUserId);
+    const user = getUserId(+todoUserId);
 
     const newTodo = {
       id: getMaxId(todos),
-      title: formValues.todoTitle,
+      title: todoTitle,
       completed: false,
-      userId: +formValues.todoUserId,
+      userId: +todoUserId,
       user,
     };
 
     handleSubmitErrors();
 
-    if (!formValues.todoTitle.trim() || !+formValues.todoUserId) {
+    if (!todoTitle.trim() || !+todoUserId) {
       return;
     }
 
@@ -122,10 +103,10 @@ export const App = () => {
             data-cy="titleInput"
             name="todoTitle"
             placeholder="Enter a title"
-            value={formValues.todoTitle}
-            onChange={handleChanges}
+            value={todoTitle}
+            onChange={handleTitleChange}
           />
-          {formErrors.titleError
+          {titleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -135,8 +116,8 @@ export const App = () => {
             data-cy="userSelect"
             id="todoUserId"
             name="todoUserId"
-            value={formValues.todoUserId}
-            onChange={handleChanges}
+            value={todoUserId}
+            onChange={handleUserIdChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -149,7 +130,7 @@ export const App = () => {
             ))}
           </select>
 
-          {formErrors.userError
+          {userIdError
             && <span className="error">Please choose a user</span>}
         </div>
 
