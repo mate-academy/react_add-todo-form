@@ -1,89 +1,125 @@
+import { useState } from 'react';
 import usersFromServer from '../../api/users';
+import { Todo } from '../../types/Todo';
+import { getUserByid } from '../../services/getUser';
+import { pattern } from '../../services/pattern';
 
 type Props = {
-  onSubmit: (event: React.FormEvent) => void,
-  title: string;
-  setTitle: (value: string) => void,
-  userId: number;
-  setUserId: (value: number) => void,
-  titleError: string;
-  setTitleError: (value: string) => void,
-  userIdError: string,
-  setUserIdError: (value: string) => void,
+  todos: Todo[];
+  setTodos: (callback: (todos: Todo[]) => Todo[]) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({
-  onSubmit,
-  title,
-  setTitle,
-  userId,
-  setUserId,
-  titleError,
-  setTitleError,
-  userIdError,
-  setUserIdError,
-}) => (
-  <form
-    action="/api/todos"
-    method="POST"
-    onSubmit={onSubmit}
-  >
-    <div className="field">
-      <label htmlFor="title">Title: </label>
-      <input
-        type="text"
-        data-cy="titleInput"
-        id="title"
-        placeholder="Enter a title"
-        value={title}
-        onChange={(event) => {
-          const input = event.target.value;
+  todos,
+  setTodos,
+}) => {
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [titleError, setTitleError] = useState('');
+  const [userIdError, setUserIdError] = useState('');
 
-          const filteredInput = input
-            .replace(/[^a-zA-Z0-9\s\u0400-\u04FF]+/g, '');
+  const handleReset = () => {
+    setTitle('');
+    setUserId(0);
+    setTitleError('');
+    setUserIdError('');
+  };
 
-          setTitle(filteredInput);
-          if (input !== filteredInput) {
-            setTitleError(
-              'Only letters (ua, en), numbers, and spaces are allowed',
-            );
-          } else {
-            setTitleError('');
-          }
-        }}
-      />
-      {titleError && (
-        <span className="error">{titleError}</span>
-      )}
-    </div>
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value;
 
-    <div className="field">
-      <label htmlFor="userSelect">User: </label>
-      <select
-        data-cy="userSelect"
-        id="userSelect"
-        value={userId}
-        onChange={(event) => {
-          setUserId(+event.target.value);
-          setUserIdError('');
-        }}
-      >
-        <option value="0" disabled>Choose a user</option>
-        {usersFromServer.map(user => (
-          <option key={user.id} value={user.id}>{user.name}</option>
-        ))}
-      </select>
+    const filteredInput = input
+      .replace(pattern, '');
 
-      {userIdError && (
-        <span className="error">{userIdError}</span>
-      )}
-    </div>
+    setTitle(filteredInput);
+    if (input !== filteredInput) {
+      setTitleError(
+        'Only letters (ua, en), numbers, and spaces are allowed',
+      );
+    } else {
+      setTitleError('');
+    }
+  };
 
-    <button
-      type="submit"
-      data-cy="submitButton"
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!userId) {
+      setUserIdError('Please choose a user');
+    }
+
+    if (!title) {
+      setTitleError('Please enter a title');
+    }
+
+    if (!title || !userId) {
+      return;
+    }
+
+    const id = Math.max(...todos.map(todo => todo.id)) + 1;
+
+    const todo: Todo = {
+      id,
+      title,
+      completed: false,
+      userId,
+      user: getUserByid(usersFromServer, userId),
+    };
+
+    setTodos(currentTodos => [...currentTodos, todo]);
+
+    handleReset();
+  };
+
+  return (
+    <form
+      action="/api/todos"
+      method="POST"
+      onSubmit={handleSubmit}
     >
-      Add
-    </button>
-  </form>
-);
+      <div className="field">
+        <label htmlFor="title">Title: </label>
+        <input
+          type="text"
+          data-cy="titleInput"
+          id="title"
+          placeholder="Enter a title"
+          value={title}
+          onChange={handleInputChange}
+        />
+        {titleError && (
+          <span className="error">{titleError}</span>
+        )}
+      </div>
+
+      <div className="field">
+        <label htmlFor="userSelect">User: </label>
+        <select
+          data-cy="userSelect"
+          id="userSelect"
+          value={userId}
+          onChange={(event) => {
+            setUserId(+event.target.value);
+            setUserIdError('');
+          }}
+        >
+          <option value="0" disabled>Choose a user</option>
+          {usersFromServer.map(user => (
+            <option key={user.id} value={user.id}>{user.name}</option>
+          ))}
+        </select>
+
+        {userIdError && (
+          <span className="error">{userIdError}</span>
+        )}
+      </div>
+
+      <button
+        type="submit"
+        data-cy="submitButton"
+      >
+        Add
+      </button>
+    </form>
+  );
+};
