@@ -19,7 +19,6 @@ const todosWithUsers: TodoWithUser[] = todosFromServer.map((todo: Todo) => {
 });
 
 export const App: React.FC = () => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('0');
   const [formTouched, setFormTouched] = useState(false);
@@ -40,7 +39,6 @@ export const App: React.FC = () => {
     setTitle('');
     setUserId('0');
     setFormTouched(false);
-    setCount(prev => prev + 1);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +69,7 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <form
-        key={count}
+        key={todos.length}
         onSubmit={handleSubmit}
       >
         <TextField
