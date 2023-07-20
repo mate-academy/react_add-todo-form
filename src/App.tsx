@@ -37,13 +37,8 @@ export const App: React.FC = () => {
       user: getUserById(userId),
     };
 
-    if (!todoTitle) {
-      setHasTitleError(true);
-    }
-
-    if (!userId) {
-      setHasUserIdError(true);
-    }
+    setHasTitleError(!todoTitle);
+    setHasUserIdError(!userId);
 
     if (todoTitle && userId) {
       setHasTitleError(false);
@@ -60,7 +55,10 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST">
         <div className="field">
+          <label htmlFor="title-input">Title: </label>
+
           <input
+            id="title-input"
             placeholder="Enter title"
             type="text"
             data-cy="titleInput"
@@ -75,7 +73,10 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="select-user">User: </label>
+
           <select
+            id="select-user"
             data-cy="userSelect"
             value={userId}
             onChange={event => {
