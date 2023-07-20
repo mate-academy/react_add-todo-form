@@ -1,20 +1,6 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-
-interface User {
-  id: number,
-  name: string,
-  username:string,
-  email: string,
-}
-
-interface Todos {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-  user?: User | null
-}
+import { Todos } from '../index/Todos';
 
 type Props = {
   todo: Todos

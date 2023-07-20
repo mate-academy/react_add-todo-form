@@ -1,20 +1,7 @@
 import { TodoInfo } from '../TodoInfo';
+import { Todos } from '../index/Todos';
 
-interface User {
-  id: number,
-  name: string,
-  username:string,
-  email: string,
-}
-interface Todo {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-  user?: User | null
-}
-
-type ArrayOfTodo = Todo[];
+type ArrayOfTodo = Todos[];
 
 type Props = {
   todos: ArrayOfTodo
