@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types';
+import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
 function getUserById(userId: number) {
