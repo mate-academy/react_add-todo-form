@@ -82,6 +82,8 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          <label htmlFor="input">Enter title of your post</label>
+          <br />
           <input
             id="input"
             type="text"
@@ -101,7 +103,11 @@ export const App = () => {
           )}
         </div>
 
+        <br />
+
         <div className="field">
+          <label htmlFor="select">Select a user</label>
+          <br />
           <select
             data-cy="userSelect"
             id="select"
@@ -129,6 +135,8 @@ export const App = () => {
             </label>
           )}
         </div>
+
+        <br />
 
         <button type="submit" data-cy="submitButton">
           Add
