@@ -4,9 +4,29 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
 
 const VALID_CHARS
 = 'qwertyuiopasdfghjklzxcvbnmйцукенгшщзхїфівапролджєячсмитьбю1234567890 ';
+
+const getNextId = (someTodos: Todo[]) => {
+  const maxId = Math.max(...someTodos.map(({ id }) => id));
+
+  return maxId + 1;
+};
+
+const handleChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  setTitle: React.Dispatch<React.SetStateAction<string>>,
+) => {
+  const etv = event.target.value;
+
+  if (etv === '' || VALID_CHARS.includes(
+    etv[etv.length - 1].toLocaleLowerCase(),
+  )) {
+    setTitle(etv);
+  }
+};
 
 const getUserById = (id: number) => {
   return usersFromServer.find(user => user.id === id);
@@ -24,16 +44,10 @@ export const App = () => {
   const [isAuthorIdClicked, setIsAuthotIdClicked] = useState(false);
   const [isTitleClicked, setIsTitleClicked] = useState(false);
 
-  const getNextId = () => {
-    const maxId = Math.max(...preparedTodos.map(({ id }) => id));
-
-    return maxId + 1;
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !authorId) {
+    if (!title.trim() || !authorId) {
       setIsAuthotIdClicked(true);
       setIsTitleClicked(true);
 
@@ -42,7 +56,7 @@ export const App = () => {
 
     setPreparedTodos(prevTodos => {
       const newTodo = {
-        id: getNextId(),
+        id: getNextId(preparedTodos),
         title,
         completed: false,
         userId: authorId,
@@ -74,18 +88,10 @@ export const App = () => {
             placeholder="Enter title of your post"
             data-cy="titleInput"
             value={title}
-            onChange={event => {
-              const etv = event.target.value;
-
-              if (VALID_CHARS.includes(
-                etv[etv.length - 1].toLocaleLowerCase(),
-              )) {
-                setTitle(etv);
-              }
-            }}
+            onChange={event => handleChange(event, setTitle)}
             onBlur={() => setIsTitleClicked(true)}
           />
-          {!title && isTitleClicked && (
+          {!title.trim() && isTitleClicked && (
             <label
               className="error"
               htmlFor="input"
@@ -105,7 +111,12 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
 
