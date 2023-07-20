@@ -52,7 +52,22 @@ export const App = () => {
 
   const isSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addNewTodo();
+
+    if (newUserId && newTitle && newTitle.trim()) {
+      addNewTodo();
+    } else {
+      if (!newTitle || !newTitle.trim()) {
+        setErrorTitleMessage(true);
+      } else {
+        setErrorTitleMessage(false);
+      }
+
+      if (!newUserId) {
+        setErrorUserMessage(true);
+      } else {
+        setErrorUserMessage(false);
+      }
+    }
   };
 
   const handleUserSelectChange
@@ -66,9 +81,13 @@ export const App = () => {
     const sanitizedTitle
     = event.target.value.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
 
-    setNewTitle(sanitizedTitle);
+    if (!sanitizedTitle.trim()) {
+      setErrorTitleMessage(true);
+    } else {
+      setErrorTitleMessage(false);
+    }
 
-    setErrorTitleMessage(false);
+    setNewTitle(sanitizedTitle);
   };
 
   return (
