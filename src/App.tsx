@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable no-console */
+import React, { useMemo, useRef, useState } from 'react';
 
 import './App.scss';
 import { GoodList } from './GoodList';
@@ -33,6 +34,7 @@ const goodsWithColors = goodsFromServer.map(good => ({
 }));
 
 export const App: React.FC = () => {
+  const [query, setQuery] = useState('');
   const [goods, setGoods] = useState<Good[]>(goodsWithColors);
   const [goodName, setGoodName] = useState('');
   const [goodNameError, setGoodNameError] = useState('');
@@ -47,7 +49,7 @@ export const App: React.FC = () => {
     setColorIdError('');
   }
 
-  const handleSubmit = (event: React.FormEvent) => {
+  function handleSubmit(event: React.FormEvent) {
     // #region validation
     event.preventDefault();
 
@@ -59,7 +61,7 @@ export const App: React.FC = () => {
       setColorIdError('Color is required');
     }
 
-    if (!goodNameError || !colorId) {
+    if (!goodName || !colorId) {
       return;
     }
     // #endregion
@@ -73,13 +75,45 @@ export const App: React.FC = () => {
 
     setGoods(prevGoods => [newGood, ...prevGoods]);
     reset();
+  }
+
+  const deleteGood = (goodId: number) => {
+    setGoods(currentGoods => currentGoods.filter(
+      good => good.id !== goodId,
+    ));
+  };
+
+  const visibleGoods = useMemo(
+    () => {
+      console.log('filtering');
+
+      return goods;
+    },
+    [query, goods],
+  );
+
+  const timerId = useRef(0);
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(timerId.current);
+
+    timerId.current = window.setTimeout(() => {
+      setQuery(e.target.value);
+    }, 1000);
   };
 
   return (
     <>
       <h1>Add good form</h1>
-      <input type="search" placeholder="Find a good" />
-      <GoodList goods={goods} />
+      <input
+        type="search"
+        placeholder="Find a good"
+        onChange={handleQueryChange}
+      />
+      <GoodList
+        goods={visibleGoods}
+        onDelete={deleteGood}
+      />
 
       <form onSubmit={handleSubmit}>
         <h2>Create a good</h2>

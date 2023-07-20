@@ -4,9 +4,13 @@ import { Good } from './types';
 
 type Porps = {
   goods: Good[];
+  onDelete: (id: number) => void;
 };
 
-const List: React.FC<Porps> = ({ goods }) => {
+const List: React.FC<Porps> = ({
+  goods,
+  onDelete,
+}) => {
   console.log('Render GoodList');
 
   return (
@@ -18,10 +22,22 @@ const List: React.FC<Porps> = ({ goods }) => {
         >
           {good.name}
           {good.id}
+
+          <button
+            type="button"
+            onClick={() => onDelete(good.id)}
+          >
+            x
+          </button>
         </li>
       ))}
     </ul>
   );
 };
 
-export const GoodList = React.memo(List);
+export const GoodList = React.memo(
+  List,
+  (prevProps, nextProps) => {
+    return prevProps.goods === nextProps.goods;
+  },
+);
