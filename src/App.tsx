@@ -45,10 +45,6 @@ export const App: React.FC = () => {
       setHasUserIdError(true);
     }
 
-    if (!todoTitle || !userId) {
-      return;
-    }
-
     if (todoTitle && userId) {
       setHasTitleError(false);
       setHasUserIdError(false);
