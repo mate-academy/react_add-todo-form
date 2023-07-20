@@ -7,6 +7,11 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+const titlePattern = ' '
+  + '0123456789'
+  + 'abcdefghijklmnopqrstuvwxyz'
+  + 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя';
+
 const generateNewId = (todos: Todo[]): number => {
   const maxId = Math.max(...todos.map(todo => todo.id));
 
@@ -34,35 +39,46 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!newTitle) {
+    const normalizedTitle = newTitle.trim();
+
+    if (!normalizedTitle) {
       setHasTitleError(true);
+      setNewTitle('');
     }
 
     if (!selectedUserId) {
       setHasUserError(true);
     }
 
-    if (!newTitle || !selectedUserId) {
+    if (!normalizedTitle || !selectedUserId) {
       return;
     }
 
-    const newTodo: Todo = {
-      id: generateNewId(todos),
-      title: newTitle,
-      completed: false,
-      userId: selectedUserId,
-      user: getUserById(selectedUserId),
-    };
+    setTodos(currentTodos => {
+      const newTodo: Todo = {
+        id: generateNewId(currentTodos),
+        title: normalizedTitle,
+        completed: false,
+        userId: selectedUserId,
+        user: getUserById(selectedUserId),
+      };
 
-    setTodos(currentTodos => [...currentTodos, newTodo]);
+      return [...currentTodos, newTodo];
+    });
 
     setNewTitle('');
     setSelectedUserId(0);
   };
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.target.value);
-    setHasTitleError(false);
+    const isValid = event.target.value
+      .split('')
+      .every(char => titlePattern.includes(char.toLowerCase()));
+
+    if (isValid) {
+      setNewTitle(event.target.value);
+      setHasTitleError(false);
+    }
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
