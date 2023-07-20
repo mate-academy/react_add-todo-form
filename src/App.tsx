@@ -4,20 +4,20 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { ArrayOfTodos, Todos } from './types/Todos';
+import { Todos } from './types/Todos';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId)
     || null;
 }
 
-export const todosWithUser: ArrayOfTodos = todosFromServer.map(todo => ({
+export const todosWithUser: Todos[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState<ArrayOfTodos>(todosWithUser);
+  const [todos, setTodos] = useState<Todos[]>(todosWithUser);
   const [title, setTitle] = useState('');
   const [userId, setUserID] = useState(0);
   const [titleError, setTitleError] = useState(false);
@@ -34,7 +34,7 @@ export const App = () => {
     setUserError(false);
   };
 
-  const addTodos = (newTodo: Todos) => {
+  const addTodo = (newTodo: Todos) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
@@ -42,7 +42,7 @@ export const App = () => {
     event.preventDefault();
 
     if (title && userId) {
-      addTodos({
+      addTodo({
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
         completed: false,
@@ -67,8 +67,9 @@ export const App = () => {
         onSubmit={handleAdd}
       >
         <div className="field">
-          {'Title: '}
+          <label htmlFor="post-title">Title: </label>
           <input
+            id="post-title"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -81,8 +82,9 @@ export const App = () => {
         </div>
 
         <div className="field">
-          {'User: '}
+          <label htmlFor="post-user-id">User: </label>
           <select
+            id="post-user-id"
             data-cy="userSelect"
             required
             value={userId}
@@ -91,7 +93,12 @@ export const App = () => {
             <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option
+                value={user.id}
+                key={user.id}
+              >
+                {user.name}
+              </option>
             ))}
           </select>
 

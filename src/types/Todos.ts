@@ -5,7 +5,5 @@ export interface Todos {
   title: string,
   completed: boolean,
   userId: number,
-  user?: User | null
+  user: User | null
 }
-
-export type ArrayOfTodos = Todos[];
