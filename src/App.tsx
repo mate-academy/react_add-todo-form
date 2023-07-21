@@ -17,8 +17,8 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.id),
 }));
 
-const getHeighestId = (todos: Todo[]) => {
-  return todos.reduce((result, next) => Math.max(result, next.id), 0);
+const getNewId = (todos: Todo[]) => {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
 };
 
 export const App: React.FC = () => {
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
 
     if (title && (selectedUserId !== '0')) {
       const newTodo = {
-        id: getHeighestId(todos) + 1,
+        id: getNewId(todos),
         title,
         completed: false,
         userId: +selectedUserId,
