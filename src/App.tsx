@@ -53,21 +53,23 @@ export const App = () => {
   const isSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (newUserId && newTitle && newTitle.trim()) {
-      addNewTodo();
+    if (!newTitle.trim()) {
+      setErrorTitleMessage(true);
     } else {
-      if (!newTitle || !newTitle.trim()) {
-        setErrorTitleMessage(true);
-      } else {
-        setErrorTitleMessage(false);
-      }
-
-      if (!newUserId) {
-        setErrorUserMessage(true);
-      } else {
-        setErrorUserMessage(false);
-      }
+      setErrorTitleMessage(false);
     }
+
+    if (!newUserId) {
+      setErrorUserMessage(true);
+    } else {
+      setErrorUserMessage(false);
+    }
+
+    if (!newTitle.trim() || !newUserId) {
+      return;
+    }
+
+    addNewTodo();
   };
 
   const handleUserSelectChange
@@ -79,7 +81,7 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sanitizedTitle
-    = event.target.value.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
+      = event.target.value.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
 
     if (!sanitizedTitle.trim()) {
       setErrorTitleMessage(true);
@@ -109,6 +111,7 @@ export const App = () => {
             data-cy="titleInput"
             value={newTitle}
             onChange={handleTitleChange}
+            onFocus={() => setErrorTitleMessage(false)}
           />
           {errorTitleMessage && (
             <span className="error"> Please enter a title </span>
@@ -124,6 +127,7 @@ export const App = () => {
             name="user"
             value={newUserId}
             onChange={handleUserSelectChange}
+            onFocus={() => setErrorUserMessage(false)}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
