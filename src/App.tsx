@@ -37,19 +37,12 @@ export const App = () => {
     setHasTitleError(false);
   };
 
-  // console.log(title);
-
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
 
-  const addPost = ({ id, ...data }: Todo) => {
-    const newTodo = {
-      id: getNewTodoId(todos),
-      ...data,
-    };
-
+  const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
@@ -65,8 +58,8 @@ export const App = () => {
 
     const newTitle = title.replace(/[^a-zA-Z ]/g, '');
 
-    addPost({
-      id: 0,
+    addTodo({
+      id: getNewTodoId(todos),
       title: newTitle,
       completed: false,
       userId,
