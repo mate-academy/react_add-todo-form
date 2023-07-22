@@ -16,6 +16,10 @@ export const TodoInfo: React.FC<Props> = ({
     user,
   },
 }) => {
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <article
       data-id={id}
