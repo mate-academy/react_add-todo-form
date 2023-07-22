@@ -57,6 +57,12 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (title === '' && userId === 0) {
+      setHasError({ title: true, userId: true });
+
+      return;
+    }
+
     if (title === '') {
       setHasError({ ...hasError, title: true });
 
