@@ -53,17 +53,9 @@ export const App = () => {
   const isSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!newTitle.trim()) {
-      setErrorTitleMessage(true);
-    } else {
-      setErrorTitleMessage(false);
-    }
+    setErrorTitleMessage(!newTitle.trim());
 
-    if (!newUserId) {
-      setErrorUserMessage(true);
-    } else {
-      setErrorUserMessage(false);
-    }
+    setErrorUserMessage(!newUserId);
 
     if (!newTitle.trim() || !newUserId) {
       return;
@@ -83,11 +75,7 @@ export const App = () => {
     const sanitizedTitle
       = event.target.value.replace(/[^A-Za-zА-Яа-я0-9\s]/g, '');
 
-    if (!sanitizedTitle.trim()) {
-      setErrorTitleMessage(true);
-    } else {
-      setErrorTitleMessage(false);
-    }
+    setErrorTitleMessage(!sanitizedTitle.trim());
 
     setNewTitle(sanitizedTitle);
   };
