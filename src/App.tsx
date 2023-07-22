@@ -5,14 +5,13 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User } from './types/User';
 import { Post } from './types/Post';
 
-function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
+const getUserById = (userId: number) => (
+  usersFromServer.find(user => user.id === userId)
+);
 
-const initialPost = todosFromServer.map(post => ({
+const initialPost: Post[] = todosFromServer.map(post => ({
   ...post,
   user: getUserById(post.userId),
 }));
@@ -23,6 +22,8 @@ export const App = () => {
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setUserIdError] = useState(false);
+
+  const [todos, setPosts] = useState(initialPost);
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const cleanedValue = event.target.value
@@ -43,8 +44,6 @@ export const App = () => {
     return maxId + 1;
   }
 
-  const [todos, setPosts] = useState<Post[]>(initialPost);
-
   const addPost = (post: Post) => {
     const newPost = {
       ...post,
@@ -54,18 +53,18 @@ export const App = () => {
     setPosts(currentPosts => [...currentPosts, newPost]);
   };
 
-  function reset() {
+  const reset = () => {
     setTitle('');
     setUserId(0);
-  }
+  };
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     setUserIdError(!userId);
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
