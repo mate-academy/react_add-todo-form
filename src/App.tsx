@@ -50,7 +50,7 @@ export const App = () => {
     }
   };
 
-  const isSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setErrorTitleMessage(!newTitle.trim());
@@ -87,7 +87,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={isSubmitted}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">Title:</label>
