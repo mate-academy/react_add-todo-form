@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { memo } from 'react';
 import { Good } from './types';
+import { GoodCard } from './GoodCard';
 
 type Props = {
   goods: Good[];
@@ -11,22 +12,11 @@ export const GoodList = memo(({ goods, onDelete }: Props) => {
   return (
     <div className="GoodList">
       {goods.map(good => (
-        <article key={good.id} className="GoodCard">
-          <h3
-            style={{ color: good.color?.name || 'black' }}
-            className="GoodCard__title"
-          >
-            {`${good.name} #${good.id}`}
-          </h3>
-
-          <button type="button">
-            edit
-          </button>
-
-          <button type="button" onClick={() => onDelete(good.id)}>
-            x
-          </button>
-        </article>
+        <GoodCard
+          good={good}
+          key={good.id}
+          onDelete={onDelete}
+        />
       ))}
     </div>
   );
