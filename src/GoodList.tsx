@@ -1,22 +1,26 @@
 /* eslint-disable no-console */
-import { memo } from 'react';
-import { Good } from './types';
+import { memo, useContext, useState } from 'react';
 import { GoodCard } from './GoodCard';
+import { GoodsContext } from './GoodConetxt';
 
-type Props = {
-  goods: Good[];
-  onDelete: (id: number) => void;
-};
+export const GoodList = memo(() => {
+  const [query, setQuery] = useState('');
+  const goods = useContext(GoodsContext);
 
-export const GoodList = memo(({ goods, onDelete }: Props) => {
+  const visibleGoods = goods.filter(
+    good => good.name.toLowerCase().includes(query),
+  );
+
   return (
     <div className="GoodList">
-      {goods.map(good => (
-        <GoodCard
-          good={good}
-          key={good.id}
-          onDelete={onDelete}
-        />
+      <input
+        type="search"
+        placeholder="Find a good"
+        onChange={e => setQuery(e.target.value.toLowerCase())}
+      />
+
+      {visibleGoods.map(good => (
+        <GoodCard good={good} key={good.id} />
       ))}
     </div>
   );

@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { Good } from './types';
 import { GoodForm } from './GoodForm';
+import { GoodUpdateContext } from './GoodConetxt';
 
 type Props = {
   good: Good;
-  onDelete: (id: number) => void;
 };
 
-export const GoodCard: React.FC<Props> = ({
-  good,
-  onDelete,
-}) => {
+export const GoodCard: React.FC<Props> = memo(({ good }) => {
   const [editing, setEditing] = useState(false);
+  const { updateGood, deleteGood } = useContext(GoodUpdateContext);
+
+  // eslint-disable-next-line no-console
+  console.log('Render', good.id);
 
   return (
     <article className="GoodCard">
       {editing ? (
         <GoodForm
-          onSubmit={() => {}}
+          onSubmit={(updatedGood) => {
+            updateGood(updatedGood);
+            setEditing(false);
+          }}
           onReset={() => setEditing(false)}
+          good={good}
         />
       ) : (
         <>
@@ -33,7 +38,7 @@ export const GoodCard: React.FC<Props> = ({
             edit
           </button>
 
-          <button type="button" onClick={() => onDelete(good.id)}>
+          <button type="button" onClick={() => deleteGood(good.id)}>
             x
           </button>
         </>
@@ -41,4 +46,4 @@ export const GoodCard: React.FC<Props> = ({
 
     </article>
   );
-};
+});

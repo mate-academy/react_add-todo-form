@@ -6,19 +6,24 @@ import { getAllColors, getColorById } from './services/color';
 type Props = {
   onSubmit: (good: Good) => void;
   onReset?: () => void;
+  good?: Good,
 };
 
-export const GoodForm: React.FC<Props> = ({ onSubmit, onReset = () => {} }) => {
-  const [goodName, setGoodName] = useState('');
+export const GoodForm: React.FC<Props> = ({
+  onSubmit,
+  onReset = () => {},
+  good,
+}) => {
+  const [goodName, setGoodName] = useState(good?.name || '');
   const [goodNameError, setGoodNameError] = useState('');
-  const [colorId, setColorId] = useState(0);
+  const [colorId, setColorId] = useState(good?.colorId || 0);
   const [colorIdError, setColorIdError] = useState('');
 
   const reset = () => {
-    setGoodName('');
+    setGoodName(good?.name || '');
     setGoodNameError('');
 
-    setColorId(0);
+    setColorId(good?.colorId || 0);
     setColorIdError('');
   };
 
@@ -45,7 +50,7 @@ export const GoodForm: React.FC<Props> = ({ onSubmit, onReset = () => {} }) => {
     // #endregion
 
     const newGood: Good = {
-      id: Date.now(),
+      id: good?.id || Date.now(),
       name: goodName,
       colorId,
       color: getColorById(colorId),
@@ -59,8 +64,6 @@ export const GoodForm: React.FC<Props> = ({ onSubmit, onReset = () => {} }) => {
 
   return (
     <form onSubmit={handleSubmit} onReset={handleReset}>
-      <h2>Create a good</h2>
-
       <div className="field">
         <input
           type="text"
