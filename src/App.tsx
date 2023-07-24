@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import './App.scss';
 import { GoodList } from './GoodList';
@@ -38,27 +38,12 @@ export const App: React.FC = () => {
   };
 
   const addGood = (good: Good) => {
-    setGoods(currentGoods => [
-      { ...good, id: Date.now() },
-      ...currentGoods,
-    ]);
+    setGoods(currentGoods => [good, ...currentGoods]);
   };
 
-  const visibleGoods = useMemo(
-    () => {
-      console.log('filtering');
-
-      return goods;
-    },
-    [query, goods],
+  const visibleGoods = goods.filter(
+    good => good.name.toLowerCase().includes(query),
   );
-
-  let timerId = 0;
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(timerId);
-    timerId = window.setTimeout(setQuery, 1000, e.target.value);
-  };
 
   return (
     <>
@@ -66,7 +51,7 @@ export const App: React.FC = () => {
       <input
         type="search"
         placeholder="Find a good"
-        onChange={handleQueryChange}
+        onChange={e => setQuery(e.target.value.toLowerCase())}
       />
       <GoodList
         goods={visibleGoods}

@@ -45,7 +45,7 @@ export const GoodForm: React.FC<Props> = ({ onSubmit, onReset = () => {} }) => {
     // #endregion
 
     const newGood: Good = {
-      id: 0,
+      id: Date.now(),
       name: goodName,
       colorId,
       color: getColorById(colorId),
