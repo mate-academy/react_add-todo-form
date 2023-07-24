@@ -4,12 +4,12 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
 import { Todo } from './types';
+import { User } from './types/User';
 
 const getUserById = (userId: number) => {
   return usersFromServer.find(user => user.id === userId)
-  || usersFromServer;
+  || null;
 };
 
 const preparedTodos = todosFromServer.map(todo => ({
@@ -57,21 +57,19 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (title === '' && userId === 0) {
-      setHasError({ title: true, userId: true });
-
-      return;
-    }
+    let hasAnyError = false;
 
     if (title === '') {
-      setHasError({ ...hasError, title: true });
-
-      return;
+      setHasError(prevState => ({ ...prevState, title: true }));
+      hasAnyError = true;
     }
 
     if (userId === 0) {
-      setHasError({ ...hasError, userId: true });
+      setHasError(prevState => ({ ...prevState, userId: true }));
+      hasAnyError = true;
+    }
 
+    if (hasAnyError) {
       return;
     }
 

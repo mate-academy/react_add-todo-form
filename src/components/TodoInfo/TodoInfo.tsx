@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types';
 import './TodoInfo.scss';
@@ -8,20 +9,24 @@ export const TodoInfo: React.FC<Todo> = ({
   id,
   completed,
   user,
-}) => (
-  <article
-    data-id={id}
-    className={completed
-      ? 'TodoInfo TodoInfo--completed'
-      : 'TodoInfo'}
-  >
-    <h2 className="TodoInfo__title">
-      {title}
-    </h2>
+}) => {
+  const { name, email } = user || {};
 
-    <UserInfo
-      name={user.name}
-      email={user.email}
-    />
-  </article>
-);
+  return (
+    <article
+      data-id={id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
+
+      <UserInfo
+        name={name || 'No user'}
+        email={email || 'No email'}
+      />
+    </article>
+  );
+};
