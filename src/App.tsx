@@ -3,13 +3,10 @@ import React, { useMemo, useState } from 'react';
 
 import './App.scss';
 import { GoodList } from './GoodList';
-import { Color, Good } from './types';
+import { Good } from './types';
+import { getColorById } from './services/color';
+import { GoodForm } from './GoodForm';
 // #region data
-const colors: Color[] = [
-  { id: 1, name: 'red' },
-  { id: 2, name: 'green' },
-  { id: 3, name: 'blue' },
-];
 
 const goodsFromServer = [
   { id: 1, colorId: 1, name: 'Dumplings' },
@@ -24,10 +21,6 @@ const goodsFromServer = [
   { id: 10, colorId: 1, name: 'Garlic' },
 ];
 
-function getColorById(id: number) {
-  return colors.find(color => color.id === id);
-}
-
 const goodsWithColors = goodsFromServer.map(good => ({
   ...good,
   color: getColorById(good.colorId),
@@ -37,51 +30,18 @@ const goodsWithColors = goodsFromServer.map(good => ({
 export const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [goods, setGoods] = useState<Good[]>(goodsWithColors);
-  const [goodName, setGoodName] = useState('');
-  const [goodNameError, setGoodNameError] = useState('');
-  const [colorId, setColorId] = useState(0);
-  const [colorIdError, setColorIdError] = useState('');
-
-  function reset() {
-    setGoodName('');
-    setGoodNameError('');
-
-    setColorId(0);
-    setColorIdError('');
-  }
-
-  function handleSubmit(event: React.FormEvent) {
-    // #region validation
-    event.preventDefault();
-
-    if (!goodName) {
-      setGoodNameError('Name is required');
-    }
-
-    if (!colorId) {
-      setColorIdError('Color is required');
-    }
-
-    if (!goodName || !colorId) {
-      return;
-    }
-    // #endregion
-
-    const newGood: Good = {
-      id: 999,
-      name: goodName,
-      colorId,
-      color: getColorById(colorId),
-    };
-
-    setGoods(prevGoods => [newGood, ...prevGoods]);
-    reset();
-  }
 
   const deleteGood = (goodId: number) => {
     setGoods(currentGoods => currentGoods.filter(
       good => good.id !== goodId,
     ));
+  };
+
+  const addGood = (good: Good) => {
+    setGoods(currentGoods => [
+      { ...good, id: Date.now() },
+      ...currentGoods,
+    ]);
   };
 
   const visibleGoods = useMemo(
@@ -113,43 +73,7 @@ export const App: React.FC = () => {
         onDelete={deleteGood}
       />
 
-      <form onSubmit={handleSubmit}>
-        <h2>Create a good</h2>
-
-        <div className="field">
-          <input
-            type="text"
-            placeholder="Good Name"
-            value={goodName}
-            onChange={event => {
-              setGoodName(event.target.value);
-              setGoodNameError('');
-            }}
-          />
-          <span className="error">{goodNameError}</span>
-        </div>
-
-        <div className="field">
-          <select
-            value={colorId}
-            onChange={event => {
-              setColorId(+event.target.value);
-              setColorIdError('');
-            }}
-          >
-            <option value="0" disabled>Choose a color</option>
-
-            {colors.map(color => (
-              <option value={color.id} key={color.id}>
-                {color.name}
-              </option>
-            ))}
-          </select>
-          <span className="error">{colorIdError}</span>
-        </div>
-
-        <button type="submit">Add</button>
-      </form>
+      <GoodForm onSubmit={addGood} />
     </>
   );
 };

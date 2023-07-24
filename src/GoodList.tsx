@@ -8,8 +8,6 @@ type Props = {
 };
 
 export const GoodList = memo(({ goods, onDelete }: Props) => {
-  console.log('Render GoodList');
-
   return (
     <div className="GoodList">
       {goods.map(good => (
