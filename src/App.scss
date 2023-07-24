@@ -15,6 +15,15 @@ button {
   color: red;
 }
 
+.field {
+  padding-bottom: 5px;
+
+  &__title {
+    display: flex;
+    gap: 5px;
+  }
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
