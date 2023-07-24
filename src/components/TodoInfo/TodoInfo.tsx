@@ -9,24 +9,22 @@ export const TodoInfo: React.FC<Todo> = ({
   id,
   completed,
   user,
-}) => {
-  const { name, email } = user || {};
+}) => (
+  <article
+    data-id={id}
+    className={classNames('TodoInfo', {
+      'TodoInfo--completed': completed,
+    })}
+  >
+    <h2 className="TodoInfo__title">
+      {title}
+    </h2>
 
-  return (
-    <article
-      data-id={id}
-      className={classNames('TodoInfo', {
-        'TodoInfo--completed': completed,
-      })}
-    >
-      <h2 className="TodoInfo__title">
-        {title}
-      </h2>
-
+    {user && (
       <UserInfo
-        name={name || 'No user'}
-        email={email || 'No email'}
+        name={user.name}
+        email={user.email}
       />
-    </article>
-  );
-};
+    )}
+  </article>
+);

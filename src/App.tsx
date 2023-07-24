@@ -14,7 +14,7 @@ const getUserById = (userId: number) => {
 
 const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId) as User,
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
