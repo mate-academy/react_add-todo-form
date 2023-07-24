@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import './App.scss';
 import { GoodList } from './GoodList';
 import { Color, Good } from './types';
-
+// #region data
 const colors: Color[] = [
   { id: 1, name: 'red' },
   { id: 2, name: 'green' },
@@ -32,6 +32,7 @@ const goodsWithColors = goodsFromServer.map(good => ({
   ...good,
   color: getColorById(good.colorId),
 }));
+// #endregion
 
 export const App: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -92,14 +93,11 @@ export const App: React.FC = () => {
     [query, goods],
   );
 
-  const timerId = useRef(0);
+  let timerId = 0;
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(timerId.current);
-
-    timerId.current = window.setTimeout(() => {
-      setQuery(e.target.value);
-    }, 1000);
+    clearTimeout(timerId);
+    timerId = window.setTimeout(setQuery, 1000, e.target.value);
   };
 
   return (

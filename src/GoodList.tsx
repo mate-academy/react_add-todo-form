@@ -1,43 +1,35 @@
 /* eslint-disable no-console */
-import React from 'react';
+import { memo } from 'react';
 import { Good } from './types';
 
-type Porps = {
+type Props = {
   goods: Good[];
   onDelete: (id: number) => void;
 };
 
-const List: React.FC<Porps> = ({
-  goods,
-  onDelete,
-}) => {
+export const GoodList = memo(({ goods, onDelete }: Props) => {
   console.log('Render GoodList');
 
   return (
-    <ul>
+    <div className="GoodList">
       {goods.map(good => (
-        <li
-          key={good.id}
-          style={{ color: good.color?.name || 'black' }}
-        >
-          {good.name}
-          {good.id}
-
-          <button
-            type="button"
-            onClick={() => onDelete(good.id)}
+        <article key={good.id} className="GoodCard">
+          <h3
+            style={{ color: good.color?.name || 'black' }}
+            className="GoodCard__title"
           >
+            {`${good.name} #${good.id}`}
+          </h3>
+
+          <button type="button">
+            edit
+          </button>
+
+          <button type="button" onClick={() => onDelete(good.id)}>
             x
           </button>
-        </li>
+        </article>
       ))}
-    </ul>
+    </div>
   );
-};
-
-export const GoodList = React.memo(
-  List,
-  (prevProps, nextProps) => {
-    return prevProps.goods === nextProps.goods;
-  },
-);
+});
