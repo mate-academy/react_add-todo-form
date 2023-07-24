@@ -59,7 +59,7 @@ export const App = () => {
 
     let hasAnyError = false;
 
-    if (title === '') {
+    if (title.trim() === '') {
       setHasError(prevState => ({ ...prevState, title: true }));
       hasAnyError = true;
     }
