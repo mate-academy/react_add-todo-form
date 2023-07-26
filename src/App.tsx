@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { UserInfo } from './components/UserInfo';
-import { Todo } from './components/types';
+import { Todo } from './types/types';
 import { TodoList } from './components/TodoList';
 import { TodoInfo } from './components/TodoInfo';
 

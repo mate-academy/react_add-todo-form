@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { Todo, User } from '../types';
-import { getUserByName, getUsersEmailById } from '../utilities';
+import { Todo, User } from '../../types/types';
+import { getUserByName, getUsersEmailById } from '../../types/utilities';
 
 type Props = {
   usersFromServer: User[];
