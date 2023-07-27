@@ -53,7 +53,7 @@ export const App: React.FC = () => {
       setUserId(0);
     }
 
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setUserIdError(!userId);
   };
 
