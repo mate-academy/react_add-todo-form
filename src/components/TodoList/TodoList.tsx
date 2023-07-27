@@ -1,5 +1,5 @@
-import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../Types/Todo';
+import { TodoInfo } from '../TodoInfo';
 
 type Todos = {
   todos: Array<Todo>;
