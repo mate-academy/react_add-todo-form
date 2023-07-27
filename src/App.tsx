@@ -30,8 +30,10 @@ export const App: React.FC = () => {
   };
 
   const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const validTitle = /\S/.test(event.target.value);
+
     setTitle(event.target.value.trimStart());
-    setTitleError(false);
+    setTitleError(!validTitle);
   };
 
   const addUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
