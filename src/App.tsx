@@ -41,7 +41,7 @@ export const App: React.FC = () => {
 
   const handlerAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (title && userId) {
+    if (title.trim() && userId) {
       addTodos({
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
