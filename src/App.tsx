@@ -19,23 +19,23 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
-  const [users, setUsers] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [userError, setUserError] = useState(false);
 
   const resetForm = () => {
     setTitle('');
     setTitleError(false);
-    setUsers(0);
+    setSelectedUserId(0);
     setUserError(false);
   };
 
   const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
     setTitleError(false);
   };
 
   const addUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUsers(+event.target.value);
+    setSelectedUserId(+event.target.value);
     setUserError(false);
   };
 
@@ -49,21 +49,20 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setTitleError(!title);
-    setUserError(!users);
+    setUserError(!selectedUserId);
 
-    if (!title || !users) {
+    if (!title || !selectedUserId) {
       return;
     }
 
-    const addNewTodo = {
+    addTodo({
       id: maxIdNumber + 1,
       title,
       completed: false,
-      userId: users,
-      user: initialUser(users),
-    };
+      userId: selectedUserId,
+      user: initialUser(selectedUserId),
+    });
 
-    addTodo(addNewTodo);
     resetForm();
   };
 
@@ -97,7 +96,7 @@ export const App: React.FC = () => {
           <select
             id="user"
             data-cy="userSelect"
-            value={users}
+            value={selectedUserId}
             onChange={addUser}
           >
             <option value="0" key={0} disabled>Choose a user</option>
