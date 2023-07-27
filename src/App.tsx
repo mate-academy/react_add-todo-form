@@ -9,12 +9,12 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './components/Todo';
 
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
   const [todo, setTodo] = useState<Todo[]>(todosFromServer);
-  const [hasTitlError, setHasTitleError] = useState(false);
-  const [hasUserError, setHasUserError] = useState(false);
-  const [touched, setTouched] = useState(false);
+  const [hasTitlError, setHasTitleError] = useState<boolean>(false);
+  const [hasUserError, setHasUserError] = useState<boolean>(false);
+  const [touched, setTouched] = useState<boolean>(false);
 
   const handleBlur = () => {
     setTouched(true);

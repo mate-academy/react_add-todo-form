@@ -1,3 +1,4 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 import usersFromServer from '../../api/users';
 
@@ -14,7 +15,7 @@ const findUserById = (userId: number) => {
   return usersFromServer.find((user) => user.id === userId);
 };
 
-export const TodoList = ({ todos }: Props) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {
