@@ -38,11 +38,12 @@ export const App = () => {
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const validTitle = title.trim();
 
-    setTitleError(!title.trim());
+    setTitleError(!validTitle);
     setSelectedUserError(selectedUserId === 0);
 
-    if (title && selectedUserId !== 0) {
+    if (validTitle && selectedUserId !== 0) {
       const maxId = Math.max(...todos.map(todo => todo.id));
 
       const newTodo: Todo = {
