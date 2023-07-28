@@ -18,13 +18,13 @@ button {
   color: red;
 }
 
-.GoodList {
+.TodoList {
   display: grid;
   row-gap: 8px;
   padding: 12px 0;
 }
 
-.GoodCard {
+.TodoCard {
   display: flex;
   gap: 4px;
   width: fit-content;

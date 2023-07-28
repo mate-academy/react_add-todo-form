@@ -1,19 +1,26 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useState } from 'react';
 
 import './App.scss';
-import { GoodList } from './GoodList';
-import { GoodProvider } from './GoodConetxt';
-import { AddGoodForm } from './AddGoodForm';
+import { TodoList } from './components/TodoList';
+import { TodoProvider } from './components/TodoConetxt';
+import { AddTodoForm } from './components/AddTodoForm';
 
-export const App: React.FC = () => (
-  <>
-    <h1>Goods page</h1>
+export const App: React.FC = () => {
+  const [hidden, setHidden] = useState(false);
 
-    <GoodProvider>
-      <h2>Create a good</h2>
-      <AddGoodForm />
-      <GoodList />
-    </GoodProvider>
-  </>
-);
+  return (
+    <>
+      <h1>Todos page</h1>
+      <button type="button" onClick={() => setHidden(true)}>
+        Hide form
+      </button>
+
+      <TodoProvider>
+        <h2>Create a todo</h2>
+        {!hidden && <AddTodoForm />}
+        <TodoList />
+      </TodoProvider>
+    </>
+  );
+};
