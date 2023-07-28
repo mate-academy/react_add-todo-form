@@ -67,8 +67,9 @@ export const App: React.FC = () => {
         onSubmit={handlerAdd}
       >
         <div className="field">
-          {'Title: '}
+          <label htmlFor="title">Title: </label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -79,8 +80,10 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          {'User: '}
+          <label htmlFor="user">User: </label>
+
           <select
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={handlerUserIdChange}
