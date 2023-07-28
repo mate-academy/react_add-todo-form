@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Todo } from '../types';
-import { getTodos } from '../services/api';
-
-export const TodosContext = React.createContext([] as Todo[]);
+import { createTodo, getTodos } from '../services/api';
 
 interface TodoMethods {
   addTodo: (todo: Todo) => void,
@@ -11,24 +9,36 @@ interface TodoMethods {
   deleteTodo: (todoId: number) => void,
 }
 
-export const TodoUpdateContext = React.createContext<TodoMethods>({
+export const TodoMethodsContext = React.createContext<TodoMethods>({
   addTodo: () => { },
   updateTodo: () => { },
   deleteTodo: () => { },
 });
 
+export const TodosContext = React.createContext({
+  todos: [] as Todo[],
+  loading: false,
+});
+
 export const TodoProvider: React.FC = ({ children }) => {
-  // #region
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // #region methods
+  const addTodo = (todo: Todo) => {
+    setLoading(true);
+
+    return createTodo(todo)
+      .then(newTodo => {
+        setTodos(currentTodos => [...currentTodos, newTodo]);
+      })
+      .finally(() => setLoading(false));
+  };
 
   const deleteTodo = (todoId: number) => {
     setTodos(currentTodos => currentTodos.filter(
       todo => todo.id !== todoId,
     ));
-  };
-
-  const addTodo = (todo: Todo) => {
-    setTodos(currentTodos => [todo, ...currentTodos]);
   };
 
   const updateTodo = (updatedTodo: Todo) => {
@@ -39,16 +49,20 @@ export const TodoProvider: React.FC = ({ children }) => {
   // #endregion
 
   useEffect(() => {
-    getTodos().then(setTodos);
+    setLoading(true);
+
+    getTodos()
+      .then(setTodos)
+      .finally(() => setLoading(false));
   }, []);
 
   const value = useMemo(() => ({ addTodo, deleteTodo, updateTodo }), []);
 
   return (
-    <TodoUpdateContext.Provider value={value}>
-      <TodosContext.Provider value={todos}>
+    <TodoMethodsContext.Provider value={value}>
+      <TodosContext.Provider value={{ todos, loading }}>
         {children}
       </TodosContext.Provider>
-    </TodoUpdateContext.Provider>
+    </TodoMethodsContext.Provider>
   );
 };

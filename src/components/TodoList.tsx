@@ -2,14 +2,19 @@
 import { memo, useContext, useState } from 'react';
 import { TodoCard } from './TodoCard';
 import { TodosContext } from './TodoConetxt';
+import { Loader } from './Loader';
 
 export const TodoList = memo(() => {
   const [query, setQuery] = useState('');
-  const todos = useContext(TodosContext);
+  const { todos, loading } = useContext(TodosContext);
 
   const visibleTodos = todos.filter(
     todo => todo.title.toLowerCase().includes(query),
   );
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <div className="TodoList">
