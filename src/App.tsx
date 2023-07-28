@@ -124,12 +124,14 @@ export const App = () => {
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map((user) => {
+              const { id, name } = user;
+
               return (
                 <option
-                  value={user.id}
-                  key={user.id}
+                  value={id}
+                  key={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
 
               );
