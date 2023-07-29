@@ -1,22 +1,36 @@
-type Props = {
-  title: string;
-  setTitle: (s: string) => void;
-  errorTitle: boolean;
-};
-export const TodoList: React.FC<Props> = ({ title, setTitle, errorTitle }) => {
-  return (
-    <div className="field">
-      <input
-        type="text"
-        data-cy="titleInput"
-        value={title}
-        placeholder="Enter new todo "
-        onChange={(e) => setTitle(e.target.value)}
-      />
+import classNames from 'classnames';
+import React from 'react';
+import { Todo, User } from '../../types/types';
+import { getUserByName, getUsersEmailById } from '../../types/utilities';
 
-      {errorTitle && title === '' ? (
-        <span className="error">Please enter a title</span>
-      ) : null}
-    </div>
+type Props = {
+  usersFromServer: User[];
+  todos: Todo[];
+};
+
+export const TodoList: React.FC<Props> = ({ usersFromServer, todos }) => {
+  return (
+    <section className="TodoList">
+      {todos.map((todo) => {
+        return (
+          <article
+            key={todo.id}
+            data-id={todo.id}
+            className={classNames('TodoInfo', {
+              'TodoInfo--completed': todo.completed,
+            })}
+          >
+            <h2 className="TodoInfo__title">{todo.title}</h2>
+
+            <a
+              className="UserInfo"
+              href={`mailto:${getUsersEmailById(usersFromServer, todo.userId)}`}
+            >
+              {getUserByName(usersFromServer, todo.userId)}
+            </a>
+          </article>
+        );
+      })}
+    </section>
   );
 };

@@ -13,11 +13,14 @@ export const UserInfo: React.FC<Props> = ({
   user,
   errorUser,
 }) => {
+  const handleChange
+  = (e: React.ChangeEvent<HTMLSelectElement>) => setUser(+e.target.value);
+
   return (
     <div className="field">
       <select
         data-cy="userSelect"
-        onChange={(e) => setUser(+e.target.value)}
+        onChange={handleChange}
         value={`${user}`}
       >
         <option value="0" disabled>
@@ -31,7 +34,7 @@ export const UserInfo: React.FC<Props> = ({
           );
         })}
       </select>
-      {errorUser && user === 0
+      {errorUser
         ? <span className="error">Please choose a user</span> : null}
     </div>
   );

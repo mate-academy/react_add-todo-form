@@ -18,19 +18,18 @@ export const App = () => {
   const resetInputs = () => {
     setTitle('');
     setUser(0);
-
     setErrorTitle(false);
     setErrorUser(false);
   };
 
   const maxTodoIndex = (arr: Todo[]) => {
-    const max = Math.max(...arr.map(todo => todo.id));
+    const max = Math.max(...arr.map((todo) => todo.id));
 
     return max + 1;
   };
 
   const onAddTodo = (todo: Todo) => {
-    setTodos(prevTodos => [...prevTodos, todo]);
+    setTodos((prevTodos) => [...prevTodos, todo]);
   };
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,28 +60,19 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
       <form action="/api/users" method="POST" onSubmit={onSubmitHandler}>
-        <TodoInfo
-          usersFromServer={usersFromServer}
-          todos={todos}
-        />
+        <TodoInfo title={title} setTitle={setTitle} errorTitle={errorTitle} />
         <UserInfo
           users={usersFromServer}
           setUser={setUser}
           user={user}
           errorUser={errorUser}
         />
-
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-      <TodoList
-        title={title}
-        setTitle={setTitle}
-        errorTitle={errorTitle}
-      />
+      <TodoList usersFromServer={usersFromServer} todos={todos} />
     </div>
   );
 };
