@@ -22,7 +22,7 @@ function getUserByName(userName: string): User | null {
 function getUserId(userName: string): number {
   const foundId = usersFromServer.find((user) => userName === user.name);
 
-  if (foundId === undefined) {
+  if (!foundId) {
     return usersFromServer.length + 1;
   }
 
@@ -48,8 +48,8 @@ export const App = () => {
 
   const addTodo = (event: FormEvent) => {
     event.preventDefault();
-    const titleError = title.length === 0;
-    const userError = user.length === 0;
+    const titleError = !title.trim().length;
+    const userError = !user.trim().length;
 
     if (titleError && userError) {
       setErrorTitle(true);
@@ -82,6 +82,16 @@ export const App = () => {
     setUser('');
   };
 
+  function handleChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value);
+    setErrorTitle(false);
+  }
+
+  function handleChangeSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUser(event.target.value);
+    setErrorUser(false);
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -98,15 +108,10 @@ export const App = () => {
             type="text"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setErrorTitle(false);
-            }}
+            onChange={handleChangeTitle}
             data-cy="titleInput"
           />
-          {errorTitle
-            ? <span className="error">Please enter a title</span>
-            : ''}
+          {errorTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -114,10 +119,7 @@ export const App = () => {
           <select
             id="userSelect"
             value={user}
-            onChange={event => {
-              setUser(event.target.value);
-              setErrorUser(false);
-            }}
+            onChange={handleChangeSelect}
             data-cy="userSelect"
           >
             <option
@@ -128,16 +130,14 @@ export const App = () => {
             </option>
             {usersFromServer.map(person => {
               return (
-                <option value={person.name}>
+                <option key={person.id} value={person.name}>
                   {person.name}
                 </option>
               );
             })}
           </select>
 
-          {errorUser
-            ? <span className="error">Please choose a user</span>
-            : ''}
+          {errorUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button

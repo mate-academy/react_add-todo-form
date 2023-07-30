@@ -6,9 +6,21 @@ type Props = {
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
+  const listStyles = {
+    listStyleType: 'none',
+    margin: 0,
+    padding: 0,
+  };
+
   return (
     <section className="TodoList">
-      {todos.map((todo) => <TodoInfo todo={todo} key={todo.id} />)}
+      <ul style={listStyles}>
+        {todos.map((todo) => (
+          <li>
+            <TodoInfo todo={todo} key={todo.id} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };
