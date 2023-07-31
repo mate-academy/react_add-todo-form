@@ -57,10 +57,16 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    let trimmedTitle = title;
+
+    if (title.length !== title.trim().length) {
+      trimmedTitle = title.trim();
+    }
+
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(userId === 0);
 
-    if (!title || userId === 0) {
+    if (!trimmedTitle || userId === 0) {
       return;
     }
 
