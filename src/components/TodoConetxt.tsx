@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Todo } from '../types';
-import { createTodo, getTodos } from '../services/api';
+import * as todoService from '../services/todo';
 
 interface TodoMethods {
   addTodo: (todo: Todo) => void,
   updateTodo: (todo: Todo) => void,
-  deleteTodo: (todoId: number) => void,
+  deleteTodo: (todoId: number) => Promise<void>,
 }
 
 export const TodoMethodsContext = React.createContext<TodoMethods>({
   addTodo: () => { },
   updateTodo: () => { },
-  deleteTodo: () => { },
+  deleteTodo: async () => { },
 });
 
 export const TodosContext = React.createContext({
@@ -28,7 +28,7 @@ export const TodoProvider: React.FC = ({ children }) => {
   const addTodo = (todo: Todo) => {
     setLoading(true);
 
-    return createTodo(todo)
+    return todoService.createTodo(todo)
       .then(newTodo => {
         setTodos(currentTodos => [...currentTodos, newTodo]);
       })
@@ -36,9 +36,12 @@ export const TodoProvider: React.FC = ({ children }) => {
   };
 
   const deleteTodo = (todoId: number) => {
-    setTodos(currentTodos => currentTodos.filter(
-      todo => todo.id !== todoId,
-    ));
+    return todoService.deleteTodo(todoId)
+      .then(() => {
+        setTodos(currentTodos => currentTodos.filter(
+          todo => todo.id !== todoId,
+        ));
+      });
   };
 
   const updateTodo = (updatedTodo: Todo) => {
@@ -51,7 +54,7 @@ export const TodoProvider: React.FC = ({ children }) => {
   useEffect(() => {
     setLoading(true);
 
-    getTodos()
+    todoService.getTodos()
       .then(setTodos)
       .finally(() => setLoading(false));
   }, []);

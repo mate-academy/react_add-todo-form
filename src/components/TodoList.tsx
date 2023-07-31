@@ -13,7 +13,7 @@ export const TodoList = memo(() => {
   );
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (

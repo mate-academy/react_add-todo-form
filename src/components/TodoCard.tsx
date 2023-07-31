@@ -9,6 +9,7 @@ type Props = {
 
 export const TodoCard: React.FC<Props> = memo(({ todo }) => {
   const [editing, setEditing] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const { updateTodo, deleteTodo } = useContext(TodoMethodsContext);
 
   return (
@@ -32,7 +33,21 @@ export const TodoCard: React.FC<Props> = memo(({ todo }) => {
           </h3>
 
           <button type="button" onClick={() => setEditing(true)}>edit</button>
-          <button type="button" onClick={() => deleteTodo(todo.id)}>x</button>
+
+          <button
+            type="button"
+            disabled={processing}
+            onClick={() => {
+              setProcessing(true);
+
+              deleteTodo(todo.id)
+                .finally(() => {
+                  setProcessing(false);
+                });
+            }}
+          >
+            x
+          </button>
         </>
       )}
 

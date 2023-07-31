@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
 import { User, Todo } from '../types';
-import { getUsers, getUserById } from '../services/api';
+import { getUsers, getUserById } from '../services/user';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -21,8 +21,7 @@ export const TodoForm: React.FC<Props> = ({
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    getUsers()
-      .then(setUsers);
+    getUsers().then(setUsers);
   }, []);
 
   const reset = () => {
