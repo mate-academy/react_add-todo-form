@@ -58,7 +58,7 @@ export const TodoForm: React.FC<Props> = ({
 
     const newTodo: Todo = {
       id: todo?.id || Date.now(),
-      completed: false,
+      completed: todo?.completed || true,
       title: todoName,
       userId,
       user,

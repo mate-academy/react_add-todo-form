@@ -31,8 +31,10 @@ export async function remove(endpoint: string): Promise<number> {
   return response.json();
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function post<T>(endpoint: string, data: any): Promise<T> {
+export async function post<T>(
+  endpoint: string,
+  data: Omit<T, 'id'>,
+): Promise<T> {
   await wait(500);
 
   const response = await fetch(API_URL + endpoint, {
@@ -44,7 +46,28 @@ export async function post<T>(endpoint: string, data: any): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`Can't load from '${endpoint}'`);
+    throw new Error(`Can't create '${endpoint}'`);
+  }
+
+  return response.json();
+}
+
+export async function patch<T>(
+  endpoint: string,
+  data: Partial<Omit<T, 'id'>>,
+): Promise<T> {
+  await wait(500);
+
+  const response = await fetch(API_URL + endpoint, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Can't update '${endpoint}'`);
   }
 
   return response.json();

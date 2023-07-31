@@ -35,18 +35,19 @@ export const TodoProvider: React.FC = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
-  const deleteTodo = (todoId: number) => {
-    return todoService.deleteTodo(todoId)
-      .then(() => {
-        setTodos(currentTodos => currentTodos.filter(
-          todo => todo.id !== todoId,
-        ));
-      });
+  const deleteTodo = async (todoId: number) => {
+    await todoService.deleteTodo(todoId);
+
+    setTodos(currentTodos => currentTodos.filter(
+      todo => todo.id !== todoId,
+    ));
   };
 
-  const updateTodo = (updatedTodo: Todo) => {
+  const updateTodo = async (updatedTodo: Todo) => {
+    const todoFromServer = await todoService.updateTodo(updatedTodo);
+
     setTodos(currentTodos => currentTodos.map(
-      todo => (todo.id === updatedTodo.id ? updatedTodo : todo),
+      todo => (todo.id === updatedTodo.id ? todoFromServer : todo),
     ));
   };
   // #endregion
