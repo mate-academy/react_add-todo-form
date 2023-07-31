@@ -25,22 +25,33 @@ export const TodoProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   // #region methods
+  const loadTodos = () => {
+    setLoading(true);
+
+    todoService.getTodos()
+      .then(setTodos)
+      .finally(() => setLoading(false));
+  };
+
   const addTodo = (todo: Todo) => {
     setLoading(true);
 
     return todoService.createTodo(todo)
-      .then(newTodo => {
-        setTodos(currentTodos => [...currentTodos, newTodo]);
-      })
+      .then(loadTodos)
       .finally(() => setLoading(false));
   };
 
-  const deleteTodo = async (todoId: number) => {
-    await todoService.deleteTodo(todoId);
+  const deleteTodo = (todoId: number) => {
+    let prevTodos: Todo[];
 
-    setTodos(currentTodos => currentTodos.filter(
-      todo => todo.id !== todoId,
-    ));
+    setTodos(currentTodos => {
+      prevTodos = currentTodos;
+
+      return currentTodos.filter(todo => todo.id !== todoId);
+    });
+
+    todoService.deleteTodo(todoId)
+      .catch(() => setTodos(prevTodos));
   };
 
   const updateTodo = async (updatedTodo: Todo) => {
@@ -52,13 +63,7 @@ export const TodoProvider: React.FC = ({ children }) => {
   };
   // #endregion
 
-  useEffect(() => {
-    setLoading(true);
-
-    todoService.getTodos()
-      .then(setTodos)
-      .finally(() => setLoading(false));
-  }, []);
+  useEffect(loadTodos, []);
 
   const value = useMemo(() => ({ addTodo, deleteTodo, updateTodo }), []);
 
