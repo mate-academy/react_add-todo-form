@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { memo, useContext, useState } from 'react';
 import { TodoCard } from './TodoCard';
-import { TodosContext } from './TodoConetxt';
+import { TodosContext } from './TodoContext';
 
 export const TodoList = memo(() => {
   const [query, setQuery] = useState('');

@@ -1,21 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Todo } from '../types';
-import { getTodos } from '../services/api';
+import { getTodos } from '../services/todo';
 
 export const TodosContext = React.createContext([] as Todo[]);
 
-interface TodoMethods {
-  addTodo: (todo: Todo) => void,
-  updateTodo: (todo: Todo) => void,
-  deleteTodo: (todoId: number) => void,
-}
-
-export const TodoUpdateContext = React.createContext<TodoMethods>({
-  addTodo: () => { },
-  updateTodo: () => { },
-  deleteTodo: () => { },
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const TodoUpdateContext = React.createContext({
+  addTodo: (_: Todo) => { },
+  updateTodo: (_: Todo) => { },
+  deleteTodo: (_: number) => { },
 });
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export const TodoProvider: React.FC = ({ children }) => {
   // #region
@@ -42,7 +37,11 @@ export const TodoProvider: React.FC = ({ children }) => {
     getTodos().then(setTodos);
   }, []);
 
-  const value = useMemo(() => ({ addTodo, deleteTodo, updateTodo }), []);
+  // Methods don't use external variable so we create them once
+  const value = useMemo(
+    () => ({ addTodo, deleteTodo, updateTodo }),
+    [],
+  );
 
   return (
     <TodoUpdateContext.Provider value={value}>

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
-import React, { useEffect, useState } from 'react';
-import { User, Todo } from '../types';
-import { getUsers, getUserById } from '../services/api';
+import React, { useState } from 'react';
+import { Todo } from '../types';
+import { useUsers } from './UsersContext';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -14,23 +14,23 @@ export const TodoForm: React.FC<Props> = ({
   onReset = () => {},
   todo,
 }) => {
-  const [todoName, setTodoName] = useState(todo?.title || '');
-  const [todoNameError, setTodoNameError] = useState('');
+  const [title, setTitle] = useState(todo?.title || '');
   const [userId, setUserId] = useState(todo?.userId || 0);
-  const [userIdError, setUserIdError] = useState('');
-  const [users, setUsers] = useState<User[]>([]);
+  const [completed, setCompleted] = useState(todo?.completed || false);
 
-  useEffect(() => {
-    getUsers()
-      .then(setUsers);
-  }, []);
+  const [todoNameError, setTitleError] = useState('');
+  const [userIdError, setUserIdError] = useState('');
+
+  const users = useUsers();
 
   const reset = () => {
-    setTodoName(todo?.title || '');
-    setTodoNameError('');
+    setTitle(todo?.title || '');
+    setTitleError('');
 
     setUserId(todo?.userId || 0);
     setUserIdError('');
+
+    setCompleted(todo?.completed || false);
   };
 
   const handleReset = () => {
@@ -42,30 +42,20 @@ export const TodoForm: React.FC<Props> = ({
     // #region validation
     event.preventDefault();
 
-    if (!todoName) {
-      setTodoNameError('Name is required');
-    }
+    setTitleError(title ? '' : 'Name is required');
+    setUserIdError(userId ? '' : 'User is required');
 
-    if (!userId) {
-      setUserIdError('User is required');
-    }
-
-    if (!todoName || !userId) {
+    if (!title || !userId) {
       return;
     }
     // #endregion
 
-    const user = await getUserById(userId);
-
-    const newTodo: Todo = {
+    onSubmit({
       id: todo?.id || Date.now(),
-      completed: false,
-      title: todoName,
+      completed,
+      title,
       userId,
-      user,
-    };
-
-    onSubmit(newTodo);
+    });
     reset();
   };
 
@@ -75,10 +65,10 @@ export const TodoForm: React.FC<Props> = ({
         <input
           type="text"
           placeholder="Todo Name"
-          value={todoName}
+          value={title}
           onChange={event => {
-            setTodoName(event.target.value);
-            setTodoNameError('');
+            setTitle(event.target.value);
+            setTitleError('');
           }}
         />
         <span className="error">{todoNameError}</span>
@@ -101,6 +91,15 @@ export const TodoForm: React.FC<Props> = ({
           ))}
         </select>
         <span className="error">{userIdError}</span>
+      </div>
+
+      <div className="field">
+        <input
+          type="checkbox"
+          checked={completed}
+          onChange={e => setCompleted(e.target.checked)}
+        />
+        Done?
       </div>
 
       <button type="submit">Save</button>
