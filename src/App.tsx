@@ -8,9 +8,8 @@ import { Todo } from './types/todos';
 import { User } from './types/users';
 
 const initialTodos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(
-    userFromServer => userFromServer.id === todo.userId,
-  );
+  const user = usersFromServer.find(userFromServer => userFromServer.id
+    === todo.userId || null);
 
   return { ...todo, user };
 });
