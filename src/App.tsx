@@ -9,7 +9,7 @@ import { User } from './types/users';
 
 const initialTodos = todosFromServer.map(todo => {
   const user = usersFromServer.find(userFromServer => userFromServer.id
-    === todo.userId || null);
+    === todo.userId) || null;
 
   return { ...todo, user };
 });
@@ -41,7 +41,7 @@ export const App = () => {
 
   const findUser = (usersArr: User[]) => {
     const currentUser = usersArr.find(user => user.id
-      === userId || null);
+      === userId) || null;
 
     return currentUser;
   };
