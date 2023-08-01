@@ -41,7 +41,7 @@ export const App = () => {
 
   const findUser = (usersArr: User[]) => {
     const currentUser = usersArr.find(user => user.id
-      === userId);
+      === userId || null);
 
     return currentUser;
   };
