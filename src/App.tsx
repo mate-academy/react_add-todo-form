@@ -15,6 +15,7 @@ export const App = () => {
   const [selectValue, setSelectValue] = useState(0);
   const [showTitleError, setTitleError] = useState(false);
   const [showSelectError, setSelectError] = useState(false);
+  const trimmedTitle = titleValue.trim();
 
   const [todos, setTodos] = useState(todosFromServer.map(todo => ({
     ...todo,
@@ -41,15 +42,15 @@ export const App = () => {
 
   const hendleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!titleValue) {
+    if (!trimmedTitle) {
       setTitleError(true);
     }
 
-    if (selectValue === 0) {
+    if (!selectValue) {
       setSelectError(true);
     }
 
-    if (titleValue && selectValue > 0) {
+    if (trimmedTitle && selectValue) {
       const newTodo = {
         id: getMaxTodoId() + 1,
         title: titleValue,
