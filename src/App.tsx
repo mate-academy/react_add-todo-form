@@ -11,7 +11,7 @@ function getUserById(userId: number) {
 
 export const App = () => {
   const [titleValue, setTitleValue] = useState('');
-  const [selectValue, setSelectValue] = useState(0);
+  const [selectedUserId, setselectedUserId] = useState(0);
   const [showTitleError, setTitleError] = useState(false);
   const [showSelectError, setSelectError] = useState(false);
 
@@ -24,21 +24,21 @@ export const App = () => {
     return Math.max(...todos.map(todo => todo.id), 0);
   };
 
-  const hendleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
     setTitleValue(newValue);
     setTitleError(false);
   };
 
-  const hendleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = +event.target.value;
 
-    setSelectValue(newValue);
+    setselectedUserId(newValue);
     setSelectError(false);
   };
 
-  const hendleAddToDo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmedTitle = titleValue.trim();
 
@@ -46,23 +46,23 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (!selectValue) {
+    if (!selectedUserId) {
       setSelectError(true);
     }
 
-    if (trimmedTitle && selectValue) {
+    if (trimmedTitle && selectedUserId) {
       const newTodo = {
         id: getmaxTodoId() + 1,
         title: titleValue,
-        userId: selectValue,
+        userId: selectedUserId,
         completed: false,
-        user: getUserById(selectValue),
+        user: getUserById(selectedUserId),
       };
 
       setTodos([...todos, newTodo]);
 
       setTitleValue('');
-      setSelectValue(0);
+      setselectedUserId(0);
     }
   };
 
@@ -73,17 +73,17 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={hendleAddToDo}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <label>
             {'Title: '}
             <input
               type="text"
-              data-cy="titlenput"
+              data-cy="titleInput"
               placeholder="Enter a title"
               value={titleValue}
-              onChange={hendleTitleChange}
+              onChange={handleTitleChange}
             />
 
             {showTitleError
@@ -96,8 +96,8 @@ export const App = () => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={selectValue}
-              onChange={hendleSelectChange}
+              value={selectedUserId}
+              onChange={handleSelectChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
