@@ -58,8 +58,9 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const trimmedTitle = title.trim();
 
-    if (!title) {
+    if (!trimmedTitle) {
       setTitleError(true);
     }
 
@@ -67,13 +68,13 @@ export const App: React.FC = () => {
       setUserError(true);
     }
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
     const newTodo = {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title,
+      title: trimmedTitle,
       userId,
       user: getUserById(userId),
       completed: false,
