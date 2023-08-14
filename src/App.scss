@@ -15,13 +15,22 @@ button {
   color: red;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    margin: 20px 0;
+  }
+}
+
 .TodoInfo {
-  width: max-content;
+  width: 350px;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
 
   &__title {
     margin: 4px 0;
@@ -36,4 +45,10 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.Todo {
+  &__form {
+    width: 500px;
+  }
 }
