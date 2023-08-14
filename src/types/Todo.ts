@@ -1,12 +1,8 @@
+import { User } from './User';
+
 export interface Todo {
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | undefined;
+  user: User | undefined;
   id: number;
   title: string;
   completed: boolean;
-  userId: number;
 }

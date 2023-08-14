@@ -2,21 +2,18 @@ import React, { useState } from 'react';
 import './App.scss';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
-import { preparedTodos } from './services/preparedTodos';
+import { initialTodos } from './services/preparedTodos';
 import { Todo } from './types/Todo';
 import { getUserById } from './services/getUserById';
 
 export const App = () => {
-  const initialTodos = preparedTodos();
-
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  const maxId = Math.max(...todos.map(todo => todo.id));
 
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
 
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasSelecUserError, setSelectUserError] = useState(false);
+  const [hasSelectUserError, setSelectUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.trimStart());
@@ -43,6 +40,8 @@ export const App = () => {
     setTitle('');
     setSelectedUser(0);
 
+    const maxId = Math.max(...todos.map(todo => todo.id));
+
     setTodos([
       ...todos,
       {
@@ -50,7 +49,6 @@ export const App = () => {
         id: maxId + 1,
         title,
         completed: false,
-        userId: selectedUser,
       },
     ]);
   };
@@ -102,7 +100,7 @@ export const App = () => {
           </select>
 
           {
-            hasSelecUserError
+            hasSelectUserError
             && (
               <span className="error">Please choose a user</span>
             )
