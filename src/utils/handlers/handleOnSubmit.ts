@@ -10,6 +10,8 @@ export const handleOnSubmit = (
   usersFromServer: User[],
   setSelectedUserId: React.Dispatch<React.SetStateAction<User['id']>>,
   setTitleOfNewTodo: React.Dispatch<React.SetStateAction<string>>,
+  setShowErrorEmptyTitle: React.Dispatch<React.SetStateAction<boolean>>,
+  setShowErrorUserIsNotChoosen: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   event.preventDefault();
 
@@ -24,4 +26,6 @@ export const handleOnSubmit = (
   setTodos([...todos, newTodo]);
   setSelectedUserId(0);
   setTitleOfNewTodo('');
+  setShowErrorEmptyTitle(false);
+  setShowErrorUserIsNotChoosen(false);
 };

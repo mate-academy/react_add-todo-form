@@ -31,6 +31,10 @@ export const App: React.FC = () => {
   );
   const [selectedUserId, setSelectedUserId] = useState<User['id']>(0);
   const [titleOfNewTodo, setTitleOfNewTodo] = useState<string>('');
+  const [showErrorEmptyTitle, setShowErrorEmptyTitle]
+   = useState<boolean>(false);
+  const [showErrorUserIsNotChoosen, setShowErrorUserIsNotChoosen]
+   = useState<boolean>(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   return (
@@ -54,17 +58,24 @@ export const App: React.FC = () => {
             usersFromServer,
             setSelectedUserId,
             setTitleOfNewTodo,
+            setShowErrorEmptyTitle,
+            setShowErrorUserIsNotChoosen,
           )}
         >
           <div className={`field field--${theme}`}>
             <input
               type="text"
               data-cy="titleInput"
-              onChange={(event) => handleChangeInput(event, setTitleOfNewTodo)}
+              onChange={(event) => handleChangeInput(
+                event,
+                setTitleOfNewTodo,
+                setShowErrorEmptyTitle,
+              )}
               value={titleOfNewTodo}
+              placeholder='Enter a title of your new ToDo'
             />
             <br />
-            {!titleOfNewTodo && (
+            {showErrorEmptyTitle && (
               <span className="error">Please enter a title</span>
             )}
           </div>
@@ -72,7 +83,11 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={(event) => handleChooseUser(event, setSelectedUserId)}
+              onChange={(event) => handleChooseUser(
+                event,
+                setSelectedUserId,
+                setShowErrorUserIsNotChoosen,
+              )}
             >
               <option
                 value="0"
@@ -85,7 +100,7 @@ export const App: React.FC = () => {
               })}
             </select>
             <br />
-            {selectedUserId === 0 && (
+            {showErrorUserIsNotChoosen && (
               <span className="error">Please choose a user</span>
             )}
           </div>
@@ -93,6 +108,7 @@ export const App: React.FC = () => {
             className={`submitBtn submitBtn--${theme}`}
             type="submit"
             data-cy="submitButton"
+            disabled={selectedUserId === 0 || titleOfNewTodo === ''}
           >
             Add
           </button>

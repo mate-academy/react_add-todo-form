@@ -73,9 +73,11 @@ button {
     .field {
       input {
         margin-top: 20px;
+        margin-bottom: 5px;
         padding: 5px;
         font-size: 20px;
         border: 1px solid gray;
+        width: 300px;
       }
 
       &--dark input {
