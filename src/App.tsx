@@ -64,62 +64,61 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="title Todo__title">Add todo form</h1>
 
       <form
         action="/api/todos"
         method="POST"
         onSubmit={handleSubmit}
+        className="box Todo__form"
       >
         <div className="field">
-          <label htmlFor="title">
+          <label className="label">
             Title:
             <br />
-
             <input
-              id="title"
-              type="type"
+              type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
+              className="input"
               value={title}
               onChange={handleTitleChange}
             />
           </label>
-
           {hasTitleError && (
-            <span className="error">Pleace enter a title</span>
+            <span className="error label">Please enter a title</span>
           )}
-
         </div>
 
         <div className="field">
-          <label htmlFor="user-id">
+          <label htmlFor="user-id" className="label">
             User:
-            <br />
-
-            <select
-              id="user-id"
-              data-cy="userSelect"
-              value={userId}
-              onChange={handleUserIdChange}
-            >
-              <option value="0" disabled>Choose a user</option>
-
-              {usersFromServer.map(currentUser => (
-                <option value={currentUser.id} key={currentUser.id}>
-                  {currentUser.name}
-                </option>
-              ))}
-
-            </select>
-
-            {hasUserIdError && (
-              <span className="error">Please choose a user</span>
-            )}
           </label>
+          <select
+            id="user-id"
+            data-cy="userSelect"
+            className="select"
+            value={userId}
+            onChange={handleUserIdChange}
+          >
+            <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          {hasUserIdError && (
+            <span className="error label">Please choose a user</span>
+          )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="button is-primary"
+        >
           Add
         </button>
       </form>
