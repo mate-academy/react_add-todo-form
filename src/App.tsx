@@ -6,8 +6,12 @@ import { Todo } from './components/types/Todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { GetUser } from './components/GetUser';
 
-const preparedTodo = todosFromServer;
+const preparedTodo: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: GetUser(todo.userId),
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -17,6 +21,13 @@ export const App = () => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const [todos, setTodos] = useState<Todo[]>(preparedTodo);
+
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
+    setHasTitleError(false);
+    setHasUserIdError(false);
+  };
 
   const getNewTodoId = (allTodos: Todo[]) => {
     const maxId = Math.max(
@@ -56,10 +67,7 @@ export const App = () => {
       userId,
     }]);
 
-    setTitle('');
-    setUserId(0);
-    setHasTitleError(false);
-    setHasUserIdError(false);
+    resetForm();
   };
 
   return (
