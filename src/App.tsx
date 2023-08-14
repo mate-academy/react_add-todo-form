@@ -12,12 +12,10 @@ function getUser(userId: number) {
   return foundUser;
 }
 
-const initialTodos: Todo[]
-  = todosFromServer.map(
-    todo => ({
-      ...todo, user: getUser(todo.userId),
-    }),
-  );
+const initialTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -60,10 +58,12 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim();
+
+    setHasTitleError(!trimmedTitle);
     setHasUserError(userId === 0);
 
-    if (title && userId > 0) {
+    if (trimmedTitle && userId > 0) {
       addNewTodo();
     }
   };
@@ -98,7 +98,6 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            defaultValue="0"
             required
             onChange={handleUserChange}
           >
@@ -128,9 +127,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
