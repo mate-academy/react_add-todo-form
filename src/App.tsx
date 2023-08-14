@@ -18,8 +18,8 @@ export const App = () => {
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [hasTitle, setHasTitle] = useState(false);
-  const [hasUserId, setHasUserId] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
@@ -30,21 +30,21 @@ export const App = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
 
-    setHasTitle(false);
+    setHasTitleError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
 
-    setHasUserId(false);
+    setHasUserIdError(false);
   };
   //
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitle(!title);
-    setHasUserId(!userId);
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
 
     if (!title || !userId) {
       return;
@@ -58,12 +58,13 @@ export const App = () => {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
+    // setTodos([...todos, newTodo]);
+    setTodos(prevTodo => [...prevTodo, newTodo]);
 
     setTitle('');
     setUserId(0);
-    setHasTitle(false);
-    setHasUserId(false);
+    setHasTitleError(false);
+    setHasUserIdError(false);
   };
 
   return (
@@ -86,7 +87,8 @@ export const App = () => {
               value={title}
               onChange={handleTitleChange}
             />
-            {hasTitle && <span className="error">Please enter a title</span>}
+            {hasTitleError &&
+            <span className="error">Please enter a title</span>}
           </label>
         </div>
 
@@ -109,7 +111,8 @@ export const App = () => {
                 </option>
               ))}
             </select>
-            {hasUserId && <span className="error">Please choose a user</span>}
+            {hasUserIdError &&
+            <span className="error">Please choose a user</span>}
           </label>
         </div>
 
