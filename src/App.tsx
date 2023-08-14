@@ -10,6 +10,7 @@ export const App = () => {
   const initialTodos = preparedTodos();
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const maxId = Math.max(...todos.map(todo => todo.id));
 
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
@@ -46,7 +47,7 @@ export const App = () => {
       ...todos,
       {
         user: getUserById(selectedUser),
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        id: maxId + 1,
         title,
         completed: false,
         userId: selectedUser,
