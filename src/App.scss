@@ -2,38 +2,21 @@ iframe {
   display: none;
 }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
-.error {
-  color: red;
-}
-
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
+.Todo {
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
+    padding-top: 50px;
+    text-align: center;
   }
 
-  &--completed &__title {
-    color: #080;
+  &__form {
+    margin: 0 auto 50px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
   }
-}
 
-.UserInfo {
-  font-style: italic;
+  &__item {
+    margin: 0 auto;
+    width: 50%;
+  }
 }
