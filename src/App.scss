@@ -6,6 +6,10 @@ html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
 label,
 button {
   cursor: pointer;
@@ -15,13 +19,16 @@ button {
   color: red;
 }
 
+.TodoList {
+  margin-top: 50px;
+}
+
 .TodoInfo {
   width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
+  padding: 8px 24px;
+  margin: 12px auto;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: transparent;
 
   &__title {
     margin: 4px 0;
@@ -32,8 +39,122 @@ button {
   &--completed &__title {
     color: #080;
   }
+
+  a {
+    text-decoration: none;
+  }
+
+  &--light {
+    a {
+      color: #000;
+    }
+
+    border: 1px solid #000;
+  }
+
+  &--dark {
+    a {
+      color: #fff;
+    }
+
+    border: 1px solid #fff;
+  }
 }
 
 .UserInfo {
   font-style: italic;
+}
+
+.App {
+  height: 100vh;
+
+  &--light {
+    background-color: none;
+  }
+
+  &--dark {
+    background-color: #292929;
+  }
+
+  &__form {
+    width: 700px;
+    margin: 50px auto 0;
+    text-align: center;
+
+    &--light {
+      color: #000;
+    }
+
+    &--dark {
+      color: #fff;
+    }
+
+    .field {
+      input,
+      select {
+        margin-top: 20px;
+        padding: 7px 10px;
+        border: 1px solid gray;
+      }
+
+      input {
+        margin-bottom: 5px;
+        font-size: 20px;
+        border: 1px solid gray;
+        width: 300px;
+      }
+
+      &--dark input {
+        color: #fff;
+        background-color: #292929;
+
+        &::placeholder {
+          color: #fff;
+        }
+      }
+
+      select {
+        background-color: transparent;
+        font-size: 16px;
+      }
+
+      &--dark select {
+        color: #fff;
+        background-color: #292929;
+
+        &::placeholder {
+          color: #fff;
+        }
+      }
+    }
+
+    .submitBtn {
+      margin-top: 50px;
+      margin-bottom: 50px;
+      padding: 15px 70px;
+      border: none;
+      border-radius: 10px;
+      opacity: 0.7;
+      transition: 0.3s linear opacity;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &--light {
+        color: #000;
+        background-color: #efefef;
+        filter: drop-shadow(2px 2px 4px #000);
+      }
+
+      &--dark {
+        color: #fff;
+        background-color: #292929;
+        filter: drop-shadow(0 0 3px #fff);
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
