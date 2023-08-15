@@ -25,6 +25,13 @@ export const App = () => {
     setSelectUserError(false);
   };
 
+  const resetForm = () => {
+    setHasTitleError(false);
+    setSelectUserError(false);
+    setTitle('');
+    setSelectedUser(0);
+  };
+
   const handleSumbmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -35,17 +42,14 @@ export const App = () => {
       return;
     }
 
-    setHasTitleError(false);
-    setSelectUserError(false);
-    setTitle('');
-    setSelectedUser(0);
+    resetForm();
 
     const maxId = Math.max(...todos.map(todo => todo.id));
 
     setTodos([
       ...todos,
       {
-        user: getUserById(selectedUser),
+        user: getUserById(selectedUser) || null,
         id: maxId + 1,
         title,
         completed: false,
