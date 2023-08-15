@@ -10,17 +10,19 @@ export const combineTodoAndUser = (
     = users.find((user: User) => user.id === todo.userId) || null;
 
     if (userObj !== null) {
+      const userInOutPut = {
+        id: userObj.id,
+        name: userObj.name,
+        username: userObj.username,
+        email: userObj.email,
+      };
+
       return {
         id: todo.id,
         title: todo.title,
         completed: todo.completed,
         userId: todo.userId,
-        user: {
-          id: userObj.id,
-          name: userObj.name,
-          username: userObj.username,
-          email: userObj.email,
-        },
+        user: userInOutPut,
       };
     }
 

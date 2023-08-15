@@ -7,7 +7,6 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 //  types
-// import { Todo } from './types/Todo';
 import { User } from './types/User';
 
 //  components
@@ -94,8 +93,8 @@ export const App: React.FC = () => {
               >
                 Choose a user
               </option>
-              {usersFromServer.map(user => {
-                return <option value={user.id}>{user.name}</option>;
+              {usersFromServer.map(({ name, id }) => {
+                return <option key={id} value={id}>{name}</option>;
               })}
             </select>
             <br />

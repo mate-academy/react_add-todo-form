@@ -15,8 +15,9 @@ export const handleOnSubmit = (
 ) => {
   event.preventDefault();
 
-  if (titleOfNewTodo === '') {
+  if (titleOfNewTodo.trim() === '') {
     setShowErrorEmptyTitle(true);
+    setTitleOfNewTodo('');
   } else {
     setShowErrorEmptyTitle(false);
   }
@@ -27,7 +28,7 @@ export const handleOnSubmit = (
     setShowErrorUserIsNotChoosen(false);
   }
 
-  if (titleOfNewTodo !== '' && selectedUserId !== 0) {
+  if (titleOfNewTodo.trim() !== '' && selectedUserId !== 0) {
     const newTodo = {
       id: todos.length + 1,
       title: titleOfNewTodo.trim(),

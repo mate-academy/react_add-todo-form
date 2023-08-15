@@ -5,15 +5,19 @@ export const TodoInfo: React.FC<{
   todo: TodoWithUser
   theme: 'light' | 'dark'
 }> = ({ todo, theme }) => {
-  const isCompleted = (todo.completed && ' TodoInfo--completed') || '';
+  const {
+    title, id, completed, user,
+  } = todo;
+
+  const isCompleted = (completed && ' TodoInfo--completed') || '';
 
   return (
-    <article data-id={todo.id} className={`TodoInfo${isCompleted} TodoInfo--${theme}`}>
+    <article data-id={id} className={`TodoInfo${isCompleted} TodoInfo--${theme}`}>
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
 
-      <UserInfo user={todo.user} />
+      <UserInfo user={user} />
     </article>
   );
 };
