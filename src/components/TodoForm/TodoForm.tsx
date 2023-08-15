@@ -30,7 +30,14 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title
+      .split(' ')
+      .filter(word => word)
+      .join(' ');
+
+    setTitle(trimmedTitle);
+
+    setHasTitleError(trimmedTitle.length === 0);
     setHasUserIdError(!userId);
 
     if (!userId || !title) {
