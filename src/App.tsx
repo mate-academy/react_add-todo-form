@@ -23,7 +23,6 @@ import { TodoWithUser } from './types/TodoWithUser';
 import { handleOnSubmit } from './utils/handlers/handleOnSubmit';
 import { Header } from './components/Header';
 import { changeTheme } from './utils/changeTheme';
-// import { changeTheme } from './utils/changeTheme';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(
@@ -72,7 +71,7 @@ export const App: React.FC = () => {
                 setShowErrorEmptyTitle,
               )}
               value={titleOfNewTodo}
-              placeholder='Enter a title of your new ToDo'
+              placeholder="Enter a title of your new ToDo"
             />
             <br />
             {showErrorEmptyTitle && (
@@ -108,13 +107,12 @@ export const App: React.FC = () => {
             className={`submitBtn submitBtn--${theme}`}
             type="submit"
             data-cy="submitButton"
-            disabled={selectedUserId === 0 || titleOfNewTodo === ''}
           >
             Add
           </button>
         </form>
         <hr />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} theme={theme} />
       </div>
     </div>
   );

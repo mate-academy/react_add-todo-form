@@ -15,17 +15,31 @@ export const handleOnSubmit = (
 ) => {
   event.preventDefault();
 
-  const newTodo = {
-    id: todos.length + 1,
-    title: titleOfNewTodo.trim(),
-    completed: false,
-    userId: selectedUserId,
-    user: usersFromServer.find(user => user.id === selectedUserId) as User,
-  };
+  if (titleOfNewTodo === '') {
+    setShowErrorEmptyTitle(true);
+  } else {
+    setShowErrorEmptyTitle(false);
+  }
 
-  setTodos([...todos, newTodo]);
-  setSelectedUserId(0);
-  setTitleOfNewTodo('');
-  setShowErrorEmptyTitle(false);
-  setShowErrorUserIsNotChoosen(false);
+  if (selectedUserId === 0) {
+    setShowErrorUserIsNotChoosen(true);
+  } else {
+    setShowErrorUserIsNotChoosen(false);
+  }
+
+  if (titleOfNewTodo !== '' && selectedUserId !== 0) {
+    const newTodo = {
+      id: todos.length + 1,
+      title: titleOfNewTodo.trim(),
+      completed: false,
+      userId: selectedUserId,
+      user: usersFromServer.find(user => user.id === selectedUserId) as User,
+    };
+
+    setTodos([...todos, newTodo]);
+    setSelectedUserId(0);
+    setTitleOfNewTodo('');
+    setShowErrorEmptyTitle(false);
+    setShowErrorUserIsNotChoosen(false);
+  }
 };
