@@ -13,7 +13,7 @@ function getNewId(todos: Todo[]) {
 
 function getValidatedTitle(title: string) {
   const titleRegex = /[^a-zа-я0-9 ]*/gi;
-  let validatedTitle = title;
+  let validatedTitle = title.trim();
 
   if (titleRegex.test(title)) {
     validatedTitle = validatedTitle.replace(titleRegex, '');
@@ -44,18 +44,20 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const validatedTitle = getValidatedTitle(title);
+
     if (!userId) {
       setIsUserSelected(false);
     }
 
-    if (!title) {
+    if (!validatedTitle) {
       setHasTitle(false);
     }
 
     if (userId && title) {
       const newTodo = {
         id: getNewId(currentTodos),
-        title: getValidatedTitle(title),
+        title: validatedTitle,
         userId,
         completed: false,
       };
