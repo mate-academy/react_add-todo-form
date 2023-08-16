@@ -18,10 +18,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         { todo.title }
       </h2>
 
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
-        Leanne Graham
-      </a>
-
       {todo.user && (<UserInfo user={todo.user} />)}
     </article>
   );
