@@ -1,11 +1,8 @@
+import { TodoListProps } from '../../types/TodoListProps';
 import { Todo } from '../../types/todo';
 import { TodoInfo } from '../TodoInfo';
 
-interface TodoListInt {
-  todos: Todo[]
-}
-
-export const TodoList = (props: TodoListInt) => {
+export const TodoList = (props: TodoListProps) => {
   const { todos } = props;
 
   return (

@@ -1,11 +1,7 @@
 import classNames from 'classnames';
-import { Todo } from '../../types/todo';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
-
-interface TodoInfoProps {
-  todo: Todo
-}
+import { TodoInfoProps } from '../../types/TodoInfoProps';
 
 interface User {
   id: number;
@@ -14,11 +10,11 @@ interface User {
   email: string;
 }
 
-export const TodoInfo = ({ todo }: TodoInfoProps) => {
-  const getUserById = (id: number): User => {
-    return usersFromServer.find((user) => user.id === id) as User || null;
-  };
+const getUserById = (id: number): User => {
+  return usersFromServer.find((user) => user.id === id) as User || null;
+};
 
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
     <article
       data-id={todo.id}

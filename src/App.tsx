@@ -8,19 +8,19 @@ import todosFromServer from './api/todos';
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('0');
-  const [isClicked, setIsClicked] = useState(false);
+  const [isFormSubmitted, setisFormSubmitted] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
 
   const clearForm = () => {
     setUserId('0');
     setTitle('');
-    setIsClicked(false);
+    setisFormSubmitted(false);
   };
 
   const handleSubmit
    = (event:React.SyntheticEvent) => {
      event.preventDefault();
-     setIsClicked(true);
+     setisFormSubmitted(true);
 
      if (!title || userId === '0') {
        return;
@@ -69,7 +69,7 @@ export const App = () => {
               onChange={handleTitleChange}
             />
 
-            {(!title && isClicked)
+            {(!title && isFormSubmitted)
             && <span className="error">Please enter a title</span>}
           </label>
         </div>
@@ -95,7 +95,7 @@ export const App = () => {
             })}
           </select>
 
-          {(userId === '0' && isClicked)
+          {(userId === '0' && isFormSubmitted)
           && <span className="error">Please choose a user</span>}
         </div>
 
