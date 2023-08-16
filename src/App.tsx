@@ -39,6 +39,14 @@ export const App = () => {
     }
   };
 
+  const disabledAdd = () => {
+    if (!title.trim()) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -85,7 +93,11 @@ export const App = () => {
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+          disabled={disabledAdd()}
+        >
           Add
         </button>
       </form>
