@@ -21,7 +21,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.trim() && !userId) {
+    if (title.trim() && userId) {
       const newTodo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
