@@ -21,7 +21,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title && userId) {
+    if (title.trim() && !userId) {
       const newTodo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
@@ -37,14 +37,6 @@ export const App = () => {
     } else {
       setHesError(true);
     }
-  };
-
-  const disabledAdd = () => {
-    if (!title.trim()) {
-      return true;
-    }
-
-    return false;
   };
 
   return (
@@ -66,7 +58,7 @@ export const App = () => {
             onChange={(event) => setTitle(event.target.value)}
           />
 
-          {(!title && hesError) && (
+          {(title && hesError) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -96,7 +88,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          disabled={disabledAdd()}
         >
           Add
         </button>
