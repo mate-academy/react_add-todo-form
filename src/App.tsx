@@ -19,11 +19,11 @@ export const todos = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [newPost, setNewPost] = useState<Todo[]>(todos);
 
-  const [title, setTitle] = useState('');
-  const [titleErr, setTitleErr] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [titleErr, setTitleErr] = useState<boolean>(false);
 
-  const [userId, setUserId] = useState(0);
-  const [userIdErr, setUserIdErr] = useState(false);
+  const [userId, setUserId] = useState<number>(0);
+  const [userIdErr, setUserIdErr] = useState<boolean>(false);
 
   const maxId = newPost
     .reduce((max, todo) => (todo.id > max ? todo.id : max), 0) + 1;
@@ -108,11 +108,15 @@ export const App: React.FC = () => {
           >
             <option value="0">Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { name, id } = user;
+
+              return (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
 
           {userIdErr && (
