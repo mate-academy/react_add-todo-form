@@ -22,7 +22,6 @@ export const App = () => {
       id: 0,
       title: '',
       completed: false,
-      userId: 0,
       user: null,
     },
   );
@@ -45,7 +44,6 @@ export const App = () => {
         id: 0,
         title: '',
         completed: false,
-        userId: 0,
         user: null,
       },
     );
@@ -63,7 +61,6 @@ export const App = () => {
     setTodo(
       {
         ...todo,
-        userId: +event.target.value,
         user: getUser(+event.target.value),
       },
     );
@@ -72,14 +69,13 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todo.title || !todo.userId) {
+    if (!todo.title || !todo.user?.id) {
       setIsFilled(false);
 
       return;
     }
 
     onAdd(todo);
-
     resetForm();
   };
 
@@ -115,7 +111,7 @@ export const App = () => {
               name="select"
               data-cy="userSelect"
               onChange={handleUserIdChange}
-              value={todo.userId}
+              value={!todo.user ? 0 : todo.user.id}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(usr => (
@@ -128,7 +124,7 @@ export const App = () => {
               ))}
             </select>
 
-            {(!todo.userId && !isFilled)
+            {(!todo.user && !isFilled)
               && (<span className="error">Please choose a user</span>)}
           </label>
         </div>
