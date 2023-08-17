@@ -27,10 +27,12 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setIsTitleEmpty(!title);
+    const titleNoSpacesAround = title.trim();
+
+    setIsTitleEmpty(!titleNoSpacesAround);
     setUserNameError(!userId);
 
-    if (!title || !userId) {
+    if (!titleNoSpacesAround || !userId) {
       return;
     }
 
