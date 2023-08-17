@@ -58,7 +58,7 @@ export const App = () => {
             onChange={(event) => setTitle(event.target.value)}
           />
 
-          {(title && hesError) && (
+          {(!title.trim() && hesError) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
