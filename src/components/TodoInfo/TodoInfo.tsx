@@ -1,8 +1,12 @@
+import cn from 'classnames';
 import users from '../../api/users';
+import { UserInfo } from '../UserInfo';
 
 interface Props {
   title: string,
   userId: number,
+  id: number,
+  completed: boolean,
 }
 
 interface User {
@@ -16,20 +20,34 @@ function getUserById(arr: User[], id: number) {
   return arr.find(item => item.id === id);
 }
 
-export const TodoInfo: React.FC<Props> = ({ title, userId }) => {
+export const TodoInfo: React.FC<Props> = ({
+  id,
+  userId,
+  title,
+  completed,
+}) => {
   const user = getUserById(users, userId);
   const email = user?.email;
   const name = user?.name;
 
   return (
-    <>
-      <h2 className="TodoInfo__title">
-        {title}
-      </h2>
+    <section
+      className="TodoList"
+      // key={id}
+    >
+      <article
+        data-id={id}
+        key={id}
+        className={cn('TodoInfo', {
+          'TodoInfo--completed': completed,
+        })}
+      >
+        <h2 className="TodoInfo__title">
+          {title}
+        </h2>
 
-      <a className="UserInfo" href={`mailto:${email}`}>
-        {name}
-      </a>
-    </>
+        <UserInfo email={email} name={name} />
+      </article>
+    </section>
   );
 };

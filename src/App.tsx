@@ -9,6 +9,7 @@ interface Todo {
   id: number,
   title: string,
   completed: boolean,
+  // userId: number | null,
   userId: number,
 }
 
@@ -20,17 +21,15 @@ interface User {
 }
 
 function getUserIDByName(arr: User[], name: string) {
-  const user = arr.find(item => item.name === name);
+  const user = arr.find(item => item.name === name) || 1;
 
-  if (user !== undefined) {
-    return user.id;
-  }
-
-  return 1;
+  return user === 1 ? 1 : user.id;
 }
 
-function getRandomId(): number {
-  return Math.floor(Math.random() * 100000);
+function getTodoId(todos: Todo[]): number {
+  const arr = todos.map(item => item.id);
+
+  return Math.max(...arr) + 1;
 }
 
 export const App = () => {
@@ -41,7 +40,7 @@ export const App = () => {
   const [name, setName] = useState('0');
 
   const newTodo = {
-    id: getRandomId(),
+    id: getTodoId(todos),
     title,
     completed: false,
     userId: getUserIDByName(users, name),
@@ -68,10 +67,12 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setName(event.target.value);
+    setNameError(false);
   };
 
   const reset = () => {

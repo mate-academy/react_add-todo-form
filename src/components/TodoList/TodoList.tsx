@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { TodoInfo } from '../TodoInfo';
 
 type Todo = {
@@ -14,21 +13,15 @@ interface Props {
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <>
       {todos.map(todo => (
-        <article
-          data-id={todo.id}
-          key={todo.id}
-          className={cn('TodoInfo', {
-            'TodoInfo--completed': todo.completed,
-          })}
-        >
-          <TodoInfo
-            title={todo.title}
-            userId={todo.userId}
-          />
-        </article>
+        <TodoInfo
+          id={todo.id}
+          userId={todo.userId}
+          title={todo.title}
+          completed={todo.completed}
+        />
       ))}
-    </section>
+    </>
   );
 };
