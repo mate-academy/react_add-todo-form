@@ -21,9 +21,9 @@ interface User {
 }
 
 function getUserIDByName(arr: User[], name: string) {
-  const user = arr.find(item => item.name === name) || 1;
+  const userId = arr.find(item => item.name === name)?.id || 1;
 
-  return user === 1 ? 1 : user.id;
+  return userId;
 }
 
 function getTodoId(todos: Todo[]): number {
@@ -37,7 +37,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
   const [title, setTitle] = useState('');
-  const [name, setName] = useState('0');
+  const [name, setName] = useState('');
 
   const newTodo = {
     id: getTodoId(todos),
@@ -58,7 +58,7 @@ export const App = () => {
   };
 
   const handleNameError = () => {
-    if (name === '0') {
+    if (name === '') {
       setNameError(true);
     } else {
       setNameError(false);
@@ -77,7 +77,7 @@ export const App = () => {
 
   const reset = () => {
     setTitle('');
-    setName('0');
+    setName('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -85,11 +85,11 @@ export const App = () => {
     handleTitleError();
     handleNameError();
 
-    if (name !== '0' && title.trim()) {
+    if (name !== '' && title.trim()) {
       reset();
     }
 
-    if (!title.trim() || name === '0') {
+    if (!title.trim() || name === '') {
       return;
     }
 
@@ -138,7 +138,7 @@ export const App = () => {
               onClick={handleDefaultOptionDisabled}
             >
               <option
-                value="0"
+                value=""
                 disabled={defaultOptionDisabled}
               >
                 Choose a user

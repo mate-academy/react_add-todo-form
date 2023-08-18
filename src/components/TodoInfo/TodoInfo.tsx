@@ -16,8 +16,8 @@ interface User {
   email: string,
 }
 
-function getUserById(arr: User[], id: number) {
-  return arr.find(item => item.id === id);
+function getUserById(arr: User[], id: number): User | null {
+  return arr.find(item => item.id === id) || null;
 }
 
 export const TodoInfo: React.FC<Props> = ({
@@ -44,7 +44,8 @@ export const TodoInfo: React.FC<Props> = ({
           {title}
         </h2>
 
-        <UserInfo email={email} name={name} />
+        {/* <UserInfo email={email} name={name} /> */}
+        {user && <UserInfo email={email} name={name} />}
       </article>
     </section>
   );
