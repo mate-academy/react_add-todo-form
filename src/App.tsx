@@ -85,11 +85,11 @@ export const App = () => {
     handleTitleError();
     handleNameError();
 
-    if (name !== '0' && title) {
+    if (name !== '0' && title.trim()) {
       reset();
     }
 
-    if (!title || name === '0') {
+    if (!title.trim() || name === '0') {
       return;
     }
 

@@ -33,11 +33,9 @@ export const TodoInfo: React.FC<Props> = ({
   return (
     <section
       className="TodoList"
-      // key={id}
     >
       <article
         data-id={id}
-        key={id}
         className={cn('TodoInfo', {
           'TodoInfo--completed': completed,
         })}
