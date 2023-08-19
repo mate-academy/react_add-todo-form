@@ -31,9 +31,7 @@ export const TodoInfo: React.FC<Props> = ({
   const name = user?.name;
 
   return (
-    <section
-      className="TodoList"
-    >
+    <>
       <article
         data-id={id}
         className={cn('TodoInfo', {
@@ -44,9 +42,8 @@ export const TodoInfo: React.FC<Props> = ({
           {title}
         </h2>
 
-        {/* <UserInfo email={email} name={name} /> */}
         {user && <UserInfo email={email} name={name} />}
       </article>
-    </section>
+    </>
   );
 };

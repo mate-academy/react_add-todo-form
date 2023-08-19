@@ -58,7 +58,7 @@ export const App = () => {
   };
 
   const handleNameError = () => {
-    if (name === '') {
+    if (!name) {
       setNameError(true);
     } else {
       setNameError(false);
@@ -85,11 +85,11 @@ export const App = () => {
     handleTitleError();
     handleNameError();
 
-    if (name !== '' && title.trim()) {
+    if (name && title.trim()) {
       reset();
     }
 
-    if (!title.trim() || name === '') {
+    if (!title.trim() || !name) {
       return;
     }
 

@@ -15,14 +15,14 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <>
       {todos.map(todo => (
-        <div key={todo.id}>
+        <section className="TodoList" key={todo.id}>
           <TodoInfo
             id={todo.id}
             userId={todo.userId}
             title={todo.title}
             completed={todo.completed}
           />
-        </div>
+        </section>
       ))}
     </>
   );
