@@ -3,7 +3,7 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users.json';
 import todosFromServer from './api/todos.json';
-import { Todos } from './types/todos';
+import { Todo } from './types/todos';
 import { TodoList } from './components/TodoList';
 
 const getUser = (userId: number) => {
@@ -12,12 +12,12 @@ const getUser = (userId: number) => {
   return foundUser || null;
 };
 
-const initialTodos: Todos[] = todosFromServer.map(todo => ({
+const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
-const getMaxId = (todos: Todos[]) => {
+const getMaxId = (todos: Todo[]) => {
   const maxId = Math.max(
     ...todos.map(todo => todo.id),
   );
@@ -53,7 +53,7 @@ export const App = () => {
     setSelectFieldError(false);
   };
 
-  const addTodo = (NewTodo: Todos) => {
+  const addTodo = (NewTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, NewTodo]);
   };
 
@@ -130,9 +130,9 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(consumer => (
-              <option value={consumer.id} key={consumer.id}>
-                {consumer.name}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
               </option>
             ))}
           </select>

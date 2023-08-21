@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import { Todos } from '../../types/todos';
+import { Todo } from '../../types/todos';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: Todos
+  todo: Todo
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {

@@ -1,9 +1,9 @@
-import { Users } from './users';
+import { User } from './users';
 
-export interface Todos {
+export interface Todo {
   id: number,
   title: string,
   completed?: boolean,
   userId: number,
-  user: Users | null,
+  user: User | null,
 }
