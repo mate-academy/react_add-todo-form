@@ -2,8 +2,18 @@ iframe {
   display: none;
 }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+.App {
+  text-align: left;
+  width: 600px;
+  margin: 50px auto;
+}
+
+select {
+  width: 600px;
+}
+
+.is-primary  {
+  width: 50%;
 }
 
 label,
