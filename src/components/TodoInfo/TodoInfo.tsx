@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { Todo } from '../../types/types';
+import { Todo } from '../../utils/types/types';
 import { UserInfo } from '../UserInfo';
 
 type Props = {

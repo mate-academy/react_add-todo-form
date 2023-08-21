@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import usersFromServer from '../api/users';
-import { Todo } from '../types/types';
+import usersFromServer from '../../api/users';
+import { Todo } from '../../utils/types/types';
+import { getUserById } from '../../utils/getUserById';
 
 type Props = {
   onAdd: (todo: Todo) => void,
 };
-
-function getUser(userId: number) {
-  return usersFromServer.find(user => user.id === userId)
-    || null;
-}
 
 const TodoTemplate = {
   id: 0,
@@ -21,35 +17,45 @@ const TodoTemplate = {
 export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [todo, setTodo] = useState<Todo>(TodoTemplate);
 
-  const [isFilled, setIsFilled] = useState(true);
-  // const [touched, setTouched] = useState(false);
+  const [isFilledTitle, setIsFilledTitle] = useState(true);
+  const [isFilledUserId, setIsFilledUserId] = useState(true);
+
+  const [touched, setTouched] = useState(false);
 
   const resetForm = () => {
     setTodo(TodoTemplate);
 
-    setIsFilled(true);
+    setIsFilledTitle(true);
+    setIsFilledUserId(true);
+
+    setTouched(false);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(
       { ...todo, title: event.target.value },
     );
+
+    setIsFilledTitle(true);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTodo(
       {
         ...todo,
-        user: getUser(+event.target.value),
+        user: getUserById(+event.target.value),
       },
     );
+
+    setIsFilledUserId(true);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todo.title || !todo.user?.id) {
-      setIsFilled(false);
+    if (!todo.title.trim() || !todo.user?.id) {
+      setIsFilledUserId(false);
+      setIsFilledTitle(false);
 
       return;
     }
@@ -58,8 +64,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
-  const hasErrorTitle = !todo.title.trim() && !isFilled;
-  const hasErrorUserId = !todo.user && !isFilled;
+  const hasErrorTitle = (todo.title.length < 1 && touched) || !isFilledTitle;
+  const hasErrorUserId = todo.user?.id !== 0 && !isFilledUserId;
 
   return (
     <form
@@ -81,7 +87,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           placeholder="Please enter a title"
           value={todo.title}
           onChange={handleTitleChange}
-          // onBlur={() => setTouched(true)}
+          onBlur={() => setTouched(true)}
         />
 
         {hasErrorTitle && (
@@ -106,7 +112,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
             id="todo-user"
             value={todo.user ? todo.user.id : 0}
             onChange={handleUserIdChange}
-            // onBlur={() => setTouched(true)}
           >
             <option value="0" disabled>Choose a user</option>
 
@@ -130,7 +135,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         type="submit"
         data-cy="submitButton"
         className="button is-primary"
-        // disabled={!isValid}
       >
         Add
       </button>

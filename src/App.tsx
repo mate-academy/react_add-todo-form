@@ -3,16 +3,11 @@ import 'bulma';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 import { useState } from 'react';
-import { Todo } from './types/types';
-import { TodoForm } from './TodoForm';
-import usersFromServer from './api/users';
+import { Todo } from './utils/types/types';
+import { TodoForm } from './components/TodoForm';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId)
-    || null;
-}
+import { getUserById } from './utils/getUserById';
 
 export const todosSer = todosFromServer.map(todo => ({
   ...todo,
@@ -36,7 +31,7 @@ export const App = () => {
     <div className="section App box">
       <h1 className="title is-1">Add todo form</h1>
 
-      <TodoForm onAdd={onAdd} /* todos={todos} */ />
+      <TodoForm onAdd={onAdd} />
       <TodoList
         todos={todos}
       />
