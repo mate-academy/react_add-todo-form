@@ -40,6 +40,8 @@ export const App = () => {
     return text.trim().match(validRegex);
   };
 
+  const inputTrim = title.trim();
+
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
 
@@ -110,7 +112,7 @@ export const App = () => {
 
           {titleError && (
             <span className="error">
-              {!title.trim()
+              {!inputTrim
                 ? 'Please enter a title'
                 : 'Please enter a correct title'}
             </span>
