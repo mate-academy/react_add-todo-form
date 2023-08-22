@@ -38,15 +38,17 @@ export const App = () => {
 
     setHasUserIdError(false);
   };
-  //
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim(); // Обрезать пробелы в начале и конце строки
+    setTitle(trimmedTitle);
+
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
@@ -58,7 +60,6 @@ export const App = () => {
       completed: false,
     };
 
-    // setTodos([...todos, newTodo]);
     setTodos(prevTodo => [...prevTodo, newTodo]);
 
     setTitle('');
@@ -87,8 +88,8 @@ export const App = () => {
               value={title}
               onChange={handleTitleChange}
             />
-            {hasTitleError &&
-            <span className="error">Please enter a title</span>}
+            {hasTitleError
+            && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
@@ -111,8 +112,8 @@ export const App = () => {
                 </option>
               ))}
             </select>
-            {hasUserIdError &&
-            <span className="error">Please choose a user</span>}
+            {hasUserIdError
+            && <span className="error">Please choose a user</span>}
           </label>
         </div>
 
