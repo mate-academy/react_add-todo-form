@@ -20,6 +20,43 @@ export const App = () => {
   const [maxTodoId, setMaxTodoId] = useState(
     Math.max(...allTodos.map(todo => todo.id)),
   );
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+
+  const onEditTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTitleEmpty(false);
+    setTitle(event.target.value);
+  };
+
+  const onSwitchUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setIsUserEmpty(false);
+    setUserId(+event.target.value);
+  };
+
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const titleEmpty = title === '';
+    const userEmpty = userId === 0;
+
+    setIsTitleEmpty(titleEmpty);
+    setIsUserEmpty(userEmpty);
+
+    if (!titleEmpty && !userEmpty) {
+      const todoId = maxTodoId + 1;
+
+      allTodos.push({
+        user: usersFromServer.find(u => u.id === userId),
+        id: todoId,
+        completed: false,
+        title,
+        userId,
+      });
+      setTitle('');
+      setUserId(0);
+      setMaxTodoId(todoId);
+    }
+  };
 
   return (
     <div className="App">
@@ -29,34 +66,7 @@ export const App = () => {
         action="/api/todos"
         method="POST"
         onSubmit={event => {
-          event.preventDefault();
-
-          const titleInput
-            = document.getElementById(titleInputId) as HTMLInputElement;
-          const userInput
-            = document.getElementById(userInputId) as HTMLInputElement;
-          const title = titleInput?.value;
-          const userId = +userInput?.value;
-          const emptyTitle = title === '';
-          const emptyUser = userId === 0;
-
-          setIsTitleEmpty(emptyTitle);
-          setIsUserEmpty(emptyUser);
-
-          if (!emptyTitle && !emptyUser) {
-            const todoId = maxTodoId + 1;
-
-            allTodos.push({
-              user: usersFromServer.find(u => u.id === userId),
-              id: todoId,
-              completed: false,
-              title,
-              userId,
-            });
-            titleInput.value = '';
-            userInput.value = userSelectDefaultValue;
-            setMaxTodoId(todoId);
-          }
+          submitForm(event);
         }}
       >
         <div className="field">
@@ -65,9 +75,10 @@ export const App = () => {
           <input
             id={titleInputId}
             type="text"
+            value={title}
             data-cy="titleInput"
             placeholder="Enter a title"
-            onChange={() => setIsTitleEmpty(false)}
+            onChange={event => onEditTitle(event)}
           />
 
           {isTitleEmpty && (
@@ -82,7 +93,8 @@ export const App = () => {
             id={userInputId}
             data-cy="userSelect"
             defaultValue="0"
-            onChange={() => setIsUserEmpty(false)}
+            value={userId}
+            onChange={event => onSwitchUser(event)}
           >
             <option disabled value={userSelectDefaultValue}>
               Choose a user
