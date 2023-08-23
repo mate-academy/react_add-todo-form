@@ -4,11 +4,11 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { User } from './types/User';
-import { Todo } from './types/Todo';
+import { Todo, User } from './types/index';
+// import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUser(userId: number): User | null {
+export function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
   // if there is no user with a given userId
@@ -22,29 +22,29 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setuserId] = useState('');
-  const [updatedTodos, setUpdatedTodos] = useState(todos);
+  const [userId, setuserId] = useState<number>(0);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [buttonClicked, setbuttonClicked] = useState(false);
+
+  const titleChange = (x: string) => {
+    setTitle(x);
+  };
+
+  const userIdChange = (x: number) => {
+    setuserId(x);
+  };
+
+  const formSubmittedChange = (x: boolean) => {
+    setFormSubmitted(x);
+  };
+
+  const buttonClickedChange = (x: boolean) => {
+    setbuttonClicked(x);
+  };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
-
-    if (title && userId) {
-      const newTodo = {
-        id: Math.max(...updatedTodos.map(todo => todo.id)) + 1,
-        title,
-        completed: false,
-        userId: +userId,
-        user: getUser(+userId),
-      };
-
-      setUpdatedTodos([...updatedTodos, newTodo]);
-      setFormSubmitted(false);
-      setTitle('');
-      setuserId('');
-    } else {
-      setFormSubmitted(true);
-    }
+    setbuttonClicked(true);
   };
 
   return (
@@ -74,23 +74,23 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="title">
+          <label htmlFor="user">
             User:
             {' '}
             <select
               data-cy="userSelect"
               id="user"
               name="user"
-              value={userId}
-              onChange={(event) => setuserId(event.target.value)}
+              value={String(userId)}
+              onChange={(event) => setuserId(Number(event.target.value))}
             >
-              <option value="" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(({ id, name }) => (
                 <option
-                  value={user.id}
-                  key={user.id}
+                  value={id}
+                  key={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))}
             </select>
@@ -106,7 +106,16 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={updatedTodos} />
+      <TodoList
+        todos={todos}
+        title={title}
+        userId={userId}
+        buttonClicked={buttonClicked}
+        titleChange={titleChange}
+        userIdChange={userIdChange}
+        formSubmittedChange={formSubmittedChange}
+        buttonClickedChange={buttonClickedChange}
+      />
     </div>
   );
 };
