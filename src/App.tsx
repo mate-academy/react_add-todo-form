@@ -66,10 +66,10 @@ export const App = () => {
     }
   };
 
-  type Props =
+  type ChangeProps =
     React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>;
 
-  const setFieldValue = (event: Props) => {
+  const setFieldValue = (event: ChangeProps) => {
     const { name, value } = event.target;
 
     switch (name) {
