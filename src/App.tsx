@@ -53,7 +53,6 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="title">
-            {/* Title: */}
             {`Title: `}
             <input
               id="title"
