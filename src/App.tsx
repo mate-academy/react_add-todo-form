@@ -5,13 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { Todo, User } from './types/index';
-// import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 
 export function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  // if there is no user with a given userId
   return foundUser || null;
 }
 
@@ -22,29 +20,28 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [userId, setuserId] = useState<number>(0);
+  const [userId, setUserId] = useState<number>(0);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [buttonClicked, setbuttonClicked] = useState(false);
-
-  const titleChange = (x: string) => {
-    setTitle(x);
-  };
-
-  const userIdChange = (x: number) => {
-    setuserId(x);
-  };
-
-  const formSubmittedChange = (x: boolean) => {
-    setFormSubmitted(x);
-  };
-
-  const buttonClickedChange = (x: boolean) => {
-    setbuttonClicked(x);
-  };
+  const [updatedTodos, setUpdatedTodos] = useState(todos);
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
-    setbuttonClicked(true);
+    if (title && userId) {
+      const newTodo = {
+        id: Math.max(...updatedTodos.map(todo => todo.id)) + 1,
+        title,
+        completed: false,
+        userId: Number(userId),
+        user: getUser(Number(userId)),
+      };
+
+      setUpdatedTodos([...updatedTodos, newTodo]);
+      setFormSubmitted(false);
+      setTitle('');
+      setUserId(0);
+    } else {
+      setFormSubmitted(true);
+    }
   };
 
   return (
@@ -82,7 +79,7 @@ export const App: React.FC = () => {
               id="user"
               name="user"
               value={String(userId)}
-              onChange={(event) => setuserId(Number(event.target.value))}
+              onChange={(event) => setUserId(Number(event.target.value))}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (
@@ -107,14 +104,7 @@ export const App: React.FC = () => {
       </form>
 
       <TodoList
-        todos={todos}
-        title={title}
-        userId={userId}
-        buttonClicked={buttonClicked}
-        titleChange={titleChange}
-        userIdChange={userIdChange}
-        formSubmittedChange={formSubmittedChange}
-        buttonClickedChange={buttonClickedChange}
+        todos={updatedTodos}
       />
     </div>
   );
