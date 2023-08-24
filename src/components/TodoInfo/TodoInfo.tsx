@@ -2,22 +2,10 @@ import { FC } from 'react';
 import classNames from 'classnames';
 
 import { UserInfo } from '../UserInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
+import { Todo } from '../types/todo';
 
 type Props = {
-  todo: {
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number | null;
-    user: User | null;
-  }
+  todo: Todo
 };
 
 export const TodoInfo: FC<Props> = ({ todo }) => {

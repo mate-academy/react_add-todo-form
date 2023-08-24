@@ -3,21 +3,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number | null;
-  user: User | null;
-};
+import { Todo } from './components/types/todo';
 
 const getUserById = (userId: number) => {
   return usersFromServer.find(user => user.id === userId) || null;
