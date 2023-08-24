@@ -13,13 +13,13 @@ type TodosFromServer = {
   userId: number,
 };
 
-function getUserById(userId:number):User | null {
+function getUserById(userId: number): User | null {
   const findUser = usersFromServer.find(user => user.id === userId);
 
   return findUser || null;
 }
 
-function setUsersInTodos(serverTodos:TodosFromServer[]): Todo[] {
+function setUsersInTodos(serverTodos: TodosFromServer[]): Todo[] {
   const readyTodos = serverTodos.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
@@ -72,17 +72,20 @@ export const App = () => {
   const setFieldValue = (event: ChangeProps) => {
     const { name, value } = event.target;
 
+    enum InputValue {
+      Title = 'title',
+      UserId = 'userId',
+    }
+
     switch (name) {
-      case 'title':
+      case InputValue.Title:
         setTitle(value);
         setValidTitle(false);
-
         break;
 
-      case 'userId':
+      case InputValue.UserId:
         setUserId(+value);
         setValidUser(false);
-
         break;
 
       default:
