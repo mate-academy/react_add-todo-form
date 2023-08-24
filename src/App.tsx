@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/quotes */
 import React, { FormEventHandler, useState } from 'react';
 import './App.scss';
 
@@ -52,8 +53,8 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="title">
-            Title:
-            {' '}
+            {/* Title: */}
+            {`Title: `}
             <input
               id="title"
               name="title"
@@ -73,7 +74,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label htmlFor="user">
             User:
-            {' '}
+            {`User: `}
             <select
               data-cy="userSelect"
               id="user"
