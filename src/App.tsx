@@ -4,22 +4,26 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-type Todo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-};
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(todosFromServer);
-
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
+
+  const setTodosWithUsers = (addTodos: Todo[], users: User[]): Todo[] => {
+    return addTodos.map(todo => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId),
+    }));
+  };
+
+  const [todos, setTodos] = useState(
+    setTodosWithUsers(todosFromServer, usersFromServer),
+  );
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
@@ -54,11 +58,13 @@ export const App: React.FC = () => {
 
     if (title && userId !== 0) {
       const maxId = Math.max(...todos.map(todo => todo.id));
+
       const newTodo: Todo = {
         id: maxId + 1,
         title,
         completed: false,
         userId,
+        user: usersFromServer.find(user => user.id === userId),
       };
 
       setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -124,10 +130,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos}
-        users={usersFromServer}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
