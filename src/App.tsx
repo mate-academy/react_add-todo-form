@@ -26,7 +26,9 @@ export const App: React.FC = () => {
   );
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = event.target.value;
+    let newTitle = event.target.value;
+
+    newTitle = newTitle.replace(/[^a-zA-Zа-щА-ЩьЬюЮяЯіІїЇєЄґҐ0-9 ]+/g, '');
 
     setTitle(newTitle);
 
