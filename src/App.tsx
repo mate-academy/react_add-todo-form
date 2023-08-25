@@ -11,8 +11,8 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
+  const [isTitleError, setTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const setTodosWithUsers = (addTodos: Todo[], users: User[]): Todo[] => {
     return addTodos.map(todo => ({
@@ -43,27 +43,33 @@ export const App: React.FC = () => {
     setUserId(newUserId);
 
     if (newUserId !== 0) {
-      setUserError(false);
+      setIsUserError(false);
     }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    const newTitle = title.trim();
+
+    if (!newTitle) {
       setTitleError(true);
     }
 
-    if (userId === 0) {
-      setUserError(true);
+    if (!userId) {
+      setIsUserError(true);
     }
 
-    if (title && userId !== 0) {
+    if (!newTitle || !userId) {
+      return;
+    }
+
+    if (newTitle && userId !== 0) {
       const maxId = Math.max(...todos.map(todo => todo.id));
 
       const newTodo: Todo = {
         id: maxId + 1,
-        title,
+        title: newTitle,
         completed: false,
         userId,
         user: usersFromServer.find(user => user.id === userId),
@@ -95,7 +101,7 @@ export const App: React.FC = () => {
             onChange={handleTitleChange}
           />
 
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -122,7 +128,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
