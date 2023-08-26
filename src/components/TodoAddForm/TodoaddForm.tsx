@@ -31,14 +31,14 @@ export const TodoAddForm: React.FC<Props> = ({ onAdd, currentLength }) => {
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title === '' && currentUser === '0') {
+    if (!title.trim() && currentUser === '0') {
       setHasTitleError(true);
       setHasUserError(true);
 
       return;
     }
 
-    if (title === '') {
+    if (!title.trim()) {
       setHasTitleError(true);
 
       return;
@@ -52,7 +52,7 @@ export const TodoAddForm: React.FC<Props> = ({ onAdd, currentLength }) => {
 
     const newTodo: Todo = {
       id: currentLength + 1,
-      title,
+      title: title.trim(),
       completed: false,
       userId: +currentUser,
     };
@@ -94,8 +94,8 @@ export const TodoAddForm: React.FC<Props> = ({ onAdd, currentLength }) => {
             onChange={(event) => handleUserSelect(event.target.value)}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>{name}</option>
             ))}
           </select>
         </label>
