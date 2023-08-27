@@ -23,38 +23,60 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  // const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  //   ...todo,
-  //   user: getUser(todo.userId),
-  //   // here possibly duplicating with const todos outisde of app comp
-  // }));
-
   const [localTodos, setTodos] = useState<Todo[]>(todos);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [enteredTitle, setTodoTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const addTodo = (newTodo: Todo) => {
-    setTodos([...todos, newTodo]); // Creates a new array and triggers a re-render
+    setTodos([...localTodos, newTodo]);
   };
 
-  const handleAddTodo = () => {
-    if (selectedUserId === null) {
-      return; // Prevent adding if user not selected
+  const getNextId = (todoList: Todo[]) => {
+    return Math.max(...todoList.map(todo => todo.id)) + 1;
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(e.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(Number(e.target.value));
+    setUserError(false);
+  };
+
+  const handleAddTodo = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    if (selectedUserId === null || enteredTitle === '') {
+      setUserError(selectedUserId === null);
+      setTitleError(enteredTitle === '');
+
+      console.error(titleError, userError, 'ERROR');
+
+      return;
     }
 
     addTodo({
-      id: 16,
-      title: 'some other todo',
+      id: getNextId(localTodos),
+      title: enteredTitle,
       completed: false,
-      userId: 1,
+      userId: selectedUserId,
       user: getUser(selectedUserId),
     });
+
+    setSelectedUserId(null);
+    setTodoTitle('');
+    setUserError(false);
+    setTitleError(false);
   };
 
-  console.log(todos, '= todosFromServer');
-  console.log(localTodos, '= localTodos');
-  console.log(selectedUserId, '= selectedUserid');
-
-  // start by implement the ability to select from already existing users.
+  // console.log(todos, '= todosFromServer');
+  // console.log(localTodos, '= localTodos');
+  // console.log(selectedUserId, '= selectedUserid');
+  // console.log(enteredTitle, '= enteredTitle');
 
   return (
     <div className="App">
@@ -68,8 +90,16 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             aria-label="Title"
+            value={enteredTitle}
+            placeholder="Enter a title"
+            onChange={handleTitleChange}
           />
-          <span className="error">Please enter a title</span>
+
+          {titleError && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -79,7 +109,7 @@ export const App = () => {
             data-cy="userSelect"
             aria-label="User"
             value={selectedUserId || '0'}
-            onChange={e => setSelectedUserId(Number(e.target.value))}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>
               Choose a user
@@ -92,7 +122,7 @@ export const App = () => {
             ))}
           </select>
 
-          {(selectedUserId === null || selectedUserId === 0) && (
+          {userError && (
             <span className="error">
               Please choose a user
             </span>
