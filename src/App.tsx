@@ -14,7 +14,7 @@ type Todo = {
 };
 
 type Props = {
-  users: (Todo[] | undefined) | undefined;
+  users: User[] | undefined;
 };
 
 const getDefaultUser = (): User => ({
@@ -52,10 +52,12 @@ export const App: React.FC<Props> = () => {
 
   const handleSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setName(event.target.value);
+    setNameError(false);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,11 +87,11 @@ export const App: React.FC<Props> = () => {
       user: newUser || undefined,
     };
 
-    setTodos([...visibleTodos, newTodo]);
+    const updatedTodos = [...todos, newTodo];
+
+    setTodos(updatedTodos);
     setName('');
     setTitle('');
-
-    visibleTodos.push(newTodo);
   };
 
   return (
