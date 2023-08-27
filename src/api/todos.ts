@@ -1,3 +1,5 @@
+import { User } from './users';
+
 export default [
   {
     id: 1,
@@ -18,3 +20,11 @@ export default [
     userId: 4,
   },
 ];
+
+export interface Todo {
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+  user: User,
+}
