@@ -32,7 +32,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
     if (!title.trim() || !userId) {
@@ -89,12 +89,12 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         >
           <option value="0" disabled>Choose a user</option>
 
-          {usersFromServer.map(user => (
+          {usersFromServer.map(({ id, name }) => (
             <option
-              value={user.id}
-              key={user.id}
+              value={id}
+              key={id}
             >
-              {user.name}
+              {name}
             </option>
           ))}
 
