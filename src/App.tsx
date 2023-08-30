@@ -33,13 +33,13 @@ export const App: React.FC = () => {
 
     if (!title.trim()) {
       setInvalidTitle(true);
+
+      return;
     }
 
     if (currentUserId === '0') {
       setInvalidUser(true);
-    }
 
-    if (!title.trim() || currentUserId === '0') {
       return;
     }
 
