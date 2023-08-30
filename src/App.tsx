@@ -89,7 +89,7 @@ export const App: React.FC = () => {
             >
               <option value="0" disabled>Choose a user</option>
               {users.map(user => (
-                <option value={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}
