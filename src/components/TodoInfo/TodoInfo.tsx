@@ -1,34 +1,26 @@
-import { User, UserInfo } from '../UserInfo';
-
-export type Todo = {
-  id: number
-  title: string
-  completed: boolean,
-  user: User | undefined,
-};
+import { UserInfo } from '../UserInfo';
+import { TodoUser } from '../../types/Todo';
 
 type TodoProps = {
-  todo: Todo
+  todo: TodoUser
 };
 
-export const TodoInfo = ({ todo }: TodoProps) => {
-  const {
+export const TodoInfo = ({
+  todo: {
     id,
     title,
     completed,
     user,
-  } = todo;
+  },
+}: TodoProps) => (
+  <article
+    data-id={id}
+    className={`TodoInfo${completed ? ' TodoInfo--completed' : ''}`}
+  >
+    <h2 className="TodoInfo__title">
+      {title}
+    </h2>
 
-  return (
-    <article
-      data-id={id}
-      className={`TodoInfo${completed ? ' TodoInfo--completed' : ''}`}
-    >
-      <h2 className="TodoInfo__title">
-        {title}
-      </h2>
-
-      {user && <UserInfo user={user} />}
-    </article>
-  );
-};
+    {user && <UserInfo user={user} />}
+  </article>
+);

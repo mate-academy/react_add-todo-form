@@ -1,7 +1,8 @@
-import { Todo, TodoInfo } from '../TodoInfo';
+import { TodoUser } from '../../types/Todo';
+import { TodoInfo } from '../TodoInfo';
 
 type TodoListProps = {
-  todos: Todo[]
+  todos: TodoUser[]
 };
 
 export const TodoList = ({ todos }: TodoListProps) => (

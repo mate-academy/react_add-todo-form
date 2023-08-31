@@ -1,61 +1,77 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { TodoUser } from './types/Todo';
 
-const titleInputId = 'title';
-const userInputId = 'user';
-const userSelectDefaultValue = '0';
-
-const allTodos = todosFromServer.map(todo => ({
+const getTodos = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
+const initialFormValues = { title: '', userId: 0 };
+const initialFormErrors = { title: false, userId: false };
+
+type FormValues = { title: string; userId: number };
+type FormErrors = { title: boolean; userId: boolean };
+
 export const App = () => {
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isUserEmpty, setIsUserEmpty] = useState(false);
-  const [maxTodoId, setMaxTodoId] = useState(
-    Math.max(...allTodos.map(todo => todo.id)),
-  );
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [todos, setTodos] = useState<TodoUser[]>(getTodos);
+  const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
+  const [formErrors, setFormErrors] = useState<FormErrors>(initialFormErrors);
+  const { title, userId } = formValues;
+  const { title: titleError, userId: userIdError } = formErrors;
 
-  const onEditTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTitleEmpty(false);
-    setTitle(event.target.value);
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+
+    setFormErrors((prevState) => ({
+      ...prevState,
+      [name]: prevState[name as keyof FormErrors] ? !value : false,
+    }));
+
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: name === 'title' ? value : Number(value),
+    }));
   };
 
-  const onSwitchUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setIsUserEmpty(false);
-    setUserId(+event.target.value);
+  const getUser = (id: number) => {
+    return usersFromServer.find(u => u.id === id);
   };
 
-  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const getNewId = () => Math.max(...todos.map(todo => todo.id)) + 1;
 
-    const titleEmpty = title === '';
-    const userEmpty = userId === 0;
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    setIsTitleEmpty(titleEmpty);
-    setIsUserEmpty(userEmpty);
+    const { title: formTitle, userId: formUserId } = formValues;
 
-    if (!titleEmpty && !userEmpty) {
-      const todoId = maxTodoId + 1;
-
-      allTodos.push({
-        user: usersFromServer.find(u => u.id === userId),
-        id: todoId,
-        completed: false,
-        title,
-        userId,
+    if (!formTitle || !formUserId) {
+      setFormErrors({
+        title: !formTitle,
+        userId: !formUserId,
       });
-      setTitle('');
-      setUserId(0);
-      setMaxTodoId(todoId);
+
+      return;
     }
+
+    const user = getUser(formUserId);
+
+    const newTodo: TodoUser = {
+      id: getNewId(),
+      completed: false,
+      title: formTitle,
+      userId: user?.id,
+      user,
+    };
+
+    setTodos((prevState) => [...prevState, newTodo]);
+    setFormValues(initialFormValues);
   };
 
   return (
@@ -65,48 +81,46 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={event => {
-          submitForm(event);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field">
-          <label htmlFor={titleInputId}>Title: </label>
+          <label htmlFor="title">Title: </label>
 
           <input
-            id={titleInputId}
+            id="title"
             type="text"
+            name="title"
             value={title}
             data-cy="titleInput"
             placeholder="Enter a title"
-            onChange={event => onEditTitle(event)}
+            onChange={handleChange}
           />
 
-          {isTitleEmpty && (
-            <span className="error">Please enter a title</span>
-          )}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor={userInputId}>User: </label>
+          <label htmlFor="userId">User: </label>
 
           <select
-            id={userInputId}
+            id="userId"
+            name="userId"
             data-cy="userSelect"
-            defaultValue="0"
             value={userId}
-            onChange={event => onSwitchUser(event)}
+            onChange={handleChange}
           >
-            <option disabled value={userSelectDefaultValue}>
+            <option disabled value="0">
               Choose a user
             </option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+
+            {usersFromServer.map((user) => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
 
-          {isUserEmpty && (
-            <span className="error">Please choose a user</span>
-          )}
+          {userIdError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -114,7 +128,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={allTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
