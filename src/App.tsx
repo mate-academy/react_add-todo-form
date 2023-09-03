@@ -9,13 +9,13 @@ function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const startTodo = todosFromServer.map(todo => ({
+const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(startTodo);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -54,10 +54,10 @@ export const App = () => {
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
