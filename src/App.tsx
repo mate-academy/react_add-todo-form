@@ -51,7 +51,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: maxIdPlusOne,
-      title,
+      title: title.trim(),
       completed: false,
       userId,
       user: getUserById(userId),
@@ -67,7 +67,7 @@ export const App = () => {
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
