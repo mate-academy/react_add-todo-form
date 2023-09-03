@@ -62,7 +62,8 @@ export const App = () => {
     }
 
     const newTodo = ({
-      user: usersFromServer.find(user1 => user1.id === userId) || null,
+      user: usersFromServer.find(userFromServer => userFromServer.id === userId)
+       || null,
       id: getNewTodoId(todos),
       title,
       completed: false,
