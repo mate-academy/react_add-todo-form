@@ -56,7 +56,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd, getTodoId }) => {
             value={title}
             onChange={changeTitle}
           />
-          {formSubmitted && title.length === 0
+          {formSubmitted && title.trim().length === 0
             && (<span className="error">Please enter a title</span>
             )}
         </div>
