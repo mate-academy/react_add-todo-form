@@ -19,7 +19,7 @@ export const TodoInfo: React.FC<Props> = ({
     <article
       data-id={id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': completed === true,
+        'TodoInfo--completed': completed,
       })}
     >
       <h2 className="TodoInfo__title">

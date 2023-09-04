@@ -1,6 +1,7 @@
 import './App.scss';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -19,13 +20,13 @@ const todosId = todos.map(todo => todo.id);
 const lastCommentId = Math.max(...todosId);
 
 export const App = () => {
-  const [userDetails, setUserDetails] = useState(0);
-  const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [userDetails, setUserDetails] = useState<number>(0);
+  const [hasUserIdError, setHasUserIdError] = useState<boolean>(false);
 
-  const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
 
-  const [newTodos, setNewTodos] = useState(todos);
+  const [newTodos, setNewTodos] = useState<Todo[]>(todos);
 
   const addNewComment = () => {
     const newCommentId = lastCommentId + 1;
@@ -93,12 +94,12 @@ export const App = () => {
             onChange={handleUserIdChange}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map((user) => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
