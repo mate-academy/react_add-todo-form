@@ -25,7 +25,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError('Please enter a title');
     }
 
@@ -65,7 +65,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       onSubmit={handleSubmit}
     >
       <div className="field">
-        <label htmlFor="title">Title:</label>
+        <label htmlFor="title">Title: </label>
         <input
           type="text"
           data-cy="titleInput"
