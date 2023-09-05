@@ -45,12 +45,20 @@ export const App = () => {
       return;
     }
 
-    const newPost: TodoWithUser = ({
+    const newPost: TodoWithUser = {
       id: posts.length + 1,
       title,
       completed: false,
-      user: getUserById(userId),
-    });
+      userId,
+      user: getUserById(userId) || {
+        id: 0,
+        name: '',
+        username: '',
+        email: '',
+      },
+    };
+
+    addPost(newPost);
   };
 
   return (
@@ -112,7 +120,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={posts} />
     </div>
   );
 };
