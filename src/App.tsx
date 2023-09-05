@@ -51,27 +51,25 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title || title.trim().length === 0);
     setHasUserId(!userId);
 
-    if (!title || !userId) {
-      return;
+    if (title.trim().length > 0 && userId > 0) {
+      const newTodo = {
+        id: Math.random(),
+        title,
+        userId,
+        completed: false,
+        user: getUserById(userId),
+      };
+
+      addTodo(newTodo);
+
+      setTitle('');
+      setUserId(0);
+      setHasTitleError(false);
+      setHasUserId(false);
     }
-
-    const newTodo = {
-      id: Math.random(),
-      title,
-      userId,
-      completed: false,
-      user: getUserById(userId),
-    };
-
-    addTodo(newTodo);
-
-    setTitle('');
-    setUserId(0);
-    setHasTitleError(false);
-    setHasUserId(false);
   };
 
   return (
@@ -108,14 +106,18 @@ export const App: React.FC = () => {
               onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              ))}
+              {usersFromServer.map(user => {
+                const { id, name } = user;
+
+                return (
+                  <option
+                    key={id}
+                    value={id}
+                  >
+                    {name}
+                  </option>
+                );
+              })}
             </select>
           </label>
           {hasUserId && (
