@@ -53,6 +53,8 @@ export const FormAddTodo: React.FC<FormAddTodoProps> = ({ addTodo }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    handleAdd();
   };
 
   return (
@@ -70,7 +72,6 @@ export const FormAddTodo: React.FC<FormAddTodoProps> = ({ addTodo }) => {
             onChange={handleInput}
             value={title}
             placeholder="Enter a title"
-            // pattern="^[a-zA-Z0-9а-яА-ЯіІїЇєЄґҐ\s]"
           />
         </label>
         {titleError && (
@@ -112,7 +113,6 @@ export const FormAddTodo: React.FC<FormAddTodoProps> = ({ addTodo }) => {
       <button
         type="submit"
         data-cy="submitButton"
-        onClick={handleAdd}
       >
         Add
       </button>
