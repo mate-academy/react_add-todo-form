@@ -43,7 +43,7 @@ export const FormAddTodo: React.FC<FormAddTodoProps> = ({ addTodo }) => {
       setSelectError(true);
     }
 
-    if (title && selectedUserId) {
+    if (title.trim() && selectedUserId) {
       addTodo(title, selectedUserId);
 
       setTitle('');
