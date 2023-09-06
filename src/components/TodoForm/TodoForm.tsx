@@ -5,6 +5,8 @@ import { User } from '../../types/User';
 
 import { fakeUser } from '../../utils';
 
+const validationRegex = /[^a-zA-Zа-яА-Я0-9\s]/g;
+
 interface Props {
   todos: PreparedTodo[],
   addTodo: (todo: PreparedTodo) => void,
@@ -56,7 +58,7 @@ export const TodoForm: React.FC<Props> = (props) => {
   };
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.replace(validationRegex, ''));
     setHasTitleError(false);
   };
 
