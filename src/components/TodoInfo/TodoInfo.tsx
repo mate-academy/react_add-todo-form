@@ -1,14 +1,33 @@
 import './TodoInfo.scss';
+import React from 'react';
+import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
+import { PreparedTodo } from '../../types/PreparedTodo';
 
-export const TodoInfo = () => {
+interface Props {
+  todo: PreparedTodo,
+}
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const {
+    id,
+    title,
+    completed,
+    user,
+  } = todo;
+
   return (
-    <article data-id="1" className="TodoInfo TodoInfo--completed">
+    <article
+      data-id={id}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
+    >
       <h2 className="TodoInfo__title">
-        delectus aut autem
+        {title}
       </h2>
 
-      <UserInfo />
+      <UserInfo user={user} />
 
     </article>
   );
