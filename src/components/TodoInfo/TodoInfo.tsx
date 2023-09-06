@@ -1,3 +1,4 @@
+import './TodoInfo.scss';
 import React from 'react';
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
