@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { PreparedTodo, UnpreparedTodo } from './interfaces/Todo';
 import { User } from './interfaces/User';
 
-const todosWithUsers = todosFromServer
+const todosWithUsers: PreparedTodo[] = todosFromServer
   .map((todo: UnpreparedTodo) => {
     return {
       ...todo,
