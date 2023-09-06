@@ -15,6 +15,10 @@ button {
   color: red;
 }
 
+.UserInfo {
+  font-style: italic;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -32,8 +36,4 @@ button {
   &--completed &__title {
     color: #080;
   }
-}
-
-.UserInfo {
-  font-style: italic;
 }
