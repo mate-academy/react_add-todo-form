@@ -12,10 +12,10 @@ function getUserById(userId: number) {
     || null;
 }
 
-function getMaxUserId() {
-  const userIds = usersFromServer.map(({ id }) => id);
+function getMaxTodoId(todos: Todo[]) {
+  const todoIds = todos.map(({ id }) => id);
 
-  return Math.max(...userIds);
+  return Math.max(...todoIds);
 }
 
 export const createTodos = () => (todosFromServer.map(todo => ({
@@ -57,7 +57,7 @@ export const App = () => {
     }
 
     onAdd({
-      id: getMaxUserId() + 1,
+      id: getMaxTodoId(todos) + 1,
       title: newTitle,
       completed: false,
       user: getUserById(newUserId),
