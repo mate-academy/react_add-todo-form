@@ -46,8 +46,13 @@ export const TodoForm: React.FC<Props> = (props) => {
       return;
     }
 
-    setHasTitleError(true);
-    setHasUserIdError(true);
+    if (!title) {
+      setHasTitleError(true);
+    }
+
+    if (!userId) {
+      setHasUserIdError(true);
+    }
   };
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
