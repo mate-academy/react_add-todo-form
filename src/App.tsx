@@ -28,7 +28,9 @@ export const App = () => {
   const lastTodoId = Math.max(...todosToRender.map(todo => todo.id));
 
   const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const cleanedValue = e.target.value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+
+    setTitle(cleanedValue);
     setHasTitleError(false);
   };
 
