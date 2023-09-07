@@ -13,7 +13,6 @@ export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isUserChosen, setIsUserChosen] = useState(true);
-  const maxId = Math.max(...todos.map(todo => todo.id));
 
   const handleAddOfTodo = (event: React.FormEvent) => {
     event.preventDefault();
@@ -29,6 +28,8 @@ export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
     if (!title || !selectedUserId) {
       return;
     }
+
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
     onSubmit({
       title,
