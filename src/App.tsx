@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const newTodoUser = usersFromServer.find(({ id }) => id === userId);
 
   const maxId = Math.max(...todos.map(todo => todo.id));
-  const regex = /[^a-zA-Zа-яА-Я\s]/g;
+  const regex = /[^a-zA-Zа-яА-Я0-9\s]/g;
 
   const newTodo = {
     id: maxId + 1,
