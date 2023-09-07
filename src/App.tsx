@@ -21,13 +21,19 @@ function createToDos() {
   }));
 }
 
+const getNewToDoId = (todos: ToDo[]): number => {
+  const maxId: number = Math.max(...todos.map((todo) => todo.id));
+
+  return maxId + 1;
+};
+
 export const App = () => {
   const [todos, setTodos] = useState<ToDo[]>(createToDos());
 
   const addToDo = (userId: number, newTitle: string) => {
     const user: UserType = getUserById(userId);
     const todo: ToDo = {
-      id: todos.length,
+      id: getNewToDoId(todos),
       title: newTitle,
       completed: false,
       userId,
