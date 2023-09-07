@@ -25,10 +25,9 @@ export const createTodos = () => (todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(createTodos());
-  const [touched, setTouched] = useState({
-    title: false,
-    user: false,
-  });
+  const [isEmpty, setIsEmpty] = useState(
+    { title: false, newUser: false },
+  );
   const [newTitle, setNewTitle] = useState('');
   const [newUserId, setnewUserId] = useState(0);
 
@@ -36,22 +35,22 @@ export const App = () => {
     setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
+  const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+    setIsEmpty((prev) => ({ ...prev, title: false }));
+  };
+
+  const handleSetUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setnewUserId(+event.target.value);
+    setIsEmpty((prev) => ({ ...prev, newUser: false }));
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!newTitle && newUserId) {
-      setTouched({ title: true, user: false });
-
-      return;
-    }
-
-    if (newTitle && !newUserId) {
-      setTouched({ title: false, user: true });
-
-      return;
-    }
-
-    if (!newTitle && !newUserId) {
-      setTouched({ title: true, user: true });
+    if (!newTitle || !newUserId) {
+      setIsEmpty(() => (
+        { title: !newTitle, newUser: !newUserId }
+      ));
 
       return;
     }
@@ -62,10 +61,11 @@ export const App = () => {
       completed: false,
       user: getUserById(newUserId),
     });
-
     setNewTitle('');
     setnewUserId(0);
-    setTouched({ title: false, user: false });
+    setIsEmpty(() => (
+      { title: false, newUser: false }
+    ));
   };
 
   return (
@@ -86,11 +86,10 @@ export const App = () => {
               data-cy="titleInput"
               value={newTitle}
               placeholder="Enter a title"
-              onChange={(event) => setNewTitle(event.target.value)}
-              onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
+              onChange={handleSetTitle}
             />
           </label>
-          {(touched.title && !newTitle) && (
+          {(isEmpty.title) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -102,8 +101,7 @@ export const App = () => {
               id="userSelect"
               data-cy="userSelect"
               value={newUserId}
-              onChange={(event) => setnewUserId(+event.target.value)}
-              onBlur={() => setTouched(prev => ({ ...prev, user: true }))}
+              onChange={handleSetUser}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map((user: User) => (
@@ -111,7 +109,7 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {(touched.user && !newUserId) && (
+          {(isEmpty.newUser) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
