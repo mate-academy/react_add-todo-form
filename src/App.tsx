@@ -23,6 +23,7 @@ export const App: React.FC = () => {
   const newTodoUser = usersFromServer.find(({ id }) => id === userId);
 
   const maxId = Math.max(...todos.map(todo => todo.id));
+  const regex = /[^a-zA-Zа-яА-Я\s]/g;
 
   const newTodo = {
     id: maxId + 1,
@@ -34,7 +35,7 @@ export const App: React.FC = () => {
 
   const todoTitleInputHandler
   = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoTitle(event.target.value);
+    setTodoTitle(event.target.value.replace(regex, ''));
     setIsHiddenTitleError(false);
   };
 
