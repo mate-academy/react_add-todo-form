@@ -7,6 +7,12 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/Users';
 
+const validRegex = /^[A-Za-z\u0400-\u04FF0-9\s]+$/;
+
+const inputValidation = (text: string) => {
+  return text.trim().match(validRegex);
+};
+
 export const App = () => {
   const [users] = useState<User[]>(usersFromServer);
 
@@ -28,12 +34,6 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [selectFieldError, setSelectFieldError] = useState(false);
 
-  const validRegex = /^[A-Za-z\u0400-\u04FF0-9\s]+$/;
-
-  const inputValidation = (text: string) => {
-    return text.trim().match(validRegex);
-  };
-
   const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
@@ -52,13 +52,13 @@ export const App = () => {
 
     if (!inputValidation(title) || title.trim() === '') {
       setTitleError(true);
-
-      return;
     }
 
     if (!userId) {
       setSelectFieldError(true);
+    }
 
+    if (titleError || selectFieldError) {
       return;
     }
 
@@ -83,23 +83,30 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
+          <label htmlFor="title">
+            Title:&nbsp;
+              <input
+                type="text"
+                data-cy="titleInput"
+                placeholder="Enter the title"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+              />
+          </label>
+       
           {titleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={e => setUserId(Number(e.target.value))}
-          >
+          <label htmlFor="user">
+            User:&nbsp;
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={e => setUserId(Number(e.target.value))}
+            >
             <option value="0" disabled>
               Choose a user
             </option>
@@ -109,6 +116,7 @@ export const App = () => {
               </option>
             ))}
           </select>
+          </label>
 
           {selectFieldError && (
             <span className="error">Please choose a user</span>
