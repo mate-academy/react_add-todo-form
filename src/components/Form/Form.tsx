@@ -27,6 +27,11 @@ export const Form: React.FC<TodoFormProps> = ({ initialTodos, setTodos }) => {
     setHasUserIdError(false);
   };
 
+  const resetForm = () => {
+    setUserId(0);
+    setTitle('');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -58,8 +63,7 @@ export const Form: React.FC<TodoFormProps> = ({ initialTodos, setTodos }) => {
     };
 
     setTodos((prevTodos: Todo[]) => [...prevTodos, newTodo]);
-    setUserId(0);
-    setTitle('');
+    resetForm();
   };
 
   return (
@@ -98,6 +102,7 @@ export const Form: React.FC<TodoFormProps> = ({ initialTodos, setTodos }) => {
 
             {usersFromServer.map(user => (
               <option
+                key={user.id}
                 value={user.id}
               >
                 {user.name}
