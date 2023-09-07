@@ -24,6 +24,8 @@ function getNewTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
+const symbolsExsception = /[^a-zA-Zа-яА-Я0-9\s]/g;
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
@@ -82,7 +84,7 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               value={title}
               onChange={(event) => {
-                setTitle(event.target.value);
+                setTitle(event.target.value.replace(symbolsExsception, ''));
                 setTitleError(false);
               }}
             />
