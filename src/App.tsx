@@ -13,22 +13,20 @@ const inputValidation = (text: string) => {
   return text.trim().match(validRegex);
 };
 
+const getUser = (userId: number) => {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+};
+
+const initialTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App = () => {
   const [users] = useState<User[]>(usersFromServer);
-
-  const getUser = (userId: number) => {
-    const foundUser = usersFromServer.find(user => user.id === userId);
-
-    return foundUser || null;
-  };
-
-  const initialTodos: Todo[] = todosFromServer.map(todo => ({
-    ...todo,
-    user: getUser(todo.userId),
-  }));
-
   const [todos, setTodos] = useState(initialTodos);
-
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -46,19 +44,24 @@ export const App = () => {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-
-    setTitleError(false);
-    setSelectFieldError(false);
+    let isTitleValid = true;
+    let isUserValid = true;
 
     if (!inputValidation(title) || title.trim() === '') {
       setTitleError(true);
+      isTitleValid = false;
+    } else {
+      setTitleError(false);
     }
 
     if (!userId) {
       setSelectFieldError(true);
+      isUserValid = false;
+    } else {
+      setSelectFieldError(false);
     }
 
-    if (titleError || selectFieldError) {
+    if (!isTitleValid || !isUserValid) {
       return;
     }
 
@@ -85,15 +88,15 @@ export const App = () => {
         <div className="field">
           <label htmlFor="title">
             Title:&nbsp;
-              <input
-                type="text"
-                data-cy="titleInput"
-                placeholder="Enter the title"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-              />
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter the title"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
           </label>
-       
+
           {titleError && (
             <span className="error">Please enter a title</span>
           )}
@@ -107,15 +110,15 @@ export const App = () => {
               value={userId}
               onChange={e => setUserId(Number(e.target.value))}
             >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </label>
 
           {selectFieldError && (
