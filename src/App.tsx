@@ -31,6 +31,12 @@ export const App = () => {
     setHasUserIdError(false);
   };
 
+  const resetFields = () => {
+    setTodoTitle('');
+    setUserId(0);
+    setHasUserIdError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -57,9 +63,7 @@ export const App = () => {
       },
     ]);
 
-    setTodoTitle('');
-    setUserId(0);
-    setHasUserIdError(false);
+    resetFields();
   };
 
   const deleteTodo = (idTodo: number) => {
