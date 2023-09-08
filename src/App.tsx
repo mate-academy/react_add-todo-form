@@ -12,11 +12,11 @@ export const initialTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
 
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userIdError, setUserIdError] = useState<boolean>(false);
 
   const [todosList, setTodosList] = useState<Todo[]>(initialTodos);
 
@@ -109,12 +109,12 @@ export const App: React.FC = () => {
             onChange={handleUserIdChange}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
