@@ -12,11 +12,8 @@ const preparedTodos:Todo[] = todosFromServer.map((todo) => ({
     .find(({ id }) => id === todo.userId) || null,
 }));
 
-// eslint-disable-next-line no-console
-console.log(preparedTodos);
-
 export const App = () => {
-  const [visibleTodos, setVisibleTodos] = useState(preparedTodos);
+  const [visibleTodos, setVisibleTodos] = useState<Todo[]>(preparedTodos);
 
   const [todoTitle, setTodoTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -37,12 +34,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle) {
-      setHasTitleError(true);
-    }
+    setHasTitleError(!todoTitle);
+    setHasUserIdError(!hasUserIdError);
 
-    if (!hasUserIdError) {
-      setHasTitleError(true);
+    if (!todoTitle || !userId) {
+      return;
     }
 
     setVisibleTodos((prevState) => [
@@ -55,6 +51,10 @@ export const App = () => {
         user: usersFromServer.find(({ id }) => id === userId) || null,
       },
     ]);
+
+    setTodoTitle('');
+    setUserId(0);
+    setHasUserIdError(false);
   };
 
   return (
@@ -70,9 +70,9 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            value={todoTitle}
             onChange={handleChangeTitle}
           />
-          <span>{todoTitle}</span>
           {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
