@@ -24,22 +24,23 @@ function getNewTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
-const symbolsExsception = /[^a-zA-Zа-яА-Я0-9\s]/g;
+const symbolsException = /[^a-zA-Zа-яА-Я0-9\s]/g;
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [count, setCount] = useState(getNewTodoId(initialTodos));
   const [todosList, setTodosList] = useState<Todo[]>(initialTodos);
   const [titleError, setTitleError] = useState(false);
   const [selectError, setSelectError] = useState(false);
+
+  let counter = getNewTodoId(initialTodos);
 
   const onAddTodo = (newTodo: Todo) => {
     setTodosList(currentTodos => [...currentTodos, newTodo]);
   };
 
   const resetForm = () => {
-    setCount(count + 1);
+    counter += 1;
     setTitle('');
     setSelectedUserId(0);
   };
@@ -56,7 +57,7 @@ export const App: React.FC = () => {
 
     onAddTodo({
       user: getUserById(selectedUserId),
-      id: count,
+      id: counter,
       title,
       completed: false,
       userId: selectedUserId,
@@ -72,7 +73,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        key={count}
+        key={counter}
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -84,7 +85,7 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               value={title}
               onChange={(event) => {
-                setTitle(event.target.value.replace(symbolsExsception, ''));
+                setTitle(event.target.value.replace(symbolsException, ''));
                 setTitleError(false);
               }}
             />
@@ -109,9 +110,7 @@ export const App: React.FC = () => {
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id}>
-                  {user.name}
-                </option>
+                <option value={user.id}>{user.name}</option>
               ))}
             </select>
           </label>
