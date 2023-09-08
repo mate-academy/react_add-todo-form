@@ -5,11 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
+import { findUser } from './components/helpers/findUser';
 
 const preparedTodos:Todo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: usersFromServer
-    .find(({ id }) => id === todo.userId) || null,
+  user: findUser(todo.userId),
 }));
 
 export const App = () => {
@@ -59,7 +59,7 @@ export const App = () => {
         title: todoTitle,
         completed: false,
         userId,
-        user: usersFromServer.find(({ id }) => id === userId) || null,
+        user: findUser(userId),
       },
     ]);
 
