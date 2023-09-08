@@ -3,22 +3,28 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { TodoWithUser, User } from './types';
 
-function getUserById(userId: number) {
+function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-export const initTodos = todosFromServer.map(todo => ({
+export const initTodos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
-export const App: React.FC = () => {
+export const App = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [todoTitleError, setTodoTitleError] = useState(false);
   const [todoUserId, setTodoUserId] = useState(0);
   const [todoUserIdError, setTodoUserIdError] = useState(false);
   const [todos, setTodos] = useState(initTodos);
+
+  function resetForm() {
+    setTodoUserId(0);
+    setTodoTitle('');
+  }
 
   function handleOnAdd(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -45,8 +51,7 @@ export const App: React.FC = () => {
     };
 
     setTodos((prevState) => [...prevState, newTodo]);
-    setTodoUserId(0);
-    setTodoTitle('');
+    resetForm();
   }
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {

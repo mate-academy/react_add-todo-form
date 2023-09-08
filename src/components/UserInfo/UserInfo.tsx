@@ -1,4 +1,5 @@
 import { User } from '../../types';
+import './UserInfo.css';
 
 type Props = {
   user: User | null;
