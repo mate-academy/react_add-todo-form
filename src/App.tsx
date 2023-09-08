@@ -19,7 +19,6 @@ export const App: React.FC = () => {
   const [userIdError, setUserIdError] = useState(false);
 
   const [todosList, setTodosList] = useState<Todo[]>(initialTodos);
-  const [count, setCount] = useState(getNewTodoId(initialTodos));
 
   const addTodo = (newTodo: Todo) => {
     const newId = getNewTodoId(todosList);
@@ -46,7 +45,6 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    setCount(count + 1);
     setTitle('');
     setUserId(0);
   };
@@ -63,7 +61,7 @@ export const App: React.FC = () => {
 
     addTodo({
       user: getUserById(userId),
-      id: count,
+      id: 0,
       title,
       completed: false,
       userId,
@@ -79,7 +77,6 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        key={count}
         onSubmit={handleSubmit}
       >
         <div className="field">
