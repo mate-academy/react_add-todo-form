@@ -35,16 +35,21 @@ export const App = () => {
     event.preventDefault();
 
     setHasTitleError(!todoTitle);
-    setHasUserIdError(!hasUserIdError);
+
+    if (userId === 0) {
+      setHasUserIdError(true);
+    }
 
     if (!todoTitle || !userId) {
       return;
     }
 
+    const idForNewTodo = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+
     setVisibleTodos((prevState) => [
       ...prevState,
       {
-        id: prevState.length + 1,
+        id: idForNewTodo,
         title: todoTitle,
         completed: false,
         userId,
@@ -55,6 +60,26 @@ export const App = () => {
     setTodoTitle('');
     setUserId(0);
     setHasUserIdError(false);
+  };
+
+  const deleteTodo = (idTodo: number) => {
+    setVisibleTodos((prevState) => prevState
+      .filter(({ id }) => id !== idTodo));
+  };
+
+  const toggleTodoCompletion = (idTodo: number) => {
+    setVisibleTodos((prevState) => {
+      return prevState.map(todo => {
+        if (todo.id === idTodo) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      });
+    });
   };
 
   return (
@@ -72,6 +97,7 @@ export const App = () => {
             data-cy="titleInput"
             value={todoTitle}
             onChange={handleChangeTitle}
+            placeholder="write todo"
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
@@ -103,7 +129,11 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList
+        deleteTodo={deleteTodo}
+        todos={visibleTodos}
+        toggleTodoCompletion={toggleTodoCompletion}
+      />
     </div>
   );
 };
