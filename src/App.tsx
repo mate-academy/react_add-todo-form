@@ -33,7 +33,13 @@ export const App: React.FC = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
+    const inputValue = event.target.value;
+
+    if (inputValue.trim() === '') {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
 
     return setTitle(event.target.value);
   };
