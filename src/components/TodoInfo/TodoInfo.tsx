@@ -11,7 +11,7 @@ type ITodoInfo = {
 
 export const TodoInfo: FC<ITodoInfo> = ({ todo }) => (
   <article
-    data-id="1"
+    data-id={todo.id}
     className={cn('TodoInfo', {
       'TodoInfo--completed': todo.completed,
     })}

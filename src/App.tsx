@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { encode, decode } from 'js-base64';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -21,8 +22,8 @@ const preperadTodos = todosFromServer.map(todo => {
 interface ITodoSetting {
   userText: string;
   isUserTextEmpty: boolean;
-  selectedUser: IUser | null
-  isSubmit: boolean,
+  selectedUser: IUser | null;
+  isSubmit: boolean;
 }
 
 export const App = () => {
@@ -41,6 +42,9 @@ export const App = () => {
     selectedUser,
     isSubmit,
   }, setTodoSetting] = useState<ITodoSetting>(initialTodoSetting);
+
+  const showErrorForUnselectedUser = (!selectedUser && isSubmit);
+  const showErrorForEmptyInput = (isUserTextEmpty && isSubmit);
 
   const reset = () => {
     setTodoSetting(initialTodoSetting);
@@ -68,12 +72,12 @@ export const App = () => {
       return;
     }
 
-    const randomId = +Math.random().toFixed(12).slice(2);
+    const nextId = Math.max(...todos.map(el => el.id)) + 1;
 
     setTodos([
       ...todos,
       {
-        id: randomId,
+        id: nextId,
         title: userText,
         userId: selectedUser.id,
         completed: false,
@@ -96,13 +100,14 @@ export const App = () => {
         isUserTextEmpty: false,
       }));
     }
+  };
 
-    if (!userText) {
-      setTodoSetting(prev => ({
-        ...prev,
-        isUserTextEmpty: true,
-      }));
-    }
+  const decodeUser = (user: string) => {
+    return JSON.parse(decode(user));
+  };
+
+  const encodeUser = (user: IUser | null) => {
+    return encode(JSON.stringify(user));
   };
 
   return (
@@ -120,37 +125,40 @@ export const App = () => {
             data-cy="titleInput"
             value={userText}
             onChange={onInputHandler}
+            placeholder="Enter a title"
           />
-          {(isUserTextEmpty && isSubmit) && (
+          {showErrorForEmptyInput && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
           <select
-            value={selectedUser?.id ?? 0}
+            value={encodeUser(selectedUser)}
             data-cy="userSelect"
+            onChange={(event) => {
+              setTodoSetting(prev => ({
+                ...prev,
+                selectedUser: decodeUser(event.target.value),
+              }));
+            }}
           >
             <option
-              value={0}
+              value={encodeUser(null)}
               disabled
             >
               Choose a user
             </option>
             {usersFromServer.map(user => (
               <option
-                value={user.id}
+                value={encodeUser(user)}
                 key={user.id}
-                onClick={() => setTodoSetting(prev => ({
-                  ...prev,
-                  selectedUser: user,
-                }))}
               >
                 {user.name}
               </option>
             ))}
           </select>
-          {(!selectedUser && isSubmit) && (
+          {showErrorForUnselectedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
