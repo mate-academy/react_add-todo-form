@@ -1,18 +1,18 @@
-/* eslint-disable no-console */
 import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser, TodoWithoutUser } from './types/Todo';
+import { TodoWithUser } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
 
-function getUserById(todo: TodoWithoutUser) {
-  return usersFromServer.find(({ id }) => id === todo.userId) || null;
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(({ id }) => id === userId) || null;
 }
 
 const preparedTodos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -45,10 +45,8 @@ export const App = () => {
       title: todoTitle,
       userId,
       completed: false,
-      user: usersFromServer.find(({ id }) => id === userId) || null,
+      user: getUserById(userId),
     };
-
-    console.log(maxTodoId);
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
 
