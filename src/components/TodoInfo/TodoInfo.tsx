@@ -34,17 +34,23 @@ export const TodoInfo: React.FC<Props> = ({
       <UserInfo user={user} />
 
       <button
-        className="button is-primary"
+        className="button"
         onClick={() => deleteTodo(id)}
         type="button"
       >
         X
       </button>
 
-      <input
-        onClick={() => toggleTodoCompletion(id)}
-        type="checkbox"
-      />
+      <span className="status__todo">
+        <input
+          onClick={() => toggleTodoCompletion(id)}
+          type="checkbox"
+          className="checkbox"
+
+        />
+        <p>Change status todo</p>
+      </span>
+
     </article>
   );
 };

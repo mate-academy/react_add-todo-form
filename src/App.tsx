@@ -87,12 +87,14 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
+        className="form__todo"
         onSubmit={handleSubmit}
         action="/api/todos"
         method="POST"
       >
         <div className="field">
           <input
+            className="todo__title"
             type="text"
             data-cy="titleInput"
             value={todoTitle}
@@ -109,6 +111,7 @@ export const App = () => {
             data-cy="userSelect"
             value={userId}
             onChange={handleUSerId}
+            className="select"
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
@@ -122,6 +125,7 @@ export const App = () => {
         </div>
 
         <button
+          className="add__button"
           type="submit"
           data-cy="submitButton"
         >

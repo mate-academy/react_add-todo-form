@@ -1,3 +1,5 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
 iframe {
   display: none;
 }
@@ -15,8 +17,32 @@ button {
   color: red;
 }
 
+.App {
+  width: 35%;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 20px;
+
+  background: linear-gradient(58deg, #fd8360, #f33c78, #dd997f, #efcc66);
+  background-size: 240% 240%;
+  animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .TodoInfo {
-  width: max-content;
+  width: 90%;
   padding: 8px;
   margin: 12px 0;
   border: 1px solid #000;
@@ -36,4 +62,40 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.button {
+  margin: 5px;
+}
+
+.status__todo {
+  display: flex;
+  align-items: center;
+}
+
+.form__todo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.select {
+  width: 100%;
+}
+
+.todo__title {
+  width: 97%;
+}
+
+h1 {
+  text-align: center;
+}
+
+section {
+  margin: 0 auto;
+}
+
+.add__button {
+  width: 20%;
 }
