@@ -26,7 +26,6 @@ export const App = () => {
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
   const [allTodos, setAllTodos] = useState(todos);
-  const [addButtonClicked, setAddButtonClicked] = useState(false);
 
   const handleNewTitle: React.ChangeEventHandler<HTMLInputElement>
   = (event) => {
@@ -45,30 +44,28 @@ export const App = () => {
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (addButtonClicked) {
-      if (!title) {
-        setTitleError('Please enter a title');
-      }
+    if (!title) {
+      setTitleError('Please enter a title');
+    }
 
-      if (userId === '0') {
-        setUserError('Please choose a user');
-      }
+    if (userId === '0') {
+      setUserError('Please choose a user');
+    }
 
-      if (title && userId !== '0') {
-        const findMaxId = Math.max(...allTodos.map(todo => todo.id), 0);
-        const todo: Todo = {
-          id: findMaxId + 1,
-          title,
-          userId: +userId,
-          completed: false,
-          user: getUser(+userId),
-        };
+    if (title && userId !== '0') {
+      const findMaxId = Math.max(...allTodos.map(todo => todo.id), 0);
+      const todo: Todo = {
+        id: findMaxId + 1,
+        title,
+        userId: +userId,
+        completed: false,
+        user: getUser(+userId),
+      };
 
-        setAllTodos([...allTodos, todo]);
+      setAllTodos([...allTodos, todo]);
 
-        setTitle('');
-        setUserId('0');
-      }
+      setTitle('');
+      setUserId('0');
     }
   };
 
@@ -113,7 +110,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => setAddButtonClicked(true)}
         >
           Add
         </button>
