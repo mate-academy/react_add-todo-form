@@ -9,9 +9,7 @@ import { TodoWithUser } from './types/types';
 export const todos = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId)
-  || {
-    id: 0, name: '', username: '', email: '',
-  },
+  || null,
 })) as TodoWithUser[];
 
 export const App = () => {
