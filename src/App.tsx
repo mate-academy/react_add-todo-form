@@ -41,6 +41,14 @@ export const App = () => {
     setTodos(currTodos => [...currTodos, newTodo]);
   };
 
+  const handleReset = () => {
+    setTitle('');
+    setUserId(0);
+    setHasError(() => (
+      { title: false, newUser: false }
+    ));
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -58,11 +66,7 @@ export const App = () => {
       completed: false,
       user: getUserById(userId),
     });
-    setTitle('');
-    setUserId(0);
-    setHasError(() => (
-      { title: false, newUser: false }
-    ));
+    handleReset();
   };
 
   return (
