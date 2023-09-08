@@ -1,29 +1,15 @@
 import './App.scss';
 import React, { FormEventHandler, useState } from 'react';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
 import { TodoList } from './components/TodoList';
-
-function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId)
-      || null;
-}
+import { getUserById, getNewTodoId } from './utils';
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
-
-function getNewTodoId(todos: Todo[]) {
-  const maxId = todos.length > 0
-    ? Math.max(...todos.map(todo => todo.id))
-    : 0;
-
-  return maxId + 1;
-}
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -36,9 +22,14 @@ export const App: React.FC = () => {
   const [count, setCount] = useState(getNewTodoId(initialTodos));
 
   const addTodo = (newTodo: Todo) => {
+    const newId = getNewTodoId(todosList);
+
     setTodosList(currentTodos => [
       ...currentTodos,
-      newTodo,
+      {
+        ...newTodo,
+        id: newId,
+      },
     ]);
   };
 
@@ -52,12 +43,6 @@ export const App: React.FC = () => {
     setUserIdError(false);
 
     return setUserId(Number(event.target.value));
-
-    // if (userId === 0) {
-    //   setUserIdError(true);
-    // } else {
-    //   setUserIdError(false);
-    // }
   };
 
   const reset = () => {
