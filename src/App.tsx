@@ -39,30 +39,24 @@ export const App: React.FC = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = event.target.value;
-
-    if (input.trim() === '') {
-      setTitleError(true);
-    } else {
-      setTitleError(false);
-    }
-
-    return setTitle(input);
+    setTitleError(false);
+    setTitle(event.target.value);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserIdError(false);
-
-    return setUserId(+event.target.value);
+    setUserId(+event.target.value);
   };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserIdError(!userId);
+    const newTitle = title.trim();
 
-    if (!title || !userId) {
+    if (!newTitle || !userId) {
+      setTitleError(!newTitle);
+      setUserIdError(!userId);
+
       return;
     }
 
