@@ -24,7 +24,7 @@ const preparedTodoList: PreparedTodo[] = todosFromServer
 export const App = () => {
   const [renderedTodos, setRenderedTodos] = useState(preparedTodoList);
 
-  const onAdd = (todo: PreparedTodo) => {
+  const onAdd = (todo: PreparedTodo): void => {
     setRenderedTodos((prevTodos) => [...prevTodos, todo]);
   };
 
