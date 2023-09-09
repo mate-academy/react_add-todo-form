@@ -15,11 +15,11 @@ export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todosList, setTodosList] = useState<Todo[]>(preparedTodos);
 
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
 
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userIdError, setUserIdError] = useState<boolean>(false);
 
   const addTodo = (newTodo: Todo) => {
     const newId = getNewTodoId(todosList);
@@ -127,6 +127,7 @@ export const App: React.FC = () => {
         <button
           type="submit"
           data-cy="submitButton"
+          disabled={titleError || userIdError}
         >
           Add
         </button>
