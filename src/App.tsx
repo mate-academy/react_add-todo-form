@@ -38,7 +38,7 @@ export const App = () => {
         onAdd={onAdd}
       />
 
-      <TodoList todoList={renderedTodos} />
+      <TodoList todos={renderedTodos} />
     </div>
   );
 };
