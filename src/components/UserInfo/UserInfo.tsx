@@ -4,16 +4,25 @@ interface UserInfoProps {
   user: {
     id: number;
     name: string;
+    username: string;
     email: string;
-  }
+  } | undefined;
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+  if (!user) {
+    return null;
+  }
+
+  const {
+    name, username, email,
+  } = user;
+
   return (
-    <option key={user.id} value={String(user.id)}>
-      {user.name}
-    </option>
+    <a className="UserInfo" href={`mailto:${email}`} key={username}>
+      {name}
+    </a>
   );
 };
 
-export default UserInfo;
+export { UserInfo };

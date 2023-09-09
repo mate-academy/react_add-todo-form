@@ -1,23 +1,27 @@
 import React from 'react';
 import classNames from 'classnames';
+import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number | string;
-  userEmail: string | undefined;
-  userName: string | undefined;
+  todo: {
+    id: number;
+    title: string;
+    completed: boolean;
+    userId: number | string;
+    user?: {
+      id: number,
+      email: string;
+      name: string;
+      username: string;
+    };
+  };
 }
 
-const TodoInfo: React.FC<TodoInfoProps> = ({
-  id,
-  title,
-  completed,
-  userId,
-  userEmail,
-  userName,
-}) => {
+const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+  const {
+    id, title, completed, user,
+  } = todo;
+
   return (
     <article
       key={id}
@@ -29,15 +33,9 @@ const TodoInfo: React.FC<TodoInfoProps> = ({
       <h2 className="TodoInfo__title">
         {title}
       </h2>
-      <a
-        key={userId}
-        className="UserInfo"
-        href={`mailto:${userEmail}`}
-      >
-        {userName}
-      </a>
+      <UserInfo user={user} />
     </article>
   );
 };
 
-export default TodoInfo;
+export { TodoInfo };

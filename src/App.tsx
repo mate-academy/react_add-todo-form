@@ -2,20 +2,17 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import TodoList from './components/TodoList/TodoList';
-import UserInfo from './components/UserInfo/UserInfo';
+import { TodoList, Todo } from './components/TodoList/TodoList';
 
-interface Todo {
-  id: number
-  title: string,
-  completed: boolean,
-  userId: number | string,
-}
+const firstTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(u => u.id === todo.userId),
+}));
 
 export const App = () => {
   const [submitTitleError, setSubmitTitleError] = useState(false);
   const [submitUserError, setSubmitUserError] = useState(false);
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(firstTodos);
   const [titleInput, setTitleInput] = useState('');
   const [selectedUser, setSelectedUser] = useState('0');
 
@@ -27,12 +24,17 @@ export const App = () => {
       .querySelector('[data-cy="userSelect"]') as HTMLSelectElement)?.value;
 
     if (title && userId !== '0') {
-      setTodos([...todos, {
+      const newUser = usersFromServer.find(u => u.id === Number(userId));
+
+      const newTodo = {
         id: Math.max(...todos.map(todo => todo.id), 0) + 1,
         title,
         completed: false,
         userId: Number(userId),
-      }]);
+        user: newUser,
+      };
+
+      setTodos([...todos, newTodo]);
       setSubmitTitleError(false);
       setSubmitUserError(false);
       setTitleInput('');
@@ -93,7 +95,12 @@ export const App = () => {
             >
               <option value="0">Choose a user</option>
               {usersFromServer.map(user => (
-                <UserInfo key={user.id} user={user} />
+                <option
+                  key={user.username}
+                  value={String(user.id)}
+                >
+                  {user.name}
+                </option>
               ))}
             </select>
 
@@ -110,7 +117,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
 
     </div>
   );
