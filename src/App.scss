@@ -1,39 +1,51 @@
-iframe {
-  display: none;
-}
+ iframe {
+   display: none;
+ }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
+ html {
+   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+ }
 
-label,
-button {
-  cursor: pointer;
-}
+ .App {
+   padding: 60px;
+ }
 
-.error {
-  color: red;
-}
+ button.is-primary {
+   margin: 20px;
+ }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
+ label,
+ button {
+   cursor: pointer;
+ }
 
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
+ .error {
+   color: red;
+ }
 
-  &--completed &__title {
-    color: #080;
-  }
-}
+ .input.is-normal {
+   max-width: 200px;
+ }
 
-.UserInfo {
-  font-style: italic;
-}
+ .TodoInfo {
+   width: max-content;
+   padding: 8px;
+   margin: 12px 0;
+   border: 1px solid #000;
+   border-radius: 8px;
+   background-color: antiquewhite;
+
+   &__title {
+     margin: 4px 0;
+     font-size: inherit;
+     color: #f00;
+   }
+
+   &--completed &__title {
+     color: #080;
+   }
+ }
+
+ .UserInfo {
+   font-style: italic;
+ }
