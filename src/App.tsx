@@ -51,25 +51,21 @@ export const App = () => {
     setIsErrorTitle(!title);
     setIsErrorSelect(!userId);
 
-    if (!title) {
+    if (!title || !userId) {
       return;
     }
 
-    if (!userId) {
-      return;
-    }
+    setTodos((prevTodos) => {
+      const newTodos = {
+        id: getNewPostId(todos),
+        title,
+        completed: false,
+        userId,
+        user: usersFromServer.find(({ id }) => id === userId),
+      };
 
-    setTodos((prevTodos) => (
-      [
-        ...prevTodos,
-        {
-          id: getNewPostId(todos),
-          title,
-          completed: false,
-          userId,
-          user: usersFromServer.find(({ id }) => id === userId),
-        },
-      ]));
+      return [...prevTodos, newTodos];
+    });
 
     reset();
   };
