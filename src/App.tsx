@@ -1,25 +1,83 @@
+import React, { useState } from 'react';
 import './App.scss';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+interface Todo {
+  id: number;
+  title: string;
+  userId: number;
+  completed: boolean;
+}
 
-export const App = () => {
+interface User {
+  id: number;
+  name: string;
+}
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number | null>(null);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userError, setUserError] = useState<boolean>(false);
+
+  const addTodo = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!title || !userId) {
+      setTitleError(!title);
+      setUserError(!userId);
+
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: todos.length + 1,
+      title,
+      userId,
+      completed: false,
+    };
+
+    setTodos([...todos, newTodo]);
+    setTitle('');
+    setUserId(null);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form onSubmit={addTodo}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            onChange={(event) => {
+              setTitleError(false);
+              setTitle(event.target.value);
+            }}
+          />
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <select
+            data-cy="userSelect"
+            value={userId || ''}
+            onChange={(event) => {
+              setUserError(false);
+              setUserId(Number(event.target.value));
+            }}
+          >
+            <option value="" disabled>Choose a user</option>
+            {usersFromServer.map((user: User) => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -28,33 +86,16 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+        {todos.map((todo: Todo) => (
+          <article key={todo.id} data-id={todo.id} className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}>
+            <h2 className="TodoInfo__title">{todo.title}</h2>
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+            <a className="UserInfo" href={`mailto:${usersFromServer.find((user: User) => user.id === todo.userId)?.email}`}>
+              {usersFromServer
+                .find((user: User) => user.id === todo.userId)?.name}
+            </a>
+          </article>
+        ))}
       </section>
     </div>
   );
