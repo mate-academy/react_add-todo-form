@@ -81,7 +81,7 @@ export const App = () => {
         onSubmit={handleOnSubmit}
       >
         <div className="field">
-          {'Title: '}
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
@@ -95,7 +95,7 @@ export const App = () => {
         </div>
 
         <div className="field">
-          {'User: '}
+          <label htmlFor="user">User: </label>
           <select
             data-cy="userSelect"
             value={selectedUserId}
