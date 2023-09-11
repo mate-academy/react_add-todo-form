@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { UserInfo } from '../UserInfo';
+import { UserInfo, User } from '../UserInfo';
 
 interface TodoInfoProps {
   todo: {
@@ -8,12 +8,7 @@ interface TodoInfoProps {
     title: string;
     completed: boolean;
     userId: number | string;
-    user?: {
-      id: number,
-      email: string;
-      name: string;
-      username: string;
-    };
+    user?: User;
   };
 }
 

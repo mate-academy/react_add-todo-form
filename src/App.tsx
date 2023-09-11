@@ -10,58 +10,52 @@ const firstTodos = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [submitTitleError, setSubmitTitleError] = useState(false);
-  const [submitUserError, setSubmitUserError] = useState(false);
+  const [isSubmitTitleError, setIsSubmitTitleError] = useState(false);
+  const [isSubmitUserError, setIsSubmitUserError] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(firstTodos);
   const [titleInput, setTitleInput] = useState('');
-  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState('');
 
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     const title = titleInput.trim();
-    const userId = (document
-      .querySelector('[data-cy="userSelect"]') as HTMLSelectElement)?.value;
 
-    if (title && userId !== '0') {
-      const newUser = usersFromServer.find(u => u.id === Number(userId));
+    if (title && selectedUser !== '') {
+      const newUser = usersFromServer.find(u => u.id === Number(selectedUser));
 
       const newTodo = {
         id: Math.max(...todos.map(todo => todo.id), 0) + 1,
         title,
         completed: false,
-        userId: Number(userId),
+        userId: Number(selectedUser),
         user: newUser,
       };
 
       setTodos([...todos, newTodo]);
-      setSubmitTitleError(false);
-      setSubmitUserError(false);
+      setIsSubmitTitleError(false);
+      setIsSubmitUserError(false);
       setTitleInput('');
-      setSelectedUser('0');
+      setSelectedUser('');
     } else {
       if (!title) {
-        setSubmitTitleError(true);
-      } else {
-        setSubmitTitleError(false);
+        setIsSubmitTitleError(true);
       }
 
-      if (userId === '0') {
-        setSubmitUserError(true);
-      } else {
-        setSubmitUserError(false);
+      if (selectedUser === '') {
+        setIsSubmitUserError(true);
       }
     }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleInput(event.target.value);
-    setSubmitTitleError(false);
+    setIsSubmitTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(event.target.value);
-    setSubmitUserError(false);
+    setIsSubmitUserError(false);
   };
 
   return (
@@ -80,7 +74,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {submitTitleError === true
+          {isSubmitTitleError === true
             && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -104,8 +98,8 @@ export const App = () => {
               ))}
             </select>
 
-            {submitUserError === true
-              && (<span className="error">Please choose a user</span>)}
+            {isSubmitUserError && (
+              <span className="error">Please choose a user</span>)}
           </section>
         </div>
 

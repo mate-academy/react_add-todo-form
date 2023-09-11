@@ -1,15 +1,17 @@
 import React from 'react';
 
-interface UserInfoProps {
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | undefined;
+export interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+interface UserInfoProps {
+  user: User | undefined;
+}
+
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   if (!user) {
     return null;
   }
@@ -24,5 +26,3 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     </a>
   );
 };
-
-export { UserInfo };
