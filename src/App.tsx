@@ -8,12 +8,15 @@ import todosFromServer from './api/todos';
 import { Todo } from './interfaces/Todo';
 import { User } from './interfaces/User';
 
+function findUserById(users: User[], id: number): User | null {
+  return users.find((user: User) => user.id === id) || null;
+}
+
 const todosWithUsers: Todo[] = todosFromServer
   .map((todo: Todo) => {
     return {
       ...todo,
-      user: usersFromServer
-        .find((user: User) => user.id === todo.userId) || null,
+      user: findUserById(usersFromServer, todo.userId),
     };
   });
 
@@ -21,9 +24,9 @@ export const App: React.FC = () => {
   const [visibleTodos, setVisibleTodos]
     = useState<Todo[]>(todosWithUsers);
 
-  const onAddHendler = (title: string, selectedUserId:number) => {
+  const handleAddTodo = (title: string, selectedUserId:number) => {
     setVisibleTodos((prevTodos) => {
-      const maxId: number = Math.max(...prevTodos.map(todo => todo.id));
+      const maxId = Math.max(...prevTodos.map(({ id }) => id));
 
       return [
         ...prevTodos,
@@ -32,8 +35,7 @@ export const App: React.FC = () => {
           title,
           completed: false,
           userId: selectedUserId,
-          user: usersFromServer.find(user => user.id === selectedUserId)
-            || null,
+          user: findUserById(usersFromServer, selectedUserId),
         },
       ];
     });
@@ -43,7 +45,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onAdd={onAddHendler} />
+      <TodoForm onAdd={handleAddTodo} />
 
       <TodoList todos={visibleTodos} />
     </div>

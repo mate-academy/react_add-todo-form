@@ -64,7 +64,9 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           />
         </label>
         {hasTitleError && (
-          <span className="error">Please enter a title</span>
+          <span className="error">
+            Please enter a title
+          </span>
         )}
       </div>
 
@@ -77,7 +79,10 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
             value={selectedUserId}
             onChange={handleOnChangeUser}
           >
-            <option value="0" disabled>Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
+
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -86,7 +91,9 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           </select>
         </label>
         {hasSelectedUserIdError && (
-          <span className="error">Please choose a user</span>
+          <span className="error">
+            Please choose a user
+          </span>
         )}
 
       </div>
