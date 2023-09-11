@@ -18,7 +18,7 @@ function getNewTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
-export const todos: Todo[] = todosFromServer.map(todo => ({
+export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -30,14 +30,14 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [todosList, setTodosList] = useState<Todo[]>(todos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const handleSelecteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
@@ -65,7 +65,7 @@ export const App: React.FC = () => {
       user: getUserById(userId),
     };
 
-    setTodosList(currentTodos => [...currentTodos, newTodo]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
 
     resetValue();
   };
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               defaultValue={0}
               value={userId}
-              onChange={handleSelecteChange}
+              onChange={handleSelectChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -122,7 +122,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosList} />
+      <TodoList todos={todos} />
     </div>
   );
 };
