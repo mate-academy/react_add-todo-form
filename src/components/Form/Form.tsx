@@ -32,7 +32,7 @@ export const Form: React.FC<Props> = ({ users, addTodo }) => {
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title.length === 0) {
+    if (title.length === 0 || !title.trim()) {
       setTitleInvalid(true);
     }
 
@@ -62,7 +62,7 @@ export const Form: React.FC<Props> = ({ users, addTodo }) => {
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={(event) => submitForm(event)}
+      onSubmit={submitForm}
     >
       <div className="field">
         <label htmlFor="title">Title:</label>
