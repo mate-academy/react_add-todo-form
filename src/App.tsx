@@ -35,6 +35,7 @@ export const App = () => {
       title: newTitle,
       completed: false,
       userId,
+      user,
     };
 
     if (user !== null) {
