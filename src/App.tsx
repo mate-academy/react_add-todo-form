@@ -18,10 +18,10 @@ function findUserById(userId: number): User {
 
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(preparedTodos);
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userIdError, setUserIdError] = useState<boolean>(false);
 
   const reset = () => {
     setTitle('');

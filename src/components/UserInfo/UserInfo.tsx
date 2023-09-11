@@ -12,7 +12,7 @@ export const UserInfo = ({ user }: Props) => {
       className="UserInfo"
       href={`mailto:${email}`}
     >
-      {name}
+      {name.trim()}
     </a>
   );
 };
