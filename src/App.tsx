@@ -26,37 +26,37 @@ const getNewPostId = (todos: Todo[]): number => {
 export const App = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [isErrorTitle, setIsErrorTitle] = useState(false);
-  const [isErrorSelect, setIsErrorSelect] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasSelectError, setHasSelectError] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setIsErrorTitle(false);
+    setHasTitleError(false);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsErrorSelect(false);
+    setHasSelectError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsErrorTitle(!title);
-    setIsErrorSelect(!userId);
+    setHasTitleError(!title);
+    setHasSelectError(!userId);
 
     if (!title || !userId) {
       return;
     }
 
     setTodos((prevTodos) => {
-      const newTodos = {
+      const newTodo = {
         id: getNewPostId(todos),
         title,
         completed: false,
@@ -64,10 +64,10 @@ export const App = () => {
         user: usersFromServer.find(({ id }) => id === userId),
       };
 
-      return [...prevTodos, newTodos];
+      return [...prevTodos, newTodo];
     });
 
-    reset();
+    resetForm();
   };
 
   return (
@@ -89,7 +89,7 @@ export const App = () => {
               onChange={handleTitleChange}
               placeholder="Enter a title"
             />
-            {isErrorTitle && (
+            {hasTitleError && (
               <span className="error">Please enter a title</span>
             )}
           </label>
@@ -109,7 +109,7 @@ export const App = () => {
                 <option value={`${id}`} key={id}>{name}</option>
               ))}
             </select>
-            {isErrorSelect && (
+            {hasSelectError && (
               <span className="error">Please choose a user</span>
             )}
           </label>
