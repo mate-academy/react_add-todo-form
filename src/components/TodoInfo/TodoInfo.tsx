@@ -20,7 +20,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     <article
       className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
       data-id={id}
-      key={id}
     >
       <h2 className="TodoInfo__title">{title}</h2>
       {user && (<UserInfo user={user} />)}

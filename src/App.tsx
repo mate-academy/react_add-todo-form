@@ -18,7 +18,7 @@ export const initialTodos: Todo[] = todosFromServer.map(todo => ({
 
 function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(
-    ...todos.map(todo => todo.id),
+    ...todos.map(({ id }) => id),
   );
 
   return maxId + 1;
@@ -30,17 +30,14 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [todosList, setTodosList] = useState<Todo[]>(initialTodos);
-  const [titleError, setTitleError] = useState(false);
-  const [selectError, setSelectError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isSelectError, setIsSelectError] = useState(false);
 
-  let counter = getNewTodoId(initialTodos);
-
-  const onAddTodo = (newTodo: Todo) => {
+  const addNewTodo = (newTodo: Todo) => {
     setTodosList(currentTodos => [...currentTodos, newTodo]);
   };
 
   const resetForm = () => {
-    counter += 1;
     setTitle('');
     setSelectedUserId(0);
   };
@@ -48,22 +45,34 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setSelectError(!selectedUserId);
+    setIsTitleError(!title);
+    setIsSelectError(!selectedUserId);
 
     if (!title || !selectedUserId) {
       return;
     }
 
-    onAddTodo({
+    addNewTodo({
       user: getUserById(selectedUserId),
-      id: counter,
+      id: getNewTodoId(initialTodos),
       title,
       completed: false,
       userId: selectedUserId,
     });
 
     resetForm();
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(symbolsException, ''));
+    setIsTitleError(false);
+  };
+
+  const handleSelectedUserIdChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedUserId(+event.target.value);
+    setIsSelectError(false);
   };
 
   return (
@@ -73,7 +82,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        key={counter}
+        key={getNewTodoId(initialTodos)}
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -84,15 +93,11 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value.replace(symbolsException, ''));
-                setTitleError(false);
-              }}
+              onChange={handleTitleChange}
             />
           </label>
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>
-
           )}
         </div>
 
@@ -103,19 +108,16 @@ export const App: React.FC = () => {
               data-cy="userSelect"
               defaultValue={0}
               value={selectedUserId}
-              onChange={(event) => {
-                setSelectedUserId(+event.target.value);
-                setSelectError(false);
-              }}
+              onChange={handleSelectedUserIdChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
-                <option value={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>{user.name}</option>
               ))}
             </select>
           </label>
 
-          {selectError && (
+          {isSelectError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
