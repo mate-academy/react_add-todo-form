@@ -44,21 +44,14 @@ export const App = () => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!title && !userId) {
-      setHasUserIdError(true);
-      setHasTitleError(true);
+    if (!title || !userId) {
+      if (!title) {
+        setHasTitleError(true);
+      }
 
-      return;
-    }
-
-    if (!title) {
-      setHasTitleError(true);
-
-      return;
-    }
-
-    if (!userId) {
-      setHasUserIdError(true);
+      if (!userId) {
+        setHasUserIdError(true);
+      }
 
       return;
     }

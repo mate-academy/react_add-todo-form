@@ -15,17 +15,21 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   } = todo;
 
   return (
-    <article
-      data-id={id}
-      className={cn('TodoInfo', {
-        'TodoInfo--completed': completed,
-      })}
-    >
-      <h2 className="TodoInfo__title">{title}</h2>
+    user && (
+      <>
+        <article
+          data-id={id}
+          className={cn('TodoInfo', {
+            'TodoInfo--completed': completed,
+          })}
+        >
 
-      {user && (
-        <UserInfo user={user} />
-      )}
-    </article>
+          <h2 className="TodoInfo__title">{title}</h2>
+
+          <UserInfo user={user} />
+
+        </article>
+      </>
+    )
   );
 };
