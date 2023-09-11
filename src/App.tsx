@@ -11,7 +11,7 @@ const getUserById = (userId: number): User | undefined => (
   usersFromServer.find(user => user.id === userId)
 );
 
-const todos: CombinedTodo[] = todosFromServer.map((todo: Todo) => (
+const combinedTodos: CombinedTodo[] = todosFromServer.map((todo: Todo) => (
   {
     ...todo,
     user: getUserById(todo.userId),
@@ -19,13 +19,17 @@ const todos: CombinedTodo[] = todosFromServer.map((todo: Todo) => (
 ));
 
 export const App = () => {
-  const [todosToRender, setTodosToRender] = useState<CombinedTodo[]>(todos);
+  const [todos, setTodos] = useState<CombinedTodo[]>(combinedTodos);
   const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
-  const lastTodoId = Math.max(...todosToRender.map(todo => todo.id));
+  const getNewId = () => {
+    const lastTodoId = Math.max(...todos.map(todo => todo.id));
+
+    return lastTodoId + 1;
+  };
 
   const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleanedValue = e.target.value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
@@ -39,15 +43,15 @@ export const App = () => {
     setHasUserError(false);
   };
 
-  const errorToggle = () => {
+  const toggleErrors = () => {
     setHasTitleError(!title);
     setHasUserError(!selectedUser);
   };
 
   const addNewTodo = (todoTitle: string, userId: number) => {
-    setTodosToRender([
-      ...todosToRender, {
-        id: lastTodoId + 1,
+    setTodos([
+      ...todos, {
+        id: getNewId(),
         title: todoTitle,
         completed: false,
         userId,
@@ -57,14 +61,14 @@ export const App = () => {
 
   const resetForm = () => {
     setTitle('');
-    setHasTitleError(false);
     setSelectedUser(0);
     setHasUserError(false);
+    setHasTitleError(false);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    errorToggle();
+    toggleErrors();
 
     if (!title || !selectedUser) {
       return;
@@ -128,7 +132,7 @@ export const App = () => {
           Add
         </button>
 
-        <TodoList todos={todosToRender} />
+        <TodoList todos={todos} />
       </form>
     </div>
   );
