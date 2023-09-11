@@ -11,18 +11,18 @@ type Props = {
 export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isUserChosen, setIsUserChosen] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isUserValid, setIsUserValid] = useState(true);
 
   const handleAddOfTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title) {
-      setIsTitleEmpty(true);
+      setIsTitleValid(false);
     }
 
     if (!selectedUserId) {
-      setIsUserChosen(false);
+      setIsUserValid(false);
     }
 
     if (!title || !selectedUserId) {
@@ -58,11 +58,11 @@ export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
           value={title}
           onChange={event => {
             setTitle(event.target.value);
-            setIsTitleEmpty(false);
+            setIsTitleValid(true);
           }}
 
         />
-        {isTitleEmpty && (
+        {!isTitleValid && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -75,7 +75,7 @@ export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
           value={selectedUserId}
           onChange={event => {
             setSelectedUserId(+event.target.value);
-            setIsUserChosen(true);
+            setIsUserValid(true);
           }}
         >
           <option
@@ -95,7 +95,7 @@ export const NewTodo: React.FC<Props> = ({ users, onSubmit }) => {
           ))}
         </select>
 
-        {!isUserChosen && (
+        {!isUserValid && (
           <span className="error">Please choose a user</span>
         )}
       </div>
