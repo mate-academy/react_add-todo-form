@@ -24,12 +24,10 @@ export const Form: React.FC<Props> = ({ onSubmit, todos }) => {
     setHasUserIdError(false);
   };
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
   };
-
-  const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,6 +39,8 @@ export const Form: React.FC<Props> = ({ onSubmit, todos }) => {
       return;
     }
 
+    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+
     onSubmit({
       id: newId,
       userId,
@@ -49,7 +49,7 @@ export const Form: React.FC<Props> = ({ onSubmit, todos }) => {
       user: getUserById(userId),
     });
 
-    reset();
+    resetForm();
   };
 
   return (
@@ -70,10 +70,9 @@ export const Form: React.FC<Props> = ({ onSubmit, todos }) => {
           value={title}
           onChange={handleTitleChange}
         />
-        {hasTitleError
-          && (
-            <span className="error">Please enter a title</span>
-          )}
+        {hasTitleError && (
+          <span className="error">Please enter a title</span>
+        )}
 
       </div>
 
