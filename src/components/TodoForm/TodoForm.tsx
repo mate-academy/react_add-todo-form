@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { FormType, TodoType } from '../../types';
 import usersFromServer from '../../api/users';
-import { findMaxId } from '../../helpers/findMaxTodoId';
+import { getNewId } from '../../helpers/getNewId';
 
 type Props = {
   addTodo: (todo: TodoType) => void,
@@ -16,26 +16,27 @@ const initialFormValue = {
 
 export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
   const [formValues, setFormValues] = useState<FormType>(initialFormValue);
-  const [inputError, setInputError] = useState(false);
-  const [selectError, setSelectError] = useState(false);
+  const [hasInputError, setHasInputError] = useState(false);
+  const [hasSelectError, setHasSelectError] = useState(false);
 
   const handleSetFormValues
   = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    let value: number | string = '';
+    const { value, name } = event.target;
+    let normalizedValue: number | string = '';
 
-    if (event.target.name === 'userSelect') {
-      value = Number(event.target.value);
-      setSelectError(false);
+    if (name === 'userSelect') {
+      normalizedValue = Number(value);
+      setHasSelectError(false);
     }
 
     if (event.target.name === 'titleInput') {
-      value = event.target.value.trimStart();
-      setInputError(false);
+      normalizedValue = value.trimStart();
+      setHasInputError(false);
     }
 
     setFormValues(prevState => ({
       ...prevState,
-      [event.target.name]: value,
+      [name]: normalizedValue,
     }));
   };
 
@@ -45,11 +46,11 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
     const { titleInput: title, userSelect: userId } = formValues;
 
     if (!title) {
-      setInputError(true);
+      setHasInputError(true);
     }
 
     if (userId === 0) {
-      setSelectError(true);
+      setHasSelectError(true);
     }
 
     if (!title || userId === 0) {
@@ -57,7 +58,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
     }
 
     const todo: TodoType = {
-      id: findMaxId(todos) + 1,
+      id: getNewId(todos) + 1,
       completed: false,
       title,
       userId,
@@ -76,10 +77,10 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
           name="titleInput"
           value={formValues.titleInput}
           required
-          onChange={(e) => handleSetFormValues(e)}
+          onChange={handleSetFormValues}
         />
 
-        {inputError && (
+        {hasInputError && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -90,7 +91,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
           name="userSelect"
           value={formValues.userSelect}
           required
-          onChange={(e) => handleSetFormValues(e)}
+          onChange={handleSetFormValues}
         >
           <option value="0" disabled>Choose a user</option>
 
@@ -101,7 +102,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
           ))}
         </select>
 
-        {selectError && (
+        {hasSelectError && (
           <span className="error">Please choose a user</span>
         )}
       </div>
@@ -109,7 +110,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
       <button
         type="submit"
         data-cy="submitButton"
-        onClick={e => handleAddTodo(e)}
+        onClick={handleAddTodo}
       >
         Add
       </button>
