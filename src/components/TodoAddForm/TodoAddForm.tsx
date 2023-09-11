@@ -1,57 +1,52 @@
 import React, { useState } from 'react';
 
-import { PreparedTodo, User } from '../../types';
+import { PreparedTodo } from '../../types';
+import users from '../../api/users';
+import { findUserById, generateNewId } from '../helpers';
 
 type Props = {
-  users: User[],
   todos: PreparedTodo[],
-  addTask: (newTask: PreparedTodo) => void,
+  onAddTodo: (newTask: PreparedTodo) => void,
 };
 
-const generateNewId = (tasks: PreparedTodo[]) => {
-  const tasksIds = tasks.map(({ id }) => id);
-
-  return Math.max(...tasksIds) + 1;
-};
-
-export const TodoAddForm: React.FC<Props> = ({ users, todos, addTask }) => {
+export const TodoAddForm: React.FC<Props> = ({ todos, onAddTodo }) => {
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const resetForm = () => {
     setTitle('');
-    setTitleError(false);
+    setIsTitleError(false);
     setSelectedUserId(0);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserError(!selectedUserId);
+    setIsTitleError(!title);
+    setIsUserError(!selectedUserId);
 
     if (!title || !selectedUserId) {
       return;
     }
 
-    addTask({
+    onAddTodo({
       id: generateNewId(todos),
       title,
       completed: false,
       userId: selectedUserId,
-      user: users.find(({ id }) => id === selectedUserId) || null,
+      user: findUserById(selectedUserId, users),
     });
 
     resetForm();
@@ -73,7 +68,7 @@ export const TodoAddForm: React.FC<Props> = ({ users, todos, addTask }) => {
           onChange={handleTitleChange}
         />
 
-        {titleError && (
+        {isTitleError && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -93,7 +88,7 @@ export const TodoAddForm: React.FC<Props> = ({ users, todos, addTask }) => {
           ))}
         </select>
 
-        {userError && (
+        {isUserError && (
           <span className="error">Please choose a user</span>
         )}
       </div>

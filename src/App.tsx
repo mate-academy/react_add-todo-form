@@ -9,20 +9,18 @@ import { PreparedTodo } from './types';
 
 import { TodoAddForm } from './components/TodoAddForm';
 import { TodoList } from './components/TodoList';
+import { findUserById } from './components/helpers';
 
-const preparedTodoTasks: PreparedTodo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(({ id }) => todo.userId === id) || null;
-
-  return {
+const preparedTodoTasks: PreparedTodo[] = todosFromServer
+  .map((todo) => ({
     ...todo,
-    user,
-  };
-});
+    user: findUserById(todo.userId, usersFromServer),
+  }));
 
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodoTasks);
 
-  const addTask = (newTask: PreparedTodo): void => {
+  const handleAddTodo = (newTask: PreparedTodo): void => {
     setTodos((prevState) => [...prevState, newTask]);
   };
 
@@ -31,9 +29,8 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <TodoAddForm
-        users={usersFromServer}
         todos={todos}
-        addTask={addTask}
+        onAddTodo={handleAddTodo}
       />
       <TodoList todos={todos} />
     </div>
