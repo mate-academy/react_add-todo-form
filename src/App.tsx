@@ -15,28 +15,28 @@ export const initTodos: TodoWithUser[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todoTitle, setTodoTitle] = useState('');
-  const [todoTitleError, setTodoTitleError] = useState(false);
-  const [todoUserId, setTodoUserId] = useState(0);
-  const [todoUserIdError, setTodoUserIdError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
   const [todos, setTodos] = useState(initTodos);
 
   function resetForm() {
-    setTodoUserId(0);
-    setTodoTitle('');
+    setUserId(0);
+    setTitle('');
   }
 
-  function handleOnAdd(event: React.FormEvent<HTMLFormElement>) {
+  function handleAddTodo(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!todoTitle) {
-      setTodoTitleError(true);
+    if (!title) {
+      setHasTitleError(true);
     }
 
-    if (!todoUserId) {
-      setTodoUserIdError(true);
+    if (!userId) {
+      setHasUserIdError(true);
     }
 
-    if (!todoTitle || !todoUserId) {
+    if (!title || !userId) {
       return;
     }
 
@@ -44,10 +44,10 @@ export const App = () => {
     const maxTodosId = Math.max(...todosIds);
     const newTodo = {
       id: maxTodosId + 1,
-      title: todoTitle,
+      title,
       completed: false,
-      userId: todoUserId,
-      user: getUserById(todoUserId),
+      userId,
+      user: getUserById(userId),
     };
 
     setTodos((prevState) => [...prevState, newTodo]);
@@ -55,13 +55,13 @@ export const App = () => {
   }
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setTodoTitleError(false);
-    setTodoTitle(event.target.value);
+    setHasTitleError(false);
+    setTitle(event.target.value);
   }
 
   function handleUserChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setTodoUserIdError(false);
-    setTodoUserId(+event.target.value);
+    setHasUserIdError(false);
+    setUserId(+event.target.value);
   }
 
   return (
@@ -71,7 +71,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnAdd}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <label htmlFor="TitleLabel">Title: </label>
@@ -80,10 +80,10 @@ export const App = () => {
             id="TitleLabel"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={todoTitle}
+            value={title}
             onChange={handleTitleChange}
           />
-          {todoTitleError && (
+          {hasTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -93,7 +93,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="UserLabel"
-            value={todoUserId}
+            value={userId}
             onChange={handleUserChange}
           >
             <option
@@ -113,7 +113,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {todoUserIdError && (
+          {hasUserIdError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
