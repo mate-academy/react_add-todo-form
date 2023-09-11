@@ -1,4 +1,6 @@
-export default [
+import { TodoWithoutUser } from '../types';
+
+const todosFromServer: TodoWithoutUser[] = [
   {
     id: 1,
     title: 'delectus aut autem',
@@ -18,3 +20,5 @@ export default [
     userId: 4,
   },
 ];
+
+export default todosFromServer;
