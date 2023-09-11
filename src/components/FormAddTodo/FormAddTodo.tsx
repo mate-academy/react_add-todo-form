@@ -1,20 +1,23 @@
 import { useState } from 'react';
-import { TodoWithUser, User } from '../../types';
+
+import { TodoWithUser } from '../../types';
+
 import { findUserById } from '../../utils/findUserById';
+import { generateUniqueId } from '../../utils/generateUniqueId';
+
+import users from '../../api/users';
 import {
   ERROR_MESSAGE_FOR_INVALID_TITLE,
   ERROR_MESSAGE_FOR_INVALID_USER,
 } from './constants';
-import { generateUniqueId } from '../../utils/generateUniqueId';
 import './FormAddTodo.scss';
 
 interface Props {
-  users: User[];
   todos: TodoWithUser[];
   onSubmit: (todo: TodoWithUser) => void,
 }
 
-export const FormAddTodo: React.FC<Props> = ({ users, onSubmit, todos }) => {
+export const FormAddTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [isUserSelected, setIsUserSelected] = useState(true);
