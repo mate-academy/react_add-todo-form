@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList/TodoList';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
@@ -58,6 +59,7 @@ export const App: React.FC = () => {
               setTitleError(false);
               setTitle(event.target.value);
             }}
+            placeholder="Add todo"
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -86,16 +88,7 @@ export const App: React.FC = () => {
       </form>
 
       <section className="TodoList">
-        {todos.map((todo: Todo) => (
-          <article key={todo.id} data-id={todo.id} className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}>
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-
-            <a className="UserInfo" href={`mailto:${usersFromServer.find((user: User) => user.id === todo.userId)?.email}`}>
-              {usersFromServer
-                .find((user: User) => user.id === todo.userId)?.name}
-            </a>
-          </article>
-        ))}
+        <TodoList todos={todos} />
       </section>
     </div>
   );
