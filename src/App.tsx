@@ -8,9 +8,7 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { ToDoForm } from './components/ToDoForm/ToDoForm';
 
-type UserType = User | null;
-
-function getUserById(userId: number) : UserType {
+function getUserById(userId: number) : User | null {
   return usersFromServer.find((user) => user.id === userId) || null;
 }
 
@@ -31,13 +29,12 @@ export const App = () => {
   const [todos, setTodos] = useState<ToDo[]>(createToDos());
 
   const addToDo = (userId: number, newTitle: string) => {
-    const user: UserType = getUserById(userId);
+    const user = getUserById(userId);
     const todo: ToDo = {
       id: getNewToDoId(todos),
       title: newTitle,
       completed: false,
       userId,
-      user,
     };
 
     if (user !== null) {

@@ -12,22 +12,26 @@ export const ToDoForm: React.FC<Props> = ({ onAdd, users }) => {
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
+  const resetForm = () => {
+    setUserError(false);
+    setTitleError(false);
+    setTitle('');
+    setUserId(0);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!userId || !title) {
-      setUserError(Boolean(!userId));
-      setTitleError(Boolean(!title));
+      setUserError(!userId);
+      setTitleError(!title);
 
       return;
     }
 
     onAdd(userId, title);
 
-    setUserError(false);
-    setTitleError(false);
-    setTitle('');
-    setUserId(0);
+    resetForm();
   };
 
   return (
