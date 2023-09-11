@@ -5,7 +5,7 @@ import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: Todo
+  todo: Todo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -25,7 +25,10 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <UserInfo user={todo.user ?? null} />
+      {/* <UserInfo user={todo.user ?? null} /> */}
+      {todo.user && (
+        <UserInfo user={todo.user} />
+      )}
     </article>
   );
 };
