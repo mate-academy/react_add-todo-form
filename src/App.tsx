@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 import './App.scss';
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { TodoForm } from './components/Form/TodoForm';
+import { getUserById } from './utils/utils';
 
 const initialTodos: Todo[] = todosFromServer.map((todo) => {
-  const user = usersFromServer.find(({ id }) => id === todo.userId) || null;
+  const user = getUserById(todo.userId);
 
   return {
     ...todo,

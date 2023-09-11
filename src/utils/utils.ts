@@ -6,7 +6,7 @@ export const getMaxId = (todos: Todo[]) => {
 };
 
 export const getUserById = (userId: number) => {
-  return usersFromServer.find(({ id }) => id === userId);
+  return usersFromServer.find(({ id }) => id === userId) || null;
 };
 
 export const getValidTitle = (title: string) => {

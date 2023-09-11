@@ -44,7 +44,7 @@ export const TodoForm: React.FC<Props> = ({
       title: getValidTitle(title),
       completed: false,
       userId,
-      user: getUserById(userId) || null,
+      user: getUserById(userId),
     });
 
     setUserId(0);
@@ -84,13 +84,17 @@ export const TodoForm: React.FC<Props> = ({
         >
           <option value="0" disabled>Choose a user</option>
 
-          {usersFromServer.map(user => (
-            <option
-              value={user.id}
-            >
-              {user.name}
-            </option>
-          ))}
+          {usersFromServer.map(user => {
+            const { id, name } = user;
+
+            return (
+              <option
+                value={id}
+              >
+                {name}
+              </option>
+            );
+          })}
         </select>
 
         {hasUserIdError && (
