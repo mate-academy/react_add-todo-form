@@ -26,13 +26,13 @@ export const App = () => {
 
     if (!title) {
       setTitleError('Please enter title');
-
-      return;
     }
 
     if (!userId) {
       setUserError('Please choose a user');
+    }
 
+    if (!title || !userId) {
       return;
     }
 
