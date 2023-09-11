@@ -31,8 +31,9 @@ export const App = () => {
   const addButton = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let isError = false;
+    const trimmedTitle = title.trim();
 
-    if (title === '') {
+    if (trimmedTitle === '') {
       setTitleError(true);
       isError = true;
     }
@@ -53,7 +54,7 @@ export const App = () => {
 
     const newTodo: TodoWithUser = {
       id: maxTodoId + 1,
-      title,
+      title: trimmedTitle,
       completed: false,
       userId,
       user: findUserById(userId),
