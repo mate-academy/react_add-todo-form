@@ -7,14 +7,14 @@ import { generateUniqueId } from '../../utils/generateUniqueId';
 
 import users from '../../api/users';
 import {
-  ERROR_MESSAGE_FOR_INVALID_TITLE,
-  ERROR_MESSAGE_FOR_INVALID_USER,
+  INVALID_TITLE_MESSAGE,
+  INVALID_USER_MESSAGE,
 } from './constants';
 import './FormAddTodo.scss';
 
 interface Props {
   todos: TodoWithUser[];
-  onSubmit: (todo: TodoWithUser) => void,
+  onSubmit: (todo: TodoWithUser) => void;
 }
 
 export const FormAddTodo: React.FC<Props> = ({ onSubmit, todos }) => {
@@ -80,7 +80,7 @@ export const FormAddTodo: React.FC<Props> = ({ onSubmit, todos }) => {
             placeholder="Enter todo title"
           />
           {!isTitleValid && (
-            <span className="error">{ERROR_MESSAGE_FOR_INVALID_TITLE}</span>
+            <span className="error">{INVALID_TITLE_MESSAGE}</span>
           )}
         </div>
 
@@ -96,15 +96,19 @@ export const FormAddTodo: React.FC<Props> = ({ onSubmit, todos }) => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {users.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {users.map((user) => {
+              const { id, name } = user;
+
+              return (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
 
           {!isUserSelected && (
-            <span className="error">{ERROR_MESSAGE_FOR_INVALID_USER}</span>
+            <span className="error">{INVALID_USER_MESSAGE}</span>
           )}
         </div>
 

@@ -1,2 +1,2 @@
-export const ERROR_MESSAGE_FOR_INVALID_TITLE = 'Please enter a title';
-export const ERROR_MESSAGE_FOR_INVALID_USER = 'Please choose a user';
+export const INVALID_TITLE_MESSAGE = 'Please enter a title';
+export const INVALID_USER_MESSAGE = 'Please choose a user';

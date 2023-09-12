@@ -1,5 +1,5 @@
 import { User } from '../types';
 
-export function findUserById(users: User[], id: number) {
-  return users.find(user => user.id === id) || null;
+export function findUserById(users: User[], userId: number) {
+  return users.find(({ id }) => userId === id) || null;
 }
