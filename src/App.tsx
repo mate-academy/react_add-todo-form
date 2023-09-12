@@ -5,9 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { PreparedTodo } from './types/Todo';
+import { findUserById } from './utils/helperFunctions';
 
-const preparedTodos: PreparedTodo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(({ id }) => id === todo.userId);
+const preparedTodos: PreparedTodo[] = todosFromServer.map((todo) => {
+  const { userId } = todo;
+  const user = findUserById(usersFromServer, userId);
 
   return {
     ...todo,
@@ -34,10 +36,21 @@ export const App: React.FC = () => {
     setHasUserIdError(false);
   }
 
-  function handleAdd(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function clearFields() {
+    setTitle('');
+    setUserId(0);
+  }
 
-    const user = usersFromServer.find(({ id }) => id === userId);
+  function handleAddTodo(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
+
+    if (!title || !userId) {
+      return;
+    }
+
+    const user = findUserById(usersFromServer, userId);
     const todoIds = todos.map(({ id }) => id);
     const maxId = Math.max(...todoIds);
 
@@ -49,16 +62,8 @@ export const App: React.FC = () => {
       user,
     };
 
-    setHasTitleError(!title);
-    setHasUserIdError(!userId);
-
-    if (!title || !userId) {
-      return;
-    }
-
     setTodos(currentTodos => [...currentTodos, newTodo]);
-    setTitle('');
-    setUserId(0);
+    clearFields();
   }
 
   return (
@@ -68,7 +73,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleAdd}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
