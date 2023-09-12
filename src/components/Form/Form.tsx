@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import todosFromServer from '../../api/todos';
 import { User } from '../../interfaces/user';
 import { Todo } from '../../interfaces/todo';
+import { getUserById } from '../../helpers/getUserById';
 
 interface Props {
   users: User[];
@@ -48,6 +49,7 @@ export const Form: React.FC<Props> = ({ users, addTodo }) => {
         title,
         completed: false,
         userId,
+        todoUser: getUserById(userId),
       };
 
       addTodo(newTodo);
