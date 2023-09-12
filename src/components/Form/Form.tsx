@@ -41,7 +41,7 @@ export const Form: React.FC<Props> = ({ users, addTodo }) => {
       setUserIdInvalid(true);
     }
 
-    if (title.length > 0 && userId > 0) {
+    if (title.length > 0 && title.trim() && userId > 0) {
       setId(prev => prev + 1);
 
       const newTodo: Todo = {
