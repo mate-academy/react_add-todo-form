@@ -20,9 +20,9 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [title, setTitle] = useState('');
-  const [newTodos, setTodos] = useState(todosFromServer);
+  const [userId, setUserId] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
+  const [newTodos, setTodos] = useState<Todo[]>(todos);
   const [userError, setUserError] = useState<string | null>(null);
   const [titleError, setTitleError] = useState<string | null>(null);
 
@@ -36,13 +36,13 @@ export const App: React.FC = () => {
     }
 
     // was user selected?
-    if (!username) {
+    if (!userId) {
       setUserError('Please choose a user');
 
       return;
     }
 
-    const userObj = usersFromServer.find(user => user.name === username);
+    const userObj = usersFromServer.find(user => user.id === userId);
 
     if (userObj) {
       const newTodo: Todo = {
@@ -53,11 +53,10 @@ export const App: React.FC = () => {
         user: ((userObj) ? getUser(userObj.id) : null),
       };
 
-
       setTodos(prevTodos => [...prevTodos, newTodo]);
 
       setTitle('');
-      setUsername('');
+      setUserId(0);
       setUserError(null);
       setTitleError(null);
     }
@@ -87,17 +86,17 @@ export const App: React.FC = () => {
           id="user"
           name="userId"
           data-cy="userSelect"
-          value={username}
+          value={userId}
           onChange={(event) => {
-            setUsername(event.target.value);
+            setUserId(+event.target.value);
             setUserError(null);
           }}
 
         >
-          <option value="">Choose a user</option>
+          <option value={0}>Choose a user</option>
 
           {usersFromServer.map((user) => (
-            <option key={title + user.id} value={user.name}>
+            <option key={title + user.id} value={user.id}>
               {user.name}
             </option>
           ))}
