@@ -18,5 +18,6 @@ export const TodoInfo = ({ todo }: Props) => (
     </h2>
 
     <UserInfo user={todo.user} />
+
   </article>
 );

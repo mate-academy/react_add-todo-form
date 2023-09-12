@@ -19,29 +19,32 @@ export const App = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(preparedTodos);
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const handleResetInputFields = () => {
+  const resetForm = () => {
     setTodoTitle('');
     setUserId(0);
   };
 
-  const handleOnAdd = (event: React.FormEvent<HTMLFormElement>) => {
+  const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!todoTitle || !userId) {
-      setTitleError(!todoTitle);
-      setUserIdError(!userId);
+      setHasTitleError(!todoTitle);
+      setHasUserIdError(!userId);
 
       return;
     }
 
-    const todoIds = todos.map(({ id }) => id);
-    const maxTodoId = Math.max(...todoIds);
+    const getNewTodoId = () => {
+      const todoIds = todos.map(({ id }) => id);
+
+      return Math.max(...todoIds) + 1;
+    };
 
     const newTodo = {
-      id: maxTodoId + 1,
+      id: getNewTodoId(),
       title: todoTitle,
       userId,
       completed: false,
@@ -50,16 +53,16 @@ export const App = () => {
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
 
-    handleResetInputFields();
+    resetForm();
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserIdError(false);
+    setHasUserIdError(false);
     setUserId(+event.target.value);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(false);
+    setHasTitleError(false);
     setTodoTitle(event.target.value);
   };
 
@@ -70,7 +73,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnAdd}
+        onSubmit={addNewTodo}
       >
         <div className="field">
           <input
@@ -80,7 +83,8 @@ export const App = () => {
             value={todoTitle}
             onChange={handleTitleChange}
           />
-          {titleError && (<span className="error">Please enter a title</span>)}
+          {hasTitleError
+            && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
@@ -101,7 +105,8 @@ export const App = () => {
             ))}
           </select>
 
-          {userIdError && (<span className="error">Please choose a user</span>)}
+          {hasUserIdError
+            && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button
