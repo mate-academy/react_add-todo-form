@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
+import { Todo, User } from './types';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-}
+// interface Todo {
+//   id: number;
+//   title: string;
+//   userId: number;
+//   completed: boolean;
+// }
 
-interface User {
-  id: number;
-  name: string;
-}
+// interface User {
+//   id: number;
+//   name: string;
+// }
 
 const mapTodosWithUsers = (): Todo[] => {
   return todosFromServer.map((todo) => {
@@ -47,10 +48,13 @@ export const App: React.FC = () => {
 
     const largestId = Math.max(...todos.map((todo) => todo.id));
 
+    const user = usersFromServer.find((u) => u.id === userId);
+
     const newTodo: Todo = {
       id: largestId + 1,
       title,
       userId,
+      user,
       completed: false,
     };
 

@@ -1,7 +1,7 @@
 export interface Todo {
   id: number;
   title: string;
-  user: User;
+  user?: User;
   completed: boolean;
   userId: number;
 }
