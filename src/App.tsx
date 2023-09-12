@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -41,7 +41,7 @@ export const App = () => {
   React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setUser(usersFromServer
       .find(v => v.id === Number(e.target.value)) || null);
-      setSelectError(false);
+    setSelectError(false);
   };
 
   const addTodo: FormEventHandler<HTMLButtonElement> = (event) => {
@@ -50,16 +50,19 @@ export const App = () => {
     if (!user && !title) {
       setSelectError(true);
       setInputError(true);
+
       return;
     }
 
     if (!user) {
       setSelectError(true);
+
       return;
     }
 
     if (!title) {
       setInputError(true);
+
       return;
     }
 
@@ -77,51 +80,53 @@ export const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <>
+      <div className="App">
+        <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-      >
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder='Title'
-            value={title}
-            onChange={handleChangeTitle}
-          />
-          {errorInput && <span className="error">Please enter a title</span>}
-
-        </div>
-
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            value={user?.id || 0}
-            defaultValue={0}
-            onChange={handleChangeUser}
-          >
-            <option value={0} disabled>Choose a user</option>
-            {usersFromServer.map(v => {
-              return <option key={v.id} value={v.id}>{v.name}</option>;
-            })}
-          </select>
-          {errorSelect && <span className="error">Please choose a user</span>}
-
-        </div>
-
-        <button
-          type="submit"
-          data-cy="submitButton"
-          onClick={addTodo}
+        <form
+          action="/api/todos"
+          method="POST"
         >
-          Add
-        </button>
-      </form>
+          <div className="field">
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Title"
+              value={title}
+              onChange={handleChangeTitle}
+            />
+            {errorInput && <span className="error">Please enter a title</span>}
 
-      <TodoList todos={todos} />
-    </div>
+          </div>
+
+          <div className="field">
+            <select
+              data-cy="userSelect"
+              value={user?.id || 0}
+              defaultValue={0}
+              onChange={handleChangeUser}
+            >
+              <option value={0} disabled>Choose a user</option>
+              {usersFromServer.map(v => {
+                return <option key={v.id} value={v.id}>{v.name}</option>;
+              })}
+            </select>
+            {errorSelect && <span className="error">Please choose a user</span>}
+
+          </div>
+
+          <button
+            type="submit"
+            data-cy="submitButton"
+            onClick={addTodo}
+          >
+            Add
+          </button>
+        </form>
+
+        <TodoList todos={todos} />
+      </div>
+    </>
   );
 };

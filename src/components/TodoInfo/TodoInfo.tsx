@@ -8,9 +8,11 @@ type TodoProps = {
 
 export const TodoInfo = ({ todo }: TodoProps) => {
   return (
-    <article data-id={`"${todo.id}"`} className={classNames('TodoInfo', {
-      'TodoInfo--completed': todo.completed,
-    })}
+    <article
+      data-id={todo.id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
     >
       <h2 className="TodoInfo__title">
         {todo.title}
