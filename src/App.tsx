@@ -5,18 +5,6 @@ import { Todo, User } from './types';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
-// interface Todo {
-//   id: number;
-//   title: string;
-//   userId: number;
-//   completed: boolean;
-// }
-
-// interface User {
-//   id: number;
-//   name: string;
-// }
-
 const mapTodosWithUsers = (): Todo[] => {
   return todosFromServer.map((todo) => {
     const user = usersFromServer
