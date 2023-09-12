@@ -16,8 +16,20 @@ interface User {
   name: string;
 }
 
+const mapTodosWithUsers = (): Todo[] => {
+  return todosFromServer.map((todo) => {
+    const user = usersFromServer
+      .find((mappedUser) => mappedUser.id === todo.userId);
+
+    return {
+      ...todo,
+      user,
+    };
+  });
+};
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(mapTodosWithUsers);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number | null>(null);
   const [titleError, setTitleError] = useState<boolean>(false);
@@ -33,8 +45,10 @@ export const App: React.FC = () => {
       return;
     }
 
+    const largestId = Math.max(...todos.map((todo) => todo.id));
+
     const newTodo: Todo = {
-      id: todos.length + 1,
+      id: largestId + 1,
       title,
       userId,
       completed: false,

@@ -1,16 +1,16 @@
 import React from 'react';
-import usersFromServer from '../../api/users';
+import { User } from '../../types';
 
 type UserInfoProps = {
-  userId: number;
+  user: User;
 };
 
-export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {
-  const user = usersFromServer.find(u => u.id === userId);
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+  // const user = usersFromServer.find(userFound => userFound.id === userId);
 
-  if (!user) {
-    return null;
-  }
+  // if (!user) {
+  //   return null;
+  // }
 
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
