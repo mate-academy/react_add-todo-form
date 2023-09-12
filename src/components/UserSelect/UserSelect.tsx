@@ -2,17 +2,17 @@ import React from 'react';
 import { User } from '../../types';
 
 type Props = {
-  userSelectId: number;
+  selectedUserId: number;
   handleUserSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   usersFromServer: User[];
-  hasUserSelectedId: boolean;
+  hasSelectedUserError: boolean;
 };
 
 export const UserSelect: React.FC<Props> = ({
-  userSelectId,
+  selectedUserId,
   handleUserSelect,
   usersFromServer,
-  hasUserSelectedId,
+  hasSelectedUserError,
 }) => {
   return (
     <div className="field">
@@ -21,7 +21,7 @@ export const UserSelect: React.FC<Props> = ({
         data-cy="userSelect"
         id="userSelect"
         defaultValue={0}
-        value={userSelectId}
+        value={selectedUserId}
         onChange={handleUserSelect}
         required
       >
@@ -34,7 +34,7 @@ export const UserSelect: React.FC<Props> = ({
           </option>
         ))}
       </select>
-      {hasUserSelectedId && (
+      {hasSelectedUserError && (
         <span className="error">Please choose a user</span>
       )}
     </div>

@@ -5,9 +5,13 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './types/Todo';
 import { TodoList } from './components/TodoList';
-import { TitleInput } from './components/TitleInput';
+import { TitleInput } from './components/FormInput';
 import { UserSelect } from './components/UserSelect';
 import { SubmitButton } from './components/SubmitButton';
+
+function getMaxId(currentTodos: TodoWithUser[]) {
+  return Math.max(...currentTodos.map(({ id }) => id)) + 1;
+}
 
 export const initialTodos = todosFromServer.map(todo => ({
   ...todo,
@@ -17,22 +21,22 @@ export const initialTodos = todosFromServer.map(todo => ({
 export const App = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [userSelectId, setUserSelectId] = useState(0);
-  const [hasUserSelectedId, setHasUserSelectedId] = useState(false);
-  const [preparedTodos, setPreparedTodos] = useState(initialTodos);
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [hasSelectedUserError, setHasSelectedUserError] = useState(false);
+  const [todos, setTodos] = useState(initialTodos);
 
   function getUserById(userId: number) {
     return usersFromServer.find(({ id }) => id === userId) || null;
-  };
+  }
 
-  function onSubmit(todo: TodoWithUser) {
-    setPreparedTodos(currentTodo => [...currentTodo, todo]);
-  };
+  function addTodo(todo: TodoWithUser) {
+    setTodos(currentTodo => [...currentTodo, todo]);
+  }
 
-  function formReset() {
+  function resetForm() {
     setTodoTitle('');
-    setUserSelectId(0);
-  };
+    setSelectedUserId(0);
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoTitle(event.target.value);
@@ -40,32 +44,29 @@ export const App = () => {
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserSelectId(+event.target.value);
-    setHasUserSelectedId(false);
+    setSelectedUserId(+event.target.value);
+    setHasSelectedUserError(false);
   };
 
-  const handleOnSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle.trim() || !userSelectId) {
+    if (!todoTitle.trim() || !selectedUserId) {
       setHasTitleError(Boolean(!todoTitle));
-      setHasUserSelectedId(Boolean(!userSelectId));
+      setHasSelectedUserError(Boolean(!selectedUserId));
 
       return;
     }
 
-    const todoIds = preparedTodos.map(({ id }) => id);
-    const maxTodoId = Math.max(...todoIds) + 1;
-
-    onSubmit({
-      id: maxTodoId,
+    addTodo({
+      id: getMaxId(todos),
       title: todoTitle.trim(),
       completed: false,
-      userId: userSelectId,
-      user: getUserById(userSelectId),
+      userId: selectedUserId,
+      user: getUserById(selectedUserId),
     });
 
-    formReset();
+    resetForm();
   };
 
   return (
@@ -74,7 +75,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnSubmit}
+        onSubmit={handleSubmit}
       >
         <TitleInput
           todoTitle={todoTitle}
@@ -82,15 +83,15 @@ export const App = () => {
           hasTitleError={hasTitleError}
         />
         <UserSelect
-          userSelectId={userSelectId}
+          selectedUserId={selectedUserId}
           handleUserSelect={handleUserSelect}
           usersFromServer={usersFromServer}
-          hasUserSelectedId={hasUserSelectedId}
+          hasSelectedUserError={hasSelectedUserError}
         />
         <SubmitButton />
       </form>
 
-      <TodoList todos={preparedTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
