@@ -83,8 +83,11 @@ export const App = () => {
             value={todoTitle}
             onChange={handleTitleChange}
           />
-          {hasTitleError
-            && (<span className="error">Please enter a title</span>)}
+          {hasTitleError && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -95,18 +98,18 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
               </option>
             ))}
           </select>
 
-          {hasUserIdError
-            && (<span className="error">Please choose a user</span>)}
+          {hasUserIdError && (
+            <span className="error">
+              Please choose a user
+            </span>
+          )}
         </div>
 
         <button

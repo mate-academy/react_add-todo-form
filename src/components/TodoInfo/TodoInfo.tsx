@@ -6,18 +6,29 @@ type Props = {
   todo: TodoWithUser
 };
 
-export const TodoInfo = ({ todo }: Props) => (
-  <article
-    data-id={todo.id}
-    className={cn('TodoInfo', {
-      'TodoInfo--completed': todo.completed,
-    })}
-  >
-    <h2 className="TodoInfo__title">
-      {todo.title}
-    </h2>
+export const TodoInfo = ({ todo }: Props) => {
+  const {
+    id,
+    title,
+    user,
+    completed,
+  } = todo;
 
-    <UserInfo user={todo.user} />
+  return (
+    <article
+      data-id={id}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
 
-  </article>
-);
+      {user
+        ? (<UserInfo user={user} />)
+        : 'User is not selected'}
+
+    </article>
+  );
+};
