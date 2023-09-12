@@ -41,29 +41,33 @@ export const App = () => {
   function handleOnAdd(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const trimmedTitle = title.trim();
+
     if (!userId) {
       setUserError('Please choose a user');
     } else {
       setUserError('');
     }
 
-    if (!title) {
+    if (!trimmedTitle) {
       setTitleError('Please enter a title');
     } else {
       setTitleError('');
     }
 
-    const maxTodoId = Math.max(...todos.map((todo) => todo.id), 0);
+    const hasNonWhitespaceChars = /\S/.test(trimmedTitle);
 
-    const newTodo = {
-      id: maxTodoId + 1,
-      completed: false,
-      title,
-      userId: +userId,
-      user: getUserData(+userId),
-    };
+    if (hasNonWhitespaceChars) {
+      const maxTodoId = Math.max(...todos.map((todo) => todo.id), 0);
 
-    if (title && userId !== 0) {
+      const newTodo = {
+        id: maxTodoId + 1,
+        completed: false,
+        title: trimmedTitle,
+        userId: +userId,
+        user: getUserData(+userId),
+      };
+
       setTodos([...todos, newTodo]);
       setTitle('');
       setUserId(0);
