@@ -9,12 +9,12 @@ type Props = {
 export const ToDoForm: React.FC<Props> = ({ onAdd, users }) => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [userError, setUserError] = useState(false);
-  const [titleError, setTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const resetForm = () => {
-    setUserError(false);
-    setTitleError(false);
+    setHasUserError(false);
+    setHasTitleError(false);
     setTitle('');
     setUserId(0);
   };
@@ -23,8 +23,8 @@ export const ToDoForm: React.FC<Props> = ({ onAdd, users }) => {
     event.preventDefault();
 
     if (!userId || !title) {
-      setUserError(!userId);
-      setTitleError(!title);
+      setHasUserError(!userId);
+      setHasTitleError(!title);
 
       return;
     }
@@ -43,10 +43,9 @@ export const ToDoForm: React.FC<Props> = ({ onAdd, users }) => {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        {Boolean(titleError) && (
+        {Boolean(hasTitleError) && (
           <span className="error">Please enter a title</span>
         )}
-
       </div>
 
       <div className="field">
@@ -66,10 +65,9 @@ export const ToDoForm: React.FC<Props> = ({ onAdd, users }) => {
           ))}
         </select>
 
-        {Boolean(userError) && (
+        {Boolean(hasUserError) && (
           <span className="error">Please choose a user</span>
         )}
-
       </div>
 
       <button type="submit" data-cy="submitButton">

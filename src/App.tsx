@@ -12,7 +12,7 @@ function getUserById(userId: number) : User | null {
   return usersFromServer.find((user) => user.id === userId) || null;
 }
 
-function createToDos() {
+function getFormattedTodos() {
   return todosFromServer.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
@@ -26,7 +26,7 @@ const getNewToDoId = (todos: ToDo[]): number => {
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState<ToDo[]>(createToDos());
+  const [todos, setTodos] = useState<ToDo[]>(getFormattedTodos());
 
   const addToDo = (userId: number, newTitle: string) => {
     const user = getUserById(userId);
