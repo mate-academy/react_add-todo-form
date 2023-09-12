@@ -31,8 +31,8 @@ export const FormAddTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setIsTitleValid(() => Boolean(title));
-    setIsUserSelected(() => Boolean(selectedUserId));
+    setIsTitleValid(Boolean(title));
+    setIsUserSelected(Boolean(selectedUserId));
 
     if (!title || !selectedUserId) {
       return;
