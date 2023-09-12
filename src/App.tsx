@@ -19,7 +19,7 @@ const prepairedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(prepairedTodos);
 
-  const addTodoHandler = (newTodo: Omit<Todo, 'id'>) => {
+  const addTodo = (newTodo: Omit<Todo, 'id'>) => {
     const todoIds = todos.map(({ id }) => id);
     const maxTodoId = Math.max(...todoIds);
 
@@ -31,15 +31,11 @@ export const App: React.FC = () => {
     setTodos((prevState) => [...prevState, preparedTodo]);
   };
 
-  // console.log(todos);
-
   return (
     <div className="App">
       <h1>Add good form</h1>
 
-      <AddTodoForm
-        addTodoHandler={addTodoHandler}
-      />
+      <AddTodoForm addTodoHandler={addTodo} />
       <TodoList todos={todos} />
     </div>
   );

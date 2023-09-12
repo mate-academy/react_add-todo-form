@@ -8,15 +8,23 @@ type Props = {
 
 export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
   const [todoName, setTodoName] = useState('');
-  const [todoNameError, setTodoNameError] = useState(false);
+  const [hasTodoNameError, setHasTodoNameError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [userIdError, setUserIdError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function HandleOnEvent(event: React.ChangeEvent<HTMLInputElement>) {
     setTodoName(event.target.value);
 
-    if (todoNameError) {
-      setTodoNameError(false);
+    if (hasTodoNameError) {
+      setHasTodoNameError(false);
+    }
+  }
+
+  function HandleOnEventChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUserId(+event.target.value);
+
+    if (hasUserIdError) {
+      setHasUserIdError(false);
     }
   }
 
@@ -25,22 +33,22 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
     setUserId(0);
   }
 
-  function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    let isError = false;
+    let isFormValid = todoName === '' || userId === 0;
 
     if (todoName === '') {
-      setTodoNameError(true);
-      isError = true;
+      setHasTodoNameError(!todoName);
+      isFormValid = true;
     }
 
     if (userId === 0) {
-      setUserIdError(true);
-      isError = true;
+      setHasUserIdError(!userId);
+      isFormValid = true;
     }
 
-    if (isError) {
+    if (isFormValid) {
       return;
     }
 
@@ -60,17 +68,17 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
   }
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <input
           type="text"
           data-cy="titleInput"
           placeholder=""
           value={todoName}
-          onChange={handleChange}
+          onChange={HandleOnEvent}
         />
 
-        {todoNameError && (
+        {hasTodoNameError && (
           <span className="error">
             Please enter a title
           </span>
@@ -81,13 +89,7 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
         <select
           data-cy="userSelect"
           value={userId}
-          onChange={(event) => {
-            setUserId(+event.target.value);
-
-            if (userIdError) {
-              setUserIdError(false);
-            }
-          }}
+          onChange={HandleOnEventChange}
         >
           <option value="0" disabled>
             Choose a user
@@ -103,7 +105,7 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
           ))}
         </select>
 
-        {userIdError && (
+        {hasUserIdError && (
           <span className="error">Please choose a user</span>
         )}
       </div>
