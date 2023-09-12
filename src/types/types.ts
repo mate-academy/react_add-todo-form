@@ -5,7 +5,7 @@ export type User = {
   email: string,
 };
 
-export type ToDo = {
+export type Todo = {
   id: number,
   title: string,
   completed: boolean,

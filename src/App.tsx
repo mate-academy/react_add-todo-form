@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { ToDo } from './types/type';
+import { Todo } from './types/types';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 function getUser(id: number) {
-  return usersFromServer.find(usr => (id) === usr.id) || null;
+  return usersFromServer.find(usr => id === usr.id) || null;
 }
 
 export const App = () => {
@@ -16,8 +16,8 @@ export const App = () => {
     user: getUser(todo.userId),
   }));
 
-  const [todos, setTodos] = useState<ToDo[]>(initTodos);
-  const [todo, setTodo] = useState<ToDo>(
+  const [todos, setTodos] = useState<Todo[]>(initTodos);
+  const [todo, setTodo] = useState<Todo>(
     {
       id: 0,
       title: '',
@@ -28,12 +28,13 @@ export const App = () => {
 
   const [isFilled, setIsFilled] = useState(true);
 
-  const onAdd = (newTodo: ToDo) => {
+  const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [
       ...currentTodos,
       {
         ...newTodo,
-        id: Math.max(...(todosFromServer.map(toDo => toDo.id))) + 1,
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        id: Math.max(...(todosFromServer.map(todo => todo.id))) + 1,
       },
     ]);
   };
@@ -61,7 +62,7 @@ export const App = () => {
     setTodo(
       {
         ...todo,
-        user: getUser(+event.target.value),
+        user: getUser(Number(event.target.value)),
       },
     );
   };
@@ -75,9 +76,13 @@ export const App = () => {
       return;
     }
 
-    onAdd(todo);
+    addTodo(todo);
     resetForm();
   };
+
+  const hasTitleError = !todo.title.trim() && !isFilled;
+
+  const hasUserError = !todo.user && !isFilled;
 
   return (
     <div className="App">
@@ -99,8 +104,8 @@ export const App = () => {
               placeholder="Enter a title"
               onChange={handleTitleChange}
             />
-            {(!todo.title.trim() && !isFilled)
-              && (<span className="error">Please enter a title</span>)}
+            {hasTitleError
+            && <span className="error">Please enter a title</span>}
           </label>
         </div>
 
@@ -114,17 +119,17 @@ export const App = () => {
               value={!todo.user ? 0 : todo.user.id}
             >
               <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(usr => (
+              {usersFromServer.map(user => (
                 <option
-                  value={usr.id}
-                  key={usr.id}
+                  value={user.id}
+                  key={user.id}
                 >
-                  {usr.name}
+                  {user.name}
                 </option>
               ))}
             </select>
 
-            {(!todo.user && !isFilled)
+            {hasUserError
               && (<span className="error">Please choose a user</span>)}
           </label>
         </div>
