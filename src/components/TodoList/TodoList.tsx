@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { ITodo } from '../../types/Todo';
+import { TodoEntity } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
 type TTodoList = {
-  todos: ITodo[]
+  todos: TodoEntity[]
 };
 
 export const TodoList: FC<TTodoList> = ({ todos }) => (

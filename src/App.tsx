@@ -4,12 +4,12 @@ import { encode, decode } from 'js-base64';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { ITodo } from './types/Todo';
+import { TodoEntity } from './types/Todo';
+import { IUser } from './types/User';
 
 import { TodoList } from './components/TodoList';
 
 import './App.scss';
-import { IUser } from './types/User';
 
 const preperadTodos = todosFromServer.map(todo => {
   return {
@@ -27,7 +27,7 @@ interface ITodoSetting {
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState<ITodo[]>(preperadTodos);
+  const [todos, setTodos] = useState<TodoEntity[]>(preperadTodos);
 
   const initialTodoSetting = {
     userText: '',
@@ -43,14 +43,14 @@ export const App = () => {
     isSubmit,
   }, setTodoSetting] = useState<ITodoSetting>(initialTodoSetting);
 
-  const showErrorForUnselectedUser = (!selectedUser && isSubmit);
-  const showErrorForEmptyInput = (isUserTextEmpty && isSubmit);
+  const hasErrorForUnselectedUser = (!selectedUser && isSubmit);
+  const hasErrorForEmptyInput = (isUserTextEmpty && isSubmit);
 
-  const reset = () => {
+  const resetForm = () => {
     setTodoSetting(initialTodoSetting);
   };
 
-  const onFormSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!userText) {
@@ -85,10 +85,10 @@ export const App = () => {
       },
     ]);
 
-    reset();
+    resetForm();
   };
 
-  const onInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoSetting(prev => ({
       ...prev,
       userText: event.target.value,
@@ -117,17 +117,17 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={onFormSubmitHandler}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={userText}
-            onChange={onInputHandler}
+            onChange={handleInput}
             placeholder="Enter a title"
           />
-          {showErrorForEmptyInput && (
+          {hasErrorForEmptyInput && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -158,7 +158,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {showErrorForUnselectedUser && (
+          {hasErrorForUnselectedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
