@@ -5,8 +5,5 @@ export interface Todo {
   title: string,
   completed: boolean,
   userId: number,
-}
-
-export interface PreparedTodo extends Todo {
-  user: User | null;
+  user?: User | null;
 }
