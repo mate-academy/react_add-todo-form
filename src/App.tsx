@@ -5,11 +5,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { findUser } from './components/helpers/findUser';
+import { findUserById } from './components/helpers/findUserById';
 
 const preparedTodos:Todo[] = todosFromServer.map((todo) => ({
   ...todo,
-  user: findUser(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -20,13 +20,14 @@ export const App = () => {
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoTitle(event.target.value);
 
+  const handleChangeTitle = (event:
+  React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const handleUSerId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserIdSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
@@ -35,6 +36,7 @@ export const App = () => {
     setTodoTitle('');
     setUserId(0);
     setHasUserIdError(false);
+    setHasTitleError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -42,33 +44,31 @@ export const App = () => {
 
     setHasTitleError(!todoTitle);
 
-    if (userId === 0) {
-      setHasUserIdError(true);
-    }
+    setHasUserIdError(!userId);
 
     if (!todoTitle || !userId) {
       return;
     }
 
-    const idForNewTodo = Math.max(...visibleTodos.map(todo => todo.id)) + 1;
+    const newTodoId = Math.max(...visibleTodos.map(({ id }) => id)) + 1;
 
     setVisibleTodos((prevState) => [
       ...prevState,
       {
-        id: idForNewTodo,
+        id: newTodoId,
         title: todoTitle,
         completed: false,
         userId,
-        user: findUser(userId),
+        user: findUserById(userId),
       },
     ]);
 
     resetFields();
   };
 
-  const deleteTodo = (idTodo: number) => {
+  const deleteTodo = (todoId: number) => {
     setVisibleTodos((prevState) => prevState
-      .filter(({ id }) => id !== idTodo));
+      .filter(({ id }) => id !== todoId));
   };
 
   const toggleTodoCompletion = (idTodo: number) => {
@@ -114,10 +114,11 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={handleUSerId}
+            onChange={handleUserIdSelect}
             className="select"
           >
             <option value="0" disabled>Choose a user</option>
+
             {usersFromServer.map((user) => (
               <option key={user.id} value={user.id}>{user.name}</option>
             ))}
