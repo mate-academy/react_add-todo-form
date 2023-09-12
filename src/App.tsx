@@ -49,8 +49,8 @@ export const App = () => {
   };
 
   const addNewTodo = (todoTitle: string, userId: number) => {
-    setTodos([
-      ...todos, {
+    setTodos(prevTodos => [
+      ...prevTodos, {
         id: getNewId(),
         title: todoTitle,
         completed: false,
@@ -115,12 +115,12 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map((user: User) => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
