@@ -9,37 +9,37 @@ import { TodoList } from './components/TodoList/TodoList';
 
 const preparedTodos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(({ id }) => id === todo.userId) || null,
-} as TodoWithUser));
+  user: usersFromServer.find(({ id }) => id === todo.userId),
+}));
 
-function findUserById(userId: number): User {
-  return usersFromServer.find(({ id }) => id === userId) as User;
+function findUserById(userId: number): User | undefined {
+  return usersFromServer.find(({ id }) => id === userId);
 }
 
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userIdError, setUserIdError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserIdError, setIsUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
-  const handleBtAdd = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     let isError = false;
 
-    if (title === '') {
-      setTitleError(true);
+    if (!title) {
+      setIsTitleError(true);
       isError = true;
     }
 
     if (userId === 0) {
-      setUserIdError(true);
+      setIsUserIdError(true);
       isError = true;
     }
 
@@ -71,7 +71,7 @@ export const App = () => {
   const handleSelectUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
 
-    setUserIdError(false);
+    setIsUserIdError(false);
   };
 
   return (
@@ -82,7 +82,7 @@ export const App = () => {
         action="/api/todos"
         method="POST"
         noValidate
-        onSubmit={handleBtAdd}
+        onSubmit={handleAddTodo}
       >
         <div className="field">
           <label
@@ -100,7 +100,7 @@ export const App = () => {
             required
             placeholder="Enter a title"
           />
-          {titleError && (
+          {isTitleError && (
             <span className="error">Please enter a title</span>)}
         </div>
 
@@ -133,7 +133,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {userIdError && (
+          {isUserIdError && (
             <span className="error">Please choose a user</span>
           )}
 
