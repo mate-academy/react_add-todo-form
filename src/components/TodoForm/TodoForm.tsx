@@ -29,7 +29,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
       setHasSelectError(false);
     }
 
-    if (event.target.name === 'titleInput') {
+    if (name === 'titleInput') {
       normalizedValue = value.trimStart();
       setHasInputError(false);
     }
@@ -45,20 +45,15 @@ export const TodoForm: React.FC<Props> = ({ addTodo, todos }) => {
 
     const { titleInput: title, userSelect: userId } = formValues;
 
-    if (!title) {
-      setHasInputError(true);
-    }
-
-    if (userId === 0) {
-      setHasSelectError(true);
-    }
+    setHasInputError(!title);
+    setHasSelectError(!userId);
 
     if (!title || userId === 0) {
       return;
     }
 
     const todo: TodoType = {
-      id: getNewId(todos) + 1,
+      id: getNewId(todos),
       completed: false,
       title,
       userId,
