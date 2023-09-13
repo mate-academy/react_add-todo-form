@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
 import usersFromServer from '../api/users';
-import { Todo } from './types';
+import { Todo, User } from './types';
 
 type Props = {
-  addTodoHandler: (newTodo: Omit<Todo, 'id'>) => void,
+  onAddTodo: (newTodo: Omit<Todo, 'id'>) => void,
+  getUserById: (userId: number) => User | null,
 };
 
-export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
+export const AddTodoForm: React.FC<Props> = ({
+  onAddTodo,
+  getUserById,
+}) => {
   const [todoName, setTodoName] = useState('');
   const [hasTodoNameError, setHasTodoNameError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  function HandleOnEvent(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleTodoNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTodoName(event.target.value);
 
-    if (hasTodoNameError) {
-      setHasTodoNameError(false);
-    }
+    setHasTodoNameError(false);
   }
 
-  function HandleOnEventChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  function handleUserIdChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserId(+event.target.value);
 
-    if (hasUserIdError) {
-      setHasUserIdError(false);
-    }
+    setHasUserIdError(false);
   }
 
   function resetForm() {
@@ -35,35 +35,24 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const newTodoName = todoName.trim();
 
-    let isFormValid = todoName === '' || userId === 0;
-
-    if (todoName === '') {
-      setHasTodoNameError(!todoName);
-      isFormValid = true;
-    }
-
-    if (userId === 0) {
-      setHasUserIdError(!userId);
-      isFormValid = true;
-    }
-
-    if (isFormValid) {
+    setHasTodoNameError(!newTodoName);
+    setHasUserIdError(!userId);
+    if (!newTodoName || !userId) {
       return;
     }
 
-    const user = usersFromServer.find(
-      ({ id }) => id === userId,
-    );
+    const user = getUserById(userId);
 
     const newTodo: Omit<Todo, 'id'> = {
-      title: todoName,
+      title: newTodoName,
       completed: false,
       userId,
-      user: user || null,
+      user,
     };
 
-    addTodoHandler(newTodo);
+    onAddTodo(newTodo);
     resetForm();
   }
 
@@ -75,7 +64,7 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
           data-cy="titleInput"
           placeholder=""
           value={todoName}
-          onChange={HandleOnEvent}
+          onChange={handleTodoNameChange}
         />
 
         {hasTodoNameError && (
@@ -89,18 +78,15 @@ export const AddTodoForm: React.FC<Props> = ({ addTodoHandler }) => {
         <select
           data-cy="userSelect"
           value={userId}
-          onChange={HandleOnEventChange}
+          onChange={handleUserIdChange}
         >
           <option value="0" disabled>
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
-            <option
-              value={user.id}
-              key={user.id}
-            >
-              {user.name}
+          {usersFromServer.map(({ id, name }) => (
+            <option value={id} key={id}>
+              {name}
             </option>
           ))}
         </select>
