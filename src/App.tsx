@@ -18,12 +18,12 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
 
-  const reset = () => {
+  const resetForm = () => {
     setTitleTodo('');
     setUserId(0);
   };
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitleTodo(event.target.value);
 
     if (titleError) {
@@ -31,7 +31,7 @@ export const App = () => {
     }
   }
 
-  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+  function handleUserSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserId(+event.target.value);
 
     if (userIdError) {
@@ -39,17 +39,17 @@ export const App = () => {
     }
   }
 
-  function handleOnAdd(event: React.FormEvent<HTMLFormElement>) {
+  function handleButtonAdd(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     let isError = false;
 
-    if (titleTodo === '') {
+    if (!titleTodo) {
       setTitleError(true);
       isError = true;
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setUserIdError(true);
       isError = true;
     }
@@ -63,10 +63,10 @@ export const App = () => {
     ) || null;
 
     const todosId = todos.map(({ id }) => id);
-    const maxTodosId = Math.max(...todosId);
+    const maxTodoId = Math.max(...todosId);
 
     const newTodo = {
-      id: maxTodosId + 1,
+      id: maxTodoId + 1,
       title: titleTodo,
       completed: false,
       userId,
@@ -75,7 +75,7 @@ export const App = () => {
 
     setTodos((prevState) => [...prevState, newTodo]);
 
-    reset();
+    resetForm();
   }
 
   return (
@@ -85,14 +85,14 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnAdd}
+        onSubmit={handleButtonAdd}
       >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={titleTodo}
-            onChange={handleChange}
+            onChange={handleInputChange}
             placeholder="enter a title"
           />
 
@@ -104,7 +104,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={handleSelect}
+            onChange={handleUserSelect}
           >
             <option value="0" disabled>
               Choose a user
