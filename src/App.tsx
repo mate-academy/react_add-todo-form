@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser } from './types';
+import { TodoWithUser, User } from './types';
 import { TodoList } from './components/TodoList';
+
+function findUserById(users: User[], userId: number): User | null {
+  return users.find((user) => user.id === userId) || null;
+}
 
 const preparedTodos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(({ id }) => id === todo.userId) || null,
+  user: findUserById(usersFromServer, todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -20,7 +24,7 @@ export const App: React.FC = () => {
 
   const [todos, setTodos] = useState<TodoWithUser[]>(preparedTodos);
 
-  const reset = () => {
+  const resetForm = () => {
     setTodoTitle('');
     setUserId(0);
     setHasTitleError(false);
@@ -37,7 +41,7 @@ export const App: React.FC = () => {
     setHasUserIdError(false);
   }
 
-  function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setHasTitleError(!todoTitle);
@@ -47,7 +51,7 @@ export const App: React.FC = () => {
       return;
     }
 
-    const user = usersFromServer.find(({ id }) => id === userId) || null;
+    const user = findUserById(usersFromServer, userId);
 
     const todosIds = todos.map(({ id }) => id);
     const maxTodoId = Math.max(...todosIds);
@@ -62,7 +66,7 @@ export const App: React.FC = () => {
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
 
-    reset();
+    resetForm();
   }
 
   return (
@@ -72,7 +76,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
