@@ -6,7 +6,7 @@ import todosFromServer from './api/todos';
 import { TodoWithUser } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-export const firstTodos = todosFromServer.map(todo => ({
+export const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find(({ id }) => id === todo.userId) || null,
 }));
@@ -16,7 +16,7 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userSelectedId, setUserSelectedId] = useState(0);
   const [hasUserSelectedId, setHasUserSelectedId] = useState(false);
-  const [preparedTodos, setPreparedTodos] = useState(firstTodos);
+  const [preparedTodos, setPreparedTodos] = useState(initialTodos);
 
   function getUserById(userId: number) {
     return usersFromServer.find(({ id }) => id === userId) || null;
@@ -26,7 +26,7 @@ export const App = () => {
     setPreparedTodos(currentTodo => [...currentTodo, todo]);
   }
 
-  function formReset() {
+  function resetForm() {
     setTodoTitle('');
     setUserSelectedId(0);
   }
@@ -51,8 +51,8 @@ export const App = () => {
       return;
     }
 
-    const todoId = preparedTodos.map(({ id }) => id);
-    const maxTodoId = Math.max(...todoId) + 1;
+    const todoIds = preparedTodos.map(({ id }) => id);
+    const maxTodoId = Math.max(...todoIds) + 1;
 
     onSubmit({
       id: maxTodoId,
@@ -62,7 +62,7 @@ export const App = () => {
       user: getUserById(userSelectedId),
     });
 
-    formReset();
+    resetForm();
   };
 
   return (
