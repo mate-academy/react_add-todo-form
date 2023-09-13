@@ -28,6 +28,14 @@ export const App: React.FC = () => {
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
+
+    if (!userId && !title) {
+      setUserError('Please choose a user');
+      setTitleError('Please enter a title');
+
+      return;
+    }
+
     // was title described?
     if (!title) {
       setTitleError('Please enter a title');
