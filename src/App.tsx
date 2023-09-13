@@ -107,7 +107,7 @@ export const App: React.FC = () => {
           </select>
           {userError && <span className="error">{userError}</span>}
         </div>
-        <button type="submit">Add</button>
+        <button type="submit" data-cy="submitButton">Add</button>
       </form>
       <TodoList todos={newTodos} />
     </div>
