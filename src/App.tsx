@@ -9,59 +9,64 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 
 function getUserById(userId: number): User | null {
-  const foundUser = usersFromServer.find((user) => user.id === userId);
+  const user = usersFromServer.find((person) => person.id === userId);
 
-  return foundUser || null;
+  return user || null;
 }
 
-const startingArray: Todo[] = todosFromServer.map(todo => ({
+const todosWithUser: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [sectionValue, setSectionValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [todoList, setToDoList] = useState<Todo[]>(startingArray);
+  const [selectedUser, setSelectedUser] = useState('');
+  const [customTitle, setCustomTitle] = useState('');
+  const [todos, setToDos] = useState<Todo[]>(todosWithUser);
 
-  const [titleState, setErrorTitleState] = useState(false);
-  const [selectState, setErrorSelectState] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isSelectError, setIsSelectError] = useState(false);
+
+  const handleCustomTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setCustomTitle(event.target.value);
+    setIsTitleError(false);
+  };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSectionValue(event.target.value);
-    setErrorSelectState(false);
+    setSelectedUser(event.target.value);
+    setIsSelectError(false);
   };
 
   const resetForm = () => {
-    setInputValue('');
-    setSectionValue('');
-    setErrorTitleState(false);
-    setErrorSelectState(false);
+    setCustomTitle('');
+    setSelectedUser('');
+    setIsTitleError(false);
+    setIsSelectError(false);
   };
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newId = Math.max(...todoList.map((elem) => elem.id));
-    const userId = +sectionValue;
+    const newId = Math.max(...todos.map((elem) => elem.id));
+    const userId = +selectedUser;
 
     const todo: Todo = {
       id: newId + 1,
-      title: inputValue,
+      title: customTitle,
       completed: false,
       userId: 0,
       user: getUserById(userId),
     };
 
-    if (inputValue.length === 0) {
-      setErrorTitleState(true);
+    if (!customTitle) {
+      setIsTitleError(true);
     }
 
-    if (sectionValue.length === 0) {
-      setErrorSelectState(true);
+    if (!selectedUser) {
+      setIsSelectError(true);
     }
 
-    if (sectionValue.length > 0 && inputValue.length > 0) {
-      setToDoList([...todoList, todo]);
+    if (selectedUser.length && customTitle.length) {
+      setToDos([...todos, todo]);
       resetForm();
     }
   };
@@ -76,20 +81,17 @@ export const App = () => {
             placeholder="enter the title"
             type="text"
             data-cy="titleInput"
-            value={inputValue}
-            onChange={(event) => {
-              setInputValue(event.target.value);
-              setErrorTitleState(false);
-            }}
+            value={customTitle}
+            onChange={handleCustomTitle}
           />
-          {titleState
+          {isTitleError
           && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
-            value={sectionValue}
+            value={selectedUser}
             onChange={handleSelectChange}
           >
             <option value="" disabled>
@@ -101,8 +103,8 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectState
-          && <span className="error">Please choose a user</span>}
+          {isSelectError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -110,7 +112,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todoList} />
+      <TodoList todos={todos} />
 
     </div>
   );
