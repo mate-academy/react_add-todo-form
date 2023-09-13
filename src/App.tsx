@@ -7,48 +7,53 @@ import { PreparedTodo, Todo } from './interfaces/Todo';
 import { User } from './interfaces/User';
 import { TodoList } from './components/TodoList';
 
-const todoWithUser: PreparedTodo[] = todosFromServer
-  .map((todo: Todo) => {
-    return {
+const findUser = (users: User[], todoUserId: number): User | null => {
+  return users.find((user: User) => user.id === todoUserId) || null;
+};
+
+const userJoinToTodos = (todos: Todo[]): PreparedTodo[] => {
+  return todos
+    .map((todo: Todo) => ({
       ...todo,
-      user: usersFromServer
-        .find((user: User) => user.id === todo.userId) || null,
-    };
-  });
+      user: findUser(usersFromServer, todo.userId),
+    }));
+};
+
+const preparedTodos: PreparedTodo[] = userJoinToTodos(todosFromServer);
 
 export const App = () => {
   const [
     visibleTodos,
     setVisibleTodos,
-  ] = useState<PreparedTodo[]>(todoWithUser);
+  ] = useState<PreparedTodo[]>(preparedTodos);
 
-  const [writedTitle, setWritedTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [hasTitle, setHasTitle] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasSelectedUser, setHasSelectedUser] = useState(false);
 
-  const handleOnChangeTitle = ((event: React.ChangeEvent<HTMLInputElement>) => {
-    setWritedTitle(event.target.value);
+  const handleTitleChange = ((event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setHasTitle(false);
   });
 
   const resetForm = () => {
-    setWritedTitle('');
+    setTitle('');
     setSelectedUserId(0);
   };
 
-  const handleOnChangeUser = ((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
     setHasSelectedUser(false);
   });
 
-  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasTitle(!writedTitle);
+    setHasTitle(!title);
     setHasSelectedUser(!selectedUserId);
 
-    if (!writedTitle || !selectedUserId) {
+    if (!title || !selectedUserId) {
       return;
     }
 
@@ -59,11 +64,10 @@ export const App = () => {
         ...prevTodos,
         {
           id: maxId + 1,
-          title: writedTitle,
+          title,
           completed: false,
           userId: selectedUserId,
-          user: usersFromServer.find(user => user.id === selectedUserId)
-            || null,
+          user: findUser(usersFromServer, selectedUserId),
         },
       ];
     });
@@ -78,7 +82,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -86,8 +90,8 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={writedTitle}
-            onChange={handleOnChangeTitle}
+            value={title}
+            onChange={handleTitleChange}
           />
           {hasTitle && (
             <span className="error">Please enter a title</span>
@@ -99,12 +103,17 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={handleOnChangeUser}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+            {usersFromServer.map(({ id, name }) => (
+              <option
+                value={id}
+                key={id}
+              >
+                {name}
+              </option>
             ))}
           </select>
 
