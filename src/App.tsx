@@ -67,42 +67,46 @@ export const App: React.FC = () => {
       <h1 className="App__title">Static list of todos</h1>
       {/* 1.dodaje form  */}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Enter title"
-          data-cy="titleInput"
-          value={title}
-          onChange={(event) => {
-            setTitle(event.target.value);
-            setTitleError(null);
-          }}
-        />
-        {titleError && <p className="error-message">{titleError}</p>}
-        <label htmlFor="user">User:</label>
-        <select
-          id="user"
-          name="userId"
-          data-cy="userSelect"
-          value={userId}
-          onChange={(event) => {
-            setUserId(+event.target.value);
-            setUserError(null);
-          }}
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter title"
+            data-cy="titleInput"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setTitleError(null);
+            }}
+          />
+          {titleError && <span className="error">{titleError}</span>}
+        </div>
+        <div>
+          <label htmlFor="user">User:</label>
+          <select
+            id="user"
+            name="userId"
+            data-cy="userSelect"
+            value={userId}
+            onChange={(event) => {
+              setUserId(+event.target.value);
+              setUserError(null);
+            }}
 
-        >
-          <option value={0}>Choose a user</option>
+          >
+            <option value={0}>Choose a user</option>
 
-          {usersFromServer.map((user) => (
-            <option key={title + user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
+            {usersFromServer.map((user) => (
+              <option key={title + user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
 
-        </select>
-        {userError && <p className="error-message">{userError}</p>}
+          </select>
+          {userError && <span className="error">{userError}</span>}
+        </div>
         <button type="submit">Add</button>
       </form>
       <TodoList todos={newTodos} />
