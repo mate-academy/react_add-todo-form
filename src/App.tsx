@@ -2,20 +2,15 @@ import './App.scss';
 import { useState } from 'react';
 import { Todo } from './components/TodoInfo';
 import { TodoList } from './components/TodoList';
-import { getUserById } from './services/getUser';
+import { getUserById } from './services/getUserById';
 import todosFromServer from './api/todos';
 import { TodoForm } from './components/TodoForm/TodoForm';
+import { getNewTodoId } from './services/getNewTodoId';
 
 const initialTodo = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
-
-function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
-
-  return maxId + 1;
-}
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodo);
