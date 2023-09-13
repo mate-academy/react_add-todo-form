@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Todo } from '../TodoInfo';
 import usersFormServer from '../../api/users';
 import { getUserById } from '../../services/getUserById';
+import todosFromServer from '../../api/todos';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -12,6 +13,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [userId, setUserId] = useState(0);
   const [userNameError, setUserNameError] = useState(false);
   const [hasTitleError, setHasTitleError] = useState(false);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -25,7 +27,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 1256,
+      id: Math.max(...todosFromServer.map(todo => todo.id)) + 1,
       title,
       completed: false,
       userId,
