@@ -1,12 +1,16 @@
 import './App.scss';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { ToDo } from './components/TSTypes/ToDo';
+import { Todo } from './components/TSTypes/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+function findByIdHelper(userId: number) {
+  return usersFromServer.find(({ id }) => id === userId);
+}
+
 const todosWithUsers = todosFromServer.map(todo => {
-  const user = usersFromServer.find(usr => usr.id === todo.userId);
+  const user = findByIdHelper(todo.userId);
 
   return {
     ...todo,
@@ -15,7 +19,7 @@ const todosWithUsers = todosFromServer.map(todo => {
 });
 
 export const App: React.FC = () => {
-  const [toDoList, setToDoList] = useState<ToDo[]>(todosWithUsers);
+  const [toDoList, setToDoList] = useState<Todo[]>(todosWithUsers);
 
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
@@ -31,10 +35,10 @@ export const App: React.FC = () => {
     setUserError(false);
   };
 
-  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const user = usersFromServer.find(usr => usr.id === userId);
+    const user = findByIdHelper(userId);
 
     setTitleError(!title);
     setUserError(!userId);
@@ -60,6 +64,16 @@ export const App: React.FC = () => {
     resetFields();
   };
 
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value);
+    setTitleError(false);
+  }
+
+  function handleUserIdSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUserId(+event.target.value);
+    setUserError(false);
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -67,7 +81,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={formSubmit}
+        onSubmit={submitForm}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -77,10 +91,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
           />
           {
             titleError
@@ -94,19 +105,16 @@ export const App: React.FC = () => {
             id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
+            onChange={handleUserIdSelect}
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map(userToSelect => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={userToSelect.id}
-                key={userToSelect.id}
+                value={id}
+                key={id}
               >
-                {userToSelect.name}
+                {name}
               </option>
             ))}
           </select>
