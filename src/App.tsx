@@ -15,6 +15,10 @@ const preperedTodos: TodoWithUser[] = todosFromServer.map(todo => {
   };
 });
 
+function getUserById(userId: number) {
+  return usersFromServer.find(user => user.id === userId);
+}
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
@@ -30,10 +34,10 @@ export const App = () => {
     setUserId(+event.target.value);
   }
 
-  function handleOnAdd(event: React.FormEvent<HTMLFormElement>) {
+  function handleTodoAdd(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const user = usersFromServer.find(({ id }) => id === userId);
+    const user = getUserById(userId);
     const todoIds = todos.map(({ id }) => id);
     const maxTodoId = Math.max(...todoIds);
 
@@ -63,7 +67,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={handleOnAdd}
+        onSubmit={handleTodoAdd}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
@@ -94,12 +98,12 @@ export const App = () => {
             >
               Choose a user
             </option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
