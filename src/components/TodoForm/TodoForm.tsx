@@ -3,12 +3,14 @@ import './TodoForm.scss';
 import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
 import { Todo } from '../../types/Todo';
+import { getNewTodoId } from '../../services/todo';
 
 type Props = {
-  onSubmit: (newTodo: Todo) => void
+  todos: Todo[];
+  onSubmit: (newTodo: Todo) => void;
 };
 
-export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
+export const TodoForm: React.FC<Props> = ({ todos, onSubmit }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -48,7 +50,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 0,
+      id: getNewTodoId(todos),
       title,
       completed: false,
       userId,
