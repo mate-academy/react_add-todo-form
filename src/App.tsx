@@ -13,16 +13,13 @@ function getUser(userId: number): User | null {
 }
 
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [tasks, setTasks] = useState(todosFromServer);
-  const [chosenUserId, setChosenUserId] = useState(0);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [tasks, setTasks] = useState<Todo[]>(todosFromServer);
+  const [chosenUserId, setChosenUserId] = useState<number>(0);
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanedTitle
-      = event.target.value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
-
-    setTitle(cleanedTitle);
+    setTitle(event.target.value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, ''));
   };
 
   const newTaskId = (listOfTasks: Todo[]) => {
