@@ -88,7 +88,7 @@ export const App = () => {
     resetForm();
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoSetting(prev => ({
       ...prev,
       userText: event.target.value,
@@ -110,6 +110,13 @@ export const App = () => {
     return encode(JSON.stringify(user));
   };
 
+  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTodoSetting(prev => ({
+      ...prev,
+      selectedUser: decodeUser(event.target.value),
+    }));
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -124,7 +131,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={userText}
-            onChange={handleInput}
+            onChange={handleInputChange}
             placeholder="Enter a title"
           />
           {hasErrorForEmptyInput && (
@@ -136,12 +143,7 @@ export const App = () => {
           <select
             value={encodeUser(selectedUser)}
             data-cy="userSelect"
-            onChange={(event) => {
-              setTodoSetting(prev => ({
-                ...prev,
-                selectedUser: decodeUser(event.target.value),
-              }));
-            }}
+            onChange={handleSelectUser}
           >
             <option
               value={encodeUser(null)}
