@@ -39,7 +39,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -47,7 +47,7 @@ export const App = () => {
       setUserIdError(true);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
