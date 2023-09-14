@@ -51,10 +51,11 @@ export const App: React.FC = () => {
     }
 
     const userObj = usersFromServer.find(user => user.id === userId);
+    const maxId = Math.max(...todos.map((todo) => todo.id));
 
     if (userObj) {
       const newTodo: Todo = {
-        id: todos.length + 1,
+        id: maxId + 1,
         title,
         userId: userObj?.id || 1,
         completed: false,
