@@ -7,6 +7,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './types/TodoWithUser';
+import { regexForTodoTitle } from './utils';
 
 const preparedTodos: TodoWithUser [] = todosFromServer.map(todo => ({
   ...todo,
@@ -17,13 +18,12 @@ export const App: React.FC = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState<TodoWithUser[]>(preparedTodos);
-  const [isHideTitleError, setIsHiddenTitleError] = useState(false);
-  const [isHideSelectError, setIsHiddenSelectError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasSelectError, setHasSelectError] = useState(false);
 
   const newTodoUser = usersFromServer.find(({ id }) => id === userId);
 
   const maxId = Math.max(...todos.map(todo => todo.id));
-  const regex = /[^a-zA-Zа-яА-Я0-9\s]/g;
 
   const newTodo = {
     id: maxId + 1,
@@ -33,18 +33,18 @@ export const App: React.FC = () => {
     user: newTodoUser || null,
   };
 
-  const todoTitleInputHandler
+  const handleTitleChange
   = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoTitle(event.target.value.replace(regex, ''));
-    setIsHiddenTitleError(false);
+    setTodoTitle(event.target.value.replace(regexForTodoTitle, ''));
+    setHasTitleError(false);
   };
 
-  const userIdHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIsHiddenSelectError(false);
+    setHasSelectError(false);
   };
 
-  const sabmitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (todoTitle && userId) {
@@ -53,13 +53,8 @@ export const App: React.FC = () => {
       setUserId(0);
     }
 
-    if (!todoTitle) {
-      setIsHiddenTitleError(true);
-    }
-
-    if (!userId) {
-      setIsHiddenSelectError(true);
-    }
+    setHasTitleError(!todoTitle);
+    setHasSelectError(!userId);
   };
 
   return (
@@ -69,7 +64,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={sabmitFormHandler}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
@@ -79,10 +74,10 @@ export const App: React.FC = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
-            onChange={todoTitleInputHandler}
+            onChange={handleTitleChange}
           />
 
-          {isHideTitleError && (
+          {hasTitleError && (
             <span className="error">
               Please enter a title
             </span>
@@ -95,7 +90,7 @@ export const App: React.FC = () => {
             id="userSelect"
             value={userId}
             data-cy="userSelect"
-            onChange={userIdHandler}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
@@ -103,7 +98,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isHideSelectError && (
+          {hasSelectError && (
             <span className="error">
               Please choose a user
             </span>
