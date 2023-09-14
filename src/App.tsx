@@ -65,12 +65,12 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const inputValue = event.target.value;
+    const inputValue = event.target.value;
 
-    // const regex = /[^a-zA-Z0-9А-ЩЬЮЯҐЄІЇа-щьюяґєії]/g;
-    // const sanitizedValue = inputValue.replace(regex, '');
+    const regex = /[^a-zA-Z0-9А-ЩЬЮЯҐЄІЇа-щьюяґєії]/g;
+    const sanitizedValue = inputValue.replace(regex, '');
 
-    setTitle(event.target.value);
+    setTitle(sanitizedValue);
     setTitleError(false);
   };
 
