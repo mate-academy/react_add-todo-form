@@ -5,7 +5,7 @@ import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { getNewTodoId, getUserById } from './helper';
+import { getNewTodoId, getUserById, normalizeInputValue } from './helper';
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,
@@ -24,10 +24,7 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const invalidSymbols = /[^a-zA-Za-åa-ö-w-я 0-9/ .,]/gi;
-    const normalizedValue = event.target.value.replaceAll(invalidSymbols, '');
-
-    setTitle(normalizedValue);
+    setTitle(normalizeInputValue(event.target.value));
     setTitleError(false);
   };
 
@@ -36,18 +33,23 @@ export const App = () => {
     setUserIdError(false);
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title.trim()) {
       setTitleError(true);
+
+      return;
     }
 
     if (!userId) {
       setUserIdError(true);
-    }
 
-    if (!title.trim() || !userId) {
       return;
     }
 
@@ -59,8 +61,7 @@ export const App = () => {
       user: getUserById(userId),
     });
 
-    setTitle('');
-    setUserId(0);
+    resetForm();
   };
 
   return (

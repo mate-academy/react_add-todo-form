@@ -11,3 +11,9 @@ export function getNewTodoId(todos: Todo[]) {
 
   return maxId + 1;
 }
+
+export const normalizeInputValue = (value: string) => {
+  const invalidSymbols = /[^a-zA-Za-åa-ö-w-я 0-9/ .,]/gi;
+
+  return value.replaceAll(invalidSymbols, '');
+};
