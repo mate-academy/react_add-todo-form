@@ -21,18 +21,18 @@ const todosWithUsers = todosFromServer.map(todo => {
 export const App: React.FC = () => {
   const [toDoList, setToDoList] = useState<Todo[]>(todosWithUsers);
 
-  const [title, setTitle] = useState<string>('');
-  const [userId, setUserId] = useState<number>(0);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
 
-  const [titleError, setTitleError] = useState<boolean>(false);
-  const [userError, setUserError] = useState<boolean>(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const resetFields = () => {
     setTitle('');
-    setTitleError(false);
+    setIsTitleError(false);
 
     setUserId(0);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,8 +40,8 @@ export const App: React.FC = () => {
 
     const user = findByIdHelper(userId);
 
-    setTitleError(!title);
-    setUserError(!userId);
+    setIsTitleError(!title);
+    setIsUserError(!userId);
 
     if (!userId || !title) {
       return;
@@ -66,12 +66,12 @@ export const App: React.FC = () => {
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   }
 
   function handleUserIdSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserId(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   }
 
   return (
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
             onChange={handleTitleChange}
           />
           {
-            titleError
+            isTitleError
             && <span className="error">Please enter a title</span>
           }
         </div>
@@ -120,7 +120,7 @@ export const App: React.FC = () => {
           </select>
 
           {
-            userError
+            isUserError
             && <span className="error">Please choose a user</span>
           }
         </div>
