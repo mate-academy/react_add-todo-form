@@ -13,7 +13,7 @@ function getUser(userId: number) {
 
 const initTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUser(todo.userId),
+  user: getUser(todo.userId) || null,
 }));
 
 export const App = () => {
@@ -60,9 +60,9 @@ export const App = () => {
     const trimmedTitle = title.trim();
 
     setHasTitleError(!trimmedTitle);
-    setHasUserError(userId === 0);
+    setHasUserError(!!userId);
 
-    if (trimmedTitle && userId > 0) {
+    if (trimmedTitle && userId) {
       addNewTodo();
     }
   };

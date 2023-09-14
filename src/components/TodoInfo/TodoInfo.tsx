@@ -10,7 +10,7 @@ export const TodoInfo: React.FC<Props> = ({
   todo: {
     id,
     title,
-    completed = false,
+    completed,
     user,
   },
 }) => {
