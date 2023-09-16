@@ -20,6 +20,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos }) => {
       {todos.map(todo => (
         <TodoInfo
           todo={todo}
+          key={todo.id}
         />
       ))}
     </section>
