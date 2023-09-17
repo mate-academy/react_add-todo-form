@@ -9,14 +9,14 @@ interface Props {
   onAdd: (todo: PreparedTodo) => void,
 }
 
+const validatorABC = /[^a-zA-Zа-яА-Я0-9\s]/g;
+
 export const TodoAddForm: React.FC<Props> = ({ todos, users, onAdd }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
   const [isTitleValid, setIsTitleValid] = useState(true);
   const [isUserIdValid, setIsUserIdValid] = useState(true);
-
-  const validatorABC = /[^a-zA-Zа-яА-Я0-9\s]/g;
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.replace(validatorABC, ''));
@@ -28,21 +28,16 @@ export const TodoAddForm: React.FC<Props> = ({ todos, users, onAdd }) => {
     setIsUserIdValid(true);
   };
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!(title.length)) {
-      setIsTitleValid(false);
-    }
-
-    if (!userId) {
-      setIsUserIdValid(false);
-    }
+    setIsTitleValid(!!title.length);
+    setIsUserIdValid(!!userId);
 
     if (title.length && userId) {
       const todoId = todos.reduce((acc, todo) => Math.max(acc, todo.id), 0);
@@ -53,10 +48,10 @@ export const TodoAddForm: React.FC<Props> = ({ todos, users, onAdd }) => {
         completed: false,
         userId,
         user: users
-          .find((user: User) => user.id === userId) ?? undefined,
+          .find((user: User) => user.id === userId) ?? null,
       });
 
-      reset();
+      resetForm();
     }
   };
 
@@ -64,7 +59,7 @@ export const TodoAddForm: React.FC<Props> = ({ todos, users, onAdd }) => {
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
       <div className="field">
         <input
@@ -89,12 +84,12 @@ export const TodoAddForm: React.FC<Props> = ({ todos, users, onAdd }) => {
           onChange={handleUserIdInput}
         >
           <option value="0" disabled>Choose a user</option>
-          {users.map((user: User) => (
+          {users.map(({ id, name }) => (
             <option
-              value={user.id}
-              key={user.id}
+              value={id}
+              key={id}
             >
-              {user.name}
+              {name}
             </option>
           ))}
         </select>

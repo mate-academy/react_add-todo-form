@@ -3,29 +3,25 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User } from './types/User';
 import { PreparedTodo } from './types/PreparedTodo';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import { TodoAddForm } from './components/TodoAddForm';
+import { findUserById } from './utils';
 
-function findUserById(id: number): User | undefined {
-  return usersFromServer.find(user => user.id === id) ?? undefined;
-}
-
-const preparedTodoList: PreparedTodo[] = todosFromServer
+const preparedTodos: PreparedTodo[] = todosFromServer
   .map((todo: Todo) => {
     return {
       ...todo,
-      user: findUserById(todo.userId),
+      user: findUserById(todo.userId, usersFromServer),
     };
   });
 
 export const App = () => {
-  const [renderedTodos, setRenderedTodos] = useState(preparedTodoList);
+  const [todos, setTodos] = useState(preparedTodos);
 
-  const onAdd = (todo: PreparedTodo): void => {
-    setRenderedTodos((prevTodos) => [...prevTodos, todo]);
+  const handleAddTodo = (todo: PreparedTodo): void => {
+    setTodos((prevTodos) => [...prevTodos, todo]);
   };
 
   return (
@@ -33,12 +29,12 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <TodoAddForm
-        todos={renderedTodos}
+        todos={todos}
         users={usersFromServer}
-        onAdd={onAdd}
+        onAdd={handleAddTodo}
       />
 
-      <TodoList todos={renderedTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };

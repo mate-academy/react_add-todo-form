@@ -10,7 +10,10 @@ interface Props {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const {
-    id, completed, title, user,
+    id,
+    completed,
+    title,
+    user,
   } = todo;
 
   return (
@@ -24,7 +27,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
