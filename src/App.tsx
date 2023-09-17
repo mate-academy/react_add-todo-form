@@ -7,20 +7,19 @@ import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { Todo } from './types/Todo';
-
-function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(({ id }) => id));
-
-  return maxId + 1;
-}
+import { getNewTodoId } from './helpers/getNewTodoId';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const handleAddTodo = (todo: Todo) => {
-    const newTodo = {
-      ...todo,
+  const handleAddTodo = (todoInfo: {
+    title: string,
+    userId: number,
+  }) => {
+    const newTodo: Todo = {
+      ...todoInfo,
       id: getNewTodoId(todos),
+      completed: false,
     };
 
     setTodos(currTodos => [...currTodos, newTodo]);

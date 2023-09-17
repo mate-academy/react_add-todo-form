@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 
-interface Props {
-  onAdd: (newTodo: Todo) => void;
-  users: User[],
-}
 const DEFAULT_INPUTS = {
   title: '',
   userId: 0,
@@ -15,6 +10,14 @@ const DEFAULT_INPUTS_ERRORS = {
   title: false,
   userId: false,
 };
+
+interface Props {
+  onAdd: (newTodoInfo: {
+    title: string,
+    userId: number,
+  }) => void;
+  users: User[],
+}
 
 export const TodoForm: React.FC<Props> = ({
   onAdd = () => { },
@@ -28,38 +31,51 @@ export const TodoForm: React.FC<Props> = ({
   ) => {
     const { name, value } = event.target;
 
+    const newValue = name === 'userId' ? +value : value;
+
     setInputs(prevFields => ({
       ...prevFields,
-      [name]: name === 'userId' ? +value : value,
+      [name]: newValue,
     }));
+
     setInputsErrors(prevErrors => ({
       ...prevErrors,
-      [name]: !(name === 'userId' ? +value : value),
+      [name]: !newValue,
     }));
   };
 
-  const reset = () => {
+  const resetForm = () => {
     setInputs(DEFAULT_INPUTS);
     setInputsErrors(DEFAULT_INPUTS_ERRORS);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
-    event?.preventDefault();
+    event.preventDefault();
     setInputsErrors(() => ({
-      title: !inputs.title,
+      title: !inputs.title.trim(),
       userId: !inputs.userId,
     }));
 
-    if (!inputs.title || !inputs.userId) {
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      title: prevInputs.title.trim(),
+    }));
+
+    if (!inputs.title.trim() || !inputs.userId) {
       return;
     }
 
     onAdd({
       ...inputs,
-      id: 0,
-      completed: false,
     });
-    reset();
+    resetForm();
+  };
+
+  const handleBlur = () => {
+    setInputs(prevFields => ({
+      ...prevFields,
+      title: prevFields.title.trim(),
+    }));
   };
 
   return (
@@ -76,6 +92,7 @@ export const TodoForm: React.FC<Props> = ({
           value={inputs.title}
           placeholder="Enter title"
           onChange={handleInputChange}
+          onBlur={handleBlur}
           name="title"
         />
         {inputsErrors.title && (
