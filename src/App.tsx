@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoWithUser } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { getUserById } from './services/userId';
 
 export const initialTodos = todosFromServer.map(todo => ({
   ...todo,
@@ -15,12 +16,8 @@ export const App = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userSelectedId, setUserSelectedId] = useState(0);
-  const [hasUserSelectedId, setHasUserSelectedId] = useState(false);
+  const [hasUserSelectedIdError, setHasUserSelectedIdError] = useState(false);
   const [preparedTodos, setPreparedTodos] = useState(initialTodos);
-
-  function getUserById(userId: number) {
-    return usersFromServer.find(({ id }) => id === userId) || null;
-  }
 
   function onSubmit(todo: TodoWithUser) {
     setPreparedTodos(currentTodo => [...currentTodo, todo]);
@@ -38,15 +35,15 @@ export const App = () => {
 
   function handleUserSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserSelectedId(+event.target.value);
-    setHasUserSelectedId(false);
+    setHasUserSelectedIdError(false);
   }
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!todoTitle || !userSelectedId) {
-      setHasTitleError(Boolean(!todoTitle));
-      setHasUserSelectedId(Boolean(!userSelectedId));
+      setHasTitleError(!todoTitle);
+      setHasUserSelectedIdError(!userSelectedId);
 
       return;
     }
@@ -121,7 +118,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserSelectedId && (
+          {hasUserSelectedIdError && (
             <span className="error">
               Please choose a user
             </span>
