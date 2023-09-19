@@ -29,6 +29,8 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
+  const isEmpty = !title.trim().length;
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setHasTitleError(false);
@@ -42,10 +44,10 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title || isEmpty);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title || !userId || isEmpty) {
       return;
     }
 
@@ -102,12 +104,12 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
