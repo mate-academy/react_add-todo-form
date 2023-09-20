@@ -37,12 +37,12 @@ export const App = () => {
     setTodos(currentTodo => [...currentTodo, newTodo]);
   };
 
-  const handleTitleChamge = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const handleUserIdChamge = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserId(false);
   };
@@ -50,15 +50,20 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserId(!userId);
+    if (!title) {
+      setHasTitleError(true);
 
-    if (!title || !userId) {
+      return;
+    }
+
+    if (!userId) {
+      setHasUserId(true);
+
       return;
     }
 
     const newTodo = {
-      id: Math.random(),
+      id: getNewTodoId(todos),
       title,
       userId,
       completed: false,
@@ -90,7 +95,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleTitleChamge}
+              onChange={handleTitleChange}
             />
           </label>
           {hasTitleError && (
@@ -104,7 +109,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={handleUserIdChamge}
+              onChange={handleUserIdChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
