@@ -32,6 +32,22 @@ export const App = () => {
     setCurrentTodos([...currentTodos, newTodo]);
   };
 
+  const titleEnterCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+
+    if (!event.target.value) {
+      setIsEmpty(true);
+    }
+  };
+
+  const userSelectCheck = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+
+    if (event.target.value) {
+      setIsUserSelected(true);
+    }
+  }
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -67,13 +83,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter title..."
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-
-              if (!event.target.value) {
-                setIsEmpty(true);
-              }
-            }}
+            onChange={event => titleEnterCheck(event)}
           />
           <span
             className={cn('error', { disabled: isEmpty })}
@@ -86,13 +96,7 @@ export const App = () => {
           User:
           <select
             data-cy="userSelect"
-            onChange={event => {
-              setSelectedUserId(+event.target.value);
-
-              if (event.target.value) {
-                setIsUserSelected(true);
-              }
-            }}
+            onChange={event => userSelectCheck(event)}
             value={selectedUserId}
           >
             <option value={0} disabled>Choose a user</option>
