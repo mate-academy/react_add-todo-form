@@ -69,12 +69,6 @@ export const App = () => {
             value={title}
             onChange={event => {
               setTitle(event.target.value);
-
-              if (!event.target.value) {
-                setIsEmpty(false);
-              } else {
-                setIsEmpty(true);
-              }
             }}
           />
           <span
@@ -90,10 +84,6 @@ export const App = () => {
             data-cy="userSelect"
             onChange={event => {
               setSelectedUserId(+event.target.value);
-
-              if (event.target.value) {
-                setIsUserSelected(true);
-              }
             }}
             value={selectedUserId}
           >
