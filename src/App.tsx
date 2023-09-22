@@ -22,6 +22,8 @@ export const App = () => {
 
   const [todoList, setTodoList] = useState<Todo[]>(todos);
 
+  const emtyTitle = title.trim();
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
@@ -50,7 +52,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title || !emtyTitle) {
       setTitleError(true);
     }
 
@@ -58,7 +60,7 @@ export const App = () => {
       setUserIdError(true);
     }
 
-    if (!userId || !title) {
+    if (!userId || !title || !emtyTitle) {
       return;
     }
 
@@ -83,7 +85,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title.trimStart()}
+            value={title}
             onChange={handleTitleChange}
           />
           {titleError && (
