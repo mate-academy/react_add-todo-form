@@ -83,7 +83,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title}
+            value={title.trimStart()}
             onChange={handleTitleChange}
           />
           {titleError && (
