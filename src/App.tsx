@@ -46,12 +46,12 @@ export const App = () => {
     if (event.target.value) {
       setIsUserSelected(true);
     }
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setIsEmpty(false);
     }
 
@@ -59,7 +59,7 @@ export const App = () => {
       setIsUserSelected(false);
     }
 
-    if (!title || !selectedUserId) {
+    if (!title.trim() || !selectedUserId) {
       return;
     }
 
@@ -100,12 +100,12 @@ export const App = () => {
             value={selectedUserId}
           >
             <option value={0} disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
