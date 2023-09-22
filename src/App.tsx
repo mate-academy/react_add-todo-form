@@ -42,25 +42,31 @@ export const App: React.FC = () => {
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (!title) {
+    const trimmedTitle = title.trim(); // Удаляем пробелы из введенного текста
+
+    if (!trimmedTitle) {
       setTitleErrorMessage('Please enter a title');
+
+      return;
     }
 
     if (userId === '0') {
       setUserErrorMessage('Please choose a user');
+
+      return;
     }
 
     const findId = Math.max(...allTodos.map(todo => todo.id), 0);
 
     const todo: Todo = {
       id: (findId + 1),
-      title,
+      title: trimmedTitle, // Используем очищенное от пробелов значение
       userId: +userId,
       completed: false,
       user: getUser(+userId),
     };
 
-    if (title && userId !== '0') {
+    if (trimmedTitle && userId !== '0') {
       setAllTodos([...allTodos, todo]);
       setTitle('');
       setUserId('0');
