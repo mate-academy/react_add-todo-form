@@ -22,8 +22,6 @@ export const App = () => {
 
   const [todoList, setTodoList] = useState<Todo[]>(todos);
 
-  const emtyTitle = title.trim();
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
@@ -52,7 +50,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !emtyTitle) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -60,7 +58,7 @@ export const App = () => {
       setUserIdError(true);
     }
 
-    if (!userId || !title || !emtyTitle) {
+    if (!userId || !title.trim()) {
       return;
     }
 
