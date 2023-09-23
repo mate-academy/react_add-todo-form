@@ -4,6 +4,7 @@ import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { Todo } from './components/types/todo';
 import usersFromServer from './api/users';
+import { getNewTodoId } from './components/services/newTodoId';
 
 const initialTodos: Todo[] = usersFromServer.map(todo => ({
   id: todo.id,
@@ -12,24 +13,16 @@ const initialTodos: Todo[] = usersFromServer.map(todo => ({
   completed: false,
 }));
 
-function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(
-    ...todos.map(todo => todo.id),
-  );
-
-  return maxId + 1;
-}
-
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const addTodo = ({ id, ...data }: Todo) => {
-    const newTodos = {
+    const newTodo = {
       ...data,
       id: getNewTodoId(todos),
     };
 
-    setTodos(currentTodos => [...currentTodos, newTodos]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   return (

@@ -5,10 +5,10 @@ interface TodoListProps {
   todos: Todo[];
 }
 
-export const TodoList: React.FC<TodoListProps> = () => {
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <section className="TodoList">
-      <TodoInfo />
+      <TodoInfo todos={todos} />
     </section>
   );
 };

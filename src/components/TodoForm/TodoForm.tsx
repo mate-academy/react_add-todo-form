@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { getUserById } from '../services/userById';
 import { usersForSelect } from '../services/usersForSelect';
-import { Todo } from "../types/todo";
+import { Todo } from '../types/todo';
+import { getNewTodoId } from '../services/newTodoId';
+import todos from '../../api/todos';
 
 interface Props {
   onSubmit: (todo: Todo) => void;
@@ -40,8 +42,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 0,
-      title: title,
+      id: getNewTodoId(todos),
+      title,
       userId: getUserById(user)?.id,
       completed: false,
     });
@@ -61,7 +63,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           className="label"
           htmlFor="todo-title"
         >
-          {`Title: `}
+          {'Title: '}
         </label>
 
         <input
@@ -84,7 +86,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           className="label"
           htmlFor="todo-user"
         >
-          {`User: `}
+          {'User: '}
         </label>
         <select
           data-cy="userSelect"

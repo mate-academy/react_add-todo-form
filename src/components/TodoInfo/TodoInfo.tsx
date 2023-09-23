@@ -1,13 +1,18 @@
 import cn from 'classnames';
-import todosFromServer from '../../api/todos';
+// import todosFromServer from '../../api/todos';
 import { UserInfo } from '../UserInfo';
 import { getUserById } from '../services/userById';
+import { Todo } from '../types/todo';
 
-export const TodoInfo = () => {
+interface TodoInfoProps {
+  todos: Todo[];
+}
+
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todos }) => {
   return (
     <div>
-      {todosFromServer.map(todo => {
-        const user = getUserById(todo.userId);
+      {todos.map(todo => {
+        const user = getUserById(Number(todo.userId));
 
         return (
           <article
@@ -20,7 +25,7 @@ export const TodoInfo = () => {
             <h2 className="TodoInfo__title">
               {todo.title}
             </h2>
-            <UserInfo user={user !== null ? user : undefined} />
+            {user && <UserInfo user={user} />}
           </article>
         );
       })}
