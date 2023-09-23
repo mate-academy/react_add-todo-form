@@ -13,7 +13,7 @@ export const App = () => {
   const [errorUser, setErrorUser] = useState(false);
   const [touched, setTouched] = useState(false);
 
-  function hendleSubmit(event: React.FormEvent) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setErrorText((touched && !text) || (text.trim() === ''));
     setErrorUser(user === 0);
@@ -43,7 +43,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={hendleSubmit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="text">Title:</label>
           <input
