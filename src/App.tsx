@@ -9,7 +9,7 @@ import { TodoList } from './components/TodoList';
 const todoWithUsers = todosFromServer.map((todo) => {
   const user = usersFromServer.find(
     (currentUser) => currentUser.id === todo.userId,
-  );
+  ) || null;
 
   return { user, ...todo };
 });
