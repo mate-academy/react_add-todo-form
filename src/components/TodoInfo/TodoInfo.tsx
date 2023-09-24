@@ -1,34 +1,28 @@
+import React from 'react';
 import cn from 'classnames';
-// import todosFromServer from '../../api/todos';
-import { UserInfo } from '../UserInfo';
-import { getUserById } from '../services/userById';
-import { Todo } from '../types/todo';
 
-interface TodoInfoProps {
-  todos: Todo[];
+import { Todo } from '../types/todo';
+import { UserInfo } from '../UserInfo';
+
+interface Props {
+  todo: Todo;
 }
 
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todos }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
-    <div>
-      {todos.map(todo => {
-        const user = getUserById(Number(todo.userId));
-
-        return (
-          <article
-            key={todo.id}
-            data-id={todo.id}
-            className={cn('TodoInfo', {
-              'TodoInfo--completed': todo.completed,
-            })}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-            {user && <UserInfo user={user} />}
-          </article>
-        );
+    <article
+      key={todo.id}
+      data-id={todo.id}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
       })}
-    </div>
+    >
+      <h2 className="TodoInfo__title">
+        {todo.title}
+      </h2>
+      {todo.user && (
+        <UserInfo user={todo.user} />
+      )}
+    </article>
   );
 };

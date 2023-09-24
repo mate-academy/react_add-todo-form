@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { TodoList } from './components/TodoList';
-import { TodoForm } from './components/TodoForm';
+
+import todosFromServer from './api/todos';
+
 import { Todo } from './components/types/todo';
-import usersFromServer from './api/users';
+import { TodoForm } from './components/TodoForm';
+import { TodoList } from './components/TodoList';
+import { getUserById } from './components/services/userById';
 import { getNewTodoId } from './components/services/newTodoId';
 
-const initialTodos: Todo[] = usersFromServer.map(todo => ({
-  id: todo.id,
-  title: todo.name,
-  userId: todo.id,
-  completed: false,
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
-  const addTodo = ({ id, ...data }: Todo) => {
+  const addTodo = (todo: Todo) => {
     const newTodo = {
-      ...data,
+      ...todo,
       id: getNewTodoId(todos),
     };
 
@@ -29,7 +30,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm onAdd={addTodo} />
       <TodoList todos={todos} />
     </div>
   );

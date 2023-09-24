@@ -1,4 +1,4 @@
-import { Todo } from "../types/todo";
+import { Todo } from '../types/todo';
 
 export function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(

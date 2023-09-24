@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { getUserById } from '../services/userById';
+import './TodoForm.scss';
+
 import { usersForSelect } from '../services/usersForSelect';
+
 import { Todo } from '../types/todo';
-import { getNewTodoId } from '../services/newTodoId';
-import todos from '../../api/todos';
+import { getUserById } from '../services/userById';
 
-interface Props {
-  onSubmit: (todo: Todo) => void;
-}
+type Props = {
+  onAdd: (todo: Todo) => void;
+};
 
-export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
+export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   // #region state
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [user, setUser] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
   // #endregion
   // #region change handlers
@@ -26,30 +27,35 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(+event.target.value);
+    setUserId(+event.target.value);
     setHasUserError(false);
   };
   // #endregion
+
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasUserError(!user);
+    setHasUserError(!userId);
 
-    if (!title || !user) {
+    if (!title.trim() || userId === 0) {
       return;
     }
 
-    onSubmit({
-      id: getNewTodoId(todos),
+    onAdd({
+      id: 0,
       title,
-      userId: getUserById(user)?.id,
       completed: false,
+      userId,
+      user: getUserById(userId),
     });
 
-    setTitle('');
-    setUser(0);
+    reset();
   };
 
   return (
@@ -91,7 +97,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         <select
           data-cy="userSelect"
           id="todo-user"
-          value={user}
+          value={userId}
           onChange={handleUserChange}
         >
           <option value="0" disabled>
