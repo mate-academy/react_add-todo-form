@@ -1,20 +1,7 @@
 import { useState } from 'react';
 import usersFromServer from '../../api/users';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todos = {
-  user: User | null;
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { User } from '../../types/User';
+import { Todos } from '../../types/Todos';
 
 type Props = {
   addTodo: (todo: Todos) => void,
@@ -26,12 +13,12 @@ function getUserById(userId: number): User | null {
 }
 
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
-  const [formFields, setFormFields] = useState({
+  const [addNewTodo, setAddNewTodo] = useState({
     title: '',
     userId: '',
   });
 
-  const { title, userId } = formFields;
+  const { title, userId } = addNewTodo;
   const [hasErrorTitle, setHasErrorTitle] = useState('');
   const [hasErrorUserId, setHasErrorUserId] = useState('');
 
@@ -39,9 +26,9 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
   | React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    setFormFields(formField => (
+    setAddNewTodo(newTodo => (
       {
-        ...formField,
+        ...newTodo,
         [name]: value,
       }
     ));
@@ -67,7 +54,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         userId: (+userId),
       });
 
-      setFormFields({
+      setAddNewTodo({
         title: '',
         userId: '',
       });

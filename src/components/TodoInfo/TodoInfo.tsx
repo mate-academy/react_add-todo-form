@@ -1,19 +1,5 @@
 import { UserInfo } from '../UserInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todos = {
-  user: User | null;
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { Todos } from '../../types/Todos';
 
 type Props = {
   todo: Todos,

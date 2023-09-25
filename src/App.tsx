@@ -4,21 +4,8 @@ import todosFromServer from './api/todos';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todos = {
-  user: User | null;
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { User } from './types/User';
+import { Todos } from './types/Todos';
 
 function getNewTodoId(todos: Todos[]) {
   const maxId = Math.max(...todos.map((todo) => todo.id));

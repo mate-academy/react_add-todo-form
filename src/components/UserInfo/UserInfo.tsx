@@ -1,9 +1,4 @@
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
+import { User } from '../../types/User';
 
 type Props = {
   user: User | null,
