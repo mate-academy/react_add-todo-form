@@ -28,10 +28,7 @@ export const App: React.FC = () => {
   const [isUserIdError, setIsUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitizeTitle
-      = event.target.value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
-
-    setTitle(sanitizeTitle.trimStart());
+    setTitle(event.target.value);
     setIsTitleError(false);
   };
 
@@ -50,10 +47,16 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setIsTitleError(!title);
+    if (!title.trim()) {
+      setIsTitleError(true);
+
+      return;
+    }
+
+    setIsTitleError(false);
     setIsUserIdError(!userId);
 
-    if (!userId || !title) {
+    if (!userId) {
       return;
     }
 
@@ -84,7 +87,7 @@ export const App: React.FC = () => {
           <label htmlFor="title">Title: </label>
 
           <input
-            id='title"'
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
