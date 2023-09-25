@@ -27,12 +27,22 @@ export const TodoForm:React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title && !userId) {
+    if (!title.trim() && !userId) {
       setHasTitleError('Please enter some text');
       setUserIdError(!userId);
+
+      return;
     }
 
-    if (!userId || !title) {
+    if (!title.trim()) {
+      setHasTitleError('Please enter some text');
+
+      return;
+    }
+
+    if (!userId) {
+      setUserIdError(!userId);
+
       return;
     }
 
