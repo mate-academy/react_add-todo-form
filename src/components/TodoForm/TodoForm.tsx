@@ -13,31 +13,25 @@ function getUserById(userId: number): User | null {
 }
 
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
-  const [addNewTodo, setAddNewTodo] = useState({
-    title: '',
-    userId: '',
-  });
-
-  const { title, userId } = addNewTodo;
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState('');
   const [hasErrorTitle, setHasErrorTitle] = useState('');
   const [hasErrorUserId, setHasErrorUserId] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    setHasErrorTitle('');
+  };
 
-    setAddNewTodo(newTodo => (
-      {
-        ...newTodo,
-        [name]: value,
-      }
-    ));
+  const handleUserId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(e.target.value);
+    setHasErrorUserId('');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setHasErrorTitle('Please enter a title');
     }
 
@@ -45,7 +39,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
       setHasErrorUserId('Please choose a user');
     }
 
-    if (title && userId) {
+    if (title.trim() && userId) {
       addTodo({
         user: getUserById(+userId),
         id: 0,
@@ -54,10 +48,8 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         userId: (+userId),
       });
 
-      setAddNewTodo({
-        title: '',
-        userId: '',
-      });
+      setTitle('');
+      setUserId('');
       setHasErrorTitle('');
       setHasErrorUserId('');
     }
@@ -79,17 +71,11 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
           data-cy="titleInput"
           value={title}
           placeholder="Enter a title"
-          onChange={handleChange}
+          onChange={handleTitle}
         />
         {
           hasErrorTitle && (
             <span className="error">{hasErrorTitle}</span>
-          )
-        }
-
-        {
-          (title && hasErrorTitle) && (
-            setHasErrorTitle('')
           )
         }
       </div>
@@ -98,11 +84,11 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         <label className="label" htmlFor="idUSer">User: </label>
 
         <select
-          name="userId"
+          name="id_user"
           id="idUser"
           data-cy="userSelect"
           value={userId}
-          onChange={handleChange}
+          onChange={handleUserId}
         >
           <option value="" disabled>Choose a user</option>
           {
