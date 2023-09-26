@@ -25,7 +25,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isTitleValid = Boolean(title);
+    const isTitleValid = Boolean(title.trim().length > 0);
     const isUserIdValid = Boolean(userId);
 
     setHasTitleError(!isTitleValid);
