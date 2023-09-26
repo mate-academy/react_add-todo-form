@@ -33,16 +33,18 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserIdError(!userId);
-
-    if (!title || !userId) {
-      return;
-    }
+    const trimmedTitle = title.trim();
 
     const formattedTitle = (
-      title.replace(/[^А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z0-9 ]/g, '')
+      trimmedTitle.replace(/[^А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z0-9 ]/g, '')
     );
+
+    setHasTitleError(!formattedTitle);
+    setHasUserIdError(!userId);
+
+    if (!formattedTitle || !userId) {
+      return;
+    }
 
     onAdd({
       id: 0,
@@ -73,7 +75,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         />
 
         {hasTitleError && (
-          <span className="error">Please enter a title</span>
+          <span className="error"> Please enter a title</span>
         )}
       </div>
 
@@ -96,7 +98,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         </select>
 
         {hasUserIdError && (
-          <span className="error">Please choose a user</span>
+          <span className="error"> Please choose a user</span>
         )}
       </div>
 
