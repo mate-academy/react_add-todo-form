@@ -40,9 +40,13 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
+    const formattedTitle = (
+      title.replace(/[^А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z0-9 ]/g, '')
+    );
+
     onAdd({
       id: 0,
-      title,
+      title: formattedTitle,
       completed: false,
       userId,
     });
