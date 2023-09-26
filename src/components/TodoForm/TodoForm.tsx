@@ -33,7 +33,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     setHasUserIdError(false);
   };
 
-  const resetform = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
   };
@@ -58,7 +58,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       user: getUserById(userId),
     });
 
-    resetform();
+    resetForm();
   };
 
   return (
