@@ -9,10 +9,20 @@ html {
 label,
 button {
   cursor: pointer;
+  margin-right: 6px;
+}
+
+.field {
+  margin-bottom: 6px;
 }
 
 .error {
+  margin-left: 6px;
   color: red;
+}
+
+.TodoForm {
+  margin-bottom: 36px;
 }
 
 .TodoInfo {
