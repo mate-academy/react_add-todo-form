@@ -27,14 +27,14 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo, users }) => {
     completed,
     userId,
   } = todo;
-  const findUser = users.find((user) => user.id === userId);
+  const foundUser = users.find((user) => user.id === userId);
 
   return (
     <article data-id={id} className={`TodoInfo ${completed && 'TodoInfo--completed'}`}>
       <h2 className="TodoInfo__title">
         {title}
       </h2>
-      {findUser && <UserInfo key={findUser.id} user={findUser} />}
+      {foundUser && <UserInfo key={foundUser.id} user={foundUser} />}
     </article>
   );
 };
