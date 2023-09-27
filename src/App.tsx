@@ -7,7 +7,7 @@ import { TodoForm } from './components/TodoForm';
 import { getUserById } from './services/user';
 import { Todo } from './types/Todo';
 
-const inirialTodo: Todo[] = todosFromServer.map(todo => ({
+const initialTodo: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -19,7 +19,7 @@ function getNewId(todos: Todo[]) {
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(inirialTodo);
+  const [todos, setTodos] = useState<Todo[]>(initialTodo);
 
   const addTodo = (todo: Todo) => {
     const newTodo = {
