@@ -11,6 +11,7 @@ type Users = {
 type Todo = {
   id: number;
   title: string;
+  completed: boolean
   userId: number;
 };
 
@@ -20,14 +21,20 @@ type TodoInfoProps = {
 };
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo, users }) => {
+  const {
+    id,
+    title,
+    completed,
+    userId,
+  } = todo;
+  const findUser = users.find((user) => user.id === userId);
+
   return (
-    <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
+    <article data-id={id} className={`TodoInfo ${completed && 'TodoInfo--completed'}`}>
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
-      {users.filter((user) => todo.userId === user.id).map((user) => (
-        <UserInfo key={user.id} user={user} />
-      ))}
+      {findUser && <UserInfo key={findUser.id} user={findUser} />}
     </article>
   );
 };

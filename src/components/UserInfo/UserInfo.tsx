@@ -13,9 +13,11 @@ type UserInfoProps = {
 };
 
 export const UserInfo: React.FC<UserInfoProps> = ({ key, user }) => {
+  const { email, name } = user;
+
   return (
-    <a key={key} className="UserInfo" href={user.email}>
-      {user.name}
+    <a key={key} className="UserInfo" href={email}>
+      {name}
     </a>
   );
 };

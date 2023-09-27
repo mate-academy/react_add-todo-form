@@ -5,36 +5,45 @@ import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
 export const App = () => {
-  const [text, setText] = useState('');
-  const [user, setUser] = useState(0);
-  const users = [...usersFromServer];
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState([...todosFromServer]);
-  const [errorText, setErrorText] = useState(false);
+  const [errorText, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
   const [touched, setTouched] = useState(false);
 
+  function handleTitle() {
+    setTouched(true);
+    setErrorTitle(false);
+  }
+
+  function handleUserId() {
+    setTouched(true);
+    setErrorUser(false);
+  }
+
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setErrorText((touched && !text) || (text.trim() === ''));
-    setErrorUser(user === 0);
+    setErrorTitle((!title) || (touched && title.trim() === ''));
+    setErrorUser(userId === 0);
 
-    if (!touched || (touched && (!text || text.trim() === ''))
-      || (touched && user === 0)) {
+    if (!touched || (touched && (!title || title.trim() === ''))
+      || (touched && userId === 0)) {
       return;
     }
 
     const newIdComment = Math.max(...todos.map((todo) => todo.id), 0) + 1;
     const newComment = {
       id: newIdComment,
-      title: text,
+      title,
       completed: false,
-      userId: user,
+      userId,
     };
 
     setTodos([...todos, newComment]);
-    setText('');
-    setUser(0);
-    setErrorText(false);
+    setTitle('');
+    setUserId(0);
+    setErrorTitle(false);
     setErrorUser(false);
     setTouched(false);
   }
@@ -51,12 +60,9 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={text}
-            onChange={event => {
-              setText(event.target.value);
-              setErrorText(false);
-            }}
-            onBlur={() => setTouched(true)}
+            value={title}
+            onChange={event => setTitle(event.target.value)}
+            onBlur={handleTitle}
           />
           {errorText && <span className="error">Please enter a title</span>}
         </div>
@@ -66,15 +72,12 @@ export const App = () => {
           <select
             id="user"
             data-cy="userSelect"
-            value={user}
-            onChange={event => setUser(+event.target.value)}
-            onBlur={() => {
-              setTouched(true);
-              setErrorUser(false);
-            }}
+            value={userId}
+            onChange={event => setUserId(+event.target.value)}
+            onBlur={handleUserId}
           >
             <option value="0" disabled>Choose a user</option>
-            {users.map((paramUser) => (
+            {usersFromServer.map((paramUser) => (
               <option key={paramUser.id} value={paramUser.id}>
                 {paramUser.name}
               </option>
@@ -93,7 +96,7 @@ export const App = () => {
 
       <TodoList
         todos={todos}
-        users={users}
+        users={usersFromServer}
       />
     </div>
   );
