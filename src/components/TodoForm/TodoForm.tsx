@@ -62,7 +62,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           type="text"
           data-cy="titleInput"
           id="form-title"
-          placeholder='Enter a title'
+          placeholder="Enter a title"
           value={title}
           onChange={handleTitleChange}
         />
