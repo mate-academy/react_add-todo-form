@@ -1,7 +1,7 @@
 # React Add TODO Form
 
 Implement the ability to add TODOs to the `TodoList` implemented in the **Static List of TODOs**
-> Here is [the working example](https://mate-academy.github.io/react_add-todo-form/)
+> Here is [the working example](https://Serhii-Shtokalo.github.io/react_add-todo-form/)
 
 1. Create an `App` component storing the `todos` array and displaying it using the `TodoList`.
 1. Create a form to add new TODOs:
