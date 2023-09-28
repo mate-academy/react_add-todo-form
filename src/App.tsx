@@ -27,8 +27,8 @@ export const App = () => {
     if (title && user) {
       addOne({
         title,
-        userId: generateId(todos),
-        id: user,
+        userId: user,
+        id: generateId(todos),
         completed: false,
       });
       setTitle('');

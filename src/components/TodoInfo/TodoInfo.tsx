@@ -7,7 +7,7 @@ import { findUser } from '../../services';
 type Props = { todo: Todo };
 
 export const TodoInfo: FC<Props> = ({ todo }) => {
-  const user = findUser(todo.id, users);
+  const user = findUser(todo.userId, users);
 
   return (
     <article
