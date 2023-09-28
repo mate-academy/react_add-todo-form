@@ -3,6 +3,11 @@ button {
   cursor: pointer;
 }
 
+.title-label,
+.user-label {
+  margin-right: 10px;
+}
+
 .error {
   color: red;
 }

@@ -11,14 +11,12 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ onAdd }) => {
-  // #region state
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
-  // #endregion
-  // #region change handlers
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value.replace(/[^a-zA-Za-яА-Я0-9\s]/g, '');
 
@@ -30,7 +28,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
     setUserId(+event.target.value);
     setHasUserError(false);
   };
-  // #endregion
 
   const reset = () => {
     setTitle('');
@@ -69,7 +66,9 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           className="label"
           htmlFor="todo-title"
         >
-          {'Title: '}
+          <span className="title-label">
+            Title:
+          </span>
         </label>
 
         <input
@@ -92,7 +91,9 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           className="label"
           htmlFor="todo-user"
         >
-          {'User: '}
+          <span className="user-label">
+            User:
+          </span>
         </label>
         <select
           data-cy="userSelect"
