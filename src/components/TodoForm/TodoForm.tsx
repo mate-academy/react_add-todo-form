@@ -35,12 +35,12 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const reset = () => {
     setTitle('');
     setUserId(0);
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserError(!userId);
 
     if (!title.trim() || userId === 0) {
