@@ -8,9 +8,5 @@ export const findUser = (id: number, arr: User[]): User | undefined => {
 };
 
 export const generateId = (todoss: Todo[]): number => {
-  const arrWithId: Array<number> = [];
-
-  todoss.forEach(todo => arrWithId.push(+todo.id));
-
-  return Math.max(...arrWithId) + 1;
+  return Math.max(...todoss.map(todo => +todo.id)) + 1;
 };

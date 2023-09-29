@@ -4,14 +4,13 @@ import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { UserInfo } from './components/UserInfo';
 import { generateId } from './services';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [user, setUser] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
 
   const addOne = (todo: Todo) => {
@@ -21,18 +20,18 @@ export const App = () => {
   const handleSumbit = (e: FormEvent) => {
     e.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserError(!user);
+    setHasTitleError(!title.trim());
+    setHasUserError(!userId);
 
-    if (title && user) {
+    if (title.trim() && userId) {
       addOne({
         title,
-        userId: user,
+        userId,
         id: generateId(todos),
         completed: false,
       });
       setTitle('');
-      setUser(0);
+      setUserId(0);
     }
   };
 
@@ -42,7 +41,7 @@ export const App = () => {
   };
 
   const handleUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(+e.target.value);
+    setUserId(+e.target.value);
     setHasUserError(false);
   };
 
@@ -63,16 +62,10 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={user}
-            onChange={handleUser}
-          >
-            <option value="0">
-              Choose a user
-            </option>
-            {usersFromServer.map(userFS => (
-              <UserInfo user={userFS} />
+          <select data-cy="userSelect" value={userId} onChange={handleUser}>
+            <option value="0">Choose a user</option>
+            {usersFromServer.map((user) => (
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
           {hasUserError && <span className="error">Please choose a user</span>}
