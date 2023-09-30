@@ -46,25 +46,20 @@ export const App = () => {
       setOptionError(false);
     }
 
-    if (inputError || optionError) {
-      return;
+    if (actualInput.trim() && actualOption !== 0) {
+      const newTodo = {
+        id: +getRandomDigits(),
+        title: actualInput,
+        completed: false,
+        userId: +actualOption,
+        user: getUserById(actualOption),
+      };
+
+      addTodo(newTodo);
+      setActualInput('');
+      setActualOption(0);
     }
-
-    const newTodo = {
-      id: +getRandomDigits(),
-      title: actualInput,
-      completed: false,
-      userId: +actualOption,
-      user: getUserById(actualOption),
-    };
-
-    addTodo(newTodo);
-
-    setActualInput('');
-    setActualOption(0);
   };
-
-  // const state = actualInput.trim() && actualOption !== 0;
 
   return (
     <div className="App">
@@ -80,7 +75,7 @@ export const App = () => {
             onChange={event => setActualInput(event.target.value)}
             placeholder="Enter a title"
           />
-          {inputError
+          {inputError && !actualInput
             ? <span className="error">Please enter a title</span> : null}
         </div>
 
@@ -97,8 +92,8 @@ export const App = () => {
             )}
           </select>
 
-          {optionError
-            ? <span className="error">Please choose a user</span> : null }
+          {optionError && actualOption === 0
+            ? <span className="error">Please choose a user</span> : null}
         </div>
 
         <button
@@ -107,7 +102,6 @@ export const App = () => {
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => refresh(
             event,
           )}
-          // disabled={!state}
         >
           Add
         </button>
