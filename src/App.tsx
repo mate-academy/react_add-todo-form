@@ -31,7 +31,7 @@ export const App = () => {
       .slice(2);
   }
 
-  const refresh = (event: React.FormEvent<HTMLFormElement>) => {
+  const refresh = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!actualInput.trim()) {
@@ -65,7 +65,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" onSubmit={refresh}>
         <div className="field">
           Title:
           <input
@@ -99,9 +99,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          // onClick={(event: React.MouseEvent<HTMLButtonElement>) => refresh(
-          //   event,
-          // )}
           onSubmit={refresh}
         >
           Add
