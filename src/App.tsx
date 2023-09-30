@@ -31,7 +31,7 @@ export const App = () => {
       .slice(2);
   }
 
-  const refresh = (event: MouseEvent) => {
+  const refresh = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!actualInput.trim()) {
@@ -99,9 +99,10 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => refresh(
-            event,
-          )}
+          // onClick={(event: React.MouseEvent<HTMLButtonElement>) => refresh(
+          //   event,
+          // )}
+          onSubmit={refresh}
         >
           Add
         </button>
