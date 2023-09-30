@@ -29,7 +29,7 @@ export const App = () => {
     e.preventDefault();
     setFormSubmit(true);
 
-    if (title.trim() === '' || +userId === 0) {
+    if (title.trim() === '' || userId === '0') {
       return;
     }
 
@@ -38,9 +38,9 @@ export const App = () => {
     const newTodo: Todo = {
       id: largeId + 1,
       title,
-      userId: +userId,
+      userId: parseInt(userId, 10),
       completed: false,
-      user: getUser(+userId),
+      user: getUser(parseInt(userId, 10)),
     };
 
     setTodos((prevtodos) => [...prevtodos, newTodo]);
@@ -85,7 +85,9 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
           {formSubmit && userId === '0'
