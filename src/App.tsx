@@ -78,7 +78,7 @@ export const App = () => {
           />
           {
             isInputError
-            && !actualInput
+            && !actualInput.trim()
             && <span className="error">Please enter a title</span>
           }
         </div>
