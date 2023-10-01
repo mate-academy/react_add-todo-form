@@ -4,10 +4,12 @@ import { Todos } from '../../Types/Types';
 
 export const TodoList: React.FC<Todos> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <ul className="TodoList">
       {todos.map(todo => (
-        <TodoInfo todo={todo} data-id={todo.id} key={todo.id} />
+        <li key={todo.id}>
+          <TodoInfo todo={todo} data-id={todo.id} />
+        </li>
       ))}
-    </section>
+    </ul>
   );
 };

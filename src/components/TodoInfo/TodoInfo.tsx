@@ -15,7 +15,7 @@ export const TodoInfo: React.FC<{ todo: Todo }> = (
         {title}
       </h2>
 
-      {user !== null ? <UserInfo user={user as User} /> : null}
+      {user && <UserInfo user={user as User} />}
     </article>
   );
 };

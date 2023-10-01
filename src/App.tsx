@@ -18,8 +18,8 @@ export const App = () => {
   const [actualTodos, setActualTodos] = useState([...todos]);
   const [actualInput, setActualInput] = useState('');
   const [actualOption, setActualOption] = useState(0);
-  const [inputError, setInputError] = useState(false);
-  const [optionError, setOptionError] = useState(false);
+  const [isInputError, setIsInputError] = useState(false);
+  const [isOptionError, setIsOptionError] = useState(false);
 
   const addTodo = (todo: Todo) => {
     setActualTodos([...actualTodos, todo]);
@@ -35,15 +35,15 @@ export const App = () => {
     event.preventDefault();
 
     if (!actualInput.trim()) {
-      setInputError(true);
+      setIsInputError(true);
     } else {
-      setInputError(false);
+      setIsInputError(false);
     }
 
     if (actualOption === 0) {
-      setOptionError(true);
+      setIsOptionError(true);
     } else {
-      setOptionError(false);
+      setIsOptionError(false);
     }
 
     if (actualInput.trim() && actualOption !== 0) {
@@ -67,21 +67,26 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={refresh}>
         <div className="field">
-          Title:
+          <label htmlFor="Title">Title: </label>
           <input
+            id="Title"
             type="text"
             data-cy="titleInput"
             value={actualInput}
             onChange={event => setActualInput(event.target.value)}
             placeholder="Enter a title"
           />
-          {inputError && !actualInput
-            ? <span className="error">Please enter a title</span> : null}
+          {
+            isInputError
+            && !actualInput
+            && <span className="error">Please enter a title</span>
+          }
         </div>
 
         <div className="field">
-          User:
+          <label htmlFor="User">User: </label>
           <select
+            id="User"
             data-cy="userSelect"
             value={actualOption}
             onChange={event => setActualOption(+event.target.value)}
@@ -92,8 +97,11 @@ export const App = () => {
             )}
           </select>
 
-          {optionError && actualOption === 0
-            ? <span className="error">Please choose a user</span> : null}
+          {
+            isOptionError
+            && actualOption === 0
+            && <span className="error">Please choose a user</span>
+          }
         </div>
 
         <button
