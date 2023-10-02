@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
 
-import usersFromServer from '../../api/users';
-import todosFromServer from '../../api/todos';
 import { getUser } from '../../utils';
 import { User } from '../../types/User';
 import { Todo } from '../../types/Todo';
 
 interface Props {
   addTodo: (todo: Todo) => void;
+  users: User[];
 }
 
-const users: User[] = usersFromServer;
-
-const newId = () => {
-  const maxId: number = Math.max(...todosFromServer.map((todo) => todo.id));
-
-  return maxId + 1;
-};
-
-export const TodoForm: React.FC<Props> = ({ addTodo }) => {
+export const TodoForm: React.FC<Props> = ({ addTodo, users }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const changeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserError(false);
   };
@@ -41,20 +32,20 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
     setHasTitleError(false);
   };
 
-  const onSubmitHandler = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (userId === 0) {
       setHasUserError(true);
     }
 
-    if (!title) {
+    if (!title || !title.trim()) {
       setHasTitleError(true);
     }
 
-    if (title && userId) {
+    if (title.trim() && userId) {
       addTodo({
-        id: newId(),
+        id: 0,
         title: title.trim(),
         completed: false,
         userId,
@@ -66,7 +57,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
   };
 
   return (
-    <form action="/api/todos" method="POST" onSubmit={onSubmitHandler}>
+    <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">
         <label className="label" htmlFor="titleInput">
           Title:
@@ -78,7 +69,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={changeTitle}
+            onChange={handleChangeTitle}
           />
         </div>
         {hasTitleError && (
@@ -91,7 +82,11 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         </label>
         <div className="control">
           <div className="select" id="selectUser">
-            <select data-cy="userSelect" value={userId} onChange={changeUser}>
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={handleChangeUser}
+            >
               <option value="0" disabled>
                 Choose a user
               </option>
