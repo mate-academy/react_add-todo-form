@@ -14,7 +14,7 @@ export const Form: React.FC<Props> = ({ newTodos, setNewTodos }) => {
   const [hasErrorTitle, setHasErrorTitle] = useState(false);
   const newTodo = {
     id: newTodos.length + 1,
-    title: titleValue,
+    title: titleValue.trim(),
     completed: false,
     userId: selectUser,
   };
@@ -34,12 +34,14 @@ export const Form: React.FC<Props> = ({ newTodos, setNewTodos }) => {
     if (selectUser === 0) {
       setHasErrorSelect(true);
     } else {
+      todoWithUser.completed = true;
       setHasErrorSelect(false);
     }
 
     if (titleValue.length === 0) {
       setHasErrorTitle(true);
     } else {
+      todoWithUser.completed = true;
       setHasErrorTitle(false);
     }
 
@@ -63,7 +65,7 @@ export const Form: React.FC<Props> = ({ newTodos, setNewTodos }) => {
           data-cy="titleInput"
           value={titleValue}
           placeholder="Enter the Title"
-          onChange={event => setTitleValue(event.target.value)}
+          onChange={event => setTitleValue(event.target.value.trimStart())}
         />
         {hasErrorTitle && <span className="error">Please enter a title</span>}
 
