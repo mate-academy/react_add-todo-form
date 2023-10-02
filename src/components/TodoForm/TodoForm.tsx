@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
 import { Todo } from '../types/todo';
+import { User } from '../types/user';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -82,9 +83,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
-            <option value={user.id} key={user.id}>
-              {user.name}
+          {usersFromServer.map(({ id, name }: User) => (
+            <option value={id} key={id}>
+              {name}
             </option>
           ))}
         </select>

@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Todo } from '../types/todo';
 import { UserInfo } from '../UserInfo';
 import { User } from '../types/user';
 
