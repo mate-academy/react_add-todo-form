@@ -6,8 +6,17 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './components/types/Todo';
 
+function getUserById(userId: number) {
+  return usersFromServer.find(user => user.id === userId) || null;
+}
+
+const initialTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>([...initialTodos]);
 
   const [title, setTitle] = useState('');
   const [titleHasEror, setTitleHasEror] = useState(false);
@@ -51,6 +60,7 @@ export const App = () => {
         title,
         userId,
         completed: false,
+        user: getUserById(userId),
       };
 
       setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -112,7 +122,7 @@ export const App = () => {
 
       <TodoList
         todos={todos}
-        users={usersFromServer}
+        // users={usersFromServer}
       />
     </div>
   );
