@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User } from '../../types/User';
+import { Todo } from '../../types/Todo';
 
 const DEFAULT_INPUTS = {
   title: '',
@@ -12,15 +13,12 @@ const DEFAULT_INPUTS_ERRORS = {
 };
 
 interface Props {
-  onAdd: (newTodoInfo: {
-    title: string,
-    userId: number,
-  }) => void;
+  onAdd: (newTodoInfo: Pick<Todo, 'title' | 'userId'>) => void;
   users: User[],
 }
 
 export const TodoForm: React.FC<Props> = ({
-  onAdd = () => { },
+  onAdd,
   users,
 }) => {
   const [inputs, setInputs] = useState(DEFAULT_INPUTS);
@@ -65,9 +63,7 @@ export const TodoForm: React.FC<Props> = ({
       return;
     }
 
-    onAdd({
-      ...inputs,
-    });
+    onAdd(inputs);
     resetForm();
   };
 

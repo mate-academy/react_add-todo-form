@@ -12,10 +12,7 @@ import { getNewTodoId } from './helpers/getNewTodoId';
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const handleAddTodo = (todoInfo: {
-    title: string,
-    userId: number,
-  }) => {
+  const handleAddTodo = (todoInfo: Pick<Todo, 'title' | 'userId'>) => {
     const newTodo: Todo = {
       ...todoInfo,
       id: getNewTodoId(todos),
