@@ -16,7 +16,7 @@ const todos: Todo[] = todosFromServer.map((todo) => ({
 export const App: React.FC = () => {
   const [updatedTodo, setUpdatedTodo] = useState(todos);
 
-  const addNewTodo = (todo: Todo) => {
+  const addNewTodo = (todo: Omit<Todo, 'id'>) => {
     const newId = () => {
       const maxId: number = Math.max(...todosFromServer.map((item) => item.id));
 

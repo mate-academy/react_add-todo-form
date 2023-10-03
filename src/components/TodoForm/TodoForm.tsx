@@ -5,7 +5,7 @@ import { User } from '../../types/User';
 import { Todo } from '../../types/Todo';
 
 interface Props {
-  addTodo: (todo: Todo) => void;
+  addTodo: (todo: Omit<Todo, 'id'>) => void;
   users: User[];
 }
 
@@ -35,25 +35,26 @@ export const TodoForm: React.FC<Props> = ({ addTodo, users }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (!title.trim()) {
+      setHasTitleError(true);
+
+      return;
+    }
+
     if (userId === 0) {
       setHasUserError(true);
+
+      return;
     }
 
-    if (!title || !title.trim()) {
-      setHasTitleError(true);
-    }
+    addTodo({
+      title: title.trim(),
+      completed: false,
+      userId,
+      user: getUser(userId),
+    });
 
-    if (title.trim() && userId) {
-      addTodo({
-        id: 0,
-        title: title.trim(),
-        completed: false,
-        userId,
-        user: getUser(userId),
-      });
-
-      restart();
-    }
+    restart();
   };
 
   return (
