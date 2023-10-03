@@ -15,7 +15,7 @@ export const TodoForm: React.FC<Props> = ({ todos, onAdd }) => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const textValue = event.target.value.replace(/[^a-zA-ZіІ0-9]/g, '');
 
-    setTitle(textValue.trim());
+    setTitle(textValue);
     setHasTitleError(false);
   };
 
@@ -44,7 +44,7 @@ export const TodoForm: React.FC<Props> = ({ todos, onAdd }) => {
     }
 
     onAdd({
-      title,
+      title: title.trim(),
       userId,
       id: getNewTodoId(todos),
       completed: false,
