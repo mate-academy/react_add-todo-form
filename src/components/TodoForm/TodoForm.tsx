@@ -13,7 +13,7 @@ export const TodoForm: React.FC<Props> = ({ todos, onAdd }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const textValue = event.target.value.replace(/[^a-zA-ZіІ0-9]/g, '');
+    const textValue = event.target.value.replace(/[^a-zA-ZіІїЇєЄґҐ а-я]+/gu, '');
 
     setTitle(textValue);
     setHasTitleError(false);
