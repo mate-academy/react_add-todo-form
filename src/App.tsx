@@ -1,113 +1,37 @@
 import React, { useState } from 'react';
 import './App.scss';
 
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
-import { ToDo } from './types/ToDo';
+import { TodoForm } from './components/TodoForm/TodoForm';
 
-const getLargestId = (elements: ToDo[]) => {
-  if (elements.length === 0) {
-    return 0;
+import { getUserById } from './services/UserService';
+import { getLargestId } from './services/IdServices';
+
+const initialsTodos: Todo[] = todosFromServer.map(todo => (
+  {
+    ...todo,
+    user: getUserById(todo.userId),
   }
-
-  const ids = elements.map(element => element.id);
-
-  return Math.max(...ids);
-};
+));
 
 export const App: React.FC = () => {
-  const [toDos, setToDos] = useState<ToDo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(initialsTodos);
 
-  const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
-
-  const [userId, SetUserId] = useState(0);
-  const [hasUserError, setUserError] = useState(false);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setHasTitleError(false);
+  const addTodo = (newTodo: Todo) => {
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
-  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    SetUserId(+event.target.value);
-    setUserError(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    setHasTitleError(!title);
-    setUserError(!userId);
-
-    if (title && userId) {
-      const newToDo: ToDo = {
-        id: getLargestId(toDos) + 1,
-        title,
-        userId,
-        completed: false,
-      };
-
-      setToDos(currentToDos => [...currentToDos, newToDo]);
-    }
-  };
+  const largestId = getLargestId(todos);
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-        <div className="field">
-          <label htmlFor="title">
-            {'Title: '}
-          </label>
-
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={handleTitleChange}
-            data-cy="titleInput"
-            placeholder="Enter a title"
-          />
-
-          {hasTitleError && <span className="error">Please enter a title</span>}
-        </div>
-
-        <div className="field">
-          <label htmlFor="UserId">
-            {'User: '}
-          </label>
-          <select
-            id="UserId"
-            value={userId}
-            data-cy="userSelect"
-            onChange={handleUserIdChange}
-          >
-            <option value="0" disabled>Choose a user</option>
-
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-
-          {hasUserError && <span className="error">Please choose a user</span>}
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <TodoList toDos={toDos} />
+      <TodoForm onSubmit={addTodo} largestId={largestId} />
+      <TodoList todos={todos} />
     </div>
   );
 };
