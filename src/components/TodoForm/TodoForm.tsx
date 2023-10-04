@@ -10,14 +10,14 @@ type Props = {
 
 export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
-  const [hastitleError, setHasTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState('');
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleError(false);
+    setHasTitleError('');
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +27,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
 
   const reset = () => {
     setTitle('');
-    setHasTitleError(false);
+    setHasTitleError('');
     setUserId(0);
     setHasUserIdError(false);
   };
@@ -35,10 +35,15 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim();
+
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle) {
+      setHasTitleError('Please enter a title');
+    }
+
+    if (!trimmedTitle || !userId) {
       return;
     }
 
@@ -65,8 +70,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           onChange={handleTitleChange}
         />
 
-        {hastitleError && (
-          <span className="error">Please enter a title</span>
+        {hasTitleError && (
+          <span className="error">{hasTitleError}</span>
         )}
       </label>
 
@@ -93,7 +98,10 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         )}
       </label>
 
-      <button type="submit" data-cy="submitButton">
+      <button
+        type="submit"
+        data-cy="submitButton"
+      >
         Add
       </button>
     </form>
