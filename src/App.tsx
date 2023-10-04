@@ -3,12 +3,12 @@ import './App.scss';
 
 import todosFromServer from './api/todos';
 
-import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
 
 import { getUserById } from './services/UserService';
 import { getLargestId } from './services/IdServices';
+import { Todo } from './types/Todo';
 
 const initialsTodos: Todo[] = todosFromServer.map(todo => (
   {
