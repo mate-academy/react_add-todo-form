@@ -65,7 +65,7 @@ export const App: React.FC = () => {
       >
         <div className="field">
           <label htmlFor="title">
-            Title:
+            {'Title: '}
           </label>
 
           <input
@@ -74,6 +74,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
             data-cy="titleInput"
+            placeholder="Enter a title"
           />
 
           {hasTitleError && <span className="error">Please enter a title</span>}
@@ -81,7 +82,7 @@ export const App: React.FC = () => {
 
         <div className="field">
           <label htmlFor="UserId">
-            User:
+            {'User: '}
           </label>
           <select
             id="UserId"
