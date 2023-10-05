@@ -21,7 +21,7 @@ export const createTodos = () => todosFromServer.map(todo => ({
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState(0);
   const [formSubmit, setFormSubmit] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(createTodos());
 
@@ -29,7 +29,7 @@ export const App = () => {
     e.preventDefault();
     setFormSubmit(true);
 
-    if (title.trim() === '' || userId === '0') {
+    if (title.trim() === '' || userId === 0) {
       return;
     }
 
@@ -38,15 +38,15 @@ export const App = () => {
     const newTodo: Todo = {
       id: largeId + 1,
       title,
-      userId: parseInt(userId, 10),
+      userId: userId,
       completed: false,
-      user: getUser(parseInt(userId, 10)),
+      user: getUser(userId),
     };
 
     setTodos((prevtodos) => [...prevtodos, newTodo]);
 
     setTitle('');
-    setUserId('0');
+    setUserId(0);
     setFormSubmit(false);
   };
 
@@ -80,7 +80,7 @@ export const App = () => {
             id="user"
             value={userId}
             onChange={(e) => {
-              setUserId(e.target.value);
+              setUserId(+e.target.value);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -90,7 +90,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {formSubmit && userId === '0'
+          {formSubmit && userId === 0
             && (<span className="error">Please choose a user</span>)}
         </div>
 
