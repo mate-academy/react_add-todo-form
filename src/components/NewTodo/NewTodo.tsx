@@ -39,10 +39,10 @@ export const NewTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -58,55 +58,53 @@ export const NewTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   };
 
   return (
-    <>
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-        <label htmlFor="titleInput">
-          <div className="field">
-            Title:&nbsp;
-            <input
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter a title"
-              value={title}
-              onChange={handleTitleChange}
-            />
-            {hasTitleError && (
-              <span className="error">Please enter a title</span>
-            )}
-          </div>
-        </label>
-
+    <form
+      action="/api/todos"
+      method="POST"
+      onSubmit={handleSubmit}
+    >
+      <label htmlFor="titleInput">
         <div className="field">
-          <label htmlFor="userSelect">
-            User:&nbsp;
-            <select
-              data-cy="userSelect"
-              value={userId}
-              required
-              onChange={handleTitleUserId}
-            >
-              <option value="0" disabled>Choose a user</option>
-              {usersFromServer.map(user => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {hasUserIdError && (
-            <span className="error">Please choose a user</span>
+          Title:&nbsp;
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+          {hasTitleError && (
+            <span className="error">Please enter a title</span>
           )}
         </div>
+      </label>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-    </>
+      <div className="field">
+        <label htmlFor="userSelect">
+          User:&nbsp;
+          <select
+            data-cy="userSelect"
+            value={userId}
+            required
+            onChange={handleTitleUserId}
+          >
+            <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        {hasUserIdError && (
+          <span className="error">Please choose a user</span>
+        )}
+      </div>
+
+      <button type="submit" data-cy="submitButton">
+        Add
+      </button>
+    </form>
   );
 };
