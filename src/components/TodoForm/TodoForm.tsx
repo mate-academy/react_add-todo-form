@@ -5,11 +5,11 @@ import { getUserById } from '../../services/UserService';
 import { Todo } from '../../types/Todo';
 
 interface Props {
-  onSubmit: (todo: Todo) => void
+  addTodo: (todo: Todo) => void
   largestId: number
 }
 
-export const TodoForm: React.FC<Props> = ({ onSubmit, largestId }) => {
+export const TodoForm: React.FC<Props> = ({ addTodo, largestId }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -31,7 +31,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, largestId }) => {
     SetUserId(0);
   };
 
-  const addTodo = (event: React.FormEvent) => {
+  const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title.trim());
@@ -41,7 +41,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, largestId }) => {
       return;
     }
 
-    onSubmit({
+    addTodo({
       id: largestId + 1,
       title,
       userId,
@@ -56,7 +56,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, largestId }) => {
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={addTodo}
+      onSubmit={onSubmit}
     >
       <div className="field">
         <label htmlFor="title">

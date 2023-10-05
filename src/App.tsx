@@ -30,7 +30,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onSubmit={addTodo} largestId={largestId} />
+      <TodoForm addTodo={addTodo} largestId={largestId} />
       <TodoList todos={todos} />
     </div>
   );
