@@ -68,7 +68,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
 
     setUserIdError(!userId);
 
-    if (!title && !userId) {
+    if (!title || !userId) {
       return;
     }
 
@@ -101,7 +101,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           data-cy="titleInput"
           value={title}
           onChange={handleTitleChange}
-          onBlur={() => handleSpacesError()}
+          onBlur={handleSpacesError}
         />
 
         {titleError !== ''
