@@ -17,13 +17,13 @@ export function getNewTodoId(todos: Todo[]) {
 
 export const NewTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   const [title, setTitle] = useState('');
-  const [hasTitleErorr, setHasTitleErorr] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleErorr(false);
+    setHasTitleError(false);
   };
 
   const handleTitleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,7 +39,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit, todos }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleErorr(!title);
+    setHasTitleError(!title);
     setHasUserIdError(!userId);
 
     if (!title || !userId) {
@@ -74,7 +74,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit, todos }) => {
               value={title}
               onChange={handleTitleChange}
             />
-            {hasTitleErorr && (
+            {hasTitleError && (
               <span className="error">Please enter a title</span>
             )}
           </div>
