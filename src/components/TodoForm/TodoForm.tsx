@@ -105,7 +105,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         />
 
         {titleError !== ''
-          && <p className="help is-danger">{titleError}</p>}
+          && <p className="error is-danger">{titleError}</p>}
       </div>
 
       <div className="field">
@@ -129,7 +129,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         </select>
 
         {userIdError
-        && <span className="help is-danger">Please choose a user</span>}
+        && <span className="error is-danger">Please choose a user</span>}
       </div>
 
       <button
