@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <NewTodo onSubmit={addNewTodo} todos={[]} />
+      <NewTodo onSubmit={addNewTodo} todos={todos} />
 
       <TodoList todos={todos} />
     </div>
