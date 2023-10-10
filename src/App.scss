@@ -11,6 +11,12 @@ button {
   cursor: pointer;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .error {
   color: red;
 }
@@ -36,4 +42,8 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.label__title {
+  margin-right: 8px;
 }
