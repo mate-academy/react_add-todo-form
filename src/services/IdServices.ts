@@ -1,7 +1,7 @@
 import { Todo } from '../types/Todo';
 
 export const getLargestId = (elements: Todo[]) => {
-  if (elements.length === 0) {
+  if (!elements.length) {
     return 0;
   }
 

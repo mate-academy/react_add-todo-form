@@ -13,7 +13,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo, largestId }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [userId, SetUserId] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,13 +22,13 @@ export const TodoForm: React.FC<Props> = ({ addTodo, largestId }) => {
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    SetUserId(+event.target.value);
+    setUserId(+event.target.value);
     setHasUserError(false);
   };
 
   const resetForm = () => {
     setTitle('');
-    SetUserId(0);
+    setUserId(0);
   };
 
   const onSubmit = (event: React.FormEvent) => {
