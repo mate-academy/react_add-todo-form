@@ -1,3 +1,5 @@
+import { Todo } from '../components/Interfaces';
+
 export default [
   {
     id: 1,
@@ -17,4 +19,4 @@ export default [
     completed: false,
     userId: 4,
   },
-];
+] as Todo[];
