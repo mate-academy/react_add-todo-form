@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({
-  onAdd = () => { },
+  onAdd = () => {},
   todos,
 }) => {
   const [title, setTitle] = useState('');
@@ -60,7 +60,7 @@ export const TodoForm: React.FC<Props> = ({
     >
       <div className="field">
         <label className="label">
-          Title:&nbsp;&nbsp;
+          <span className="label__title">Title:</span>
           <input
             type="text"
             name="title"
@@ -80,7 +80,7 @@ export const TodoForm: React.FC<Props> = ({
 
       <div className="field">
         <label className="label">
-          User:&nbsp;&nbsp;
+          <span className="label__title">User:</span>
           <select
             name="user"
             id="user-id"
