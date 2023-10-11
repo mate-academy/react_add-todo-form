@@ -39,7 +39,7 @@ export const App = () => {
         title,
         completed: false,
         userId: +chosenUserId,
-        user: null,
+        user: getUser(+chosenUserId),
       };
 
       setTasks([...tasks, newTodo]);
@@ -51,7 +51,7 @@ export const App = () => {
 
   const todos = () => tasks.map(todo => ({
     ...todo,
-    user: getUser(todo.userId),
+    user: getUser(todo.userId) || null,
   }));
 
   return (
