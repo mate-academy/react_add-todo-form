@@ -2,7 +2,6 @@ import React from 'react';
 
 interface UserInfoProps {
   userName: string;
-  // userEmail: string;
   userLink: string;
 }
 
