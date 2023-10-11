@@ -5,16 +5,21 @@ import usersFromServer from './api/users';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import React = require('react');
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
-
   return foundUser || null;
 }
 
+const todosWithUsers = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App = () => {
   const [title, setTitle] = useState<string>('');
-  const [tasks, setTasks] = useState<Todo[]>(todosFromServer);
+  const [tasks, setTasks] = useState<Todo[]>(todosWithUsers); // Инициализировать задачи, содержащие информацию о пользователях
   const [chosenUserId, setChosenUserId] = useState<number>(0);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
@@ -62,7 +67,6 @@ export const App = () => {
         method="POST"
         onSubmit={handleSubmit}
       >
-
         <div className="field">
           <label>
             {'Title: '}
@@ -73,9 +77,9 @@ export const App = () => {
               value={title}
               onChange={handleTitleChange}
             />
-            {formSubmitted && title.trim() === ''
-              && (<span className="error">Please enter a title</span>
-              )}
+            {formSubmitted && title.trim() === '' && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
@@ -88,17 +92,13 @@ export const App = () => {
               onChange={(event) => setChosenUserId(+event.target.value)}
             >
               <option value="0" disabled>Choose a user</option>
-              {
-                usersFromServer.map(user => (
-                  <option key={user.id} value={user.id}>{user.name}</option>
-                ))
-              }
-
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
             </select>
-            {formSubmitted && !chosenUserId
-              && (
-                <span className="error">Please choose a user</span>
-              )}
+            {formSubmitted && !chosenUserId && (
+              <span className="error">Please choose a user</span>
+            )}
           </label>
         </div>
         <button
