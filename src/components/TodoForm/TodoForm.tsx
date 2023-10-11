@@ -1,6 +1,5 @@
 import React, { useState, FormEvent } from 'react';
 import { Todo, User } from '../Interfaces';
-// import todos from '../../api/todos';
 
 interface Props {
   users: User[];
@@ -126,9 +125,9 @@ export const TodoForm: React.FC<Props> = ({ users, todos, onAddTodo }) => {
           <option value="" disabled>
             Choose a user
           </option>
-          {users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
+          {users.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
             </option>
           ))}
         </select>
