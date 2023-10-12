@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
+import { getUserById } from '../../services/UserById';
 
 type Props = {
   allUsers: User[],
@@ -26,6 +27,7 @@ export const TodoForm: React.FC<Props> = (
         title,
         completed: false,
         userId,
+        user: getUserById(userId),
       });
 
       setTitleError(false);
