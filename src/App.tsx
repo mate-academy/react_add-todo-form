@@ -1,4 +1,3 @@
-// #region imports
 import { useState } from 'react';
 import './App.scss';
 import todosFromServer from './api/todos';
@@ -6,7 +5,6 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { TodoForm } from './components/TodoForm';
 import { getUserById } from './services/user';
-// #endregion
 
 export const intitalTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,

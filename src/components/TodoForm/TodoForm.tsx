@@ -8,14 +8,12 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
-  // #region state
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
-  // #endregion
-  // #region change handlers
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -25,7 +23,6 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
-  // #endregion
 
   const reset = () => {
     setTitle('');
@@ -38,7 +35,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim()) {
+      setHasTitleError(true);
+
+      return;
+    }
+
+    setHasTitleError(false);
+    setHasUserIdError(!userId);
+
+    if (!userId) {
       return;
     }
 
@@ -60,7 +66,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       onSubmit={handleSubmit}
     >
       <div className="field">
-        Title:&nbsp;
+        <span>Title:&nbsp;</span>
 
         <input
           type="text"
@@ -76,7 +82,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       </div>
 
       <div className="field">
-        User:&nbsp;
+        <span>User:&nbsp;</span>
 
         <select
           data-cy="userSelect"
