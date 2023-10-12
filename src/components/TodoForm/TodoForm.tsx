@@ -30,6 +30,8 @@ export const TodoForm: React.FC<Props> = (
 
       setTitleError(false);
       setUserError(false);
+      setTitle('');
+      setUserId(0);
 
       return;
     }
@@ -50,7 +52,7 @@ export const TodoForm: React.FC<Props> = (
       setTitleError(false);
     }
 
-    setTitle(event.target.value.trim());
+    setTitle(event.target.value);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,6 +77,7 @@ export const TodoForm: React.FC<Props> = (
           data-cy="titleInput"
           value={title}
           onChange={handleTitleChange}
+          placeholder="Enter a title"
         />
 
         {titleError && (<span className="error">Please enter a title</span>)}

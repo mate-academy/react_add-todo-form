@@ -1,24 +1,25 @@
 import cn from 'classnames';
-import { TodoAndUser } from '../../types/TodoAndUser';
 import { UserInfo } from '../UserInfo';
+import { Todo } from '../../types/Todo';
+import usersFromServer from '../../api/users';
 
 type Props = {
-  todo: TodoAndUser
+  todo: Todo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const {
-    id, completed, title, User: user,
-  } = todo;
+  const searchedUser = usersFromServer.find(user => user.id === todo.userId);
 
   return (
     <article
-      data-id={id}
-      className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
+      data-id={todo.id}
+      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
     >
-      <h2 className="TodoInfo__title">{title}</h2>
+      <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={user} />
+      <UserInfo
+        user={searchedUser}
+      />
     </article>
   );
 };

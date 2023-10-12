@@ -13,13 +13,6 @@ export const App = () => {
   const [users] = useState(usersFromServer);
   const [todos, setTodos] = useState(todosFromServer);
 
-  const usersAndTodos = todos.map(todo => {
-    return {
-      ...todo,
-      User: { ...users.find(user => user.id === todo.userId) },
-    };
-  });
-
   const getIDs = () => {
     return todos.map(todo => todo.id);
   };
@@ -33,7 +26,7 @@ export const App = () => {
         setTodoList={(todo: Todo) => setTodos([...todos, todo])}
         maxId={Math.max(...getIDs())}
       />
-      <TodoList allTodos={usersAndTodos} />
+      <TodoList allTodos={todos} />
     </div>
   );
 };
