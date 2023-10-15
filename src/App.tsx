@@ -17,6 +17,11 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [newTodo, setNewTodo] = useState(initialTodo);
 
+  const maxId = Math.max(...todos
+    .map(selectedTodo => selectedTodo.id));
+
+  const nextId = maxId + 1;
+
   const hasTitleError = wasSubmitted && newTodo.title === '';
   const hasUserError = wasSubmitted && newTodo.userId === 0;
 
@@ -35,7 +40,7 @@ export const App = () => {
     setNewTodo({
       ...newTodo,
       title: event.target.value,
-      id: todos.length + 1,
+      id: nextId,
     });
   };
 

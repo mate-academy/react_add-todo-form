@@ -1,5 +1,5 @@
 import users from '../api/users';
 
-export const findUsedById = (todo) => {
-  return users.find((user) => user.id === todo.userId);
+export const findUsedById = (id) => {
+  return users.find((user) => user.id === id);
 };
