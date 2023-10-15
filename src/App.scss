@@ -11,6 +11,16 @@ button {
   cursor: pointer;
 }
 
+.input {
+  display: block;
+  width: 220px;
+  height: 40px;
+  margin: 12px 0;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-size: inherit;
+}
+
 .error {
   color: red;
 }
