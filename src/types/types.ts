@@ -12,4 +12,4 @@ export type Users = {
   email: string;
 };
 
-export type TodoWithUser = Todos & { user?: Users };
+export type TodoWithUser = Todos & { user: Users | undefined };

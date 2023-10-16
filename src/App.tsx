@@ -8,8 +8,7 @@ import { TodoWithUser } from './types/types';
 
 export const todos = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId)
-  || null,
+  user: getUserById(todo.userId),
 })) as TodoWithUser[];
 
 export const App = () => {
@@ -48,12 +47,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId) || {
-        id: 0,
-        name: '',
-        username: '',
-        email: '',
-      },
+      user: getUserById(userId),
     };
 
     addPost(newPost);
