@@ -21,7 +21,7 @@ function getNewTodoId(todos: Todo[]) {
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  const [title, setTitle] = useState<string>('');
+  const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
