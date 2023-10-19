@@ -1,30 +1,34 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import todosFromServer from './api/todos';
 import './App.scss';
 
+import { PreparedTodo, Todo } from './types/Todo';
+import { getUserById } from './utils';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
-import { PreparedTodo, Todo } from './types/Todo';
-import { User } from './types/User';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 
-type Prepare = (todos: Todo[], users: User[]) => PreparedTodo[];
-
-const prepareTodos: Prepare = (todos, users) => {
-  const prepared = [...todos];
-
-  prepared.forEach((todo) => {
-    Object.defineProperty(todo, 'user', {
-      value: users.find((user) => user.id === todo.userId),
-    });
-  });
-
-  return prepared as PreparedTodo[];
+const prepareTodos = (todos: Todo[]): PreparedTodo[] => {
+  return todos.map(todo => {
+    return {
+      ...todo,
+      user: getUserById(todo.userId),
+    };
+  }) as PreparedTodo[];
 };
 
 export const App = () => {
-  const [todos, setTodos]
-    = useState(prepareTodos(todosFromServer, usersFromServer));
+  const [todos, setTodos] = useState(
+    prepareTodos(todosFromServer),
+  );
+
+  const addTodo = useCallback((newTodo: PreparedTodo) => {
+    setTodos(prevState => {
+      return [
+        ...prevState,
+        newTodo,
+      ];
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -32,14 +36,7 @@ export const App = () => {
 
       <TodoForm
         todos={todos}
-        createNewTodo={(newTodo: PreparedTodo) => {
-          setTodos(prevState => {
-            return [
-              ...prevState,
-              newTodo,
-            ];
-          });
-        }}
+        createNewTodo={addTodo}
       />
 
       <TodoList todos={todos} />
