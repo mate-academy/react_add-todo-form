@@ -16,12 +16,6 @@ const preparedTodos = todosFromServer.map((todo) => ({
   user: getUserById(todo.userId),
 }));
 
-const getID = () => {
-  const maxId = Math.max(...preparedTodos.map((todo) => todo.id));
-
-  return maxId + 1;
-};
-
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [authorId, setAuthorId] = useState(0);
@@ -29,7 +23,15 @@ export const App = () => {
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
 
+  const pattern = /^[a-zA-Z0-9Є-ЯҐа-їґ ]+$/;
+
   const author = getUserById(authorId);
+
+  const getID = () => {
+    const maxId = Math.max(...todos.map((todo) => todo.id));
+
+    return maxId + 1;
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,8 +62,10 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTitleError(false);
-    setTitle(event.target.value.trimStart());
+    if (pattern.test(event.target.value) || event.target.value === '') {
+      setIsTitleError(false);
+      setTitle(event.target.value.trimStart());
+    }
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
