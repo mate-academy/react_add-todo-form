@@ -32,28 +32,21 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasSelectError, setHasSelectError] = useState(false);
-  const [count, setCount] = useState(0);
 
   const todos = getTodoList(todosList);
+
+  const reset = () => {
+    setFormTitle('');
+    setUserId(0);
+  };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    let titleError = false;
-    let selectError = false;
+    setHasTitleError(!formTitle);
+    setHasSelectError(!userId);
 
-    if (formTitle === '') {
-      titleError = true;
-    }
-
-    if (userId === 0) {
-      selectError = true;
-    }
-
-    setHasTitleError(titleError);
-    setHasSelectError(selectError);
-
-    if (!titleError && !selectError) {
+    if (formTitle && userId) {
       const newTodo = {
         id: getNextTodoId(todos),
         title: formTitle,
@@ -62,12 +55,8 @@ export const App: React.FC = () => {
       };
 
       setTodosList((prevTodos) => [...prevTodos, newTodo]);
-
-      setFormTitle('');
-      setUserId(0);
+      reset();
     }
-
-    setCount(count + 1);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
