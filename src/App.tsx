@@ -23,6 +23,9 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [isUserTouched, setIsUserTouched] = useState(false);
 
+  const userValidation = isUserTouched && userId === 0;
+  const titleValidation = isTitleTouched && !title;
+
   const reset = () => {
     setTitle('');
     setIsTitleTouched(false);
@@ -70,9 +73,8 @@ export const App: React.FC = () => {
             onChange={(event) => setTitle(event.target.value)}
           />
 
-          {isTitleTouched && !title
-            ? <span className="error">Please enter a title</span>
-            : null}
+          {titleValidation
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -91,9 +93,8 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isUserTouched && userId === 0
-            ? <span className="error">Please choose a user</span>
-            : null}
+          {userValidation
+            && <span className="error">Please choose a user</span>}
 
         </div>
 
