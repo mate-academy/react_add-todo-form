@@ -18,7 +18,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent): number => {
     event.preventDefault();
 
-    if (titleValue === '') {
+    if (titleValue.trim() === '') {
       setIsTitleInput(false);
     }
 
@@ -26,7 +26,7 @@ export const App = () => {
       setIsUserSelected(false);
     }
 
-    if (titleValue === '' || userValue === 0) {
+    if (titleValue.trim() === '' || userValue === 0) {
       return 0;
     }
 
@@ -73,7 +73,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter title"
             value={titleValue}
-            onChange={event => handleTitle(event)}
+            onChange={handleTitle}
           />
           {!isTitleInput && (
             <span className="error">Please enter a title</span>
@@ -87,7 +87,7 @@ export const App = () => {
             name="title"
             data-cy="userSelect"
             value={userValue}
-            onChange={event => handleUser(event)}
+            onChange={handleUser}
           >
             <option value="0" disabled>Choose a user</option>
 

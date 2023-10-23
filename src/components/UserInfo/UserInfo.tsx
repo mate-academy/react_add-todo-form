@@ -4,7 +4,7 @@ type Props = {
   user: User | undefined;
 };
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
+export const UserInfo = ({ user }: Props) => {
   return (
     <a
       className="UserInfo"
