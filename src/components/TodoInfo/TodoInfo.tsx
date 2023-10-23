@@ -1,8 +1,8 @@
 import { UserInfo } from '../UserInfo';
-import { UsersToDos } from '../../types/ToDo';
+import { UsersToDo } from '../../types/ToDo';
 
 type Props = {
-  todo: UsersToDos,
+  todo: UsersToDo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -12,7 +12,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     <article
       className={`TodoInfo ${completedTask}`}
       data-id={todo.id}
-      data-cy="titleInput"
+
     >
       <h2
         className="TodoInfo__title"

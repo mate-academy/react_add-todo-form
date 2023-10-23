@@ -7,6 +7,6 @@ export interface ToDo {
   userId: number,
 }
 
-export interface UsersToDos extends ToDo {
+export interface UsersToDo extends ToDo {
   user: User | null;
 }

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 // import cn from "classnames";
 import usersFromServer from '../../api/users';
-import { UsersToDos } from '../../types/ToDo';
+import { UsersToDo } from '../../types/ToDo';
 import { getUserById } from '../../services/user';
 // import { event } from 'cypress/types/jquery';
 
 type Props = {
-  onSubmit: (todo: UsersToDos) => void;
+  onSubmit: (todo: UsersToDo) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
@@ -58,6 +58,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         <input
           type="text"
           value={title}
+          placeholder="Enter your ToDo here"
           data-cy="titleInput"
           onChange={handleTitleChange}
         />
