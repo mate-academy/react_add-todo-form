@@ -1,45 +1,105 @@
-// import React, { useState } from react;
+import React, { useState } from 'react';
 // import cn from "classnames";
+import usersFromServer from '../../api/users';
+import { UsersToDos } from '../../types/ToDo';
+import { getUserById } from '../../services/user';
+// import { event } from 'cypress/types/jquery';
 
+type Props = {
+  onSubmit: (todo: UsersToDos) => void;
+};
 
-// export const TodoForm: React.FC = () => {
-//   const [hasError, setHasError] = useState(false);
+export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
 
-//   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
+  const [hasError, setHasError] = useState(false);
 
-//     if (!task) {
-//       setHasError(true);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasError(false);
+  };
 
-//       return;
-//     }
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setHasError(false);
+  };
 
-//     const newToDo: UsersToDos = {
-//       id:
-//       title,
-//       completed: boolean,
-//       userId: getUserById(userId),
-//     }
-//   }
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-//   return (
-//     <form action="/api/todos" method="POST">
-//         <div className="field">
-//           <input type="text" data-cy="titleInput" />
-//           <span className="error">Please enter a title</span>
-//         </div>
+    setHasError(!title);
 
-//         <div className="field">
-//           <select data-cy="userSelect">
-//             <option value="0" disabled>Choose a user</option>
-//           </select>
+    if (!title) {
+      return;
+    }
 
-//           <span className="error">Please choose a user</span>
-//         </div>
+    onSubmit({
+      id: 0,
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId),
+    });
+  };
 
-//         <button type="submit" data-cy="submitButton">
-//           Add
-//         </button>
-//       </form>
-//   )
-// }
+  return (
+    <form
+      action="/api/todos"
+      method="POST"
+      onSubmit={handleSubmit}
+    >
+      <div className="field">
+        <input
+          type="text"
+          data-cy="titleInput"
+          onChange={handleTitleChange}
+        />
+
+        {hasError && (
+          <span className="error">
+            Please enter a title
+          </span>
+        )}
+      </div>
+
+      <div className="field">
+        <select
+          data-cy="userSelect"
+          value={userId}
+          onChange={handleUserIdChange}
+        >
+          <option
+            value="0"
+            disabled
+          >
+            Choose a user
+          </option>
+          {usersFromServer.map(user => (
+            <option
+              value={user.id}
+              key={user.id}
+
+            >
+              {user.name}
+            </option>
+          ))}
+        </select>
+
+        {hasError && (
+          <span className="error">
+            Please choose a user
+          </span>
+        )}
+      </div>
+
+      <button
+        type="submit"
+        data-cy="submitButton"
+
+      >
+        Add
+      </button>
+    </form>
+  );
+};
