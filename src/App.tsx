@@ -20,10 +20,11 @@ export const App = () => {
   const [todos, setToDos] = useState<UsersToDo[]>(initialTodos);
 
   const addTodo = (newTodo: UsersToDo) => {
-    newTodo.id = getNewTodoId(todos);
+    const newTodoClone = newTodo;
+
+    newTodoClone.id = getNewTodoId(todos);
     setToDos(currentTodos => [...currentTodos, newTodo]);
   };
-  console.log(todos);
 
   return (
     <div className="App">
