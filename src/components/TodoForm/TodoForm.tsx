@@ -13,24 +13,26 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [hasError, setHasError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasError(false);
+    setHasTitleError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasError(false);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasError(!title);
+    setHasTitleError(!title);
+    setHasUserIdError(userId === 0);
 
-    if (!title) {
+    if (!title || userId === 0) {
       return;
     }
 
@@ -41,6 +43,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       userId,
       user: getUserById(userId),
     });
+
+    setTitle('');
+    setUserId(0);
   };
 
   return (
@@ -52,11 +57,12 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       <div className="field">
         <input
           type="text"
+          value={title}
           data-cy="titleInput"
           onChange={handleTitleChange}
         />
 
-        {hasError && (
+        {hasTitleError && (
           <span className="error">
             Please enter a title
           </span>
@@ -85,12 +91,12 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             </option>
           ))}
         </select>
-
-        {hasError && (
+        {hasUserIdError && (
           <span className="error">
             Please choose a user
           </span>
         )}
+
       </div>
 
       <button
