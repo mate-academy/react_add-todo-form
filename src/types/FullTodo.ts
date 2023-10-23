@@ -1,12 +1,9 @@
-export type FullTodo = {
+import { User } from './User';
+
+export interface FullTodo {
   id: number,
   title: string,
   completed: boolean,
   userId: number,
-  user: {
-    id: number,
-    name: string,
-    username: string,
-    email: string,
-  } | null,
-};
+  user: User | null,
+}

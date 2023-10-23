@@ -5,19 +5,24 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
+import { User } from './types/User';
 import { FullTodo } from './types/FullTodo';
 
-function getTodoList(todos: Todo[]):(FullTodo)[] {
+function findUserById(users: User[], userId: number): User | null {
+  return users.find(user => user?.id === userId) || null;
+}
+
+function getTodoList(todos: Todo[]):FullTodo[] {
   return todos.map(todo => {
     return {
       ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId) || null,
+      user: findUserById(usersFromServer, todo.userId),
     };
   });
 }
 
 function getNextTodoId(todos: FullTodo[]): number {
-  if (todos.length === 0) {
+  if (!todos.length) {
     return 1;
   }
 
