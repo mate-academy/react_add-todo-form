@@ -7,21 +7,18 @@ interface Props {
   todo: Todo,
 }
 
-export const TodoInfo: FC<Props> = ({ todo }) => {
-  console.log(todo);
-  return (
-    <article
-      data-id={todo.id}
-      className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
-      })}
-    >
+export const TodoInfo: FC<Props> = ({ todo }) => (
+  <article
+    data-id={todo.id}
+    className={cn('TodoInfo', {
+      'TodoInfo--completed': todo.completed,
+    })}
+  >
 
-      <h2 className="TodoInfo__title">
-        {todo.title}
-      </h2>
+    <h2 className="TodoInfo__title">
+      {todo.title}
+    </h2>
 
-      <UserInfo user={todo.user} />
-    </article>
-  );
-};
+    <UserInfo user={todo.user} />
+  </article>
+);

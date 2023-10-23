@@ -6,17 +6,15 @@ interface Props {
   todos: Todo[];
 }
 
-export const TodoList: FC<Props> = ({ todos }) => {
-  return (
-    <section className="TodoList">
-      {todos.map(todo => {
-        return (
-          <TodoInfo
-            key={todo.id}
-            todo={todo}
-          />
-        );
-      })}
-    </section>
-  );
-};
+export const TodoList: FC<Props> = ({ todos }) => (
+  <section className="TodoList">
+    {todos.map(todo => {
+      return (
+        <TodoInfo
+          key={todo.id}
+          todo={todo}
+        />
+      );
+    })}
+  </section>
+);

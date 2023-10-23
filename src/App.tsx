@@ -18,7 +18,7 @@ const preparedTodos = todosFromServer.map(todo => {
 
   return {
     ...todo,
-    user: user,
+    user,
   };
 });
 
