@@ -1,61 +1,103 @@
+import { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import cn from 'classnames';
+import colorsFromServer from './api/colors';
+import goodsFromServer from './api/goods';
+import { GoodsList } from './components/GoodsList/GoosList';
+import { GoodsWithColors } from './types/Good';
+
+function getColorById(id: number) {
+  return colorsFromServer.find(color => color.id === id) || null;
+}
+
+const goodsWithColors: GoodsWithColors[] = goodsFromServer.map(good => ({
+  ...good,
+  color: getColorById(good.colorId),
+}));
 
 export const App = () => {
+  const [name, setName] = useState('');
+  const [currentColorId, setCurrentColorId] = useState(0);
+  const [goods, setGoods] = useState(goodsWithColors);
+  const [hasNameError, setHasNameError] = useState(false);
+
+  const hasEmptyFields = !name || !currentColorId;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!name) {
+      setHasNameError(true);
+
+      return;
+    }
+
+    const newGood: GoodsWithColors = {
+      id: Date.now(),
+      name,
+      colorId: currentColorId,
+      color: getColorById(currentColorId),
+    };
+
+    setGoods(currentGoods => [...currentGoods, newGood]);
+
+    setName('');
+    setCurrentColorId(0);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <form
+        onSubmit={handleSubmit}
+      >
+        <input
+          className={cn({
+            'with-error': hasNameError,
+          })}
+          type="text"
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value);
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+            if (event.target.value) {
+              setHasNameError(false);
 
-          <span className="error">Please choose a user</span>
-        </div>
+              return;
+            }
 
-        <button type="submit" data-cy="submitButton">
+            setHasNameError(true);
+          }}
+        />
+
+        <select
+          value={currentColorId}
+          onChange={(event) => {
+            setCurrentColorId(+event.target.value);
+          }}
+        >
+          <option value="0" disabled>Choose a color</option>
+          {colorsFromServer.map(color => (
+            <option
+              key={color.id}
+              value={color.id}
+            >
+              {color.name}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="submit"
+          disabled={hasEmptyFields}
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <GoodsList goods={goods} />
     </div>
   );
 };
