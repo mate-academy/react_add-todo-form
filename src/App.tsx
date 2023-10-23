@@ -1,7 +1,7 @@
 import './App.scss';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { Todo, User } from './types';
+import { Todo } from './types';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -21,7 +21,6 @@ const defaultTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(defaultTodos);
-  const [users] = useState<User[]>(usersFromServer);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [errorTitle, setErrorTitle] = useState(false);
@@ -101,7 +100,7 @@ export const App = () => {
             data-cy="userSelect"
           >
             <option value="0" disabled>Choose a user</option>
-            {users.map(user => (
+            {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
