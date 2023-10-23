@@ -102,7 +102,8 @@ export const App = () => {
             </select>
           </label>
 
-          {selectError && (<span className="error">Please choose a user</span>)}
+          {selectError
+            && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button type="submit" data-cy="submitButton">
