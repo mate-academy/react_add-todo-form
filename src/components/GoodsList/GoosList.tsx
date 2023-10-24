@@ -1,23 +1,27 @@
 import { GoodsWithColors } from '../../types/Good';
+import { ProductCard } from '../ProductCard';
 
 type Props = {
   goods: GoodsWithColors[];
+  deleteGoodHandler: (id: number) => void;
+  updateGoodsHandler: (newGood: GoodsWithColors) => void;
 };
 
-export const GoodsList: React.FC<Props> = ({ goods }) => (
-  <div className="GoodList">
-    {goods.map(good => (
-      <article
-        key={good.id}
-        className="GoodCard"
-      >
-        <p
-          className="GoodCard__title"
-          style={{ color: good.color?.name || 'black' }}
-        >
-          {good.name}
-        </p>
-      </article>
-    ))}
-  </div>
-);
+export const GoodsList: React.FC<Props> = ({
+  goods,
+  deleteGoodHandler,
+  updateGoodsHandler,
+}) => {
+  return (
+    <div className="GoodList">
+      {goods.map(good => (
+        <ProductCard
+          key={good.id}
+          deleteGoodHandler={deleteGoodHandler}
+          updateGoodsHandler={updateGoodsHandler}
+          good={good}
+        />
+      ))}
+    </div>
+  );
+};
