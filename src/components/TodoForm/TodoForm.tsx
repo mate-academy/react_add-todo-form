@@ -13,8 +13,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  function onHandle(e: React.FormEvent) {
-    e.preventDefault();
+  function onHandle(event: React.FormEvent) {
+    event.preventDefault();
 
     if (!title) {
       setTitleError(true);
