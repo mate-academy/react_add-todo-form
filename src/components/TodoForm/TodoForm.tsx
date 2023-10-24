@@ -12,8 +12,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [userId, setUserId] = useState(0);
 
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasUserIdError, setHasUserIdError] = useState(false);
-  // const [hasErrorMessage, setHasErrorMessage] = useState('');
+  const [userIdErrorMessage, setUserIdErrorMessage] = useState('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -22,18 +21,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUserIdError(false);
+    setUserIdErrorMessage('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasUserIdError(userId === 0);
-
-    // if (!title) {
-    //   setHasErrorMessage('Please choose a user')
-    // }
+    if (userId === 0) {
+      setUserIdErrorMessage('Please choose a user');
+    }
 
     if (!title || userId === 0) {
       return;
@@ -96,10 +93,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             </option>
           ))}
         </select>
-        {hasUserIdError && (
-          <span className="error">
-            Please choose a user
-          </span>
+        {userIdErrorMessage && (
+          <span className="error">{userIdErrorMessage}</span>
         )}
 
       </div>

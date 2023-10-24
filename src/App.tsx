@@ -14,6 +14,7 @@ export const initialTodos: UsersToDo[] = todosFromServer.map(todo => ({
 
 function getNewTodoId(todos: UsersToDo[]) {
   const maxId = Math.max(...todos.map(todo => todo.id));
+
   return maxId + 1;
 }
 
@@ -25,6 +26,7 @@ export const App = () => {
       ...newTodo,
       id: getNewTodoId(todos),
     };
+
     setToDos(currentTodos => [...currentTodos, newTodoClone]);
   };
 
