@@ -7,13 +7,20 @@ type Props = {
   onAdd: (value: Todo) => void
 };
 
+const getId = () => (Math.max(...todosFromServer.map(el => el.id)) + 1);
+
 export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  function onHandle(event: React.FormEvent) {
+  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUserId(+event.target.value);
+    setUserError(false);
+  }
+
+  function handleFormSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     if (!title) {
@@ -26,7 +33,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
 
     if (title && userId) {
       onAdd({
-        id: (Math.max(...todosFromServer.map(el => el.id)) + 1),
+        id: getId(),
         title,
         completed: false,
         userId,
@@ -38,7 +45,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   }
 
   return (
-    <form action="/api/todos" method="POST" onSubmit={onHandle}>
+    <form action="/api/todos" method="POST" onSubmit={handleFormSubmit}>
       <div className="field">
         <label>
           Title:&nbsp;
@@ -54,7 +61,11 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           />
         </label>
         {titleError
-          && <span className="error">Please enter a title</span>}
+          && (
+            <span className="error">
+              Please enter a title
+            </span>
+          )}
       </div>
 
       <div className="field">
@@ -63,14 +74,13 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={((e) => {
-              setUserId(+e.target.value);
-              setUserError(false);
-            })}
+            onChange={handleChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
         </label>
