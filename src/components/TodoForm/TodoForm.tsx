@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-// import cn from "classnames";
 import usersFromServer from '../../api/users';
 import { UsersToDo } from '../../types/ToDo';
 import { getUserById } from '../../services/user';
-// import { event } from 'cypress/types/jquery';
 
 type Props = {
   onSubmit: (todo: UsersToDo) => void;

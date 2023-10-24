@@ -16,7 +16,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2
         className="TodoInfo__title"
-        // style={{ color: todo.completed || 'blue'}}
       >
         {todo.title}
       </h2>
