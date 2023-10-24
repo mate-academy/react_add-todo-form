@@ -36,6 +36,11 @@ export const App: React.FC = () => {
     setHasUserError(false);
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
   const handleSubmit = ((e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -67,8 +72,7 @@ export const App: React.FC = () => {
     };
 
     setNewTodos(prevState => [...prevState, newTodo]);
-    setTitle('');
-    setUserId(0);
+    resetForm();
   });
 
   return (
