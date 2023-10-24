@@ -20,9 +20,10 @@ export const App = () => {
   const [todos, setToDos] = useState<UsersToDo[]>(initialTodos);
 
   const addTodo = (newTodo: UsersToDo) => {
-    const newTodoClone = newTodo;
-
-    newTodoClone.id = getNewTodoId(todos);
+    const newTodoClone = {
+      ...newTodo,
+      id: getNewTodoId(todos),
+    };
     setToDos(currentTodos => [...currentTodos, newTodo]);
   };
 
