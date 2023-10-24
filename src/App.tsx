@@ -6,10 +6,13 @@ import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 import { User } from './types/User';
 
+const getUserById = (id: number): User | undefined => {
+  return usersFromServer.find(user => user.id === id);
+};
+
 const initializedTodos = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer
-    .find((user: User) => user.id === todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -18,10 +21,6 @@ export const App: React.FC = () => {
   const [newTodoTitle, setNewTodoTitle] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [titleError, setTitleError] = useState<string>('');
-
-  const findUserById = (id: number): User | undefined => {
-    return usersFromServer.find((user: User) => user.id === id);
-  };
 
   const clear = () => {
     setNewTodoTitle('');
@@ -68,7 +67,7 @@ export const App: React.FC = () => {
       title: newTodoTitle,
       userId: selectedUser,
       completed: false,
-      user: findUserById(selectedUser),
+      user: getUserById(selectedUser),
     };
 
     setTodos([...todos, newTodo]);
