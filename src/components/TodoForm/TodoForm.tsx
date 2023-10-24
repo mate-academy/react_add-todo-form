@@ -13,6 +13,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
+  // const [hasErrorMessage, setHasErrorMessage] = useState('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -29,6 +30,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
     setHasTitleError(!title);
     setHasUserIdError(userId === 0);
+
+    // if (!title) {
+    //   setHasErrorMessage('Please choose a user')
+    // }
 
     if (!title || userId === 0) {
       return;

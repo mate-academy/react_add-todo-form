@@ -13,7 +13,8 @@ export const initialTodos: UsersToDo[] = todosFromServer.map(todo => ({
 }));
 
 function getNewTodoId(todos: UsersToDo[]) {
-  return todos.sort((a, b) => b.id - a.id)[0].id + 1;
+  const maxId = Math.max(...todos.map(todo => todo.id));
+  return maxId + 1;
 }
 
 export const App = () => {
@@ -24,7 +25,7 @@ export const App = () => {
       ...newTodo,
       id: getNewTodoId(todos),
     };
-    setToDos(currentTodos => [...currentTodos, newTodo]);
+    setToDos(currentTodos => [...currentTodos, newTodoClone]);
   };
 
   return (
