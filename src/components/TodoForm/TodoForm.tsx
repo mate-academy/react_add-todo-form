@@ -53,6 +53,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       onSubmit={handleSubmit}
     >
       <div className="field">
+        <span>Title: </span>
         <input
           type="text"
           value={title}
@@ -69,6 +70,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       </div>
 
       <div className="field">
+        <span>User: </span>
         <select
           data-cy="userSelect"
           value={userId}
