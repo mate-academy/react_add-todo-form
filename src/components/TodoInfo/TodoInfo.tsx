@@ -1,15 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
+import { Todo } from '../../types/types';
 
-type Props = {
-  id: number,
-  title: string,
-  userId: number,
-  completed: boolean,
-};
-
-export const TodoInfo: React.FC<Props> = ({
+export const TodoInfo: React.FC<Todo> = ({
   id,
   title,
   userId,
