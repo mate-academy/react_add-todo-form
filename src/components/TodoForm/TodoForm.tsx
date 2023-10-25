@@ -72,7 +72,7 @@ export const TodoForm: React.FC<Props> = ({ addToDo, todos }) => {
         >
           <option value="0" disabled>Choose a user</option>
           {usersFromServer.map(
-            user => <option value={user.id}>{user.name}</option>,
+            user => <option value={user.id} key={user.id}>{user.name}</option>,
           )}
         </select>
 
