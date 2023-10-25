@@ -1,133 +1,40 @@
-import React, { useState } from 'react';
 import './App.scss';
-
-import todos from './api/todos';
-
-import { getUserById } from './utils/usersId';
-
-import users from './api/users';
-
+import { useState } from 'react';
+import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './interface/Todo';
+import { Form } from './components/Form/Form';
+import { getUserById } from './utils/usersId';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+export const initialTodos: Todo[] = todosFromServer.map((todo) => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
-export const preparedTodos: Todo[] = todos.map((todo) => (
-  {
-    ...todo,
-    user: getUserById(todo.userId),
-  }
-));
+function getNewTodoId(todos: Todo[]) {
+  const maxId = Math.max(...todos.map((todo) => todo.id));
+
+  return maxId + 1;
+}
+
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasUserError, setHasUserError] = useState(false);
-  const [newTodos, setNewTodos] = useState<Todo[]>(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  function validateTitle(input: string) {
-    const validateInput = input.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
-
-    return validateInput;
-  }
-
-  const addTodo = (newPreparedTodo: Todo) => {
-    setNewTodos((currentTodos) => [
-      ...currentTodos,
-      { ...newPreparedTodo },
-    ]);
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const validateInput = validateTitle(event.target.value);
-
-    setTitle(validateInput);
-    setHasTitleError(false);
-  };
-
-  const reset = () => {
-    setTitle('');
-    setUserId(0);
-    setHasTitleError(false);
-    setHasUserError(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    setHasTitleError(!title);
-    setHasUserError(!userId);
-
-    if (!title || !userId) {
-      return;
-    }
-
-    const newPreparedTodo: Todo = {
-      id: Math.max(...newTodos.map(t => t.id)) + 1,
-      completed: false,
-      title,
-      userId,
-      user: getUserById(userId),
+  const addTodo = (todo: Todo) => {
+    const newTodo = {
+      ...todo,
+      id: getNewTodoId(todos),
     };
 
-    addTodo(newPreparedTodo);
-    reset();
-  };
-
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
-    setHasUserError(false);
+    setTodos((currentTodos) => [...currentTodos, newTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      <Form onSubmit={addTodo} />
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-        <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={title}
-            onChange={handleTitleChange}
-          />
-
-          {hasTitleError
-            && (
-              <span className="error">Please enter a title</span>
-            )}
-        </div>
-
-        <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={handleUserChange}
-          >
-            <option value="0" disabled>Choose a user</option>
-            {users.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>
-            ))}
-          </select>
-
-          {hasUserError && (
-            <span className="error">Please choose a user</span>
-          )}
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-      <TodoList
-        todos={newTodos}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
