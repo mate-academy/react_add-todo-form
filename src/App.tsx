@@ -25,14 +25,12 @@ function getMaxId(posts: Todos[]) {
 }
 
 export const App = () => {
+  const [posts, setPosts] = useState(todos);
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [titleGrammaticalError, setTitleGrammaticalError] = useState('');
+  const [titleError, setTitleError] = useState('');
 
   const [selectedUser, setSelectedUser] = useState(0);
   const [selectedUserError, setSelectedUserError] = useState(false);
-
-  const [posts, setPosts] = useState(todos);
 
   const pattern = /^[a-zA-Zа-яА-ЯґҐєЄіІїЇ0-9\s]*$/;
 
@@ -40,30 +38,37 @@ export const App = () => {
     setTitle('');
     setSelectedUser(0);
 
-    setTitleError(false);
+    setTitleError('');
     setSelectedUserError(false);
-
-    setTitleGrammaticalError('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title && !selectedUser) {
-      setTitleError(true);
+      setTitleError('Please enter a title');
       setSelectedUserError(true);
 
       return;
     }
 
     if (!title) {
-      setTitleError(true);
+      setTitleError('Please enter a title');
+
+      return;
+    }
+
+    if (!pattern.test(title) && !selectedUser) {
+      setTitleError(
+        'Please use only ua and en letters, digits, and spaces',
+      );
+      setSelectedUserError(true);
 
       return;
     }
 
     if (!pattern.test(title)) {
-      setTitleGrammaticalError(
+      setTitleError(
         'Please use only ua and en letters, digits, and spaces',
       );
 
@@ -89,6 +94,16 @@ export const App = () => {
     reset();
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError('');
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setSelectedUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -104,20 +119,16 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-              setTitleGrammaticalError('');
-            }}
+            onChange={handleTitleChange}
           />
 
-          {titleError && (
-            <span className="error">Please enter a title</span>
+          {!title && (
+            <span className="error">{titleError}</span>
           )}
 
-          {titleGrammaticalError && (
+          {!pattern.test(title) && (
             <span className="error">
-              Please use only ua and en letters, digits, and spaces
+              {titleError}
             </span>
           )}
         </div>
@@ -126,10 +137,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => {
-              setSelectedUser(+event.target.value);
-              setSelectedUserError(false);
-            }}
+            onChange={handleSelectChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
