@@ -31,6 +31,12 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (title.trim() === '') {
+      setTitleError(true);
+
+      return;
+    }
+
     if (!title) {
       setTitleError(true);
       if (!newUser) {
