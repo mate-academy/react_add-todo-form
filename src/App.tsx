@@ -34,23 +34,10 @@ export const App = () => {
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    let hasErrors = false;
+    if (!title || !userId) {
+      setHasTitleError(!title);
+      setSelectedIdUserError(!userId);
 
-    if (!title) {
-      setHasTitleError(true);
-      hasErrors = true;
-    } else {
-      setHasTitleError(false);
-    }
-
-    if (!userId) {
-      setSelectedIdUserError(true);
-      hasErrors = true;
-    } else {
-      setSelectedIdUserError(false);
-    }
-
-    if (hasErrors) {
       return;
     }
 
