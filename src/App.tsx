@@ -56,7 +56,7 @@ export const App: React.FC = () => {
             onChange={(event) => setTitle(event.target.value)}
           />
           <span className="error">
-            {isError && !title ? 'Please choose a user' : ''}
+            {isError && !title ? 'Please enter a title' : ''}
           </span>
         </div>
 
