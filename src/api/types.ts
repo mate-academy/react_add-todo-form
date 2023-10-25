@@ -1,8 +1,9 @@
-interface Todo {
+export interface Todo {
   id: number,
   title: string,
   completed: boolean,
   userId: number,
+  user?: User | null,
 }
 
 export interface User {
@@ -11,5 +12,3 @@ export interface User {
   username: string,
   email: string,
 }
-
-export type TodoWithUser = Todo & { user?: User };
