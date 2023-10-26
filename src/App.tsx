@@ -17,7 +17,7 @@ function getNewTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
-const todos: Todo[] = todosFromServer.map(todo => {
+const groupedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: getUser(todo.userId),
@@ -25,45 +25,49 @@ const todos: Todo[] = todosFromServer.map(todo => {
 });
 
 export const App: React.FC = () => {
-  const [initialTodo, setInitialTodo] = useState<Todo[]>(todos);
+  const [todos, setTodos] = useState<Todo[]>(groupedTodos);
 
   const [userId, setUserId] = useState(0);
-  const [selectErrorMessage, setSelectErrorMessage] = useState(false);
+  const [userErrorMessage, setUserErrorMessage] = useState('');
 
   const [title, setTitle] = useState('');
-  const [titleErrorMessage, setTitleErrorMessage] = useState(false);
+  const [titleErrorMessage, setTitleErrorMessage] = useState('');
 
   const addNewTodo = ({ id, ...data }: Todo) => {
     const newTodo = {
-      id: getNewTodoId(initialTodo),
+      id: getNewTodoId(todos),
       ...data,
     };
 
-    setInitialTodo((currentTodo) => [...currentTodo, newTodo]);
+    setTodos((currentTodo) => [...currentTodo, newTodo]);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleErrorMessage(false);
+    setTitleErrorMessage('');
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setSelectErrorMessage(false);
+    setUserErrorMessage('');
   };
 
   const resetForm = () => {
     setTitle('');
     setUserId(0);
-    setTitleErrorMessage(false);
-    setSelectErrorMessage(false);
+    setTitleErrorMessage('');
+    setUserErrorMessage('');
   };
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
+    if (!title) {
+      setTitleErrorMessage('Please enter a title');
+    }
 
-    setTitleErrorMessage(!title);
-    setSelectErrorMessage(!userId);
+    if (!userId) {
+      setUserErrorMessage('Please choose a user');
+    }
 
     if (!title || !userId) {
       return;
@@ -100,7 +104,7 @@ export const App: React.FC = () => {
 
           {titleErrorMessage && (
             <span className="error">
-              Please enter a title
+              {titleErrorMessage}
             </span>
           )}
         </div>
@@ -121,9 +125,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {selectErrorMessage && (
+          {userErrorMessage && (
             <span className="error">
-              Please choose a user
+              {userErrorMessage}
             </span>
           )}
         </div>
@@ -134,7 +138,7 @@ export const App: React.FC = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={initialTodo} />
+        <TodoList todos={todos} />
       </section>
     </div>
   );
