@@ -43,12 +43,12 @@ export const App: React.FC = () => {
       };
 
       setTodos(prevTodos => [...prevTodos, newTodo]);
-    }
 
-    setTitle('');
-    setTitleError(false);
-    setUserId(0);
-    setUserError(false);
+      setTitle('');
+      setTitleError(false);
+      setUserId(0);
+      setUserError(false);
+    }
   };
 
   return (
