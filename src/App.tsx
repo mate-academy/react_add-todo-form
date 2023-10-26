@@ -6,10 +6,9 @@ import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const initialList = todosFromServer;
-  const [listOfToDos, setListOfToDos] = useState(initialList);
-  const [selected, setSelected] = useState('-1');
-  const [selectError, setSelectError] = useState(false);
+  const [listOfToDos, setListOfToDos] = useState(todosFromServer);
+  const [selectedUser, setSelectedUser] = useState('-1');
+  const [userError, setUserError] = useState(false);
   const [inputTitle, setInputTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const ToDosWithUsers = listOfToDos.map(todo => ({
@@ -17,16 +16,26 @@ export const App = () => {
     user: usersFromServer.find(user => user.id === todo.userId) || null,
   }));
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(event.target.value);
+    setUserError(false);
+  };
+
   const addToDo = () => {
-    if (selected === '-1') {
-      setSelectError(true);
+    if (selectedUser === '-1') {
+      setUserError(true);
     }
 
     if (!inputTitle) {
       setTitleError(true);
     }
 
-    if (selected === '-1' || !inputTitle) {
+    if (selectedUser === '-1' || !inputTitle) {
       return;
     }
 
@@ -34,13 +43,13 @@ export const App = () => {
       id: Math.max(...listOfToDos.map(toDo => toDo.id)) + 1,
       title: inputTitle,
       completed: false,
-      userId: +selected,
+      userId: +selectedUser,
     };
 
-    const newList = () => [...listOfToDos, newToDo];
+    const newList = [...listOfToDos, newToDo];
 
     setListOfToDos(newList);
-    setSelected('-1');
+    setSelectedUser('-1');
     setInputTitle('');
   };
 
@@ -59,10 +68,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter Title"
             value={inputTitle}
-            onChange={(event) => {
-              setInputTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={(event) => handleTitleChange(event)}
           />
 
           {titleError && (<span className="error">Please enter a title</span>)}
@@ -70,14 +76,11 @@ export const App = () => {
 
         <div>
           <select
-            value={selected}
-            onChange={(event) => {
-              setSelected(event.target.value);
-              setSelectError(false);
-            }}
+            value={selectedUser}
+            onChange={(event) => handleUserChange(event)}
             data-cy="userSelect"
           >
-            <option key={-1} value="-1">
+            <option value="-1">
               Choose a user
             </option>
 
@@ -88,7 +91,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectError && (<span className="error">Please choose a user</span>)}
+          {userError && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button
