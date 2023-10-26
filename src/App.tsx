@@ -40,23 +40,17 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    let hasError = false;
+    const userErrorMessage = !selectedUser || selectedUser === 0
+      ? 'Please choose a user'
+      : '';
+    const titleErrorMessage = !newTodoTitle
+      ? 'Please enter a title'
+      : '';
 
-    if (!selectedUser || selectedUser === 0) {
-      setUserError('Please choose a user');
-      hasError = true;
-    } else {
-      setUserError('');
-    }
+    setUserError(userErrorMessage);
+    setTitleError(titleErrorMessage);
 
-    if (newTodoTitle === '') {
-      setTitleError('Please enter a title');
-      hasError = true;
-    } else {
-      setTitleError('');
-    }
-
-    if (hasError) {
+    if (userErrorMessage || titleErrorMessage) {
       return;
     }
 
