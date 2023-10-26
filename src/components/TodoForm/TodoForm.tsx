@@ -85,8 +85,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           </select>
         </label>
         {userError && (
-          <span className="error">Please choose a user</span>)}
-
+          <span className="error">Please choose a user</span>
+        )}
       </div>
 
       <button type="submit" data-cy="submitButton">
