@@ -12,7 +12,7 @@ button {
 }
 
 .error {
-  color: red;
+  color: rgba(255, 0, 0, 0.64);
 }
 
 .TodoInfo {
@@ -21,16 +21,16 @@ button {
   margin: 12px 0;
   border: 1px solid #000;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: rgb(242, 239, 234);
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: rgb(175, 20, 20);
   }
 
   &--completed &__title {
-    color: #080;
+    color: rgb(10, 99, 10);
   }
 }
 
