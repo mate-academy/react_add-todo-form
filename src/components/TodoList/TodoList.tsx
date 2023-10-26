@@ -12,6 +12,7 @@ export const TodoList = ({ todos }: { todos: ToDo[] }) => (
   <section className="TodoList">
     {todos.map(todo => (
       <TodoInfo
+        data-id={todo.id}
         todo={todo}
         key={todo.id}
       />
