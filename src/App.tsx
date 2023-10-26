@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import './App.scss';
-// import cn from 'classnames';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TasksWithTodo } from './types/Todo';
 import { TodoList } from './components/TodoList';
-
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
+import { getUserById } from './components/Helper/Helper';
 
 const tasksWithTodo: TasksWithTodo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -48,17 +44,8 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
-      setHasTitleError(true);
-    } else {
-      setHasTitleError(false);
-    }
-
-    if (!currentUserId) {
-      setHasUserError(true);
-    } else {
-      setHasUserError(false);
-    }
+    setHasTitleError(!title);
+    setHasUserError(!currentUserId);
 
     const newTodo: TasksWithTodo = {
       id: getId,
@@ -113,8 +100,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {hasUserError
-            && <span className="error">Please choose a user</span>}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button
