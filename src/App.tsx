@@ -65,7 +65,7 @@ export const App = () => {
             }}
           />
 
-          {titleError && (<p>Please enter a title</p>)}
+          {titleError && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div>
@@ -88,7 +88,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectError && (<p>Please choose a user</p>)}
+          {selectError && (<span className="error">Please choose a user</span>)}
         </div>
 
         <button
