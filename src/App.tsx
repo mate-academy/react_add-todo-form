@@ -1,61 +1,104 @@
+import { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import { TodoList } from './components/TodoList';
 
 export const App = () => {
+  const initialList = todosFromServer;
+  const [listOfToDos, setListOfToDos] = useState(initialList);
+  const [selected, setSelected] = useState('-1');
+  const [selectError, setSelectError] = useState(false);
+  const [inputTitle, setInputTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const ToDosWithUsers = listOfToDos.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  }));
+
+  const addToDo = () => {
+    if (selected === '-1') {
+      setSelectError(true);
+    }
+
+    if (!inputTitle) {
+      setTitleError(true);
+    }
+
+    if (selected === '-1' || !inputTitle) {
+      return;
+    }
+
+    const newToDo = {
+      id: Math.max(...listOfToDos.map(toDo => toDo.id)) + 1,
+      title: inputTitle,
+      completed: false,
+      userId: +selected,
+    };
+
+    const newList = () => [...listOfToDos, newToDo];
+
+    setListOfToDos(newList);
+    setSelected('-1');
+    setInputTitle('');
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Static list of todos</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          addToDo();
+        }}
+      >
+        <div>
+          <input
+            data-cy="titleInput"
+            placeholder="Enter Title"
+            value={inputTitle}
+            onChange={(event) => {
+              setInputTitle(event.target.value);
+              setTitleError(false);
+            }}
+          />
+
+          {titleError && (<p>Please enter a title</p>)}
         </div>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+        <div>
+          <select
+            value={selected}
+            onChange={(event) => {
+              setSelected(event.target.value);
+              setSelectError(false);
+            }}
+            data-cy="userSelect"
+          >
+            <option key={-1} value="-1">
+              Choose a user
+            </option>
+
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {selectError && (<p>Please choose a user</p>)}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={ToDosWithUsers} />
     </div>
   );
 };
