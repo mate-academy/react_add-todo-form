@@ -18,6 +18,7 @@ export const App: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [hasNoTitleError, setHasNoTitleError] = useState(true);
+  const hasTitleSymbs = title.split('').some(char => char !== ' ');
 
   const [userId, setUserId] = useState(0);
   const [hasNoUserIdError, setHasNoUserIdError] = useState(true);
@@ -33,10 +34,10 @@ export const App: React.FC = () => {
   };
 
   const addTodo = (event: React.FormEvent) => {
-    const hasNoError = !!title && !!userId;
+    const hasNoError = !!title && !!userId && hasTitleSymbs;
 
     event.preventDefault();
-    setHasNoTitleError(!!title);
+    setHasNoTitleError(!!title && hasTitleSymbs);
     setHasNoUserIdError(!!userId);
 
     if (hasNoError) {
