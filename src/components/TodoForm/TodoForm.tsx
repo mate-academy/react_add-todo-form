@@ -33,10 +33,10 @@ export const TodoForm = ({ addTodo }: Props) => {
 
   const hendlerSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setSelectError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
