@@ -1,8 +1,8 @@
 import './App.scss';
+import { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
 import TodoList from './components/TodoList/TodoList';
 import { User } from './Types/User';
 import { Todo } from './Types/Todo';
@@ -15,25 +15,45 @@ export const App = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newUser, setNewUser] = useState(0);
 
+  function getNewTodoId() {
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
-    const addTodo = () => {
-      if (!validFormTitle() && !validFormUser()) {
-        const newTodo = {
-          id: getNewTodoId(todos),
-          title: newTitle,
-          userId: newUser,
-          completed: false,
-        };
+    return maxId + 1;
+  }
 
-        setTodos([...todos, newTodo]);
-      }
+  const validFormUser = () => (newUser
+    ? (setEmptyUser(false), false) : (setEmptyUser(true), true));
+
+  const validFormTitle = () => (newTitle
+    ? (setEmptyTitle(false), false) : (setEmptyTitle(true), true));
+
+  const addTodo = () => {
+    if (!validFormTitle() && !validFormUser()) {
+      const newTodo = {
+        id: getNewTodoId(),
+        title: newTitle,
+        userId: newUser,
+        completed: false,
+      };
+
+      setTodos([...todos, newTodo]);
+    }
+  };
+
+  const reset = () => {
+    if (validFormTitle()) {
+      setNewTitle('');
     }
 
-    function getNewTodoId(todos: Todo[]) {
-      const maxId = Math.max(...todos.map(todo => todo.id));
-
-      return maxId + 1;
+    if (validFormUser()) {
+      setNewUser(0);
     }
+
+    if (!validFormTitle() && !validFormUser()) {
+      setNewUser(0);
+      setNewTitle('');
+    }
+  };
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,97 +61,50 @@ export const App = () => {
     validFormUser();
     addTodo();
     reset();
-  }
-
-  const validFormUser = () => {
-    if (newUser) {
-      return setEmptyUser(false), false;
-    } else {
-      return setEmptyUser(true), true;
-    }
-  }
-
-  const validFormTitle = () => {
-    if (newTitle) {
-      return setEmptyTitle(false), false;
-    } else {
-      return setEmptyTitle(true), true;
-    }
-  }
-
-  const reset = () => {
-    if (validFormTitle()) {
-      setNewTitle('');
-    }
-    if (validFormUser()) {
-      setNewUser(0);
-    }
-    if (!validFormTitle() && !validFormUser()) {
-      setNewUser(0);
-      setNewTitle('');
-    }
-  }
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-      action="/api/todos"
-      method="POST"
-      onSubmit={submitHandler}
-      >
-
+      <form action="/api/todos" method="POST" onSubmit={submitHandler}>
         <div className="field">
-        Title: <input
-          type="text"
-          data-cy="titleInput"
-          placeholder="Enter a title"
-          value={newTitle}
-          onChange={(e) => {
-            setNewTitle(e.target.value);
-            setEmptyTitle(false)
-            ;
-          }}
-        />
-          {emptyTitle
-              && (
-                <span className="error">
-                  Please enter a title
-                </span>
-              )}
+          Title:
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={newTitle}
+            onChange={(e) => {
+              setNewTitle(e.target.value);
+              setEmptyTitle(false);
+            }}
+          />
+          {emptyTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-      User:
-      <select
-        data-cy="userSelect"
-        value={newUser}
-        onChange={(e) => {
-          setNewUser(+e.target.value);
-          setEmptyUser(false)
-        }}
-      >
-       <option value="0" disabled>Choose a user</option>
-        {users
-          .map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-      ))}
-      </select>
+          User:
+          <select
+            data-cy="userSelect"
+            value={newUser}
+            onChange={(e) => {
+              setNewUser(+e.target.value);
+              setEmptyUser(false);
+            }}
+          >
+            <option value="0" disabled>Choose a user</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
 
-        {emptyUser && (
-          <span className="error">Please choose a user</span>
-        )}
+          {emptyUser && <span className="error">Please choose a user</span>}
         </div>
 
-        <button
-        type="submit"
-        data-cy="submitButton"
-        >
-          Add
-        </button>
+        <button type="submit" data-cy="submitButton">Add</button>
       </form>
       <TodoList todos={todos} users={users} />
     </div>
