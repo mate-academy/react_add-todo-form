@@ -6,15 +6,13 @@ import { TodoList } from './components/TodoList';
 import { TodoUser } from './types/ToDoInfo';
 
 export const App = () => {
-  const users = [...usersFromServer];
-
   const [chooseUserId, setChooseUserId] = useState(0);
   const [title, setTitle] = useState('');
 
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const [todos, setTodos] = useState([...todosFromServer]);
+  const [todos, setTodos] = useState(todosFromServer);
 
   function findUser(userId: number) {
     return usersFromServer.find((user) => user.id === userId) || null;
@@ -28,6 +26,16 @@ export const App = () => {
   const clear = () => {
     setChooseUserId(0);
     setTitle('');
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(!event.target.value);
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setChooseUserId(+event.target.value);
+    setUserError(+event.target.value === 0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -66,10 +74,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Text"
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(!event.target.value);
-            }}
+            onChange={(event) => handleInputChange(event)}
           />
 
           {titleError
@@ -81,13 +86,10 @@ export const App = () => {
             data-cy="userSelect"
             value={chooseUserId}
             placeholder="Email"
-            onChange={(event) => {
-              setChooseUserId(+event.target.value);
-              setUserError(+event.target.value === 0);
-            }}
+            onChange={(event) => handleSelectChange(event)}
           >
             <option value="0" disabled>Choose a user</option>
-            {users.map((user) => (
+            {usersFromServer.map((user) => (
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
