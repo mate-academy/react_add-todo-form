@@ -63,6 +63,9 @@ export const App = () => {
                   value: /^[A-ZА-ЯЄІЇ0-9\s]+$/gi,
                   message: 'Title is not correct',
                 },
+                validate: (value: string) => (
+                  !!value.trim() || 'Title contains only spaces'
+                ),
                 onChange: ({ target: { value } }) => {
                   const newValue = value.replace(/[^A-ZА-ЯЄІЇ0-9\s]+/gi, '');
 
