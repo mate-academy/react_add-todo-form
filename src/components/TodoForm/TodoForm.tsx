@@ -69,8 +69,7 @@ export const TodoForm = ({ addTodo }: Props) => {
           onChange={hendlerTitleChange}
           placeholder="title"
         />
-        {hasTitleError
-        && <span className="error">Please enter a title</span> }
+        {hasTitleError && <span className="error">Please enter a title</span> }
       </div>
 
       <div className="field">
@@ -83,16 +82,14 @@ export const TodoForm = ({ addTodo }: Props) => {
             Choose a user
           </option>
 
-          {
-            usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
-                {user.name}
-              </option>
-            ))
-          }
+          {usersFromServer.map(user => (
+            <option
+              key={user.id}
+              value={user.id}
+            >
+              {user.name}
+            </option>
+          ))}
         </select>
         {hasSelectError
         && <span className="error">Please choose a user</span>}
