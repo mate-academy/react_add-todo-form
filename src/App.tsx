@@ -4,20 +4,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import TodoList from './components/TodoList/TodoList';
-
-export interface Todo {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-}
-
-export interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-}
+import { User } from './Types/User';
+import { Todo } from './Types/Todo';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);

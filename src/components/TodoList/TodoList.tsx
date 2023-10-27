@@ -1,4 +1,5 @@
-import { Todo, User } from '../../App';
+import { User } from '../../Types/User';
+import { Todo } from '../../Types/Todo';
 import { TodoInfo } from '../TodoInfo';
 import { UserInfo } from '../UserInfo';
 
