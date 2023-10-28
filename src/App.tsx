@@ -35,10 +35,13 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    sethasTitleError(!title);
+    const inludesOnlySpaces = title.trim() === '';
+
+    sethasTitleError(inludesOnlySpaces);
+
     sethasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (inludesOnlySpaces || !userId) {
       return;
     }
 
