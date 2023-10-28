@@ -13,6 +13,6 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => (
     data-id={todo.id}
   >
     <h2 className="TodoInfo__title">{todo.title}</h2>
-    <UserInfo todo={todo} />
+    <UserInfo user={todo.user} />
   </article>
 );
