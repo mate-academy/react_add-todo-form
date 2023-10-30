@@ -1,54 +1,46 @@
-import "./App.scss";
-import { useState } from "react";
-import usersFromServer from "./api/users";
-import todosFromServer from "./api/todos";
-import { TodoList } from "./components/TodoList";
+import './App.scss';
+import { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import Todo from './types/Todo';
+import User from './types/User';
 
-let isEmptyTitle = false;
-let isEmptySelectedUser = false;
-const users = [...usersFromServer];
-let todos = [...todosFromServer].map((todo) => ({
+const users:User[] = [...usersFromServer];
+const todosWithUser:Todo[] = [...todosFromServer].map((todo) => ({
   ...todo,
   user: users.find((user) => user.id === todo.userId),
 }));
-const maxId = todos.map((todo) => todo.id).sort((a, b) => b - a)[0];
+const getMaxId = (todos: Todo[]) => Math.max(...todos.map((todo) => todo.id));
 
 export const App = () => {
-  const [newTitle, setNewTitle] = useState("");
+  const [newTitle, setNewTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
-  const [latstTaskId, setLastTaskId] = useState(maxId);
-  const [afterSubmit, setAfterSubmit] = useState(true);
-
-  if (afterSubmit) {
-    isEmptyTitle = false;
-    isEmptySelectedUser = false;
-  } else {
-    isEmptyTitle = !newTitle;
-    isEmptySelectedUser = !selectedUser;
-  }
+  const [todos, setTodos] = useState(todosWithUser);
+  const [afterSubmit, setAfterSubmit] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    setAfterSubmit(true);
     if (!selectedUser || !newTitle) {
-      setAfterSubmit(false);
       return;
     }
 
-    todos = [
+    setTodos([
       ...todos,
       {
-        id: latstTaskId + 1,
+        id: getMaxId(todos) + 1,
         title: newTitle,
         completed: false,
         userId: selectedUser,
         user: users.find((user) => user.id === selectedUser),
       },
-    ];
-    setAfterSubmit(true);
-    setLastTaskId(latstTaskId + 1);
+    ]);
     setSelectedUser(0);
-    setNewTitle("");
+    setNewTitle('');
+    setAfterSubmit(false);
   };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -62,7 +54,9 @@ export const App = () => {
             value={newTitle}
             onChange={(event) => setNewTitle(event.target.value)}
           />
-          {isEmptyTitle && <span className="error">Please enter a title</span>}
+          {afterSubmit && !newTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -82,7 +76,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isEmptySelectedUser && (
+          {afterSubmit && !selectedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
