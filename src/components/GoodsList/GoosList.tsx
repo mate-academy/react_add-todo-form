@@ -1,27 +1,18 @@
-import { GoodsWithColors } from '../../types/Good';
+import React, { memo, useContext } from 'react';
 import { ProductCard } from '../ProductCard';
+import { GoodsContext } from '../GoodsProvider';
 
-type Props = {
-  goods: GoodsWithColors[];
-  deleteGoodHandler: (id: number) => void;
-  updateGoodsHandler: (newGood: GoodsWithColors) => void;
-};
+export const GoodsList: React.FC = memo(() => {
+  const goods = useContext(GoodsContext);
 
-export const GoodsList: React.FC<Props> = ({
-  goods,
-  deleteGoodHandler,
-  updateGoodsHandler,
-}) => {
   return (
-    <div className="GoodList">
+    <ul className="GoodList">
       {goods.map(good => (
         <ProductCard
           key={good.id}
-          deleteGoodHandler={deleteGoodHandler}
-          updateGoodsHandler={updateGoodsHandler}
           good={good}
         />
       ))}
-    </div>
+    </ul>
   );
-};
+});

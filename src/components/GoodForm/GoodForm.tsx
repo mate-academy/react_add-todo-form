@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import cn from 'classnames';
 import { getColorById } from '../../helpers';
 import { GoodsWithColors } from '../../types/Good';
 import colorsFromServer from '../../api/colors';
+import { GoodsOperationsContext } from '../GoodsProvider';
 
 type Props = {
-  goodHandler: (newGood: GoodsWithColors) => void;
   good?: GoodsWithColors;
   setEditing?: (value: boolean) => void;
 };
 
 export const GoodForm: React.FC<Props> = ({
-  goodHandler,
   good,
   setEditing,
 }) => {
   const [name, setName] = useState(good?.name ?? '');
   const [currentColorId, setCurrentColorId] = useState(good?.colorId ?? 0);
   const [hasNameError, setHasNameError] = useState(false);
+
+  const { updateGoodsHandler, addGoodHandler } = useContext(
+    GoodsOperationsContext,
+  );
 
   const hasEmptyFields = !name || !currentColorId;
 
@@ -34,6 +37,8 @@ export const GoodForm: React.FC<Props> = ({
 
       return;
     }
+
+    const goodHandler = good ? updateGoodsHandler : addGoodHandler;
 
     goodHandler({
       id: good?.id ?? Date.now(),

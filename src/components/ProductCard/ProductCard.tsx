@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GoodsWithColors } from '../../types/Good';
 import { GoodForm } from '../GoodForm';
+import { GoodsOperationsContext } from '../GoodsProvider';
 
 type Props = {
   good: GoodsWithColors;
-  deleteGoodHandler: (id: number) => void;
-  updateGoodsHandler: (newGood: GoodsWithColors) => void;
 };
 
 export const ProductCard: React.FC<Props> = ({
   good,
-  deleteGoodHandler,
-  updateGoodsHandler,
 }) => {
   const [editing, setEditing] = useState(false);
+
+  const { deleteGoodHandler } = useContext(GoodsOperationsContext);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -27,7 +26,6 @@ export const ProductCard: React.FC<Props> = ({
       </button>
       {editing ? (
         <GoodForm
-          goodHandler={updateGoodsHandler}
           good={good}
           setEditing={setEditing}
         />
