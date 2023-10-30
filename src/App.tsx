@@ -6,31 +6,29 @@ import todosFromServer from './api/todos';
 import TodoList from './components/TodoList/TodoList';
 import { User } from './Types/User';
 import { Todo } from './Types/Todo';
+import { getNewTodoId } from './components/utils/utils';
+
+const initialTodos = todosFromServer;
+const initialUsers = usersFromServer;
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const users: User[] = usersFromServer;
-  const [emptyTitle, setEmptyTitle] = useState(false);
-  const [emptyUser, setEmptyUser] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const users: User[] = initialUsers;
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newUser, setNewUser] = useState(0);
 
-  function getNewTodoId() {
-    const maxId = Math.max(...todos.map(todo => todo.id));
-
-    return maxId + 1;
-  }
-
   const validFormUser = () => (newUser
-    ? (setEmptyUser(false), false) : (setEmptyUser(true), true));
+    ? (setIsUserValid(false), false) : (setIsUserValid(true), true));
 
   const validFormTitle = () => (newTitle
-    ? (setEmptyTitle(false), false) : (setEmptyTitle(true), true));
+    ? (setIsTitleInvalid(false), false) : (setIsTitleInvalid(true), true));
 
   const addTodo = () => {
     if (!validFormTitle() && !validFormUser()) {
       const newTodo = {
-        id: getNewTodoId(),
+        id: getNewTodoId(todos),
         title: newTitle,
         userId: newUser,
         completed: false,
@@ -41,18 +39,8 @@ export const App = () => {
   };
 
   const reset = () => {
-    if (validFormTitle()) {
-      setNewTitle('');
-    }
-
-    if (validFormUser()) {
-      setNewUser(0);
-    }
-
-    if (!validFormTitle() && !validFormUser()) {
-      setNewUser(0);
-      setNewTitle('');
-    }
+    setNewUser(0);
+    setNewTitle('');
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -60,7 +48,9 @@ export const App = () => {
     validFormTitle();
     validFormUser();
     addTodo();
-    reset();
+    if (!validFormTitle() && !validFormUser()) {
+      reset();
+    }
   };
 
   return (
@@ -77,10 +67,11 @@ export const App = () => {
             value={newTitle}
             onChange={(e) => {
               setNewTitle(e.target.value);
-              setEmptyTitle(false);
+              setIsTitleInvalid(false);
             }}
           />
-          {emptyTitle && <span className="error">Please enter a title</span>}
+          {isTitleInvalid
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -90,7 +81,7 @@ export const App = () => {
             value={newUser}
             onChange={(e) => {
               setNewUser(+e.target.value);
-              setEmptyUser(false);
+              setIsUserValid(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -101,7 +92,7 @@ export const App = () => {
             ))}
           </select>
 
-          {emptyUser && <span className="error">Please choose a user</span>}
+          {isUserValid && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">Add</button>
