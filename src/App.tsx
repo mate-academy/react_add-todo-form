@@ -1,10 +1,10 @@
-import "./App.scss";
-import { useState } from "react";
-import todos from "./api/todos";
-import { TodoList } from "./components/TodoList";
-import { Todo } from "./components/interface/Todo";
-import { Form } from "./components/Form/Form";
-import { getUserById } from "./components/ultis/UserIdUtils";
+import './App.scss';
+import { useState } from 'react';
+import todos from './api/todos';
+import { TodoList } from './components/TodoList';
+import { Todo } from './components/interface/Todo';
+import { Form } from './components/Form/Form';
+import { getUserById } from './components/ultis/UserIdUtils';
 
 export const initialTodos: Todo[] = todos.map((todo) => ({
   ...todo,
