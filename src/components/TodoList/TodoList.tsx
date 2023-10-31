@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { User } from '../../Types/User';
 import { Todo } from '../../Types/Todo';
 import { TodoInfo } from '../TodoInfo';
@@ -9,24 +10,25 @@ type Props = {
 };
 
 const TodoList: React.FC<Props> = ({ todos, users }) => {
+  const todosWithUser = todos.map((todo: Todo) => ({
+    ...todo,
+    user: users.find((user: User) => user.id === todo.userId) as User,
+  }));
+
   return (
     <section className="TodoList">
-      {todos.map((todo) => (
+      {todosWithUser.map((todo) => (
         <article
           data-id={todo.id}
-          className={
-            todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'
-          }
+          className={classNames('TodoInfo', {
+            'TodoInfo--completed': todo.completed,
+          })}
           key={todo.id}
         >
           <TodoInfo todo={todo} />
-          {users
-            .filter((user) => todo.userId === user.id)
-            .map((user) => (
-              <div key={user.id}>
-                <UserInfo user={user} />
-              </div>
-            ))}
+          <div key={todo.user.id}>
+            <UserInfo user={todo.user} />
+          </div>
         </article>
       ))}
     </section>

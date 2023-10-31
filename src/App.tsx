@@ -15,18 +15,24 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const users: User[] = initialUsers;
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
-  const [isUserValid, setIsUserValid] = useState(false);
+  const [isUserInvalid, setIsUserInvalid] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newUser, setNewUser] = useState(0);
 
-  const validFormUser = () => (newUser
-    ? (setIsUserValid(false), false) : (setIsUserValid(true), true));
+  const InvalidFormUser = () => {
+    setIsUserInvalid(!newUser);
 
-  const validFormTitle = () => (newTitle
-    ? (setIsTitleInvalid(false), false) : (setIsTitleInvalid(true), true));
+    return !newUser;
+  };
+
+  const InvalidFormTitle = () => {
+    setIsTitleInvalid(!newTitle);
+
+    return !newTitle;
+  };
 
   const addTodo = () => {
-    if (!validFormTitle() && !validFormUser()) {
+    if (!InvalidFormTitle() && !InvalidFormUser()) {
       const newTodo = {
         id: getNewTodoId(todos),
         title: newTitle,
@@ -45,10 +51,10 @@ export const App = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    validFormTitle();
-    validFormUser();
+    InvalidFormTitle();
+    InvalidFormUser();
     addTodo();
-    if (!validFormTitle() && !validFormUser()) {
+    if (!InvalidFormTitle() && !InvalidFormUser()) {
       reset();
     }
   };
@@ -70,8 +76,9 @@ export const App = () => {
               setIsTitleInvalid(false);
             }}
           />
-          {isTitleInvalid
-          && <span className="error">Please enter a title</span>}
+          {isTitleInvalid && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -81,7 +88,7 @@ export const App = () => {
             value={newUser}
             onChange={(e) => {
               setNewUser(+e.target.value);
-              setIsUserValid(false);
+              setIsUserInvalid(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -92,7 +99,7 @@ export const App = () => {
             ))}
           </select>
 
-          {isUserValid && <span className="error">Please choose a user</span>}
+          {isUserInvalid && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">Add</button>
