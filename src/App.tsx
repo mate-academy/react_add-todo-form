@@ -13,8 +13,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [crntTodoId, setCrntTodoId] = useState<number>(
     todosFromServer
-      .map(item => item.id)
-      .reduce((a, c) => ((c > a) ? c : a), 0),
+      .reduce((a, item) => ((item.id > a) ? item.id : a), 0),
   );
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasSelectError, setHasSelectError] = useState(false);

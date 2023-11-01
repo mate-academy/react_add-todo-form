@@ -25,9 +25,6 @@ export const TodoInfo: React.FC<Props> = ({
       </h2>
 
       <UserInfo user={getUserById(todo.userId) as User} />
-      {/* <a className="UserInfo" href={`mailto:${user.email}`}>
-        {user.name}
-      </a> */}
     </article>
   );
 };
