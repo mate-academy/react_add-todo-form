@@ -38,13 +38,13 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
 
     if (!trimmedTitle) {
       setTitleErrorMassege('Please enter a title');
-
-      return;
     }
 
     if (!userId) {
       setUserErrorMassege('Please choose a user');
+    }
 
+    if (!trimmedTitle || !userId) {
       return;
     }
 
