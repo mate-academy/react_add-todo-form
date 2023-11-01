@@ -27,10 +27,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    setHasPostTitleError(!postTitle);
+    setHasPostTitleError(!postTitle.trim());
     setHasSelectError(!selectedUser);
 
-    if (postTitle && selectedUser) {
+    if (postTitle.trim() && selectedUser) {
       onSubmit({
         id: 0,
         title: postTitle,
