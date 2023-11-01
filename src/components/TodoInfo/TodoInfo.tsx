@@ -2,7 +2,7 @@ import React from 'react';
 import { Todo } from '../interface/Todo';
 import { UserInfo } from '../UserInfo';
 
-interface Props {
+export interface Props {
   todo: Todo;
 }
 
