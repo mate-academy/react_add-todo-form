@@ -63,40 +63,46 @@ export const App = () => {
         onSubmit={submitHandler}
       >
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
-            required
-          />
+          <label>
+            Title:
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setTitleError(false);
+              }}
+            />
+          </label>
 
           {titleError
             && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            defaultValue="0"
-            onChange={event => {
-              setUserId(+event.target.value);
-              setUserError(false);
-            }}
-          >
-            <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option
-                value={user.id}
-                key={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              defaultValue="0"
+              onChange={event => {
+                setUserId(+event.target.value);
+                setUserError(false);
+              }}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {usersFromServer.map(user => (
+                <option
+                  value={user.id}
+                  key={user.id}
+                >
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {userError
             && (<span className="error">Please choose a user</span>)}
