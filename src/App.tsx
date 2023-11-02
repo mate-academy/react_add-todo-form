@@ -20,10 +20,10 @@ const maxId = Math.max(...todosFromServer.map(todo => todo.id));
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  const addTodo = ({ id, ...date }: Todo) => {
+  const addTodo = ({ id, ...data }: Todo) => {
     const newTodo = {
       id: maxId + 1,
-      ...date,
+      ...data,
     };
 
     setTodos(currentTodo => [
