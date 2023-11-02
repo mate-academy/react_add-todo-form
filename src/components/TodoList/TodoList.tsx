@@ -5,7 +5,7 @@ type TodoListProps = {
   todos: Todo[];
 };
 
-export const TodoList = ({ todos }: TodoListProps) => (
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => (
   <section className="TodoList">
     {todos.map(todo => (
       <TodoInfo

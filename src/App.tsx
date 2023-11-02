@@ -13,20 +13,20 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasNameError, setHasNameError] = useState(false);
 
-  const handleSubmit: FormEventHandler<HTMLButtonElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (!typedTitle) {
+    if (!typedTitle.trim()) {
       setHasTitleError(true);
     }
 
-    if (selectedUserId === 0) {
+    if (!selectedUserId) {
       setHasNameError(true);
     }
 
     const maxId = Math.max(...todosList.map(todo => todo.id));
 
-    if (typedTitle !== '' && selectedUserId) {
+    if (!!typedTitle && selectedUserId) {
       const newTodo: Todo = {
         id: maxId + 1,
         title: typedTitle,
@@ -59,7 +59,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="text" title="title">Title: </label>
           <input
@@ -82,26 +82,23 @@ export const App = () => {
             title="User"
             defaultValue={0}
           >
-
             <option disabled value={0}>
               Choose a user
             </option>
-            {usersFromServer.map(user => {
-              return (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
           </select>
           {hasNameError
             && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton" onClick={handleSubmit}>
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
