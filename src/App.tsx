@@ -58,8 +58,8 @@ export const App = () => {
 
   const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setFormData({
+      ...formData,
       title: event.currentTarget.value,
-      user: formData.user,
     });
 
     setEmptyTitleFieldError(false);
@@ -94,7 +94,7 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             defaultValue={0}
-            onChange={event => handleUserChange(event)}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
