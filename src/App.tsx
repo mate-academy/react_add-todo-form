@@ -4,24 +4,24 @@ import todosFromServer from './api/todo';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { getUserById } from './components/Services/User';
-import { Todos } from './Types/Todos';
+import { Todo } from './Types/Todo';
 
-export const initialTodos: Todos[] = todosFromServer.map((todo) => ({
+export const initialTodos: Todo[] = todosFromServer.map((todo) => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
-function getNewTodoId(todos: Todos[]) {
+function getNewTodoId(todos: Todo[]) {
   return Math.max(...todos.map(todo => todo.id)) + 1;
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todos[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  const addTodo = ({ id, ...data }: Todos) => {
+  const addTodo = (todo: Todo) => {
     const newTodo = {
+      ...todo,
       id: getNewTodoId(todos),
-      ...data,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);

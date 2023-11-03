@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { User } from '../../Types/User';
 import { getUserById } from '../Services/User';
-import { Todos } from '../../Types/Todos';
+import { Todo } from '../../Types/Todo';
 
 type Props = {
-  onSubmit: (todos: Todos) => void;
+  onSubmit: (todos: Todo) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
