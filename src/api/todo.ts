@@ -7,8 +7,8 @@ export default [
   },
   {
     id: 15,
-    title: 'delectus aut autem',
-    completed: true,
+    title: 'some other todo',
+    completed: false,
     userId: 1,
   },
   {

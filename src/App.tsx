@@ -11,10 +11,19 @@ export const initialTodos: Todos[] = todosFromServer.map((todo) => ({
   user: getUserById(todo.userId),
 }));
 
+function getNewTodoId(todos: Todos[]) {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+}
+
 export const App = () => {
   const [todos, setTodos] = useState<Todos[]>(initialTodos);
 
-  const addTodo = (newTodo: Todos) => {
+  const addTodo = ({ id, ...data }: Todos) => {
+    const newTodo = {
+      id: getNewTodoId(todos),
+      ...data,
+    };
+
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
