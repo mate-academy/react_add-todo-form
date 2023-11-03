@@ -22,7 +22,7 @@ export const App = () => {
     setEmptyTitleFieldError(!formData.title.trim());
     setEmptyUserFieldError(!formData.user);
 
-    if (!formData.title || !formData.user) {
+    if (!formData.title.trim() || !formData.user) {
       return;
     }
 
