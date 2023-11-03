@@ -16,7 +16,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     userId,
   } = todo;
 
-  const user = usersFromServer.filter(value => value.id === userId)[0];
+  const user = usersFromServer.find(value => value.id === userId);
 
   return (
     <article
@@ -29,7 +29,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
