@@ -7,14 +7,21 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/user';
 import { findUserById } from './services/findUserById';
 import { getNextTodoId } from './services/getNextTodoId';
+import { Todo } from './types/todo';
+
+interface FormFileds {
+  title: string;
+  user: User | undefined;
+}
 
 export const App = () => {
-  const [emptyTitleFieldError, setEmptyTitleFieldError] = useState(false);
-  const [emptyUserFieldError, setEmptyUserFieldError] = useState(false);
-  const [todosList, setTodosList] = useState(todosFromServer);
+  const [titleError, setEmptyTitleFieldError] = useState(false);
+  const [userError, setEmptyUserFieldError] = useState(false);
+
+  const [todosList, setTodosList] = useState<Todo[]>(todosFromServer);
 
   const [formData, setFormData]
-    = useState<{ title: string, user: User | null }>({ title: '', user: null });
+    = useState<FormFileds>({ title: '', user: undefined });
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,18 +33,18 @@ export const App = () => {
       return;
     }
 
-    setTodosList([...todosList, {
+    setTodosList(prevTodos => [...prevTodos, {
       id: getNextTodoId(todosList),
       title: formData.title.trim(),
       completed: false,
-      userId: formData.user.id,
+      userId: formData.user ? formData.user.id : 0,
     }]);
 
     const form = event.target as HTMLFormElement;
 
     form.reset();
 
-    setFormData(({ title: '', user: null }));
+    setFormData(({ title: '', user: undefined }));
   };
 
   const keyCheck = (event: React.KeyboardEvent) => {
@@ -84,7 +91,7 @@ export const App = () => {
             data-cy="titleInput"
             onKeyDown={keyCheck}
           />
-          {emptyTitleFieldError
+          {titleError
             && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -106,7 +113,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {emptyUserFieldError
+          {userError
             && (<span className="error">Please choose a user</span>)}
         </div>
 
