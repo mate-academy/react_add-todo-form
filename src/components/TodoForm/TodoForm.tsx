@@ -10,13 +10,14 @@ type Props = {
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
+  const [titleErrorMessage, setHasTitleErrorMessage] = useState('');
+
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleError(false);
+    setHasTitleErrorMessage('');
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,17 +28,22 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const reset = () => {
     setTitle('');
     setUserId(0);
-    setHasTitleError(false);
+    setHasTitleErrorMessage('');
     setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title) {
+      setHasTitleErrorMessage('Please enter a title');
+    } else if (!title.trim()) {
+      setHasTitleErrorMessage('Title should have not only spaces');
+    }
+
+    if (!title || !title.trim() || !userId) {
       return;
     }
 
@@ -65,7 +71,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             onChange={handleTitleChange}
           />
         </label>
-        {hasTitleError && <span className="error">Please enter a title</span>}
+        {titleErrorMessage && (
+          <span className="error">{titleErrorMessage}</span>
+        )}
       </div>
 
       <div className="field">
