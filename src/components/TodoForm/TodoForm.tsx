@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { User } from '../../Types/User';
-import { getUserById } from '../Services/User';
+import { getUserById } from '../../Services/User';
 import { Todo } from '../../Types/Todo';
 
 type Props = {

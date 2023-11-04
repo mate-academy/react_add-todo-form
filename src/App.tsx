@@ -3,7 +3,7 @@ import { useState } from 'react';
 import todosFromServer from './api/todo';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
-import { getUserById } from './components/Services/User';
+import { getUserById } from './Services/User';
 import { Todo } from './Types/Todo';
 
 export const initialTodos: Todo[] = todosFromServer.map((todo) => ({
@@ -12,7 +12,7 @@ export const initialTodos: Todo[] = todosFromServer.map((todo) => ({
 }));
 
 function getNewTodoId(todos: Todo[]) {
-  return Math.max(...todos.map(todo => todo.id)) + 1;
+  return Math.max(...todos.map((todo) => todo.id)) + 1;
 }
 
 export const App = () => {
@@ -24,7 +24,7 @@ export const App = () => {
       id: getNewTodoId(todos),
     };
 
-    setTodos(currentTodos => [...currentTodos, newTodo]);
+    setTodos((currentTodos) => [...currentTodos, newTodo]);
   };
 
   return (
