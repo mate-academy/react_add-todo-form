@@ -25,19 +25,11 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userId === 0) {
-      setUserError(true);
-    } else {
-      setUserError(false);
-    }
+    setUserError(userId === 0);
 
-    if (title === '') {
-      setTitleError(true);
-    } else {
-      setTitleError(false);
-    }
+    setTitleError(!title);
 
-    if (userId !== 0 && title !== '') {
+    if (userId !== 0 && title) {
       const newToDo = {
         id: Math.max(...addedToDos.map(toDo => toDo.id)) + 1,
         title,
