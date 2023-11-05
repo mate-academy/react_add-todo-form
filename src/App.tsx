@@ -88,7 +88,7 @@ export const App = () => {
           <input
             placeholder="Enter a title"
             id="title"
-            onInput={event => handleTitleChange(event)}
+            onInput={handleTitleChange}
             type="text"
             data-cy="titleInput"
             onKeyDown={keyCheck}
