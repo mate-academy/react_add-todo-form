@@ -55,9 +55,11 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const user = findUserById(+event.currentTarget.value);
+
     setFormData({
       title: formData.title,
-      user: findUserById(+event.currentTarget.value),
+      user: user || undefined,
     });
 
     setEmptyUserFieldError(false);
@@ -79,7 +81,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={event => handleFormSubmit(event)}
+        onSubmit={handleFormSubmit}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>

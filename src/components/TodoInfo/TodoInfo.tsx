@@ -8,6 +8,8 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const user = findUserById(todo.userId);
+
   return (
     <article
       data-id={todo.id}
@@ -18,7 +20,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       <h2 className="TodoInfo__title">
         {todo.title}
       </h2>
-      {todo.userId !== 0 && (<UserInfo user={findUserById(todo.userId)} />)}
+      {todo.userId !== 0 && user && (<UserInfo user={user} />)}
     </article>
   );
 };
