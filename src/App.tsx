@@ -27,6 +27,7 @@ export const App: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
+
   const [hasNoTitleError, setHasNoTitleError] = useState(true);
   const [hasNoUserIdError, setHasNoUserIdError] = useState(true);
 
@@ -43,15 +44,19 @@ export const App: React.FC = () => {
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
+    let hasNoError = true;
+
     if (!title.trim()) {
       setHasNoTitleError(false);
-
-      return;
+      hasNoError = false;
     }
 
     if (userId === 0) {
       setHasNoUserIdError(false);
+      hasNoError = false;
+    }
 
+    if (!hasNoError) {
       return;
     }
 
@@ -101,12 +106,12 @@ export const App: React.FC = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={name}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
