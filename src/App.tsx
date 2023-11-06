@@ -3,18 +3,14 @@ import { GoodsList } from './components/GoodsList/GoosList';
 import { GoodForm } from './components/GoodForm';
 import { GoodsProvider } from './components/GoodsProvider';
 
-export const App = () => {
-  return (
-    <div className="App">
-      <h1>Goods page</h1>
+export const App = () => (
+  <div className="App">
+    <h2>Create a good</h2>
 
-      <h2>Create a good</h2>
+    <GoodsProvider>
+      <GoodForm />
 
-      <GoodsProvider>
-        <GoodForm />
-
-        <GoodsList />
-      </GoodsProvider>
-    </div>
-  );
-};
+      <GoodsList />
+    </GoodsProvider>
+  </div>
+);

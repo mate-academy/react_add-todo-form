@@ -1,47 +1,104 @@
 import {
-  ReactNode, createContext, useCallback, useMemo, useState,
+  ReactNode, createContext, useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { GoodsWithColors } from '../types/Good';
-import goodsFromServer from '../api/goods';
-import { getColorById } from '../helpers';
+import { Todo } from '../types/Todo';
+import {
+  createTodo, deleteTodo, getTodos, updateTodo,
+} from '../api';
 
-interface GoodsContextOptions {
-  addGoodHandler: (newGood: GoodsWithColors) => void;
+interface GoodsActionsOptions {
+  addGoodHandler: (newGood: Todo) => void;
   deleteGoodHandler: (id: number) => void;
-  updateGoodsHandler: (newGood: GoodsWithColors) => void
+  updateGoodsHandler: (newGood: Todo) => void
 }
 
-export const GoodsContext = createContext([] as GoodsWithColors[]);
+interface GoodsOptions {
+  todos: Todo[];
+  loading: boolean;
+}
 
-export const GoodsOperationsContext = createContext<GoodsContextOptions>({
+export const GoodsContext = createContext<GoodsOptions>({
+  todos: [],
+  loading: true,
+});
+
+export const GoodsOperationsContext = createContext<GoodsActionsOptions>({
   addGoodHandler: () => { },
   deleteGoodHandler: () => { },
   updateGoodsHandler: () => { },
 });
 
-const goodsWithColors: GoodsWithColors[] = goodsFromServer.map(good => ({
-  ...good,
-  color: getColorById(good.colorId),
-}));
-
 export const GoodsProvider = ({ children }: { children: ReactNode }) => {
-  const [goods, setGoods] = useState<GoodsWithColors[]>(goodsWithColors);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const addGoodHandler = useCallback((newGood: GoodsWithColors) => {
-    setGoods(currentGoods => [...currentGoods, newGood]);
+  useEffect(() => {
+    getTodos()
+      .then(setTodos)
+      .finally(() => setLoading(false));
+  }, []);
+
+  const addGoodHandler = useCallback((newTodo: Todo) => {
+    const temporaryTodo = {
+      ...newTodo,
+      id: Date.now(),
+    };
+
+    createTodo(newTodo)
+      .then((todo) => {
+        setTodos(prev => (
+          prev.map(t => (t.id === temporaryTodo.id ? todo : t))
+        ));
+      })
+      .catch(() => setTodos(prev => (
+        prev.filter(t => t.id !== temporaryTodo.id))));
+
+    setTodos(prev => [temporaryTodo, ...prev]);
   }, []);
 
   const deleteGoodHandler = useCallback((id: number) => {
-    setGoods(currentGood => currentGood.filter(good => good.id !== id));
+    let prevTodo: Todo | null = null;
+
+    deleteTodo(id)
+      .catch(() => {
+        if (!prevTodo) {
+          return;
+        }
+
+        const todoToCreate = prevTodo;
+
+        setTodos(prev => [todoToCreate, ...prev]);
+      });
+
+    setTodos(currentGood => currentGood.filter(good => {
+      if (good.id === id) {
+        prevTodo = good;
+      }
+
+      return good.id !== id;
+    }));
   }, []);
 
-  const updateGoodsHandler = useCallback((newGood: GoodsWithColors) => (
-    setGoods(currentGoods => (
-      currentGoods.map(good => (
-        good.id === newGood.id ? newGood : good
-      ))
-    ))
-  ), []);
+  const updateGoodsHandler = useCallback((updatedTodo: Todo) => {
+    let prevTodo: Todo | null = null;
+
+    updateTodo(updatedTodo.id, { ...updatedTodo, id: undefined })
+      .catch(() => {
+        setTodos(prev => prev.map(todo => (
+          todo.id === updatedTodo.id && prevTodo ? prevTodo : todo
+        )));
+      });
+
+    setTodos(currentGoods => (
+      currentGoods.map(good => {
+        if (good.id === updatedTodo.id) {
+          prevTodo = good;
+        }
+
+        return good.id === updatedTodo.id ? updatedTodo : good;
+      })
+    ));
+  }, []);
 
   const value = {
     addGoodHandler, deleteGoodHandler, updateGoodsHandler,
@@ -49,9 +106,14 @@ export const GoodsProvider = ({ children }: { children: ReactNode }) => {
 
   const operationsValue = useMemo(() => value, []);
 
+  const goodsContextValue = useMemo(() => ({
+    todos,
+    loading,
+  }), [todos, loading]);
+
   return (
     <GoodsOperationsContext.Provider value={operationsValue}>
-      <GoodsContext.Provider value={goods}>
+      <GoodsContext.Provider value={goodsContextValue}>
         {children}
       </GoodsContext.Provider>
     </GoodsOperationsContext.Provider>

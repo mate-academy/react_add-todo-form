@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { GoodsWithColors } from '../../types/Good';
 import { GoodForm } from '../GoodForm';
 import { GoodsOperationsContext } from '../GoodsProvider';
+import { Todo } from '../../types/Todo';
 
 type Props = {
-  good: GoodsWithColors;
+  todo: Todo;
 };
 
 export const ProductCard: React.FC<Props> = ({
-  good,
+  todo,
 }) => {
   const [editing, setEditing] = useState(false);
 
@@ -26,7 +26,7 @@ export const ProductCard: React.FC<Props> = ({
       </button>
       {editing ? (
         <GoodForm
-          good={good}
+          todo={todo}
           setEditing={setEditing}
         />
       ) : (
@@ -36,14 +36,13 @@ export const ProductCard: React.FC<Props> = ({
         >
           <span
             className="GoodCard__title"
-            style={{ color: good.color?.name || 'black' }}
           >
-            {good.name}
+            {todo.title}
           </span>
           <button
             type="button"
             onClick={() => {
-              deleteGoodHandler(good.id);
+              deleteGoodHandler(todo.id);
             }}
           >
             X

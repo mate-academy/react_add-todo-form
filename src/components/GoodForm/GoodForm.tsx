@@ -1,32 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import cn from 'classnames';
-import { getColorById } from '../../helpers';
-import { GoodsWithColors } from '../../types/Good';
-import colorsFromServer from '../../api/colors';
+// import colorsFromServer from '../../api/colors';
 import { GoodsOperationsContext } from '../GoodsProvider';
+import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
+import { getUsers } from '../../api';
 
 type Props = {
-  good?: GoodsWithColors;
+  todo?: Todo;
   setEditing?: (value: boolean) => void;
 };
 
 export const GoodForm: React.FC<Props> = ({
-  good,
+  todo,
   setEditing,
 }) => {
-  const [name, setName] = useState(good?.name ?? '');
-  const [currentColorId, setCurrentColorId] = useState(good?.colorId ?? 0);
+  const [name, setName] = useState(todo?.title ?? '');
   const [hasNameError, setHasNameError] = useState(false);
+  const [usersFromServer, setUsersFromServer] = useState<User[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState(todo?.userId ?? 0);
+
+  useEffect(() => {
+    getUsers()
+      .then(setUsersFromServer);
+  }, []);
 
   const { updateGoodsHandler, addGoodHandler } = useContext(
     GoodsOperationsContext,
   );
 
-  const hasEmptyFields = !name || !currentColorId;
+  const hasEmptyFields = !name || !selectedUserId;
 
   const resetForm = () => {
     setName('');
-    setCurrentColorId(0);
+    setSelectedUserId(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,13 +45,13 @@ export const GoodForm: React.FC<Props> = ({
       return;
     }
 
-    const goodHandler = good ? updateGoodsHandler : addGoodHandler;
+    const goodHandler = todo ? updateGoodsHandler : addGoodHandler;
 
     goodHandler({
-      id: good?.id ?? Date.now(),
-      name,
-      colorId: currentColorId,
-      color: getColorById(currentColorId),
+      id: todo?.id ?? 0,
+      title: name,
+      userId: selectedUserId,
+      completed: false,
     });
 
     setEditing?.(false);
@@ -76,18 +83,18 @@ export const GoodForm: React.FC<Props> = ({
       />
 
       <select
-        value={currentColorId}
+        value={selectedUserId}
         onChange={(event) => {
-          setCurrentColorId(+event.target.value);
+          setSelectedUserId(+event.target.value);
         }}
       >
-        <option value="0" disabled>Choose a color</option>
-        {colorsFromServer.map(color => (
+        <option value="0" disabled>Choose a user</option>
+        {usersFromServer.map(user => (
           <option
-            key={color.id}
-            value={color.id}
+            key={user.id}
+            value={user.id}
           >
-            {color.name}
+            {user.name}
           </option>
         ))}
       </select>

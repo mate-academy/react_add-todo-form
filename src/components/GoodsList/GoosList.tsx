@@ -3,14 +3,14 @@ import { ProductCard } from '../ProductCard';
 import { GoodsContext } from '../GoodsProvider';
 
 export const GoodsList: React.FC = memo(() => {
-  const goods = useContext(GoodsContext);
+  const { todos } = useContext(GoodsContext);
 
   return (
     <ul className="GoodList">
-      {goods.map(good => (
+      {todos.map(todo => (
         <ProductCard
-          key={good.id}
-          good={good}
+          key={todo.id}
+          todo={todo}
         />
       ))}
     </ul>
