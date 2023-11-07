@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './App.scss';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -43,10 +42,10 @@ export const App = () => {
   const handleSubmit = (e:React.FormEvent) => {
     e.preventDefault();
 
-    setTitleError(!newTitle);
+    setTitleError(!newTitle.trim());
     setUserIdError(!userId);
 
-    if (!newTitle || !userId) {
+    if (!newTitle.trim() || !userId) {
       return;
     }
 
