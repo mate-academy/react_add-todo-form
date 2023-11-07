@@ -65,7 +65,7 @@ export const App: React.FC = () => {
       title,
       completed: false,
       userId,
-      user: usersFromServer.find(user => user.id === userId),
+      user: getUserById(userId),
     };
 
     setTodos([...todos, newTodo]);
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
             {usersFromServer.map(({ id, name }) => (
               <option
                 value={id}
-                key={name}
+                key={id}
               >
                 {name}
               </option>
