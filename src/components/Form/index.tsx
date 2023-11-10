@@ -31,9 +31,9 @@ const Form: FC<FormProps> = ({ updateState }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formState.titleInput || formState.userSelect === '0') {
+    if (!formState.titleInput.trim() || formState.userSelect === '0') {
       setFormErrors({
-        titleInput: !formState.titleInput,
+        titleInput: !formState.titleInput.trim(),
         userSelect: formState.userSelect === '0',
       });
 
@@ -44,7 +44,7 @@ const Form: FC<FormProps> = ({ updateState }) => {
       ...p,
       {
         id: getMaxId(p),
-        title: formState.titleInput,
+        title: formState.titleInput.trim(),
         completed: false,
         userId: +formState.userSelect,
       },
@@ -59,7 +59,7 @@ const Form: FC<FormProps> = ({ updateState }) => {
       return;
     }
 
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       setFormErrors((p) => ({
         userSelect: p.userSelect,
         titleInput: false,
@@ -68,7 +68,7 @@ const Form: FC<FormProps> = ({ updateState }) => {
 
     setFormState((p) => ({
       userSelect: p.userSelect,
-      titleInput: e.target.value,
+      titleInput: e.target.value.trim(),
     }));
   };
 
