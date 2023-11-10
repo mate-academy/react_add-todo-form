@@ -28,36 +28,55 @@ const Form: FC<FormProps> = ({ updateState }) => {
     return maxId + 1;
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formState.titleInput || formState.userSelect === '0') {
+      setFormErrors({
+        titleInput: !formState.titleInput,
+        userSelect: formState.userSelect === '0',
+      });
+
+      return;
+    }
+
+    updateState((p) => [
+      ...p,
+      {
+        id: getMaxId(p),
+        title: formState.titleInput,
+        completed: false,
+        userId: +formState.userSelect,
+      },
+    ]);
+
+    setFormState({ titleInput: '', userSelect: '0' });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line max-len
+    if (/[^a-zA-Z0-9s\u0020\u0406\u0407\u042c\u045e\u042f\u0456\u0457\u044c\u044e\u044f\u0410-\u0429\u0430-\u0449]/.test(e.target.value)) {
+      return;
+    }
+
+    if (e.target.value) {
+      setFormErrors((p) => ({
+        userSelect: p.userSelect,
+        titleInput: false,
+      }));
+    }
+
+    setFormState((p) => ({
+      userSelect: p.userSelect,
+      titleInput: e.target.value,
+    }));
+  };
+
   return (
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        if (!formState.titleInput || formState.userSelect === '0') {
-          setFormErrors({
-            titleInput: !formState.titleInput,
-            userSelect: formState.userSelect === '0',
-          });
-
-          return;
-        }
-
-        updateState((p) => {
-          return [
-            ...p,
-            {
-              id: getMaxId(p),
-              title: formState.titleInput,
-              completed: false,
-              userId: +formState.userSelect,
-            },
-          ];
-        });
-
-        setFormState({ titleInput: '', userSelect: '0' });
-      }}
+      onSubmit={handleSubmit}
     >
       <div className="field">
         <input
@@ -65,28 +84,7 @@ const Form: FC<FormProps> = ({ updateState }) => {
           type="text"
           data-cy="titleInput"
           value={formState.titleInput}
-          onChange={(e) => {
-            if (
-              // eslint-disable-next-line max-len
-              /[^a-zA-Z0-9s\u0020\u0406\u0407\u042c\u045e\u042f\u0456\u0457\u044c\u044e\u044f\u0410-\u0429\u0430-\u0449]/.test(
-                e.target.value,
-              )
-            ) {
-              return;
-            }
-
-            if (e.target.value) {
-              setFormErrors((p) => ({
-                userSelect: p.userSelect,
-                titleInput: false,
-              }));
-            }
-
-            setFormState((p) => ({
-              userSelect: p.userSelect,
-              titleInput: e.target.value,
-            }));
-          }}
+          onChange={handleInputChange}
         />
 
         {formErrors.titleInput && (

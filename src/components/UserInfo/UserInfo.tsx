@@ -2,13 +2,13 @@ import { FC } from 'react';
 import usersFromServer from '../../api/users';
 
 export const UserInfo: FC<{ userId: number }> = ({ userId }) => {
-  const currentUser = usersFromServer.filter(item => item.id === userId);
+  const currentUser = usersFromServer.find((item) => item.id === userId);
 
-  if (!currentUser[0]) {
+  if (!currentUser) {
     return null;
   }
 
-  const { email, name } = currentUser[0];
+  const { email, name } = currentUser;
 
   return (
     <a className="UserInfo" href={`mailto:${email}`}>
