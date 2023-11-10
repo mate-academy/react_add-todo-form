@@ -6,16 +6,21 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo = ({ todo }: Props) => {
+export const TodoInfo = ({
+  todo:
+  {
+    completed, id, title, user,
+  },
+}: Props) => {
   const className = cn({
     TodoInfo: true,
-    'TodoInfo--completed': todo.completed,
+    'TodoInfo--completed': completed,
   });
 
   return (
-    <article className={className} data-id={todo.id}>
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-      {todo.user && <UserInfo user={todo.user} />}
+    <article className={className} data-id={id}>
+      <h2 className="TodoInfo__title">{title}</h2>
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

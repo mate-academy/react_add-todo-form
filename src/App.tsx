@@ -78,6 +78,20 @@ export const App: React.FC = () => {
     setUser('');
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    if (titleError) {
+      setTitleError('');
+    }
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
+    if (userError) {
+      setUserError('');
+    }
+  };
+
   return (
     <div className="App">
       <h1 className="App__title">Add todo form</h1>
@@ -88,18 +102,14 @@ export const App: React.FC = () => {
             Title:
           </label>
           <input
+            className="addTodo addTodo__title"
             type="text"
             data-cy="titleInput"
             id="title"
             name="title"
             value={title}
             placeholder="Enter a title"
-            onChange={(event) => {
-              setTitle(event.target.value);
-              if (titleError) {
-                setTitleError('');
-              }
-            }}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">{titleError}</span>}
         </div>
@@ -109,28 +119,28 @@ export const App: React.FC = () => {
             User:
           </label>
           <select
+            className="addTodo"
             data-cy="userSelect"
             id="user"
             name="user"
             value={user}
-            onChange={(event) => {
-              setUser(event.target.value);
-              if (userError) {
-                setUserError('');
-              }
-            }}
+            onChange={handleUserChange}
           >
             <option value="" disabled>Choose a user</option>
-            {usersFromServer.map((users) => (
-              <option key={users.id} value={users.id}>{users.name}</option>
+            {usersFromServer.map(({ id, name }) => (
+              <option key={id} value={id}>{name}</option>
             ))}
           </select>
 
           {userError && <span className="error">{userError}</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="addTodo addTodo__button"
+        >
+          Add task
         </button>
       </form>
 
