@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
-// import { User } from './props/userProps';
 import './App.scss';
 
 export const App = () => {
@@ -28,7 +27,6 @@ export const App = () => {
   };
 
   const createNewTodo = () => {
-    // if (users.find((u) => u.id === selectUserId) as User) {
     const id = todos.length > 0 ? Math.max(
       ...todos.map(todo => todo.id),
     ) + 1 : 1;
@@ -39,11 +37,9 @@ export const App = () => {
       completed: false,
       userId: +selectUserId,
     };
-    // }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  // const handleSubmit = (event: React.FormEvent<HTMLOptionElement>) => {
     event.preventDefault();
 
     if (!title || selectUserId === 0) {
