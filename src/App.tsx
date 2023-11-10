@@ -19,6 +19,12 @@ export const App = () => {
     setErrorTitle(false);
   };
 
+  function errorTitleBlur() {
+    if (!title.trim()) {
+      setErrorTitle(true);
+    }
+  }
+
   const handleSelectUserId = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -42,8 +48,8 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || selectUserId === 0) {
-      setErrorTitle(!title);
+    if (!title.trim() || selectUserId === 0) {
+      setErrorTitle(!title.trim());
       setErrorSelectUserId(selectUserId === 0);
 
       return;
@@ -69,7 +75,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <input
@@ -78,9 +84,11 @@ export const App = () => {
             type="text"
             placeholder="title"
             data-cy="titleInput"
-            onChange={(e) => handleTitle(e)}
+            onChange={handleTitle}
+            onBlur={() => errorTitleBlur()}
           />
-          {errortTitle && <span className="error">Please enter a title</span>}
+          {errortTitle
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -88,7 +96,7 @@ export const App = () => {
             name="user"
             value={selectUserId}
             data-cy="userSelect"
-            onChange={(e) => handleSelectUserId(e)}
+            onChange={handleSelectUserId}
           >
             <option value={0} disabled>Choose a user</option>
             {users.map(user => (
