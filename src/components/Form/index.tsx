@@ -7,9 +7,11 @@ import {
 import usersFromServer from '../../api/users';
 import { TodoItem } from '../../types/todo';
 
-const Form: FC<{ updateState: Dispatch<SetStateAction<TodoItem[]>> }> = ({
-  updateState,
-}) => {
+interface FormProps {
+  updateState: Dispatch<SetStateAction<TodoItem[]>>;
+}
+
+const Form: FC<FormProps> = ({ updateState }) => {
   const [formState, setFormState] = useState({
     titleInput: '',
     userSelect: '0',
