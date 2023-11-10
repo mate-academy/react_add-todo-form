@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
-import { User } from './props/userProps';
+// import { User } from './props/userProps';
 import './App.scss';
 
 export const App = () => {
@@ -12,23 +12,23 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [errortTitle, setErrorTitle] = useState(false);
 
-  const [selectUserName, setSelectUserName] = useState('Choose a user');
-  const [errorSelectUserName, setErrorSelectUserName] = useState(false);
+  const [selectUserId, setSelectUserId] = useState(0);
+  const [errorSelectUserId, setErrorSelectUserId] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setErrorTitle(false);
   };
 
-  const handleSelectUserName = (
+  const handleSelectUserId = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSelectUserName(event.target.value);
-    setErrorSelectUserName(false);
+    setSelectUserId(+event.target.value);
+    setErrorSelectUserId(false);
   };
 
   const createNewTodo = () => {
-    const user = users.find((u) => u.name === selectUserName) as User;
+    // if (users.find((u) => u.id === selectUserId) as User) {
     const id = todos.length > 0 ? Math.max(
       ...todos.map(todo => todo.id),
     ) + 1 : 1;
@@ -37,16 +37,18 @@ export const App = () => {
       id,
       title,
       completed: false,
-      userId: user.id,
+      userId: +selectUserId,
     };
+    // }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // const handleSubmit = (event: React.FormEvent<HTMLOptionElement>) => {
     event.preventDefault();
 
-    if (!title || selectUserName === 'Choose a user') {
+    if (!title || selectUserId === 0) {
       setErrorTitle(!title);
-      setErrorSelectUserName(selectUserName === 'Choose a user');
+      setErrorSelectUserId(selectUserId === 0);
 
       return;
     }
@@ -57,7 +59,7 @@ export const App = () => {
         createNewTodo(),
       ]);
 
-      setSelectUserName('Choose a user');
+      setSelectUserId(0);
       setTitle('');
     }
 
@@ -88,13 +90,14 @@ export const App = () => {
         <div className="field">
           <select
             name="user"
-            value={selectUserName}
+            value={selectUserId}
             data-cy="userSelect"
-            onChange={(e) => handleSelectUserName(e)}
+            onChange={(e) => handleSelectUserId(e)}
           >
-            <option disabled>Choose a user</option>
+            <option value={0} disabled>Choose a user</option>
             {users.map(user => (
               <option
+                value={user.id}
                 key={user.id}
               >
                 {user.name}
@@ -102,7 +105,7 @@ export const App = () => {
             ))}
           </select>
 
-          {errorSelectUserName && (
+          {errorSelectUserId && (
             <span className="error">Please choose a user</span>
           )}
         </div>
