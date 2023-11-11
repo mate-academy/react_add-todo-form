@@ -33,7 +33,7 @@ export const App = () => {
   };
 
   const createNewTodo = () => {
-    const id = todos.length > 0 ? Math.max(
+    const id = todos.length ? Math.max(
       ...todos.map(todo => todo.id),
     ) + 1 : 1;
 
@@ -55,7 +55,7 @@ export const App = () => {
       return;
     }
 
-    if (users.length > 0) {
+    if (users.length) {
       setTodos(prev => [
         ...prev,
         createNewTodo(),
