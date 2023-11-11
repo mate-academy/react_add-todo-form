@@ -3,6 +3,7 @@ export type Todo = {
   title: string;
   userId: number;
   completed: boolean;
+  user?:User;
 };
 
 export type User = {

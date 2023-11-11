@@ -1,18 +1,16 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { getUserNameByUserId } from '../function/getUserNameByUserId';
-import { Todo, User } from '../types/types';
+import { Todo } from '../types/types';
 
 type TodoListProps = {
   todos: Todo[];
-  users: User[];
 };
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => {
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map((todo) => {
-        const user = getUserNameByUserId(todo.userId, todos, users);
+        const { user } = todo;
 
         if (!user) {
           return null;
@@ -20,7 +18,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => {
 
         return (
           <React.Fragment key={todo.id}>
-            <TodoInfo todo={todo} user={user} />
+            <TodoInfo todo={todo} />
           </React.Fragment>
         );
       })}

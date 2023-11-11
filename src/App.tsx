@@ -3,23 +3,31 @@ import React, { useState } from 'react';
 import customers from './api/users';
 import todosDefault from './api/todos';
 import { TodoList } from './components/TodoList';
+import { getUserNameByUserId } from './components/function/getUserNameByUserId';
 
 type Todo = {
   id: number;
   title: string;
   userId: number;
   completed: boolean;
+  user?: User;
 };
 
 type User = {
   id: number;
   name: string;
-  username: string,
-  email: string,
+  username: string;
+  email: string;
 };
 
+const todosWithUser : Todo[] = todosDefault.map((todo) => {
+  const user = getUserNameByUserId(todo.userId, todosDefault, customers);
+
+  return { ...todo, user };
+});
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosDefault);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUser);
   const [users] = useState<User[]>(customers);
 
   const [newTodo, setNewTodo] = useState<Todo>({
@@ -27,6 +35,12 @@ export const App: React.FC = () => {
     title: '',
     userId: 0,
     completed: false,
+    user: {
+      id: 0,
+      name: '',
+      username: '',
+      email: '',
+    },
   });
 
   const [errors, setErrors] = useState<{ title: string; user: string }>({
@@ -69,7 +83,6 @@ export const App: React.FC = () => {
 
   const handleAddTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
     if (newTodo.title.trim() === '' || newTodo.userId === 0) {
       setErrors({
         title: newTodo.title.trim() === '' ? 'Please enter a title' : '',
@@ -81,8 +94,13 @@ export const App: React.FC = () => {
 
     const nextId = getNextId();
 
+    const userInNewTodo = getUserNameByUserId(
+      newTodo.userId, [newTodo], customers,
+    );
+
     const newTodoWithId: Todo = {
       ...newTodo,
+      user: userInNewTodo,
       id: nextId,
     };
 
@@ -140,7 +158,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={users} />
+      <TodoList todos={todos} />
     </div>
   );
 };
