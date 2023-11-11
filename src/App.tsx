@@ -10,7 +10,7 @@ type Todo = {
   title: string;
   userId: number;
   completed: boolean;
-  user?: User;
+  user?: User | null;
 };
 
 type User = {

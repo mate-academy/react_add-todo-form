@@ -4,18 +4,18 @@ export function getUserNameByUserId(
   userId: number,
   todos: Todo[],
   users: User[],
-): User | undefined {
+): User | null {
   const userTodo: Todo | undefined = todos.find(
     (todo) => todo.userId === userId,
   );
 
   if (!userTodo) {
-    return undefined;
+    return null;
   }
 
   const user: User | undefined = users.find(
     (customer) => customer.id === userTodo.userId,
   );
 
-  return user;
+  return user as User;
 }
