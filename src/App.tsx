@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
@@ -20,8 +20,13 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
+  const [nextId, setNextId] = useState(1);
 
-  const id = Math.max(...todos.map(todo => todo.id)) + 1;
+  useEffect(() => {
+    const maxId = Math.max(...todos.map(todo => todo.id)) + 1;
+
+    setNextId(maxId);
+  }, [todos]);
 
   const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => ([
@@ -48,18 +53,20 @@ export const App: React.FC = () => {
     setErrorTitle(!trimmedTitle);
     setErrorUser(userId === 0);
 
-    if (trimmedTitle && userId > 0) {
-      addTodo({
-        id,
-        title,
-        completed: false,
-        userId,
-        user: getUser(userId),
-      });
-
-      setTitle('');
-      setUserId(0);
+    if (!trimmedTitle || !userId) {
+      return;
     }
+
+    addTodo({
+      id: nextId,
+      title,
+      completed: false,
+      userId,
+      user: getUser(userId),
+    });
+
+    setTitle('');
+    setUserId(0);
   };
 
   return (
