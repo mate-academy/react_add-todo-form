@@ -44,9 +44,7 @@ export const App = () => {
       userId: newUserId,
     };
 
-    const newTodoList = [...currentTodos, newTodo];
-
-    setCurrentTodos(newTodoList);
+    setCurrentTodos(curr => [...curr, newTodo]);
 
     setNewTitle('');
     setNewUserId(0);
@@ -85,7 +83,7 @@ export const App = () => {
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
 

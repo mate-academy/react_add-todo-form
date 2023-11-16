@@ -10,6 +10,8 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const user = getUserById(users, todo.userId);
+
   return (
     <article
       data-id={todo.id}
@@ -21,7 +23,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <UserInfo user={getUserById(users, todo.userId)} />
+      {user && <UserInfo user={user} />}
 
     </article>
   );
