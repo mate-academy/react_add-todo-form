@@ -9,17 +9,14 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({
-  todo,
-}) => {
-  const {
+  todo: {
     id, title, completed, userId,
-  } = todo;
+  },
+}) => {
+  const user: User | undefined
+    = usersFromServer.find((us: User) => us.id === userId);
 
-  const user: User | null
-    = usersFromServer.find((us: User) => us.id === userId)
-    || null;
-
-  if (user !== null) {
+  if (user) {
     return (
       <article
         data-id={id}
