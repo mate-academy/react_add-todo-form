@@ -2,8 +2,12 @@ iframe {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 label,
@@ -11,8 +15,71 @@ button {
   cursor: pointer;
 }
 
+h1 {
+  margin: 0;
+}
+
+.App {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 35px;
+    letter-spacing: 1.2px;
+    text-align: center;
+
+    margin-bottom: 40px;
+    color: #000;
+  }
+
+  &__form {
+    margin-bottom: 50px;
+  }
+}
+
+.field {
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
 .error {
   color: red;
+  display: block;
+  margin-top: 1px;
+
+  &--disabled {
+    display: none;
+  }
+}
+
+.userSelect {
+  width: 50%;
+  height: 25px;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgb(135, 237, 140);
+  color: #333;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #51e24a;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.7);
+  }
+}
+
+.titleInput {
+  display: block;
+  border: 1px solid black;
+  background-color: #fff;
+  border-radius: 20px;
+  height: 40px;
+  width: 100%;
+  font-size: 17px;
+  padding: 10px;
 }
 
 .TodoInfo {
@@ -31,6 +98,30 @@ button {
 
   &--completed &__title {
     color: #080;
+  }
+}
+
+.button {
+  &--add {
+    display: block;
+    height: 35px;
+    width: 45%;
+    margin-top: 40px;
+    font-size: 15px;
+    border: none;
+    background-color: rgb(76, 223, 76);
+
+    &:hover {
+      background-color: rgb(72, 186, 72);
+      border: 1px solid #26d128;
+      box-shadow: 0 0 5px rgba(62, 178, 62, 0.8);
+    }
+
+    &:active {
+      background-color: rgb(47, 142, 47);
+      border: 2px solid rgb(57, 157, 57);
+      box-shadow: 0 0 7px rgba(62, 178, 62, 0.8);
+    }
   }
 }
 
