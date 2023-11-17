@@ -15,9 +15,26 @@ export const TodoInfo: React.FC<Props> = ({
     id, title, completed, userId,
   } = todo;
 
-  const user: User
+  const user: User | null
     = usersFromServer.find((us: User) => us.id === userId)
-    ?? usersFromServer[0];
+    || null;
+
+  if (user !== null) {
+    return (
+      <article
+        data-id={id}
+        className={cn('TodoInfo', {
+          'TodoInfo--completed': completed,
+        })}
+      >
+        <h2 className="TodoInfo__title">
+          {title}
+        </h2>
+
+        <UserInfo user={user} />
+      </article>
+    );
+  }
 
   return (
     <article
@@ -30,7 +47,7 @@ export const TodoInfo: React.FC<Props> = ({
         {title}
       </h2>
 
-      <UserInfo user={user} />
+      <p>No user information available</p>
     </article>
   );
 };

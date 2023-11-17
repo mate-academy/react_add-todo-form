@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -9,6 +8,7 @@ export const App = () => {
   const maxId = todosFromServer.reduce((max, current) => (
     current.id > max ? current.id : max
   ), 0);
+
   const [todos, setTodos] = useState(todosFromServer);
   const [todoTitle, setTodoTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -24,6 +24,29 @@ export const App = () => {
     setHasUserIdError(false);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setHasTitleError(!todoTitle.trim());
+    setHasUserIdError(userId === 0);
+
+    if (!todoTitle.trim() || userId === 0) {
+      return;
+    }
+
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      {
+        id: maxId + 1,
+        title: todoTitle,
+        completed: false,
+        userId,
+      },
+    ]);
+    setTodoTitle('');
+    setUserId(0);
+  };
+
   return (
     <div className="App">
       <h1 className="App__title">Add to-do form</h1>
@@ -32,28 +55,7 @@ export const App = () => {
         action="/api/todos"
         method="POST"
         className="App__form"
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          setHasTitleError(!todoTitle);
-          setHasUserIdError(userId === 0);
-
-          if (!todoTitle || userId === 0) {
-            return;
-          }
-
-          setTodos((prevTodos) => [
-            ...prevTodos,
-            {
-              id: maxId + 1,
-              title: todoTitle,
-              completed: false,
-              userId,
-            },
-          ]);
-          setTodoTitle('');
-          setUserId(0);
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="field App__form_field">
           <input
@@ -65,8 +67,9 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {hasTitleError
-            && (<span className="error">Please enter a title</span>)}
+          {hasTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field App__form_field">
@@ -78,12 +81,13 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => (
-              <option value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>{user.name}</option>
             ))}
           </select>
 
-          {hasUserIdError
-            && (<span className="error">Please choose a user</span>)}
+          {hasUserIdError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button
