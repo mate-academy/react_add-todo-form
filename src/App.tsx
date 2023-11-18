@@ -44,7 +44,7 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setUserHasError(!user);
-    setTitleHasError(!title);
+    setTitleHasError(!title.trim());
 
     if (!user || !title) {
       return;
