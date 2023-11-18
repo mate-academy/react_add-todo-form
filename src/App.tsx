@@ -1,10 +1,10 @@
 import './App.scss';
+import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todos } from './types/Todo';
 import todosFromServer from './api/todos';
 
 import usersFromServer from './api/users';
-import { useState } from 'react';
 
 function getMaxId(users: Todos[]) {
   const id = Math.max(
@@ -21,7 +21,6 @@ function getUser(userId: number) {
 }
 
 export const App: React.FC = () => {
-
   const [user, setUser] = useState(0);
   const initialTodo: Todos[] = todosFromServer.map(todo => ({
     ...todo,
@@ -112,16 +111,16 @@ export const App: React.FC = () => {
                 Choose a user
               </option>
               {
-                usersFromServer.map((user) => (
+                usersFromServer.map((person) => (
                   <option
-                    key={user.id}
-                    value={user.id}
+                    key={person.id}
+                    value={person.id}
                   >
-                    {user.name}
+                    {person.name}
                   </option>
                 ))
               }
-              
+
             </select>
             { userHasError && (
               <span className="error">Please choose a user</span>
