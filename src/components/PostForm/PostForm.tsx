@@ -4,7 +4,7 @@ import { getUserById } from '../../services/getUserById';
 import usersFromServer from '../../api/users';
 
 type Props = {
-  onSubmit: (post: Todo) => void
+  onSubmit: (todo: Todo) => void
 };
 
 export const PostForm: React.FC<Props> = ({ onSubmit }) => {
@@ -14,7 +14,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [caunt, setCaunt] = useState(0);
+  const [count, setCount] = useState(0);
 
   const handleTitleChang = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -48,7 +48,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
     setTitle('');
     setUserId(0);
-    setCaunt(curr => curr + 1);
+    setCount(curr => curr + 1);
   };
 
   return (
@@ -56,7 +56,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       action="/api/todos"
       method="POST"
       onSubmit={handleSumbit}
-      key={caunt}
+      key={count}
     >
       <div className="field">
         <label htmlFor="title">Title: </label>

@@ -6,8 +6,8 @@ import { PostForm } from './components/PostForm/PostForm';
 import { getUserById } from './services/getUserById';
 import todosFromServer from './api/todos';
 
-function getNewPostId(posts: Todo[]) {
-  const maxId = Math.max(...posts.map(post => post.id));
+function getNewTodoId(todos: Todo[]) {
+  const maxId = Math.max(...todos.map(todo => todo.id));
 
   return maxId + 1;
 }
@@ -18,26 +18,26 @@ export const todos = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [post, setPost] = useState<Todo[]>(todos);
+  const [initialTodos, setInitialTodos] = useState<Todo[]>(todos);
 
-  const addPost = (posts: Todo) => {
-    const newPost = {
-      ...posts,
-      id: getNewPostId(post),
+  const addTodo = (todo: Todo) => {
+    const newTodo = {
+      ...todo,
+      id: getNewTodoId(initialTodos),
     };
 
-    setPost(currentPost => [...currentPost, newPost]);
+    setInitialTodos(currentTodo => [...currentTodo, newTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
       <PostForm
-        onSubmit={addPost}
+        onSubmit={addTodo}
       />
 
       <TodoList
-        todos={post}
+        todos={initialTodos}
       />
     </div>
   );
