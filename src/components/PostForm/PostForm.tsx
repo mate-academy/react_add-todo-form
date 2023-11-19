@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Todos } from '../../types/TodosProps';
+import { Todo } from '../../types/TodosProps';
 import { getUserById } from '../../services/getUserById';
 import usersFromServer from '../../api/users';
 
 type Props = {
-  onSubmit: (post: Todos) => void
+  onSubmit: (post: Todo) => void
 };
 
 export const PostForm: React.FC<Props> = ({ onSubmit }) => {
@@ -29,10 +29,12 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSumbit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(title === '');
+    const findLetter = title.split('').some(element => element !== ' ');
+
+    setHasTitleError(!findLetter);
     setHasUserIdError(userId === 0);
 
-    if (!title || !userId) {
+    if (!userId || !findLetter) {
       return;
     }
 

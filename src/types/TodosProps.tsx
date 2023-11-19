@@ -1,10 +1,7 @@
-export type Todos = {
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | null;
+import { User } from './UserType';
+
+export type Todo = {
+  user: User | null;
   id: number;
   title: string;
   completed: boolean;
