@@ -58,13 +58,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       onSubmit={handleSubmit}
     >
       <div className="field">
-        <input
-          type="text"
-          data-cy="titleInput"
-          placeholder="Enter a title"
-          value={title}
-          onChange={handleTitleChange}
-        />
+        <label>
+          {'Title: '}
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </label>
 
         {hasTitleErrors && (
           <span className="error">Please enter a title</span>
@@ -72,19 +75,22 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       </div>
 
       <div className="field">
-        <select
-          data-cy="userSelect"
-          value={userId}
-          onChange={handleUserIdChange}
-        >
-          <option value="0" disabled>Choose a user</option>
+        <label>
+          {'User: '}
+          <select
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserIdChange}
+          >
+            <option value="0" disabled>Choose a user</option>
 
-          {usersFromServer.map((user: User) => (
-            <option value={user.id} key={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
+            {usersFromServer.map((user: User) => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
         {hasUserIdErrors && (
           <span className="error">Please choose a user</span>
