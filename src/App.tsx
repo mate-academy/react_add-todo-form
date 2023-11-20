@@ -49,16 +49,16 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!value);
+    setHasTitleError(!value.trim());
     setHasUserError(userId === 0);
 
-    if (!value || userId === 0) {
+    if (!value.trim() || userId === 0) {
       return;
     }
 
     addTodo({
       id: createTodoId(),
-      title: value,
+      title: value.trim(),
       completed: false,
       userId,
       user: getUserById(userId),
