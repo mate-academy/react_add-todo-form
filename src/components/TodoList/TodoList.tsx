@@ -39,5 +39,5 @@ export const TodoList: React.FC<Props> = ({
         </article>
       ))}
     </section>
-  )
+  );
 };

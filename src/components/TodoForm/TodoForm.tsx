@@ -63,5 +63,5 @@ export const TodoForm: React.FC<Props> = ({
       </button>
     </form>
 
-  )
+  );
 };

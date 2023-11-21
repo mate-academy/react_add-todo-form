@@ -11,11 +11,11 @@ export const App = () => {
   const [personValue, setPersonValue] = useState('');
   const [title, setTitle] = useState('');
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handlePersonChange = (e) => {
+  const handlePersonChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setPersonValue(e.target.value);
   };
 
