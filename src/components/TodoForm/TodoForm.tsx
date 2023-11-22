@@ -57,7 +57,8 @@ export const TodoForm: React.FC<Props> = ({
       <button
         type="submit"
         data-cy="submitButton"
-        disabled={title.length === 0 || personValue.length === 0}
+        disabled={!title.trim()
+           || title.length === 0 || personValue.length === 0}
       >
         Add
       </button>

@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -8,38 +8,42 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
 
-  const [personValue, setPersonValue] = useState('');
-  const [title, setTitle] = useState('');
+  const [personValue, setPersonValue] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
 
   const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    setTitle((e.target as HTMLInputElement).value);
   };
 
   const handlePersonChange = (e: React.FormEvent<HTMLSelectElement>) => {
-    setPersonValue(e.target.value);
+    setPersonValue((e.target as HTMLSelectElement).value);
   };
 
-  const postWithUser = todos.map((todo) => {
-    const foundUser = usersFromServer
-      .find((user) => user.id === todo.userId);
+  const postWithUser
+    = todos.map((todo) => {
+      const foundUser = usersFromServer
+        .find((user) => user.id === todo.userId);
 
-    return { todo, foundUser };
-  });
+      return { todo, foundUser };
+    });
 
   const addPost = () => {
     const foundUser = usersFromServer.find((user) => user.name === personValue);
 
+    if (!foundUser) {
+      return;
+    }
+
     const newTodo = {
-      id: todos.length + 1,
-      userId: foundUser.id,
       title,
+      userId: foundUser.id,
       personValue,
     };
 
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
+    setTodos((prevTodos: any) => [...prevTodos, newTodo]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     addPost();
     setTitle('');

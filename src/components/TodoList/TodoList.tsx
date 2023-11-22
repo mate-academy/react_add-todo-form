@@ -1,16 +1,10 @@
 import cn from 'classnames';
-import { Todos } from '../../types/Todos';
 
 type Props = {
-  postWithUser: Array<{ todo: Todos, foundUser: User }>,
-};
-
-type User = {
-  id: number,
-  name: string,
-  username: string,
-  completed: boolean,
-  email: string,
+  postWithUser:{ todo:
+  { id: number; title: string; completed: boolean; userId: number; };
+  foundUser: { id: number; name: string; username: string; email: string; }
+  | undefined; }[],
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -31,7 +25,7 @@ export const TodoList: React.FC<Props> = ({
             <a
               className="UserInfo"
               href={`mailto:${foundUser.email}`}
-              key={todo.userID}
+              key={todo.userId}
             >
               {foundUser.name}
             </a>
