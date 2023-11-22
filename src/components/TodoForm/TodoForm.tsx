@@ -33,7 +33,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim());
     setHasTitleError(false);
   };
 
