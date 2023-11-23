@@ -1,6 +1,6 @@
 export type Todos = {
   id: number,
+  completed: boolean,
   title: string,
-  completed: string,
   userId: number,
 };

@@ -4,6 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
+import { Todos } from './types/Todos';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
@@ -30,17 +31,18 @@ export const App = () => {
   const addPost = () => {
     const foundUser = usersFromServer.find((user) => user.name === personValue);
 
-    if (!foundUser) {
+    if (!foundUser || !title.trim()) {
       return;
     }
 
     const newTodo = {
+      completed: false,
+      id: usersFromServer.length + 1,
       title,
       userId: foundUser.id,
-      personValue,
     };
 
-    setTodos((prevTodos: any) => [...prevTodos, newTodo]);
+    setTodos((prevTodos:Todos[]) => [...prevTodos, newTodo]);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {

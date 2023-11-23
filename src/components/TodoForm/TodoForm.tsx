@@ -1,9 +1,9 @@
 import usersFromServer from '../../api/users';
 
 type Props = {
-  handleSubmit: (e: any) => void
-  handlePersonChange: (e: any) => void
-  handleTitleChange: (e: any) => void
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  handlePersonChange: (e: React.FormEvent<HTMLSelectElement>) => void
+  handleTitleChange: (e: React.FormEvent<HTMLInputElement>) => void
   title: string,
   personValue: string
 };
@@ -29,7 +29,7 @@ export const TodoForm: React.FC<Props> = ({
           value={title}
           onChange={handleTitleChange}
         />
-        {title.length === 0
+        {title.length === 0 || !title.trim()
           ? <span className="error">Enter a title</span> : ''}
       </div>
 
@@ -57,8 +57,6 @@ export const TodoForm: React.FC<Props> = ({
       <button
         type="submit"
         data-cy="submitButton"
-        disabled={!title.trim()
-           || title.length === 0 || personValue.length === 0}
       >
         Add
       </button>
