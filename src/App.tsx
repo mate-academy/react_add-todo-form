@@ -1,7 +1,7 @@
 import './App.scss';
 import { useState } from 'react';
 import { getUserById } from './services/getUserById';
-import { Todo } from './types/Todos';
+import { Todo } from './types/Todo';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
@@ -12,21 +12,21 @@ function getNewTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
-const todos = todosFromServer.map(todo => ({
+const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [initialTodos, setInitialTodos] = useState<Todo[]>(todos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const addTodo = (todo: Todo) => {
     const newTodo = {
       ...todo,
-      id: getNewTodoId(initialTodos),
+      id: getNewTodoId(todos),
     };
 
-    setInitialTodos(currentTodo => [...currentTodo, newTodo]);
+    setTodos(currentTodo => [...currentTodo, newTodo]);
   };
 
   return (
@@ -43,7 +43,7 @@ export const App = () => {
       <div className="wrapper">
         <h2 className="subtitle">Todo List:</h2>
         <TodoList
-          todos={initialTodos}
+          todos={todos}
         />
       </div>
     </div>

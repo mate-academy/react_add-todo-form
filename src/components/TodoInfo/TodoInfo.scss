@@ -1,14 +1,14 @@
 
-.TodoInfo {
+.todo-info {
   width: max-content;
-  padding: 8px 13px;
+  padding: 10px 12px;
   margin-bottom: 20px;
   border-radius: 2px;
   border: 1px solid #fff;
   background-color: transparent;
 
   &__title {
-    margin: 4px 0;
+    margin: 4px 0 10px;
     font-size: inherit;
     color: #f00;
   }

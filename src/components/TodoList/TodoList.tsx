@@ -1,5 +1,5 @@
 import { TodoInfo } from '../TodoInfo';
-import { Todo } from '../../types/Todos';
+import { Todo } from '../../types/Todo';
 
 type TodosProps = {
   todos: Todo[]
@@ -7,7 +7,7 @@ type TodosProps = {
 
 export const TodoList: React.FC<TodosProps> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <section className="todo-list">
       {todos.map(todo => (
         <TodoInfo
           todo={todo}

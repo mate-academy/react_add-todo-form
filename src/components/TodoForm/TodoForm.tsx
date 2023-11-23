@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Todo } from '../../types/Todos';
+import { Todo } from '../../types/Todo';
 import { getUserById } from '../../services/getUserById';
 import usersFromServer from '../../api/users';
 import './TodoForm.scss';
@@ -48,31 +48,31 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
 
   return (
     <form
-      className="todoForm"
+      className="todo-form"
       action="/api/todos"
       method="POST"
       onSubmit={handleSumbit}
     >
-      <div className="todoForm__field">
-        <label className="todoForm__label" htmlFor="title">Title: </label>
+      <div className="todo-form__field">
+        <label className="todo-form__label" htmlFor="title">Title: </label>
         <input
-          className="todoForm__input"
-          type="text"
+          className="todo-form__input"
           id="title"
+          type="text"
           value={title}
           placeholder="Enter a title"
           onChange={handleTitleChange}
           data-cy="titleInput"
         />
         {hasTitleError && (
-          <span className="todoForm__error">Please enter a title*</span>
+          <span className="todo-form__error">Please enter a title*</span>
         )}
       </div>
 
-      <div className="todoForm__field">
-        <label className="todoForm__label" htmlFor="userSelect">User: </label>
+      <div className="todo-form__field">
+        <label className="todo-form__label" htmlFor="userSelect">User: </label>
         <select
-          className="todoForm__select"
+          className="todo-form__select"
           id="userSelect"
           data-cy="userSelect"
           value={userId}
@@ -80,7 +80,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
           key={userId}
         >
           <option
-            className="todoForm__option"
+            className="todo-form__option"
             value="0"
             disabled
           >
@@ -88,7 +88,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
           </option>
           {usersFromServer.map((user, i) => (
             <option
-              className="todoForm__option"
+              className="todo-form__option"
               key={user.id}
               value={i + 1}
             >
@@ -98,11 +98,11 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
         </select>
 
         {hasUserIdError && (
-          <span className="todoForm__error">Please choose a user*</span>
+          <span className="todo-form__error">Please choose a user*</span>
         )}
       </div>
 
-      <button className="todoForm__btn" type="submit" data-cy="submitButton">
+      <button className="todo-form__btn" type="submit" data-cy="submitButton">
         Add
       </button>
     </form>
