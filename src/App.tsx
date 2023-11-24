@@ -45,6 +45,10 @@ export const App = () => {
     setTodos((prevTodos:Todos[]) => [...prevTodos, newTodo]);
   };
 
+  const handleSubmitWithErrors = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     addPost();
@@ -58,6 +62,7 @@ export const App = () => {
 
       <TodoForm
         handleSubmit={handleSubmit}
+        handleSubmitWithErrors={handleSubmitWithErrors}
         handlePersonChange={handlePersonChange}
         handleTitleChange={handleTitleChange}
         title={title}

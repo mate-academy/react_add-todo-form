@@ -5,6 +5,7 @@ type Props = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   handlePersonChange: (e: React.FormEvent<HTMLSelectElement>) => void
   handleTitleChange: (e: React.FormEvent<HTMLInputElement>) => void
+  handleSubmitWithErrors: (e: React.FormEvent<HTMLFormElement>) => void
   title: string,
   personValue: string
 };
@@ -13,6 +14,7 @@ export const TodoForm: React.FC<Props> = ({
   handleSubmit,
   handlePersonChange,
   handleTitleChange,
+  handleSubmitWithErrors,
   title,
   personValue,
 }) => {
@@ -37,7 +39,7 @@ export const TodoForm: React.FC<Props> = ({
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={handleSubmit}
+      onSubmit={ errorTitle === false && errorUser === false ? handleSubmit : handleSubmitWithErrors}
     >
       <div className="field">
         <input
