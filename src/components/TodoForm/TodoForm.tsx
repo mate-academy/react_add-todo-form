@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import usersFromServer from '../../api/users';
 
 type Props = {
@@ -15,6 +16,23 @@ export const TodoForm: React.FC<Props> = ({
   title,
   personValue,
 }) => {
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
+
+  const checkERRORS = () => {
+    if (title.length === 0 || !title.trim()) {
+      setErrorTitle(true);
+    } else {
+      setErrorTitle(false);
+    }
+
+    if (personValue === '') {
+      setErrorUser(true);
+    } else {
+      setErrorUser(false);
+    }
+  };
+
   return (
     <form
       action="/api/todos"
@@ -29,7 +47,7 @@ export const TodoForm: React.FC<Props> = ({
           value={title}
           onChange={handleTitleChange}
         />
-        {title.length === 0 || !title.trim()
+        {errorTitle === true && (title.length === 0 || !title.trim())
           ? <span className="error">Enter a title</span> : ''}
       </div>
 
@@ -50,13 +68,14 @@ export const TodoForm: React.FC<Props> = ({
           ))}
         </select>
 
-        {personValue === ''
+        {errorUser === true && personValue === ''
           ? <span className="error">Choose a user</span> : ''}
       </div>
 
       <button
         type="submit"
         data-cy="submitButton"
+        onClick={checkERRORS}
       >
         Add
       </button>
