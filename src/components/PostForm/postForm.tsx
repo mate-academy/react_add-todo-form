@@ -4,26 +4,26 @@ import { getUserById } from '../../services.ts/user';
 import { Todos } from '../../types/TodosProps';
 
 type Props = {
-  onAdd: (post: Todos[]) => void;
+  onAdd: (post: Todos) => void;
 };
 
 export const PostForm: React.FC<Props> = ({ onAdd }) => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [errorMessage, setErrorMessage] = useState(false);
-  // const [count, setCount] = useState(0);
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorUserId, setErrorUserId] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setErrorMessage(false);
+    setErrorTitle(false);
   };
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
-    setErrorMessage(!title);
-    setErrorMessage(!userId);
+    setErrorTitle(!title.trim());
+    setErrorUserId(!userId);
 
-    if (!title || userId) {
+    if (!title || !userId) {
       return;
     }
 
@@ -37,12 +37,11 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
 
     setTitle('');
     setUserId(0);
-    setCount(curr => curr + 1);
   };
 
-  const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setErrorMessage(false);
+    setErrorUserId(false);
   };
 
   return (
@@ -64,7 +63,7 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
             placeholder="Enter a title"
           />
           {' '}
-          {errorMessage && (
+          {errorTitle && (
             <span className="error">Please enter a title</span>
           )}
         </label>
@@ -87,9 +86,9 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
             >
               Choose a user
             </option>
-            {usersFromServer.map((user, i) => (
+            {usersFromServer.map(user => (
               <option
-                value={i + 1}
+                value={user.id}
                 key={user.id}
               >
                 {user.name}
@@ -97,7 +96,7 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
             ))}
           </select>
           {' '}
-          {errorMessage && (
+          {errorUserId && (
             <span className="error">Please choose a user</span>
           )}
         </label>
