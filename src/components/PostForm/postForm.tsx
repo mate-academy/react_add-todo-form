@@ -23,7 +23,7 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
     setErrorTitle(!title.trim());
     setErrorUserId(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
