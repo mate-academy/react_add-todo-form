@@ -9,9 +9,9 @@ import todosFromServer from './api/todos';
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState('');
-  const [isTitle, setIsTitle] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(true);
   const [user, setUser] = useState('0');
-  const [isUser, setIsUser] = useState(true);
+  const [isUserValid, setIsUserValid] = useState(true);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const titleValue = event.target.value;
@@ -19,7 +19,7 @@ export const App = () => {
     setTitle(titleValue);
 
     if (titleValue) {
-      setIsTitle(true);
+      setIsTitleValid(true);
     }
   };
 
@@ -27,20 +27,20 @@ export const App = () => {
     const userValue = event.target.value;
 
     setUser(userValue);
-    setIsUser(true);
+    setIsUserValid(true);
   };
 
   const resetForm = () => {
     setTitle('');
     setUser('0');
-    setIsTitle(true);
-    setIsUser(true);
+    setIsTitleValid(true);
+    setIsUserValid(true);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title && user !== '0') {
+    if (title.trim() && user !== '0') {
       const todo = {
         id: Math.max(...todos.map(item => item.id)) + 1,
         title,
@@ -55,12 +55,12 @@ export const App = () => {
       return;
     }
 
-    if (!title) {
-      setIsTitle(false);
+    if (!title || title !== title.trim()) {
+      setIsTitleValid(false);
     }
 
     if (user === '0') {
-      setIsUser(false);
+      setIsUserValid(false);
     }
   };
 
@@ -79,7 +79,7 @@ export const App = () => {
             onChange={handleTitleChange}
             placeholder="Enter a title"
           />
-          {!isTitle && <span className="error">Please enter a title</span>}
+          {!isTitleValid && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -100,7 +100,7 @@ export const App = () => {
             })}
           </select>
 
-          {!isUser && <span className="error">Please choose a user</span>}
+          {!isUserValid && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
