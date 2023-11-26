@@ -18,7 +18,7 @@ export const App = () => {
 
     setTitle(titleValue);
 
-    if (titleValue) {
+    if (titleValue.trim()) {
       setIsTitleValid(true);
     }
   };
