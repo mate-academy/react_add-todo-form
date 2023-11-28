@@ -28,10 +28,10 @@ export const App = () => {
       id: getNewTodoId(todos),
     };
 
-    setTodos(prevTodos => ({
+    setTodos(prevTodos => ([
       ...prevTodos,
       newTodo,
-    }));
+    ]));
   };
 
   return (
