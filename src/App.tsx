@@ -56,7 +56,7 @@ export const App = () => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setHasErrorTitle(true);
     }
 
@@ -64,7 +64,7 @@ export const App = () => {
       setHasErrorUser(true);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -88,7 +88,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title.trim()}
+            value={title}
             onChange={handleTitleChange}
           />
           {hasErrorTitle && (
