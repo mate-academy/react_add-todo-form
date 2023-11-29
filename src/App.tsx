@@ -3,8 +3,8 @@ import './App.scss';
 import { Todo } from './types/Types';
 import { TodoList } from './components/TodoList';
 import { getUserById } from './utils/userId';
-import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 const initialTodos: Todo[] = todosFromServer
   .map(todo => ({
