@@ -43,7 +43,7 @@ export const App = () => {
 
   const addNewTodo = () => {
     const newTodo = {
-      id: todos.length + 1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
       completed: false,
       userId,
@@ -87,6 +87,7 @@ export const App = () => {
             id="title"
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={title}
             onChange={handleTitleChange}
           />
