@@ -88,7 +88,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={title}
+            value={title.trim()}
             onChange={handleTitleChange}
           />
           {hasErrorTitle && (
@@ -106,16 +106,14 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {
-              usersFromServer.map((user) => (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
-                  {user.name}
-                </option>
-              ))
-            }
+            {usersFromServer.map((user) => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
           </select>
 
           {

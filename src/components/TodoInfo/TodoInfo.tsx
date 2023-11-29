@@ -8,7 +8,7 @@ interface TodoInfoProps {
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   return (
-    <article
+    <li
       data-id={todo.id}
       className={classNames(
         'TodoInfo', { 'TodoInfo--completed': todo.completed },
@@ -21,6 +21,6 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       {todo.user && (
         <UserInfo user={todo.user} />
       )}
-    </article>
+    </li>
   );
 };
