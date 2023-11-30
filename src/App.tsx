@@ -3,7 +3,7 @@ import './App.scss';
 import { useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import { TodoForm } from './components/TodoForm';
+import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
