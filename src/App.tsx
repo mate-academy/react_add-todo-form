@@ -2,13 +2,13 @@ import './App.scss';
 import { useState } from 'react';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-import { Todos } from './types/TodosUsers';
+import { Todo } from './types/TodosUsers';
 import { getUserById } from './functions/getUserById';
 import { visibleTodos } from './functions/visibleTodos';
 import { getMaxId } from './functions/getMaxId';
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todos[]>(visibleTodos);
+  const [todos, setTodos] = useState<Todo[]>(visibleTodos);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasSelectError, setHasSelectError] = useState(false);
   const [title, setTitle] = useState('');
