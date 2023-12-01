@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { Todo } from '../../interfaces/interfaces';
 import { TodoInfo } from '../TodoInfo';
 
@@ -9,7 +11,9 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <>
       {todos.map((todo) => (
-        <TodoInfo todo={todo} />
+        <React.Fragment key={todo.id}>
+          <TodoInfo todo={todo} />
+        </React.Fragment>
       ))}
     </>
   );

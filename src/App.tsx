@@ -76,7 +76,6 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
       <form
         onSubmit={(event: React.ChangeEvent<HTMLFormElement>) => {
           handleFormSubmit(event);
@@ -108,7 +107,7 @@ export const App = () => {
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((user) => {
               return (
-                <option value={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>{user.name}</option>
               );
             })}
           </select>
