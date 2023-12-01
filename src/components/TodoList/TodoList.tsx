@@ -11,9 +11,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <>
       {todos.map((todo) => (
-        <React.Fragment key={todo.id}>
-          <TodoInfo todo={todo} />
-        </React.Fragment>
+        <TodoInfo todo={todo} key={todo.id} />
       ))}
     </>
   );
