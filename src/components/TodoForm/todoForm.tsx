@@ -44,10 +44,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           value={title}
           onChange={event => setTitle(event.target.value)}
         />
-        {
-          !title && touched
-            && (<span className="error">Please enter a title</span>)
-        }
+        {!title && touched
+            && (<span className="error">Please enter a title</span>)}
       </div>
 
       <div className="field">
