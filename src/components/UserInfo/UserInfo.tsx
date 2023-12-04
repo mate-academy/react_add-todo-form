@@ -1,12 +1,10 @@
-import getUserById from '../../utils/getUserById';
+import User from '../../types/User';
 
 interface Props {
-  userId: number,
+  user: User | undefined,
 }
 
-export const UserInfo: React.FC<Props> = ({ userId }) => {
-  const user = getUserById(userId);
-
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
     <a className="UserInfo" href={`mailto:${user?.email}`}>
       {user?.name}

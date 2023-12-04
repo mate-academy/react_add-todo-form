@@ -9,7 +9,7 @@ export const TodoInfo: React.FC<Props> = ({
   todo: {
     id,
     title,
-    userId,
+    user,
     completed,
   },
 }) => {
@@ -27,7 +27,7 @@ export const TodoInfo: React.FC<Props> = ({
         {id}
       </p>
 
-      <UserInfo userId={userId} />
+      <UserInfo user={user} />
     </article>
   );
 };
