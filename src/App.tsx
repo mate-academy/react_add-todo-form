@@ -16,7 +16,7 @@ export const App = () => {
   const handleSubmit: FormEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
 
-    if (!typedTitle) {
+     if (!typedTitle.trim()) {
       setHasTitleError(true);
     }
 
