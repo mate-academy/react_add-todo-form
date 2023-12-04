@@ -16,7 +16,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setTouched(true);
 
-    if (user && title) {
+    if (user && title.trim()) {
       onAdd({
         id: 0,
         title,
@@ -44,7 +44,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           value={title}
           onChange={event => setTitle(event.target.value)}
         />
-        {!title && touched
+        {!title.trim() && touched
             && (<span className="error">Please enter a title</span>)}
       </div>
 
@@ -61,11 +61,8 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           ))}
         </select>
 
-        {
-          !user && touched
-            && (<span className="error">Please choose a user</span>)
-        }
-
+        {!user && touched
+            && (<span className="error">Please choose a user</span>)}
       </div>
 
       <button type="submit" data-cy="submitButton">
