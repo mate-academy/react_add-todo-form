@@ -1,7 +1,7 @@
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../types/Todo';
 
-type Props = { todo: Todo };
+type Props = { todo: Todo; };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => (
   <article
@@ -12,6 +12,19 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
   >
     <h2 className="TodoInfo__title">{todo.title}</h2>
 
-    <UserInfo user={todo.user} />
+    {
+      todo.user
+        ? <UserInfo user={todo.user} />
+        : (
+          <UserInfo user={{
+            id: 999,
+            name: 'Undefined User',
+            username: 'UndefinedUsername',
+            email: 'Undefined@Email.com',
+          }}
+          />
+        )
+    }
+
   </article>
 );

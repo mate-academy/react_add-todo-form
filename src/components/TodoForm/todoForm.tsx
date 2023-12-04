@@ -52,7 +52,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
         <select
           data-cy="userSelect"
           onChange={event => setUser(+event.target.value)}
-          defaultValue={0}
           value={user}
         >
           <option value="0">Choose a user</option>

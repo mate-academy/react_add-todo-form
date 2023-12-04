@@ -3,7 +3,7 @@ import todosFromServer from '../../api/todos';
 
 export function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId)
-    || usersFromServer[0];
+    || null;
 }
 
 export const defaultTodos = todosFromServer.map(todo => ({
