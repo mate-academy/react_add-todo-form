@@ -15,11 +15,7 @@ export const getMaxId = (todos: Todo[]) => {
 };
 
 export const getUser = (userId: number) => {
-  const requiredUser = usersFromServer.find(user => (
-    user.id === userId
-  ));
-
-  return requiredUser;
+  return usersFromServer.find(({ id }) => id === userId);
 };
 
 export const preparedTodoList: Todo[] = todosFromServer.map(todo => ({

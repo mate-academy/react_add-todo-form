@@ -29,7 +29,7 @@ export const App: React.FC = () => {
     setHasUserIdError(false);
   };
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
     setHasTitleError(false);
 
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
       [...currentTodos, newTodo]
     ));
 
-    reset();
+    resetForm();
   };
 
   return (
@@ -91,12 +91,15 @@ export const App: React.FC = () => {
             required
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map((user) => (
+            {usersFromServer.map(({
+              id,
+              name,
+            }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
