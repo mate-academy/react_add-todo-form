@@ -38,10 +38,6 @@ export const App = () => {
     setSelectedUserId(0);
   };
 
-  function isNotEmptyString(string: string) {
-    return string.trim().length > 0;
-  }
-
   const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -58,11 +54,7 @@ export const App = () => {
       user: getUser(selectUserId),
     };
 
-    if (!isNotEmptyString(inputTitle)) {
-      setTitleError(true);
-    }
-
-    if (inputTitle && selectUserId && isNotEmptyString(inputTitle)) {
+    if (inputTitle && selectUserId) {
       setNewTodos([...newTodos, newTodo]);
       clearForm();
     }
