@@ -3,7 +3,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 export const getMaxId = (todos: Todo[]) => {
-  if (todos.length === 0) {
+  if (!todos.length) {
     return 1;
   }
 

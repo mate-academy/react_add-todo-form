@@ -12,8 +12,8 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [select, setSelect] = useState(0);
-  const [hasSelectError, setHasSelectError] = useState(false);
+  const [userId, setUserID] = useState(0);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitle = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -25,24 +25,24 @@ export const App: React.FC = () => {
   const handleSelect = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSelect(+event.target.value);
-    setHasSelectError(false);
+    setUserID(+event.target.value);
+    setHasUserIdError(false);
   };
 
   const reset = () => {
     setTitle('');
     setHasTitleError(false);
 
-    setSelect(0);
-    setHasSelectError(false);
+    setUserID(0);
+    setHasUserIdError(false);
   };
 
-  const hasAllFields = title.trim() && select;
+  const hasAllFields = title.trim() && userId;
 
   const handleChange = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasSelectError(!select);
+    setHasUserIdError(!userId);
     setHasTitleError(!title);
 
     if (!hasAllFields) {
@@ -53,12 +53,12 @@ export const App: React.FC = () => {
       id: getMaxId(todos),
       title,
       completed: false,
-      userId: select,
-      user: getUser(select),
+      userId,
+      user: getUser(userId),
     };
 
-    setTodos(currentTodo => (
-      [...currentTodo, newTodo]
+    setTodos(currentTodos => (
+      [...currentTodos, newTodo]
     ));
 
     reset();
@@ -75,7 +75,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter title"
             value={title}
-            onChange={(event) => handleTitle(event)}
+            onChange={handleTitle}
             required
           />
           {hasTitleError
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={select}
+            value={userId}
             defaultValue={0}
             onChange={handleSelect}
             required
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {hasSelectError
+          {hasUserIdError
             && <span className="error">Please choose a user</span>}
         </div>
 
