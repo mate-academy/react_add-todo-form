@@ -21,7 +21,6 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
         'TodoInfo--completed': completed,
       })}
       key={todo.id}
-    // className="TodoInfo TodoInfo--completed"
     >
       <h2 className="TodoInfo__title">
         {title}
