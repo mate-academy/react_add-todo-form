@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Todo from '../../types/Todo';
 import usersFromServer from '../../api/users';
+import getUserById from '../../utils/getUserById';
 
 interface Props {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
@@ -11,67 +12,76 @@ export const NewPost: React.FC<Props> = ({
   setTodos,
   todos,
 }) => {
-  const getNewId = () => Math.max(...todos.map(todo => todo.id)) + 1;
+  const INITIAL_USER_ID = useMemo(() => '0', []);
 
-  const { 0: isSubmitted, 1: setIsSubmitted } = useState(false);
-  const { 0: todo, 1: setTodo } = useState<Todo>({
-    id: getNewId(),
-    title: '',
-    completed: false,
-    userId: 0,
-  });
+  const getNewId = useCallback(
+    (() => Math.max(...todos.map(todo => todo.id)) + 1),
+    [todos],
+  );
 
-  useEffect(() => {
-    setTodo(prevTodo => ({
-      ...prevTodo,
-      id: getNewId(),
-    }));
-  }, [todos]);
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { value, name } = event.target;
-
-    setTodo((prevTodo: Todo) => ({
-      ...prevTodo,
-      [name]: name === 'userId' ? parseInt(value, 10) : value,
-    }));
-  };
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [userId, setUserId] = useState(INITIAL_USER_ID);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const resetForm = () => {
-    setTodo({
-      title: '',
-      id: getNewId(),
-      userId: 0,
-      completed: false,
-    });
+    setTitle('');
+    setUserId(INITIAL_USER_ID);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setIsSubmitted(true);
+    if (userId === INITIAL_USER_ID) {
+      setHasUserIdError(true);
+    }
 
-    const trimmedTitle = todo.title.trim();
+    if (!title.trim()) {
+      setHasTitleError(true);
+    }
 
-    if (trimmedTitle && todo.userId) {
-      setIsSubmitted(false);
+    if (title.trim() && userId !== INITIAL_USER_ID) {
+      setHasUserIdError(false);
+      setHasTitleError(false);
 
-      const trimmedTodo = {
-        ...todo,
-        title: trimmedTitle,
+      const newTodo = {
+        id: getNewId(),
+        title: title.trim(),
+        completed: false,
+        userId: +userId,
+        user: getUserById(+userId),
       };
 
-      setTodos((prevTodos: Todo[]) => [...prevTodos, trimmedTodo]);
+      setTodos((prevTodos: Todo[]) => [...prevTodos, newTodo]);
+
       resetForm();
+    }
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+
+    if (!event.target.value.trim()) {
+      setHasTitleError(true);
+    } else {
+      setHasTitleError(false);
+    }
+  };
+
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
+
+    if (event.target.value === INITIAL_USER_ID) {
+      setHasUserIdError(true);
+    } else {
+      setHasUserIdError(false);
     }
   };
 
   return (
     <form
       method="POST"
-      onSubmit={(event) => handleFormSubmit(event)}
+      onSubmit={handleFormSubmit}
     >
       <div className="field">
         <input
@@ -79,10 +89,10 @@ export const NewPost: React.FC<Props> = ({
           type="text"
           placeholder="Enter a title"
           data-cy="titleInput"
-          value={todo.title}
-          onChange={(event) => handleChange(event)}
+          value={title}
+          onChange={handleTitleChange}
         />
-        {isSubmitted && !todo.title.trim() && (
+        {hasTitleError && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -91,10 +101,10 @@ export const NewPost: React.FC<Props> = ({
         <select
           name="userId"
           data-cy="userSelect"
-          onChange={(event) => handleChange(event)}
-          value={todo.userId}
+          onChange={handleUserIdChange}
+          value={userId}
         >
-          <option value="0" disabled>Choose a user</option>
+          <option value={INITIAL_USER_ID} disabled>Choose a user</option>
           {usersFromServer.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
@@ -102,7 +112,7 @@ export const NewPost: React.FC<Props> = ({
           ))}
         </select>
 
-        {isSubmitted && todo.userId === 0 && (
+        {hasUserIdError && (
           <span className="error">Please choose a user</span>
         )}
       </div>

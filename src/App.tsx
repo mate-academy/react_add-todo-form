@@ -8,9 +8,9 @@ import { NewPost } from './components/NewPost';
 import getUserById from './utils/getUserById';
 
 export const App = () => {
-  const { 0: todos, 1: setTodos } = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const todosList: Todo[] = todos.map(todo => ({
+  const todosWithUser: Todo[] = todos.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
   }));
@@ -21,7 +21,7 @@ export const App = () => {
 
       <NewPost setTodos={setTodos} todos={todos} />
 
-      <TodoList todos={todosList} />
+      <TodoList todos={todosWithUser} />
     </div>
   );
 };
