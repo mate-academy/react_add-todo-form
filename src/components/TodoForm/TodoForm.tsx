@@ -14,7 +14,7 @@ export const TodoForm: React.FC<Prors> = ({ onSubmit, users }) => {
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
     setUserId(0);
   };
@@ -39,7 +39,7 @@ export const TodoForm: React.FC<Prors> = ({ onSubmit, users }) => {
       return;
     }
 
-    reset();
+    resetForm();
 
     onSubmit({
       title,
@@ -82,12 +82,12 @@ export const TodoForm: React.FC<Prors> = ({ onSubmit, users }) => {
         >
           <option value="0" disabled>Choose a user</option>
 
-          {users.map(user => (
+          {users.map(({ id, name }) => (
             <option
-              key={user.id}
-              value={user.id}
+              key={id}
+              value={id}
             >
-              {user.name}
+              {name}
             </option>
           ))}
         </select>
