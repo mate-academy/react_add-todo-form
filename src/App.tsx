@@ -6,6 +6,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import Todo from './types/Todo';
 import { TodoForm } from './components/TodoForm/TodoForm';
+import User from './types/User';
 
 function getNewTodoId(todos: Todo[]): number {
   const biggestId = Math.max(...todos.map((todo) => todo.id));
@@ -13,52 +14,53 @@ function getNewTodoId(todos: Todo[]): number {
   return biggestId + 1;
 }
 
+function findUserById(users: User[], userId: number): User | null {
+  return users.find(user => user.id === userId) || null;
+}
+
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
-  const [formInputs, setFormInputs] = useState({
-    title: '',
-    userId: 0,
-  });
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
   const [titleErrorMessage, setTitleErrorMessage] = useState('');
   const [userErrorMessage, setUserErrorMessage] = useState('');
 
   const todosWithUsers = todos.map(todo => ({
     ...todo,
-    user: usersFromServer.find(u => u.id === todo.userId),
+    user: findUserById(usersFromServer, todo.userId),
   }));
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
 
-    setFormInputs({
-      ...formInputs,
-      title: input,
-    });
+    setTitle(input);
 
     setTitleErrorMessage('');
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormInputs({
-      ...formInputs,
-      userId: +event.target.value,
-    });
+    setUserId(+event.target.value);
 
     setUserErrorMessage('');
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!formInputs.title) {
+    if (!title) {
       setTitleErrorMessage('Please enter a title');
     }
 
-    if (formInputs.userId <= 0) {
+    if (userId <= 0) {
       setUserErrorMessage('Please choose a user');
     }
 
-    if (formInputs.userId <= 0 || !formInputs.title) {
+    if (userId <= 0 || !title) {
       return;
     }
 
@@ -66,22 +68,20 @@ export const App = () => {
       ...todos,
       {
         id: getNewTodoId(todos),
-        title: formInputs.title,
+        title,
         completed: false,
-        userId: formInputs.userId,
+        userId,
       },
     ]);
 
-    setFormInputs({
-      title: '',
-      userId: 0,
-    });
+    resetForm();
   };
 
   return (
     <div className="App">
       <TodoForm
-        formInputs={formInputs}
+        title={title}
+        userId={userId}
         titleErrorMessage={titleErrorMessage}
         userErrorMessage={userErrorMessage}
         handleUserIdChange={handleUserIdChange}

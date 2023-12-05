@@ -5,16 +5,24 @@ type Props = {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUserIdChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 
-  formInputs: {
-    title: string;
-    userId: number;
-  };
+  title: string;
+  userId: number;
 
   titleErrorMessage: string;
   userErrorMessage: string;
 };
 
 export const TodoForm: React.FC<Props> = (props: Props) => {
+  const {
+    title,
+    userId,
+    titleErrorMessage,
+    userErrorMessage,
+    handleSubmit,
+    handleInputChange,
+    handleUserIdChange,
+  } = props;
+
   return (
     <>
       <h1>Add todo form</h1>
@@ -22,7 +30,7 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={props.handleSubmit}
+        onSubmit={handleSubmit}
       >
 
         <div className="field">
@@ -31,15 +39,15 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
             <input
               type="text"
               data-cy="titleInput"
-              value={props.formInputs.title}
-              onChange={props.handleInputChange}
+              value={title}
+              onChange={handleInputChange}
               placeholder="Enter a title"
             />
           </label>
 
           {props.titleErrorMessage && (
             <span className="error">
-              {props.titleErrorMessage}
+              {titleErrorMessage}
             </span>
           )}
         </div>
@@ -49,8 +57,8 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
             {'User: '}
             <select
               data-cy="userSelect"
-              value={props.formInputs.userId}
-              onChange={props.handleUserIdChange}
+              value={userId}
+              onChange={handleUserIdChange}
             >
               <option value="0" disabled>Choose a user</option>
 
@@ -68,7 +76,7 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
 
           {props.userErrorMessage && (
             <span className="error">
-              {props.userErrorMessage}
+              {userErrorMessage}
             </span>
           )}
         </div>
