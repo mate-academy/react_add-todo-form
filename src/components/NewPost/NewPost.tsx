@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import Todo from '../../types/Todo';
 import usersFromServer from '../../api/users';
 import getUserById from '../../utils/getUserById';
@@ -12,7 +12,7 @@ export const NewPost: React.FC<Props> = ({
   setTodos,
   todos,
 }) => {
-  const INITIAL_USER_ID = useMemo(() => '0', []);
+  const INITIAL_USER_ID = '0';
 
   const getNewId = useCallback(
     (() => Math.max(...todos.map(todo => todo.id)) + 1),
@@ -60,22 +60,12 @@ export const NewPost: React.FC<Props> = ({
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-
-    if (!event.target.value.trim()) {
-      setHasTitleError(true);
-    } else {
-      setHasTitleError(false);
-    }
+    setHasTitleError(!event.target.value.trim());
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(event.target.value);
-
-    if (event.target.value === INITIAL_USER_ID) {
-      setHasUserIdError(true);
-    } else {
-      setHasUserIdError(false);
-    }
+    setHasUserIdError(event.target.value === INITIAL_USER_ID);
   };
 
   return (
