@@ -1,12 +1,10 @@
 # React Add TODO Form
 
-Implement the ability to add TODOs to the `TodoList` implemented in the [Static List of TODOs](https://github.com/mate-academy/react_static-list-of-todos).
-
+Implement the ability to add TODOs to the `TodoList` implemented in the **Static List of TODOs**
 > Here is [the working example](https://mate-academy.github.io/react_add-todo-form/)
 
 1. Create an `App` component storing the `todos` array and displaying it using the `TodoList`.
 1. Create a form to add new TODOs:
-    - don't create a separate component for the form (later, we will learn how to do it);
     - there should be a text input for the `title` with `data-cy="titleInput"` attribute;
     - add a `<select>` with `data-cy="userSelect"` attribute showing all the given users;
     - add labels and placeholders where they are needed;
@@ -20,7 +18,7 @@ Implement the ability to add TODOs to the `TodoList` implemented in the [Static 
     - errors should appear only after clicking the `Add` button;
     - hide the message immediately after any change of the field with an error;
 1. If the form is valid, add a todo to the list and clear the form.
-1. (* **Optional**) Allow entering only letters (`ru` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
+1. (* **Optional**) Allow entering only letters (`ua` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
 
 ## Instructions
 
