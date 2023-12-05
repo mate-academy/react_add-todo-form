@@ -47,9 +47,7 @@ export const App = () => {
 
       <AddTodoForm users={usersFromServer} onAdd={addTodo} />
 
-      <TodoList
-        todos={todos}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };

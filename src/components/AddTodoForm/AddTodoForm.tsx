@@ -70,6 +70,10 @@ export const AddTodoForm: React.FC<Props> = ({ users, onAdd }) => {
         )}
       </div>
 
+      <label htmlFor="userSelect">
+        User:&nbsp;
+      </label>
+
       <div className="field">
         <select
           data-cy="userSelect"
@@ -77,9 +81,6 @@ export const AddTodoForm: React.FC<Props> = ({ users, onAdd }) => {
           value={userId}
           onChange={handleUserIdChange}
         >
-          <label htmlFor="userSelect">
-            User:&nbsp;
-          </label>
           <option value="0" disabled>Choose a user</option>
 
           {users.map(user => (

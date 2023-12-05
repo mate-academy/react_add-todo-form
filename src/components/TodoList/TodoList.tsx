@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Todo } from '../../type/Todo';
 import { TodoInfo } from '../TodoInfo';
 
@@ -10,9 +9,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <Fragment key={todo.id}>
-          <TodoInfo todo={todo} />
-        </Fragment>
+        <TodoInfo todo={todo} key={todo.id} />
       ))}
     </section>
   );
