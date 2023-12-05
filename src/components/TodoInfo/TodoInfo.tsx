@@ -8,14 +8,19 @@ interface Props {
 }
 
 export const TodoInfo: FC<Props> = ({ todo }) => {
+  const {
+    title,
+    completed,
+  } = todo;
+
   return (
     <article
       data-id={todo.id}
       className={cn('TodoInfo',
-        { 'TodoInfo--completed': todo.completed })}
+        { 'TodoInfo--completed': completed })}
     >
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
 
       { todo.user && <UserInfo user={todo.user} />}

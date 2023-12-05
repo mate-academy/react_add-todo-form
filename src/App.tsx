@@ -6,15 +6,14 @@ import { TodoList } from './components/TodoList';
 import { createIdForTodo, getToDosWithUsers } from './helpers';
 
 export const App = () => {
-  const [users] = useState(usersFromServer);
   const [todos, setTodos] = useState(todosFromServer);
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
 
-  const [isTitleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [isSelectedUserIdError, setSelectedUserIdError] = useState(false);
 
-  const toDosForRender = getToDosWithUsers(todos, users);
+  const toDosForRender = getToDosWithUsers(todos, usersFromServer);
 
   const addTodo = (name:string, userId: number) => {
     setTodos((currentTodos) => {
@@ -37,7 +36,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleError(!title);
+    setIsTitleError(!title);
     setSelectedUserIdError(!selectedUserId);
 
     if (!title || !selectedUserId) {
@@ -67,7 +66,7 @@ export const App = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setTitleError(false);
+              setIsTitleError(false);
             }}
           />
           {isTitleError && <span className="error">Please enter a title</span>}
@@ -112,7 +111,6 @@ export const App = () => {
         >
           Add
         </button>
-
       </form>
 
       <TodoList todos={toDosForRender} />
