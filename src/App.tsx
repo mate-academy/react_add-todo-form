@@ -1,61 +1,100 @@
 import './App.scss';
+import { useState } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { TodoForm } from './components/TodoForm/TodoForm';
+import { TodoList } from './components/TodoList';
+
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
+  const [firstOptionDisabled, setFirstOptionDisabled] = useState(false);
+  const [formInputs, setFormInputs] = useState({
+    title: '',
+    userId: 0,
+  });
+  const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  const [userErrorMessage, setUserErrorMessage] = useState('');
+
+  const todosWithUsers = todos.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(u => u.id === todo.userId),
+  }));
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!formInputs.title) {
+      setTitleErrorMessage('Please enter a title');
+    }
+
+    if (formInputs.userId <= 0) {
+      setUserErrorMessage('Please choose a user');
+    }
+
+    if (formInputs.userId <= 0 || !formInputs.title) {
+      return;
+    }
+
+    const maxId = todos.reduce((max, todo) => {
+      if (todo.id > max) {
+        return todo.id;
+      }
+
+      return max;
+    }, -Infinity);
+
+    setTodos([
+      ...todos,
+      {
+        id: maxId + 1,
+        title: formInputs.title,
+        completed: false,
+        userId: formInputs.userId,
+      },
+    ]);
+
+    setFormInputs({
+      title: '',
+      userId: 0,
+    });
+  };
+
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value.replace(/[^a-zA-Zа-яА-Я0-9 ]/gi, '');
+
+    setFormInputs({
+      ...formInputs,
+      title: input,
+    });
+    setTitleErrorMessage('');
+  };
+
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormInputs({
+      ...formInputs,
+      userId: +event.target.value,
+    });
+    setFirstOptionDisabled(true);
+    setUserErrorMessage('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <TodoForm
+        handleSubmit={handleSubmit}
+        handleTitleInput={handleTitleInput}
+        handleUserSelect={handleUserSelect}
+        formInputs={formInputs}
+        titleErrorMessage={titleErrorMessage}
+        userErrorMessage={userErrorMessage}
+        firstOptionDisabled={firstOptionDisabled}
+      />
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };
