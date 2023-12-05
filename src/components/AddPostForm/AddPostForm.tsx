@@ -10,6 +10,8 @@ type Props = {
   users: User[],
 };
 
+const TITLE_CORRECTED_PATTERN = /[^a-zA-Z0-9\s\u0400-\u04FF]/gu;
+
 export const AddPostForm: FC<Props> = ({ addTodo, users }) => {
   const [title, setTitle] = useState('');
   const [selectedId, setSelectedId] = useState(0);
@@ -17,6 +19,13 @@ export const AddPostForm: FC<Props> = ({ addTodo, users }) => {
 
   const [isInputError, setIsInputError] = useState('');
   const [isSelectError, setIsSelectError] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const correctedValue = (event.target.value)
+      .replace(TITLE_CORRECTED_PATTERN, '');
+
+    setTitle(correctedValue);
+  };
 
   const clearForm = () => {
     setTitle('');
@@ -57,7 +66,7 @@ export const AddPostForm: FC<Props> = ({ addTodo, users }) => {
           id="form-title"
           data-cy="titleInput"
           value={title}
-          onChange={event => setTitle(event.target.value)}
+          onChange={handleInputChange}
           placeholder="Enter a title"
         />
         {isInputvalid && (
