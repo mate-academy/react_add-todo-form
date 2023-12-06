@@ -6,12 +6,9 @@ import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
-  // users: User[];
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  // const currentUser = users.find(user => user.id === todo.userId) as User;
-
   return (
     <article
       data-id={todo.id}
@@ -24,8 +21,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       </h2>
 
       {todo.user && <UserInfo user={todo.user} />}
-
-      {/* <UserInfo user={todo.user} /> */}
     </article>
   );
 };

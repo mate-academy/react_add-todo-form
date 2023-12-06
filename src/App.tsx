@@ -26,7 +26,6 @@ export const App = () => {
 
       <TodoList
         todos={todos}
-        // users={usersFromServer}
       />
     </div>
   );
