@@ -41,18 +41,14 @@ export const App = () => {
     const { value } = e.target;
 
     setTitle(value);
-    if (titleError) {
-      setTitleError(false);
-    }
+    setTitleError(false);
   };
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
     setOption(+value);
-    if (userError) {
-      setUserError(false);
-    }
+    setUserError(false);
   };
 
   const reset = () => {
