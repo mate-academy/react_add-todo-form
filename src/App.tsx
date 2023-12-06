@@ -6,8 +6,13 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+const todosUsers = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
+
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(todosUsers);
 
   return (
     <div className="App">
@@ -21,7 +26,7 @@ export const App = () => {
 
       <TodoList
         todos={todos}
-        users={usersFromServer}
+        // users={usersFromServer}
       />
     </div>
   );

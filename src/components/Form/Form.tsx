@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { User } from '../../types/User';
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 
 type Props = {
   users: User[];
@@ -25,6 +25,7 @@ export const Form: React.FC<Props> = ({
     title: title.trim(),
     completed: false,
     userId,
+    user: users.find(user => user.id === userId) || null,
   };
 
   const hendleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +95,7 @@ export const Form: React.FC<Props> = ({
 
           >
             <option value="0" disabled>Choose a user</option>
-            {users.map((user) => (
+            {users.map(user => (
               <option
                 value={user.id}
                 key={user.id}
