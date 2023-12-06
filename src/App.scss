@@ -1,39 +1,44 @@
-iframe {
-  display: none;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+html,
+#root {
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  background-color: #000;
 }
 
-html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+::-webkit-scrollbar-track {
+  background-color: #c0c1c2;
 }
 
-label,
-button {
-  cursor: pointer;
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #c0c1c2;
 }
 
-.error {
-  color: red;
+::-webkit-scrollbar-thumb {
+  background-color: #808080;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: antiquewhite;
-
-  &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
-  }
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.UserInfo {
-  font-style: italic;
+.title {
+  margin: 20px 0;
+  font-size: 28px;
+}
+
+.subtitle {
+  margin: 20px 0;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
 }
