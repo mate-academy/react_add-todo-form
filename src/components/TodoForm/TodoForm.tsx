@@ -34,10 +34,10 @@ export const ToDoForm: React.FC<Props> = ({ onSubmit, todoId, users }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!(title.trim()));
     setHasUserIdError(!selectedUserId);
 
-    if (!title || !selectedUserId) {
+    if (title.trim().length === 0 || !selectedUserId) {
       return;
     }
 
