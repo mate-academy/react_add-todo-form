@@ -4,18 +4,16 @@ import { Todo } from '../../types/todo';
 interface Props {
   todo: Todo;
 }
-export const TodoInfo = ({ todo }: Props) => (
-  <article
-    data-id={todo.id}
-    className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-  >
-    <h2
-      className="TodoInfo__title"
+export const TodoInfo = ({ todo }: Props) => {
+  const { id, title, user } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
-      {todo.title}
-    </h2>
-    <UserInfo
-      user={todo.user}
-    />
-  </article>
-);
+      <h2 className="TodoInfo__title">{title}</h2>
+      <UserInfo user={user} />
+    </article>
+  );
+};

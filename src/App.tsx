@@ -6,11 +6,7 @@ import usersFromServer from './api/users';
 
 import { Todo } from './types/todo';
 import { PostForm } from './components/TodoForm/TodoForm';
-
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId)
-      || null;
-}
+import { getUserById } from './utils/getUserById';
 
 const todosToRender:Todo[] = todosFromServer.map(todo => ({
   ...todo,

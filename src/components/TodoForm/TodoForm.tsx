@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Todo } from '../../types/todo';
 
-import { User, getUserById } from '../../types/user';
+import { User } from '../../types/user';
+import { getUserById } from '../../utils/getUserById';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -86,6 +87,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit, todoId, users }) => {
 
           {users.map((user: User) => (
             <option
+              key={user.id}
               value={user.id}
             >
               {user.name}
