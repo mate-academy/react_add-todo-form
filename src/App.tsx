@@ -7,11 +7,8 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { PreparedTodo, Todo } from './types';
 
-function getUserById(userIdRecived: number) {
-  return (
-    usersFromServer.find((currentUser) => currentUser.id === userIdRecived)
-    || null
-  );
+function getUserById(userId: number) {
+  return usersFromServer.find((user) => user.id === userId) || null;
 }
 
 function getPreparedTodos(todosRecived: Todo[]) {
@@ -46,9 +43,7 @@ export const App = () => {
   };
 
   const addNewTodo = (): void => {
-    const user = usersFromServer.find(userFromServer => (
-      userFromServer.id === userSelectedId
-    )) || null;
+    const user = getUserById(userSelectedId);
 
     const newTodo = {
       id: getNewTodoId(),
@@ -78,6 +73,16 @@ export const App = () => {
     addNewTodo();
   };
 
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const handleSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserSelectedId(+event.target.value);
+    setHasUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -96,10 +101,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={event => {
-                setTitle(event.target.value);
-                setHasTitleError(false);
-              }}
+              onChange={handleChangeInput}
             />
           </label>
 
@@ -116,21 +118,18 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userSelectedId}
-              onChange={event => {
-                setUserSelectedId(+event.target.value);
-                setHasUserError(false);
-              }}
+              onChange={handleSelector}
             >
               <option value="0" disabled>
                 Choose a user
               </option>
 
-              {usersFromServer.map((userFromServer) => (
+              {usersFromServer.map(({ id, name }) => (
                 <option
-                  key={userFromServer.id}
-                  value={userFromServer.id}
+                  key={id}
+                  value={id}
                 >
-                  {userFromServer.name}
+                  {name}
                 </option>
               ))}
             </select>

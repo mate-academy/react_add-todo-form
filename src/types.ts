@@ -12,10 +12,6 @@ export interface Todo {
   userId: number,
 }
 
-export interface PreparedTodo {
-  id: number,
-  title: string,
-  completed: true | false,
-  userId: number,
+export interface PreparedTodo extends Todo {
   user: User | null;
 }
