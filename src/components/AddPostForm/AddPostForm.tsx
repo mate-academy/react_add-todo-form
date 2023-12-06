@@ -15,7 +15,7 @@ const TITLE_CORRECTED_PATTERN = /[^a-zA-Z0-9\s\u0400-\u04FF]/gu;
 export const AddPostForm: FC<Props> = ({ addTodo, users }) => {
   const [title, setTitle] = useState('');
   const [selectedId, setSelectedId] = useState(0);
-  const [isCompleted] = useState(false);
+  const completed = false;
 
   const [isInputError, setIsInputError] = useState('');
   const [isSelectError, setIsSelectError] = useState('');
@@ -48,7 +48,7 @@ export const AddPostForm: FC<Props> = ({ addTodo, users }) => {
       return;
     }
 
-    addTodo(title, selectedId, isCompleted);
+    addTodo(title, selectedId, completed);
 
     clearForm();
   };

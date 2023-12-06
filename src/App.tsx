@@ -11,9 +11,8 @@ import { Todo } from './types/interfaces';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
-  const [users] = useState(usersFromServer);
 
-  const todosWithUsers = getTodosWithUsers(todos, users);
+  const todosWithUsers = getTodosWithUsers(todos, usersFromServer);
 
   const addTodo = (
     todoTitle: string,
@@ -41,12 +40,10 @@ export const App = () => {
 
       <AddPostForm
         addTodo={addTodo}
-        users={users}
+        users={usersFromServer}
       />
 
-      <TodoList
-        todos={todosWithUsers}
-      />
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };
