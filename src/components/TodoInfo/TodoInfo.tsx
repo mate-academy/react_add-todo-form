@@ -18,19 +18,17 @@ export const TodoInfo: React.FC<PropsTodos> = ({ todo }) => {
   const findUser = usersFromServer.find(user => user.id === userId) || null;
 
   return (
-    <>
-      <article
-        data-id={id}
-        className={cn('TodoInfo', {
-          'TodoInfo--completed': completed,
-        })}
-      >
-        <h2 className="TodoInfo__title">
-          {title}
-        </h2>
+    <article
+      data-id={id}
+      className={cn('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
 
-        {findUser && <UserInfo user={findUser} />}
-      </article>
-    </>
+      {findUser && <UserInfo user={findUser} />}
+    </article>
   );
 };

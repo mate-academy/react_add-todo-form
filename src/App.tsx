@@ -42,6 +42,16 @@ export const App: FC = () => {
     resetAllForm();
   };
 
+  const selectUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setIsSelectUserError(false);
+  };
+
+  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -59,10 +69,7 @@ export const App: FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setIsTitleError(false);
-            }}
+            onChange={titleHandler}
           />
           {isTitleError && (
             <span className="error">Please enter a title</span>
@@ -75,21 +82,22 @@ export const App: FC = () => {
             id="Select"
             data-cy="userSelect"
             value={selectedUser}
-            onChange={event => {
-              setSelectedUser(+event.target.value);
-              setIsSelectUserError(false);
-            }}
+            onChange={selectUserHandler}
           >
             <option value={0} disabled>Choose a user</option>
 
-            {usersFromServer.map(user => (
-              <option
-                value={user.id}
-                key={user.id}
-              >
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return (
+                <option
+                  value={id}
+                  key={id}
+                >
+                  {name}
+                </option>
+              );
+            })}
           </select>
 
           {isSelectUserError && (
