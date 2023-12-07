@@ -69,9 +69,13 @@ export const Form: React.FC<Props> = ({ users, onAdd }) => {
           >
             Choose a user
           </option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
-          ))}
+          {users.map(user => {
+            const { id, name } = user;
+
+            return (
+              <option key={id} value={id}>{name}</option>
+            );
+          })}
         </select>
 
         {isUserError
