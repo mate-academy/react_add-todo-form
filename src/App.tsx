@@ -94,7 +94,6 @@ export const App: FC = () => {
             <span className="error">Please choose a user</span>
           )}
 
-          <span className="error">Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
