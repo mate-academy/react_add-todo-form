@@ -13,23 +13,31 @@ export const App = () => {
     title: '',
     userId: 0,
   });
-  const [titleErrorMessage, setTitleErrorMessage] = useState('');
-  const [userErrorMessage, setUserErrorMessage] = useState('');
+  const [errorStatuses, setErrorStatuses] = useState({
+    title: false,
+    user: false,
+  });
 
   const todosWithUsers = todos.map(todo => ({
     ...todo,
-    user: usersFromServer.find(u => u.id === todo.userId),
+    user: usersFromServer.find(user => user.id === todo.userId),
   }));
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!formInputs.title) {
-      setTitleErrorMessage('Please enter a title');
+      setErrorStatuses(statuses => ({
+        ...statuses,
+        title: true,
+      }));
     }
 
     if (formInputs.userId <= 0) {
-      setUserErrorMessage('Please choose a user');
+      setErrorStatuses(statuses => ({
+        ...statuses,
+        user: true,
+      }));
     }
 
     if (formInputs.userId <= 0 || !formInputs.title) {
@@ -67,7 +75,10 @@ export const App = () => {
       ...formInputs,
       title: input,
     });
-    setTitleErrorMessage('');
+    setErrorStatuses(statuses => ({
+      ...statuses,
+      title: false,
+    }));
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,7 +87,10 @@ export const App = () => {
       userId: +event.target.value,
     });
     setFirstOptionDisabled(true);
-    setUserErrorMessage('');
+    setErrorStatuses(statuses => ({
+      ...statuses,
+      user: false,
+    }));
   };
 
   return (
@@ -88,8 +102,7 @@ export const App = () => {
         handleSubmit={handleSubmit}
         handleTitleInput={handleTitleInput}
         formInputs={formInputs}
-        titleErrorMessage={titleErrorMessage}
-        userErrorMessage={userErrorMessage}
+        errorStatuses={errorStatuses}
         firstOptionDisabled={firstOptionDisabled}
       />
 

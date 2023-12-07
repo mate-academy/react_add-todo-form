@@ -4,7 +4,9 @@ interface Props {
   user: User;
 }
 
-export const UserInfo = ({ user: { email, name } }: Props) => {
+export const UserInfo = ({ user }: Props) => {
+  const { email, name } = user;
+
   return (
     <a className="UserInfo" href={`mailto:${email}`}>
       {name}

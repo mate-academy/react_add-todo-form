@@ -1,5 +1,8 @@
 import usersFromServer from '../../api/users';
 
+const TITLE_ERROR_MSG = 'Please enter a title';
+const USER_ERROR_MSG = 'Please choose a user';
+
 interface Props {
   handleSubmit: (event: React.FormEvent) => void;
   handleTitleInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,37 +12,46 @@ interface Props {
     title: string;
     userId: number;
   };
-  titleErrorMessage: string;
   firstOptionDisabled: boolean;
-  userErrorMessage: string;
+  errorStatuses: {
+    title: boolean,
+    user: boolean,
+  };
 }
 
-export function TodoForm(props: Props) {
+export function TodoForm({
+  handleSubmit,
+  handleTitleInput,
+  handleUserSelect,
+  formInputs,
+  errorStatuses,
+  firstOptionDisabled,
+}: Props) {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <input
           type="text"
           data-cy="titleInput"
           placeholder="Please enter a title"
-          value={props.formInputs.title}
-          onChange={props.handleTitleInput}
+          value={formInputs.title}
+          onChange={handleTitleInput}
         />
 
-        {props.titleErrorMessage && (
+        {errorStatuses.title && (
           <span className="error">
-            {props.titleErrorMessage}
+            {TITLE_ERROR_MSG}
           </span>
         )}
       </div>
 
       <div className="field">
         <select
-          value={props.formInputs.userId}
+          value={formInputs.userId}
           data-cy="userSelect"
-          onChange={props.handleUserSelect}
+          onChange={handleUserSelect}
         >
-          <option value="0" disabled={props.firstOptionDisabled}>
+          <option value="0" disabled={firstOptionDisabled}>
             Сhoose a user
           </option>
           {usersFromServer.map(user => (
@@ -49,9 +61,9 @@ export function TodoForm(props: Props) {
           ))}
         </select>
 
-        {props.userErrorMessage && (
+        {errorStatuses.user && (
           <span className="error">
-            {props.userErrorMessage}
+            {USER_ERROR_MSG}
           </span>
         )}
       </div>
