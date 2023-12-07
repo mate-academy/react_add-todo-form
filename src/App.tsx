@@ -8,9 +8,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const todos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => {
-    return u.id === todo.userId;
-  }) || null;
+  const user = usersFromServer.find(({ id }) => id === todo.userId);
 
   return {
     ...todo,
