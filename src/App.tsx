@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { addId } from './helpers';
-import { Todos } from './types/types';
+import { findById, addId } from './helpers';
+import { User, Todos } from './types/types';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
@@ -8,9 +8,9 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const todos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => {
-    return u.id === todo.userId;
-  }) || null;
+  const user = usersFromServer.find(
+    findById<User>(todo.userId),
+  ) || null;
 
   return {
     ...todo,
@@ -30,9 +30,9 @@ export const App: React.FC = () => {
     title,
     completed: false,
     userId: selectedUserId,
-    user: usersFromServer.find(user => {
-      return user.id === selectedUserId;
-    }) || null,
+    user: usersFromServer.find(
+      findById<User>(selectedUserId),
+    ) || null,
   };
 
   const handleValidation = () => {
@@ -40,7 +40,7 @@ export const App: React.FC = () => {
     setIsIdSelected(!selectedUserId);
   };
 
-  const clear = () => {
+  const clearForm = () => {
     setTitle('');
     setSelectedUserId(0);
   };
@@ -55,15 +55,15 @@ export const App: React.FC = () => {
     }
 
     setTodosList(prevTodosList => [...prevTodosList, newTodo]);
-    clear();
+    clearForm();
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setIsTitleEmpty(false);
   };
 
-  const handleSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectUserId = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+e.target.value);
     setIsIdSelected(false);
   };
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleInput}
+              onChange={handleInputTitle}
             />
           </label>
           {isTitleEmpty
@@ -98,15 +98,15 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={handleSelected}
+              onChange={handleSelectUserId}
             >
               <option value={0} disabled>Choose a user</option>
-              {usersFromServer.map(user => (
+              {usersFromServer.map(({ id, name }) => (
                 <option
-                  key={user.id}
-                  value={user.id}
+                  key={id}
+                  value={id}
                 >
-                  {user.name}
+                  {name}
                 </option>
               ))}
             </select>
