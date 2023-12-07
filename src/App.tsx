@@ -8,9 +8,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 const todos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(
-    findById<User>(todo.userId),
-  ) || null;
+  const user = findById<User>(usersFromServer, todo.userId) || null;
 
   return {
     ...todo,
@@ -30,9 +28,7 @@ export const App: React.FC = () => {
     title,
     completed: false,
     userId: selectedUserId,
-    user: usersFromServer.find(
-      findById<User>(selectedUserId),
-    ) || null,
+    user: findById<User>(usersFromServer, selectedUserId) || null,
   };
 
   const handleValidation = () => {
@@ -58,12 +54,12 @@ export const App: React.FC = () => {
     clearForm();
   };
 
-  const handleInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setIsTitleEmpty(false);
   };
 
-  const handleSelectUserId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+e.target.value);
     setIsIdSelected(false);
   };
@@ -85,7 +81,7 @@ export const App: React.FC = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={handleInputTitle}
+              onChange={handleInputChange}
             />
           </label>
           {isTitleEmpty
@@ -98,7 +94,7 @@ export const App: React.FC = () => {
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={handleSelectUserId}
+              onChange={handleUserIdChange}
             >
               <option value={0} disabled>Choose a user</option>
               {usersFromServer.map(({ id, name }) => (

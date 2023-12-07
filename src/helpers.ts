@@ -2,8 +2,8 @@ type WithId = {
   id: number
 };
 
-export const findById = <T extends WithId>(a: number) => {
-  return (b: T) => a === b.id;
+export const findById = <T extends WithId>(arr: T[], idForFind: number) => {
+  return arr.find(({ id }) => id === idForFind);
 };
 
 export const addId = (arr: { id: number }[]): number => {
