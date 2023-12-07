@@ -18,7 +18,7 @@ export const App = () => {
 
   const addTodo = (todo:string, userId:number) => {
     const user = usersFromServer
-      .find(userFromServer => userFromServer.id === userId);
+      .find(({ id }) => id === userId);
 
     setTodos((currentUsersTodos) => {
       const newTodo:TodoWithUser = {
@@ -31,6 +31,16 @@ export const App = () => {
 
       return [...currentUsersTodos, newTodo];
     });
+  };
+
+  const handleInput = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(event.target.value);
+    setIsErrorTitle(false);
+  };
+
+  const handleSelect = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedId(Number(event.target.value));
+    setIsErrorSelect(false);
   };
 
   const handleSubmit = (event:React.FormEvent) => {
@@ -54,12 +64,9 @@ export const App = () => {
         isErrorSelect={isErrorSelect}
         handleSubmit={handleSubmit}
         todoTitle={todoTitle}
-        setTodoTitle={setTodoTitle}
         selectedId={selectedId}
-        setSelectedId={setSelectedId}
-        setIsErrorTitle={setIsErrorTitle}
-        setIsErrorSelect={setIsErrorSelect}
-        usersFromServer={usersFromServer}
+        handleInput={handleInput}
+        handleSelect={handleSelect}
       />
       <TodoList todos={todos} />
     </div>

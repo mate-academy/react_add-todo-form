@@ -1,16 +1,13 @@
-import { Users } from '../types';
+import users from '../../api/users';
 
 interface Props {
-  isErrorTitle:boolean,
-  isErrorSelect:boolean,
+  isErrorTitle: boolean,
+  isErrorSelect: boolean,
   handleSubmit: (event:React.FormEvent) => void;
   todoTitle: string,
-  setTodoTitle:(event:string) => void;
   selectedId: number,
-  setSelectedId:(id:number) => void,
-  setIsErrorTitle: (value:boolean) => void,
-  setIsErrorSelect: (value:boolean) => void
-  usersFromServer: Users[]
+  handleInput: (value:React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelect: (value: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 export const TodoForm:React.FC<Props> = (props) => {
   const {
@@ -18,12 +15,9 @@ export const TodoForm:React.FC<Props> = (props) => {
     isErrorTitle,
     handleSubmit,
     todoTitle,
-    setTodoTitle,
     selectedId,
-    setSelectedId,
-    setIsErrorSelect,
-    setIsErrorTitle,
-    usersFromServer,
+    handleInput,
+    handleSelect,
   } = props;
 
   return (
@@ -37,10 +31,7 @@ export const TodoForm:React.FC<Props> = (props) => {
           type="text"
           data-cy="titleInput"
           value={todoTitle}
-          onChange={(event) => {
-            setTodoTitle(event.target.value);
-            setIsErrorTitle(false);
-          }}
+          onChange={handleInput}
           placeholder="Enter your todo"
         />
         {isErrorTitle
@@ -51,15 +42,12 @@ export const TodoForm:React.FC<Props> = (props) => {
         <select
           data-cy="userSelect"
           value={selectedId}
-          onChange={(event) => {
-            setSelectedId(Number(event.target.value));
-            setIsErrorSelect(false);
-          }}
+          onChange={handleSelect}
         >
           <option value={0} disabled>Choose a user</option>
-          {usersFromServer.map(user => (
-            <option value={user?.id}>
-              {user?.name}
+          {users.map(({ id, name }) => (
+            <option value={id}>
+              {name}
             </option>
           ))}
         </select>

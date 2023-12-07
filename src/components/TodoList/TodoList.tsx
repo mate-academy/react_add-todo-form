@@ -12,7 +12,6 @@ export const TodoList:React.FC<Props> = (props) => {
       {todos.map(todo => (
         <TodoInfo data-id={todo.id} todo={todo} key={todo.id} />
       ))}
-
     </section>
   );
 };

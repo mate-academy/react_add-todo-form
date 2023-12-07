@@ -13,5 +13,5 @@ export interface Todos {
 }
 
 export interface TodoWithUser extends Todos{
-  user:Users | undefined
+  user: Users | undefined
 }
