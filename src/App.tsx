@@ -27,7 +27,7 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
 
   const [selectedUser, setSelectedUser]
-    = useState<number | undefined>(undefined);
+    = useState<number>(0);
   const [userError, setUserError] = useState(false);
 
   const pushUser = (todo: Todo) => {
@@ -50,7 +50,7 @@ export const App = () => {
 
   const resetForm = () => {
     setTitle('');
-    setSelectedUser(undefined);
+    setSelectedUser(0);
     setTitleError(false);
     setUserError(false);
   };
@@ -59,25 +59,23 @@ export const App = () => {
     event.preventDefault();
     if (!title) {
       setTitleError(true);
-
-      return;
     }
 
-    if (selectedUser === undefined) {
+    if (selectedUser === 0) {
       setUserError(true);
-
-      return;
     }
 
-    pushUser({
-      id: Math.max(...todos.map(({ id }) => id)) + 1,
-      title,
-      completed: false,
-      userId: 0,
-      user: getUser(selectedUser),
-    });
+    if (title && selectedUser !== 0) {
+      pushUser({
+        id: Math.max(...todos.map(({ id }) => id)) + 1,
+        title,
+        completed: false,
+        userId: 0,
+        user: getUser(selectedUser),
+      });
 
-    resetForm();
+      resetForm();
+    }
   };
 
   return (
@@ -111,7 +109,7 @@ export const App = () => {
               value={selectedUser}
               onChange={handleUserChange}
             >
-              <option value="0" disabled>Choose a user</option>
+              <option value={0} disabled>Choose a user</option>
               {usersFromServer.map((user) => (
                 <option value={user.id} key={user.id}>
                   {user.name}
