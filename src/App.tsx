@@ -5,32 +5,31 @@ import { Todo } from './components/Types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const getUser = (userId: number) => {
-  return usersFromServer.find((user) => user.id === userId);
-};
-
-const InitialTodos = todosFromServer.map((todo) => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
 export type Errors = {
   titleError: boolean
   selectError: boolean
 };
 
+const getUserById = (userId: number) => {
+  return usersFromServer.find((user) => user.id === userId);
+};
+
+const initialTodos = todosFromServer.map((todo) => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(InitialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [errors, setErrors] = useState<Errors>({
     titleError: false,
     selectError: false,
   });
+  const [inputTitle, setInputTitle] = useState<string>('');
+  const [selectedUserId, setSelectedUserId] = useState<string>('0');
 
-  const [title, setTitle] = useState<string>('');
-  const [select, setSelect] = useState<string>('0');
-
-  const handleTitleChange = (value: string) => {
-    setTitle(() => value);
+  const onTitleChange = (value: string) => {
+    setInputTitle(value);
 
     setErrors((prev) => ({
       ...prev,
@@ -38,8 +37,8 @@ export const App = () => {
     }));
   };
 
-  const changeSelect = (value: string) => {
-    setSelect(() => value);
+  const onSelectChange = (value: string) => {
+    setSelectedUserId(value);
 
     setErrors((prev) => ({
       ...prev,
@@ -47,40 +46,43 @@ export const App = () => {
     }));
   };
 
-  const addTodo = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.trim().length === 0) {
+    if (inputTitle.trim().length === 0) {
       setErrors((prev) => ({
         ...prev,
         titleError: true,
       }));
     }
 
-    if (select === '0') {
+    if (selectedUserId === '0') {
       setErrors((prev) => ({
         ...prev,
         selectError: true,
       }));
     }
 
-    if (title.trim().length > 0 && select !== '0') {
+    if (inputTitle.trim().length > 0 && selectedUserId !== '0') {
       const maxId = todos.reduce((max, todo) => (
         todo.id > max ? todo.id : max), 0);
 
       const newTodo: Todo = {
         id: maxId + 1,
-        title: title.trim(),
+        title: inputTitle.trim(),
         completed: false,
-        userId: Number(select),
-        user: getUser(Number(select)),
+        userId: Number(selectedUserId),
+        user: getUserById(Number(selectedUserId)),
       };
 
-      setTodos((prev) => ([
-        ...prev, newTodo]
+      setTodos((prev) => (
+        [
+          ...prev,
+          newTodo,
+        ]
       ));
-      setTitle('');
-      setSelect('0');
+      setInputTitle('');
+      setSelectedUserId('0');
       setErrors(() => ({
         titleError: false,
         selectError: false,
@@ -95,7 +97,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={addTodo}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="titleInputId">
@@ -106,8 +108,8 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Title"
-              value={title}
-              onChange={(e) => handleTitleChange(e.target.value)}
+              value={inputTitle}
+              onChange={(event) => onTitleChange(event.target.value)}
             />
           </label>
           {errors.titleError && (
@@ -122,8 +124,8 @@ export const App = () => {
             <select
               id="userSelectId"
               data-cy="userSelect"
-              value={select}
-              onChange={(e) => changeSelect(e.target.value)}
+              value={selectedUserId}
+              onChange={(event) => onSelectChange(event.target.value)}
             >
 
               <option value="0" disabled>Choose a user</option>

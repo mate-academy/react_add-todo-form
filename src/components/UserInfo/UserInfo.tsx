@@ -1,10 +1,10 @@
 import { User } from '../Types/User';
 
-export type UserInfoProps = {
+export type UserInfoPropsType = {
   user: User
 };
 
-export const UserInfo = ({ user } : UserInfoProps) => {
+export const UserInfo = ({ user }: UserInfoPropsType) => {
   const { name, email } = user;
 
   return (

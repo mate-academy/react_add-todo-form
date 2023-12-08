@@ -8,22 +8,22 @@ export type TodoInfoProps = {
 
 export const TodoInfo = ({ todo }: TodoInfoProps) => {
   const {
-    id, title, completed, user,
+    id, title, completed, user: userInfo,
   } = todo;
 
   return (
     <article
       data-id={id}
       className={classNames(
-        'TodoInfo', completed && 'TodoInfo--completed',
+        'TodoInfo', { 'TodoInfo--completed': completed },
       )}
     >
       <h2 className="TodoInfo__title">
         {title}
       </h2>
 
-      {user && (
-        <UserInfo user={user} />
+      {userInfo && (
+        <UserInfo user={userInfo} />
       )}
     </article>
   );
