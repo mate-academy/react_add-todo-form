@@ -26,15 +26,12 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
 
-  const [option, setOption] = useState(0);
+  const [selectedUser, setSelectedUser]
+    = useState<number | undefined>(undefined);
   const [userError, setUserError] = useState(false);
 
   const pushUser = (todo: Todo) => {
-    const newTodo = {
-      ...todo,
-    };
-
-    setCurrentTodos(currentTodo => [...currentTodo, newTodo]);
+    setCurrentTodos(currentTodo => [...currentTodo, todo]);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,13 +44,13 @@ export const App = () => {
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    setOption(+value);
+    setSelectedUser(+value);
     setUserError(false);
   };
 
-  const reset = () => {
+  const resetForm = () => {
     setTitle('');
-    setOption(0);
+    setSelectedUser(undefined);
     setTitleError(false);
     setUserError(false);
   };
@@ -62,23 +59,25 @@ export const App = () => {
     event.preventDefault();
     if (!title) {
       setTitleError(true);
+
+      return;
     }
 
-    if (option === 0) {
+    if (selectedUser === undefined) {
       setUserError(true);
+
+      return;
     }
 
-    if (title && option !== 0) {
-      pushUser({
-        id: Math.max(...todos.map(({ id }) => id)) + 1,
-        title,
-        completed: false,
-        userId: 0,
-        user: getUser(option),
-      });
+    pushUser({
+      id: Math.max(...todos.map(({ id }) => id)) + 1,
+      title,
+      completed: false,
+      userId: 0,
+      user: getUser(selectedUser),
+    });
 
-      reset();
-    }
+    resetForm();
   };
 
   return (
@@ -109,12 +108,12 @@ export const App = () => {
             User:&nbsp;
             <select
               data-cy="userSelect"
-              value={option}
+              value={selectedUser}
               onChange={handleUserChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map((user) => (
-                <option value={user.id}>
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               ))}

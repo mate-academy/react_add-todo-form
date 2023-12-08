@@ -7,15 +7,9 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  let className = 'TodoInfo';
-
-  if (todo.completed) {
-    className += ' TodoInfo--completed';
-  }
-
   return (
     <article
-      className={className}
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
       data-id={todo.id}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
