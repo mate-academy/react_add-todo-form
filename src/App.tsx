@@ -28,7 +28,7 @@ export const App: FC = () => {
 
   // handlers
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.trim();
+    const value = event.target.value.trimStart();
 
     setShowTitleError(!!value);
     setTitleIsValid(!!value);
