@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
-// import { getUserById } from '../../services/user_service';
+import { getUserById } from '../../services/user_service';
+import { getNextAvailableId } from '../../services/todo_service';
 import { Todo } from '../../types/Todo';
 
 type Props = {
@@ -46,10 +47,11 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: userId,
+      id: getNextAvailableId(),
       title,
-      completed: true,
+      completed: false,
       userId,
+      user: getUserById(userId),
     });
 
     handleReset();
@@ -72,6 +74,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
+            placeholder="Title"
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
