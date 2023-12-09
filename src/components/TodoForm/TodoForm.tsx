@@ -96,7 +96,6 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
               <option
                 value={user.id}
                 key={user.id}
-                disabled
               >
                 {user.name}
               </option>

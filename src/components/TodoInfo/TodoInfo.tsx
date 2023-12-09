@@ -1,19 +1,25 @@
 import React from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
-import { Todo } from '../../types/Todo';
+// import { Todo } from '../../types/Todo';
+import { TodoWithUser } from '../../types/TodoWithUser';
 import './TodoInfo.scss';
 
-type Props = {
-  todo: Todo;
+// type Props = {
+//   todo: Todo;
+// };
+
+type PropsUser = {
+  todo: TodoWithUser;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<PropsUser> = ({ todo }) => {
   const {
     id,
     title,
     completed,
-    userId,
+    // userId,
+    user,
   } = todo;
 
   return (
@@ -28,9 +34,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {title}
       </h2>
 
-      {userId && (
+      {user && (
         <UserInfo
-          user={userId}
+          user={user}
         />
       )}
 
