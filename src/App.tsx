@@ -1,13 +1,35 @@
 import './App.scss';
+import { useState } from 'react';
+import { getUserById } from './services/user_service';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm/TodoForm';
+import { Todo } from './types/Todo';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const initialTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
+  const addTodo = (newTodo: Todo) => {
+    setTodos(currentTodos => [...currentTodos, newTodo]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
+      <TodoForm onSubmit={addTodo} />
+      <TodoList todos={todos} />
+
+    </div>
+  );
+};
+
+/*
       <form action="/api/todos" method="POST">
         <div className="field">
           <input type="text" data-cy="titleInput" />
@@ -26,7 +48,9 @@ export const App = () => {
           Add
         </button>
       </form>
+*/
 
+/*
       <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
           <h2 className="TodoInfo__title">
@@ -56,6 +80,4 @@ export const App = () => {
           </a>
         </article>
       </section>
-    </div>
-  );
-};
+*/
