@@ -17,7 +17,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
   // #endregion
 
-  // #region handlers
+  // #region handles
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -39,10 +39,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -74,7 +74,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
-            placeholder="Title"
+            placeholder="Enter a title"
           />
           {hasTitleError && (
             <span className="error">Please enter a title</span>
