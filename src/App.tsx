@@ -34,10 +34,12 @@ export const App = () => {
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
+    const isTitleSpaces = /^\s+$/.test(title);
+
+    setTitleError(!title || isTitleSpaces);
     setUserError(!userId);
 
-    if (!title.trim() || !userId) {
+    if (!title.trim() || !userId || isTitleSpaces) {
       return;
     }
 
