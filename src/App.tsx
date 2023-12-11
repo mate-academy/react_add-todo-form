@@ -1,61 +1,110 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { useState } from 'react';
+
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList/TodoList';
+import { getNewId, getTodosWithUsers } from './helpers';
+import { Todo } from './types/types';
 
 export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
+  const [todoTitle, setTodoTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+
+  const todosWithUsers = getTodosWithUsers(todos, usersFromServer);
+
+  const addTodo = (
+    title: string,
+    userId: number,
+  ) => {
+    const newTodo: Todo = {
+      id: getNewId(todos),
+      title,
+      completed: false,
+      userId,
+    };
+
+    setTodos(currentTodos => [
+      ...currentTodos,
+      newTodo,
+    ]);
+  };
+
+  const clearForm = () => {
+    setTodoTitle('');
+    setSelectedUserId(0);
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (selectedUserId && todoTitle) {
+      addTodo(todoTitle, selectedUserId);
+      clearForm();
+      setSubmitted(false);
+    } else {
+      setSubmitted(true);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={onSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="Title">Title: </label>
+          <input
+            placeholder="Enter a title"
+            type="text"
+            data-cy="titleInput"
+            value={todoTitle}
+            onChange={event => setTodoTitle(event.target.value)}
+          />
+          {submitted && !todoTitle
+          && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <label htmlFor="User">User: </label>
+          <select
+            data-cy="userSelect"
+            value={selectedUserId}
+            onChange={event => setSelectedUserId(+event.target.value)}
+          >
             <option value="0" disabled>Choose a user</option>
-          </select>
 
-          <span className="error">Please choose a user</span>
+            {usersFromServer.map(user => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
+
+          </select>
+          {submitted && !selectedUserId
+          && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+      <TodoList todos={todosWithUsers} />
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
     </div>
   );
 };
