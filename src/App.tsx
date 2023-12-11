@@ -61,11 +61,11 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (selectedUser === 0) {
+    if (!selectedUser) {
       setUserError(true);
     }
 
-    if (title && selectedUser !== 0) {
+    if (title && selectedUser) {
       pushUser({
         id: Math.max(...todos.map(({ id }) => id)) + 1,
         title,
