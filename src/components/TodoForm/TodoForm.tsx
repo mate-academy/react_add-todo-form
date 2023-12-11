@@ -9,15 +9,12 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
-  // #region state
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  // #endregion
 
-  // #region handles
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -56,7 +53,6 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
     handleReset();
   };
-  // #endregion
 
   return (
     <form
