@@ -10,8 +10,6 @@ import { Todo } from './types/types';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
-  const [users] = useState(usersFromServer);
-
   const [todoTitle, setTodoTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -83,7 +81,7 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {users.map(user => (
+            {usersFromServer.map(user => (
               <option
                 key={user.id}
                 value={user.id}

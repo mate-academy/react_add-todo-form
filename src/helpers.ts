@@ -1,4 +1,4 @@
-import type { Todo, TodoWithUser, User } from './types/types';
+import { Todo, TodoWithUser, User } from './types/types';
 
 export const getUserById = (
   users: User[],
