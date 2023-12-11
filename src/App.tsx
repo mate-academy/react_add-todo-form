@@ -6,6 +6,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/user';
 import { Todo } from './types/todo';
+import { Form } from './types/form';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -18,54 +19,56 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
+const DEFAULT_FORM = {
+  title: '',
+  userId: 0,
+};
+
 export const App = () => {
   const [toDoList, setToDoList] = useState<Todo[]>(todos);
-  const [dataTitle, setDataTitle] = useState<string>('');
-  const [dataUserId, setDataUserId] = useState<number>(0);
-  const [isTitleEntered, setIsTitleEntered] = useState<boolean>(false);
-  const [isUserSelected, setIsUserSelected] = useState<boolean>(false);
+  const [data, setData] = useState<Form>(DEFAULT_FORM);
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [userSelectError, setUserSelectError] = useState<boolean>(false);
 
   const handleInputChange:
   React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setDataTitle(event.target.value.trimStart());
-    setIsTitleEntered(false);
+    setData({ ...data, title: event.target.value });
+    setTitleError(false);
   };
 
   const handleSelectChange:
   React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setDataUserId(+event.target.value);
-    setIsUserSelected(false);
+    setData({ ...data, userId: +event.target.value });
+    setUserSelectError(false);
   };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (!dataTitle || !dataUserId) {
-      if (!dataTitle || dataTitle.length === 0) {
-        setIsTitleEntered(true);
+    if (!data.title || !data.userId) {
+      if (!data.title || data.title.length === 0) {
+        setTitleError(true);
       }
 
-      if (!dataUserId) {
-        setIsUserSelected(true);
+      if (!data.userId) {
+        setUserSelectError(true);
       }
 
       return;
     }
 
-    const taskUser = usersFromServer.find(person => person.id === dataUserId);
+    const taskUser = getUser(data.userId);
     const taskId = [...toDoList].sort((a, b) => a.id - b.id);
 
     setToDoList([...toDoList,
       {
+        ...data,
         id: taskId[toDoList.length - 1].id + 1,
-        title: dataTitle,
         completed: false,
-        userId: dataUserId,
         user: taskUser,
       }]);
 
-    setDataTitle('');
-    setDataUserId(0);
+    setData(DEFAULT_FORM);
   };
 
   return (
@@ -78,17 +81,17 @@ export const App = () => {
             type="text"
             placeholder="Enter a title"
             data-cy="titleInput"
-            value={dataTitle}
+            value={data.title}
             onChange={handleInputChange}
           />
-          {isTitleEntered
+          {titleError
           && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
           <select
             id="userId"
-            value={dataUserId}
+            value={data.userId}
             data-cy="userSelect"
             onChange={handleSelectChange}
           >
@@ -106,7 +109,7 @@ export const App = () => {
             })}
           </select>
 
-          {isUserSelected
+          {userSelectError
           && (<span className="error">Please choose a user</span>)}
         </div>
 
