@@ -77,6 +77,7 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             placeholder="Enter a title"
@@ -89,6 +90,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="title">User: </label>
           <select
             id="userId"
             value={data.userId}
