@@ -15,7 +15,7 @@ export const App = () => {
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleNotFilled(!event.target.value.trim());
-    setTitle(event.target.value.trimStart());
+    setTitle(event.target.value);
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -31,10 +31,12 @@ export const App = () => {
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleNotFilled(!title);
+    const trimmedTitle = title.trim();
+
+    setTitleNotFilled(!trimmedTitle);
     setUserNotFilled(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
@@ -42,7 +44,7 @@ export const App = () => {
 
     const newTodo = {
       id: newId,
-      title,
+      title: trimmedTitle,
       completed: false,
       userId,
     };
