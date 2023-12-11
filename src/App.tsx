@@ -14,8 +14,8 @@ export const App = () => {
   const [userNotFilled, setUserNotFilled] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setTitleNotFilled(false);
+    setTitleNotFilled(!event.target.value.trim());
+    setTitle(event.target.value.trimStart());
   };
 
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
