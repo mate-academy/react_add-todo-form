@@ -6,7 +6,7 @@ type Props = {
   todo: Todo,
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+const TodoInfo: React.FC<Props> = ({ todo }) => {
   const foundUser = users.find(user => user.id === todo.userId);
 
   return (
@@ -23,3 +23,5 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     </article>
   );
 };
+
+export default TodoInfo;
