@@ -15,13 +15,25 @@ button {
   color: red;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    font-size: 40px;
+    font-weight: 400;
+    color: #222;
+  }
+}
+
 .TodoInfo {
   width: max-content;
-  padding: 8px;
+  padding: 20px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 2px solid #ddd;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #fafafa;
 
   &__title {
     margin: 4px 0;
@@ -36,4 +48,33 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.addTodo {
+  border: 1px solid #aaa;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: #ddd 5px 5px 10px;
+  font-size: 18px;
+  color: #444;
+
+  &__title {
+    color: #111;
+    font-weight: 600;
+  }
+
+  &__button {
+    font-weight: 600;
+    border: 0;
+    background-color: #999;
+    color: #eee;
+    padding: 20px;
+  }
+}
+
+.field {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
 }

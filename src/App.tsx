@@ -1,61 +1,151 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { FormEventHandler, useState } from 'react';
 
-export const App = () => {
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+
+import { TodoList } from './components/TodoList';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+export const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+export const App: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
+  const [todosState, setTodosState] = useState(todos);
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
+
+  function addTodo(newTodo: Todo) {
+    const updatedTodos = [...todosState];
+
+    updatedTodos.push(newTodo);
+
+    setTodosState(updatedTodos);
+  }
+
+  const handleSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+
+    let hasError = false;
+
+    if (title.trim() === '') {
+      setTitleError('Please enter a title');
+      hasError = true;
+    } else {
+      setTitleError('');
+    }
+
+    if (user === '') {
+      setUserError('Please choose a user');
+      hasError = true;
+    } else {
+      setUserError('');
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    const selectedUser = getUser(+user);
+
+    const maxId = Math.max(...todosState.map(todo => todo.id));
+    const newId = maxId + 1;
+
+    const newTodo = {
+      id: newId,
+      title,
+      completed: false,
+      userId: +user,
+      user: selectedUser,
+    };
+
+    addTodo(newTodo);
+
+    setTitle('');
+    setUser('');
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    if (titleError) {
+      setTitleError('');
+    }
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
+    if (userError) {
+      setUserError('');
+    }
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1 className="App__title">Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="title">
+            Title:
+          </label>
+          <input
+            className="addTodo addTodo__title"
+            type="text"
+            data-cy="titleInput"
+            id="title"
+            name="title"
+            value={title}
+            placeholder="Enter a title"
+            onChange={handleTitleChange}
+          />
+          {titleError && <span className="error">{titleError}</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+          <label htmlFor="user">
+            User:
+          </label>
+          <select
+            className="addTodo"
+            data-cy="userSelect"
+            id="user"
+            name="user"
+            value={user}
+            onChange={handleUserChange}
+          >
+            <option value="" disabled>Choose a user</option>
+            {usersFromServer.map(({ id, name }) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {userError && <span className="error">{userError}</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
+        <button
+          type="submit"
+          data-cy="submitButton"
+          className="addTodo addTodo__button"
+        >
+          Add task
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+      <TodoList todos={todosState} />
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
     </div>
   );
 };
