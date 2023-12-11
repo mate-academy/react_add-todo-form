@@ -22,5 +22,5 @@ export type TodoInfoProps = {
 };
 
 export type UserInfoProps = {
-  user?: User;
+  user: User;
 };

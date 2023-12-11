@@ -89,6 +89,8 @@ export const App: FC = () => {
 
     setTitleIsValid(false);
     setUserIsValid(false);
+    setShowTitleError(false);
+    setShowUserError(false);
   };
 
   // rendering the component
