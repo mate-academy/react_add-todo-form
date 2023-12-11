@@ -4,9 +4,9 @@ import { Completed } from './types/types';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { makeComletedTodo, makeNewId, findUser } from './helpers/helpers';
+import { getTodosWithUser, makeNewId, findUser } from './helpers/helpers';
 
-const completedTodo = makeComletedTodo(todosFromServer, usersFromServer);
+const completedTodo = getTodosWithUser(todosFromServer, usersFromServer);
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(completedTodo);
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserError, setUserError] = useState(false);
 
-  const reset = () => {
+  const resetForm = () => {
     setTodoTitle('');
     setUserId(0);
   };
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
         user: findUser(usersFromServer, userId),
       });
 
-      reset();
+      resetForm();
     }
   };
 
@@ -88,12 +88,11 @@ export const App: React.FC = () => {
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map((person) => {
+              const { id, name } = person;
+
               return (
-                <option
-                  key={person.id}
-                  value={person.id}
-                >
-                  {person.name}
+                <option key={id} value={id}>
+                  {name}
                 </option>
               );
             })}

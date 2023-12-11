@@ -12,14 +12,14 @@ export interface Todo {
   userId: number,
 }
 
-export type FindUser = (arr: User[], id: number) => User;
+export type FindUser = (users: User[], id: number) => User | null;
 
 export interface Completed {
   id: number,
   title: string,
   completed: boolean,
   userId: number,
-  user: User,
+  user: User | null,
 }
 
 export type OnSubmit = (todo: Completed) => void;

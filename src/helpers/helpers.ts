@@ -2,28 +2,25 @@ import {
   MakeTodo,
   Todo,
   FindUser,
-  User,
 } from '../types/types';
 
-export const makeComletedTodo: MakeTodo = (todos, users) => {
+export const getTodosWithUser: MakeTodo = (todos, users) => {
   return todos.map(todo => {
-    const persons = users.filter(person => person.id === todo.userId);
+    const user = users.find(({ id }) => id === todo.userId) || null;
 
     return {
       ...todo,
-      user: persons[0],
+      user,
     };
   });
 };
 
-export const makeNewId = (todosArrray: Todo[]): number => {
-  const todoIdArray = todosArrray.map(el => el.id);
+export const makeNewId = (todos: Todo[]): number => {
+  const todoIds = todos.map(todo => todo.id);
 
-  return Math.max(...todoIdArray) + 1;
+  return Math.max(...todoIds) + 1;
 };
 
 export const findUser: FindUser = (userList, id) => {
-  const users: User [] = userList.filter(us => us.id === id);
-
-  return users[0];
+  return userList.find(us => us.id === id) || null;
 };
