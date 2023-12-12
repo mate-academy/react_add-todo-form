@@ -32,41 +32,43 @@ export const App = () => {
 
   const handleInputChange:
   React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setData({ ...data, title: event.target.value });
+    setData(Data => ({ ...Data, title: event.target.value }));
     setTitleError(false);
   };
 
   const handleSelectChange:
   React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setData({ ...data, userId: +event.target.value });
-    setUserSelectError(false);
+    if (Number(+event.target.value)) {
+      setData(Data => ({ ...Data, userId: +event.target.value }));
+      setUserSelectError(false);
+    }
   };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
+    if (!data.title) {
+      setTitleError(true);
+    }
+
+    if (!data.userId) {
+      setUserSelectError(true);
+    }
+
     if (!data.title || !data.userId) {
-      if (!data.title) {
-        setTitleError(true);
-      }
-
-      if (!data.userId) {
-        setUserSelectError(true);
-      }
-
       return;
     }
 
     const taskUser = getUser(data.userId);
     const taskId = [...toDoList].sort((a, b) => a.id - b.id);
 
-    setToDoList([...toDoList,
+    setToDoList(() => ([...toDoList,
       {
         ...data,
         id: taskId[toDoList.length - 1].id + 1,
         completed: false,
         user: taskUser,
-      }]);
+      }]));
 
     setData(DEFAULT_FORM);
   };
