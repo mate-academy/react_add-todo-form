@@ -46,7 +46,7 @@ export const App = () => {
     event.preventDefault();
 
     if (!data.title || !data.userId) {
-      if (!data.title || data.title.length === 0) {
+      if (!data.title) {
         setTitleError(true);
       }
 
