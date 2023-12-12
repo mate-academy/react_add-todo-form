@@ -13,23 +13,17 @@ export const App = () => {
   const [userError, setUserError] = useState<boolean>(false);
   const [titleError, setTitleError] = useState<boolean>(false);
 
-  const title = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTodoTitle(event.target.value);
     setTitleError(false);
   };
 
-  const person = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setTodoUser(event.target.value);
     setUserError(false);
   };
 
-  const createTodo = (e: FormEvent) => {
-    e.preventDefault();
-    const newId
-      = todos.reduce(
-        (acc, curr) => (curr.id > acc.id ? curr : acc), todos[0],
-      ).id + 1;
-
+  const handleCreateTodo = (event: FormEvent) => {
     if (todoUser === '0') {
       setUserError(true);
     }
@@ -37,6 +31,12 @@ export const App = () => {
     if (todoTitle.length === 0) {
       setTitleError(true);
     }
+
+    event.preventDefault();
+    const newId
+      = todos.reduce(
+        (acc, curr) => (curr.id > acc.id ? curr : acc), todos[0],
+      ).id + 1;
 
     const userObject = usersFromServer.find((user) => user.name === todoUser);
 
@@ -71,7 +71,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={todoTitle}
-            onChange={title}
+            onChange={handleTitleChange}
             required
           />
           {titleError && <span className="error">Please enter a title</span>}
@@ -82,7 +82,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={todoUser}
-            onChange={person}
+            onChange={handleUserChange}
             required
           >
             <option value="0" disabled>
@@ -97,7 +97,7 @@ export const App = () => {
           {userError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton" onClick={createTodo}>
+        <button type="submit" data-cy="submitButton" onClick={handleCreateTodo}>
           Add
         </button>
       </form>
