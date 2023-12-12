@@ -63,9 +63,17 @@ export class App extends React.Component {
     this.addTodo(todo);
   };
 
+  handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setTitle(event.target.value);
+  };
+
   setTitle(value: string) {
     this.setState({ title: value, titleError: false });
   }
+
+  handleSetUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setUserId(Number(event.target.value));
+  };
 
   setUserId(id: number) {
     this.setState({ userId: id, userError: false });
@@ -89,7 +97,7 @@ export class App extends React.Component {
               placeholder="Enter a title"
               data-cy="titleInput"
               value={this.state.title}
-              onChange={(event) => this.setTitle(event.target.value)}
+              onChange={(event) => this.handleSetTitle(event)}
             />
             {this.state.titleError
             && (<span className="error">Please enter a title</span>)}
@@ -100,13 +108,13 @@ export class App extends React.Component {
               value={this.state.userId}
               data-cy="userSelect"
               onChange={(event) => {
-                this.setUserId(Number(event.target.value));
+                this.handleSetUserId(event);
               }}
             >
               <option value="0" disabled>Choose a user</option>
               {this.state.users
                 .map((user) => (
-                  <option value={user.id}>
+                  <option value={user.id} key={user.id}>
                     {user.name}
                   </option>
                 ))}
