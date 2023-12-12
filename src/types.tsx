@@ -1,10 +1,13 @@
+import { User } from './user';
+
 export interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user?: User | null;
+  id: number,
+  title: string,
+  completed: boolean,
+  userId: number,
+  user? : User,
 }
+
 
 export interface User {
   id: number,
