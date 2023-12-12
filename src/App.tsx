@@ -46,7 +46,7 @@ export const App = () => {
     setTodos(prev => [...prev, newTodo]);
   };
 
-  const hanfleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title) {
@@ -73,7 +73,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={hanfleSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="field">
           <label htmlFor="title">Title: </label>
