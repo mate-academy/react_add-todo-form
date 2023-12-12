@@ -18,7 +18,6 @@ export const TodoInfo: React.FC<Props> = ({
       className={cn('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
-      key={id}
     >
       <h2 className="TodoInfo__title">
         {title}
