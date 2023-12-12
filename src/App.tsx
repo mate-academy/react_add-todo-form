@@ -1,61 +1,139 @@
+import React, { FormEventHandler } from 'react';
 import './App.scss';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import { Todo } from './type/Todo';
+import { User } from './type/User';
+import { TodoList } from './components/TodoList/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer
+    .find(user => user.id === userId);
 
-export const App = () => {
-  return (
-    <div className="App">
-      <h1>Add todo form</h1>
+  return foundUser || null;
+}
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+function getId(todos: Todo[]):number {
+  return todos.reduce((max, todo) => Math.max(todo.id, max), 0) + 1;
+}
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
-          </select>
+export const todosFromServerWithUsers: Todo[] = todosFromServer
+  .map(todo => ({ ...todo, user: getUser(todo.userId) }));
 
-          <span className="error">Please choose a user</span>
-        </div>
+export class App extends React.Component {
+  state = {
+    todos: todosFromServerWithUsers,
+    users: usersFromServer,
+    title: '',
+    userId: 0,
+    titleError: false,
+    userError: false,
+  };
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+  handleFormSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+    let userError = false;
+    let titleError = false;
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+    if (this.state.userId === 0) {
+      userError = true;
+    }
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+    if (this.state.title.length === 0) {
+      titleError = true;
+    }
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
+    this.setState({
+      titleError,
+      userError,
+    });
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+    if (titleError || userError) {
+      return;
+    }
 
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
+    const todo = {
+      id: getId(this.state.todos),
+      userId: this.state.userId,
+      title: this.state.title,
+      completed: false,
+      user: getUser(this.state.userId),
+    };
 
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-    </div>
-  );
-};
+    this.addTodo(todo);
+  };
+
+  handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setTitle(event.target.value);
+  };
+
+  setTitle(value: string) {
+    this.setState({ title: value, titleError: false });
+  }
+
+  handleSetUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setUserId(Number(event.target.value));
+  };
+
+  setUserId(id: number) {
+    this.setState({ userId: id, userError: false });
+  }
+
+  addTodo(todo: Todo) {
+    const { todos } = this.state;
+
+    this.setState({ todos: [...todos, todo], title: '', userId: 0 });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Add todo form</h1>
+
+        <form action="/api/todos" method="POST">
+          <div className="field">
+            <input
+              type="text"
+              placeholder="Enter a title"
+              data-cy="titleInput"
+              value={this.state.title}
+              onChange={(event) => this.handleSetTitle(event)}
+            />
+            {this.state.titleError
+            && (<span className="error">Please enter a title</span>)}
+          </div>
+
+          <div className="field">
+            <select
+              value={this.state.userId}
+              data-cy="userSelect"
+              onChange={(event) => {
+                this.handleSetUserId(event);
+              }}
+            >
+              <option value="0" disabled>Choose a user</option>
+              {this.state.users
+                .map((user) => (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+            </select>
+            {this.state.userError
+            && (<span className="error">Please choose a user</span>)}
+          </div>
+
+          <button
+            type="submit"
+            data-cy="submitButton"
+            onClick={(event) => this.handleFormSubmit(event)}
+          >
+            Add
+          </button>
+        </form>
+
+        <TodoList todos={this.state.todos} />
+      </div>
+    );
+  }
+}
