@@ -13,12 +13,16 @@ export const App = () => {
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (!title) {
-      setTitleError('Please enter a title');
-    }
+    if (!title || !selectedUser) {
+      if (!title) {
+        setTitleError('Please enter a title');
+      }
 
-    if (!selectedUser) {
-      setUserError('Please choose a user');
+      if (!selectedUser) {
+        setUserError('Please choose a user');
+      }
+
+      return;
     }
 
     const foundUser = usersFromServer.find(user => user.name === selectedUser);
