@@ -59,7 +59,6 @@ export const App: FC = () => {
             value={title}
             onChange={event => {
               setTitle(event.target.value);
-              setIsTitleError(false);
             }}
           />
           {isTitleError && (
@@ -75,7 +74,6 @@ export const App: FC = () => {
             value={selectedUser}
             onChange={event => {
               setSelectedUser(+event.target.value);
-              setIsSelectedUserError(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
