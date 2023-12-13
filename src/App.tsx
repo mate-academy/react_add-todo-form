@@ -40,6 +40,16 @@ export const App: FC = () => {
     resetForm();
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setIsSelectedUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -57,9 +67,7 @@ export const App: FC = () => {
             id="TitleForm"
             placeholder="Enter a title"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-            }}
+            onChange={handleTitleChange}
           />
           {isTitleError && (
             <span className="error">Please enter a title</span>
@@ -72,9 +80,7 @@ export const App: FC = () => {
             data-cy="userSelect"
             id="Select"
             value={selectedUser}
-            onChange={event => {
-              setSelectedUser(+event.target.value);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>Choose a user</option>
 
