@@ -13,9 +13,6 @@ export const App = () => {
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    const foundUser = usersFromServer.find(user => user.name === selectedUser);
-    const newId = Math.max(...todosFromServer.map(todo => todo.id));
-
     if (!title) {
       setTitleError('Please enter a title');
     }
@@ -23,6 +20,9 @@ export const App = () => {
     if (!selectedUser) {
       setUserError('Please choose a user');
     }
+
+    const foundUser = usersFromServer.find(user => user.name === selectedUser);
+    const newId = Math.max(...todosFromServer.map(todo => todo.id));
 
     if (title && selectedUser && foundUser) {
       todosFromServer.push({
@@ -64,7 +64,9 @@ export const App = () => {
             value={title}
             onChange={handleTitle}
           />
-          <span className="error">{titleError}</span>
+          {titleError && (
+            <span className="error">{titleError}</span>
+          )}
         </div>
 
         <div className="field">
@@ -81,7 +83,9 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error">{userError}</span>
+          {userError && (
+            <span className="error">{userError}</span>
+          )}
         </div>
 
         <button
