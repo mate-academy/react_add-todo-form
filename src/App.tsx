@@ -1,129 +1,140 @@
-import './App.scss';
-import React, { useState } from 'react';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
+import React, {
+  ChangeEvent, FormEvent, useState,
+} from 'react';
+import fetchedUsers from './api/users';
+import fetchedTodos from './api/todos';
+import { User } from './types';
 import { TodoList } from './components/TodoList';
-import { Todo } from './type/todo';
+import './App.scss';
 
-const getUser = (userId: number) => {
-  const foundUser = usersFromServer.find(
-    (user) => user.id === userId,
-  );
+const todosWithAssociatedUsers = fetchedTodos.map(todo => ({
+  ...todo,
+  user: fetchedUsers.find(user => user.id === todo.userId),
+}));
 
-  return foundUser;
-};
+export const App = () => {
+  const [todoItems, setTodoItems] = useState(todosWithAssociatedUsers);
+  const [formValues, setFormValues] = useState({ title: '', user: '' });
+  const [isValidTitle, setIsValidTitle] = useState(false);
+  const [isValidUser, setIsValidUser] = useState(false);
+  const [displayTitleError, setDisplayTitleError] = useState(false);
+  const [displayUserError, setDisplayUserError] = useState(false);
 
-const initialTodo: Todo[] = todosFromServer.map(
-  (todo) => ({
-    ...todo,
-    user: getUser(todo.userId),
-  }),
-);
+  const handleTitleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.trimStart();
 
-export const App: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(false);
-  const [userError, setUserError] = useState(false);
-  const [todos, setTodos] = useState(initialTodo);
-  const trimTitle = title.trim();
+    setDisplayTitleError(!!value);
+    setIsValidTitle(!!value);
 
-  const trimTitle = title.trim(); // Use the trim method on the title.
-
-  const handeTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.trim()); // Trim the input value as it is being set.
-    setTitleError(false);
+    setFormValues(prevValues => ({
+      ...prevValues,
+      title: value,
+    }));
   };
 
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
-    setUserError(false);
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setDisplayUserError(!!value);
+    setIsValidUser(!!value);
+
+    setFormValues(prevValues => ({
+      ...prevValues,
+      user: value,
+    }));
   };
 
-  const addNewTodo = () => {
-    const idList = todos.map(
-      todo => todo.id,
-    );
-
-    const maxIdPlusOne = Math.max(...idList) + 1;
-
-    const newTodo: Todo = {
-      id: maxIdPlusOne,
-      title,
-      completed: false,
-      userId,
-      user: getUser(userId),
-    };
-
-    setTodos((prevTodos) => ([...prevTodos, newTodo]));
-
-    setTitle('');
-    setUserId(0);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setUserError(!userId);
+    if (!isValidTitle || !isValidUser) {
+      if (!isValidTitle) {
+        setDisplayTitleError(true);
+      }
 
-    if (trimTitle && userId > 0) {
-      addNewTodo();
+      if (!isValidUser) {
+        setDisplayUserError(true);
+      }
+
+      return;
     }
+
+    const selectedUser = fetchedUsers.find(
+      user => user.name === formValues.user,
+    ) as User;
+
+    const newId = ([...todoItems].sort(
+      (a, b) => b.id - a.id,
+    )[0].id + 1);
+
+    setTodoItems(prevTodos => ([
+      ...prevTodos,
+      {
+        id: newId,
+        title: formValues.title,
+        completed: false,
+        userId: selectedUser.id,
+        user: selectedUser,
+      },
+    ]));
+
+    setFormValues({
+      title: '',
+      user: '',
+    });
+
+    setIsValidTitle(false);
+    setIsValidUser(false);
+    setDisplayTitleError(false);
+    setDisplayUserError(false);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
       <form
+        onSubmit={handleSubmit}
         action="/api/todos"
         method="POST"
-        onSubmit={handleSubmit}
       >
         <div className="field">
           <label>
-            Title:&nbsp;
+            {'Title: '}
             <input
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={title}
-              onChange={handeTitleChange}
+              value={formValues.title}
+              onChange={handleTitleInputChange}
             />
+            {
+              (displayTitleError && !isValidTitle)
+              && <span className="error">Please enter a title</span>
+            }
           </label>
-
-          {titleError
-            && <span className="error">Please enter a title</span>}
-
         </div>
 
         <div className="field">
-          <label htmlFor="user">
-            User:&nbsp;
+          <label>
+            {'User: '}
             <select
+              id="userSelect"
               data-cy="userSelect"
-              value={userId}
-              defaultValue={0}
-              required
-              onChange={handleUserChange}
+              value={formValues.user}
+              onChange={handleSelectChange}
             >
-              <option value="0" disabled>Choose a user</option>
-
-            {usersFromServer.map(({ id, name }) => (
-              <option 
-                key={id} 
-                value={id}>
-            {name}
-              </option>
-              ))}
-
-              ))}
+              <option value="" disabled>Choose a user</option>
+              {
+                fetchedUsers.map(user => (
+                  <option key={user.id} value={user.name}>{user.name}</option>
+                ))
+              }
             </select>
+            {
+              (displayUserError && !isValidUser)
+              && <span className="error">Please choose a user</span>
+            }
           </label>
-          {userError
-            && <span className="error">Please choose a user</span>}
-
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -131,7 +142,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todoItems} />
     </div>
   );
 };
