@@ -28,8 +28,10 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodo);
   const trimTitle = title.trim();
 
+  const trimTitle = title.trim(); // Use the trim method on the title.
+
   const handeTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim()); // Trim the input value as it is being set.
     setTitleError(false);
   };
 
