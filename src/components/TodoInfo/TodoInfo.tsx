@@ -72,7 +72,7 @@ export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
         type="text"
         data-cy="titleInput"
         placeholder="Add title here"
-        defaultValue={title}
+        value={title}
         onChange={handleTitleChange}
         onBlur={() => {
           setHasTitleError(!title);
@@ -90,7 +90,7 @@ export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
           <select
             data-cy="userSelect"
             required
-            defaultValue={userId}
+            value={userId}
             onChange={handleUserIdChange}
           >
             <option value="0">Choose a user</option>
