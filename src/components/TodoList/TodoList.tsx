@@ -21,7 +21,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
             {todo.title}
           </h2>
 
-          <a className="UserInfo" href={todo.user?.email}>
+          <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
             {todo.user?.name}
           </a>
         </article>

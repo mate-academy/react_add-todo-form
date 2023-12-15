@@ -1,4 +1,3 @@
-// import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Todo } from '../types/Todo';
 import { getUserById } from '../../services/user';
@@ -9,14 +8,12 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
-  // #region state
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  // #endregion
-  // #region handlers
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -26,7 +23,10 @@ export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
-  // #endregion
+
+  const handleOnBlur = () => {
+    setHasTitleError(!title);
+  };
 
   const reset = () => {
     setTitle('');
@@ -73,9 +73,7 @@ export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
         placeholder="Add title here"
         value={title}
         onChange={handleTitleChange}
-        onBlur={() => {
-          setHasTitleError(!title);
-        }}
+        onBlur={handleOnBlur}
       />
 
       {hasTitleError && (
@@ -95,7 +93,10 @@ export const TodoInfo: React.FC<Props> = ({ onSubmit }) => {
             <option value="0">Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
+              <option
+                value={user.id}
+                key={user.id}
+              >
                 {user.name}
               </option>
             ))}
