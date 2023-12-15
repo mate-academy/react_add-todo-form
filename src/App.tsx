@@ -8,7 +8,7 @@ import Todo from './types/Todo';
 import User from './types/User';
 
 function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId);
+  return usersFromServer.find(user => user.id === userId) || usersFromServer[0];
 }
 
 function getNewId(todos: Todo[]) {
@@ -53,10 +53,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserError(!selectedUser);
 
-    if (!title || !selectedUser) {
+    if (!title.trim() || !selectedUser) {
       return;
     }
 
