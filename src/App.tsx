@@ -1,15 +1,46 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useState, useEffect } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  user: User;
+}
+
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
+
+  useEffect(() => {
+    const todosWithUsers = todosFromServer.map(todo => {
+      const user = usersFromServer.find(u => u.id === todo.userId);
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      return {
+        ...todo,
+        user,
+      };
+    });
+
+    setTodos(todosWithUsers);
+  }, []);
 
   const handleTitleChange = (event:
   { target: { value: SetStateAction<string>; }; }) => {
@@ -28,10 +59,22 @@ export const App = () => {
   };
 
   const addTodo = () => {
+    const user = usersFromServer.find((u) => u.id === Number(userId));
+
+    const maxId = todos.reduce((max, todo) => {
+      return todo.id > max ? todo.id : max;
+    }, 0);
+
+    if (!user) {
+      setUserError('User not found');
+
+      return;
+    }
+
     const newTodo = {
-      id: todos.length + 1,
+      id: maxId + 1,
       title,
-      userId: Number(userId),
+      user,
       completed: false,
     };
 
@@ -42,20 +85,21 @@ export const App = () => {
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
+    let error = false;
 
     if (!title.trim()) {
       setTitleError('Please enter a title');
-
-      return;
+      error = true;
     }
 
     if (!userId) {
       setUserError('Please choose a user');
-
-      return;
+      error = true;
     }
 
-    addTodo();
+    if (!error) {
+      addTodo();
+    }
   };
 
   return (
@@ -69,6 +113,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
+            placeholder="Enter a title"
           />
           {titleError && <span className="error">{titleError}</span>}
         </div>

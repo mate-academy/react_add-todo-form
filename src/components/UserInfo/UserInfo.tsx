@@ -1,9 +1,3 @@
-import usersFromServer from '../../api/users';
-
-interface UserInfoProps {
-  userId: number;
-}
-
 interface User {
   id: number;
   name: string;
@@ -11,15 +5,14 @@ interface User {
   email: string;
 }
 
-export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {
-  const user: User = usersFromServer.find(u => u.id === userId);
+interface UserInfoProps {
+  user: User;
+}
 
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
-    <div className="UserInfo">
-      <a className="UserInfo__email" href={`mailto:${user.email}`}>
-        {user.name}
-      </a>
-
-    </div>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };
