@@ -20,7 +20,7 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [user, setUser] = useState('0');
+  const [userId, setUserId] = useState('0');
   const [title, setTitle] = useState('');
   const [todoList, setTodoList] = useState<Todo[]>(todos);
   const [isUserError, setIsUserError] = useState(false);
@@ -29,28 +29,28 @@ export const App = () => {
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (title !== '' && user !== '0') {
+    if (title !== '' && userId !== '0') {
       const todosId = todoList.map(todo => todo.id);
 
       const newTodo: Todo = {
         id: Math.max(...todosId) + 1,
         title,
         completed: false,
-        userId: +user,
-        user: getUser(+user),
+        userId: Number(userId),
+        user: getUser(Number(userId)),
       };
 
-      setTodoList([...todoList, newTodo]);
+      setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
 
       setTitle('');
-      setUser('0');
+      setUserId('0');
     }
 
     if (title === '') {
       setIsTitleError(true);
     }
 
-    if (+user === 0) {
+    if (+userId === 0) {
       setIsUserError(true);
     }
   };
@@ -62,7 +62,7 @@ export const App = () => {
 
   const handleUser = (event:
   { target: { value: React.SetStateAction<string>; }; }) => {
-    setUser(event.target.value);
+    setUserId(event.target.value);
     setIsUserError(false);
   };
 
@@ -93,14 +93,14 @@ export const App = () => {
             <select
               data-cy="userSelect"
               required
-              value={user}
+              value={userId}
               defaultValue="0"
               onChange={handleUser}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(u => {
                 return (
-                  <option value={u.id}>
+                  <option key={u.id} value={u.id}>
                     {u.name}
                   </option>
                 );
