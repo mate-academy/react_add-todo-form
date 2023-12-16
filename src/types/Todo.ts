@@ -5,5 +5,5 @@ export default interface Todo {
   title: string,
   completed: boolean,
   userId: number,
-  user: User,
+  user?: User,
 }
