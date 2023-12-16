@@ -3,7 +3,9 @@ import classNames from 'classnames';
 
 import { UserInfo } from '../UserInfo';
 
-import { Todo } from '../../react-app-env';
+import { Todo, User } from '../../react-app-env';
+
+import usersFromServer from '../../api/users';
 
 interface Props {
   todo: Todo,
@@ -12,6 +14,13 @@ interface Props {
 export const TodoInfo: React.FC<Props> = ({
   todo,
 }) => {
+  const user: User | undefined = usersFromServer
+    .find(u => u.id === +todo.userId);
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <article
       data-id={todo.id}
@@ -21,7 +30,7 @@ export const TodoInfo: React.FC<Props> = ({
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo userId={todo.userId} />
+      <UserInfo user={user} />
     </article>
   );
 };

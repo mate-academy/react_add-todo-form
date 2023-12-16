@@ -58,6 +58,8 @@ export const TodoForm: React.FC<Props> = ({
     event.preventDefault();
 
     if (!todo.title.trim() || !todo.userId) {
+      handleError(todo);
+
       return;
     }
 
@@ -79,7 +81,6 @@ export const TodoForm: React.FC<Props> = ({
           placeholder="Type a title of todo"
           value={todo.title}
           onChange={e => handleInputChange(e.target.value)}
-          onBlur={() => handleError(todo)}
         />
         {inputError && <span className="error">Please enter a title</span>}
       </div>
@@ -89,7 +90,6 @@ export const TodoForm: React.FC<Props> = ({
           data-cy="userSelect"
           value={todo.userId}
           onChange={e => handleSelectChange(+e.target.value)}
-          onBlur={() => handleError(todo)}
         >
           <option value="0" disabled>Choose a user</option>
 
