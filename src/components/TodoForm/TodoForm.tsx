@@ -5,8 +5,9 @@ import './TodoForm.scss';
 import { User, Todo } from '../../react-app-env';
 
 interface Props {
-  users: User[]
-  onAdd: (todo: Todo) => void;
+  users: User[],
+  onAdd: (todo: Todo) => void,
+  maxId: number,
 }
 
 const initialTodo: Todo = {
@@ -19,32 +20,55 @@ const initialTodo: Todo = {
 export const TodoForm: React.FC<Props> = ({
   users,
   onAdd,
+  maxId,
 }) => {
-  const [touched, setTouched] = useState(false);
-  const [count, setCount] = useState(0);
+  const [inputError, setInputError] = useState(false);
+  const [optionError, setOptionError] = useState(false);
   const [todo, setTodo] = useState(initialTodo);
+
+  const handleError = (currentTodo: Todo) => {
+    const isTitleValid = currentTodo.title.trim() !== '';
+    const isUserIdValid = currentTodo.userId !== 0;
+
+    setInputError(!isTitleValid);
+    setOptionError(!isUserIdValid);
+  };
 
   const handleReset = () => {
     setTodo(initialTodo);
+    setInputError(false);
+    setOptionError(false);
   };
 
-  const handleInputChange = (key: string, value: string) => {
-    setTodo((currentState) => ({ ...currentState, [key]: value }));
-  }
+  const handleInputChange = (value: string) => {
+    const newTodo = { ...todo, title: value };
+
+    setTodo(newTodo);
+    setInputError(false);
+  };
+
+  const handleSelectChange = (value: number) => {
+    const newTodo = { ...todo, userId: value };
+
+    setTodo(newTodo);
+    setOptionError(false);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setCount(count + 1);
+    if (!todo.title.trim() || !todo.userId) {
+      return;
+    }
 
-    onAdd(todo);
+    onAdd({ ...todo, id: maxId + 1 });
 
     handleReset();
   };
 
   return (
     <form
-      key={count}
+      key={maxId}
       onSubmit={handleSubmit}
     >
       <div className="field">
@@ -54,27 +78,29 @@ export const TodoForm: React.FC<Props> = ({
           className="input"
           placeholder="Type a title of todo"
           value={todo.title}
-          onChange={e => handleInputChange('title', e.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={e => handleInputChange(e.target.value)}
+          onBlur={() => handleError(todo)}
         />
-        {touched && <span className="error">Please enter a title</span>}
+        {inputError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
-        <select data-cy="userSelect" defaultValue={0}>
-          <option value="0" disabled>
-            Choose a user
-          </option>
-          {users.map((user) => {
-            return (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            );
-          })}
+        <select
+          data-cy="userSelect"
+          value={todo.userId}
+          onChange={e => handleSelectChange(+e.target.value)}
+          onBlur={() => handleError(todo)}
+        >
+          <option value="0" disabled>Choose a user</option>
+
+          {users.map((user) => (
+            <option value={user.id} key={user.id}>
+              {user.name}
+            </option>
+          ))}
         </select>
 
-        <span className="error">Please choose a user</span>
+        {optionError && <span className="error">Please choose a user</span>}
       </div>
 
       <button

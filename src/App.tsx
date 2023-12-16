@@ -12,6 +12,9 @@ import todosFromServer from './api/todos';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const maxId = todos.reduce((max, todo) => {
+    return todo.id > max ? todo.id : max;
+  }, 0);
 
   const addTodo = (newTodo: Todo) => {
     setTodos([...todos, newTodo]);
@@ -24,6 +27,7 @@ export const App = () => {
       <TodoForm
         users={usersFromServer}
         onAdd={addTodo}
+        maxId={maxId}
       />
 
       <TodoList todos={todos} />

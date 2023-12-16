@@ -1,11 +1,27 @@
-export const TodoInfo = () => {
-  return (
-    <article data-id="1" className="TodoInfo TodoInfo--completed">
-      <h2 className="TodoInfo__title">delectus aut autem</h2>
+import React from 'react';
+import classNames from 'classnames';
 
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
-        Leanne Graham
-      </a>
+import { UserInfo } from '../UserInfo';
+
+import { Todo } from '../../react-app-env';
+
+interface Props {
+  todo: Todo,
+}
+
+export const TodoInfo: React.FC<Props> = ({
+  todo,
+}) => {
+  return (
+    <article
+      data-id={todo.id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+
+      <UserInfo userId={todo.userId} />
     </article>
   );
 };
