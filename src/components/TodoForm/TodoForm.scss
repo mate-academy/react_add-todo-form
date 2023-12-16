@@ -1,0 +1,13 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 5px 0;
+  width: 300px;
+}
+
+.input {
+  border: 2px solid teal;
+  font-size: 14px;
+  padding: 3px 0;
+}
