@@ -15,16 +15,27 @@ const todosWithAssociatedUsers = fetchedTodos.map(todo => ({
 export const App = () => {
   const [todoItems, setTodoItems] = useState(todosWithAssociatedUsers);
   const [formValues, setFormValues] = useState({ title: '', user: '' });
-  const [isValidTitle, setIsValidTitle] = useState(false);
-  const [isValidUser, setIsValidUser] = useState(false);
-  const [displayTitleError, setDisplayTitleError] = useState(false);
-  const [displayUserError, setDisplayUserError] = useState(false);
+  const [titleValidation, setTitleValidation] = useState({
+    value: '',
+    isValid: false,
+    displayError: false,
+  });
+
+  const [userValidation, setUserValidation] = useState({
+    value: '',
+    isValid: false,
+    displayError: false,
+  });
 
   const handleTitleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.trimStart();
 
-    setDisplayTitleError(!!value);
-    setIsValidTitle(!!value);
+    setTitleValidation(prevValidation => ({
+      ...prevValidation,
+      displayError: !value,
+      isValid: !!value,
+      value,
+    }));
 
     setFormValues(prevValues => ({
       ...prevValues,
@@ -35,8 +46,12 @@ export const App = () => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    setDisplayUserError(!!value);
-    setIsValidUser(!!value);
+    setUserValidation(prevValidation => ({
+      ...prevValidation,
+      displayError: !value,
+      isValid: !!value,
+      value,
+    }));
 
     setFormValues(prevValues => ({
       ...prevValues,
@@ -47,14 +62,15 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!isValidTitle || !isValidUser) {
-      if (!isValidTitle) {
-        setDisplayTitleError(true);
-      }
-
-      if (!isValidUser) {
-        setDisplayUserError(true);
-      }
+    if (!titleValidation.isValid || !userValidation.isValid) {
+      setTitleValidation(prevValidation => ({
+        ...prevValidation,
+        displayError: !prevValidation.isValid,
+      }));
+      setUserValidation(prevValidation => ({
+        ...prevValidation,
+        displayError: !prevValidation.isValid,
+      }));
 
       return;
     }
@@ -82,11 +98,6 @@ export const App = () => {
       title: '',
       user: '',
     });
-
-    setIsValidTitle(false);
-    setIsValidUser(false);
-    setDisplayTitleError(false);
-    setDisplayUserError(false);
   };
 
   return (
@@ -107,10 +118,9 @@ export const App = () => {
               value={formValues.title}
               onChange={handleTitleInputChange}
             />
-            {
-              (displayTitleError && !isValidTitle)
-              && <span className="error">Please enter a title</span>
-            }
+            {(titleValidation.displayError && !titleValidation.isValid) && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
@@ -130,10 +140,9 @@ export const App = () => {
                 ))
               }
             </select>
-            {
-              (displayUserError && !isValidUser)
-              && <span className="error">Please choose a user</span>
-            }
+            {(userValidation.displayError && !userValidation.isValid) && (
+              <span className="error">Please choose a user</span>
+            )}
           </label>
         </div>
 
