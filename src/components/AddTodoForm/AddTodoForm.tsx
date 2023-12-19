@@ -58,10 +58,10 @@ export const AddTodoForm: React.FC<Props> = ({ todos, onTodoAdd }) => {
 
     const trimmedTitle = title.trim();
 
-    if (!trimmedTitle || userId === 0) {
+    if (!trimmedTitle || !userId) {
       setFormErrors({
         isEmptyTitle: !trimmedTitle,
-        isEmptyUserId: userId === 0,
+        isEmptyUserId: !userId,
       });
 
       return;
