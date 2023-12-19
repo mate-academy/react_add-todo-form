@@ -26,18 +26,15 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const reset = () => {
     setTitle('');
     setUserId(0);
-
-    // setHasTitleError(false);
-    // setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
