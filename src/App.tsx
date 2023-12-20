@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import fetchedUsers from './api/users';
 import fetchedTodos from './api/todos';
-import { User } from './types';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
@@ -77,7 +76,11 @@ export const App = () => {
 
     const selectedUser = fetchedUsers.find(
       user => user.name === formValues.user,
-    ) as User;
+    );
+
+    if (!selectedUser) {
+      return;
+    }
 
     const newId = ([...todoItems].sort(
       (a, b) => b.id - a.id,
