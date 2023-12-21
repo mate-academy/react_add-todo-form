@@ -19,7 +19,7 @@ export const App = () => {
   };
 
   const handleAddTodo = () => {
-    if (!title) {
+    if (!title || !title.trim()) {
       setIsTitleHasMistake(true);
     }
 
