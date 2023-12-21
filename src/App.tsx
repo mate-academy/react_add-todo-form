@@ -1,28 +1,64 @@
 import './App.scss';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [titleError, setTitleError] = useState(false);
+  const [nameError, setnameError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [nameId, setNameId] = useState(0);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!title) {
+      setTitleError(true);
+    }
+
+    if (nameId === 0) {
+      setnameError(true);
+    }
+  };
+
+  const handleName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNameId(+event.target.value);
+    setnameError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           Title:&nbsp;
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setTitleError(false);
+            }}
           />
-          <span className="error">Please enter a title</span>
+          {titleError
+            ? <span className="error">Please enter a title</span>
+            : ''}
         </div>
 
         <div className="field">
           User:&nbsp;
-          <select data-cy="userSelect">
+          <select
+            data-cy="userSelect"
+            value={nameId}
+            onChange={handleName}
+          >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => {
               return (
@@ -31,7 +67,9 @@ export const App = () => {
             })}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {nameError
+            ? <span className="error">Please choose a username</span>
+            : ''}
         </div>
 
         <button type="submit" data-cy="submitButton">
