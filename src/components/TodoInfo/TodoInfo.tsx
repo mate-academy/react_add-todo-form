@@ -1,10 +1,11 @@
 import classnames from 'classnames';
-import { User } from '../../type/user';
+import usersFromServer from '../../api/users';
+
 import { Todo } from '../../type/todo';
+import { User } from '../../type/user';
 
 type Props = {
   todo: Todo;
-  findUser: (id: number) => User | undefined;
 };
 
 export const TodoInfo: React.FC<Props> = (
@@ -12,9 +13,11 @@ export const TodoInfo: React.FC<Props> = (
     todo: {
       id, completed, title, userId,
     },
-    findUser,
   },
 ) => {
+  const currentUser: User | undefined
+  = usersFromServer.find((person: User) => person.id === userId);
+
   return (
     <article
       data-id={id}
@@ -24,8 +27,8 @@ export const TodoInfo: React.FC<Props> = (
       key={id}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      <a className="UserInfo" href={`mailto:${findUser(userId)?.email}`}>
-        {findUser(userId)?.name}
+      <a className="UserInfo" href={`mailto:${currentUser?.email}`}>
+        {currentUser?.name}
       </a>
     </article>
   );

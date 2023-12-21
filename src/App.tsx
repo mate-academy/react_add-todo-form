@@ -55,10 +55,6 @@ export const App = () => {
     reset();
   };
 
-  const findUser = (id: number) => {
-    return usersFromServer.find(perosn => perosn.id === id);
-  };
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -108,7 +104,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <ToDoList toDoLists={toDoLists} findUser={findUser} />
+      <ToDoList toDoLists={toDoLists} />
     </div>
   );
 };
