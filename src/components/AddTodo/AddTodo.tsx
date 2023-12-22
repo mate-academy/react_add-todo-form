@@ -19,7 +19,7 @@ export const AddTodo: FC<Props> = ({ users, onSubmit }) => {
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleError(false);
-    setTitle(e.target.value);
+    setTitle(e.target.value.replace(/[^a-zA-Zа-яА-Я0-9 ]+/g, ''));
   };
 
   const handleUserIdChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -35,14 +35,14 @@ export const AddTodo: FC<Props> = ({ users, onSubmit }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setUserIdError(!userId);
 
     if (!title || !userId) {
       return;
     }
 
-    onSubmit({ title, userId, completed: false });
+    onSubmit({ title: title.trim(), userId, completed: false });
     resetForm();
   };
 
@@ -82,7 +82,7 @@ export const AddTodo: FC<Props> = ({ users, onSubmit }) => {
             >
               <option value="0" disabled>Choose a user</option>
               {users.map(user => (
-                <option value={user.id}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.name}</option>
               ))}
             </select>
           </label>
