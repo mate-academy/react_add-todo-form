@@ -35,14 +35,16 @@ export const AddTodo: FC<Props> = ({ users, onSubmit }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    setTitleError(!title.trim());
+    const trimedTitle = title.trim();
+
+    setTitleError(!trimedTitle);
     setUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimedTitle || !userId) {
       return;
     }
 
-    onSubmit({ title: title.trim(), userId, completed: false });
+    onSubmit({ title: trimedTitle, userId, completed: false });
     resetForm();
   };
 
