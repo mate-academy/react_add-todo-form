@@ -69,32 +69,29 @@ export const App = () => {
   } = todo;
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    const { user } = todo;
+
     event.preventDefault();
 
-    if (!todo.user) {
+    if (!user) {
       setTouched(currentTouched => ({
         ...currentTouched,
         userTouched: true,
       }));
     }
 
-    if (!todo.title) {
+    if (!title.trim()) {
       setTouched(currentTouched => ({
         ...currentTouched,
         titleTouched: true,
       }));
     }
 
-    if (!(todo.user && todo.title)) {
+    if (!(user && title.trim())) {
       return;
     }
 
-    setTodo(currentTodo => ({
-      ...currentTodo,
-      id: Math.max(...listTodos.map(todoMap => todoMap.id)) + 1,
-    }));
-
-    setListTodos(currentListTodos => [todo, ...currentListTodos]);
+    setListTodos(currentListTodos => [...currentListTodos, todo]);
     setCount(cur => cur + 1);
     setTodo(defaultTodo);
   };
@@ -105,6 +102,7 @@ export const App = () => {
     setTodo(currentTodo => ({
       ...currentTodo,
       [name]: value,
+      id: Math.max(...listTodos.map(todoMap => todoMap.id)) + 1,
     }));
 
     setTouched(currentTouched => ({
@@ -144,6 +142,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             name="title"
+            placeholder="Enter a title"
             value={title}
             onChange={handleChangeInput}
           />
@@ -158,9 +157,15 @@ export const App = () => {
             onChange={handleChangeSelect}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
-            ))}
+            {
+              usersFromServer.map(user => {
+                const { id, name } = user;
+
+                return (
+                  <option key={id} value={id}>{name}</option>
+                );
+              })
+            }
           </select>
 
           {userTouched && <span className="error">Please choose a user</span>}
