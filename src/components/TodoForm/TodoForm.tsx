@@ -16,7 +16,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [isUserErrorShow, setIsUserErrorShow] = useState(false);
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setTitle((event.target.value));
+    setTitle(event.target.value);
     setIsTitleErrorShow(false);
   }
 
@@ -33,10 +33,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   function handleSubmit(event: React.FormEvent): void {
     event.preventDefault();
 
-    setIsTitleErrorShow(title.trim() === '');
+    setIsTitleErrorShow(!title.trim());
     setIsUserErrorShow(userId === 0);
 
-    if (title.trim() === '' || userId === 0) {
+    if (!title.trim() || userId === 0) {
       return;
     }
 
