@@ -3,12 +3,29 @@ import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { Todos } from './types/todos';
 
 export const App = () => {
   const [titleError, setTitleError] = useState(false);
+  const [todos, setTodos] = useState(todosFromServer);
   const [nameError, setnameError] = useState(false);
   const [title, setTitle] = useState('');
   const [nameId, setNameId] = useState(0);
+
+  const getId = todos.reduce((acc, todo) => {
+    return Math.max(acc, todo.id);
+  }, -Infinity);
+
+  const reset = () => {
+    setTitle('');
+    setTitleError(false);
+    setnameError(false);
+    setNameId(0);
+  }
+
+  const addTodo = (newTodo: Todos) => {
+    setTodos([...todos, newTodo]);
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -18,6 +35,18 @@ export const App = () => {
 
     if (nameId === 0) {
       setnameError(true);
+    }
+
+    const onSubmit = {
+      id: getId + 1,
+      title,
+      completed: false,
+      userId: nameId,
+    };
+
+    if (title && nameId !== 0) {
+      addTodo(onSubmit);
+      reset();
     }
   };
 
@@ -78,7 +107,7 @@ export const App = () => {
       </form>
 
       <TodoList
-        todos={todosFromServer}
+        todos={todos}
       />
     </div>
   );
