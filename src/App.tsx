@@ -27,6 +27,11 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!title) {
@@ -37,6 +42,10 @@ export const App = () => {
       setnameError(true);
     }
 
+    if (title.trim().length === 0) {
+      setTitleError(true);
+    }
+
     const onSubmit = {
       id: getId + 1,
       title,
@@ -44,7 +53,7 @@ export const App = () => {
       userId: nameId,
     };
 
-    if (title && nameId !== 0) {
+    if (title.trim().length && nameId !== 0) {
       addTodo(onSubmit);
       reset();
     }
@@ -65,16 +74,13 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
-          Title:&nbsp;
+          Title:&nbsp;&nbsp;
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleInput}
           />
           {titleError
             ? <span className="error">Please enter a title</span>
@@ -88,12 +94,10 @@ export const App = () => {
             value={nameId}
             onChange={handleName}
           >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map(user => {
-              return (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              );
-            })}
+            <option value="0" disabled>Choose a user</option>
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
           </select>
 
           {nameError

@@ -15,7 +15,7 @@ export const UserInfo: React.FC<Props> = ({ userId }) => {
   const users: Users | null = getUser(userId);
 
   return (
-    <a className="UserInfo" href={users?.email}>
+    <a className="UserInfo" href={`mailto:${users?.email}`}>
       {users?.name}
     </a>
   );
