@@ -1,6 +1,6 @@
 import React from 'react';
 import usersFromServer from '../../api/users';
-import { User } from '../../types/users';
+import { Users } from '../../types/users';
 
 type Props = {
   userId : number;
@@ -12,7 +12,7 @@ function getUser(userId: number) {
 }
 
 export const UserInfo: React.FC<Props> = ({ userId }) => {
-  const users: User | null = getUser(userId);
+  const users: Users | null = getUser(userId);
 
   return (
     <a className="UserInfo" href={users?.email}>
