@@ -21,7 +21,7 @@ export const App = () => {
     setTitleError(false);
     setnameError(false);
     setNameId(0);
-  }
+  };
 
   const addTodo = (newTodo: Todos) => {
     setTodos([...todos, newTodo]);
