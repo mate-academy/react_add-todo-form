@@ -32,16 +32,18 @@ export const TodosForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasErrorTitle(!title);
+    setHasErrorTitle(!title.trim());
     setHasErrorUser(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
+      setTitle('');
+
       return;
     }
 
     onSubmit({
       id: 0,
-      title,
+      title: title.trim(),
       completed: false,
       userId,
       user: getUserById(userId),
