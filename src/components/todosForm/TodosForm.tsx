@@ -36,8 +36,6 @@ export const TodosForm: React.FC<Props> = ({ onSubmit }) => {
     setHasErrorUser(!userId);
 
     if (!title.trim() || !userId) {
-      setTitle('');
-
       return;
     }
 
