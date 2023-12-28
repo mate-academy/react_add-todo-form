@@ -50,7 +50,7 @@ export const App = () => {
       setIsTitleError(true);
     }
 
-    if (+userId === 0) {
+    if (Number(userId) === 0) {
       setIsUserError(true);
     }
   };
