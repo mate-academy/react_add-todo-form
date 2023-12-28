@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
@@ -7,16 +7,8 @@ import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUser(userId: number): User | null {
-  const foundUser = usersFromServer.find(user => user.id === userId);
-
-  return foundUser || null;
-}
-
-function getUserByName(name: string): User | null {
-  const foundUser = usersFromServer.find(user => user.name === name);
-
-  return foundUser ?? null;
+function getUser(userId?: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
 const todos: Todo[] = todosFromServer.map(todo => ({
@@ -34,19 +26,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
-      setTitleEmpty(true);
-    } else {
-      setTitleEmpty(false);
-    }
-
-    if (!userValue) {
-      setUserEmpty(true);
-    } else {
-      setUserEmpty(false);
-    }
-
     const maxId = Math.max(...todo.map((t) => t.id), 0);
+
+    setTitleEmpty(!title);
+    setUserEmpty(!userValue);
 
     if (title && userValue) {
       setTodo([...todo,
@@ -55,13 +38,23 @@ export const App: React.FC = () => {
           title,
           completed: false,
           userId: 1,
-          user: getUserByName(userValue),
+          user: usersFromServer.find(user => userValue === user.name) || null,
         },
       ]);
 
       setTitle('');
       setUserValue('');
     }
+  };
+
+  const handleTitle = (element: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(element.target.value);
+    setTitleEmpty(false);
+  };
+
+  const handleUser = (element: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserValue(element.target.value);
+    setUserEmpty(false);
   };
 
   return (
@@ -80,10 +73,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(element) => {
-              setTitle(element.target.value);
-              setTitleEmpty(false);
-            }}
+            onChange={handleTitle}
           />
 
           {titleEmpty && (
@@ -97,10 +87,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             defaultValue=""
             value={userValue}
-            onChange={(element) => {
-              setUserValue(element.target.value);
-              setUserEmpty(false);
-            }}
+            onChange={handleUser}
           >
             <option
               disabled
@@ -109,7 +96,7 @@ export const App: React.FC = () => {
               Choose a user
             </option>
             {usersFromServer.map((user) => (
-              <option value={user.name}>{user.name}</option>
+              <option value={user.name} key={user.name}>{user.name}</option>
             ))}
           </select>
 
