@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import todosFromServer from './api/todos';
 
-import { TodosForm } from './components/todosForm/TodosForm';
 import { TodoList } from './components/TodoList';
+import { TodosForm } from './components/todosForm/TodosForm';
 
 import { getUserById } from './services/getUserById';
 
