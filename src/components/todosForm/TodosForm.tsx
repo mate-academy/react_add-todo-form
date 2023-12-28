@@ -3,7 +3,9 @@ import cn from 'classnames';
 import { useState } from 'react';
 
 import { getUserById } from '../../services/getUserById';
+
 import usersFromServer from '../../api/users';
+
 import { Todo } from '../../types/todo';
 
 type Props = {
