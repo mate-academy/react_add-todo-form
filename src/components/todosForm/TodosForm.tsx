@@ -20,7 +20,7 @@ export const TodosForm: React.FC<Props> = ({ onSubmit }) => {
   const [hasErrorUser, setHasErrorUser] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
     setHasErrorTitle(false);
   };
 
@@ -32,16 +32,16 @@ export const TodosForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasErrorTitle(!title.trim());
+    setHasErrorTitle(!title);
     setHasErrorUser(!userId);
 
-    if (!title.trim() || !userId) {
+    if (!title || !userId) {
       return;
     }
 
     onSubmit({
       id: 0,
-      title: title.trim(),
+      title: title.trimEnd(),
       completed: false,
       userId,
       user: getUserById(userId),
