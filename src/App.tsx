@@ -27,6 +27,7 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     const maxId = Math.max(...todo.map((t) => t.id), 0);
+    const titleTrimmed = title.trimEnd();
 
     setTitleEmpty(!title);
     setUserEmpty(!userValue);
@@ -35,7 +36,7 @@ export const App: React.FC = () => {
       setTodo([...todo,
         {
           id: maxId + 1,
-          title,
+          title: titleTrimmed,
           completed: false,
           userId: 1,
           user: usersFromServer.find(user => userValue === user.name) || null,
@@ -48,7 +49,8 @@ export const App: React.FC = () => {
   };
 
   const handleTitle = (element: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(element.target.value);
+    setTitle(element.target.value.trimStart());
+
     setTitleEmpty(false);
   };
 
