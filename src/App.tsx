@@ -26,7 +26,9 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setCheckTitle(!title);
+    setCheckTitle(!title
+      && !(title.length > 0
+      && title.split(' ').length - 1 === title.length));
     setCheckUser(userId === '0');
 
     const newTodo: Todo = {
@@ -36,7 +38,10 @@ export const App = () => {
       completed: false,
     };
 
-    if (!!title && userId !== '0') {
+    if (!!title
+      && userId !== '0'
+      && !(title.split(' ').length - 1 === title.length
+      )) {
       setActualTodos(prevTodos => [...prevTodos, newTodo]);
       setCheckUser(false);
       setCheckTitle(false);
