@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import './App.scss';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
@@ -15,20 +15,24 @@ export const App = () => {
   const [checkUser, setCheckUser] = useState(false);
   const [checkTitle, setCheckTitle] = useState(false);
 
-  const handleTitleChange = () => {
+  const handleTitleChange
+  = (event: { target: { value: SetStateAction<string>; }; }) => {
     setCheckTitle(false);
+    setTitle(event.target.value);
   };
 
-  const handleUserChange = () => {
+  const handleUserChange
+  = (event: { target: { value: SetStateAction<string>; }; }) => {
     setCheckUser(false);
+    setUserId(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setCheckTitle(!title
-      && !(title.length > 0
-      && title.split(' ').length - 1 === title.length));
+      || (title.length > 0
+      && title.trim().length === 0));
     setCheckUser(userId === '0');
 
     const newTodo: Todo = {
@@ -65,10 +69,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Please enter a title"
-            onChange={event => {
-              setTitle(event.target.value);
-              handleTitleChange();
-            }}
+            onChange={handleTitleChange}
           />
           {
             checkTitle && (<span className="error">Please enter a title</span>)
@@ -79,10 +80,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(event.target.value);
-              handleUserChange();
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" key="-1" selected disabled>Choose a user</option>
             {
