@@ -1,46 +1,25 @@
-import { SetStateAction, useState, useEffect } from 'react';
+import { SetStateAction, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User;
-}
+import { Todo } from './components/TodoInfo/TodoInfo';
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const todosWithUsers = todosFromServer.map(todo => {
+    const user = usersFromServer.find(u => u.id === todo.userId) || null;
+
+    return {
+      ...todo,
+      user,
+    };
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
-
-  useEffect(() => {
-    const todosWithUsers = todosFromServer.map(todo => {
-      const user = usersFromServer.find(u => u.id === todo.userId);
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      return {
-        ...todo,
-        user,
-      };
-    });
-
-    setTodos(todosWithUsers);
-  }, []);
 
   const handleTitleChange = (event:
   { target: { value: SetStateAction<string>; }; }) => {
@@ -59,11 +38,7 @@ export const App = () => {
   };
 
   const addTodo = () => {
-    const user = usersFromServer.find((u) => u.id === Number(userId));
-
-    const maxId = todos.reduce((max, todo) => {
-      return todo.id > max ? todo.id : max;
-    }, 0);
+    const user = usersFromServer.find(u => u.id === Number(userId));
 
     if (!user) {
       setUserError('User not found');
@@ -71,14 +46,21 @@ export const App = () => {
       return;
     }
 
-    const newTodo = {
-      id: maxId + 1,
-      title,
-      user,
-      completed: false,
-    };
+    setTodos(prevTodos => {
+      const maxId = prevTodos.reduce((max, todo) => {
+        return todo.id > max ? todo.id : max;
+      }, 0);
 
-    setTodos([...todos, newTodo]);
+      const newTodo = {
+        id: maxId + 1,
+        title,
+        user,
+        completed: false,
+      };
+
+      return [...prevTodos, newTodo];
+    });
+
     setTitle('');
     setUserId('');
   };

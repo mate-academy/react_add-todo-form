@@ -1,17 +1,10 @@
-import { UserInfo } from '../UserInfo/UserInfo';
+import { UserInfo, User } from '../UserInfo/UserInfo';
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
+export interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  user: User;
+  user?: User | null;
 }
 
 interface TodoInfoProps {

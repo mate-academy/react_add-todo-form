@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   id: number;
   name: string;
   username: string;
@@ -6,10 +6,14 @@ interface User {
 }
 
 interface UserInfoProps {
-  user: User;
+  user: User | null | undefined;
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+  if (!user) {
+    return <div>No user data available.</div>;
+  }
+
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
       {user.name}
