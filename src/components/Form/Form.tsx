@@ -34,7 +34,7 @@ export const Form: React.FC<Props> = ({ todoList, onSubmit }) => {
 
     const newTodo = {
       id: getNewId(todoList) + 1,
-      title,
+      title: title.trim(),
       completed: false,
       userId: user,
       user: getUserById(+user),
@@ -47,7 +47,7 @@ export const Form: React.FC<Props> = ({ todoList, onSubmit }) => {
   };
 
   const handleTitleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
     setIsTitle(true);
   };
 
