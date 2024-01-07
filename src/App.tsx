@@ -2,7 +2,15 @@ import { useState } from 'react';
 import './App.scss';
 import { Render } from './rendering/Render';
 import { Todo } from './types/Todo';
-import todos from './api/todos';
+import todosFromServer from './api/todos';
+import { getUserById } from './services/user';
+
+const todos = todosFromServer.map(el => {
+  return {
+    ...el,
+    user: getUserById(el.userId),
+  };
+});
 
 export const App = () => {
   const [list, setList] = useState<Todo[]>(todos);
