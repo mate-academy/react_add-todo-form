@@ -1,4 +1,4 @@
-export default [
+const todos = [
   {
     id: 1,
     title: 'delectus aut autem',
@@ -18,3 +18,5 @@ export default [
     userId: 4,
   },
 ];
+
+export default todos;
