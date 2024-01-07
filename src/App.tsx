@@ -7,7 +7,6 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/todo';
 
 export const App = () => {
-  // #region constant
   const [count, setCount] = useState(todosFromServer.length);
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const initialFormForTodo = {
@@ -19,9 +18,7 @@ export const App = () => {
   const [form, setForm] = useState(initialFormForTodo);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
-  // #endregion
 
-  // #region function
   function getNewTodoId(tds: Todo[]) {
     return Math.max(...tds.map(todo => todo.id)) + 1;
   }
@@ -64,7 +61,6 @@ export const App = () => {
     setForm(initialFormForTodo);
     setCount(count + 1);
   };
-  // #endregion
 
   return (
     <div className="App">
