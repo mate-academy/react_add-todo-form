@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
+import { UserInfo } from '../UserInfo';
 import getUserById from '../../services/userServeces';
 
 type Props = {
@@ -20,9 +21,7 @@ export const TodoInfo:React.FC<Props> = ({ todo }) => {
       <h2 className="TodoInfo__title">
         {todo.title}
       </h2>
-      <a className="UserInfo" href={`mailto:${user?.email}`}>
-        {user?.name}
-      </a>
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
