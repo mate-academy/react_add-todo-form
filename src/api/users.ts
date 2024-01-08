@@ -1,4 +1,4 @@
-export default [
+const users = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -60,3 +60,5 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export default users;
