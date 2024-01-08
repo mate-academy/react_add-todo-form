@@ -14,7 +14,6 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {
   const user = getUser(+userId);
 
   if (!user) {
-    // Handle the case where no matching user is found
     return <span className="UserInfo">User not found</span>;
   }
 

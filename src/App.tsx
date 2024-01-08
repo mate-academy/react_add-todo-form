@@ -33,12 +33,6 @@ export const App = () => {
     });
   }
 
-  // const getUser = (userId: number): User | undefined => {
-  //   const matchingUser = usersFromServer.find(u => u.id === +userId);
-
-  //   return matchingUser;
-  // };
-
   function handleOnChange(
     fieldName: string,
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -73,7 +67,9 @@ export const App = () => {
       hasError = true;
     }
 
-    if (!inputTodo.title) {
+    const trimmedTitle = inputTodo.title.trim();
+
+    if (!trimmedTitle) {
       setUserError(prevState => ({
         ...prevState,
         title: true,
@@ -85,7 +81,11 @@ export const App = () => {
       return;
     }
 
-    setTodos(prevTodos => [...prevTodos, { ...inputTodo, id: maxId + 1 }]);
+    setTodos(prevTodos => [...prevTodos, {
+      ...inputTodo,
+      id: maxId + 1,
+      title: trimmedTitle,
+    }]);
     reset();
   }
 

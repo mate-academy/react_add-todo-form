@@ -5,15 +5,21 @@ interface TodoInfoProps {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => (
-  <article
-    data-id={todo.id}
-    className={`TodoInfo  ${todo.completed ? 'TodoInfo--completed' : ''}`}
-    key={todo.id}
-  >
-    <h2 className="TodoInfo__title">
-      {todo.title}
-    </h2>
-    <UserInfo userId={todo.userId} />
-  </article>
-);
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+  const {
+    id, completed, title, userId,
+  } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={`TodoInfo  ${completed ? 'TodoInfo--completed' : ''}`}
+      key={id}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
+      <UserInfo userId={userId} />
+    </article>
+  );
+};
