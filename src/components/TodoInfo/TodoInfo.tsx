@@ -7,7 +7,7 @@ export interface Todos {
   title: string;
   completed: boolean;
   userId: number;
-  user?: Users,
+  user?: Users | null,
 }
 
 type Props = {

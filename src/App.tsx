@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 import { Todos } from './components/TodoInfo';
 
 function getUserById(userId: number) {
-  return usersFromServer.find((user) => user.id === userId);
+  return usersFromServer.find((user) => user.id === userId) || null;
 }
 
 export const todos = todosFromServer.map((todo) => ({
@@ -29,17 +29,17 @@ const initialUserState = {
 };
 
 export const App = () => {
-  const [todo, setTodo] = useState(initialUserState);
+  const [newTodo, setNewTodo] = useState(initialUserState);
 
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const [newTodo, setNewTodo] = useState<Todos[]>(todos);
+  const [todo, setTodo] = useState<Todos[]>(todos);
 
-  const newUser = getUserById(todo.userId);
+  const userById = getUserById(newTodo.userId);
 
   const changeInput = (key: string, value: string | number) => {
-    setTodo((prevUser) => ({ ...prevUser, [key]: value }));
+    setNewTodo((prevUser) => ({ ...prevUser, [key]: value }));
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,24 +59,24 @@ export const App = () => {
   const handleAddTodos = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const trimmedTitle = todo.title.trim();
+    const trimmedTitle = newTodo.title.trim();
 
     setHasTitleError(!trimmedTitle);
-    setHasUserError(!todo.userId);
+    setHasUserError(!newTodo.userId);
 
-    if (!todo.userId || !trimmedTitle) {
+    if (!newTodo.userId || !trimmedTitle) {
       return;
     }
 
     const newTodoWithUser = {
-      ...todo,
-      id: getMaxId(newTodo),
-      user: newUser,
+      ...newTodo,
+      id: getMaxId(todo),
+      user: userById,
     };
 
-    setNewTodo((prevTodos) => [...prevTodos, newTodoWithUser]);
+    setTodo((prevTodos) => [...prevTodos, newTodoWithUser]);
 
-    setTodo({
+    setNewTodo({
       id: 0,
       title: '',
       userId: 0,
@@ -97,7 +97,7 @@ export const App = () => {
                 type="text"
                 data-cy="titleInput"
                 placeholder="Enter a title"
-                value={todo.title}
+                value={newTodo.title}
                 onChange={handleTitleChange}
               />
             </label>
@@ -112,7 +112,7 @@ export const App = () => {
             <select
               id="chooseUser"
               data-cy="userSelect"
-              value={todo.userId}
+              value={newTodo.userId}
               onChange={handleSelected}
             >
               <option value="0" disabled>
@@ -135,7 +135,7 @@ export const App = () => {
           </button>
         </form>
 
-        <TodoList todos={newTodo} />
+        <TodoList todos={todo} />
       </div>
     </>
   );
