@@ -4,7 +4,7 @@ import React, { ChangeEvent, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todos, getMaxId } from './components/TodoInfo';
+import { Todos } from './components/TodoInfo';
 
 function getUserById(userId: number) {
   return usersFromServer.find((user) => user.id === userId);
@@ -14,6 +14,12 @@ export const todos = todosFromServer.map((todo) => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
+
+export function getMaxId(todo: Todos[]) {
+  const maxId = Math.max(0, ...todo.map((item) => item.id));
+
+  return maxId + 1;
+}
 
 const initialUserState = {
   id: 0,

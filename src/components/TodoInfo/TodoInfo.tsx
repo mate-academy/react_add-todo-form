@@ -14,16 +14,10 @@ type Props = {
   todo: Todos;
 };
 
-export function getMaxId(todo: Todos[]) {
-  const maxId = Math.max(0, ...todo.map((item) => item.id));
-
-  return maxId + 1;
-}
-
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
-      data-id={getMaxId([todo])}
+      data-id={todo.id}
       className={classNames('TodoInfo', {
         'TodoInfo--completed': todo.completed === true,
       })}
