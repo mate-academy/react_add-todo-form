@@ -34,7 +34,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleError(true);
     }
 
@@ -42,7 +42,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       setHasUserIdError(true);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
