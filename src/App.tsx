@@ -59,10 +59,12 @@ export const App = () => {
   const handleAddTodos = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!todo.title);
+    const trimmedTitle = todo.title.trim();
+
+    setHasTitleError(!trimmedTitle);
     setHasUserError(!todo.userId);
 
-    if (!todo.userId || !todo.title) {
+    if (!todo.userId || !trimmedTitle) {
       return;
     }
 
@@ -116,9 +118,9 @@ export const App = () => {
               <option value="0" disabled>
                 Choose a user
               </option>
-              {usersFromServer.map((user) => (
-                <option value={user.id} key={user.id}>
-                  {user.name}
+              {usersFromServer.map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name}
                 </option>
               ))}
             </select>
