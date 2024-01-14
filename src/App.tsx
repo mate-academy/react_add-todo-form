@@ -28,11 +28,12 @@ export const App: React.FC = () => {
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
+    const trimmedTitle = title.trim();
 
-    if (title && userId) {
+    if (trimmedTitle && userId) {
       const newTodo = {
         id: Math.max(...updatedTodos.map(todo => todo.id)) + 1,
-        title,
+        title: trimmedTitle,
         completed: false,
         userId: +userId,
         user: getUser(+userId),
