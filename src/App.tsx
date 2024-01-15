@@ -5,7 +5,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 const getUserById = (userId: number) => {
-  return usersFromServer.find((user) => user.id === userId);
+  return usersFromServer?.find((user) => user.id === userId);
 };
 
 const normalizedTodos = todosFromServer.map(todo => ({
@@ -110,7 +110,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todos} users={usersFromServer} />
+        <TodoList todos={todos} />
       </section>
     </div>
   );

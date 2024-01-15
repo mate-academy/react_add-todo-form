@@ -14,12 +14,12 @@ interface User {
 }
 
 interface TodoInfoProps {
-  todo: Todo;
-  users: User[];
+  todo: Todo & {
+    user?: User;
+  };
+  users?: User[];
 }
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todo, users }) => {
-  const user = users.find((u) => u.id === todo.userId);
-
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   return (
     <article
       key={todo.id}
@@ -27,9 +27,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo, users }) => {
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      {user && (
-        <UserInfo userId={todo.userId} user={user} />
-      )}
+      {todo?.user && <UserInfo userId={todo.userId} user={todo?.user} />}
     </article>
   );
 };

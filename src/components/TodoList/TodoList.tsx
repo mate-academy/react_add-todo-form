@@ -7,21 +7,14 @@ interface Todo {
   userId: number;
 }
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
 interface TodoListProps {
   todos: Todo[];
-  users: User[];
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => (
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => (
   <section className="TodoList">
     {todos.map((todo) => (
-      <TodoInfo key={todo.id} todo={todo} users={users} />
+      <TodoInfo key={todo.id} todo={todo} />
     ))}
   </section>
 );
