@@ -1,11 +1,4 @@
-import { TodoInfo } from '../TodoInfo';
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-}
+import { Todo, TodoInfo } from '../TodoInfo';
 
 interface TodoListProps {
   todos: Todo[];

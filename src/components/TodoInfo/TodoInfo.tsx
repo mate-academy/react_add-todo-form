@@ -1,16 +1,10 @@
-import { UserInfo } from '../UserInfo';
+import { User, UserInfo } from '../UserInfo';
 
-interface Todo {
+export interface Todo {
   id: number;
   title: string;
   userId: number;
   completed: boolean;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
 }
 
 interface TodoInfoProps {
@@ -27,7 +21,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      {todo?.user && <UserInfo userId={todo.userId} user={todo?.user} />}
+      {todo?.user && <UserInfo user={todo?.user} />}
     </article>
   );
 };

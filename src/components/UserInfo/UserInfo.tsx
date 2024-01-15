@@ -1,11 +1,10 @@
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
 }
 
 interface UserInfoProps {
-  userId: number;
   user: User;
 }
 
