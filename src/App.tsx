@@ -34,7 +34,7 @@ export const App = () => {
 
   const handleUserIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+e.target.value);
-    setHasTitleError(false);
+    setHasUserError(false);
   };
 
   const largestIdFinder = (allTodos: Todo[]) => {
@@ -85,6 +85,7 @@ export const App = () => {
         onSubmit={handleSubmit}
       >
         <div className="field">
+          <label htmlFor="titleInput">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
@@ -96,6 +97,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User: </label>
           <select
             data-cy="userSelect"
             value={userId}
