@@ -4,6 +4,7 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -15,6 +16,15 @@ export const App = () => {
   const getMaxId = () => {
     return Math.max(...visibleTodos.map(todos => todos.id));
   };
+
+  const findUser = (id: number) => {
+    return usersFromServer.find(user => user.id === id) as User;
+  };
+
+  const todoWithUser = todosFromServer.map(todo => ({
+    ...todo,
+    user: findUser(todo.userId),
+  }));
 
   const handleReset = () => {
     setTitle('');
@@ -109,8 +119,7 @@ export const App = () => {
       </form>
 
       <TodoList
-        visibleTodos={visibleTodos}
-        usersFromServer={usersFromServer}
+        todos={todoWithUser}
       />
     </div>
   );

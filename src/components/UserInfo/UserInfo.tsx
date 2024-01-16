@@ -1,13 +1,13 @@
 import { User } from '../../types/User';
 
 interface Props {
-  todoUser: User;
+  user: User;
 }
 
-export const UserInfo: React.FC<Props> = ({ todoUser }) => {
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${todoUser.email}`}>
-      {todoUser.name}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
     </a>
   );
 };

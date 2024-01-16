@@ -1,29 +1,19 @@
-import { Todo } from '../../types/Todo';
-import { User } from '../../types/User';
+import { TodoWithUser } from '../../types/TodoWithUser';
 import { TodoInfo } from '../TodoInfo';
 
 interface Props {
-  visibleTodos: Todo[]
-  usersFromServer: User[]
+  todos: TodoWithUser[]
 }
 
 export const TodoList: React.FC<Props> = ({
-  visibleTodos,
-  usersFromServer,
+  todos,
 }) => {
-  const findUser = (id: number) => {
-    return usersFromServer.find(user => user.id === id) as User;
-  };
-
   return (
     <section className="TodoList">
-      {visibleTodos.map(todo => {
-        const todoUser = findUser(todo.userId);
-
+      {todos.map(todo => {
         return (
           <TodoInfo
             key={todo.id}
-            todoUser={todoUser}
             todo={todo}
           />
         );
