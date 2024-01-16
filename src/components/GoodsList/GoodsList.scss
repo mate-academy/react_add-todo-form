@@ -1,0 +1,21 @@
+.GoodList {
+  display: grid;
+  row-gap: 8px;
+  padding: 12px 0;
+}
+
+.GoodCard {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 8px;
+
+  background-color: #ddd;
+
+  &__title {
+    font-size: 1.1rem;
+    margin: 0;
+    margin-bottom: 4px;
+  }
+}
