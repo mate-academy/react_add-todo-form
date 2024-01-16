@@ -15,7 +15,7 @@ export const App = () => {
   const [selectedUserError, setSelectedUserError] = useState(false);
 
   const handelTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(!event.target.value.trim());
+    setTitleError(false);
     setNewTitle(event.target.value);
   };
 
@@ -72,8 +72,7 @@ export const App = () => {
             value={newTitle}
             onChange={handelTitle}
           />
-          {titleError && !newTitle
-            && <span className="error">Please enter a title</span>}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -85,11 +84,15 @@ export const App = () => {
             onChange={handleSelectUserId}
           >
             <option value="">Choose a user</option>
-            {usersFromServer.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map((user) => {
+              const { id, name } = user;
+
+              return (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
           {selectedUserError && (
             <span className="error">Please choose a user</span>
