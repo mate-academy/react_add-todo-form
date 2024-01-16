@@ -42,7 +42,9 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
 
     let isError = false;
 
-    if (!title) {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
       setHasTitleError(true);
       isError = true;
     }
@@ -52,7 +54,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
       isError = true;
     }
 
-    if (!title && !userId) {
+    if (!trimmedTitle && !userId) {
       setHasTitleError(true);
       setHasUserIdError(true);
       isError = true;
@@ -64,7 +66,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
 
     const newTodo = {
       id: generateNewId(),
-      title,
+      title: trimmedTitle,
       userId,
       completed: false,
     };
