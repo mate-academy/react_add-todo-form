@@ -21,7 +21,7 @@ export const App = () => {
     return usersFromServer.find(user => user.id === id) as User;
   };
 
-  const todoWithUser = todosFromServer.map(todo => ({
+  const todoWithUser = visibleTodos.map(todo => ({
     ...todo,
     user: findUser(todo.userId),
   }));
@@ -46,7 +46,7 @@ export const App = () => {
     }
 
     if (title.trim() && choosedUser) {
-      setVisibleTodos(currentTodos => [...currentTodos, {
+      setVisibleTodos([...visibleTodos, {
         id: getMaxId() + 1,
         title,
         completed: false,
