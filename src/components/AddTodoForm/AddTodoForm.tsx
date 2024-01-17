@@ -17,7 +17,7 @@ export const AddTodoForm: React.FC<Props> = ({
     title: '',
     completed: false,
     userId: 0,
-    user: undefined,
+    user: null,
   };
 
   const titleRegex = new RegExp(/([^а-щьюяґєії'|^a-z|^\d|^ +])/ig);
