@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
+    if (title.trim() === '') {
       setIsTitleError(true);
     }
 
