@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 
 type Props = {
   onAdd: (newTodo: Todo) => void;
@@ -84,7 +85,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
       noValidate
     >
       <div className="field">
-        <label htmlFor="title">Title:</label>
+        <label htmlFor="title">Title:&nbsp;</label>
         <input
           id="title"
           name="title"
@@ -95,11 +96,16 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
           onChange={handleTitleChange}
           required
         />
-        {hasTitleError && <span className="error">Please enter a title</span>}
+        {hasTitleError
+          && (
+            <span className="error">
+            &nbsp;Please enter a title
+            </span>
+          )}
       </div>
 
       <div className="field">
-        <label htmlFor="user">User:</label>
+        <label htmlFor="user">User:&nbsp;</label>
         <select
           id="user"
           name="userId"
@@ -109,14 +115,19 @@ export const TodoForm: React.FC<Props> = ({ onAdd, generateNewId }) => {
         >
           <option value="0" disabled>Choose a user</option>
 
-          {users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.name}
+          {users.map(({ id, name }: User) => (
+            <option key={id} value={id}>
+              {name}
             </option>
           ))}
         </select>
 
-        {hasUserIdError && <span className="error">Please choose a user</span>}
+        {hasUserIdError
+          && (
+            <span className="error">
+            &nbsp;Please choose a user
+            </span>
+          )}
       </div>
 
       <button type="submit" data-cy="submitButton">
