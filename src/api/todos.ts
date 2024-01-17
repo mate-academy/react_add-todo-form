@@ -1,3 +1,5 @@
+import { ToDo } from '../types/ToDo';
+
 export default [
   {
     id: 1,
@@ -17,4 +19,4 @@ export default [
     completed: false,
     userId: 4,
   },
-];
+] as ToDo[];
