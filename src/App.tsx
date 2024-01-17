@@ -9,8 +9,8 @@ import { User } from './types/User';
 export const App = () => {
   const [title, setTitle] = useState('');
   const [choosedUser, setChoosedUser] = useState(0);
-  const [isValidTitle, setIsValidTitle] = useState(false);
-  const [isValidChoosedUser, setIsValidChoosedUser] = useState(false);
+  const [isNotValidTitle, setIsNotValidTitle] = useState(false);
+  const [isNotValidChoosedUser, setIsNotValidChoosedUser] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState(todosFromServer);
 
   const getMaxId = () => {
@@ -29,20 +29,20 @@ export const App = () => {
   const handleReset = () => {
     setTitle('');
     setChoosedUser(0);
-    setIsValidTitle(false);
-    setIsValidChoosedUser(false);
+    setIsNotValidTitle(false);
+    setIsNotValidChoosedUser(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title.trim()) {
-      setIsValidTitle(true);
+      setIsNotValidTitle(true);
       setTitle('');
     }
 
     if (!choosedUser) {
-      setIsValidChoosedUser(true);
+      setIsNotValidChoosedUser(true);
     }
 
     if (title.trim() && choosedUser) {
@@ -54,6 +54,16 @@ export const App = () => {
       }]);
       handleReset();
     }
+  };
+
+  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsNotValidTitle(false);
+  };
+
+  const onChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setChoosedUser(+event.target.value);
+    setIsNotValidChoosedUser(false);
   };
 
   return (
@@ -69,17 +79,14 @@ export const App = () => {
           <label>
             {'Title: '}
             <input
-              onChange={event => {
-                setTitle(event.target.value);
-                setIsValidTitle(false);
-              }}
+              onChange={event => onChangeTitle(event)}
               value={title}
               placeholder="Enter a title"
               type="text"
               data-cy="titleInput"
             />
           </label>
-          {isValidTitle && (
+          {isNotValidTitle && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -88,10 +95,7 @@ export const App = () => {
           <label>
             {'User: '}
             <select
-              onChange={event => {
-                setChoosedUser(+event.target.value);
-                setIsValidChoosedUser(false);
-              }}
+              onChange={event => onChangeUser(event)}
               data-cy="userSelect"
               defaultValue={0}
               value={choosedUser}
@@ -108,7 +112,7 @@ export const App = () => {
             </select>
           </label>
 
-          {isValidChoosedUser && (
+          {isNotValidChoosedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
