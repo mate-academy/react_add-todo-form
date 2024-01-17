@@ -36,9 +36,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <AddTodoFrom
-        onAdd={addTodo}
-      />
+      <AddTodoFrom onAdd={addTodo} />
 
       <TodoList todos={todos} />
     </div>
