@@ -23,14 +23,13 @@ const prepareList = todosFromServer.map(todo => {
 export const App = () => {
   const [preparedList, setPreparedList] = useState(prepareList);
   const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+
   const [userId, setUserId] = useState(0);
-  const [touched, setTouched] = useState(false);
-  const [isUserSelected, setIsUserSelected] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const titleError = !title && touched;
-
-  const userError = userId === 0 && isUserSelected;
+  // const userError = userId === 0 && isUserSelected;
 
   function getNewTodoId() {
     const currentMax = Math.max(...preparedList.map(todo => todo.id));
@@ -43,18 +42,18 @@ export const App = () => {
 
     if (!title.trim()) {
       setTitle('');
-      setTouched(true);
+      setTitleError(true);
     }
 
     if (userId === 0) {
-      setIsUserSelected(true);
+      setIsUserError(true);
     }
 
     if (!title.trim() || userId === 0) {
       return;
     }
 
-    if (isUserSelected && title.trim()) {
+    if (userId && title.trim()) {
       setPreparedList([
         ...preparedList,
         {
@@ -66,9 +65,8 @@ export const App = () => {
         }]);
       setTitle('');
       setUserId(0);
+      setIsUserError(false);
       setIsCompleted(false);
-      setTouched(false);
-      setIsUserSelected(false);
     }
   }
 
@@ -92,14 +90,15 @@ export const App = () => {
               })}
               placeholder="type here"
               value={title}
-              onChange={event => setTitle(event.target.value)}
-              onBlur={() => setTouched(true)}
-            // required
+              onChange={event => {
+                setTitle(event.target.value);
+                setTitleError(false);
+              }}
             />
             {titleError && (
               <span className="error">
                 {/* eslint-disable-next-line @typescript-eslint/quotes */}
-                {` - type your title, please`}
+                {` Please enter a title`}
               </span>
             )}
           </label>
@@ -111,12 +110,12 @@ export const App = () => {
           <label htmlFor="user-id"> Select user: </label>
           <select
             id="user-id"
+            value={userId}
             data-cy="userSelect"
-            defaultValue={userId}
             required
             onChange={(event) => {
               setUserId(+event.target.value);
-              setIsUserSelected(true);
+              setIsUserError(false);
             }}
           >
             <option value="0" disabled>Choose a user</option>
@@ -125,7 +124,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && (
+          {isUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -138,6 +137,7 @@ export const App = () => {
             <input
               type="checkbox"
               onChange={() => setIsCompleted(!isCompleted)}
+              checked={isCompleted}
             />
           </label>
         </div>
