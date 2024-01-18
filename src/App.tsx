@@ -5,17 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-
-function preperedTodos(todos: Todo[]): Todo[] {
-  return todos.map(todo => {
-    const user = usersFromServer.find(({ id }) => id === todo.userId);
-
-    return {
-      ...todo,
-      user,
-    };
-  });
-}
+import { preperedTodos } from './services/preparedTodos';
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -25,32 +15,40 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const preparedTodos: Todo[] = preperedTodos(todos);
 
+  const resetFormFileds = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
+  const getTodo = () => {
+    const todoId = Math.max(...todos.map(({ id }) => id)) + 1;
+
+    return {
+      id: todoId,
+      title,
+      completed: false,
+      userId,
+    };
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title.trim() === '') {
+    if (!title.trim()) {
       setIsTitleError(true);
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setIsUserError(true);
     }
 
-    if (title !== '' && userId !== 0) {
-      const todoId = Math.max(...todos.map(({ id }) => id)) + 1;
-
+    if (title.trim() && userId) {
       setTodos([
         ...todos,
-        {
-          id: todoId,
-          title,
-          completed: false,
-          userId,
-        },
+        getTodo(),
       ]);
 
-      setTitle('');
-      setUserId(0);
+      resetFormFileds();
     }
   };
 
