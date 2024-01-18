@@ -3,10 +3,10 @@ import { TodoInfo } from '../TodoInfo';
 import { TodoWithUser } from '../../types/TodoWithUser';
 
 type Props = {
-  todosWithUser: TodoWithUser[],
+  todos: TodoWithUser[],
 };
 
-export const TodoList: React.FC<Props> = ({ todosWithUser }) => {
+export const TodoList: React.FC<Props> = ({ todos: todosWithUser }) => {
   return (
     <section className="TodoList">
       {todosWithUser

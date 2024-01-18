@@ -100,7 +100,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todosWithUser={visibleTodos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
