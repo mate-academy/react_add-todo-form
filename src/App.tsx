@@ -1,21 +1,11 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useState } from 'react';
 import './App.scss';
-
-import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
-import todosFromServer from './api/todos';
-import { User } from './types/Users';
 import { TodoWithUser } from './types/TodoWithUser';
+import { findUserById, getPreparedData } from './utils';
 
-const getPreparedData = (todos: Todo[], users: User[]): TodoWithUser[] => {
-  return todos.map(todo => {
-    const user = users.find(u => u.id === todo.userId) || null;
-
-    return { ...todo, user };
-  });
-};
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>(getPreparedData(
@@ -37,7 +27,7 @@ export const App: React.FC = () => {
       id,
       userId: selectedUserId,
       completed: false,
-      user: usersFromServer.find(u => u.id === selectedUserId) || null,
+      user: findUserById(usersFromServer, selectedUserId),
     };
 
     return todo;
@@ -61,7 +51,6 @@ export const App: React.FC = () => {
     }
   };
 
-  // eslint-disable-next-line max-len
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitleError(true);
