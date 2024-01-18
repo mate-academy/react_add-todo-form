@@ -5,9 +5,9 @@ import todos from '../../api/todos';
 import { getUserById } from '../../services/GetUserById';
 import usersFromServer from '../../api/users';
 
-type Props = {
+interface Props {
   onAdd: (newValue: Todo) => void;
-};
+}
 
 export const Form: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
@@ -20,8 +20,13 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     if (!title.trim() || !userId) {
-      !title.trim() && setIsValidTitle(true);
-      !userId && setIsValidUser(true);
+      if (!title.trim()) {
+        setIsValidTitle(true);
+      }
+
+      if (!userId) {
+        setIsValidUser(true);
+      }
 
       return;
     }
@@ -86,9 +91,9 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {usersFromServer.map((u) => (
-            <option key={u.id} value={u.id}>
-              {u.name}
+          {usersFromServer.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
             </option>
           ))}
         </select>
