@@ -69,7 +69,7 @@ export const Form: React.FC<Props> = ({ setNewPosts, todos }) => {
       setHasUserIdError(true);
     }
 
-    if (!newPost.title || newPost.userId === 0) {
+    if (!newPost.title.trim() || newPost.userId === 0) {
       return;
     }
 
