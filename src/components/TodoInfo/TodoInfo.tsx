@@ -1,22 +1,7 @@
+import React from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
-
-type PrepareTodo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number
-  user?: {
-    id: number,
-    name: string,
-    username: string,
-    email: string
-  },
-};
-
-type Props = {
-  todo: PrepareTodo,
-};
+import { Props } from '../types';
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (

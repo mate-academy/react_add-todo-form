@@ -1,17 +1,6 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-
-type PrepareTodo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number
-  user?: {
-    id: number,
-    name: string,
-    username: string,
-    email: string
-  },
-};
+import { PrepareTodo } from '../types';
 
 type Props = {
   todos: PrepareTodo[],

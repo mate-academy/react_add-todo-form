@@ -1,21 +1,9 @@
 import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-type PrepareTodo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number
-  user?: {
-    id: number,
-    name: string,
-    username: string,
-    email: string
-  },
-};
+import { PrepareTodo } from './components/types';
 
 type TodoFunc = () => PrepareTodo[];
 
@@ -50,6 +38,13 @@ export const App = () => {
     setHasTitleError(false);
   };
 
+  const reset = () => {
+    setUserId(0);
+    setTitle('');
+  };
+
+  const getUser = () => usersFromServer.find((user) => user.id === userId);
+
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setHasTitleError(!title);
@@ -64,11 +59,10 @@ export const App = () => {
         title,
         completed: false,
         userId,
-        user: usersFromServer.find((user) => user.id === userId),
+        user: getUser(),
       }]);
 
-      setUserId(0);
-      setTitle('');
+      reset();
     }
 
     if (hasUserIdError) {
