@@ -33,8 +33,11 @@ export const App: React.FC = () => {
       return;
     }
 
+    const maxId = todos
+      .reduce((max, todo) => (todo.id > max ? todo.id : max), 0);
+
     const newTodo: Todo = {
-      id: todos.length + 1,
+      id: maxId + 1,
       title,
       completed: false,
       userId: userChose,
