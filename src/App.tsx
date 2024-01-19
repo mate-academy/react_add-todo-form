@@ -20,33 +20,39 @@ export const App = () => {
   const [titleTouched, setTitleTouched] = useState(false);
   const hasTitleError = titleTouched && !title;
 
-  const [user, setUser] = useState('0');
+  const [selectedUser, setSelectedUser] = useState('0');
   const [userTouched, setUserTouched] = useState(false);
-  const hasUserError = userTouched && user === '0';
+  const hasUserError = userTouched && selectedUser === '0';
 
   const clear = () => {
     setTitle('');
-    setUser('0');
+    setSelectedUser('0');
     setTitleTouched(false);
     setUserTouched(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-    if (!title || user === '0') {
+    if (!title || selectedUser === '0') {
       setTitleTouched(true);
       setUserTouched(true);
 
       return;
     }
 
+    function giveMaxId(arrOfSomething: TodoWithUser[]) {
+      const maxId = Math.max(...arrOfSomething.map(todo => todo.id)) + 1;
+
+      return maxId;
+    }
+
     const newTodo: TodoWithUser = {
-      id: Math.max(...visibleTodos.map(todo => todo.id)) + 1,
+      id: giveMaxId(visibleTodos),
       title,
       completed: false,
-      user: usersFromServer.find(u => (u.id === +user)) as User,
-      userId: +user,
+      user: usersFromServer.find(user => (user.id === +selectedUser)) as User,
+      userId: +selectedUser,
     };
 
     setVisibleTodos([
@@ -62,16 +68,13 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        action="/api/todos"
-        method="POST"
         onSubmit={handleSubmit}
       >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
-            onChange={e => setTitle(e.target.value)}
-            onBlur={() => setTitleTouched(true)}
+            onChange={event => setTitle(event.target.value)}
             placeholder="Enter a title"
             value={title}
           />
@@ -82,13 +85,12 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            onChange={e => setUser(e.target.value)}
-            value={user}
-            onBlur={() => setUserTouched(true)}
+            onChange={event => setSelectedUser(event.target.value)}
+            value={selectedUser}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(u => (
-              <option value={u.id}>{u.name}</option>
+            {usersFromServer.map(user => (
+              <option value={user.id}>{user.name}</option>
             ))}
           </select>
 

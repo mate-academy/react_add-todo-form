@@ -10,8 +10,9 @@ export const TodoList: React.FC<Props> = ({ todos: todosWithUser }) => {
   return (
     <section className="TodoList">
       {todosWithUser
-        // eslint-disable-next-line max-len
-        .map(todoWithUser => <TodoInfo todoWithUser={todoWithUser} key={todoWithUser.id} />)}
+        .map(todoWithUser => (
+          <TodoInfo todoWithUser={todoWithUser} key={todoWithUser.id} />
+        ))}
     </section>
   );
 };
