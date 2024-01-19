@@ -34,7 +34,9 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || selectedUser === '0') {
+    setTitle(title.trim());
+
+    if (!title.trim() || selectedUser === '0') {
       setTitleTouched(true);
       setUserTouched(true);
 
