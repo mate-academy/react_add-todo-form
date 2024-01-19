@@ -18,7 +18,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={todo} />);
+    mount(<TodoInfo todoWithUser={todo} />);
 
     cy.get('.TodoInfo__title').should('have.text', 'Learn HTML');
   });
@@ -39,7 +39,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={completedTodo} />);
+    mount(<TodoInfo todoWithUser={completedTodo} />);
 
     cy.get('.TodoInfo').should('have.class', 'TodoInfo--completed');
   });
@@ -60,7 +60,7 @@ describe('TodoInfo', () => {
       user: user2,
     };
 
-    mount(<TodoInfo todo={completedTodo} />);
+    mount(<TodoInfo todoWithUser={completedTodo} />);
 
     cy.get('.TodoInfo').should('not.have.class', 'TodoInfo--completed');
   });
@@ -81,7 +81,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={completedTodo} />);
+    mount(<TodoInfo todoWithUser={completedTodo} />);
 
     cy.get('.UserInfo').should('have.text', 'Leanne Graham');
   });
@@ -102,7 +102,7 @@ describe('TodoInfo', () => {
       user: user3,
     };
 
-    mount(<TodoInfo todo={todo48} />);
+    mount(<TodoInfo todoWithUser={todo48} />);
 
     cy.get('.TodoInfo__title')
       .should('have.text', 'sit reprehenderit omnis quia');
