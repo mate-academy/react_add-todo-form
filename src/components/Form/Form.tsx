@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { Todo } from '../../types/todo';
+import { getUserById } from '../../services/getUsers';
 
 type Props = {
   setNewPosts: (todo: Todo) => void;
   todos: Todo[],
 };
-
-function getUserById(userId:number) {
-  return usersFromServer.find(user => user.id === userId)
-      || null;
-}
 
 function getNewId(todoItems: Todo[]) {
   const newId = Math.max(...todoItems.map(todo => todo.id));
@@ -65,7 +61,7 @@ export const Form: React.FC<Props> = ({ setNewPosts, todos }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newPost.title) {
+    if (!newPost.title.trim()) {
       setHasTitleError(true);
     }
 
