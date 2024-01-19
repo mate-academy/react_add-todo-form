@@ -1,27 +1,16 @@
 import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../types';
 
-interface TodoListProps {
-  todos: {
-    id: number;
-    title: string;
-    completed: boolean;
-    user?: {
-      name: string
-      email: string
-    }
-  }[];
+interface Prop {
+  todos: Todo[]
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos }) => (
+export const TodoList: React.FC<Prop> = ({ todos }) => (
   <section className="TodoList">
-    {todos.map((item) => (
+    {todos.map((todo) => (
       <TodoInfo
-        key={item.id}
-        title={item.title}
-        userName={item.user?.name || ''}
-        userEmail={item.user?.email || ''}
-        completed={item.completed}
-        id={item.id}
+        key={todo.id}
+        todo={todo}
       />
     ))}
   </section>

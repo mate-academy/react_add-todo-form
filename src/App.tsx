@@ -1,28 +1,15 @@
 import { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
+import { Todo } from './components/types';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  user?: User;
-  completed: boolean;
-}
-
-const initialProducts = todosFromServer.map((todo) => {
+const initialProducts: Todo[] = todosFromServer.map((todo) => {
   const user = usersFromServer.find(u => u.id === todo.userId);
 
-  return { ...todo, user };
+  return { ...todo, user } as Todo;
 });
 
 export const App: React.FC = () => {
