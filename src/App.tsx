@@ -14,20 +14,20 @@ const initialProducts: Todo[] = todosFromServer.map((todo) => {
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState<string>('');
-  const [userChose, setUserChose] = useState<number>(0);
+  const [chosenUser, setСhosenUser] = useState<number>(0);
   const [todos, setTodos] = useState<Todo[]>([...initialProducts]);
-  const [submitted, setSubmitted] = useState(false);
+  const [isFormNotValid, setIsFormNotValid] = useState(false);
 
   const handlerOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.trim() === '' || userChose === 0) {
-      setSubmitted(true);
+    if (title.trim() === '' || chosenUser === 0) {
+      setIsFormNotValid(true);
 
       return;
     }
 
-    const selectedUser = usersFromServer.find((user) => user.id === userChose);
+    const selectedUser = usersFromServer.find((user) => user.id === chosenUser);
 
     if (!selectedUser) {
       return;
@@ -40,13 +40,13 @@ export const App: React.FC = () => {
       id: maxId + 1,
       title,
       completed: false,
-      userId: userChose,
+      userId: chosenUser,
       user: selectedUser,
     };
 
     setTodos((prevTodos) => [...prevTodos, newTodo]);
     setTitle('');
-    setUserChose(0);
+    setСhosenUser(0);
   };
 
   return (
@@ -67,15 +67,15 @@ export const App: React.FC = () => {
             onChange={event => setTitle(event.target.value)}
           />
 
-          {submitted && title.trim() === ''
+          {isFormNotValid && title.trim() === ''
             && (<span className="error">Please enter a title</span>)}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
-            value={userChose}
-            onChange={(e) => setUserChose(parseInt(e.target.value, 10))}
+            value={chosenUser}
+            onChange={(e) => setСhosenUser(+e.target.value)}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(item => (
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {submitted && userChose === 0
+          {isFormNotValid && chosenUser === 0
             && (<span className="error">Please choose a user</span>)}
         </div>
 
