@@ -1,26 +1,23 @@
-export interface User {
+export type User = {
   id: number;
   name: string;
   username: string;
   email: string;
-}
-
-export interface Todo {
+};
+export type ToDoWithUser = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user: User | undefined;
-}
-
-export interface TodoListProps {
-  todoList: Todo[];
-}
-
+  user: User;
+};
+export type ToDosWithUser = ToDoWithUser[];
 export interface UserProps {
-  userInfo: User;
+  user: User
 }
-
-export interface TodoInfoProps {
-  todoInfo: Todo
+export interface ToDoWithUserProps {
+  todo: ToDoWithUser
+}
+export interface ToDosWithUserProps {
+  todos: ToDosWithUser
 }

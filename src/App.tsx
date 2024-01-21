@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-console */
 import { useState } from 'react';
 import './App.scss';
@@ -5,16 +6,17 @@ import { TodoList } from './components/TodoList/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './components/types';
+import { ToDoWithUser } from './components/types';
 
 export const App = () => {
   const todosWithUsers = todosFromServer.map(todo => {
-    const user = usersFromServer.find(us => us.id === todo.userId) || undefined;
+    const user = usersFromServer[usersFromServer
+      .map(us => us.id).indexOf(todo.userId)];
 
     return { ...todo, user };
   });
 
-  const [todoList, setTodoList] = useState<Todo[]>(todosWithUsers);
+  const [todoList, setTodoList] = useState<ToDoWithUser[]>(todosWithUsers);
   const [title, setTitle] = useState<string>('');
   const [select, setSelect] = useState('');
   const [tochTitle, setTochTitle] = useState(false);
@@ -27,13 +29,14 @@ export const App = () => {
     setTochUserSelect(true);
 
     if (title && select) {
-      const newTodoUser = usersFromServer.find(user => user.name === select);
+      const newTodoUser = usersFromServer[usersFromServer
+        .map(user => user.name).indexOf(select)];
 
       const newTodo = {
         id: Math.max(...todoList.map(post => Number(post.id))) + 1,
-        title: title.trim(),
+        title: title,
         completed: false,
-        userId: newTodoUser?.id || 0,
+        userId: newTodoUser.id,
         user: newTodoUser,
       };
 
@@ -89,7 +92,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todoList={todoList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };

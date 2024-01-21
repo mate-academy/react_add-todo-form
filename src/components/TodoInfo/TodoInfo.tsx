@@ -1,15 +1,17 @@
 import { UserInfo } from '../UserInfo/UserInfo';
-import { TodoInfoProps } from '../types';
+import { ToDoWithUserProps } from '../types';
 
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todoInfo }) => {
+export const TodoInfo: React.FC<ToDoWithUserProps> = (
+  { todo },
+) => {
   return (
     <div>
-      <article data-id={todoInfo.id} className={`TodoInfo ${todoInfo.completed ? 'TodoInfo--completed' : null}`}>
+      <article data-id={todo.id} className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : null}`}>
         <h2 className="TodoInfo__title">
-          {todoInfo.title}
+          {todo.title}
         </h2>
 
-        <UserInfo userInfo={todoInfo.user} />
+        {todo.user && <UserInfo user={todo.user} />}
       </article>
     </div>
   );
