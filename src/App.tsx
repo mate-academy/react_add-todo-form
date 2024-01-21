@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User } from './types/User';
+import { findUser, getId } from './Utils/Functions';
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -12,18 +12,10 @@ export const App = () => {
   const [isValidUser, setIsValidUser] = useState(false);
   const [targetUser, setTargetUser] = useState(0);
 
-  const findUser = (id: number) => {
-    return usersFromServer.find(user => user.id === id) as User;
-  };
-
-  const todoAndUser = visibleTodos.map(todo => ({
+  const todosWithUser = visibleTodos.map(todo => ({
     ...todo,
-    user: findUser(todo.userId),
+    user: findUser(todo.userId, usersFromServer),
   }));
-
-  const getId = () => {
-    return Math.max(...visibleTodos.map(todo => todo.id));
-  };
 
   const reset = () => {
     setTitle('');
@@ -48,7 +40,7 @@ export const App = () => {
       setVisibleTodos(
         [...visibleTodos,
           {
-            id: getId() + 1,
+            id: getId(visibleTodos) + 1,
             title,
             completed: false,
             userId: targetUser,
@@ -128,7 +120,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todoAndUser} />
+      <TodoList todos={todosWithUser} />
     </div>
   );
 };
