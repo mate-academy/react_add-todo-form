@@ -16,8 +16,6 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  // const [count, setCount] = useState(0);
-  // const [id, setId] = useState(0);
   const [completed, setCompleted] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +74,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
           data-cy="titleInput"
           id="title"
           placeholder="Enter a title"
-          value={title}
+          value={title.trim()}
           onChange={handleTitleChange}
         />
         {hasTitleError && (
@@ -93,7 +91,6 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
           value={userId}
           required
           onChange={handleUserIdChange}
-          // onBlur={() => setHasUserIdError(false)}
         >
           <option value="0" disabled>Choose a user</option>
           {usersFromServer.map(user => (
