@@ -12,7 +12,7 @@ interface Props {
 
 export const TodoInfo: React.FC<Props> = (props) => {
   const { todo } = props;
-  const user: User | undefined = getUserById(usersFromServer, todo.userId);
+  const user: User | null = getUserById(usersFromServer, todo.userId);
 
   return (
     <article

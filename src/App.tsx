@@ -6,7 +6,8 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 import { AddTodoForm } from './components/AddTodoForm/AddTodoForm';
-import { Todo, getLatestTodoId } from './types/Todo';
+import { Todo } from './types/Todo';
+import { getLatestTodoId } from './utils/helpfulFunctions';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);

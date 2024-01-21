@@ -5,6 +5,7 @@ export interface User {
   email: string;
 }
 
-export function getUserById(array: User[], id: number): User | undefined {
-  return array.find(user => user.id === id);
+export function getUserById(array: User[], id: number): User | null {
+  return array.find(user => user.id === id)
+    || null;
 }

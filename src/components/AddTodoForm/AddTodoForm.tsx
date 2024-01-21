@@ -9,13 +9,13 @@ interface Props {
 export const AddTodoForm = (props: Props) => {
   const { users, addTodo } = props;
 
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [newTitle, setNewTitle] = useState('');
 
   const [showErrors, setShowErrors] = useState(false);
 
   function resetForm() {
-    setSelectedUser(0);
+    setSelectedUser(null);
     setNewTitle('');
   }
 
@@ -64,7 +64,7 @@ export const AddTodoForm = (props: Props) => {
             <select
               name="userSelect"
               data-cy="userSelect"
-              value={selectedUser}
+              value={selectedUser !== null ? selectedUser : 0}
               onChange={(event) => setSelectedUser(+event.target.value)}
             >
               <option value="0" key={0} disabled>Choose a user</option>
