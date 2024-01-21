@@ -6,7 +6,7 @@ import { Todo } from './components/types';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const initialProducts: Todo[] = todosFromServer.map((todo) => {
+const initialTodo: Todo[] = todosFromServer.map((todo) => {
   const user = usersFromServer.find(u => u.id === todo.userId);
 
   return { ...todo, user } as Todo;
@@ -15,13 +15,13 @@ const initialProducts: Todo[] = todosFromServer.map((todo) => {
 export const App: React.FC = () => {
   const [title, setTitle] = useState<string>('');
   const [chosenUser, setСhosenUser] = useState<number>(0);
-  const [todos, setTodos] = useState<Todo[]>([...initialProducts]);
+  const [todos, setTodos] = useState<Todo[]>([...initialTodo]);
   const [isFormNotValid, setIsFormNotValid] = useState(false);
 
   const handlerOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.trim() === '' || chosenUser === 0) {
+    if (!title.trim() || !chosenUser) {
       setIsFormNotValid(true);
 
       return;
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
             onChange={event => setTitle(event.target.value)}
           />
 
-          {isFormNotValid && title.trim() === ''
+          {isFormNotValid && !title.trim()
             && (<span className="error">Please enter a title</span>)}
         </div>
 
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {isFormNotValid && chosenUser === 0
+          {isFormNotValid && !chosenUser
             && (<span className="error">Please choose a user</span>)}
         </div>
 
