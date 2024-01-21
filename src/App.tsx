@@ -34,19 +34,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
-      setHasTitleError(true);
-    } else {
-      setHasTitleError(false);
-    }
+    setHasTitleError(!title.trim());
+    setHasUserIdError(!userId);
 
-    if (!userId) {
-      setHasUserIdError(true);
-    } else {
-      setHasUserIdError(false);
-    }
-
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
