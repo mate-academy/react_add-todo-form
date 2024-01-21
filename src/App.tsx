@@ -41,9 +41,9 @@ export const App = () => {
     setHasSelectUserError(false);
   };
 
-  const todoId = (todosArr:Todo[]) => {
+  const todoId = (todoList:Todo[]) => {
     const maxId = Math.max(
-      ...todosArr.map(todo => todo.id),
+      ...todoList.map(todo => todo.id),
     );
 
     return maxId + 1;
@@ -124,7 +124,6 @@ export const App = () => {
 
       <TodoList
         todos={defaultTodos}
-        // users={usersFromServer}
       />
     </div>
   );

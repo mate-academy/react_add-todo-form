@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-// import { UserInfo } from '../UserInfo';
 import React from 'react';
 import { TodowithUser } from '../types';
 import { UserInfo } from '../UserInfo';

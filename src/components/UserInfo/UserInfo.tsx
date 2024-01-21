@@ -2,7 +2,7 @@ import React from 'react';
 import { TodowithUser } from '../types';
 
 type Props = {
-  user: TodowithUser['user']; // User
+  user: TodowithUser['user'];
 };
 
 export const UserInfo:React.FC<Props> = ({ user }) => {

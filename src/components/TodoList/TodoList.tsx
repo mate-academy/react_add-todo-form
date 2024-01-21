@@ -4,7 +4,6 @@ import { TodoInfo } from '../TodoInfo';
 
 type Props = {
   todos: TodowithUser[];
-  // users: User[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
@@ -14,7 +13,6 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
         <TodoInfo
           key={todo.id}
           todo={todo}
-          // user={todo}
         />
       ))}
 
