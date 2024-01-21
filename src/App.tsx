@@ -33,7 +33,6 @@ export const App: React.FC = () => {
 
     if (!title.trim()) {
       setTitleError(true);
-      setTitle('');
     }
 
     if (!currentUser) {
@@ -41,10 +40,10 @@ export const App: React.FC = () => {
     }
 
     if (title.trim() && currentUser) {
-      setTodos([
-        ...todos,
+      setTodos(prevTodos => [
+        ...prevTodos,
         {
-          id: newTodoId(todos),
+          id: newTodoId(prevTodos),
           title,
           completed: false,
           userId: currentUser,
@@ -81,7 +80,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={e => handleChangeTitle(e)}
+            onChange={handleChangeTitle}
           />
           {titleError && (
             <span className="error">Please enter a title</span>
@@ -95,7 +94,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             defaultValue={0}
             value={currentUser}
-            onChange={(e) => handleChangeUser(e)}
+            onChange={handleChangeUser}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (
