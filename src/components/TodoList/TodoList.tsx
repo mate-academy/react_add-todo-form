@@ -1,7 +1,7 @@
 import { TodoWUser } from '../../types/TodoWUser';
 import { TodoInfo } from '../TodoInfo';
 
-export type Props = {
+type Props = {
   todos: TodoWUser[];
 };
 

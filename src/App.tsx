@@ -4,23 +4,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { TodoWUser } from './types/TodoWUser';
-
-function preparedTodos(todos: TodoWUser[]): TodoWUser[] {
-  return todos.map(todo => {
-    const user = usersFromServer.find((u) => u.id === todo.userId);
-
-    return {
-      ...todo,
-      user,
-    };
-  });
-}
-
-function getMaxTodoId(todos: TodoWUser[]) {
-  const ids = todos.map(todo => todo.id);
-
-  return Math.max(...ids, 0);
-}
+import { preparedTodos } from './general/preparedTodos';
+import { getMaxTodoId } from './general/getMaxId';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
@@ -31,6 +16,13 @@ export const App = () => {
 
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
+
+  function reset() {
+    setTitle('');
+    setUserId(0);
+    setTitleError(false);
+    setUserIdError(false);
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -56,9 +48,18 @@ export const App = () => {
 
     setTodos(current => [...current, newTodo]);
 
-    setTitle('');
-    setUserId(0);
+    reset();
+  }
+
+  function handleTitleInput(event: React.FormEvent<HTMLInputElement>) {
+    event.preventDefault();
+
+    setTitle(event.currentTarget.value);
     setTitleError(false);
+  }
+
+  function handleUserId(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUserId(+event.target.value);
     setUserIdError(false);
   }
 
@@ -78,10 +79,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleInput}
           />
           {titleError && (
             <span className="error">Please enter a title</span>
@@ -94,10 +92,7 @@ export const App = () => {
             data-cy="userSelect"
             id="user"
             value={userId}
-            onChange={(event) => {
-              setUserId(+event.target.value);
-              setUserIdError(false);
-            }}
+            onChange={handleUserId}
           >
             <option value="0" disabled>Choose a user</option>
             {usersFromServer.map(user => (

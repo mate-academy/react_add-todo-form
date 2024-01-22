@@ -1,6 +1,6 @@
 import { User } from '../../types/User';
 
-export type Props = {
+type Props = {
   user: User;
 };
 

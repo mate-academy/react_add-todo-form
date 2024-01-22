@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { TodoWUser } from '../../types/TodoWUser';
 import { UserInfo } from '../UserInfo';
 
-export type Props = {
+type Props = {
   todo: TodoWUser;
 };
 
