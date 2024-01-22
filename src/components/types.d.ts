@@ -4,6 +4,7 @@ export type User = {
   username: string;
   email: string;
 };
+
 export type ToDoWithUser = {
   id: number;
   title: string;
@@ -11,13 +12,17 @@ export type ToDoWithUser = {
   userId: number;
   user: User;
 };
+
 export type ToDosWithUser = ToDoWithUser[];
+
 export interface UserProps {
   user: User
 }
+
 export interface ToDoWithUserProps {
   todo: ToDoWithUser
 }
+
 export interface ToDosWithUserProps {
   todos: ToDosWithUser
 }

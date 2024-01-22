@@ -1,5 +1,3 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable no-console */
 import { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList/TodoList';
@@ -11,7 +9,8 @@ import { ToDoWithUser } from './components/types';
 export const App = () => {
   const todosWithUsers = todosFromServer.map(todo => {
     const user = usersFromServer[usersFromServer
-      .map(us => us.id).indexOf(todo.userId)];
+      .map(userFromServer => userFromServer.id)
+      .indexOf(todo.userId)];
 
     return { ...todo, user };
   });
@@ -19,14 +18,14 @@ export const App = () => {
   const [todoList, setTodoList] = useState<ToDoWithUser[]>(todosWithUsers);
   const [title, setTitle] = useState<string>('');
   const [select, setSelect] = useState('');
-  const [tochTitle, setTochTitle] = useState(false);
-  const [tochUserSelect, setTochUserSelect] = useState(false);
+  const [touch, setTouch] = useState(false);
+  const [touchUserSelect, setTouchUserSelect] = useState(false);
 
   function addTodo(event: React.FormEvent) {
     event.preventDefault();
 
-    setTochTitle(true);
-    setTochUserSelect(true);
+    setTouch(true);
+    setTouchUserSelect(true);
 
     if (title && select) {
       const newTodoUser = usersFromServer[usersFromServer
@@ -34,7 +33,7 @@ export const App = () => {
 
       const newTodo = {
         id: Math.max(...todoList.map(post => Number(post.id))) + 1,
-        title: title,
+        title,
         completed: false,
         userId: newTodoUser.id,
         user: newTodoUser,
@@ -44,8 +43,8 @@ export const App = () => {
 
       setTitle('');
       setSelect('');
-      setTochTitle(false);
-      setTochUserSelect(false);
+      setTouch(false);
+      setTouchUserSelect(false);
     }
   }
 
@@ -62,11 +61,11 @@ export const App = () => {
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setTochTitle(false);
+              setTouch(false);
             }}
           />
-          {(!title && tochTitle)
-          && <span className="error">Please enter a title</span>}
+          {(!title && touch)
+            && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -83,8 +82,8 @@ export const App = () => {
             ))}
           </select>
 
-          {(!select && tochUserSelect)
-          && <span className="error">Please choose a user</span>}
+          {(!select && touchUserSelect)
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">

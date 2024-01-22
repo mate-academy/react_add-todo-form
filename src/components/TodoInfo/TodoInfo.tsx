@@ -1,18 +1,27 @@
+import classNames from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { ToDoWithUserProps } from '../types';
 
 export const TodoInfo: React.FC<ToDoWithUserProps> = (
   { todo },
 ) => {
-  return (
-    <div>
-      <article data-id={todo.id} className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : null}`}>
-        <h2 className="TodoInfo__title">
-          {todo.title}
-        </h2>
+  const {
+    id,
+    completed,
+    title,
+    user,
+  } = todo;
 
-        {todo.user && <UserInfo user={todo.user} />}
-      </article>
-    </div>
+  return (
+    <article
+      data-id={id}
+      className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
+    >
+      <h2 className="TodoInfo__title">
+        {title}
+      </h2>
+
+      {user && <UserInfo user={user} />}
+    </article>
   );
 };
