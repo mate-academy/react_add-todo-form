@@ -14,13 +14,13 @@ const initialTodos: Todos = todosFromServer.map((todo) => ({
 }));
 
 export const App: React.FC = () => {
-  const [title, setTitle] = useState<string>('');
-  const [hasTitleIdError, setHasTitleError] = useState<boolean>(false);
+  const [title, setTitle] = useState('');
+  const [hasTitleIdError, setHasTitleError] = useState(false);
 
-  const [userId, setUserId] = useState<number>(0);
-  const [hasUserIdError, setHasUserIdError] = useState<boolean>(false);
+  const [userId, setUserId] = useState(0);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [todos, setTodos] = useState<Todos>(initialTodos);
+  const [todos, setTodos] = useState(initialTodos);
 
   function handleReset() {
     setTitle('');
@@ -71,23 +71,22 @@ export const App: React.FC = () => {
         onSubmit={handleSubmit}
         onReset={handleReset}
       >
-        <div className="field">
-          <label htmlFor="titleInput">Title:</label>
 
-          <input
-            type="text"
-            id="titleInput"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={title}
-            onChange={handleTitleChange}
-          />
+        <label htmlFor="titleInput">Title:</label>
 
-          {hasTitleIdError
-          && <span className="error">Please enter a title</span>}
-        </div>
+        <input
+          type="text"
+          id="titleInput"
+          data-cy="titleInput"
+          placeholder="Enter a title"
+          value={title}
+          onChange={handleTitleChange}
+        />
 
-        <div className="field">
+        {hasTitleIdError
+        && <span className="error">Please enter a title</span>}
+
+        <div>
           <label htmlFor="UserSelect">User:</label>
           <select
             id="userSelect"
