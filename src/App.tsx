@@ -44,24 +44,36 @@ export const App = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (title.trim() && userId) {
-      addTodo({
-        id: 0,
-        title,
-        completed: false,
-        userId,
-        user: getUserById(userId),
-      });
-
+    if (!title.trim()) {
+      setHasTitleError(!title.trim());
       setTitle('');
-      setUserId(0);
+
+      return;
     }
+
+    if (!title || !userId) {
+      return;
+    }
+
+    addTodo({
+      id: 0,
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId),
+    });
+
+    reset();
   };
 
   return (
