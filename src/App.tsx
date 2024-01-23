@@ -128,7 +128,9 @@ export const App = () => {
           </div>
 
           {hasTitleError && (
-            <p className="help is-danger">Please enter a title</p>
+            <p className="error help is-danger">
+              Please enter a title
+            </p>
           )}
         </div>
 
@@ -158,7 +160,9 @@ export const App = () => {
               </select>
 
               {hasUserIdError && (
-                <span className="help is-danger">Please choose a user</span>
+                <span className="error help is-danger">
+                  Please choose a user
+                </span>
               )}
             </div>
 
