@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { findUser, getId } from './Utils/Functions';
+import { findUser } from './Services/findUserFunction';
+import { getId } from './Services/getIdFunction';
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -88,18 +89,22 @@ export const App = () => {
         </div>
 
         <div className="field">
+
           <label htmlFor="userPick">
             User:&nbsp;
           </label>
+
           <select
             data-cy="userSelect"
             defaultValue={0}
             value={targetUser}
             onChange={event => changeUser(event)}
           >
+
             <option value="0" disabled>
               Choose a user
             </option>
+
             {usersFromServer.map(user => (
               <option
                 value={user.id}
