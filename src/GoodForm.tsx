@@ -4,14 +4,15 @@ import { Good } from './types/Good';
 import { getColorById, colors } from './api';
 
 type Props = {
-  onSubmit: (good: Good) => void,
+  onSubmit: (good: Good) => void;
+  good?: Good;
 };
 
-export const GoodForm = ({ onSubmit }: Props) => {
-  const [newGoodName, setNewGoodName] = useState('');
+export const GoodForm = ({ onSubmit, good }: Props) => {
+  const [newGoodName, setNewGoodName] = useState(good?.name || '');
   const [nameError, setNameError] = useState('');
 
-  const [selectedColorId, setSelectedColorId] = useState(0);
+  const [selectedColorId, setSelectedColorId] = useState(good?.colorId || 0);
   const [colorIdError, setColorIdError] = useState('');
 
   function handleSubmit(event: React.FormEvent) {
@@ -30,7 +31,7 @@ export const GoodForm = ({ onSubmit }: Props) => {
     }
 
     const newGood: Good = {
-      id: 0,
+      id: good?.id || 0,
       name: newGoodName,
       colorId: selectedColorId,
       color: getColorById(selectedColorId),

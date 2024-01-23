@@ -18,19 +18,29 @@ function getMaxGoodId(goods: Good[]) {
   return Math.max(...ids, 0);
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+function debounce(callback: Function, delay = 1000) {
+  let timerId = 0;
+
+  return (...args: any[]) => {
+    window.clearTimeout(timerId);
+    timerId = window.setTimeout(callback, delay, ...args);
+  };
+}
+
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
   const [goods, setGoods] = useState<Good[]>(initialGoods);
 
+  const applyQuery = useCallback(
+    debounce(setAppliedQuery, 1000),
+    [],
+  );
+
   const deleteGood = (goodId: number) => {
-    setGoods(goods.filter(good => good.id !== goodId));
+    setGoods(current => current.filter(good => good.id !== goodId));
   };
-
-  const ref = useRef(deleteGood); // { current: #f1 }
-
-  console.log(ref.current === deleteGood);
-  ref.current = deleteGood;
 
   function addGood(good: Good) {
     setGoods(prevGoods => [...prevGoods, {
@@ -39,21 +49,32 @@ export const App = () => {
     }]);
   }
 
-  const visibleGoods = useMemo(() => {
-    return goods.filter(
-      good => good.name.includes(query),
-    );
-  }, [query, goods]);
+  const visibleGoods = useMemo(
+    () => {
+      console.log('Filtering by', appliedQuery);
+
+      return goods.filter(g => g.name.includes(appliedQuery));
+    },
+    [appliedQuery, goods],
+  );
+
+  function updateGood(good: Good) {}
 
   return (
     <div className="App">
+      Title:
       <input type="text" onChange={event => setTitle(event.target.value)} />
-      <h1>Add todo form {title}</h1>
+      <br />
       Filter:
-      <input type="text" onChange={event => setQuery(event.target.value)} />
+      <input type="text" onChange={event => applyQuery(event.target.value)} />
+      <h1>Add todo form {title}</h1>
 
       <GoodForm onSubmit={addGood} />
-      <GoodList goods={visibleGoods} onDelete={deleteGood} />
+      <GoodForm onSubmit={updateGood} good={goods[0]} />
+      <GoodList
+        goods={visibleGoods}
+        onDelete={deleteGood}
+      />
     </div>
   );
 };
