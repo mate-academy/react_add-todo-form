@@ -6,7 +6,7 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
+export const TodoInfo = ({ todo }: Props) => (
   <>
     <article
       data-id={todo.id}
