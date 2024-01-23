@@ -117,9 +117,9 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map((user: User) => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }: User) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>

@@ -6,21 +6,21 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo = ({ todo }: Props) => (
-  <>
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const {
+    id, completed, title, user,
+  } = todo;
+
+  return (
     <article
-      data-id={todo.id}
+      data-id={id}
       className={classNames('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
+        'TodoInfo--completed': completed,
       })}
     >
-      <h2 className="TodoInfo__title">
-        {todo.title}
-      </h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
-      {todo.user && (
-        <UserInfo user={todo.user} />
-      )}
+      {user && <UserInfo user={user} />}
     </article>
-  </>
-);
+  );
+};
