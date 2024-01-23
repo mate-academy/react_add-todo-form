@@ -6,6 +6,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { TodoFromServer } from './types/TodoFromServer';
+import { Todo } from './types/Todo';
 
 const getTodoId = () => {
   const ids = todosFromServer.map(todo => todo.id);
@@ -14,7 +15,7 @@ const getTodoId = () => {
 };
 
 const getUser = (users: User[], userId: number) => {
-  return users.find(user => user.id === userId) as User;
+  return users.find(user => user.id === userId) || null;
 };
 
 const getFoolTodo = (todos: TodoFromServer[], users: User[]) => {
@@ -33,22 +34,17 @@ const getFoolTodo = (todos: TodoFromServer[], users: User[]) => {
 const todosForWork = getFoolTodo(todosFromServer, usersFromServer);
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosForWork);
+  const [todos, setTodos] = useState<Todo[]>(todosForWork);
   const [userId, setUserId] = useState(0);
   const [hasUser, setHasUser] = useState(true);
   const [hasTitle, setHasTitle] = useState(true);
 
-  const baseTodoId = {
+  const baseTodoId: Todo = {
     id: getTodoId(),
     title: '',
     completed: false,
     userId: 0,
-    user: {
-      id: 0,
-      name: '',
-      username: '',
-      email: '',
-    },
+    user: null,
   };
 
   const [newTodo, setNewTodo] = useState(baseTodoId);
