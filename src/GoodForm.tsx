@@ -5,10 +5,15 @@ import { getColorById, colors } from './api';
 
 type Props = {
   onSubmit: (good: Good) => void;
+  onReset?: () => void;
   good?: Good;
 };
 
-export const GoodForm = ({ onSubmit, good }: Props) => {
+export const GoodForm = ({
+  onSubmit,
+  onReset = () => {},
+  good,
+}: Props) => {
   const [newGoodName, setNewGoodName] = useState(good?.name || '');
   const [nameError, setNameError] = useState('');
 
@@ -30,6 +35,10 @@ export const GoodForm = ({ onSubmit, good }: Props) => {
       return;
     }
 
+    if (good && selectedColorId === good.colorId && newGoodName === good.name) {
+      onReset();
+    }
+
     const newGood: Good = {
       id: good?.id || 0,
       name: newGoodName,
@@ -43,7 +52,7 @@ export const GoodForm = ({ onSubmit, good }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} onReset={onReset}>
       <div className="field">
         <input
           name="goodName"
@@ -82,7 +91,12 @@ export const GoodForm = ({ onSubmit, good }: Props) => {
         )}
       </div>
 
-      <button type="submit">Add</button>
+      <button type="submit">
+        {good ? 'Save' : 'Add'}
+      </button>
+
+      {/* eslint-disable-next-line react/button-has-type */}
+      <button type="reset">Cancel</button>
     </form>
   );
 };

@@ -1,15 +1,18 @@
 import React from 'react';
 import { Good } from './types/Good';
+import { GoodItem } from './GoodItem';
 
 type Props = {
   goods: Good[];
   onDelete?: (goodId: number) => void,
+  onUpdate?: (good: Good) => void;
 };
 
 export const GoodList: React.FC<Props> = React.memo(
   ({
     goods,
-    onDelete = () => {},
+    onDelete,
+    onUpdate,
   }) => {
     // eslint-disable-next-line no-console
     console.log('Render GoodList', new Date().toLocaleTimeString());
@@ -17,21 +20,7 @@ export const GoodList: React.FC<Props> = React.memo(
     return (
       <div className="GoodList">
         {goods.map(good => (
-          <article
-            key={good.id}
-            className="GoodCard"
-          >
-            <p
-              className="GoodCard__title"
-              style={{ color: good.color?.name || 'black' }}
-            >
-              <button type="button" onClick={() => onDelete(good.id)}>
-                x
-              </button>
-
-              {good.name}
-            </p>
-          </article>
+          <GoodItem good={good} onDelete={onDelete} onUpdate={onUpdate} />
         ))}
       </div>
     );
@@ -61,7 +50,7 @@ export function memo(
 
   return (nextProps: Props) => {
     if (!prevProps || !arePropsEqual(prevProps, nextProps)) {
-      prevJSX = Component(nextProps);
+      prevJSX = Component({ ...nextProps });
     }
 
     prevProps = nextProps;

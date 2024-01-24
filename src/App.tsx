@@ -38,9 +38,20 @@ export const App = () => {
     [],
   );
 
-  const deleteGood = (goodId: number) => {
+  function deleteGood(goodId: number) {
     setGoods(current => current.filter(good => good.id !== goodId));
-  };
+  }
+
+  function updateGood(goodToUpdate: Good) {
+    setGoods(currentGoods => {
+      const copy = [...currentGoods];
+      const position = copy.findIndex(good => good.id === goodToUpdate.id);
+
+      copy[position] = goodToUpdate;
+
+      return copy;
+    });
+  }
 
   function addGood(good: Good) {
     setGoods(prevGoods => [...prevGoods, {
@@ -58,8 +69,6 @@ export const App = () => {
     [appliedQuery, goods],
   );
 
-  function updateGood(good: Good) {}
-
   return (
     <div className="App">
       Title:
@@ -70,10 +79,10 @@ export const App = () => {
       <h1>Add todo form {title}</h1>
 
       <GoodForm onSubmit={addGood} />
-      <GoodForm onSubmit={updateGood} good={goods[0]} />
       <GoodList
         goods={visibleGoods}
         onDelete={deleteGood}
+        onUpdate={updateGood}
       />
     </div>
   );

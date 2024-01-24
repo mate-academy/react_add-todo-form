@@ -4,6 +4,7 @@
     "src"
   ],
   "compilerOptions": {
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   }
 }
