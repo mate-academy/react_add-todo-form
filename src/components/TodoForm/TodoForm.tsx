@@ -42,7 +42,7 @@ export const TodoForm: React.FC<Props> = ({
     setHasTitleError(!title);
     setHasUserError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       // eslint-disable-next-line no-useless-return
       return;
     }
