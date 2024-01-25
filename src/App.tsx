@@ -34,6 +34,8 @@ export const App = () => {
     [appliedQuery, goods],
   );
 
+  console.log('App');
+
   return (
     <div className="App">
       <div className="Filter">

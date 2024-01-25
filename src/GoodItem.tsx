@@ -8,9 +8,11 @@ type Props = {
   good: Good;
 };
 
-export const GoodItem: React.FC<Props> = ({ good }) => {
+export const GoodItem: React.FC<Props> = React.memo(({ good }) => {
   const [editing, setEditing] = useState(false);
   const { updateGood, deleteGood } = useContext(GoodUpdateContext);
+
+  console.log('GoodItem', good.id);
 
   return (
     <article
@@ -44,4 +46,4 @@ export const GoodItem: React.FC<Props> = ({ good }) => {
       )}
     </article>
   );
-};
+});

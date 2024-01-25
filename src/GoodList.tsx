@@ -7,13 +7,18 @@ type Props = {
 };
 
 export const GoodList: React.FC<Props> = React.memo(
-  ({ goods }) => (
-    <div className="GoodList">
-      {goods.map(good => (
-        <GoodItem good={good} />
-      ))}
-    </div>
-  ),
+  ({ goods }) => {
+    // eslint-disable-next-line no-console
+    console.log('GoodList');
+
+    return (
+      <div className="GoodList">
+        {goods.map(good => (
+          <GoodItem good={good} key={good.id} />
+        ))}
+      </div>
+    );
+  },
   (prevProps, nextProps) => prevProps.goods === nextProps.goods,
 );
 

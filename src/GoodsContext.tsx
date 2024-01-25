@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Good } from './types/Good';
 import { getColorById, getGoods } from './api';
 
@@ -16,14 +16,14 @@ export const GoodUpdateContext = React.createContext({
   updateGood: (good: Good) => {},
 });
 
+function getNextGoodId(goods: Good[]) {
+  const ids = goods.map(good => good.id);
+
+  return Math.max(...ids, 0) + 1;
+}
+
 export const GoodsProvider: React.FC = ({ children }) => {
   const [goods, setGoods] = useState(initialGoods);
-
-  function getNextGoodId() {
-    const ids = goods.map(good => good.id);
-
-    return Math.max(...ids, 0) + 1;
-  }
 
   function deleteGood(goodId: number) {
     setGoods(current => current.filter(good => good.id !== goodId));
@@ -43,12 +43,17 @@ export const GoodsProvider: React.FC = ({ children }) => {
   function addGood(good: Good) {
     setGoods(prevGoods => [...prevGoods, {
       ...good,
-      id: getNextGoodId(),
+      id: getNextGoodId(prevGoods),
     }]);
   }
 
+  const value = useMemo(
+    () => ({ addGood, updateGood, deleteGood }),
+    [],
+  );
+
   return (
-    <GoodUpdateContext.Provider value={{ addGood, updateGood, deleteGood }}>
+    <GoodUpdateContext.Provider value={value}>
       <GoodsContext.Provider value={goods}>
         {children}
       </GoodsContext.Provider>
