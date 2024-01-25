@@ -50,18 +50,18 @@ export const App = () => {
       // eslint-disable-next-line
       return;
     }
+
+    setTodos(currentList => [...currentList, {
+      id: getHighestTodoId(currentList) + 1,
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId) || null,
+    }]);
+
+    setTitle('');
+    setUserId(0);
   };
-
-  setTodos(currentList => [...currentList, {
-    id: getHighestTodoId(currentList) + 1,
-    title,
-    completed: false,
-    userId,
-    user: getUserById(userId) || null,
-  }]);
-
-  setTitle('');
-  setUserId(0);
 
   return (
     <div className="App">
