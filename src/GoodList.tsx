@@ -9,26 +9,14 @@ type Props = {
 };
 
 export const GoodList: React.FC<Props> = React.memo(
-  ({
-    goods,
-    onDelete,
-    onUpdate,
-  }) => {
-    // eslint-disable-next-line no-console
-    console.log('Render GoodList', new Date().toLocaleTimeString());
-
-    return (
-      <div className="GoodList">
-        {goods.map(good => (
-          <GoodItem good={good} onDelete={onDelete} onUpdate={onUpdate} />
-        ))}
-      </div>
-    );
-  },
-  // arePropsEqual
-  (prevProps, nextProps) => {
-    return prevProps.goods === nextProps.goods;
-  },
+  ({ goods, onDelete, onUpdate }) => (
+    <div className="GoodList">
+      {goods.map(good => (
+        <GoodItem good={good} onDelete={onDelete} onUpdate={onUpdate} />
+      ))}
+    </div>
+  ),
+  (prevProps, nextProps) => prevProps.goods === nextProps.goods,
 );
 
 function compareProps(prevProps: Props, nextProps: Props) {

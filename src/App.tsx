@@ -64,19 +64,23 @@ export const App = () => {
     () => {
       console.log('Filtering by', appliedQuery);
 
-      return goods.filter(g => g.name.includes(appliedQuery));
+      return goods.filter(
+        g => g.name.includes(appliedQuery),
+      );
     },
     [appliedQuery, goods],
   );
 
   return (
     <div className="App">
-      Title:
-      <input type="text" onChange={event => setTitle(event.target.value)} />
-      <br />
-      Filter:
-      <input type="text" onChange={event => applyQuery(event.target.value)} />
-      <h1>Add todo form {title}</h1>
+      <div className="Filter">
+        Title:
+        <input type="text" onChange={event => setTitle(event.target.value)} />
+        <br />
+        Filter:
+        <input type="text" onChange={event => applyQuery(event.target.value)} />
+        <h1>Add todo form {title}</h1>
+      </div>
 
       <GoodForm onSubmit={addGood} />
       <GoodList

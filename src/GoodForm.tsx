@@ -37,6 +37,8 @@ export const GoodForm = ({
 
     if (good && selectedColorId === good.colorId && newGoodName === good.name) {
       onReset();
+
+      return;
     }
 
     const newGood: Good = {
