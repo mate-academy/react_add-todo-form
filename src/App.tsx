@@ -1,23 +1,10 @@
 import { useState } from 'react';
 import './App.scss';
 
+import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-interface Todo {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-}
-
-/* interface User {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-} */
 
 function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(
@@ -26,10 +13,6 @@ function getNewTodoId(todos: Todo[]) {
 
   return maxId + 1;
 }
-
-/* function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
-} */
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -46,7 +29,7 @@ export const App = () => {
       id: getNewTodoId(todos),
     };
 
-    setTodos(currentTodos => [newTodo, ...currentTodos]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +39,14 @@ export const App = () => {
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
+    setHasUserIdError(false);
+  };
+
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+
+    setHasTitleError(false);
     setHasUserIdError(false);
   };
 
@@ -77,9 +68,11 @@ export const App = () => {
     addTodo({
       id: 0,
       title,
-      completed: true,
+      completed: false,
       userId,
     });
+
+    reset();
   };
 
   return (
@@ -147,7 +140,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList />
+      <TodoList todos={todos} />
     </div>
   );
 };
