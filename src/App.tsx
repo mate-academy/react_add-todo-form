@@ -1,22 +1,17 @@
 /* eslint-disable object-curly-newline, no-console, react/jsx-no-bind,
 react/jsx-one-expression-per-line, @typescript-eslint/no-unused-vars */
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import './App.scss';
 import { GoodList } from './GoodList';
 import { Good } from './types/Good';
-import { GoodForm } from './GoodForm';
 import { getColorById, getGoods } from './api';
+import { GoodsContext } from './GoodsContext';
+import { AddGoodForm } from './AddGoodForm';
 
 const initialGoods: Good[] = getGoods().map(good => ({
   ...good,
   color: getColorById(good.colorId),
 }));
-
-function getMaxGoodId(goods: Good[]) {
-  const ids = goods.map(good => good.id);
-
-  return Math.max(...ids, 0);
-}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function debounce(callback: Function, delay = 1000) {
@@ -31,43 +26,11 @@ function debounce(callback: Function, delay = 1000) {
 export const App = () => {
   const [title, setTitle] = useState('');
   const [appliedQuery, setAppliedQuery] = useState('');
-  const [goods, setGoods] = useState<Good[]>(initialGoods);
-
-  const applyQuery = useCallback(
-    debounce(setAppliedQuery, 1000),
-    [],
-  );
-
-  function deleteGood(goodId: number) {
-    setGoods(current => current.filter(good => good.id !== goodId));
-  }
-
-  function updateGood(goodToUpdate: Good) {
-    setGoods(currentGoods => {
-      const copy = [...currentGoods];
-      const position = copy.findIndex(good => good.id === goodToUpdate.id);
-
-      copy[position] = goodToUpdate;
-
-      return copy;
-    });
-  }
-
-  function addGood(good: Good) {
-    setGoods(prevGoods => [...prevGoods, {
-      ...good,
-      id: getMaxGoodId(goods) + 1,
-    }]);
-  }
+  const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
+  const goods = useContext(GoodsContext);
 
   const visibleGoods = useMemo(
-    () => {
-      console.log('Filtering by', appliedQuery);
-
-      return goods.filter(
-        g => g.name.includes(appliedQuery),
-      );
-    },
+    () => goods.filter(g => g.name.includes(appliedQuery)),
     [appliedQuery, goods],
   );
 
@@ -82,12 +45,8 @@ export const App = () => {
         <h1>Add todo form {title}</h1>
       </div>
 
-      <GoodForm onSubmit={addGood} />
-      <GoodList
-        goods={visibleGoods}
-        onDelete={deleteGood}
-        onUpdate={updateGood}
-      />
+      <AddGoodForm />
+      <GoodList goods={visibleGoods} />
     </div>
   );
 };

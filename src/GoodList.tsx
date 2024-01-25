@@ -4,15 +4,13 @@ import { GoodItem } from './GoodItem';
 
 type Props = {
   goods: Good[];
-  onDelete?: (goodId: number) => void,
-  onUpdate?: (good: Good) => void;
 };
 
 export const GoodList: React.FC<Props> = React.memo(
-  ({ goods, onDelete, onUpdate }) => (
+  ({ goods }) => (
     <div className="GoodList">
       {goods.map(good => (
-        <GoodItem good={good} onDelete={onDelete} onUpdate={onUpdate} />
+        <GoodItem good={good} />
       ))}
     </div>
   ),

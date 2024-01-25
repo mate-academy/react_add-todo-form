@@ -1,4 +1,14 @@
 import ReactDOM from 'react-dom';
 import { App } from './App';
+import { GoodsProvider } from './GoodsContext';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const Root = () => (
+  <GoodsProvider>
+    <App />
+  </GoodsProvider>
+);
+
+ReactDOM.render(
+  <Root />,
+  document.getElementById('root'),
+);
