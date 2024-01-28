@@ -3,9 +3,9 @@ import { Todo } from '../../types/todo';
 
 import { TodoInfo } from '../TodoInfo';
 
-type Props = {
+interface Props {
   todos: Todo[],
-};
+}
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (

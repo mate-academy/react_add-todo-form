@@ -1,18 +1,13 @@
 import { useState } from 'react';
 import './App.scss';
-import todosFromServer from './api/todos';
 import { Form } from './components/Form/Form';
 import { TodoList } from './components/TodoList';
-import { findUser } from './utils/userFind';
 import { Todo } from './types/todo';
-
-const todosWiaUser = todosFromServer.map(todo => ({
-  ...todo,
-  user: findUser(todo.userId),
-}));
+import { todosWiaUser } from './utils/todoWiaUser';
 
 export const App = () => {
   const [todoItems, setTodoItems] = useState<Todo[]>(todosWiaUser);
+
   const addTodo = (newTodo: Todo) => {
     setTodoItems(currentTodos => [...currentTodos, newTodo]);
   };

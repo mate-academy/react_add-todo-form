@@ -2,17 +2,12 @@ import React from 'react';
 import users from '../../api/users';
 import { Todo } from '../../types/todo';
 import { findUser } from '../../utils/userFind';
+import { getMaxTodoId } from '../../utils/getMaxId';
 
-function getMaxTodoId(todos: Todo[]) {
-  const ids = todos.map(todo => todo.id);
-
-  return Math.max(...ids, 0) + 1;
-}
-
-type Props = {
+interface Props {
   addTodo: (todo: Todo) => void,
   todos: Todo[]
-};
+}
 
 export const Form: React.FC<Props> = ({ addTodo, todos }) => {
   const [newTodoName, setNewTodoName] = React.useState('');
@@ -20,7 +15,7 @@ export const Form: React.FC<Props> = ({ addTodo, todos }) => {
   const [todoNameError, setTodoNameError] = React.useState(false);
   const [selectedUserError, setSelectedUserError] = React.useState(false);
 
-  const handlerReser = () => {
+  const handlerReset = () => {
     setNewTodoName('');
     setSelectedUserId(0);
   };
@@ -47,7 +42,7 @@ export const Form: React.FC<Props> = ({ addTodo, todos }) => {
         user: findUser(selectedUserId),
       };
 
-      handlerReser();
+      handlerReset();
       addTodo(newTodo);
     }
   }
