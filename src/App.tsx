@@ -17,7 +17,7 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleError(false);
+    setHasTitleError(!event.target.value.trim());
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -61,7 +61,6 @@ export const App = () => {
           <label htmlFor="InputTitle">
             Title:
           </label>
-          <br />
           <input
             id="InputTitle"
             type="text"
@@ -79,7 +78,6 @@ export const App = () => {
           <label htmlFor="userSelect">
             Select user:
           </label>
-          <br />
           <select
             id="userSelect"
             data-cy="userSelect"
@@ -87,12 +85,12 @@ export const App = () => {
             onChange={handleUserIdChange}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>

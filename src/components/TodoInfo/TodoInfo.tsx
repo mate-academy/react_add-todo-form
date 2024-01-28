@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+
 import { Todo } from '../../Type/todos';
 import { UserInfo } from '../UserInfo';
 import { getUserById } from '../../servises/UserId';

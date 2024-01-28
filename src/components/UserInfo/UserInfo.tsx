@@ -10,11 +10,18 @@ type UserProps = {
 };
 
 export const UserInfo: React.FC<UserProps> = ({ user }) => {
+  let name;
+  let email;
+
+  if (user) {
+    ({ name, email } = user);
+  }
+
   return (
     <>
       {user && (
-        <a className="UserInfo" href={`mailto:${user.email}`}>
-          {user.name}
+        <a className="UserInfo" href={`mailto:${email}`}>
+          {name}
         </a>
       )}
     </>
