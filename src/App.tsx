@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
 import { Todo } from './types/Todo';
@@ -7,9 +7,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(
-    ...todos.map(todo => todo.id),
-  );
+  const maxId = Math.max(...todos.map(todo => todo.id));
 
   return maxId + 1;
 }
@@ -24,10 +22,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
   const addTodo = (todo: Todo) => {
-    const newTodo = {
-      ...todo,
-      id: getNewTodoId(todos),
-    };
+    const newTodo = { ...todo, id: getNewTodoId(todos) };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
@@ -45,12 +40,11 @@ export const App = () => {
   const reset = () => {
     setTitle('');
     setUserId(0);
-
     setHasTitleError(false);
     setHasUserIdError(false);
   };
 
-  const handleSubmit = (event:React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
@@ -83,12 +77,8 @@ export const App = () => {
     }
 
     addTodo({
-      id: 0,
-      title,
-      completed: false,
-      userId,
+      id: 0, title, completed: false, userId,
     });
-
     reset();
   };
 
@@ -96,16 +86,9 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <label
-            className="label"
-            htmlFor="todo-title-id"
-          >
+          <label className="label" htmlFor="todo-title-id">
             Title:&nbsp;
           </label>
           <input
@@ -116,20 +99,13 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-
-          {hasTitleError && (
-            <span className="error">
-              Please enter a title
-            </span>
-          )}
-
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label className="label" htmlFor="todo-user-id">
             User:&nbsp;
           </label>
-
           <select
             data-cy="userSelect"
             id="todo-user-id"
@@ -137,19 +113,14 @@ export const App = () => {
             onChange={handleUserIdChange}
           >
             <option value="0">Choose a user</option>
-
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>
-          {hasUserIdError && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
-
+          {hasUserIdError
+          && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
