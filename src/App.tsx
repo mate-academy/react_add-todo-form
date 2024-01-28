@@ -28,10 +28,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(userId === 0);
 
-    if (!title || userId === 0) {
+    if (!title.trim() || userId === 0) {
       return;
     }
 
@@ -76,7 +76,7 @@ export const App = () => {
 
         <div className="field">
           <label htmlFor="userSelect">
-            Select user:
+            User:
           </label>
           <select
             id="userSelect"
