@@ -44,7 +44,8 @@ export const App = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const cleanedValue = value
-      .replace(/[^a-zA-Z0-9а-щА-ЩЬьЮюЯяЇїІіЄєҐґ\s ]/g, '');
+      .replace(/[^a-zA-Z0-9а-щА-ЩЬьЮюЯяЇїІіЄєҐґ\s ]/g, '')
+      .trimStart();
 
     setHasEmptyTitleField(false);
     setTodoTitle(cleanedValue);
@@ -58,7 +59,7 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!todoTitle) {
+    if (!todoTitle.trim()) {
       setHasEmptyTitleField(true);
     }
 
@@ -66,7 +67,7 @@ export const App = () => {
       setHasEmptyUserField(true);
     }
 
-    if (!todoTitle || userToChoose === 0) {
+    if (!todoTitle.trim() || userToChoose === 0) {
       return;
     }
 
@@ -100,8 +101,9 @@ export const App = () => {
             value={todoTitle}
             onChange={handleTitleChange}
           />
-          {hasEmptyTitleField
-            && <span className="error">Please enter a title</span>}
+          {hasEmptyTitleField && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -114,15 +116,20 @@ export const App = () => {
           >
             <option value="0" disabled>Choose a user</option>
 
-            {usersFromServer.map((user: User) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map((user: User) => {
+              const { id, name } = user;
+
+              return (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
 
-          {hasEmptyUserField
-            && <span className="error">Please choose a user</span>}
+          {hasEmptyUserField && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">

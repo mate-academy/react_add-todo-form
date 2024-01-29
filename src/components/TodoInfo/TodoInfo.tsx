@@ -5,13 +5,20 @@ type Props = {
   todo: ToDo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => (
-  <article
-    className={`TodoInfo ${todo.completed && 'TodoInfo--completed'}`}
-    data-cy={todo.id}
+export const TodoInfo: React.FC<Props> = ({
+  todo: {
+    id,
+    title,
+    completed,
+    user,
+  },
+}) => (
+  <li
+    className={`TodoInfo ${completed && 'TodoInfo--completed'}`}
+    data-cy={id}
   >
-    <h2 className="TodoInfo__title">{todo.title}</h2>
+    <h2 className="TodoInfo__title">{title}</h2>
 
-    {todo.user && <UserInfo user={todo.user} />}
-  </article>
+    {user && <UserInfo user={user} />}
+  </li>
 );
