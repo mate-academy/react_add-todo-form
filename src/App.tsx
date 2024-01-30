@@ -3,15 +3,8 @@ react/jsx-one-expression-per-line, @typescript-eslint/no-unused-vars */
 import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import './App.scss';
 import { GoodList } from './GoodList';
-import { Good } from './types/Good';
-import { getColorById, getGoods } from './api';
 import { GoodsContext } from './GoodsContext';
 import { AddGoodForm } from './AddGoodForm';
-
-const initialGoods: Good[] = getGoods().map(good => ({
-  ...good,
-  color: getColorById(good.colorId),
-}));
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function debounce(callback: Function, delay = 1000) {
@@ -33,8 +26,6 @@ export const App = () => {
     () => goods.filter(g => g.name.includes(appliedQuery)),
     [appliedQuery, goods],
   );
-
-  console.log('App');
 
   return (
     <div className="App">

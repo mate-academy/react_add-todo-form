@@ -12,8 +12,6 @@ export const GoodItem: React.FC<Props> = React.memo(({ good }) => {
   const [editing, setEditing] = useState(false);
   const { updateGood, deleteGood } = useContext(GoodUpdateContext);
 
-  console.log('GoodItem', good.id);
-
   return (
     <article
       key={good.id}
@@ -33,6 +31,8 @@ export const GoodItem: React.FC<Props> = React.memo(({ good }) => {
           className="GoodCard__title"
           style={{ color: good.color?.name || 'black' }}
         >
+          {good.name}
+
           <button type="button" onClick={() => deleteGood(good.id)}>
             x
           </button>
@@ -40,8 +40,6 @@ export const GoodItem: React.FC<Props> = React.memo(({ good }) => {
           <button type="button" onClick={() => setEditing(true)}>
             edit
           </button>
-
-          {good.name}
         </p>
       )}
     </article>

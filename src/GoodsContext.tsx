@@ -30,14 +30,9 @@ export const GoodsProvider: React.FC = ({ children }) => {
   }
 
   function updateGood(goodToUpdate: Good) {
-    setGoods(currentGoods => {
-      const copy = [...currentGoods];
-      const position = copy.findIndex(good => good.id === goodToUpdate.id);
-
-      copy[position] = goodToUpdate;
-
-      return copy;
-    });
+    setGoods(currentGoods => currentGoods.map(
+      good => (good.id === goodToUpdate.id ? goodToUpdate : good),
+    ));
   }
 
   function addGood(good: Good) {
@@ -47,13 +42,10 @@ export const GoodsProvider: React.FC = ({ children }) => {
     }]);
   }
 
-  const value = useMemo(
-    () => ({ addGood, updateGood, deleteGood }),
-    [],
-  );
+  const methods = useMemo(() => ({ addGood, updateGood, deleteGood }), []);
 
   return (
-    <GoodUpdateContext.Provider value={value}>
+    <GoodUpdateContext.Provider value={methods}>
       <GoodsContext.Provider value={goods}>
         {children}
       </GoodsContext.Provider>
