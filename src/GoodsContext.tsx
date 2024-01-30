@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Good } from './types/Good';
 import { getColorById, getGoods } from './api';
-
-const initialGoods: Good[] = getGoods().map(good => ({
-  ...good,
-  color: getColorById(good.colorId),
-}));
 
 export const GoodsContext = React.createContext([] as Good[]);
 
@@ -23,7 +18,11 @@ function getNextGoodId(goods: Good[]) {
 }
 
 export const GoodsProvider: React.FC = ({ children }) => {
-  const [goods, setGoods] = useState(initialGoods);
+  const [goods, setGoods] = useState<Good[]>([]);
+
+  useEffect(() => {
+    getGoods().then(setGoods);
+  }, []);
 
   function deleteGood(goodId: number) {
     setGoods(current => current.filter(good => good.id !== goodId));

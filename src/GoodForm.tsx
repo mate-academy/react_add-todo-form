@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Good } from './types/Good';
-import { getColorById, colors } from './api';
+import { getColorById, getColors } from './api';
+import { Color } from './types/Color';
 
 type Props = {
   onSubmit: (good: Good) => void;
@@ -14,13 +15,27 @@ export const GoodForm = ({
   onReset = () => {},
   good,
 }: Props) => {
+  const [colors, setColors] = useState<Color[]>([]);
+
+  useEffect(() => {
+    getColors().then(setColors);
+
+    const timerId = setInterval(() => {
+      getColors().then(setColors);
+    }, 3000);
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, []);
+
   const [newGoodName, setNewGoodName] = useState(good?.name || '');
   const [nameError, setNameError] = useState('');
 
   const [selectedColorId, setSelectedColorId] = useState(good?.colorId || 0);
   const [colorIdError, setColorIdError] = useState('');
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     if (!newGoodName) {
@@ -41,16 +56,24 @@ export const GoodForm = ({
       return;
     }
 
-    const newGood: Good = {
-      id: good?.id || 0,
-      name: newGoodName,
-      colorId: selectedColorId,
-      color: getColorById(selectedColorId),
-    };
+    try {
+      const color = await getColorById(selectedColorId);
 
-    onSubmit(newGood);
-    setNewGoodName('');
-    setSelectedColorId(0);
+      const newGood: Good = {
+        id: good?.id || 0,
+        name: newGoodName,
+        colorId: selectedColorId,
+        color,
+      };
+
+      onSubmit(newGood);
+      setNewGoodName('');
+      setSelectedColorId(0);
+    } catch (error) {
+      // handle error
+    } finally {
+      // do something
+    }
   }
 
   return (

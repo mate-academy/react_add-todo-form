@@ -38,7 +38,9 @@ export const App = () => {
         <h1>Add todo form {title}</h1>
       </div>
 
-      <AddGoodForm />
+      {title.length === 0 && (
+        <AddGoodForm />
+      )}
       <GoodList goods={visibleGoods} />
     </div>
   );
