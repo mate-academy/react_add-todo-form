@@ -5,7 +5,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TODO } from './types/TODO';
+import { Todo } from './types/TODO';
 
 const idForNewTodo = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
 
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
   setHasUserIdError(false);
 };
 
-  function addTodo(todo: TODO) {
+  function addTodo(todo: Todo) {
     setTodos([...initialTodos, todo]);
   }
 
@@ -106,8 +106,8 @@ export const App: React.FC = () => {
             onChange={handleUserChange}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map(user =>
-              <option value={user.id} key={user.id}>{user.name}</option>)}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>{user.name}</option>))}
           </select>
           {
             hasUserIdError
