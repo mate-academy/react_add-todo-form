@@ -10,57 +10,59 @@ import { Todo } from './types/TODO';
 const idForNewTodo = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
 
 export function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || null;
+  return usersFromServer.find(user => user.id === userId);
 }
 
-export const App: React.FC = () => {
-  const initialTodoState = {
-    id: idForNewTodo,
-    title: '',
-    completed: false,
-    userId: 0,
-  };
-
-  const initialTodos = [...todosFromServer];
-
-  const [newTodo, setNewTodo] = useState(initialTodoState);
-  const [todos, setTodos] = useState(initialTodos);
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasUserIdError, setHasUserIdError] = useState(false);
-
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo((prevValue) => ({ ...prevValue, title: event.target.value }));
-    setHasTitleError(false);
-  };
-
-  const handleUserChange
-= (event: React.ChangeEvent<HTMLSelectElement>) => {
-  setNewTodo((prevValue) => ({ ...prevValue, userId: +event.target.value }));
-  setHasUserIdError(false);
+const initialTodoState = {
+  id: idForNewTodo,
+  title: '',
+  completed: false,
+  userId: 0,
 };
 
-  function addTodo(todo: Todo) {
-    setTodos([...initialTodos, todo]);
-  }
+const isHasError = {
+  title: false,
+  userId: false,
+};
+
+export const App: React.FC = () => {
+  const [newTodo, setNewTodo] = useState(initialTodoState);
+  const [todos, setTodos] = useState(todosFromServer);
+  const [initialError, setinitialError] = useState(isHasError);
+
+  const handleInputChange = (key: string, value: string | number) => {
+    setNewTodo(prev => ({ ...prev, [key]: value }));
+    setinitialError(prev => ({ ...prev, [key]: false }));
+  };
+
+  //   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     setNewTodo((prevValue) => ({ ...prevValue, title: event.target.value }));
+  //     setinitialError((prevValue) => ({ ...prevValue, hasTitleError: false }));
+  //   };
+
+  //   const handleUserChange
+  // = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setNewTodo((prevValue) => ({ ...prevValue, userId: +event.target.value }));
+  //   setinitialError((prevValue) => ({ ...prevValue, hasUserIdErrore: false }));
+  // };
+
+  const addTodo = (todo: Todo) => {
+    setTodos([...todos, todo]);
+  };
 
   const reset = () => {
-    setNewTodo({
-      id: idForNewTodo,
-      title: '',
-      completed: false,
-      userId: 0,
-    });
+    setNewTodo(initialTodoState);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!newTodo.title.trim()) {
-      setHasTitleError(true);
+      setinitialError((prevValue) => ({ ...prevValue, title: true }));
     }
 
     if (!newTodo.userId) {
-      setHasUserIdError(true);
+      setinitialError((prevValue) => ({ ...prevValue, userId: true }));
     }
 
     if (!newTodo.title.trim() || !newTodo.userId) {
@@ -68,8 +70,8 @@ export const App: React.FC = () => {
     }
 
     addTodo(newTodo);
-    setHasTitleError(false);
-    setHasUserIdError(false);
+    setinitialError((prevValue) => ({ ...prevValue, title: false }));
+    setinitialError((prevValue) => ({ ...prevValue, userId: false }));
 
     reset();
   };
@@ -91,11 +93,12 @@ export const App: React.FC = () => {
               type="text"
               data-cy="titleInput"
               placeholder="Enter a todo"
-              onChange={handleOnChange}
-
+              onChange={(event) => handleInputChange(
+                'title', event.target.value,
+              )}
             />
           </label>
-          {hasTitleError
+          {initialError.title
           && <span className="error">Please enter a title</span>}
         </div>
 
@@ -103,16 +106,17 @@ export const App: React.FC = () => {
           <select
             value={newTodo.userId}
             data-cy="userSelect"
-            onChange={handleUserChange}
+            onChange={(event) => handleInputChange(
+              'userId', +event.target.value,
+            )}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>{user.name}</option>))}
+              <option value={user.id} key={user.id}>{user.name}</option>
+            ))}
           </select>
-          {
-            hasUserIdError
-            && <span className="error">Please choose a user</span>
-          }
+          {initialError.userId
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
