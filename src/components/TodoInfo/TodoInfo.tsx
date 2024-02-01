@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { Todo } from '../../types/TODO';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
-import { User } from '../../types/User';
 
 type Props = {
   todo: Todo;
@@ -25,8 +24,8 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       <h2 className="TodoInfo__title">
         {todo.title}
       </h2>
-      {usersFromServer.includes(user as User)
-        && <UserInfo user={user as User} />}
+      {!!user
+        && <UserInfo user={user} />}
     </article>
   );
 };

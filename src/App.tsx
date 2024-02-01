@@ -35,17 +35,6 @@ export const App: React.FC = () => {
     setinitialError(prev => ({ ...prev, [key]: false }));
   };
 
-  //   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setNewTodo((prevValue) => ({ ...prevValue, title: event.target.value }));
-  //     setinitialError((prevValue) => ({ ...prevValue, hasTitleError: false }));
-  //   };
-
-  //   const handleUserChange
-  // = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setNewTodo((prevValue) => ({ ...prevValue, userId: +event.target.value }));
-  //   setinitialError((prevValue) => ({ ...prevValue, hasUserIdErrore: false }));
-  // };
-
   const addTodo = (todo: Todo) => {
     setTodos([...todos, todo]);
   };
