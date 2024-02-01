@@ -1,24 +1,56 @@
+/* eslint-disable no-console */
 import { User } from '../types/User';
 import { Todo } from '../types/Todo';
 
 const API_URL = 'https://mate.academy/students-api';
 
-async function get<T>(url: string): Promise<T> {
-  const response = await fetch(API_URL + url);
+function request<T>(url: string, method = 'GET', data?: any): Promise<T> {
+  const options: RequestInit = { method };
 
-  if (response.ok) {
-    return response.json();
+  if (data) {
+    options.body = JSON.stringify(data);
+    options.headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+    };
   }
 
-  throw new Error(`Status code is ${response.status}`);
+  return fetch(API_URL + url, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(`Status code is ${response.status}`);
+    });
 }
 
-export const getUsers = () => get<User[]>('/users');
+const client = {
+  get: <T>(url: string) => request<T>(url),
+  delete: (url: string): Promise<void> => request(url, 'DELETE'),
+  post: <T>(url: string, data: Partial<T>) => request<T>(url, 'POST', data),
+  patch: <T>(url: string, data: Partial<T>) => request<T>(url, 'PATCH', data),
+};
+
+export function getUsers() {
+  return client.get<User[]>('/users');
+}
 
 export function getUserById(userId: number) {
-  return get<User>(`/users/${userId}`);
+  return client.get<User>(`/users/${userId}`);
 }
 
 export function getTodos() {
-  return get<Todo[]>('/todos');
+  return client.get<Todo[]>('/todos?userId=68');
+}
+
+export function createTodo({ title, completed, userId }: Todo) {
+  return client.post('/todos', { title, completed, userId });
+}
+
+export function deleteTodo(id: number) {
+  return client.delete(`/todos/${id}`);
+}
+
+export function updateTodo({ id, ...data }: Todo) {
+  return client.patch(`/todos/${id}`, { ...data });
 }

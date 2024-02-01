@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Todo } from './types/Todo';
-import { getTodos } from './api';
+import * as api from './api';
 
 export const TodosContext = React.createContext([] as Todo[]);
 
@@ -11,34 +11,29 @@ export const TodoUpdateContext = React.createContext({
   updateTodo: (todo: Todo) => {},
 });
 
-function getNextTodoId(todos: Todo[]) {
-  const ids = todos.map(todo => todo.id);
-
-  return Math.max(...ids, 0) + 1;
-}
-
 export const TodosProvider: React.FC = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  useEffect(() => {
-    getTodos().then(setTodos);
-  }, []);
+  function loadTodos() {
+    api.getTodos()
+      .then(setTodos);
+  }
+
+  useEffect(loadTodos, []);
+
+  function addTodo(todo: Todo) {
+    return api.createTodo(todo)
+      .then(loadTodos);
+  }
 
   function deleteTodo(todoId: number) {
-    setTodos(current => current.filter(todo => todo.id !== todoId));
+    return api.deleteTodo(todoId)
+      .then(loadTodos);
   }
 
   function updateTodo(todoToUpdate: Todo) {
-    setTodos(currentTodos => currentTodos.map(
-      todo => (todo.id === todoToUpdate.id ? todoToUpdate : todo),
-    ));
-  }
-
-  function addTodo(todo: Todo) {
-    setTodos(prevTodos => [{
-      ...todo,
-      id: getNextTodoId(prevTodos),
-    }, ...prevTodos]);
+    return api.updateTodo(todoToUpdate)
+      .then(loadTodos);
   }
 
   const methods = useMemo(() => ({ addTodo, updateTodo, deleteTodo }), []);

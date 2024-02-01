@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Todo } from './types/Todo';
-import { getUserById, getUsers } from './api';
+import { getUsers } from './api';
 import { User } from './types/User';
 
 type Props = {
@@ -19,14 +19,6 @@ export const TodoForm = ({
 
   useEffect(() => {
     getUsers().then(setUsers);
-
-    const timerId = setInterval(() => {
-      getUsers().then(setUsers);
-    }, 3000);
-
-    return () => {
-      clearInterval(timerId);
-    };
   }, []);
 
   const [newTodoTitle, setNewTodoName] = useState(todo?.title || '');
@@ -57,14 +49,11 @@ export const TodoForm = ({
     }
 
     try {
-      const user = await getUserById(selectedUserId);
-
       const newTodo: Todo = {
         id: todo?.id || 0,
         title: newTodoTitle,
         completed: todo?.completed || false,
         userId: selectedUserId,
-        user,
       };
 
       onSubmit(newTodo);
