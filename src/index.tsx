@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom';
 import { App } from './App';
-import { GoodsProvider } from './GoodsContext';
+import { TodosProvider } from './TodosContext';
 
 const Root = () => (
-  <GoodsProvider>
+  <TodosProvider>
     <App />
-  </GoodsProvider>
+  </TodosProvider>
 );
 
 ReactDOM.render(

@@ -1,20 +1,20 @@
 import React from 'react';
-import { Good } from './types/Good';
-import { GoodItem } from './GoodItem';
+import { Todo } from './types/Todo';
+import { TodoItem } from './TodoItem';
 
 type Props = {
-  goods: Good[];
+  todos: Todo[];
 };
 
-export const GoodList: React.FC<Props> = React.memo(
-  ({ goods }) => (
-    <div className="GoodList">
-      {goods.map(good => (
-        <GoodItem good={good} key={good.id} />
+export const TodoList: React.FC<Props> = React.memo(
+  ({ todos }) => (
+    <div className="TodoList">
+      {todos.map(todo => (
+        <TodoItem todo={todo} key={todo.id} />
       ))}
     </div>
   ),
-  (prevProps, nextProps) => prevProps.goods === nextProps.goods,
+  (prevProps, nextProps) => prevProps.todos === nextProps.todos,
 );
 
 function compareProps(prevProps: Props, nextProps: Props) {

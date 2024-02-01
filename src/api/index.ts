@@ -1,23 +1,24 @@
-import { Color } from '../types/Color';
-import { Good, GoodWithoutColor } from '../types/Good';
+import { User } from '../types/User';
+import { Todo } from '../types/Todo';
 
-export function getColors(): Promise<Color[]> {
-  return fetch('http://localhost:3000/api/colors.json')
-    .then(res => (res.ok ? res.json() : Promise.reject(res.status)));
+const API_URL = 'https://mate.academy/students-api';
+
+async function get<T>(url: string): Promise<T> {
+  const response = await fetch(API_URL + url);
+
+  if (response.ok) {
+    return response.json();
+  }
+
+  throw new Error(`Status code is ${response.status}`);
 }
 
-export function getColorById(colorId: number): Promise<Color | undefined> {
-  return getColors()
-    .then(colors => colors.find(c => c.id === colorId));
+export const getUsers = () => get<User[]>('/users');
+
+export function getUserById(userId: number) {
+  return get<User>(`/users/${userId}`);
 }
 
-export async function getGoods(): Promise<Good[]> {
-  const colors = await getColors();
-  const goods = await fetch('http://localhost:3000/api/goods.json')
-    .then(res => res.json() as Promise<GoodWithoutColor[]>);
-
-  return goods.map(good => ({
-    ...good,
-    color: colors.find(color => color.id === good.colorId),
-  }));
+export function getTodos() {
+  return get<Todo[]>('/todos');
 }

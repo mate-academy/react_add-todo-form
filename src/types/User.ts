@@ -1,5 +1,5 @@
 // #region data
-export interface Color {
+export interface User {
   id: number;
   name: string;
 }
