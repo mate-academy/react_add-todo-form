@@ -6,7 +6,7 @@ export type User = {
 };
 
 export type Todo = {
-  user: User | null;
+  user: User;
   id: number;
   title: string;
   completed: boolean;
