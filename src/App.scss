@@ -15,6 +15,22 @@ button {
   color: red;
 }
 
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &_action {
+    width: 50px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
