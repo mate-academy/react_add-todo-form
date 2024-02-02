@@ -17,8 +17,8 @@ export const TodoItem: React.FC<Props> = React.memo(({ todo }) => {
       {editing ? (
         <TodoForm
           onSubmit={(updatedTodo: Todo) => {
-            updateTodo(updatedTodo);
-            setEditing(false);
+            return updateTodo(updatedTodo)
+              .then(() => setEditing(false));
           }}
           onReset={() => setEditing(false)}
           todo={todo}

@@ -4,7 +4,11 @@ import { Todo } from '../types/Todo';
 
 const API_URL = 'https://mate.academy/students-api';
 
-function request<T>(url: string, method = 'GET', data?: any): Promise<T> {
+function request<T>(
+  url: string,
+  method = 'GET',
+  data?: Partial<T>,
+): Promise<T> {
   const options: RequestInit = { method };
 
   if (data) {
@@ -52,5 +56,5 @@ export function deleteTodo(id: number) {
 }
 
 export function updateTodo({ id, ...data }: Todo) {
-  return client.patch(`/todos/${id}`, { ...data });
+  return client.patch(`/todos/${id}`, data);
 }

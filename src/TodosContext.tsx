@@ -6,9 +6,9 @@ import * as api from './api';
 export const TodosContext = React.createContext([] as Todo[]);
 
 export const TodoUpdateContext = React.createContext({
-  addTodo: (todo: Todo) => {},
-  deleteTodo: (todoId: number) => {},
-  updateTodo: (todo: Todo) => {},
+  addTodo: async (todo: Todo) => {},
+  deleteTodo: async (todoId: number) => {},
+  updateTodo: async (todo: Todo) => {},
 });
 
 export const TodosProvider: React.FC = ({ children }) => {
@@ -36,6 +36,7 @@ export const TodosProvider: React.FC = ({ children }) => {
       .then(loadTodos);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const methods = useMemo(() => ({ addTodo, updateTodo, deleteTodo }), []);
 
   return (

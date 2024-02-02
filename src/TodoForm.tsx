@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Todo } from './types/Todo';
@@ -5,16 +6,12 @@ import { getUsers } from './api';
 import { User } from './types/User';
 
 type Props = {
-  onSubmit: (todo: Todo) => void;
+  onSubmit: (todo: Todo) => Promise<void>;
   onReset?: () => void;
   todo?: Todo;
 };
 
-export const TodoForm = ({
-  onSubmit,
-  onReset = () => {},
-  todo,
-}: Props) => {
+export const TodoForm = ({ onSubmit, onReset = () => {}, todo }: Props) => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -30,6 +27,7 @@ export const TodoForm = ({
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
+    // #region validation
     if (!newTodoTitle) {
       setNameError('Please enter todo name');
     }
@@ -47,23 +45,24 @@ export const TodoForm = ({
 
       return;
     }
+    // #endregion
 
-    try {
-      const newTodo: Todo = {
-        id: todo?.id || 0,
-        title: newTodoTitle,
-        completed: todo?.completed || false,
-        userId: selectedUserId,
-      };
+    const newTodo: Todo = {
+      id: todo?.id || 0,
+      title: newTodoTitle,
+      completed: todo?.completed || false,
+      userId: selectedUserId,
+    };
 
-      onSubmit(newTodo);
-      setNewTodoName('');
-      setSelectedUserId(0);
-    } catch (error) {
-      // handle error
-    } finally {
-      // do something
-    }
+    onSubmit(newTodo)
+      .then(() => {
+        setNewTodoName('');
+        setSelectedUserId(0);
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
   }
 
   return (
