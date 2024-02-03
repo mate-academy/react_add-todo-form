@@ -6,52 +6,61 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
-const newTodoId = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
+function getUserById(id: number) {
+  return usersFromServer.find(user => user.id === id) || null;
+}
 
-const defoultTodo = {
-  id: newTodoId,
-  title: '',
-  completed: false,
-  userId: 0,
-};
+function newBiggestId(list: Todo[]) {
+  const idList = list.map(item => item.id);
 
-const isHasError = {
-  title: false,
-  userId: false,
-};
+  return Math.max(...idList);
+}
+
+const defaultList = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
-  const [newTodo, setNewTodo] = useState(defoultTodo);
-  const [initialError, setInitialError] = useState(isHasError);
+  const [todos, setTodos] = useState(defaultList);
+  const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
 
-  const handleInputChange = (key: string, value: string | number) => {
-    setNewTodo(prev => ({ ...prev, [key]: value }));
-    setInitialError(prev => ({ ...prev, [key]: false }));
+  const [userId, setUserId] = useState(0);
+  const [userIdError, setUserIdError] = useState(false);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
   };
 
-  const reset = () => setNewTodo(defoultTodo);
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserIdError(false);
+  };
 
-  const addTodo = (todo: Todo) => setTodos([...todos, todo]);
+  const reset = () => {
+    setTitle('');
+    setUserId(0);
+  };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newTodo.title.trim()) {
-      setInitialError(prevValue => ({ ...prevValue, title: true }));
-    }
+    setTitleError(!title.trim());
+    setUserIdError(!userId);
 
-    if (!newTodo.userId) {
-      setInitialError(prevValue => ({ ...prevValue, userId: true }));
-    }
-
-    if (!newTodo.title.trim() || !newTodo.userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
-    addTodo(newTodo);
-    setInitialError(prevValue => ({ ...prevValue, title: false }));
-    setInitialError(prevValue => ({ ...prevValue, userId: false }));
+    setTodos(currList => [...currList, {
+      id: newBiggestId(currList) + 1,
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId) || null,
+    }]);
 
     reset();
   };
@@ -72,15 +81,13 @@ export const App = () => {
               id="title"
               type="text"
               data-cy="titleInput"
-              value={newTodo.title}
+              value={title}
               placeholder="Enter a title"
-              onChange={event => handleInputChange(
-                'title', event.target.value,
-              )}
+              onChange={handleTitleChange}
             />
           </label>
 
-          {initialError.title
+          {titleError
             && <span className="error">Please enter a title</span>}
         </div>
 
@@ -90,10 +97,8 @@ export const App = () => {
             <select
               id="user"
               data-cy="userSelect"
-              value={newTodo.userId}
-              onChange={event => handleInputChange(
-                'userId', +event.target.value,
-              )}
+              value={userId}
+              onChange={handleUserIdChange}
             >
               <option value="0" disabled>Choose a user</option>
               {usersFromServer.map(user => (
@@ -107,7 +112,7 @@ export const App = () => {
             </select>
           </label>
 
-          {initialError.userId
+          {userIdError
             && <span className="error">Please choose a user</span>}
         </div>
 
