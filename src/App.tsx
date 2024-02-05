@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title.value) {
+    if (!title.value.trim()) {
       setTitle((prevTitle) => ({ ...prevTitle, hasError: true }));
     }
 
@@ -40,7 +40,7 @@ export const App: React.FC = () => {
       setUser((prevUser) => ({ ...prevUser, hasError: true }));
     }
 
-    if (!title.value || user.id === 0) {
+    if (!title.value.trim() || user.id === 0) {
       return;
     }
 
@@ -95,7 +95,12 @@ export const App: React.FC = () => {
             <option value="0" disabled>Choose a user</option>
 
             {usersFromServer.map(currentUser => (
-              <option value={currentUser.id}>{currentUser.name}</option>
+              <option
+                key={currentUser.id}
+                value={currentUser.id}
+              >
+                {currentUser.name}
+              </option>
             ))}
           </select>
 
