@@ -11,6 +11,8 @@ export const App = () => {
 
   const [userIdError, setUserIdError] = useState(false);
   const [inputTitleError, setInputTitleError] = useState(false);
+  const [userIdTouched, setUserIdTouched] = useState(false);
+  const [inputTitleTouched, setInputTitleTouched] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [inputTitle, setInputTitle] = useState('');
@@ -18,15 +20,23 @@ export const App = () => {
   const resetFunc = () => {
     setUserId(0);
     setInputTitle('');
+    setUserIdTouched(false);
+    setInputTitleTouched(false);
   };
 
   const handleInputChange = (newInput: string) => {
-    setInputTitleError(false);
+    if (inputTitleTouched) {
+      setInputTitleError(false);
+    }
+
     setInputTitle(newInput);
   };
 
   const handleUserChange = (newUser: number) => {
-    setUserIdError(false);
+    if (userIdTouched) {
+      setUserIdError(false);
+    }
+
     setUserId(newUser);
   };
 
@@ -35,21 +45,31 @@ export const App = () => {
   ) => {
     event.preventDefault();
 
+    setUserIdTouched(true);
+    setInputTitleTouched(true);
+
+    let hasError = false;
+
     if (!userId) {
       setUserIdError(true);
+      hasError = true;
+    } else {
+      setUserIdError(false);
     }
 
     if (!inputTitle.length) {
       setInputTitleError(true);
+      hasError = true;
+    } else {
+      setInputTitleError(false);
     }
 
-    if (!inputTitle.length || !userId) {
+    if (hasError) {
       return;
     }
 
     const newTodo = {
-      id: [...todos]
-        .sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1,
+      id: [...todos].sort((todo1, todo2) => todo2.id - todo1.id)[0].id + 1,
       title: inputTitle,
       completed: false,
       userId,
