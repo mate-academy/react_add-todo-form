@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import './App.scss';
+import { useState } from "react";
+import "./App.scss";
 
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
-import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
+import usersFromServer from "./api/users";
+import todosFromServer from "./api/todos";
+import { TodoList } from "./components/TodoList";
+import { Todo } from "./types/Todo";
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
@@ -15,11 +15,11 @@ export const App = () => {
   const [inputTitleTouched, setInputTitleTouched] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [inputTitle, setInputTitle] = useState('');
+  const [inputTitle, setInputTitle] = useState("");
 
   const resetFunc = () => {
     setUserId(0);
-    setInputTitle('');
+    setInputTitle("");
     setUserIdTouched(false);
     setInputTitleTouched(false);
   };
@@ -41,7 +41,7 @@ export const App = () => {
   };
 
   const handleAddClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
 
@@ -58,6 +58,15 @@ export const App = () => {
     }
 
     if (!inputTitle.length) {
+      setInputTitleError(true);
+      hasError = true;
+    } else {
+      setInputTitleError(false);
+    }
+
+    const trimmedTitle = inputTitle.trim();
+
+    if (!trimmedTitle) {
       setInputTitleError(true);
       hasError = true;
     } else {
