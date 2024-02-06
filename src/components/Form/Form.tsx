@@ -22,8 +22,8 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
   const [hasErrorText, setHasErrorText] = useState(hasError);
 
   const handleChangeFields = (
-    field: string | number,
     value: string | number,
+    field: string | number,
   ) => {
     setFieldsForm(current => ({ ...current, [field]: value }));
   };
