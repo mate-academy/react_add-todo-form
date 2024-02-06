@@ -3,23 +3,23 @@ import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
 
 type Props = {
-  toDo: Todo;
+  todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ toDo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
-      data-id={toDo.id}
+      data-id={todo.id}
       className={cn(
         'TodoInfo',
-        { 'TodoInfo--completed': toDo.completed },
+        { 'TodoInfo--completed': todo.completed },
       )}
     >
       <h2 className="TodoInfo__title">
-        {toDo.title}
+        {todo.title}
       </h2>
 
-      {toDo.user && <UserInfo user={toDo.user} />}
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };

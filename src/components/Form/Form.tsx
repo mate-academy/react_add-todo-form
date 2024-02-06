@@ -12,22 +12,33 @@ const valuesOfForm = {
   selectUser: 0,
 };
 
+const hasError = {
+  hasErrorTitle: false,
+  hasErrorUser: false,
+};
+
 export const Form: React.FC<Props> = ({ onAdd }) => {
   const [fieldsForm, setFieldsForm] = useState<FieldsForm>(valuesOfForm);
-  const [hasErrorTitle, setHasErrorTitle] = useState(false);
-  const [hasErrorUser, setHasErrorUser] = useState(false);
+  const [hasErrorText, setHasErrorText] = useState(hasError);
 
   const handleChangeFields = (
-    value: string | number,
     field: string | number,
+    value: string | number,
   ) => {
     setFieldsForm(current => ({ ...current, [field]: value }));
   };
 
+  const handleErrorFields = (
+    field: string,
+    value: boolean,
+  ) => {
+    setHasErrorText(current => ({ ...current, [field]: value }));
+  };
+
   const resetFieldsForm = () => {
     setFieldsForm(valuesOfForm);
-    setHasErrorTitle(false);
-    setHasErrorUser(false);
+    handleErrorFields('hasErrorTitle', false);
+    handleErrorFields('hasErrorUser', false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -37,11 +48,11 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
     const isSelectUser = fieldsForm.selectUser;
 
     if (!isTitleExists) {
-      setHasErrorTitle(true);
+      handleErrorFields('hasErrorTitle', true);
     }
 
     if (!isSelectUser) {
-      setHasErrorUser(true);
+      handleErrorFields('hasErrorUser', true);
     }
 
     if (!isTitleExists || !isSelectUser) {
@@ -72,10 +83,9 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
           onChange={(event) => {
             handleChangeFields(event.target.value, 'title');
           }}
-          onBlur={() => setHasErrorTitle(true)}
         />
 
-        {hasErrorTitle && !fieldsForm.title && (
+        {hasErrorText.hasErrorTitle && !fieldsForm.title && (
           <span className="error">Please enter a title</span>
         )}
 
@@ -93,7 +103,6 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
           onChange={(event) => {
             handleChangeFields(+event.target.value, 'selectUser');
           }}
-          onBlur={() => setHasErrorUser(true)}
           required
         >
           <option value={0} disabled>Choose a user</option>
@@ -110,7 +119,7 @@ export const Form: React.FC<Props> = ({ onAdd }) => {
           })}
         </select>
 
-        {hasErrorUser && !fieldsForm.selectUser && (
+        {hasErrorText.hasErrorUser && !fieldsForm.selectUser && (
           <span className="error">Please choose a user</span>
         )}
 
