@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+
 import './App.scss';
 import users from './api/users';
 import todos from './api/todos';
@@ -20,7 +21,7 @@ const initialTodo: Todo = {
   user: initialUser,
 };
 const findUser = (id: number): User => (
-  users.filter(user => user.id === id)[0]
+  users.find(user => user.id === id) || initialUser
 );
 const setId = (todoList: Todo[]) => {
   const id = Math.max(
@@ -90,12 +91,19 @@ export const App = () => {
   };
 
   const handleTodoTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.trim().length === 0) {
-      setHasFormError((currentErrors) => ({
-        ...currentErrors,
-        titleError: '',
-      }));
-    }
+    // Check for spaces only in string.
+
+    // if (event.target.value.trim().length === 0) {
+    //   setHasFormError((currentErrors) => ({
+    //     ...currentErrors,
+    //     titleError: '',
+    //   }));
+    // }
+
+    setHasFormError((currentErrors) => ({
+      ...currentErrors,
+      titleError: '',
+    }));
 
     setNewTodo(currentTodo => ({
       ...currentTodo,
