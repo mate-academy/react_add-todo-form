@@ -31,13 +31,13 @@ export const App = () => {
     e.preventDefault();
     if (title.trim() === '') {
       setTitleError(true);
-
-      return;
     }
 
     if (userSelected === '0') {
       setUserError(true);
+    }
 
+    if (title.trim() === '' || userSelected === '0') {
       return;
     }
 
