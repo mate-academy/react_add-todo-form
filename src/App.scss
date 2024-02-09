@@ -37,3 +37,13 @@ button {
 .UserInfo {
   font-style: italic;
 }
+
+.input {
+  &.input-length {
+    max-width: 500px;
+  }
+}
+
+.box {
+  max-width: 550px;
+}
