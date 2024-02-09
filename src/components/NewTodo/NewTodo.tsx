@@ -77,9 +77,9 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {usersFromServer.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
+          {usersFromServer.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
             </option>
           ))}
         </select>
