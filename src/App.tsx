@@ -41,13 +41,13 @@ export const App: React.FC = () => {
       setUserIdError(false);
     }
 
-    if (title.length === 0) {
+    if (title.trim() === '') {
       setTitleError(true);
     } else {
       setTitleError(false);
     }
 
-    if ((userId > 0) && (title.length !== 0)) {
+    if ((userId > 0) && (title.trim() !== '')) {
       setUserIdError(false);
       setTitleError(false);
     } else {

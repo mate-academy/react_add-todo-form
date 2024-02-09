@@ -1,16 +1,14 @@
 import React from 'react';
-import { getUserById } from '../../services/userServices';
+import { User } from '../../types/User';
 
 type Props = {
-  userId: number,
+  user: User,
 };
 
-export const UserInfo: React.FC<Props> = ({ userId }) => {
-  const getUser = getUserById(userId);
-
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${getUser?.email}`}>
-      {getUser?.name}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
     </a>
   );
 };

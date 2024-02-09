@@ -1,12 +1,15 @@
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
+import { getUserById } from '../../services/userServices';
 
 type Props = {
   todo: Todo,
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const getUser = getUserById(todo.userId);
+
   return (
     <article
       key={todo.id}
@@ -17,7 +20,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <UserInfo userId={todo.userId} />
+      {getUser && <UserInfo user={getUser} />}
 
     </article>
   );
