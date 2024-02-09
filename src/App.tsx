@@ -13,6 +13,7 @@ export const App: React.FC = () => {
   const [userIdError, setUserIdError] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const newId = getMaxTodosId(todoList) + 1;
+  const users = [...usersFromServer];
 
   const reset = () => {
     setTitle('');
@@ -54,8 +55,8 @@ export const App: React.FC = () => {
       return;
     }
 
-    setTodoList(todosList => [
-      ...todosList,
+    setTodoList([
+      ...todoList,
       {
         id: newId,
         title,
@@ -65,9 +66,6 @@ export const App: React.FC = () => {
     ]);
     reset();
   };
-
-  const users = [...usersFromServer];
-  const todosList = [...todoList];
 
   return (
     <div className="section">
@@ -133,7 +131,7 @@ export const App: React.FC = () => {
         </div>
       </form>
 
-      <TodoList todoList={todosList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };

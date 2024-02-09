@@ -3,12 +3,12 @@ import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 
 type Props = {
-  todoList: Todo[],
+  todos: Todo[],
 };
 
-export const TodoList: React.FC<Props> = ({ todoList }) => (
+export const TodoList: React.FC<Props> = ({ todos }) => (
   <section className="TodoList">
-    {todoList.map((todo: Todo) => (
+    {todos.map((todo: Todo) => (
       <TodoInfo
         key={todo.id}
         todo={todo}
