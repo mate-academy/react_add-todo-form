@@ -25,7 +25,6 @@ export const App: React.FC = () => {
       <TodoList
         todos={todos}
         onAdd={addTodo}
-        user={user}
       />
     </div>
   );

@@ -1,36 +1,29 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { Todo } from '../types/Todo';
-import { User } from '../types/User';
+import { getUserById } from '../../services/user';
+import { TodoInfo } from '../TodoInfo';
 
 type Props = {
   onAdd: (todo: Todo) => void;
   todos: Todo[];
-  user: User | null;
 };
 
 export const TodoList: React.FC<Props> = ({
   onAdd,
   todos,
-  user,
 }) => {
-  const [formState, setFormState] = useState({
-    title: '',
-    userId: 0,
-  });
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+
+  const [userId, setUserId] = useState(0);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const areRequiredFieldsFilled = () => {
     return (
-      formState.title !== ''
-      && formState.userId !== 0
+      title.trim() === '' && userId === 0
     );
   };
-
-  const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(true);
-
-  const [userId, setUserId] = useState(0);
-  const [hasUserIdError, setHasUserIdError] = useState(true);
 
   const generateNewId = () => {
     return Math.max(...todos.map(todo => todo.id)) + 1;
@@ -39,31 +32,35 @@ export const TodoList: React.FC<Props> = ({
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!hasTitleError || !hasUserIdError) {
-      setHasTitleError(false);
-      setHasUserIdError(false);
+    if (areRequiredFieldsFilled()) {
+      setHasTitleError(title.trim() === '');
+      setHasUserIdError(userId === 0);
+
+      return;
+    }
+
+    if (hasTitleError || hasUserIdError) {
+      return;
     }
 
     onAdd({
       id: generateNewId(),
-      title: formState.title,
+      title,
       completed: false,
       userId,
+      user: getUserById(userId),
     });
+
+    setTitle('');
+    setUserId(0);
   };
 
   const handleUserIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormState(prev => ({ ...prev, [name]: value }));
     setUserId(+e.target.value);
     setHasUserIdError(false);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormState(prev => ({ ...prev, [name]: value }));
     setTitle(e.target.value);
     setHasTitleError(false);
   };
@@ -86,7 +83,9 @@ export const TodoList: React.FC<Props> = ({
               placeholder="Please enter a title"
             />
             {hasTitleError && (
-              <span className="error">Please enter a title</span>
+              <span className="error">
+                Please enter a title
+              </span>
             )}
           </label>
 
@@ -109,30 +108,29 @@ export const TodoList: React.FC<Props> = ({
           </label>
 
           {hasUserIdError && (
-            <span className="error">Please choose a user</span>
+            <span className="error">
+              Please choose a user
+            </span>
           )}
         </div>
 
         <button
           type="submit"
           data-cy="submitButton"
-          disabled={areRequiredFieldsFilled()}
+          disabled={!areRequiredFieldsFilled()}
         >
           Add
         </button>
       </form>
       <section className="TodoList">
         {todos.map(todo => (
-          <article data-id="1" className="TodoInfo TodoInfo--completed">
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-            <a
-              className="UserInfo"
-              href="mailto:Sincere@april.biz"
-            >
-              {user}
-            </a>
+          <article
+            key={todo.id}
+            data-id="1"
+          >
+            <TodoInfo
+              todo={todo}
+            />
           </article>
         ))}
       </section>
