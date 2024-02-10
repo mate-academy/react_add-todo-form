@@ -14,11 +14,9 @@ const initialTodo: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodo);
 
-  // const addTodo = (newTodos: Todo) => {
-  //   setTodos(currentTodos => [...currentTodos, newTodos]);
-
-  //   console.log(newTodos);
-  // };
+  const addTodo = (newTodos: Todo) => {
+    setTodos(currentTodos => [...currentTodos, newTodos]);
+  };
 
   return (
     <div className="App">
@@ -26,7 +24,8 @@ export const App: React.FC = () => {
 
       <TodoList
         todos={todos}
-        onAdd={setTodos}
+        onAdd={addTodo}
+        user={user}
       />
     </div>
   );
