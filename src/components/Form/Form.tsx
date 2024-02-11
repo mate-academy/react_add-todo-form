@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Todo } from '../TodoInfo';
+import { Todo } from '../../types/TypeTodo';
+import users from '../../api/users';
 
 interface Props{
   addTodo: (todo: Todo) => void
@@ -46,7 +47,7 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
     <form
       action="/api/todos"
       method="POST"
-      onSubmit={(e) => handleSubmit(e)}
+      onSubmit={handleSubmit}
     >
       <div className="field">
         <input
@@ -74,16 +75,10 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
           }}
         >
           <option value="0">Choose a user</option>
-          <option value="1">Leanne Graham</option>
-          <option value="2">Ervin Howell</option>
-          <option value="3">Clementine Bauch</option>
-          <option value="4">Patricia Lebsack</option>
-          <option value="5">Chelsey Dietrich</option>
-          <option value="6">Mrs. Dennis Schulist</option>
-          <option value="7">Kurtis Weissnat</option>
-          <option value="8">Nicholas Runolfsdottir V</option>
-          <option value="9">Glenna Reichert</option>
-          <option value="10">Clementina DuBuque</option>
+
+          {users.map((elem) => (
+            <option value={elem.id}>{elem.name}</option>
+          ))}
         </select>
 
         {touched.select && todoInfo.userId === 0

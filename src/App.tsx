@@ -28,7 +28,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
       <Form addTodo={addTodo} />
-      <TodoList todoList={todoList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };
