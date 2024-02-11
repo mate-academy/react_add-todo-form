@@ -21,7 +21,7 @@ export const TodoList: React.FC<Props> = ({
 
   const areRequiredFieldsFilled = () => {
     return (
-      title.trim() === '' && userId === 0
+      title.trim() === '' || userId === 0
     );
   };
 
@@ -117,21 +117,17 @@ export const TodoList: React.FC<Props> = ({
         <button
           type="submit"
           data-cy="submitButton"
-          disabled={!areRequiredFieldsFilled()}
+          disabled={areRequiredFieldsFilled()}
         >
           Add
         </button>
       </form>
       <section className="TodoList">
         {todos.map(todo => (
-          <article
+          <TodoInfo
             key={todo.id}
-            data-id="1"
-          >
-            <TodoInfo
-              todo={todo}
-            />
-          </article>
+            todo={todo}
+          />
         ))}
       </section>
     </div>
