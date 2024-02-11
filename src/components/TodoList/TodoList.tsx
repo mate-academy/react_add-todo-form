@@ -1,4 +1,5 @@
-import { Todo, TodoInfo } from '../TodoInfo';
+import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../../types/TypeTodo';
 
 interface TodoProps {
   todos: Todo[],

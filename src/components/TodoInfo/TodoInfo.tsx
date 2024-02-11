@@ -1,13 +1,7 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import users from '../../api/users';
-
-export interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-}
+import { Todo } from '../../types/TypeTodo';
 
 interface TodoInfoProps {
   todo: Todo;

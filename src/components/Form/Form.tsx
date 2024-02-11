@@ -35,6 +35,11 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
     event.preventDefault();
 
     if (!todoInfo.title || todoInfo.userId === 0) {
+      setTouched({
+        input: true,
+        select: true,
+      });
+
       return;
     }
 
