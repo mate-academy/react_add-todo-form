@@ -9,6 +9,14 @@ type Props = {
   todos: Todo[];
 };
 
+const getNewTodoId = (todos: Todo[]) => {
+  const maxId = Math.max(
+    ...todos.map(todo => todo.id),
+  );
+
+  return maxId + 1;
+};
+
 export const TodoList: React.FC<Props> = ({
   onAdd,
   todos,
@@ -23,10 +31,6 @@ export const TodoList: React.FC<Props> = ({
     return (
       title.trim() === '' || userId === 0
     );
-  };
-
-  const generateNewId = () => {
-    return Math.max(...todos.map(todo => todo.id)) + 1;
   };
 
   const handleAdd = (e: React.FormEvent) => {
@@ -44,7 +48,7 @@ export const TodoList: React.FC<Props> = ({
     }
 
     onAdd({
-      id: generateNewId(),
+      id: getNewTodoId(todos),
       title,
       completed: false,
       userId,
@@ -117,7 +121,6 @@ export const TodoList: React.FC<Props> = ({
         <button
           type="submit"
           data-cy="submitButton"
-          disabled={areRequiredFieldsFilled()}
         >
           Add
         </button>
