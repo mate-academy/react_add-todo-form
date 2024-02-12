@@ -8,9 +8,9 @@ export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
     <a
       className="UserInfo"
-      href={`mailto:${user?.email}`}
+      href={`mailto:${user.email}`}
     >
-      {user?.name}
+      {user.name}
     </a>
   );
 };
