@@ -25,7 +25,11 @@ export const App = () => {
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim()) {
+      setHasTitleError(true);
+    }
+
+    if (!title.trim() || !userId) {
       // eslint-disable-next-line no-useless-return
       return;
     }
