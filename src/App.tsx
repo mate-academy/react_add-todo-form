@@ -104,12 +104,12 @@ export const App: React.FC = () => {
             onChange={changeUser}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                key={user.id}
-                value={user.id}
+                key={id}
+                value={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>
