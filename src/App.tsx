@@ -3,23 +3,11 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types';
 import { TodoList } from './components/TodoList';
+import { createTodo } from './utils/createTodo';
+import { getInitialList } from './utils/getInitialList';
 
-function getUserById(idOfUser: number) {
-  return usersFromServer.find(user => user.id === idOfUser) || null;
-}
-
-function getMaxTodoId(list: Todo[]) {
-  const listOfId = list.map(item => item.id);
-
-  return Math.max(...listOfId);
-}
-
-const initialList = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+const initialList = getInitialList(todosFromServer, usersFromServer);
 
 export const App = () => {
   const [todos, setTodos] = useState(initialList);
@@ -40,6 +28,11 @@ export const App = () => {
     setHasUserError(false);
   };
 
+  function resetForm() {
+    setTitle('');
+    setUserId(0);
+  }
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -51,16 +44,12 @@ export const App = () => {
       return;
     }
 
-    setTodos(currentList => [...currentList, {
-      id: getMaxTodoId(currentList) + 1,
-      title,
-      completed: false,
-      userId,
-      user: getUserById(userId) || null,
-    }]);
+    setTodos(currentList => [
+      ...currentList,
+      createTodo(title, userId, currentList),
+    ]);
 
-    setTitle('');
-    setUserId(0);
+    resetForm();
   };
 
   return (

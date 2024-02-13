@@ -2,9 +2,9 @@ import { Todo } from '../../types';
 import { TodoInfo } from '../TodoInfo';
 import './TodoList.scss';
 
-type Props = {
+interface Props {
   todos: Todo[],
-};
+}
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
