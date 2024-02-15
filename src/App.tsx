@@ -16,7 +16,9 @@ export const App = () => {
 
         <div className="field">
           <select data-cy="userSelect">
-            <option value="0" disabled>Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
           </select>
 
           <span className="error">Please choose a user</span>
@@ -29,9 +31,7 @@ export const App = () => {
 
       <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">
-            delectus aut autem
-          </h2>
+          <h2 className="TodoInfo__title">delectus aut autem</h2>
 
           <a className="UserInfo" href="mailto:Sincere@april.biz">
             Leanne Graham
