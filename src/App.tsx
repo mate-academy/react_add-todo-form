@@ -44,11 +44,13 @@ export const App = () => {
       } else {
         setTitleError(true);
       }
+
       return;
     }
 
     if (taskUser === '0') {
       setUserError(true);
+
       return;
     }
 
