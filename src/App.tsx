@@ -1,54 +1,52 @@
-/* eslint-disable */
 import './App.scss';
 
+import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { User } from './interface/User';
 import { Todo } from './interface/Todo';
 
 const getUserById = (userId: number): User | null => {
   return usersFromServer.find(user => user.id === userId) || null;
-}
+};
 
 const initialState: Todo[] = todosFromServer.map((element) => ({
   ...element,
   user: getUserById(element.userId),
-}))
+}));
 
 const newTodoId = (todos: Todo[]) => {
   return Math.max(...todos.map(todo => todo.id)) + 1;
 };
 
-
 export const App = () => {
   const [todos, setTodos] = useState(initialState);
   const [userId, setUserId] = useState(0);
-  const [title, setTitile] = useState('')
+  const [title, setTitile] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const reset = () => {
     setTitile('');
     setUserId(0);
-  }
+  };
 
   const addTodo = (todo: Todo) => {
-    const newTodo = {...todo, id: newTodoId(todos)}
+    const newTodo = { ...todo, id: newTodoId(todos) };
 
     setTodos(prev => [...prev, newTodo]);
-  }
+  };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
-  }
+  };
 
   const handleTitelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitile(event.target.value)
-    setHasTitleError(false)
-  }
+    setTitile(event.target.value);
+    setHasTitleError(false);
+  };
 
   const handelSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -66,11 +64,10 @@ export const App = () => {
       completed: false,
       userId,
       user: getUserById(userId),
-    })
+    });
 
-    reset()
-
-  }
+    reset();
+  };
 
   return (
     <div className="App">
@@ -103,14 +100,15 @@ export const App = () => {
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
           </select>
-          {hasUserIdError && <span className="error">Please choose a user</span>}
+          {hasUserIdError
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-      <TodoList todos={todos}/>
+      <TodoList todos={todos} />
     </div>
   );
 };
