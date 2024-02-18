@@ -99,6 +99,7 @@ export const App = () => {
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>{user.name}</option>
             ))}
+
           </select>
           {hasUserIdError
             && <span className="error">Please choose a user</span>}
