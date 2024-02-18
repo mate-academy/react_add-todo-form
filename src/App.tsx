@@ -44,7 +44,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title || !title.trim());
     setHasSelectError(!userId);
 
     if (!title || !title.trim() || !userId) {
