@@ -74,7 +74,6 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
-            required
             placeholder="Enter a title"
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
