@@ -14,9 +14,7 @@ export const TodoList = ({ todoList }: Props) => {
           return (
             <>
               <TodoInfo todo={todo} />
-
             </>
-
           );
         })}
       </section>
