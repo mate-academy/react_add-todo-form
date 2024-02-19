@@ -1,25 +1,17 @@
-import { TodoInfo } from '../TodoInfo';
+import React from 'react';
 import { Todo } from '../../Types/Todo';
+import { TodoInfo } from '../TodoInfo';
 
 type Props = {
-  todoList: Todo[];
+  todos: Todo[];
 };
 
-export const TodoList = ({ todoList }: Props) => {
-  if (todoList) {
-    return (
-
-      <section className="TodoList">
-        {todoList.map((todo) => {
-          return (
-            <>
-              <TodoInfo todo={todo} />
-            </>
-          );
-        })}
-      </section>
-    );
-  }
-
-  return null;
+export const TodoList: React.FC<Props> = ({ todos }) => {
+  return (
+    <section className="TodoList">
+      {todos.map((todo) => (
+        <TodoInfo todo={todo} />
+      ))}
+    </section>
+  );
 };
