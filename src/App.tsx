@@ -17,7 +17,8 @@ export const App = () => {
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filteredTitle = event.target.value.replace(
-      /[^a-zA-Zа-яА-Я0-9\s]/g, '',
+      /[^a-zA-Zа-яА-Я0-9\s]/g,
+      '',
     );
 
     setTitleNotFound(!filteredTitle.trim());
@@ -71,10 +72,7 @@ export const App = () => {
         className="form"
       >
         <div className="field">
-          <label
-            htmlFor="title"
-            className="title is-5"
-          >
+          <label htmlFor="title" className="title is-5">
             Title:
           </label>
           <input
@@ -87,18 +85,11 @@ export const App = () => {
             value={title}
           />
 
-          {titleNotFound && (
-            <span className="error">
-              Please enter a title
-            </span>
-          )}
+          {titleNotFound && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label
-            htmlFor="user"
-            className="title is-5"
-          >
+          <label htmlFor="user" className="title is-5">
             User:
           </label>
           <select
@@ -112,20 +103,15 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map((user) => (
-              <option
-                key={user.id}
-                value={user.id}
-              >
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
           {userNotSelected && (
-            <span className="error">
-              Please choose a user
-            </span>
+            <span className="error">Please choose a user</span>
           )}
         </div>
 
