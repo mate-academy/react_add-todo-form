@@ -50,7 +50,8 @@ describe('TodoList', () => {
 
     mount(<TodoList todos={todos} />);
 
-    cy.get('.TodoInfo').should('have.length', 4);
+    cy.get('.TodoInfo')
+      .should('have.length', 4);
 
     cy.get('.TodoInfo')
       .first()
