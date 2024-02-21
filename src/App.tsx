@@ -7,21 +7,25 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
 function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || {
+  return (
+    usersFromServer.find(user => user.id === userId) || {
+      id: 0,
+      name: '',
+      username: '',
+      email: '',
+    }
+  );
+}
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId) || {
     id: 0,
     name: '',
     username: '',
     email: '',
-  };
-}
-
-const todos: Todo[] = todosFromServer.map((todo) => ({
-  ...todo,
-  user: getUserById(todo.userId) || {
-    id: 0, name: '', username: '', email: '',
   },
-}
-));
+}));
 
 export const App = () => {
   // #region states
@@ -68,63 +72,52 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={todoTitle}
             placeholder="enter your todo"
-            onChange={(event) => {
+            onChange={event => {
               setTodoTitle(event.target.value.trim());
               setHasTitleError(!event.target.value);
             }}
-            onBlur={(event) => {
+            onBlur={event => {
               setHasTitleError(!event.target.value);
             }}
           />
-          {hasTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
             value={currentUser}
-            onChange={(event) => {
+            onChange={event => {
               setCurrentUser(+event.target.value);
               setSelectedUser(!event.target.value);
             }}
           >
-            <option value="0" disabled selected>Choose a user</option>
+            <option value="0" disabled selected>
+              Choose a user
+            </option>
             {usersFromServer.map(user => {
               return (
-                <option
-                  value={user.id}
-                  key={user.id}
-                >
+                <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
               );
             })}
           </select>
-          {selectedError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {selectedError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-      <TodoList
-        todos={currentTodos}
-      />
+      <TodoList todos={currentTodos} />
     </div>
   );
 };
