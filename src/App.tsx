@@ -50,7 +50,7 @@ export const App = () => {
     setHasTitleError(!todoTitle.trim());
     setSelectedUser(!currentUser);
 
-    if (currentUser === 0 || !todoTitle) {
+    if (currentUser === 0 || !todoTitle.trim()) {
       return;
     }
 
