@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type TodoInfoProps = {
-  key: number,
   todo: {
     id: number,
     title: string,

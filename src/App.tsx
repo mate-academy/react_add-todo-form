@@ -92,7 +92,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todoTitle}
-            placeholder='enter your todo'
+            placeholder="enter your todo"
             onChange={(event) => {
               setTodoTitle(event.target.value);
               setHasTitleError(!event.target.value);
@@ -112,7 +112,7 @@ export const App = () => {
             value={currentUser}
             onChange={(event) => {
               setCurrentUser(+event.target.value);
-              setSelectedUser(!event.target.value)
+              setSelectedUser(!event.target.value);
             }}
           >
             <option value="0" disabled selected>Choose a user</option>
