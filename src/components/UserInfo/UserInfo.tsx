@@ -1,12 +1,8 @@
 import React from 'react';
+import { User } from '../../types/User';
 
 type InfoProps = {
-  user: {
-    id: number,
-    name: string,
-    username: string,
-    email: string,
-  },
+  user: User,
 };
 
 export const UserInfo: React.FC<InfoProps> = ({ user }) => {

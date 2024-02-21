@@ -1,20 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
+import { Todo } from '../../types/Todo';
 
 type TodoInfoProps = {
-  todo: {
-    id: number,
-    title: string,
-    completed: boolean,
-    userId: number,
-    user: {
-      id: number,
-      name: string,
-      username: string,
-      email: string,
-    }
-  }
+  todo: Todo
 };
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {

@@ -4,21 +4,7 @@ import './App.scss';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-type User = {
-  id: number,
-  name: string,
-  username: string,
-  email: string,
-};
-
-type Todo = {
-  id: number,
-  title: string,
-  completed: boolean,
-  userId: number,
-  user: User,
-};
+import { Todo } from './types/Todo';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || {
@@ -94,7 +80,7 @@ export const App = () => {
             value={todoTitle}
             placeholder="enter your todo"
             onChange={(event) => {
-              setTodoTitle(event.target.value);
+              setTodoTitle(event.target.value.trim());
               setHasTitleError(!event.target.value);
             }}
             onBlur={(event) => {
