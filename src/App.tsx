@@ -47,7 +47,7 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasTitleError(!todoTitle);
+    setHasTitleError(!todoTitle.trim());
     setSelectedUser(!currentUser);
 
     if (currentUser === 0 || !todoTitle) {
