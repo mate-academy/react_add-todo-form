@@ -42,6 +42,37 @@ export const App = () => {
     setTodo(NEW_TODO);
   };
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    field: string,
+  ) => {
+    switch (field) {
+      default:
+        return;
+      case 'title': {
+        const newTitle = titlePattern.test(event.target.value)
+          ? event.target.value
+          : todo.title;
+
+        setTodo((prevTodo) => ({
+          ...prevTodo,
+          title: newTitle,
+        }));
+        setHasTitleError(false);
+
+        return;
+      }
+
+      case 'userId': {
+        setTodo((prevTodo) => ({
+          ...prevTodo,
+          userId: +event.target.value,
+        }));
+        setHasUserError(false);
+      }
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -60,34 +91,17 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={todo.title}
-            onChange={(e) => {
-              const newTitle = titlePattern.test(e.target.value)
-                ? e.target.value
-                : todo.title;
-
-              setTodo((prevTodo) => ({
-                ...prevTodo,
-                title: newTitle,
-              }));
-              setHasTitleError((prevFlag) => prevFlag && !newTitle.trim());
-            }}
+            onChange={(e) => handleChange(e, 'title')}
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="title">Choose a user: </label>
           <select
             data-cy="userSelect"
             value={todo.userId}
-            onChange={(e) => {
-              const newUserId = +e.target.value;
-
-              setTodo((prevTodo) => ({
-                ...prevTodo,
-                userId: newUserId,
-              }));
-              setHasUserError((prevFlag) => prevFlag && !newUserId);
-            }}
+            onChange={(e) => handleChange(e, 'userId')}
           >
             <option value="0" disabled>
               Choose a user
