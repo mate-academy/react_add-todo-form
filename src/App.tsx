@@ -136,7 +136,6 @@ export const App = () => {
           Add
         </button>
       </form>
-
       <TodoList
         todos={currentTodos}
       />
