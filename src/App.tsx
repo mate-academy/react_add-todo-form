@@ -56,7 +56,7 @@ export const App = () => {
 
     addTodo({
       id: Math.max(...currentTodos.map(todo => todo.id)) + 1,
-      title: todoTitle,
+      title: todoTitle.trim(),
       completed: false,
       userId: currentUser,
       user: getUserById(currentUser),
@@ -80,7 +80,7 @@ export const App = () => {
             value={todoTitle}
             placeholder="enter your todo"
             onChange={event => {
-              setTodoTitle(event.target.value.trim());
+              setTodoTitle(event.target.value);
               setHasTitleError(!event.target.value);
             }}
             onBlur={event => {
