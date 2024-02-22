@@ -9,6 +9,7 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasOnlySpaces, setHasOnlySpaces] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserIdError] = useState(false);
@@ -18,6 +19,7 @@ export const App = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
+    setHasOnlySpaces(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -30,20 +32,21 @@ export const App = () => {
     setUserId(0);
   };
 
+  const maxId = todos.reduce(
+    (max, obj) => (obj.id > max ? obj.id : max),
+    todos[0].id,
+  );
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
+    setHasOnlySpaces(title.trim().length === 0 && title.length > 0);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title || !userId || !title.trim()) {
       return;
     }
-
-    const maxId = todos.reduce(
-      (max, obj) => (obj.id > max ? obj.id : max),
-      todos[0].id,
-    );
 
     const todo = {
       id: maxId + 1,
@@ -73,6 +76,9 @@ export const App = () => {
             placeholder="Enter a title"
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasOnlySpaces && (
+            <span className="error">You added only spaces into field</span>
+          )}
         </div>
 
         <div className="field">
