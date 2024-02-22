@@ -11,8 +11,17 @@ button {
   cursor: pointer;
 }
 
+label {
+  padding-right: 10px;
+}
+
 .error {
   color: red;
+  padding-left: 10px;
+}
+
+.field {
+  margin: 10px 0;
 }
 
 .TodoInfo {
