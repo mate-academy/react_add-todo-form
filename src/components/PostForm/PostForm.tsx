@@ -28,7 +28,8 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event?.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
+      setTitle('');
       setHasTitleError(true);
       setHasUserError(!userId);
 

@@ -1,25 +1,13 @@
 import './App.scss';
 
 import { useState } from 'react';
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { PostForm } from './components/PostForm';
 import { TodoList } from './components/TodoList';
 import { Todo } from './Types/Todo';
 import { Post } from './Types/Post';
-
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId)
-      || null;
-}
-
-function getNewPostId(posts: Post[]) {
-  const maxId = Math.max(
-    ...posts.map(post => post.id),
-  );
-
-  return maxId + 1;
-}
+import { getUserById } from './servises/getUserById';
+import { getNewPostId } from './servises/getNewPostId';
 
 const initialposts = todosFromServer.map(todo => ({
   ...todo,
