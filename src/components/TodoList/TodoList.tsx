@@ -1,6 +1,7 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../types/Todo';
+import './TodoList.scss';
 
 type Props = {
   todos: Todo[];
@@ -8,10 +9,12 @@ type Props = {
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
-    <section className="TodoList">
+    <ul className="TodoList">
       {todos.map(todo => (
-        <TodoInfo todo={todo} key={todo.id} />
+        <li key={todo.id}>
+          <TodoInfo todo={todo} />
+        </li>
       ))}
-    </section>
+    </ul>
   );
 };

@@ -7,25 +7,29 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState(0);
+  const [userId, setUserId] = useState(0);
 
   const [titleError, setTitleError] = useState(false);
-  const [authorError, setAuthorError] = useState(false);
+  const [userIdError, setUserIdError] = useState(false);
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
 
-    setTitleError(false);
+    if (titleError) {
+      setTitleError(false);
+    }
   };
 
-  const handleAuthor = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setAuthor(+event.target.value);
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
 
-    setAuthorError(false);
+    if (userIdError) {
+      setUserIdError(false);
+    }
   };
 
   const resetForm = () => {
-    setAuthor(0);
+    setUserId(0);
     setTitle('');
   };
 
@@ -35,9 +39,9 @@ export const App = () => {
     const trimedTitle = title.trim();
 
     setTitleError(!trimedTitle);
-    setAuthorError(!author);
+    setUserIdError(!userId);
 
-    if (!trimedTitle || !author) {
+    if (!trimedTitle || !userId) {
       return;
     }
 
@@ -47,7 +51,7 @@ export const App = () => {
       id: newId,
       title: trimedTitle,
       completed: false,
-      userId: author,
+      userId,
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -62,24 +66,26 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleChange}>
         <div className="field">
           <label htmlFor="title">Title: </label>
+
           <input
             type="text"
             data-cy="titleInput"
             id="title"
             placeholder="Enter a title"
             value={title}
-            onChange={handleTitle}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <label htmlFor="author">Author: </label>
+
           <select
             data-cy="userSelect"
             id="author"
-            value={author}
-            onChange={handleAuthor}
+            value={userId}
+            onChange={handleUserIdChange}
           >
             <option value="0" disabled>
               Choose a user
@@ -91,7 +97,7 @@ export const App = () => {
             ))}
           </select>
 
-          {authorError && <span className="error">Please choose a user</span>}
+          {userIdError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
