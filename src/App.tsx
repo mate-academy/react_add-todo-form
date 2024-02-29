@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import './App.scss';
 
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-// eslint-disable-next-line import/no-cycle
+import usersFromServer from './api/users';
+import { getUserById } from './servises/userBuild';
 import { TodoList } from './components/TodoList';
 
-export function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId);
+interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
-export const todosList = todosFromServer.map(todo => ({
+export const todosList: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  userId: getUserById(todo.userId)?.id,
+  userId: getUserById(todo.userId)?.id as NonNullable<number>,
 }));
 
 export const App: React.FC = () => {
@@ -20,7 +23,7 @@ export const App: React.FC = () => {
   const [errors, setErrors] = useState(false);
   const [userId, setUserId] = useState(0);
   const [errorsSelect, setErrorsSelect] = useState(false);
-  const [todos, setTodos] = useState(todosList);
+  const [todos, setTodos] = useState<Todo[]>(todosList);
 
   const hadlleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);

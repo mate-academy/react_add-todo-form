@@ -1,6 +1,5 @@
+import { getUserById } from '../../servises/userBuild';
 import { UserInfo } from '../UserInfo';
-// eslint-disable-next-line import/no-cycle
-import { getUserById } from '../../App';
 
 interface Props {
   todo: {

@@ -1,8 +1,14 @@
-// eslint-disable-next-line import/no-cycle
 import { TodoInfo } from '../TodoInfo';
 
+interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 interface Props {
-  todos: any[];
+  todos: Todo[];
 }
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
