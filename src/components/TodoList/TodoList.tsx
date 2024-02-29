@@ -1,11 +1,5 @@
 import { TodoInfo } from '../TodoInfo';
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Todo } from '../../types/todo';
 
 interface Props {
   todos: Todo[];

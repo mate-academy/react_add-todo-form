@@ -1,13 +1,9 @@
 import { getUserById } from '../../servises/userBuild';
+import { Todo } from '../../types/todo';
 import { UserInfo } from '../UserInfo';
 
 interface Props {
-  todo: {
-    userId: number;
-    id: number;
-    title: string;
-    completed: boolean;
-  };
+  todo: Todo;
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
