@@ -28,8 +28,9 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+
     if (newValue.match(pattern)) {
-      setNewTodo({ ...newTodo, title: event.target.value });
+      setNewTodo({ ...newTodo, title: newValue });
       setIsFormFeeled({ ...isFormFeeled, title: false });
     }
   };
@@ -52,6 +53,13 @@ export const App = () => {
 
   const sendTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!newTodo.title.trim()) {
+      setNewTodo({ ...newTodo, title: '' });
+      setIsFormFeeled({ user: !newTodo.user, title: true });
+
+      return;
+    }
 
     setIsFormFeeled({ title: !newTodo.title, user: !newTodo.user });
 
