@@ -8,6 +8,8 @@ function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
+const pattern = /^[A-Za-zА-ЩЬЮЯҐЄІЇа-щьюяґєії0-9\s]*$/;
+
 export const App = () => {
   const [newTodo, setNewTodo] = useState({
     title: '',
@@ -21,12 +23,15 @@ export const App = () => {
 
   const handleUsertChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setNewTodo({ ...newTodo, user: +event.target.value });
-    setIsFormFeeled({...isFormFeeled, user: false});
+    setIsFormFeeled({ ...isFormFeeled, user: false });
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo({ ...newTodo, title: event.target.value });
-    setIsFormFeeled({...isFormFeeled, title: false});
+    const newValue = event.target.value;
+    if (newValue.match(pattern)) {
+      setNewTodo({ ...newTodo, title: event.target.value });
+      setIsFormFeeled({ ...isFormFeeled, title: false });
+    }
   };
 
   const todos = initialTodos.map(todo => ({
@@ -73,7 +78,9 @@ export const App = () => {
             value={newTodo.title}
             onChange={handleTitleChange}
           />
-          {isFormFeeled.title && <span className="error">Please enter a title</span>}
+          {isFormFeeled.title && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -94,7 +101,9 @@ export const App = () => {
             ))}
           </select>
 
-          {isFormFeeled.user && <span className="error">Please choose a user</span>}
+          {isFormFeeled.user && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
