@@ -66,7 +66,7 @@ export const App = () => {
       setHasUserIdError(true);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -75,7 +75,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId) as User,
+      user: getUserById(userId),
     });
   };
 
