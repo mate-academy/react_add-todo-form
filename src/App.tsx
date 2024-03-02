@@ -23,7 +23,7 @@ export const App = () => {
   });
   const [selectedValue, setSelectedValue] = useState(0);
 
-  const isDisabled = !(currentUserId && input);
+  const isDisabled = !(currentUserId && input.trim());
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -71,7 +71,7 @@ export const App = () => {
             onChange={handleInput}
             onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
           />
-          {touched.title && !input && (
+          {touched.title && !input.trim() && (
             <span className="error">Please enter a title</span>
           )}
         </div>
