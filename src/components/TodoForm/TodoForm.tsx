@@ -33,8 +33,8 @@ export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
     setTitle(cleanedInput);
   };
 
-  const handleOnSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleOnSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     setSubmitting(true);
 
     if (!isTitleError && !isUserError) {
