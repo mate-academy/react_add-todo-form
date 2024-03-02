@@ -4,6 +4,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+interface Touched {
+  title: boolean;
+  user: boolean;
+}
+
 let biggestId = 0;
 
 usersFromServer.forEach(user => {
@@ -17,11 +22,10 @@ export const App = () => {
   const [input, setInput] = useState('');
   const [newId, setNewid] = useState(biggestId + 1);
   const [currentUserId, setCurrentUserId] = useState(0);
-  const [touched, setTouched] = useState({
+  const [touched, setTouched] = useState<Touched>({
     title: false,
     user: false,
   });
-  const [selectedValue, setSelectedValue] = useState(0);
 
   const isDisabled = !(currentUserId && input.trim());
 
@@ -48,12 +52,14 @@ export const App = () => {
     setCurrentUserId(0);
     setTouched({ title: false, user: false });
     setInput('');
-    setSelectedValue(0);
   };
 
   const handleCurrentUserId = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentUserId(+e.currentTarget.value);
-    setSelectedValue(+e.currentTarget.value);
+  };
+
+  const handleTouched = (key: keyof Touched) => {
+    setTouched(prev => ({ ...prev, [key]: true }));
   };
 
   return (
@@ -69,7 +75,7 @@ export const App = () => {
             placeholder="Enter a title"
             required
             onChange={handleInput}
-            onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
+            onBlur={() => handleTouched('title')}
           />
           {touched.title && !input.trim() && (
             <span className="error">Please enter a title</span>
@@ -80,10 +86,10 @@ export const App = () => {
           User:&nbsp;
           <select
             data-cy="userSelect"
-            value={selectedValue}
+            value={currentUserId}
             onChange={handleCurrentUserId}
             required
-            onBlur={() => setTouched(prev => ({ ...prev, user: true }))}
+            onBlur={() => handleTouched('user')}
           >
             <option value="0" disabled>
               Choose a user
