@@ -8,9 +8,13 @@ import usersFromServer from './api/users';
 
 import './App.scss';
 
+const getUserById = (id: number) => {
+  return usersFromServer.find(user => user.id === id) || null;
+};
+
 const todos = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -56,14 +60,14 @@ export const App = () => {
       return;
     }
 
-    setNewTodos([
-      ...newTodos,
+    setNewTodos(currentTodos => [
+      ...currentTodos,
       {
         id: maxTodoId + 1,
         title,
         completed: false,
         userId: selectedUserId,
-        user: usersFromServer.find(user => user.id === selectedUserId),
+        user: getUserById(selectedUserId),
       },
     ]);
 
