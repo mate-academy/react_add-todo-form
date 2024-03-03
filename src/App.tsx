@@ -22,7 +22,13 @@ export const App = () => {
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
 
-  const maxTodoId = Math.max(...newTodos.map(todo => todo.id));
+  // const maxTodoId = Math.max(...newTodos.map(todo => todo.id));
+  const maxTodoId = newTodos.reduce(
+    (max, todo) => (todo.id < max ? max : todo.id),
+    0,
+  );
+
+  console.log(maxTodoId, 'maxTodoId');
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target.value;
@@ -39,13 +45,13 @@ export const App = () => {
 
   const handleTitleError = () => {
     if (!title) {
-      setTitleError('Please enter a title');
+      setTitleError('bujaj dyda === true');
     }
   };
 
   const handleUserError = () => {
     if (!selectedUserId) {
-      setUserError('Please choose a user');
+      setUserError('bujaj dyda === true');
     }
   };
 
