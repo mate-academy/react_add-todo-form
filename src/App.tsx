@@ -21,8 +21,12 @@ function getNewTodoId(todos: Todo[]) {
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
   const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState('');
+
   const [userId, setUserId] = useState(0);
+  const [userIdError, setUserIdError] = useState('');
 
   const addTodo = (todo: Todo) => {
     setTodos(currentTodo => [...currentTodo, todo]);
@@ -33,8 +37,30 @@ export const App = () => {
     setUserId(0);
   };
 
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError('');
+  };
+
+  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserIdError('');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!title) {
+      setTitleError('Please enter a title');
+    }
+
+    if (!userId) {
+      setUserIdError('Please choose a user');
+    }
+
+    if (!title || !userId) {
+      return;
+    }
 
     addTodo({
       id: getNewTodoId(todos),
@@ -60,11 +86,9 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={event => {
-              setTitle(event.target.value);
-            }}
+            onChange={handleTitle}
           />
-          <span className="error">Please enter a title</span>
+          <span className="error">{titleError}</span>
         </div>
 
         <div className="field">
@@ -73,9 +97,7 @@ export const App = () => {
             id="select-user"
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(+event.target.value);
-            }}
+            onChange={handleUserId}
           >
             <option defaultValue="0" disabled={userId !== 0}>
               Choose a user
@@ -88,7 +110,7 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          <span className="error">{userIdError}</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
