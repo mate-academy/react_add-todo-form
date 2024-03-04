@@ -13,32 +13,29 @@ interface Props {
 
 export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('0');
-  const [submitting, setSubmitting] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const usersNames = users.map(({ name }) => name);
 
-  const isTitleError = title === '';
-  const isUserError = user === '0';
+  const isTitleError = !title;
+  const isUserError = !userId;
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const pattern = /^[A-Za-zА-ЩЇІЄҐа-щїієґ0-9\s]+$/;
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    const pattern = /[^A-Za-zА-ЩЇІЄҐа-щїієґ0-9\s]/g;
 
-    const cleanedInput = inputValue
-      .split('')
-      .filter(char => pattern.test(char) || char === ' ')
-      .join('');
+    const cleanedInput = inputValue.replace(pattern, '');
 
     setTitle(cleanedInput);
   };
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setSubmitting(true);
+    setIsSubmitting(true);
 
     if (!isTitleError && !isUserError) {
-      const newUser = getUser(users, user);
+      const newUser = getUser(users, userId);
 
       onSubmit({
         id: getNewTodoId(todos),
@@ -49,8 +46,8 @@ export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
       });
 
       setTitle('');
-      setUser('0');
-      setSubmitting(false);
+      setUserId('');
+      setIsSubmitting(false);
     }
   };
 
@@ -73,7 +70,7 @@ export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
           />
         </label>
 
-        {isTitleError && submitting && (
+        {isTitleError && isSubmitting && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -82,10 +79,10 @@ export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
         <label className="select is-block is-fullwidth">
           <select
             data-cy="userSelect"
-            value={user}
-            onChange={e => setUser(e.target.value)}
+            value={userId}
+            onChange={event => setUserId(event.target.value)}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
@@ -97,7 +94,7 @@ export const TodoForm: React.FC<Props> = ({ todos, users, onSubmit }) => {
           </select>
         </label>
 
-        {isUserError && submitting && (
+        {isUserError && isSubmitting && (
           <span className="error">Please choose a user</span>
         )}
       </div>

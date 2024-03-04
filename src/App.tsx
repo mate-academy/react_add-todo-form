@@ -21,7 +21,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(InitialTodos);
 
   const addTodo = (newTodo: Todo) => {
-    setTodos([...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
   return (
