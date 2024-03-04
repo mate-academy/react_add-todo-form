@@ -37,12 +37,12 @@ export const App = () => {
     setUserId(0);
   };
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError('');
   };
 
-  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setUserIdError('');
   };
@@ -50,7 +50,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setTitleError('Please enter a title');
     }
 
@@ -58,7 +58,7 @@ export const App = () => {
       setUserIdError('Please choose a user');
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -86,7 +86,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={handleTitle}
+            onChange={handleTitleChange}
           />
           <span className="error">{titleError}</span>
         </div>
@@ -97,7 +97,7 @@ export const App = () => {
             id="select-user"
             data-cy="userSelect"
             value={userId}
-            onChange={handleUserId}
+            onChange={handleUserIdChange}
           >
             <option defaultValue="0" disabled={userId !== 0}>
               Choose a user
