@@ -37,7 +37,7 @@ export const App = () => {
   };
 
   const isValidForm = !todosCurrent.title.trim() || !todosCurrent.userId;
-  const hasTouchedTitle = touchedTitle && !todosCurrent.title;
+  const hasTouchedTitle = touchedTitle && !todosCurrent.title.trim();
   const hasTouchedUser = touchedUser && !todosCurrent.userId;
 
   const reset = () => {
