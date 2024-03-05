@@ -1,80 +1,75 @@
 import './App.scss';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { Todos } from './types/Todos';
+import { getMaxNumber } from './api/utills/getMaxNumber';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todos } from './types/Todos';
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: usersFromServer.find(person => person.id === todo.userId) || null,
 }));
 
-const getMaxNumber = (todo: Todos[]) => {
-  const onAdd = Math.max(...todo.map(t => t.id));
-
-  return onAdd + 1;
-}
+const initialTodosState = {
+  title: '',
+  userId: 0,
+};
 
 export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
-  const [users, setUsers] = useState(0);
-  const [usersError, setUserError] = useState(false);
-
-  const [title, setTitle] = useState('');
-  const [titleEror, setTitleError] = useState(false);
-
+  const [todosCurrent, setTodosCurrent] = useState(initialTodosState);
   const [touchedTitle, setTouchedTitle] = useState(false);
   const [touchedUser, setTouchedUser] = useState(false);
 
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const cleanedValue = value.replace(/[^a-zA-Z0-9\u0400-\u04FF\s]/g, '');
+
+    setTodosCurrent(prev => ({ ...prev, [name]: cleanedValue }));
+  };
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    setTodosCurrent(prev => ({ ...prev, [name]: value }));
+  };
+
+  const isValidForm = !todosCurrent.title.trim() || !todosCurrent.userId;
+  const hasTouchedTitle = touchedTitle && !todosCurrent.title;
+  const hasTouchedUser = touchedUser && !todosCurrent.userId;
+
   const reset = () => {
-    setTitle('');
-    setUsers(0);
-    setTouchedTitle(false);
-    setTouchedUser(false);
-    setTitleError(false);
-    setUserError(false);
+    setTodosCurrent(initialTodosState);
   };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title.trim() || !users) {
-      setTitleError(!title.trim());
-      setUserError(!users);
+    if (isValidForm) {
+      setTouchedTitle(true);
+      setTouchedUser(true);
 
       return;
     }
 
-    setTitleError(!title);
-    setUserError(!users);
+    setTouchedTitle(false);
+    setTouchedUser(false);
 
     const newPost: Todos = {
       id: getMaxNumber(todos),
-      title,
+      title: todosCurrent.title,
       completed: false,
-      userId: users,
-      user: usersFromServer.find(person => person.id === users) || null,
+      userId: todosCurrent.userId,
+      user:
+        usersFromServer.find(person => person.id === +todosCurrent.userId) ||
+        null,
     };
 
     setTodos(prevValue => [...prevValue, newPost]);
     reset();
   };
-
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUsers(+e.target.value);
-    setTitleError(!title);
-    setUserError(!users);
-  };
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const hasTouchedTitle =
-    (touchedTitle && !title) || (!title.trim() && titleEror);
-  const hasTouchedUser = (touchedUser && !users) || (!users && usersError);
 
   return (
     <div className="App">
@@ -84,7 +79,8 @@ export const App = () => {
         <div className="field">
           <label htmlFor="titleLabel">Title: </label>
           <input
-            value={title}
+            value={todosCurrent.title}
+            name="title"
             onChange={handleChangeTitle}
             id="titleLabel"
             type="text"
@@ -101,8 +97,9 @@ export const App = () => {
           <label htmlFor="userLabel">User: </label>
           <select
             id="titleLabel"
+            name="userId"
             data-cy="userSelect"
-            value={users}
+            value={todosCurrent.userId}
             onChange={handleUserChange}
             onBlur={() => setTouchedUser(true)}
           >
