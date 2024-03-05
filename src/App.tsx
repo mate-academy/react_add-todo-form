@@ -11,7 +11,11 @@ const initialTodos = todosFromServer.map(todo => ({
   user: usersFromServer.find(person => person.id === todo.userId) || null,
 }));
 
-const muxNumberOfUsers = Math.max(...initialTodos.map(todo => todo.id)) + 1;
+const getMaxNumber = (todo: Todos[]) => {
+  const onAdd = Math.max(...todo.map(t => t.id));
+
+  return onAdd + 1;
+}
 
 export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
@@ -37,7 +41,7 @@ export const App = () => {
     e.preventDefault();
 
     if (!title.trim() || !users) {
-      setTitleError(!title);
+      setTitleError(!title.trim());
       setUserError(!users);
 
       return;
@@ -47,7 +51,7 @@ export const App = () => {
     setUserError(!users);
 
     const newPost: Todos = {
-      id: muxNumberOfUsers,
+      id: getMaxNumber(todos),
       title,
       completed: false,
       userId: users,
@@ -68,7 +72,8 @@ export const App = () => {
     setTitle(e.target.value);
   };
 
-  const hasTouchedTitle = (touchedTitle && !title) || (!title && titleEror);
+  const hasTouchedTitle =
+    (touchedTitle && !title) || (!title.trim() && titleEror);
   const hasTouchedUser = (touchedUser && !users) || (!users && usersError);
 
   return (
