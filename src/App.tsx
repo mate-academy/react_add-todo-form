@@ -36,7 +36,7 @@ export const App = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !users) {
+    if (!title.trim() || !users) {
       setTitleError(!title);
       setUserError(!users);
 
