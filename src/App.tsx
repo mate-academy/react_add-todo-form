@@ -19,39 +19,36 @@ export const App = () => {
 
   const [newTodos, setNewTodos] = useState<Todo[]>(todos);
 
-  const [titleError, setTitleError] = useState('');
-  const [userError, setUserError] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
-  // const maxTodoId = Math.max(...newTodos.map(todo => todo.id));
   const maxTodoId = newTodos.reduce(
     (max, todo) => (todo.id < max ? max : todo.id),
     0,
   );
-
-  console.log(maxTodoId, 'maxTodoId');
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target.value;
 
     newValue = newValue.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
     setTitle(newValue);
-    setTitleError('');
+    setTitleError(false);
   };
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+e.target.value);
-    setUserError('');
+    setUserError(false);
   };
 
   const handleTitleError = () => {
     if (!title) {
-      setTitleError('bujaj dyda === true');
+      setTitleError(true);
     }
   };
 
   const handleUserError = () => {
     if (!selectedUserId) {
-      setUserError('bujaj dyda === true');
+      setUserError(true);
     }
   };
 
@@ -72,7 +69,6 @@ export const App = () => {
         title,
         completed: false,
         userId: selectedUserId,
-        user: usersFromServer.find(user => user.id === selectedUserId),
       },
     ]);
 
@@ -84,7 +80,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form action="/api/todos" method="Post" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
