@@ -1,22 +1,29 @@
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import users from '../../api/users';
-import { Todo } from '../../types/Todo';
 
 interface Props {
-  todo: Todo;
+  completed: boolean;
+  title: string;
+  userId: number;
+  todoId: number;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = ({
+  completed,
+  title,
+  userId,
+  todoId,
+}) => {
   return (
     <article
-      data-id={todo.id}
-      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
+      data-id={todoId}
+      className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
       {users.map(
-        user =>
-          user.id === todo.userId && <UserInfo key={user.id} user={user} />,
+        ({ id, name, email }) =>
+          id === userId && <UserInfo key={id} email={email} name={name} />,
       )}
     </article>
   );

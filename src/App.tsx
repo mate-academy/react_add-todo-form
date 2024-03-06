@@ -52,13 +52,17 @@ export const App = () => {
     }
   };
 
+  const validate = () => {
+    handleTitleError();
+    handleUserError();
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    handleTitleError();
-    handleUserError();
+    validate();
 
-    if (!title || !selectedUserId) {
+    if (titleError || userError) {
       return;
     }
 
@@ -80,7 +84,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="Post" onSubmit={handleSubmit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
