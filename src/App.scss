@@ -11,6 +11,15 @@ button {
   cursor: pointer;
 }
 
+.App {
+  margin: 10px;
+
+  &__title {
+    font-size: 25px;
+    margin: 10px
+  }
+}
+
 .error {
   color: red;
 }
