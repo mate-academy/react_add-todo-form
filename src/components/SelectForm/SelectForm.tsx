@@ -10,6 +10,7 @@ type Props = {
 
 export const SelectForm: FC<Props> = ({ onSubmit }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasTitleValidError, setHasTitleValidError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const initialTodo = {
@@ -23,17 +24,26 @@ export const SelectForm: FC<Props> = ({ onSubmit }) => {
   const [todo, setTodo] = useState(initialTodo);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
+
     setTodo({
       ...todo,
-      title: event.target.value,
+      title: value,
     });
+
     setHasTitleError(false);
+
+    const isEmpty = value.trim().length <= 0;
+
+    setHasTitleValidError(isEmpty);
   };
 
   const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
     setTodo({
       ...todo,
-      userId: +event.target.value,
+      userId: +value,
     });
     setHasUserIdError(false);
   };
@@ -91,6 +101,10 @@ export const SelectForm: FC<Props> = ({ onSubmit }) => {
           {hasTitleError && (
             <p className="error help is-danger">Please enter a title</p>
           )}
+
+          {hasTitleValidError && (
+            <p className="error help is-danger">Title cannot be empty</p>
+          )}
         </div>
       </div>
 
@@ -127,7 +141,7 @@ export const SelectForm: FC<Props> = ({ onSubmit }) => {
             type="submit"
             data-cy="submitButton"
             className="button is-link"
-            disabled={hasTitleError || hasUserIdError}
+            disabled={hasTitleError || hasUserIdError || hasTitleValidError}
           >
             Add
           </button>
