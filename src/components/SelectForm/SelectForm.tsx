@@ -24,7 +24,7 @@ export const SelectForm: FC<Props> = ({ onSubmit }) => {
   const [todo, setTodo] = useState(initialTodo);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    const value = event.target.value.replace(/[^a-zA-Z0-9\sа-яА-ЯіІєЄїЇ]/g, '');
 
     setTodo({
       ...todo,
