@@ -33,10 +33,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!newTitle);
+    setTitleError(!newTitle.trim());
     setSelectUserError(!selectUserId);
 
-    if (!newTitle || !selectUserId) {
+    if (!newTitle.trim() || !selectUserId) {
       return;
     }
 
