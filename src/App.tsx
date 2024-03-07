@@ -25,8 +25,14 @@ export const App: React.FC = () => {
 
   const onSubmitEvent = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!formValue.title || formValue.userId === 0) {
+    const title = formValue.title.trim();
+
+    if (!title || formValue.userId === 0) {
       setFormTouched(true);
+
+      if (formValue.title !== title) {
+        setFormValue({ ...formValue, title });
+      }
 
       return;
     }
@@ -35,7 +41,7 @@ export const App: React.FC = () => {
     const newId = Math.max(...ids) + 1;
     const newTodo: Todo = {
       id: newId,
-      title: formValue.title,
+      title,
       completed: false,
       userId: formValue.userId,
     };
@@ -48,6 +54,16 @@ export const App: React.FC = () => {
   const updateFormValue = useCallback((key: string, value: string | number) => {
     setFormValue(previousValue => ({ ...previousValue, [key]: value }));
   }, []);
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateFormValue('userId', +event.target.value);
+    setUserTouched(false);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormValue('title', event.target.value);
+    setTitleTouched(false);
+  };
 
   return (
     <div className="App">
@@ -62,10 +78,7 @@ export const App: React.FC = () => {
             value={formValue.title}
             data-cy="titleInput"
             placeholder="Enter a title"
-            onChange={event => {
-              updateFormValue('title', event.target.value);
-              setTitleTouched(false);
-            }}
+            onChange={handleTitleChange}
           />
           {titleTouched && !formValue.title ? (
             <span className="error">Please enter a title</span>
@@ -78,10 +91,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="userSelect"
             value={formValue.userId}
-            onChange={event => {
-              updateFormValue('userId', +event.target.value);
-              setUserTouched(false);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0">Choose a user</option>
             {users.map(user => (
