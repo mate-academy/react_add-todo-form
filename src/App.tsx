@@ -22,6 +22,12 @@ export const App = () => {
 
   const handleSelectUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectUserId(+event.target.value);
+    setSelectUserError(false);
+  };
+
+  const reset = () => {
+    setNewTitle('');
+    setSelectUserId(0);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -29,6 +35,10 @@ export const App = () => {
 
     setTitleError(!newTitle);
     setSelectUserError(!selectUserId);
+
+    if (!newTitle || !selectUserId) {
+      return;
+    }
 
     const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
@@ -40,6 +50,7 @@ export const App = () => {
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
+    reset();
   };
 
   return (
