@@ -36,7 +36,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setError(!title);
+    if (title.trim() === '') {
+      setError(true);
+    }
+
     setErrorsSelect(!userId);
 
     if (!title.trim() || !userId) {
