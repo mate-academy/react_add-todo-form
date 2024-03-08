@@ -38,9 +38,9 @@ export const App = () => {
     const trimedTitle = title.trim();
 
     setTitleError(!trimedTitle);
-    setUserError(!setUserId);
+    setUserError(!trimedTitle);
 
-    if (!trimedTitle || !userId) {
+    if (!trimedTitle || userId === 0) {
       return;
     }
 
@@ -81,11 +81,13 @@ export const App = () => {
             onChange={handleUserIdChange}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer
+              .filter(user => user.id !== 0)
+              .map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
           </select>
 
           {userError && <span className="error">Please choose a user</span>}
