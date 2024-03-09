@@ -21,10 +21,7 @@ export const App = () => {
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-
-    if (userError) {
-      setUserError(false);
-    }
+    setUserError(false);
   };
 
   const resetForm = () => {
@@ -40,7 +37,7 @@ export const App = () => {
     setTitleError(!trimedTitle);
     setUserError(!trimedTitle);
 
-    if (!trimedTitle || userId === 0) {
+    if (!trimedTitle || !userId) {
       return;
     }
 
