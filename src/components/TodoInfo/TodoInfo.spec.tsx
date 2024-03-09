@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { mount } from '@cypress/react';
 import { TodoInfo } from './TodoInfo';
 
