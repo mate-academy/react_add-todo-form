@@ -29,10 +29,10 @@ export const App = () => {
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setSelectError(!selectedUser);
 
-    if (!title || !selectedUser) {
+    if (!title.trim() || !selectedUser) {
       return;
     }
 
@@ -55,11 +55,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={(event: React.FormEvent) => onSubmit(event)}
-      >
+      <form action="/api/todos" method="POST" onSubmit={onSubmit}>
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
