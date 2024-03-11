@@ -15,7 +15,8 @@ const intialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-const getMaxTodoId = Math.max(...todosFromServer.map(todo => todo.id));
+const getMaxTodoId = (todos: Todo[]) =>
+  Math.max(...todos.map(todo => todo.id)) + 1;
 
 export const App = () => {
   const [todos, setTodos] = useState(intialTodos);
@@ -49,15 +50,17 @@ export const App = () => {
     setTitle('');
     setUserId(0);
 
-    const newTodo = {
-      id: getMaxTodoId + 1,
-      title,
-      completed: false,
-      userId,
-      user: getUserById(userId),
-    };
+    setTodos(currentTodos => {
+      const newTodo = {
+        id: getMaxTodoId(currentTodos),
+        title,
+        completed: false,
+        userId,
+        user: getUserById(userId),
+      };
 
-    setTodos(currentTodos => [...currentTodos, newTodo]);
+      return [...currentTodos, newTodo];
+    });
   };
 
   return (
