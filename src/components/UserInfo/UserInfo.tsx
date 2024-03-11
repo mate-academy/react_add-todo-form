@@ -5,18 +5,18 @@ type UsersItem = {
   email: string;
 };
 
-interface UsersProps {
+interface UsersInfoProps {
   users: UsersItem[];
   neededId: number;
 }
 
-export const UserInfo: React.FC<UsersProps> = ({ users, neededId }) => {
+export const UserInfo: React.FC<UsersInfoProps> = ({ users, neededId }) => {
   const user = users.find(item => item.id === neededId);
 
   return (
     <>
       {user && (
-        <a className="UserInfo" href={user.email}>
+        <a className="UserInfo" href={`mailto:${user.email}`}>
           {user.name}
         </a>
       )}

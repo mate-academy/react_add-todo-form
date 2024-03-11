@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { TodoInfo } from '../TodoInfo';
 import { UserInfo } from '../UserInfo';
 
 type TodoItem = {
@@ -20,18 +22,28 @@ interface TodoListProps {
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ users, todos }) => {
+  const [usersData] = useState(users);
+  const [todosData, setTodosData] = useState(todos);
+
   return (
-    <section className="TodoList">
-      {todos.map(item => (
-        <article
-          key={item.id}
-          data-id={item.id}
-          className="TodoInfo TodoInfo--completed"
-        >
-          <h2 className="TodoInfo__title">{item.title}</h2>
-          <UserInfo users={users} neededId={item.userId} />
-        </article>
-      ))}
-    </section>
+    <>
+      <TodoInfo
+        usersData={usersData}
+        todosData={todosData}
+        setNewTodos={setTodosData}
+      />
+      <section className="TodoList">
+        {todosData.map(item => (
+          <article
+            key={item.id}
+            data-id={item.id}
+            className="TodoInfo TodoInfo--completed"
+          >
+            <h2 className="TodoInfo__title">{item.title}</h2>
+            <UserInfo users={usersData} neededId={item.userId} />
+          </article>
+        ))}
+      </section>
+    </>
   );
 };
