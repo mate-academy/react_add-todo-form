@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import classNames from 'classnames';
 import { TodoInfo } from '../TodoInfo';
 import { UserInfo } from '../UserInfo';
 
@@ -25,9 +26,11 @@ export const TodoList: React.FC<TodoListProps> = ({ users, todos }) => {
   const [usersData] = useState(users);
   const [todosData, setTodosData] = useState(todos);
 
+  console.log(todosData);
+
   return (
     <>
-      <TodoInfo
+      <UserInfo
         usersData={usersData}
         todosData={todosData}
         setNewTodos={setTodosData}
@@ -37,10 +40,12 @@ export const TodoList: React.FC<TodoListProps> = ({ users, todos }) => {
           <article
             key={item.id}
             data-id={item.id}
-            className="TodoInfo TodoInfo--completed"
+            className={classNames('TodoInfo', {
+              'TodoInfo--completed': item.completed,
+            })}
           >
             <h2 className="TodoInfo__title">{item.title}</h2>
-            <UserInfo users={usersData} neededId={item.userId} />
+            <TodoInfo user={usersData.find(obj => obj.id === item.userId)} />
           </article>
         ))}
       </section>
