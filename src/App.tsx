@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   const todos: TodoItem[] = todosFromServer;
   const users: User[] = usersFromServer;
   const todosWithUsers: TodoItem[] = todos.map(todo => {
-    const currentUser = users.find(u => u.id === todo.userId);
+    const currentUser = users.find(user => user.id === todo.userId);
 
     return {
       ...todo,

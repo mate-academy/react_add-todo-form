@@ -49,7 +49,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (inputValue === '') {
+    if (inputValue.trim() === '') {
       setIsInputError(true);
     }
 
@@ -57,7 +57,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
       setIsSelectError(true);
     }
 
-    if (inputValue === '' || selectValue === selectInitialValue) {
+    if (inputValue.trim() === '' || selectValue === selectInitialValue) {
       return;
     }
 
@@ -75,7 +75,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
         id: theBiggestTodoId + 1,
         title: event.target.value,
       }));
-      if (event.target.value !== '') {
+      if (event.target.value.trim() !== '') {
         setIsInputError(false);
       }
     }
@@ -147,7 +147,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
       </form>
       <section className="TodoList">
         {todosData.map(item => (
-          <TodoInfo todo={item} />
+          <TodoInfo key={item.id} todo={item} />
         ))}
       </section>
     </>
