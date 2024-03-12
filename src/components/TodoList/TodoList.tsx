@@ -26,11 +26,9 @@ export const TodoList: React.FC<TodoListProps> = ({ users, todos }) => {
   const [usersData] = useState(users);
   const [todosData, setTodosData] = useState(todos);
 
-  console.log(todosData);
-
   return (
     <>
-      <UserInfo
+      <TodoInfo
         usersData={usersData}
         todosData={todosData}
         setNewTodos={setTodosData}
@@ -45,7 +43,7 @@ export const TodoList: React.FC<TodoListProps> = ({ users, todos }) => {
             })}
           >
             <h2 className="TodoInfo__title">{item.title}</h2>
-            <TodoInfo user={usersData.find(obj => obj.id === item.userId)} />
+            {user && <UserInfo user={user} />}
           </article>
         ))}
       </section>

@@ -1,5 +1,5 @@
 import { mount } from '@cypress/react';
-import { UserInfo } from '../TodoInfo/TodoInfo';
+import { UserInfo } from './UserInfo';
 
 describe('UserInfo', () => {
   it('should show a user.name', () => {
