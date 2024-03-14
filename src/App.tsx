@@ -80,7 +80,9 @@ export const App = () => {
             onChange={handleUserIdChange}
             data-cy="userSelect"
           >
-            <option value="0">Choose a user</option>
+            <option value="0" disabled={userId !== 0}>
+              Choose a user
+            </option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}

@@ -9,5 +9,6 @@ module.exports = {
       assert: "either",
     }],
     'operator-linebreak': 0,
+    'prettier/prettier': 0,
   },
 };
