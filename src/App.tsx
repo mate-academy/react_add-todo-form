@@ -52,7 +52,7 @@ export const App = () => {
       return;
     }
 
-    if (cleanedTitle === '') {
+    if (!cleanedTitle) {
       setHasTitleError(true);
 
       return;
