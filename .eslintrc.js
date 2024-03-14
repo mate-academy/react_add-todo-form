@@ -8,5 +8,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': ["error", {
       assert: "either",
     }],
+    'operator-linebreak': 0,
+    'prettier/prettier': 0,
   },
 };
