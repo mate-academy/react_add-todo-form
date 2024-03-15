@@ -58,7 +58,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    const invalidTitle = !title.trim();
+
+    if (invalidTitle) {
+      setTitle('');
       setError(prev => ({
         ...prev,
         title: true,
@@ -72,7 +75,7 @@ export const App = () => {
       }));
     }
 
-    if (!title || !userId) {
+    if (invalidTitle || !userId) {
       return;
     }
 
@@ -114,7 +117,9 @@ export const App = () => {
             <option value="0">Choose a user</option>
 
             {usersFromServer.map(user => (
-              <option value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
           {error.userId && <span className="error">Please choose a user</span>}
