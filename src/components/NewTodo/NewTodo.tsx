@@ -56,29 +56,35 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       <h1>Add todo form</h1>
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            placeholder="Enter a title"
-            onChange={handleTitleChange}
-          />
+          <label>
+            {`Title: `}
+            <input
+              type="text"
+              data-cy="titleInput"
+              value={title}
+              placeholder="Enter a title"
+              onChange={handleTitleChange}
+            />
+          </label>
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={event => setUserId(+event.target.value)}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {users.map(user => (
-              <option value={user.id}>{user.name}</option>
-            ))}
-          </select>
+          <label>
+            {`User: `}
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={event => setUserId(+event.target.value)}
+            >
+              <option value="0" disabled>
+                Choose a user
+              </option>
+              {users.map(user => (
+                <option value={user.id}>{user.name}</option>
+              ))}
+            </select>
+          </label>
 
           {hasUserIdError && (
             <span className="error">Please choose a user</span>
