@@ -23,7 +23,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleError(true);
     }
 
@@ -81,7 +81,9 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
                 Choose a user
               </option>
               {users.map(user => (
-                <option value={user.id}>{user.name}</option>
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
               ))}
             </select>
           </label>
