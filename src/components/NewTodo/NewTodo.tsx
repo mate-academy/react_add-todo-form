@@ -31,7 +31,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       setHasUserIdError(true);
     }
 
-    if (!title || userId === 0) {
+    if (!title.trim() || userId === 0) {
       return;
     }
 
