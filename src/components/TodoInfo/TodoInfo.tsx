@@ -1,1 +1,24 @@
-export const TodoInfo = () => {};
+import classNames from 'classnames';
+import { getUserById } from '../../services/findUser';
+import { Todo } from '../../types/todo';
+import { UserInfo } from '../UserInfo';
+
+interface Props {
+  todo: Todo;
+}
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const user = getUserById(todo.userId);
+  const { completed, title, id } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
+
+      {user && <UserInfo user={user} />}
+    </article>
+  );
+};
