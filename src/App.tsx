@@ -7,7 +7,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [selectUser, setSelectUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [userError, setUserError] = useState(false);
 
   const [title, setTitle] = useState('');
@@ -19,9 +19,9 @@ export const App = () => {
     event.preventDefault();
 
     setTitleError(!title.trim());
-    setUserError(!selectUser);
+    setUserError(!selectedUserId);
 
-    if (!title || !selectUser) {
+    if (!title || !selectedUserId) {
       return;
     }
 
@@ -31,12 +31,12 @@ export const App = () => {
       id: createId,
       title: title.trim(),
       completed: false,
-      userId: selectUser,
+      userId: selectedUserId,
     };
 
     setTodos(prevTodo => [...prevTodo, newTodo]);
     setTitle('');
-    setSelectUser(0);
+    setSelectedUserId(0);
   };
 
   return (
@@ -65,9 +65,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="user"
-            value={selectUser}
+            value={selectedUserId}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              setSelectUser(+event.target.value);
+              setSelectedUserId(+event.target.value);
               setUserError(false);
             }}
           >
