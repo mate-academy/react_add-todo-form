@@ -27,13 +27,13 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!formInfo.title && !formInfo.userId) {
+    if (!formInfo.title.trim() && !formInfo.userId) {
       setFormErrors({ isSelectError: true, isTitleError: true });
 
       return;
     }
 
-    if (!formInfo.title) {
+    if (!formInfo.title.trim()) {
       setFormErrors({ ...formErrors, isTitleError: true });
 
       return;
