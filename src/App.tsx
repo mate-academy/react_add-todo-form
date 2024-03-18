@@ -3,15 +3,15 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { UserMas } from './interfaces/UserMas';
-import { TodosMas } from './interfaces/TodosMas';
+import { User } from './interfaces/User';
+import { Todos } from './interfaces/Todos';
 import { TodoList } from './components/TodoList';
 
-function getTodos(todoUserId: number): UserMas | undefined {
+function getTodos(todoUserId: number): User | undefined {
   return usersFromServer.find(user => user.id === todoUserId);
 }
 
-function getNewPostId(posts: TodosMas[]) {
+function getNewPostId(posts: Todos[]) {
   const maxId = Math.max(...posts.map(post => post.id));
 
   return maxId + 1;
@@ -21,11 +21,11 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
 
-  const [isUserId, setIsUserId] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [isUserError, setIsUserError] = useState(false);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setIsUserId(+event.target.value);
+    setUserId(+event.target.value);
     setIsUserError(false);
   };
 
@@ -34,7 +34,7 @@ export const App = () => {
     setIsTitleError(false);
   };
 
-  const [posts, setPosts] = useState<TodosMas[]>(todosFromServer);
+  const [posts, setPosts] = useState<Todos[]>(todosFromServer);
 
   const visibleArray = posts.map(todo => ({
     ...todo,
@@ -43,7 +43,7 @@ export const App = () => {
 
   const reset = () => {
     setTitle('');
-    setIsUserId(0);
+    setUserId(0);
   };
 
   const addPost = (newTitle: string, newUserId: number) => {
@@ -63,19 +63,19 @@ export const App = () => {
   const handleSumbit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isUserId === 0) {
+    if (!userId) {
       setIsUserError(true);
     }
 
-    if (title === '') {
+    if (!title) {
       setIsTitleError(true);
     }
 
-    if (title === '' || isUserId === 0) {
+    if (!title || !userId) {
       return;
     }
 
-    addPost(title, isUserId);
+    addPost(title, userId);
   };
 
   return (
@@ -97,7 +97,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={isUserId}
+            value={userId}
             onChange={handleUserChange}
           >
             <option value="0" disabled>

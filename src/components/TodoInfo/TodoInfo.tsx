@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import { TodosMas } from '../../interfaces/TodosMas';
+import { Todos } from '../../interfaces/Todos';
 import { UserInfo } from '../UserInfo';
 
 interface Props {
-  todo: TodosMas;
+  todo: Todos;
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -17,7 +17,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };

@@ -1,7 +1,7 @@
-import { UserMas } from '../../interfaces/UserMas';
+import { User } from '../../interfaces/User';
 
 interface Props {
-  user?: UserMas;
+  user: User;
 }
 
 export const UserInfo: React.FC<Props> = ({ user }) => {

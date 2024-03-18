@@ -1,8 +1,8 @@
-import { TodosMas } from '../../interfaces/TodosMas';
+import { Todos } from '../../interfaces/Todos';
 import { TodoInfo } from '../TodoInfo';
 
 interface Props {
-  todos: TodosMas[];
+  todos: Todos[];
 }
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
