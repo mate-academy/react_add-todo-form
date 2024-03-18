@@ -1,21 +1,7 @@
 import { useState } from 'react';
 import { TodoInfo } from '../TodoInfo';
 import usersFromServer from '../../api/users';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type TodoItem = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user?: User;
-};
+import { TodoItem } from '../../types/TodoItem';
 
 interface TodoListProps {
   todos: TodoItem[];

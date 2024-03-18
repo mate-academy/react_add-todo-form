@@ -1,20 +1,6 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type TodoItem = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user?: User;
-};
+import { TodoItem } from '../../types/TodoItem';
 
 interface TodoInfoProps {
   todo: TodoItem;
@@ -32,7 +18,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      {todo && <UserInfo user={user} />}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

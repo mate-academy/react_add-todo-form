@@ -3,21 +3,8 @@ import React, { useMemo } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type TodoItem = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user?: User;
-};
+import { User } from './types/User';
+import { TodoItem } from './types/TodoItem';
 
 export const App: React.FC = React.memo(() => {
   const todos: TodoItem[] = todosFromServer;
