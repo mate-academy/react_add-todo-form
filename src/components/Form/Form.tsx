@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import users from '../../api/users';
 import { checkTitle, checkUserId, clearForm } from '../../functions';
 import { Todo } from '../types/Todo';
@@ -18,11 +19,19 @@ export const Form: React.FC<Props> = ({
   setTodoError,
   addTodo,
 }) => {
+  const [displayErrors, setDisplayErrors] = useState(false);
+
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     checkUserId(newTodo.userId, setTodoError);
     checkTitle(newTodo.title, setTodoError);
     const hasNoErrors = !todoError.title && !todoError.userId;
+
+    if (!hasNoErrors) {
+      setDisplayErrors(true);
+    } else {
+      setDisplayErrors(false);
+    }
 
     if (!newTodo.title || !newTodo.userId) {
       return;
@@ -57,7 +66,7 @@ export const Form: React.FC<Props> = ({
             checkTitle(value, setTodoError);
           }}
         />
-        {todoError.title && <span className="error">{todoError.title}</span>}
+        {displayErrors && <span className="error">{todoError.title}</span>}
       </div>
 
       <div className="field">
@@ -90,7 +99,7 @@ export const Form: React.FC<Props> = ({
           ))}
         </select>
 
-        {todoError.userId && <span className="error">{todoError.userId}</span>}
+        {displayErrors && <span className="error">{todoError.userId}</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">

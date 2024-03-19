@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodoWithUser } from '../types/TodoWithUser';
+
 type Props = {
   todo: TodoWithUser;
 };

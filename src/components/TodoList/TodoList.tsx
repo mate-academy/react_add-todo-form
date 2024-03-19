@@ -1,6 +1,7 @@
 import { getTodosWithUsers } from '../../functions';
 import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../types/Todo';
+
 interface Props {
   todos: Todo[];
 }
