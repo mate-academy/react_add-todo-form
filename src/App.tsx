@@ -1,61 +1,44 @@
 import './App.scss';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import React, { useState } from 'react';
+import { TodoForm } from './components/TodoForm';
+import { TodoList } from './components/TodoList';
+import { ToDo, ToDoFromServer, UserFromServer } from './types';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const getToDoArray = (): ToDo[] => {
+  return todosFromServer.map((todo: ToDoFromServer)=> {
+    return {
+      ...todo,
+      user: usersFromServer.find((userFromServer: UserFromServer) => {
+        return userFromServer.id === todo.userId;
+      })
+    }
+  }) as ToDo[]
+}
 
 export const App = () => {
+  const [toDoArray , setToDoArray] = useState<ToDo[]>(getToDoArray());
+  const [count, setCount] = useState(0);
+
+  const addNewToDo = (todo: ToDo): void => {
+    setToDoArray(array => [ ...array, todo ])
+    setCount(c => c + 1);
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <TodoForm
+        key={count}
+        onAdd={addNewToDo}
+        todos={toDoArray}
+        users={usersFromServer}
+      />
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+      <TodoList todos={toDoArray}/>
 
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
     </div>
   );
 };
