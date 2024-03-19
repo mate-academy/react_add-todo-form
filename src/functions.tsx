@@ -5,7 +5,7 @@ import { Todo } from './components/types/Todo';
 import { TodoError } from './components/types/TodoError';
 
 export function getUserById(userId: number): User | null {
-  return [...users].find(currentUser => currentUser.id === userId) || null;
+  return users.find(currentUser => currentUser.id === userId) || null;
 }
 
 export function getTodosWithUsers(todos: Todo[]): TodoWithUser[] {
