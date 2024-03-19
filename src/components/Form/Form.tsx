@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import users from '../../api/users';
-import { checkTitle, checkUserId, clearForm } from '../../functions';
+import { checkTitle, checkUserId, clearForm, formField } from '../../functions';
 import { Todo } from '../types/Todo';
 import { TodoError } from '../types/TodoError';
 
@@ -27,11 +27,7 @@ export const Form: React.FC<Props> = ({
     checkTitle(newTodo.title, setTodoError);
     const hasNoErrors = !todoError.title && !todoError.userId;
 
-    if (!hasNoErrors) {
-      setDisplayErrors(true);
-    } else {
-      setDisplayErrors(false);
-    }
+    setDisplayErrors(true);
 
     if (!newTodo.title || !newTodo.userId) {
       return;
@@ -51,20 +47,12 @@ export const Form: React.FC<Props> = ({
         </label>
         <input
           id="title"
+          name="title"
           type="text"
           data-cy="titleInput"
           placeholder="title"
           value={newTodo.title}
-          onChange={e => {
-            const { id, value } = e.target;
-
-            setNewTodo(oldTodo => ({
-              ...oldTodo,
-              [id]: value,
-            }));
-
-            checkTitle(value, setTodoError);
-          }}
+          onChange={e => formField.handleChange(e, setNewTodo, setTodoError)}
         />
         {displayErrors && <span className="error">{todoError.title}</span>}
       </div>
@@ -75,18 +63,10 @@ export const Form: React.FC<Props> = ({
         </label>
         <select
           id="user"
+          name="userId"
           data-cy="userSelect"
           value={newTodo.userId}
-          onChange={e => {
-            const { value } = e.target;
-
-            setNewTodo(oldTodo => ({
-              ...oldTodo,
-              userId: +value,
-            }));
-
-            checkUserId(+value, setTodoError);
-          }}
+          onChange={e => formField.handleChange(e, setNewTodo, setTodoError)}
         >
           <option value="0" disabled>
             Choose a user

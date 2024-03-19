@@ -4,8 +4,8 @@ import { User } from './components/types/User';
 import { Todo } from './components/types/Todo';
 import { TodoError } from './components/types/TodoError';
 
-export function getUserById(userId: number): User {
-  return [...users].filter(currentUser => currentUser.id === userId)[0];
+export function getUserById(userId: number): User | null {
+  return [...users].find(currentUser => currentUser.id === userId) || null;
 }
 
 export function getTodosWithUsers(todos: Todo[]): TodoWithUser[] {
@@ -24,8 +24,16 @@ export const checkTitle = (
   setTodoError: React.Dispatch<React.SetStateAction<TodoError>>,
 ) => {
   const isValidPattern = /^[a-zA-Zа-яА-Я0-9\s]*$/.test(title);
+  let countSpaces = 0;
 
-  if (!title) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const letter of title) {
+    if (letter === ' ') {
+      countSpaces += 1;
+    }
+  }
+
+  if (!title || countSpaces >= title.length) {
     setTodoError(prevErrors => ({
       ...prevErrors,
       title: 'Please enter a title',
@@ -75,4 +83,33 @@ export const clearForm = (
     title: '',
     userId: '',
   });
+};
+
+export const formField = {
+  handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    setNewTodo: React.Dispatch<React.SetStateAction<Todo>>,
+    setTodoError: React.Dispatch<React.SetStateAction<TodoError>>,
+  ): void {
+    const { name, value } = e.target;
+
+    setNewTodo(oldTodo => ({
+      ...oldTodo,
+      [name]: value,
+    }));
+
+    if (name === 'title') {
+      checkTitle(value, setTodoError);
+      setNewTodo(oldTodo => ({
+        ...oldTodo,
+        [name]: value,
+      }));
+    } else if (name === 'userId') {
+      checkUserId(+value, setTodoError);
+      setNewTodo(oldTodo => ({
+        ...oldTodo,
+        [name]: +value,
+      }));
+    }
+  },
 };
