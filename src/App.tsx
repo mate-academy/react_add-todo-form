@@ -68,7 +68,7 @@ export const App = () => {
   const handleUserNameChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setUserId(+event.target.value);
+    setUserId(parseFloat(event.target.value));
     setHasUserIdError(false);
   };
 
