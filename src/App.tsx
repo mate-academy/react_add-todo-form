@@ -7,15 +7,15 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { useState } from 'react';
 
-interface serverTodo {
+interface ServerTodo {
   completed: boolean;
   id: number;
   title: string;
   userId: number;
 }
 
-function getUserFromId(todo: serverTodo): User {
-  return usersFromServer.find(user => user.id === todo.userId)!;
+function getUserFromId(todo: ServerTodo): User {
+  return usersFromServer.find(user => user.id === todo.userId) as User;
 }
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
@@ -62,6 +62,7 @@ export const App = () => {
     if (regex.test(event.target.value[event.target.value.length - 1])) {
       setTitle(event.target.value);
     }
+
     setHasTitleError(false);
   };
 
@@ -88,7 +89,7 @@ export const App = () => {
       completed: false,
       id: Math.max(...todosArray.map(todo => todo.id)) + 1,
       title: title,
-      user: usersFromServer.find(user => user.id === selectedUser)!,
+      user: usersFromServer.find(user => user.id === selectedUser) as User,
       userId: selectedUser,
     });
 
