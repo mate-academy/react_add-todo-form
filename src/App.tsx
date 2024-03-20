@@ -32,7 +32,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(+event.target.value);
+    setSelectedUserId(Number(event.target.value));
     setHasUserError(false);
   };
 
