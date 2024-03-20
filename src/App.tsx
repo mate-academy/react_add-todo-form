@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import './App.scss';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { NewTodo, Todo } from './types/Todo';
+
+import './App.scss';
 
 const preTodos = todosFromServer.map((todo: Todo) => ({
   ...todo,
