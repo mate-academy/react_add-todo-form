@@ -3,4 +3,5 @@ export type Users = {
   name: string;
   username: string;
   email: string;
+  user: Users | null;
 };

@@ -5,6 +5,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todos } from './types/todos';
+import { Users } from './types/users';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId);
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
       title,
       completed: false,
       userId: selectedUser,
+      user: getUserById(selectedUser) as Users,
     });
 
     reset();
