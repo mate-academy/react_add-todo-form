@@ -1,27 +1,112 @@
+import { useState } from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todos } from './types/todos';
 
-export const App = () => {
+function getUserById(userId: number) {
+  return usersFromServer.find(user => user.id === userId);
+}
+
+const preperaTodo = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: getUserById(todo.userId),
+  };
+});
+
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todos[]>(preperaTodo);
+
+  const [title, setTitle] = useState<string>('');
+  const [selectedUser, setSelectedUser] = useState<number>(0);
+  const [titleHasError, setTitleHasError] = useState<boolean>(false);
+  const [selectedHasError, setSelectedHasError] = useState<boolean>(false);
+
+  const reset = () => {
+    setTitle('');
+    setSelectedUser(0);
+    setTitleHasError(false);
+    setSelectedHasError(false);
+  };
+
+  const addTodo = (newTodo: Todos) => {
+    setTodos(current => [...current, newTodo]);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!title.trim() || !selectedUser) {
+      setTitleHasError(!title);
+      setSelectedHasError(!selectedUser);
+
+      return;
+    }
+
+    addTodo({
+      id: +Math.max(...todos.map(todo => todo.id), 0) + 1,
+      title,
+      completed: false,
+      userId: selectedUser,
+    });
+
+    reset();
+  };
+
+  const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(+event.target.value);
+    setSelectedHasError(false);
+  };
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleHasError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={handleSubmit}
+        onReset={reset}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            onChange={handleChangeTitle}
+          />
+
+          {titleHasError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <select
+            data-cy="userSelect"
+            value={selectedUser}
+            onChange={handleChangeSelect}
+          >
             <option value="0" disabled>
               Choose a user
             </option>
+
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {selectedHasError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -29,33 +114,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
