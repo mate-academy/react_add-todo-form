@@ -5,12 +5,15 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
+import { User } from './types/types';
 import { ITodoInfo } from './types/ITodoInfo';
 
-const initialTodos: ITodoInfo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(us => us.id === todo.userId) as User;
+const getUserById = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId);
+};
 
+const initialTodos: ITodoInfo[] = todosFromServer.map(todo => {
+  const user: User = getUserById(todo.userId) as User;
   return { ...todo, user };
 });
 
@@ -19,7 +22,7 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasSelectedIdError, setHasSelectedIdError] = useState(false);
 
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
 
   const getTodoId = (todoArr: ITodoInfo[]) => {
@@ -28,54 +31,47 @@ export const App = () => {
     return idMax + 1;
   };
 
-  const handlerSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title.trim() && !selectedUserId) {
-      setHasTitleError(true);
-      setHasSelectedIdError(true);
-
-      return;
-    }
+    setHasTitleError(!title.trim());
+    setHasSelectedIdError(!selectedUserId);
 
     if (!title.trim()) {
       setHasTitleError(true);
-      setHasSelectedIdError(false);
 
       return;
     }
 
     if (!selectedUserId) {
-      setHasTitleError(false);
       setHasSelectedIdError(true);
 
       return;
     }
 
-    const user = usersFromServer.find(
-      us => us.id === Number(selectedUserId),
-    ) as User;
+    setHasTitleError(!title.trim());
+    setHasSelectedIdError(!selectedUserId);
 
     setTodos([
       ...todos,
       {
-        id: todos.length ? getTodoId(todos) : 1,
+        id: todos.length ? getTodoId(todos) : 0,
         title,
         completed: false,
         userId: Number(selectedUserId),
-        user,
+        user: getUserById(Number(selectedUserId)) as User,
       },
     ]);
 
     setTitle('');
-    setSelectedUserId(null);
+    setSelectedUserId(0);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handlerSubmit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="user">Title:</label>
           <input
@@ -123,7 +119,7 @@ export const App = () => {
         </button>
       </form>
 
-      {<TodoList todos={todos} />}
+      <TodoList todos={todos} />
     </div>
   );
 };

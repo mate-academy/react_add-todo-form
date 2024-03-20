@@ -1,4 +1,4 @@
-import { User } from './User';
+import { User } from './types';
 
 export interface ITodoInfo {
   id: number;
