@@ -31,13 +31,17 @@ export const App = () => {
     ]);
   }
 
+  function deleteGood(goodId: number): void {
+    setGoods(current => current.filter(good => good.id !== goodId));
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <GoodForm onSubmit={addGood} />
 
-      <GoodList goods={goods} />
+      <GoodList goods={goods} onDelete={deleteGood} />
     </div>
   );
 };
