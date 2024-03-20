@@ -17,29 +17,34 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUsers);
-  const [userID, setUserID] = useState('0');
+  const [userID, setUserID] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
-  const [hasErrorTitle, setHasErrorTitle] = useState(false);
-  const [hasErrorID, setHasErrorID] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorID, setErrorID] = useState('');
 
   const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
-  const getMaxId = () => Math.max(...todos.map(todo => +todo.id));
+  const getMaxId = () => Math.max(...todos.map(todo => todo.id));
 
   const resetFields = () => {
     setTodoTitle('');
-    setUserID('0');
+    setUserID(0);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todoTitle || userID === '0') {
-      setHasErrorTitle(!todoTitle);
-      setHasErrorID(userID === '0');
+    if (!todoTitle) {
+      setErrorTitle('Please enter a title');
+    }
 
+    if (!userID) {
+      setErrorID('Please choose a user');
+    }
+
+    if (!todoTitle || !userID) {
       return;
     }
 
@@ -47,21 +52,21 @@ export const App = () => {
       id: getMaxId() + 1,
       title: todoTitle,
       completed: false,
-      userId: +userID,
-      user: getUserById(+userID),
+      userId: userID,
+      user: getUserById(userID),
     });
 
     resetFields();
   };
 
   const handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHasErrorTitle(false);
+    setErrorTitle('');
     setTodoTitle(event.target.value);
   };
 
   const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setHasErrorID(false);
-    setUserID(event.target.value);
+    setErrorID('');
+    setUserID(Number(event.target.value));
   };
 
   return (
@@ -81,7 +86,7 @@ export const App = () => {
             onChange={handleAddTitle}
           />
 
-          {hasErrorTitle && <span className="error">Please enter a title</span>}
+          {errorTitle && <span className="error">{errorTitle}</span>}
         </div>
 
         <div className="field">
@@ -104,7 +109,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasErrorID && <span className="error">Please choose a user</span>}
+          {errorID && <span className="error">{errorID}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
