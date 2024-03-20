@@ -22,10 +22,13 @@ export const App = () => {
   const [goods, setGoods] = useState<Good[]>(initialGoods);
 
   function addGood(good: Good) {
-    setGoods(prevGoods => [...prevGoods, {
-      ...good,
-      id: getMaxGoodId(goods) + 1,
-    }]);
+    setGoods(prevGoods => [
+      ...prevGoods,
+      {
+        ...good,
+        id: getMaxGoodId(goods) + 1,
+      },
+    ]);
   }
 
   return (

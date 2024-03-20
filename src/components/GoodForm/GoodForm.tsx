@@ -3,7 +3,7 @@ import { Good } from '../../types/Good';
 import { colors, getColorById } from '../../api';
 
 type Props = {
-  onSubmit: (good: Good) => void,
+  onSubmit: (good: Good) => void;
 };
 
 export const GoodForm = ({ onSubmit }: Props) => {
@@ -37,20 +37,20 @@ export const GoodForm = ({ onSubmit }: Props) => {
         }}
       />
 
-        <select
-          value={selectedColorId}
-          onChange={event => {
-            setSelectedColorId(+event.target.value);
-          }}
-        >
-          <option value="0">Choose a color</option>
+      <select
+        value={selectedColorId}
+        onChange={event => {
+          setSelectedColorId(+event.target.value);
+        }}
+      >
+        <option value="0">Choose a color</option>
 
-          {colors.map(color => (
-            <option key={color.id} value={color.id}>
-              {color.name}
-            </option>
-          ))}
-        </select>
+        {colors.map(color => (
+          <option key={color.id} value={color.id}>
+            {color.name}
+          </option>
+        ))}
+      </select>
 
       <button type="submit">Add</button>
     </form>
