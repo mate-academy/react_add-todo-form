@@ -11,7 +11,7 @@ const getUserById = (id: number): User | null => {
   return usersFromServer.find(user => user.id === id) || null;
 };
 
-const preperTodo: Todo[] = todosFromServer.map(todo => ({
+const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId) || null,
 }));
@@ -20,10 +20,10 @@ const getNewTodoId = (todos: Todo[]): number =>
   Math.max(...todos.map(todo => todo.id)) + 1;
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(preperTodo);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
 
   const [title, setTitle] = useState('');
-  const [hasTitleEmpty, setHasTitleEmpty] = useState(false);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserEmpty, setHasUserEmpty] = useState(false);
@@ -36,15 +36,11 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title && !userId) {
-      setHasTitleEmpty(true);
-      setHasUserEmpty(true);
+    setIsTitleEmpty(!title);
+    setHasUserEmpty(!userId);
 
+    if (!title || !userId) {
       return;
-    } else if (!title) {
-      return setHasTitleEmpty(true);
-    } else if (!userId) {
-      return setHasUserEmpty(true);
     }
 
     setTodos(current => {
@@ -71,14 +67,14 @@ export const App = () => {
           <input
             onChange={e => {
               setTitle(e.target.value);
-              setHasTitleEmpty(false);
+              setIsTitleEmpty(false);
             }}
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
           />
-          {hasTitleEmpty && <span className="error">Please enter a title</span>}
+          {isTitleEmpty && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
