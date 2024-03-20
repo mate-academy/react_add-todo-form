@@ -14,6 +14,7 @@ const getUserById = (userId: number) => {
 
 const initialTodos: ITodoInfo[] = todosFromServer.map(todo => {
   const user: User = getUserById(todo.userId) as User;
+
   return { ...todo, user };
 });
 

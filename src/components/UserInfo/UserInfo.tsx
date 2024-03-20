@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { User } from '../../types/User';
+import { User } from '../../types/types';
 
 type Props = {
   user: User;
