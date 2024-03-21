@@ -24,7 +24,7 @@ export const App = () => {
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault();
 
-    let currentFailCheck = [false, false];
+    const currentFailCheck = [false, false];
 
     if (titleInput === '') {
       currentFailCheck[0] = true;
@@ -71,7 +71,7 @@ export const App = () => {
             placeholder="Title"
             onChange={e => {
               if (e.target.value !== '') {
-                setFailChecks(([_a, b]) => {
+                setFailChecks(([, b]) => {
                   return [false, b];
                 });
               }
@@ -93,6 +93,7 @@ export const App = () => {
                   return [a, false];
                 });
               }
+
               setUserIdInput(e.target.value);
             }}
             value={userIdInput}
