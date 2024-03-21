@@ -19,24 +19,24 @@ export const App = () => {
 
   const [titleInput, setTitleInput] = useState('');
   const [userIdInput, setUserIdInput] = useState('Placeholder');
-  const [failCode, setFailCode] = useState(0);
+  const [failChecks, setFailChecks] = useState([false, false]);
 
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault();
 
-    let currentFailCode = 0;
+    let currentFailCheck = [false, false];
 
     if (titleInput === '') {
-      currentFailCode++;
+      currentFailCheck[0] = true;
     }
 
     if (userIdInput === 'Placeholder') {
-      currentFailCode++;
-      currentFailCode++;
+      currentFailCheck[1] = true;
     }
 
-    if (currentFailCode > 0) {
-      setFailCode(currentFailCode);
+    if (currentFailCheck[0] || currentFailCheck[1]) {
+      setFailChecks(currentFailCheck);
+
       return;
     }
 
@@ -58,7 +58,7 @@ export const App = () => {
     setTodos([...todos, newTodo]);
     setTitleInput('');
     setUserIdInput('Placeholder');
-    setFailCode(0);
+    setFailChecks([false, false]);
   };
 
   return (
@@ -68,21 +68,31 @@ export const App = () => {
       <form onSubmit={handleSubmit}>
         <div className="field">
           <input
+            placeholder="Title"
             onChange={e => {
+              if (e.target.value !== '') {
+                setFailChecks(([_a, b]) => {
+                  return [false, b];
+                });
+              }
+
               setTitleInput(e.target.value);
             }}
             value={titleInput}
             type="text"
             data-cy="titleInput"
           />
-          {(failCode === 1 || failCode === 3) && (
-            <span className="error">Please enter a title</span>
-          )}
+          {failChecks[0] && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             onChange={e => {
+              if (e.target.value !== 'Placeholder') {
+                setFailChecks(([a]) => {
+                  return [a, false];
+                });
+              }
               setUserIdInput(e.target.value);
             }}
             value={userIdInput}
@@ -98,9 +108,7 @@ export const App = () => {
             ))}
           </select>
 
-          {(failCode === 2 || failCode === 3) && (
-            <span className="error">Please choose a user</span>
-          )}
+          {failChecks[1] && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
