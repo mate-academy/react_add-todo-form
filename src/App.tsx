@@ -1,32 +1,21 @@
 import './App.scss';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
-
 import { useState } from 'react';
+
+import usersFromServer from './api/users';
+
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
-
-const getUserById = (userId: number) => {
-  return usersFromServer.find(user => userId === user.id);
-};
-
-const preparedTodos = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+import { getNewId, preparedTodos } from './services/todos';
+import { getUserById } from './services/user';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const [title, setTitle] = useState('');
-  const [hasTitleError, setIsTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [hasUserError, setIsUserError] = useState(false);
-
-  const maxId = () => {
-    return Math.max(...todos.map(todo => todo.id)) + 1;
-  };
+  const [isUserError, setIsUserError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -38,7 +27,7 @@ export const App = () => {
     setIsUserError(false);
   };
 
-  const onSubmit = (newTodo: Todo) => {
+  const addNewTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
@@ -52,8 +41,8 @@ export const App = () => {
       return;
     }
 
-    onSubmit({
-      id: maxId(),
+    addNewTodo({
+      id: getNewId(todos) || 0,
       title,
       userId,
       completed: false,
@@ -80,7 +69,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -88,7 +77,6 @@ export const App = () => {
           <select
             id="userSelect"
             data-cy="userSelect"
-            defaultValue="0"
             value={userId}
             onChange={handleUserChange}
           >
@@ -103,7 +91,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
