@@ -5,13 +5,14 @@ import usersFromServer from './api/users';
 
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
-import { Todo } from './types';
+import { Todo, User } from './types';
 
-export function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || null;
+export function getUserById(userId: number): User {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return usersFromServer.find(user => user.id === userId)!;
 }
 
-export const preparedTodos = todosFromServer.map(todo => ({
+export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
@@ -21,22 +22,22 @@ const getTodoId = (todos: Todo[]) => {
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [selectError, setSelectError] = useState(false);
+  const [hasSelectError, setHasSelectError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setHasTitleError(false);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setSelectError(false);
+    setHasSelectError(false);
   };
 
   const onAdd = (todo: Todo) => {
@@ -53,8 +54,8 @@ export const App = () => {
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setSelectError(!userId);
+    setHasTitleError(!title);
+    setHasSelectError(!userId);
 
     if (!title || !userId) {
       return;
@@ -87,7 +88,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {titleError && <p className="error">Please enter a title</p>}
+          {hasTitleError && <p className="error">Please enter a title</p>}
         </div>
 
         <div className="field">
@@ -115,7 +116,7 @@ export const App = () => {
             </div>
           </div>
 
-          {selectError && <p className="error">Please choose a user</p>}
+          {hasSelectError && <p className="error">Please choose a user</p>}
         </div>
 
         <button className="button is-info" type="submit" data-cy="submitButton">
