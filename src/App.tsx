@@ -20,7 +20,7 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [count, setCount] = useState(0);
-  const [todos, setTodo] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const addTodo = ({ id, ...data }: Todo) => {
     const newTodo = {
@@ -28,7 +28,7 @@ export const App = () => {
       ...data,
     };
 
-    setTodo(currentTodo => [...currentTodo, newTodo]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
     setCount(current => current + 1);
   };
 
