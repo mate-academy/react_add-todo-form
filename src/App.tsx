@@ -7,64 +7,68 @@ import todosFromServer from './api/todos';
 import { Todo } from './Types/Todo';
 import { User } from './Types/User';
 
-const fullTodos = todosFromServer.map(elem => {
+const preparedTodos = todosFromServer.map(elem => {
   return {
     ...elem,
-    user: usersFromServer.find(user => user.id === elem.userId) as User,
+    user: usersFromServer.find(user => user.id === elem.userId) || null,
   };
 });
 
+function getLastIndex(todosList): number {
+  return Math.max(...todosList.map(currentTodo => currentTodo.id)) + 1;
+}
+
+function getUserById(selectedUserId): User {
+  return usersFromServer.find(user => user.id === selectedUserId) as User;
+}
+
 export const App = () => {
-  const [todosList, setTodosList] = useState<Todo[]>(fullTodos);
+  const [todosList, setTodosList] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
-  const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [isTitleFilled, setIsTitleFilled] = useState(true);
   const [isUserSelected, setIsUserSelected] = useState(true);
-
-  function getLastIndex(): number {
-    return Math.max(...todosList.map(currentTodo => currentTodo.id)) + 1;
-  }
 
   const addTodo = (newTodo: Todo) => {
     setTodosList(currentTodo => [...currentTodo, newTodo]);
   };
 
-  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setIsTitleFilled(true);
   };
 
-  const selectUserHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(+event.target.value);
+  const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
     setIsUserSelected(true);
   };
 
   function reset() {
+    setSelectedUserId(0);
     setTitle('');
 
     setIsTitleFilled(true);
     setIsUserSelected(true);
   }
 
-  const submitHandler = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setIsTitleFilled(!!title);
-    setIsUserSelected(!!selectedUser);
+    setIsUserSelected(!!selectedUserId);
 
-    if (!selectedUser || !title) {
+    if (!selectedUserId || !title) {
       return;
     }
 
     addTodo({
-      id: getLastIndex(),
+      id: getLastIndex(todosList),
       title,
       completed: false,
-      user: usersFromServer.find(user => user.id === selectedUser) as User,
-      userId: selectedUser,
+      user: getUserById(selectedUserId),
+      userId: selectedUserId,
     });
 
-    setSelectedUser(0);
     reset();
   };
 
@@ -72,18 +76,14 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={event => submitHandler(event)}
-      >
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={event => titleHandler(event)}
+            onChange={event => handleTitleChange(event)}
           />
           {!isTitleFilled && (
             <span className="error">Please enter a title</span>
@@ -93,8 +93,8 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedUser}
-            onChange={event => selectUserHandler(event)}
+            value={selectedUserId}
+            onChange={event => handleUserSelect(event)}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
