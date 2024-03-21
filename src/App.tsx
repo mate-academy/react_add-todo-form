@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { Todo, User } from './types';
 
 export function getUserById(userId: number): User {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return usersFromServer.find(user => user.id === userId)!;
 }
 
@@ -51,7 +50,7 @@ export const App = () => {
     setUserId(0);
   };
 
-  const handleOnSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
@@ -76,7 +75,7 @@ export const App = () => {
     <div className="App">
       <h1 className="title">Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleOnSubmit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <div className="field">
           <input
