@@ -1,61 +1,47 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from 'react';
 import './App.scss';
+import { Good } from './types/Good';
+import { getColorById, getGoods } from './api';
+import { GoodList } from './components/GoodList/GoodList';
+import { GoodForm } from './components/GoodForm/GoodForm';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const initialGoods: Good[] = getGoods().map(good => ({
+  ...good,
+  color: getColorById(good.colorId),
+}));
+
+function getMaxGoodId(goods: Good[]) {
+  const ids = goods.map(good => good.id);
+
+  return Math.max(...ids, 0);
+}
 
 export const App = () => {
+  const [goods, setGoods] = useState<Good[]>(initialGoods);
+
+  function addGood(good: Good) {
+    setGoods(prevGoods => [
+      ...prevGoods,
+      {
+        ...good,
+        id: getMaxGoodId(goods) + 1,
+      },
+    ]);
+  }
+
+  function deleteGood(goodId: number): void {
+    setGoods(current => current.filter(good => good.id !== goodId));
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <GoodForm onSubmit={addGood} />
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <GoodList goods={goods} onDelete={deleteGood} />
     </div>
   );
 };
