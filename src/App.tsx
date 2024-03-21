@@ -4,27 +4,27 @@ import todosFromServer from './api/todos';
 import React, { useState } from 'react';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from './components/TodoList';
-import { ToDo, ToDoFromServer, UserFromServer } from './types';
+import { Todo, TodoFromServer, UserFromServer } from './types';
 
-const getToDoArray = (): ToDo[] => {
-  return todosFromServer.map((todo: ToDoFromServer)=> {
+const getTodos = (): Todo[] => {
+  return todosFromServer.map((todo: TodoFromServer)=> {
     return {
       ...todo,
       user: usersFromServer.find((userFromServer: UserFromServer) => {
         return userFromServer.id === todo.userId;
-      })
-    }
-  }) as ToDo[]
-}
+      }),
+    };
+  });
+};
 
 export const App = () => {
-  const [toDoArray , setToDoArray] = useState<ToDo[]>(getToDoArray());
+  const [todos , setTodos] = useState<Todo[]>(getTodos());
   const [count, setCount] = useState(0);
 
-  const addNewToDo = (todo: ToDo): void => {
-    setToDoArray(array => [ ...array, todo ])
-    setCount(c => c + 1);
-  }
+  const addNewToDo = (todo: Todo): void => {
+    setTodos(prevTodos => [ ...prevTodos, todo ]);
+    setCount(prevCount => prevCount + 1);
+  };
 
   return (
     <div className="App">
@@ -33,11 +33,11 @@ export const App = () => {
       <TodoForm
         key={count}
         onAdd={addNewToDo}
-        todos={toDoArray}
+        todos={todos}
         users={usersFromServer}
       />
 
-      <TodoList todos={toDoArray}/>
+      <TodoList todos={todos}/>
 
     </div>
   );

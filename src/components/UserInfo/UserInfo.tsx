@@ -1,14 +1,14 @@
 import React from "react";
-import { ToDo } from "../../types";
+import { Todo } from "../../types";
 
 type Props = {
-  user: ToDo["user"]
-}
+  user: Todo["user"]
+};
 
 export const UserInfo: React.FC<Props> = ({
-  user
+  user,
 }) => (
-  <a className="UserInfo" href={user.email}>
-    {user.name}
+  <a className="UserInfo" href={user?.email}>
+    {user?.name}
   </a>
 );

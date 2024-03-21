@@ -1,4 +1,4 @@
-export interface ToDoFromServer {
+export interface TodoFromServer {
   id: number,
   title: string,
   completed: boolean,
@@ -12,6 +12,6 @@ export interface UserFromServer {
   email: string,
 }
 
-export interface ToDo extends ToDoFromServer {
-  user: UserFromServer,
+export interface Todo extends TodoFromServer {
+  user: UserFromServer | undefined,
 }

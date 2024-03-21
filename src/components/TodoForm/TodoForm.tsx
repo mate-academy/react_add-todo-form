@@ -1,72 +1,68 @@
 import React, { useState } from "react";
-import { ToDo } from "../../types";
+import { Todo } from "../../types";
 
 type Props = {
-  onAdd: (todo: ToDo) => void,
-  todos: ToDo[],
-  users: ToDo['user'][]
-}
+  onAdd: (todo: Todo) => void,
+  todos: Todo[],
+  users: Todo['user'][],
+};
 
-const getLastToDoId = (todos: ToDo[]): number => {
-  return todos.reduce((maxId, todo: ToDo) => {
+const getLastToDoId = (todos: Todo[]): number => {
+  return todos.reduce((maxId, todo: Todo) => {
     if (todo.id > maxId) {
       return todo.id;
     }
 
-    return maxId
-  }, 0)
-}
+    return maxId;
+  }, 0);
+};
 
 export const TodoForm: React.FC<Props> = ({
   onAdd,
   todos,
-  users
+  users,
 }) => {
   const [title, setTitle] = useState('');
   const [isTitleFailed, setIsTitleFailed] = useState(false);
 
-  const [selectedUserId, setSelectedUserId] = useState(0)
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [isSelectedUserIdFailed, setSelectedUserIdFailed] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    let failed = false;
-
-    if (title === '') {
-      failed = true;
+    if (!title) {
       setIsTitleFailed(true);
-    }
+    };
 
-    if (selectedUserId === 0) {
-      failed = true;
-      setSelectedUserIdFailed(true)
-    }
+    if (!selectedUserId) {
+      setSelectedUserIdFailed(true);
+    };
 
-    if (failed) {
-      return
-    }
+    if (!title || !selectedUserId) {
+      return;
+    };
 
-    const todo: ToDo = {
+    const todo: Todo = {
       title,
-      user: users.find(u => u.id === selectedUserId) as ToDo['user'],
+      user: users.find(usr => usr?.id === selectedUserId),
       id: getLastToDoId(todos) + 1,
       completed: false,
       userId: selectedUserId,
-    }
+    };
 
-    onAdd(todo)
-  }
+    onAdd(todo);
+  };
 
-  const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setIsTitleFailed(false);
-    setTitle(e.target.value);
-  }
+    setTitle(event.target.value);
+  };
 
-  const handleUserSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+  const handleUserSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelectedUserIdFailed(false);
-    setSelectedUserId(+e.target.value);
-  }
+    setSelectedUserId(Number(event.target.value));
+  };
 
   return (
   <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
@@ -95,8 +91,8 @@ export const TodoForm: React.FC<Props> = ({
             Choose a user
           </option>
           {users.map(user => (
-            <option value={user.id}>
-              {user.name}
+            <option value={user?.id}>
+              {user?.name}
             </option>
           ))}
         </select>
@@ -108,5 +104,5 @@ export const TodoForm: React.FC<Props> = ({
       Add
     </button>
   </form>
-  )
+  );
 };
