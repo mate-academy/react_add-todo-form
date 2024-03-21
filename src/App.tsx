@@ -13,7 +13,7 @@ const getUserById = (id: number): User | null => {
 
 const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId) || null,
+  user: getUserById(todo.userId),
 }));
 
 const getNewTodoId = (todos: Todo[]): number =>
@@ -31,6 +31,16 @@ export const App = () => {
   const reset = () => {
     setTitle('');
     setUserId(0);
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    setIsTitleEmpty(false);
+  };
+
+  const handleChooseUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+e.target.value);
+    setHasUserEmpty(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,10 +75,7 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
-            onChange={e => {
-              setTitle(e.target.value);
-              setIsTitleEmpty(false);
-            }}
+            onChange={handleTitleChange}
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -79,10 +86,7 @@ export const App = () => {
 
         <div className="field">
           <select
-            onChange={e => {
-              setUserId(+e.target.value);
-              setHasUserEmpty(false);
-            }}
+            onChange={handleChooseUser}
             value={userId}
             data-cy="userSelect"
           >
