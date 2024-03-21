@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Todo, User } from './types';
 
 export function getUserById(userId: number): User {
-  return usersFromServer.find(user => user.id === userId)!;
+  return usersFromServer.find(usr => usr.id === userId) as User;
 }
 
 export const preparedTodos: Todo[] = todosFromServer.map(todo => ({
