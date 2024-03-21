@@ -3,15 +3,13 @@ import { FC } from 'react';
 import { User } from '../../types/types';
 
 type Props = {
-  user: User;
+  user: User | undefined;
 };
 
 export const UserInfo: FC<Props> = ({ user }) => {
-  const { name, email } = user;
-
   return (
-    <a className="UserInfo" href={`mailto:${email}`}>
-      {name}
+    <a className="UserInfo" href={`mailto:${user?.email}`}>
+      {user?.name}
     </a>
   );
 };

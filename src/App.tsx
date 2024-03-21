@@ -5,17 +5,15 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { User } from './types/types';
+import { Todo, User } from './types/types';
 import { ITodoInfo } from './types/ITodoInfo';
 
-const getUserById = (userId: number) => {
+const getUserById = (userId: number): User | undefined => {
   return usersFromServer.find(user => user.id === userId);
 };
 
 const initialTodos: ITodoInfo[] = todosFromServer.map(todo => {
-  const user: User = getUserById(todo.userId) as User;
-
-  return { ...todo, user };
+  return { ...todo, user: getUserById(todo.userId) };
 });
 
 export const App = () => {
@@ -45,31 +43,26 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setHasTitleError(!title.trim());
-    setHasSelectedIdError(!selectedUserId);
-
     if (!title.trim()) {
       setHasTitleError(true);
-
-      return;
     }
 
     if (!selectedUserId) {
       setHasSelectedIdError(true);
-
-      return;
     }
 
-    setTodos([
-      ...todos,
-      {
-        id: getTodoId(todos),
-        title,
-        completed: false,
-        userId: Number(selectedUserId),
-        user: getUserById(Number(selectedUserId)) as User,
-      },
-    ]);
+    if (!selectedUserId || !title.trim()) {
+      return;
+    }
+    const newTodo: Todo = {
+      id: getTodoId(todos),
+      title,
+      completed: false,
+      userId: Number(selectedUserId),
+      user: getUserById(Number(selectedUserId)),
+    };
+
+    setTodos([...todos, newTodo]);
 
     setTitle('');
     setSelectedUserId(0);

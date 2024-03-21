@@ -4,6 +4,9 @@ export interface ITodoInfo {
   id: number;
   title: string;
   completed: boolean;
-  user: User | null;
   userId: number;
+  // user: User;
+}
+export interface Todo extends ITodoInfo {
+  user?: User;
 }

@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
 import { UserInfo } from '../UserInfo';
-import { ITodoInfo } from '../../types/ITodoInfo';
-import { User } from '../../types/types';
+import { Todo, User } from '../../types/types';
 
 import cn from 'classnames';
 
 type Props = {
-  todo: ITodoInfo;
+  todo: Todo;
+  user: User | undefined;
 };
 
 export const TodoInfo: FC<Props> = ({ todo }) => {
@@ -19,7 +19,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
       className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      <UserInfo user={user as User} />
+      <UserInfo user={user} />
     </article>
   );
 };
