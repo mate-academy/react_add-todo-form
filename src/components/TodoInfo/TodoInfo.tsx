@@ -1,13 +1,12 @@
 import { FC } from 'react';
 
 import { UserInfo } from '../UserInfo';
-import { Todo, User } from '../../types/types';
+import { Todo } from '../../types/types';
 
 import cn from 'classnames';
 
 type Props = {
   todo: Todo;
-  user: User | undefined;
 };
 
 export const TodoInfo: FC<Props> = ({ todo }) => {

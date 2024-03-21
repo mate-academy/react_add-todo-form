@@ -54,6 +54,7 @@ export const App = () => {
     if (!selectedUserId || !title.trim()) {
       return;
     }
+
     const newTodo: Todo = {
       id: getTodoId(todos),
       title,
