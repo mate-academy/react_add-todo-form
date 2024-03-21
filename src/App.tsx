@@ -7,18 +7,18 @@ import todosFromServer from './api/todos';
 import { Todo } from './Types/Todo';
 import { User } from './Types/User';
 
-const preparedTodos = todosFromServer.map(elem => {
+const preparedTodos: Todo[] = todosFromServer.map(elem => {
   return {
     ...elem,
     user: usersFromServer.find(user => user.id === elem.userId) || null,
   };
 });
 
-function getLastIndex(todosList): number {
+function getLastIndex(todosList: Todo[]): number {
   return Math.max(...todosList.map(currentTodo => currentTodo.id)) + 1;
 }
 
-function getUserById(selectedUserId): User {
+function getUserById(selectedUserId: number): User {
   return usersFromServer.find(user => user.id === selectedUserId) as User;
 }
 
