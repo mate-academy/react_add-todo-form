@@ -2,6 +2,7 @@ import cn from 'classnames';
 
 import { Todos } from '../../types/todos';
 import { UserInfo } from '../UserInfo';
+import { Users } from '../../types/users';
 
 type Props = {
   todo: Todos;
@@ -19,7 +20,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         {todo.title}
       </h2>
 
-      <UserInfo user={todo.user} />
+      <UserInfo user={todo.user as Users} />
     </article>
   );
 };

@@ -8,10 +8,10 @@ import { Todos } from './types/todos';
 import { Users } from './types/users';
 
 function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId);
+  return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const preperaTodo = todosFromServer.map(todo => {
+const preperaTodo: Todos[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: getUserById(todo.userId),
