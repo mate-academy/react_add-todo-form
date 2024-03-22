@@ -7,12 +7,12 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
-const getUserById = (userId: number) =>
-  usersFromServer.find(user => user.id === userId) as User;
+const getUserById = (userId: number): User | null =>
+  usersFromServer.find(user => user.id === userId) || null;
 
 const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(todo.userId) || null,
 }));
 
 export const App = () => {
