@@ -5,13 +5,13 @@ import { User } from './Types';
 import { TodoList } from './components/TodoList';
 import './App.scss';
 
-const todosWithAssociatedUsers = fetchedTodos.map(todo => ({
+const todosWithUsers = fetchedTodos.map(todo => ({
   ...todo,
   user: fetchedUsers.find(user => user.id === todo.userId),
 }));
 
 export const App = () => {
-  const [todoItems, setTodoItems] = useState(todosWithAssociatedUsers);
+  const [todoItems, setTodoItems] = useState(todosWithUsers);
   const [formValues, setFormValues] = useState({ title: '', id: '' });
   const [isValidTitle, setIsValidTitle] = useState(false);
   const [isValidUser, setIsValidUser] = useState(false);
