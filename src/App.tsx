@@ -1,6 +1,5 @@
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
+/* eslint-disable react/jsx-no-bind, @typescript-eslint/no-unused-vars, no-console */
+import { useMemo, useState } from 'react';
 import './App.scss';
 import { Good } from './types/Good';
 import { getColorById, getGoods } from './api';
@@ -20,6 +19,13 @@ function getMaxGoodId(goods: Good[]) {
 
 export const App = () => {
   const [goods, setGoods] = useState<Good[]>(initialGoods);
+  const [title, setTitle] = useState('');
+  const [query, setQuery] = useState('');
+
+  // #f1, #f2
+  const removeGood = (goodId: number) => {
+    setGoods(prevGoods => prevGoods.filter(good => good.id !== goodId));
+  };
 
   function addGood(good: Good) {
     setGoods(prevGoods => [
@@ -31,17 +37,26 @@ export const App = () => {
     ]);
   }
 
-  function removeGood(goodId: number) {
-    setGoods(prevGoods => prevGoods.filter(good => good.id !== goodId));
-  }
+  const visibleGoods = useMemo(() => {
+    return goods.filter(good => good.name.includes(query));
+  }, [query, goods]);
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
+      <input
+        type="text"
+        value={title}
+        onChange={event => setTitle(event.target.value)}
+      />
+      <h1>Add good form</h1>
+      Filter:
+      <input
+        type="text"
+        value={query}
+        onChange={event => setQuery(event.target.value)}
+      />
       <GoodForm onSubmit={addGood} />
-
-      <GoodList goods={goods} onRemove={removeGood} />
+      <GoodList goods={visibleGoods} onRemove={removeGood} />
     </div>
   );
 };
