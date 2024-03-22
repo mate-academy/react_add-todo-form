@@ -3,38 +3,53 @@ import { useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
 import { NewTodo, Todo } from './types/Todo';
 
 import './App.scss';
 
-const preTodos = todosFromServer.map((todo: Todo) => ({
+const getUserById = (userId: number) =>
+  usersFromServer.find(user => user.id === userId) || null;
+
+const todosWithUsers = todosFromServer.map((todo: Todo) => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) as User,
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState<NewTodo[]>(preTodos);
+  const [todos, setTodos] = useState<NewTodo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [hasTitle, setHasTitle] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [hasUserId, setHasUserId] = useState(false);
+  const [isUserIdError, setIsUserIdError] = useState(false);
+
+  const generateUniqueId = () =>
+    Math.max(...todosWithUsers.map((todo: Todo) => todo.id), 0) + 1;
+
+  const handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setIsTitleError(false);
+  };
+
+  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setIsUserIdError(false);
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasTitle(!title);
-    setHasUserId(!userId);
+    setIsTitleError(!title);
+    setIsUserIdError(!userId);
 
     if (!title || !userId) {
       return;
     }
 
     const newTodo = {
-      id: Math.max(...preTodos.map(todo => todo.id)) + 1,
+      id: generateUniqueId(),
       title: title,
       completed: false,
       userId: userId,
-      user: usersFromServer.find(user => user.id === userId) as User,
+      user: getUserById(userId),
     };
 
     setTodos(prevState => [...prevState, newTodo]);
@@ -54,22 +69,16 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setHasTitle(false);
-            }}
+            onChange={handleAddTitle}
           />
-          {hasTitle && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(+event.target.value);
-              setHasUserId(false);
-            }}
+            onChange={handleSelectUser}
           >
             <option value="0" disabled>
               Choose a user
@@ -80,7 +89,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {hasUserId && <span className="error">Please choose a user</span>}
+          {isUserIdError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
