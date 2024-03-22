@@ -18,7 +18,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      {user && <UserInfo user={user} />}
+      {todo && <UserInfo user={user} />}
     </article>
   );
 };

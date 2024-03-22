@@ -15,35 +15,42 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   const [isSelectError, setIsSelectError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [todosData, setToodosData] = useState(todos);
-  const theNextTodoId = Math.max(...todosData.map(item => item.id), 0);
-
-  const [newCard, setNewCard] = useState<TodoItem>({
-    id: 0,
-    title: '',
-    completed: false,
-    userId: 0,
-    user: {
-      id: 0,
-      name: '',
-      username: '',
-      email: '',
-    },
-  });
+  const theBiggestTodoId = Math.max(...todosData.map(item => item.id), 0);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    let isFormValid = true;
 
     if (inputValue.trim() === '') {
       setIsInputError(true);
+      isFormValid = false;
+    } else {
+      setIsInputError(false);
     }
 
     if (selectValue === selectInitialValue) {
       setIsSelectError(true);
+      isFormValid = false;
+    } else {
+      setIsSelectError(false);
     }
 
-    if (inputValue.trim() === '' || selectValue === selectInitialValue) {
+    if (!isFormValid) {
       return;
     }
+
+    const newCard: TodoItem = {
+      id: theBiggestTodoId + 1,
+      title: inputValue.trim(),
+      completed: false,
+      userId: +selectValue,
+      user: usersFromServer.find(user => user.id === +selectValue) || {
+        id: 0,
+        name: '',
+        username: '',
+        email: '',
+      },
+    };
 
     setSelectValue(selectInitialValue);
     setInputValue('');
@@ -55,35 +62,27 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
     const newInputValue = event.target.value;
 
     setInputValue(newInputValue);
-    setNewCard(prevState => ({
-      ...prevState,
-      id: theNextTodoId + 1,
-      title: newInputValue,
-    }));
-    if (newInputValue.trim() !== '') {
+    if (newInputValue.trim() === '') {
+      setIsInputError(true);
+    } else {
       setIsInputError(false);
     }
   };
 
   const handleUserInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const thisUser = usersFromServer.find(
-      item => item.id === +event.target.value,
-    );
+    const selectedUserId = +event.target.value;
+    const thisUser = usersFromServer.find(item => item.id === selectedUserId);
 
     setSelectValue(event.target.value);
     if (thisUser) {
-      setNewCard(prevState => ({
-        ...prevState,
-        userId: +event.target.value,
-        user: thisUser,
-      }));
+      setUserId(selectedUserId);
     }
 
-    if (event.target.value !== selectInitialValue) {
+    if (selectedUserId === 0) {
+      setIsSelectError(true);
+    } else {
       setIsSelectError(false);
     }
-
-    setUserId(+event.target.value);
   };
 
   return (

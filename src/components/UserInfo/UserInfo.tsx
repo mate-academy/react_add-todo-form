@@ -1,17 +1,17 @@
-import { User } from '../../types/User';
+import { UsersItem } from '../../types/UsersItem';
 
-interface Props {
-  user: User;
+interface UserInfoProps {
+  user: UsersItem | undefined;
 }
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
-  if (!user) {
-    return null;
-  }
-
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${user.email}`}>
-      {user.name}
-    </a>
+    <>
+      {user && (
+        <a className="UserInfo" href={`mailto:${user.email}`}>
+          {user.name}
+        </a>
+      )}
+    </>
   );
 };
