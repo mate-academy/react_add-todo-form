@@ -12,12 +12,11 @@ const todosWithAssociatedUsers = fetchedTodos.map(todo => ({
 
 export const App = () => {
   const [todoItems, setTodoItems] = useState(todosWithAssociatedUsers);
-  const [formValues, setFormValues] = useState({ title: '', user: '' });
+  const [formValues, setFormValues] = useState({ title: '', id: '' });
   const [isValidTitle, setIsValidTitle] = useState(false);
   const [isValidUser, setIsValidUser] = useState(false);
   const [displayTitleError, setDisplayTitleError] = useState(false);
   const [displayUserError, setDisplayUserError] = useState(false);
-  // const [nextId, setNextId] = useState(todoItems.length + 1);
 
   const handleTitleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.trimStart();
@@ -39,7 +38,7 @@ export const App = () => {
 
     setFormValues(prevValues => ({
       ...prevValues,
-      user: value,
+      id: value,
     }));
   };
 
@@ -59,10 +58,9 @@ export const App = () => {
     }
 
     const selectedUser = fetchedUsers.find(
-      user => user.name === formValues.user,
+      user => user.id === +formValues.id,
     ) as User;
 
-    // const newId = [...todoItems].sort((a, b) => b.id - a.id)[0].id + 1;
     const maxId = Math.max(...todoItems.map(todo => todo.id));
 
     setTodoItems(prevTodos => [
@@ -78,7 +76,7 @@ export const App = () => {
 
     setFormValues({
       title: '',
-      user: '',
+      id: '',
     });
 
     setIsValidTitle(false);
@@ -113,14 +111,14 @@ export const App = () => {
             <select
               id="userSelect"
               data-cy="userSelect"
-              value={formValues.user}
+              value={formValues.id}
               onChange={handleSelectChange}
             >
               <option value="" disabled>
                 Choose a user
               </option>
               {fetchedUsers.map(user => (
-                <option key={user.id} value={user.name}>
+                <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
               ))}
