@@ -21,10 +21,10 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(getTodo);
 
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [userError, setUserError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
   const addTodo = (newTodo: Todo) => {
     setTodos(currentTodo => [...currentTodo, newTodo]);
@@ -32,26 +32,26 @@ export const App = () => {
 
   const reset = () => {
     setTitle('');
-    setTitleError(false);
+    setIsTitleError(false);
     setUserId(0);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setUserError(false);
+    setIsUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title.trim());
-    setUserError(!userId);
+    setIsTitleError(!title.trim());
+    setIsUserError(!userId);
 
     if (!title.trim() || !userId) {
       return;
@@ -81,7 +81,7 @@ export const App = () => {
             onChange={handleTitle}
             placeholder="enter a title"
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -95,7 +95,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
