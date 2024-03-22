@@ -6,27 +6,30 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { useState } from 'react';
 
+const findUser = (userId: number) =>
+  usersFromServer.find(user => user.id === userId);
+
+const todosWithUsers: Todo[] = todosFromServer.map(todo => {
+  const user = findUser(todo.userId);
+
+  return { ...todo, user };
+});
+
+const getNewTodoId = (todosArray: Todo[]) => {
+  const maxId = Math.max(...todosArray.map(todo => todo.id));
+
+  return maxId + 1;
+};
+
 export const App = () => {
   const [titleValue, setTitleValue] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const todosWithUsers: Todo[] = todosFromServer.map(todo => {
-    const user = usersFromServer.find(usr => usr.id === todo.userId);
-
-    return { ...todo, user };
-  });
-
   const [todos, setTodos] = useState(todosWithUsers);
 
-  const getNewTodoId = (todosArray: Todo[]) => {
-    const maxId = Math.max(...todosArray.map(todo => todo.id));
-
-    return maxId + 1;
-  };
-
-  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(event.target.value);
     setHasTitleError(false);
   };
@@ -56,15 +59,15 @@ export const App = () => {
       return;
     }
 
-    const id = getNewTodoId(todosFromServer);
-    const title = titleValue;
-    const userId = selectedUserId;
-    const completed = false;
-    const user = usersFromServer.find(usr => usr.id === userId);
+    const newTodo: Todo = {
+      id: getNewTodoId(todosFromServer),
+      title: titleValue,
+      userId: selectedUserId,
+      completed: false,
+      user: findUser(selectedUserId),
+    };
 
-    const todo: Todo = { id, title, userId, completed, user };
-
-    setTodos([...todosWithUsers, todo]);
+    setTodos(prevState => [...prevState, newTodo]);
     setTitleValue('');
     setSelectedUserId(0);
   };
@@ -81,7 +84,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={titleValue}
-            onChange={handleTitleInput}
+            onChange={handleTitleChange}
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
@@ -97,9 +100,9 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(usr => (
-              <option value={usr.id} key={usr.id}>
-                {usr.name}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
               </option>
             ))}
           </select>
