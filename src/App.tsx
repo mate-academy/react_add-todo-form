@@ -26,7 +26,7 @@ export const App = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
-  const getMaxId = () => Math.max(...todos.map(todo => todo.id));
+  const createNewId = () => Math.max(...todos.map(todo => todo.id)) + 1;
 
   const resetFields = () => {
     setTodoTitle('');
@@ -49,7 +49,7 @@ export const App = () => {
     }
 
     addTodo({
-      id: getMaxId() + 1,
+      id: createNewId(),
       title: todoTitle,
       completed: false,
       userId: userID,
