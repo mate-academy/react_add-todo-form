@@ -13,5 +13,5 @@ export interface UserFromServer {
 }
 
 export interface Todo extends TodoFromServer {
-  user: UserFromServer | undefined,
+  user?: UserFromServer,
 }

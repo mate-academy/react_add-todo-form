@@ -6,13 +6,17 @@ import { TodoForm } from './components/TodoForm';
 import { TodoList } from './components/TodoList';
 import { Todo, TodoFromServer, UserFromServer } from './types';
 
+export const getUserById = (userId: number) => {
+  return usersFromServer.find((userFromServer: UserFromServer) => {
+    return userFromServer.id === userId;
+  })
+}
+
 const getTodos = (): Todo[] => {
   return todosFromServer.map((todo: TodoFromServer)=> {
     return {
       ...todo,
-      user: usersFromServer.find((userFromServer: UserFromServer) => {
-        return userFromServer.id === todo.userId;
-      }),
+      user: getUserById(todo.userId),
     };
   });
 };
@@ -34,7 +38,6 @@ export const App = () => {
         key={count}
         onAdd={addNewToDo}
         todos={todos}
-        users={usersFromServer}
       />
 
       <TodoList todos={todos}/>

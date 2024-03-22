@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import { Todo } from "../../types";
+import usersFromServer from '../../api/users';
+import { getUserById } from '../../App';
 
 type Props = {
   onAdd: (todo: Todo) => void,
   todos: Todo[],
-  users: Todo['user'][],
 };
 
-const getLastToDoId = (todos: Todo[]): number => {
+
+const getNewTodoId = (todos: Todo[]): number => {
   return todos.reduce((maxId, todo: Todo) => {
     if (todo.id > maxId) {
       return todo.id;
     }
 
     return maxId;
-  }, 0);
+  }, 0) + 1;
 };
 
 export const TodoForm: React.FC<Props> = ({
   onAdd,
   todos,
-  users,
 }) => {
   const [title, setTitle] = useState('');
   const [isTitleFailed, setIsTitleFailed] = useState(false);
@@ -45,8 +46,8 @@ export const TodoForm: React.FC<Props> = ({
 
     const todo: Todo = {
       title,
-      user: users.find(usr => usr?.id === selectedUserId),
-      id: getLastToDoId(todos) + 1,
+      user: getUserById(selectedUserId),
+      id: getNewTodoId(todos),
       completed: false,
       userId: selectedUserId,
     };
@@ -90,9 +91,12 @@ export const TodoForm: React.FC<Props> = ({
           <option value="0" disabled>
             Choose a user
           </option>
-          {users.map(user => (
-            <option value={user?.id}>
-              {user?.name}
+          {usersFromServer.map(({
+            id,
+            name,
+          }) => (
+            <option key={id} value={id}>
+              {name}
             </option>
           ))}
         </select>
