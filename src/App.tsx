@@ -20,7 +20,7 @@ const getPostId = (posts: Post[]) => {
 };
 
 export const App = () => {
-  const [posts, setPosts] = useState(prepearedPosts);
+  const [todos, setTodos] = useState(prepearedPosts);
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -28,10 +28,22 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const onAdd = (post: Post) => {
-    const newPost = { ...post, id: getPostId(posts) };
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
 
-    setPosts(currentPost => [...currentPost, newPost]);
+  const handleUserNameChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(parseFloat(event.target.value));
+    setHasUserIdError(false);
+  };
+
+  const onAdd = (post: Post) => {
+    const newPost = { ...post, id: getPostId(todos) };
+
+    setTodos(currentPost => [...currentPost, newPost]);
   };
 
   const reset = () => {
@@ -58,18 +70,6 @@ export const App = () => {
     });
 
     reset();
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setHasTitleError(false);
-  };
-
-  const handleUserNameChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setUserId(parseFloat(event.target.value));
-    setHasUserIdError(false);
   };
 
   return (
@@ -123,7 +123,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={posts} />
+      <TodoList todos={todos} />
     </div>
   );
 };
