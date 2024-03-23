@@ -7,11 +7,6 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import React, { useState } from 'react';
 
-type Props = {
-  todos: Todo[];
-  onSubmit: (todo: Todo) => void;
-};
-
 function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
@@ -21,7 +16,7 @@ const visibleTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-export const App: React.FC<Props> = () => {
+export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(visibleTodos);
   const [todoTitle, setTodoTitle] = useState('');
   const [todoUser, setTodoUser] = useState('');
@@ -45,10 +40,10 @@ export const App: React.FC<Props> = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!todoTitle);
+    setTitleError(!todoTitle.trim());
     setUserError(!todoUser);
 
-    if (!todoTitle || !todoUser) {
+    if (!todoTitle.trim() || !todoUser) {
       return;
     }
 
