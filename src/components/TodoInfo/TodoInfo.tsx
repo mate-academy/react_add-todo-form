@@ -1,7 +1,9 @@
-import cn from 'classnames';
-import { UserInfo } from '../UserInfo';
 import React from 'react';
-import { Todo } from '../../types/Todo';
+import cn from 'classnames';
+
+import { UserInfo } from '../UserInfo';
+import { Todo, User } from '../../types/Todo';
+import usersFromServer from '../../api/users';
 
 type Props = {
   todo: Todo;
@@ -9,6 +11,7 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const { id, title, completed, userId } = todo;
+  const currentUser = usersFromServer.find(user => user.id === userId) as User;
 
   return (
     <article
@@ -18,7 +21,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo userId={userId} />
+      <UserInfo user={currentUser} />
     </article>
   );
 };
