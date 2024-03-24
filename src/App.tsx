@@ -7,14 +7,14 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [isTitleError, setIsTitleError] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(0);
   const [userError, setUserError] = useState(false);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleSelectedUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -30,7 +30,7 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setTitleError(!title.trim());
+    setIsTitleError(!title.trim());
     setUserError(!selectedUser);
 
     if (!title.trim() || !selectedUser) {
@@ -65,7 +65,7 @@ export const App = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
