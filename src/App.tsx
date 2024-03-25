@@ -6,36 +6,36 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
+import { getPreparedUserById } from './services/preperedUserById';
 
-const preparedTodos = todosFromServer.map(todo => {
-  return {
-    ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) as User,
-  };
-});
+
+export const preparedTodos: Todo[] = todosFromServer.map((todo) => ({
+  ...todo,
+  user: getPreparedUserById(todo.userId),
+}));
+
+const getMaxTodoId = (todos: Todo[]) => {
+  const ids = todos.map(todo => todo.id);
+
+  return Math.max(...ids, 0);
+};
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectUserId, setSelectUserId] = useState(0);
 
-  const [titleError, setTitleError] = useState(false);
-  const [selectUserIdError, setSelectUserIdError] = useState(false);
-
-  const getMaxTodoId = (todoId: Todo[]) => {
-    const ids = todoId.map(todo => todo.id);
-
-    return Math.max(...ids, 0);
-  };
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isSelectUserIdError, setIsSelectUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setIsTitleError(false);
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectUserId(Number(event.target.value));
-    setSelectUserIdError(false);
+    setIsSelectUserIdError(false);
   };
 
   const addTodo = (newTodo: Todo) => {
@@ -45,8 +45,8 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setSelectUserIdError(!selectUserId);
+    setIsTitleError(!title);
+    setIsSelectUserIdError(!selectUserId);
 
     if (!title || !selectUserId) {
       return;
@@ -79,7 +79,7 @@ export const App = () => {
             placeholder="Enter a title"
             onChange={handleTitleChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -100,7 +100,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectUserIdError && (
+          {isSelectUserIdError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
