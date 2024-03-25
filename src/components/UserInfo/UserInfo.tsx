@@ -1,6 +1,5 @@
 import React from 'react';
 import { User } from '../../types/Todo';
-// import usersFromServer from '../../api/users';
 
 type Props = {
   user: User;

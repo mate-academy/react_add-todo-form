@@ -40,10 +40,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!titleText);
+    setHasTitleError(!titleText.trim());
     setHasUserIdError(!userId);
 
-    if (!titleText || !userId) {
+    if (!titleText.trim() || !userId) {
       return;
     }
 
