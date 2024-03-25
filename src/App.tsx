@@ -26,9 +26,7 @@ export const App = () => {
   const [appliedQuery, setAppliedQuery] = useState('');
 
   const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
-  // #f1 -> 1s -> 1s -> 1s
 
-  // #f1
   const removeGood = useCallback((goodId: number) => {
     setGoods(prevGoods => prevGoods.filter(good => good.id !== goodId));
   }, []);
@@ -44,8 +42,6 @@ export const App = () => {
   }
 
   const visibleGoods = useMemo(() => {
-    console.log('Filtering....');
-
     return goods.filter(good => good.name.includes(appliedQuery));
   }, [appliedQuery, goods]);
 
