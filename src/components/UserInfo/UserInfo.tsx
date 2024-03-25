@@ -1,14 +1,10 @@
 import { User } from '../../types/types';
 
 interface Props {
-  user: User | null;
+  user: User;
 }
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
-  if (!user) {
-    return null; // Render nothing if user is null
-  }
-
   const { email, name } = user;
 
   return (
