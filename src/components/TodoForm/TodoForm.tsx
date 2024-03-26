@@ -18,7 +18,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
   const [hasErrorSelected, setHasErrorSelected] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim());
     setHasErrorTitle(false);
   };
 
