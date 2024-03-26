@@ -3,14 +3,15 @@ import './App.scss';
 
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-const titlePattern = /^[a-zA-Zа-яА-ЯїЇіІ0-9\s]*$/; //pattern that matches 'ua' and 'en' letters, digits and spaces
+const specialCharsPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g; //pattern that matches special chars only
 
 function getUserByUserId(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || null;
+  return usersFromServer.find(user => user.id === userId);
 }
 
 function getPreparedTodos() {
@@ -23,9 +24,7 @@ function getPreparedTodos() {
 }
 
 export const App: React.FC = () => {
-  const todos = getPreparedTodos();
-
-  const [visibleTodos, setVisibleTodos] = useState(todos);
+  const [visibleTodos, setVisibleTodos] = useState(getPreparedTodos());
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
@@ -40,10 +39,7 @@ export const App: React.FC = () => {
   }
 
   function titleValidation() {
-    return title
-      .split('')
-      .filter(ch => ch.match(titlePattern))
-      .join('');
+    return title.replaceAll(specialCharsPattern, '');
   }
 
   function reset() {
@@ -75,7 +71,7 @@ export const App: React.FC = () => {
       title: titleValidation(),
       completed: false,
       userId,
-      user: getUserByUserId(userId),
+      user: getUserByUserId(userId) as User,
     });
 
     reset();
@@ -141,7 +137,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={visibleTodos} />
+      <TodoList todos={visibleTodos as Todo[]} />
     </div>
   );
 };
