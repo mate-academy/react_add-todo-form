@@ -10,21 +10,23 @@ type Props = {
   todo: ToDo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  if (todo.userId === undefined) {
+export const TodoInfo: React.FC<Props> = ({
+  todo: { title, userId, completed, id },
+}) => {
+  if (userId === undefined) {
     return null;
   }
 
-  const currentUser = findUserID(todo.userId);
+  const currentUser = findUserID(userId);
 
   return (
     <article
-      data-id={todo.id} // it's was hardcode
+      data-id={id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed === true,
+        'TodoInfo--completed': completed === true,
       })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
       {currentUser && <UserInfo user={currentUser} />}
     </article>

@@ -18,7 +18,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
   const [hasErrorSelected, setHasErrorSelected] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.trim());
+    setTitle(event.target.value);
     setHasErrorTitle(false);
   };
 
@@ -38,16 +38,18 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasErrorTitle(!title);
+    const newTitle = title.trim();
+
+    setHasErrorTitle(!newTitle);
     setHasErrorSelected(!userSelected);
 
-    if (!title || !userSelected) {
+    if (!newTitle || !userSelected) {
       return;
     }
 
     onSubmit({
       id: getNewIdToDo(todos),
-      title,
+      title: newTitle,
       completed: false,
       userId: userSelected,
       user: findUserID(userSelected),
