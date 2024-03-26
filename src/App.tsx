@@ -68,7 +68,7 @@ export const App = () => {
         }}
       />
       <h1>Add good form</h1>
-      <GoodForm onSubmit={addGood} />
+      count && <GoodForm onSubmit={addGood} />
       <GoodList goods={visibleGoods} onRemove={removeGood} />
     </div>
   );
