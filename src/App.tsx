@@ -5,36 +5,21 @@ import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { Todo } from './types/types';
+import { Form } from './components/Form/Form';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
+  const addNewTodo = (todo: Todo) => {
+    setTodos([...todos, todo])
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      < Form addNewTodo={addNewTodo}/>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      < TodoList todos={todos}/>
+      < TodoList todos={todos} />
 
     </div>
   );

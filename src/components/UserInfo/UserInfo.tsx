@@ -9,7 +9,9 @@ export const UserInfo = ({ todoUserId }: Props) => {
 
     if (userOne) {
         return (
-           <a href={userOne.email}>{userOne.name}</a>
+           <a href={`mailto:${userOne.email}`}>
+            {userOne.name}
+            </a>
         )
     }
     return null;
