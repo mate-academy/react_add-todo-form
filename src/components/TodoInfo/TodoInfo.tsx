@@ -20,10 +20,7 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {
-        user && <UserInfo user={user} />
-      }
-      
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
