@@ -7,18 +7,19 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const todoUser =
-    usersFromServer.find(user => user.id === todo.userId) || null;
+export const TodoInfo: React.FC<Props> = ({
+  todo: { id, userId, completed, title },
+}) => {
+  const todoUser = usersFromServer.find(user => user.id === userId) || null;
 
   return (
     <article
-      data-id={todo.id}
+      data-id={id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
+        'TodoInfo--completed': completed,
       })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
       {todoUser && <UserInfo user={todoUser} />}
     </article>
   );
