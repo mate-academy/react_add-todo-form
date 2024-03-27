@@ -10,11 +10,11 @@ interface TodoGeneral {
 }
 
 export const TodoList: React.FC<{
-  todosFromServer: TodoGeneral[];
-}> = ({ todosFromServer }) => {
+  todos: TodoGeneral[];
+}> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todosFromServer.map(todo => (
+      {todos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>

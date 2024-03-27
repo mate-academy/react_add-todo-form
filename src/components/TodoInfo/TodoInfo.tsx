@@ -1,11 +1,11 @@
 import React from 'react';
+import UserInfo, { User } from '../UserInfo/UserInfo';
 
 interface TodoGeneral {
   id: number;
   title: string;
   completed: boolean;
-  name?: string;
-  email?: string;
+  user?: User;
 }
 
 export const TodoInfo: React.FC<{ todo: TodoGeneral }> = ({ todo }) => {
@@ -16,9 +16,7 @@ export const TodoInfo: React.FC<{ todo: TodoGeneral }> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href={`mailto:${todo.email}`}>
-        {todo.name}
-      </a>
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };

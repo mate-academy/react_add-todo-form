@@ -3,26 +3,20 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import UserInfo from './components/UserInfo/UserInfo';
+import { User } from './components/UserInfo/UserInfo';
 import { TodoList } from './components/TodoList';
+
 interface TodoGeneral {
   id: number;
   title: string;
   completed: boolean;
-  name?: string;
-  email?: string;
+  user?: User;
 }
 
 function getUserById(userId: number) {
   const user = usersFromServer.find(users => users.id === userId);
 
-  return user?.name;
-}
-
-function getEmailById(userId: number) {
-  const user = usersFromServer.find(users => users.id === userId);
-
-  return user?.email;
+  return user;
 }
 
 function getNewPostId(posts: TodoGeneral[]) {
@@ -33,25 +27,16 @@ function getNewPostId(posts: TodoGeneral[]) {
 
 export const initialPosts = todosFromServer.map(todo => ({
   ...todo,
-  name: getUserById(todo.userId),
-  email: getEmailById(todo.userId),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasNameError, setHasNameError] = useState(false);
 
   const [posts, setPosts] = useState<TodoGeneral[]>(initialPosts);
-
-  const newPost: TodoGeneral = {
-    id: getNewPostId(posts),
-    title: title,
-    completed: false,
-    name: name,
-    email: name,
-  };
 
   const addPost = (newPostForFunction: TodoGeneral) => {
     setPosts(currentPosts => [...currentPosts, newPostForFunction]);
@@ -63,22 +48,33 @@ export const App = () => {
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setName(event.target.value);
+    setName(+event.target.value);
     setHasNameError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasNameError(!name);
 
-    if (name && title) {
-      addPost(newPost);
-
-      setName('0');
-      setTitle('');
+    if (!title.trim() || !name) {
+      return;
     }
+
+    const finalUser = usersFromServer.find(user => user.id === +name);
+
+    const newPost: TodoGeneral = {
+      id: getNewPostId(posts),
+      title: title,
+      completed: false,
+      user: finalUser,
+    };
+
+    addPost(newPost);
+
+    setName(0);
+    setTitle('');
   };
 
   return (
@@ -99,7 +95,21 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <UserInfo users={usersFromServer} func={handleNameChange} />
+          <select
+            data-cy="userSelect"
+            name="userId"
+            value={name}
+            onChange={handleNameChange}
+          >
+            <option value="0" disabled>
+              Choose a user
+            </option>
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
 
           {hasNameError && <span className="error">Please choose a user</span>}
         </div>
@@ -109,7 +119,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todosFromServer={posts} />
+      <TodoList todos={posts} />
     </div>
   );
 };
