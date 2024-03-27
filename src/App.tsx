@@ -6,41 +6,54 @@ import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [selectTitleValue, setSelectTitleValue] = useState("");
+  const [selectedTitleValue, setSelectedTitleValue] = useState('');
   const [selectedOptionValue, setselectedOptionValue] = useState(0);
-  const [addIsCliked, setAddIsCliked] = useState(false);
+  const [isAddClicked, setIsAddClicked] = useState(false);
   const [todos, setTodos] = useState(todosFromServer);
-  const [freeIdOfTodo, setFreeIdOfTodo] = useState(Math.max(...todosFromServer.map(todo => todo.id)) + 1);
+  const [freeIdOfTodo, setFreeIdOfTodo] = useState(
+    Math.max(...todosFromServer.map(todo => todo.id)) + 1,
+  );
 
   const listOfUsers = usersFromServer.map(user => {
-    return user['name'];
+    return user.name;
   });
 
+  const currentSelectedUser = listOfUsers[selectedOptionValue];
+
   const addTodos = () => {
-    const foundUser = usersFromServer.find(user => user.name === listOfUsers[selectedOptionValue]);
+    const foundUser = usersFromServer.find(
+      user => user.name === currentSelectedUser,
+    );
     const userIdOfNewTodo = foundUser ? foundUser.id : 0;
 
     const newTodo = {
       id: freeIdOfTodo,
-      title: selectTitleValue,
+      title: selectedTitleValue,
       completed: false,
       userId: userIdOfNewTodo,
-    }
+    };
 
     setTodos([...todos, newTodo]);
     setFreeIdOfTodo(freeIdOfTodo + 1);
+  };
+
+  const addNewTodoAndResetFields = () => {
+    addTodos();
+    setSelectedTitleValue('');
+    setselectedOptionValue(0);
+    setIsAddClicked(false);
   }
 
-  const renderNewPage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const renderNewPage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     event.preventDefault();
-    setAddIsCliked(true);
-    if (selectTitleValue && selectedOptionValue) {
-      addTodos();
-      setSelectTitleValue("");
-      setselectedOptionValue(0);
-      setAddIsCliked(false);
+    setIsAddClicked(true);
+
+    if (selectedTitleValue && selectedOptionValue) {
+      addNewTodoAndResetFields();
     }
-  }
+  };
 
   return (
     <div className="App">
@@ -49,20 +62,18 @@ export const App = () => {
       <form action="/api/todos" method="POST">
         <div className="field">
           <label>
-            Title:&nbsp;&nbsp;
+            Title :&nbsp;&nbsp;
             <input
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
-              value={selectTitleValue}
-              onChange={event => {
-                setSelectTitleValue(event.target.value);
-              }}
+              value={selectedTitleValue}
+              onChange={event => setSelectedTitleValue(event.target.value)}
             />
           </label>
-          {(!selectTitleValue && addIsCliked) &&
+          {(!selectedTitleValue && isAddClicked) && (
             <span className="error">Please enter a title</span>
-          }
+          )}
         </div>
 
         <div className="field">
@@ -71,26 +82,21 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedOptionValue}
-              onChange={event => {
-                setselectedOptionValue(+event.target.value);
-              }}
+              onChange={event => setselectedOptionValue(+event.target.value)}
             >
-              <option value="0" disabled>Choose a user</option>
-              {
-                listOfUsers.map((user, index) => (
-                  <option
-                    value={index}
-                    key={user}
-                  >
-                    {user}
-                  </option>
-                ))
-              }
+              <option value="0" disabled>
+                Choose a user
+              </option>
+              {listOfUsers.map((user, index) => (
+                <option value={index} key={user}>
+                  {user}
+                </option>
+              ))}
             </select>
           </label>
-          {(!selectedOptionValue && addIsCliked) &&
+          {(!selectedOptionValue && isAddClicked) && (
             <span className="error">Please choose a user</span>
-          }
+          )}
         </div>
 
         <button
@@ -103,9 +109,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
