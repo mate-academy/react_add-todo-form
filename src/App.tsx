@@ -1,7 +1,5 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-
-// import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { Todo } from './types/types';
@@ -11,16 +9,15 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
   const addNewTodo = (todo: Todo) => {
-    setTodos([...todos, todo])
-  }
+    setTodos([...todos, todo]);
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      < Form addNewTodo={addNewTodo}/>
+      <Form addNewTodo={addNewTodo} />
 
-      < TodoList todos={todos} />
-
+      <TodoList todos={todos} />
     </div>
   );
 };

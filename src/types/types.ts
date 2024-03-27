@@ -1,9 +1,9 @@
 export type Todo = {
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number;
-}
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
 
 // export type NewTodo = {
 //     id: number;
@@ -19,7 +19,7 @@ export type Todo = {
 // }
 
 export type User = {
-    email: string;
-    id: number;
-    name: string;
-}
+  email: string;
+  id: number;
+  name: string;
+};

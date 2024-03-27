@@ -1,18 +1,13 @@
-import users from '../../api/users';
+import { User } from '../../types/types';
 
 type Props = {
-    todoUserId: number;
-}
+  user: User;
+};
 
-export const UserInfo = ({ todoUserId }: Props) => {
-    const userOne = users.find(user => user.id === todoUserId);
-
-    if (userOne) {
-        return (
-           <a href={`mailto:${userOne.email}`}>
-            {userOne.name}
-            </a>
-        )
-    }
-    return null;
+export const UserInfo = ({ user }: Props) => {
+  return (
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
+  );
 };
