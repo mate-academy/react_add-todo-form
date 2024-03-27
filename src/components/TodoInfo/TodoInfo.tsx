@@ -6,7 +6,7 @@ import { getUserById } from '../../services/user';
 
 type Props = {
   todo: Todo;
-}
+};
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const currentTodoUser = getUserById(todo.userId);
@@ -20,6 +20,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
       {currentTodoUser && <UserInfo user={currentTodoUser} />}
-      </article>
+    </article>
   );
 };
