@@ -1,7 +1,7 @@
 import React from 'react';
 import UserInfo, { User } from '../UserInfo/UserInfo';
 
-interface TodoGeneral {
+export interface TodoGeneral {
   id: number;
   title: string;
   completed: boolean;
@@ -9,14 +9,15 @@ interface TodoGeneral {
 }
 
 export const TodoInfo: React.FC<{ todo: TodoGeneral }> = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      data-id={id}
+      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-
-      {todo.user && <UserInfo user={todo.user} />}
+      <h2 className="TodoInfo__title">{title}</h2>
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

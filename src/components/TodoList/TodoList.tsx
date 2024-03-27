@@ -1,13 +1,5 @@
 import React from 'react';
-import { TodoInfo } from '../TodoInfo';
-
-interface TodoGeneral {
-  id: number;
-  title: string;
-  completed: boolean;
-  name?: string;
-  email?: string;
-}
+import { TodoGeneral, TodoInfo } from '../TodoInfo';
 
 export const TodoList: React.FC<{
   todos: TodoGeneral[];
