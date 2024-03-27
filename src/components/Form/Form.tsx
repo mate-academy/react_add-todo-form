@@ -52,10 +52,10 @@ export const Form = ({ addNewTodo }: Props) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserError(!chooseUser);
 
-    const isValid = title && chooseUser;
+    const isValid = title.trim() && chooseUser;
 
     if (!isValid) {
       return;

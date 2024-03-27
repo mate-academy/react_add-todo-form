@@ -10,10 +10,6 @@ type Props = {
 export const TodoInfo = ({ todo }: Props) => {
   const user = usersFromServer.find(userFind => userFind.id === todo.userId);
 
-  if (user === undefined) {
-    return null;
-  }
-
   return (
     <article
       data-id={todo.id}
@@ -24,7 +20,10 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={user} />
+      {
+        user && <UserInfo user={user} />
+      }
+      
     </article>
   );
 };
