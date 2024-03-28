@@ -15,7 +15,7 @@ export const TodoInfo = ({ todo }: Props) => {
       data-id={todo.id}
       key={todo.id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed === true,
+        'TodoInfo--completed': todo.completed,
       })}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
