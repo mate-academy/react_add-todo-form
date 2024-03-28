@@ -18,10 +18,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
 
   const currentUser = usersFromServer.find(user => user.id === userId);
 
-  if (currentUser === undefined) {
-    return;
-  }
-
   return (
     <article
       data-id={id}
@@ -29,7 +25,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo user={currentUser} />
+      {currentUser && <UserInfo user={currentUser} />}
     </article>
   );
 };

@@ -7,13 +7,13 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/types';
 
 const getUserById = (userId: number) => {
-  return usersFromServer.find((user) => user.id === userId) || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 };
+
 const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
-
 
 export const App = () => {
   const [selectedTitleValue, setSelectedTitleValue] = useState('');
@@ -40,7 +40,7 @@ export const App = () => {
   };
 
   const submitTodo = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
     setIsAddClicked(true);
@@ -51,6 +51,17 @@ export const App = () => {
     }
   };
 
+  const handlerTitleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedTitleValue(event.target.value)
+  }
+
+  const handlerUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value)
+  }
+
+  const isErrorUserShow = !selectedUserId && isAddClicked;
+  const isErrorTitleShow = !selectedTitleValue && isAddClicked;
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -59,15 +70,17 @@ export const App = () => {
         <div className="field">
           <label>
             Title :&nbsp;&nbsp;
+
             <input
               type="text"
               data-cy="titleInput"
               placeholder="Enter a title"
               value={selectedTitleValue}
-              onChange={event => setSelectedTitleValue(event.target.value)}
+              onChange={handlerTitleValue}
             />
           </label>
-          {(!selectedTitleValue && isAddClicked) && (
+
+          {isErrorTitleShow && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -75,14 +88,16 @@ export const App = () => {
         <div className="field">
           <label>
             User:&nbsp;&nbsp;
+
             <select
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={event => setSelectedUserId(+event.target.value)}
+              onChange={handlerUser}
             >
               <option value="0" disabled>
                 Choose a user
               </option>
+
               {usersFromServer.map((user, index) => (
                 <option value={index + 1} key={user.id}>
                   {user.name}
@@ -90,7 +105,8 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {!selectedUserId && isAddClicked && (
+
+          {isErrorUserShow && (
             <span className="error">Please choose a user</span>
           )}
         </div>
