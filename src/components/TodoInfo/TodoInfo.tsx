@@ -8,17 +8,18 @@ type Props = {
 };
 
 export const TodoInfo = ({ todo }: Props) => {
-  const user = usersFromServer.find(userFind => userFind.id === todo.userId);
+  const { completed, id, title, userId } = todo;
+  const user = usersFromServer.find(userFind => userFind.id === userId);
 
   return (
     <article
-      data-id={todo.id}
-      key={todo.id}
+      data-id={id}
+      key={id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
+        'TodoInfo--completed': completed,
       })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
       {user && <UserInfo user={user} />}
     </article>
