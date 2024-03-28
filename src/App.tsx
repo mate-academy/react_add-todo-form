@@ -4,54 +4,50 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/types';
+
+const getUserById = (userId: number) => {
+  return usersFromServer.find((user) => user.id === userId) || null;
+};
+const initialTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
 
 export const App = () => {
   const [selectedTitleValue, setSelectedTitleValue] = useState('');
-  const [selectedOptionValue, setselectedOptionValue] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const [isAddClicked, setIsAddClicked] = useState(false);
-  const [todos, setTodos] = useState(todosFromServer);
-  const [freeIdOfTodo, setFreeIdOfTodo] = useState(
-    Math.max(...todosFromServer.map(todo => todo.id)) + 1,
-  );
-
-  const listOfUsers = usersFromServer.map(user => {
-    return user.name;
-  });
-
-  const currentSelectedUser = listOfUsers[selectedOptionValue];
+  const [todos, setTodos] = useState(initialTodos);
 
   const addTodos = () => {
-    const foundUser = usersFromServer.find(
-      user => user.name === currentSelectedUser,
-    );
-    const userIdOfNewTodo = foundUser ? foundUser.id : 0;
-
-    const newTodo = {
-      id: freeIdOfTodo,
+    const newTodo: Todo = {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title: selectedTitleValue,
       completed: false,
-      userId: userIdOfNewTodo,
+      userId: selectedUserId,
+      user: getUserById(selectedUserId),
     };
 
     setTodos([...todos, newTodo]);
-    setFreeIdOfTodo(freeIdOfTodo + 1);
   };
 
-  const addNewTodoAndResetFields = () => {
-    addTodos();
+  const resetFields = () => {
     setSelectedTitleValue('');
-    setselectedOptionValue(0);
+    setSelectedUserId(0);
     setIsAddClicked(false);
-  }
+  };
 
-  const renderNewPage = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  const submitTodo = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     setIsAddClicked(true);
 
-    if (selectedTitleValue && selectedOptionValue) {
-      addNewTodoAndResetFields();
+    if (selectedTitleValue.trim() && selectedUserId) {
+      addTodos();
+      resetFields();
     }
   };
 
@@ -81,20 +77,20 @@ export const App = () => {
             User:&nbsp;&nbsp;
             <select
               data-cy="userSelect"
-              value={selectedOptionValue}
-              onChange={event => setselectedOptionValue(+event.target.value)}
+              value={selectedUserId}
+              onChange={event => setSelectedUserId(+event.target.value)}
             >
               <option value="0" disabled>
                 Choose a user
               </option>
-              {listOfUsers.map((user, index) => (
-                <option value={index} key={user}>
-                  {user}
+              {usersFromServer.map((user, index) => (
+                <option value={index + 1} key={user.id}>
+                  {user.name}
                 </option>
               ))}
             </select>
           </label>
-          {(!selectedOptionValue && isAddClicked) && (
+          {!selectedUserId && isAddClicked && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -103,7 +99,7 @@ export const App = () => {
           value="add"
           type="submit"
           data-cy="submitButton"
-          onClick={renderNewPage}
+          onClick={submitTodo}
         >
           Add
         </button>
