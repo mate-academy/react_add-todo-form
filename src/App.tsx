@@ -98,9 +98,7 @@ export const App: React.FC<Props> = () => {
               data-cy="titleInput"
             />
           </label>
-          {hasTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
