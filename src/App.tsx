@@ -12,8 +12,6 @@ const getMaxId = (todos: Todo[]) => {
   return maxId + 1;
 };
 
-const isWhitespaceString = (str: string) => !str.replace(/\s/g, '').length;
-
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [users] = useState<User[]>(usersFromServer);
@@ -51,7 +49,7 @@ export const App: React.FC = () => {
   const handleSetInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setHasTitleError(!value || isWhitespaceString(value));
+    setHasTitleError(!value);
     setFormData(currentUser => ({ ...currentUser, [name]: value }));
   };
 
@@ -65,14 +63,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!formData.title || isWhitespaceString(formData.title));
+    setHasTitleError(!formData.title.trim());
     setHasUserIdError(+formData.userId === 0);
 
-    if (
-      !formData.title ||
-      isWhitespaceString(formData.title) ||
-      +formData.userId === 0
-    ) {
+    if (!formData.title.trim() || +formData.userId === 0) {
       return;
     }
 
