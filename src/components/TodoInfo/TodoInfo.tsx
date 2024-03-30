@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import usersFromServer from '../../api/users';
 import classNames from 'classnames';
 import { Todo, User } from '../../types/types';
@@ -8,10 +8,10 @@ type Props = {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = props => {
-  const { todo } = props;
-  const [users] = useState<User[]>(usersFromServer);
-  const userInfo = users.find((user: User) => user.id === todo.userId);
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const userInfo = usersFromServer.find(
+    (user: User) => user.id === todo.userId,
+  );
 
   return (
     <article

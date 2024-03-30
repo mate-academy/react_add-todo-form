@@ -86,8 +86,8 @@ export const App: React.FC = () => {
             name="title"
             data-cy="titleInput"
             value={formData.title}
-            onChange={e => handleSetInput(e)}
-            onBlur={e => handleSetInput(e)}
+            onChange={handleSetInput}
+            onBlur={handleSetInput}
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
@@ -97,8 +97,8 @@ export const App: React.FC = () => {
             name="userId"
             data-cy="userSelect"
             value={+formData.userId}
-            onChange={e => handleSetSelect(e)}
-            onBlur={e => handleSetSelect(e)}
+            onChange={handleSetSelect}
+            onBlur={handleSetSelect}
           >
             <option value="0">Choose a user</option>
             {users.map(user => (
