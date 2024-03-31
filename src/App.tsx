@@ -14,13 +14,13 @@ interface ServerTodo {
   userId: number;
 }
 
-function getUserFromId(todo: ServerTodo): User {
+function getUserById(todo: ServerTodo): User {
   return usersFromServer.find(user => user.id === todo.userId) as User;
 }
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserFromId(todo),
+  user: getUserById(todo),
 }));
 
 const regex = /^[a-zA-Za-яА-ЯiІіЇїґҐєЄ0-9\s]+$/;
@@ -42,7 +42,7 @@ export const App = () => {
   };
 
   const handleHasTitleError = () => {
-    if (title === '') {
+    if (!title) {
       setHasTitleError(true);
     }
   };
@@ -59,8 +59,10 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (regex.test(event.target.value[event.target.value.length - 1])) {
-      setTitle(event.target.value);
+    const { value } = event.target;
+
+    if (regex.test(value[value.length - 1])) {
+      setTitle(value);
     }
 
     setHasTitleError(false);
@@ -81,7 +83,7 @@ export const App = () => {
     handleSelectedUserError();
     handleHasTitleError();
 
-    if (selectedUser === 0 || title === '') {
+    if (!selectedUser || !title) {
       return;
     }
 
