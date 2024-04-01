@@ -79,12 +79,33 @@ export const App = () => {
     field: keyof SaveTodoError,
     value: string,
   ): void => {
-    setSaveTodoError(prev => {
-      const newErr = { ...prev };
+    setSaveTodoError(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-      newErr[field] = value;
+  const handleTitleOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    if (saveTodoError.title) {
+      setSaveTodoErrorFn('title', '');
+    }
 
-      return newErr;
+    return setSaveTodo(prev => {
+      return { ...prev, title: event.target.value };
+    });
+  };
+
+  const handleUserOnChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ): void => {
+    if (saveTodoError.user) {
+      setSaveTodoErrorFn('user', '');
+    }
+
+    setSaveTodo(prev => {
+      return { ...prev, userId: +event.target.value };
     });
   };
 
@@ -101,15 +122,7 @@ export const App = () => {
             data-cy="titleInput"
             value={saveTodo.title}
             placeholder="Kangaroo"
-            onChange={event => {
-              if (saveTodoError.title) {
-                setSaveTodoErrorFn('title', '');
-              }
-
-              return setSaveTodo(prev => {
-                return { ...prev, title: event.target.value };
-              });
-            }}
+            onChange={handleTitleOnChange}
           />
           {saveTodoError.title && (
             <span className="error">{saveTodoError.title}</span>
@@ -122,17 +135,7 @@ export const App = () => {
             id="userId"
             data-cy="userSelect"
             value={saveTodo.userId}
-            onChange={event => {
-              {
-                if (saveTodoError.user) {
-                  setSaveTodoErrorFn('user', '');
-                }
-
-                setSaveTodo(prev => {
-                  return { ...prev, userId: +event.target.value };
-                });
-              }
-            }}
+            onChange={handleUserOnChange}
           >
             <option value="0" disabled>
               Choose a user
