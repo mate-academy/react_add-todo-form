@@ -1,5 +1,5 @@
 import { UserInfo } from '../UserInfo';
-import { ToDo } from '../types/Todo';
+import { ToDo } from '../types/ToDo';
 
 type Props = {
   todo: ToDo;
