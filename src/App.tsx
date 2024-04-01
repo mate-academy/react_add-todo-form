@@ -29,10 +29,10 @@ export const App = () => {
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleHasError(!title);
+    setTitleHasError(!title.trim());
     setUserIdHasError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
