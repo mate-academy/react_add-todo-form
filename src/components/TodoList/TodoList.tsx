@@ -13,7 +13,7 @@ export interface TodoType {
   id: number;
   title: string;
   completed: boolean;
-  user: UserType;
+  user: UserType | null;
 }
 
 interface TodoListType {
@@ -25,11 +25,10 @@ export const TodoList: React.FC<TodoListType> = ({ todos }) => {
     <section className="TodoList">
       {todos.map(todo => {
         return (
-          <React.Fragment
+          <TodoInfo
+            todo={todo}
             key={todo.id + Math.ceil(Math.random() * 1000) / 1000}
-          >
-            <TodoInfo todo={todo} />
-          </React.Fragment>
+          />
         );
       })}
     </section>

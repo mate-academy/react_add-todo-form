@@ -11,15 +11,15 @@ interface Errors {
 }
 
 export const App = () => {
-  const [title, setTitle] = useState<string>('');
-  const [author, setAuthor] = useState<string>('0');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('0');
   const [errors, setErrors] = useState<Errors>({ title: '', user: '' });
 
   const getTodos = (): TodoType[] => {
     const todos = todosFromServer.map(item => {
       return {
         ...item,
-        user: usersFromServer.find(us => us.id === item.userId) as UserType,
+        user: usersFromServer.find(us => us.id === item.userId) || null,
       };
     });
 
@@ -37,7 +37,7 @@ export const App = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setErrors(prev => {
         return {
           ...prev,
@@ -55,16 +55,16 @@ export const App = () => {
       });
     }
 
-    if (!title || author === '0') {
+    if (!title.trim() || author === '0') {
       return;
     }
 
-    const user: UserType = usersFromServer.find(
+    const user: UserType | null = usersFromServer.find(
       el => el.id.toString() === author,
-    ) as UserType;
+    ) as UserType | null;
 
     const newTodo: TodoType = {
-      userId: user.id,
+      userId: user ? user.id : 0,
       id: todos.sort((t1, t2) => t2.id - t1.id)[0].id + 1,
       title: title,
       completed: false,
@@ -94,7 +94,7 @@ export const App = () => {
             value={title}
             onChange={e => setTitleCustomized(e.target.value)}
           />
-          {errors.title && !title && (
+          {errors.title && !title.trim() && (
             <span className="error">Please enter a title</span>
           )}
         </div>
