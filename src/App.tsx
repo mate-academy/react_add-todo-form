@@ -30,6 +30,8 @@ export const App: React.FC<Props> = () => {
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
+  // console.log(todos);
+
   const addTodos = (todo: Todo) => {
     const newTodo = {
       ...todo,
@@ -68,10 +70,11 @@ export const App: React.FC<Props> = () => {
     }
 
     addTodos({
-      id: 0,
+      id: getNewTodoId(todos),
       title,
       completed: false,
       userId,
+      user: getUserById(userId),
     });
 
     reset();
