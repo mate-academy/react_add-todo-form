@@ -1,14 +1,14 @@
 import './App.scss';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import  usersFromServer from './api/users';
+import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todos, Users } from './components/types';
 
 export const App = () => {
   const [count, setCount] = useState<number>(2);
   const [userId, setUserId] = useState<number>(0);
-  const [todos, setTodos] = useState<Todos[]>(todosFromServer)
+  const [todos, setTodos] = useState<Todos[]>(todosFromServer);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorSelect, setErrorSelect] = useState(false);
 
@@ -40,7 +40,7 @@ export const App = () => {
 
     setNewTodo(prevTodo => ({
       ...prevTodo,
-      userId: selectedUserId
+      userId: selectedUserId,
     }));
   };
 
@@ -76,10 +76,10 @@ export const App = () => {
           <label htmlFor="title">Title: </label>
           <input
             onChange={handleChange}
-            name='title'
-            placeholder='Enter a title'
+            name="title"
+            placeholder="Enter a title"
             value={newTodo.title}
-            id='title'
+            id="title"
             type="text"
             data-cy="titleInput"
           />
@@ -90,12 +90,12 @@ export const App = () => {
         <div className="field">
           <label htmlFor="user">User: </label>
           <select
-            id='user'
+            id="user"
             value={userId}
             onChange={handleSelect}
             data-cy="userSelect"
           >
-            <option value='0' selected>
+            <option value="0" selected>
               Choose a user
             </option>
             {usersFromServer.map((user: Users) => (
@@ -113,7 +113,7 @@ export const App = () => {
         </button>
       </form>
 
-       <TodoList todos={todos}/>
+      <TodoList todos={todos} />
     </div>
   );
 };
