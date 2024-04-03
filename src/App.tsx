@@ -1,13 +1,19 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
-import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId);
+function getUserById(userId: number): User {
+  const targetUser = usersFromServer.find(user => user.id === userId);
+
+  if (!targetUser) {
+    throw new Error('Can`t find a user');
+  }
+
+  return targetUser;
 }
 
 export const App = () => {
@@ -45,7 +51,7 @@ export const App = () => {
   const getMaxId = () => {
     const arrOfId: number[] = [];
 
-    allTodos.map((todo: Todo) => arrOfId.push(todo.id));
+    allTodos.map(todo => arrOfId.push(todo.id));
 
     arrOfId.sort((a, b) => b - a);
 
