@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import users from '../../api/users';
 
 interface Props {
@@ -16,27 +16,30 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState('');
 
+  const handleSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (!title) {
+      setTitleError('Please enter a title');
+    }
+
+    if (!userId) {
+      setUserIdError('Please choose a user');
+    }
+
+    if (title && userId) {
+      onAdd({ title, userId });
+      setTitle('');
+      setUserId(0);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError('');
+  };
+
   return (
-    <form
-      action="/api/todos"
-      method="POST"
-      onSubmit={event => {
-        event.preventDefault();
-        if (!title) {
-          setTitleError('Please enter a title');
-        }
-
-        if (!userId) {
-          setUserIdError('Please choose a user');
-        }
-
-        if (title && userId) {
-          onAdd({ title, userId });
-          setTitle('');
-          setUserId(0);
-        }
-      }}
-    >
+    <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">
         <label>
           Title:
@@ -45,10 +48,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
             value={title}
             data-cy="titleInput"
             placeholder="Please enter a title"
-            onChange={event => {
-              setTitle(event.target.value);
-              setTitleError('');
-            }}
+            onChange={handleChange}
           />
         </label>
 

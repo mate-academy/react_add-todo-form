@@ -18,22 +18,22 @@ const preparedTodos: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
+  const handleAddTodo = (data: TodoCreateData) => {
+    const todo = {
+      user: getUserById(data.userId),
+      id: Math.max(...todos.map(item => item.id)) + 1,
+      title: data.title,
+      completed: false,
+      userId: data.userId,
+    };
+
+    setTodos([...todos, todo]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <NewTodo
-        onAdd={(data: TodoCreateData) => {
-          const todo = {
-            user: getUserById(data.userId),
-            id: Math.max(...todos.map(item => item.id)) + 1,
-            title: data.title,
-            completed: false,
-            userId: data.userId,
-          };
-
-          setTodos([...todos, todo]);
-        }}
-      />
+      <NewTodo onAdd={handleAddTodo} />
 
       <TodoList todos={todos} />
     </div>
