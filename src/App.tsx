@@ -55,13 +55,13 @@ export const App: React.FC = () => {
     setHasTitleError(!title);
     setHasUserError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
     addTodos({
       id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title,
+      title:title.trim(),
       completed: false,
       userId: userId,
       user: getUserById(userId),
