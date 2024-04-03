@@ -1,14 +1,15 @@
 import React from 'react';
 import { Todos } from '../types';
-import { findIdUser } from '../../services/findIdUser';
 import cn from 'classnames';
+import { UserInfo } from '../UserInfo/UserInfo';
+import { findIdUser } from '../../services/functionFind';
 
 interface Props {
   todo: Todos;
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { id, title, completed} = todo;
+  const { id, title, completed } = todo;
 
   return (
     <article
@@ -17,9 +18,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <a className="UserInfo" href={`mailto:${findIdUser(todo)?.email}`}>
-        {findIdUser(todo)?.name}
-      </a>
+      <UserInfo user={findIdUser(todo)} />
     </article>
   );
 };

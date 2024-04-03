@@ -4,16 +4,16 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todos, Users } from './components/types';
+import { findMax } from './services/functionFind';
 
 export const App = () => {
-  const [count, setCount] = useState<number>(2);
   const [userId, setUserId] = useState<number>(0);
   const [todos, setTodos] = useState<Todos[]>(todosFromServer);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorSelect, setErrorSelect] = useState(false);
 
   const [newTodo, setNewTodo] = useState({
-    id: count,
+    id: findMax(todos).id + 1,
     title: '',
     completed: false,
     userId: userId,
@@ -59,8 +59,6 @@ export const App = () => {
     if (!newTodo.title.trim() || !userId) {
       return;
     }
-
-    setCount(count + 1);
 
     addPost(newTodo);
 
