@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserError(!userId);
 
     if (!title.trim() || !userId) {
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
     addTodos({
       id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title:title.trim(),
+      title: title.trim(),
       completed: false,
       userId: userId,
       user: getUserById(userId),
