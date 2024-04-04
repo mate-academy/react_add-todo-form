@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const users = usersFromServer.find(user => user.id === todo.userId);
+  const user = usersFromServer.find(person => person.id === todo.userId);
 
   return (
     <article
@@ -21,7 +21,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {users && <UserInfo user={users} />}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

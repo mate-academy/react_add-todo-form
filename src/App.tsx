@@ -87,7 +87,7 @@ export const App = () => {
             value={newTodos.title}
             onChange={handleSetInput}
             onBlur={handleSetInput}
-            required
+            // required
           />
 
           {hasTitleErr && <span className="error">Please enter a title</span>}
@@ -100,7 +100,6 @@ export const App = () => {
             value={+newTodos.userId}
             onChange={handleSetSelect}
             onBlur={handleSetSelect}
-            required
           >
             <option value="0" disabled>
               Choose a user
