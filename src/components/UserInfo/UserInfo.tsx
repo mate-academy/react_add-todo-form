@@ -1,9 +1,12 @@
+import { Creator } from '../../types/types';
+
 type Props = {
-  name: string;
-  email: string;
+  user: Creator;
 };
 
-export const UserInfo: React.FC<Props> = ({ name, email }) => {
+export const UserInfo: React.FC<Props> = ({ user }) => {
+  const { name, email } = user;
+
   return (
     <a className="UserInfo" href={`mailto:${email}`}>
       {name}

@@ -3,15 +3,9 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Creator, Todo } from './types/types';
+import { Todo } from './types/types';
 import { useState } from 'react';
-
-const defaultCreator: Creator = {
-  id: 0,
-  name: 'NonName',
-  username: 'noUsername',
-  email: 'noEmail@gmail.com',
-};
+import { defaultCreator } from './utils/defaultCreator';
 
 const todos: Todo[] = todosFromServer.map(todo => {
   const creator =
@@ -89,9 +83,7 @@ export const App = () => {
             value={selectedUser}
             data-cy="userSelect"
           >
-            <option value="0" selected>
-              Choose a user
-            </option>
+            <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
