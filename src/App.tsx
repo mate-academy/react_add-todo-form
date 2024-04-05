@@ -26,17 +26,23 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
 
+  let hasErrors = false;
+
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     if (!title.trim()) {
       setIsTitleError(true);
-
-      return;
+      hasErrors = true;
     }
 
     if (selectedUser === 0) {
       setIsUserError(true);
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      hasErrors = false;
 
       return;
     }
