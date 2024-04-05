@@ -40,10 +40,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitileEror(!title);
+    setHasTitileEror(!title.trim());
     setHasUserEror(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
       ...todos,
       {
         id: getNewTodosId(),
-        title,
+        title: title.trim(),
         completed: false,
         userId,
         user: getUserById(userId),
