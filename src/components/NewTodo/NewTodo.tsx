@@ -33,9 +33,14 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError('');
+  };
+
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserIdError('');
   };
 
   return (
@@ -48,7 +53,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
             value={title}
             data-cy="titleInput"
             placeholder="Please enter a title"
-            onChange={handleChange}
+            onChange={handleChangeTitle}
           />
         </label>
 
@@ -62,10 +67,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
           data-cy="userSelect"
           id="user-id"
           value={userId}
-          onChange={event => {
-            setUserId(+event.target.value);
-            setUserIdError('');
-          }}
+          onChange={handleChangeUser}
         >
           <option value="0" disabled>
             Choose a user
