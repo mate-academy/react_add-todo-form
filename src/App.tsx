@@ -44,8 +44,10 @@ export const App = () => {
     const creator =
       usersFromServer.find(user => user.id === selectedUser) || defaultCreator;
 
+    const idsOfTodos = todosFromServer.map(todo => todo.id);
+
     todos.push({
-      id: todos.length,
+      id: Math.max(...idsOfTodos) + 1,
       title,
       completed: false,
       userId: selectedUser,
@@ -62,7 +64,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit} action="/api/todos" method="POST">
         <div className="field">
+          Title:{' '}
           <input
+            placeholder="Enter a title"
             onChange={event => {
               setTitle(event.target.value);
               setIsTitleError(false);
@@ -73,8 +77,8 @@ export const App = () => {
           />
           {isTitleError && <span className="error">Please enter a title</span>}
         </div>
-
         <div className="field">
+          User:{' '}
           <select
             onChange={event => {
               setSelectedUser(Number(event.target.value));
@@ -90,7 +94,6 @@ export const App = () => {
               </option>
             ))}
           </select>
-
           {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
