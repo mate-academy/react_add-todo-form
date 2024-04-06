@@ -99,8 +99,10 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={addTodo}>
         <div className="field">
+          <label htmlFor="title">Title:&nbsp;</label>
           <input
-            placeholder="Add text"
+            placeholder="Enter a title"
+            id="title"
             name="title"
             type="text"
             data-cy="titleInput"
@@ -112,7 +114,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User:&nbsp;</label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             name="userId"
             value={userId}
