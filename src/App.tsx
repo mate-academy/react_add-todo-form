@@ -2,8 +2,8 @@ import { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { getUserById } from './services/user';
 
