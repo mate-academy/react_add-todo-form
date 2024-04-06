@@ -47,9 +47,19 @@ export const App = () => {
   const handleTitle = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
+    if (
+      e.target.name === 'title' &&
+      !/[A-Za-zА-Яа-я0-9,.!? ]+$/.test(e.target.value) &&
+      e.target.value.length > title.length
+    ) {
+      return;
+    }
+
+    debugger;
+
     setNewTodo(prewTodo => ({
       ...prewTodo,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trimStart(),
     }));
     if (e.target.name === 'title' && e.target.value && errorTitle) {
       setErrorTitle(false);
@@ -73,7 +83,7 @@ export const App = () => {
       ...prewTodos,
       {
         id: maxIdTodo(prewTodos.map(to => to.id)),
-        title: title,
+        title: title.trim(),
         completed: false,
         userId: +userId,
         user: searchUser(parseInt(userId)),
