@@ -1,4 +1,4 @@
-import { User } from '/types/User'; 
+import { User } from '../types/User'; 
 import usersFromServer from '../api/users';
 
 export function getUserById(userId: number): User | null {
