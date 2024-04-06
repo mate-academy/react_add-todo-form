@@ -103,8 +103,9 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {hasUserIdError 
-            && <span className="error">Please choose a user</span>}
+          {hasUserIdError && (
+            <span className="error">Please choose a user</span>)
+          }
         </div>
 
         <button type="submit" data-cy="submitButton">
