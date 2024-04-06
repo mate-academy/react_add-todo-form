@@ -25,15 +25,15 @@ export const App: React.FC = () => {
     const maxId = Math.max(...todos.map((todo: Todo) => todo.id));
 
     return maxId + 1;
-  };
+  }
 
   const halndleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value)
+    setTitle(event.target.value);
     setHasTitleError(false);
   };
 
   const halndleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(+event.target.value)
+    setUserId(+event.target.value);
     setHasUserIdError(false);
   };
 
@@ -103,7 +103,8 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {hasUserIdError && <span className="error">Please choose a user</span>}
+          {hasUserIdError 
+            && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
