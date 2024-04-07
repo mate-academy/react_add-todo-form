@@ -1,3 +1,4 @@
+// prettier-ignore
 import { TodoInfo } from '../TodoInfo';
 import { Task } from '../../types/Task';
 

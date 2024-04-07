@@ -1,3 +1,4 @@
+// prettier-ignore
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Task } from '../../types/Task';

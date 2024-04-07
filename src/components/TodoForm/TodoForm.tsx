@@ -1,3 +1,4 @@
+// prettier-ignore
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { Task } from '../../types/Task';
@@ -32,16 +33,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
     onSubmit({
       id: 0,
-      title,
+      title: title.trim(),
       completed: false,
       userId,
       user: getUserId(userId),
