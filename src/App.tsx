@@ -87,7 +87,7 @@ export const App = () => {
               onChange={handleTextChange}
               value={text}
             />
-            {titleError && <span className="error">Please type a title</span>}
+            {titleError && <span className="error">Please enter a title</span>}
           </div>
         </label>
 
@@ -101,7 +101,7 @@ export const App = () => {
               onChange={handleUserChoice}
             >
               <option value="0" disabled>
-                Please choose a user
+                Choose a user
               </option>
               {usersFromServer.map(user => (
                 <option key={user.id} value={user.id}>
@@ -109,7 +109,7 @@ export const App = () => {
                 </option>
               ))}
             </select>
-            {userError && <span className="error">Please choose a user</span>}
+            {userError && <span className="error">Choose a user</span>}
           </div>
         </label>
 
