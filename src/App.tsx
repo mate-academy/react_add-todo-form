@@ -109,7 +109,7 @@ export const App = () => {
                 </option>
               ))}
             </select>
-            {userError && <span className="error">Choose a user</span>}
+            {userError && <span className="error">Please choose a user</span>}
           </div>
         </label>
 
