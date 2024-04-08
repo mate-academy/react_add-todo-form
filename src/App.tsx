@@ -14,15 +14,15 @@ const todoWithUsers = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState('false');
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [todos, setTodos] = useState<Todo[]>(todoWithUsers);
+  const [todos, setTodos] = useState(todoWithUsers);
 
   function getNewTodosId() {
-    const maxId = Math.max(...todos.map((todo: Todo) => todo.id));
+    const maxId = Math.max(...todos.map((todo) => todo.id));
 
     return maxId + 1;
   }
