@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/TodoInfo/types.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1712576750540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1712576750540,
+            "name": "Commit-0",
+            "content": "import { Todo } from '../../types/Todo';\n\nexport interface TodoInfoProps {\n  todo: Todo;\n}"
+        }
+    ]
+}
