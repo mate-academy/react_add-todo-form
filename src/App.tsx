@@ -10,7 +10,7 @@ export type Todo = {
   title: string;
   completed: boolean;
   userId: number;
-  user: User;
+  user: User | undefined;
 };
 
 export type User = {
@@ -24,7 +24,7 @@ export const App = () => {
   const todosWithUsers: Todo[] = todosFromServer.map(todo => {
     return {
       ...todo,
-      user: usersFromServer[todo.userId - 1],
+      user: usersFromServer.find((user: User) => user.id === todo.id),
     };
   });
 
@@ -34,18 +34,23 @@ export const App = () => {
   const [displayUserError, setDisplayUserError] = useState(false);
   const [displayTitleError, setDisplayTitleError] = useState(false);
 
-  const handleSubmit: FormEventHandler = event => {
-    event.preventDefault();
-
+  const getHighestTodoId: () => number = () => {
     let highestTodoId = 0;
 
-    todos.forEach((todo: Todo) => {
+    for (const todo of todos) {
       if (todo.id > highestTodoId) {
         highestTodoId = todo.id;
       }
-    });
+    }
 
-    // Get the new todo
+    return highestTodoId;
+  };
+
+  const handleSubmit: FormEventHandler = event => {
+    event.preventDefault();
+
+    const highestTodoId = getHighestTodoId();
+
     const newTodo: Todo = {
       id: highestTodoId + 1,
       title: title,
