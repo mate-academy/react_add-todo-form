@@ -62,7 +62,6 @@ export const App = () => {
     let errors = 0;
 
     if (!userId) {
-      // Display user error
       setDisplayUserError(true);
       errors++;
     }
