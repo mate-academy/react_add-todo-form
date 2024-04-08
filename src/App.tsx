@@ -4,7 +4,6 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { ToDo } from './types/ToDo';
-import { User } from './types/User';
 import { getUserById } from './components/functions/GetUserByID';
 
 export const initialTodos: ToDo[] = todosFromServer.map(todo => ({
@@ -54,7 +53,7 @@ export const App = () => {
       return;
     }
 
-    if (cleanedTitle === '') {
+    if (!cleanedTitle) {
       setHasTitleError(true);
 
       return;
@@ -101,13 +100,11 @@ export const App = () => {
           >
             <option value="0">Choose a user</option>
 
-            {usersFromServer.map((user: User) => {
-              return (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
+              </option>
+            ))}
           </select>
 
           {hasUserError && <span className="error">Please choose a user</span>}
