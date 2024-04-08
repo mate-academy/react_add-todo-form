@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/components/UserInfo/UserInfo.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1712576609037,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712576647512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n import { FC } from 'react';\n-import { UserInfoProps } from './types';\n+import { UserInfoProps } from '../';\n \n export const UserInfo: FC<UserInfoProps> = ({ user }) => (\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712576652867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,8 @@\n+import { FC } from 'react';\n+import { UserInfoProps } from './types';\n+\n+export const UserInfo: FC<UserInfoProps> = ({ user }) => (\n+  <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n+    {user.name}\n+  </a>\n+);\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1712576609037,
+            "name": "Commit-0",
+            "content": "import { FC } from 'react';\nimport { UserInfoProps } from './types';\n\nexport const UserInfo: FC<UserInfoProps> = ({ user }) => (\n  <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n    {user.name}\n  </a>\n);"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/TodoList/TodoList.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1712576674562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1712576674562,
+            "name": "Commit-0",
+            "content": "import { FC } from 'react';\nimport { TodoInfo } from '../TodoInfo';\nimport { TodoListProps } from './types';\n\nexport const TodoList: FC<TodoListProps> = ({ todos }) => (\n  <section className=\"TodoList\">\n    {todos.map(todo => (\n      <TodoInfo key={todo.id} todo={todo} />\n    ))}\n  </section>\n);"
+        }
+    ]
+}

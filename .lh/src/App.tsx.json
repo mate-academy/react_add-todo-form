@@ -1,0 +1,102 @@
+{
+    "sourceFile": "src/App.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1712574184010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712574256914,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n // import todosFromServer from './api/todos';\n \n export const App = () => {\n   return (\n-    <div className=\"App\">\n-      \n+\n+      <App />\n     </div>\n   );\n };\n"
+                },
+                {
+                    "date": 1712576974822,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,136 @@\n-import './App.scss';\n+import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n-// import usersFromServer from './api/users';\n-// import todosFromServer from './api/todos';\n+import usersFromServer from '../../api/users';\n+import todosFromServer from '../../api/todos';\n \n+import { TodoList } from '../TodoList';\n+\n+import { Todo } from '../../types/Todo'\n+\n+const todos: Todo[] = todosFromServer.map(todo => ({\n+  ...todo,\n+  user: usersFromServer.find(user => user.id === todo.userId) || null,\n+}))\n+\n+function getId() {\n+  let id = 0;\n+\n+  return () => {\n+    if (!id) {\n+      for (let i = 0; i < todos.length; i++) {\n+        if (todos[i].id > id) {\n+            id = todos[i].id;\n+        }\n+      }\n+    }\n+\n+    id++;\n+\n+    return id;\n+  }\n+}\n+\n+const nextId = getId();\n+\n export const App = () => {\n+  const [title, setTitle] = useState('');\n+  const [userId, setUserId] = useState(0);\n+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);\n+  const [isChosenUserInvalid, setIsChosenUserInvalid] = useState(false);\n+\n+  const handleSubmit: FormEventHandler = e => {\n+    e.preventDefault();\n+    let isValid = true;\n+\n+    if (!title) {\n+      setIsTitleInvalid(true);\n+      isValid = false;\n+    }\n+\n+    if (!userId) {\n+      setIsChosenUserInvalid(true);\n+      isValid = false;\n+    }\n+\n+    if (!isValid) {\n+      return;\n+    }\n+\n+    const user = usersFromServer.find(user => userId === user.id) || null;\n+    const todo = {\n+      id: nextId(),\n+      userId,\n+      title,\n+      completed: false,\n+      user,\n+    };\n+\n+    todos.push(todo);\n+\n+    setTitle('');\n+    setUserId(0);\n+  }\n+\n+  const handleTitleChange: ChangeEventHandler<HTMLInputElement> = e => {\n+    setIsTitleInvalid(false);\n+    setTitle(e.target.value)\n+  }\n+\n+  const handleUserChange: ChangeEventHandler<HTMLSelectElement> = e => {\n+    setIsChosenUserInvalid(false);\n+    setUserId(+e.target.value);\n+  }\n+\n   return (\n+    <div className=\"App\">\n+      <h1>Add todo form</h1>\n \n-      <App />\n+      <form\n+        action=\"/api/todos\"\n+        method=\"POST\"\n+        onSubmit={handleSubmit}\n+      >\n+        <div className=\"field\">\n+          <input\n+            type=\"text\"\n+            data-cy=\"titleInput\"\n+            name='title'\n+            value={title}\n+            placeholder='Add title'\n+            onChange={handleTitleChange}\n+          />\n+          {isTitleInvalid && <span className=\"error\">Please enter a title</span>}\n+        </div>\n+\n+        <div className=\"field\">\n+          <select\n+            data-cy=\"userSelect\"\n+            name='userId'\n+            value={userId}\n+            onChange={handleUserChange}\n+          >\n+            <option value=\"0\" disabled>\n+              Choose a user\n+            </option>\n+            {usersFromServer.map(user => (\n+              <option key={user.id} value={user.id}>\n+                {user.name}\n+              </option>\n+            ))}\n+          </select>\n+\n+          {isChosenUserInvalid && (<span className=\"error\">Please choose a user</span>)}\n+        </div>\n+\n+        <button\n+          type=\"submit\"\n+          data-cy=\"submitButton\"\n+        >\n+          Add\n+        </button>\n+      </form>\n+\n+      <TodoList todos={todos} />\n     </div>\n   );\n-};\n+};\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1712576983381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n-import usersFromServer from '../../api/users';\n+import usersFromServer from '..//api/users';\n import todosFromServer from '../../api/todos';\n \n import { TodoList } from '../TodoList';\n \n"
+                },
+                {
+                    "date": 1712576989952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n-import usersFromServer from '..//api/users';\n+import usersFromServer from './api';\n import todosFromServer from '../../api/todos';\n \n import { TodoList } from '../TodoList';\n \n"
+                },
+                {
+                    "date": 1712576995048,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n-import usersFromServer from './api';\n-import todosFromServer from '../../api/todos';\n+import usersFromServer from './api/users';\n+import todosFromServer from '.api/todos';\n \n import { TodoList } from '../TodoList';\n \n import { Todo } from '../../types/Todo'\n"
+                },
+                {
+                    "date": 1712577001067,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n import usersFromServer from './api/users';\n import todosFromServer from '.api/todos';\n \n-import { TodoList } from '../TodoList';\n+import { TodoList } from '.';\n \n import { Todo } from '../../types/Todo'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n"
+                },
+                {
+                    "date": 1712577006888,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n import usersFromServer from './api/users';\n import todosFromServer from '.api/todos';\n \n-import { TodoList } from '.';\n+import { TodoList } from './';\n \n import { Todo } from '../../types/Todo'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n"
+                },
+                {
+                    "date": 1712577019512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n import usersFromServer from './api/users';\n import todosFromServer from '.api/todos';\n \n-import { TodoList } from './';\n+import { TodoList } from './components';\n \n import { Todo } from '../../types/Todo'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n"
+                },
+                {
+                    "date": 1712577025899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n import usersFromServer from './api/users';\n import todosFromServer from '.api/todos';\n \n-import { TodoList } from './components';\n+import { TodoList } from './components/TodoList/TodoList';\n \n import { Todo } from '../../types/Todo'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n"
+                },
+                {
+                    "date": 1712577032743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n import todosFromServer from '.api/todos';\n \n import { TodoList } from './components/TodoList/TodoList';\n \n-import { Todo } from '../../types/Todo'\n+import { Todo } from './types'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n   ...todo,\n   user: usersFromServer.find(user => user.id === todo.userId) || null,\n"
+                },
+                {
+                    "date": 1712577039988,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n import todosFromServer from '.api/todos';\n \n import { TodoList } from './components/TodoList/TodoList';\n \n-import { Todo } from './types'\n+import { Todo } from './types/Todo'\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n   ...todo,\n   user: usersFromServer.find(user => user.id === todo.userId) || null,\n"
+                },
+                {
+                    "date": 1712577046362,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n-import todosFromServer from '.api/todos';\n+import todosFromServer from './api/todos';\n \n import { TodoList } from './components/TodoList/TodoList';\n \n import { Todo } from './types/Todo'\n"
+                },
+                {
+                    "date": 1712577072913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577081438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-\n+import App.scss\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577099177,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import App.scss\n+import './'\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577104453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import './'\n+import '.'\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577111076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import '.'\n+import './a'\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577135809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n-import './a'\n+import './';\n+\n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n import todosFromServer from './api/todos';\n"
+                },
+                {
+                    "date": 1712577141747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import './';\n+import 'App.scss';\n \n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n"
+                },
+                {
+                    "date": 1712577149673,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import 'App.scss';\n+import './App.scss';\n \n import { ChangeEventHandler, FormEventHandler, useState } from 'react';\n \n import usersFromServer from './api/users';\n"
+                },
+                {
+                    "date": 1712577236641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,31 +6,31 @@\n import todosFromServer from './api/todos';\n \n import { TodoList } from './components/TodoList/TodoList';\n \n-import { Todo } from './types/Todo'\n+import { Todo } from './types/Todo';\n \n const todos: Todo[] = todosFromServer.map(todo => ({\n   ...todo,\n   user: usersFromServer.find(user => user.id === todo.userId) || null,\n-}))\n+}));\n \n function getId() {\n   let id = 0;\n \n   return () => {\n     if (!id) {\n       for (let i = 0; i < todos.length; i++) {\n         if (todos[i].id > id) {\n-            id = todos[i].id;\n+          id = todos[i].id;\n         }\n       }\n     }\n \n     id++;\n \n     return id;\n-  }\n+  };\n }\n \n const nextId = getId();\n \n@@ -57,9 +57,9 @@\n     if (!isValid) {\n       return;\n     }\n \n-    const user = usersFromServer.find(user => userId === user.id) || null;\n+    const user = usersFromServer.find(u => userId === user.id) || null;\n     const todo = {\n       id: nextId(),\n       userId,\n       title,\n@@ -70,45 +70,43 @@\n     todos.push(todo);\n \n     setTitle('');\n     setUserId(0);\n-  }\n+  };\n \n   const handleTitleChange: ChangeEventHandler<HTMLInputElement> = e => {\n     setIsTitleInvalid(false);\n-    setTitle(e.target.value)\n-  }\n+    setTitle(e.target.value);\n+  };\n \n   const handleUserChange: ChangeEventHandler<HTMLSelectElement> = e => {\n     setIsChosenUserInvalid(false);\n     setUserId(+e.target.value);\n-  }\n+  };\n \n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n \n-      <form\n-        action=\"/api/todos\"\n-        method=\"POST\"\n-        onSubmit={handleSubmit}\n-      >\n+      <form action=\"/api/todos\" method=\"POST\" onSubmit={handleSubmit}>\n         <div className=\"field\">\n           <input\n             type=\"text\"\n             data-cy=\"titleInput\"\n-            name='title'\n+            name=\"title\"\n             value={title}\n-            placeholder='Add title'\n+            placeholder=\"Add title\"\n             onChange={handleTitleChange}\n           />\n-          {isTitleInvalid && <span className=\"error\">Please enter a title</span>}\n+          {isTitleInvalid && (\n+            <span className=\"error\">Please enter a title</span>\n+          )}\n         </div>\n \n         <div className=\"field\">\n           <select\n             data-cy=\"userSelect\"\n-            name='userId'\n+            name=\"userId\"\n             value={userId}\n             onChange={handleUserChange}\n           >\n             <option value=\"0\" disabled>\n@@ -120,19 +118,18 @@\n               </option>\n             ))}\n           </select>\n \n-          {isChosenUserInvalid && (<span className=\"error\">Please choose a user</span>)}\n+          {isChosenUserInvalid && (\n+            <span className=\"error\">Please choose a user</span>\n+          )}\n         </div>\n \n-        <button\n-          type=\"submit\"\n-          data-cy=\"submitButton\"\n-        >\n+        <button type=\"submit\" data-cy=\"submitButton\">\n           Add\n         </button>\n       </form>\n \n\\ No newline at end of file\n       <TodoList todos={todos} />\n     </div>\n   );\n-};\n+};\n"
+                }
+            ],
+            "date": 1712574184010,
+            "name": "Commit-0",
+            "content": "import './App.scss';\n\n// import usersFromServer from './api/users';\n// import todosFromServer from './api/todos';\n\nexport const App = () => {\n  return (\n    <div className=\"App\">\n      \n    </div>\n  );\n};\n"
+        }
+    ]
+}
