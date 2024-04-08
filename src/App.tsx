@@ -1,61 +1,91 @@
+import { useState, SetStateAction, FormEventHandler } from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
+import usersFromServer from './api/users';
 // import todosFromServer from './api/todos';
 
 export const App = () => {
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
+  const handleTitle: React.ChangeEventHandler<HTMLInputElement> = event => {
+    setTitleError(false);
+    setTitle(event.target.value);
+  };
+
+  const handleUser = (event: { target: { value: SetStateAction<string> } }) => {
+    setUserError(false);
+    setUser(event.target.value);
+  };
+
+  const handleSubmit: FormEventHandler = event => {
+    event.preventDefault();
+    let isValid = true;
+
+    if (!title) {
+      setTitleError(true);
+      isValid = false;
+    }
+
+    if (!user) {
+      setUserError(true);
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form action="/api/todos" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="title">
+            Title:{' '}
+            <input
+              type="text"
+              data-cy="titleInput"
+              id="title"
+              placeholder="Enter a title"
+              value={title}
+              onChange={handleTitle}
+            />
+            {titleError && <span className="error">Please enter a title</span>}
+          </label>
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
+          <label htmlFor="user">
+            User:{' '}
+            <select
+              data-cy="userSelect"
+              id="user"
+              value={user}
+              onChange={handleUser}
+            >
+              <option value="" disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map(username => {
+                return <option key={username.id}>{username.name}</option>;
+              })}
+            </select>
+            {userError && <span className="error">Please choose a user</span>}
+          </label>
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button type="submit" data-cy="submitButton" onClick={handleSubmit}>
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList />
     </div>
   );
 };
