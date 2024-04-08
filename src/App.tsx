@@ -3,7 +3,13 @@ import './App.scss';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -85,7 +91,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList />
+      <TodoList todos={todos} />
     </div>
   );
 };
