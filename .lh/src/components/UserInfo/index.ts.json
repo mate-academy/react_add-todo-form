@@ -1,0 +1,86 @@
+{
+    "sourceFile": "src/components/UserInfo/index.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 17,
+            "patches": [
+                {
+                    "date": 1712588369154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712588382547,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n export * from './UserInfo';\n-type User = {\n+\n+exort type User = {\n   id: number;\n   name: string;\n   email: string;\n };\n"
+                },
+                {
+                    "date": 1712588415274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n export * from './UserInfo';\n \n-exort type User = {\n+export type User = {\n   id: number;\n   name: string;\n   email: string;\n };\n"
+                },
+                {
+                    "date": 1712588468442,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,6 @@\n export type User = {\n   id: number;\n   name: string;\n   email: string;\n+  \n };\n"
+                },
+                {
+                    "date": 1712588474686,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,6 +3,6 @@\n export type User = {\n   id: number;\n   name: string;\n   email: string;\n-  \n };\n+\n"
+                },
+                {
+                    "date": 1712588480102,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,4 +5,5 @@\n   name: string;\n   email: string;\n };\n \n+export type \n"
+                },
+                {
+                    "date": 1712588489684,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,5 @@\n   name: string;\n   email: string;\n };\n \n-export type \n+export \n"
+                },
+                {
+                    "date": 1712588497944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,13 @@\n+import { props } from 'cypress/types/bluebird';\n+\n export * from './UserInfo';\n \n export type User = {\n   id: number;\n   name: string;\n   email: string;\n };\n \n-export \n+export props {\n+  \n+}\n"
+                },
+                {
+                    "date": 1712588503642,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,6 +8,6 @@\n   email: string;\n };\n \n export props {\n-  \n+  user: User\n }\n"
+                },
+                {
+                    "date": 1712588511250,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,7 +7,4 @@\n   name: string;\n   email: string;\n };\n \n-export props {\n-  user: User\n-}\n"
+                },
+                {
+                    "date": 1712588519936,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,8 @@\n-import { props } from 'cypress/types/bluebird';\n \n export * from './UserInfo';\n \n export type User = {\n   id: number;\n   name: string;\n   email: string;\n };\n-\n"
+                },
+                {
+                    "date": 1712588525314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-\n export * from './UserInfo';\n \n export type User = {\n   id: number;\n"
+                },
+                {
+                    "date": 1712597466005,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,6 +2,7 @@\n \n export type User = {\n   id: number;\n   name: string;\n+  username\n   email: string;\n };\n"
+                },
+                {
+                    "date": 1712597923471,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,7 +2,7 @@\n \n export type User = {\n   id: number;\n   name: string;\n-  username\n+  username: string;\n   email: string;\n-};\n+} ;\n"
+                },
+                {
+                    "date": 1712597928966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n   id: number;\n   name: string;\n   username: string;\n   email: string;\n-} ;\n+} | null;\n"
+                },
+                {
+                    "date": 1712644904470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n   id: number;\n   name: string;\n   username: string;\n   email: string;\n-} | null;\n+} |\n"
+                },
+                {
+                    "date": 1712644919566,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n   id: number;\n   name: string;\n   username: string;\n   email: string;\n-} |\n+};\n"
+                },
+                {
+                    "date": 1712651164844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,1 @@\n export * from './UserInfo';\n-\n-export type User = {\n-  id: number;\n-  name: string;\n-  username: string;\n-  email: string;\n-};\n"
+                }
+            ],
+            "date": 1712588369154,
+            "name": "Commit-0",
+            "content": "export * from './UserInfo';\ntype User = {\n  id: number;\n  name: string;\n  email: string;\n};\n"
+        }
+    ]
+}

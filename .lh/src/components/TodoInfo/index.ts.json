@@ -1,0 +1,102 @@
+{
+    "sourceFile": "src/components/TodoInfo/index.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1712590307278,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712590312370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,2 +1,7 @@\n export * from './TodoInfo';\n export ty\n+pe\n+T\n+odo\n+ =\n+{}\n"
+                },
+                {
+                    "date": 1712590317820,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,8 @@\n pe\n T\n odo\n  =\n-{}\n+{\n+  id: number;\n+  \n+}\n"
+                },
+                {
+                    "date": 1712590323315,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,6 @@\n odo\n  =\n {\n   id: number;\n-  \n+  title: string\n }\n"
+                },
+                {
+                    "date": 1712590328964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,7 @@\n odo\n  =\n {\n   id: number;\n-  title: string\n+  title: string;\n+  completed\n }\n"
+                },
+                {
+                    "date": 1712590335368,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,7 @@\n  =\n {\n   id: number;\n   title: string;\n-  completed\n+  completed: boolean;\n+  user\n }\n"
+                },
+                {
+                    "date": 1712590342704,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,6 +7,6 @@\n {\n   id: number;\n   title: string;\n   completed: boolean;\n-  user\n+  user: User |\n }\n"
+                },
+                {
+                    "date": 1712590351957,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,11 @@\n export * from './TodoInfo';\n export ty\n pe\n-T\n-odo\n- =\n+Todo\n+  =\n {\n   id: number;\n   title: string;\n   completed: boolean;\n-  user: User |\n-}\n+  user: User | null;\n+};\n"
+                },
+                {
+                    "date": 1712590358471,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,8 @@\n+export * from './TodoInfo';\n+export typeTodo=\n+{\n+  id: number;\n+  title: string;\n+  completed: boolean;\n+  user: User | null;\n+};\n"
+                },
+                {
+                    "date": 1712590365511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,19 +1,8 @@\n export * from './TodoInfo';\n-export typeTodo=\n+export type Todo =\n {\n   id: number;\n   title: string;\n   completed: boolean;\n   user: User | null;\n };\n-export * from './TodoInfo';\n-export ty\n-pe\n-Todo\n-  =\n-{\n-  id: number;\n-  title: string;\n-  completed: boolean;\n-  user: User | null;\n-};\n"
+                },
+                {
+                    "date": 1712590376329,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n+import { User } from '../UserInfo';\n+\n export * from './TodoInfo';\n-export type Todo =\n-{\n+export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n   user: User | null;\n"
+                },
+                {
+                    "date": 1712597354052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,6 @@\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n-  user: User | null;\n+  userId: User | null;\n };\n"
+                },
+                {
+                    "date": 1712597361433,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,6 @@\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n-  userId: User | null;\n+  userId: numbUser | null;\n };\n"
+                },
+                {
+                    "date": 1712597368050,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,6 @@\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n-  userId: numbUser | null;\n+  userId: nn;\n };\n"
+                },
+                {
+                    "date": 1712597375231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,7 @@\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n-  userId: nn;\n+  userId: number;\n+  \n };\n"
+                },
+                {
+                    "date": 1712597381984,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,6 @@\n   id: number;\n   title: string;\n   completed: boolean;\n   userId: number;\n-  \n+  user: User;\n };\n"
+                },
+                {
+                    "date": 1712644890320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,6 @@\n   id: number;\n   title: string;\n   completed: boolean;\n   userId: number;\n-  user: User;\n+  user?: User;\n };\n"
+                },
+                {
+                    "date": 1712651081188,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,5 @@\n-import { User } from '../UserInfo';\n \n-export * from './TodoInfo';\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n"
+                },
+                {
+                    "date": 1712651128228,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n+import { User } from '../UserInfo';\n \n+export * from './TodoInfo';\n export type Todo = {\n   id: number;\n   title: string;\n   completed: boolean;\n   userId: number;\n-  user?: User;\n+  user: User;\n };\n"
+                },
+                {
+                    "date": 1712651135403,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +0,0 @@\n-import { User } from '../UserInfo';\n-\n-export * from './TodoInfo';\n-export type Todo = {\n-  id: number;\n-  title: string;\n-  completed: boolean;\n-  userId: number;\n-  user: User;\n-};\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1712651150364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-\n+export * from './TodoList';\n"
+                },
+                {
+                    "date": 1712651155965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-export * from './TodoList';\n+export * from './Todo';\n"
+                }
+            ],
+            "date": 1712590307278,
+            "name": "Commit-0",
+            "content": "export * from './TodoInfo';\nexport ty\n"
+        }
+    ]
+}
