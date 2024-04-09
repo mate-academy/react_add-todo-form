@@ -7,10 +7,8 @@ type Props = {
 
 export const UserInfo: FC<Props> = ({ user }) => {
   return (
-    user && (
-      <a className="UserInfo" href={`mailto:${user.email}`}>
-        {user.name}
-      </a>
-    )
+    <a className="UserInfo" href={user ? `mailto:${user.email}` : undefined}>
+      {user && user.name}
+    </a>
   );
 };
