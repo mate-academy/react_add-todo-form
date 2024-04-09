@@ -40,14 +40,13 @@ export const App = () => {
       return;
     }
 
-    // Calculate max id
     const maxId = Math.max(...todos.map(todo => todo.id));
     const newTodoId = maxId + 1;
 
     setTodos(prevState => [
       ...prevState,
       {
-        id: newTodoId, // Assign new id
+        id: newTodoId,
         title: name,
         completed: false,
         userId: user,

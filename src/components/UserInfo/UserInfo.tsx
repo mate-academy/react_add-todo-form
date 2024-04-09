@@ -6,6 +6,10 @@ type Props = {
 };
 
 export const UserInfo: FC<Props> = ({ user }) => {
+  if (!user) {
+    return;
+  }
+
   return (
     user && (
       <a className="UserInfo" href={`mailto:${user.email}`}>
