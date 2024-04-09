@@ -1,9 +1,48 @@
-export const App = () => {
-  const maxId = todosFromServer.reduce(
-    (max, todo) => (todo.id > max ? todo.id : max),
-    0,
-  );
+import './App.scss';
 
+import { FormEventHandler, useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+
+type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user: User;
+};
+
+type TodoFromServer = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
+
+let maxId = 0;
+
+const createTodoArray = (todo: TodoFromServer): Todo => {
+  if (maxId < todo.id) {
+    maxId = todo.id;
+  }
+
+  const user = usersFromServer.filter(item => {
+    return todo.userId === item.id;
+  });
+  const newTodo = { ...todo, user: user[0] };
+
+  return newTodo;
+};
+
+export const App = () => {
   const [todosArray, setTodosArray] = useState(
     todosFromServer.map(createTodoArray),
   );
