@@ -53,8 +53,6 @@ export const App = () => {
     setUser(0);
   };
 
-  // const newId = Math.max(...todosWithUser.map(todo => todo.id));
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
