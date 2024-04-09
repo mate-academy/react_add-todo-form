@@ -23,12 +23,23 @@ export const App = () => {
   const [noUser, setNoUser] = useState('');
   const [noTitle, setNoTitle] = useState('');
 
+  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.trim());
+    setNoTitle('');
+  };
+
+  const userHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
+    setNoUser('');
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const trimmedT = title.trim();
 
     let isValid = true;
 
-    if (!title) {
+    if (!trimmedT) {
       setNoTitle('Please enter a title');
       isValid = false;
     } else {
@@ -71,23 +82,13 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter your title"
-            onChange={e => {
-              setTitle(e.target.value);
-              setNoTitle('');
-            }}
+            onChange={titleHandler}
           />
           {noTitle && <span className="error">{noTitle}</span>}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={userId}
-            onChange={e => {
-              setUserId(e.target.value);
-              setNoUser('');
-            }}
-          >
+          <select data-cy="userSelect" value={userId} onChange={userHandler}>
             <option value="0" disabled>
               Choose a user
             </option>
