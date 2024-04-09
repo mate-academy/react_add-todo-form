@@ -78,9 +78,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
-            <option value={user.id} key={user.id}>
-              {user.name}
+          {usersFromServer.map(({ id, name }) => (
+            <option value={id} key={id}>
+              {name}
             </option>
           ))}
         </select>
