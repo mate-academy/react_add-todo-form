@@ -27,15 +27,16 @@ type TodoFromServer = {
   userId: number;
 };
 
-let maxId = 0;
-
-const createTodoArray = (todo: TodoFromServer): Todo => {
-  if (maxId < todo.id) {
-    maxId = todo.id;
-  }
-
-  const user = usersFromServer.find(item => todo.userId === item.id);
-  const newTodo = { ...todo, user };
+    const maxId = todos.reduce(
+      (max, todo) => (todo.id > max ? todo.id : max),
+      0,
+    );
+    const newTodo: Todos = {
+      id: maxId + 1,
+      title: newTodoTitle,
+      completed: false,
+      userId: selectedUser.id,
+    };
 
   return newTodo;
 };
@@ -138,3 +139,13 @@ export const App = () => {
     </div>
   );
 };
+    const maxId = todos.reduce(
+      (max, todo) => (todo.id > max ? todo.id : max),
+      0,
+    );
+    const newTodo: Todos = {
+      id: maxId + 1,
+      title: newTodoTitle,
+      completed: false,
+      userId: selectedUser.id,
+    };
