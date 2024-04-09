@@ -34,10 +34,8 @@ const createTodoArray = (todo: TodoFromServer): Todo => {
     maxId = todo.id;
   }
 
-  const user = usersFromServer.filter(item => {
-    return todo.userId === item.id;
-  });
-  const newTodo = { ...todo, user: user[0] };
+  const user = usersFromServer.find(item => todo.userId === item.id);
+  const newTodo = { ...todo, user };
 
   return newTodo;
 };
