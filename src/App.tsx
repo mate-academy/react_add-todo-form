@@ -4,28 +4,8 @@ import { FormEventHandler, useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
-
-type TodoFromServer = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { Todo } from './components/types/Todo';
+import { TodoFromServer } from './components/types/TodoFromServer';
 
 let maxId = 0;
 
@@ -50,6 +30,7 @@ export const App = () => {
   const [todoUser, setTodoUser] = useState('0');
   const [valueTitleEnter, setValueTitleEnter] = useState(true);
   const [valueUserSelekted, setValueUserSelekted] = useState(true);
+
   const handlerAdd: FormEventHandler = event => {
     event.preventDefault();
     const valueEnter = !(todoTitle === '');
@@ -85,7 +66,7 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handlerAdd}>
         <div className="field">
           <label>
-            Title:{' '}
+            Title:
             <input
               placeholder="Enter a title"
               type="text"
@@ -104,7 +85,7 @@ export const App = () => {
 
         <div className="field">
           <label>
-            User:{' '}
+            User:
             <select
               data-cy="userSelect"
               value={todoUser}
