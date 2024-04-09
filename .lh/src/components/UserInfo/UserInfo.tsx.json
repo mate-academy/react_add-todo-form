@@ -1,0 +1,286 @@
+{
+    "sourceFile": "src/components/UserInfo/UserInfo.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 67,
+            "patches": [
+                {
+                    "date": 1712584294340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712584330274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,13 @@\n export const UserInfo = ({ userId }: { userId: number }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n-    return null;\n+    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n   }\n+\n+  return (\n+    <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n+      {user.name}\n+    </a>\n+  );\n };\n"
+                },
+                {
+                    "date": 1712584338699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+\n export const UserInfo = ({ userId }: { userId: number }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n"
+                },
+                {
+                    "date": 1712584353565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import usersFromServer from './api/users';\n \n export const UserInfo = ({ userId }: { userId: number }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n"
+                },
+                {
+                    "date": 1712584705811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,20 @@\n-import usersFromServer from './api/users';\n+import usersFromServer from '../../api/users';\n \n-export const UserInfo = ({ userId }: { userId: number }) => {\n+export type UserInfoProps = {\n+  userId: number;\n+}\n+\n+const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n-    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n+    return null;\n   }\n \n   return (\n     <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n       {user.name}\n     </a>\n   );\n };\n+\n"
+                },
+                {
+                    "date": 1712584731903,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,5 +16,4 @@\n       {user.name}\n     </a>\n   );\n };\n-\n"
+                },
+                {
+                    "date": 1712584744478,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import usersFromServer from '../../api/users';\n \n-export type UserInfoProps = {\n+e type UserInfoProps = {\n   userId: number;\n }\n \n const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n"
+                },
+                {
+                    "date": 1712584752082,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n import usersFromServer from '../../api/users';\n \n-e type UserInfoProps = {\n+type UserInfoProps = {\n   userId: number;\n }\n \n-const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n+export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n     return null;\n"
+                },
+                {
+                    "date": 1712584808153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,6 @@\n import usersFromServer from '../../api/users';\n \n-type UserInfoProps = {\n-  userId: number;\n-}\n \n export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n"
+                },
+                {
+                    "date": 1712584813493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import usersFromServer from '../../api/users';\n \n \n-export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n+export const UserInfo: React.FC<> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n     return null;\n"
+                },
+                {
+                    "date": 1712584819775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import usersFromServer from '../../api/users';\n \n \n-export const UserInfo: React.FC<> = ({ userId }) => {\n+export const UserInfo: React.FC<UsernfoProps> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n     return null;\n"
+                },
+                {
+                    "date": 1712585631403,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import usersFromServer from '../../api/users';\n \n \n-export const UserInfo: React.FC<UsernfoProps> = ({ userId }) => {\n+export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n     return null;\n"
+                },
+                {
+                    "date": 1712585767364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,1 @@\n-import usersFromServer from '../../api/users';\n-\n-\n-export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {\n-  const user = usersFromServer.find(user => user.id === userId);\n-\n-  if (!user) {\n-    return null;\n-  }\n-\n-  return (\n-    <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n-      {user.name}\n-    </a>\n-  );\n-};\n+export const UserInfo = () => {};\n"
+                },
+                {
+                    "date": 1712588002736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-export const UserInfo = () => {};\n+export const UserInfo = ({user}) => {};\n"
+                },
+                {
+                    "date": 1712588008244,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,3 @@\n-export const UserInfo = ({user}) => {};\n+export const UserInfo = () => {\n+  \n+};\n"
+                },
+                {
+                    "date": 1712588018725,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n export const UserInfo = () => {\n-  \n+  <a  href=\"\"></a>\n };\n"
+                },
+                {
+                    "date": 1712588025302,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n export const UserInfo = () => {\n-  <a  href=\"\"></a>\n+  <a className=\"UserInfo\" href=\"\"></a>\n };\n"
+                },
+                {
+                    "date": 1712588031081,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n export const UserInfo = () => {\n-  <a className=\"UserInfo\" href=\"\"></a>\n+  <a className=\"UserInfo\" href=\"></a>\n };\n"
+                },
+                {
+                    "date": 1712588036766,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n export const UserInfo = () => {\n-  <a className=\"UserInfo\" href=\"></a>\n+  <a className=\"UserInfo\" href={`mail`}></a>\n };\n"
+                },
+                {
+                    "date": 1712588046621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n export const UserInfo = () => {\n-  <a className=\"UserInfo\" href={`mail`}></a>\n+  <a className=\"UserInfo\" href={`mailto:${}`}></a>\n };\n"
+                },
+                {
+                    "date": 1712588056396,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,5 @@\n export const UserInfo = () => {\n-  <a className=\"UserInfo\" href={`mailto:${}`}></a>\n+  <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n+    \n+  </a>\n };\n"
+                },
+                {
+                    "date": 1712588062754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n-    \n+    {userInfo.name}\n   </a>\n };\n"
+                },
+                {
+                    "date": 1712588074834,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n-    {userInfo.name}\n-  </a>\n+    {user.name}\n+  </a>;\n };\n"
+                },
+                {
+                    "date": 1712588084954,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-export const UserInfo = () => {\n+export const UserInfo = ({}) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588091818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,5 @@\n+export const UserInfo = ({ user }) => {\n+  <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n+    {user.name}\n+  </a>;\n+};\n"
+                },
+                {
+                    "date": 1712588150921,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,7 @@\n+\n+\n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n-export const UserInfo = ({}) => {\n-  <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n-    {user.name}\n-  </a>;\n-};\n"
+                },
+                {
+                    "date": 1712588159572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n+type P\n \n-\n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588170318,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-type P\n+type Props\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712588180359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n-type Props\n+type Props = {\n+  user\n+}\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712588186583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n type Props = {\n-  user\n-}\n+  user: User;\n+};\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712588209681,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-type Props = {\n+type User = {\n   user: User;\n };\n \n export const UserInfo = ({ user }) => {\n"
+                },
+                {
+                    "date": 1712588217736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n type User = {\n-  user: User;\n+  id: number\n };\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n"
+                },
+                {
+                    "date": 1712588224125,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n type User = {\n-  id: number\n+  id: number;\n+  name: string;\n+  \n };\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n"
+                },
+                {
+                    "date": 1712588229283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n type User = {\n   id: number;\n   name: string;\n-  \n+  email: string;\n };\n \n export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n"
+                },
+                {
+                    "date": 1712588254638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n   name: string;\n   email: string;\n };\n \n-export const UserInfo = ({ user }) => {\n+export const UserInfo = ({ }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588262874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n   name: string;\n   email: string;\n };\n \n-export const UserInfo = ({ }) => {\n+export const UserInfo:  = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588280429,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n   name: string;\n   email: string;\n };\n \n-export const UserInfo:  = () => {\n+export const UserInfo: User = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588315300,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n   name: string;\n   email: string;\n };\n \n-export const UserInfo: User = () => {\n+export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588365521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,4 @@\n-type User = {\n-  id: number;\n-  name: string;\n-  email: string;\n-};\n \n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712588531426,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-\n+import\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588541606,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import\n+import { }\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588546759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { }\n+import { User } from \".\";\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588561633,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n import { User } from \".\";\n+\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588567072,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { User } from \".\";\n+import { User } from \"./index\";\n \n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712588580524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n-import { User } from \"./index\";\n-\n+import { User } from \".\";\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588586068,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,10 @@\n-import { User } from \".\";\n+type User = {\n+  id: number;\n+  name: string;\n+  email: string;\n+};\n+\n export const UserInfo = ({ User }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712588593465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,6 @@\n-type User = {\n-  id: number;\n-  name: string;\n-  email: string;\n-};\n \n-export const UserInfo = ({ User }) => {\n+export const UserInfo = ({  }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712588612717,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n-\n-export const UserInfo = ({  }) => {\n+export const UserInfo = ({user}) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712589195689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-export const UserInfo = ({user}) => {\n+export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712589763605,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-export const UserInfo = ({ user }) => {\n+export const UserInfo = ( }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712589774604,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n-export const UserInfo = ( }) => {\n+\n+\n+export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712589780208,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n+const user\n \n-\n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712589790840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n-const user\n+const user = User\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n+;\n"
+                },
+                {
+                    "date": 1712589801741,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,7 @@\n-const user = User\n+const user = user;\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n-;\n"
+                },
+                {
+                    "date": 1712589808140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-const user = user;\n+const user = User;\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712589821099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-const user = User;\n+import const user = User;\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712589827426,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n-import const user = User;\n+import User\n \n+const user = User;\n+\n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712589835102,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import User\n+import User from ''\n \n const user = User;\n \n export const UserInfo = () => {\n"
+                },
+                {
+                    "date": 1712589853214,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import User from ''\n+import {User from './index';\n \n const user = User;\n \n export const UserInfo = () => {\n"
+                },
+                {
+                    "date": 1712589891127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n-import {User from './index';\n+import { User } from './index';\n \n-const user = User;\n+ty\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712589897352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import { User } from './index';\n \n-ty\n+type user\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712589906698,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n import { User } from './index';\n \n-type user\n+type userr = {\n \n+}\n+\n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n"
+                },
+                {
+                    "date": 1712589912222,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { User } from './index';\n \n type userr = {\n-\n+  user: User;\n }\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n"
+                },
+                {
+                    "date": 1712589943077,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import { User } from './index';\n \n-type userr = {\n+type Props = {\n   user: User;\n-}\n+};\n \n export const UserInfo = () => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n"
+                },
+                {
+                    "date": 1712589958221,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n type Props = {\n   user: User;\n };\n \n-export const UserInfo = () => {\n+export const UserInfo = ({}) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712589965759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n type Props = {\n   user: User;\n };\n \n-export const UserInfo = ({}) => {\n+export const UserInfo = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712590007201,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n type Props = {\n   user: User;\n };\n \n-export const UserInfo = ({ user }) => {\n+export const UserInfo/ = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                },
+                {
+                    "date": 1712590012828,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n type Props = {\n   user: User;\n };\n \n-export const UserInfo<>< = ({ user }) => {\n+export const UserInfo<> = ({ user }) => {\n   <a className=\"UserInfo\" href={`mailto:${user.email}`}>\n     {user.name}\n   </a>;\n };\n"
+                }
+            ],
+            "date": 1712584294339,
+            "name": "Commit-0",
+            "content": "export const UserInfo = ({ userId }: { userId: number }) => {\n  const user = usersFromServer.find(user => user.id === userId);\n\n  if (!user) {\n    return null;\n  }\n};\n"
+        }
+    ]
+}

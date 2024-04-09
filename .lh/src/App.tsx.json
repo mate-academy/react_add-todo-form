@@ -1,0 +1,110 @@
+{
+    "sourceFile": "src/App.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 23,
+            "patches": [
+                {
+                    "date": 1712572055132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712572063103,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,10 +2,10 @@\n \n // import usersFromServer from './api/users';\n // import todosFromServer from './api/todos';\n \n+type Todo = {\\}\n \n-\n export const App = () => {\n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n"
+                },
+                {
+                    "date": 1712572082580,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,14 @@\n \n // import usersFromServer from './api/users';\n // import todosFromServer from './api/todos';\n \n-type Todo = {\\}\n+type Todo = {\n+  id: 1,\n+  title: 'delectus aut autem',\n+  completed: true,\n+  userId: 1,\n+}\n \n export const App = () => {\n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572090801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,10 @@\n // import usersFromServer from './api/users';\n // import todosFromServer from './api/todos';\n \n type Todo = {\n-  id: 1,\n-  title: 'delectus aut autem',\n+  id: number,\n+  title: ',\n   completed: true,\n   userId: 1,\n }\n \n"
+                },
+                {
+                    "date": 1712572097336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,10 +4,10 @@\n // import todosFromServer from './api/todos';\n \n type Todo = {\n   id: number,\n-  title: ',\n-  completed: true,\n+  title: string,\n+  completed: boolean,\n   userId: 1,\n }\n \n export const App = () => {\n"
+                },
+                {
+                    "date": 1712572104314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,10 @@\n type Todo = {\n   id: number,\n   title: string,\n   completed: boolean,\n-  userId: 1,\n-}\n+  userId: number,\n+};\n \n export const App = () => {\n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572109399,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,14 +3,16 @@\n // import usersFromServer from './api/users';\n // import todosFromServer from './api/todos';\n \n type Todo = {\n-  id: number,\n-  title: string,\n-  completed: boolean,\n-  userId: number,\n+  id: number;\n+  title: string;\n+  completed: boolean;\n+  userId: number;\n };\n \n+\n+\n export const App = () => {\n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n"
+                },
+                {
+                    "date": 1712572119068,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,10 +9,10 @@\n   completed: boolean;\n   userId: number;\n };\n \n+type User \n \n-\n export const App = () => {\n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n"
+                },
+                {
+                    "date": 1712572126370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,11 @@\n   completed: boolean;\n   userId: number;\n };\n \n-type User \n+type User = {\n+  id: number\n+}\n \n export const App = () => {\n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572132139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,10 @@\n   userId: number;\n };\n \n type User = {\n-  id: number\n+  id: number;\n+  name: string\n }\n \n export const App = () => {\n   return (\n"
+                },
+                {
+                    "date": 1712572190355,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import './App.scss';\n \n-// import usersFromServer from './api/users';\n-// import todosFromServer from './api/todos';\n+import usersFromServer from './api/users';\n+import todosFromServer from './api/todos';\n \n type Todo = {\n   id: number;\n   title: string;\n@@ -11,9 +11,9 @@\n };\n \n type User = {\n   id: number;\n-  name: string\n+  name: string;\n }\n \n export const App = () => {\n   return (\n"
+                },
+                {
+                    "date": 1712572213271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n \n type User = {\n   id: number;\n   name: string;\n-}\n+};\n \n export const App = () => {\n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572225562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,11 @@\n   name: string;\n };\n \n export const App = () => {\n+\n+\n+  \n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n \n"
+                },
+                {
+                    "date": 1712572232033,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,11 @@\n   name: string;\n };\n \n export const App = () => {\n+const [todos, ]\n \n \n-  \n   return (\n     <div className=\"App\">\n       <h1>Add todo form</h1>\n \n"
+                },
+                {
+                    "date": 1712572237561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n   name: string;\n };\n \n export const App = () => {\n-const [todos, ]\n+const [todos, setTodos] = \n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572243831,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n   name: string;\n };\n \n export const App = () => {\n-const [todos, setTodos] = \n+const [todos, setTodos] = useState()\n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572253017,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n   name: string;\n };\n \n export const App = () => {\n-const [todos, setTodos] = useState()\n+  const [todos, setTodos] = useState<>([]);\n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572260718,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,15 +9,16 @@\n   completed: boolean;\n   userId: number;\n };\n \n+\n type User = {\n   id: number;\n   name: string;\n };\n \n export const App = () => {\n-  const [todos, setTodos] = useState<>([]);\n+  const [todos, setTodos] = useState<Todo[]>([]);\n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572267196,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n   completed: boolean;\n   userId: number;\n };\n \n+type Todos - \n \n type User = {\n   id: number;\n   name: string;\n"
+                },
+                {
+                    "date": 1712572273923,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n   completed: boolean;\n   userId: number;\n };\n \n-type Todos - \n+type Todos = Todo[];\n \n type User = {\n   id: number;\n   name: string;\n"
+                },
+                {
+                    "date": 1712572282208,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,10 @@\n   name: string;\n };\n \n export const App = () => {\n-  const [todos, setTodos] = useState<Todo[]>([]);\n+  const [todos, setTodos] = useState<Todos>([]);\n+  \n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572289813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n };\n \n export const App = () => {\n   const [todos, setTodos] = useState<Todos>([]);\n-  \n+  const [users, set]\n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572295840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n };\n \n export const App = () => {\n   const [todos, setTodos] = useState<Todos>([]);\n-  const [users, setUsers] = usesta\n+  const [users, setUsers] = useState\n \n \n   return (\n     <div className=\"App\">\n"
+                },
+                {
+                    "date": 1712572303263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n   id: number;\n   name: string;\n };\n \n-type \n+type U\n \n export const App = () => {\n   const [todos, setTodos] = useState<Todos>([]);\n   const [users, setUsers] = useState<\n"
+                }
+            ],
+            "date": 1712572055132,
+            "name": "Commit-0",
+            "content": "import './App.scss';\n\n// import usersFromServer from './api/users';\n// import todosFromServer from './api/todos';\n\n\n\nexport const App = () => {\n  return (\n    <div className=\"App\">\n      <h1>Add todo form</h1>\n\n      <form action=\"/api/todos\" method=\"POST\">\n        <div className=\"field\">\n          <input type=\"text\" data-cy=\"titleInput\" />\n          <span className=\"error\">Please enter a title</span>\n        </div>\n\n        <div className=\"field\">\n          <select data-cy=\"userSelect\">\n            <option value=\"0\" disabled>\n              Choose a user\n            </option>\n          </select>\n\n          <span className=\"error\">Please choose a user</span>\n        </div>\n\n        <button type=\"submit\" data-cy=\"submitButton\">\n          Add\n        </button>\n      </form>\n\n      <section className=\"TodoList\">\n        <article data-id=\"1\" className=\"TodoInfo TodoInfo--completed\">\n          <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n\n          <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n            Leanne Graham\n          </a>\n        </article>\n\n        <article data-id=\"15\" className=\"TodoInfo TodoInfo--completed\">\n          <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n\n          <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n            Leanne Graham\n          </a>\n        </article>\n\n        <article data-id=\"2\" className=\"TodoInfo\">\n          <h2 className=\"TodoInfo__title\">\n            quis ut nam facilis et officia qui\n          </h2>\n\n          <a className=\"UserInfo\" href=\"mailto:Julianne.OConner@kory.org\">\n            Patricia Lebsack\n          </a>\n        </article>\n      </section>\n    </div>\n  );\n};\n"
+        }
+    ]
+}

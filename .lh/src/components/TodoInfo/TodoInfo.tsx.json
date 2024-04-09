@@ -1,0 +1,66 @@
+{
+    "sourceFile": "src/components/TodoInfo/TodoInfo.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 12,
+            "patches": [
+                {
+                    "date": 1712584100692,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712584110449,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,21 @@\n export const TodoInfo = () => {\n-  return \n-};\n+  return (\n+    <article data-id=\"15\" className=\"TodoInfo TodoInfo--completed\">\n+    <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n+\n+    <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n+      Leanne Graham\n+    </a>\n+  </article>\n+  <article data-id=\"15\" className=\"TodoInfo TodoInfo--completed\">\n+    <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n+\n+    <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n+      Leanne Graham\n+    </a>\n+  </article>\n+\n+  <article data-id=\"2\" className=\"TodoInfo\">\n+    <h2 className=\"TodoInfo__title\">quis ut nam facilis et officia qui</h2>\n+  )\n+&rbrace;;\n"
+                },
+                {
+                    "date": 1712584141009,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,5 @@\n+export const TodoInfo = () => {\n+  return (\n+    \n+  )\n+};\n"
+                },
+                {
+                    "date": 1712584207810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,26 +1,15 @@\n-export const TodoInfo = () => {\n+export const TodoInfo = ({ id, title, userId }: { id: number, title: string, userId: number }) => {\n   return (\n-    \n-  )\n+    <article data-id={id} className=\"TodoInfo\">\n+      <h2 className=\"TodoInfo__title\">{title}</h2>\n+      <UserInfo userId={userId} />\n+    </article>\n+  );\n };\n-export const TodoInfo = () => {\n-  return (\n-    <article data-id=\"15\" className=\"TodoInfo TodoInfo--completed\">\n-    <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n \n-    <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n-      Leanne Graham\n-    </a>\n-  </article>\n-  <article data-id=\"15\" className=\"TodoInfo TodoInfo--completed\">\n-    <h2 className=\"TodoInfo__title\">delectus aut autem</h2>\n+export const UserInfo = ({ userId }: { userId: number }) => {\n+  const user = usersFromServer.find(user => user.id === userId);\n \n-    <a className=\"UserInfo\" href=\"mailto:Sincere@april.biz\">\n-      Leanne Graham\n-    </a>\n-  </article>\n-\n-  <article data-id=\"2\" className=\"TodoInfo\">\n-    <h2 className=\"TodoInfo__title\">quis ut nam facilis et officia qui</h2>\n-  )\n-&rbrace;;\n+  if (!user) {\n+    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n+  }\n"
+                },
+                {
+                    "date": 1712584218263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+export const TodoInfo = ({ id, title, userId }: { id: number, title: string, userId: number }) => {\n+  return (\n+    <article data-id={id} className=\"TodoInfo\">\n+      <h2 className=\"TodoInfo__title\">{title}</h2>\n+      <UserInfo userId={userId} />\n+    </article>\n+  );\n+};\n+\n+export const UserInfo = ({ userId }: { userId: number }) => {\n+  const user = usersFromServer.find(user => user.id === userId);\n+\n+  if (!user) {\n+    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n+  }\n+}\n"
+                },
+                {
+                    "date": 1712584228086,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,20 +12,5 @@\n \n   if (!user) {\n     return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n   }\n-}\n-export const TodoInfo = ({ id, title, userId }: { id: number, title: string, userId: number }) => {\n-  return (\n-    <article data-id={id} className=\"TodoInfo\">\n-      <h2 className=\"TodoInfo__title\">{title}</h2>\n-      <UserInfo userId={userId} />\n-    </article>\n-  );\n };\n-\n-export const UserInfo = ({ userId }: { userId: number }) => {\n-  const user = usersFromServer.find(user => user.id === userId);\n-\n-  if (!user) {\n-    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n-  }\n"
+                },
+                {
+                    "date": 1712584234138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,13 @@\n-export const TodoInfo = ({ id, title, userId }: { id: number, title: string, userId: number }) => {\n+export const TodoInfo = ({\n+  id,\n+  title,\n+  userId,\n+}: {\n+  id: number;\n+  title: string;\n+  userId: number;\n+}) => {\n   return (\n     <article data-id={id} className=\"TodoInfo\">\n       <h2 className=\"TodoInfo__title\">{title}</h2>\n       <UserInfo userId={userId} />\n"
+                },
+                {
+                    "date": 1712584272073,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,7 +18,7 @@\n export const UserInfo = ({ userId }: { userId: number }) => {\n   const user = usersFromServer.find(user => user.id === userId);\n \n   if (!user) {\n-    return null; // Jeśli użytkownik o danym ID nie istnieje, zwracamy null\n+    return null;\n   }\n };\n"
+                },
+                {
+                    "date": 1712584287789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,11 +14,5 @@\n     </article>\n   );\n };\n \n-export const UserInfo = ({ userId }: { userId: number }) => {\n-  const user = usersFromServer.find(user => user.id === userId);\n \n-  if (!user) {\n-    return null;\n-  }\n-};\n"
+                },
+                {
+                    "date": 1712584577416,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,18 +1,8 @@\n-export const TodoInfo = ({\n-  id,\n-  title,\n-  userId,\n-}: {\n-  id: number;\n-  title: string;\n-  userId: number;\n-}) => {\n+const TodoInfo: React.FC<TodoInfoProps> = ({ id, title, userId }) => {\n   return (\n     <article data-id={id} className=\"TodoInfo\">\n       <h2 className=\"TodoInfo__title\">{title}</h2>\n       <UserInfo userId={userId} />\n     </article>\n   );\n };\n-\n-\n"
+                },
+                {
+                    "date": 1712584587322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n-const TodoInfo: React.FC<TodoInfoProps> = ({ id, title, userId }) => {\n+import { UserInfo } from \"../UserInfo\";\n+\n+export const TodoInfo: React.FC<TodoInfoProps> = ({ id, title, userId }) => {\n   return (\n     <article data-id={id} className=\"TodoInfo\">\n       <h2 className=\"TodoInfo__title\">{title}</h2>\n       <UserInfo userId={userId} />\n"
+                },
+                {
+                    "date": 1712584605284,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,12 @@\n import { UserInfo } from \"../UserInfo\";\n \n+type TodoInfoProps = {\n+  id: number;\n+  title: string;\n+  userId: number;\n+}\n \n-\n export const TodoInfo: React.FC<TodoInfoProps> = ({ id, title, userId }) => {\n   return (\n     <article data-id={id} className=\"TodoInfo\">\n       <h2 className=\"TodoInfo__title\">{title}</h2>\n"
+                },
+                {
+                    "date": 1712584629726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+import { UserInfo } from '../UserInfo';\n+\n+type TodoInfoProps = {\n+  id: number;\n+  title: string;\n+  userId: number;\n+};\n+\n+export const TodoInfo: React.FC<TodoInfoProps> = ({ id, title, userId }) => {\n+  return (\n+    <article data-id={id} className=\"TodoInfo\">\n+      <h2 className=\"TodoInfo__title\">{title}</h2>\n+      <UserInfo userId={userId} />\n+    </article>\n+  );\n+};\n"
+                }
+            ],
+            "date": 1712584100692,
+            "name": "Commit-0",
+            "content": "export const TodoInfo = () => {\n  return \n};\n"
+        }
+    ]
+}
