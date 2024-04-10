@@ -41,7 +41,7 @@ export const App = () => {
       user: usersFromServer.find(u => u.id === selectedUser),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     setTitle('');
     setSelectedUser(0);
   };
