@@ -1,11 +1,12 @@
 import { UserInfo } from '../UserInfo/UserInfo';
 import { Todo } from '../../types/Todo';
 import React from 'react';
+import classNames from 'classnames';
 
 export const TodoInfo = ({ todo }: Props) => {
-  const todoClasses = todo.completed
-    ? 'TodoInfo TodoInfo--completed'
-    : 'TodoInfo';
+  const todoClasses = classNames('TodoInfo', {
+    'TodoInfo--completed': todo.completed,
+  });
 
   return (
     <article className={todoClasses} key={todo.id} data-id={todo.id}>

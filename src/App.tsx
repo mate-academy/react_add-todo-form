@@ -3,7 +3,6 @@ import './App.scss';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
-
 export const App = () => {
   const [text, setText] = useState('');
   const [userId, setUserId] = useState(0);
@@ -15,16 +14,6 @@ export const App = () => {
       user: usersFromServer.find(user => user.id === todo.userId) || null,
     })),
   );
-
-  function getTheLargestId() {
-    const arrayWithId: number[] = [];
-
-    todos.map(todo => arrayWithId.push(todo.id));
-
-    arrayWithId.sort((a, b) => b - a);
-
-    return arrayWithId[0] + 1;
-  }
 
   const handleSubmission = (event: FormEvent) => {
     event.preventDefault();
@@ -46,9 +35,10 @@ export const App = () => {
     }
 
     const userArray = usersFromServer.find(user => user.id === userId) || null;
+    const taskId = Math.max(...todos.map(todo => todo.id));
 
     const newTask = {
-      id: getTheLargestId(),
+      id: taskId + 1,
       userId: userId,
       title: text,
       completed: false,
