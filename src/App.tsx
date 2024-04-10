@@ -37,12 +37,7 @@ export const App = () => {
 
     const user = usersFromServer.find(u => userId === u.id) || null;
     const todo = {
-      id:
-        Math.max(
-          ...todos.map(t => {
-            return t.id;
-          }),
-        ) + 1,
+      id: Math.max(...todos.map(t => t.id)) + 1,
       userId,
       title,
       completed: false,
