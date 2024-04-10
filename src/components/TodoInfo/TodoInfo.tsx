@@ -1,20 +1,23 @@
 import React from 'react';
 import { UserInfo } from '../UserInfo';
 import { TodoWithUser } from '../../types/TodoWithUser';
+import cn from 'classnames';
 
 type Props = {
   todo: TodoWithUser;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${todo.completed && 'TodoInfo--completed'}`}
+      data-id={id}
+      className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
-      {todo.user && <UserInfo user={todo.user} />}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

@@ -106,11 +106,15 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
+            {usersFromServer.map(user => {
+              const { id, name } = user;
+
+              return (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              );
+            })}
           </select>
           {userValid || <span className="error">Please choose a user</span>}
         </div>
