@@ -4,7 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './type/Todo';
-import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { useState } from 'react';
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -33,9 +33,11 @@ export const App = () => {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     const user = usersFromServer.find(u => userId === u.id) || null;
     const todo = {
@@ -52,12 +54,12 @@ export const App = () => {
     setUserId(0);
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsTitleError(false);
     setTitle(e.target.value);
   };
 
-  const handleUserChange = (e) => {
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setIsUserError(false);
     setUserId(+e.target.value);
   };
