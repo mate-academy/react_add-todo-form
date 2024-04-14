@@ -1,25 +1,13 @@
-interface Users {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+import { User } from '../../types/User';
 
-interface Props {
-  usersFromServer: Users[];
-  userId: number;
-}
+type Props = {
+  user: User;
+};
 
-export const UserInfo: React.FC<Props> = ({ usersFromServer, userId }) => {
-  const findUser = usersFromServer.find(user => user.id === userId);
-
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <>
-      {findUser && (
-        <a className="UserInfo" href={findUser.email}>
-          {findUser.name}
-        </a>
-      )}
-    </>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };

@@ -1,86 +1,107 @@
-import { useState } from 'react';
 import './App.scss';
-import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+
+const todos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
 export const App = () => {
-  const [titleCheck, setTitleCheck] = useState('');
-  const [titleTouched, setTitleTouched] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserError, setIsUserError] = useState(false);
 
-  const [userCheck, setUserCheck] = useState('');
-  const [userTouched, setUserTouched] = useState(false);
+  const handleSubmit: FormEventHandler = event => {
+    event.preventDefault();
+    let isValid = true;
 
-  const [todos, setTodos] = useState(todosFromServer);
+    if (!title) {
+      setIsTitleError(true);
+      isValid = false;
+    }
 
-  const [newId, setNewId] = useState(20);
+    if (!userId) {
+      setIsUserError(true);
+      isValid = false;
+    }
 
-  const newTodo = {
-    id: newId,
-    title: titleCheck,
-    completed: false,
-    userId: +userCheck,
+    if (!isValid) {
+      return;
+    }
+
+    const user = usersFromServer.find(u => userId === u.id) || null;
+    const todo = {
+      id: Math.max(...todos.map(t => t.id)) + 1,
+      userId,
+      title,
+      completed: false,
+      user,
+    };
+
+    todos.push(todo);
+
+    setTitle('');
+    setUserId(0);
   };
 
-  const addPost = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    setTodos(prevTodos => [...prevTodos, newTodo]);
+  const handleTitle: ChangeEventHandler<HTMLInputElement> = i => {
+    setIsTitleError(false);
+    setTitle(i.target.value);
+  };
 
-    setNewId(newId + 1);
+  const handleUser: ChangeEventHandler<HTMLSelectElement> = s => {
+    setIsUserError(false);
+    setUserId(+s.target.value);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={addPost}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          Title:&nbsp;
           <input
-            required
-            placeholder="Enter a title"
             type="text"
             data-cy="titleInput"
-            value={titleCheck}
-            onChange={event => setTitleCheck(event.target.value)}
-            onBlur={() => setTitleTouched(true)}
+            name="title"
+            value={title}
+            placeholder="Enter a title"
+            onChange={handleTitle}
           />
-          {titleTouched && !titleCheck && (
-            <span className="error">Please enter a title</span>
-          )}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          User:&nbsp;
           <select
-            required
             data-cy="userSelect"
-            value={userCheck}
-            onChange={event => setUserCheck(event.target.value)}
-            onBlur={() => setUserTouched(true)}
+            name="userId"
+            value={userId}
+            onChange={handleUser}
           >
-            <option value="" disabled>
+            <option value="0" disabled>
               Choose a user
             </option>
-
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          {userTouched && !userCheck && (
-            <span className="error">Please choose a user</span>
-          )}
+
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-
-      <TodoList todos={todos} usersFromServer={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };
