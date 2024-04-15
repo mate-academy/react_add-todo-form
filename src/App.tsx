@@ -57,8 +57,8 @@ export const App = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedTitle = e.target.value.trim();
 
-    setIsTitleError(false);
-    setTitle(trimmedTitle);
+    setIsTitleError(trimmedTitle.length === 0);
+    setTitle(e.target.value);
   };
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
