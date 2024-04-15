@@ -55,8 +55,10 @@ export const App = () => {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const trimmedTitle = e.target.value.trim();
+
     setIsTitleError(false);
-    setTitle(e.target.value);
+    setTitle(trimmedTitle);
   };
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -70,6 +72,7 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
@@ -82,6 +85,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="title">User: </label>
           <select
             data-cy="userSelect"
             name="userId"
