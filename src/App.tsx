@@ -5,21 +5,20 @@ import todosFromServer from './api/todos';
 import { ToDo } from './types/ToDo';
 import './App.scss';
 
-const todos: ToDo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) || null,
-}));
-
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
+  const [todos, setTodos] = useState<ToDo[]>(todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  })));
 
   const validateForm = () => {
     let isValid = true;
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleError(true);
       isValid = false;
     }
@@ -54,18 +53,19 @@ export const App: React.FC = () => {
       return;
     }
 
-    todos.push({
+    const newTodo: ToDo = {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
       userId,
       title,
       completed: false,
       user: usersFromServer.find(user => userId === user.id) || null,
-    });
+    };
+
+    setTodos(prevTodos => [...prevTodos, newTodo]);
 
     setTitle('');
     setUserId(0);
   };
-
 
   return (
     <div className="App">
