@@ -7,20 +7,8 @@ import { TodoForm } from './components/TodoForm/TodoForm';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-export type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User | null;
-};
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 export const getNewTodoId = (array: Todo[]) => {
   const maxId = Math.max(...array.map(item => item.id));

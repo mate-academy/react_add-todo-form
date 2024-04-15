@@ -1,19 +1,7 @@
 import { useState } from 'react';
 
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User | null;
-};
+import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 
 type Props = {
   users: User[];
@@ -35,9 +23,8 @@ export const TodoForm: React.FC<Props> = ({ users, todoAdd, newTodoId }) => {
     setUserId(0);
   };
 
-  const getUserById = (userId: number): User | null => {
-    const result = users.find(user => user.id === userId);
-
+  const getUserById = (id: number): User | null => {
+    const result = users.find(user => user.id === id);
     return result || null;
   };
 
