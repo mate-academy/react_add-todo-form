@@ -16,9 +16,6 @@ export const App = () => {
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorNameUser, setErrorNameUser] = useState(false);
 
-  console.log(errorTitle);
-  console.log(errorNameUser)
-
   const getTodoId = () => {
     return Math.max(...todos.map((todo: Todo) => +todo.id)) + 1;
   };
@@ -28,12 +25,12 @@ export const App = () => {
     setNameUser('');
     setErrorTitle(false);
     setErrorNameUser(false);
-  }
+  };
 
   const handlerChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     setErrorTitle(false);
-  }
+  };
 
   const handlerChangeUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNameUser(e.target.value);
@@ -51,19 +48,18 @@ export const App = () => {
       setErrorTitle(true);
     }
 
-    if (!nameUser || !title) return;
+    if (!nameUser || !title) {
+      return;
+    }
 
-
-    const foundUser = usersFromServer.find(
-      user => user.name === nameUser,
-    );
+    const foundUser = usersFromServer.find(user => user.name === nameUser);
 
     const newTodo: Todo = {
       id: getTodoId(),
       title: title,
       completed: false,
       userId: Number(foundUser?.id),
-      user: foundUser
+      user: foundUser,
     };
 
     setTodos((todo: Todo[]) => [...todo, newTodo]);
@@ -87,13 +83,8 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select
-            onChange={handlerChangeUser}
-            data-cy="userSelect"
-          >
-            <option value="0">
-              Choose a user
-            </option>
+          <select onChange={handlerChangeUser} data-cy="userSelect">
+            <option value="0">Choose a user</option>
             {usersFromServer.map((user: User) => (
               <option key={user.id} value={user.name}>
                 {user.name}
@@ -111,9 +102,12 @@ export const App = () => {
 
       <section className="TodoList">
         {todos.map(todo => (
-          <article data-id={todo.id} className={cn('TodoInfo', {
-            'TodoInfo--completed': todo.completed
-          })}>
+          <article
+            data-id={todo.id}
+            className={cn('TodoInfo', {
+              'TodoInfo--completed': todo.completed,
+            })}
+          >
             <h2 className="TodoInfo__title">{todo.title}</h2>
 
             <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
