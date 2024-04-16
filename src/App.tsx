@@ -8,14 +8,23 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
+const getUser = (id: number) => {
+  return usersFromServer.find((user: User) => user.id === id);
+};
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const normalizeData = todosFromServer.map(todo => {
+    return {
+      ...todo,
+      user: getUser(todo.userId),
+    };
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(normalizeData);
   const [title, setTitle] = useState<string>('');
-  const [nameUser, setNameUser] = useState<string>('');
+  const [userIdx, setUserIdx] = useState<number>(0);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorNameUser, setErrorNameUser] = useState(false);
-
-  const foundUser = usersFromServer.find(user => user.name === nameUser);
 
   const getTodoId = () => {
     return Math.max(...todos.map((todo: Todo) => +todo.id)) + 1;
@@ -23,7 +32,7 @@ export const App = () => {
 
   const reset = () => {
     setTitle('');
-    setNameUser('');
+    setUserIdx(0);
     setErrorTitle(false);
     setErrorNameUser(false);
   };
@@ -34,14 +43,14 @@ export const App = () => {
   };
 
   const handlerChangeUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNameUser(e.target.value);
+    setUserIdx(+e.target.value);
     setErrorNameUser(false);
   };
 
   const handlerSumbit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!nameUser) {
+    if (!userIdx) {
       setErrorNameUser(true);
     }
 
@@ -49,7 +58,7 @@ export const App = () => {
       setErrorTitle(true);
     }
 
-    if (!nameUser || !title.trim()) {
+    if (!userIdx || !title.trim()) {
       return;
     }
 
@@ -57,8 +66,8 @@ export const App = () => {
       id: getTodoId(),
       title: title,
       completed: false,
-      userId: Number(foundUser?.id),
-      user: foundUser,
+      userId: getUser(userIdx)?.id,
+      user: getUser(userIdx),
     };
 
     setTodos((todo: Todo[]) => [...todo, newTodo]);
@@ -82,10 +91,14 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select onChange={handlerChangeUser} data-cy="userSelect">
+          <select
+            value={userIdx}
+            onChange={handlerChangeUser}
+            data-cy="userSelect"
+          >
             <option value="0">Choose a user</option>
             {usersFromServer.map((user: User) => (
-              <option key={user.id} value={user.name}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
