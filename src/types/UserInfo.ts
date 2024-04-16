@@ -1,5 +1,6 @@
-import { Todo } from "./Todo"
+
+import { User } from "./User"
 
 export type UserInfoProps = {
-  todo: Todo
+  user: User
 }

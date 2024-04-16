@@ -1,11 +1,9 @@
-import { TodoInfoProps } from "../../types/TodoInfo";
-import { UserInfo } from "../UserInfo";
+import { TodoInfoProps } from '../../types/TodoInfo';
+import { UserInfo } from '../UserInfo';
 
-import cn from "classnames";
+import cn from 'classnames';
 
-export const TodoInfo: React.FC<TodoInfoProps> = ({
-  todo
-}) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -15,7 +13,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo todo={todo} />
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };
