@@ -1,4 +1,3 @@
-export type User = UserProps | null;
 export interface UserProps {
   id: number;
   name: string;

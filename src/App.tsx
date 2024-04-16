@@ -105,12 +105,12 @@ export const App = () => {
             onChange={event => handleChange(+event.target.value, 'userId')}
           >
             <option value="0" disabled>Choose a user</option>
-            {usersFromServer.map(user => (
+            {usersFromServer.map(({ id, name }) => (
               <option
-                value={user.id}
-                key={user.id}
+                value={id}
+                key={id}
               >
-                {user.name}
+                {name}
               </option>
             ))}
           </select>

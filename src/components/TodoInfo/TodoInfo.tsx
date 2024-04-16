@@ -2,20 +2,24 @@ import { getUserById } from '../../services/GetUserById';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
-type Props = {
+interface TodoInfoProps {
   todo: Todo,
-};
+}
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+  const {
+    id, completed, title, userId,
+  } = todo;
+
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${todo.completed && ('TodoInfo--completed')}`}
+      data-id={id}
+      className={`TodoInfo ${completed && ('TodoInfo--completed')}`}
     >
       <h2 className="TodoInfo__title">
-        {todo.title}
+        {title}
       </h2>
-      <UserInfo user={getUserById(todo.userId)} />
+      <UserInfo user={getUserById(userId)} />
     </article>
   );
 };
