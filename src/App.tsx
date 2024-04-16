@@ -4,10 +4,10 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import cn from 'classnames';
 
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
@@ -100,22 +100,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id={todo.id}
-            className={cn('TodoInfo', {
-              'TodoInfo--completed': todo.completed,
-            })}
-          >
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-
-            <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
-              {todo.user?.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
