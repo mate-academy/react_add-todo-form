@@ -47,6 +47,7 @@ export const App = () => {
         setUserError(false);
         break;
       default:
+        break;
     }
   };
 
