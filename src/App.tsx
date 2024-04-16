@@ -15,6 +15,8 @@ export const App = () => {
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorNameUser, setErrorNameUser] = useState(false);
 
+  const foundUser = usersFromServer.find(user => user.name === nameUser);
+
   const getTodoId = () => {
     return Math.max(...todos.map((todo: Todo) => +todo.id)) + 1;
   };
@@ -43,15 +45,13 @@ export const App = () => {
       setErrorNameUser(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setErrorTitle(true);
     }
 
-    if (!nameUser || !title) {
+    if (!nameUser || !title.trim()) {
       return;
     }
-
-    const foundUser = usersFromServer.find(user => user.name === nameUser);
 
     const newTodo: Todo = {
       id: getTodoId(),
