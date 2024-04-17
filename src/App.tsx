@@ -13,7 +13,12 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const maxId = todosFromServer.reduce((max, todo) => {
+  return todo.id > max ? todo.id : max
+}, todosFromServer[0].id)
+
 export const App: React.FC = () => {
+  const [id, setId] = useState(maxId)
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const onSubmit = (newTodo: Todo) => {
@@ -37,6 +42,8 @@ export const App: React.FC = () => {
     setHasUserError(false);
   };
 
+
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -48,7 +55,7 @@ export const App: React.FC = () => {
     }
 
     onSubmit({
-      id: 0,
+      id: id,
       title,
       userId,
       completed: false,
@@ -57,6 +64,7 @@ export const App: React.FC = () => {
 
     setTitle('');
     setUserId(0);
+    setId(id + 1);
   };
 
   return (
