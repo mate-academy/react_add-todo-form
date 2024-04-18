@@ -9,7 +9,7 @@ import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 
 const getUser = (id: number) => {
-  return usersFromServer.find((user: User) => user.id === id);
+  return usersFromServer.find((user: User) => user.id === id) || null;
 };
 
 export const App = () => {
@@ -80,29 +80,36 @@ export const App = () => {
 
       <form onSubmit={handlerSumbit} action="/api/todos" method="POST">
         <div className="field">
-          <input
-            placeholder="Enter a title"
-            onChange={handlerChangeTitle}
-            value={title}
-            type="text"
-            data-cy="titleInput"
-          />
+          <label>
+            Title:
+            <input
+              placeholder="Enter a title"
+              onChange={handlerChangeTitle}
+              value={title}
+              type="text"
+              data-cy="titleInput"
+            />
+          </label>
+
           {errorTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select
-            value={userIdx}
-            onChange={handlerChangeUser}
-            data-cy="userSelect"
-          >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map((user: User) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <label>
+            User:
+            <select
+              value={userIdx}
+              onChange={handlerChangeUser}
+              data-cy="userSelect"
+            >
+              <option value="0">Choose a user</option>
+              {usersFromServer.map((user: User) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {errorNameUser && <span className="error">Please choose a user</span>}
         </div>
