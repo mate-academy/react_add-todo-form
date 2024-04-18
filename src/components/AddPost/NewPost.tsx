@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ToDo } from '../../Types/ToDo';
+import { Todo } from '../../Types/Todo';
 import { User } from '../../Types/User';
 
 type Props = {
-  onAdd: (todo: ToDo) => void;
+  onAdd: (todo: Todo) => void;
   users: User[];
-  todos: ToDo[];
+  todos: Todo[];
 };
 
 export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
@@ -17,18 +17,11 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
   const [id, setId] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [user, setUser] = useState({
-    id: 0,
-    name: 'Choose a user',
-    username: '',
-    email: '',
-  });
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const [userWasSelected, setUserWasSelected] = useState(true);
+  const [user, setUser] = useState(usersToUse[0]);
+  const [count, setCount] = useState(0);
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
-    setHasTitleError(false);
   };
 
   const handleUserChange = (value: string) => {
@@ -36,31 +29,20 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
     setUserId(user.id);
     setId(Math.max(...todos.map(todo => todo.id)) + 1);
     setCompleted(false);
-    setUserWasSelected(true);
   };
 
   const reset = () => {
     setTitle('');
-    setUser({
-      id: 0,
-      name: 'Choose a user',
-      username: '',
-      email: '',
-    });
+    setUser(usersToUse[0]);
+    setCount(0);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || user.id === 0) {
-      if (!title) {
-        setHasTitleError(true);
-      }
+    setCount(count + 1);
 
-      if (user.id === 0) {
-        setUserWasSelected(false);
-      }
-
+    if (!title || user.id === 0 || title.trim() === '') {
       return;
     }
 
@@ -97,10 +79,10 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
           />
         </label>
 
-        {!hasTitleError ? (
-          ''
-        ) : (
+        {title === '' && count !== 0 ? (
           <span className="error">Please enter a title</span>
+        ) : (
+          ''
         )}
       </div>
 
@@ -126,10 +108,10 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
           </select>
         </label>
 
-        {userWasSelected ? (
-          ''
-        ) : (
+        {user.id === 0 && count !== 0 ? (
           <span className="error">Please choose a user</span>
+        ) : (
+          ''
         )}
       </div>
 

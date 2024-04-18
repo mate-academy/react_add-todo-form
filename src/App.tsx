@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { ToDo } from './Types/ToDo';
+import { Todo } from './Types/Todo';
 import { User } from './Types/User';
 import { NewPost } from './components/AddPost';
 
@@ -11,15 +11,15 @@ function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) as User;
 }
 
-export const todosWithUsers: ToDo[] = todosFromServer.map(todo => ({
+export const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState<ToDo[]>(todosWithUsers);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
 
-  const addTodo = (newTodo: ToDo) => {
+  const addTodo = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 

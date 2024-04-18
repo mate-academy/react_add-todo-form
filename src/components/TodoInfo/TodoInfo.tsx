@@ -1,14 +1,14 @@
 import { UserInfo } from '../UserInfo';
-import { ToDo } from '../../Types/ToDo';
+import { Todo } from '../../Types/Todo';
 
 type Props = {
-  todo: ToDo;
+  todo: Todo;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const { completed, user } = todo;
 
-  return completed === true ? (
+  return completed ? (
     <article className="TodoInfo TodoInfo--completed">
       <h2 className="TodoInfo__title">{todo.title}</h2>
       <UserInfo user={user} />
