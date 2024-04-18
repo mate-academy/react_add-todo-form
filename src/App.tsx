@@ -7,8 +7,12 @@ import { TodoList } from './components/TodoList';
 
 export const App = () => {
   // #region State
+  const normalizedData = todosfromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  }));
 
-  const [listOfToDos, setListOfToDos] = useState<Todo[]>(todosfromServer);
+  const [listOfToDos, setListOfToDos] = useState<Todo[]>(normalizedData);
   const initialTodo: Todo = {
     id: Math.max(...listOfToDos.map(todo => todo.id)) + 1,
     title: '',
