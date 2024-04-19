@@ -6,7 +6,6 @@ import todosfromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  // #region State
   const normalizedData = todosfromServer.map(todo => ({
     ...todo,
     user: usersFromServer.find(user => user.id === todo.userId),
@@ -28,9 +27,7 @@ export const App = () => {
 
   const [todo, setToDo] = useState(initialTodo);
   const [showError, setShowError] = useState(false);
-  // #endregion
 
-  // #region handle change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -50,9 +47,7 @@ export const App = () => {
       }));
     }
   };
-  // #endregion
 
-  //#region Form submit and reset
   const resetToDo = () => {
     setToDo({ ...initialTodo, id: initialTodo.id + 1 });
     setShowError(false);
@@ -60,7 +55,7 @@ export const App = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (todo.title.trim() === '' || todo.userId === 0) {
+    if (!todo.title.trim() || todo.userId === 0) {
       setShowError(true);
 
       return;
@@ -69,8 +64,6 @@ export const App = () => {
     setListOfToDos(prevList => [...prevList, todo]);
     resetToDo();
   };
-
-  // #endregion
 
   return (
     <div className="App">
@@ -88,7 +81,7 @@ export const App = () => {
             data-cy="titleInput"
             onChange={handleChange}
           />
-          {todo.title.trim() === '' && showError && (
+          {!todo.title.trim() && showError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -104,9 +97,9 @@ export const App = () => {
             <option value="0" disabled selected={todo.userId === 0}>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
               </option>
             ))}
           </select>

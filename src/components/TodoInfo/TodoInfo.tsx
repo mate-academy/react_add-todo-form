@@ -7,16 +7,18 @@ interface TodoInfoProps {
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+  const { id, completed, title, user } = todo;
+
   return (
     <article
-      data-id={todo.id}
+      data-id={id}
       className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
+        'TodoInfo--completed': completed,
       })}
-      key={todo.id}
+      key={id}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-      {todo.user && <UserInfo user={todo.user} />}
+      <h2 className="TodoInfo__title">{title}</h2>
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
