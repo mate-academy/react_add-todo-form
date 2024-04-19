@@ -14,10 +14,7 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
     ...users,
   ];
   const [title, setTitle] = useState('');
-  const [id, setId] = useState(0);
-  const [completed, setCompleted] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [user, setUser] = useState(usersToUse[0]);
   const [count, setCount] = useState(0);
 
   const handleTitleChange = (value: string) => {
@@ -25,15 +22,12 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
   };
 
   const handleUserChange = (value: string) => {
-    setUser(users.find(user0 => user0.name === value) as User);
-    setUserId(user.id);
-    setId(Math.max(...todos.map(todo => todo.id)) + 1);
-    setCompleted(false);
+    setUserId((users.find(user0 => user0.name === value) as User).id);
   };
 
   const reset = () => {
     setTitle('');
-    setUser(usersToUse[0]);
+    setUserId(0);
     setCount(0);
   };
 
@@ -42,16 +36,16 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
 
     setCount(count + 1);
 
-    if (!title || user.id === 0 || title.trim() === '') {
+    if (usersToUse[userId].id === 0 || title.trim() === '') {
       return;
     }
 
     onAdd({
-      id,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
-      completed,
+      completed: false,
       userId,
-      user,
+      user: usersToUse[userId],
     });
 
     reset();
@@ -79,7 +73,7 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
           />
         </label>
 
-        {title === '' && count !== 0 ? (
+        {title.trim() === '' && count !== 0 ? (
           <span className="error">Please enter a title</span>
         ) : (
           ''
@@ -94,7 +88,7 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
             data-cy="userSelect"
             onChange={event => handleUserChange(event.target.value)}
             required={true}
-            value={user.name}
+            value={usersToUse[userId].name}
           >
             {usersToUse.map(currentUser => (
               <option
@@ -108,7 +102,7 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
           </select>
         </label>
 
-        {user.id === 0 && count !== 0 ? (
+        {userId === 0 && count !== 0 ? (
           <span className="error">Please choose a user</span>
         ) : (
           ''
