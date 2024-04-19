@@ -68,15 +68,13 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
             data-cy="titleInput"
             value={title}
             onChange={event => handleTitleChange(event.target.value)}
-            required={true}
+            required
             placeholder="Enter a title"
           />
         </label>
 
-        {title.trim() === '' && count !== 0 ? (
+        {title.trim() === '' && count !== 0 && (
           <span className="error">Please enter a title</span>
-        ) : (
-          ''
         )}
       </div>
 
@@ -87,7 +85,7 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
             name="User"
             data-cy="userSelect"
             onChange={event => handleUserChange(event.target.value)}
-            required={true}
+            required
             value={usersToUse[userId].name}
           >
             {usersToUse.map(currentUser => (
@@ -102,10 +100,8 @@ export const NewPost: React.FC<Props> = ({ onAdd, users, todos }) => {
           </select>
         </label>
 
-        {userId === 0 && count !== 0 ? (
+        {userId === 0 && count !== 0 && (
           <span className="error">Please choose a user</span>
-        ) : (
-          ''
         )}
       </div>
 
