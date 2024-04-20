@@ -17,13 +17,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todos, users }) => {
     user: null,
   };
 
-  const [todo, setTodo] = useState<{
-    id: number;
-    title: string;
-    userId: number;
-    completed: boolean;
-    user: User | null;
-  }>(defaultFields);
+  const [todo, setTodo] = useState<Todo>(defaultFields);
   const [error, setError] = useState(false);
   const { title, userId } = todo;
 
