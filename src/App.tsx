@@ -4,7 +4,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
-import { Todo } from './types/Todo';
+// import { Todo } from './types/Todo';
 import { getUserById } from './services/user';
 
 const todoWithUsers = todosFromServer.map(todo => ({
