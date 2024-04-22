@@ -12,8 +12,6 @@ const todoWithUsers = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-
-
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -34,7 +32,7 @@ export const App: React.FC = () => {
     setHasTitleError(false);
   };
 
-  const halndleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const halndleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
