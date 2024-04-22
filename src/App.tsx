@@ -12,6 +12,8 @@ const todoWithUsers = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+
+
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -22,7 +24,7 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(todoWithUsers);
 
   function getNewTodosId() {
-    const maxId = Math.max(...todos.map((todo) => todo.id));
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
     return maxId + 1;
   }
