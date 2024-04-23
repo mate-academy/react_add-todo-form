@@ -92,7 +92,11 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label className="label" htmlFor="title">
+            Title:&nbsp;
+          </label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -104,7 +108,11 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label className="label" htmlFor="user">
+            User:&nbsp;
+          </label>
           <select
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={event => handleValueChange(event, 'userId')}
