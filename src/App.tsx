@@ -36,8 +36,8 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<ToDo[]>(serverTodos);
 
   const [formData, setFormData] = useState<ToDo>(DEFAULT_VALUES);
-  const [isTitleError, setIsTitleError] = useState<boolean>(false);
-  const [isUserIdError, setIsUserIdError] = useState<boolean>(false);
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isUserIdError, setIsUserIdError] = useState(false);
   const { title, userId } = formData;
 
   const handleValueChange = (event: TypeField, fieldName: string) => {
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleError(true);
     }
 
@@ -75,7 +75,7 @@ export const App: React.FC = () => {
       setIsUserIdError(true);
     }
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
