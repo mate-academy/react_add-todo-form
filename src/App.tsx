@@ -1,11 +1,13 @@
-import './App.scss';
-
-import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoWithUser } from './types/todoWithUser';
 import { findUser } from './services/findUser';
-import TodoForm, { InputValues } from './components/TodoForm/TodoForm';
+
+import todosFromServer from './api/todos';
+
+import { InputValues } from './types/inputValues';
+import './App.scss';
 
 const todosWithUsers = todosFromServer.map(todo => ({
   ...todo,

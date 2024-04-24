@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import usersFromServer from '../../api/users';
-
-export type InputValues = {
-  title: string;
-  user: number;
-};
+import { InputValues } from '../../types/inputValues';
 
 type Props = {
   onAddTodo: ({ title, user }: InputValues) => void;
 };
 
-const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
+export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
   const [user, setUser] = useState(0);
   const [title, setTitle] = useState('');
   const [titileError, setTitleError] = useState(false);
@@ -64,7 +60,9 @@ const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
             value={title}
             data-cy="titleInput"
             placeholder="Please enter a title"
-            onChange={event => setTitle(event.target.value)}
+            onChange={event =>
+              setTitle(event.target.value.replace(/^[\w+]\s/gi, ''))
+            }
             onBlur={() => setTitleError(!title)}
           />
           {titileError && <span className="error">Please enter a title</span>}
@@ -101,5 +99,3 @@ const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
     </form>
   );
 };
-
-export default TodoForm;
