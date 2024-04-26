@@ -1,22 +1,31 @@
 import React from 'react';
-import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
-type Props = {
-  todos: Todo[],
-  onTodosDeleted: (todoID: number) => void,
-  // onTodosUpdated: (todoToUpdate: Todo) => void
-};
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user: {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+  } | null;
+}
 
-export const TodoList: React.FC<Props> = ({ todos, onTodosDeleted }) => (
-  <section className="TodoList">
-    {todos.map(todo => (
-      <TodoInfo
-        onTodoDeleted={onTodosDeleted}
-        // onTodoUpdate={onTodosUpdated}
-        key={todo.id}
-        todo={todo}
-      />
-    ))}
-  </section>
-);
+interface TodoListProps {
+  todos: Todo[];
+}
+
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+  return (
+    <>
+      <section className="TodoList">
+        {todos.map(todo => (
+          <TodoInfo key={todo.id} todo={todo} />
+        ))}
+      </section>
+    </>
+  );
+};
