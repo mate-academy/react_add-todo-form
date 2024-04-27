@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { TodoItem } from '../../types/todoItem';
+import { TodoItem } from '../../types/TodoItem';
 import { UserInfo } from '../UserInfo';
 
 interface Props {
