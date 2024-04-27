@@ -1,9 +1,9 @@
-import { UserInfo } from './user';
+import { User } from './user';
 
 export type TodoItem = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user?: UserInfo;
+  user?: User;
 };
