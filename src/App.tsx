@@ -1,5 +1,3 @@
-// #region imports
-
 import './App.scss';
 import React, { useState } from 'react';
 
@@ -8,8 +6,6 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/todo';
 import { getUserById } from './services/getUserById';
-
-// #endregion
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -31,8 +27,6 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  // #region handlers
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -53,10 +47,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -71,8 +65,6 @@ export const App = () => {
     setTodos(oldTodos => [...oldTodos, newTodo]);
     reset();
   };
-
-  // #endregion
 
   return (
     <div className="App">
