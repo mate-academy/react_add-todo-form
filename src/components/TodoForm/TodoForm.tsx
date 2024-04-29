@@ -27,6 +27,13 @@ export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
     };
   }, [titleError, userError]);
 
+  const resetForm = () => {
+    setUserError(false);
+    setTitleError(false);
+    setTitle('');
+    setUser(0);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -39,18 +46,11 @@ export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
 
     onAddTodo({ title, user });
 
-    setUserError(false);
-    setTitleError(false);
-    setTitle('');
-    setUser(0);
+    resetForm();
   };
 
   return (
-    <form
-      action="/api/todos"
-      onSubmit={event => handleSubmit(event)}
-      method="POST"
-    >
+    <form action="/api/todos" onSubmit={handleSubmit} method="POST">
       <div className="field">
         <label htmlFor="title">
           {`Title: `}
