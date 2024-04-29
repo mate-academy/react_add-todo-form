@@ -9,13 +9,13 @@ type Props = {
 export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
   const [user, setUser] = useState(0);
   const [title, setTitle] = useState('');
-  const [titileError, setTitleError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
 
-    if (titileError || userError) {
+    if (titleError || userError) {
       timer = setTimeout(() => {
         setTitleError(false);
         setUserError(false);
@@ -25,7 +25,7 @@ export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [titileError, userError]);
+  }, [titleError, userError]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,7 +65,7 @@ export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
             }
             onBlur={() => setTitleError(!title)}
           />
-          {titileError && <span className="error">Please enter a title</span>}
+          {titleError && <span className="error">Please enter a title</span>}
         </label>
       </div>
 
