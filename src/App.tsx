@@ -3,16 +3,21 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoInterface } from './types/Todo';
-
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [users, setUsers] = useState(usersFromServer);
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todoInfo, setTodoInfo] = useState({
+    title: '',
+    userId: 0,
+    users: usersFromServer,
+    todos: todosFromServer,
+  });
 
-  const handleTodo = (todo: TodoInterface) => {
-    setTodos(prevTodos => [...prevTodos, todo]);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoInfo(prevTodoInfo => ({
+      ...prevTodoInfo,
+      title: event.target.value,
+    }));
   };
 
   return (
@@ -21,16 +26,20 @@ export const App = () => {
 
       <form action="/api/todos" method="POST">
         <div className="field">
-          <input type="text" data-cy="titleInput" />
+          <input
+            type="text"
+            data-cy="titleInput"
+            onChange={handleTitleChange}
+          />
           <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
           <select data-cy="userSelect">
-            <option value="0" disabled>
+            <option value={todoInfo.userId} disabled>
               Choose a user
             </option>
-            {users.map(user => (
+            {todoInfo.users.map(user => (
               <option key={user.id} value={user.id}>
                 {user.username}
               </option>
@@ -40,12 +49,12 @@ export const App = () => {
           <span className="error">Please choose a user</span>
         </div>
 
-        <TodoList todos={todos} />
-
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
+
+      <TodoList todos={todoInfo.todos} />
     </div>
   );
 };
