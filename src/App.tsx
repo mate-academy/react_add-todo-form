@@ -13,10 +13,21 @@ const todos: Todo[] = todosFromServer.map(todo => {
   return { ...todo, user: getUserByTodo(todo.userId) };
 });
 
+function getNewTodoId(newTodos: Todo[]) {
+  const maxId = Math.max(...newTodos.map(todo => todo.id));
+
+  return maxId + 1;
+}
+
 export const App = () => {
   const [newTodos, setNewTodos] = useState<Todo[]>(todos);
 
-  const addNewPost = (createdTodo: Todo) => {
+  const addNewPost = (todo: Todo) => {
+    const createdTodo = {
+      ...todo,
+      id: getNewTodoId(newTodos),
+    };
+
     setNewTodos(currTodo => [...currTodo, createdTodo]);
   };
 
