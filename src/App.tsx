@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -21,8 +22,8 @@ export const App = () => {
 
   const handleChange = (
     event:
-    | React.ChangeEvent<HTMLSelectElement>
-    | React.ChangeEvent<HTMLInputElement>,
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -87,9 +88,9 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(a => (
-              <option value={a.id} key={a.id}>
-                {a.name}
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
               </option>
             ))}
           </select>

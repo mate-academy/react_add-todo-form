@@ -8,8 +8,9 @@ import { Todo } from '../../types/todo';
 import { User } from '../../types/user';
 
 export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => {
+  const { userId, id, completed, title } = todo;
   const findUser = (): User | undefined => {
-    return usersFromServer.find((user: User) => user.id === +todo.userId);
+    return usersFromServer.find((user: User) => user.id === +userId);
   };
 
   const user = findUser();
@@ -20,12 +21,12 @@ export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => {
 
   return (
     <article
-      data-id={todo.id}
+      data-id={id}
       className={classNames('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
+        'TodoInfo--completed': completed,
       })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{title}</h2>
 
       <UserInfo user={user} />
     </article>
