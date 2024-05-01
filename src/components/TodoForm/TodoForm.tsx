@@ -30,7 +30,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
     setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
