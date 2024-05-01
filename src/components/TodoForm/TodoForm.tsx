@@ -52,29 +52,37 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   return (
     <form action="/api/todos" method="POST" onSubmit={handleAdd}>
       <div className="field">
-        <input
-          type="text"
-          data-cy="titleInput"
-          placeholder="Enter a title"
-          value={title}
-          onChange={handleTitleChange}
-        />
+        <label>
+          Title:
+          <input
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </label>
+
         {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
-        <select
-          data-cy="userSelect"
-          value={userId}
-          onChange={handleUserIdChange}
-        >
-          <option value="0">Choose a user</option>
-          {usersFromServer.map(user => (
-            <option value={user.id} key={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
+        <label>
+          User:
+          <select
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserIdChange}
+          >
+            <option value="0">Choose a user</option>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
         {hasUserIdError && <span className="error">Please choose a user</span>}
       </div>
 
