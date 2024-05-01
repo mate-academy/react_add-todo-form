@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { User } from '../../App';
+import { User } from '../../Types/User';
 
 interface Props {
   user: User;
