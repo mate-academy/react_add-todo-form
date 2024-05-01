@@ -8,8 +8,8 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
+  const [title, setTitle] = useState('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
