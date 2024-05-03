@@ -17,10 +17,12 @@ export const App = () => {
   const getLastTodoId = () => {
     return [...todos].sort((a, b) => b.id - a.id)[0].id + 1;
   };
-  const addTodo = (newTodo: TodoComplete) => {
+
+  function addTodo(newTodo: TodoComplete) {
     newTodo.id = getLastTodoId();
     setTodos(currentTodos => [...currentTodos, newTodo]);
-  };
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>

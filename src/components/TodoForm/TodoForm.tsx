@@ -10,6 +10,15 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
 
   const users: User[] = [...usersFromServer];
 
+  const getUserById = (userId: number): User | null => {
+    return users.find(user => user.id === userId) || null;
+  };
+
+  const reset = () => {
+    setTitle('');
+    setSelectedUserId(0);
+  };
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setSelectedTitleError(false);
@@ -39,15 +48,6 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
     });
 
     reset();
-  };
-
-  const reset = () => {
-    setTitle('');
-    setSelectedUserId(0);
-  };
-
-  const getUserById = (userId: number): User | null => {
-    return users.find(user => user.id === userId) || null;
   };
 
   return (
