@@ -15,10 +15,6 @@ export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => {
 
   const user = findUser();
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <article
       data-id={id}
@@ -28,7 +24,7 @@ export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
