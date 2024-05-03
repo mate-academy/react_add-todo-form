@@ -45,6 +45,10 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
       completed: false,
       userId: selectedUserId,
       user: getUserById(selectedUserId),
+
+      setId(id: number) {
+        this.id = id;
+      },
     });
 
     reset();

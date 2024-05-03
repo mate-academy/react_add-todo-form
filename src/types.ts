@@ -11,6 +11,8 @@ export interface TodoComplete {
   completed: boolean;
   userId: number;
   user: User | null;
+
+  setId?(id: number): void;
 }
 
 export interface TodoListProps {

@@ -19,7 +19,7 @@ export const App = () => {
   };
 
   function addTodo(newTodo: TodoComplete) {
-    newTodo.id = getLastTodoId();
+    newTodo.setId?.(getLastTodoId());
     setTodos(currentTodos => [...currentTodos, newTodo]);
   }
 
