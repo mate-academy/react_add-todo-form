@@ -28,6 +28,8 @@ export const App = () => {
     user: null,
   });
 
+  const { title } = todoInfo;
+
   const listUser = usersFromServer;
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -47,9 +49,6 @@ export const App = () => {
 
     setTitleError(false);
     setUserIdError(false);
-
-    // const selectedUser = listUser.find(user => user.id === todoInfo.userId);
-    // const user = selectedUser ? selectedUser : null;
 
     const newTodo = {
       id: Math.max(...todos.map(todo => todo.id), 0) + 1,
@@ -88,8 +87,6 @@ export const App = () => {
     setUserIdError(false);
   };
 
-  // console.log(todos);
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -100,7 +97,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             onChange={handleTitleChange}
-            value={todoInfo.title}
+            value={title}
             placeholder="Enter a title"
           />
           {titleError && <span className="error">Please enter a title</span>}
