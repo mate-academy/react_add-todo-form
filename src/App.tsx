@@ -7,8 +7,9 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
+import { User } from './types/User';
 
-const getUserById = (userId: number) =>
+const getUserById = (userId: number): User | null =>
   usersFromServer.find(user => user.id === userId) || null;
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
@@ -34,13 +35,13 @@ export const App: React.FC = () => {
     setHasSelectError(false);
   };
 
-  const getNextStepId = (todos: Todo[]) => {
+  const getNextStepId = (todos: Todo[]): number => {
     const maxId = Math.max(...todos.map(todo => todo.id));
 
     return maxId + 1;
   };
 
-  const addTodo = ({ id, ...data }: Todo) => {
+  const addTodo = ({ id, ...data }: Todo): void => {
     const newTodo = {
       id: getNextStepId(existTodos),
       ...data,
