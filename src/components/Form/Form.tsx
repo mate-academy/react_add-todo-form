@@ -10,6 +10,7 @@ type Props = {
 export const Form: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasTitleBlankError, setHasTitleBlankError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
@@ -42,6 +43,12 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
       return;
     }
 
+    if (title.trim() === '') {
+      setHasTitleBlankError(true);
+
+      return;
+    }
+
     onSubmit({
       id: 0,
       title,
@@ -65,6 +72,9 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
           placeholder="Enter a title"
         />
         {hasTitleError && <span className="error">Please enter a title</span>}
+        {hasTitleBlankError && (
+          <span className="error">Please enter a valid title</span>
+        )}
       </label>
 
       <label className="field">
