@@ -1,6 +1,6 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-
+import { Todo } from './types/Todo';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import React, { useState } from 'react';
