@@ -3,4 +3,4 @@ export default interface Todos {
   title: string;
   completed: boolean;
   userId: number;
-};
+}

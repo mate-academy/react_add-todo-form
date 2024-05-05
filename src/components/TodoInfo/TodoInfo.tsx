@@ -1,14 +1,14 @@
-import React from "react";
-import {UserInfo} from "../UserInfo";
-import cn from 'classnames'
-import TodosWithUsers from "../../types/TodosWithUsers";
+import React from 'react';
+import { UserInfo } from '../UserInfo';
+import cn from 'classnames';
+import TodosWithUsers from '../../types/TodosWithUsers';
 
-interface Props{
-  todo: TodosWithUsers
+interface Props {
+  todo: TodosWithUsers;
 }
 
-export const TodoInfo:React.FC<Props> = ({todo}) => {
-  return(
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  return (
     <article
       data-id={todo.id}
       className={cn('TodoInfo', {
@@ -18,9 +18,7 @@ export const TodoInfo:React.FC<Props> = ({todo}) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo
-        user = {todo.user}
-      />
+      <UserInfo user={todo.user} />
     </article>
-  )
+  );
 };
