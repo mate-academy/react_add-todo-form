@@ -6,7 +6,7 @@ import usersFromServer from './api/users';
 import React, { useState } from 'react';
 
 const getUserById = (userId: number) => {
-  return usersFromServer.filter(user => user.id === userId)[0];
+  return usersFromServer.find(user => user.id === userId) || null;
 };
 
 export const todos: Todo[] = todosFromServer.map(todo => ({
@@ -48,10 +48,10 @@ export const App: React.FC = () => {
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasErrorTitle(!title);
+    setHasErrorTitle(!title.trim());
     setUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
