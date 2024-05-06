@@ -16,6 +16,11 @@ button {
   display: block;
 }
 
+.input-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
 .input {
   width: 300px;
 }

@@ -23,6 +23,7 @@ export const App: React.FC = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasSelectError, setHasSelectError] = useState(false);
+  const [completedStatus, setCompletedStatus] = useState(false);
 
   const [existTodos, setExistTodos] = useState<Todo[]>(initialTodos);
 
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
     // reset form
     setTitle('');
     setUserId(0);
+    setCompletedStatus(false);
   };
 
   const handleSubmitForm = (event: React.FormEvent): void => {
@@ -68,7 +70,7 @@ export const App: React.FC = () => {
     //pass new todo to add fn
     addTodo({
       id: 0,
-      completed: false,
+      completed: completedStatus,
       title,
       userId,
       user: getUserById(userId),
@@ -96,32 +98,43 @@ export const App: React.FC = () => {
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
-        <div className="field">
-          <label htmlFor="userSelect" className="label">
-            User:&nbsp;
-          </label>
-
-          <select
-            data-cy="userSelect"
-            id="userSelect"
-            className="select"
-            required
-            value={userId}
-            onChange={handleSelectUser}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+        <div className="input-wrapper">
+          <div className="field">
+            <label htmlFor="userSelect" className="label">
+              User:&nbsp;
+            </label>
+            <select
+              data-cy="userSelect"
+              id="userSelect"
+              className="select"
+              required
+              value={userId}
+              onChange={handleSelectUser}
+            >
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
-
-          {hasSelectError && (
-            <span className="error">Please choose a user</span>
-          )}
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {hasSelectError && (
+              <span className="error">Please choose a user</span>
+            )}
+          </div>
+          <div className="field">
+            <label htmlFor="completed" className="label">
+              Completed:&nbsp;
+            </label>
+            <input
+              type="checkbox"
+              id="completed"
+              checked={completedStatus}
+              onChange={event => setCompletedStatus(event.target.checked)}
+            />
+          </div>
         </div>
 
         <button type="submit" data-cy="submitButton" className="button">
