@@ -3,11 +3,11 @@ import { Todo } from '../../types/Todo';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
-interface Props {
+interface TodoInfoProps {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   return (
     <article
       data-id={todo.id + 1}

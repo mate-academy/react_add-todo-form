@@ -11,17 +11,16 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 const maxId = todosFromServer.reduce((max, todo) => {
-  return todo.id > max ? todo.id : max;
+  return Math.max(todo.id, max);
 }, todosFromServer[0].id);
 
 export const App: React.FC = () => {
   const [id, setId] = useState(maxId);
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState(initialTodos);
   const onSubmit = (newTodo: Todo) => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
-  const users = [...usersFromServer];
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
   const [title, setTitle] = useState('');
@@ -92,7 +91,7 @@ export const App: React.FC = () => {
               <option value={0} disabled>
                 {'Choose a user'}
               </option>
-              {users.map(user => (
+              {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
