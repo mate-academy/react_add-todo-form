@@ -15,22 +15,24 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [selectUserError, setSelectUserError] = useState(false);
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleError(!event.target.value.trim());
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setTitleError(false);
     setNewTitle(event.target.value);
   };
 
-  const handleSelectUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectUserId = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ): void => {
     setSelectUserError(false);
     setSelectUserId(+event.target.value);
   };
 
-  const reset = () => {
+  const reset = (): void => {
     setNewTitle('');
     setSelectUserId(0);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
 
     setTitleError(!newTitle.trim());
@@ -82,7 +84,9 @@ export const App = () => {
             onChange={handleSelectUserId}
             value={selectUserId}
           >
-            <option value="">Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
