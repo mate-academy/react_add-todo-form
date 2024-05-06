@@ -2,12 +2,13 @@ import { useState } from 'react';
 
 import './App.scss';
 
+import { Todo } from './types/Todo';
+import { User } from './types/User';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
-import { User } from './types/User';
 
 const getUserById = (userId: number): User | null =>
   usersFromServer.find(user => user.id === userId) || null;
