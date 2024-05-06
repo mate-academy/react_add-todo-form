@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
@@ -6,7 +8,6 @@ import { User } from './Types/User';
 import { Todo } from './Types/Todo';
 
 import './App.scss';
-import { useState } from 'react';
 
 const findUser = (userId: number, users: User[]) => {
   return users.find(person => person.id === userId) || null;
