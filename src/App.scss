@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
@@ -13,6 +13,7 @@ button {
 
 .error {
   color: red;
+  display: block;
 }
 
 .TodoInfo {
@@ -22,6 +23,7 @@ button {
   border: 1px solid #000;
   border-radius: 8px;
   background-color: antiquewhite;
+  min-width: 300px;
 
   &__title {
     margin: 4px 0;

@@ -76,15 +76,18 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <div className="App section">
+      <h1 className="title">Add todo form</h1>
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmitForm}>
         <div className="field">
-          <label htmlFor="titleInput">Title:&nbsp;</label>
+          <label htmlFor="titleInput" className="label">
+            Title:&nbsp;
+          </label>
           <input
             type="text"
             data-cy="titleInput"
+            className="input"
             id="titleInput"
             placeholder="Enter a title"
             value={title}
@@ -94,11 +97,14 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">User:&nbsp;</label>
+          <label htmlFor="userSelect" className="label">
+            User:&nbsp;
+          </label>
 
           <select
             data-cy="userSelect"
             id="userSelect"
+            className="select"
             required
             value={userId}
             onChange={handleSelectUser}
@@ -118,7 +124,7 @@ export const App: React.FC = () => {
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button type="submit" data-cy="submitButton" className="button">
           Add
         </button>
       </form>
