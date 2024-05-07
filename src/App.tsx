@@ -63,10 +63,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        onSubmit={event => onSubmit(event)}
-      >
+      <form action="/api/todos" onSubmit={event => onSubmit(event)}>
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
           <input
