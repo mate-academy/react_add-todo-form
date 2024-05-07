@@ -3,24 +3,24 @@ import './App.scss';
 import { todosFromServer } from './api/todos';
 import { usersFromServer } from './api/users';
 import { TodoList } from './components/TodoList';
-import { GetUserById } from './components/helpers/getUserById';
+import { getUserById } from './components/helpers/getUserById';
 import { TodoWithUser } from './Types/TodoWithUser';
 import { findNewId } from './components/helpers/findNewId';
 
-const todoWithUser = todosFromServer.map(todo => {
+const todosWithUser = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: GetUserById(todo.userId, usersFromServer),
+    user: getUserById(todo.userId, usersFromServer),
   };
 });
 
 export const App = () => {
-  const [todos, setTodos] = useState<TodoWithUser[]>(todoWithUser);
+  const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser);
 
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
 
-  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState('0');
   const [selectedUserIdError, setSelectedUserIdError] = useState(false);
 
   const handleAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,11 +30,11 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (selectedUserId === 0) {
+    if (selectedUserId === '0') {
       setSelectedUserIdError(true);
     }
 
-    if (!title || selectedUserId === 0) {
+    if (!title || selectedUserId === '0') {
       return;
     }
 
@@ -42,14 +42,14 @@ export const App = () => {
       id: findNewId(todos),
       title,
       completed: false,
-      userId: selectedUserId,
-      user: GetUserById(selectedUserId, usersFromServer),
+      userId: +selectedUserId,
+      user: getUserById(+selectedUserId, usersFromServer),
     };
 
     setTodos(current => [...current, newTodo]);
 
     setTitle('');
-    setSelectedUserId(0);
+    setSelectedUserId('0');
   };
 
   return (
@@ -79,9 +79,10 @@ export const App = () => {
           <select
             id="user-select"
             data-cy="userSelect"
-            defaultValue={selectedUserId.toString()}
+            defaultValue={selectedUserId}
+            value={selectedUserId}
             onChange={event => {
-              setSelectedUserId(+event.target.value);
+              setSelectedUserId(event.target.value);
               setSelectedUserIdError(false);
             }}
           >
