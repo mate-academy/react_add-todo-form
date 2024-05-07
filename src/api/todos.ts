@@ -1,6 +1,4 @@
-import { Todos } from '../components/Types/todoType';
-
-export const todosFromServer: Todos[] = [
+export default [
   {
     id: 1,
     title: 'delectus aut autem',

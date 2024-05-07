@@ -1,8 +1,8 @@
 import './App.scss';
 import { useState } from 'react';
 
-import { usersFromServer } from './api/users';
-import { todosFromServer } from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todos } from './components/Types/todoType';
 
@@ -38,6 +38,8 @@ export const App = () => {
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUser(parseInt(event.target.value));
+
+    setHasUserError(false);
   };
 
   const handleSumbit = (event: React.FormEvent) => {

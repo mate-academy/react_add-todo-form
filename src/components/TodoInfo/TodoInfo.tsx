@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-import { usersFromServer } from '../../api/users';
+import usersFromServer from '../../api/users';
 import { Todos } from '../Types/todoType';
 import { UserInfo } from '../UserInfo';
 import { UserMap } from '../Types/userType';
