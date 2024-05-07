@@ -3,22 +3,15 @@ import cn from 'classnames';
 import usersFromServer from '../../api/users';
 import { Todos } from '../Types/todoType';
 import { UserInfo } from '../UserInfo';
-import { UserMap } from '../Types/userType';
 
 type Props = {
   todo: Todos;
 };
 
-const userMap: UserMap = {};
-
-usersFromServer.forEach(user => {
-  userMap[user.id] = user;
-});
-
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const { title, id, userId, completed } = todo;
 
-  const user = userMap[userId];
+  const user = usersFromServer.find(u => u.id === userId);
 
   return (
     <article
@@ -29,7 +22,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      <UserInfo user={user} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
