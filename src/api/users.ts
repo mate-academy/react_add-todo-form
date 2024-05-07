@@ -1,4 +1,6 @@
-export default [
+import { User } from '../Types/User';
+
+export const usersFromServer: User[] = [
   {
     id: 1,
     name: 'Leanne Graham',
