@@ -12,11 +12,13 @@ import findUserById from './services/findUserById';
 import findMaxUserId from './services/findMaxUserId';
 import getTodosWithUsers from './services/getTodosWithUsers';
 
+const NON_EXISTING_USER_ID = 0;
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(NON_EXISTING_USER_ID);
   const [hasSelectedUserError, setHasSelectedUserError] = useState(false);
 
   const [visibleTodos, setVisibleTodos] = useState<TodoWithUser[]>(
@@ -37,9 +39,9 @@ export const App = () => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasSelectedUserError(selectedUserId === 0);
+    setHasSelectedUserError(selectedUserId === NON_EXISTING_USER_ID);
 
-    if (!title || selectedUserId === 0) {
+    if (!title || selectedUserId === NON_EXISTING_USER_ID) {
       return;
     }
 
@@ -54,7 +56,7 @@ export const App = () => {
     setVisibleTodos([...visibleTodos, newTodo]);
 
     setTitle('');
-    setSelectedUserId(0);
+    setSelectedUserId(NON_EXISTING_USER_ID);
   }
 
   return (
@@ -63,7 +65,6 @@ export const App = () => {
 
       <form
         action="/api/todos"
-        method="POST"
         onSubmit={event => onSubmit(event)}
       >
         <div className="field">
