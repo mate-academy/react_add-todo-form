@@ -30,10 +30,14 @@ export const App: React.FC = () => {
     setGoods(currentGoods => [...currentGoods, newGood]);
   };
 
+  const deleteGood = (goodId: number) => {
+    setGoods(currentGoods => currentGoods.filter(good => good.id !== goodId));
+  };
+
   return (
     <div className="App">
       <h1>Goods</h1>
-      <GoodsList goods={goods} />
+      <GoodsList goods={goods} onDelete={deleteGood} />
       <GoodForm onSubmit={addGood} />
     </div>
   );

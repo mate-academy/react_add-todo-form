@@ -2,9 +2,10 @@ import { Good } from '../types/good';
 
 type Props = {
   goods: Good[];
+  onDelete: (goodId: number) => void;
 };
 
-export const GoodsList = ({ goods }: Props) => {
+export const GoodsList = ({ goods, onDelete }: Props) => {
   // eslint-disable-next-line no-console
   console.log('Rendering GoodList');
 
@@ -16,6 +17,7 @@ export const GoodsList = ({ goods }: Props) => {
             className="GoodCard__title"
             style={{ color: good.color?.name || 'black' }}
           >
+            <button onClick={() => onDelete(good.id)}>x</button>
             {good.name}
           </p>
         </article>
