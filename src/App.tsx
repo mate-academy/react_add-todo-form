@@ -47,8 +47,16 @@ export const App = () => {
       return;
     }
 
+    const findMaxId = () => {
+      const ids = visibleTodos.map(todo => todo.id);
+
+      return Math.max(...ids);
+    };
+
+    const newId = findMaxId() + 1;
+
     const newTodo: Todo = {
-      id: visibleTodos.length + 1,
+      id: newId,
       title: titleOfTodo,
       completed: false,
       userId: currentUserId,
@@ -56,6 +64,8 @@ export const App = () => {
     };
 
     setVisibleTodos(prevTodos => [...prevTodos, newTodo]);
+    window.console.log(newTodo);
+
     resetForm();
   };
 
