@@ -5,21 +5,25 @@ import { Good } from '../types';
 
 type Props = {
   onSubmit: (good: Good) => void;
+  onReset?: () => void;
+  good?: Good;
 };
 
-export const GoodForm = ({ onSubmit }: Props) => {
-  const [newGoodName, setNewGoodName] = useState('');
-  const [selectedColorId, setSelectedColorId] = useState(0);
+export const GoodForm = ({ onSubmit, onReset = () => {}, good }: Props) => {
+  const [newGoodName, setNewGoodName] = useState(good?.name || '');
+  const [selectedColorId, setSelectedColorId] = useState(good?.colorId || 0);
   const [nameError, setNameError] = useState('');
   const [colorIdError, setColorIdError] = useState('');
 
   const colors = getColors();
 
   const reset = () => {
-    setNewGoodName('');
-    setSelectedColorId(0);
+    setNewGoodName(good?.name || '');
+    setSelectedColorId(good?.colorId || 0);
     setNameError('');
     setColorIdError('');
+
+    onReset();
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
@@ -38,7 +42,7 @@ export const GoodForm = ({ onSubmit }: Props) => {
     }
 
     const newGood: Good = {
-      id: Date.now(),
+      id: good?.id || Date.now(),
       name: newGoodName,
       colorId: selectedColorId,
       color: getColorById(selectedColorId),
@@ -49,7 +53,7 @@ export const GoodForm = ({ onSubmit }: Props) => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} onReset={reset}>
       <div className="field">
         <input
           type="text"
@@ -85,7 +89,8 @@ export const GoodForm = ({ onSubmit }: Props) => {
         <span className="error">{colorIdError}</span>
       </div>
 
-      <button type="submit">Add</button>
+      <button type="submit">Save</button>
+      <button type="reset">Cancel</button>
     </form>
   );
 };
