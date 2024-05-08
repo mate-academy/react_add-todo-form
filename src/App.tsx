@@ -25,6 +25,7 @@ const goodsWithColors: Good[] = goodsFromServer.map(good => ({
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsWithColors);
+  const [query, setQuery] = useState('');
 
   const addGood = (newGood: Good) => {
     setGoods(currentGoods => [...currentGoods, newGood]);
@@ -45,6 +46,11 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Goods</h1>
+      <input
+        type="search"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
       <GoodsList goods={goods} onDelete={deleteGood} onUpdate={updateGood} />
       <GoodForm onSubmit={addGood} />
     </div>
