@@ -1,61 +1,41 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+interface Color {
+  id: number;
+  name: string;
+}
+
+interface Good {
+  id: number;
+  name: string;
+  colorId: number;
+  color?: Color;
+}
+
+const colors = [
+  { id: 1, name: 'red' },
+  { id: 2, name: 'green' },
+  { id: 3, name: 'blue' },
+];
+
+const goodsFromServer = [
+  { id: 1, colorId: 1, name: 'Dumplings' },
+  { id: 2, colorId: 2, name: 'Carrot' },
+  { id: 3, colorId: 3, name: 'Eggs' },
+  { id: 4, colorId: 1, name: 'Ice cream' },
+  { id: 5, colorId: 2, name: 'Apple' },
+  { id: 6, colorId: 3, name: 'Bread' },
+  { id: 7, colorId: 1, name: 'Fish' },
+  { id: 8, colorId: 2, name: 'Honey' },
+  { id: 9, colorId: 3, name: 'Jam' },
+  { id: 10, colorId: 1, name: 'Garlic' },
+];
 
 export const App = () => {
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <h1>Goods</h1>
     </div>
   );
 };
