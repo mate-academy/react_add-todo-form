@@ -9,8 +9,10 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUserById(id: number): User {
-  return usersFromServer.find(person => person.id === id)!;
+export type ValidUser = User | null;
+
+function getUserById(id: number): ValidUser {
+  return usersFromServer.find(person => person.id === id) || null;
 }
 
 const todosWithUser: Todo[] = todosFromServer.map(todo => {
@@ -45,11 +47,8 @@ export const App = () => {
       return;
     }
 
-    const maxId = Math.max(...todosFromServer.map(todo => todo.id));
-    const newTodoId = maxId + 1;
-
     const newTodo: Todo = {
-      id: newTodoId,
+      id: visibleTodos.length + 1,
       title: titleOfTodo,
       completed: false,
       userId: currentUserId,
@@ -74,7 +73,9 @@ export const App = () => {
             placeholder="Enter the title"
             onChange={e => {
               setTitleOfTodo(e.target.value);
-              setHasTodoError(false);
+              if (hasTodoError) {
+                setHasTodoError(false);
+              }
             }}
           />
           {hasTodoError && <span className="error">Please enter a title</span>}
@@ -87,7 +88,9 @@ export const App = () => {
             value={currentUserId}
             onChange={e => {
               setCurrentUserId(+e.target.value);
-              setHasUserError(false);
+              if (hasUserError) {
+                setHasUserError(false);
+              }
             }}
             required
           >
