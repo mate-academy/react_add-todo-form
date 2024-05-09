@@ -20,7 +20,7 @@ export const formSubmit = ({
     errorFlag = true;
   }
 
-  if (formState.title.trim() === '') {
+  if (!formState.title || formState.title.trim.length === 0) {
     setTouchedState(prevState => ({
       ...prevState,
       title: true,
