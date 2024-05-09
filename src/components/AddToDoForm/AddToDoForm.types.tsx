@@ -6,5 +6,6 @@ export interface IForm {
 }
 
 export interface IFormProps {
+  todos: ITodo[];
   setTodos: (todo: ITodo) => void;
 }

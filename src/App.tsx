@@ -22,7 +22,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <AddToDoForm setTodos={setTodo} />
+      <AddToDoForm todos={todos} setTodos={setTodo} />
       <TodoList todos={todos} />
     </div>
   );

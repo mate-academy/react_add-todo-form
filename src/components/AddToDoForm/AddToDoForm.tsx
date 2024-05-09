@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 
 import usersFromServer from '../../api/users';
 
-import { findMaxUserId, getUserById } from '../../helpers';
+import { getUserById } from '../../helpers';
 
 import { IForm, IFormProps } from './AddToDoForm.types';
 
-export const AddToDoForm: FC<IFormProps> = ({ setTodos }) => {
+export const AddToDoForm: FC<IFormProps> = ({ todos, setTodos }) => {
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ export const AddToDoForm: FC<IFormProps> = ({ setTodos }) => {
       userId: +data.userId,
       completed: false,
       user: getUserById(usersFromServer, +data.userId),
-      id: findMaxUserId(usersFromServer) + 1,
+      id: Math.max(...todos.map(el => el.id)) + 1,
     });
 
     reset();
