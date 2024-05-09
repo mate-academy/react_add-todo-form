@@ -4,6 +4,7 @@ iframe {
 
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 18px;
 }
 
 label,
@@ -13,6 +14,12 @@ button {
 
 .error {
   color: red;
+}
+
+.label, input, select, button {
+  margin: 10px;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .TodoInfo {
