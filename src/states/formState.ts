@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
-export const useFormState = () => {
+export const UseFormState = () => {
   const [formState, setFormState] = useState({
     title: '',
     userValue: 0,

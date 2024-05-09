@@ -5,7 +5,7 @@ import todosFromServer from './api/todos';
 
 import { generateUserOption } from './services/generateUserOptions';
 import { handleChange } from './handlers/handleChange';
-import { useFormState } from './states/formState';
+import { UseFormState } from './states/formState';
 import { useTouchedState } from './states/touchedState';
 import { formSubmit } from './handlers/formSubmit';
 import { TodoList } from './components/TodoList';
@@ -16,7 +16,7 @@ export const App = () => {
 
   // #region hooks
   // custom hooks to recall
-  const [formState, setFormState] = useFormState();
+  const [formState, setFormState] = UseFormState();
   const [touchedState, setTouchedState] = useTouchedState();
   const [currentTodos, setCurrentTodos] = useTodos(todosFromServer);
   // #endregion
