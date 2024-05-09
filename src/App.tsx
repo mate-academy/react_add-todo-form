@@ -9,8 +9,8 @@ import TodoWithUser from './types/TodoWithUser';
 import { TodoList } from './components/TodoList';
 
 import findUserById from './services/findUserById';
-import findMaxUserId from './services/findMaxUserId';
 import getTodosWithUsers from './services/getTodosWithUsers';
+import findMaxTodoId from './services/findMaxTodoId';
 
 const NON_EXISTING_USER_ID = 0;
 
@@ -47,7 +47,7 @@ export const App = () => {
 
     const newTodo: TodoWithUser = {
       user: findUserById(usersFromServer, selectedUserId),
-      id: findMaxUserId(usersFromServer) + 1,
+      id: findMaxTodoId(visibleTodos) + 1,
       title: title,
       completed: false,
       userId: selectedUserId,
