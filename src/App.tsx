@@ -4,7 +4,6 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { handleChange } from './handlers/handleChange';
-import { useTouchedState } from './states/touchedState';
 import { formSubmit } from './handlers/formSubmit';
 import { TodoList } from './components/TodoList';
 import { GenerateUserOption } from './components/GenerateUserOptions';
@@ -16,7 +15,10 @@ export const App = () => {
     title: '',
     userValue: 0,
   });
-  const [touchedState, setTouchedState] = useTouchedState();
+  const [touchedState, setTouchedState] = useState({
+    title: false,
+    userValue: false,
+  });
   const [currentTodos, setCurrentTodos] = useState(todosFromServer);
   // #endregion
 
