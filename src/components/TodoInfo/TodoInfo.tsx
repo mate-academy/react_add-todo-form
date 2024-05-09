@@ -7,7 +7,7 @@ interface TodoInfoProps {
   todo: Todo;
 }
 
-export const TodoInfo = ({ todo }: TodoInfoProps) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
   const todoUser = users.find(user => user.id === +todo.userId);
 
   return (

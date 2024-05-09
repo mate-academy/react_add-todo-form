@@ -3,22 +3,21 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-import { generateUserOption } from './services/generateUserOptions';
 import { handleChange } from './handlers/handleChange';
-import { UseFormState } from './states/formState';
 import { useTouchedState } from './states/touchedState';
 import { formSubmit } from './handlers/formSubmit';
 import { TodoList } from './components/TodoList';
-import { useTodos } from './states/todosFromTheServer';
+import { GenerateUserOption } from './components/GenerateUserOptions';
+import { useState } from 'react';
 
 export const App = () => {
-  const currentUsers = [...usersFromServer]; // for the future improvements
-
   // #region hooks
-  // custom hooks to recall
-  const [formState, setFormState] = UseFormState();
+  const [formState, setFormState] = useState({
+    title: '',
+    userValue: 0,
+  });
   const [touchedState, setTouchedState] = useTouchedState();
-  const [currentTodos, setCurrentTodos] = useTodos(todosFromServer);
+  const [currentTodos, setCurrentTodos] = useState(todosFromServer);
   // #endregion
 
   return (
@@ -49,7 +48,6 @@ export const App = () => {
             placeholder="Enter a title"
             value={formState.title}
             onChange={event => handleChange(event, setFormState)}
-            // onBlur={event => handleBlur(event, setTouchedState)}
           />
           {touchedState.title && formState.title === '' && (
             <span className="error">Please enter a title</span>
@@ -57,12 +55,12 @@ export const App = () => {
         </div>
 
         <div className="field">
-          {generateUserOption(
-            currentUsers,
-            formState,
-            setFormState,
-            touchedState,
-          )}
+          <GenerateUserOption
+            currentUsers={usersFromServer}
+            formState={formState}
+            setFormState={setFormState}
+            touchedState={touchedState}
+          />
 
           {touchedState.userValue && formState.userValue === 0 && (
             <span className="error">Please choose a user</span>
