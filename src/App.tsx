@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
@@ -23,9 +23,9 @@ export const App: React.FC = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
-  }
+  };
 
-  const handleOnChangeUser = (event : React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
     setSelectedError(false);
   };
@@ -52,6 +52,8 @@ export const App: React.FC = () => {
     }
 
     addTodo({
+      id: finalTodos.length + 1,
+      userId: selectedUserId,
       title,
       completed: false,
       user: getUserById(selectedUserId),
@@ -64,12 +66,17 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={event => handleSubmitForm(event)}>
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={event => handleSubmitForm(event)}
+      >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
-            placeholder='Enter a title'
+            placeholder="Enter a title"
+            value={title}
             onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
@@ -78,8 +85,9 @@ export const App: React.FC = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            onChange={() => handleOnChangeUser}
-            defaultValue="0"
+            value={selectedUserId}
+            onChange={handleOnChangeUser}
+            required
           >
             <option value="0" disabled>
               Choose a user

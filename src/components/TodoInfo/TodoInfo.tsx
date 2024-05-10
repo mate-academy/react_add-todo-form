@@ -1,22 +1,18 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodosProps } from '../../types/Todo';
-import { UsersProps } from '../../types/User';
 
-export const TodoInfo: React.FC<{todo: TodosProps, users: UsersProps[]}> = ({ todo, users }) => (
+export const TodoInfo = ({
+  todo,
+} : { todo: TodosProps }) => (
   <article
-    data-id={todo.id}
+    data-id={16}
     className={classNames('TodoInfo', {
       'TodoInfo--completed': todo.completed,
     })}
   >
     <h2 className={classNames('TodoInfo__title')}>{todo.title}</h2>
 
-      {users
-        .filter(user => todo.userId === user.id)
-        .map(user => (
-          <UserInfo user={user} key={user.id} />
-        ))}
-
+    {todo.user && <UserInfo user={todo.user} key={todo.user.id} />}
   </article>
 );
