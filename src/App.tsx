@@ -51,7 +51,7 @@ export const App = () => {
             value={formState.title}
             onChange={event => handleChange(event, setFormState)}
           />
-          {touchedState.userValue && formState.title === '' && (
+          {touchedState.userValue && formState.title.trim() === '' && (
             <span className="error">Please enter a title</span>
           )}
         </div>
