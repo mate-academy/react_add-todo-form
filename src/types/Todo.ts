@@ -1,4 +1,4 @@
-import { UsersProps } from "./User";
+import { UsersProps } from './User';
 
 export interface TodosProps {
   id: number;

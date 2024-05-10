@@ -2,17 +2,18 @@ import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { TodosProps } from '../../types/Todo';
 
-export const TodoInfo = ({
-  todo,
-} : { todo: TodosProps }) => (
+export const TodoInfo = ({ todo }: { todo: TodosProps }) => {
+  const { completed, title, user} = todo;
+
+  return (
   <article
     data-id={16}
     className={classNames('TodoInfo', {
-      'TodoInfo--completed': todo.completed,
+      'TodoInfo--completed': completed,
     })}
   >
-    <h2 className={classNames('TodoInfo__title')}>{todo.title}</h2>
+    <h2 className={classNames('TodoInfo__title')}>{title}</h2>
 
-    {todo.user && <UserInfo user={todo.user} key={todo.user.id} />}
+    {user && <UserInfo user={user} key={user.id} />}
   </article>
-);
+)};
