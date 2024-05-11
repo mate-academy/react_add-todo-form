@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getColorById, getColors } from '../services/color.service';
-import { Good } from '../types';
+import { Color, Good } from '../types';
 
 type Props = {
   onSubmit: (good: Good) => void;
@@ -15,7 +15,20 @@ export const GoodForm = ({ onSubmit, onReset = () => {}, good }: Props) => {
   const [nameError, setNameError] = useState('');
   const [colorIdError, setColorIdError] = useState('');
 
-  const colors = getColors();
+  const [colors, setColors] = useState([] as Color[]);
+
+  useEffect(() => {
+    getColors().then(setColors);
+
+    const timerId = setInterval(() => {
+      // eslint-disable-next-line no-console
+      console.log('Fetching colors...');
+
+      getColors().then(setColors);
+    }, 3000);
+
+    return () => clearInterval(timerId);
+  }, []);
 
   const reset = () => {
     setNewGoodName(good?.name || '');
@@ -26,7 +39,7 @@ export const GoodForm = ({ onSubmit, onReset = () => {}, good }: Props) => {
     onReset();
   };
 
-  const handleFormSubmit = (event: React.FormEvent) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!newGoodName) {
@@ -41,11 +54,13 @@ export const GoodForm = ({ onSubmit, onReset = () => {}, good }: Props) => {
       return;
     }
 
+    const color = await getColorById(selectedColorId);
+
     const newGood: Good = {
       id: good?.id || Date.now(),
       name: newGoodName,
       colorId: selectedColorId,
-      color: getColorById(selectedColorId),
+      color,
     };
 
     onSubmit(newGood);

@@ -1,13 +1,13 @@
-const colors = [
-  { id: 1, name: 'red' },
-  { id: 2, name: 'green' },
-  { id: 3, name: 'blue' },
-];
+import { Color } from '../types';
 
-export const getColorById = (colorId: number) => {
+export async function getColors(): Promise<Color[]> {
+  const response = await fetch('/api/colors.json');
+
+  return response.json();
+}
+
+export async function getColorById(colorId: number) {
+  const colors = await getColors();
+
   return colors.find(color => color.id === colorId);
-};
-
-export const getColors = () => {
-  return colors;
-};
+}
