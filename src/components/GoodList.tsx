@@ -1,8 +1,8 @@
+import { useGlobalState } from '../GlobalContext';
 import { GoodCard } from './GoodCard';
-import { useGoods } from '../GoodContext';
 
 export const GoodList = () => {
-  const goods = useGoods();
+  const goods = useGlobalState();
 
   return (
     <div className="GoodList">
