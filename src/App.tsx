@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+
 import './App.scss';
 import { GoodList } from './components/GoodList';
 import { Good } from './types';
@@ -26,6 +27,23 @@ const goodsWithColors: Good[] = goodsFromServer.map(good => ({
 export const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsWithColors);
   const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
+
+  const timerId = useRef(0);
+
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    clearTimeout(timerId.current);
+    setQuery(value);
+    timerId.current = window.setTimeout(setAppliedQuery, 1000, value);
+  };
+
+  const normalizedQuery = appliedQuery.trim().toLowerCase();
+  const visibleGoods = useMemo(
+    () => goods.filter(g => g.name.toLowerCase().includes(normalizedQuery)),
+    [normalizedQuery, goods],
+  );
 
   const addGood = (newGood: Good) => {
     setGoods(currentGoods => [...currentGoods, newGood]);
@@ -43,20 +61,10 @@ export const App: React.FC = () => {
     );
   };
 
-  const normalizedQuery = query.trim().toLowerCase();
-  const visibleGoods = useMemo(
-    () => goods.filter(g => g.name.toLowerCase().includes(normalizedQuery)),
-    [normalizedQuery, goods],
-  );
-
   return (
     <div className="App">
       <h1>Goods</h1>
-      <input
-        type="search"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-      />
+      <input type="search" value={query} onChange={handleQueryChange} />
       <GoodList
         goods={visibleGoods}
         onDelete={deleteGood}
