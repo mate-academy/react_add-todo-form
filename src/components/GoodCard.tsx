@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Good } from '../types';
 import { GoodForm } from './GoodForm';
-import { useDispatch } from '../GlobalContext';
+import { actions, useDispatch } from '../GlobalContext';
 
 export const GoodCard = ({ good }: { good: Good }) => {
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
 
   const deleteGood = () => {
-    dispatch({ type: 'DELETE_GOOD', payload: good.id });
+    dispatch(actions.deleteGood(good.id));
   };
 
   const handleFormSubmit = (newGood: Good) => {
-    dispatch({ type: 'UPDATE_GOOD', payload: newGood });
+    dispatch(actions.updateGood({ ...good, ...newGood }));
     setEditing(false);
   };
 
