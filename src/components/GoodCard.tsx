@@ -1,22 +1,14 @@
 import { useState } from 'react';
 import { Good } from '../types';
 import { GoodForm } from './GoodForm';
+import { useGoodMethods } from '../GoodContext';
 
-type Props = {
-  good: Good;
-  onDelete?: (goodId: number) => void;
-  onUpdate?: (good: Good) => void;
-};
-
-export const GoodCard = ({
-  good,
-  onDelete = () => {},
-  onUpdate = () => {},
-}: Props) => {
+export const GoodCard = ({ good }: { good: Good }) => {
   const [editing, setEditing] = useState(false);
+  const { deleteGood, updateGood } = useGoodMethods();
 
   const handleFormSubmit = (newGood: Good) => {
-    onUpdate(newGood);
+    updateGood(newGood);
     setEditing(false);
   };
 
@@ -29,7 +21,7 @@ export const GoodCard = ({
           className="GoodCard__title"
           style={{ color: good.color?.name || 'black' }}
         >
-          <button onClick={() => onDelete(good.id)}>x</button>
+          <button onClick={() => deleteGood(good.id)}>x</button>
           <button onClick={() => setEditing(true)}>Edit</button>
           {good.name}
         </p>
