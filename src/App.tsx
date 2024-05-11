@@ -3,17 +3,31 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import './App.scss';
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+interface TodoItem {
+  id: number;
+  title: string;
+  completed: boolean;
+  user: User | undefined;
+}
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (title.trim() && selectedUser) {
       const newTodo = {
-        id: usersFromServer,
+        id: Math.random(),
         title,
         completed: false,
         user: usersFromServer.find(user => user.id === Number(selectedUser)),

@@ -1,10 +1,17 @@
 import { UserInfo } from '../UserInfo';
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
 interface TodoInfoProps {
   id: number;
   title: string;
   completed: boolean;
-  user: { name: string; email: string };
+  user: User;
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({

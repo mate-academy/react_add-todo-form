@@ -2,11 +2,18 @@ import usersFromServer from '../../api/users';
 import todosFromServer from '../../api/todos';
 import { TodoInfo } from '../../components/TodoInfo';
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
 interface TodoItem {
   id: number;
   title: string;
   completed: boolean;
-  user: any;
+  user: User;
 }
 
 interface TodoInfoProps {
