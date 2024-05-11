@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.scss';
-import { GoodsList } from './components/GoodList';
+import { GoodList } from './components/GoodList';
 import { Good } from './types';
 import { GoodForm } from './components/GoodForm';
 import { getColorById } from './services/color.service';
@@ -43,6 +43,12 @@ export const App: React.FC = () => {
     );
   };
 
+  const normalizedQuery = query.trim().toLowerCase();
+  const visibleGoods = useMemo(
+    () => goods.filter(g => g.name.toLowerCase().includes(normalizedQuery)),
+    [normalizedQuery, goods],
+  );
+
   return (
     <div className="App">
       <h1>Goods</h1>
@@ -51,7 +57,11 @@ export const App: React.FC = () => {
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
-      <GoodsList goods={goods} onDelete={deleteGood} onUpdate={updateGood} />
+      <GoodList
+        goods={visibleGoods}
+        onDelete={deleteGood}
+        onUpdate={updateGood}
+      />
       <GoodForm onSubmit={addGood} />
     </div>
   );

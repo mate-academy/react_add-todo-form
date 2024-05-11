@@ -4,11 +4,15 @@ import { GoodForm } from './GoodForm';
 
 type Props = {
   good: Good;
-  onDelete: (goodId: number) => void;
-  onUpdate: (good: Good) => void;
+  onDelete?: (goodId: number) => void;
+  onUpdate?: (good: Good) => void;
 };
 
-export const GoodCard = ({ good, onDelete, onUpdate }: Props) => {
+export const GoodCard = ({
+  good,
+  onDelete = () => {},
+  onUpdate = () => {},
+}: Props) => {
   const [editing, setEditing] = useState(false);
 
   const handleFormSubmit = (newGood: Good) => {
