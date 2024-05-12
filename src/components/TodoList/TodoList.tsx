@@ -1,27 +1,9 @@
 import usersFromServer from '../../api/users';
 import todosFromServer from '../../api/todos';
 import { TodoInfo } from '../../components/TodoInfo';
+import { TodoListProps } from '../../types';
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface TodoItem {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User;
-}
-
-interface TodoInfoProps {
-  submitted: boolean;
-  todos: TodoItem[];
-}
-
-export const TodoList = ({ submitted, todos }: TodoInfoProps) => {
+export const TodoList = ({ submitted, todos }: TodoListProps) => {
   return (
     <section className="TodoList">
       {todosFromServer.map(todo => (
@@ -31,6 +13,7 @@ export const TodoList = ({ submitted, todos }: TodoInfoProps) => {
           title={todo.title}
           completed={todo.completed}
           user={usersFromServer[todo.userId]}
+          todos={todos}
         />
       ))}
       {!submitted &&
@@ -41,6 +24,7 @@ export const TodoList = ({ submitted, todos }: TodoInfoProps) => {
             title={todo.title}
             completed={todo.completed}
             user={todo.user}
+            todos={todos}
           />
         ))}
     </section>

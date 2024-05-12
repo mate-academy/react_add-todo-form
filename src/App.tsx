@@ -1,21 +1,8 @@
 import { useState, FormEvent } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
+import { TodoItem } from './types';
 import './App.scss';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface TodoItem {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User | undefined;
-}
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -26,11 +13,20 @@ export const App = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (title.trim() && selectedUser) {
+      const newUser = usersFromServer.find(
+        user => user.id === Number(selectedUser),
+      );
+
+      if (!newUser) {
+        return;
+      }
+
       const newTodo = {
         id: Math.random(),
         title,
         completed: false,
-        user: usersFromServer.find(user => user.id === Number(selectedUser)),
+        user: newUser,
+        submitted: false,
       };
 
       setTitle('');
