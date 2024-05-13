@@ -31,7 +31,7 @@ export const App = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!name || !user) {
+    if (!name.trim() || !user) {
       setHasError(true);
 
       return;
@@ -41,7 +41,7 @@ export const App = () => {
       ...prevState,
       {
         id: Math.max(...todosWithUser.map(todo => todo.id)) + 1,
-        title: name,
+        title: name.trim(),
         completed: false,
         userId: user,
         user: usersFromServer.find(u => u.id === user),
