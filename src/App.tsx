@@ -1,39 +1,48 @@
 import { useState, FormEvent } from 'react';
-import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
+import { TodoList } from './components/TodoList';
 import { TodoItem } from './types';
 import './App.scss';
 
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [titleTouched, setTitleTouched] = useState(false);
+  const [userTouched, setUserTouched] = useState(false);
   const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (title.trim() && selectedUser) {
-      const newUser = usersFromServer.find(
-        user => user.id === Number(selectedUser),
-      );
+    setSubmitted(true);
+    setTitleTouched(true);
+    setUserTouched(true);
 
-      if (!newUser) {
-        return;
-      }
-
-      const newTodo = {
-        id: Math.random(),
-        title,
-        completed: false,
-        user: newUser,
-        submitted: false,
-      };
-
-      setTitle('');
-      setSelectedUser('');
-      setSubmitted(true);
-      setTodos([...todos, newTodo]);
+    if (!title.trim() || !selectedUser) {
+      return;
     }
+
+    const newUser = usersFromServer.find(
+      user => user.id === Number(selectedUser),
+    );
+
+    if (!newUser) {
+      return;
+    }
+
+    const newTodo = {
+      id: Math.random(),
+      title,
+      completed: false,
+      user: newUser,
+    };
+
+    setTitle('');
+    setSelectedUser('');
+    setTitleTouched(false);
+    setUserTouched(false);
+    setTodos([...todos, newTodo]);
+    setSubmitted(false);
   }
 
   return (
@@ -51,7 +60,7 @@ export const App = () => {
             placeholder="Enter a title"
             onChange={e => setTitle(e.target.value)}
           />
-          {submitted && !title.trim() && (
+          {titleTouched && !title.trim() && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -71,7 +80,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {submitted && !selectedUser && (
+          {userTouched && !selectedUser && (
             <span className="error">Please choose a user</span>
           )}
         </div>
@@ -81,7 +90,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} submitted={submitted} />
     </div>
   );
 };
