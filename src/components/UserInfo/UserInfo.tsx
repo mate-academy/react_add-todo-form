@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { UserExist } from '../../types';
+import { UserExist } from '../types';
 
 export const UserInfo: FC<UserExist> = ({ user }) => {
   return (

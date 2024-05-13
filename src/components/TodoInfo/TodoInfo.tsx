@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { UserInfo } from '../UserInfo';
 import classNames from 'classnames';
-import { Prop } from '../../types';
+import { Prop } from '../types';
 
 export const TodoInfo: FC<Prop> = ({ todo }) => {
   return (

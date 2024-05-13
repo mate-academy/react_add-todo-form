@@ -2,7 +2,7 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types';
+import { Todo } from './components/types';
 import './App.scss';
 
 const todosWithUser: Todo[] = todosFromServer.map(todo => ({
@@ -12,7 +12,7 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
-  const [name, setName] = useState('');
+  const [nameId, setNameId] = useState('');
   const [user, setUser] = useState<number>(0);
   const [hasError, setHasError] = useState(false);
 
@@ -25,13 +25,13 @@ export const App = () => {
   const handleName = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setName(value);
+    setNameId(value);
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!name.trim() || !user) {
+    if (!nameId.trim() || !user) {
       setHasError(true);
 
       return;
@@ -41,15 +41,16 @@ export const App = () => {
       ...prevState,
       {
         id: Math.max(...todosWithUser.map(todo => todo.id)) + 1,
-        title: name.trim(),
+        title: nameId.trim(),
         completed: false,
         userId: user,
         user: usersFromServer.find(u => u.id === user),
       },
     ]);
 
-    setName('');
+    setNameId('');
     setUser(0);
+    setHasError(false);
   };
 
   return (
@@ -65,10 +66,10 @@ export const App = () => {
               data-cy="titleInput"
               id="name"
               placeholder="Enter a title"
-              value={name}
+              value={nameId}
               onChange={handleName}
             />
-            {hasError && !name.trim() && (
+            {hasError && !nameId.trim() && (
               <span className="error">Please enter a title</span>
             )}
           </label>
