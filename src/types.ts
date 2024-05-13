@@ -5,26 +5,22 @@ export interface User {
   email: string;
 }
 
-export interface TodoItem {
+export interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  user: User;
+  userId: number;
+  user?: User;
 }
 
-export interface TodoInfoProps {
-  id: number;
-  title: string;
-  completed: boolean;
-  todos: TodoItem[];
-  user: User;
+export interface Props {
+  todos: Todo[];
 }
 
-export interface UserInfoProps {
-  user: User;
+export interface Prop {
+  todo: Todo;
 }
 
-export interface TodoListProps {
-  todos: TodoItem[];
-  submitted: boolean;
+export interface UserExist {
+  user?: User;
 }

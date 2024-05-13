@@ -1,32 +1,13 @@
-import usersFromServer from '../../api/users';
-import todosFromServer from '../../api/todos';
+import { FC } from 'react';
 import { TodoInfo } from '../../components/TodoInfo';
-import { TodoListProps } from '../../types';
+import { Props } from '../../types';
 
-export const TodoList = ({ submitted, todos }: TodoListProps) => {
+export const TodoList: FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todosFromServer.map(todo => (
-        <TodoInfo
-          key={todo.id}
-          id={todo.id}
-          title={todo.title}
-          completed={todo.completed}
-          user={usersFromServer[todo.userId]}
-          todos={todos}
-        />
+      {todos.map(todo => (
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
-      {!submitted &&
-        todos.map(todo => (
-          <TodoInfo
-            key={todo.id}
-            id={todo.id}
-            title={todo.title}
-            completed={todo.completed}
-            user={todo.user}
-            todos={todos}
-          />
-        ))}
     </section>
   );
 };
