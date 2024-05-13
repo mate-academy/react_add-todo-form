@@ -68,7 +68,7 @@ export const App = () => {
               value={name}
               onChange={handleName}
             />
-            {hasError && !name && (
+            {hasError && !name.trim() && (
               <span className="error">Please enter a title</span>
             )}
           </label>
