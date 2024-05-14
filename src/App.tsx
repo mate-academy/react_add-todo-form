@@ -5,23 +5,34 @@ import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
+import { TodosWithUser } from './types/ToDosWithUser';
 
-const todosWithUsers = todosFromServer.map(todo => {
-  return {
-    ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) as User,
-  };
-});
+function getUserById(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+const todosWithUsers: TodosWithUser[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
+const getTodoId = (todos: TodosWithUser[]) => {
+  const id = Math.max(...todos.map(todo => todo.id));
+
+  return id + 1;
+};
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserDropdown] = useState<number>(0);
+  const [userId, setUserId] = useState<number>(0);
   const [failedTitle, setTitleFailed] = useState(false);
   const [failedUser, setUserFailed] = useState(false);
   const [todos, setTodos] = useState(todosWithUsers);
 
   const resetForm = () => {
-    setUserDropdown(0);
+    setUserId(0);
     setTitle('');
     setUserFailed(false);
     setTitleFailed(false);
@@ -33,7 +44,7 @@ export const App = () => {
   };
 
   const handleUserChange: ChangeEventHandler<HTMLSelectElement> = event => {
-    setUserDropdown(+event.target.value);
+    setUserId(+event.target.value);
     setUserFailed(false);
   };
 
@@ -49,20 +60,15 @@ export const App = () => {
       return;
     }
 
-    const newTodo = {
-      userId: Number(userId),
-      title: title,
+    const newTodo: TodosWithUser = {
+      id: getTodoId(todos),
+      title,
       completed: false,
-      id:
-        Math.max(
-          ...todos.map(t => {
-            return t.id;
-          }),
-        ) + 1,
-      user: usersFromServer.find(user => user.id === Number(userId)) as User,
+      userId,
+      user: getUserById(userId),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     resetForm();
   };
 
