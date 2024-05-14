@@ -91,12 +91,9 @@ export const App = () => {
               value={titleTodo}
               onChange={handleTitleChange}
             />
-            <span
-              className="error"
-              style={{ display: errorTitleInput ? 'inline' : 'none' }}
-            >
-              Please enter a title
-            </span>
+            {errorTitleInput && (
+              <span className="error">Please enter a title</span>
+            )}
           </label>
         </div>
 
@@ -121,12 +118,9 @@ export const App = () => {
             </select>
           </label>
 
-          <span
-            className="error"
-            style={{ display: errorUserSelect ? 'inline' : 'none' }}
-          >
-            Please choose a user
-          </span>
+          {errorUserSelect && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
