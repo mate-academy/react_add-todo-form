@@ -20,11 +20,11 @@ interface User {
 }
 
 export const App = () => {
-  const [addedTodos, setAddedTodos] = useState<Todo[]>(todos);
-  const [newTodoTitle, setNewTodoTitle] = useState<string>('');
-  const [selectedUserId, setSelectedUserId] = useState<number>(0);
-  const [titleError, setTitleError] = useState<string>('');
-  const [userError, setUserError] = useState<string>('');
+  const [addedTodos, setAddedTodos] = useState(todos);
+  const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const cleanedTitle = event.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
