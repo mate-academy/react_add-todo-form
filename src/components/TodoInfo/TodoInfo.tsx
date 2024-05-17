@@ -1,1 +1,17 @@
-export const TodoInfo = () => {};
+import { ReactElement } from 'react';
+import cn from 'classnames';
+import { UserInfo } from '../UserInfo';
+import { Todo } from '../../types';
+
+export const TodoInfo = ({ todo }: { todo: Todo }): ReactElement => {
+  return (
+    <article
+      data-id={todo.id}
+      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+
+      {todo.user && <UserInfo user={todo.user} />}
+    </article>
+  );
+};
