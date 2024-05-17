@@ -56,6 +56,26 @@ export const App = () => {
     };
   });
 
+  const addErrors = () => {
+    if (!formState.titleInput && !formState.selectedUser) {
+      setFormState({
+        ...formState,
+        titleInputError: true,
+        selectedUserError: true,
+      });
+    } else if (!formState.titleInput && formState.selectedUser) {
+      setFormState({
+        ...formState,
+        titleInputError: true,
+      });
+    } else if (formState.titleInput && !formState.selectedUser) {
+      setFormState({
+        ...formState,
+        selectedUserError: true,
+      });
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -69,24 +89,7 @@ export const App = () => {
             handleSubmit(event);
           } else {
             event.preventDefault();
-
-            if (!formState.titleInput && !formState.selectedUser) {
-              setFormState({
-                ...formState,
-                titleInputError: true,
-                selectedUserError: true,
-              });
-            } else if (!formState.titleInput && formState.selectedUser) {
-              setFormState({
-                ...formState,
-                titleInputError: true,
-              });
-            } else if (formState.titleInput && !formState.selectedUser) {
-              setFormState({
-                ...formState,
-                selectedUserError: true,
-              });
-            }
+            addErrors();
           }
         }}
       >
