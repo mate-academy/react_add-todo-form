@@ -1,15 +1,16 @@
 import { useState } from 'react';
 
-import { getAllUsers, getUserById } from '../../services/user';
+import usersFromServer from '../../api/users';
+
+import { getUserById } from '../../services/user';
 import { isValidLetter } from '../../services/Pattern';
 import { Todo } from '../../types/Todo';
 
 interface Props {
   onAdd: (todo: Todo) => void;
-  newTodoId: number;
 }
 
-export const TodoForm: React.FC<Props> = ({ onAdd, newTodoId }) => {
+export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -19,13 +20,13 @@ export const TodoForm: React.FC<Props> = ({ onAdd, newTodoId }) => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const TitleTetters = event.target.value;
+    const titleTetters = event.target.value;
 
-    if (isValidLetter(TitleTetters.slice(-1))) {
-      setTitle(TitleTetters);
-    } else {
-      setTitle(TitleTetters.slice(0, -1));
-    }
+    setTitle(
+      isValidLetter(titleTetters.slice(-1))
+        ? titleTetters
+        : titleTetters.slice(0, -1),
+    );
 
     setHasTitleError(false);
   };
@@ -39,9 +40,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd, newTodoId }) => {
     setTitle('');
     setUserId(0);
 
-    setHasTitleError(false);
-    setHasUserIdError(false);
-
     setCount(count + 1);
   };
 
@@ -51,12 +49,12 @@ export const TodoForm: React.FC<Props> = ({ onAdd, newTodoId }) => {
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.length || !userId) {
       return;
     }
 
     onAdd({
-      id: newTodoId,
+      id: 0,
       title,
       completed: false,
       userId,
@@ -89,7 +87,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, newTodoId }) => {
             Choose a user
           </option>
 
-          {getAllUsers().map(user => (
+          {usersFromServer.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>

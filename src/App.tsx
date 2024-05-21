@@ -8,19 +8,25 @@ import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(filteredTodos);
-  const maxId: number = getMaxId(todos) + 1;
 
   const getPreparedTodos = useCallback((todo: Todo) => {
-    setTodos(currentTodos => currentTodos.concat(todo));
+    setTodos(currentTodos => {
+      const newTodo = {
+        ...todo,
+        id: getMaxId(currentTodos) + 1,
+      };
+
+      return [...currentTodos, newTodo];
+    });
   }, []);
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onAdd={getPreparedTodos} newTodoId={maxId} />
+      <TodoForm onAdd={getPreparedTodos} />
 
-      <TodoList OnTodos={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
