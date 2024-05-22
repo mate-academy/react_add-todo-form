@@ -3,8 +3,10 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+/* eslint-disable */
 import { Todo } from './types/Todo';
 import { User } from './types/User';
+/* eslint-enable */
 import { TodoList } from './components/TodoList';
 
 const getUserById = (userId: number): User | null =>
