@@ -41,7 +41,7 @@ export const App = () => {
       userId: userId !== '0' ? '' : 'Please choose a user',
     };
 
-    if (newErrors.title || newErrors.userId) {
+    if (newErrors.title.trim() || newErrors.userId) {
       setErrors(newErrors);
 
       return;
