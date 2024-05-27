@@ -34,7 +34,7 @@ export const NewTodo: React.FC<Props> = ({ onSubmit }) => {
     setTitleError(!title);
     setSelectionError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
