@@ -9,16 +9,23 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [todos, setTodos] = useState(todosFromServer);
-  const [titleError, serTitleError] = useState(false);
+  const [titleErrorMessage, serTitleErrorMessage] = useState('');
   const [userIdError, serUserIdError] = useState(false);
 
   const addTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    serTitleError(!title);
+    const regex = /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]*$/;
+
     serUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim()) {
+      serTitleErrorMessage('Please enter a title');
+    } else if (!regex.test(title)) {
+      serTitleErrorMessage('Please enter valid title');
+    }
+
+    if (!title.trim() || !userId || !regex.test(title)) {
       return;
     }
 
@@ -40,7 +47,7 @@ export const App = () => {
 
   const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    serTitleError(false);
+    serTitleErrorMessage('');
   };
 
   const addUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,27 +61,35 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={addTodo}>
         <div className="field">
-          <input
-            type="text"
-            data-cy="titleInput"
-            placeholder="Enter a title"
-            value={title}
-            onChange={addTitle}
-          />
-          {titleError && <span className="error">Please enter a title</span>}
+          <label>
+            {`Title: `}
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={addTitle}
+            />
+          </label>
+          {titleErrorMessage && (
+            <span className="error">{titleErrorMessage}</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect" value={userId} onChange={addUserId}>
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
+          <label>
+            {`User: `}
+            <select data-cy="userSelect" value={userId} onChange={addUserId}>
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {usersFromServer.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </label>
           {userIdError && <span className="error">Please choose a user</span>}
         </div>
 
