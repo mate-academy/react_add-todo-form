@@ -82,7 +82,7 @@ export const App = () => {
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewPost(prevPost => ({
       ...prevPost,
-      title: event.target.value,
+      title: event.target.value.trimStart(),
     }));
 
     setErrors(prevErrors => ({
@@ -96,6 +96,7 @@ export const App = () => {
       ...prevPost,
       userId: +event.target.value,
     }));
+
     setErrors(prevErrors => ({
       ...prevErrors,
       userIdError: false,
