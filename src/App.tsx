@@ -13,6 +13,12 @@ export const App = () => {
   const [titleError, setTitleError] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
 
+  const getNewTodoId = (todoList: Todo[]): number => {
+    return todoList.length > 0
+      ? Math.max(...todoList.map(todo => todo.id)) + 1
+      : 1;
+  };
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError('');
@@ -27,12 +33,12 @@ export const App = () => {
     event.preventDefault();
     let isValid = true;
 
-    if (title.trim() === '') {
+    if (!title.trim()) {
       isValid = false;
       setTitleError('Please enter a title');
     }
 
-    if (userId === 0) {
+    if (!userId) {
       isValid = false;
       setUserError('Please choose a user');
     }
@@ -40,14 +46,15 @@ export const App = () => {
     if (isValid) {
       const user = usersFromServer.find(u => u.id === userId);
       const newTodo: Todo = {
-        id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
+        id: getNewTodoId(todos),
         title,
         userId,
         user,
         completed: false,
       };
 
-      setTodos([...todos, newTodo]);
+      setTodos(prevTodos => [...prevTodos, newTodo]);
+
       setTitle('');
       setUserId(0);
     }
