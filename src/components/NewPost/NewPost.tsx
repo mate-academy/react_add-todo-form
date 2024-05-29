@@ -13,7 +13,7 @@ export const NewPost: React.FC<Props> = ({ onAdd }) => {
   const [hasSelectArrow, setHasSelectArrow] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
     setHasTitleArrow(false);
   };
 
@@ -39,7 +39,7 @@ export const NewPost: React.FC<Props> = ({ onAdd }) => {
 
     onAdd({
       id: 0,
-      title,
+      title: title,
       completed: hasTitleArrow,
       userId,
     });

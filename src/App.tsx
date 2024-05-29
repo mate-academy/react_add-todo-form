@@ -1,9 +1,9 @@
 import './App.scss';
+import { useState } from 'react';
 import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
 import { NewPost } from './components/NewPost/NewPost';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/Todo';
-import { useState } from 'react';
 
 function getNewTodoId(ts: Todo[]) {
   const maxId = Math.max(...ts.map(t => t.id));
