@@ -3,7 +3,7 @@ import { useState } from 'react';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types';
-import { TextField } from './components/TextField';
+import { FormField } from './components/FormField';
 import { getUserById } from './services';
 
 export const App = () => {
@@ -21,7 +21,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TextField onAdd={addTodo} />
+      <FormField onAdd={addTodo} />
       <TodoList todos={todosWithUsers} />
     </div>
   );

@@ -7,11 +7,11 @@ interface Props {
   onAdd: (newTodo: Todo) => void;
 }
 
-export const TextField: React.FC<Props> = ({ onAdd }) => {
+export const FormField: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
-  const [idError, setIdError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const reset = () => {
     setTitle('');
@@ -25,14 +25,14 @@ export const TextField: React.FC<Props> = ({ onAdd }) => {
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setIdError(false);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title.trim());
-    setIdError(!userId);
+    setHasUserIdError(!userId);
 
     if (!title.trim() || !userId) {
       return;
@@ -82,7 +82,7 @@ export const TextField: React.FC<Props> = ({ onAdd }) => {
           ))}
         </select>
 
-        {idError && <span className="error">Please choose a user</span>}
+        {hasUserIdError && <span className="error">Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
