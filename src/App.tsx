@@ -51,6 +51,8 @@ export const App = () => {
     setHasUserIdError(false);
   };
 
+  const trimmedTitle = title.trim();
+
   function reset() {
     setTitle('');
     setUserId(0);
@@ -59,10 +61,10 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
