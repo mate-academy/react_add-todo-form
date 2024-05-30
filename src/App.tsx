@@ -3,7 +3,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Todo } from './types/Todo';
 
 function getUserById(userId: number) {
@@ -24,37 +24,12 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState(false);
 
+  const validateTitle = /^[A-Za-z|0-9+ ]+$/;
+
   function getMaxId() {
     addTodo.sort((a: Todo, b: Todo) => b.id - a.id);
 
     return addTodo[0].id;
-  }
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setTitleError(!title);
-    setUserIdError(!userId);
-
-    if (!title || !userId) {
-      return;
-    }
-
-    return setAddTodo(todosArr => [
-      ...todosArr,
-      {
-        title,
-        completed: false,
-        userId,
-        user: getUserById(userId),
-        id: getMaxId() + 1,
-      },
-    ]);
-  }
-
-  function resetForm() {
-    setTitle('');
-    setUserId(0);
   }
 
   if (userIdError && userId) {
@@ -73,10 +48,30 @@ export const App = () => {
         action="/api/todos"
         method="POST"
         onSubmit={event => {
-          handleSubmit(event);
-          if (title && userId) {
-            resetForm();
+          event.preventDefault();
+
+          setTitleError(!title);
+          setUserIdError(!userId);
+
+          if (!validateTitle.test(title.trim()) || !userId) {
+            return;
           }
+
+          return setAddTodo(todosArr => {
+            setTitle('');
+            setUserId(0);
+
+            return [
+              ...todosArr,
+              {
+                title,
+                completed: false,
+                userId,
+                user: getUserById(userId),
+                id: getMaxId() + 1,
+              },
+            ];
+          });
         }}
       >
         <div className="field">
@@ -85,7 +80,9 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              setTitle(event.target.value);
+            }}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
