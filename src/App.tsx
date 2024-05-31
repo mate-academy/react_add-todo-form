@@ -3,7 +3,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Todo } from './types/Todo';
 
 function getUserById(userId: number) {
@@ -32,6 +32,33 @@ export const App = () => {
     return addTodo[0].id;
   }
 
+  const handleSublit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setTitleError(!title);
+    setUserIdError(!userId);
+
+    if (!validateTitle.test(title.trim()) || !userId) {
+      return;
+    }
+
+    return setAddTodo(todosArr => {
+      setTitle('');
+      setUserId(0);
+
+      return [
+        ...todosArr,
+        {
+          title,
+          completed: false,
+          userId,
+          user: getUserById(userId),
+          id: getMaxId() + 1,
+        },
+      ];
+    });
+  };
+
   if (userIdError && userId) {
     setUserIdError(false);
   }
@@ -47,32 +74,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        onSubmit={event => {
-          event.preventDefault();
-
-          setTitleError(!title);
-          setUserIdError(!userId);
-
-          if (!validateTitle.test(title.trim()) || !userId) {
-            return;
-          }
-
-          return setAddTodo(todosArr => {
-            setTitle('');
-            setUserId(0);
-
-            return [
-              ...todosArr,
-              {
-                title,
-                completed: false,
-                userId,
-                user: getUserById(userId),
-                id: getMaxId() + 1,
-              },
-            ];
-          });
-        }}
+        onSubmit={event => handleSublit(event)}
       >
         <div className="field">
           <input
