@@ -10,7 +10,7 @@ interface Props {
 export const TodoInfo: FC<Props> = ({ todo }) => {
   return (
     <article
-      data-id="1"
+      data-id={todo.id}
       className={classNames('TodoInfo', {
         'TodoInfo--completed': todo.completed,
       })}

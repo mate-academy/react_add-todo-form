@@ -9,6 +9,8 @@ export const validate = ({ title, userId }: FormValues): FormErrors => {
 
   if (!title) {
     errors.title = 'Please enter a title';
+  } else if (!/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ0-9 ]*$/.test(title)) {
+    errors.title = 'Please enter only letters (ua and en), digits, and spaces';
   }
 
   if (userId === 0) {

@@ -43,7 +43,7 @@ export const App = () => {
       ...currentTodos,
       {
         completed: false,
-        id: currentTodos.length,
+        id: currentTodos.sort((a, b) => b.id - a.id)[0].id + 1,
         title: values.title,
         userId: values.userId,
         user,
@@ -108,6 +108,7 @@ export const App = () => {
             data-cy="titleInput"
             value={values.title}
             onChange={handleChange}
+            placeholder="Enter a title"
           />
           {errors.title && <span className="error">{errors.title}</span>}
         </div>
