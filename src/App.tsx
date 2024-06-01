@@ -78,7 +78,7 @@ export const App = () => {
           break;
 
         default:
-          currentValue = value;
+          currentValue = value.trimStart();
       }
 
       return {
@@ -102,34 +102,39 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={addTodo} key={count}>
         <div className="field">
-          <input
-            name={FormKeys.TITLE}
-            type="text"
-            data-cy="titleInput"
-            value={values.title}
-            onChange={handleChange}
-            placeholder="Enter a title"
-          />
-          {errors.title && <span className="error">{errors.title}</span>}
+          <label>
+            {'Title: '}
+            <input
+              name={FormKeys.TITLE}
+              type="text"
+              data-cy="titleInput"
+              value={values.title}
+              onChange={handleChange}
+              placeholder="Enter a title"
+            />
+            {errors.title && <span className="error">{errors.title}</span>}
+          </label>
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            name={FormKeys.USER_ID}
-            onChange={handleChange}
-          >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map(currentUser => (
-              <option value={currentUser.id} key={currentUser.id}>
-                {currentUser.name}
-              </option>
-            ))}
-          </select>
+          <label>
+            {'User: '}
+            <select
+              data-cy="userSelect"
+              name={FormKeys.USER_ID}
+              onChange={handleChange}
+            >
+              <option value="0">Choose a user</option>
+              {usersFromServer.map(currentUser => (
+                <option value={currentUser.id} key={currentUser.id}>
+                  {currentUser.name}
+                </option>
+              ))}
+            </select>
 
-          {errors.userId && <span className="error">{errors.userId}</span>}
+            {errors.userId && <span className="error">{errors.userId}</span>}
+          </label>
         </div>
-
         <button type="submit" data-cy="submitButton">
           Add
         </button>
