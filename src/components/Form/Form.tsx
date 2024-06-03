@@ -23,14 +23,13 @@ type Todo = {
 
 export const Form: React.FC<Props> = ({ addTodo }) => {
   const [title, setTitle] = useState('');
-  const [hasTitleErrors, setHasTitleErrors] = useState(false);
-
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [hasTitleSpaceError, setHasTitleSpaceError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleErrors(false);
+    setHasTitleSpaceError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +39,12 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasTitleErrors(!title);
+    const errorInTitle = title.trim() === '';
+
+    setHasTitleSpaceError(errorInTitle);
     setHasUserIdError(!userId);
-    if (!title || !userId) {
+
+    if (!userId || errorInTitle) {
       return;
     }
 
@@ -73,8 +75,9 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
           value={title}
           onChange={handleTitleChange}
         />
-
-        {hasTitleErrors && <span className="error">Please enter a title</span>}
+        {hasTitleSpaceError && (
+          <span className="error">Please enter a title</span>
+        )}
       </div>
 
       <div className="field">
