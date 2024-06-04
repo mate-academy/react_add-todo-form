@@ -1,4 +1,6 @@
-export default [
+import { UserProps } from '../types/UserProps';
+
+const users: UserProps[] = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -60,3 +62,5 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export default users;
