@@ -1,11 +1,13 @@
+import { User } from '../../Types/User';
+
 interface Props {
-  user: User | undefined;
+  user?: User;
 }
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href={user === undefined ? undefined : user.email}>
-      {user === undefined ? undefined : user.name}
+    <a className="UserInfo" href={user?.email}>
+      {user?.name}
     </a>
   );
 };
