@@ -4,39 +4,39 @@ import todosFromServer from './api/todos';
 import { getUserById } from './services/user';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
-import { ToDo } from './Types/ToDo';
+import { Todo } from './Types/Todo';
 import { useState } from 'react';
 // #endregion
 
-const initialToDos: ToDo[] = todosFromServer.map(toDo => ({
-  ...toDo,
-  user: getUserById(toDo.userId),
+const initialTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
 }));
 
-function getNewToDoId(toDos: ToDo[]) {
-  const maxId = Math.max(...toDos.map(toDo => toDo.id));
+function getNewToDoId(todos: Todo[]) {
+  const maxId = Math.max(...todos.map(todo => todo.id));
 
   return maxId + 1;
 }
 
 export const App: React.FC = () => {
-  const [toDos, setToDos] = useState<ToDo[]>(initialToDos);
+  const [todos, setToDos] = useState<Todo[]>(initialTodos);
 
-  const addToDo = (toDo: ToDo) => {
-    const newToDo = {
-      ...toDo,
-      id: getNewToDoId(toDos),
+  const addTodo = (todo: Todo) => {
+    const newTodo = {
+      ...todo,
+      id: getNewToDoId(todos),
     };
 
-    setToDos(currentToDos => [...currentToDos, newToDo]);
+    setToDos(currentTodos => [...currentTodos, newTodo]);
   };
 
   return (
     <div className="App">
       <h1 className="title is-1">Add to do form</h1>
 
-      <TodoForm onSubmit={addToDo} />
-      <TodoList toDos={toDos} />
+      <TodoForm onSubmit={addTodo} />
+      <TodoList todos={todos} />
     </div>
   );
 };

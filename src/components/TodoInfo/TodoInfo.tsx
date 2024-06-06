@@ -1,23 +1,27 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-import { ToDo } from '../../Types/ToDo';
+import { Todo } from '../../Types/Todo';
 
 interface Props {
-  toDo: ToDo;
+  todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ toDo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
-      data-id={toDo.id}
-      className={classNames('message', {
-        ['is-warning']: toDo.completed === false,
-        ['is-success']: toDo.completed === true,
+      data-id={todo.id}
+      className={classNames('message TodoInfo', {
+        ['is-warning']: todo.completed === false,
+        ['TodoInfo--completed is-success']: todo.completed === true,
       })}
     >
-      <h2 className="TodoInfo__title">{toDo.title}</h2>
+      <div className="message-header">
+        <h2 className="TodoInfo__title">{todo.title}</h2>
+      </div>
 
-      <UserInfo user={toDo.user} />
+      <div className="message-body">
+        <UserInfo user={todo.user} />
+      </div>
     </article>
   );
 };

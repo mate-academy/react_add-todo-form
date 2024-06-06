@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import classNames from 'classnames';
+import { Todo } from '../../Types/Todo';
 import usersFromServer from '../../api/users';
-import { ToDo } from '../../Types/ToDo';
 import { getUserById } from '../../services/user';
 
 type Props = {
-  onSubmit: (toDo: ToDo) => void;
+  onSubmit: (toDo: Todo) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
@@ -75,6 +75,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             id="todo-title"
             className={classNames('input', { ['is-danger']: hasTitleError })}
             value={title}
+            placeholder="Add new to do"
             onChange={handleTitleChange}
           />
           {hasTitleError && (
@@ -90,20 +91,21 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         <label htmlFor="todo-user" className="label">
           User:
         </label>
-        <select
-          className={classNames('select', { ['is-danger']: hasUserError })}
-          data-cy="userSelect"
-          id="todo-user"
-          value={userId}
-          onChange={handleUserChange}
-        >
-          <option value="0">Choose a user</option>
-          {usersFromServer.map(user => (
-            <option value={user.id} key={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
+        <div className={classNames('select', { ['is-danger']: hasUserError })}>
+          <select
+            data-cy="userSelect"
+            id="todo-user"
+            value={userId}
+            onChange={handleUserChange}
+          >
+            <option value="0">Choose a user</option>
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {hasUserError && <span className="error">Please choose a user</span>}
       </div>
