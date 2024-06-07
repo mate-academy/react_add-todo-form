@@ -52,12 +52,12 @@ export const App: React.FC = () => {
     let errorOccured = false;
     const trimmedTitle = title.trim();
 
-    if (trimmedTitle === '') {
+    if (!trimmedTitle) {
       setTitleError(true);
       errorOccured = true;
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setUserError(true);
       errorOccured = true;
     }
