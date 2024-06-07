@@ -61,9 +61,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
     onSubmit({
       id: 0,
-      title,
+      title: formStates.title,
       completed: false,
-      userId,
+      userId: formStates.userId,
       user: getUserById(formStates.userId),
     });
 
