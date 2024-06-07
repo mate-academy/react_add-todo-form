@@ -20,7 +20,7 @@ function getNewToDoId(todos: Todo[]) {
 }
 
 export const App: React.FC = () => {
-  const [todos, setToDos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const addTodo = (todo: Todo) => {
     const newTodo = {
@@ -28,7 +28,7 @@ export const App: React.FC = () => {
       id: getNewToDoId(todos),
     };
 
-    setToDos(currentTodos => [...currentTodos, newTodo]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   return (

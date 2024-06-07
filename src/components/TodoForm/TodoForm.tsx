@@ -4,30 +4,58 @@ import { Todo } from '../../Types/Todo';
 import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
 
+type FormStates = {
+  userId?: number;
+  title?: string;
+  hasTitleError?: boolean;
+  hasUserError?: boolean;
+};
+
 type Props = {
-  onSubmit: (toDo: Todo) => void;
+  onSubmit: (todo: Todo) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
-  const [userId, setUserId] = useState<number>(0);
-  const [title, setTitle] = useState<string>('');
-  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
-  const [hasUserError, setHasUserError] = useState<boolean>(false);
+  const initialState: FormStates = {
+    userId: 0,
+    title: '',
+    hasTitleError: false,
+    hasUserError: false,
+  };
+  const [formStates, setFormStates] = useState(initialState);
 
   const reset = () => {
-    setTitle('');
-    setUserId(0);
-    setHasTitleError(false);
-    setHasUserError(false);
+    setFormStates({
+      userId: 0,
+      title: '',
+      hasTitleError: false,
+      hasUserError: false,
+    });
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormStates({
+      title: event.target.value,
+      hasTitleError: false,
+    });
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormStates({
+      userId: +event.target.value,
+      hasUserError: false,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserError(!userId || userId === 0);
+    setFormStates({
+      hasTitleError: !formStates.title,
+      hasUserError: !formStates.userId || formStates.userId === 0,
+    });
 
-    if (!title || !userId) {
+    if (!formStates.title || !formStates.userId) {
       return;
     }
 
@@ -36,20 +64,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId),
+      user: getUserById(formStates.userId),
     });
 
     reset();
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setHasTitleError(false);
-  };
-
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
-    setHasUserError(false);
   };
 
   return (
@@ -66,36 +84,44 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         </label>
         <div
           className={classNames('control', {
-            ['has-icons-right']: hasTitleError,
+            ['has-icons-right']: formStates.hasTitleError,
           })}
         >
           <input
             type="text"
             data-cy="titleInput"
             id="todo-title"
-            className={classNames('input', { ['is-danger']: hasTitleError })}
-            value={title}
+            className={classNames('input', {
+              ['is-danger']: formStates.hasTitleError,
+            })}
+            value={formStates.title}
             placeholder="Add new to do"
             onChange={handleTitleChange}
           />
-          {hasTitleError && (
+          {formStates.hasTitleError && (
             <span className="icon is-small is-right">
               <i className="fas fa-exclamation-triangle"></i>
             </span>
           )}
         </div>
-        {hasTitleError && <p className="error">Please enter a title</p>}
+        {formStates.hasTitleError && (
+          <p className="error">Please enter a title</p>
+        )}
       </div>
 
       <div className="field">
         <label htmlFor="todo-user" className="label">
           User:
         </label>
-        <div className={classNames('select', { ['is-danger']: hasUserError })}>
+        <div
+          className={classNames('select', {
+            ['is-danger']: formStates.hasUserError,
+          })}
+        >
           <select
             data-cy="userSelect"
             id="todo-user"
-            value={userId}
+            value={formStates.userId}
             onChange={handleUserChange}
           >
             <option value="0">Choose a user</option>
@@ -107,7 +133,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           </select>
         </div>
 
-        {hasUserError && <span className="error">Please choose a user</span>}
+        {formStates.hasUserError && (
+          <span className="error">Please choose a user</span>
+        )}
       </div>
 
       <div className="field is-grouped">
