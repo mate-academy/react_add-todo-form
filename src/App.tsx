@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { User } from './types/User';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
@@ -51,8 +50,9 @@ export const App: React.FC = () => {
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     let errorOccured = false;
+    const trimmedTitle = title.trim();
 
-    if (title === '') {
+    if (trimmedTitle === '') {
       setTitleError(true);
       errorOccured = true;
     }
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
     const todo: Todo = {
       id: getNewTodoId(),
       userId,
-      title,
+      title: trimmedTitle,
       completed: false,
       user: getUser(userId),
     };
