@@ -7,8 +7,11 @@ import { getUserById } from '../../services/user';
 type FormStates = {
   userId?: number;
   title?: string;
-  hasTitleError?: boolean;
-  hasUserError?: boolean;
+};
+
+type ContainError = {
+  fromTitle?: boolean;
+  fromUser?: boolean;
 };
 
 type Props = {
@@ -19,40 +22,46 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const initialState: FormStates = {
     userId: 0,
     title: '',
-    hasTitleError: false,
-    hasUserError: false,
+  };
+  const initialError: ContainError = {
+    fromTitle: false,
+    fromUser: false,
   };
   const [formStates, setFormStates] = useState(initialState);
+  const [containError, setContainError] = useState(initialError);
 
   const reset = () => {
     setFormStates({
       userId: 0,
       title: '',
-      hasTitleError: false,
-      hasUserError: false,
+    });
+
+    setContainError({
+      fromTitle: false,
+      fromUser: false,
     });
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormStates({
       title: event.target.value,
-      hasTitleError: false,
     });
+    setContainError({ fromTitle: false });
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFormStates({
       userId: +event.target.value,
-      hasUserError: false,
     });
+    setContainError({ fromUser: false });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setFormStates({
-      hasTitleError: !formStates.title,
-      hasUserError: !formStates.userId || formStates.userId === 0,
+    setContainError({
+      fromTitle: !containError.fromTitle,
+      fromUser: !formStates.userId || formStates.userId === 0,
     });
 
     if (!formStates.title || !formStates.userId) {
@@ -84,7 +93,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         </label>
         <div
           className={classNames('control', {
-            ['has-icons-right']: formStates.hasTitleError,
+            ['has-icons-right']: containError.fromTitle,
           })}
         >
           <input
@@ -92,19 +101,19 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
             data-cy="titleInput"
             id="todo-title"
             className={classNames('input', {
-              ['is-danger']: formStates.hasTitleError,
+              ['is-danger']: containError.fromTitle,
             })}
             value={formStates.title}
-            placeholder="Add new to do"
+            placeholder="Add new entry"
             onChange={handleTitleChange}
           />
-          {formStates.hasTitleError && (
+          {containError.fromTitle && (
             <span className="icon is-small is-right">
               <i className="fas fa-exclamation-triangle"></i>
             </span>
           )}
         </div>
-        {formStates.hasTitleError && (
+        {containError.fromTitle && (
           <p className="error">Please enter a title</p>
         )}
       </div>
@@ -115,7 +124,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         </label>
         <div
           className={classNames('select', {
-            ['is-danger']: formStates.hasUserError,
+            ['is-danger']: containError.fromUser,
           })}
         >
           <select
@@ -133,7 +142,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           </select>
         </div>
 
-        {formStates.hasUserError && (
+        {containError.fromUser && (
           <span className="error">Please choose a user</span>
         )}
       </div>
