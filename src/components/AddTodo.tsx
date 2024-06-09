@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Todo } from '../types/Todo';
 import usersFromServer from '../api/users';
 
 import { getUserById } from '../servises/user';
-import React = require('react');
+//import React = require('react');
 
 type Props = {
   onAdd: (todo: Todo) => void;
