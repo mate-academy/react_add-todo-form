@@ -1,4 +1,4 @@
-import React from 'react';
+import React = require('react');
 import { User } from '../../types/User';
 
 interface Props {
