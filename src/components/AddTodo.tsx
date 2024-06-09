@@ -28,7 +28,7 @@ export const AddTodo: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleError('Please enter a title');
     }
 
@@ -36,7 +36,7 @@ export const AddTodo: React.FC<Props> = ({ onAdd }) => {
       setHasUserIdError('Please choose a user');
     }
 
-    if (!title || userId === 0) {
+    if (!title.trim() || userId === 0) {
       return;
     }
 
