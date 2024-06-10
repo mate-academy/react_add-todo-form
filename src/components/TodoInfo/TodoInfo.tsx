@@ -3,19 +3,19 @@ import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  item: TodoItem;
+  todo: TodoItem;
 };
 
-export const TodoInfo: React.FC<Props> = ({ item }) => (
+export const TodoInfo: React.FC<Props> = ({ todo }) => (
   <article
-    data-id={item.id}
-    key={item.id}
+    data-id={todo.id}
+    key={todo.id}
     className={cn('TodoInfo', {
-      'TodoInfo--completed': item.completed,
+      'TodoInfo--completed': todo.completed,
     })}
   >
-    <h2 className="TodoInfo__title">{item.title}</h2>
+    <h2 className="TodoInfo__title">{todo.title}</h2>
 
-    <UserInfo user={item.user} />
+    <UserInfo user={todo.user} />
   </article>
 );
