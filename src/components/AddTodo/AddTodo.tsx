@@ -1,7 +1,7 @@
-import { Todo } from '../types/Todo';
-import usersFromServer from '../api/users';
+import { Todo } from '../../types/Todo';
+import usersFromServer from '../../api/users';
 
-import { getUserById } from '../servises/user';
+import { getUserById } from '../../servises/user';
 import React, { useState } from 'react';
 
 type Props = {

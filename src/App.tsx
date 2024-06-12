@@ -3,7 +3,7 @@ import './App.scss';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
-import { AddTodo } from './components/AddTodo';
+import { AddTodo } from './components/AddTodo/AddTodo';
 import { getUserById } from './servises/user';
 import { getNewTodoId } from './servises/todo';
 
