@@ -5,13 +5,13 @@ import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
 
 type FormStates = {
-  userId?: number;
-  title?: string;
+  userId: number;
+  title: string;
 };
 
 type ContainError = {
-  fromTitle?: boolean;
-  fromUser?: boolean;
+  fromTitle: boolean;
+  fromUser: boolean;
 };
 
 type Props = {
@@ -43,26 +43,37 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormStates({
+    setFormStates(prev => ({
+      ...prev,
       title: event.target.value,
-    });
-    setContainError({ fromTitle: false });
+    }));
+
+    setContainError(prev => ({
+      ...prev,
+      fromTitle: false,
+    }));
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormStates({
+    setFormStates(prev => ({
+      ...prev,
       userId: +event.target.value,
-    });
-    setContainError({ fromUser: false });
+    }));
+
+    setContainError(prev => ({
+      ...prev,
+      fromUser: false,
+    }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setContainError({
-      fromTitle: !containError.fromTitle,
+    setContainError(prev => ({
+      ...prev,
+      fromTitle: !formStates.title,
       fromUser: !formStates.userId || formStates.userId === 0,
-    });
+    }));
 
     if (!formStates.title || !formStates.userId) {
       return;
