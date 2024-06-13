@@ -1,4 +1,4 @@
-import React from 'react';
+import React = require('react');
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 import classNames from 'classnames';

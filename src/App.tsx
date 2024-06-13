@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import './App.scss';
 import todosFromServer from './api/todos';
@@ -7,6 +6,7 @@ import { Todo } from './types/Todo';
 import { AddTodo } from './components/AddTodo/AddTodo';
 import { getUserById } from './servises/user';
 import { getNewTodoId } from './servises/todo';
+import React = require('react');
 
 export const App = () => {
   const todosList: Todo[] = todosFromServer.map(todo => ({
