@@ -10,7 +10,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
   // const [isCheked, setIsChecked] = useState(false);
 
   <article className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}>
-    <h2 className="TodoInfo__title">{todo.id}</h2>
     <h2 className="TodoInfo__title">{todo.title}</h2>
     <input type="checkbox" checked={todo.completed} />
     {todo.user && (
