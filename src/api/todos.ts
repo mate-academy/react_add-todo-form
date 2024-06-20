@@ -17,4 +17,10 @@ export default [
     completed: false,
     userId: 4,
   },
+  {
+    id: 3,
+    title: 'libertas que seras tamen',
+    completed: true,
+    userId: 3,
+  },
 ];
