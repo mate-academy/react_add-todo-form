@@ -13,6 +13,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
+  const validateTitle = /^[A-Za-z|0-9+ ]+$/;
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
@@ -30,10 +32,10 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setHasTitleError(!title);
+    setHasTitleError(!title || !validateTitle.test(title.trim()));
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title || !userId || !validateTitle.test(title.trim())) {
       return;
     }
 
