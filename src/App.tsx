@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoList } from './components/TodoList';
+import TodoList from './components/TodoList';
 import { UserInfo } from './components/UserInfo';
 
 const enhanceTodos = (todos: any[], users: any[]) => {
