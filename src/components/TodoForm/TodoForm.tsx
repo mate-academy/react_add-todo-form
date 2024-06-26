@@ -50,18 +50,14 @@ export const TodoForm: FC<Props> = ({ onAdd, maxId }) => {
     setUserId(0);
   };
 
-  const handleChangeTitle = (value: string) => {
-    setTitle(value);
-    if (titleError) {
-      setTitleError(false);
-    }
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    setTitleError(false);
   };
 
-  const handleChangeUserId = (value: number) => {
-    setUserId(value);
-    if (userError) {
-      setUserError(false);
-    }
+  const handleChangeUserId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+e.target.value);
+    setUserError(false);
   };
 
   return (
@@ -69,21 +65,23 @@ export const TodoForm: FC<Props> = ({ onAdd, maxId }) => {
       <div className="field">
         <label htmlFor="title">Title: </label>
         <input
+          id="title"
           type="text"
           data-cy="titleInput"
           value={title}
-          onChange={e => handleChangeTitle(e.target.value)}
+          onChange={e => handleChangeTitle(e)}
           placeholder="Enter a title"
         />
         {titleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
-        <label htmlFor="selectUser">User: </label>
+        <label htmlFor="userSelect">User: </label>
         <select
+          id="userSelect"
           data-cy="userSelect"
           value={userId}
-          onChange={e => handleChangeUserId(+e.target.value)}
+          onChange={e => handleChangeUserId(e)}
         >
           <option value="0" disabled>
             Choose a user
