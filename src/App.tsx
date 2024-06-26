@@ -10,15 +10,15 @@ import { User } from './types/types';
 import { Todo } from './types/types';
 import { ServerTodo } from './types/types';
 
-function findUser(userId: number): User | undefined {
+function findUser(userId: number): User {
   return usersFromServer.find((userFromServer: User): boolean => {
     return userFromServer.id === userId;
-  });
+  })!;
 }
 
 const preparedTodos: Todo[] = todosFromServer.map(
   (todoFromServer: ServerTodo): Todo => {
-    const user: User | undefined = findUser(todoFromServer.userId);
+    const user: User = findUser(todoFromServer.userId);
 
     return {
       user: user,
