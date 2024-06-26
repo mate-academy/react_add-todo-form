@@ -1,7 +1,15 @@
 import './TodoInfo.scss';
+
+import React from 'react';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo = ({ todo }) => (
+import { Todo } from '../../types/types';
+
+type Props = {
+  todo: Todo;
+};
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => (
   <article
     data-id={todo.id}
     className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
