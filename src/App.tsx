@@ -65,9 +65,9 @@ export const App = () => {
       return;
     }
 
-    // eslint-disable-next-line
-    const nextId: number =
-      [...todos].sort((a: Todo, b: Todo) => a.id - b.id).pop().id + 1;
+    const ids: number[] = [...todos].map((todo: Todo) => todo.id);
+    const nextId: number = Math.max(...ids) + 1;
+
     const todo = {
       id: nextId,
       userId: selectedUser,
