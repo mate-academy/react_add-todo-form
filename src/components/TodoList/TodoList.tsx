@@ -9,7 +9,7 @@ interface Props {
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
   const preparedTodos = todos.map(todo => {
-    const user = usersFromServer.find(user => user.id === todo.userId) || null;
+    const user = usersFromServer.find(item => item.id === todo.userId) || null;
 
     return {
       ...todo,
