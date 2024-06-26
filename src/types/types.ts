@@ -5,17 +5,13 @@ export type User = {
   email: string;
 };
 
-export type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
-
 export type ServerTodo = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
+};
+
+export type Todo = ServerTodo & {
+  user: User;
 };

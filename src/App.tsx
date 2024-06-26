@@ -34,7 +34,7 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  if (hasTitleError && title) {
+  if (hasTitleError && title.trim()) {
     setHasTitleError(false);
   }
 
@@ -54,7 +54,7 @@ export const App = () => {
       setHasUserError(false);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleError(true);
       error = true;
     } else {
