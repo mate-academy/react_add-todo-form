@@ -3,37 +3,44 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-label,
 button {
   cursor: pointer;
+}
+
+.with-error {
+  border: 3px solid red;
 }
 
 .error {
   color: red;
 }
 
-.TodoInfo {
-  width: max-content;
-  padding: 8px;
-  margin: 12px 0;
-  border: 1px solid #000;
+.list {
+  display: grid;
+  row-gap: 8px;
+  padding: 12px 0;
+}
+
+.card {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  padding: 5px;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: #ddd;
 
   &__title {
-    margin: 4px 0;
-    font-size: inherit;
-    color: #f00;
-  }
-
-  &--completed &__title {
-    color: #080;
+    font-size: 1.1rem;
+    margin: 0;
+    margin-bottom: 4px;
   }
 }
 
-.UserInfo {
-  font-style: italic;
+.form {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
