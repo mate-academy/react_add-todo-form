@@ -15,15 +15,34 @@ export const App = () => {
 
   const [goods, setGoods] = useState(goodsWithColors);
 
-  const handleSubmit = (newGood: Good) => {
+  const handleAdd = (newGood: Good) => {
     setGoods(prevGoods => [...prevGoods, newGood]);
+  };
+
+  const handleDelete = (id: number) => {
+    setGoods(prevGoods => prevGoods.filter(good => good.id !== id));
+  };
+
+  const handleEdit = (name: string, id: number) => {
+    setGoods(prevGoods =>
+      prevGoods.map(good => {
+        if (good.id === id) {
+          return {
+            ...good,
+            name,
+          };
+        }
+
+        return good;
+      }),
+    );
   };
 
   return (
     <div className="App">
-      <Form onSubmit={handleSubmit} />
+      <Form onSubmit={handleAdd} />
 
-      <List goods={goods} />
+      <List goods={goods} onDelete={handleDelete} onEdit={handleEdit} />
     </div>
   );
 };

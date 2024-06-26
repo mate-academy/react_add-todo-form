@@ -11,6 +11,7 @@ export const Form: FC<Props> = ({ onSubmit }) => {
   const [value, setValue] = useState('');
   const [colorId, setColorId] = useState(0);
   const [valueError, setValueError] = useState('');
+  const [colorError, setColorError] = useState('');
 
   const handleReset = () => {
     setValue('');
@@ -20,10 +21,13 @@ export const Form: FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // !false => true
     if (!value.trim()) {
-      // '   '.trim()  => '', Boolean('') => false
       setValueError('Value is required');
+      return;
+    }
+
+    if (!colorId) {
+      setColorError('Color is required');
       return;
     }
 
@@ -39,12 +43,22 @@ export const Form: FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <select value={colorId} onChange={e => setColorId(+e.target.value)}>
-        <option value="0">Choose</option>
+    <form onSubmit={handleSubmit} className="form">
+      <select
+        value={colorId}
+        onChange={e => {
+          setColorId(+e.target.value);
+          if (colorError) setColorError('');
+        }}
+      >
+        <option value="0" disabled>
+          Choose
+        </option>
 
         {colors.map(color => (
-          <option value={color.id}>{color.name}</option>
+          <option key={color.id} value={color.id}>
+            {color.name}
+          </option>
         ))}
       </select>
 
@@ -57,9 +71,10 @@ export const Form: FC<Props> = ({ onSubmit }) => {
         }}
       />
 
-      {valueError && <p>{valueError}</p>}
-
       <button>submit</button>
+
+      {valueError && <p>{valueError}</p>}
+      {colorError && <p>{colorError}</p>}
     </form>
   );
 };
