@@ -1,5 +1,5 @@
 import './App.scss';
-import * as React from 'react';
+import React from 'react';
 
 import { TodoForm } from './components/TodoForm';
 import todosFromServer from './api/todos';
