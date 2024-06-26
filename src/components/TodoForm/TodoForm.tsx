@@ -27,10 +27,10 @@ export const TodoForm: React.FC<Props> = ({ onAdd, maxId }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasSelectError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -50,6 +50,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, maxId }) => {
   return (
     <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">
+        <label htmlFor="post-title">Title: </label>
         <input
           type="text"
           data-cy="titleInput"
@@ -61,6 +62,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, maxId }) => {
       </div>
 
       <div className="field">
+        <label htmlFor="post-user">User: </label>
         <select
           data-cy="userSelect"
           defaultValue=""
