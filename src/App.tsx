@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 
-const maxIdPost = (todos: Todo[]) => {
+const getMaxId = (todos: Todo[]) => {
   return Math.max(...todos.map(todo => todo.id));
 };
 
@@ -32,8 +32,18 @@ export const App = () => {
   function addPost(newPost: Todo): void {
     setTodos(prevTodos => [
       ...prevTodos,
-      { ...newPost, id: maxIdPost(todos) + 1 },
+      { ...newPost, id: getMaxId(todos) + 1 },
     ]);
+  }
+
+  function handleOnChangeUser(event: React.ChangeEvent<HTMLSelectElement>) {
+    setUser(getUserById(+event.target.value));
+    setErrorUserId('');
+  }
+
+  function handleOnChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value);
+    setErrorTitle('');
   }
 
   function handleSubmit(event: React.FormEvent) {
@@ -72,10 +82,7 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setErrorTitle('');
-            }}
+            onChange={handleOnChangeTitle}
           />
           {errorTitle && <span className="error">{errorTitle}</span>}
         </div>
@@ -84,10 +91,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={user?.id || 0}
-            onChange={event => {
-              setUser(getUserById(+event.target.value));
-              setErrorUserId('');
-            }}
+            onChange={handleOnChangeUser}
           >
             <option value="0" disabled>
               Choose a user
