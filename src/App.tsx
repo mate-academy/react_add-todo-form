@@ -18,26 +18,26 @@ export const todos = todosFromServer.map(todo => ({
 export const App = () => {
   const [title, setTitle] = useState('');
   const [selectUser, setSelectUser] = useState(0);
-  const [selectUserError, setSelectUserError] = useState(false);
-  const [titleError, setTitleError] = useState(false);
+  const [selectUserError, setSelectUserError] = useState('');
+  const [titleError, setTitleError] = useState('');
   const [allTodos, setAllTodos] = useState<Todo[]>(todos);
 
   const reset = () => {
     setTitle('');
     setSelectUser(0);
-    setSelectUserError(false);
-    setTitleError(false);
+    setSelectUserError('');
+    setTitleError('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title) {
-      setTitleError(true);
+      setTitleError('title');
     }
 
     if (!selectUser) {
-      setSelectUserError(true);
+      setSelectUserError('user');
     }
 
     if (title && selectUser) {
@@ -64,9 +64,10 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
+            placeholder="Enter a title"
             onChange={event => setTitle(event.target.value)}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {titleError && !title &&  <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -85,7 +86,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectUserError && (
+          {!selectUser && selectUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>

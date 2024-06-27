@@ -1,9 +1,9 @@
-import { User } from "./users";
+import { User } from './users';
 
 export interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user: User | null
+  user: User | null;
 }
