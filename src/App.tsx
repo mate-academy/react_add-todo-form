@@ -5,6 +5,7 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { ToDo } from './types/ToDo';
 import { ToDoUser } from './types/ToDoUser';
+import cn from 'classnames';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -117,6 +118,7 @@ export const App = () => {
               placeholder="Enter a title"
               value={newPost.title}
               onChange={event => handleChangeTitle(event)}
+              className={cn({ error: errors.titleError })}
             />
           </label>
           {errors.titleError && (
@@ -132,6 +134,7 @@ export const App = () => {
               value={newPost.userId}
               name="userId"
               onChange={event => handleChangeUserId(event)}
+              className={cn({ error: errors.userIdError })}
             >
               <option value="0" disabled>
                 Choose a user
