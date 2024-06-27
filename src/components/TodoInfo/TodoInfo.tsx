@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import './TodoInfo.scss';
 
 import usersFromServer from '../../api/users';
 import React from 'react';
