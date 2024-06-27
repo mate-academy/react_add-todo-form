@@ -5,25 +5,28 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './Types';
 import { TodoList } from './components/TodoList';
+import { getBiggestId } from './utils/getBiggestId';
+import { getUserById } from './utils/getUserById';
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => todo.userId === user.id) || null,
+  user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [selectUser, setSelectUser] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState(0);
 
   const [titleError, setTitleError] = useState('');
   const [selectUserError, setSelectUserError] = useState('');
+
   const [allTodos, setAllTodos] = useState<Todo[]>(todos);
 
   function reset() {
     setTitleError('');
     setSelectUserError('');
     setTitle('');
-    setSelectUser(0);
+    setSelectedUserId(0);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,21 +36,17 @@ export const App: React.FC = () => {
       setTitleError('enter a title');
     }
 
-    if (!selectUser) {
+    if (!selectedUserId) {
       setSelectUserError('choose a user');
     }
 
-    if (title && selectUser) {
-      const biggestId: number = allTodos.reduce((a, c) =>
-        a.id > c.id ? a : c,
-      ).id;
-
+    if (title && selectedUserId) {
       const newTodo: Todo = {
-        id: biggestId + 1,
+        id: getBiggestId(allTodos) + 1,
         title,
         completed: false,
-        userId: +selectUser,
-        user: usersFromServer.find(user => +selectUser === user.id) || null,
+        userId: +selectedUserId,
+        user: usersFromServer.find(user => +selectedUserId === user.id) || null,
       };
 
       setAllTodos(prevTodos => [...prevTodos, newTodo]);
@@ -80,8 +79,8 @@ export const App: React.FC = () => {
           <select
             id="selectUser"
             data-cy="userSelect"
-            value={selectUser}
-            onChange={event => setSelectUser(+event.target.value)}
+            value={selectedUserId}
+            onChange={event => setSelectedUserId(+event.target.value)}
           >
             <option value="0" disabled>
               Choose a user
@@ -93,7 +92,7 @@ export const App: React.FC = () => {
             ))}
           </select>
 
-          {!Boolean(selectUser) && selectUserError && (
+          {!Boolean(selectedUserId) && selectUserError && (
             <span className="error">Please {selectUserError}</span>
           )}
         </div>
