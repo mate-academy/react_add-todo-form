@@ -43,9 +43,9 @@ export const App = () => {
   const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!selectedUserId);
-    if (!title || !selectedUserId) {
+    if (!title.trim() || !selectedUserId) {
       return;
     }
 
