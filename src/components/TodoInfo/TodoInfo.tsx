@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Todo } from '../../types';
 import { UserInfo } from '../UserInfo';
+import classNames from 'classnames';
 
 type Props = {
   todo: Todo;
@@ -9,7 +10,9 @@ type Props = {
 export const TodoInfo: FC<Props> = ({ todo }) => (
   <article
     data-id={todo.id}
-    className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+    className={classNames('TodoInfo', {
+      'TodoInfo--completed': todo.completed,
+    })}
   >
     <h2 className="TodoInfo__title">{todo.title}</h2>
 

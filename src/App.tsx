@@ -28,11 +28,10 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <TodoForm
-        onAdd={todo => handleAddTodo(todo)}
+        onAdd={handleAddTodo}
         maxId={Math.max(...todos.map(todo => todo.id))}
       />
 
-      <h1 className="App__title">List of todos</h1>
       <TodoList todos={todos} />
     </div>
   );
