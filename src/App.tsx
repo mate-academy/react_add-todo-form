@@ -4,21 +4,7 @@ import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
-
-export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-export interface ToDo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user?: User | null;
-}
+import { User, ToDo } from './types/types';
 
 function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;

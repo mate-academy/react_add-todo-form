@@ -1,8 +1,7 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
-import { ToDo } from '../../App';
+import { ToDo } from '../../types/types';
 import users from '../../api/users';
-import { useState } from 'react';
 
 interface Props {
   todos: ToDo[] | null;
@@ -11,11 +10,10 @@ interface Props {
 
 export const TodoList: FC<Props> = ({ todos, addNewTodo }) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState<number>(0);
-  const [titleError, setTitleError] = useState<string>('');
-  const [userError, setUserError] = useState<string>('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
 
-  const getLargestId = Math.max(...(todos?.map(el => el.id) || [])) + 1;
   const errorsDisable = () => {
     setUserError('');
     setTitleError('');
@@ -37,7 +35,7 @@ export const TodoList: FC<Props> = ({ todos, addNewTodo }) => {
     }
 
     const newTodo: ToDo = {
-      id: getLargestId,
+      id: Math.max(...(todos?.map(el => el.id) || [])) + 1,
       title: newTodoTitle,
       completed: false,
       userId: selectedUserId,
@@ -60,6 +58,7 @@ export const TodoList: FC<Props> = ({ todos, addNewTodo }) => {
             onChange={event => setNewTodoTitle(event.target.value)}
             placeholder="Enter todo title"
           />
+
           {titleError && !newTodoTitle && (
             <span className="error" style={{ color: 'red' }}>
               {titleError}
@@ -73,20 +72,26 @@ export const TodoList: FC<Props> = ({ todos, addNewTodo }) => {
             value={selectedUserId}
             onChange={event => setSelectedUserId(Number(event.target.value))}
           >
-            <option value="0">Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
+
             {users.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
+
           {userError && !selectedUserId && (
             <span className="error" style={{ color: 'red' }}>
               {userError}
             </span>
           )}
         </div>
+
         <br />
+
         <div>
           <button type="submit" onClick={errorsDisable} data-cy="submitButton">
             Add
