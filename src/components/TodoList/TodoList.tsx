@@ -7,8 +7,8 @@ interface Props {
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todos.map((todo, index) => (
-        <TodoInfo todo={todo} key={`${todo.id}_${index}`} />
+      {todos.map(todo => (
+        <TodoInfo todo={todo} key={todo.id} />
       ))}
     </section>
   );

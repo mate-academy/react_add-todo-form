@@ -6,10 +6,12 @@ import todosFromServer from './api/todos';
 import React, { useState } from 'react';
 import { Todo } from './types';
 
+import { findUser } from './utils/findUser';
+import { getNewTodoId } from './utils/generateUniqueId';
 const todos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
+    user: findUser(todo.id),
   };
 });
 
@@ -21,12 +23,6 @@ export const App = () => {
 
   const [hasTitleError, sethasTitleError] = useState(false);
   const [hasUserIdError, sethasUserIdError] = useState(false);
-
-  function getNewTodoId(todosList: Todo[]) {
-    const maxId = Math.max(...todosList.map(t => t.id));
-
-    return maxId + 1;
-  }
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
@@ -54,7 +50,7 @@ export const App = () => {
       title,
       completed: false,
       userId: selectedUserId,
-      user: usersFromServer.find(user => user.id === selectedUserId) || null,
+      user: findUser(selectedUserId) || null,
     };
 
     setToDo(prevTodo => {
