@@ -48,7 +48,14 @@ describe('TodoList', () => {
       },
     ];
 
-    mount(<TodoList todos={todos} />);
+    mount(
+      <TodoList
+        todos={todos}
+        addNewTodo={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />,
+    );
 
     cy.get('.TodoInfo').should('have.length', 4);
 
