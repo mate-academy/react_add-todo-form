@@ -35,18 +35,20 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
     setTitleError(!title.trim());
     setUserError(!userId);
 
-    if (!title.trim() || userId === 0) {
+    if (!title.trim() || !userId) {
       return;
     }
 
+    const createNewTodo = Math.max(...todos.map(todo => todo.id));
+
     const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: createNewTodo + 1,
       title: title,
       completed: false,
       userId: userId,
     };
 
-    setTodos(todo => [...todo, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     reset();
   };
 
