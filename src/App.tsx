@@ -11,6 +11,10 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
+function getMaxId(todos: Todo[]): number {
+  return todos.reduce((m, c) => (m.id > c.id ? m : c)).id;
+}
+
 const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -53,16 +57,14 @@ export const App: React.FC = () => {
     }
 
     if (title && userId) {
-      const maxId: number = initialTodos.reduce((m, c) =>
-        m.id > c.id ? m : c,
-      ).id;
+      const maxId: number = getMaxId(initialTodos);
 
       const newTodo: Todo = {
         id: maxId + 1,
         title,
         completed: false,
         userId: +userId,
-        user: usersFromServer.find(user => +userId === user.id) || null,
+        user: getUserById(+userId),
       };
 
       setTodos(prevTodos => [...prevTodos, newTodo]);
