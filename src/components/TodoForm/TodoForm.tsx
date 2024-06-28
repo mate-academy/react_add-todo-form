@@ -17,26 +17,6 @@ export const TodoForm: FC<Props> = ({ onAdd, maxId }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // let hasErrors = false;
-
-    // if (!title.trim()) {
-    //   setTitleError(true);
-    //   hasErrors = true;
-    // } else {
-    //   setTitleError(false);
-    // }
-
-    // if (userId === 0) {
-    //   setUserError(true);
-    //   hasErrors = true;
-    // } else {
-    //   setUserError(false);
-    // }
-
-    // if (hasErrors) {
-    //   return;
-    // }
-
     setTitleError(!title.trim());
     setUserError(!userId);
 
