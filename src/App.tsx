@@ -19,13 +19,11 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [selectUser, setSelectUser] = useState(0);
 
-  const [titleError, setTitleError] = useState('');
-  const [selectUserError, setSelectUserError] = useState('');
+  const [errors, setErrors] = useState({ title: '', selectUser: '' });
   const [allTodos, setAllTodos] = useState<Todo[]>(todos);
 
   function reset() {
-    setTitleError('');
-    setSelectUserError('');
+    setErrors({ title: '', selectUser: '' });
     setTitle('');
     setSelectUser(0);
   }
@@ -33,15 +31,14 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
-      setTitleError('enter a title');
-    }
+    const newErrors = {
+      title: !title ? 'Please enter a title' : '',
+      selectUser: !selectUser ? 'Please choose a user' : '',
+    };
 
-    if (!selectUser) {
-      setSelectUserError('choose a user');
-    }
+    setErrors(newErrors);
 
-    if (title && selectUser) {
+    if (!newErrors.title && !newErrors.selectUser) {
       const biggestId: number = allTodos.reduce((a, c) =>
         a.id > c.id ? a : c,
       ).id;
@@ -74,8 +71,8 @@ export const App = () => {
             value={title}
             onChange={event => setTitle(event.target.value)}
           />
-          {titleError && !title && (
-            <span className="error">Please {titleError}</span>
+          {errors.title && !title && (
+            <span className="error">Please {errors.title}</span>
           )}
         </div>
 
@@ -97,8 +94,8 @@ export const App = () => {
             ))}
           </select>
 
-          {!Boolean(selectUser) && selectUserError && (
-            <span className="error">Please {selectUserError}</span>
+          {!Boolean(selectUser) && errors.selectUser && (
+            <span className="error">Please {errors.selectUser}</span>
           )}
         </div>
 
