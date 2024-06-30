@@ -4,12 +4,18 @@ import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 
+const DEFAULT_USER_ID = 0;
+const EMPTY_TITLE_ERROR = 'Please enter a title';
+const EMPTY_USER_ERROR = 'Please choose a user';
+
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState('');
-  const [userError, setUserError] = useState('');
+  const [userId, setUserId] = useState(DEFAULT_USER_ID);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  const [userErrorMessage, setUserErrorMessage] = useState('');
 
   const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
@@ -17,17 +23,21 @@ export const App = () => {
     let hasError = false;
 
     if (title.trim() === '') {
-      setTitleError('Please enter a title');
+      setTitleError(true);
+      setTitleErrorMessage(EMPTY_TITLE_ERROR);
       hasError = true;
     } else {
-      setTitleError('');
+      setTitleError(false);
+      setTitleErrorMessage('');
     }
 
-    if (userId === 0) {
-      setUserError('Please choose a user');
+    if (userId === DEFAULT_USER_ID) {
+      setUserError(true);
+      setUserErrorMessage(EMPTY_USER_ERROR);
       hasError = true;
     } else {
-      setUserError('');
+      setUserError(false);
+      setUserErrorMessage('');
     }
 
     if (hasError) {
@@ -41,9 +51,9 @@ export const App = () => {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
     setTitle('');
-    setUserId(0);
+    setUserId(DEFAULT_USER_ID);
   };
 
   return (
@@ -62,11 +72,12 @@ export const App = () => {
             onChange={e => {
               setTitle(e.target.value);
               if (e.target.value.trim() !== '') {
-                setTitleError('');
+                setTitleError(false);
+                setTitleErrorMessage('');
               }
             }}
           />
-          {titleError && <span className="error">{titleError}</span>}
+          {titleError && <span className="error">{titleErrorMessage}</span>}
         </div>
 
         <div className="field">
@@ -77,12 +88,13 @@ export const App = () => {
             value={userId}
             onChange={e => {
               setUserId(Number(e.target.value));
-              if (Number(e.target.value) !== 0) {
-                setUserError('');
+              if (Number(e.target.value) !== DEFAULT_USER_ID) {
+                setUserError(false);
+                setUserErrorMessage('');
               }
             }}
           >
-            <option value="0" disabled>
+            <option value={DEFAULT_USER_ID} disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
@@ -91,7 +103,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {userError && <span className="error">{userError}</span>}
+          {userError && <span className="error">{userErrorMessage}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">

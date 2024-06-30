@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const foundUser = usersFromServer.find(u => u.id === todo.userId);
+  const foundUser = usersFromServer.find(user => user.id === todo.userId);
 
   return (
     <article
