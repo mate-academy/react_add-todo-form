@@ -51,12 +51,7 @@ export const FormTodo: React.FC<FormTodoProps> = ({ todos, addTodo }) => {
       title,
       completed: false,
       userId,
-      user: usersFromServer.find(user => user.id === userId) || {
-        id: -1,
-        name: 'Unknown',
-        username: 'unknown',
-        email: 'unknown@example.com',
-      },
+      user: usersFromServer.find(user => user.id === userId) || null,
     });
 
     handleReset();

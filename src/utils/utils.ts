@@ -12,11 +12,6 @@ export function getNewTodoId(todos: Todo[]): number {
 export function getTodosWithUserInfo(): Todo[] {
   return todosFromServer.map((todo: Todos) => ({
     ...todo,
-    user: usersFromServer.find((user: User) => user.id === todo.userId) || {
-      id: -1,
-      name: 'Unknown',
-      username: 'unknown',
-      email: 'unknown@example.com',
-    },
+    user: usersFromServer.find((user: User) => user.id === todo.userId) || null,
   }));
 }
