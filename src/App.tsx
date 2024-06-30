@@ -9,8 +9,12 @@ import { todosWithUsers } from './utils/getTodoesWithUsers';
 import { getRandomId } from './utils/getRandomId';
 import { findUserById } from './utils/findUserById';
 
+const DEFAULT_USER_ID = 0;
+const EMPTY_TITLE_ERROR = 'Please enter a title';
+const EMPTY_USER_ERROR = 'Please choose a user';
+
 export const App = () => {
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(DEFAULT_USER_ID);
   const [hasUserIdError, setUserIdError] = useState(false);
 
   const [title, setTitle] = useState('');
@@ -48,7 +52,7 @@ export const App = () => {
 
     setTodos([...todos, newTodo]);
     setTitle('');
-    setUserId(0);
+    setUserId(DEFAULT_USER_ID);
   };
 
   return (
@@ -64,7 +68,7 @@ export const App = () => {
             onChange={handleTitleChange}
             placeholder="Enter todo title"
           />
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">{EMPTY_TITLE_ERROR}</span>}
         </div>
 
         <div className="field">
@@ -73,7 +77,7 @@ export const App = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value={0} disabled>
+            <option value={DEFAULT_USER_ID} disabled>
               Choose a user
             </option>
 
@@ -84,9 +88,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserIdError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {hasUserIdError && <span className="error">{EMPTY_USER_ERROR}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
