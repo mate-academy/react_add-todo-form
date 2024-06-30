@@ -15,18 +15,34 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const createNewTodo = (title: string, userId: number, todos: Todo[]): Todo => {
+  const maxId = todos.reduce((max, todo) => (todo.id > max ? todo.id : max), 0);
+
+  return {
+    id: maxId + 1,
+    title: title.trim(),
+    completed: false,
+    userId,
+    user: getUserById(userId),
+  };
+};
+
+const DEFAULT_USER_ID = 0;
+const EMPTY_TITLE_ERROR = 'Please enter a title';
+const EMPTY_USER_ERROR = 'Please choose a user';
+
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  const [title, setTitle] = useState<string>('');
+  const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [userId, setUserId] = useState<number>(0);
+  const [userId, setUserId] = useState(DEFAULT_USER_ID);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const resetAll = () => {
     setTitle('');
-    setUserId(0);
+    setUserId(DEFAULT_USER_ID);
     setHasTitleError(false);
     setHasUserIdError(false);
   };
@@ -52,17 +68,7 @@ export const App = () => {
     }
 
     if (title && userId) {
-      const maxId: number = initialTodos.reduce((m, c) =>
-        m.id > c.id ? m : c,
-      ).id;
-
-      const newTodo: Todo = {
-        id: maxId + 1,
-        title,
-        completed: false,
-        userId: +userId,
-        user: usersFromServer.find(user => +userId === user.id) || null,
-      };
+      const newTodo = createNewTodo(title, userId, todos);
 
       setTodos(prevTodos => [...prevTodos, newTodo]);
       resetAll();
@@ -84,7 +90,7 @@ export const App = () => {
             onChange={handleTitleChange}
             placeholder="Enter a title"
           />
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">{EMPTY_TITLE_ERROR}</span>}
         </div>
 
         <div className="field">
@@ -105,9 +111,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserIdError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {hasUserIdError && <span className="error">{EMPTY_USER_ERROR}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
