@@ -5,27 +5,24 @@ import { TodoList } from './components/TodoList';
 import users from './api/users';
 import { useState } from 'react';
 import { Todo } from './types';
+import { getlargestId } from './services/postId';
+
+const DEFAULT_USER_ID = 0;
+const EMPTY_TITLE_ERROR = 'Please enter a title';
+const EMPTY_USER_ERROR = 'Please choose a user';
 
 export const App = () => {
   const [currTodos, setCurrTodos] = useState<Todo[]>(todos);
   const [titleValue, setTitleValue] = useState('');
-  const [selectUser, setSelectUser] = useState(0);
+  const [selectUser, setSelectUser] = useState(DEFAULT_USER_ID);
   const [inputError, setInputError] = useState(false);
   const [selectError, setSelectError] = useState(false);
 
   const reset = () => {
     setTitleValue('');
-    setSelectUser(0);
+    setSelectUser(DEFAULT_USER_ID);
     setInputError(false);
     setSelectError(false);
-  };
-
-  const getlargestId = () => {
-    const newTodos: Todo[] = [...currTodos];
-
-    newTodos.sort((todo1, todo2) => todo1.id - todo2.id);
-
-    return newTodos[newTodos.length - 1].id + 1;
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -41,7 +38,7 @@ export const App = () => {
 
     if (titleValue && selectUser) {
       const newTodo: Todo = {
-        id: getlargestId(),
+        id: getlargestId(currTodos),
         title: titleValue,
         completed: false,
         userId: selectUser,
@@ -70,7 +67,7 @@ export const App = () => {
             onChange={event => setTitleValue(event.target.value)}
           />
           {inputError && !titleValue && (
-            <span className="error">Please enter a title</span>
+            <span className="error">{EMPTY_TITLE_ERROR}</span>
           )}
         </div>
 
@@ -94,7 +91,7 @@ export const App = () => {
           </select>
 
           {selectError && !selectUser && (
-            <span className="error">Please choose a user</span>
+            <span className="error">{EMPTY_USER_ERROR}</span>
           )}
         </div>
 
