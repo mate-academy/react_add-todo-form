@@ -1,6 +1,6 @@
 import { Todo } from '../types';
 
-export const getlargestId = (currTodos: Todo[]): number => {
+export const getLargestId = (currTodos: Todo[]): number => {
   const newTodos: Todo[] = [...currTodos];
 
   newTodos.sort((todo1, todo2) => todo1.id - todo2.id);

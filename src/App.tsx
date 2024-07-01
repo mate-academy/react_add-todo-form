@@ -5,7 +5,7 @@ import { TodoList } from './components/TodoList';
 import users from './api/users';
 import { useState } from 'react';
 import { Todo } from './types';
-import { getlargestId } from './services/postId';
+import { getLargestId } from './services/postId';
 
 const DEFAULT_USER_ID = 0;
 const EMPTY_TITLE_ERROR = 'Please enter a title';
@@ -14,13 +14,13 @@ const EMPTY_USER_ERROR = 'Please choose a user';
 export const App = () => {
   const [currTodos, setCurrTodos] = useState<Todo[]>(todos);
   const [titleValue, setTitleValue] = useState('');
-  const [selectUser, setSelectUser] = useState(DEFAULT_USER_ID);
+  const [selectedUserId, setSelectedUserId] = useState(DEFAULT_USER_ID);
   const [inputError, setInputError] = useState(false);
   const [selectError, setSelectError] = useState(false);
 
   const reset = () => {
     setTitleValue('');
-    setSelectUser(DEFAULT_USER_ID);
+    setSelectedUserId(DEFAULT_USER_ID);
     setInputError(false);
     setSelectError(false);
   };
@@ -32,17 +32,17 @@ export const App = () => {
       setInputError(true);
     }
 
-    if (!selectUser) {
+    if (!selectedUserId) {
       setSelectError(true);
     }
 
-    if (titleValue && selectUser) {
+    if (titleValue && selectedUserId) {
       const newTodo: Todo = {
-        id: getlargestId(currTodos),
+        id: getLargestId(currTodos),
         title: titleValue,
         completed: false,
-        userId: selectUser,
-        user: getUserById(selectUser) || null,
+        userId: selectedUserId,
+        user: getUserById(selectedUserId) || null,
       };
 
       setCurrTodos(prevTodos => [...prevTodos, newTodo]);
@@ -76,8 +76,8 @@ export const App = () => {
           <select
             id="selectId"
             data-cy="userSelect"
-            value={selectUser}
-            onChange={e => setSelectUser(+e.target.value)}
+            value={selectedUserId}
+            onChange={e => setSelectedUserId(+e.target.value)}
           >
             <option value="0" disabled>
               Choose a user
@@ -90,7 +90,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectError && !selectUser && (
+          {selectError && !selectedUserId && (
             <span className="error">{EMPTY_USER_ERROR}</span>
           )}
         </div>
