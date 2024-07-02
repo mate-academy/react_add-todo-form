@@ -68,26 +68,34 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>Add todo form</h1>
+      <h1>Add Todo Form</h1>
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="title">
-            Title: &nbsp;
+            Title:&nbsp;
             <input
               type="text"
-              data-cy="titleInput"
+              id="title"
+              name="title"
+              value={newTodo.title}
               onChange={handleTitleChange}
+              data-cy="titleInput"
             />
           </label>
-          {}
         </div>
 
         <div className="field">
           <label htmlFor="username">
-            User: &nbsp;
-            <select data-cy="userSelect" onChange={handleUserChange}>
-              <option value="0" disabled>
+            User:&nbsp;
+            <select
+              id="username"
+              name="username"
+              value={newTodo.userId}
+              onChange={handleUserChange}
+              data-cy="userSelect"
+            >
+              <option value="" disabled>
                 Choose a user
               </option>
               {usersFromServer.map(user => (
@@ -97,7 +105,6 @@ export const App = () => {
               ))}
             </select>
           </label>
-
           {error && <span className="error">{error}</span>}
         </div>
 
