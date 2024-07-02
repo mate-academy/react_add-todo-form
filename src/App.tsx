@@ -15,7 +15,7 @@ const initialTodos: Todos[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-function getTodosId(todoId: Todos[]) {
+function getNewTodoId(todoId: Todos[]) {
   const maxTodoId = Math.max(...todoId.map(todo => todo.id));
 
   return maxTodoId + 1;
@@ -29,7 +29,7 @@ export const App: React.FC = () => {
   const [isUserIdError, setIsUserIdError] = useState(false);
 
   const [todoList, setTodoList] = useState<Todos[]>(initialTodos);
-  const getNewId = getTodosId(todoList);
+  const newId = getNewTodoId(todoList);
 
   const userIdChanger = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
     setIsTitleError(false);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setTitle('');
     setUserId(0);
   };
@@ -50,21 +50,17 @@ export const App: React.FC = () => {
     event.preventDefault();
     setIsUserIdError(!userId);
 
-    if (!title.trim()) {
-      setIsTitleError(true);
-    }
+    setIsTitleError(!title.trim());
+    setIsUserIdError(!userId);
 
-    if (userId > 0 && title.trim() !== '') {
-      setIsTitleError(false);
-      setIsUserIdError(false);
-    } else {
+    if (!userId || !title.trim()) {
       return;
     }
 
     setTodoList([
       ...todoList,
       {
-        id: getNewId,
+        id: newId,
         title,
         completed: false,
         userId,
@@ -72,7 +68,7 @@ export const App: React.FC = () => {
       },
     ]);
 
-    reset();
+    handleReset();
   };
 
   return (
