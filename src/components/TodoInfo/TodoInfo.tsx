@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  title: string;
   id: number;
+  title: string;
   completed: boolean;
   email: string;
   name: string;

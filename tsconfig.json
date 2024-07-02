@@ -6,5 +6,10 @@
   "compilerOptions": {
     "sourceMap": false,
     "types": ["node", "cypress"]
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "npm run build && echo 'Deployment complete.'"
   }
 }

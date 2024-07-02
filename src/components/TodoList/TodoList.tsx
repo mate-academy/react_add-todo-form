@@ -28,11 +28,11 @@ export const TodoList: React.FC<Props> = ({ todos, users }) => {
         return (
           <TodoInfo
             key={todo.id}
-            title={todo.title}
             id={todo.id}
+            title={todo.title}
             completed={todo.completed}
-            email={user?.email || 'unknown'}
-            name={user?.name || 'unknown'}
+            email={user?.email || 'Unknown'}
+            name={user?.name || 'Unknown'}
           />
         );
       })}
