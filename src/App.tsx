@@ -1,27 +1,104 @@
 import './App.scss';
+import { TodoList } from './components/TodoList';
+import { useState, ChangeEvent } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
 export const App = () => {
+  const [error, setError] = useState('');
+  const [todos, setTodos] = useState(todosFromServer);
+  const [newTodo, setNewTodo] = useState({
+    title: '',
+    userId: '',
+  });
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedUserId = event.target.value;
+
+    setNewTodo({
+      ...newTodo,
+      userId: selectedUserId,
+    });
+    setError('');
+  };
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newTitle = event.target.value;
+
+    setNewTodo({
+      ...newTodo,
+      title: newTitle,
+    });
+    setError('');
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!newTodo.userId) {
+      setError('Please choose a user');
+
+      return;
+    }
+
+    if (!newTodo.title.trim()) {
+      setError('Please enter a title');
+
+      return;
+    }
+
+    const maxId = Math.max(...todos.map(todo => todo.id), 0);
+    const nextId = maxId + 1;
+
+    const newTodoItem = {
+      id: nextId,
+      title: newTodo.title,
+      userId: parseInt(newTodo.userId),
+      completed: false,
+    };
+
+    setTodos([...todos, newTodoItem]);
+    setNewTodo({
+      ...newTodo,
+      title: '',
+    });
+    setError('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="title">
+            Title: &nbsp;
+            <input
+              type="text"
+              data-cy="titleInput"
+              onChange={handleTitleChange}
+            />
+          </label>
+          {}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+          <label htmlFor="username">
+            User: &nbsp;
+            <select data-cy="userSelect" onChange={handleUserChange}>
+              <option value="0" disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
-          <span className="error">Please choose a user</span>
+          {error && <span className="error">{error}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -30,31 +107,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+        <TodoList todos={todos} users={usersFromServer} />
       </section>
     </div>
   );
