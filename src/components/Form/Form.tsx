@@ -25,7 +25,7 @@ export const Form: React.FC<Props> = ({ onAddTodo }) => {
   ) => {
     const { id, value } = e.target;
     const lastChar = value.at(-1) || '';
-    let validValue = value;
+    let validValue = value.trimStart();
 
     if (!/^[a-zA-Zа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9 ]*$/.test(lastChar)) {
       validValue = validValue.replace(lastChar, '');
