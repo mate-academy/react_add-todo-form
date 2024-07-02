@@ -78,6 +78,7 @@ export const App = () => {
               type="text"
               id="title"
               name="title"
+              placeholder="Enter a title"
               value={newTodo.title}
               onChange={handleTitleChange}
               data-cy="titleInput"

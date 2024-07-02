@@ -1,3 +1,4 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 
 type Todo = {
@@ -25,14 +26,25 @@ export const TodoList: React.FC<Props> = ({ todos, users }) => {
       {todos.map(todo => {
         const user = users.find(tempUser => tempUser.id === todo.userId);
 
+        if (!user) {
+          return null;
+        }
+
         return (
           <TodoInfo
             key={todo.id}
-            id={todo.id}
-            title={todo.title}
-            completed={todo.completed}
-            email={user?.email || 'Unknown'}
-            name={user?.name || 'Unknown'}
+            todo={{
+              userId: todo.userId,
+              id: todo.id,
+              title: todo.title,
+              completed: todo.completed,
+              user: {
+                id: user.id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+              },
+            }}
           />
         );
       })}
