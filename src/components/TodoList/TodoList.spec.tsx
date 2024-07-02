@@ -1,5 +1,6 @@
+import React from 'react';
 import { mount } from '@cypress/react18';
-import { TodoList } from './TodoList';
+import TodoList from './TodoList';
 
 describe('TodoList', () => {
   it('should contain all the todos', () => {
@@ -48,7 +49,11 @@ describe('TodoList', () => {
       },
     ];
 
-    mount(<TodoList todos={todos} />);
+    const getUserById = (id: number) => {
+      return todos.find(todo => todo.user.id === id)?.user || null;
+    };
+
+    mount(<TodoList todos={todos} getUserById={getUserById} />);
 
     cy.get('.TodoInfo').should('have.length', 4);
 
