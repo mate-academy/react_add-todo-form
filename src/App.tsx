@@ -1,61 +1,32 @@
-import './App.scss';
+import React, { useState } from 'react';
+import TodoList from './components/TodoList';
+import TodoForm from './components/TodoForm';
+import { Todo, User } from './api/todos';
+import { UserInfo } from './components/UserInfo';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [users] = useState<User[]>([
+    { id: 1, name: 'Leanne Graham', email: 'Sincere@april.biz' },
+    { id: 2, name: 'Ervin Howell', email: 'Shanna@melissa.tv' },
+  ]);
 
-export const App = () => {
+  const addTodo = (newTodo: Todo) => {
+    setTodos([...todos, newTodo]);
+  };
+
+  const getUserById = (userId: number): User | null => {
+    return users.find(user => user.id === userId) || null;
+  };
+
   return (
     <div className="App">
-      <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <h1>Todo App</h1>
+      <TodoForm users={users} addTodo={addTodo} />
+      <TodoList todos={todos} getUserById={getUserById} />
+      <UserInfo user={users[0]} /> {}
     </div>
   );
 };
+
+export default App;
