@@ -39,7 +39,7 @@ export const TodoInfo: React.FC<Props> = ({
       >
         {title}
       </h2>
-      <UserInfo userName={name} userEmail={email} />
+      <UserInfo name={name} email={email} />
     </article>
   );
 };

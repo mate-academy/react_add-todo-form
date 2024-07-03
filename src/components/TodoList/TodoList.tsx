@@ -1,5 +1,6 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
+import users from '../../api/users';
 
 type Todo = {
   id: number;
@@ -8,23 +9,17 @@ type Todo = {
   userId: number;
 };
 
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
 type Props = {
   todos: Todo[];
-  users: User[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos, users }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <div>
       {todos.map(todo => {
-        const user = users.find(tempUser => tempUser.id === todo.userId);
+        const user = users.find(
+          (tempUser: { id: number }) => tempUser.id === todo.userId,
+        );
 
         if (!user) {
           return null;
