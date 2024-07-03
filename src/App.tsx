@@ -1,12 +1,14 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import { useState, ChangeEvent } from 'react';
-
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 
 export const App = () => {
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    title: '',
+    user: '',
+  });
   const [todos, setTodos] = useState(todosFromServer);
   const [newTodo, setNewTodo] = useState({
     title: '',
@@ -20,7 +22,11 @@ export const App = () => {
       ...newTodo,
       userId: selectedUserId,
     });
-    setError('');
+
+    setErrors({
+      ...errors,
+      user: selectedUserId ? '' : 'Please choose a user',
+    });
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,22 +36,26 @@ export const App = () => {
       ...newTodo,
       title: newTitle,
     });
-    setError('');
+
+    setErrors({
+      ...errors,
+      title: newTitle.trim() ? '' : 'Please enter a title',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!newTodo.userId) {
-      setError('Please choose a user');
+    const titleError = !newTodo.title.trim() ? 'Please enter a title' : '';
+    const userError = !newTodo.userId ? 'Please choose a user' : '';
 
-      return;
-    }
+    setErrors({
+      title: titleError,
+      user: userError,
+    });
 
-    if (!newTodo.title.trim()) {
-      setError('Please enter a title');
-
-      return;
+    if (titleError || userError) {
+      return; // Exit early if there are errors
     }
 
     const maxId = Math.max(...todos.map(todo => todo.id), 0);
@@ -59,11 +69,16 @@ export const App = () => {
     };
 
     setTodos([...todos, newTodoItem]);
+
     setNewTodo({
-      ...newTodo,
       title: '',
+      userId: '',
     });
-    setError('');
+
+    setErrors({
+      title: '',
+      user: '',
+    });
   };
 
   return (
@@ -84,6 +99,7 @@ export const App = () => {
               data-cy="titleInput"
             />
           </label>
+          {errors.title && <span className="error">{errors.title}</span>}
         </div>
 
         <div className="field">
@@ -106,7 +122,7 @@ export const App = () => {
               ))}
             </select>
           </label>
-          {error && <span className="error">{error}</span>}
+          {errors.user && <span className="error">{errors.user}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
