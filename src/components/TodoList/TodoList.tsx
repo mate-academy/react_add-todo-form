@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
@@ -9,9 +9,7 @@ type Props = {
 export const TodoList: React.FC<Props> = ({ todos }) => (
   <section className="TodoList">
     {todos.map(todo => (
-      <Fragment key={todo.id}>
-        <TodoInfo todo={todo} />
-      </Fragment>
+      <TodoInfo todo={todo} key={todo.id} />
     ))}
   </section>
 );
