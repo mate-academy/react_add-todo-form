@@ -17,8 +17,6 @@ describe('TodoList', () => {
       email: 'Shanna@melissa.tv',
     };
 
-    const users = [user1, user2];
-
     const todos = [
       {
         userId: 1,
@@ -50,7 +48,7 @@ describe('TodoList', () => {
       },
     ];
 
-    mount(<TodoList users={users} todos={todos} />);
+    mount(<TodoList todos={todos} />);
 
     cy.get('.TodoInfo').should('have.length', 4);
 
