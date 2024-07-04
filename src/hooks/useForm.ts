@@ -29,7 +29,7 @@ export const useForm = ({ id, onFormSubmit }: Props) => {
       const value = formValues[key];
 
       if (key === 'title') {
-        if (!value) {
+        if (!String(value).trim()) {
           errors = { ...errors, [key]: 'Please enter a title' };
           isValid = false;
         }
@@ -65,7 +65,7 @@ export const useForm = ({ id, onFormSubmit }: Props) => {
     }
 
     if (name === 'title' && typeof newValue === 'string') {
-      newValue = newValue.replace(/[^0-9a-zA-Zа-яА-Я-]/g, '');
+      newValue = newValue.replace(/[^0-9a-zA-Zа-яА-Я\s]/g, '');
     }
 
     setFormErrors(prev => ({ ...prev, [name]: '' }));
