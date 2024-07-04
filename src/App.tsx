@@ -6,6 +6,7 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
 export const App = () => {
+  const [count, setCount] = useState(0);
   const [todos, setTodos] = useState(todosFromServer);
   const [newTodo, setNewTodo] = useState<Todo>({
     id: Math.max(...todos.map(todo => todo.id)) + 1,
@@ -20,7 +21,7 @@ export const App = () => {
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setNewTodo(currentNewTodo => ({
       ...currentNewTodo,
-      title: e.target.value,
+      title: e.target.value.trim(),
     }));
 
     setIsTitleError(false);
@@ -53,24 +54,30 @@ export const App = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
 
     setNewTodo({
-      id: +Math.random().toFixed(4).slice(2),
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title: '',
       completed: false,
       userId: 0,
     });
+
+    setCount(currentCount => currentCount + 1);
   }
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form
+        action="/api/todos"
+        method="POST"
+        key={count}
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={newTodo.title}
             onChange={handleTitleChange}
           />
           {isTitleError && <span className="error">Please enter a title</span>}
@@ -79,10 +86,10 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={newTodo.userId}
+            defaultValue="0"
             onChange={handleSelectUser}
           >
-            <option value="0" defaultChecked disabled>
+            <option value="0" disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
