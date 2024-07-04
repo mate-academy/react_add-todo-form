@@ -6,7 +6,6 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
 export const App = () => {
-  const [count, setCount] = useState(0);
   const [todos, setTodos] = useState(todosFromServer);
   const [newTodo, setNewTodo] = useState<Todo>({
     id: Math.max(...todos.map(todo => todo.id)) + 1,
@@ -21,7 +20,7 @@ export const App = () => {
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setNewTodo(currentNewTodo => ({
       ...currentNewTodo,
-      title: e.target.value.trim(),
+      title: e.target.value,
     }));
 
     setIsTitleError(false);
@@ -39,7 +38,7 @@ export const App = () => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!newTodo.title) {
+    if (!newTodo.title.trim()) {
       setIsTitleError(true);
     }
 
@@ -47,7 +46,7 @@ export const App = () => {
       setIsSelectError(true);
     }
 
-    if (!newTodo.title || !newTodo.userId) {
+    if (!newTodo.title.trim() || !newTodo.userId) {
       return;
     }
 
@@ -59,25 +58,19 @@ export const App = () => {
       completed: false,
       userId: 0,
     });
-
-    setCount(currentCount => currentCount + 1);
   }
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        key={count}
-        onSubmit={handleSubmit}
-      >
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
+            value={newTodo.title}
             onChange={handleTitleChange}
           />
           {isTitleError && <span className="error">Please enter a title</span>}
@@ -86,7 +79,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            defaultValue="0"
+            value={newTodo.userId}
             onChange={handleSelectUser}
           >
             <option value="0" disabled>
