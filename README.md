@@ -2,7 +2,6 @@
 
 Implement the ability to add TODOs to the `TodoList` implemented in the **Static List of TODOs**
 > Here is [the working example](https://mate-academy.github.io/react_add-todo-form/)
-
 1. Create an `App` component storing the `todos` array and displaying it using the `TodoList`.
 1. Create a form to add new TODOs:
     - there should be a text input for the `title` with `data-cy="titleInput"` attribute;
@@ -25,4 +24,4 @@ Implement the ability to add TODOs to the `TodoList` implemented in the **Static
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/) and add it to the PR description.
+- [DEMO LINK](https://antonmolchanov18.github.io/react_add-todo-form/) and add it to the PR description.
