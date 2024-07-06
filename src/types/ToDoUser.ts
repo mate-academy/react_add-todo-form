@@ -1,10 +1,7 @@
+import { User } from './User';
+
 export type ToDoUser = {
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | null;
+  user: User | null;
   id: number;
   title: string;
   completed: boolean;
