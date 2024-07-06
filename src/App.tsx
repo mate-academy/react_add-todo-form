@@ -110,37 +110,43 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input
-            data-cy="titleInput"
-            type="text"
-            id="title"
-            placeholder="Enter a title"
-            value={newPost.title}
-            onChange={event => handleChangeTitle(event)}
-            className={cn({ error: errors.titleError })}
-          />
+          <label>
+            Title:
+            <input
+              data-cy="titleInput"
+              type="text"
+              id="title"
+              placeholder="Enter a title"
+              value={newPost.title}
+              onChange={event => handleChangeTitle(event)}
+              className={cn({ error: errors.titleError })}
+            />
+          </label>
           {errors.titleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={newPost.userId}
-            name="userId"
-            onChange={event => handleChangeUserId(event)}
-            className={cn({ error: errors.userIdError })}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+          <label>
+            User:
+            <select
+              data-cy="userSelect"
+              value={newPost.userId}
+              name="userId"
+              onChange={event => handleChangeUserId(event)}
+              className={cn({ error: errors.userIdError })}
+            >
+              <option value="0" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {usersFromServer.map(user => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {errors.userIdError && (
             <span className="error">Please choose a user</span>
