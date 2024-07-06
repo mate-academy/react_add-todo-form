@@ -1,16 +1,20 @@
 iframe {
   display: none;
 }
+
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
+
 label,
 button {
   cursor: pointer;
 }
+
 .error {
   color: red;
 }
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
@@ -27,6 +31,7 @@ button {
     color: #080;
   }
 }
+
 .UserInfo {
   font-style: italic;
 }
