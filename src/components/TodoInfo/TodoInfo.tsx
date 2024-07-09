@@ -27,27 +27,3 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     </article>
   );
 };
-// import React from 'react';
-// import { UserInfo } from '../UserInfo';
-// import { User } from '../../types/types';
-// import cn from 'classnames';
-
-// type Props = {
-//   id: number;
-//   title: string;
-//   completed: boolean;
-//   user: User;
-// };
-
-// export const TodoInfo: React.FC<Props> = ({ id, title, completed, user }) => {
-//   return (
-//     <article
-//       data-id={id}
-//       className={cn('TodoInfo', { 'TodoInfo--completed': completed })}
-//     >
-//       <h2 className="TodoInfo__title">{title}</h2>
-
-//       <UserInfo name={user.name} email={user.email} />
-//     </article>
-//   );
-// };
