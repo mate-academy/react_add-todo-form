@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import users from '../../api/users';
-import { Todo } from '../../types/todo';
+import { Todo } from '../../types/Todo';
 
 interface Props {
   onSubmit: (todo: Todo) => void;

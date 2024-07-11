@@ -5,7 +5,7 @@ import todosData from './api/todos';
 import { useState } from 'react';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/todo';
+import { Todo } from './types/Todo';
 
 const initialTodos = todosData.map(todo => ({
   ...todo,
