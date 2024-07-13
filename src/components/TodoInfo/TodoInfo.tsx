@@ -1,20 +1,23 @@
 import React from 'react';
-import { TodoInfoProps } from '../../types/types';
+import classNames from 'classnames';
 import usersFromServer from '../../api/users';
+import { TodoInfoProps } from '../../types/types';
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
-  const users = usersFromServer.find(user => user.id === todo.userId);
+  const foundUser = usersFromServer.find(user => user.id === todo.userId);
 
   return (
     <article
       data-id={todo.id}
-      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      {users && (
-        <a className="UserInfo" href={`mailto:${users.email}`}>
-          {users.name}
-        </a>
+      {foundUser && (
+        <p className="TodoInfo__user">
+          Assigned to: {foundUser.name} ({foundUser.email})
+        </p>
       )}
     </article>
   );
