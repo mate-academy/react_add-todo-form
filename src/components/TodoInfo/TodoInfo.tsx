@@ -15,9 +15,9 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
       {foundUser && (
-        <p className="TodoInfo__user">
-          Assigned to: {foundUser.name} ({foundUser.email})
-        </p>
+        <a className="UserInfo" href={`mailto:${foundUser.email}`}>
+          {foundUser.name}
+        </a>
       )}
     </article>
   );
