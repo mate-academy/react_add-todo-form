@@ -65,7 +65,6 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           data-cy="titleInput"
           onChange={handleTitleChange}
         />
-        {title}
         {hasTitleError && <span className="error">Please enter a title</span>}
       </label>
 
