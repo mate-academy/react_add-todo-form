@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React from 'react';
 import { UserInfo } from '../UserInfo';
 
+import usersFromServer from '../../api/users';
+
 type Todo = {
   id: number;
   title: string;
@@ -24,7 +26,12 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo idOnUser={todo.userId} />
+      {usersFromServer
+        .filter(user => user.id === todo.userId)
+        .map(filteredUser => (
+          <UserInfo key={filteredUser.id} user={filteredUser} />
+        ))}
+
     </article>
   );
 };
