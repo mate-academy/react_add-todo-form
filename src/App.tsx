@@ -22,11 +22,11 @@ export const App = () => {
     setTitleError(false);
     setUserError(false);
 
-    if (inputText.trim() === '') {
+    if (!inputText.trim()) {
       setTitleError(true);
     }
 
-    if (selectedUser === 0) {
+    if (!selectedUser) {
       setUserError(true);
     }
 

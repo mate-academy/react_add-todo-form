@@ -16,6 +16,8 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const userFind = usersFromServer.find(user => user.id === todo.userId);
+
   return (
     <article
       key={todo.id}
@@ -26,11 +28,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {usersFromServer
-        .filter(user => user.id === todo.userId)
-        .map(filteredUser => (
-          <UserInfo key={filteredUser.id} user={filteredUser} />
-        ))}
+      {userFind && <UserInfo user={userFind} />}
     </article>
   );
 };
