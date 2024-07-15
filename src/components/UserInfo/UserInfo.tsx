@@ -5,11 +5,19 @@ type Props = {
 };
 
 export const UserInfo: React.FC<Props> = ({ idOnUser }) => {
-  return usersFromServer
-    .filter(user => user.id === idOnUser)
-    .map(user => (
-      <a key={user.id} className="UserInfo" href={`mailto:${user.email}`}>
-        {user.name}
-      </a>
-    ));
+  const foundUser = usersFromServer.find(user => user.id === idOnUser);
+
+  if (!foundUser) {
+    return null;
+  }
+
+  return (
+    <a
+      key={foundUser.id}
+      className="UserInfo"
+      href={`mailto:${foundUser.email}`}
+    >
+      {foundUser.name}
+    </a>
+  );
 };

@@ -95,7 +95,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todosOnList={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };

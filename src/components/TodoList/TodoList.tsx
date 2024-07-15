@@ -8,13 +8,13 @@ type Todo = {
 };
 
 type Props = {
-  todosOnList: Todo[];
+  todos: Todo[];
 };
 
-export const TodoList: React.FC<Props> = ({ todosOnList }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todosOnList.map(todo => (
+      {todos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
