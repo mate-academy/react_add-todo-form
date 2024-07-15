@@ -42,9 +42,13 @@ export const App = () => {
     const userIdSearch = usersFromServer.find(
       user => user.name === userValue,
     )?.id;
+    const biggestId = todos.reduce(
+      (max, item) => (item.id > max ? item.id : max),
+      todos[0].id,
+    );
 
     const newTodo: Todo = {
-      id: todos.length + 1,
+      id: biggestId + 1,
       title: titleValue,
       completed: false,
       userId: userIdSearch as number,
@@ -80,6 +84,7 @@ export const App = () => {
             id="titleInput"
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={titleValue}
             onChange={handleChangeTodosState}
           />

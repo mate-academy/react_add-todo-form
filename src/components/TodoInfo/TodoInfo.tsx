@@ -1,6 +1,7 @@
 import { Todo } from '../../types/todo';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
+import { User } from '../../types/user';
 
 type Props = {
   todo: Todo;
@@ -8,7 +9,7 @@ type Props = {
 
 export const TodoInfo = ({ todo }: Props) => {
   const { id, title, userId, completed } = todo;
-  const user = usersFromServer.find(el => el.id === userId)!;
+  const user = usersFromServer.find(el => el.id === userId);
 
   return (
     <article
@@ -17,7 +18,7 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo user={user} />
+      <UserInfo user={user as User} />
     </article>
   );
 };
