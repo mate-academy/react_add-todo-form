@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
@@ -12,6 +12,7 @@ button {
 }
 
 .error {
+  margin-left: 1rem;
   color: red;
 }
 
