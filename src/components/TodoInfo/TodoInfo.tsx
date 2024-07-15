@@ -31,7 +31,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         .map(filteredUser => (
           <UserInfo key={filteredUser.id} user={filteredUser} />
         ))}
-
     </article>
   );
 };
