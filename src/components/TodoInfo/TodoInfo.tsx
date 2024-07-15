@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react'
+import React from 'react';
 import { UserInfo } from '../UserInfo';
 
 type Todo = {
