@@ -31,8 +31,11 @@ export const App = () => {
     }
 
     if (inputText.trim() && selectedUser !== 0) {
+      const newId =
+        todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
       const newTodo = {
-        id: todos.length + 1,
+        id: newId,
         title: inputText,
         completed: false,
         userId: selectedUser,
@@ -54,7 +57,11 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={inputText}
-            onChange={event => setInputText(event.target.value)}
+            placeholder="Enter title"
+            onChange={event => {
+              setInputText(event.target.value);
+              setTitleError(false);
+            }}
           />
 
           {titleError && <span className="error">Please enter a title</span>}
@@ -64,7 +71,10 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={event => setSelectedUser(+event.target.value)}
+            onChange={event => {
+              setSelectedUser(+event.target.value);
+              setUserError(false);
+            }}
           >
             <option value="0" disabled>
               Choose a user
