@@ -14,7 +14,7 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const [inputText, setInputText] = useState('');
+  const [title, setTitle] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,7 +22,7 @@ export const App = () => {
     setTitleError(false);
     setUserError(false);
 
-    if (!inputText.trim()) {
+    if (!title.trim()) {
       setTitleError(true);
     }
 
@@ -30,29 +30,29 @@ export const App = () => {
       setUserError(true);
     }
 
-    if (inputText.trim() && selectedUser !== 0) {
+    if (title.trim() && selectedUser !== 0) {
       const newId =
         todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
 
       const newTodo = {
         id: newId,
-        title: inputText,
+        title: title,
         completed: false,
         userId: selectedUser,
       };
 
       setTodos([...todos, newTodo]);
-      setInputText('');
+      setTitle('');
       setSelectedUser(0);
     }
   };
 
-  function handleInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setInputText(event.target.value);
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setTitleError(false);
   }
 
-  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+  const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
     setUserError(false);
   }
@@ -66,9 +66,9 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            value={inputText}
+            value={title}
             placeholder="Enter title"
-            onChange={handleInput}
+            onChange={handleChangeTitle}
           />
 
           {titleError && <span className="error">Please enter a title</span>}
@@ -78,7 +78,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={handleSelect}
+            onChange={handleChangeUser}
           >
             <option value="0" disabled>
               Choose a user
