@@ -63,6 +63,7 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <span>Title: </span>
           <input
             type="text"
             data-cy="titleInput"
@@ -75,6 +76,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <span>User: </span>
           <select
             data-cy="userSelect"
             value={selectedUser}
