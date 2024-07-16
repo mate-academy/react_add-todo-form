@@ -50,12 +50,12 @@ export const App = () => {
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
-  }
+  };
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
     setUserError(false);
-  }
+  };
 
   return (
     <div className="App">
