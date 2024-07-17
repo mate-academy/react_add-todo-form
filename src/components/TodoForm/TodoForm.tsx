@@ -36,16 +36,18 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const trimmedTitle = title.trim();
+
     setHasTitleError(!title);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
     onSubmit({
       id: 0,
-      title,
+      title: trimmedTitle,
       userId,
       user: getUserById(userId),
       completed: false,
