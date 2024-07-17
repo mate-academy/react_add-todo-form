@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './type/Todo';
+import { getUserId } from './service/User';
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,
@@ -41,10 +42,10 @@ export const App: React.FC = () => {
   const handlSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasErrorTitle(!title);
+    setHasErrorTitle(!title.trim());
     setHasErrorSelect(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -52,7 +53,7 @@ export const App: React.FC = () => {
       title,
       userId,
       completed: false,
-      user: usersFromServer.find(user => user.id === userId) || null,
+      user: getUserId(userId),
       id: 0,
     };
 
@@ -67,7 +68,7 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
       <form action="/api/todos" method="POST" onSubmit={handlSubmit}>
         <div className="field">
-          <label htmlFor="title">Title: </label>
+          <label htmlFor="title">Title:&nbsp;</label>
           <input
             type="text"
             data-cy="titleInput"
@@ -81,7 +82,7 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">User: </label>
+          <label htmlFor="userSelect">User:&nbsp;</label>
           <select
             data-cy="userSelect"
             id="userSelect"
