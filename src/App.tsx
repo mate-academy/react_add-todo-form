@@ -9,7 +9,7 @@ import { getUserId } from './service/User';
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) || null,
+  user: getUserId(todo.userId),
 }));
 
 export const App: React.FC = () => {
