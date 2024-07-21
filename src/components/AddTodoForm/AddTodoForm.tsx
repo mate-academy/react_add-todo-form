@@ -33,9 +33,11 @@ export const AddTodoForm: React.FC<Props> = ({ users, addTodo }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const sanitirizedTitle = title.trim();
     let valid = true;
 
-    if (!title) {
+    if (!sanitirizedTitle) {
+      setTitle(sanitirizedTitle);
       setErrors(prev => ({ ...prev, title: 'Please enter a title' }));
       valid = false;
     }
@@ -47,7 +49,7 @@ export const AddTodoForm: React.FC<Props> = ({ users, addTodo }) => {
 
     if (valid) {
       addTodo({
-        title,
+        title: sanitirizedTitle,
         userId: user,
       });
 
