@@ -4,19 +4,19 @@ import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  data: UpdatedTodo;
+  todo: UpdatedTodo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ data }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id="1"
       className={`TodoInfo ${classNames({
-        'TodoInfo--completed': data.completed,
+        'TodoInfo--completed': todo.completed,
       })}`}
     >
-      <h2 className="TodoInfo__title">{data.title}</h2>
-      <UserInfo email={data.user.email} name={data.user.name} />
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <UserInfo user={todo.user} />
     </article>
   );
 };
