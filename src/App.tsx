@@ -6,11 +6,12 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { UpdatedTodo } from './types/UpdatedTodo';
+import { User } from './types/User';
 
-const getUserById = (userId: number) => {
+const getUserById = (userId: number): User | null => {
   const user = usersFromServer.find(el => el.id === userId);
 
-  return user || { id: 0, name: '', username: '', email: '' };
+  return user || null;
 };
 
 const getPreperedTodo = (oneTodo: Todo): UpdatedTodo => {
@@ -50,15 +51,14 @@ export const App = () => {
 
     if (title.trim() && optionId) {
       setData(prevData => {
-        return [
-          ...prevData,
-          {
-            id: MAX_ID(prevData) + 1,
-            title,
-            completed: false,
-            user: getUserById(optionId),
-          },
-        ];
+        const newTodo: UpdatedTodo = {
+          id: MAX_ID(prevData) + 1,
+          title,
+          completed: false,
+          user: getUserById(optionId),
+        };
+
+        return [...prevData, newTodo];
       });
       reset();
     }

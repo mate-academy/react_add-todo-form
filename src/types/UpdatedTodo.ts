@@ -3,5 +3,5 @@ export interface UpdatedTodo {
   id: number;
   title: string;
   completed: boolean;
-  user: User;
+  user: User | null;
 }
