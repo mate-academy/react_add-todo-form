@@ -25,8 +25,10 @@ const getPreperedTodo = (oneTodo: Todo): UpdatedTodo => {
   };
 };
 
-const MAX_ID = (info: UpdatedTodo[]) => {
-  return info.reduce((a, b) => Math.max(a, b.id), -Infinity);
+const MAX_ID = (arr: UpdatedTodo[]) => {
+  const maxId = Math.max(...arr.map(todo => todo.id));
+
+  return maxId + 1;
 };
 
 export const App = () => {
@@ -50,16 +52,17 @@ export const App = () => {
     event.preventDefault();
 
     if (title.trim() && optionId) {
-      setData(prevData => {
-        const newTodo: UpdatedTodo = {
-          id: MAX_ID(prevData) + 1,
-          title,
-          completed: false,
-          user: getUserById(optionId),
-        };
+      const newTodo: UpdatedTodo = {
+        id: MAX_ID(data),
+        title,
+        completed: false,
+        user: getUserById(optionId),
+      };
 
+      setData(prevData => {
         return [...prevData, newTodo];
       });
+
       reset();
     }
 
