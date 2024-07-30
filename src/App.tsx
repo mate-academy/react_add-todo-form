@@ -48,7 +48,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && optionId) {
+    if (title.trim() && optionId) {
       setData(prevData => {
         return [
           ...prevData,
@@ -67,7 +67,7 @@ export const App = () => {
       setHasUserError(true);
     }
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleError(true);
     }
   };
