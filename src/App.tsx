@@ -27,6 +27,7 @@ export const App = () => {
       ...post,
       id: getNewPostId(posts),
     };
+
     setPosts(currentPosts => [...currentPosts, newPost]);
   };
 

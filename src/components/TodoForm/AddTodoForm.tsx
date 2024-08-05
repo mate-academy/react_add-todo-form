@@ -15,7 +15,7 @@ export const AddTodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim());
     setHasTitleError(false);
   };
 
@@ -27,16 +27,16 @@ export const AddTodoForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
     onSubmit({
       id: 0,
-      title,
+      title: title.trim(),
       completed: false,
       userId,
       user: getUserById(userId),
