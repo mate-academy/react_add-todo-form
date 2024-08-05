@@ -13,10 +13,20 @@ const initialPosts: Post[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+function getNewPostId(posts: Post[]) {
+  const maxId = Math.max(...posts.map(post => post.id));
+
+  return maxId + 1;
+}
+
 export const App = () => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
-  const addPost = (newPost: Post) => {
+  const addPost = (post: Post) => {
+    const newPost = {
+      ...post,
+      id: getNewPostId(posts),
+    };
     setPosts(currentPosts => [...currentPosts, newPost]);
   };
 

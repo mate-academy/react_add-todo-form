@@ -37,7 +37,7 @@ export const AddTodoForm: React.FC<Props> = ({ onSubmit }) => {
     onSubmit({
       id: 0,
       title,
-      completed: false, //Доделать
+      completed: false,
       userId,
       user: getUserById(userId),
     });

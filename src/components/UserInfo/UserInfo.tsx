@@ -1,13 +1,13 @@
-import { Post } from '../../types/Post';
+import { User } from '../../types/User';
 
 type Props = {
-  todo: Post;
+  user: User;
 };
 
-export const UserInfo: React.FC<Props> = ({ todo }) => {
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-      {todo.user?.name}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user?.name}
     </a>
   );
 };
