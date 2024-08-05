@@ -1,4 +1,5 @@
 import { Post } from '../../types/Post';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todos: Post[];
@@ -30,15 +31,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
         </a>
       </article>
       {todos.map(todo => {
-        <article
-          key={todo.id}
-          className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-        >
-          <h2 className="TodoInfo__title">{todo.title}</h2>
-          <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
-            {todo.user?.name}
-          </a>
-        </article>;
+        <UserInfo key={todo.id} todo={todo} />;
       })}
     </>
   );

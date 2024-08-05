@@ -1,13 +1,13 @@
 import { Post } from '../../types/Post';
 
 type Props = {
-  currentTodo: Post;
+  todo: Post;
 };
 
-export const UserInfo: React.FC<Props> = ({ currentTodo }) => {
+export const UserInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article data-id="2" className="TodoInfo">
-      <h2 className="TodoInfo__title">{currentTodo.user?.name}</h2>
+      <h2 className="TodoInfo__title">{todo.user?.name}</h2>
 
       <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
         Patricia Lebsack
