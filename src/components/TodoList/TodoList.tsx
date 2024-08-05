@@ -1,5 +1,5 @@
 import { Post } from '../../types/Post';
-import { UserInfo } from '../UserInfo';
+import { TodoInfo } from '../TodoInfo';
 
 type Props = {
   todos: Post[];
@@ -31,7 +31,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
         </a>
       </article>
       {todos.map(todo => {
-        <UserInfo key={todo.id} todo={todo} />;
+        <TodoInfo key={todo.id} todo={todo} />;
       })}
     </>
   );
