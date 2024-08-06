@@ -83,6 +83,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
+            placeholder="Enter a title"
           />
           {isTitleError && <span className="error">Please enter a title</span>}
         </div>
