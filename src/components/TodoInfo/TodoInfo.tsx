@@ -7,11 +7,11 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({
-  todo: { completed, title, user },
+  todo: { completed, title, user, id },
 }) => {
   return (
     <article
-      data-id="2"
+      data-id={id}
       className={classNames('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
