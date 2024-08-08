@@ -10,8 +10,8 @@ export function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-function getTodosId(todoId: Todo[]) {
-  const maxTodoId = Math.max(...todoId.map(todo => todo.id));
+function getNextTodoId(todoList: Todo[]) {
+  const maxTodoId = Math.max(...todoList.map(todo => todo.id));
 
   return maxTodoId + 1;
 }
@@ -23,16 +23,15 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [hasTitleError, sethasTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [userIdError, setUserIdError] = useState(false);
   const [todoList, setTodoList] = useState<Todo[]>(todos);
-  const newId = getTodosId(todoList);
 
   const handleTitleUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    sethasTitleError(false);
+    setHasTitleError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,31 +46,28 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setUserIdError(!userId);
 
-    if (!title.trim()) {
-      sethasTitleError(true);
+    const trimmedTitle = title.trim();
+
+    setUserIdError(userId === 0);
+    setHasTitleError(trimmedTitle === '');
+
+    if (userId > 0 && trimmedTitle) {
+      const newId = getNextTodoId(todoList);
+
+      setTodoList([
+        ...todoList,
+        {
+          id: newId,
+          title: trimmedTitle,
+          completed: false,
+          userId,
+          user: getUserById(userId),
+        },
+      ]);
+
+      reset();
     }
-
-    if (userId > 0 && title.trim() !== '') {
-      sethasTitleError(false);
-      setUserIdError(false);
-    } else {
-      return;
-    }
-
-    setTodoList([
-      ...todoList,
-      {
-        id: newId,
-        title,
-        completed: false,
-        userId,
-        user: getUserById(userId),
-      },
-    ]);
-
-    reset();
   };
 
   return (
@@ -88,7 +84,6 @@ export const App: React.FC = () => {
               placeholder="Enter a title"
               type="text"
               data-cy="titleInput"
-              onSubmit={handleSubmit}
             />
           </label>
           {hasTitleError && <span className="error">Please enter a title</span>}
