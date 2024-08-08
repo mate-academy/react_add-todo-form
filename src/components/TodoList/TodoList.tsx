@@ -1,8 +1,8 @@
 import React from 'react';
-import { TodoExtanded } from '../../types/TodoExtandes';
+import { TodoExtended } from '../../types/TodoExtended';
 import { TodoInfo } from '../TodoInfo';
 type Props = {
-  todos: TodoExtanded[];
+  todos: TodoExtended[];
 };
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (

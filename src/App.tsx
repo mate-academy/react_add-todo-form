@@ -1,14 +1,17 @@
+import { useState } from 'react';
+
 import './App.scss';
-import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoExtanded } from './types/TodoExtandes';
+
+import { TodoExtended } from './types/TodoExtended';
+import { TodoList } from './components/TodoList';
 import { Form } from './components/Form';
-import { useState } from 'react';
+
 import { findUserById } from './utils/findUserById';
 
-const preparedTodos: TodoExtanded[] = todosFromServer.map(todo => {
+const preparedTodos: TodoExtended[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: findUserById(usersFromServer, todo.userId),
@@ -16,9 +19,9 @@ const preparedTodos: TodoExtanded[] = todosFromServer.map(todo => {
 });
 
 export const App = () => {
-  const [todoList, setTodoList] = useState<TodoExtanded[]>(preparedTodos);
+  const [todoList, setTodoList] = useState<TodoExtended[]>(preparedTodos);
 
-  function addTodo(todoData: TodoExtanded) {
+  function addTodo(todoData: TodoExtended) {
     setTodoList(prev => [...prev, todoData]);
   }
 

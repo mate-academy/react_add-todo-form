@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { User } from '../../types/User';
-import { TodoExtanded } from '../../types/TodoExtandes';
+import { TodoExtended } from '../../types/TodoExtended';
 import { findUserById } from '../../utils/findUserById';
 import './Form.scss';
 
 type Props = {
   user: User[];
-  onAdd: (todoData: TodoExtanded) => void;
+  onAdd: (todoData: TodoExtended) => void;
   maxTodoId: number;
 };
 
