@@ -28,6 +28,8 @@ export const App = () => {
   const [userIdValue, setUserIdValue] = useState(0);
   const [userError, setUserError] = useState('');
 
+  const trimedValue = titleValue.trim();
+
   const getTodoListId = (todos: Todo[]): number => {
     const maxId = Math.max(...todos.map(todo => todo.id));
 
@@ -56,7 +58,7 @@ export const App = () => {
   function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!titleValue) {
+    if (!trimedValue) {
       setTitleError('Please enter a title');
     }
 
@@ -64,13 +66,13 @@ export const App = () => {
       setUserError('Please choose a user');
     }
 
-    if (!titleValue || !userIdValue) {
+    if (!trimedValue || !userIdValue) {
       return;
     }
 
     addTodoToList({
       id: getTodoListId(todoList),
-      title: titleValue,
+      title: trimedValue,
       completed: false,
       userId: userIdValue,
       user: getUserById(userIdValue),
