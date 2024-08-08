@@ -7,7 +7,7 @@ interface Props {
   users: User[];
 }
 
-export const CreateNewTodo = ({ addTodo, users }: Props) => {
+export const NewTodoForm = ({ addTodo, users }: Props) => {
   const [title, setTitle] = useState('');
   const [isTitleHasError, setisTitleHasError] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(0);

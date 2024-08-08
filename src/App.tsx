@@ -4,7 +4,7 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { NewTodo } from './types/NewTodo';
 import { TodoList } from './components/TodoList';
-import { CreateNewTodo } from './components/NewTodoForm';
+import { NewTodoForm } from './components/NewTodoForm';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -42,28 +42,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <CreateNewTodo addTodo={addTodo} users={usersFromServer} />
-
-      {/* <form onSubmit={addTodo} action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form> */}
+      <NewTodoForm addTodo={addTodo} users={usersFromServer} />
 
       <TodoList todos={todos} />
     </div>
