@@ -1,19 +1,10 @@
 import './App.scss';
 
 import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 import React, { useState } from 'react';
-import { Todo, User } from './types';
+import { Todo } from './types';
 import { TodoList } from './components/TodoList';
-
-function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
-
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+import { getUserById, initialTodos } from './utils';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -30,7 +21,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    setUserId(Number(event.target.value));
     setHasUserIdError(false);
   };
 
@@ -71,6 +62,7 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
