@@ -58,9 +58,8 @@ export const App = () => {
       id: newId,
       title: title,
       completed: false,
-      userId: selectedUser ? parseInt(selectedUser, 10) : null,
-      user:
-        usersFromServer.find(u => u.id === parseInt(selectedUser, 10)) || null,
+      userId: selectedUser ? +selectedUser : null,
+      user: usersFromServer.find(user => user.id === +selectedUser) || null,
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -97,13 +96,11 @@ export const App = () => {
             <option value="" disabled>
               Choose a user
             </option>
-            {usersFromServer.map((user: User) => {
-              return (
-                <option key={user.id} value={user.id.toString()}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map((user: User) => (
+              <option key={user.id} value={user.id.toString()}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
           {selectedUserError && (
