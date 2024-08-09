@@ -1,0 +1,11 @@
+.form {
+  &__field {
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__label {
+    font-weight: 700;
+  }
+}
