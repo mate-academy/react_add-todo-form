@@ -27,7 +27,7 @@ export const Form: React.FC<Props> = ({ user, onAdd, maxTodoId }) => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const isFormFill = (Object.keys(formData) as Array<keyof FormData>).every(
-      field => !!formData[field],
+      field => Boolean(formData[field]),
     );
 
     if (!isFormFill) {
@@ -48,6 +48,20 @@ export const Form: React.FC<Props> = ({ user, onAdd, maxTodoId }) => {
     setFormData(initialFormData);
   }
 
+  function handleInputCHange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      title: event.target.value,
+    }));
+  }
+
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      userId: Number(event.target.value),
+    }));
+  }
+
   return (
     <form
       action="/api/todos"
@@ -59,17 +73,16 @@ export const Form: React.FC<Props> = ({ user, onAdd, maxTodoId }) => {
         <label htmlFor="title" className="form__label">
           Title:
         </label>
+
         <input
           type="text"
           data-cy="titleInput"
           id="title"
           placeholder="Enter a title"
           value={formData.title}
-          onChange={event =>
-            setFormData(prev => ({ ...prev, title: event.target.value }))
-          }
+          onChange={handleInputCHange}
         />
-        {isError && formData.title === '' && (
+        {isError && !formData.title && (
           <span className="error">Please enter a title</span>
         )}
       </div>
@@ -78,20 +91,17 @@ export const Form: React.FC<Props> = ({ user, onAdd, maxTodoId }) => {
         <label htmlFor="user" className="form__label">
           User:
         </label>
+
         <select
           data-cy="userSelect"
           id="user"
           value={formData.userId}
-          onChange={event =>
-            setFormData(prev => ({
-              ...prev,
-              userId: Number(event.target.value),
-            }))
-          }
+          onChange={handleSelectChange}
         >
           <option value="0" disabled>
             Choose a user
           </option>
+
           {user.map(userData => (
             <option value={userData.id} key={userData.id}>
               {userData.name}
@@ -99,7 +109,7 @@ export const Form: React.FC<Props> = ({ user, onAdd, maxTodoId }) => {
           ))}
         </select>
 
-        {isError && formData.userId === 0 && (
+        {isError && !formData.userId && (
           <span className="error">Please choose a user</span>
         )}
       </div>
