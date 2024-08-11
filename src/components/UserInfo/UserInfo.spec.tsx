@@ -4,39 +4,33 @@ import { UserInfo } from './UserInfo';
 describe('UserInfo', () => {
   it('should show a user.name', () => {
     const user1 = {
-      id: 1,
-      name: 'Leanne Graham',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
+      userName: 'Leanne Graham',
+      userEmail: 'Sincere@april.biz',
     };
 
-    mount(<UserInfo user={user1} />);
+    mount(<UserInfo userData={user1} />);
 
     cy.get('.UserInfo').should('have.text', 'Leanne Graham');
   });
 
   it('should have a link with mailto: user.email', () => {
     const user1 = {
-      id: 1,
-      name: 'Leanne Graham',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
+      userName: 'Leanne Graham',
+      userEmail: 'Sincere@april.biz',
     };
 
-    mount(<UserInfo user={user1} />);
+    mount(<UserInfo userData={user1} />);
 
     cy.get('.UserInfo').should('have.attr', 'href', 'mailto:Sincere@april.biz');
   });
 
   it('should work for another user', () => {
     const user2 = {
-      id: 2,
-      name: 'Ervin Howell',
-      username: 'Antonette',
-      email: 'Shanna@melissa.tv',
+      userName: 'Ervin Howell',
+      userEmail: 'Shanna@melissa.tv',
     };
 
-    mount(<UserInfo user={user2} />);
+    mount(<UserInfo userData={user2} />);
 
     cy.get('.UserInfo')
       .should('have.text', 'Ervin Howell')
