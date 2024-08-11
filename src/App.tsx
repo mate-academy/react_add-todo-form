@@ -85,6 +85,11 @@ export const App = () => {
     setHasTitleAnError(false);
   };
 
+  const handleSelectingUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserSelectingValue(+event.target.value);
+    setHasSelectedUserAnError(false);
+  };
+
   const handleSelectedUser = (userId: number): User => {
     return usersFromServer.find(user => user.id === userId) as User;
   };
@@ -171,7 +176,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userSelectingValue}
-              onChange={event => setUserSelectingValue(+event.target.value)}
+              onChange={handleSelectingUser}
             >
               <option value="0" disabled={!isUserSelected}>
                 Choose a user
