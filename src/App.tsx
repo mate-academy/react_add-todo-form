@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './App.scss';
-// import classNames from 'classnames';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -33,6 +32,11 @@ export const App = () => {
     ...usersFromServer,
   ];
 
+  const reset = () => {
+    setTitle('');
+    setSelectedUser(0);
+  };
+
   const handleUserSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = Number(event.target.value);
 
@@ -48,29 +52,19 @@ export const App = () => {
   const submitButton = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let hasError = false;
+    const isTitleEmpty = title === '';
+    const isUserNotSelected = selectedUser === 0;
 
-    if (title === '') {
-      setErrTitle(true);
-      hasError = true;
-    } else {
-      setErrTitle(false);
-    }
+    setErrTitle(isTitleEmpty);
+    setErrUser(isUserNotSelected);
 
-    if (selectedUser === 0) {
-      setErrUser(true);
-      hasError = true;
-    } else {
-      setErrUser(false);
-    }
-
-    if (hasError) {
+    if (isTitleEmpty || isUserNotSelected) {
       return;
     }
 
     const user = usersFromServer.find(({ id }) => id === selectedUser);
 
-    const obj = {
+    const newTodo = {
       id: count,
       title,
       userId: selectedUser,
@@ -78,10 +72,9 @@ export const App = () => {
       user,
     };
 
-    setTodoUser([...todoUsers, obj]);
+    setTodoUser([...todoUsers, newTodo]);
     setCount(count + 1);
-    setTitle('');
-    setSelectedUser(0);
+    reset();
   };
 
   return (
