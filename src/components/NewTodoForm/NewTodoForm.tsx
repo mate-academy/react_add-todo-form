@@ -23,27 +23,35 @@ export const NewTodoForm = ({ addTodo, users }: Props) => {
     setSelectHasError(false);
   };
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const trimmedTitle = !title.trim();
-
-    if (trimmedTitle && !selectedUserId) {
+  const isNewTodoHasErrors = (trimmedTitle: boolean, userId: number) => {
+    if (trimmedTitle && !userId) {
       setisTitleHasError(true);
       setSelectHasError(true);
 
-      return;
+      return true;
     }
 
     if (trimmedTitle) {
       setisTitleHasError(true);
 
-      return;
+      return true;
     }
 
-    if (!selectedUserId) {
+    if (!userId) {
       setSelectHasError(true);
 
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const trimmedTitle = !title.trim();
+
+    if (isNewTodoHasErrors(trimmedTitle, selectedUserId)) {
       return;
     }
 

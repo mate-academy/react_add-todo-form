@@ -23,9 +23,8 @@ function getBiggestId(arr: Todo[]) {
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState(
-    getPreparedTodos(todosFromServer, usersFromServer),
-  );
+  const preparedTodos = getPreparedTodos(todosFromServer, usersFromServer);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const addTodo = (newTodo: NewTodo) => {
     setTodos(current => [

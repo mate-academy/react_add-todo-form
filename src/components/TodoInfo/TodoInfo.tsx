@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import { Todo } from '../../types/Todo';
-import { User } from '../../types/User';
 
 interface Props {
   todo: Todo;
@@ -15,7 +14,7 @@ export const TodoInfo = ({ todo }: Props) => (
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user as User} />
+      <UserInfo user={todo.user || null} />
     </article>
   </>
 );
