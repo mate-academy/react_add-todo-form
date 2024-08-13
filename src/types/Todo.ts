@@ -13,5 +13,5 @@ export type User = {
 };
 
 export type NewTodo = Todo & {
-  user: User;
+  user?: User;
 };
