@@ -7,9 +7,12 @@ import { TodoList } from './components/TodoList';
 import { NewTodo } from './types/Todo';
 
 export const App = () => {
-  const [selectValue, setSelectValue] = useState<number>(0);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
   const [todos, setTodos] = useState<NewTodo[]>([]);
+
+  const [titleError, setTitleError] = useState(false);
+  const [userIdError, setUserIdError] = useState(false);
 
   useEffect(() => {
     const todosWithUsers = todosFromServer.map(todo => {
@@ -18,26 +21,57 @@ export const App = () => {
         user: usersFromServer.find(user => user.id === todo.userId),
       };
     });
+
     setTodos(todosWithUsers);
   }, []);
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const regexp = /[^A-Za-z0-9а-яА-я ]+/g;
+    const rawValue = event.target.value;
+
+    if (!regexp.test(rawValue)) {
+      setTitle(event.target.value);
+    }
+
+    if (event.target.value) {
+      setTitleError(false);
+    } else {
+      setTitleError(true);
+    }
+  };
+
   const submit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (userId === 0) {
+      setUserIdError(true);
+
+      return;
+    }
+
+    if (!title || !title.trim()) {
+      setTitleError(true);
+
+      return;
+    }
+
     setTodos(prevTodos => {
       return [
         ...prevTodos,
         {
           id: Math.max(...todos.map(todo => todo.id)) + 1,
-          title: inputValue,
+          title: title,
           completed: false,
-          userId: selectValue,
-          user: usersFromServer.find(user => user.id === selectValue),
+          userId: userId,
+          user: usersFromServer.find(user => user.id === userId),
         },
       ];
     });
 
-    setInputValue('');
-    setSelectValue(0);
+    setTitle('');
+    setUserId(0);
+    setTitleError(false);
+    setUserIdError(false);
   };
 
   return (
@@ -49,17 +83,19 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
+            value={title}
+            placeholder="Please enter a title"
+            onChange={handleTitleChange}
           />
-          <span className="error">Please enter a title</span>
+
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectValue}
-            onChange={e => setSelectValue(+e.target.value)}
+            value={userId}
+            onChange={e => setUserId(+e.target.value)}
           >
             <option value="0" disabled>
               Choose a user
@@ -70,8 +106,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {userIdError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
