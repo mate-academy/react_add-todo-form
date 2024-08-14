@@ -54,16 +54,18 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim();
+
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
     addTodosInArr({
       id: getNewPostId(posts),
-      title,
+      title: trimmedTitle,
       userId,
       completed: false,
       user: getUserById(userId),
