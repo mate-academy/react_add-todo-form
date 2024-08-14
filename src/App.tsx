@@ -43,14 +43,14 @@ export const App = () => {
   const submit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userId === 0) {
-      setUserIdError(true);
+    if (!title || !title.trim()) {
+      setTitleError(true);
 
       return;
     }
 
-    if (!title || !title.trim()) {
-      setTitleError(true);
+    if (userId === 0) {
+      setUserIdError(true);
 
       return;
     }
