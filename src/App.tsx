@@ -9,7 +9,14 @@ import { Todo } from './components/services';
 
 export const App = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [todos, setTodos] = useState(todosFromServer);
+
+  const [todos, setTodos] = useState<Todo[]>(() =>
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId),
+    })),
+  );
+
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
 
@@ -60,11 +67,14 @@ export const App = () => {
       return;
     }
 
+    const maxIdTodo = Math.max(...todos.map(todo => todo.id));
+
     const newTodo: Todo = {
       userId: selectedUserId,
-      id: todos.length + 1,
+      id: maxIdTodo + 1,
       title,
       completed: false,
+      user: usersFromServer.find(user => user.id === selectedUserId),
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -115,7 +125,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList users={usersFromServer} todos={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };

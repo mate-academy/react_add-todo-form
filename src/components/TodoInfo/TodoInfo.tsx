@@ -1,11 +1,18 @@
-import { Todo, User } from '../services';
+import { Todo } from '../services';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo = ({ user, todo }: { user: User; todo: Todo }) => {
+export const TodoInfo = ({ todo }: { todo: Todo }) => {
+  if (todo.user === undefined) {
+    return;
+  }
+
   return (
-    <article data-id={todo.id} className="TodoInfo">
+    <article
+      data-id={todo.id}
+      className={todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'}
+    >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <UserInfo user={user} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };
