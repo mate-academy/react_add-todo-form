@@ -30,6 +30,7 @@ export const App = () => {
 
   const getTodoListId = (todos: Todo[]): number => {
     const maxId = Math.max(...todos.map(todo => todo.id), 0);
+
     return maxId + 1;
   };
 
