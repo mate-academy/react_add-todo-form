@@ -87,17 +87,19 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleAddTodo}>
         <div className="field">
+          <label htmlFor="titleInput">Title:</label>
           <input
             type="text"
             data-cy="titleInput"
             value={title}
-            placeholder="Write your title"
+            placeholder="Enter a title"
             onChange={handleInputChange}
           />
           {isTitleEmpty && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User:</label>
           <select
             data-cy="userSelect"
             onChange={handleUserSelect}
@@ -107,13 +109,11 @@ export const App = () => {
               Choose a user
             </option>
 
-            {users.map(user => {
-              return (
-                <option value={user.id} key={user.id}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {users.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
+              </option>
+            ))}
           </select>
           {isUserSelectError && (
             <span className="error">Please choose a user</span>
