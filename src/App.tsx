@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.scss';
 import { ChangeEvent, useState, FormEvent } from 'react';
 
@@ -6,7 +7,6 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
-import React from 'react';
 
 export const initialTodos = todosFromServer.map(todo => {
   const user = usersFromServer.find(u => u.id === todo.userId) || null;

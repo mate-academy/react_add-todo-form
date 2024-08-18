@@ -1,6 +1,6 @@
+import React from 'react';
 import { mount } from '@cypress/react18';
 import { UserInfo } from './UserInfo';
-import React from 'react';
 
 describe('UserInfo', () => {
   it('should show a user.name', () => {
