@@ -19,7 +19,7 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const hasTitleError = !title;
+    const hasTitleError = !title || title.trim() === '';
     const hasUserError = selectedUser === '0';
 
     if (hasTitleError) {
