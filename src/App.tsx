@@ -7,7 +7,7 @@ import { Todo } from './types/types';
 
 const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId)!,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
 }));
 
 export const App = () => {
@@ -82,8 +82,11 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title:</label>
+
           <input
             type="text"
+            id="titleInput"
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
@@ -93,7 +96,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User:</label>
+
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUser}
             onChange={handleUserChange}
@@ -102,9 +108,9 @@ export const App = () => {
               Choose a user
             </option>
 
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+            {usersFromServer.map(({ id, name }) => (
+              <option value={id} key={id}>
+                {name}
               </option>
             ))}
           </select>

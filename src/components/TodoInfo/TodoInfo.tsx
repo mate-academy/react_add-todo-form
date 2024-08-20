@@ -1,4 +1,5 @@
 import { Todo } from '../../types/types';
+import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
@@ -6,13 +7,15 @@ interface TodoInfoProps {
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      data-id={id}
+      className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-      {todo.user ? <UserInfo user={todo.user} /> : <p>User not found</p>}{' '}
+      <h2 className="TodoInfo__title">{title}</h2>
+      {user ? <UserInfo user={user} /> : <p>User not found</p>}{' '}
     </article>
   );
 };
