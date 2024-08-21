@@ -50,7 +50,7 @@ export const App = () => {
     setHasTitleError(!title.trim());
     setHasUserError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
