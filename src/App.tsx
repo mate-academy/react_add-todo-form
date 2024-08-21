@@ -56,7 +56,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: newId,
-      title: title,
+      title: title.trim(),
       completed: false,
       userId: userId,
       user: getUserById(userId),
