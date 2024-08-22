@@ -49,7 +49,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    if (!title || userValue === '0') {
+    if (!title.trim() || userValue === '0') {
       setErrors({ title: !title, user: userValue === '0' });
 
       return;
