@@ -7,10 +7,6 @@ import { Todo } from './types/Todo';
 import { getUserById } from './services/user';
 import { TodoList } from './components/TodoList';
 
-// type Props = {
-//   addTodo: (todoToAdd: Todo) => void;
-// };
-
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -23,7 +19,6 @@ function getNewTodoId(todoItems: Todo[]) {
 }
 
 export const App: React.FC = () => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasSelectError, setHasSelectError] = useState(false);
@@ -33,7 +28,7 @@ export const App: React.FC = () => {
   const addTodo = (todo: Todo) => {
     const newTodo = {
       ...todo,
-      id: getNewTodoId(todos),
+      id: getNewTodoId(todoItems),
     };
 
     setTodoItems(currentTodos => [...currentTodos, newTodo]);
@@ -68,11 +63,10 @@ export const App: React.FC = () => {
       title,
       completed: false,
       userId: userId,
-      id: getNewTodoId(todos),
+      id: getNewTodoId(todoItems),
       user: getUserById(userId),
     });
 
-    setCount(count + 1);
     reset();
   };
 
@@ -83,7 +77,7 @@ export const App: React.FC = () => {
       <form
         action="/api/todos"
         method="POST"
-        key={count}
+        key={getNewTodoId(todoItems)}
         onSubmit={handleSubmit}
       >
         <div className="field">
@@ -123,12 +117,10 @@ export const App: React.FC = () => {
             <span className="error">Please choose a user</span>
           )}
         </div>
-
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-
       <TodoList todos={todoItems} />
     </div>
   );
