@@ -52,10 +52,10 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasSelectError(!userId);
 
-    if (!title || !userId) {
+    if (!title.trim() || !userId) {
       return;
     }
 
@@ -117,6 +117,7 @@ export const App: React.FC = () => {
             <span className="error">Please choose a user</span>
           )}
         </div>
+        {getNewTodoId(todoItems)}
         <button type="submit" data-cy="submitButton">
           Add
         </button>
