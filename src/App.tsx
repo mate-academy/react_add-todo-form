@@ -7,9 +7,9 @@ import { Todo } from './types/Todo';
 import { getUserById } from './services/user';
 import { TodoList } from './components/TodoList';
 
-type Props = {
-  addTodo: (todoToAdd: Todo) => void;
-};
+// type Props = {
+//   addTodo: (todoToAdd: Todo) => void;
+// };
 
 const todos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -22,7 +22,7 @@ function getNewTodoId(todoItems: Todo[]) {
   return maxId + 1;
 }
 
-export const App: React.FC<Props> = () => {
+export const App: React.FC = () => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
