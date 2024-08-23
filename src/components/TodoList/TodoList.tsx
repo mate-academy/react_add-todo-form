@@ -23,10 +23,6 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map((todo: Todo) => {
-        if (!todo.user) {
-          return null;
-        }
-
         return <TodoInfo todo={todo} key={todo.id} />;
       })}
     </section>
