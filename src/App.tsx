@@ -117,7 +117,6 @@ export const App: React.FC = () => {
             <span className="error">Please choose a user</span>
           )}
         </div>
-        {getNewTodoId(todoItems)}
         <button type="submit" data-cy="submitButton">
           Add
         </button>
