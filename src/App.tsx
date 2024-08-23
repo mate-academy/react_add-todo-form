@@ -38,7 +38,7 @@ export const App = () => {
   }, []);
 
   function errors(): void {
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       setInputHasError(true);
     } else {
       setInputHasError(false);
@@ -55,9 +55,13 @@ export const App = () => {
     e.preventDefault();
     errors();
 
-    if (inputValue && selectValue) {
+    if (inputValue.trim() && selectValue) {
       const newTodo: Todo = {
-        id: todos.length + 1,
+        id:
+          todos.reduce(
+            (maxId, todo) => (todo.id > maxId ? todo.id : maxId),
+            todos[0]?.id || 0,
+          ) + 1,
         title: inputValue,
         completed: false,
         userId: +selectValue,
@@ -71,6 +75,22 @@ export const App = () => {
     }
   };
 
+  function isInputHasError(value: string): void {
+    if (value !== '') {
+      setInputHasError(false);
+    } else {
+      setInputHasError(true);
+    }
+  }
+
+  function isSelectHasError(value: string): void {
+    if (value !== '') {
+      setSelectHasError(false);
+    } else {
+      setSelectHasError(true);
+    }
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -78,22 +98,16 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={onSubmitHandler}>
         <div className="field">
           <input
+            placeholder="Enter a title"
             type="text"
             data-cy="titleInput"
             value={inputValue}
             onChange={event => {
-              if (event.target.value !== '') {
-                setInputHasError(false);
-              } else {
-                setInputHasError(true);
-              }
-
+              isInputHasError(event.target.value);
               setInputValue(event.target.value);
             }}
           />
-          {inputHasError === true && (
-            <span className="error">Please enter a title</span>
-          )}
+          {inputHasError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -101,12 +115,7 @@ export const App = () => {
             data-cy="userSelect"
             value={selectValue}
             onChange={event => {
-              if (event.target.value !== '') {
-                setSelectHasError(false);
-              } else {
-                setSelectHasError(true);
-              }
-
+              isSelectHasError(event.target.value);
               setSelectValue(event.target.value);
             }}
           >
@@ -120,7 +129,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectHasError == true && (
+          {selectHasError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
