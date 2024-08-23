@@ -12,19 +12,6 @@ type Todo = {
   userId: number;
 };
 
-type NewTodo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  };
-};
-
 type User = {
   id: number;
   name: string;
@@ -59,18 +46,11 @@ export const App = () => {
     errors();
 
     if (inputValue && selectValue) {
-      const user = users.find(u => u.id === +selectValue);
-
-      if (!user) {
-        return;
-      }
-
-      const newTodo: NewTodo = {
+      const newTodo: Todo = {
         id: todos.length + 1,
         title: inputValue,
         completed: false,
         userId: +selectValue,
-        user,
       };
 
       setTodos([...todos, newTodo]);
