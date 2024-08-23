@@ -3,13 +3,14 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Todo = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
+  user?: User;
 };
 
 type User = {
@@ -22,10 +23,19 @@ type User = {
 export const App = () => {
   const [inputValue, setInputValue] = useState('');
   const [selectValue, setSelectValue] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const users: User[] = [...usersFromServer];
   const [inputHasError, setInputHasError] = useState(false);
   const [selectHasError, setSelectHasError] = useState(false);
+
+  useEffect(() => {
+    const updatedTodos = todosFromServer.map(t => ({
+      ...t,
+      user: usersFromServer.find(u => u.id === t.userId),
+    }));
+
+    setTodos(updatedTodos);
+  }, []);
 
   function errors(): void {
     if (!inputValue) {
@@ -51,6 +61,7 @@ export const App = () => {
         title: inputValue,
         completed: false,
         userId: +selectValue,
+        user: users.find(u => u.id === +selectValue),
       };
 
       setTodos([...todos, newTodo]);
@@ -119,7 +130,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={users} />
+      <TodoList todos={todos} />
     </div>
   );
 };

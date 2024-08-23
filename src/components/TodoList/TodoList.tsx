@@ -5,19 +5,7 @@ type Todo = {
   title: string;
   completed: boolean;
   userId: number;
-};
-
-type NewTodo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  };
+  user?: User;
 };
 
 type User = {
@@ -29,25 +17,17 @@ type User = {
 
 type Props = {
   todos: Todo[];
-  users: User[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos, users }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map((todo: Todo) => {
-        const fUser = users.find(u => u.id === todo.userId);
-
-        if (!fUser) {
+        if (!todo.user) {
           return null;
         }
 
-        const newTodo: NewTodo = {
-          ...todo,
-          user: fUser,
-        };
-
-        return newTodo && <TodoInfo todo={newTodo} key={newTodo.id} />;
+        return <TodoInfo todo={todo} key={todo.id} />;
       })}
     </section>
   );

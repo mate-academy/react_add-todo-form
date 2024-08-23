@@ -5,12 +5,14 @@ type Todo = {
   title: string;
   completed: boolean;
   userId: number;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  };
+  user?: User;
+};
+
+type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 };
 
 type Props = {
@@ -19,9 +21,9 @@ type Props = {
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
-    <article data-id={todo.id} className="TodoInfo ">
+    <article data-id={todo.id} className="TodoInfo">
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      {<UserInfo user={todo.user} />}
+      {todo.user ? <UserInfo user={todo.user} /> : <span>User not found</span>}
     </article>
   );
 };
