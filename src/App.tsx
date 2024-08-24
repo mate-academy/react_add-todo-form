@@ -28,29 +28,28 @@ export const App = () => {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleError(false);
+    if (event.target.value.trim() !== '') {
+      setHasTitleError(false);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
+    let hasError = false;
 
     if (!trimmedTitle) {
       setHasTitleError(true);
-
-      return;
-    }
-
-    if (!title) {
-      setHasTitleError(true);
+      hasError = true;
     }
 
     if (userId === 0) {
       setHasUserIdError(true);
+      hasError = true;
     }
 
-    if (!title || userId === 0) {
+    if (hasError) {
       return;
     }
 
