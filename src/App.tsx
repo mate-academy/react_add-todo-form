@@ -5,7 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-import User from './types/User';
+import { User } from './types/User';
 import Todo from './types/Todo';
 
 function getUserById(userId: number): User | null {
@@ -34,6 +34,16 @@ export const App: React.FC = () => {
 
   const addTodo = (newTodo: Todo) => {
     setCurrentTodos(prevTodos => [...prevTodos, newTodo]);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setErrorTitle(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+    setErrorSelectedUserId(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -76,10 +86,7 @@ export const App: React.FC = () => {
               id="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={event => {
-                setTitle(event.target.value);
-                setErrorTitle(false);
-              }}
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -95,10 +102,7 @@ export const App: React.FC = () => {
             data-cy="userSelect"
             id="userSelected"
             value={selectedUserId}
-            onChange={event => {
-              setSelectedUserId(+event.target.value);
-              setErrorSelectedUserId(false);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>
               Choose a user
