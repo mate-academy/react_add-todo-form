@@ -30,6 +30,17 @@ export const App = () => {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [user, setUser] = useState<User>();
 
+  const addTodo = () => {
+    const newTodo = {
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      completed: false,
+      user,
+      ...formData,
+    };
+
+    setTodos(prev => [...prev, newTodo]);
+  };
+
   const reset = () => {
     setFormData(initialFormValues);
     setFormErrors(initialFormErrors);
@@ -39,6 +50,7 @@ export const App = () => {
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
+
     setFormData(prev => ({ ...prev, [name]: value }));
 
     if (name === FormFields.USER_ID) {
@@ -52,6 +64,7 @@ export const App = () => {
     event.preventDefault();
 
     const errors = validateForm(formData);
+
     setFormErrors(errors);
     const isFromValid = Object.keys(errors).length === 0;
 
@@ -60,17 +73,6 @@ export const App = () => {
       reset();
       setCount(count + 1);
     }
-  };
-
-  const addTodo = () => {
-    const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-      completed: false,
-      user,
-      ...formData,
-    };
-
-    setTodos(prev => [...prev, newTodo]);
   };
 
   return (
@@ -115,9 +117,9 @@ export const App = () => {
                 Choose a user
               </option>
 
-              {usersFromServer.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
+              {usersFromServer.map(userOption => (
+                <option key={userOption.id} value={userOption.id}>
+                  {userOption.name}
                 </option>
               ))}
             </select>
