@@ -16,10 +16,10 @@ export const App = () => {
   const handleSunbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleError(!title);
+    setTitleError(!title.trim());
     setUserError(!user);
 
-    if (!title || !user) {
+    if (!title.trim() || !user) {
       return;
     }
 
