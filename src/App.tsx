@@ -61,22 +61,25 @@ export const App = () => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    validationForm();
-
-    if (!newPost.title || newPost.userId === 0) {
-      return;
-    }
-
-    addToDo(newPost);
-
+  const resetNewPost = () => {
     setNewPost({
       id: 0,
       title: '',
       completed: false,
       userId: 0,
     });
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    validationForm();
+
+    if (!newPost.title || !newPost.userId) {
+      return;
+    }
+
+    addToDo(newPost);
+    resetNewPost();
   };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
