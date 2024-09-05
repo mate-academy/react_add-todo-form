@@ -1,11 +1,10 @@
 import './App.scss';
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoForm } from './components/TodoForm/Todoform';
 import { getUserById } from './components/services/user';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './components/TodoList/TodoList';
 
 const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
