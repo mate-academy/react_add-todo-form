@@ -43,7 +43,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
     let hasError = false;
 
-    if (!title) {
+    if (!title.trim()) {
       setHasTitleErrorMessage('Please enter a title');
       hasError = true;
     }
