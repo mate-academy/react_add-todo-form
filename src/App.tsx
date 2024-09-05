@@ -12,11 +12,20 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-export const App: React.FC = () => {
+function generateTodoId(todos: Todo[]) {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
+}
+
+export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  const addTodo = (newTodo: Todo) => {
-    setTodos(prevTodos => [...prevTodos, newTodo]);
+  const addTodo = (todo: Todo) => {
+    const newTodo = {
+      ...todo,
+      id: generateTodoId(todos),
+    };
+
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   return (
