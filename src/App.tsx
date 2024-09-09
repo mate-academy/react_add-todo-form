@@ -15,7 +15,7 @@ function getUserById(id: number): User | undefined {
 
 function newListWithUser(): TodoWithUser[] {
   return todosFromServer.map(todo => ({
-    todo,
+    ...todo,
     user: getUserById(todo.userId),
   }));
 }
@@ -58,23 +58,20 @@ export const App = () => {
       return;
     }
 
-    const lastIndex =
-      listWithUser.length > 0
-        ? listWithUser[listWithUser.length - 1].todo.id + 1
-        : 1;
+    const maxIndex = Math.max(...listWithUser.map(el => el.id));
 
     const personFromChoise = getUserById(+choise);
 
     const todoFromForm: Todo = {
-      id: lastIndex,
+      id: maxIndex + 1,
       title: title,
       completed: false,
       userId: personFromChoise?.id,
     };
 
     const newItem: TodoWithUser = {
+      ...todoFromForm,
       user: personFromChoise,
-      todo: todoFromForm,
     };
 
     setListWithUser(currentList => [...currentList, newItem]);
