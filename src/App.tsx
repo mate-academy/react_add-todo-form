@@ -13,7 +13,7 @@ function getUserById(id: number): User | undefined {
   return usersFromServer.find(user => user.id === id);
 }
 
-function newListWithUser(): TodoWithUser[] {
+function getTodosWithUser(): TodoWithUser[] {
   return todosFromServer.map(todo => ({
     ...todo,
     user: getUserById(todo.userId),
@@ -22,12 +22,12 @@ function newListWithUser(): TodoWithUser[] {
 
 export const App = () => {
   const [listWithUser, setListWithUser] =
-    useState<TodoWithUser[]>(newListWithUser());
+    useState<TodoWithUser[]>(getTodosWithUser());
   const [title, setTitle] = useState('');
-  const [choise, setChoice] = useState('0');
+  const [userId, setUserId] = useState('0');
 
   const [titleError, setTitleError] = useState(false);
-  const [choiseError, setChoiseError] = useState(false);
+  const [choiseError, setUserIdError] = useState(false);
 
   const validateForm = () => {
     let isValid = true;
@@ -39,11 +39,11 @@ export const App = () => {
       setTitleError(false);
     }
 
-    if (choise === '0') {
-      setChoiseError(true);
+    if (userId === '0') {
+      setUserIdError(true);
       isValid = false;
     } else {
-      setChoiseError(false);
+      setUserIdError(false);
     }
 
     return isValid;
@@ -60,7 +60,7 @@ export const App = () => {
 
     const maxIndex = Math.max(...listWithUser.map(el => el.id));
 
-    const personFromChoise = getUserById(+choise);
+    const personFromChoise = getUserById(+userId);
 
     const todoFromForm: Todo = {
       id: maxIndex + 1,
@@ -76,7 +76,21 @@ export const App = () => {
 
     setListWithUser(currentList => [...currentList, newItem]);
     setTitle('');
-    setChoice('0');
+    setUserId('0');
+  };
+
+  const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+    if (e.currentTarget.value.trim()) {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserIdChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setUserId(e.currentTarget.value);
+    if (e.currentTarget.value !== '0') {
+      setUserIdError(false);
+    }
   };
 
   return (
@@ -92,12 +106,7 @@ export const App = () => {
             placeholder="Enter a title"
             id="title"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
-              if (e.target.value.trim()) {
-                setTitleError(false);
-              }
-            }}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -107,13 +116,8 @@ export const App = () => {
           <select
             id="user"
             data-cy="userSelect"
-            value={choise}
-            onChange={e => {
-              setChoice(e.target.value);
-              if (e.target.value !== '0') {
-                setChoiseError(false);
-              }
-            }}
+            value={userId}
+            onChange={handleUserIdChange}
           >
             <option value="0" disabled>
               Choose a user
