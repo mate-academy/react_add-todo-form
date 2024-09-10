@@ -51,8 +51,12 @@ export const App: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+        <label htmlFor="titleInput">
+          Title:
+        </label>
           <input
             type="text"
+            id="titleInput"
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
@@ -62,7 +66,15 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <select data-cy="userSelect" value={userId} onChange={handleUserChange}>
+        <label htmlFor="userSelect">
+          User:
+        </label>
+          <select
+            id="userSelect"
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserChange}
+          >
             <option value="0" disabled>
               Choose a user
             </option>
