@@ -1,20 +1,21 @@
+import React from 'react';
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 import { User } from '../../types/User';
 
 interface TodoListProps {
   todos: Todo[];
-  users: User[];
+  users?: User[];
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => {
+export const TodoList: React.FC<TodoListProps> = ({ todos, users = [] }) => {
   return (
     <section className="TodoList">
-      {todos.map(todo => {
-        const theUser = users.find(user => user.id === todo.userId);
+      {todos.map((todo) => {
+        const theUser = users.find((user) => user.id === todo.userId);
 
         if (!theUser) {
-          return;
+          return null;
         }
 
         const todoWithUser = {
