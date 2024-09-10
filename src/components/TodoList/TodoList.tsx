@@ -11,8 +11,8 @@ interface TodoListProps {
 export const TodoList: React.FC<TodoListProps> = ({ todos, users = [] }) => {
   return (
     <section className="TodoList">
-      {todos.map((todo) => {
-        const theUser = users.find((user) => user.id === todo.userId);
+      {todos.map(todo => {
+        const theUser = users.find(user => user.id === todo.userId);
 
         if (!theUser) {
           return null;
