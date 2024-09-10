@@ -9,8 +9,9 @@ import { User } from './types/User';
 export const App: React.FC = () => {
   const todosWithUsers = todosFromServer
     .map(todo => {
-      const user = usersFromServer.find(user => user.id === todo.userId);
-      return user ? { ...todo, user } : null;
+      const theUser = usersFromServer.find(user => user.id === todo.userId);
+
+      return theUser ? { ...todo, user: theUser } : null;
     })
     .filter((todo): todo is Todo => todo !== null);
 
