@@ -109,7 +109,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todoList={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
