@@ -7,7 +7,14 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const todosWithUsers = todosFromServer
+    .map(todo => {
+      const user = usersFromServer.find(user => user.id === todo.userId);
+      return user ? { ...todo, user } : null;
+    })
+    .filter((todo): todo is Todo => todo !== null);
+
+  const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
   const [errors, setErrors] = useState({ title: '', userId: '' });
@@ -29,11 +36,18 @@ export const App: React.FC = () => {
       return;
     }
 
+    const user = usersFromServer.find(u => u.id === userId);
+
+    if (!user) {
+      return;
+    }
+
     const newTodo: Todo = {
       id: todos.length + 1,
       title,
       userId,
       completed: false,
+      user,
     };
 
     setTodos([...todos, newTodo]);

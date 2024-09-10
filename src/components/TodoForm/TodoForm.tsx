@@ -22,11 +22,19 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
       return;
     }
 
-    const newTodo = {
+    const aUser = usersFromServer.find(user => user.id === userId);
+
+    if (!aUser) {
+      setUserError(true);
+
+      return;
+    }
+
+    const newTodo: Omit<Todo, 'id'> = {
       title,
       userId,
       completed: false,
-      user: usersFromServer.find(user => user.id === userId) || null,
+      user: aUser,
     };
 
     onSubmit(newTodo);
@@ -40,9 +48,8 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
       <div className="field">
         <label>
           {'Title: '}
-
           <input
-            placeholder="Enter an title"
+            placeholder="Enter a title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -52,14 +59,12 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
             }}
           />
         </label>
-
         {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
         <label>
           {'User: '}
-
           <select
             data-cy="userSelect"
             value={userId}
@@ -71,7 +76,6 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
             <option selected value="0" disabled>
               Choose a user
             </option>
-
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -79,7 +83,6 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
             ))}
           </select>
         </label>
-
         {hasUserError && <span className="error">Please choose a user</span>}
       </div>
 
