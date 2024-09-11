@@ -9,15 +9,7 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const getUser = (id: number): User | undefined => {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].id === id) {
-        return users[i];
-      }
-    }
-
-    return;
-  };
+  const user: User | undefined = users.find(usr => usr.id === todo.userId);
 
   return (
     <article
@@ -26,7 +18,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={getUser(todo.userId)} />
+      {user && <UserInfo user={user} />}
     </article>
   );
 };

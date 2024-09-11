@@ -9,13 +9,7 @@ import { User } from './types/User';
 
 export const App = () => {
   function getUserById(id: number, users: User[]) {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].id === id) {
-        return users[i];
-      }
-    }
-
-    return;
+    return users.find(user => user.id === id);
   }
 
   const todoWithUser = todosFromServer.map(todo => ({
