@@ -16,16 +16,18 @@ export type Todo = {
 type UserInfoProps = {
   user: {
     name: string;
-    email: string;
+    email?: string;
   };
 };
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+  if (!user || !user.email) {
+    return null;
+  }
+
   return (
-    <div className="UserInfo">
-      <a href={`mailto:${user.email}`} className="UserInfo__link">
-        {user.name}
-      </a>
-    </div>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };

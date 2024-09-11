@@ -21,7 +21,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserIdError] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [userId, setUserId] = useState(0);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -54,9 +54,10 @@ export const App = () => {
       };
 
       setTodos([...todos, newTodo]);
-      setTitle('');
-      setUserId(null);
     }
+
+    setTitle('');
+    setUserId(0);
   };
 
   return (
@@ -90,9 +91,9 @@ export const App = () => {
               id="todo-user-id"
               data-cy="userSelect"
               onChange={handleUserIdChange}
-              defaultValue=""
+              value={userId}
             >
-              <option value="" disabled>
+              <option value="0" disabled>
                 Choose a user
               </option>
               {usersFromServer.map(user => (
