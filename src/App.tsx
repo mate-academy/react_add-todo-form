@@ -46,13 +46,19 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setTitleError(() => !title);
-    setUserError(() => !userSelect);
+    const cleanTitle = title.trim();
 
-    if (title && userSelect) {
+    if (!cleanTitle || !userSelect) {
+      setTitleError(() => !cleanTitle);
+      setUserError(() => !userSelect);
+
+      return;
+    }
+
+    if (cleanTitle && userSelect) {
       const newTodo: Todo = {
         id: getId(),
-        title: title,
+        title: cleanTitle,
         completed: false,
         userId: userSelect,
         user: getUserById(userSelect, usersFromServer),
