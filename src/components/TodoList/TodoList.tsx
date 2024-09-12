@@ -1,15 +1,8 @@
 import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../types';
 
 type TodoListProps = {
-  todos: {
-    id: number;
-    title: string;
-    user: {
-      name: string;
-      email: string;
-    };
-    completed: boolean;
-  }[];
+  todos: Todo[];
 };
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {

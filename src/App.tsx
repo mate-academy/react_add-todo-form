@@ -4,7 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { User, Todo } from './components/UserInfo';
+import { User, Todo } from './components/types';
 
 function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -66,42 +66,42 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="todotitle" className="label">
-            Title
-          </label>
           <div className="control">
-            <input
-              id="todotitle"
-              value={title}
-              type="text"
-              data-cy="titleInput"
-              placeholder="Enter something"
-              onChange={handleTitleChange}
-            />
+            <label htmlFor="todotitle" className="label">
+              Title:{' '}
+              <input
+                id="todotitle"
+                value={title}
+                type="text"
+                data-cy="titleInput"
+                placeholder="Enter a title"
+                onChange={handleTitleChange}
+              />
+            </label>
             {titleError && <span className="error">Please enter a title</span>}
           </div>
         </div>
 
         <div className="field">
-          <label className="label" htmlFor="todo-user-id">
-            Users
-          </label>
           <div className="select is-danger">
-            <select
-              id="todo-user-id"
-              data-cy="userSelect"
-              onChange={handleUserIdChange}
-              value={userId}
-            >
-              <option value="0" disabled>
-                Choose a user
-              </option>
-              {usersFromServer.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
+            <label className="label" htmlFor="todo-user-id">
+              User:{' '}
+              <select
+                id="todo-user-id"
+                data-cy="userSelect"
+                onChange={handleUserIdChange}
+                value={userId}
+              >
+                <option value="0" disabled>
+                  Choose a user
                 </option>
-              ))}
-            </select>
+                {usersFromServer.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </label>
             {userError && <span className="error">Please choose a user</span>}
           </div>
         </div>
