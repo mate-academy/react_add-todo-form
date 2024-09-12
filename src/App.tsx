@@ -20,7 +20,7 @@ export const App = () => {
   const [errors, setErrors] = useState({ title: false, user: false });
 
   const handleEnterTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value.trim());
+    setTitle(e.target.value);
     setErrors(prevErrors => ({ ...prevErrors, title: false }));
   };
 
@@ -30,7 +30,8 @@ export const App = () => {
   };
 
   const validateForm = () => {
-    const newErrors = { title: !title, user: userId === 0 };
+    const trimmedTitle = title.trim();
+    const newErrors = { title: !trimmedTitle, user: userId === 0 };
 
     setErrors(newErrors);
 
@@ -44,9 +45,11 @@ export const App = () => {
       return;
     }
 
+    const trimmedTitle = title.trim();
+
     const newTodo: TodoWithUser = {
       id: getNewTodoId(todos),
-      title,
+      title: trimmedTitle,
       completed: false,
       userId: userId,
       user: getUserById(userId),
