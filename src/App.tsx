@@ -14,7 +14,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(
     todosFromServer.map(todo => ({
       ...todo,
-      user: getUserById(todo.userId) as User,
+      user: getUserById(todo.userId) || null,
     })),
   );
 
