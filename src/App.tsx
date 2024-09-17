@@ -3,18 +3,14 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import './App.scss';
+import { User } from './components/UserInfo';
 
 export type Todo = {
   id: number;
   title: string;
   userId: number;
   completed: boolean;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | null;
+  user: User | null;
 };
 
 function getUserById(userId: number) {
