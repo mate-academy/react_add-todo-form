@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { User } from './types/User';
+import { Todo } from './types/Todo';
+
+function getUser(userId: number): User | null {
+  const foundUser = usersFromServer.find(user => user.id === userId);
+
+  return foundUser || null;
+}
+
+const todosWithUser: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
 
 export const App = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [todos, setTodos] = useState(todosWithUser);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -31,31 +47,23 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
+        {todos.map(todo => {
+          const { id, title, completed, user } = todo;
 
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
+          return (
+            <article
+              key={id}
+              data-id={`${id}`}
+              className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+            >
+              <h2 className="TodoInfo__title">{title}</h2>
 
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+              <a className="UserInfo" href={`mailto:${user?.email}`}>
+                {user?.name}
+              </a>
+            </article>
+          );
+        })}
       </section>
     </div>
   );
