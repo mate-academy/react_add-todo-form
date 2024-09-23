@@ -24,6 +24,7 @@ export const App = () => {
   const [userSelect, setUserSelect] = useState('0');
   const [todoTitle, setTodoTitle] = useState('');
   const [errorUserSelect, setErrorUserSelect] = useState(false);
+  const [errorTodoTitle, setErrorTodoTitle] = useState(false);
 
   const getNextId = (actualTodos: Todo[]): number => {
     const maxId = actualTodos.reduce(
@@ -37,9 +38,19 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userSelect === '0') {
-      setErrorUserSelect(true);
+    let hasError = false;
 
+    if (userSelect === '0') {
+      setErrorUserSelect(() => true);
+      hasError = true;
+    }
+
+    if (todoTitle === '') {
+      setErrorTodoTitle(true);
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
 
@@ -51,10 +62,18 @@ export const App = () => {
       user: getUser(Number(userSelect)),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
 
     setUserSelect('0');
     setTodoTitle('');
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const filteredValue = value.replace(/[^a-zA-Z0-9 ]/g, '');
+
+    setTodoTitle(filteredValue);
+    setErrorTodoTitle(false);
   };
 
   return (
@@ -66,17 +85,23 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Enter todo title"
             value={todoTitle}
-            onChange={event => setTodoTitle(event.target.value)}
+            onChange={handleTitleChange}
           />
-          <span className="error">Please enter a title</span>
+          {errorTodoTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
             value={userSelect}
-            onChange={event => setUserSelect(event.target.value)}
+            onChange={event => {
+              setUserSelect(event.target.value);
+              setErrorUserSelect(false);
+            }}
           >
             <option value="0" disabled>
               Choose a user
