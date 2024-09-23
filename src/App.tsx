@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types/User';
 import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList';
 
 function getUser(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
@@ -46,25 +47,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => {
-          const { id, title, completed, user } = todo;
-
-          return (
-            <article
-              key={id}
-              data-id={`${id}`}
-              className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
-            >
-              <h2 className="TodoInfo__title">{title}</h2>
-
-              <a className="UserInfo" href={`mailto:${user?.email}`}>
-                {user?.name}
-              </a>
-            </article>
-          );
-        })}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
