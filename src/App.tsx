@@ -23,6 +23,7 @@ export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [userSelect, setUserSelect] = useState('0');
   const [todoTitle, setTodoTitle] = useState('');
+  const [errorUserSelect, setErrorUserSelect] = useState(false);
 
   const getNextId = (actualTodos: Todo[]): number => {
     const maxId = actualTodos.reduce(
@@ -35,6 +36,12 @@ export const App = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (userSelect === '0') {
+      setErrorUserSelect(true);
+
+      return;
+    }
 
     const newTodo = {
       id: getNextId(todos),
@@ -81,7 +88,9 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {errorUserSelect && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
