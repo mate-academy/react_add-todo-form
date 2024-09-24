@@ -21,7 +21,7 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [todos, setTodos] = useState(todosWithUser);
-  const [userSelectId, setuserSelectId] = useState('0');
+  const [userSelectId, setUserSelectId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
   const [erroruserSelectId, setErroruserSelectId] = useState(false);
   const [errorTodoTitle, setErrorTodoTitle] = useState(false);
@@ -38,7 +38,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (userSelectId === '0') {
+    if (userSelectId === 0) {
       setErroruserSelectId(() => true);
 
       return;
@@ -60,7 +60,7 @@ export const App = () => {
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
 
-    setuserSelectId('0');
+    setUserSelectId(0);
     setTodoTitle('');
   };
 
@@ -95,7 +95,7 @@ export const App = () => {
             data-cy="userSelectId"
             value={userSelectId}
             onChange={event => {
-              setuserSelectId(event.target.value);
+              setUserSelectId(Number(event.target.value));
               setErroruserSelectId(false);
             }}
           >
