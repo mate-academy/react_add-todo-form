@@ -27,7 +27,7 @@ export const App: React.FC = () => {
       ...data,
     };
 
-    setTodos(currentTodo => [...currentTodo,newTodo]);
+    setTodos(currentTodo => [...currentTodo, newTodo]);
   };
 
   return (
