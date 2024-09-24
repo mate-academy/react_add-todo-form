@@ -21,9 +21,9 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [todos, setTodos] = useState(todosWithUser);
-  const [userSelect, setUserSelect] = useState('0');
+  const [userSelectId, setuserSelectId] = useState('0');
   const [todoTitle, setTodoTitle] = useState('');
-  const [errorUserSelect, setErrorUserSelect] = useState(false);
+  const [erroruserSelectId, setErroruserSelectId] = useState(false);
   const [errorTodoTitle, setErrorTodoTitle] = useState(false);
 
   const getNextId = (actualTodos: Todo[]): number => {
@@ -40,8 +40,8 @@ export const App = () => {
 
     let hasError = false;
 
-    if (userSelect === '0') {
-      setErrorUserSelect(() => true);
+    if (userSelectId === '0') {
+      setErroruserSelectId(() => true);
       hasError = true;
     }
 
@@ -57,14 +57,14 @@ export const App = () => {
     const newTodo = {
       id: getNextId(todos),
       title: todoTitle,
-      userId: Number(userSelect),
+      userId: Number(userSelectId),
       completed: false,
-      user: getUser(Number(userSelect)),
+      user: getUser(Number(userSelectId)),
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
 
-    setUserSelect('0');
+    setuserSelectId('0');
     setTodoTitle('');
   };
 
@@ -96,11 +96,11 @@ export const App = () => {
 
         <div className="field">
           <select
-            data-cy="userSelect"
-            value={userSelect}
+            data-cy="userSelectId"
+            value={userSelectId}
             onChange={event => {
-              setUserSelect(event.target.value);
-              setErrorUserSelect(false);
+              setuserSelectId(event.target.value);
+              setErroruserSelectId(false);
             }}
           >
             <option value="0" disabled>
@@ -113,7 +113,7 @@ export const App = () => {
             ))}
           </select>
 
-          {errorUserSelect && (
+          {erroruserSelectId && (
             <span className="error">Please choose a user</span>
           )}
         </div>
