@@ -23,7 +23,7 @@ export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
   const [userSelectId, setUserSelectId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
-  const [erroruserSelectId, setErroruserSelectId] = useState(false);
+  const [errorUserSelectId, setErrorUserSelectId] = useState(false);
   const [errorTodoTitle, setErrorTodoTitle] = useState(false);
 
   const getNextId = (actualTodos: Todo[]): number => {
@@ -39,14 +39,14 @@ export const App = () => {
     event.preventDefault();
 
     if (userSelectId === 0) {
-      setErroruserSelectId(() => true);
-
-      return;
+      setErrorUserSelectId(() => true);
     }
 
     if (todoTitle === '') {
       setErrorTodoTitle(true);
+    }
 
+    if (userSelectId === 0 || todoTitle === '') {
       return;
     }
 
@@ -92,11 +92,11 @@ export const App = () => {
 
         <div className="field">
           <select
-            data-cy="userSelectId"
+            data-cy="userSelect"
             value={userSelectId}
             onChange={event => {
               setUserSelectId(Number(event.target.value));
-              setErroruserSelectId(false);
+              setErrorUserSelectId(false);
             }}
           >
             <option value="0" disabled>
@@ -109,7 +109,7 @@ export const App = () => {
             ))}
           </select>
 
-          {erroruserSelectId && (
+          {errorUserSelectId && (
             <span className="error">Please choose a user</span>
           )}
         </div>
