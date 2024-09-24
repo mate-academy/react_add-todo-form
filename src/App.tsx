@@ -38,19 +38,15 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let hasError = false;
-
     if (userSelectId === '0') {
       setErroruserSelectId(() => true);
-      hasError = true;
+
+      return;
     }
 
     if (todoTitle === '') {
       setErrorTodoTitle(true);
-      hasError = true;
-    }
 
-    if (hasError) {
       return;
     }
 
