@@ -1,11 +1,6 @@
+import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-
-interface User {
-  name: string;
-  email: string;
-  id: number;
-  username: string;
-}
+import { User } from '../UserInfo';
 
 interface TodoI {
   id: number;
@@ -14,12 +9,18 @@ interface TodoI {
   user: User | null;
 }
 
-export const TodoInfo = ({ todo }: { todo: TodoI }) => (
-  <article
-    data-id={todo.id}
-    className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-  >
-    <h2 className="TodoInfo__title">{todo.title}</h2>
-    {todo.user && <UserInfo user={todo.user} />}
-  </article>
-);
+export const TodoInfo = ({ todo }: { todo: TodoI }) => {
+  const { id, completed, title, user } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
+      {user && <UserInfo user={user} />}
+    </article>
+  );
+};

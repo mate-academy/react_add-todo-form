@@ -1,15 +1,11 @@
 import { TodoInfo } from '../TodoInfo';
+import { User } from '../UserInfo';
 
 interface Todo {
   id: number;
   title: string;
   completed: boolean;
-  user: {
-    name: string;
-    email: string;
-    id: number;
-    username: string;
-  } | null;
+  user: User | null;
 }
 
 interface TodoListProps {

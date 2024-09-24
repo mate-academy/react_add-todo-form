@@ -45,10 +45,12 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim();
+
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
