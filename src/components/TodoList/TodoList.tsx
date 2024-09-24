@@ -9,7 +9,7 @@ interface Todo {
     email: string;
     id: number;
     username: string;
-  };
+  } | null;
 }
 
 interface TodoListProps {

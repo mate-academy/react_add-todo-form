@@ -3,6 +3,8 @@ import { UserInfo } from '../UserInfo';
 interface User {
   name: string;
   email: string;
+  id: number;
+  username: string;
 }
 
 interface TodoI {
