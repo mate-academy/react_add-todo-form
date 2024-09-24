@@ -6,9 +6,15 @@ interface UserInfoProps {
 }
 
 export const UserInfo = ({ user }: UserInfoProps) => {
+  if (!user) {
+    return null;
+  }
+
+  const { email, name } = user;
+
   return (
-    <a className="UserInfo" href={`mailto:${user?.email}`}>
-      {user?.name}
+    <a className="UserInfo" href={`mailto:${email}`}>
+      {name}
     </a>
   );
 };
