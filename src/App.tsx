@@ -99,11 +99,11 @@ export const App = () => {
               setErrorUserSelectId(false);
             }}
           >
-            <option value="0" disabled>
+            <option value={0} disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
-              <option key={user.id} value={`${user.id}`}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
