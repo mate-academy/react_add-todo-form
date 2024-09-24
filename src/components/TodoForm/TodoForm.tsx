@@ -67,7 +67,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           />
         </div>
         {hasTitleError && (
-          <p className="help is-danger">Please enter a title</p>
+          <p className="help is-danger error">Please enter a title</p>
         )}
       </div>
 
