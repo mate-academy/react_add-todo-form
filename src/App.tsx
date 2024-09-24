@@ -9,13 +9,13 @@ export const getUserById = (userId: number) => {
   return usersFromServer.find(user => user.id === userId) || null;
 };
 
-export const todos = todosFromServer.map(todo => ({
+export const preparedTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [, setTodoses] = useState(todosFromServer);
+  const [todos, setTodoses] = useState(preparedTodos);
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
