@@ -13,7 +13,7 @@ export const TodoForm: React.FC<Props> = ({ users, onAdd }) => {
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const isUserValid: boolean = user !== 0;
-  const isTitleValid = !!title.length;
+  const isTitleValid = !!title.trim().length;
 
   const clearForm = () => {
     setSubmitted(false);
