@@ -8,9 +8,9 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ users, onAdd }) => {
-  const [title, setTitle] = useState<string>('');
-  const [user, setUser] = useState<number>(0);
-  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   const isUserValid: boolean = user !== 0;
   const isTitleValid = !!title.trim().length;
