@@ -1,14 +1,24 @@
 import React from 'react';
-import { User } from '../../newType/User';
 
-type Props = {
-  user: User;
-};
+interface UserInfoProps {
+  users: {
+    id: number;
+    name: string;
+  }[];
+  selectedUserId: string;
+  onUserSelect: (userId: string) => void;
+}
 
-export const UserInfo: React.FC<Props> = ({ user }) => {
+export const UserInfo: React.FC<UserInfoProps> = ({ users, selectedUserId, onUserSelect }) => {
   return (
-    <a className="UserInfo" href={`mailto:${user.email}`}>
-      {user.name}
-    </a>
+    <div className="field">
+      <select data-cy="userSelect" value={selectedUserId} onChange={(e) => onUserSelect(e.target.value)}>
+        <option value="" disabled>Choose a user</option>
+        {users.map(({ id, name }) => (
+          <option key={id} value={id}>{name}</option>
+        ))}
+      </select>
+      {selectedUserId === '' && <span className="error">Please choose a user</span>}
+    </div>
   );
 };

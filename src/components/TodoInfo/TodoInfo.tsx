@@ -1,23 +1,23 @@
 import React from 'react';
-import { Todo } from '../../newType/Todo';
-import { UserInfo } from '../UserInfo';
-import cn from 'classnames';
 
-type Props = {
-  todo: Todo;
-};
+interface TodoInfoProps {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  userEmail: string;
+  userName: string;
+}
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<TodoInfoProps> = ({
+  id, title, completed, userEmail, userName,
+}) => {
   return (
-    <article
-      data-id={todo.id}
-      className={cn('TodoInfo', {
-        'TodoInfo--completed': todo.completed,
-      })}
-    >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
-
-      {todo.user && <UserInfo user={todo.user} />}
+    <article data-id={id} className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}>
+      <h2 className="TodoInfo__title">{title}</h2>
+      <a className="UserInfo" href={`mailto:${userEmail}`}>
+        {userName}
+      </a>
     </article>
   );
 };
