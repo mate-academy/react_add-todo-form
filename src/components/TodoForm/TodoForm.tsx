@@ -18,7 +18,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
   const [isUserChosen, setIsUserChosen] = useState(true);
   const [isTitleEntered, setIsTitleEntered] = useState(true);
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(prevTodo => ({
       ...prevTodo,
       title: event.target.value,
@@ -26,16 +26,16 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
     }));
 
     setIsTitleEntered(true);
-  }
+  };
 
-  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTodo(prevTodo => ({
       ...prevTodo,
       userId: +event.target.value,
     }));
 
     setIsUserChosen(true);
-  }
+  };
 
   const handleReset = () => {
     setTodo({
