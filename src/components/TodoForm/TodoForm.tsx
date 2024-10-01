@@ -49,7 +49,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!todo.title) {
+    if (!todo.title.trim()) {
       setIsTitleEntered(false);
     }
 
@@ -57,7 +57,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
       setIsUserChosen(false);
     }
 
-    if (!todo.title || !todo.userId) {
+    if (!todo.title.trim() || !todo.userId) {
       return;
     }
 
