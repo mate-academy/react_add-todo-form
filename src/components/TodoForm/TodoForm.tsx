@@ -68,18 +68,22 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
   return (
     <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">
+        <label htmlFor="titleInout">Title </label>
         <input
           type="text"
+          id="titleInput"
           data-cy="titleInput"
           placeholder="Enter a title"
           value={todo.title}
           onChange={event => handleInputChange(event)}
         />
-        {!isTitleEntered && <span className="error">Please enter a title</span>}
+        {!isTitleEntered && <span className="error"> Please enter title</span>}
       </div>
 
       <div className="field">
+        <label htmlFor="userSelect">User </label>
         <select
+          id="userSelect"
           data-cy="userSelect"
           value={todo.userId}
           onChange={event => handleSelectChange(event)}
@@ -93,7 +97,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, maxId }) => {
             </option>
           ))}
         </select>
-        {!isUserChosen && <span className="error">Please choose a user</span>}
+        {!isUserChosen && <span className="error"> Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
