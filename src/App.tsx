@@ -48,7 +48,7 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todo = {
-      id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title: trimmedTitle,
       userId,
       completed: false,
