@@ -53,12 +53,13 @@ export const App = () => {
     const { name, value } = event.target;
 
     setFormData(prev => ({ ...prev, [name]: value }));
-    setFormErrors(initialFormErrors);
+    setFormErrors(prevErrors => ({ ...prevErrors, userId: '' }));
 
     if (name === FormFields.USER_ID) {
       const selectedUser = getUserById(Number(value));
 
       setUser(selectedUser);
+      setFormErrors(prevErrors => ({ ...prevErrors, title: '' }));
     }
   };
 
