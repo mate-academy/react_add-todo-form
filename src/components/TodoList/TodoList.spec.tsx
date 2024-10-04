@@ -1,5 +1,6 @@
 import { mount } from '@cypress/react18';
 import { TodoList } from './TodoList';
+import React from 'react';
 
 describe('TodoList', () => {
   it('should contain all the todos', () => {
