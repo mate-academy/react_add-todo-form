@@ -2,6 +2,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import React, { FormEvent, useState } from 'react';
+import { TodoForm } from './components/TodoForm';
 
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
@@ -72,8 +73,8 @@ export const App: React.FC = () => {
 
     const newTask: Todo = {
       id: newTaskId,
-      title: title,
-      userId: userId,
+      title,
+      userId,
       completed: false,
       user: user || null,
     };
@@ -87,44 +88,15 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
-        <div className="field">
-          <span>Title: </span>
-          <input
-            placeholder="Enter a title"
-            type="text"
-            data-cy="titleInput"
-            value={title}
-            onChange={handleEnteredTitle}
-          />
-          {errorTitle && <span className="error">{errorTitle}</span>}
-        </div>
-
-        <div className="field">
-          <span>User: </span>
-          <select
-            data-cy="userSelect"
-            required
-            value={userId}
-            onChange={handleUserSelect}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-
-          {errorUserId && <span className="error">{errorUserId}</span>}
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+      <TodoForm
+        onSubmit={handleSubmit}
+        onUserChange={handleUserSelect}
+        onTitleChange={handleEnteredTitle}
+        title={title}
+        errorTitle={errorTitle}
+        userId={userId}
+        errorUserId={errorUserId}
+      />
 
       <TodoList todos={tasks} />
     </div>
