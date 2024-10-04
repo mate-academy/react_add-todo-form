@@ -33,21 +33,21 @@ export const AddUser: FC<Props> = ({ onAdd, todos }) => {
       setUserError('Please choose a user');
     }
 
-    if (!newTitle || !newUserId) {
-      return;
+    if (newTitle && newUserId) {
+      const nextId: number = todos[todos.length - 1].id + 1;
+
+      const newTodo: Todo = {
+        id: nextId,
+        title: newTitle,
+        completed: false,
+        userId: newUserId,
+        user: findUserById(newUserId),
+      };
+
+      onAdd(newTodo);
+
+      handleFormReset();
     }
-
-    const newTodo: Todo = {
-      id: todos[todos.length - 1].id + 1,
-      title: newTitle,
-      completed: false,
-      userId: newUserId,
-      user: findUserById(newUserId),
-    };
-
-    onAdd(newTodo);
-
-    handleFormReset();
   }
 
   return (
