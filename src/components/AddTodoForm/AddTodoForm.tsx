@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import users from '../../api/users';
-import { getUsersById } from '../../App';
+import { getUsersById } from '../../utils/getUserById';
 import { Todo } from '../../types';
+import { getLargestId } from '../../utils/getLargestId';
 
 type Props = {
-  addTodo: (newTodo: Todo) => void;
-  getLargestId: () => number;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
 
-export const AddTodoForm: React.FC<Props> = ({ addTodo, getLargestId }) => {
+export const AddTodoForm: React.FC<Props> = ({ setTodos }) => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(0);
@@ -21,6 +21,11 @@ export const AddTodoForm: React.FC<Props> = ({ addTodo, getLargestId }) => {
         .replace(/[^a-zA-Zа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9 ]/g, ''),
     );
     setTitleError(false);
+  };
+
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(+event.target.value);
+    setUserIdError(false);
   };
 
   const handleReset = () => {
@@ -36,23 +41,24 @@ export const AddTodoForm: React.FC<Props> = ({ addTodo, getLargestId }) => {
       setTitleError(true);
     }
 
-    if (selectedUserId === 0) {
+    if (!selectedUserId) {
       setUserIdError(true);
     }
 
-    if (!title || selectedUserId === 0) {
+    if (!title || !selectedUserId) {
       return;
     }
 
-    const newTodo: Todo = {
-      id: getLargestId() + 1,
-      title,
-      completed: false,
-      userId: selectedUserId,
-      user: getUsersById(selectedUserId),
-    };
-
-    addTodo(newTodo);
+    setTodos(currentTodos => [
+      ...currentTodos,
+      {
+        id: getLargestId(currentTodos),
+        title,
+        completed: false,
+        userId: selectedUserId,
+        user: getUsersById(selectedUserId),
+      },
+    ]);
 
     handleReset();
   };
@@ -94,10 +100,7 @@ export const AddTodoForm: React.FC<Props> = ({ addTodo, getLargestId }) => {
               data-cy="userSelect"
               id="user"
               value={selectedUserId}
-              onChange={event => {
-                setSelectedUserId(+event.target.value);
-                setUserIdError(false);
-              }}
+              onChange={handleUserIdChange}
               required
             >
               <option value="0" disabled>
