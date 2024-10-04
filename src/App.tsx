@@ -53,6 +53,7 @@ export const App = () => {
     const { name, value } = event.target;
 
     setFormData(prev => ({ ...prev, [name]: value }));
+    setFormErrors(initialFormErrors);
 
     if (name === FormFields.USER_ID) {
       const selectedUser = getUserById(Number(value));
