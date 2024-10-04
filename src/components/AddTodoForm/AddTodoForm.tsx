@@ -98,9 +98,9 @@ export const AddTodoForm: React.FC<Props> = ({ users, nextId, onAddTodo }) => {
             Choose a user
           </option>
 
-          {users.map(currUser => (
-            <option key={currUser.id} value={currUser.id}>
-              {currUser.name}
+          {users.map(user => (
+            <option key={user.id} value={user.id}>
+              {user.name}
             </option>
           ))}
         </select>
