@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import users from '../../api/users';
-import { Todo } from '../../types/todo';
 import { getUsersById } from '../../App';
+import { Todo } from '../../types/todo';
 
 type Props = {
   addTodo: (newTodo: Todo) => void;
