@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import './NewTodo.scss';
 import usersFromServer from '../../api/users';
-import { Todo } from '../../types/Todo';
-import { getUserById } from '../../utils/getUserById';
+import { Todo } from '../../types';
+import { titlePattern } from '../../RegExps';
+import { getUserById } from '../../utils';
+import { getNewTodoId } from '../../utils';
 
 type Props = {
-  onAdd: (todo: Todo) => void;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
 
-export const NewTodo: React.FC<Props> = ({ onAdd }) => {
+export const NewTodo: React.FC<Props> = ({ setTodos }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-
-  const titlePattern = /[^a-zA-Zа-яА-ЯїЇєЄіІґҐ0-9\s]/g;
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value.trimStart());
@@ -28,8 +28,9 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
 
   const resetForm = () => {
     setTitle('');
-    setUserId(0);
     setHasTitleError(false);
+
+    setUserId(0);
     setHasUserIdError(false);
   };
 
@@ -43,13 +44,16 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      id: 0,
-      title: title.replace(titlePattern, ''),
-      completed: false,
-      userId,
-      user: getUserById(userId),
-    });
+    setTodos(currentTodos => [
+      ...currentTodos,
+      {
+        id: getNewTodoId(currentTodos),
+        title: title.replace(titlePattern, ''),
+        completed: false,
+        userId,
+        user: getUserById(userId),
+      },
+    ]);
 
     resetForm();
   };
