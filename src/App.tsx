@@ -64,10 +64,12 @@ export const App = () => {
 
   function handleTitleInput(event: ChangeEvent<HTMLInputElement>): void {
     setTitle(event.target.value.trimStart());
+    setTitleInputError(false);
   }
 
   function handleUserSelect(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedUserId(Number(event.target.value));
+    setUserSelectError(false);
   }
 
   return (
