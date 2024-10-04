@@ -11,7 +11,7 @@ export const validateForm = ({ title, userId }: Form): FormError => {
     errors.title = 'Please enter only letters (ua and en), digits, and spaces';
   }
 
-  if (userId === 0) {
+  if (!userId) {
     errors.userId = 'Please choose a user';
   }
 

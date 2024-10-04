@@ -17,10 +17,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import './App.scss';
+import { TodoWithUser } from './types/Todo';
 
-const initialTodos = todosFromServer.map(todo => ({
+const initialTodos: TodoWithUser[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId, usersFromServer),
+  user: getUserById(todo.userId),
 }));
 
 export const App = () => {
@@ -54,7 +55,7 @@ export const App = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
 
     if (name === FormFields.USER_ID) {
-      const selectedUser = getUserById(Number(value), usersFromServer);
+      const selectedUser = getUserById(Number(value));
 
       setUser(selectedUser);
     }
@@ -71,7 +72,7 @@ export const App = () => {
     if (isFromValid) {
       addTodo();
       reset();
-      setCount(count + 1);
+      setCount(prevCount => prevCount + 1);
     }
   };
 

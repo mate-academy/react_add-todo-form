@@ -1,4 +1,4 @@
-import { User } from '../types/User';
+import usersFromServer from '../api/users';
 
-export const getUserById = (userId: number, users: User[]) =>
-  users.find(user => user.id === userId);
+export const getUserById = (userId: number) =>
+  usersFromServer.find(user => user.id === userId);
