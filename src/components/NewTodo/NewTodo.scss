@@ -1,8 +1,10 @@
+@import '../../styles/utils/colors';
+
 label,
 button {
   cursor: pointer;
 }
 
 .error {
-  color: red;
+  color: $error-text-color;
 }

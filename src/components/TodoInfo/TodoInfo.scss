@@ -1,18 +1,20 @@
+@import '../../styles/utils/colors';
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: 1px solid $todo-border-color;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: $todo-background-color;
 
   &__title {
     margin: 4px 0;
     font-size: inherit;
-    color: #f00;
+    color: $todo-title-text-color;
   }
 
   &--completed &__title {
-    color: #080;
+    color: $todo-title-completed-text-color;
   }
 }
