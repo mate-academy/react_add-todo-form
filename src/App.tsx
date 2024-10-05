@@ -81,6 +81,7 @@ export const App = () => {
           <label htmlFor="titleInput">Title: </label>
           <input
             type="text"
+            id="titleInput"
             data-cy="titleInput"
             value={title}
             onChange={handleTitleInput}
@@ -94,12 +95,13 @@ export const App = () => {
         <div className="field">
           <label htmlFor="userSelect">User: </label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             onChange={handleUserSelect}
             value={selectedUserId}
           >
             <option value="0" disabled>
-              Select a user
+              Choose a user
             </option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
@@ -108,7 +110,7 @@ export const App = () => {
             ))}
           </select>
           {userSelectError && (
-            <span className="error">Please select a user</span>
+            <span className="error">Please choose a user</span>
           )}
         </div>
 
