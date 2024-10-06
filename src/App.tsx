@@ -24,7 +24,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <TodoForm toAdd={handleList} />
+      <TodoForm toAdd={handleList} todos={todos} />
 
       <TodoList todos={todos} />
     </div>

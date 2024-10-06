@@ -4,9 +4,10 @@ import users from '../../api/users';
 
 type Props = {
   toAdd: (toAdd: Todo) => void;
+  todos: Todo[];
 };
 
-export const TodoForm: React.FC<Props> = ({ toAdd }) => {
+export const TodoForm: React.FC<Props> = ({ toAdd, todos }) => {
   const [valueTitle, setValueTitle] = useState('');
   const [valueUser, setValueUser] = useState(0);
 
@@ -14,7 +15,9 @@ export const TodoForm: React.FC<Props> = ({ toAdd }) => {
   const [valueUserError, setValueUserError] = useState(false);
 
   function getMaxID() {
-    return Math.max(...users.map(user => user.id)) + 1;
+    const maxId = Math.max(...todos.map(user => user.id)) + 1;
+
+    return maxId;
   }
 
   function getUserById(valueselectUser: number) {
