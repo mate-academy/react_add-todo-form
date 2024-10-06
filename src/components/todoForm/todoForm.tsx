@@ -54,7 +54,7 @@ export const TodoForm: React.FC<Props> = ({ toAdd, todos }) => {
       setValueUserError(true);
     }
 
-    if (valueTitle && valueUser > 0) {
+    if (valueTitle.trim() && valueUser > 0) {
       const idForNewTodo = getMaxID();
 
       const authorOfPost = getUserById(valueUser);
