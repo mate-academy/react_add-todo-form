@@ -8,17 +8,36 @@ import { TodoList } from './components/TodoList';
 import React, { useState } from 'react';
 import { Todo } from './Types/todo';
 import { FormFields } from './Types/formFields';
-import { makeNewTodo } from './Utils/makeNewTodo';
 
 const formFields: FormFields = {
   title: '',
   user: '0',
 };
 
+const findUserByUserId = (userId: number): User | null => {
+  return usersFromServer.find((user: User) => user.id === userId) || null;
+};
+
+const makeNewTodo = (
+  id: number,
+  title: string,
+  userId: number,
+  user: User | null,
+  completed: boolean = false,
+) => {
+  return {
+    id: id,
+    title: title,
+    completed: completed,
+    userId: userId,
+    user: user,
+  };
+};
+
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId),
+    user: findUserByUserId(todo.userId),
   };
 });
 
@@ -33,9 +52,9 @@ const formFieldsErrors = () => {
 };
 
 export const App = () => {
-  const [todoList, setTodoList] = useState<Todo[]>([...preparedTodos]);
+  const [todoList, setTodoList] = useState<Todo[]>(preparedTodos);
   const [errorsInForm, setErrorsInForm] = useState(formFieldsErrors());
-  const [newTodoForm, setNewTodoForm] = useState({ ...formFields });
+  const [newTodoForm, setNewTodoForm] = useState(formFields);
   const [isTouched, setIsTouched] = useState(false);
 
   const handleValidation = (newTodo: FormFields) => {
@@ -92,11 +111,13 @@ export const App = () => {
       return;
     }
 
+    const todoOwner = findUserByUserId(+todo.user);
+
     const newTodo = makeNewTodo(
       Math.max(...todoList.map(task => task.id)) + 1,
       todo.title,
       +todo.user,
-      usersFromServer,
+      todoOwner,
     );
 
     setTodoList(prevState => {
@@ -161,7 +182,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todoList} />;
+      <TodoList todos={todoList} />
     </div>
   );
 };
