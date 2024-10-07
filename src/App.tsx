@@ -38,9 +38,14 @@ export const App: React.FC = () => {
     event.preventDefault();
 
     setIsSelectEmpty(!selectedUserID);
-    setIsTitleEmpty(!titleValue);
 
-    if (!selectedUserID || !titleValue) {
+    if (titleValue.trim() === '') {
+      setIsTitleEmpty(true);
+    } else {
+      setIsTitleEmpty(false);
+    }
+
+    if (!selectedUserID || !titleValue.trim()) {
       return;
     }
 
@@ -57,6 +62,7 @@ export const App: React.FC = () => {
           <label htmlFor="title">Title: </label>
 
           <input
+            placeholder="Enter a title"
             id="title"
             value={titleValue}
             type="text"
