@@ -18,8 +18,8 @@ export const App: React.FC = () => {
     setCurrentUserId(0);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (isFormValid) {
       const newTodo = {
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
             name="title"
             id="titleInput"
             value={currentTitle}
-            onChange={e => setCurrentTitle(e.target.value)}
+            onChange={event => setCurrentTitle(event.target.value)}
             placeholder="Enter a title"
           />
           {wasSubmitted && !currentTitle && (
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
             name="user"
             id="userSelect"
             value={currentUserId}
-            onChange={e => setCurrentUserId(+e.target.value)}
+            onChange={event => setCurrentUserId(+event.target.value)}
           >
             <option value="0" disabled>
               Choose a user
