@@ -2,12 +2,12 @@ import { Todo } from '../../interfaces/Todo';
 import { TodoInfo } from '../TodoInfo';
 
 interface Props {
-  visibleTodos: Todo[];
+  todos: Todo[];
 }
 
-export const TodoList: React.FC<Props> = ({ visibleTodos }) => (
+export const TodoList: React.FC<Props> = ({ todos }) => (
   <section className="TodoList">
-    {visibleTodos.map(todo => (
+    {todos.map(todo => (
       <TodoInfo todo={todo} key={todo.id} />
     ))}
   </section>

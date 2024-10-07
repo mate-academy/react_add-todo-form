@@ -7,8 +7,8 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
-const initialTodos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(client => client.id === todo.userId);
+const initialTodos: Todo[] = todosFromServer.map(todo => {
+  const user = usersFromServer.find(client => client.id === todo.userId)!;
 
   return {
     ...todo,
@@ -29,6 +29,10 @@ export const App = () => {
     setVisibleTodos(current => {
       const id = Math.max(...current.map(item => item.id));
       const user = usersFromServer.find(person => person.id === selectedUser);
+
+      if (!user) {
+        return current;
+      }
 
       const newTodo = {
         id: id + 1,
@@ -89,21 +93,25 @@ export const App = () => {
         onReset={handleReset}
       >
         <div className="field">
+          <label htmlFor="title">Title:</label>
           <input
             type="text"
             data-cy="titleInput"
             value={title}
             onChange={handleInput}
             placeholder="Enter a title"
+            id="title"
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="user">User:</label>
           <select
             data-cy="userSelect"
             onChange={handleUserChange}
             value={selectedUser}
+            id="user"
           >
             <option value="0" disabled>
               Choose a user
@@ -119,16 +127,11 @@ export const App = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          // disabled={Boolean(!title || !selectedUser)}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-
-      <TodoList visibleTodos={visibleTodos} />
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
