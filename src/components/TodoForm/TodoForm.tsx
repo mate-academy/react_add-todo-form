@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import usersFromServer from '../../api/users';
-import { Todo } from '../../types';
+import { Todo, TypeError } from '../../types';
 import { getMaxNumberId } from '../../utils/getMaxNumberId';
 import { getUserById } from '../../utils/getUserById';
 
@@ -11,45 +11,47 @@ type Props = {
 };
 
 export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
-  const [titleError, setTitleError] = useState(false);
+  const [titleError, setTitleError] = useState<string>(TypeError.DEFAULT);
   const [title, setTitle] = useState('');
 
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [selectedUserIdError, setSelectedUserIdError] = useState(false);
+  const [selectedUserIdError, setSelectedUserIdError] = useState<string>(
+    TypeError.DEFAULT,
+  );
 
   const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setTitleError(false);
+    setTitleError(TypeError.DEFAULT);
   };
 
   const handleSelectedInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
-    setSelectedUserIdError(false);
+    setSelectedUserIdError(TypeError.DEFAULT);
   };
 
   const reset = () => {
     setTitle('');
     setSelectedUserId(0);
-    setTitleError(false);
-    setSelectedUserIdError(false);
+    setTitleError(TypeError.DEFAULT);
+    setSelectedUserIdError(TypeError.DEFAULT);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title) {
-      setTitleError(true);
+      setTitleError(TypeError.TITLE_EERROR);
     }
 
-    if (selectedUserId === 0) {
-      setSelectedUserIdError(true);
+    if (!selectedUserId) {
+      setSelectedUserIdError(TypeError.USER_ERROR);
     }
 
     if (!title || !selectedUserId) {
       return;
     }
 
-    const newTodo = {
+    const newTodo: Todo = {
       id: getMaxNumberId(todo),
       title: title.trim(),
       completed: false,
@@ -75,7 +77,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
           value={title}
           onChange={handleUserInput}
         />
-        {titleError && <span className="error">Please enter a title</span>}
+        {titleError && <span className="error">{titleError}</span>}
       </div>
 
       <div className="field">
@@ -100,7 +102,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
         </select>
 
         {selectedUserIdError && (
-          <span className="error">Please choose a user</span>
+          <span className="error">{selectedUserIdError}</span>
         )}
       </div>
 
