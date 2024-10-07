@@ -26,12 +26,18 @@ export const App = () => {
 
   const handleSetTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTitleError(false);
+
+    if (hasTitleError) {
+      setHasTitleError(false);
+    }
   };
 
   const handleSetUser = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(Number(event.target.value));
-    setHasUserError(false);
+
+    if (hasUserError) {
+      setHasUserError(false);
+    }
   };
 
   const handleSetTodos = () => {
