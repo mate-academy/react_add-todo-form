@@ -4,11 +4,20 @@ import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { FormEvent, useState } from 'react';
 import { User } from './types/User';
+import { Todo } from './types/Todo';
 
 type GetUserById = (todoId: number) => User | null;
 
 const getUserById: GetUserById = (todoId: number) => {
   return usersFromServer.find(user => user.id === todoId) || null;
+};
+
+const getAllIds = (array: Todo[]) => {
+  const ids: number[] = [];
+
+  array.forEach(element => ids.push(element.id));
+
+  return ids;
 };
 
 export const App = () => {
@@ -25,7 +34,9 @@ export const App = () => {
     user: getUserById(todo.userId),
   }));
 
-  const hasNoValuesInForm = !title && user === 0;
+  const allIds = getAllIds(preparedTodos);
+
+  const hasNoValuesInForm = !title || user === 0;
 
   const handleReset = () => {
     setTitle('');
@@ -50,7 +61,7 @@ export const App = () => {
     }
 
     const newTodo = {
-      id: 200,
+      id: Math.max(...allIds) + 1,
       title: title,
       completed: false,
       userId: user,
