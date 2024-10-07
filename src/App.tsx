@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
@@ -14,13 +12,14 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
 
-  function getNewPostId(todos: Todo[]) {
-    const maxId = Math.max(...todos.map(todo => todo.id));
+  function getNewPostId(todosList: Todo[]) {
+    const maxId = Math.max(...todosList.map(todo => todo.id));
 
     return maxId + 1;
   }
 
   const addNewTodo = (newTodo: Todo) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     setTodos(todos => [...todos, newTodo]);
   };
 
@@ -65,7 +64,6 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      // #region Form
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
@@ -83,7 +81,9 @@ export const App: React.FC = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0">Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -98,7 +98,6 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      // #endregion
       <section className="TodoList">
         <TodoList todos={todos} />
       </section>

@@ -49,7 +49,7 @@ describe('TodoList', () => {
       },
     ];
 
-    mount(<TodoList todos={todos} users={[]} />);
+    mount(<TodoList todos={todos} />);
 
     cy.get('.TodoInfo').should('have.length', 4);
 
