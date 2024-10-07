@@ -25,7 +25,7 @@ export const App = () => {
   const [hasUserError, setHasUserError] = useState(false);
 
   const handleSetTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trimStart());
 
     if (hasTitleError) {
       setHasTitleError(false);
@@ -43,7 +43,7 @@ export const App = () => {
   const handleSetTodos = () => {
     const newTodo = {
       id: getMaxId(todos),
-      title,
+      title: title.trim(),
       completed: false,
       userId: selectedUser,
       user: getUserById(selectedUser),
