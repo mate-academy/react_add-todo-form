@@ -96,6 +96,7 @@ export const App = () => {
       Math.max(...todoList.map(task => task.id)) + 1,
       todo.title,
       +todo.user,
+      usersFromServer,
     );
 
     setTodoList(prevState => {
@@ -109,7 +110,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <form onSubmit={event => handleAddTodo(event, newTodoForm)}>
+      <form onSubmit={submitEvent => handleAddTodo(submitEvent, newTodoForm)}>
         <div className="field">
           <label>
             <span>Title: </span>
@@ -118,8 +119,8 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={newTodoForm.title}
-              onChange={({ target }) =>
-                handleFormChange('title', target.value.trimStart())
+              onChange={changeEvent =>
+                handleFormChange('title', changeEvent.target.value.trimStart())
               }
             />
           </label>
@@ -134,7 +135,9 @@ export const App = () => {
             <select
               value={newTodoForm.user}
               data-cy="userSelect"
-              onChange={event => handleFormChange('user', event.target.value)}
+              onChange={changeEvent =>
+                handleFormChange('user', changeEvent.target.value)
+              }
             >
               <option value="0" disabled>
                 Choose a user

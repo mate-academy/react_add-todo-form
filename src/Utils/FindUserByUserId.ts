@@ -1,6 +1,8 @@
 import { User } from '../Types/user';
-import usersFromServer from './../api/users';
 
-export const findUserByUserId = (userId: number): User | null => {
-  return usersFromServer.find((user: User) => user.id === userId) || null;
+export const findUserByUserId = (
+  userId: number,
+  userList: User[],
+): User | null => {
+  return userList.find((user: User) => user.id === userId) || null;
 };
