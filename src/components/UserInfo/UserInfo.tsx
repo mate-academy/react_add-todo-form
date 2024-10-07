@@ -1,10 +1,14 @@
-import User from '../../types/user';
+import User from '../../types/User';
 
-interface Props {
-  user: User;
-}
+type Props = {
+  user: User | null;
+};
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
+  if (!user) {
+    return null;
+  }
+
   const { name, email } = user;
 
   return (

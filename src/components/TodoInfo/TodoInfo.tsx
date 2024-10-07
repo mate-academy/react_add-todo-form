@@ -1,17 +1,13 @@
-import ToDo from '../../types/todo';
-import User from '../../types/user';
+import ToDo from '../../types/ToDo';
 import { UserInfo } from '../UserInfo';
 import cn from 'classnames';
 
 interface Props {
-  users: User[];
   todo: ToDo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ users, todo }) => {
-  const { userId, title, completed, id } = todo;
-
-  const findUser = users.find(user => user.id === userId);
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { user, userId, title, completed, id } = todo;
 
   return (
     <article
@@ -20,7 +16,7 @@ export const TodoInfo: React.FC<Props> = ({ users, todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      {findUser ? <UserInfo user={findUser} /> : <p>No matching user found</p>}
+      {userId && <UserInfo user={user ?? null} />}
     </article>
   );
 };
