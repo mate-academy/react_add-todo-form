@@ -1,24 +1,15 @@
 import './App.scss';
-import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
 import React, { FormEvent, useState } from 'react';
 import { TodoForm } from './components/TodoForm';
 
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
+import { preparedTodos } from './api/constants/preparedTodos';
+
+import usersFromServer from './api/users';
 
 export const App: React.FC = () => {
-  const preparedTodos = () => {
-    return todosFromServer.map(todo => {
-      const user = usersFromServer.find(
-        userFromServer => userFromServer.id === todo.userId,
-      );
-
-      return { ...todo, user: user || null };
-    });
-  };
-
-  const [tasks, setTasks] = useState<Todo[]>(preparedTodos());
+  const [tasks, setTasks] = useState<Todo[]>(preparedTodos);
 
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
@@ -52,15 +43,15 @@ export const App: React.FC = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!title) {
+      setErrorTitle('Please enter a title');
+    }
+
+    if (userId === 0) {
+      setErrorUserId('Please choose a user');
+    }
+
     if (!title || userId === 0) {
-      if (!title) {
-        setErrorTitle('Please enter a title');
-      }
-
-      if (userId === 0) {
-        setErrorUserId('Please choose a user');
-      }
-
       return;
     }
 

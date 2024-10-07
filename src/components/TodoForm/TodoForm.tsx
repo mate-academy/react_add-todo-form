@@ -39,12 +39,13 @@ export const TodoForm: React.FC<TodoFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label" htmlFor={'title'}>
+        <label className="label" htmlFor={'user'}>
           User:
         </label>
         <select
           data-cy="userSelect"
           required
+          id="user"
           value={userId}
           onChange={onUserChange}
         >
