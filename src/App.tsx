@@ -1,14 +1,16 @@
 import { Todo } from './interfaces/Todo';
+import { findUserById } from './utils/findUserById';
 
 import './App.scss';
 
-import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 const initialTodos: Todo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(client => client.id === todo.userId)!;
+  const user = findUserById(todo.userId);
 
   return {
     ...todo,
@@ -19,30 +21,30 @@ const initialTodos: Todo[] = todosFromServer.map(todo => {
 export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>(initialTodos);
 
-  const [selectedUser, setSelectedUser] = useState<number>(0);
-  const [selectedUserError, setSelectedUserError] = useState(false);
+  const [selectedUserId, setSelectedUser] = useState(0);
+  const [isSelectedUserError, setSelectedUserError] = useState(false);
 
-  const [title, setTitle] = useState<string>('');
-  const [titleError, setTitleError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [isTitleError, setTitleError] = useState(false);
 
   const addTodo = () => {
-    setVisibleTodos(current => {
-      const id = Math.max(...current.map(item => item.id));
-      const user = usersFromServer.find(person => person.id === selectedUser);
+    setVisibleTodos(currentTodos => {
+      const id = Math.max(...currentTodos.map(item => item.id)) || 1;
+      const user = findUserById(selectedUserId);
 
       if (!user) {
-        return current;
+        return currentTodos;
       }
 
       const newTodo = {
         id: id + 1,
         title,
         completed: false,
-        userId: user?.id,
+        userId: user.id,
         user,
       };
 
-      return [...current, newTodo];
+      return [...currentTodos, newTodo];
     });
   };
 
@@ -58,9 +60,9 @@ export const App = () => {
     event.preventDefault();
 
     setTitleError(!title);
-    setSelectedUserError(!selectedUser);
+    setSelectedUserError(!selectedUserId);
 
-    if (!title || !selectedUser) {
+    if (!title || !selectedUserId) {
       return;
     }
 
@@ -70,14 +72,14 @@ export const App = () => {
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    if (titleError) {
+    if (isTitleError) {
       setTitleError(false);
     }
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUser(+event.target.value);
-    if (selectedUserError) {
+    if (isSelectedUserError) {
       setSelectedUserError(false);
     }
   };
@@ -93,7 +95,7 @@ export const App = () => {
         onReset={handleReset}
       >
         <div className="field">
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
@@ -102,15 +104,15 @@ export const App = () => {
             placeholder="Enter a title"
             id="title"
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor="user">User:</label>
+          <label htmlFor="user">User: </label>
           <select
             data-cy="userSelect"
             onChange={handleUserChange}
-            value={selectedUser}
+            value={selectedUserId}
             id="user"
           >
             <option value="0" disabled>
@@ -122,7 +124,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectedUserError && (
+          {isSelectedUserError && (
             <span className="error">Please choose a user</span>
           )}
         </div>
