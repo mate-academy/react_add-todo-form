@@ -5,41 +5,48 @@ import usersFromServer from '../../api/users';
 import { User } from '../../types/User';
 import { getUserById } from '../../services/user';
 
+enum ErrorType {
+  Default = '',
+  TitleError = 'Please enter a title',
+  UserError = 'Please choose a user',
+}
+
 type Props = {
   onSubmit: (todo: Todo) => void;
 };
 
 export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
-  const [title, setTitile] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState<ErrorType>(ErrorType.Default);
 
   const [userId, setUserId] = useState(0);
-  const [hasUserIdError, setHasUserIdError] = useState(false);
+  const [userIdError, setUserIdError] = useState<ErrorType>(ErrorType.Default);
 
-  const handleSetTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitile(event.target.value);
-    setHasTitleError(false);
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.trimStart());
+    setTitleError(ErrorType.Default);
   };
 
-  const handleSetUserIdChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handleChangeUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUserIdError(false);
+    setUserIdError(ErrorType.Default);
   };
 
   const reset = () => {
     setUserId(0);
-    setTitile('');
+    setTitle('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserIdError(!userId);
+    const isTitleValid = !!title;
+    const isUserIdValid = userId !== 0;
 
-    if (!title || !userId) {
+    setTitleError(isTitleValid ? ErrorType.Default : ErrorType.TitleError);
+    setUserIdError(isUserIdValid ? ErrorType.Default : ErrorType.UserError);
+
+    if (!isTitleValid || !isUserIdValid) {
       return;
     }
 
@@ -62,16 +69,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           data-cy="titleInput"
           value={title}
           placeholder="Enter a title"
-          onChange={handleSetTitleChange}
+          onChange={handleChangeTitle}
         />
-        {hasTitleError && <span className="error">Please enter a title</span>}
+        {titleError && <span className="error">{titleError}</span>}
       </div>
 
       <div className="field">
         <select
           data-cy="userSelect"
           value={userId}
-          onChange={handleSetUserIdChange}
+          onChange={handleChangeUserId}
         >
           <option value="0" disabled>
             Choose a user
@@ -84,7 +91,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           ))}
         </select>
 
-        {hasUserIdError && <span className="error">Please choose a user</span>}
+        {userIdError && <span className="error">{userIdError}</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
