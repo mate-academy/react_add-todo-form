@@ -27,7 +27,6 @@ export const App: React.FC = () => {
         title: currentTitle,
         userId: currentUserId,
         completed: false,
-        user: usersFromServer.find(user => user.id === currentUserId) || '',
       };
 
       setTodos([...todos, newTodo]);
