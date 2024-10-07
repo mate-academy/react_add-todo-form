@@ -5,12 +5,10 @@ import { UserInfo } from '../UserInfo';
 
 interface Props {
   todo: Todo;
-  users: User[];
+  user: User | null;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
-  const userAtTodo = users.find(user => todo.userId === user.id) as User;
-
+export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
   return (
     <article
       data-id={todo.id}
@@ -20,7 +18,7 @@ export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={userAtTodo} />
+      <UserInfo user={user} />
     </article>
   );
 };

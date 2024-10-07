@@ -8,15 +8,19 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
+  const userList = usersFromServer;
+  const todos = todosFromServer.map(todo => ({
+    ...todo,
+    user: userList.find(user => user.id === todo.userId) || null,
+  }));
+
   const [titleValue, setTitleValue] = useState<string>('');
   const [selectedUserID, setSelectedUserID] = useState<number>(0);
 
   const [isTitleEmpty, setIsTitleEmpty] = useState<boolean>(false);
   const [isSelectEmpty, setIsSelectEmpty] = useState<boolean>(false);
 
-  const [todosList, setTodosList] = useState<Todo[]>(todosFromServer);
-
-  const userList = usersFromServer;
+  const [todosList, setTodosList] = useState<Todo[]>(todos);
 
   function clearForm() {
     setTitleValue('');
@@ -25,12 +29,14 @@ export const App: React.FC = () => {
 
   function addTodo() {
     const maxId = Math.max(...todosList.map(todo => todo.id));
-    const todo = {
+    const todo: Todo = {
       id: maxId + 1,
       title: titleValue,
       completed: false,
       userId: selectedUserID,
+      user: userList.find(user => user.id === selectedUserID) || null,
     };
+
     setTodosList(prevTodoses => [...prevTodoses, todo]);
   }
 
@@ -104,7 +110,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList users={userList} todos={todosList} />
+      <TodoList todos={todosList} />
     </div>
   );
 };
