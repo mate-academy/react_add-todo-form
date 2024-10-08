@@ -58,7 +58,10 @@ export const App: React.FC = () => {
 
   const handleTitleChange = (evnt: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(evnt.target.value);
-    setHasTitleError(!title.trim());
+
+    if (evnt.target.value.trim()) {
+      setHasTitleError(false);
+    }
   };
 
   return (
@@ -66,7 +69,9 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="select_user">Title: </label>
           <input
+            id="title"
             type="text"
             value={title}
             data-cy="titleInput"
@@ -76,7 +81,9 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="select_user">User: </label>
           <select
+            id="select_user"
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
