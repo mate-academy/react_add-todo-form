@@ -32,7 +32,7 @@ const handleAddNewTodo = (
   };
 };
 
-const preparedTodos = todosFromServer.map(todo => {
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: findUserByUserId(todo.userId, usersFromServer),
