@@ -1,24 +1,22 @@
 import './App.scss';
+import React, { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { User } from './Types/user';
 import { TodoList } from './components/TodoList';
-import React, { useState } from 'react';
 import { Todo } from './Types/todo';
 import { FormFields } from './Types/formFields';
+import { findUserByUserId } from './utils/fundUserByUserId';
+import { ErrorsFields } from './Types/errorsFields';
 
 const formFields: FormFields = {
   title: '',
-  user: '0',
+  selectedUserId: '0',
 };
 
-const findUserByUserId = (userId: number): User | null => {
-  return usersFromServer.find((user: User) => user.id === userId) || null;
-};
-
-const makeNewTodo = (
+const handleAddNewTodo = (
   id: number,
   title: string,
   userId: number,
@@ -27,7 +25,7 @@ const makeNewTodo = (
 ) => {
   return {
     id: id,
-    title: title,
+    title: title.trim(),
     completed: completed,
     userId: userId,
     user: user,
@@ -37,12 +35,12 @@ const makeNewTodo = (
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
-    user: findUserByUserId(todo.userId),
+    user: findUserByUserId(todo.userId, usersFromServer),
   };
 });
 
 const formFieldsErrors = () => {
-  const fieldsErrors: { [key: string]: boolean } = {};
+  const fieldsErrors: ErrorsFields = {};
 
   for (const key in formFields) {
     fieldsErrors[key] = false;
@@ -90,14 +88,14 @@ export const App = () => {
     setNewTodoForm(prevState => {
       return {
         ...prevState,
-        [fieldName]: value,
+        [fieldName]: value.trimStart(),
       };
     });
   };
 
-  const mistakesInForm =
+  const hasMistakesInForm =
     newTodoForm.title === formFields.title ||
-    newTodoForm.user === formFields.user;
+    newTodoForm.selectedUserId === formFields.selectedUserId;
 
   const handleAddTodo = (
     event: React.FormEvent<HTMLFormElement>,
@@ -107,16 +105,16 @@ export const App = () => {
     setIsTouched(true);
     handleValidation(newTodoForm);
 
-    if (mistakesInForm) {
+    if (hasMistakesInForm) {
       return;
     }
 
-    const todoOwner = findUserByUserId(+todo.user);
+    const todoOwner = findUserByUserId(+todo.selectedUserId, usersFromServer);
 
-    const newTodo = makeNewTodo(
+    const newTodo = handleAddNewTodo(
       Math.max(...todoList.map(task => task.id)) + 1,
       todo.title,
-      +todo.user,
+      +todo.selectedUserId,
       todoOwner,
     );
 
@@ -141,7 +139,7 @@ export const App = () => {
               placeholder="Enter a title"
               value={newTodoForm.title}
               onChange={changeEvent =>
-                handleFormChange('title', changeEvent.target.value.trimStart())
+                handleFormChange('title', changeEvent.target.value)
               }
             />
           </label>
@@ -154,10 +152,10 @@ export const App = () => {
           <label>
             <span>User: </span>
             <select
-              value={newTodoForm.user}
+              value={newTodoForm.selectedUserId}
               data-cy="userSelect"
               onChange={changeEvent =>
-                handleFormChange('user', changeEvent.target.value)
+                handleFormChange('selectedUserId', changeEvent.target.value)
               }
             >
               <option value="0" disabled>
