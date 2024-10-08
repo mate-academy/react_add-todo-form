@@ -70,7 +70,7 @@ export const App = () => {
     }
   };
 
-  const handleErrorAppear = (isIncorrectField: boolean) => {
+  const checkErrorAppear = (isIncorrectField: boolean) => {
     return isIncorrectField && isTouched;
   };
 
@@ -143,7 +143,7 @@ export const App = () => {
               }
             />
           </label>
-          {handleErrorAppear(errorsInForm.title) && (
+          {checkErrorAppear(errorsInForm.title) && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -171,7 +171,7 @@ export const App = () => {
             </select>
           </label>
 
-          {handleErrorAppear(errorsInForm.user) && (
+          {checkErrorAppear(errorsInForm.selectedUserId) && (
             <span className="error">Please choose a user</span>
           )}
         </div>
