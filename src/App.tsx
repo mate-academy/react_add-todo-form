@@ -71,6 +71,7 @@ export const App: React.FC = () => {
         <div className="field">
           <label htmlFor="select_user">Title: </label>
           <input
+            placeholder="Enter your task"
             id="title"
             type="text"
             value={title}
