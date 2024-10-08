@@ -8,15 +8,22 @@ import { Todo } from './types/Todo';
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
+  const [titleErrorMessage, setHasTitleErrorMessage] = useState('');
+  const hasTitleError = titleErrorMessage !== '';
 
   function getNewPostId(todosList: Todo[]) {
     const maxId = Math.max(...todosList.map(todo => todo.id));
 
     return maxId + 1;
   }
+
+  const isValidTitle = (inputedValue: string) => {
+    const regex = /^[a-zA-Zа-яА-ЯїЇєЄіІґҐ\s]*$/;
+
+    return regex.test(inputedValue);
+  };
 
   const addNewTodo = (newTodo: Todo) => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -31,10 +38,23 @@ export const App: React.FC = () => {
   const handleSubmit = (evnt: React.FormEvent) => {
     evnt.preventDefault();
 
-    setHasTitleError(!title);
-    setHasUserError(userId === 0);
+    if (!title.trim()) {
+      setHasTitleErrorMessage('Enter a title');
 
-    if (!title.trim() || !userId) {
+      return;
+    } else if (!isValidTitle(title)) {
+      setHasTitleErrorMessage('Input should contain only UA and EN');
+
+      return;
+    }
+
+    if (userId === 0) {
+      setHasUserError(true);
+
+      return;
+    }
+
+    if (!userId || titleErrorMessage) {
       return;
     }
 
@@ -57,10 +77,11 @@ export const App: React.FC = () => {
   };
 
   const handleTitleChange = (evnt: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(evnt.target.value);
+    const input = evnt.target.value;
 
-    if (evnt.target.value.trim()) {
-      setHasTitleError(false);
+    setTitle(input);
+    if (input.trim()) {
+      setHasTitleErrorMessage('');
     }
   };
 
@@ -78,7 +99,7 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             onChange={handleTitleChange}
           />
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">{titleErrorMessage}</span>}
         </div>
 
         <div className="field">
