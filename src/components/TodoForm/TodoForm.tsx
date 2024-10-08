@@ -6,11 +6,11 @@ import { getMaxNumberId } from '../../utils/getMaxNumberId';
 import { getUserById } from '../../utils/getUserById';
 
 type Props = {
-  onAdd: (newElementTodo: Todo) => void;
+  onAddTodo: (newElementTodo: Todo) => void;
   todo: Todo[];
 };
 
-export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
+export const TodoForm: React.FC<Props> = ({ onAddTodo, todo }) => {
   const [titleError, setTitleError] = useState<string>(TypeError.DEFAULT);
   const [title, setTitle] = useState('');
 
@@ -40,7 +40,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
     event.preventDefault();
 
     if (!title) {
-      setTitleError(TypeError.TITLE_EERROR);
+      setTitleError(TypeError.TITLE_ERROR);
     }
 
     if (!selectedUserId) {
@@ -59,7 +59,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todo }) => {
       user: getUserById(selectedUserId),
     };
 
-    onAdd(newTodo);
+    onAddTodo(newTodo);
     reset();
   };
 

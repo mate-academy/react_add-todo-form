@@ -26,7 +26,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onAdd={handleAddTodo} todo={todo} />
+      <TodoForm onAddTodo={handleAddTodo} todo={todo} />
 
       <TodoList todos={todo} />
     </div>
