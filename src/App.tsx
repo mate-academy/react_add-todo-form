@@ -38,23 +38,23 @@ export const App: React.FC = () => {
   const handleSubmit = (evnt: React.FormEvent) => {
     evnt.preventDefault();
 
+    let titleError = '';
+    let userError = false;
+
     if (!title.trim()) {
-      setHasTitleErrorMessage('Enter a title');
-
-      return;
+      titleError = 'Please enter a title';
     } else if (!isValidTitle(title)) {
-      setHasTitleErrorMessage('Input should contain only UA and EN');
-
-      return;
+      titleError = 'Input should contain only UA and EN';
     }
 
     if (userId === 0) {
-      setHasUserError(true);
-
-      return;
+      userError = true;
     }
 
-    if (!userId || titleErrorMessage) {
+    setHasTitleErrorMessage(titleError);
+    setHasUserError(userError);
+
+    if (titleError || userError) {
       return;
     }
 
@@ -66,7 +66,6 @@ export const App: React.FC = () => {
     };
 
     addNewTodo(newTodo);
-
     reset();
   };
 
