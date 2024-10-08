@@ -8,7 +8,7 @@ interface Props {
   todos: Todo[];
 }
 
-export const UserForm: FC<Props> = ({ onAdd, todos }) => {
+export const TodoForm: FC<Props> = ({ onAdd, todos }) => {
   const [newTitle, setNewTitle] = useState('');
   const [newUserId, setNewUserId] = useState(0);
 

@@ -2,7 +2,7 @@ import './App.scss';
 import React, { useState } from 'react';
 
 import { TodoList } from './components/TodoList';
-import { UserForm } from './components/UserForm';
+import { TodoForm } from './components/TodoForm';
 import { findUserById } from './utils/FindUserById';
 import { Todo } from './types/Todo';
 
@@ -26,7 +26,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <UserForm todos={todos} onAdd={handleAddTodo} />
+      <TodoForm todos={todos} onAdd={handleAddTodo} />
 
       <TodoList todos={todos} />
     </div>
