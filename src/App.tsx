@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
 import './App.scss';
+import React, { useState } from 'react';
+
 import { TodoList } from './components/TodoList';
 import { UserForm } from './components/UserForm';
-
 import { findUserById } from './utils/FindUserById';
 import { Todo } from './types/Todo';
 
 import todosFromServer from './api/todos';
 
-const initialTodos: Todo[] = todosFromServer.map(todo => {
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
   return {
     ...todo,
     user: findUserById(todo.userId),
   };
 });
 
-initialTodos.sort((todo1, todo2) => todo1.id - todo2.id);
+preparedTodos.sort((todo1, todo2) => todo1.id - todo2.id);
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   function handleAddTodo(newTodo: Todo) {
     setTodos(currentTodos => [...currentTodos, newTodo]);

@@ -14,7 +14,7 @@ export const TodoInfo: FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href="mailto:Sincere@april.biz">
+      <a className="UserInfo" href={`mailto:${todo.user.email}`}>
         {todo.user.name}
       </a>
     </article>
