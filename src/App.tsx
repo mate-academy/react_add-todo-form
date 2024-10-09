@@ -16,19 +16,19 @@ export const App: React.FC = () => {
     };
   });
 
-  const [todo, setTodo] = useState<Todo[]>(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const handleAddTodo = (newElementTodo: Todo) => {
-    setTodo(curentTodos => [...curentTodos, newElementTodo]);
+    setTodos(curentTodos => [...curentTodos, newElementTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onAddTodo={handleAddTodo} todo={todo} />
+      <TodoForm onAddTodo={handleAddTodo} todos={todos} />
 
-      <TodoList todos={todo} />
+      <TodoList todos={todos} />
     </div>
   );
 };
