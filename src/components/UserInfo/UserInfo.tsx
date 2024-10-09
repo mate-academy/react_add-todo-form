@@ -10,9 +10,8 @@ export const UserInfo = ({ user }: UserInfoProps) => {
   }
 
   return (
-    <div>
-      <span>{user.name}</span>
-      <a href={`mailto:${user.email}`}>{user.email}</a>
-    </div>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };
