@@ -2,27 +2,29 @@ import React, { useState } from 'react';
 
 import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/getUsers';
-import { getMaxNumber } from '../../services/getMaxNumber';
 import { Todo } from '../../types/todo';
 
 type Props = {
-  onSubmit: (todo: Todo) => void;
-  todos: Todo[];
+  onSubmit: (todos: Todo) => void;
 };
 
-export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
+export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const handlTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+  const handlTitleChange = (
+    inputTitleEvent: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTitle(inputTitleEvent.target.value);
     setHasTitleError(false);
   };
 
-  const handlUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+  const handlUserIdChange = (
+    inputUserEvent: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(+inputUserEvent.target.value);
     setHasUserIdError(false);
   };
 
@@ -33,8 +35,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
     setHasUserIdError(false);
   };
 
-  const handlSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handlSubmit = (eventSubmit: React.FormEvent) => {
+    eventSubmit.preventDefault();
 
     setHasTitleError(!title);
     setHasUserIdError(!userId);
@@ -44,8 +46,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, todos }) => {
     }
 
     onSubmit({
-      id: getMaxNumber(todos),
-      title: title.trim(),
+      id: 0,
+      title: title,
       completed: false,
       userId: userId,
       user: getUserById(userId),
