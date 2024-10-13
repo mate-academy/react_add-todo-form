@@ -7,14 +7,14 @@ interface Props {
   label: string;
   placeholder: string;
   hasError?: boolean;
-  onSelectedUser: React.Dispatch<React.SetStateAction<number>>;
+  onSelectedUserId: (currentUserId: number) => void;
 }
 
 export const SelectOption: React.FC<Props> = ({
   label,
   placeholder,
   hasError = false,
-  onSelectedUser,
+  onSelectedUserId,
 }) => {
   return (
     <div className="field">
@@ -24,15 +24,15 @@ export const SelectOption: React.FC<Props> = ({
       <select
         data-cy="userSelect"
         defaultValue="0"
-        onChange={event => onSelectedUser(Number(event.target.value))}
+        onChange={event => onSelectedUserId(Number(event.target.value))}
       >
         <option value="0" disabled>
           {placeholder}
         </option>
 
-        {usersFromServer.map((user, index) => {
+        {usersFromServer.map(user => {
           return (
-            <option key={user.id} value={index + 1}>
+            <option key={user.id} value={user.id}>
               {user.name}
             </option>
           );

@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
 import { SelectOption } from '../SelectOption/SelectOption';
 import { TextField } from '../TextField/TextField';
+import { addNewTodo } from '../../utils/addNewTodo';
+import { Todo } from '../../types/Todo';
 
 interface Props {
-  onChangeTodo: (title: string, userId: number, completed?: boolean) => void;
+  // eslint-disable-next-line prettier/prettier
+  todos: Todo[];
+  onTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-export const NewTodo: React.FC<Props> = ({ onChangeTodo }) => {
+export const NewTodo: React.FC<Props> = ({ todos, onTodos }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState<string>('');
-  const [selectedUser, setSelectedUser] = useState<number>(0);
-  const [submited, setSubmited] = useState<boolean>(false);
+  const [title, setTitle] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
-  const hasErrorTextField = title.trim() === '' && submited;
-  const hasErrorSelectOption = selectedUser === 0 && submited;
+  const hasErrorTextField = !title.trim().length && submitted;
+  const hasErrorSelectOption = !selectedUserId && submitted;
 
   function resetForm() {
-    setSelectedUser(0);
+    setSelectedUserId(0);
     setTitle('');
-    setCount(cur => cur + 1);
-    setSubmited(false);
+    setCount(currentCount => currentCount + 1);
+    setSubmitted(false);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (selectedUser === 0 || title.trim() === '') {
-      setSubmited(true);
+    if (!selectedUserId || !title.trim().length) {
+      setSubmitted(true);
 
       return;
     }
 
-    onChangeTodo(title, selectedUser);
+    addNewTodo(todos, onTodos, title, selectedUserId);
 
     resetForm();
   }
@@ -52,7 +56,7 @@ export const NewTodo: React.FC<Props> = ({ onChangeTodo }) => {
         label="User:&nbsp;"
         placeholder="Choose a user"
         hasError={hasErrorSelectOption}
-        onSelectedUser={setSelectedUser}
+        onSelectedUserId={setSelectedUserId}
       />
 
       <button type="submit" data-cy="submitButton">
