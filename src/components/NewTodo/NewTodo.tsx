@@ -36,12 +36,11 @@ export const NewTodo: React.FC<Props> = ({ todos, onTodos }) => {
     }
 
     addNewTodo(todos, onTodos, title, selectedUserId);
-
     resetForm();
   }
 
   return (
-    <form key={count} action="/api/todos" method="POST" onSubmit={handleSubmit}>
+    <form key={count} onSubmit={handleSubmit}>
       <TextField
         title={title}
         name="title"

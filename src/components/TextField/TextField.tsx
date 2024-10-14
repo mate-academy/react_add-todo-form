@@ -21,7 +21,7 @@ export const TextField: React.FC<Props> = ({
 }) => {
   return (
     <div className="field">
-      <label className="label" htmlFor="title">
+      <label className="label" htmlFor={name}>
         {label}
       </label>
       <input
