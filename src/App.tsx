@@ -15,6 +15,12 @@ const listTodos = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
+const getNewPostId = (todos: Todo[]) => {
+  const maxId = Math.max(...todos.map(todo => todo.id));
+
+  return maxId + 1;
+};
+
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(listTodos);
   const [title, setTitle] = useState('');
@@ -42,22 +48,31 @@ export const App = () => {
 
     const newUser = getUserById(userId) || null;
 
-    if (!title || !userId) {
-      setIsTitleError(true);
-      setIsUserError(true);
+    let hasError = false;
 
+    if (!title) {
+      setIsTitleError(true);
+      hasError = true;
+    }
+
+    if (!userId) {
+      setIsUserError(true);
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
 
     const newTodo = {
-      id: Math.random(),
+      id: getNewPostId(todos),
       title,
       completed: false,
       userId,
       user: newUser,
     };
 
-    setTodos(prevTodo => [...prevTodo, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     reset();
   };
 
@@ -70,6 +85,7 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
+            placeholder="Title"
             value={title}
             onChange={handleChangeTitle}
           />
