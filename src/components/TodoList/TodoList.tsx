@@ -12,13 +12,13 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map((todo, index) => {
-        const { title, userId } = todo;
-        const currentUser: User = (usersFromServer || []).find(
+        const { userId } = todo;
+        const currentUser: User = usersFromServer.find(
           user => user.id === userId,
         )!;
         const moddedTodo = { ...todo, user: currentUser };
 
-        return <TodoInfo todo={moddedTodo} key={`${title}-${index}`} />;
+        return <TodoInfo todo={moddedTodo} key={`todo-${index}`} />;
       })}
     </section>
   );

@@ -24,7 +24,21 @@ export const TodoForm: React.FC<Props> = ({ todos, updateTodoList }) => {
   const isTitleValid = () => (title ? true : false);
 
   return (
-    <form action="/api/todos" method="POST">
+    <form
+      action="/api/todos"
+      method="POST"
+      onSubmit={event => {
+        event.preventDefault();
+
+        if (currentUserId && title) {
+          todos.push(preparedObject);
+          updateTodoList([...todos]);
+          setTitle('');
+          setCurrentUserId(0);
+          setIsButtonClicked(false);
+        }
+      }}
+    >
       <div className="field">
         <label htmlFor="title">Title: </label>
         <input
@@ -70,17 +84,8 @@ export const TodoForm: React.FC<Props> = ({ todos, updateTodoList }) => {
       <button
         type="submit"
         data-cy="submitButton"
-        onClick={event => {
-          event.preventDefault();
+        onClick={() => {
           setIsButtonClicked(true);
-
-          if (currentUserId && title) {
-            todos.push(preparedObject);
-            updateTodoList([...todos]);
-            setTitle('');
-            setCurrentUserId(0);
-            setIsButtonClicked(false);
-          }
         }}
       >
         Add
