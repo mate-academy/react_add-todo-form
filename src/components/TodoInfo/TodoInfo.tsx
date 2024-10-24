@@ -3,7 +3,6 @@ import { TODO } from '../../types/todo';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
-import { USER } from '../../types/User';
 
 type Props = {
   todo: TODO;
