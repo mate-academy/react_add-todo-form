@@ -37,7 +37,7 @@ export const App = () => {
     }
 
     const todo: TODO = {
-      id: [...visibleTodos].sort((a, b) => b.id - a.id)[0].id + 1,
+      id: [...visibleTodos].sort((a, b) => b.id - a.id)[0].id + 1 || 1,
       title,
       userId: currUser,
       completed: false,
