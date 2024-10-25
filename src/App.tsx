@@ -23,7 +23,7 @@ export const App: React.FC = () => {
 
     if (isFormValid) {
       const newTodo = {
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        id: 0,
         title: currentTitle,
         userId: currentUserId,
         completed: false,
@@ -43,9 +43,9 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST" onSubmit={onSubmit}>
         <div className="field">
-          <lable className="lable" htmlFor="titleInput">
+          <label className="lable" htmlFor="titleInput">
             Title:{' '}
-          </lable>
+          </label>
 
           <input
             id="titleInput"
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <lable htmlFor="userId">User: </lable>
+          <label htmlFor="userId">User: </label>
           <select
             id="userId"
             data-cy="userSelect"
