@@ -23,7 +23,7 @@ export const App: React.FC = () => {
 
     if (isFormValid) {
       const newTodo = {
-        id: 0,
+        id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
         title: currentTitle,
         userId: currentUserId,
         completed: false,
