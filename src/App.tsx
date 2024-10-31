@@ -1,14 +1,24 @@
+import { useState } from 'react';
 import './App.scss';
+import { TodoList } from './components/TodoList';
+import TodosForm from './components/TodosForm/TodosForm';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import todosFromServer from './api/todos';
+
+import { ITodo } from './types/todo';
+import todosWithUser from './utils/todo/todosWithUser';
 
 export const App = () => {
+  const [todos, setTodos] = useState<ITodo[]>([...todosFromServer]);
+
+  const addTodo = (todo: ITodo) => setTodos(state => [...state, todo]);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
+      addTodo
+      <TodosForm todos={todos} addTodo={addTodo} />
+      {/* <form action="/api/todos" method="POST">
         <div className="field">
           <input type="text" data-cy="titleInput" />
           <span className="error">Please enter a title</span>
@@ -27,9 +37,9 @@ export const App = () => {
         <button type="submit" data-cy="submitButton">
           Add
         </button>
-      </form>
-
-      <section className="TodoList">
+      </form> */}
+      <TodoList todos={todosWithUser(todos)} />
+      {/* <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
           <h2 className="TodoInfo__title">delectus aut autem</h2>
 
@@ -55,7 +65,7 @@ export const App = () => {
             Patricia Lebsack
           </a>
         </article>
-      </section>
+      </section> */}
     </div>
   );
 };
