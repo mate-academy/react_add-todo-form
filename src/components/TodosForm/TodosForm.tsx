@@ -13,6 +13,11 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState<number>(0);
 
+  const handleReset = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,11 +42,6 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
   const handleChangeUserId = (e: ChangeEvent<HTMLSelectElement>) =>
     setUserId(+e.target.value);
 
-  const handleReset = () => {
-    setTitle('');
-    setUserId(0);
-  };
-
   return (
     <form action="/api/todos.ts" method="POST" onSubmit={handleSubmit}>
       <div className="field">
@@ -51,7 +51,7 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
           name="title"
           value={title}
           onChange={handleChangeTitle}
-          // required
+          required
           placeholder="Enter the title"
         />
 
