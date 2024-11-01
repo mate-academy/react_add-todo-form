@@ -15,7 +15,7 @@ const initialTodos = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
-  const [hasTittleError, setHasTittleError] = useState(false);
+  const [hasTitleError, sethasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasSelectError, setHasSelectError] = useState(false);
@@ -31,7 +31,7 @@ export const App: React.FC = () => {
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHasTittleError(false);
+    sethasTitleError(false);
   };
 
   const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTittleError(!title.trim());
+    sethasTitleError(!title.trim());
     setHasSelectError(!userId);
 
     if (!title.trim() || !userId) {
@@ -79,9 +79,7 @@ export const App: React.FC = () => {
             onChange={handleChangeTitle}
           />
 
-          {hasTittleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
