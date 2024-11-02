@@ -14,13 +14,15 @@ export const Input: React.FC<Props> = ({ value, isError, callback }) => {
 
   return (
     <div className="field">
-      <label htmlFor='title' className="label">Title</label>
+      <label htmlFor="title" className="label">
+        Title
+      </label>
       <div className="control has-icons-left has-icons-right">
         <input
           data-cy="titleInput"
           className={classNames('input', { 'is-danger': isError && !value })}
           type="text"
-          id='title'
+          id="title"
           value={value}
           placeholder="Enter title"
           onChange={handleChanges}

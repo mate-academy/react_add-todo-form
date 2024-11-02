@@ -7,11 +7,10 @@ import React, { useState } from 'react';
 import { Todo } from './types/Todo';
 import { Select } from './components/Select/Select';
 import { Input } from './components/Input/Input';
-import { User } from './types/User';
 
 const getTodoList = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(u => u.id === todo.userId) || {},
+  user: usersFromServer.find(u => u.id === todo.userId) || null,
 }));
 
 export const App = () => {
@@ -21,7 +20,7 @@ export const App = () => {
     title: '',
     completed: false,
     userId: 0,
-    user: {},
+    user: null,
   });
   const [errorTitle, setErrorTitle] = useState('');
   const [errorUser, setErrorUser] = useState('');
@@ -29,9 +28,9 @@ export const App = () => {
   function addTodo(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const id = Math.max(...todos.map(u => u.id)) + 1;
+    const id = (Math.max(...todos.map(u => u.id)) || 0) + 1;
 
-    const user = usersFromServer.find(u => u.id === newTodo.userId) as User;
+    const user = usersFromServer.find(u => u.id === newTodo.userId) || null;
 
     if (newTodo.title && newTodo.userId !== 0) {
       setTodos(prev => [
@@ -48,7 +47,7 @@ export const App = () => {
         title: '',
         completed: false,
         userId: 0,
-        user: {},
+        user: null,
       });
 
       setErrorTitle('');

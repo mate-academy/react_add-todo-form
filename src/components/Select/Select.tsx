@@ -21,7 +21,9 @@ export const Select: React.FC<Props> = ({
 
   return (
     <div className="field">
-      <label htmlFor='userId' className="label">Choose a user</label>
+      <label htmlFor="userId" className="label">
+        Choose a user
+      </label>
       <div className="control">
         <div
           className={classNames('select', {
@@ -29,7 +31,7 @@ export const Select: React.FC<Props> = ({
           })}
         >
           <select
-            id='userId'
+            id="userId"
             data-cy="userSelect"
             onChange={handleChanges}
             required
