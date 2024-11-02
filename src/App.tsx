@@ -17,7 +17,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <FormTodo onAdd={onAdd} user={usersFromServer} todos={todos} />
+      <FormTodo onAdd={onAdd} users={usersFromServer} todos={todos} />
 
       <TodoList todos={todos} />
     </div>

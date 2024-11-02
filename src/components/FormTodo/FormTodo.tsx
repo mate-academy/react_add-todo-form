@@ -3,11 +3,11 @@ import { Todo, User } from '../../types';
 
 interface Props {
   onAdd: (todo: Todo) => void;
-  user: User[];
+  users: User[];
   todos: Todo[];
 }
 
-export const FormTodo: React.FC<Props> = ({ onAdd, user, todos }) => {
+export const FormTodo: React.FC<Props> = ({ onAdd, users, todos }) => {
   const [title, setTitleValue] = useState('');
   const [name, setUserName] = useState('');
   const [nameError, setNameError] = useState(false);
@@ -34,7 +34,6 @@ export const FormTodo: React.FC<Props> = ({ onAdd, user, todos }) => {
 
     if (!title.trim()) {
       setTitleError(true);
-
       hasError = true;
     } else {
       setTitleError(false);
@@ -89,9 +88,9 @@ export const FormTodo: React.FC<Props> = ({ onAdd, user, todos }) => {
           <option value="" disabled>
             Choose a user
           </option>
-          {user.map(users => (
-            <option value={users.id} key={users.id}>
-              {users.name}
+          {users.map(user => (
+            <option value={user.id} key={user.id}>
+              {user.name}
             </option>
           ))}
         </select>
