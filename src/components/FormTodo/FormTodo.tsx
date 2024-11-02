@@ -4,15 +4,14 @@ import { Todo, User } from '../../types';
 interface Props {
   onAdd: (todo: Todo) => void;
   user: User[];
+  todos: Todo[];
 }
 
-export const FormTodo: React.FC<Props> = ({ onAdd, user }) => {
+export const FormTodo: React.FC<Props> = ({ onAdd, user, todos }) => {
   const [title, setTitleValue] = useState('');
   const [name, setUserName] = useState('');
   const [nameError, setNameError] = useState(false);
   const [titleError, setTitleError] = useState(false);
-
-  const maxId = Math.max(...user.map(todo => todo.id), 0);
 
   const titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(event.target.value);
@@ -51,6 +50,8 @@ export const FormTodo: React.FC<Props> = ({ onAdd, user }) => {
     if (hasError) {
       return;
     }
+
+    const maxId = Math.max(...todos.map(todo => todo.id), 0) + 1;
 
     const newTodo: Todo = {
       id: maxId,

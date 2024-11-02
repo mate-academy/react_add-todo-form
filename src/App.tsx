@@ -1,6 +1,5 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { FormTodo } from './components/FormTodo';
@@ -18,7 +17,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <FormTodo onAdd={onAdd} user={usersFromServer} />
+      <FormTodo onAdd={onAdd} user={usersFromServer} todos={todos} />
 
       <TodoList todos={todos} />
     </div>
