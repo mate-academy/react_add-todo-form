@@ -1,5 +1,5 @@
-import users from '../../src/api/users';
-import todos from '../../src/api/todos';
+import users from '../../src/api/users.ts';
+import todos from '../../src/api/todos.ts';
 
 const page = {
   todoItems: () => cy.get('.TodoInfo'),
