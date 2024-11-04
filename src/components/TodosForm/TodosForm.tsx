@@ -1,4 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+  FormEvent,
+  useState,
+} from 'react';
 
 import users from '../../api/users';
 import { getNextTodoId } from '../../utils/todo/getNextTodoId';
@@ -6,23 +12,32 @@ import { ITodo } from '../../types/todo';
 
 interface IProps {
   todos: ITodo[];
-  addTodo: (todo: ITodo) => void;
+  setTodos: Dispatch<SetStateAction<ITodo[]>>;
 }
 
-const TodosForm = ({ todos, addTodo }: IProps) => {
-  const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState<number>(0);
+const TodosForm = ({ todos, setTodos }: IProps) => {
+  const [title, setTitle] = useState<string | null>('');
+  const [userId, setUserId] = useState<number | null>(0);
 
   const handleReset = () => {
     setTitle('');
     setUserId(0);
   };
 
+  const checkTodoFormState = () => {
+    if (!title) {
+      setTitle(null);
+    }
+    if (!userId) {
+      setUserId(null);
+    }
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!title || !userId) {
-      return;
+      return checkTodoFormState();
     }
 
     const todo = {
@@ -32,7 +47,7 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
       completed: false,
     };
 
-    addTodo(todo);
+    setTodos((prevState: ITodo[]) => [...prevState, todo]);
     handleReset();
   };
 
@@ -49,22 +64,20 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
           type="text"
           data-cy="titleInput"
           name="title"
-          value={title}
+          value={title !== null ? title : ''}
           onChange={handleChangeTitle}
-          required
           placeholder="Enter the title"
         />
 
-        {!title && <span className="error">Please enter a title</span>}
+        {title === null && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
         <select
           data-cy="userSelect"
           name="userId"
-          value={userId}
+          value={userId !== null ? userId : 0}
           onChange={handleChangeUserId}
-          required
         >
           <option value="0" disabled>
             Choose a user
@@ -76,7 +89,7 @@ const TodosForm = ({ todos, addTodo }: IProps) => {
           ))}
         </select>
 
-        {!userId && <span className="error">Please choose a user</span>}
+        {userId === null && <span className="error">Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
