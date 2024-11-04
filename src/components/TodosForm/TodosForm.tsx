@@ -82,7 +82,7 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
           type="text"
           data-cy="titleInput"
           name="title"
-          value={title !== null ? title : ''}
+          value={title}
           onChange={handleChangeTitle}
           placeholder="Enter the title"
         />
@@ -94,7 +94,7 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
         <select
           data-cy="userSelect"
           name="userId"
-          value={userId !== null ? userId : 0}
+          value={userId}
           onChange={handleChangeUserId}
         >
           <option value="0" disabled>
