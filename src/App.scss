@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
@@ -36,4 +36,13 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+ul,
+li {
+  padding: 0;
+}
+
+li {
+  list-style: none;
 }
