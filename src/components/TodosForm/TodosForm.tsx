@@ -4,6 +4,7 @@ import {
   ChangeEvent,
   FormEvent,
   useState,
+  useCallback,
 } from 'react';
 
 import users from '../../api/users';
@@ -16,20 +17,23 @@ interface IProps {
 }
 
 const TodosForm = ({ todos, setTodos }: IProps) => {
-  const [title, setTitle] = useState<string | null>('');
-  const [userId, setUserId] = useState<number | null>(0);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleReset = () => {
     setTitle('');
     setUserId(0);
   };
 
-  const checkTodoFormState = () => {
+  const checkTodoState = () => {
     if (!title) {
-      setTitle(null);
+      setTitleError(true);
     }
+
     if (!userId) {
-      setUserId(null);
+      setUserError(true);
     }
   };
 
@@ -37,7 +41,7 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
     e.preventDefault();
 
     if (!title || !userId) {
-      return checkTodoFormState();
+      return checkTodoState();
     }
 
     const todo = {
@@ -51,11 +55,25 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
     handleReset();
   };
 
-  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value);
+  const handleChangeTitle = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
+      if (titleError) {
+        setTitleError(false);
+      }
+    },
+    [titleError],
+  );
 
-  const handleChangeUserId = (e: ChangeEvent<HTMLSelectElement>) =>
-    setUserId(+e.target.value);
+  const handleChangeUserId = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setUserId(+e.target.value);
+      if (userError) {
+        setUserError(false);
+      }
+    },
+    [userError],
+  );
 
   return (
     <form action="/api/todos.ts" method="POST" onSubmit={handleSubmit}>
@@ -69,7 +87,7 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
           placeholder="Enter the title"
         />
 
-        {title === null && <span className="error">Please enter a title</span>}
+        {titleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
@@ -89,7 +107,7 @@ const TodosForm = ({ todos, setTodos }: IProps) => {
           ))}
         </select>
 
-        {userId === null && <span className="error">Please choose a user</span>}
+        {userError && <span className="error">Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
