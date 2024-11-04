@@ -63,8 +63,8 @@ export const App: React.FC<Props> = () => {
       userValue,
       completed: false,
       user: getUserById(userValue),
-      id: 0,
-      userId: 0,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      userId: userValue,
     };
 
     addTodo(newTodo);
