@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -79,13 +80,17 @@ export const App: React.FC = () => {
       return;
     }
 
+    const existingTodo = todosFromServer.find(todo => todo.userId === userId);
+
     const newTodo: Todo = {
       id: getNextId(),
       title,
-      completed: false,
+      completed: existingTodo ? existingTodo.completed : false,
       userId,
       user: getUserById(userId),
     };
+
+    console.log('User info', newTodo);
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
 
