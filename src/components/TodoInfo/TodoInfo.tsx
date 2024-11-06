@@ -7,6 +7,7 @@ interface User {
 }
 
 interface Todo {
+  [x: string]: unknown;
   title: string;
   completed: boolean;
   userId: number;
@@ -14,11 +15,11 @@ interface Todo {
 }
 
 export const TodoInfo = ({ todo }: { todo: Todo }) => {
-  const { title, completed, userId } = todo;
+  const { title, completed } = todo;
 
   return (
     <article
-      data-id={userId}
+      data-id={todo.id}
       className={cn('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
