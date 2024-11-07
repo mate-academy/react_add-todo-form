@@ -8,12 +8,18 @@ export interface Todo {
   completed: boolean;
 }
 
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
 interface TodoInfoProps {
   todo: Todo;
 }
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
-  const interactor = users.find(user => user.id === todo.userId);
+  const interactor = users.find((user: User) => user.id === todo.userId);
 
   return (
     <article
@@ -21,9 +27,13 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <a className="UserInfo" href={`mailto:${interactor?.email}`}>
-        {interactor?.name}
-      </a>
+      {interactor ? (
+        <a className="UserInfo" href={`mailto:${interactor.email}`}>
+          {interactor.name}
+        </a>
+      ) : (
+        <p className="UserInfo">User not found</p>
+      )}
     </article>
   );
 };

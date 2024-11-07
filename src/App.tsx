@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
-import todosFromServer from './api/todos';
+// import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './components/TodoInfo';
 
-export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]); // Start with an empty array
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
@@ -26,7 +27,7 @@ export const App = () => {
       return;
     }
 
-    const newTodo = {
+    const newTodo: Todo = {
       id: todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
       title,
       completed: false,

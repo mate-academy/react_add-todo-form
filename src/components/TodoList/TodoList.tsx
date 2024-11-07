@@ -1,4 +1,5 @@
-import { Todo, TodoInfo } from '../TodoInfo';
+import React from 'react';
+import { TodoInfo, Todo } from '../TodoInfo';
 
 interface TodoListProps {
   todos: Todo[];
