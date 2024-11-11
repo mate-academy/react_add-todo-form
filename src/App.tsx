@@ -4,7 +4,6 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './components/types/Todo';
 
 export const App: React.FC = () => {
   const [users] = useState(usersFromServer);
@@ -15,7 +14,11 @@ export const App: React.FC = () => {
   const [userIdError, setUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitizedTitle = event.target.value.replace(/[^a-zA-Zа-яА-Я0-9 ]/g, '');
+    const sanitizedTitle = event.target.value.replace(
+      /[^a-zA-Zа-яА-Я0-9 ]/g,
+      '',
+    );
+
     setTitle(sanitizedTitle);
     setTitleError(false);
   };
