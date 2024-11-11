@@ -11,3 +11,5 @@ export interface User {
   username: string;
   email: string;
 }
+
+export type FormData = Omit<Todo, 'id' | 'completed'>;

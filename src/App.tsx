@@ -3,19 +3,18 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-import { Todo } from './types';
+import { FormData, Todo } from './types';
 import { TodoList } from './components/TodoList';
+import { getNewTodoId } from './services';
 
-const initialForm = {
-  id: 0,
+const initialForm: FormData = {
   title: '',
   userId: 0,
-  completed: false,
 };
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const [formData, setFormData] = useState<Todo>(initialForm);
+  const [formData, setFormData] = useState(initialForm);
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
 
@@ -23,18 +22,15 @@ export const App = () => {
 
   const isDisabledAdd = !title.trim() || !userId;
 
-  const getNewTodoId = (todoList: Todo[]) => {
-    return Math.max(...todoList.map(todo => todo.id)) + 1;
-  };
-
   const reset = () => {
     setFormData({ ...initialForm });
   };
 
-  const handleAddTodo = ({ id, ...todo }: Todo) => {
+  const handleAddTodo = (inputData: FormData) => {
     const newTodo = {
-      ...todo,
+      ...inputData,
       id: getNewTodoId(todos),
+      completed: false,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -66,7 +62,6 @@ export const App = () => {
     }
 
     handleAddTodo(formData);
-
     reset();
   };
 
