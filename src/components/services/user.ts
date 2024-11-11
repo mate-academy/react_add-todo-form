@@ -1,5 +1,6 @@
-import todos from '../../api/todos';
+import users from '../../api/users';
+import { User } from '../types/User';
 
-export function getTodoById(id: number) {
-  return todos.filter(todo => todo.userId === id) || null;
+export function getUserById(userId: number): User | null {
+  return users.find(user => user.id === userId) || null;
 }

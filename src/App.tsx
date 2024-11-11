@@ -8,14 +8,15 @@ import { Todo } from './components/types/Todo';
 
 export const App: React.FC = () => {
   const [users] = useState(usersFromServer);
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userIdError, setUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const sanitizedTitle = event.target.value.replace(/[^a-zA-Zа-яА-Я0-9 ]/g, '');
+    setTitle(sanitizedTitle);
     setTitleError(false);
   };
 
@@ -90,13 +91,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      {users.map(user => (
-        <TodoList
-          user={user}
-          key={user.id}
-          todos={todos.filter(todo => todo.userId === user.id)}
-        />
-      ))}
+      <TodoList todos={todos} />
     </div>
   );
 };
