@@ -11,13 +11,10 @@ export const TodoInfo: React.FC<Props> = ({
   todo: { completed, title, id },
   user,
 }) => (
-  <article
-    className={`TodoInfo ${completed === false ? '' : 'TodoInfo--completed'}`}
-  >
-    <h2 className="TodoInfo__title" data-id={id}>
+  <article className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}>
+    <h2 className="TodoInfo__title" data-id={id ?? 0}>
       {title}
     </h2>
-    {console.log(user)}
     <UserInfo user={user} />
   </article>
 );

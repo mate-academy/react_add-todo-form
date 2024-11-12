@@ -2,6 +2,7 @@ import { useState } from 'react';
 import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
 import { getUserById } from '../../services/user';
+import todosFromServer from '../../api/todos';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
@@ -13,7 +14,9 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  const [completed, hasCompleted] = useState(false);
+  const completed = false;
+
+  const maxId = Math.max(...todosFromServer.map(todo => todo.id), 0);
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value);
@@ -37,7 +40,7 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
 
     onSubmit({
       title,
-      id: 0,
+      id: maxId + 1,
       user: getUserById(userId),
       completed,
       userId,
