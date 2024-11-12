@@ -1,22 +1,20 @@
 import { useState } from 'react';
-import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
 import { getUserById } from '../../services/user';
-import todosFromServer from '../../api/todos';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
+  users: { id: number; name: string }[];
+  maxId: number;
 };
 
-export const Form: React.FC<Props> = ({ onSubmit }) => {
+export const Form: React.FC<Props> = ({ onSubmit, users, maxId }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
   const completed = false;
-
-  const maxId = Math.max(...todosFromServer.map(todo => todo.id), 0);
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value);
@@ -68,7 +66,7 @@ export const Form: React.FC<Props> = ({ onSubmit }) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>
