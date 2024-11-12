@@ -1,27 +1,13 @@
-import { Todos } from '../../types/Types';
+import { User } from '../../types/Types';
 import React from 'react';
-import classNames from 'classnames';
-import { findUserById } from '../../helper/findUsers';
 
 type Props = {
-  todos: Todos;
+  user: User;
 };
-
-export const UserInfo: React.FC<Props> = ({ todos }) => {
-  const userEmail = findUserById(todos.id);
-
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
-    <article
-      key={todos.id}
-      data-id={todos.id}
-      className={classNames('TodoInfo', {
-        'TodoInfo--completed': todos.completed,
-      })}
-    >
-      <h2 className="TodoInfo__title">{todos.title}</h2>
-      <a className="UserInfo" href={`mailto:${userEmail}`}>
-        {userEmail?.email}
-      </a>
-    </article>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };

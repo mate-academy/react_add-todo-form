@@ -1,28 +1,20 @@
-export const TodoInfo = () => {
-  return (
-    <>
-      <div className="field">
-        <label htmlFor="title-input">Title: </label>
-        <input
-          id="title-input"
-          type="text"
-          data-cy="titleInput"
-          placeholder="Enter a title"
-        />
+import { UserInfo } from '../UserInfo';
+import { Todo } from '../../types/Types';
+import classNames from 'classnames';
+import React from 'react';
 
-        <span className="error">Please enter a title</span>
-      </div>
-
-      <div className="field">
-        <label htmlFor="title-input">User: </label>
-        <select data-cy="userSelect">
-          <option value="0" disabled>
-            Choose a user
-          </option>
-        </select>
-
-        <span className="error">Please choose a user</span>
-      </div>
-    </>
-  );
+type Props = {
+  todo: Todo;
 };
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => (
+  <article
+    data-id={todo.id}
+    className={classNames('TodoInfo', {
+      'TodoInfo--completed': todo.completed,
+    })}
+  >
+    <h2 className="TodoInfo__title">{todo.title}</h2>
+    {todo && <UserInfo user={todo.user} />}
+  </article>
+);
