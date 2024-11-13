@@ -1,7 +1,7 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 
-type Togo = {
+type Todo = {
   id: number;
   title: string;
   completed: boolean;
@@ -9,7 +9,7 @@ type Togo = {
 };
 
 interface Props {
-  todos: Togo[];
+  todos: Todo[];
 }
 
 export const TodoList: React.FC<Props> = ({ todos }) => {

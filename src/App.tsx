@@ -5,7 +5,7 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
-type Togo = {
+type Todo = {
   id: number;
   title: string;
   completed: boolean;
@@ -20,7 +20,7 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
 
-  const [todos, setTodos] = useState<Togo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
   const [userHasError, setUserHasError] = useState(false);
   const [titleHasError, setTitleHasError] = useState(false);
@@ -48,9 +48,13 @@ export const App = () => {
   const addTodo = () => {
     const user = usersFromServer.find(person => person.id === userId);
 
-    const id = user?.id || 0;
+    if (!user) {
+      return;
+    }
 
-    const newTodo: Togo = {
+    const id = user.id;
+
+    const newTodo: Todo = {
       id: getNewId(),
       title: title.trim(),
       userId: id,
@@ -62,12 +66,12 @@ export const App = () => {
     });
   };
 
-  const resset = () => {
+  const reset = () => {
     setTitle('');
     setUserId(0);
   };
 
-  const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     let hasError = false;
@@ -94,14 +98,14 @@ export const App = () => {
 
     addTodo();
 
-    resset();
+    reset();
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSumbit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             name="title"

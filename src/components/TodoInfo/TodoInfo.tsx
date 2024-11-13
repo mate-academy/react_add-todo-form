@@ -3,7 +3,7 @@ import React from 'react';
 import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
 
-type Togo = {
+type Todo = {
   id: number;
   title: string;
   completed: boolean;
@@ -11,7 +11,7 @@ type Togo = {
 };
 
 interface Props {
-  todo: Togo;
+  todo: Todo;
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
