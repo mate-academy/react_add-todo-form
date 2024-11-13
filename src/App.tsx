@@ -67,7 +67,7 @@ export const App = () => {
     setUserId(0);
   };
 
-  const handleSambit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     let hasError = false;
@@ -101,7 +101,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSambit}>
+      <form action="/api/todos" method="POST" onSubmit={handleSumbit}>
         <div className="field">
           <input
             name="title"
