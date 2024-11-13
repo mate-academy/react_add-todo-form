@@ -1,6 +1,8 @@
 import './App.scss';
 
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { Todo } from './types/Todo';
@@ -33,7 +35,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm onSubmit={addTodo} users={usersFromServer} />
       <TodoList todos={todos} />
     </div>
   );
