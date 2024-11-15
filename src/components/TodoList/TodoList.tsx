@@ -10,17 +10,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => {
-        const { id, title, completed, user } = todo;
-
-        return (
-          <TodoInfo
-            key={id}
-            id={id}
-            title={title}
-            completed={completed}
-            user={user}
-          />
-        );
+        return <TodoInfo todo={todo} key={todo.id} />;
       })}
     </section>
   );

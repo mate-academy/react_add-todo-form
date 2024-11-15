@@ -1,14 +1,14 @@
 import classNames from 'classnames';
-import { User } from '../types/User';
+import { Todo } from '../types/Todo';
+import { UserInfo } from '../UserInfo';
 
 interface Props {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User | null;
+  todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ id, title, completed, user }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+
   return (
     <article
       data-id={id}
@@ -16,11 +16,7 @@ export const TodoInfo: React.FC<Props> = ({ id, title, completed, user }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      {user && (
-        <a className="UserInfo" href={`mailto:${user?.email}`}>
-          {user?.name}
-        </a>
-      )}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
