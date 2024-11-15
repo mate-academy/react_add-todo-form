@@ -15,10 +15,10 @@ export const App = () => {
   }));
   const [todos, setTodos] = useState(newTodos);
   const [title, setTitle] = useState('');
-  const [titleTouched, setTitleTouched] = useState(true);
+  const [titleTouched, setTitleTouched] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [user, setUser] = useState(0);
-  const [userTouched, setUserTouched] = useState(true);
+  const [userTouched, setUserTouched] = useState(false);
   const [userError, setUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -48,7 +48,7 @@ export const App = () => {
     }
 
     const todoId: number =
-      todosFromServer.toSorted((a, b) => b.id - a.id)[0].id + 1;
+      [...todosFromServer].sort((a, b) => b.id - a.id)[0].id + 1;
     const newUser =
       usersFromServer.find(userFromServer => userFromServer.id === user) ||
       null;
