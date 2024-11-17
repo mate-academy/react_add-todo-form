@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
-import { getUserById } from '../../services/userById';
 import { TODO } from '../../types/todo';
 
 interface Props {
@@ -46,7 +45,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId) || null,
+      user: null,
     });
 
     reset();

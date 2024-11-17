@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { TODO } from './types/todo';
 import { NewTodo } from './components/NewTodo';
 import { initialTodos } from './services/initialTodos';
+import { getUserById } from './services/userById';
 
 export const App = () => {
   const [todos, setTodos] = useState<TODO[]>(initialTodos);
@@ -12,10 +13,11 @@ export const App = () => {
     todos.map(todo => todo.id),
   );
 
-  const addTodo = ({ id, ...data }: TODO) => {
+  const addTodo = ({ id, user, ...data }: TODO) => {
     const newTodo = {
       id: maxId + 1,
       ...data,
+      user: getUserById(data.userId) || null,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
