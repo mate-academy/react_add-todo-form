@@ -4,11 +4,11 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-import { User } from './types/User';
-import { TodosList } from './types/TodosList';
+import { User } from './types/types';
+import { Todo } from './types/types';
 import { useState } from 'react';
 
-export interface TodoWithUser extends TodosList {
+export interface TodoWithUser extends Todo {
   user?: User;
 }
 
@@ -20,7 +20,7 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
 
   const [todosWithUsers, setTodosWithUsers] = useState<TodoWithUser[]>(
-    todosFromServer.map((todo: TodosList) => {
+    todosFromServer.map((todo: Todo) => {
       const matchedUser = usersFromServer.find(
         (user: User) => user.id === todo.userId,
       );
