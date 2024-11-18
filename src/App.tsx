@@ -4,8 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-import { User } from './types/types';
-import { Todo } from './types/types';
+import { User, Todo } from './types/types';
 import { useState } from 'react';
 
 export interface TodoWithUser extends Todo {
@@ -53,7 +52,6 @@ export const App = () => {
   };
 
   const handleAdd = (event: React.FormEvent) => {
-    event.preventDefault();
     event.preventDefault();
 
     if (!title) {
