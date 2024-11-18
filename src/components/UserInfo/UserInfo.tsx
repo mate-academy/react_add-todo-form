@@ -1,14 +1,10 @@
 import { FC } from 'react';
-import { User } from '../../types/User';
+import { User } from '../../types/types';
 
-export const UserInfo: FC<{ users: Array<User> }> = ({ users }) => {
+export const UserInfo: FC<{ user: User }> = ({ user }) => {
   return (
-    <>
-      {users.map(user => (
-        <a className="UserInfo" href={`mailto:${user.email}`} key={user.id}>
-          {user.name}
-        </a>
-      ))}
-    </>
+    <a className="UserInfo" href={`mailto:${user.email}`} key={user.id}>
+      {user.name}
+    </a>
   );
 };

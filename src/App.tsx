@@ -1,104 +1,91 @@
 import './App.scss';
-import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+
+import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 import { TodosList } from './types/TodosList';
 import { useState } from 'react';
 
-interface TodoWithUser extends TodosList {
+export interface TodoWithUser extends TodosList {
   user?: User;
 }
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [selectUser, setSelectUser] = useState<number | null>(null);
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorUser, setErrorUser] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
   const [todosWithUsers, setTodosWithUsers] = useState<TodoWithUser[]>(
     todosFromServer.map((todo: TodosList) => {
       const matchedUser = usersFromServer.find(
         (user: User) => user.id === todo.userId,
       );
 
-      return matchedUser
-        ? { ...todo, user: matchedUser }
-        : { ...todo, user: undefined };
+      return matchedUser ? { ...todo, user: matchedUser } : { ...todo };
     }),
   );
-
-  // const getRandomNumber = () => {
-  //   const existingId = todosWithUsers.map(todo => todo.id);
-  //   const maxId = Math.max(0, ...existingId);
-
-  //   for (let i = 0; i <= maxId + 1; i++) {
-  //     if (!existingId.includes(i)) {
-  //       return i;
-  //     }
-  //   }
-
-  //   return maxId + 1;
-  // };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = Number(event.target.value);
 
-    setSelectUser(selectedValue === 0 ? null : selectedValue);
+    setSelectedUserId(selectedValue === 0 ? null : selectedValue);
 
     if (selectedValue) {
-      setErrorUser(false);
+      setUserError(false);
     }
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const regLanguage = /[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]/g;
-    const cleanedValue = event.target.value.replace(regLanguage, '');
+    const cleanedValue = event.target.value.replace(
+      /[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]/g,
+      '',
+    );
 
     setTitle(cleanedValue);
 
     if (title) {
-      setErrorTitle(false);
+      setTitleError(false);
     }
   };
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
-    let hasError = false;
+    event.preventDefault();
 
     if (!title) {
-      setErrorTitle(true);
-      hasError = true;
-    } else {
-      setErrorTitle(false);
+      setTitleError(true);
     }
 
-    if (!selectUser) {
-      setErrorUser(true);
-      hasError = true;
-    } else {
-      setErrorUser(false);
+    if (!selectedUserId) {
+      setUserError(true);
     }
 
-    if (hasError) {
-      return;
-    }
+    if (title.length && selectedUserId !== null) {
+      const newId = Math.max(...todosWithUsers.map(todo => todo.id)) + 1;
 
-    const newId = Math.max(...todosWithUsers.map(todo => todo.id)) + 1;
+      const findUser = usersFromServer.find(
+        users => users.id === selectedUserId,
+      );
 
-    if (newId !== undefined) {
-      const findUser = usersFromServer.find(users => users.id === selectUser);
-      const newTodos = {
+      if (!findUser) {
+        throw new Error('User not found in usersFromServer');
+      }
+
+      const newTodo = {
         id: newId,
         title,
         completed: false,
-        userId: Number(selectUser),
+        userId: selectedUserId,
         user: findUser,
       };
 
-      setTodosWithUsers(prevTodo => [...prevTodo, newTodos]);
+      setTodosWithUsers(prevTodo => [...prevTodo, newTodo]);
       setTitle('');
-      setSelectUser(null);
+      setSelectedUserId(null);
     }
   };
 
@@ -118,7 +105,7 @@ export const App = () => {
               placeholder="Enter a title"
             />
           </span>
-          {errorTitle && !title && (
+          {titleError && !title && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -128,7 +115,7 @@ export const App = () => {
             User:{' '}
             <select
               data-cy="userSelect"
-              value={selectUser || 0}
+              value={selectedUserId || 0}
               onChange={handleSelect}
             >
               <option value={0} disabled>
@@ -142,7 +129,7 @@ export const App = () => {
             </select>
           </span>
 
-          {errorUser && <span className="error">Please choose a user</span>}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">

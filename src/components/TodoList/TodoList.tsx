@@ -1,21 +1,8 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
+import { TodoWithUser } from '../../App';
 
-type TodoListProps = {
-  todos: Array<{
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number;
-    user?: {
-      id: number;
-      name: string;
-      email: string;
-    };
-  }>;
-};
-
-export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+export const TodoList: React.FC<{ todos: TodoWithUser[] }> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (

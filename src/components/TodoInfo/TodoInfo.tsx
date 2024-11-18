@@ -1,17 +1,7 @@
-import { User } from '../../types/User';
+import { TodoWithUser } from '../../App';
 import { UserInfo } from '../UserInfo';
 
-interface TodoInfoProps {
-  todo: {
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number;
-    user?: User;
-  };
-}
-
-export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
+export const TodoInfo: React.FC<{ todo: TodoWithUser }> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -19,7 +9,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {todo.user ? <UserInfo users={[todo.user]} /> : null}
+      {!!todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };
