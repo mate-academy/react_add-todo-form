@@ -72,9 +72,9 @@ export const App = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="field">
-            <label htmlFor='titleInput'>Please enter a title</label>
+            <label htmlFor="titleInput">Please enter a title</label>
             <input
-            id='titleInput'
+              id="titleInput"
               type="text"
               data-cy="titleInput"
               value={todoTitle}
@@ -88,9 +88,9 @@ export const App = () => {
           </div>
 
           <div className="field">
-            <label htmlFor='userSelect'>Please choose a user</label>
+            <label htmlFor="userSelect">Please choose a user</label>
             <select
-            id='userSelect'
+              id="userSelect"
               data-cy="userSelect"
               onChange={e => {
                 setSelectedUser(e.target.value);
