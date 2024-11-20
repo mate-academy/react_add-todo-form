@@ -6,7 +6,7 @@ type Props = {
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   if (!user) {
-    return <span>User not found</span>;
+    return <span className="UserInfo__error">User not found</span>;
   }
 
   const { email, name } = user;

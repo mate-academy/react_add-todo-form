@@ -8,7 +8,7 @@ import { getUserById } from './services/userService';
 
 const initialTodo: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(todo.userId) || null,
 }));
 
 export const App: React.FC = () => {
@@ -47,7 +47,7 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
       title: trimmedTitle,
       userId,
       completed: false,
