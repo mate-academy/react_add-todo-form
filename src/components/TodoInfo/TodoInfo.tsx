@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 
@@ -7,7 +7,7 @@ interface Props {
   user?: User; 
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+const TodoInfo: React.FC<Props> = ({ todo, user }) => {
   const { title, completed } = todo;
 
   return (
@@ -23,3 +23,5 @@ export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
     </article>
   );
 };
+
+export default TodoInfo;

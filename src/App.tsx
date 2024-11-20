@@ -2,12 +2,12 @@ import { useState } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoInfo } from './components/TodoInfo/TodoInfo';
+import TodoInfo from './components/TodoInfo/TodoInfo';
 import React from 'react';
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState<number | null>(null);
   const [todos, setTodos] = useState(todosFromServer);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
@@ -18,7 +18,7 @@ export const App = () => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setUserId(Number(event.target.value) || null);
     setHasUserError(false);
   };
 
@@ -38,13 +38,13 @@ export const App = () => {
     const newTodo = {
       id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
       title,
-      userId: Number(userId),
+      userId,
       completed: false,
     };
 
     setTodos([...todos, newTodo]);
     setTitle('');
-    setUserId('');
+    setUserId(null);
   };
 
   return (
@@ -70,7 +70,7 @@ export const App = () => {
           <select
             id="user-id"
             data-cy="userSelect"
-            value={userId}
+            value={userId || ''}
             onChange={handleUserChange}
           >
             <option value="">Choose a user</option>

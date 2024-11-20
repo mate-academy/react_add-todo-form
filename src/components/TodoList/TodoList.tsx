@@ -1,4 +1,3 @@
-// src/components/TodoList.tsx
 import React from 'react';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
