@@ -18,11 +18,11 @@ export const App: React.FC = () => {
     const ukrainianRegex = /[А-ЩЬЮЯҐЄІЇа-щьюяґєії]/;
 
     if (englishRegex.test(e.target.value)) {
-      setTitle(e.target.value.replace(/[^A-Za-z0-9\s]*$/, ""));
+      setTitle(e.target.value.replace(/[^A-Za-z0-9\s]+/g, ""));
     }
 
     if (ukrainianRegex.test(e.target.value)) {
-      setTitle(e.target.value.replace(/[^А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9\s]*$/, ''))
+      setTitle(e.target.value.replace(/[^А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9\s]+/g, ''))
     }
 
     setTitleError(false);
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
     setTodos(prevState => [
       ...prevState,
       {
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        id: !todos.length ? Math.floor(Math.random() * (200 - 100 + 1)) + 100 : Math.max(...todos.map(todo => todo.id)) + 1,
         title: title,
         completed: false,
         userId: +userId,
