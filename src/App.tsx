@@ -4,8 +4,9 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { User } from './types/User';
 
-const intialTodos: Todo[] = todosFromServer;
+const initialTodos: Todo[] = todosFromServer;
 
 function getNewTodoId(todos: Todo[]): number {
   const maxId = Math.max(...todos.map(todo => todo.id), 0);
@@ -13,8 +14,12 @@ function getNewTodoId(todos: Todo[]): number {
   return maxId + 1;
 }
 
+export function getUserById(userId: number): User | null {
+  return users.find(user => user.id === userId) || null;
+}
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(intialTodos);
+  const [todos, setTodos] = useState(initialTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);

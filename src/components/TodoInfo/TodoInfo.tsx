@@ -1,4 +1,4 @@
-import { getUserById } from '../../services/userService';
+import { getUserById } from '../../App';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 import classNames from 'classnames';
