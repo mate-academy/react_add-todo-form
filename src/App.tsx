@@ -19,7 +19,7 @@ export const App = () => {
     return newTodoId + 1;
   };
 
-  const handeTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
     setTitle(value);
@@ -73,7 +73,7 @@ export const App = () => {
             id="title"
             type="text"
             value={title}
-            onChange={handeTitleChange}
+            onChange={handleTitleChange}
             placeholder="Enter a title"
             data-cy="titleInput"
           />
@@ -92,7 +92,7 @@ export const App = () => {
               Choose a user
             </option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.username}>
+              <option value={user.id} key={user.id}>
                 {user.name}
               </option>
             ))}

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Todo } from '../../types/todo';
 import usersFromServer from '../../api/users';
+import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
   todo: Todo;
@@ -18,9 +19,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      <a className="UserInfo" href={`mailto:${currentUser?.email}`}>
-        {currentUser?.name}
-      </a>
+      {currentUser && <UserInfo user={currentUser} />}
     </article>
   );
 };
@@ -32,3 +31,34 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
 //     Leanne Graham
 //   </a>
 // </article>;
+
+// if (currentUser) {
+//   return (
+//     <article
+//       data-id={id}
+//       className={classNames('TodoInfo', {
+//         'TodoInfo--completed': completed,
+//       })}
+//     >
+//       <h2 className="TodoInfo__title">{title}</h2>
+//       <a className="UserInfo" href={`mailto:${currentUser?.email}`}>
+//         {currentUser?.name}
+//       </a>
+//     </article>
+//   );
+// } else {
+//   return;
+// }
+
+//     <article
+//       data-id={id}
+//       className={classNames('TodoInfo', {
+//         'TodoInfo--completed': completed,
+//       })}
+//     >
+//       <h2 className="TodoInfo__title">{title}</h2>
+//       <a className="UserInfo" href={`mailto:${currentUser?.email}`}>
+//         {currentUser?.name}
+//       </a>
+//     </article>
+//   );
