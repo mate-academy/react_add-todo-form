@@ -6,8 +6,8 @@ import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { TodoListType, TodosType, User } from './api/type/type';
 
-function findUserById(id: number, userList: User[]): User | undefined {
-  return userList.find(user => id === user.id);
+function findUserById(id: number, userList: User[]): User | null {
+  return userList.find(user => id === user.id) || null;
 }
 
 function makeTodoList(todos: TodosType[], userList: User[]): TodoListType[] {
@@ -124,7 +124,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todoList={todoList} />
+      <TodoList todos={todoList} />
     </div>
   );
 };

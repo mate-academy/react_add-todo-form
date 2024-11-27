@@ -2,7 +2,7 @@ import { User } from '../../api/type/type';
 import './UserInfo.scss';
 
 interface UserProps {
-  user: User | undefined;
+  user: User | null;
 }
 
 export const UserInfo: React.FC<UserProps> = ({ user }) => {
