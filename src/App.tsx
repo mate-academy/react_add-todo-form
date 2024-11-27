@@ -39,7 +39,7 @@ export const App = () => {
 
     if (selectedUser !== 0 && title.trim().length > 0) {
       const newTodo: TodoListType = {
-        id: Math.max(0, ...todosFromServer.map(a => a.id)) + 1, // Ensure id is valid
+        id: Math.max(0, ...todosFromServer.map(a => a.id)) + 1,
         title: title.trim(),
         completed: false,
         userId: selectedUser,
@@ -52,8 +52,6 @@ export const App = () => {
       setErrorSelectedUser(false);
       setErrorTitle(false);
     }
-
-    return undefined;
   }
 
   function resetErrorTitle(e: React.ChangeEvent<HTMLInputElement>) {
