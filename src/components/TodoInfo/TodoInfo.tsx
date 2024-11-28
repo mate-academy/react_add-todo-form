@@ -8,9 +8,7 @@ interface Props {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = props => {
-  const { todo } = props;
-
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
