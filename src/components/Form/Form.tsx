@@ -33,10 +33,8 @@ export const Form: React.FC<Props> = ({ users, addTodo }) => {
   const [state, setState] = useState(defaultState);
   const [errors, setErrors] = useState(defaultErrorState);
 
-  const maxTodoId = React.useMemo(
-    () => todos.reduce((acc, curr) => Math.max(acc, curr.id), 0),
-    [],
-  );
+  const maxTodoId = () =>
+    todos.reduce((acc, curr) => Math.max(acc, curr.id), 0);
 
   const [todoId, setTodoId] = useState<number>(maxTodoId);
 

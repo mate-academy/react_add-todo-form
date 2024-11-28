@@ -30,9 +30,10 @@ export const SelectUser: React.FC<Props> = ({
       <select
         id={`${name}-${selectId}`}
         data-cy={name}
+        value={value}
         onChange={handleChangeSelect}
       >
-        <option value={value} disabled selected>
+        <option value={value} disabled>
           choose a user
         </option>
         {users.map(user => (
