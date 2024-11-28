@@ -28,13 +28,13 @@ export const App = () => {
     setTodos([...todos, newTodo]);
   };
 
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setIsTitleError(false);
   };
 
-  const onUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserID(e.target.value);
+  const onUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserID(event.target.value);
     setIsUserError(false);
   };
 
@@ -43,8 +43,8 @@ export const App = () => {
     setSelectedUserID('0');
   };
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (!title) {
       setIsTitleError(true);
