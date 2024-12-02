@@ -11,10 +11,13 @@ enum DefaultField {
   select = 'Choose a user',
 }
 
-const initialTodos: Todo[] = todosFromServer;
+const preparedData = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId),
+}));
 
 export const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedData);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [errorTitle, setErrorTitle] = useState(false);
@@ -40,11 +43,20 @@ export const App: FC = () => {
     const ids = todos.map(({ id }) => id);
     const id = Math.max(...ids, 0) + 1;
 
+    // const user = usersFromServer.find(someUser => someUser.id === userId);
+
+    // if (!user) {
+    //   setErrorUser(true);
+
+    //   return;
+    // }
+
     const newTodo: Todo = {
       id,
       title,
       userId,
       completed: false,
+      user: usersFromServer.find(user => user.id === userId),
     };
 
     setTodos(prev => [...prev, newTodo]);
@@ -65,10 +77,11 @@ export const App: FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form action="/api/todos" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
           <input
+            id="titleInput"
             type="text"
             value={title}
             placeholder={DefaultField.title}
@@ -81,6 +94,7 @@ export const App: FC = () => {
         <div className="field">
           <label htmlFor="userSelect">User: </label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={userId}
             onChange={handleSelectChange}
@@ -102,7 +116,7 @@ export const App: FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={todos.filter(todo => todo.user !== undefined)} />
     </div>
   );
 };

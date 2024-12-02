@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Todo } from '../../types/Todo';
 
-import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
@@ -9,11 +8,11 @@ interface TodoInfoProps {
 }
 
 export const TodoInfo: FC<TodoInfoProps> = ({ todo }) => {
-  const user = usersFromServer.find(({ id }) => id === todo.userId);
+  // const user = usersFromServer.find(({ id }) => id === todo.userId);
 
-  if (!user) {
-    return null;
-  }
+  // if (!user) {
+  //   return null;
+  // }
 
   return (
     <article
@@ -22,7 +21,7 @@ export const TodoInfo: FC<TodoInfoProps> = ({ todo }) => {
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <UserInfo user={user} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };
