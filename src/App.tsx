@@ -45,6 +45,7 @@ export const App = () => {
   const addTodo = (todo: Todo) => {
     setCurrentTodos(todos => [...todos, todo]);
   };
+
   // #endregion
 
   // #region return function
@@ -76,9 +77,9 @@ export const App = () => {
 
     const createTodo: Todo = {
       id: uniqueId(),
-      title: title,
+      title,
       completed: false,
-      userId: userId,
+      userId,
     };
 
     addTodo(createTodo);
@@ -86,6 +87,11 @@ export const App = () => {
     clearInputs();
   };
   // #endregion
+
+  const enrichedTodos = currentTodos.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  }));
 
   return (
     <div className="App">
@@ -127,7 +133,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={currentTodos} />
+      <TodoList todos={enrichedTodos} />
     </div>
   );
 };
