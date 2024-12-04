@@ -12,7 +12,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   const currentUser = userFromServer.find(elem => elem.id == todo.userId);
 
   if (!currentUser) {
-    return;
+    return null;
   }
 
   return (

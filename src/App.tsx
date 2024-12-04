@@ -15,13 +15,7 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const getBiggestId = () => Math.max(...todos.map(todo => todo.id));
-
-  const getUserById = (): number => {
-    const user = usersFromServer.find(elem => elem.id === userId);
-
-    return user ? user.id : 0;
-  };
+  const getBiggestId = () => Math.max(...todos.map(todo => todo.id)) || 0;
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -46,7 +40,7 @@ export const App = () => {
     const newTodo: Todo = {
       id: getBiggestId() + 1,
       title,
-      userId: getUserById(),
+      userId,
       completed: false,
     };
 
