@@ -10,7 +10,7 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [hasTitleErorr, setHasTitleError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const getTodoWithUsers = () => {
@@ -87,7 +87,7 @@ export const App = () => {
             value={title}
             onChange={onTitleChange}
           />
-          {hasTitleErorr && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
