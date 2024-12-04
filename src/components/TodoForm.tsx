@@ -20,7 +20,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
 
   const onUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasTitleError(false);
+    setHasUserIdError(false);
   };
 
   const handleAdd = (event: React.FormEvent) => {
