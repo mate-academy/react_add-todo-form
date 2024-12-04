@@ -1,27 +1,17 @@
 import { Todo } from '../../types/Todo';
-import { UserInfo } from '../UserInfo';
+import { TodoInfo } from '../TodoInfo';
 
-interface Props {
-  todo: Todo[];
-}
-export const TodoList: React.FC<Props> = props => {
-  const { todo } = props;
+type Props = {
+  todos: Todo[];
+};
+
+export const TodoList: React.FC<Props> = (props: Props) => {
+  const { todos } = props;
 
   return (
     <section className="TodoList">
-      {todo.map(currTodo => (
-        <article
-          data-id="1"
-          className="TodoInfo TodoInfo--completed"
-          key={currTodo.id}
-        >
-          <h2 className="TodoInfo__title">{currTodo.title}</h2>
-
-          {/* <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a> */}
-          <UserInfo user={currTodo.user} />
-        </article>
+      {todos.map(todo => (
+        <TodoInfo todo={todo} key={todo.id} />
       ))}
     </section>
   );
