@@ -45,7 +45,7 @@ export const App = () => {
   const onAdd = (newTodo: Todo) => {
     const currentTodo = {
       ...newTodo,
-      id: getNewTodoId(todos),
+      id: getNewTodoId(visibleTodos),
     };
 
     setVisibleTodos(currentTodos => [...currentTodos, currentTodo]);
