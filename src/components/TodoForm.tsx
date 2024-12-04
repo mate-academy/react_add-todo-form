@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import usersFromServer from '../api/users';
 import { TodosWithUsers } from '../type.ts/TodosWithUser';
 import { getUserById } from '../utils/userId';
+import { User } from '../type.ts/User';
 
 type Props = {
   onAdd: (todoWithUser: TodosWithUsers) => void;
+  users: User[];
 };
 
-export const TodoForm: React.FC<Props> = ({ onAdd }) => {
+export const TodoForm: React.FC<Props> = ({ onAdd, users }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -38,7 +39,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
       title,
       completed: false,
       userId,
-      user: getUserById(userId),
+      user: getUserById(userId) || null,
     });
 
     setTitle('');
@@ -68,7 +69,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>
