@@ -3,7 +3,7 @@ import users from '../../api/users';
 
 import { getUsersById } from '../../utils/getUsersById';
 import { getLargestId } from '../../utils/getLargestId';
-import { Props } from '../../types/props';
+import { Props } from '../../types/Prop';
 
 export const AddTodoForm: React.FC<Props> = (props: Props) => {
   const {
