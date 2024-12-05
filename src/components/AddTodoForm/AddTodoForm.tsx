@@ -1,6 +1,5 @@
 import React from 'react';
 import users from '../../api/users';
-
 import { getUsersById } from '../../utils/getUsersById';
 import { getLargestId } from '../../utils/getLargestId';
 import { Props } from '../../types/Prop';
