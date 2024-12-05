@@ -7,74 +7,74 @@ import { TodoList } from './components/TodoList/TodoList';
 
 import './App.scss';
 
+const getTodoWithUsers = () => {
+  return todosFromServer.map(todo => {
+    const user = usersFromServer.find(currUser => currUser.id === todo.userId);
+
+    if (!user) {
+      throw new Error(`No user found for todo with ID: ${todo.id}`);
+    }
+
+    return { ...todo, user };
+  });
+};
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(getTodoWithUsers());
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
 
+  const validateTitle = (value: string) => value.trim().length > 0;
+  const validateUser = (userId: number) => userId !== 0;
+
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    setTitle(value);
+    setIsTitleError(!validateTitle(value));
+  };
+
+  const onUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = +event.target.value;
+
+    setSelectedUserId(value);
+    setIsUserError(!validateUser(value));
+  };
+
   const addNewTodo = (newTodo: Todo) => {
     setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-    if (isTitleError && e.target.value.trim()) {
-      setIsTitleError(false);
-    } else if (!isTitleError && !e.target.value.trim()) {
-      setIsTitleError(true);
-    }
-  };
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const onUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(+e.target.value);
-    if (+e.target.value !== 0) {
-      setIsUserError(false);
-    }
-  };
+    if (!validateTitle(title) || !validateUser(selectedUserId)) {
+      setIsTitleError(!validateTitle(title));
+      setIsUserError(!validateUser(selectedUserId));
 
-  const onResetForm = (): void => {
-    setTitle('');
-    setSelectedUserId(0);
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let hasError = false;
-
-    if (!title.trim()) {
-      setIsTitleError(true);
-      hasError = true;
-    }
-
-    if (selectedUserId === 0) {
-      setIsUserError(true);
-      hasError = true;
-    }
-
-    if (hasError) {
       return;
     }
 
     const newId =
       todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
     const user = usersFromServer.find(
-      currentUser => currentUser.id === selectedUserId,
+      currUser => currUser.id === selectedUserId,
     );
 
     if (user) {
       addNewTodo({
         userId: selectedUserId,
         id: newId,
-        title: title,
+        title,
         completed: false,
-        user: user,
+        user,
       });
     }
 
-    onResetForm();
+    setTitle('');
+    setSelectedUserId(0);
   };
 
   return (
