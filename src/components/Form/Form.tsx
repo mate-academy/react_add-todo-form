@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Todo, User } from '../../types';
-import { getNewId } from '../../utils/getNewId';
 
 import { InputTitle } from './InputTitle';
 import { SelectUser } from './SelectUser';
+import { getNewId } from '../../utils/getNewId';
 
 type Props = {
   users: User[];
