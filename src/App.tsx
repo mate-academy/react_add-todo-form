@@ -50,8 +50,11 @@ export const App: React.FC = () => {
     }
 
     if (title && userId) {
+      const maxId =
+        todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
+
       const newTodo: Todo = {
-        id: todos.length + 1,
+        id: maxId + 1,
         title,
         userId,
         user: getUserById(users, userId),
