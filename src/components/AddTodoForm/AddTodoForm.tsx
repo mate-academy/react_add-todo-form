@@ -1,21 +1,24 @@
-import React from 'react';
-import users from '../../api/users';
-import { getUsersById } from '../../utils/getUsersById';
-import { getLargestId } from '../../utils/getLargestId';
-import { Props } from '../../types/Prop';
+import React, { useState } from 'react';
 
-export const AddTodoForm: React.FC<Props> = (props: Props) => {
-  const {
-    setTodos,
-    title,
-    setTitle,
-    titleError,
-    setTitleError,
-    selectedUserId,
-    setSelectedUserId,
-    userIdError,
-    setUserIdError,
-  } = props;
+import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
+import { getLargestId } from '../../utils/getLargestId';
+
+type Props = {
+  users: User[];
+  onAddTodo: (newTodo: Todo) => void;
+  getUsersById: (users: User[], userId: number) => User | undefined;
+  todos: Todo[];
+};
+
+export const AddTodoForm: React.FC<Props> = props => {
+  const { users, onAddTodo, getUsersById, todos } = props;
+
+  const [title, setTitle] = useState<string>('');
+  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
+
+  const [selectedUserId, setSelectedUserId] = useState<number>(0);
+  const [hasUserIdError, setHasUserIdError] = useState<boolean>(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(
@@ -23,47 +26,47 @@ export const AddTodoForm: React.FC<Props> = (props: Props) => {
         .trimStart()
         .replace(/[^a-zA-Zа-щА-ЩЬьЮюЯяЇїІіЄєҐґ0-9 ]/g, ''),
     );
-    setTitleError(false);
+    setHasTitleError(false);
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(+event.target.value);
-    setUserIdError(false);
+    setHasUserIdError(false);
   };
 
   const handleReset = () => {
     setTitle('');
-    setTitleError(false);
+    setHasTitleError(false);
     setSelectedUserId(0);
-    setUserIdError(false);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title) {
-      setTitleError(true);
+      setHasTitleError(true);
     }
 
     if (!selectedUserId) {
-      setUserIdError(true);
+      setHasUserIdError(true);
     }
 
     if (!title || !selectedUserId) {
       return;
     }
 
-    setTodos(currentTodos => [
-      ...currentTodos,
-      {
-        id: getLargestId(currentTodos),
+    if (title && selectedUserId) {
+      const newTodo: Todo = {
+        id: getLargestId(todos),
         title,
-        completed: false,
         userId: selectedUserId,
-        user: getUsersById(selectedUserId),
-      },
-    ]);
+        user: getUsersById(users, selectedUserId),
+        completed: false,
+      };
 
-    handleReset();
+      onAddTodo(newTodo);
+      handleReset();
+    }
   };
 
   return (
@@ -89,7 +92,7 @@ export const AddTodoForm: React.FC<Props> = (props: Props) => {
           />
         </div>
 
-        {titleError && <span className="error">Please enter a title</span>}
+        {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
@@ -119,7 +122,7 @@ export const AddTodoForm: React.FC<Props> = (props: Props) => {
           </div>
         </div>
 
-        {userIdError && <span className="error">Please choose a user</span>}
+        {hasUserIdError && <span className="error">Please choose a user</span>}
       </div>
 
       <div className="field is-grouped">
