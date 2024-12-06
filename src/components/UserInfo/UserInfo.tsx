@@ -9,20 +9,13 @@ export interface User {
 }
 
 interface UserListProps {
-  users: User[];
+  user: User;
 }
 
-export const UserInfo: React.FC<UserListProps> = ({ users }) => {
+export const UserInfo: React.FC<UserListProps> = ({ user }) => {
   return (
-    <>
-      <option value="" disabled>
-        Choose a user
-      </option>
-      {users.map(user => (
-        <option key={user.id} value={user.id}>
-          {user.name}
-        </option>
-      ))}
-    </>
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
   );
 };

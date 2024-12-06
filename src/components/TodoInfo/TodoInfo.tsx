@@ -1,5 +1,6 @@
 import { Todo } from '../TodoList';
 import { User } from '../UserInfo';
+import classNames from 'classnames';
 
 export const TodoInfo = ({
   todos = [],
@@ -27,7 +28,9 @@ export const TodoInfo = ({
         <article
           key={todo.id}
           data-id={todo.id}
-          className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+          className={classNames('TodoInfo', {
+            'TodoInfo--completed': todo.completed,
+          })}
         >
           <h2 className="TodoInfo__title">{todo.title}</h2>
 

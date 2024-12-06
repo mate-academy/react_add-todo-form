@@ -56,23 +56,30 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handSubmit}>
         <div className="field">
+          Title:<span> </span>
           <input
             type="text"
             data-cy="titleInput"
             value={title}
             onChange={handlerTitleChange}
-            placeholder="Enter todo title"
+            placeholder="Enter a title"
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          User:<span> </span>
           <select
             data-cy="userSelect"
             value={selectUser}
             onChange={handlerUserChange}
           >
-            <UserInfo users={users} />
+            <option value="" disabled>
+              Choose a user
+            </option>
+            {users.map(user => (
+              <UserInfo key={user.id} user={user} />
+            ))}
           </select>
           {userError && <span className="error">Please choose a user</span>}
         </div>
