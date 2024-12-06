@@ -5,7 +5,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/User';
-import { use } from 'chai';
+// import { use } from 'chai';
 import { useState } from 'react';
 
 function getUserById(userId: number) {
