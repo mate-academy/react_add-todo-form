@@ -15,24 +15,24 @@ export const Form: React.FC<Props> = ({ users, todos, onAddTodo }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [hasTitleError, setHesTitleError] = useState(false);
-  const [hasUserIdError, setHesUserIdError] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setHesTitleError(false);
+    setHasTitleError(false);
   };
 
   const onUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHesUserIdError(false);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setHesTitleError(title === '');
-    setHesUserIdError(userId === 0);
+    setHasTitleError(title === '');
+    setHasUserIdError(userId === 0);
 
     if (title && userId) {
       const todo: Todo = {
@@ -46,8 +46,8 @@ export const Form: React.FC<Props> = ({ users, todos, onAddTodo }) => {
       onAddTodo(todo);
       setTitle('');
       setUserId(0);
-      setHesTitleError(false);
-      setHesUserIdError(false);
+      setHasTitleError(false);
+      setHasUserIdError(false);
     }
   };
 
