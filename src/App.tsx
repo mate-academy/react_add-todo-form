@@ -7,31 +7,28 @@ import { getUserById } from './services/user';
 import { EnrichedTodo } from './types/EnrichedTodo';
 import { useState } from 'react';
 
-
 export const userTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 function getNewTodoId(todo: EnrichedTodo[]) {
-  const maxId = Math.max(...todo.map(todo => todo.id))
+  const maxId = Math.max(...todo.map(singeTodo => singeTodo.id));
 
   return maxId + 1;
 }
 
-
 export const App = () => {
-  const [todos, setTodos] = useState<EnrichedTodo[]>(userTodos)
+  const [todos, setTodos] = useState<EnrichedTodo[]>(userTodos);
 
-  const addTodo = ( todo: EnrichedTodo) => {
+  const addTodo = (todo: EnrichedTodo) => {
     const newTodo = {
       ...todo,
       id: getNewTodoId(todos),
     };
 
-    setTodos(prevTodo => [...prevTodo, newTodo])
-    console.log(newTodo)
-  }
+    setTodos(prevTodo => [...prevTodo, newTodo]);
+  };
 
   return (
     <div className="App">
