@@ -3,9 +3,9 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-import { TodoInfo } from './components/TodoInfo';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types';
+import { TodoForm } from './components/TodoForm/TodoForm';
 
 export const App = () => {
   const enrichTodo = (todo: Todo) => ({
@@ -26,7 +26,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoInfo onAdd={addTodo} users={usersFromServer} todos={todos} />
+      <TodoForm onAdd={addTodo} users={usersFromServer} todos={todos} />
       <TodoList todos={todos} />
     </div>
   );
