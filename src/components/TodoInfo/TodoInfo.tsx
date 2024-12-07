@@ -2,14 +2,16 @@ import { Todo } from '../../types/Todo';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => (
+export const TodoInfo: React.FC<{ todo: Todo }> = ({
+  todo: { id, completed, title, user },
+}) => (
   <article
-    data-id={todo.id}
+    data-id={id}
     className={classNames('TodoInfo', {
-      'TodoInfo--completed': todo.completed,
+      'TodoInfo--completed': completed,
     })}
   >
-    <h2 className="TodoInfo__title">{todo.title}</h2>
-    <UserInfo user={todo.user} />
+    <h2 className="TodoInfo__title">{title}</h2>
+    <UserInfo user={user} />
   </article>
 );
