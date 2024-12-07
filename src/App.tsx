@@ -42,13 +42,13 @@ export const App = () => {
 
     if (!selectedUser) {
       setHasSelectedUserError(true);
-
-      return;
     }
 
     if (!title) {
       setHasTitleError(true);
+    }
 
+    if (!selectedUser || !title) {
       return;
     }
 
