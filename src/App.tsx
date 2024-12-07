@@ -17,7 +17,12 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(todoData);
 
-  const addTodo = (newTodo: Todo) => {
+  const addTodo = (todo: Todo) => {
+    const newTodo: Todo = {
+      ...todo,
+      id: Math.max(...todos.map(t => t.id!)) + 1,
+    };
+
     const fullTodo = enrichTodo(newTodo);
 
     setTodos(currentTodos => [...currentTodos, fullTodo]);
@@ -26,7 +31,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onAdd={addTodo} users={usersFromServer} todos={todos} />
+      <TodoForm onAdd={addTodo} users={usersFromServer} />
       <TodoList todos={todos} />
     </div>
   );

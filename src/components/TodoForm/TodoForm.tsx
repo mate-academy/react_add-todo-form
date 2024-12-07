@@ -5,22 +5,15 @@ import usersFromServer from '../../api/users';
 type Props = {
   onAdd: (newTodo: Todo) => void;
   users: User[];
-  todos: Todo[];
 };
 
-export const TodoForm: React.FC<Props> = ({ onAdd, todos }) => {
+export const TodoForm: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState<number>(0);
 
   const [title, setTitle] = useState<string>('');
   const [titleError, setTitleError] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>(0);
   const [userError, setUserError] = useState<boolean>(false);
-
-  const newId = (todosList: Todo[]) => {
-    const theBiggestId = Math.max(...todosList.map(todo => todo.id));
-
-    return theBiggestId + 1;
-  };
 
   const reset = () => {
     setTitle('');
@@ -55,7 +48,6 @@ export const TodoForm: React.FC<Props> = ({ onAdd, todos }) => {
     }
 
     const newTodo: Todo = {
-      id: newId(todos),
       title,
       userId: userId,
       completed: false,
