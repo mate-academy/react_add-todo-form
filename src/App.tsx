@@ -78,7 +78,9 @@ export const App = () => {
               Choose a user
             </option>
             {users.map(user => (
-              <UserInfo key={user.id} user={user} />
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
           {userError && <span className="error">Please choose a user</span>}

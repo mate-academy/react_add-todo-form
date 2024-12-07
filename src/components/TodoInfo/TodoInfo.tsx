@@ -1,27 +1,14 @@
 import { Todo } from '../TodoList';
-import { User } from '../UserInfo';
+import { User, UserInfo } from '../UserInfo';
 import classNames from 'classnames';
 
 export const TodoInfo = ({
   todos = [],
-  users,
+  users = [],
 }: {
   todos: Todo[];
   users: User[];
 }) => {
-  const findUser = (userId: number) => {
-    const us = users.find(user => user.id === userId);
-
-    return (
-      us || {
-        id: 0,
-        name: '',
-        username: '',
-        email: '',
-      }
-    );
-  };
-
   return (
     <>
       {todos.map(todo => (
@@ -34,12 +21,7 @@ export const TodoInfo = ({
         >
           <h2 className="TodoInfo__title">{todo.title}</h2>
 
-          <a
-            className="UserInfo"
-            href={`mailto:${findUser(todo.userId)?.email}`}
-          >
-            {findUser(todo.userId)?.name}
-          </a>
+          <UserInfo todoUserId={todo.userId} users={users} />
         </article>
       ))}
     </>
