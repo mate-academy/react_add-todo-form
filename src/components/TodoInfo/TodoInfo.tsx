@@ -1,5 +1,4 @@
 import cn from 'classNames';
-
 import { Todo } from '../../types';
 import { UserInfo } from '../UserInfo';
 
