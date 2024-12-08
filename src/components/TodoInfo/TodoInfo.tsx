@@ -1,4 +1,4 @@
-import cn from 'classNames';
+import cn from 'classnames';
 import { Todo } from '../../types';
 import { UserInfo } from '../UserInfo';
 
