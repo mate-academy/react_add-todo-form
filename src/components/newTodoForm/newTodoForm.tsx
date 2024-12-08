@@ -3,6 +3,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Todo, User } from '../../types';
 import classNames from 'classnames';
+// import { todo } from 'node:test';
 
 interface NewTodoFormProps {
   users: User[];
@@ -13,6 +14,12 @@ interface Errors {
   title?: string;
   userId?: string;
 }
+
+// const getMaxTodoId= (todos: Todo[]) => {
+//   const ids = todos.map(todo => todo.id);
+
+//   return Math.max(...ids, 0);
+// };
 
 export const NewTodoForm: React.FC<NewTodoFormProps> = ({ users, onAdd }) => {
   const [title, setTitle] = useState<string>('');
