@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Todo, User } from '../../types';
-import usersFromServer from '../../api/users';
 
 type Props = {
   onAdd: (newTodo: Todo) => void;
   users: User[];
 };
 
-export const TodoForm: React.FC<Props> = ({ onAdd }) => {
+export const TodoForm: React.FC<Props> = ({ onAdd, users }) => {
   const [count, setCount] = useState<number>(0);
 
   const [title, setTitle] = useState<string>('');
@@ -47,11 +46,20 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
+    const foundUser = users.find(user => user.id === userId);
+
+    if (!foundUser) {
+      setUserError(true);
+
+      return;
+    }
+
     const newTodo: Todo = {
+      id: count + 1,
       title,
-      userId: userId,
+      userId,
       completed: false,
-      user: usersFromServer.find(user => user.id === userId),
+      user: foundUser,
     };
 
     setCount(prev => prev + 1);
@@ -86,7 +94,7 @@ export const TodoForm: React.FC<Props> = ({ onAdd }) => {
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
