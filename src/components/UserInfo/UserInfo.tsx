@@ -4,7 +4,7 @@ interface Props {
   user: User | null;
 }
 
-export const UserInfo = ({ user }: Props) => {
+export const UserInfo: React.FC<Props> = ({ user }) => {
   if (!user) {
     return null;
   }

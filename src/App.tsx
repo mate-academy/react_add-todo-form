@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -15,18 +15,12 @@ const todosWithUser: Todo[] = todosFromServer.map(todo => ({
   user: getUser(todo.userId),
 }));
 
-export const App = () => {
+export const App: React.FC = () => {
   const [todos, setTodos] = useState(todosWithUser);
-
-  const getNextId = (actualTodos: Todo[]) => {
-    return (
-      actualTodos.reduce((max, todo) => (todo.id > max ? todo.id : max), 0) + 1
-    );
-  };
 
   const handleAddTodo = (title: string, userId: number) => {
     const newTodo = {
-      id: getNextId(todos),
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
       userId,
       completed: false,

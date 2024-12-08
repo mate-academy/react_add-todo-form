@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
 
-interface TodoFormProps {
+interface Props {
   onAddTodo: (title: string, userId: number) => void;
 }
 
-export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo }) => {
-  const [userSelectId, setUserSelectId] = useState(0);
+export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
+  const [selectUserId, setSelectUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
-  const [errorUserSelectId, setErrorUserSelectId] = useState(false);
-  const [errorTodoTitle, setErrorTodoTitle] = useState(false);
+  const [hasErrorSelectUserId, setHasErrorSelectUserId] = useState(false);
+  const [hasErrorTodoTitle, setHasErrorTodoTitle] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (userSelectId === 0) {
-      setErrorUserSelectId(true);
+    if (selectUserId === 0) {
+      setHasErrorSelectUserId(true);
     }
 
     if (todoTitle === '') {
-      setErrorTodoTitle(true);
+      setHasErrorTodoTitle(true);
     }
 
-    if (userSelectId === 0 || todoTitle === '') {
+    if (selectUserId === 0 || todoTitle === '') {
       return;
     }
 
-    onAddTodo(todoTitle, userSelectId);
-    setUserSelectId(0);
+    onAddTodo(todoTitle, selectUserId);
+    setSelectUserId(0);
     setTodoTitle('');
   };
 
@@ -34,7 +34,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo }) => {
     const value = event.target.value.replace(/[^a-zA-Z0-9 ]/g, '');
 
     setTodoTitle(value);
-    setErrorTodoTitle(false);
+    setHasErrorTodoTitle(false);
   };
 
   return (
@@ -47,15 +47,17 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo }) => {
           value={todoTitle}
           onChange={handleTitleChange}
         />
-        {errorTodoTitle && <span className="error">Please enter a title</span>}
+        {hasErrorTodoTitle && (
+          <span className="error">Please enter a title</span>
+        )}
       </div>
       <div className="field">
         <select
           data-cy="userSelect"
-          value={userSelectId}
+          value={selectUserId}
           onChange={event => {
-            setUserSelectId(Number(event.target.value));
-            setErrorUserSelectId(false);
+            setSelectUserId(Number(event.target.value));
+            setHasErrorSelectUserId(false);
           }}
         >
           <option value={0} disabled>
@@ -67,7 +69,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo }) => {
             </option>
           ))}
         </select>
-        {errorUserSelectId && (
+        {hasErrorSelectUserId && (
           <span className="error">Please choose a user</span>
         )}
       </div>
