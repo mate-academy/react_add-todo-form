@@ -1,7 +1,9 @@
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 import { TodoInfo } from '../TodoInfo';
 interface Props {
   todos: Todo[];
+  users: User[];
 }
 export const TodoList = ({ todos }: Props) => {
   return (
