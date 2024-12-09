@@ -4,22 +4,14 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo, User } from './types';
-
-const getUserById = (userId: number): User | null =>
-  usersFromServer.find(person => person.id === userId) || null;
+import { Todo } from './types';
+import { getUserById, getNewTodoId } from './utils';
 
 const todos: Todo[] = todosFromServer.map(todo => {
   const user = getUserById(todo.userId);
 
   return { ...todo, user };
 });
-
-const getNewTodoId = (items: Todo[]) => {
-  const maxId = Math.max(...items.map(item => item.id));
-
-  return maxId + 1;
-};
 
 export const App = () => {
   const [title, setTitle] = useState('');
