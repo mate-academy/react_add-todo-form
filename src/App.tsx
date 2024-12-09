@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 
 export const App: FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const [titileValue, setTitleValue] = useState<string>('');
+  const [titleValue, setTitleValue] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<number>(0);
 
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -18,21 +18,15 @@ export const App: FC = () => {
 
     setIsClicked(true);
 
-    if (!titileValue.trim() || selectedUser === 0) {
+    if (!titleValue.trim() || selectedUser === 0) {
       return;
     }
 
-    let newToDoId = 0;
-
-    todos.forEach((todo: Todo): void => {
-      if (todo.id > newToDoId) {
-        newToDoId = todo.id;
-      }
-    });
+    let newToDoId = Math.max(0, ...todos.map(todo => todo.id));
 
     const newToDo: Todo = {
       id: newToDoId + 1,
-      title: titileValue,
+      title: titleValue,
       completed: false,
       userId: selectedUser,
     };
@@ -58,12 +52,12 @@ export const App: FC = () => {
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
-            value={titileValue}
+            value={titleValue}
             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setTitleValue(event.target.value);
             }}
           />
-          {!titileValue && isClicked && (
+          {!titleValue && isClicked && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -94,7 +88,8 @@ export const App: FC = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      {/* <TodoList todos={todos} /> */}
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };
