@@ -2,17 +2,20 @@ import { FC } from 'react';
 import { Todo } from '../../api/todos';
 import { User } from '../../api/users';
 import { UserInfo } from '../UserInfo';
+import usersFromServer from '../../api/users';
 
 interface Props {
   todo: Todo;
-  users: User[];
+  // user?: User;
 }
 
 export const TodoInfo: FC<Props> = props => {
-  const { todo, users } = props;
+  const { todo} = props;
   const { id, completed, title, userId } = todo;
 
-  const filteredUser = users.find((user: User): boolean => user.id === userId);
+  const filteredUser = usersFromServer.find(
+    (user: User): boolean => user.id === userId,
+  );
 
   return (
     <article
@@ -22,11 +25,7 @@ export const TodoInfo: FC<Props> = props => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      {filteredUser ? (
-        <UserInfo user={filteredUser} />
-      ) : (
-        <p>User not found</p>
-      )}
+      <UserInfo user={filteredUser} />
     </article>
   );
 };

@@ -10,7 +10,6 @@ export const App: FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [titleValue, setTitleValue] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<number>(0);
-
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleAdd = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -22,7 +21,7 @@ export const App: FC = () => {
       return;
     }
 
-    let newToDoId = Math.max(0, ...todos.map(todo => todo.id));
+    const newToDoId = Math.max(0, ...todos.map(todo => todo.id));
 
     const newToDo: Todo = {
       id: newToDoId + 1,
@@ -88,8 +87,8 @@ export const App: FC = () => {
           Add
         </button>
       </form>
-      {/* <TodoList todos={todos} /> */}
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
+      {/* <TodoList todos={todos} users={usersFromServer} /> */}
     </div>
   );
 };
