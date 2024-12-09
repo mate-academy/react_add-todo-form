@@ -1,5 +1,5 @@
 import React from 'react';
-import { TodoInfoType } from '../../types/TodoInfoType';
+import { TodoInfoType } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 type Props = {

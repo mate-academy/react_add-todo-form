@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { TodoInfoType } from './types/TodoInfoType';
+import { Todo } from './types/Todo';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-export const initialTodos: TodoInfoType[] = todosFromServer.map(todo => ({
+export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [newTodoTitle, setNewTodoTitle] = useState<string>('');
-  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
+  const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [newTodoUser, setNewTodoUser] = useState<number>(0);
-  const [hasUserError, setHasUserError] = useState<boolean>(false);
+  const [newTodoUser, setNewTodoUser] = useState(0);
+  const [hasUserError, setHasUserError] = useState(false);
 
-  const [todos, setTodos] = useState<TodoInfoType[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHasTitleError(false);
@@ -45,7 +45,7 @@ export const App: React.FC = () => {
     setHasUserError(!newTodoUser);
 
     if (newTodoTitle && newTodoUser) {
-      const newTodo: TodoInfoType = {
+      const newTodo: Todo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title: newTodoTitle,
         completed: false,

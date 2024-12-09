@@ -1,6 +1,6 @@
-import { UserInfoType } from '../../types/UserInfoType';
+import { User } from '../../types/User';
 
-export const UserInfo = ({ user }: { user: UserInfoType }) => {
+export const UserInfo = ({ user }: { user: User }) => {
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
       {user.name}
