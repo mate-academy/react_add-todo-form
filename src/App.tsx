@@ -20,9 +20,9 @@ const todosWithUsers = (todos: Todos[], users: User[]): TodoWithUser[] => {
 };
 
 export const App = () => {
-  const [title, setTitle] = useState<string>('');
-  const [onSubmit, setOnSubmit] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<string>('0');
+  const [title, setTitle] = useState('');
+  const [hasErrorOnSubmit, setHasErrorOnSubmit] = useState(false);
+  const [selectedUser, setSelectedUser] = useState('0');
   const [todos, setTodos] = useState<TodoWithUser[]>(
     todosWithUsers(todosFromServer, usersFromServer),
   );
@@ -31,9 +31,9 @@ export const App = () => {
     value.preventDefault();
 
     if (!title || selectedUser === '0') {
-      setOnSubmit(true);
+      setHasErrorOnSubmit(true);
     } else {
-      setOnSubmit(false);
+      setHasErrorOnSubmit(false);
 
       const user = usersFromServer.find(u => u.id === Number(selectedUser));
 
@@ -69,7 +69,7 @@ export const App = () => {
             value={title}
             placeholder={'Enter a title'}
           />
-          {onSubmit && !title && (
+          {hasErrorOnSubmit && !title && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -89,7 +89,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {onSubmit && selectedUser === '0' && (
+          {hasErrorOnSubmit && selectedUser === '0' && (
             <span className="error">Please choose a user</span>
           )}
         </div>
