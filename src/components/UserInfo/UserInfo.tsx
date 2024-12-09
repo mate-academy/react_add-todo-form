@@ -9,25 +9,13 @@ export interface User {
 }
 
 interface UserListProps {
-  todoUserId: number;
-  users: User[];
+  user: User;
 }
 
-export const UserInfo: React.FC<UserListProps> = ({ todoUserId, users }) => {
-  const findUser = (todoUserId: number) => {
-    return (
-      users.find(user => user.id === todoUserId) || {
-        id: 0,
-        name: '',
-        username: '',
-        email: '',
-      }
-    );
-  };
-
+export const UserInfo: React.FC<UserListProps> = ({ user }) => {
   return (
-    <a className="UserInfo" href={`mailto:${findUser(todoUserId)?.email}`}>
-      {findUser(todoUserId)?.name}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
     </a>
   );
 };

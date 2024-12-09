@@ -16,9 +16,15 @@ export interface TodoListProps {
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => {
+  const enrichedTodos = todos.map(todo => ({
+    ...todo,
+    user: users.find(user => user.id === todo.userId) || null,
+  }));
   return (
     <section className="TodoList">
-      <TodoInfo todos={todos} users={users} />
+      {enrichedTodos.map(todo => (
+        <TodoInfo key={todo.id} todo={todo} />
+      ))}
     </section>
   );
 };

@@ -4,7 +4,6 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { UserInfo } from './components/UserInfo';
 
 export const App = () => {
   const [todos, setTodos] = useState([...todosFromServer]);
