@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import usersFromServer from '../../api/users';
+import { User } from '../../types/User';
 
 interface Props {
   onAddTodo: (title: string, userId: number) => void;
+  users: User[];
 }
 
-export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
+export const TodoForm: React.FC<Props> = ({ onAddTodo, users }) => {
   const [selectUserId, setSelectUserId] = useState(0);
   const [todoTitle, setTodoTitle] = useState('');
   const [hasErrorSelectUserId, setHasErrorSelectUserId] = useState(false);
@@ -63,7 +64,7 @@ export const TodoForm: React.FC<Props> = ({ onAddTodo }) => {
           <option value={0} disabled>
             Choose a user
           </option>
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>

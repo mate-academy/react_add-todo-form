@@ -25,8 +25,8 @@ export const App: React.FC = () => {
     const newTodo = {
       id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
-      userId,
       completed: false,
+      userId,
       user: getUser(userId),
     };
 
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onAddTodo={handleAddTodo} />
+      <TodoForm onAddTodo={handleAddTodo} users={users} />
       <TodoList todos={todos} users={users} />
     </div>
   );
