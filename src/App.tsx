@@ -48,6 +48,8 @@ export const App = () => {
       setTodosList(prev => [...prev, newTodo]);
       setTitleValue('');
       setSelectedUserId(0);
+      setHasTouchedTitleInput(false);
+      setHasTouchedUserInput(false);
     } else {
       setHasTouchedTitleInput(true);
       setHasTouchedUserInput(true);
