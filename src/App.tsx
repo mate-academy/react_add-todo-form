@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.scss';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Users } from './types/Users';
