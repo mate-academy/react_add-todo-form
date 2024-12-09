@@ -2,53 +2,53 @@ import React, { useState } from 'react';
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Users } from './types/Users';
-import { Todos } from './types/Todos';
+import { User } from './types/Users';
+import { Todo } from './types/Todos';
 import { TodoList } from './components/TodoList';
 
-function getUserById(userId: number): Users | null {
+function getUserById(userId: number): User | null {
   return usersFromServer.find(person => person.id === userId) || null;
 }
 
-const todos: Todos[] = todosFromServer.map(todo => {
-  const user = getUserById(todo.userId);
+const todo: Todo[] = todosFromServer.map(item => {
+  const user = getUserById(item.userId);
 
-  return { ...todo, user };
+  return { ...item, user };
 });
 
-function getNewTodoId(items: Todos[]) {
+function getNewTodoId(items: Todo[]) {
   const maxId = Math.max(...items.map(item => item.id));
 
   return maxId + 1;
 }
 
 export const App = () => {
-  const [todoses, setTodoses] = useState<Todos[]>(todos);
-  const [title, setTitle] = useState<string>('');
-  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
-  const [userId, setUserId] = useState<number>(0);
-  const [hasUserError, setHasUserError] = useState<boolean>(false);
+  const [todos, setTodos] = useState<Todo[]>(todo);
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [hasUserError, setHasUserError] = useState(false);
 
-  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const onUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserError(false);
   };
 
-  const onAdd = (newTodo: Todos) => {
+  const onAdd = (newTodo: Todo) => {
     const currentTodo = {
       ...newTodo,
-      id: getNewTodoId(todoses),
+      id: getNewTodoId(todos),
     };
 
-    setTodoses(currentTodos => [...currentTodos, currentTodo]);
+    setTodos(currentTodos => [...currentTodos, currentTodo]);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setTitle('');
     setUserId(0);
     setHasTitleError(false);
@@ -72,7 +72,7 @@ export const App = () => {
       user: getUserById(userId),
     });
 
-    reset();
+    handleReset();
   };
 
   return (
@@ -87,7 +87,7 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={onTitleChange}
+              onChange={handleTitleChange}
             />
           </label>
           {hasTitleError && <span className="error">Please enter a title</span>}
@@ -99,7 +99,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={onUserIdChange}
+              onChange={handleUserIdChange}
             >
               <option value="0" disabled>
                 Choose a user
@@ -120,7 +120,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todoses} />
+      <TodoList todos={todos} />
     </div>
   );
 };
