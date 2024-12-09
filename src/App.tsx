@@ -5,9 +5,12 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
+import { User } from './types/User';
+
+const users: User[] = [...usersFromServer];
 
 function getUser(userId: number) {
-  return usersFromServer.find(user => user.id === userId) || null;
+  return users.find(user => user.id === userId) || null;
 }
 
 const todosWithUser: Todo[] = todosFromServer.map(todo => ({
@@ -34,7 +37,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
       <TodoForm onAddTodo={handleAddTodo} />
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} users={users} />
     </div>
   );
 };
