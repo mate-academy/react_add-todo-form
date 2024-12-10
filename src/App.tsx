@@ -5,6 +5,8 @@ import todosFromServer from './api/todos';
 import { Todo } from './components/Types/Todo';
 import { getUserById } from './services/userService';
 import { useState } from 'react';
+import users from './api/users';
+
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
@@ -25,7 +27,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addPost} />
+      <TodoForm onSubmit={addPost} users={users} />
       <TodoList todos={todos} />
     </div>
   );
