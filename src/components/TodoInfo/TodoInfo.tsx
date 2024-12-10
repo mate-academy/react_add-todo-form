@@ -1,17 +1,23 @@
 import React from 'react';
-import { TodoList } from '../TodoList';
+import classNames from 'classnames';
 import { TodosWithUser } from '../../types/TodosWithUser';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todos: TodosWithUser[];
+  todo: TodosWithUser;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todos }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
-    <section className="TodoList">
-      {todos.map(todo => (
-        <TodoList todo={todo} key={todo.id} />
-      ))}
-    </section>
+    <article
+      data-id={todo.id}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': todo.completed,
+      })}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+
+      <UserInfo user={todo.user} />
+    </article>
   );
 };

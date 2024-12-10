@@ -18,26 +18,29 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     setHasTitleError(false);
   };
 
-  const [user, setUser] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState(false);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(+event.target.value);
+    setUserId(+event.target.value);
     setHasUserError(false);
   };
 
   const reset = () => {
     setTitle('');
-    setUser(0);
+    setUserId(0);
+
+    setHasTitleError(false);
+    setHasUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setHasTitleError(!title);
-    setHasUserError(!user);
+    setHasUserError(!userId);
 
-    if (!title || !user) {
+    if (!title || !userId) {
       return;
     }
 
@@ -71,7 +74,11 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
       <div className="field">
         <label>
           User:
-          <select data-cy="userSelect" value={user} onChange={handleUserChange}>
+          <select
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserChange}
+          >
             <option value="0" disabled>
               Choose a user
             </option>

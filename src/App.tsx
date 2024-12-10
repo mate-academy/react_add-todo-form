@@ -7,7 +7,7 @@ import { getUserById } from './services/user';
 import { TodosWithUser } from './types/TodosWithUser';
 
 import { TodoForm } from './components/TodoForm/TodoForm';
-import { TodoInfo } from './components/TodoInfo';
+import { TodoList } from './components/TodoList';
 
 export const todos: TodosWithUser[] = todosFromServer.map(todo => ({
   ...todo,
@@ -37,7 +37,7 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <TodoForm onSubmit={addTodo} />
-      <TodoInfo todos={todo} />
+      <TodoList todos={todo} />
     </div>
   );
 };
