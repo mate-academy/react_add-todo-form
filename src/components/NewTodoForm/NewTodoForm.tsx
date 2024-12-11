@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Todo, User } from '../../types';
-import { createNewId, getUserById } from '../../utils';
+import { createNewId, getUserById, removeInvalidCharacters } from '../../utils';
 
 type Props = {
   todos: Todo[];
@@ -30,7 +30,7 @@ export const NewTodoForm: React.FC<Props> = ({ todos, users, handleAdd }) => {
       setUserId(0);
       handleAdd({
         id: createNewId(todos),
-        title: title.trim(),
+        title: removeInvalidCharacters(title),
         completed: false,
         userId,
         user: getUserById(users, userId),

@@ -1,11 +1,9 @@
 import { Todo } from '../types';
 
 export function createNewId(todos: Todo[]) {
-  const arrayOfIds = todos.reduce((acc: number[], todo: Todo) => {
-    acc.push(todo.id);
+  const maxId = todos.reduce((acc: number, todo: Todo) => {
+    return Math.max(todo.id, acc);
+  }, 0);
 
-    return acc;
-  }, []);
-
-  return Math.max(...arrayOfIds) + 1;
+  return maxId + 1;
 }
