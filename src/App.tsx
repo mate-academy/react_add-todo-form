@@ -28,9 +28,11 @@ export const App = () => {
   const hasValidatedTitle = !titleValue && hasTouchedTitleInput;
   const hasValidatedUser = selectedUserId === 0 && hasTouchedUserInput;
   const findMaxId = (): number => {
-    return todosList.reduce((accumulator, current) =>
-      accumulator.id > current.id ? accumulator : current,
-    ).id;
+    return todosList.reduce(
+      (accumulator, current) =>
+        accumulator > current.id ? accumulator : current.id,
+      -1,
+    );
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -93,13 +95,7 @@ export const App = () => {
               Choose a user
             </option>
             {usersFromServer.map(user => (
-              <option
-                key={user.id}
-                value={user.id}
-                onSelect={() => {
-                  setSelectedUserId(user.id);
-                }}
-              >
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
