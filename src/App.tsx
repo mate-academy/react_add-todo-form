@@ -8,7 +8,6 @@ import { TodoList } from './components/TodoList';
 
 import { Todo } from './types/Todo';
 import { User } from './types/User';
-import users from './api/users';
 
 const getUserById = (usersArr: User[], userId: number) => {
   return usersArr.find(user => user.id === userId) || null;
@@ -57,7 +56,7 @@ export const App: React.FC = () => {
         id: maxId + 1,
         title,
         userId,
-        user: getUserById(users, userId),
+        user: getUserById(usersFromServer, userId),
         completed: false,
       };
 
