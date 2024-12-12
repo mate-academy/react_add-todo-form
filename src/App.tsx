@@ -18,15 +18,19 @@ export const App = () => {
 
   const [currentTodos, setCurrentTodos] = useState(todosFromServer);
 
-  const validateForm = (): Todo[] | void => {
+  const validateForm = (): void => {
     if (title.length === 0) {
       setTitleError(true);
     } else {
       setTitleError(false);
+
+      return;
     }
 
     if (selectedUser === 0) {
       setSelectedError(true);
+
+      return;
     } else {
       setSelectedError(false);
     }

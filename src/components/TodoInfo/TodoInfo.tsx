@@ -11,7 +11,6 @@ type TodoInfoProps = {
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo, user }) => {
   return (
     <article
-      key={todo.id}
       data-id="1"
       className={classNames('TodoInfo', {
         'TodoInfo--completed': todo.completed === true,
