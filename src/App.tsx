@@ -18,13 +18,13 @@ const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [listTodo, updateTodoList] = useState(todos);
+  const [todoList, setTodoList] = useState(todos);
 
   const addNewTodo = (title: string, userId: number): void => {
-    const id: number = Math.max(...listTodo.map(todo => todo.id), 0) + 1;
+    const id: number = Math.max(...todoList.map(todo => todo.id), 0) + 1;
 
-    updateTodoList([
-      ...listTodo,
+    setTodoList(prevTodoList => [
+      ...prevTodoList,
       { userId, id, title, user: getUserById(userId), completed: false },
     ]);
   };
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
       <AddToDoForm addTodo={addNewTodo} users={usersFromServer} />
-      <TodoList todoList={listTodo} />
+      <TodoList todoList={todoList} />
     </div>
   );
 };

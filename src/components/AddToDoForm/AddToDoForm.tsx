@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { User } from '../../types';
 
 type Props = {
@@ -6,12 +6,14 @@ type Props = {
   users: User[];
 };
 
+const titleValidation = new RegExp(/[^a-zA-Z0-9 ]/g); // Regex expression for title validation
+
 export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
   const [newTitle, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const [titleHasError, setTitleError] = useState(false);
-  const [userHasError, setUserError] = useState(false);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasUserError, setUserError] = useState(false);
 
   const resetForm = () => {
     setTitle('');
@@ -37,10 +39,21 @@ export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
     resetForm();
   };
 
-  const titleValidation = (title: string) => {
+  const validateTitle = (title: string) => {
     if (title) {
-      setTitle(title.replace(/[^a-zA-Z0-9 ]/g, '')); // I just didn't want to create a cycle for deleting characters
-    } // So I googled this expression
+      setTitle(title.replace(titleValidation, ''));
+    }
+  };
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    validateTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserError(false);
   };
 
   return (
@@ -54,13 +67,11 @@ export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
           data-cy="titleInput"
           value={newTitle}
           onChange={event => {
-            setTitle(event.target.value);
-            titleValidation(event.target.value);
-            setTitleError(false);
+            handleTitleChange(event);
           }}
         />
 
-        {titleHasError && <span className="error">Please enter a title</span>}
+        {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
@@ -70,8 +81,7 @@ export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
           data-cy="userSelect"
           value={userId}
           onChange={event => {
-            setUserId(+event.target.value);
-            setUserError(false);
+            handleUserChange(event);
           }}
         >
           <option value="0" disabled>
@@ -84,7 +94,7 @@ export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
           ))}
         </select>
 
-        {userHasError && <span className="error">Please choose a user</span>}
+        {hasUserError && <span className="error">Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
