@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import users from '../../api/users';
+import { User } from '../../types';
 
 type Props = {
   addTodo: (title: string, userId: number) => void;
+  users: User[];
 };
 
-export const AddToDoForm = (props: Props) => {
+export const AddToDoForm: React.FC<Props> = ({ addTodo, users }) => {
   const [newTitle, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
@@ -32,7 +33,7 @@ export const AddToDoForm = (props: Props) => {
       return;
     }
 
-    props.addTodo(newTitle, userId);
+    addTodo(newTitle, userId);
     resetForm();
   };
 
