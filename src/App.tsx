@@ -5,47 +5,71 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { User, Todo } from './types';
 
-const findUserId = (userId: number) =>
+const findUserById = (userId: number) =>
   usersFromServer.find(user => user.id === userId);
 
 const todosWithUser = todosFromServer.map(todo => ({
   ...todo,
-  user: findUserId(todo.userId),
+  user: findUserById(todo.userId),
 }));
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
-  const [titleError, setTitleError] = useState<boolean>(false);
-  const [userError, setUserError] = useState<boolean>(false);
+  const [isTitleError, setIsTitleError] = useState<boolean>(false);
+  const [isUserError, setIsUserError] = useState<boolean>(false);
+
+  const resetErrors = () => {
+    setIsTitleError(false);
+    setIsUserError(false);
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setUserId(0);
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    setIsTitleError(false);
+  };
+
+  const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(e.target.value));
+    setIsUserError(false);
+  };
+
+  const isFormValid = () => {
+    const hasTitle = title.trim();
+    const hasUser = userId !== 0;
+
+    if (!hasTitle) {
+      setIsTitleError(true);
+    }
+
+    if (!hasUser) {
+      setIsUserError(true);
+    }
+
+    return hasTitle && hasUser;
+  };
 
   const handleAddTodo = (event: FormEvent) => {
     event.preventDefault();
+    resetErrors();
 
-    setTitleError(false);
-    setUserError(false);
-
-    if (!title.trim()) {
-      setTitleError(true);
-    }
-
-    if (userId === 0) {
-      setUserError(true);
-    }
-
-    if (title.trim() && userId !== 0) {
+    if (isFormValid()) {
       const newTodo: Todo = {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title,
         completed: false,
-        user: findUserId(userId),
+        user: findUserById(userId),
         userId,
       };
 
-      setTodos([...todos, newTodo]);
-      setTitle('');
-      setUserId(0);
+      setTodos(prevTodos => [...prevTodos, newTodo]);
+      resetForm();
     }
   };
 
@@ -62,12 +86,9 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter TODO title"
             value={title}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setTitle(e.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
           />
-          {titleError && <span className="error">Please enter a title</span>}
+          {isTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -76,10 +97,7 @@ export const App: React.FC = () => {
             id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setUserId(Number(e.target.value));
-              setUserError(false);
-            }}
+            onChange={handleUserChange}
           >
             <option value="0" disabled>
               Choose a user
@@ -90,7 +108,7 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {userError && <span className="error">Please choose a user</span>}
+          {isUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
