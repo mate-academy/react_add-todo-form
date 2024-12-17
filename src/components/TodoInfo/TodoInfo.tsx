@@ -4,7 +4,6 @@ interface TodoInfoProps {
   id: number;
   title: string;
   completed: boolean;
-  userId: number;
   userEmail: string;
   userName: string;
 }

@@ -30,7 +30,6 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, users }) => (
           id={todo.id}
           title={todo.title}
           completed={todo.completed}
-          userId={todo.userId}
           userEmail={matchedUser?.email || ''}
           userName={matchedUser?.name || 'Unknown User'}
         />

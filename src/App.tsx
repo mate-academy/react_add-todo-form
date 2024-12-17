@@ -33,21 +33,25 @@ export const App = () => {
     const selectedUserId = parseInt(e.target.value, 10);
 
     setUserId(selectedUserId);
-    setUserError(selectedUserId === 0 ? 'Please choose a user' : '');
+    setUserError(
+      selectedUserId === null || selectedUserId === undefined
+        ? 'Please choose a user'
+        : '',
+    );
   };
 
   const handleAddTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim()) {
+    if (title.trim() === '') {
       setTitleError('Please enter a title');
+
+      return;
     }
 
-    if (!userId) {
+    if (userId === null || userId === undefined) {
       setUserError('Please choose a user');
-    }
 
-    if (!title.trim() || !userId) {
       return;
     }
 
@@ -61,8 +65,6 @@ export const App = () => {
     setTodos([...todos, newTodo]);
     setTitle('');
     setUserId(null);
-    setTitleError('');
-    setUserError('');
   };
 
   return (
