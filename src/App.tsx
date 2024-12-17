@@ -1,34 +1,20 @@
-import { useState, ChangeEvent, useEffect } from "react";
-import "./App.scss";
-import { TodoList } from "./components/TodoList";
-import { getUser, tasks } from "./helpers.tsx/helpers";
-import usersFromServer from "./api/users";
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-  } | null;
-}
+import { useState, ChangeEvent, useEffect } from 'react';
+import './App.scss';
+import { TodoList } from './components/TodoList';
+import { getUser, tasks } from './helpers.tsx/helpers';
+import usersFromServer from './api/users';
+import { Todo } from './Types/Todo';
 
 export const App = () => {
-  const [userId, setUserId] = useState("0");
-  const [taskDescription, setTaskDescription] = useState("");
+  const [userId, setUserId] = useState<number>(0);
+  const [taskDescription, setTaskDescription] = useState('');
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
-  const [todos, setTodos] = useState<Todo[] | []>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  useEffect(() => {
-    setTodos(tasks);
-  }, []);
+  const todoUser = usersFromServer.find(user => user.id === userId) || null;
 
-  let maxId = Math.max(...todos.map((o) => o.id)) + 1;
+  useEffect(() => setTodos(tasks), []);
 
   const users = usersFromServer;
 
@@ -38,14 +24,14 @@ export const App = () => {
   };
 
   const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+    setUserId(+event.target.value);
     setErrorUser(false); // Reset error when user starts typing again
   };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (taskDescription === "") {
-      if (userId === "0") {
+    if (taskDescription === '') {
+      if (userId === 0) {
         setErrorUser(true);
         setErrorTitle(true);
       } else {
@@ -55,11 +41,13 @@ export const App = () => {
       return;
     }
 
-    if (userId === "0") {
+    if (userId === 0) {
       setErrorUser(true);
 
       return;
     }
+
+    let maxId = Math.max(...todos.map(o => o.id)) + 1;
 
     const newTask = {
       id: maxId,
@@ -70,8 +58,8 @@ export const App = () => {
     };
 
     setTodos([...todos, newTask]);
-    setTaskDescription("");
-    setUserId("0");
+    setTaskDescription('');
+    setUserId(0);
     maxId += 1;
   };
 
@@ -82,7 +70,7 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="titleInput">
-            {"Title: "}
+            {'Title: '}
             <input
               id="titleInput"
               value={taskDescription}
@@ -97,7 +85,7 @@ export const App = () => {
 
         <div className="field">
           <label htmlFor="userSelect">
-            {"User: "}
+            {'User: '}
             <select
               id="userSelect"
               data-cy="userSelect"
@@ -107,8 +95,12 @@ export const App = () => {
               <option value="0" disabled>
                 Choose a user
               </option>
-              {users.map((user) => {
-                return <option value={user.id}>{user.name}</option>;
+              {users.map(user => {
+                return (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                );
               })}
             </select>
           </label>
@@ -119,7 +111,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} />
+      <TodoList todos={todos} todoUser={todoUser} />
     </div>
   );
 };

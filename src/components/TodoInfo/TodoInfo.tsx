@@ -1,26 +1,27 @@
-import classNames from "classnames";
-import { UserInfo } from "../UserInfo";
-import { Todo } from "../../Types/Todo";
-import "./TodoInfo.scss";
-import usersFromServer from "../../api/users";
+import classNames from 'classnames';
+import { UserInfo } from '../UserInfo';
+import { Todo } from '../../Types/Todo';
+import './TodoInfo.scss';
+import { User } from '../../Types/User';
 
 type Props = {
   todo: Todo;
+  todoUser: User | null;
 };
 
 export const TodoInfo: React.FC<Props> = ({
-  todo: { id, title, completed, userId },
+  todo: { id, title, completed, user },
 }) => {
-  const todoUser = usersFromServer.find((user) => user.id === userId) || null;
+  // const todoUser = usersFromServer.find(user => user.id === userId) || null;
 
   return (
     <article
       data-id={id}
       key={id}
-      className={classNames("TodoInfo", { "TodoInfo--completed": completed })}
+      className={classNames('TodoInfo', { 'TodoInfo--completed': completed })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      {todoUser && <UserInfo user={todoUser} />}
+      {user && <UserInfo user={user} />}
     </article>
   );
 };
