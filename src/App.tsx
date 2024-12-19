@@ -1,61 +1,102 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import { TodoForm } from './components/TodoForm/TodoForm';
 import './App.scss';
+import { getMaxId } from './services/todos';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types';
+import todosFromServer from './api/todos';
+import { getUserBy } from './utils/getUserBy';
+const preparedTodos = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: getUserBy(todo),
+  };
+});
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+type Props = {
+  todos: Todo[];
+};
+export const App: React.FC<Props> = () => {
+  // #region query
+  const [query, setQuery] = useState('');
 
-export const App = () => {
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  // #endregion
+  const [todos, setTodos] = useState(preparedTodos);
+  const filteredTodos = useMemo(() => {
+    return todos.filter(todo => todo.title.includes(query));
+  }, [query, todos]);
+
+  const addTodo = useCallback((todo: Todo) => {
+    setTodos(currentTodos => {
+      const newTodo = {
+        ...todo,
+        id: getMaxId(currentTodos) + 1,
+      };
+
+      return [...currentTodos, newTodo];
+    });
+  }, []);
+
+  const deleteTodo = useCallback((todoId: number) => {
+    setTodos(currentTodos => currentTodos.filter(todo => todo.id !== todoId));
+  }, []);
+
+  const updateTodo = useCallback((updatedTodo: Todo) => {
+    setTodos(currentTodos => {
+      const newTodos = [...currentTodos];
+      const index = newTodos.findIndex(todo => todo.id === updatedTodo.id);
+
+      newTodos.splice(index, 1, updatedTodo);
+
+      return newTodos;
+    });
+  }, []);
+
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+      <div className="section py-5">
+        <div className="columns is-mobile">
+          <div className="column">
+            <h1 className="title">Todos</h1>
+            <div className="column">
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search todo"
+                className="input is-rounded"
+                value={query}
+                onChange={handleQueryChange}
+              />
+              <section className="TodoList">
+                <TodoList
+                  todos={filteredTodos}
+                  selectedTodoId={selectedTodo?.id}
+                  onDelete={deleteTodo}
+                  onSelect={setSelectedTodo}
+                />
+              </section>
+            </div>
+          </div>
         </div>
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+        {selectedTodo ? (
+          <TodoForm
+            key={selectedTodo.id}
+            todo={selectedTodo}
+            onSubmit={updateTodo}
+            onReset={() => setSelectedTodo(null)}
+          />
+        ) : (
+          <TodoForm onSubmit={addTodo} />
+        )}
+      </div>
     </div>
   );
 };
