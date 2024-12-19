@@ -14,22 +14,40 @@ export const NewTodo: React.FC<Props> = ({ onAdd, users, max }) => {
   const [id, setId] = useState(max);
   const [completed, setCompleted] = useState(false);
 
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
+
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setHasTitleError(false);
   };
 
   const onUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
+    setHasUserError(false);
+  };
+
+  const newTodo: Todo = {
+    id: max + 1,
+    title: title,
+    userId: userId,
+    completed: completed,
   };
 
   const add = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newTodo: Todo = {
-      id: max + 1,
-      title: title,
-      userId: userId,
-      completed: completed,
-    };
+
+    if (!newTodo.title) {
+      setHasTitleError(true);
+    }
+
+    if (newTodo.userId === 0) {
+      setHasUserError(true);
+    }
+
+    if (!newTodo.title || newTodo.userId === 0) {
+      return;
+    }
 
     onAdd(newTodo);
 
@@ -47,17 +65,18 @@ export const NewTodo: React.FC<Props> = ({ onAdd, users, max }) => {
         <input
           type="text"
           data-cy="titleInput"
+          placeholder="Enter title"
           value={title}
           onChange={onTitleChange}
         />
-        <span className="error">Please enter a title</span>
+        {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
         <label>
           User:
           <select data-cy="userSelect" value={userId} onChange={onUserIdChange}>
-            <option defaultValue="0" disabled>
+            <option value="0" disabled>
               Choose a user
             </option>
             {users.map(person => (
@@ -66,7 +85,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd, users, max }) => {
               </option>
             ))}
           </select>
-          {<span className="error">Please choose a user</span>}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </label>
       </div>
 
