@@ -18,7 +18,7 @@ export const App = () => {
   const todosWithUser: Todo[] = todos.map(todo => {
     const user = usersFromServer.find(person => person.id === todo.userId);
 
-    return { ...todo, foundedUser: user };
+    return { ...todo, user };
   });
 
   const arrayTodosId = todosWithUser.map(todo => todo.id);
