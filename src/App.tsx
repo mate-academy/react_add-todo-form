@@ -9,7 +9,7 @@ import { Todo } from './types/types';
 const initialTodos: Todo[] = todosFromServer;
 
 function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
+  const maxId = Math.max(0, ...todos.map(todo => todo.id));
 
   return maxId + 1;
 }
@@ -77,9 +77,7 @@ export const App = () => {
             value={title}
             onChange={handleTitle}
           />
-          {hasTitleError && (
-            <span className="error">Please enter a title{title}</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
