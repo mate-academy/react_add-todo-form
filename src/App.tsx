@@ -31,7 +31,7 @@ export const App: React.FC = () => {
       <FormPost
         onSubmit={addPosts}
         users={usersFromServer}
-        heighestId={highestId}
+        highestId={highestId}
       />
       <TodoList todos={todos} />
     </div>

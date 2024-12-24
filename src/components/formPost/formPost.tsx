@@ -18,10 +18,10 @@ type ToDo = {
 type Props = {
   onSubmit: (newAdd: ToDo) => void;
   users: User[];
-  heighestId: number;
+  highestId: number;
 };
 
-export const FormPost: React.FC<Props> = ({ onSubmit, users, heighestId }) => {
+export const FormPost: React.FC<Props> = ({ onSubmit, users, highestId }) => {
   const [value, setValue] = useState<string>('');
   const [touch, setTouch] = useState<boolean>(false);
   const [touchSelect, setTouchSelect] = useState<boolean>(false);
@@ -52,14 +52,12 @@ export const FormPost: React.FC<Props> = ({ onSubmit, users, heighestId }) => {
     if (select && value) {
       const foundUser: User | null =
         users.find(user => user.name === select) || null;
-      const userId: User | null =
-        users.find(user => user.name === select) || null;
 
       onSubmit({
-        id: heighestId + 1,
+        id: highestId + 1,
         title: value,
         completed: false,
-        userId: userId && userId.id,
+        userId: foundUser && foundUser.id,
         user: foundUser,
       });
 
@@ -98,9 +96,9 @@ export const FormPost: React.FC<Props> = ({ onSubmit, users, heighestId }) => {
           <option value="" disabled>
             Choose a user
           </option>
-          {users.map((user, indx) => {
+          {users.map(user => {
             return (
-              <option value={user.name} key={indx}>
+              <option value={user.name} key={user.id}>
                 {user.name}
               </option>
             );
