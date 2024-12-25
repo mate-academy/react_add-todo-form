@@ -37,7 +37,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       return;
     }
 
-    if (!title || !userId) {
+    if (!userId) {
       return;
     }
 
