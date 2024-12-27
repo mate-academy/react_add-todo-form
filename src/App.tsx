@@ -35,7 +35,7 @@ export const App = () => {
 
   const handleErrors = () => {
     const hasErrors = {
-      isTitleValid: !!title.trim(),
+      isTitleValid: title.trim().length > 0,
       isUserSelected: userId !== 0,
     };
 

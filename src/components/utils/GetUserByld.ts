@@ -8,6 +8,12 @@ const anonymousUser: User = {
   email: 'anonymous@unknown.com',
 };
 
-export function getUserById(id: number): User {
-  return usersFromServer.find(user => user.id === id) || anonymousUser;
+export function getUserById(id: number): User | undefined {
+  const foundUser = usersFromServer.find(u => u.id === id);
+  /* eslint-disable no-console */
+
+  console.warn(`User with ID ${id} not found. Returning anonymous user.`);
+  /* eslint-enable no-console */
+
+  return foundUser || anonymousUser;
 }
