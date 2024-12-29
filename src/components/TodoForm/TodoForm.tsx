@@ -170,7 +170,9 @@ export const TodoForm: React.FC<Props> = ({
               value={userId}
               onChange={handleUserIdChange}
             >
-              <option value="0">Select a user</option>
+              <option value="0" disabled>
+                Choose a user
+              </option>
 
               {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { UserInfo } from '../UserInfo';
+
 import classNames from 'classnames';
 import { Props } from './Props';
 export const TodoList: React.FC<Props> = React.memo(function TodoList({
@@ -35,8 +35,6 @@ export const TodoList: React.FC<Props> = React.memo(function TodoList({
                 <td>{todo.id}</td>
 
                 <TodoInfo todo={todo} />
-
-                <td>{todo.user && <UserInfo user={todo.user} />}</td>
 
                 <td>
                   <button
