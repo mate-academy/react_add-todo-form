@@ -2,13 +2,15 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { Todo } from '../../types/Todo';
-import { getAllUsers, getUserById } from '../../services/user';
+import { getUserById } from '../../services/user';
+import usersFromServer from '../../api/users';
 // #endregion
 
 type Props = {
   onSubmit: (todo: Todo) => void;
   onReset?: () => void;
   todo?: Todo;
+  body: string;
 };
 
 export const TodoForm: React.FC<Props> = ({
@@ -89,10 +91,10 @@ export const TodoForm: React.FC<Props> = ({
     onSubmit({
       id: todo?.id || 0,
       title,
-      body,
       userId,
       user: getUserById(userId),
       completed: false,
+      body,
     });
 
     reset();
@@ -170,7 +172,7 @@ export const TodoForm: React.FC<Props> = ({
             >
               <option value="0">Select a user</option>
 
-              {getAllUsers().map(user => (
+              {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>

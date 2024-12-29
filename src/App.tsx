@@ -6,6 +6,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types';
 import todosFromServer from './api/todos';
 import { getUserBy } from './utils/getUserBy';
+import { Props } from './components/TodoList/Props';
 const preparedTodos = todosFromServer.map(todo => {
   return {
     ...todo,
@@ -13,9 +14,6 @@ const preparedTodos = todosFromServer.map(todo => {
   };
 });
 
-type Props = {
-  todos: Todo[];
-};
 export const App: React.FC<Props> = () => {
   // #region query
   const [query, setQuery] = useState('');
@@ -30,16 +28,19 @@ export const App: React.FC<Props> = () => {
     return todos.filter(todo => todo.title.includes(query));
   }, [query, todos]);
 
-  const addTodo = useCallback((todo: Todo) => {
-    setTodos(currentTodos => {
-      const newTodo = {
-        ...todo,
-        id: getMaxId(currentTodos) + 1,
-      };
+  const addTodo = useCallback(
+    (todo: Todo) => {
+      setTodos(currentTodos => {
+        const newTodo = {
+          ...todo,
+          id: getMaxId(currentTodos) + 1,
+        };
 
-      return [...currentTodos, newTodo];
-    });
-  }, []);
+        return [...todos, newTodo];
+      });
+    },
+    [todos],
+  );
 
   const deleteTodo = useCallback((todoId: number) => {
     setTodos(currentTodos => currentTodos.filter(todo => todo.id !== todoId));
@@ -47,12 +48,16 @@ export const App: React.FC<Props> = () => {
 
   const updateTodo = useCallback((updatedTodo: Todo) => {
     setTodos(currentTodos => {
-      const newTodos = [...currentTodos];
-      const index = newTodos.findIndex(todo => todo.id === updatedTodo.id);
+      //const newTodos = [...currentTodos];
+      const index = currentTodos.findIndex(todo => todo.id === updatedTodo.id);
 
-      newTodos.splice(index, 1, updatedTodo);
+      if (index === -1) {
+        return;
+      }
 
-      return newTodos;
+      currentTodos.splice(index, 1, updatedTodo);
+
+      return currentTodos;
     });
   }, []);
 
@@ -92,9 +97,10 @@ export const App: React.FC<Props> = () => {
             todo={selectedTodo}
             onSubmit={updateTodo}
             onReset={() => setSelectedTodo(null)}
+            body={''}
           />
         ) : (
-          <TodoForm onSubmit={addTodo} />
+          <TodoForm onSubmit={addTodo} body={''} />
         )}
       </div>
     </div>

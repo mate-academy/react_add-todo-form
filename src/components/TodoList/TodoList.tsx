@@ -24,7 +24,7 @@ export const TodoList: React.FC<Props> = React.memo(function TodoList({
           </thead>
 
           <tbody>
-            {todos.map(todo => (
+            {todos?.map(todo => (
               <tr
                 key={todo.id}
                 data-id={todo.id}
@@ -36,7 +36,7 @@ export const TodoList: React.FC<Props> = React.memo(function TodoList({
 
                 <TodoInfo todo={todo} />
 
-                {false && <td>{todo.user && <UserInfo user={todo.user} />}</td>}
+                <td>{todo.user && <UserInfo user={todo.user} />}</td>
 
                 <td>
                   <button

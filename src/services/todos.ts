@@ -9,6 +9,6 @@ export function getPreparedTodos() {
   }));
 }
 
-export function getMaxId(todos: Todo[]) {
-  return Math.max(...todos.map(todo => todo.id));
+export function getMaxId(todos: Todo[]): number {
+  return Math.max(...todos.map(todo => todo.id), 0);
 }
