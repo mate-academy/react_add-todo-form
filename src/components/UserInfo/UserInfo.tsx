@@ -1,5 +1,4 @@
 import React from "react";
-import users from "../../api/users";
 import { user } from "../types";
 
 type Props = {

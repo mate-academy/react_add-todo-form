@@ -1,7 +1,5 @@
 import React from "react";
-import users from "../../api/users";
-
-import { todo, user } from "../types";
+import { todo} from "../types";
 import classNames from "classnames";
 import { UserInfo } from "../UserInfo";
 
