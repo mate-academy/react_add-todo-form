@@ -9,10 +9,16 @@ import { User } from './types';
 
 const normalizeTodos = (todos: Todo[], users: User[]): (Todo & { user: User })[] => {
   return todos.map(todo => {
-    const user = users.find(u => u.id === todo.userId);
-    return { ...todo, user: user! }; // Додаємо поле user
+    const user = users.find(u => u.id === todo.userId) || {
+      id: 0,
+      name: 'Unknown User',
+      username: 'unknown',
+      email: 'unknown@example.com',
+    };
+    return { ...todo, user };
   });
 };
+
 
 
 export const App = () => {
@@ -46,14 +52,22 @@ export const App = () => {
       return;
     }
 
-    const biggestID = Math.max(...todos.map(el => el.id));
+    const newUser = 
+    usersFromServer.find(u => u.id === Number(user)) || {
+      id: 0,
+      name: 'Unknown User',
+      username: 'unknown',
+      email: 'unknown@example.com',
+    };
+
+    const biggestID = todos.length >= 1 ? Math.max(...todos.map(el => el.id)) : 1;
 
     const newTodo: Todo & { user: User } = {
       id: biggestID + 1,
       title: text,
       completed: false,
       userId: Number(user),
-      user: usersFromServer.find(u => u.id === Number(user))!, // Додаємо поле user
+      user: newUser,
     };
 
     setTodos([...todos, newTodo]);
