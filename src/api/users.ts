@@ -59,4 +59,10 @@ export default [
     username: 'Moriah.Stanton',
     email: 'Rey.Padberg@karina.biz',
   },
+  {
+    id: 11,
+    name: 'Mykola Stesiuk',
+    username: 'Mykola.Stesiuk',
+    email: 'mikalaj.krutak@gmail.com',
+  },
 ];
