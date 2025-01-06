@@ -1,22 +1,11 @@
 import React from 'react';
-import usersFromServer from '../../api/users';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
+import { User } from '../../types/User';
 
 type UserInfoProps = {
-  userId: number;
+  user: User;
 };
 
-export const UserInfo: React.FC<UserInfoProps> = ({ userId }) => {
-  const user = usersFromServer.find(
-    (findedUser: User) => findedUser.id === userId,
-  );
-
+export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
     <>
       {user && (

@@ -1,12 +1,14 @@
 import React from 'react';
 import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
+import { User } from '../../types/User';
 
 type TodoInfoProps = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
+  user: User;
 };
 
 export const TodoInfo: React.FC<TodoInfoProps> = todo => {
@@ -17,7 +19,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = todo => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo userId={todo.userId} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };
