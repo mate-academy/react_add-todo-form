@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 import { Todos } from './types/Todos';
 import { getUserById } from './services/user';
@@ -20,6 +21,7 @@ const getNewTodoId = (todos: Todos[]) => {
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodos);
+  const [users] = useState(usersFromServer);
 
   const addTodo = ({ id, ...data }: Todos) => {
     const newTodo = {
@@ -33,7 +35,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm users={users} onSubmit={addTodo} />
       <TodoList todos={todos} />
     </div>
   );
