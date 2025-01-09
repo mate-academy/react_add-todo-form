@@ -36,11 +36,11 @@ export const App = () => {
     event.preventDefault();
 
     if (!title) {
-      setHasTitleError('Write a title');
+      setHasTitleError('Please enter a title');
     }
 
     if (!selectedUserId) {
-      setHasUserError('Choose some User');
+      setHasUserError('Please choose a user');
     }
 
     if (!title || !selectedUserId) {

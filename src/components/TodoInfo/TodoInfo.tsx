@@ -2,13 +2,6 @@ import classNames from 'classnames';
 import React from 'react';
 import { UserInfo } from '../UserInfo';
 
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
-
 type User = {
   id: number;
   name: string;
@@ -16,12 +9,19 @@ type User = {
   email: string;
 };
 
-type Props = {
-  todo: Todo;
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
   user: User;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+type Props = {
+  todo: Todo;
+};
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -30,7 +30,7 @@ export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
       })}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <UserInfo user={user} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };
