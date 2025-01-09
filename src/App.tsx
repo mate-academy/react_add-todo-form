@@ -5,13 +5,22 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { getHigherId } from './serveses/todos';
+import { getUserById } from './serveses/user';
 
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
+import { User } from './serveses/types';
+
+const completedTodos = todosFromServer.map(todo => {
+  const user = getUserById(usersFromServer, todo.userId);
+
+  if (user) {
+    return {
+      ...todo,
+      user,
+    };
+  }
+
+  return todo;
+});
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -20,7 +29,7 @@ export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [hasUserError, setHasUserError] = useState('');
 
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(completedTodos);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -48,11 +57,14 @@ export const App = () => {
     }
 
     setTodos(currentTodos => {
+      const user = getUserById(usersFromServer, selectedUserId);
+
       const todo = {
         id: getHigherId(todos),
         title,
         completed: false,
         userId: +selectedUserId,
+        user,
       };
 
       return [...currentTodos, todo];
@@ -108,7 +120,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };

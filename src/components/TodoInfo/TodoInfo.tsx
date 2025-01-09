@@ -1,21 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { UserInfo } from '../UserInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import { Todo } from '../../serveses/types';
 
 type Props = {
   todo: Todo;
