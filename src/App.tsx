@@ -12,14 +12,10 @@ import { User } from './serveses/types';
 const completedTodos = todosFromServer.map(todo => {
   const user = getUserById(usersFromServer, todo.userId);
 
-  if (user) {
-    return {
-      ...todo,
-      user,
-    };
-  }
-
-  return todo;
+  return {
+    ...todo,
+    user,
+  };
 });
 
 export const App = () => {
