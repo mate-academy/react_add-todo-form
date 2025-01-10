@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
@@ -10,7 +10,7 @@ import { User } from './type/user';
 // import todosFromServer from './api/todos';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer as Todo[]);
+  const [todos, setTodos] = useState([] as Todo[]);
   const [todoTitle, setTodoTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const users: User[] = usersFromServer;
@@ -48,11 +48,23 @@ export const App = () => {
       title: todoTitle,
       completed: false,
       userId: userId,
+      user: users.find(el => el.id === userId),
     };
 
     setTodos([...todos, newTodo]);
     clearState();
   };
+
+  useEffect(() => {
+    const prepareTodos = todosFromServer.map(user => {
+      return {
+        ...user,
+        user: users.find(el => el.id === user.userId),
+      };
+    });
+
+    setTodos(prepareTodos);
+  }, [users]);
 
   return (
     <div className="App">

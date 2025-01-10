@@ -1,5 +1,4 @@
 import { Todo } from '../../type/todo';
-import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
 import classNames from 'classnames';
 
@@ -8,9 +7,7 @@ interface Props {
 }
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { id, title, completed, userId } = todo;
-
-  const user = usersFromServer.find(el => el.id === userId);
+  const { id, title, completed, user } = todo;
 
   return (
     <article
