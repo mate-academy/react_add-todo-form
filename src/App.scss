@@ -12,6 +12,8 @@ button {
 }
 
 .error {
+  margin: 0;
+  padding: 0;
   color: red;
 }
 
@@ -36,4 +38,11 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+.field {
+  padding-bottom: 10px;
+
+  &__title {
+    margin-right: 4px;
+  }
 }
