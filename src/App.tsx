@@ -44,7 +44,7 @@ export const App = () => {
     const ids = todos.map(el => el.id);
 
     const newTodo = {
-      id: Math.max(...ids) + 1,
+      id: ids ? Math.max(...ids) + 1 : 1,
       title: todoTitle,
       completed: false,
       userId: userId,
