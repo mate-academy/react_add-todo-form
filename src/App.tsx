@@ -21,7 +21,7 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState([...initialTodos]);
+  const [todos, setTodos] = useState(initialTodos);
 
   const onSubmit = ({ id, ...todo }: Todo) => {
     const newId = Math.max(...todos.map(t => t.id)) + 1;

@@ -56,7 +56,7 @@ export const Form: React.FC<Props> = ({ users, onSubmit }) => {
   };
 
   return (
-    <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <input
           type="text"
@@ -75,9 +75,9 @@ export const Form: React.FC<Props> = ({ users, onSubmit }) => {
             Choose a user
           </option>
 
-          {users.map(u => (
-            <option value={u.id} key={u.id}>
-              {u.name}
+          {users.map(innerUser => (
+            <option value={innerUser.id} key={innerUser.id}>
+              {innerUser.name}
             </option>
           ))}
         </select>
