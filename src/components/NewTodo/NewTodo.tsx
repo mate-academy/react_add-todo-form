@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 
+import { User } from '../types/User';
 import { Todo } from '../types/Todo';
-import usersFromServer from '../../api/users';
-import todosFromServer from '../../api/todos';
+
 import { getUserById } from '../../services/user';
 
 type Props = {
   addTodo: (todo: Todo) => void;
+  usersFromServer: User[];
+  getNewTodoId: () => number;
 };
 
-export const NewTodo: React.FC<Props> = ({ addTodo }) => {
+export const NewTodo: React.FC<Props> = ({
+  addTodo,
+  usersFromServer,
+  getNewTodoId,
+}) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -28,18 +34,18 @@ export const NewTodo: React.FC<Props> = ({ addTodo }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const trimmedTitle = title.trim();
+
+    setHasTitleError(!trimmedTitle);
     setHasUserIdError(!userId);
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
-    const newId = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
-
     addTodo({
-      id: newId,
-      title,
+      id: getNewTodoId(),
+      title: trimmedTitle,
       userId,
       completed: false,
       user: getUserById(userId),

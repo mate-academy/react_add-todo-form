@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 
 import { Todo } from './components/types/Todo';
 import { TodoList } from './components/TodoList';
@@ -20,11 +21,19 @@ export const App: React.FC = () => {
     setCurrentTodos(allTodos => [...allTodos, newTodo]);
   };
 
+  const getNewTodoId = (allTodos: Todo[]) =>
+    Math.max(...allTodos.map(todo => todo.id)) + 1;
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <NewTodo addTodo={addTodo} />
+      <NewTodo
+        addTodo={addTodo}
+        usersFromServer={usersFromServer}
+        getNewTodoId={() => getNewTodoId(todos)}
+      />
+
       <TodoList todos={currentTodos} />
     </div>
   );
