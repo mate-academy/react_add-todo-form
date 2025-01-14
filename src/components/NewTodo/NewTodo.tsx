@@ -8,14 +8,9 @@ import { getUserById } from '../../services/user';
 type Props = {
   addTodo: (todo: Todo) => void;
   usersFromServer: User[];
-  getNewTodoId: () => number;
 };
 
-export const NewTodo: React.FC<Props> = ({
-  addTodo,
-  usersFromServer,
-  getNewTodoId,
-}) => {
+export const NewTodo: React.FC<Props> = ({ addTodo, usersFromServer }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -44,7 +39,7 @@ export const NewTodo: React.FC<Props> = ({
     }
 
     addTodo({
-      id: getNewTodoId(),
+      id: 0,
       title: trimmedTitle,
       userId,
       completed: false,
