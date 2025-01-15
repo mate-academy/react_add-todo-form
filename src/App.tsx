@@ -1,27 +1,121 @@
 import './App.scss';
+import { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { User } from './components/types/User';
+import { Todo } from './components/types/Todo';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+const newTodos: Todo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
-export const App = () => {
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>(newTodos);
+  const [title, setTitle] = useState('');
+  const [titleTouched, setTitleTouched] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [user, setUser] = useState('');
+  const [userTouched, setUserTouched] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [users] = useState<User[]>(usersFromServer);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(/[^a-zA-Z0-9\s]/g, ''));
+    if (event.target.value.trim() !== '') {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedUserId = event.target.value;
+
+    setUser(selectedUserId);
+    if (selectedUserId !== '') {
+      setUserError(false);
+    }
+  };
+
+  const handleAddTodo = (event: React.FormEvent) => {
+    event.preventDefault();
+    setTitleTouched(true);
+    setUserTouched(true);
+    let isValid = true;
+
+    if (!title.trim()) {
+      setTitleError(true);
+      isValid = false;
+    }
+
+    if (user === '') {
+      setUserError(true);
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: Math.max(...todos.map(todo => todo.id), 0) + 1,
+      title: title.trim(),
+      userId: Number(user),
+      completed: false,
+      user: users.find(u => u.id === Number(user)) || null,
+    };
+
+    setTodos([...todos, newTodo]);
+    setTitle('');
+    setUser('');
+    setTitleTouched(false);
+    setUserTouched(false);
+    setTitleError(false);
+    setUserError(false);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form onSubmit={handleAddTodo}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="titleInput">Title:</label>
+          <input
+            id="titleInput"
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter title"
+            value={title}
+            onChange={handleTitleChange}
+            onBlur={() => setTitleTouched(true)}
+          />
+          {titleError && titleTouched && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
+          <label htmlFor="userSelect">User:</label>
+          <select
+            id="userSelect"
+            data-cy="userSelect"
+            value={user}
+            onChange={handleUserChange}
+            onBlur={() => setUserTouched(true)}
+          >
+            <option value="" disabled>
               Choose a user
             </option>
+            {users.map(userFromServer => (
+              <option key={userFromServer.id} value={userFromServer.id}>
+                {userFromServer.name}
+              </option>
+            ))}
           </select>
-
-          <span className="error">Please choose a user</span>
+          {userError && userTouched && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -29,33 +123,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
