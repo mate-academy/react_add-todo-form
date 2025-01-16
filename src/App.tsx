@@ -1,7 +1,28 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoWithUser } from './App.types';
+import { TodoList } from './components/TodoList';
+
+const todos: TodoWithUser[] = todosFromServer
+  .map(todo => {
+    if (!todo) {
+      return null;
+    }
+
+    const user = usersFromServer.find(userInfo => userInfo.id === todo.userId);
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...todo,
+      user,
+    };
+  })
+  .filter((todo): todo is TodoWithUser => todo !== null);
 
 export const App = () => {
   return (
@@ -29,33 +50,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
