@@ -12,7 +12,7 @@ export const TodoInfo = ({ todo }: Props) => {
 
   return (
     <article
-      data-id="1"
+      data-id={todo.id}
       className={classNames('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
