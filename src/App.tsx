@@ -2,27 +2,19 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser } from './App.types';
+import { TodoWithUser, User } from './App.types';
 import { TodoList } from './components/TodoList';
 
-const todos: TodoWithUser[] = todosFromServer
-  .map(todo => {
-    if (!todo) {
-      return null;
-    }
+const todos: TodoWithUser[] = todosFromServer.map((todo): TodoWithUser => {
+  const user = usersFromServer.find(
+    userInfo => userInfo.id === todo.userId,
+  ) as User;
 
-    const user = usersFromServer.find(userInfo => userInfo.id === todo.userId);
-
-    if (!user) {
-      return null;
-    }
-
-    return {
-      ...todo,
-      user,
-    };
-  })
-  .filter((todo): todo is TodoWithUser => todo !== null);
+  return {
+    ...todo,
+    user,
+  };
+});
 
 export const App = () => {
   return (
