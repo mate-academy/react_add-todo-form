@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { TodoWithUser } from '../../App.types';
 import './TodoInfo.scss';
+import { UserInfo } from '../UserInfo';
 
 interface Props {
   todo: TodoWithUser;
@@ -8,7 +9,6 @@ interface Props {
 
 export const TodoInfo = ({ todo }: Props) => {
   const { title, user, completed } = todo;
-  const { name, email } = user;
 
   return (
     <article
@@ -19,9 +19,7 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <a className="UserInfo" href={email}>
-        {name}
-      </a>
+      <UserInfo user={user} />
     </article>
   );
 };
