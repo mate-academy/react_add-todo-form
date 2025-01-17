@@ -17,6 +17,9 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map(
   },
 );
 const defaultUserId = '0';
+const titleRegexp = /^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ0-9\s]*$/;
+
+const validateTitle = (title: string): boolean => titleRegexp.test(title);
 
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>([...todosWithUser]);
@@ -25,6 +28,10 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
   const isNotSelectedUser = userId === defaultUserId;
+  const hasForbiddenSymbolsInTitle = !validateTitle(title);
+  const titleErrorMessage = hasForbiddenSymbolsInTitle
+    ? 'Title contains special symbols'
+    : 'Please enter a title';
 
   const clearForm = () => {
     setTitle('');
@@ -35,7 +42,7 @@ export const App = () => {
     event: React.FormEvent<HTMLFormElement>,
   ): null | void => {
     event.preventDefault();
-    if (!title) {
+    if (!title || hasForbiddenSymbolsInTitle) {
       setHasTitleError(true);
     }
 
@@ -82,7 +89,7 @@ export const App = () => {
               setHasTitleError(false);
             }}
           />
-          {hasTitleError && <span className="error">Please enter a title</span>}
+          {hasTitleError && <span className="error">{titleErrorMessage}</span>}
         </div>
 
         <div className="field">
