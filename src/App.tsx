@@ -30,7 +30,7 @@ export const App = () => {
     setUserName(defaultOptionIndex);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): null => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title) {
       setHasTitleError(true);
