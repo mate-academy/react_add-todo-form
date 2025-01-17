@@ -16,40 +16,42 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map(
     };
   },
 );
-const defaultOptionIndex = '0';
+const defaultUserId = '0';
 
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>([...todosWithUser]);
   const [title, setTitle] = useState('');
-  const [userName, setUserName] = useState(defaultOptionIndex);
+  const [userId, setUserId] = useState(defaultUserId);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
   const clearForm = () => {
     setTitle('');
-    setUserName(defaultOptionIndex);
+    setUserId(defaultUserId);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>,
+  ): null | void => {
     event.preventDefault();
     if (!title) {
       setHasTitleError(true);
     }
 
-    if (userName === defaultOptionIndex) {
+    if (userId === defaultUserId) {
       setHasUserError(true);
     }
 
-    if (title && userName !== defaultOptionIndex) {
+    if (title || userId !== defaultUserId) {
+      const user = usersFromServer.find(({ id }) => id === +userId) as User;
+      const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+
       const newTodo: TodoWithUser = {
-        userId: usersFromServer.find(user => user.name === userName)
-          ?.id as number,
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        userId: +userId,
+        id: newId,
         title,
         completed: false,
-        user: usersFromServer.find(
-          user => user.id === Number(userName),
-        ) as User,
+        user,
       };
 
       setTodos([...todos, newTodo]);
@@ -85,13 +87,13 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={userName}
+            value={userId}
             onChange={event => {
-              setUserName(event.target.value);
+              setUserId(event.target.value);
               setHasUserError(false);
             }}
           >
-            <option value={defaultOptionIndex} disabled>
+            <option value={defaultUserId} disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => {
