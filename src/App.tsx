@@ -24,6 +24,7 @@ export const App = () => {
   const [userId, setUserId] = useState(defaultUserId);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
+  const isNotSelectedUser = userId === defaultUserId;
 
   const clearForm = () => {
     setTitle('');
@@ -38,11 +39,11 @@ export const App = () => {
       setHasTitleError(true);
     }
 
-    if (userId === defaultUserId) {
+    if (isNotSelectedUser) {
       setHasUserError(true);
     }
 
-    if (title || userId !== defaultUserId) {
+    if (title && !isNotSelectedUser) {
       const user = usersFromServer.find(({ id }) => id === +userId) as User;
       const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
