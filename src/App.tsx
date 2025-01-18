@@ -1,41 +1,38 @@
+import React, { useState } from 'react';
 import './App.scss';
 
+import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { NewTodo } from './components/NewTodo';
-import { getUserById } from './services/user';
-import { ToDo } from './types/ToDo';
-import { useState } from 'react';
+import { FormPost } from './components/formPost/formPost';
+import { ToDo, User } from './types/types';
 
-const initialToDos: ToDo[] = todosFromServer.map(todo => ({
+const getUser = (userId: number): User | null => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
+
+const initiaTodos: ToDo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUser(todo.userId),
 }));
 
-function getNewToDoId(todos: ToDo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<ToDo[]>(initiaTodos);
 
-  return maxId + 1;
-}
+  const highestId = Math.max(...todos.map(todo => todo.id));
 
-export const App = () => {
-  const [todos, setTodos] = useState<ToDo[]>(initialToDos);
-
-  const addToDo = (todo: Omit<ToDo, 'id'>) => {
-    const newToDo = {
-      ...todo,
-      id: getNewToDoId(todos),
-    };
-
-    setTodos(currentToDos => [...currentToDos, newToDo]);
+  const addPosts = (newToDo: ToDo) => {
+    setTodos(prev => [...prev, newToDo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
-      <NewTodo onAdd={addToDo} />
-
+      <FormPost
+        onSubmit={addPosts}
+        users={usersFromServer}
+        highestId={highestId}
+      />
       <TodoList todos={todos} />
     </div>
   );
