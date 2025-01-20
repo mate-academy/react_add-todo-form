@@ -49,7 +49,7 @@ export const App: React.FC<Props> = () => {
     setHasTitleError(false);
   };
 
-  const handleSelectCahnge = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasSelectError(false);
   };
@@ -73,7 +73,7 @@ export const App: React.FC<Props> = () => {
       title,
       completed: false,
       userId: userId,
-      id: getNewTodoId(todos),
+      id: getNewTodoId(todoItems),
       user: getUserById(userId),
     });
 
@@ -106,7 +106,7 @@ export const App: React.FC<Props> = () => {
             data-cy="userSelect"
             required
             value={userId}
-            onChange={handleSelectCahnge}
+            onChange={handleSelectChange}
           >
             <option value="0" disabled>
               Choose a user
