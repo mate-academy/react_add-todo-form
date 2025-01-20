@@ -17,9 +17,7 @@ function getNewPostId(posts: ToDo[]) {
     return 0;
   }
 
-  const maxId = Math.max(
-    ...posts.map(post => post.id),
-  );
+  const maxId = Math.max(...posts.map(post => post.id));
 
   return maxId + 1;
 }
@@ -33,15 +31,14 @@ export const App: React.FC = () => {
       id: getNewPostId(todos),
     };
 
-    setTodos((currentPosts) => [newToDo, ...currentPosts]);
-  }
-
+    setTodos(currentPosts => [...currentPosts, newToDo]);
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <ToDoForm onSubmit={addToDo}/>
+      <ToDoForm onSubmit={addToDo} />
       <TodoList todos={todos} />
     </div>
   );
