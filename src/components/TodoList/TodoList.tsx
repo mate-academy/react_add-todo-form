@@ -12,6 +12,7 @@ type Todo = {
   title: string;
   completed: boolean;
   userId: number;
+  user: User | null;
 };
 
 type TodoListProps = {

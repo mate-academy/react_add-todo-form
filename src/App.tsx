@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import users from './api/users';
 import './App.scss';
 import { TodoList } from './components/TodoList';
@@ -6,8 +6,17 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+const getUser = (userId: number) => {
+  return usersFromServer.find(user => user.id === userId) || null;
+};
+
+const initiaTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(initiaTodos);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState('');
 
@@ -42,11 +51,14 @@ export const App: React.FC = () => {
       return;
     }
 
+    const user = getUser(userId);
+
     const newTodo = {
-      id: TodoList.length + 1,
+      id: todos.length + 1,
       title,
       completed: false,
       userId,
+      user,
     };
 
     setTodos([...todos, newTodo]);
@@ -66,6 +78,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={e => setTitle(e.target.value)}
             // error={titleError}
+            placeholder="Please enter a title"
           />
           {titleError && !title && <span className="error">{titleError}</span>}
         </div>
