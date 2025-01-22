@@ -10,13 +10,13 @@ const getUser = (userId: number) => {
   return usersFromServer.find(user => user.id === userId) || null;
 };
 
-const initiaTodos = todosFromServer.map(todo => ({
+const initialTodos = todosFromServer.map(todo => ({
   ...todo,
   user: getUser(todo.userId),
 }));
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState(initiaTodos);
+  const [todos, setTodos] = useState(initialTodos);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState('');
 
