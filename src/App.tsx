@@ -53,8 +53,13 @@ export const App: React.FC = () => {
 
     const user = getUser(userId);
 
+    const maxId = todos.reduce(
+      (max, todo) => (todo.id > max ? todo.id : max),
+      0,
+    );
+
     const newTodo = {
-      id: todos.length + 1,
+      id: maxId + 1,
       title,
       completed: false,
       userId,
@@ -98,7 +103,9 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {userIdError && <span className="error">{userIdError}</span>}
+          {userIdError && !userId && (
+            <span className="error">{userIdError}</span>
+          )}
           {/* <span className="error">Please choose a user</span> */}
         </div>
 

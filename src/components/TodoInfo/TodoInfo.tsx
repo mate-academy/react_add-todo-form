@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const TodoInfo = ({ todo }: Props) => {
-  const user = todo;
+  const user = todo.user;
 
   return (
     <section className="TodoList">
