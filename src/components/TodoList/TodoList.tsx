@@ -1,23 +1,28 @@
+import users from '../../api/users';
 import { TodoInfo } from '../TodoInfo';
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
 type Todo = {
   id: number;
   title: string;
   completed: boolean;
-  user?: {
-    name: string;
-    email: string;
-  };
+  userId: number;
 };
 
 type TodoListProps = {
   todos: Todo[];
+  users: User[];
 };
 
 export const TodoList = ({ todos }: TodoListProps) => (
   <section className="TodoList">
     {todos.map(todo => (
-      <TodoInfo todo={todo} key={todo.id} />
+      <TodoInfo todo={todo} users={users} key={todo.id} />
     ))}
   </section>
 );
