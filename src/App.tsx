@@ -1,16 +1,29 @@
-import './App.scss';
 import React, { useState } from 'react';
-
+import './App.scss';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
-  const [users] = useState(usersFromServer);
+  const [todos, setTodos] = useState(todosFromServer || []);
+  const [users] = useState(usersFromServer || []);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [errors, setErrors] = useState<{ title?: string; user?: string }>({});
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    if (errors.title) {
+      setErrors(prevErrors => ({ ...prevErrors, title: undefined }));
+    }
+  };
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUser(Number(e.target.value));
+    if (errors.user) {
+      setErrors(prevErrors => ({ ...prevErrors, user: undefined }));
+    }
+  };
 
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +34,7 @@ export const App = () => {
       newErrors.title = 'Please enter a title';
     }
 
-    if (!selectedUser) {
+    if (selectedUser === null) {
       newErrors.user = 'Please choose a user';
     }
 
@@ -31,11 +44,8 @@ export const App = () => {
       return;
     }
 
-    const maxId =
-      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
-
     const newTodo = {
-      id: maxId + 1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
       completed: false,
       userId: selectedUser,
@@ -47,21 +57,6 @@ export const App = () => {
     setErrors({});
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-    if (errors.title) {
-      setErrors(prev => ({ ...prev, title: undefined }));
-    }
-  };
-
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(Number(e.target.value));
-
-    if (errors.user) {
-      setErrors(prev => ({ ...prev, user: undefined }));
-    }
-  };
-
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -71,9 +66,9 @@ export const App = () => {
           <input
             type="text"
             data-cy="titleInput"
-            placeholder="Enter task title"
             value={title}
             onChange={handleTitleChange}
+            required
           />
           {errors.title && <span className="error">{errors.title}</span>}
         </div>
@@ -83,6 +78,7 @@ export const App = () => {
             data-cy="userSelect"
             value={selectedUser || ''}
             onChange={handleUserChange}
+            required
           >
             <option value="" disabled>
               Choose a user
@@ -101,7 +97,9 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={users} />
+      <section className="TodoList">
+        <TodoList todos={todos} users={users} />
+      </section>
     </div>
   );
 };

@@ -1,17 +1,17 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
 
 interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
 }
 
 interface Props {
@@ -23,19 +23,14 @@ export const TodoList: React.FC<Props> = ({ todos, users }) => {
   return (
     <div className="TodoList">
       {todos.map(todo => {
-        const user = users.find(u => u.id === todo.userId);
-
-        if (!user) {
-          return null;
-        }
+        const todoUser = users.find(user => user.id === todo.userId);
 
         return (
           <TodoInfo
             key={todo.id}
-            id={todo.id}
             title={todo.title}
             completed={todo.completed}
-            user={user}
+            user={todoUser}
           />
         );
       })}
