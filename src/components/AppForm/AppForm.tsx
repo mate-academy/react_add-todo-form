@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { User } from '../../Types/User';
-import { Todos } from '../../Types/Todos';
-import { maxId } from '../../Services/function';
-import { getUserById } from '../../Services/function';
+import { User } from '../../types/User';
+import { Todos } from '../../types/Todos';
+import { maxId } from '../../services/function';
+import { getUserById } from '../../services/function';
 
 type Props = {
   todos: Todos[];

@@ -1,5 +1,5 @@
-import { Todos } from '../Types/Todos';
-import { User } from '../Types/User';
+import { Todos } from '../types/Todos';
+import { User } from '../types/User';
 
 export const getUserById = (users: User[], userId: number): User | null => {
   return users.find(user => user.id === userId) || null;

@@ -1,12 +1,12 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { Todos } from './Types/Todos';
+import { Todos } from './types/Todos';
 import { AppForm } from './components/AppForm';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-import { getUserById } from './Services/function';
+import { getUserById } from './services/function';
 
 const initialTodos: Todos[] = todosFromServer.map(todo => ({
   ...todo,
