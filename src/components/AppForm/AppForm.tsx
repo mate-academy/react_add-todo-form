@@ -1,11 +1,13 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { User } from '../../Types/User';
-import { maxId } from '../../App';
-import { getUserById } from '../../App';
+import { Todos } from '../../Types/Todos';
+import { maxId } from '../../Services/function';
+import { getUserById } from '../../Services/function';
 
 type Props = {
+  todos: Todos[];
   users: User[];
-  onAdd: (newTodo: any) => void;
+  onAdd: (newTodo: Todos) => void;
 };
 
 type FormValue = {
@@ -13,7 +15,7 @@ type FormValue = {
   userId: string;
 };
 
-export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
+export const AppForm: React.FC<Props> = ({ users, onAdd, todos }) => {
   const {
     register,
     handleSubmit,
@@ -23,11 +25,11 @@ export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
 
   const onSubmit: SubmitHandler<FormValue> = data => {
     const newTodo = {
-      id: maxId,
+      id: maxId(todos),
       title: data.title,
       userId: Number(data.userId),
       completed: false,
-      user: getUserById(+data.userId),
+      user: getUserById(users, +data.userId),
     };
 
     onAdd(newTodo);
@@ -47,7 +49,7 @@ export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
           />
         </label>
         {errors.title?.message && (
-          <span className="error">Please enter a title</span>
+          <span className="error">{errors.title.message}</span>
         )}
       </div>
 
@@ -58,7 +60,7 @@ export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
             data-cy="userSelect"
             {...register('userId', { required: 'Please choose a user' })}
           >
-            <option value="0">Choose a user</option>
+            <option value="">Choose a user</option>
 
             {users.map(user => (
               <option value={user.id} key={user.id}>
@@ -69,7 +71,7 @@ export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
         </label>
 
         {errors.userId?.message && (
-          <span className="error">Please choose a user</span>
+          <span className="error">{errors.userId.message}</span>
         )}
       </div>
 
