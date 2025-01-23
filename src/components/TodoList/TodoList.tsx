@@ -5,12 +5,10 @@ type Props = {
   todos: TodoWithUser[];
 };
 
-export const TodoList = ({ todos }: Props) => {
-  return (
-    <section className="TodoList">
-      {todos.map(todo => {
-        return <TodoInfo todo={todo} key={todo.id} />;
-      })}
-    </section>
-  );
-};
+export const TodoList = ({ todos }: Props) => (
+  <section className="TodoList">
+    {todos.map(todo => (
+      <TodoInfo todo={todo} key={todo.id} />
+    ))}
+  </section>
+);

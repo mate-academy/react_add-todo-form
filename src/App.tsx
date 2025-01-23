@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { TodoWithUser, User } from './App.types';
+import { TodoWithUser } from './App.types';
 import { TodoList } from './components/TodoList';
 
 const todosWithUser: TodoWithUser[] = todosFromServer.map(
   (todo): TodoWithUser => {
-    const user = usersFromServer.find(({ id }) => id === todo.userId) as User;
+    let user = usersFromServer.find(({ id }) => id === todo.userId);
+
+    if (!user) {
+      user = usersFromServer[0];
+    }
 
     return {
       ...todo,
@@ -17,9 +21,10 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map(
   },
 );
 const defaultUserId = '0';
-const titleRegexp = /^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ0-9\s]*$/;
+const titleAllowedSymbols = /^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ0-9\s]*$/;
 
-const validateTitle = (title: string): boolean => titleRegexp.test(title);
+const validateTitleSymbols = (title: string): boolean =>
+  titleAllowedSymbols.test(title);
 
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>([...todosWithUser]);
@@ -27,11 +32,10 @@ export const App = () => {
   const [userId, setUserId] = useState(defaultUserId);
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
-  const isNotSelectedUser = userId === defaultUserId;
-  const hasForbiddenSymbolsInTitle = !validateTitle(title);
-  const titleErrorMessage = hasForbiddenSymbolsInTitle
-    ? 'Title contains special symbols'
-    : 'Please enter a title';
+  const isSelectedUser = userId !== defaultUserId;
+  const titleErrorMessage = validateTitleSymbols(title)
+    ? 'Please enter a title'
+    : 'Title contains special symbols';
 
   const clearForm = () => {
     setTitle('');
@@ -42,20 +46,22 @@ export const App = () => {
     event: React.FormEvent<HTMLFormElement>,
   ): null | void => {
     event.preventDefault();
-    if (!title || hasForbiddenSymbolsInTitle) {
+    if (!title || !validateTitleSymbols(title)) {
       setHasTitleError(true);
     }
 
-    if (isNotSelectedUser) {
+    if (!isSelectedUser) {
       setHasUserError(true);
     }
 
-    if (title && !isNotSelectedUser) {
-      const user = usersFromServer.find(({ id }) => id === +userId) as User;
+    if (title && isSelectedUser) {
+      const user =
+        usersFromServer.find(({ id }) => id === Number(userId)) ||
+        usersFromServer[0];
       const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
       const newTodo: TodoWithUser = {
-        userId: +userId,
+        userId: Number(userId),
         id: newId,
         title,
         completed: false,
@@ -104,13 +110,11 @@ export const App = () => {
             <option value={defaultUserId} disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => {
-              return (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
           {hasUserError && <span className="error">Please choose a user</span>}
