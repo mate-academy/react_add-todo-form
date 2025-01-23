@@ -26,6 +26,18 @@ const titleAllowedSymbols = /^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ0-9\s]*$/;
 const validateTitleSymbols = (title: string): boolean =>
   titleAllowedSymbols.test(title);
 
+const getTitleErrorMessage = (title: string): string | null => {
+  if (!title) {
+    return 'Please enter a title';
+  }
+
+  if (!validateTitleSymbols(title)) {
+    return 'Title contains special symbols';
+  }
+
+  return null;
+};
+
 export const App = () => {
   const [todos, setTodos] = useState<TodoWithUser[]>([...todosWithUser]);
   const [title, setTitle] = useState('');
@@ -33,9 +45,6 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
   const isSelectedUser = userId !== defaultUserId;
-  const titleErrorMessage = validateTitleSymbols(title)
-    ? 'Please enter a title'
-    : 'Title contains special symbols';
 
   const clearForm = () => {
     setTitle('');
@@ -95,7 +104,9 @@ export const App = () => {
               setHasTitleError(false);
             }}
           />
-          {hasTitleError && <span className="error">{titleErrorMessage}</span>}
+          {hasTitleError && (
+            <span className="error">{getTitleErrorMessage(title)}</span>
+          )}
         </div>
 
         <div className="field">
