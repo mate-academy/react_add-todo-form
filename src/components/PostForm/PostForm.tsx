@@ -7,26 +7,27 @@ type Props = {
   onSubmit: (newTodo: Todo) => void;
 };
 export const PostForm: React.FC<Props> = ({ onSubmit }) => {
-
   const [newTitle, setNewTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.target.value); 
+    setNewTitle(event.target.value);
+    setHasTitleError(false);
   };
 
   const [newUser, setNewUser] = useState('');
   const [hasUserError, setHasUserError] = useState(false);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  setNewUser(event.target.value); 
+    setNewUser(event.target.value);
+    setHasUserError(false);
   };
-  
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setHasTitleError(!newTitle);
     setHasUserError(!newUser);
-    
+
     if (!newTitle || !newUser) {
       return;
     }
@@ -34,17 +35,18 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     const newTodo = {
       title: newTitle,
       completed: false,
-      user: getUserById(parseInt(newUser))
+      user: getUserById(parseInt(newUser)),
     };
-    
+
     onSubmit(newTodo);
 
     setHasTitleError(false);
     setHasUserError(false);
-    
+
     setNewTitle('');
     setNewUser('');
   };
+
   return (
     <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">
@@ -59,6 +61,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
           value={newTitle}
           onChange={handleTitleChange}
         />
+
         {hasTitleError && <span className="error">Please enter a title</span>}
       </div>
 
@@ -72,7 +75,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
           value={newUser}
           onChange={handleUserChange}
         >
-          <option value="0">
+          <option value="" disabled>
             Choose a user
           </option>
 
