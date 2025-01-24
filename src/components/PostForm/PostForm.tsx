@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Todo } from '../../types/Todo';
-import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
 import { getNewTodoId } from '../../services/newId';
 import todos from '../../api/todos';
+import { User } from '../../types/User';
 
 type Props = {
   onSubmit: (newTodo: Todo) => void;
+  usersFromServer: User[];
 };
-export const PostForm: React.FC<Props> = ({ onSubmit }) => {
+export const PostForm: React.FC<Props> = ({ onSubmit, usersFromServer }) => {
   const [newTitle, setNewTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -49,7 +50,6 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
     setNewTitle('');
     setNewUser('');
-
   };
 
   return (

@@ -7,7 +7,7 @@ import { getNewTodoId } from '../../services/newId';
 type Props = {
   todo: Todo;
   todos: Todo[];
-}
+};
 export const TodoInfo: React.FC<Props> = ({ todo, todos }) => (
   <article
     data-id={todo.id || getNewTodoId(todos)}
