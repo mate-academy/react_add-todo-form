@@ -1,13 +1,15 @@
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { Todo } from '../../types/Todo';
+import { getNewTodoId } from '../../services/newId';
+import todos from '../../api/todos';
 
 // Add the required props
-function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
-  return maxId + 1;
-}
-export const TodoInfo = ({ todo }) => (
+type Props = {
+  todo: Todo;
+};
+
+export const TodoInfo:React.FC<Props> = ({ todo }) => (
   <article
     data-id={todo.id || getNewTodoId(todos)}
     className={classNames('TodoInfo', {
