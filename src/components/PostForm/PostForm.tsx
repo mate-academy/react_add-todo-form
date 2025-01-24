@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Todo } from '../../types/Todo';
 import usersFromServer from '../../api/users';
 import { getUserById } from '../../services/user';
+import { getNewTodoId } from '../../services/newId';
+import todos from '../../api/todos';
 
 type Props = {
   onSubmit: (newTodo: Todo) => void;
@@ -33,8 +35,10 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     const newTodo = {
+      id: getNewTodoId(todos),
       title: newTitle,
       completed: false,
+      userId: +newUser,
       user: getUserById(parseInt(newUser)),
     };
 
@@ -45,6 +49,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
     setNewTitle('');
     setNewUser('');
+
   };
 
   return (
