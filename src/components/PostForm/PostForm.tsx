@@ -1,0 +1,102 @@
+import React, { useState } from 'react';
+import { Todo } from '../../types/Todo';
+import { getUserById } from '../../services/user';
+import { getNewTodoId } from '../../services/newId';
+import todos from '../../api/todos';
+import { User } from '../../types/User';
+
+type Props = {
+  onSubmit: (newTodo: Todo) => void;
+  usersFromServer: User[];
+};
+export const PostForm: React.FC<Props> = ({ onSubmit, usersFromServer }) => {
+  const [newTitle, setNewTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const [newUser, setNewUser] = useState('');
+  const [hasUserError, setHasUserError] = useState(false);
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNewUser(event.target.value);
+    setHasUserError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setHasTitleError(!newTitle);
+    setHasUserError(!newUser);
+
+    if (!newTitle || !newUser) {
+      return;
+    }
+
+    const newTodo = {
+      id: getNewTodoId(todos),
+      title: newTitle,
+      completed: false,
+      userId: +newUser,
+      user: getUserById(parseInt(newUser)),
+    };
+
+    onSubmit(newTodo);
+
+    setHasTitleError(false);
+    setHasUserError(false);
+
+    setNewTitle('');
+    setNewUser('');
+  };
+
+  return (
+    <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <div className="field">
+        <label className="label" htmlFor="inputInfo">
+          Title:
+        </label>
+        <input
+          type="text"
+          data-cy="titleInput"
+          id="inputInfo"
+          placeholder="Enter a title"
+          value={newTitle}
+          onChange={handleTitleChange}
+        />
+
+        {hasTitleError && <span className="error">Please enter a title</span>}
+      </div>
+
+      <div className="field">
+        <label className="label" htmlFor="user-id">
+          User:
+        </label>
+        <select
+          data-cy="userSelect"
+          id="user-id"
+          value={newUser}
+          onChange={handleUserChange}
+        >
+          <option value="" disabled>
+            Choose a user
+          </option>
+
+          {usersFromServer.map(user => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+
+        {hasUserError && <span className="error">Please choose a user</span>}
+      </div>
+
+      <button type="submit" data-cy="submitButton">
+        Add
+      </button>
+    </form>
+  );
+};
