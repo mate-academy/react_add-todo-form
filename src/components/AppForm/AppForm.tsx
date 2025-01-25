@@ -1,13 +1,10 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { User } from '../../types/User';
 import { Todos } from '../../types/Todos';
-import { maxId } from '../../services/function';
-import { getUserById } from '../../services/function';
 
 type Props = {
-  todos: Todos[];
   users: User[];
-  onAdd: (newTodo: Todos) => void;
+  onAdd: (newTodo: Omit<Todos, 'id' | 'user'>) => void;
 };
 
 type FormValue = {
@@ -15,7 +12,7 @@ type FormValue = {
   userId: string;
 };
 
-export const AppForm: React.FC<Props> = ({ users, onAdd, todos }) => {
+export const AppForm: React.FC<Props> = ({ users, onAdd }) => {
   const {
     register,
     handleSubmit,
@@ -25,11 +22,9 @@ export const AppForm: React.FC<Props> = ({ users, onAdd, todos }) => {
 
   const onSubmit: SubmitHandler<FormValue> = data => {
     const newTodo = {
-      id: maxId(todos),
-      title: data.title,
       userId: Number(data.userId),
+      title: data.title,
       completed: false,
-      user: getUserById(users, +data.userId),
     };
 
     onAdd(newTodo);

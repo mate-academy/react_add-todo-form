@@ -6,7 +6,7 @@ import { AppForm } from './components/AppForm';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-import { getUserById } from './services/function';
+import { getUserById, maxId } from './services/function';
 
 const initialTodos: Todos[] = todosFromServer.map(todo => ({
   ...todo,
@@ -15,15 +15,22 @@ const initialTodos: Todos[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
-  const addTodo = (newTodo: Todos) => {
-    setTodos(prewTodo => [...prewTodo, newTodo]);
+  const addTodo = (newTodo: Omit<Todos, 'id' | 'user'>) => {
+    setTodos(prewTodo => [
+      ...prewTodo,
+      {
+        ...newTodo,
+        id: maxId(prewTodo),
+        user: getUserById(usersFromServer, newTodo.userId),
+      },
+    ]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <AppForm users={usersFromServer} todos={todos} onAdd={addTodo} />
+      <AppForm users={usersFromServer} onAdd={addTodo} />
       <TodoList todos={todos} />
     </div>
   );
