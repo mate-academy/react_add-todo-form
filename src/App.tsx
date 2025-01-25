@@ -32,32 +32,19 @@ export const App: FC = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const trimmedTitle = newTodo.title.trim();
-
-    if (!trimmedTitle || newTodo.userId === 0) {
-      setErrors({
-        title: trimmedTitle === '',
-        userId: newTodo.userId === 0,
-      });
+    if (newTodo.title.trim() === '' || newTodo.userId === 0) {
+      setErrors(prevErrors => ({ ...prevErrors, title: true }));
 
       return;
     }
 
-    const findUser = users.find(user => user.id === newTodo.userId);
-
-    if (!findUser) {
-      return;
-    }
-
-    const newTask = {
-      id: todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
-      title: trimmedTitle,
+    const x: Todo = {
+      ...newTodo,
+      id: Math.max(...todos.map(({ id }) => id)) + 1,
       completed: false,
-      findUser,
-      userId: findUser,
     };
 
-    setTodos(prevTodos => [...prevTodos, newTask]);
+    setTodos(prevTodos => [...prevTodos, x]);
     setNewTodo({ title: '', userId: 0 });
   };
 
@@ -65,7 +52,7 @@ export const App: FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form onSubmit={handleFormSubmit}>
         <div className="field">
           <label>
             Title:
@@ -99,11 +86,7 @@ export const App: FC = () => {
           {errors.userId && <span className="error">Please choose a user</span>}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          onChange={handleFormSubmit}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
