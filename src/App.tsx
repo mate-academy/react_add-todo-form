@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
+import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import users from './api/users';
 import { Todo } from './components/TodoInfo';
@@ -11,7 +12,12 @@ type NewTodo = {
 };
 
 export const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const normalizedTodos = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  }));
+
+  const [todos, setTodos] = useState<Todo[]>(normalizedTodos);
   const [newTodo, setNewTodo] = useState<NewTodo>({ title: '', userId: 0 });
   const [errors, setErrors] = useState({ title: false, userId: false });
 
@@ -32,19 +38,32 @@ export const App: FC = () => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (newTodo.title.trim() === '' || newTodo.userId === 0) {
-      setErrors(prevErrors => ({ ...prevErrors, title: true }));
+    const trimmedTitle = newTodo.title.trim();
+
+    if (!trimmedTitle || newTodo.userId === 0) {
+      setErrors({
+        title: trimmedTitle === '',
+        userId: newTodo.userId === 0,
+      });
 
       return;
     }
 
-    const x: Todo = {
-      ...newTodo,
-      id: Math.max(...todos.map(({ id }) => id)) + 1,
+    const foundUser = users.find(user => user.id === newTodo.userId);
+
+    if (!foundUser) {
+      return;
+    }
+
+    const newTask: Todo = {
+      id: todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
+      title: trimmedTitle,
       completed: false,
+      user: foundUser,
+      userId: foundUser.id,
     };
 
-    setTodos(prevTodos => [...prevTodos, x]);
+    setTodos(prevTodos => [...prevTodos, newTask]);
     setNewTodo({ title: '', userId: 0 });
   };
 
