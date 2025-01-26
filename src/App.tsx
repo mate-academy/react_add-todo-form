@@ -10,13 +10,6 @@ import { useState } from 'react';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { User } from './types/User';
 
-const initialTodos: Todo[] = todosFromServer
-  .map(todo => ({
-    ...todo,
-    user: getUserById(todo.userId),
-  }))
-  .filter(todo => todo.user !== null);
-
 function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(...todos.map(todo => todo.id));
 
@@ -27,6 +20,12 @@ function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
+const initialTodos: Todo[] = todosFromServer
+  .map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
+  }))
+  .filter(todo => todo.user !== null);
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -42,7 +41,11 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodos} users={usersFromServer} getUserById={getUserById}/>
+      <TodoForm
+        onSubmit={addTodos}
+        users={usersFromServer}
+        getUserById={getUserById}
+      />
 
       <TodoList todos={todos} />
     </div>
