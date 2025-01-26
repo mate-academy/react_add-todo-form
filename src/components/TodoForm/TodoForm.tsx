@@ -17,13 +17,16 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const sanitizedValue = value.replace(/[^a-zA-Zа-яА-Я0-9 ]/g, '');
+
     setTitle(sanitizedValue);
     setHasTitleError(false);
   };
+
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
   };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setHasTitleError(!title);
@@ -31,6 +34,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
     if (!title || !userId) {
       return;
     }
+
     onSubmit({
       id: 0,
       title,
@@ -43,6 +47,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
     setHasTitleError(false);
     setHasUserIdError(false);
   };
+
   return (
     <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
       <div className="field">

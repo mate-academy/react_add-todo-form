@@ -19,8 +19,10 @@ const initialTodos: Todo[] = todosFromServer
 
 function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(...todos.map(todo => todo.id));
+
   return maxId + 1;
 }
+
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const addTodos = (todo: Todo) => {
@@ -28,8 +30,10 @@ export const App = () => {
       ...todo,
       id: getNewTodoId(todos),
     };
+
     setTodos(currentTodos => [...currentTodos, newTodo]);
   };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
