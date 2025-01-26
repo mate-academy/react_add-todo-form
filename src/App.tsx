@@ -8,7 +8,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { TodoForm } from './components/TodoForm/TodoForm';
-import { getUserById } from './services/getUserById';
+import { User } from './types/User';
 
 const initialTodos: Todo[] = todosFromServer
   .map(todo => ({
@@ -22,6 +22,11 @@ function getNewTodoId(todos: Todo[]) {
 
   return maxId + 1;
 }
+
+function getUserById(userId: number): User | null {
+  return usersFromServer.find(user => user.id === userId) || null;
+}
+
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -37,7 +42,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodos} users={usersFromServer} />
+      <TodoForm onSubmit={addTodos} users={usersFromServer} getUserById={getUserById}/>
 
       <TodoList todos={todos} />
     </div>
