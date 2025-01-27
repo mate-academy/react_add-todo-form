@@ -1,6 +1,5 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { getUserById } from './services/getUserById';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoForm } from './components/TodoForm';
@@ -9,11 +8,11 @@ import { Todo } from './types/Todo';
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
 function getNewTodoId(todos: Todo[]) {
-  const maxId = Math.max(...todos.map(todo => todo.id));
+  const maxId = Math.max(0, ...todos.map(todo => todo.id));
 
   return maxId + 1;
 }
