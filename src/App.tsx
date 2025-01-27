@@ -25,6 +25,7 @@ export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [userError, setUserError] = useState('');
   const [titleError, setTitleError] = useState('');
+  const [isSubmited, setIsSubmited] = useState(false);
 
   useEffect(() => {
     if (user === '') {
@@ -38,7 +39,11 @@ export const App: React.FC = () => {
     } else {
       setTitleError('');
     }
-  }, [userError, titleError, user, title]);
+
+    // return () => {
+    //   setIsSubmited(false);
+    // };
+  }, [user, title]);
 
   const getUserByName = (name: string): User | null => {
     const foundUser = usersFromServer.find(users => users.name === name);
@@ -51,8 +56,10 @@ export const App: React.FC = () => {
     todos[0].id,
   );
 
-  const handleSumbit: FormEventHandler = event => {
+  const handleSubmit: FormEventHandler = event => {
     event.preventDefault();
+
+    setIsSubmited(true);
 
     if (titleError !== '' || userError !== '') {
       return;
@@ -73,7 +80,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1 className="App__title">Add todo form</h1>
-      <form onSubmit={handleSumbit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
@@ -86,7 +93,9 @@ export const App: React.FC = () => {
               setTitle(event.target.value);
             }}
           />
-          {titleError !== '' && <span className="error">{titleError}</span>}
+          {titleError !== '' && isSubmited ? (
+            <span className="error">{titleError}</span>
+          ) : null}
         </div>
 
         <div className="field">
@@ -110,7 +119,9 @@ export const App: React.FC = () => {
               );
             })}
           </select>
-          {userError !== '' && <span className="error">{userError}</span>}
+          {userError !== '' && isSubmited ? (
+            <span className="error">{userError}</span>
+          ) : null}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -121,59 +132,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-// export const App: React.FC = () => {
-//   return (
-//     <div className="App">
-//       <h1>Add todo form</h1>
-
-// <form action="/api/todos" method="POST">
-//   <div className="field">
-//     <input type="text" data-cy="titleInput" />
-//     <span className="error">Please enter a title</span>
-//   </div>
-
-//   <div className="field">
-//     <select data-cy="userSelect">
-//       <option value="0" disabled>
-//         Choose a user
-//       </option>
-//     </select>
-
-//     <span className="error">Please choose a user</span>
-//   </div>
-
-//   <button type="submit" data-cy="submitButton">
-//     Add
-//   </button>
-// </form>
-
-//       <section className="TodoList">
-//         <article data-id="1" className="TodoInfo TodoInfo--completed">
-//           <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-//           <a className="UserInfo" href="mailto:Sincere@april.biz">
-//             Leanne Graham
-//           </a>
-//         </article>
-
-//         <article data-id="15" className="TodoInfo TodoInfo--completed">
-//           <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-//           <a className="UserInfo" href="mailto:Sincere@april.biz">
-//             Leanne Graham
-//           </a>
-//         </article>
-
-//         <article data-id="2" className="TodoInfo">
-//           <h2 className="TodoInfo__title">
-//             quis ut nam facilis et officia qui
-//           </h2>
-
-//           <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-//             Patricia Lebsack
-//           </a>
-//         </article>
-//       </section>
-//     </div>
-//   );
-// };
