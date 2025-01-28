@@ -11,8 +11,52 @@ button {
   cursor: pointer;
 }
 
+.field {
+  max-width: 100%;
+}
+
+label {
+  margin: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+input {
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+select {
+  margin-top: 10px;
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+span {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
 .error {
   color: red;
+}
+
+button {
+  margin: 2%;
+  width: 10%;
+  height: 50px;
+  border-radius: 20px;
+  background-color: rgb(175, 175, 255);
+  border-color: rgb(175, 175, 255);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
 }
 
 .TodoInfo {
