@@ -17,18 +17,18 @@ export const App = () => {
     userFromServer => userFromServer.id === user,
   );
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     const pattern = /^[a-zA-Z0-9 ]*$/;
 
-    if (pattern.test(e.target.value)) {
+    if (pattern.test(event.target.value)) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
   };
 
-  const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const nextId = Math.max(...newTodos.map(todo => todo.id)) + 1;
@@ -66,7 +66,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" onSubmit={handleOnSubmit}>
         <div className="field">
           <label htmlFor="titleId">Title:</label>
           <input
@@ -89,7 +89,7 @@ export const App = () => {
             data-cy="userSelect"
             id="userId"
             value={user}
-            onChange={e => setUser(+e.target.value)}
+            onChange={event => setUser(+event.target.value)}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(userFromServer => (
@@ -104,7 +104,7 @@ export const App = () => {
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton" onClick={handleOnClick}>
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
