@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useEffect, useState } from 'react';
+import React, { FormEventHandler, useState } from 'react';
 import './App.scss';
 
 import todosFromServer from './api/todos';
@@ -11,6 +11,10 @@ import { TodoList } from './components/TodoList';
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
+  if (foundUser === null) {
+    throw new Error('No user found');
+  }
+
   // if there is no user with a given userId
   return foundUser || null;
 }
@@ -21,32 +25,18 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 }));
 
 export const App: React.FC = () => {
-  const [user, setUser] = useState('');
-  const [title, setTitle] = useState('');
-  const [userError, setUserError] = useState('');
-  const [titleError, setTitleError] = useState('');
+  const [userInput, setUserInput] = useState('');
+  const [titleInput, setTitleInput] = useState('');
+  const [userInputError, setUserInputError] = useState('');
+  const [titleInputError, setTitleInputError] = useState('');
   const [isSubmited, setIsSubmited] = useState(false);
-
-  useEffect(() => {
-    if (user === '') {
-      setUserError('Please choose a user');
-    } else {
-      setUserError('');
-    }
-
-    if (title === '') {
-      setTitleError('Please enter a title');
-    } else {
-      setTitleError('');
-    }
-
-    // return () => {
-    //   setIsSubmited(false);
-    // };
-  }, [user, title]);
 
   const getUserByName = (name: string): User | null => {
     const foundUser = usersFromServer.find(users => users.name === name);
+
+    if (foundUser === null) {
+      throw new Error('No user found');
+    }
 
     return foundUser || null;
   };
@@ -61,20 +51,31 @@ export const App: React.FC = () => {
 
     setIsSubmited(true);
 
-    if (titleError !== '' || userError !== '') {
-      return;
+    if (userInput === '') {
+      setUserInputError('Please choose a user');
+    } else {
+      setUserInputError('');
     }
 
-    todos.push({
-      title: title,
-      user: getUserByName(user),
-      userId: getUserByName(user)?.id,
-      completed: false,
-      id: findHighestId + 1,
-    });
+    if (titleInput === '') {
+      setTitleInputError('Please enter a title');
+    } else {
+      setTitleInputError('');
+    }
 
-    setTitle('');
-    setUser('');
+    if (titleInput !== '' && userInput !== '') {
+      const submitUser = getUserByName(userInput);
+
+      todos.push({
+        title: titleInput,
+        user: submitUser,
+        userId: submitUser?.id,
+        completed: false,
+        id: findHighestId + 1,
+      });
+      setTitleInput('');
+      setUserInput('');
+    }
   };
 
   return (
@@ -88,13 +89,14 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             id="title"
-            value={title}
+            value={titleInput}
             onChange={event => {
-              setTitle(event.target.value);
+              setTitleInput(event.target.value);
+              setTitleInputError('');
             }}
           />
-          {titleError !== '' && isSubmited ? (
-            <span className="error">{titleError}</span>
+          {titleInputError !== '' && isSubmited ? (
+            <span className="error">{titleInputError}</span>
           ) : null}
         </div>
 
@@ -103,9 +105,10 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             id="user"
-            value={user}
+            value={userInput}
             onChange={event => {
-              setUser(event.target.value);
+              setUserInput(event.target.value);
+              setUserInputError('');
             }}
           >
             <option value="" disabled>
@@ -119,8 +122,8 @@ export const App: React.FC = () => {
               );
             })}
           </select>
-          {userError !== '' && isSubmited ? (
-            <span className="error">{userError}</span>
+          {userInputError !== '' && isSubmited ? (
+            <span className="error">{userInputError}</span>
           ) : null}
         </div>
 

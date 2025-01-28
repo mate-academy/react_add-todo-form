@@ -7,7 +7,7 @@ type Prop = {
 export const UserInfo = ({ user }: Prop) => {
   return (
     <a className="UserInfo" href={`mailto:${user?.email}`}>
-      {user?.name}
+      {user === null ? 'User not found' : user.name}
     </a>
   );
 };
