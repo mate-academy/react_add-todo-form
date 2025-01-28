@@ -5,6 +5,7 @@ import usersFromServer from './api/users';
 import { TodoForm } from './components/TodoForm';
 import { useState } from 'react';
 import { Todo } from './types/Todo';
+import { getUserById } from './services/getUserById';
 
 export const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
@@ -20,13 +21,16 @@ function getNewTodoId(todos: Todo[]) {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  const addTodo = (todo: Todo) => {
-    const newTodo = {
-      ...todo,
+  const addTodo = (title: string, userId: number) => {
+    const newTodo: Todo = {
       id: getNewTodoId(todos),
+      title,
+      userId,
+      completed: false,
+      user: getUserById(userId),
     };
 
-    setTodos(currentTodos => [newTodo, ...currentTodos]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
   };
 
   return (

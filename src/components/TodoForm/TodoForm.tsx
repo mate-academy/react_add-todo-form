@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { Todo } from '../../types/Todo';
-import { getUserById } from '../../services/getUserById';
 import { User } from '../../types/User';
 
 type Props = {
-  onSubmit: (todo: Todo) => void;
+  onSubmit: (title: string, userId: number) => void;
   users: User[];
 };
 
@@ -43,13 +41,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
       return;
     }
 
-    onSubmit({
-      id: 0,
-      title,
-      userId,
-      completed: false,
-      user: getUserById(userId),
-    });
+    onSubmit(title, userId);
 
     reset();
   };
