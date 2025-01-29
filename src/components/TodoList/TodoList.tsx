@@ -23,7 +23,9 @@ type Props = {
 export const TodoList: React.FC<Props> = ({ todos, users }) => (
   <section className="TodoList">
     {todos.map((todo: TodoType) => {
-      const foundedUser = users?.find((user: UserType) => user.id === todo.userId);
+      const foundedUser = users?.find(
+        (user: UserType) => user.id === todo.userId,
+      );
 
       const newTodo = { ...todo, user: foundedUser };
 
