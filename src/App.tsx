@@ -35,7 +35,7 @@ export const App = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const maxId = Math.max(0, ...todos.map(todo => todo.id));
 
     const newTodo = {
       id: maxId + 1,
@@ -79,7 +79,7 @@ export const App = () => {
             data-cy="userSelect"
             value={selectedUser}
             onChange={event => {
-              setSelectedUser(event.target.selectedIndex);
+              setSelectedUser(+event.target.value);
               setSelectMessageError('');
             }}
           >
