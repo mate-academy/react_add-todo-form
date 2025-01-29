@@ -41,7 +41,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ users, onAddTodo, todos }) =
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ''));
+    setTitle(e.target.value.replace(/[<>]/g, '')); // Only remove < and > characters
     setErrors(prev => ({ ...prev, title: '' }));
   };
 
