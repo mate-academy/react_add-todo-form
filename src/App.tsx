@@ -11,10 +11,6 @@ import { TodoList } from './components/TodoList';
 function getUserById(userId: number): User | null {
   const foundUser = usersFromServer.find(user => user.id === userId);
 
-  if (foundUser === null) {
-    throw new Error('No user found');
-  }
-
   // if there is no user with a given userId
   return foundUser || null;
 }
@@ -34,10 +30,6 @@ export const App: React.FC = () => {
   const getUserByName = (name: string): User | null => {
     const foundUser = usersFromServer.find(users => users.name === name);
 
-    if (foundUser === null) {
-      throw new Error('No user found');
-    }
-
     return foundUser || null;
   };
 
@@ -53,14 +45,10 @@ export const App: React.FC = () => {
 
     if (userInput === '') {
       setUserInputError('Please choose a user');
-    } else {
-      setUserInputError('');
     }
 
     if (titleInput === '') {
       setTitleInputError('Please enter a title');
-    } else {
-      setTitleInputError('');
     }
 
     if (titleInput !== '' && userInput !== '') {
@@ -91,7 +79,7 @@ export const App: React.FC = () => {
             id="title"
             value={titleInput}
             onChange={event => {
-              setTitleInput(event.target.value);
+              setTitleInput(event.target.value.trimStart());
               setTitleInputError('');
             }}
           />
