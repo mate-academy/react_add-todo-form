@@ -33,7 +33,7 @@ export const App = () => {
   const [userValidation, setUserValidation] = useState(false);
   const [titleValidation, setTitleValidation] = useState(false);
   const [highestId, setHighestId] = useState(
-    Math.max(...todosFromServer.map(todo => todo.id)) + 1,
+    Math.max(...todosFromServer.map(todo => todo.id), 0) + 1,
   );
   const [visibleTodos, setVisibleTodos] = useState([...todosFromServer]);
 
@@ -68,8 +68,7 @@ export const App = () => {
       userId: inputUser,
     };
 
-    todosFromServer.push(newTodo);
-    setVisibleTodos([...todosFromServer]);
+    setVisibleTodos([...todosFromServer, newTodo]);
 
     setHighestId(highestId + 1);
 
