@@ -68,7 +68,7 @@ export const App = () => {
       userId: inputUser,
     };
 
-    setVisibleTodos([...todosFromServer, newTodo]);
+    setVisibleTodos([...visibleTodos, newTodo]);
 
     setHighestId(highestId + 1);
 

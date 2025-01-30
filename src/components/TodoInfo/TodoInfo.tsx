@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { Todo } from '../../App';
+import { UserInfo } from '../UserInfo';
 
 interface TodoInfoProps {
   todo: Todo;
@@ -14,9 +15,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
     <article data-id={todo.id} className={todoClass}>
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
-        {todo.user?.name}
-      </a>
+      <UserInfo user={todo.user} />
     </article>
   );
 };
