@@ -18,12 +18,12 @@ interface Todo {
   user: User | null;
 }
 
-export const App: React.FC = () => {
-  const normalizedTodos = todosFromServer.map(todo => ({
-    ...todo,
-    user: usersFromServer.find(user => user.id === todo.userId) || null,
-  }));
+const normalizedTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: usersFromServer.find(user => user.id === todo.userId) || null,
+}));
 
+export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(normalizedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState<number | ''>('');
