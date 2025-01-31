@@ -12,7 +12,7 @@ interface Todo {
   title: string;
   userId: number;
   completed: boolean;
-  user: User;
+  user: User | null;
 }
 
 interface TodoInfoProps {
@@ -28,7 +28,8 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       <h2 className="TodoInfo__title" data-cy="titleInput">
         {todo.title}
       </h2>
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
+      {}
     </article>
   );
 };

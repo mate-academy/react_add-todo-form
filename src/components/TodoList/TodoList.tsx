@@ -12,7 +12,7 @@ interface Todo {
   title: string;
   userId: number;
   completed: boolean;
-  user: User;
+  user: User | null;
 }
 
 interface TodoListProps {

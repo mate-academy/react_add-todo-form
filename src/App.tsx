@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
 interface User {
   id: number;
@@ -14,11 +15,16 @@ interface Todo {
   title: string;
   userId: number;
   completed: boolean;
-  user: User;
+  user: User | null;
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const normalizedTodos = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  }));
+
+  const [todos, setTodos] = useState<Todo[]>(normalizedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState<number | ''>('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -61,7 +67,7 @@ export const App: React.FC = () => {
       title: title.trim(),
       userId: Number(userId),
       completed: false,
-      user: usersFromServer.find(user => user.id === Number(userId))!,
+      user: usersFromServer.find(user => user.id === Number(userId)) || null,
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
