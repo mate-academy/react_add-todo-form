@@ -2,16 +2,12 @@ import './App.scss';
 import { useState } from 'react';
 
 import usersFromServer from './api/users';
-import { User } from './types/User';
 
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
 import { TodoList } from './components/TodoList';
-
-export const getUserById = (userId: number): User | null => {
-  return usersFromServer.find(user => user.id === userId) || null;
-};
+import { getUserById } from './utils/getUserById';
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,
@@ -33,8 +29,6 @@ export const App = () => {
   const [selectUser, setSelectUser] = useState(0);
   const [selectUserError, setSelectUserError] = useState(false);
 
-  const buttonDisabled = !title || !selectUser;
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
@@ -53,19 +47,23 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (buttonDisabled) {
+    const isButtonDisabled = !title || !selectUser;
+
+    if (isButtonDisabled) {
       setTitleError(!title);
       setSelectUserError(!selectUser);
 
       return;
     }
 
+    const user = getUserById(selectUser);
+
     const newTodo: Todo = {
       id: getNewTodoId(todos),
       title,
       completed: false,
       userId: selectUser,
-      user: getUserById(selectUser),
+      user,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);

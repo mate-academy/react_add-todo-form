@@ -1,6 +1,6 @@
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
-import { getUserById } from '../../App';
+import { getUserById } from '../../utils/getUserById';
 
 type Props = {
   todo: Todo;
