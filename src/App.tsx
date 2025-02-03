@@ -1,74 +1,52 @@
-import React, { useState } from 'react';
-import users from './api/users';
+import { FormEvent, useState } from 'react';
 import './App.scss';
-import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
-const getUser = (userId: number) => {
-  return usersFromServer.find(user => user.id === userId) || null;
-};
-
-const initialTodos = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUser(todo.userId),
-}));
-
-export const App: React.FC = () => {
-  const [todos, setTodos] = useState(initialTodos);
+export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
+  const [users] = useState(usersFromServer);
   const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState('');
+  const [selectedUser, setSelectedUser] = useState(0);
+  const [titleMessageError, setTitleMessageError] = useState('');
+  const [selectMessageError, setSelectMessageError] = useState('');
 
-  const [userId, setUserId] = useState(0);
-  const [userIdError, setUserIdError] = useState('');
-  // const [error, setError] = useState('');
+  const reset = () => {
+    setTitle('');
+    setSelectedUser(0);
+    setTitleMessageError('');
+    setSelectMessageError('');
+  };
 
-  // const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
-
-  // useEffect(() => {
-  //   const allFieldsFilled = title.trim() && userId !== 0;
-
-  //   setIsSubmitDisabled(!allFieldsFilled);
-  // }, [title, userId]);
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (!title) {
-      setTitleError('Please enter a title');
-    } else {
-      setTitleError('');
+      setTitleMessageError('Please enter a title');
     }
 
-    if (!userId) {
-      setUserIdError('Please choose a user');
-    } else {
-      setUserIdError('');
+    if (!selectedUser) {
+      setSelectMessageError('Please choose a user');
     }
 
-    if (!title || userId === 0) {
+    if (!title || !selectedUser) {
       return;
     }
 
-    const user = getUser(userId);
-
-    const maxId = todos.reduce(
-      (max, todo) => (todo.id > max ? todo.id : max),
-      0,
-    );
+    const maxId = Math.max(0, ...todos.map(todo => todo.id));
 
     const newTodo = {
       id: maxId + 1,
       title,
       completed: false,
-      userId,
-      user,
+      userId: selectedUser,
     };
 
-    setTodos([...todos, newTodo]);
-    setTitle('');
-    setUserId(0);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
+
+    reset();
   };
 
   return (
@@ -77,22 +55,33 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
-            // error={titleError}
-            placeholder="Please enter a title"
+            onChange={event => {
+              setTitle(event.target.value);
+              setTitleMessageError('');
+            }}
           />
-          {titleError && !title && <span className="error">{titleError}</span>}
+          {titleMessageError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
+          <label htmlFor="user">User: </label>
           <select
+            id="user"
             data-cy="userSelect"
-            value={userId}
-            onChange={e => setUserId(Number(e.target.value))}
+            value={selectedUser}
+            onChange={event => {
+              setSelectedUser(+event.target.value);
+              setSelectMessageError('');
+            }}
           >
             <option value="0" disabled>
               Choose a user
@@ -103,21 +92,17 @@ export const App: React.FC = () => {
               </option>
             ))}
           </select>
-          {userIdError && !userId && (
-            <span className="error">{userIdError}</span>
+          {selectMessageError && (
+            <span className="error">Please choose a user</span>
           )}
-          {/* <span className="error">Please choose a user</span> */}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          // disabled={isSubmitDisabled}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-      <TodoList todos={todos} users={usersFromServer} />
+
+      <TodoList todos={todos} users={users} />
     </div>
   );
 };
