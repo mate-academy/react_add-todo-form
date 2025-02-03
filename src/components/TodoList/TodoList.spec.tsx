@@ -1,65 +1,32 @@
-import { mount } from '@cypress/react18';
-import { TodoList } from './TodoList';
+import React from 'react';
+import users from '../../api/users';
+import { TodoInfo } from '../TodoInfo';
 
-describe('TodoList', () => {
-  it('should contain all the todos', () => {
-    const user1 = {
-      id: 1,
-      name: 'Leanne Graham',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
-    };
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
-    const user2 = {
-      id: 2,
-      name: 'Ervin Howell',
-      username: 'Antonette',
-      email: 'Shanna@melissa.tv',
-    };
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user: User | null;
+};
 
-    const todos = [
-      {
-        userId: 1,
-        id: 1,
-        title: 'delectus aut autem',
-        completed: false,
-        user: user1,
-      },
-      {
-        userId: 1,
-        id: 2,
-        title: 'quis ut nam facilis et officia qui',
-        completed: false,
-        user: user1,
-      },
-      {
-        userId: 2,
-        id: 3,
-        title: 'fugiat veniam minus',
-        completed: false,
-        user: user2,
-      },
-      {
-        userId: 2,
-        id: 4,
-        title: 'et porro tempora',
-        completed: true,
-        user: user2,
-      },
-    ];
+type TodoListProps = {
+  todos: Todo[];
+  users: User[];
+};
 
-    mount(<TodoList todos={todos} />);
+export const TodoList = ({ todos }: TodoListProps) => (
+  <section className="TodoList">
+    {todos.map(todo => (
+      <TodoInfo todo={todo} users={users} key={todo.id} />
+    ))}
+  </section>
+);
 
-    cy.get('.TodoInfo').should('have.length', 4);
-
-    cy.get('.TodoInfo')
-      .first()
-      .find('.TodoInfo__title')
-      .should('have.text', 'delectus aut autem');
-
-    cy.get('.TodoInfo')
-      .last()
-      .find('.TodoInfo__title')
-      .should('have.text', 'et porro tempora');
-  });
-});
+export default TodoList;
