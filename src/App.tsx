@@ -44,9 +44,11 @@ export const App: React.FC = () => {
     if (!newTodo) {
       setTitleError('Please enter a title');
     }
+
     if (!user) {
       setUserError('Please choose a user');
     }
+
     if (newTodo.trim() === '' || !user) {
       return;
     }
@@ -94,15 +96,16 @@ export const App: React.FC = () => {
             value={user ? user.id : ''}
             onChange={e => {
               const userId = Number(e.target.value);
-              const userById = users.find(user => user.id === userId) || null;
+              const userById = users.find(userI => userI.id === userId) || null;
+
               setUserError('');
               setUser(userById);
             }}
           >
             <option value="">Choose a user</option>
-            {users.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {users.map(userI => (
+              <option key={userI.id} value={userI.id}>
+                {userI.name}
               </option>
             ))}
           </select>
