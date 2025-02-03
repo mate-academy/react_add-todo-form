@@ -78,7 +78,6 @@ export const App = () => {
                 values.title.trim().length === 0 ? 'Please enter a title' : '',
               )
             }
-            required
           />
           {values.title.trim().length === 0 && titleError.length > 0 && (
             <span className="error">{titleError}</span>
@@ -87,7 +86,6 @@ export const App = () => {
 
         <div className="field">
           <select
-            required
             name="userId"
             data-cy="userSelect"
             onChange={handleChangeEvent}
