@@ -40,7 +40,6 @@ export const App = () => {
 
     setUserId(0);
     setTitle('');
-    setSubmit(false);
     setTodos([...todos, newTodo]);
   };
 
@@ -54,7 +53,10 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              setTitle(event.target.value);
+              setSubmit(false);
+            }}
             placeholder="enter todo title"
             required
           />
@@ -67,7 +69,10 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => setUserId(+event.target.value)}
+            onChange={event => {
+              setUserId(+event.target.value);
+              setSubmit(false);
+            }}
             required
           >
             <option value="0" disabled>
