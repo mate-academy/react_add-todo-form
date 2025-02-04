@@ -21,12 +21,14 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>([...todosWithUsers]);
   const [userId, setUserId] = useState(0);
   const [title, setTitle] = useState('');
-  const [submit, setSubmit] = useState(false);
+  const [submit, setSubmit] = useState(true);
   const maxId = todos.reduce((max, todo) => Math.max(max, todo.id), 0);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (userId === 0) {
+    if (userId === 0 || !title.trim()) {
+      setSubmit(true);
+
       return;
     }
 
@@ -38,9 +40,10 @@ export const App = () => {
       user: findUserById(userId),
     };
 
-    setUserId(0);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     setTitle('');
-    setTodos([...todos, newTodo]);
+    setUserId(0);
+    setSubmit(false);
   };
 
   return (
@@ -53,14 +56,12 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setSubmit(false);
-            }}
-            placeholder="enter todo title"
+            placeholder="Please enter a title"
+            onChange={event => setTitle(event.target.value)}
+            onBlur={() => setSubmit(true)}
             required
           />
-          {title === '' && submit === true && (
+          {submit && title.trim() === '' && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -69,10 +70,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(+event.target.value);
-              setSubmit(false);
-            }}
+            onChange={event => setUserId(+event.target.value)}
+            onBlur={() => setSubmit(true)}
             required
           >
             <option value="0" disabled>
@@ -84,18 +83,12 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {userId === 0 && submit === true && (
+          {submit && userId === 0 && (
             <span className="error">Please choose a user</span>
           )}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          onClick={() => {
-            setSubmit(true);
-          }}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
