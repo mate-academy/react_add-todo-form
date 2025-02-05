@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Post } from '../../types/Post';
-import usersFromServer from '../../api/users';
+import { User } from '../../types/User';
 
 type Props = {
   onSubmit: (post: Post) => void;
+  users: User[];
+  posts: Post[];
 };
 
-export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
+export const TodoForm: React.FC<Props> = ({ onSubmit, users, posts }) => {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState<number | null>(null);
 
@@ -45,7 +47,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     event.preventDefault();
 
     if (validateForm()) {
-      const foundUser = usersFromServer.find(u => u.id === user);
+      const foundUser = users.find((u: User) => u.id === user);
 
       if (!foundUser) {
         setHasUserError(true);
@@ -53,11 +55,14 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
         return;
       }
 
+      const maxId = Math.max(0, ...posts.map(todo => todo.id));
+
       const newPost: Post = {
-        id: Math.max(0, ...usersFromServer.map(u => u.id)) + 1,
+        id: maxId + 1,
         title: title,
         user: foundUser,
         completed: false,
+        userId: foundUser.id,
       };
 
       onSubmit(newPost);
@@ -87,7 +92,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           onChange={handleUserChange}
         >
           <option value="0">Choose a user</option>
-          {usersFromServer.map(userFromServer => (
+          {users.map((userFromServer: User) => (
             <option key={userFromServer.id} value={userFromServer.id}>
               {userFromServer.name}
             </option>

@@ -5,4 +5,5 @@ export interface Post {
   user: User | null;
   id: number;
   completed: boolean;
+  userId: number;
 }
