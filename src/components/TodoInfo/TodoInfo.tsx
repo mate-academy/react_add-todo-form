@@ -13,7 +13,6 @@ export const TodoInfo = ({ todo: { id, completed, title, user } }: Props) => {
       className={classNames('TodoInfo', {
         'TodoInfo--completed': completed,
       })}
-      key={id}
     >
       <h2 className="TodoInfo__title">{title}</h2>
 

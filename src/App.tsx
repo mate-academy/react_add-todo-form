@@ -21,13 +21,13 @@ export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
 
   const [titleInputError, setTitleInputError] = useState('');
-  const [userSelectError, setSelectedUserIdError] = useState('');
+  const [userSelectError, setSelectedUserError] = useState('');
 
   const handleUserSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = +e.target.value;
 
     setSelectedUserId(value);
-    setSelectedUserIdError('');
+    setSelectedUserError('');
   };
 
   const handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +46,7 @@ export const App = () => {
     }
 
     if (!selectedUserId) {
-      setSelectedUserIdError('Please choose a user');
+      setSelectedUserError('Please choose a user');
     }
 
     if (!hasRequiredFields) {
@@ -72,12 +72,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-        noValidate
-      >
+      <form onSubmit={handleSubmit} noValidate>
         <div className="field">
           <label htmlFor="titleInput">Title</label>
           <input
