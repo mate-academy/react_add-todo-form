@@ -40,10 +40,11 @@ export const App = () => {
     setTodos(prevState => [
       ...prevState,
       {
-        id: Math.max(...todos.map(todo => todo.id)) + 1,
+        id: Math.max(...prevState.map(todo => todo.id)) + 1,
         title: title,
         completed: false,
         userId: +userId,
+        user: usersFromServer.find(user => user.id === +userId)!,
       },
     ]);
 
@@ -71,6 +72,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+        User:{' '}
           <select data-cy="userSelect" onChange={handleChange} value={userId}>
             <option value="0" disabled>
               Choose a user
