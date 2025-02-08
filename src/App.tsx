@@ -10,14 +10,14 @@ import { Todo } from './types/todo';
 import { User } from './types/User';
 
 function getPreparedUsersFromServer(data: User[]) {
-  const defaultUserChoise: User = {
+  const defaultUserChoice: User = {
     id: 0,
     name: 'Choose a user',
     username: '',
     email: '',
   };
 
-  const preparedTodoList = [defaultUserChoise, ...data];
+  const preparedTodoList = [defaultUserChoice, ...data];
 
   return preparedTodoList;
 }
@@ -53,8 +53,14 @@ export const App = () => {
     event.preventDefault();
 
     if (title.trim() === '' || selectedUserId === 0) {
-      if (title.trim() === '') setErrorTitle(true);
-      if (selectedUserId === 0) setErrorSelect(true);
+      if (title.trim() === '') {
+        setErrorTitle(true);
+      }
+
+      if (selectedUserId === 0) {
+        setErrorSelect(true);
+      }
+
       return;
     }
 
