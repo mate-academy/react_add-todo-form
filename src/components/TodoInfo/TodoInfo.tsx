@@ -1,17 +1,13 @@
+import { FC } from 'react';
 import { Todo } from '../../types';
 import { UserInfo } from '../UserInfo';
-import usersFromServer from '../../api/users';
-
 import cn from 'classnames';
 
-type Props = {
+interface Props {
   todo: Todo;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const user = usersFromServer.find(u => u.id === todo.userId);
-
-  return (
+export const TodoInfo: FC<Props> = ({ todo }) => (
     <article
       data-id={todo.id}
       className={cn('TodoInfo', {
@@ -19,7 +15,9 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       })}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      {user ? <UserInfo user={user} /> : <span className="error">User not found</span>}
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
-  );
-};
+);
+
+
+
