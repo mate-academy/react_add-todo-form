@@ -43,7 +43,7 @@ export const App = () => {
         id: Math.max(...todos.map(todo => todo.id)) + 1,
         title: title,
         completed: false,
-        userId: userId,
+        userId: +userId,
       },
     ]);
 
