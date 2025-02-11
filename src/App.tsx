@@ -4,9 +4,21 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
 import { useState } from 'react';
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+function getUserById(userId): User {
+  const userr = usersFromServer.find(user => user.id === userId) || null;
 
-function getUserById(userId) {
-  return usersFromServer.find(user => user.id === userId) || null;
+  return {
+    id: userr.id,
+    name: userr.name,
+    username: userr.username,
+    email: userr.email,
+  };
 }
 
 export const todos = todosFromServer.map(todo => ({
