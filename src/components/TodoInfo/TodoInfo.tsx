@@ -2,9 +2,9 @@ import React from 'react';
 import { UserInfo } from '../UserInfo';
 
 interface Todos {
-  id?: number;
+  id: number;
   title: string;
-  completed?: boolean;
+  completed: boolean;
   userId: number;
 }
 

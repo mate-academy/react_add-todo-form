@@ -1,11 +1,10 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { TodoNewInfo } from '../TodoInfo/TodoNewInfo';
 
 interface Todos {
-  id?: number;
+  id: number;
   title: string;
-  completed?: boolean;
+  completed: boolean;
   userId: number;
 }
 
@@ -19,25 +18,14 @@ interface Users {
 interface Props {
   todos: Todos[];
   users: Users[];
-  isClicked: boolean;
-  userId: number;
-  info: string;
 }
 
-export const TodoList: React.FC<Props> = ({
-  todos,
-  users,
-  isClicked,
-  userId,
-  info,
-}) => {
+export const TodoList: React.FC<Props> = ({ todos, users }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
         <TodoInfo key={todo.id} users={users} todo={todo} />
       ))}
-
-      {isClicked && <TodoNewInfo userId={userId} text={info} users={users} />}
     </section>
   );
 };

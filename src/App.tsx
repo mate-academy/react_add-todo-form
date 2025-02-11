@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -9,26 +9,55 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [inputText, setInputText] = useState('');
   const [id, setId] = useState(0);
+  const [allTodos, setAllTodos] = useState(todosFromServer);
+  const [isVisibleUser, setIsVisibleUser] = useState(false);
+  const [isVisibleTitle, setIsVisibleTitle] = useState(false);
 
-  const isFulled = inputText && id;
-  let isClicked = false;
+  useEffect(() => {
+    if (id) {
+      setIsVisibleUser(false);
+    }
+
+    if (inputText.trim()) {
+      setIsVisibleTitle(false);
+    }
+  }, [id, inputText]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!id) {
+      setIsVisibleUser(true);
+    } else {
+      setIsVisibleUser(false);
+    }
+
+    if (!inputText.trim()) {
+      setIsVisibleTitle(true);
+    } else {
+      setIsVisibleTitle(false);
+    }
+
+    if (id && inputText.trim()) {
+      const newTodo = {
+        id: allTodos.length,
+        title: inputText,
+        completed: false,
+        userId: id,
+      };
+
+      setAllTodos(prev => [...prev, newTodo]);
+
+      setId(0);
+      setInputText('');
+    }
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={event => {
-          handleSubmit(event);
-          isClicked = true;
-        }}
-      >
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
@@ -37,15 +66,23 @@ export const App = () => {
             value={inputText}
             onChange={event => setInputText(event.currentTarget.value)}
           />
-          <span className="error">Please enter a title</span>
+          <span
+            className="error"
+            style={{ display: isVisibleTitle ? 'block' : 'none' }}
+          >
+            Please enter a title
+          </span>
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
-            onChange={event => setId(+event.currentTarget.value)}
+            value={id}
+            onChange={event => {
+              setId(+event.currentTarget.value);
+            }}
           >
-            <option value="0" disabled selected>
+            <option value="0" disabled>
               Choose a user
             </option>
 
@@ -56,28 +93,20 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error" style={{ display: 'none' }}>
+          <span
+            className="error"
+            style={{ display: isVisibleUser ? 'block' : 'none' }}
+          >
             Please choose a user
           </span>
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton"
-          disabled={!isFulled}
-          onClick={() => (isClicked = true)}
-        >
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
 
-      <TodoList
-        todos={todosFromServer}
-        users={usersFromServer}
-        isClicked={isClicked}
-        userId={id}
-        info={inputText}
-      />
+      <TodoList todos={allTodos} users={usersFromServer} />
       {/* <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
           <h2 className="TodoInfo__title">delectus aut autem</h2>

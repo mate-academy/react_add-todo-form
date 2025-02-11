@@ -7,13 +7,6 @@ interface Users {
   email: string;
 }
 
-// interface Todos {
-//   id?: number;
-//   title: string;
-//   completed?: boolean;
-//   userId: number;
-// }
-
 interface Props {
   userId: number;
   users: Users[];
