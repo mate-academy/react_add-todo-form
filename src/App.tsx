@@ -6,10 +6,19 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 
+const todosWithUsers = todosFromServer.map(todo => {
+  const newUser = usersFromServer.find(user => user.id === todo.userId);
+
+  return {
+    ...todo,
+    user: newUser || null,
+  };
+});
+
 export const App = () => {
   const [inputText, setInputText] = useState('');
   const [id, setId] = useState(0);
-  const [allTodos, setAllTodos] = useState(todosFromServer);
+  const [allTodos, setAllTodos] = useState(todosWithUsers);
   const [isVisibleUser, setIsVisibleUser] = useState(false);
   const [isVisibleTitle, setIsVisibleTitle] = useState(false);
 
@@ -40,10 +49,11 @@ export const App = () => {
 
     if (id && inputText.trim()) {
       const newTodo = {
-        id: allTodos.length,
+        id: Math.max(...allTodos.map(t => t.id)) + 1,
         title: inputText,
         completed: false,
         userId: id,
+        user: usersFromServer.find(person => person.id === id) || null,
       };
 
       setAllTodos(prev => [...prev, newTodo]);
@@ -66,12 +76,10 @@ export const App = () => {
             value={inputText}
             onChange={event => setInputText(event.currentTarget.value)}
           />
-          <span
-            className="error"
-            style={{ display: isVisibleTitle ? 'block' : 'none' }}
-          >
-            Please enter a title
-          </span>
+
+          {isVisibleTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -93,12 +101,7 @@ export const App = () => {
             ))}
           </select>
 
-          <span
-            className="error"
-            style={{ display: isVisibleUser ? 'block' : 'none' }}
-          >
-            Please choose a user
-          </span>
+          {isVisibleUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -106,34 +109,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={allTodos} users={usersFromServer} />
-      {/* <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section> */}
+      <TodoList todos={allTodos} />
     </div>
   );
 };

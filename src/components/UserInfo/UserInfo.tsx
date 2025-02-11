@@ -1,24 +1,15 @@
 import React from 'react';
-
-interface Users {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+import { Users } from '../../api/interfaces';
 
 interface Props {
-  userId: number;
-  users: Users[];
+  user: Users | null;
 }
 
-export const UserInfo: React.FC<Props> = ({ userId, users }) => {
-  const author = users.find(user => user.id === userId) || null;
-
+export const UserInfo: React.FC<Props> = ({ user }) => {
   return (
     <>
-      <a className="UserInfo" href={`mailto:${author?.email}`}>
-        {author?.name}
+      <a className="UserInfo" href={`mailto:${user?.email}`}>
+        {user?.name}
       </a>
     </>
   );
