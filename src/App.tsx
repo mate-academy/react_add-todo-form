@@ -25,14 +25,14 @@ export const App = () => {
 
     const getNewId = Math.max(...todos.map(todo => todo.id), 0) + 1;
 
-    const user = usersFromServer.find(user => user.id === userId);
+    const getuser = usersFromServer.find(user => user.id === userId);
 
     const newTodo = {
       id: getNewId,
       title,
       userId,
       completed: false,
-      user: user,
+      user: getuser,
     };
 
     setTodosList([...todosList, newTodo]);
@@ -76,7 +76,7 @@ export const App = () => {
             onBlur={() => setTouched(true)}
             onChange={handleSelect}
           >
-            <option value="0" disabled selected>
+            <option value="0" disabled>
               Choose a user
             </option>
             {usersFromServer.map(item => (
