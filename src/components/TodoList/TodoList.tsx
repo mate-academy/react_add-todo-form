@@ -1,9 +1,9 @@
-import React from "react";
-import { TodoInfo } from "../TodoInfo";
-import { Todo } from "../type/Todo";
+import React from 'react';
+import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../type/Todo';
 
 interface TodoListProps {
-  todos: Todo[];  // Правильний тип
+  todos: Todo[]; // Правильний тип
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
