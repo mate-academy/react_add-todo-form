@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TodoInfo } from '../TodoInfo';
 
 // import usersFromServer from '../../api/users';
@@ -16,7 +16,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} />
+        <TodoInfo key={todos.id} todo={todo} />
       ))}
     </section>
   );

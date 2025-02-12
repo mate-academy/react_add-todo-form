@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
+// import todosFromServer from './api/todos';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
@@ -49,7 +50,7 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
           />
-          {!title.trim() && <span className="error">Please enter a title</span>}
+          <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
@@ -67,9 +68,8 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectedUser === '0' && (
-            <span className="error">Please choose a user</span>
-          )}
+
+          <span className="error">Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">

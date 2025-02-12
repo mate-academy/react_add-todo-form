@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
+// import todosFromServer from './api/todos';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
@@ -19,37 +20,31 @@ export const App = () => {
       userId: number;
     };
 
-    const user = usersFromServer.find(item => item.username === selectedUser);
-
-    if (!user) {
-      return;
-    }
-
+    const user = usersFromServer.find(user => user.username === selectedUser);
     const newTodo: Todo = {
       id: todosFromServer.length + 1,
       title: title,
       completed: false,
-      userId: user.id,
+      userId:
+        usersFromServer.find(user => user.username === selectedUser)?.id,
     };
 
+
     setTodosFromServer([...todosFromServer, newTodo]);
-    setTitle('');
-    setSelectedUser('0');
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={onSubmit}>
+      <form action="/api/todos" method="POST">
         <div className="field">
           <input
             type="text"
             onChange={e => setTitle(e.target.value)}
             data-cy="titleInput"
-            value={title}
           />
-          {!title.trim() && <span className="error">Please enter a title</span>}
+          <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
@@ -67,16 +62,43 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectedUser === '0' && (
-            <span className="error">Please choose a user</span>
-          )}
+
+          <span className="error">Please choose a user</span>
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button type="submit" data-cy="submitButton" onSubmit={onSubmit}>
           Add
         </button>
       </form>
       <TodoList todos={todosFromServer} />
+
+      {/* <section className="TodoList">
+        <article data-id="1" className="TodoInfo TodoInfo--completed">
+          <h2 className="TodoInfo__title">delectus aut autem</h2>
+
+          <a className="UserInfo" href="mailto:Sincere@april.biz">
+            Leanne Graham
+          </a>
+        </article>
+
+        <article data-id="15" className="TodoInfo TodoInfo--completed">
+          <h2 className="TodoInfo__title">delectus aut autem</h2>
+
+          <a className="UserInfo" href="mailto:Sincere@april.biz">
+            Leanne Graham
+          </a>
+        </article>
+
+        <article data-id="2" className="TodoInfo">
+          <h2 className="TodoInfo__title">
+            quis ut nam facilis et officia qui
+          </h2>
+
+          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
+            Patricia Lebsack
+          </a>
+        </article>
+      </section> */}
     </div>
   );
 };

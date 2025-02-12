@@ -13,7 +13,7 @@ export const TodoInfo: React.FC<Prop> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
-      className={todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'}
+      className={`TodoInfo ${todo.completed ? '--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 

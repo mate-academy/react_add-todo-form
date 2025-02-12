@@ -11,10 +11,7 @@ export const TodoInfo: React.FC<Prop> = ({ todo }) => {
   const user = users.find(item => item.id === todo.userId);
 
   return (
-    <article
-      data-id={todo.id}
-      className={todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'}
-    >
+    <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
       {user ? <UserInfo user={user} /> : <p>User not found</p>}

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
+// import todosFromServer from './api/todos';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
+import { set } from 'cypress/types/lodash';
 
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState('0');
@@ -47,9 +49,8 @@ export const App = () => {
             type="text"
             onChange={e => setTitle(e.target.value)}
             data-cy="titleInput"
-            value={title}
           />
-          {!title.trim() && <span className="error">Please enter a title</span>}
+          <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
@@ -67,9 +68,8 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectedUser === '0' && (
-            <span className="error">Please choose a user</span>
-          )}
+
+          <span className="error">Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -77,6 +77,34 @@ export const App = () => {
         </button>
       </form>
       <TodoList todos={todosFromServer} />
+
+      {/* <section className="TodoList">
+        <article data-id="1" className="TodoInfo TodoInfo--completed">
+          <h2 className="TodoInfo__title">delectus aut autem</h2>
+
+          <a className="UserInfo" href="mailto:Sincere@april.biz">
+            Leanne Graham
+          </a>
+        </article>
+
+        <article data-id="15" className="TodoInfo TodoInfo--completed">
+          <h2 className="TodoInfo__title">delectus aut autem</h2>
+
+          <a className="UserInfo" href="mailto:Sincere@april.biz">
+            Leanne Graham
+          </a>
+        </article>
+
+        <article data-id="2" className="TodoInfo">
+          <h2 className="TodoInfo__title">
+            quis ut nam facilis et officia qui
+          </h2>
+
+          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
+            Patricia Lebsack
+          </a>
+        </article>
+      </section> */}
     </div>
   );
 };

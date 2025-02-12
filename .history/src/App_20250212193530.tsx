@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
+// import todosFromServer from './api/todos';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
@@ -45,18 +46,18 @@ export const App = () => {
         <div className="field">
           <input
             type="text"
-            onChange={e => setTitle(e.target.value)}
+            onBlur={e => setTitle(e.target.value)}
             data-cy="titleInput"
             value={title}
           />
-          {!title.trim() && <span className="error">Please enter a title</span>}
+          <span className="error">Please enter a title</span>
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={e => setSelectedUser(e.target.value)}
+            onBlur={e => setSelectedUser(e.target.value)}
           >
             <option value="0" disabled>
               Choose a user
@@ -67,9 +68,8 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {selectedUser === '0' && (
-            <span className="error">Please choose a user</span>
-          )}
+
+          <span className="error">Please choose a user</span>
         </div>
 
         <button type="submit" data-cy="submitButton">

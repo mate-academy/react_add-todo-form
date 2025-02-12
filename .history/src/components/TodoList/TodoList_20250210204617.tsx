@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TodoInfo } from '../TodoInfo';
 
 // import usersFromServer from '../../api/users';
@@ -12,11 +12,13 @@ type Props = {
   }[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = ({ todo }) => {
+  const [todos, setTodos] = useState(todo);
+
   return (
     <section className="TodoList">
-      {todos.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} />
+      {todo.map(todo => (
+        <TodoInfo key={todos.id} todo={todo} />
       ))}
     </section>
   );

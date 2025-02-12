@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
+// import todosFromServer from './api/todos';
 import todos from './api/todos';
 import { TodoList } from './components/TodoList';
 
