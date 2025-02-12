@@ -39,6 +39,9 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
 
     setHasTitleError(false);
     setHasUserIdError(false);
+
+    setTitleErrorMessage('');
+    setUserIdErrorMessage('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {

@@ -13,14 +13,14 @@ function getUserById(userId: number) {
 
 const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(todo.userId) || null,
 }));
 
 function getNewTodoId(todos: Todo[]) {
   // return +Math.random().toFixed(12).slice(2);
   const maxId = Math.max(...todos.map(todo => todo.id));
 
-  return maxId + 1;
+  return maxId + 1 || 0;
 }
 
 export const App = () => {
