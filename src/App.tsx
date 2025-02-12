@@ -8,6 +8,7 @@ import { TodoList } from './components/TodoList';
 export interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
 }
 
@@ -34,8 +35,8 @@ export const App = () => {
   const [todoList, setTodoList] = useState(todos);
   const [title, setNewTitle] = useState('');
   const [user, setUser] = useState('0');
-  const [warrningTitle, setWarningTitle] = useState(false);
-  const [warrningUser, setWarningUser] = useState(false);
+  const [warningTitle, setWarningTitle] = useState(false);
+  const [warningUser, setWarningUser] = useState(false);
 
   const getNewId = () => {
     let largestId = 0;
@@ -96,7 +97,7 @@ export const App = () => {
             onChange={getNewTitle}
             placeholder="Enter a title"
           />
-          {warrningTitle && <span className="error">Please enter a title</span>}
+          {warningTitle && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -120,7 +121,7 @@ export const App = () => {
             ))}
           </select>
 
-          {warrningUser && <span className="error">Please choose a user</span>}
+          {warningUser && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
