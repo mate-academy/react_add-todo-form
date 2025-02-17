@@ -1,5 +1,11 @@
 export default [
   {
+    id: 0,
+    name: 'Choose a user',
+    username: 'Choose a user',
+    email: 'Choose a user',
+  },
+  {
     id: 1,
     name: 'Leanne Graham',
     username: 'Bret',
