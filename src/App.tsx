@@ -1,27 +1,94 @@
 import './App.scss';
+import { useState } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+
+import { TodoList } from './components/TodoList';
+
+import { todosWithUsers } from './utils/getTodoesWithUsers';
+import { getRandomId } from './utils/getRandomId';
+import { findUserById } from './utils/findUserById';
+
+const DEFAULT_USER_ID = 0;
+const EMPTY_TITLE_ERROR = 'Please enter a title';
+const EMPTY_USER_ERROR = 'Please choose a user';
 
 export const App = () => {
+  const [userId, setUserId] = useState(DEFAULT_USER_ID);
+  const [hasUserIdError, setUserIdError] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+
+  const [todos, setTodos] = useState(todosWithUsers);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setHasTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setUserIdError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setHasTitleError(!title);
+    setUserIdError(!userId);
+
+    if (!title || !userId) {
+      return;
+    }
+
+    const newTodo = {
+      userId,
+      id: getRandomId({ todos }),
+      title,
+      completed: false,
+      user: findUserById(userId),
+    };
+
+    setTodos([...todos, newTodo]);
+    setTitle('');
+    setUserId(DEFAULT_USER_ID);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            data-cy="titleInput"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="Enter todo title"
+          />
+          {hasTitleError && <span className="error">{EMPTY_TITLE_ERROR}</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
+          <select
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserChange}
+          >
+            <option value={DEFAULT_USER_ID} disabled>
               Choose a user
             </option>
+
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {hasUserIdError && <span className="error">{EMPTY_USER_ERROR}</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -29,33 +96,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
