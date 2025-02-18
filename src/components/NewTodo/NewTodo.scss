@@ -1,0 +1,10 @@
+@import '../../styles/utils/colors';
+
+label,
+button {
+  cursor: pointer;
+}
+
+.error {
+  color: $error-text-color;
+}
