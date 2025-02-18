@@ -1,61 +1,177 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import { ChangeEvent, useState } from 'react';
+
+export type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
+
+export type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
 
 export const App = () => {
+  const [todosList, setTodosList] = useState<(Todo & { user: User })[]>(() =>
+    todosFromServer.map(todo => {
+      const user = usersFromServer.find(u => u.id === todo.userId);
+
+      if (!user) {
+        alert('User not found');
+
+        return {
+          ...todo,
+          user: {
+            id: 0,
+            name: '',
+            username: '',
+            email: '',
+          },
+        };
+      }
+
+      return {
+        ...todo,
+        user,
+      };
+    }),
+  );
+
+  const [textForNewTodo, setTextForNewTodo] = useState<string>('');
+
+  const [selectedUser, setSelectedUser] = useState<string>('0');
+
+  const [hasErrorOnTitle, setHasErrorOnTitle] = useState<boolean>(true);
+
+  const [hasErrorOnUser, setHasErrorOnUser] = useState<boolean>(true);
+
+  function handleTextChange(e: ChangeEvent<HTMLInputElement>): void {
+    if (e.target.value !== '') {
+      setHasErrorOnTitle(false);
+    }
+
+    setTextForNewTodo(e.target.value);
+  }
+
+  function handleUserChange(e: ChangeEvent<HTMLSelectElement>): void {
+    if (e.target.value !== '0') {
+      setHasErrorOnUser(false);
+    }
+
+    setSelectedUser(e.target.value);
+  }
+
+  function handleCreateNewTodo(): void {
+    if (textForNewTodo !== '') {
+      setHasErrorOnTitle(false);
+    }
+
+    if (selectedUser !== '0') {
+      setHasErrorOnUser(false);
+    }
+
+    if (textForNewTodo === '') {
+      setHasErrorOnTitle(true);
+
+      return;
+    }
+
+    if (selectedUser === '0') {
+      setHasErrorOnUser(true);
+
+      return;
+    }
+
+    const newId =
+      todosList
+        .map(todo => todo.id)
+        .sort((a, b) => a - b)
+        .pop()! + 1;
+
+    const user = usersFromServer.find(u => u.id === Number(selectedUser));
+
+    if (!user) {
+      alert('User not found');
+
+      return;
+    }
+
+    const newTodo: Todo & { user: User } = {
+      id: newId,
+      title: textForNewTodo,
+      completed: false,
+      userId: user.id,
+      user: user,
+    };
+
+    setTodosList([...todosList, newTodo]);
+
+    setTextForNewTodo('');
+    setSelectedUser('0');
+    setHasErrorOnTitle(true);
+    setHasErrorOnUser(true);
+  }
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={e => {
+          e.preventDefault();
+          handleCreateNewTodo();
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            type="text"
+            placeholder="Title of todo"
+            onChange={handleTextChange}
+            value={textForNewTodo}
+            data-cy="titleInput"
+          />
+          {hasErrorOnTitle && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <select
+            onChange={handleUserChange}
+            value={selectedUser}
+            data-cy="userSelect"
+          >
             <option value="0" disabled>
               Choose a user
             </option>
+            {usersFromServer.map((user: User) => {
+              return (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              );
+            })}
           </select>
-
-          <span className="error">Please choose a user</span>
         </div>
+
+        {hasErrorOnUser && <span className="error">Please choose a user</span>}
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={todosList} />
     </div>
   );
 };
