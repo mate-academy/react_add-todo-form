@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import './App.scss';
-
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 //import { TodoList } from './components/TodoList';
 import { User } from './types/User';
 //import { Todo } from './types/Todo';
-import classNames from 'classnames';
-
 //import { Todos } from './types/Todos';
 
 export const App: React.FC = () => {
