@@ -2,13 +2,13 @@ import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 
 interface TodoListProps {
-  todoList: Todo[];
+  todos: Todo[];
 }
 
 
-export const TodoList : React.FC<TodoListProps> = ({ todoList } ) => (
+export const TodoList : React.FC<TodoListProps> = ({ todos } ) => (
   <>
-    {todoList.map((todoItem) => (
+    {todos.map((todoItem) => (
       <TodoInfo key={todoItem.id} todo={todoItem} />
     ))}
   </>

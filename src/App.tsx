@@ -58,8 +58,7 @@ export const App = () => {
   const resetForm = () => {
     setTitle('')
     setUserId(0)
-    setTitleError(false)
-    setUserIdError(false)
+
   }
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -72,9 +71,14 @@ export const App = () => {
       setUserIdError(true)
     }
 
-    addTodo();
+    if (!title || !userId){
+      return
+    }
 
+    addTodo()
     resetForm()
+
+
   };
 
   return (
@@ -123,7 +127,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todoList={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
