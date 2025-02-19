@@ -15,8 +15,8 @@ export const App = () => {
   const [hasTitleError, setTitleError] = useState(false);
   const [hasUserError, setUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     let hasError = false;
 
@@ -56,14 +56,18 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={e => handleSubmit(e)}>
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={event => handleSubmit(event)}
+      >
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
             placeholder="Please enter a title"
@@ -75,8 +79,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUser(+e.target.value);
+            onChange={event => {
+              setUser(+event.target.value);
               setUserError(false);
             }}
           >
@@ -100,7 +104,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosList} />
+      <TodoList todos={todosList} users={usersFromServer} />
     </div>
   );
 };

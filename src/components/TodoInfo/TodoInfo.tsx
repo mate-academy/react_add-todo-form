@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import React from 'react';
-import { Todo } from '../../types';
+import { Todo, User } from '../../types';
 
-import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
+  users: User[];
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
   const getUserById = (userId: number) => {
-    return usersFromServer.find(user => user.id === userId) || undefined;
+    return users.find(user => user.id === userId) || undefined;
   };
 
   return (
