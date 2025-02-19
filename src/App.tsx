@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import todosFromServer from './api/todos';
 import { Todo } from './types/types';
