@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import userList from './api/users';
 import todoList from './api/todos';
 import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 
 export const App = () => {
   const findUserById = (userId: number): User | undefined => {
@@ -21,8 +23,8 @@ export const App = () => {
   const [todos, setTodos] = useState(newTodos);
 
   const [userId, setUserId] = useState(0)
-  const  [titleError , setTitleError] = useState(false)
-  const  [userIdError , setUserIdError] = useState(false)
+  const [titleError , setTitleError] = useState(false)
+  const [userIdError , setUserIdError] = useState(false)
 
 
 
@@ -87,7 +89,7 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor={'titleId'}>
+          <label htmlFor={"titleId"}>
             <input
               id="titleId"
               type="text"

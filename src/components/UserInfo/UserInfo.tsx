@@ -1,12 +1,12 @@
 import React from 'react';
+import { User } from '../../types/User';
 
 
-
-interface UserInfo{
+interface UserInfoProps{
   user : User
 }
 
-export const UserInfo : React.FC<UserInfo> = ({user}) => {
+export const UserInfo : React.FC<UserInfoProps> = ({user}) => {
 
 
   return (

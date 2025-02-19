@@ -1,4 +1,6 @@
-interface Todo {
+import { User } from './User';
+
+export interface Todo {
   id: number;
   title: string;
   completed: boolean;
@@ -6,6 +8,4 @@ interface Todo {
   user?: User;
 }
 
-interface TodoInfoProps {
-  todo: Todo;
-}
+
