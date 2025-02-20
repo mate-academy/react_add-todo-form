@@ -1,11 +1,6 @@
 import cn from 'classnames';
-import { User } from '../../types/User';
-import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
-
-function getUserById(usersId: number): User | undefined {
-  return usersFromServer.find(user => user.id === usersId);
-}
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
@@ -21,10 +16,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
         })}
       >
         <h2 className="TodoInfo__title">{todo.title}</h2>
-
-        <a className="UserInfo" href="mailto:Sincere@april.biz">
-          {getUserById(todo.userId)?.name}
-        </a>
+        <UserInfo user={todo.userId} />
       </article>
     );
   }

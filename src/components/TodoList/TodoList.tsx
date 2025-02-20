@@ -6,10 +6,10 @@ type Props = {
   todos: Todo[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => (
   <section className={cn('TodoList')}>
     {todos.map((item, index) => (
       <TodoInfo key={index} todo={item} />
     ))}
-  </section>;
-};
+  </section>
+);
