@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
+
 import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-//import { TodoList } from './components/TodoList';
-import { User } from './types/User';
+import { TodoList } from './components/TodoList';
+// import { User } from './types/User';
 //import { Todo } from './types/Todo';
 //import { Todos } from './types/Todos';
+interface Todo {
+  id: number;
+  title: string;
+  userId: number;
+  completed: boolean;
+}
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [isTitle, setIsTitle] = useState(true);
   const [userId, setUserId] = useState(0);
   const [isUserId, setIsUserId] = useState(true);
-  const [visibleTodos, setVisibleTodos] = useState([...todosFromServer]);
+  const [visibleTodos, setVisibleTodos] = useState<Todo[]>([
+    ...todosFromServer,
+  ]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -47,16 +55,12 @@ export const App: React.FC = () => {
     setIsUserId(true);
   };
 
-  function getUserById(usersId: number): User | undefined {
-    return usersFromServer.find(user => user.id === usersId);
-  }
-
-  const todos = visibleTodos.map((item, index) => {
+  /**  const todos = visibleTodos.map((item, index) => {
     return (
       <article
         key={index}
         data-id="1"
-        className={classNames('TodoInfo', {
+        className={cn('TodoInfo', {
           'TodoInfo--completed': item.completed,
         })}
       >
@@ -67,7 +71,7 @@ export const App: React.FC = () => {
         </a>
       </article>
     );
-  });
+  }); */
 
   return (
     <div className="App">
@@ -107,7 +111,7 @@ export const App: React.FC = () => {
           Add
         </button>
       </form>
-      {todos}
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
