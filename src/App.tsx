@@ -16,9 +16,9 @@ interface Todo {
 
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [isTitle, setIsTitle] = useState(true);
+  const [isTitle, setIsTitle] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [isUserId, setIsUserId] = useState(true);
+  const [isUserId, setIsUserId] = useState(false);
   const [visibleTodos, setVisibleTodos] = useState<Todo[]>([
     ...todosFromServer,
   ]);

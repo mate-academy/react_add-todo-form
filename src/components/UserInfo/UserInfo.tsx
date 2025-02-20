@@ -1,8 +1,15 @@
 import React from 'react';
-import { User } from '../../types/User';
+//import { User } from '../../types/User';
 import usersFromServer from '../../api/users';
 interface Props {
   user: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 }
 
 function getUserById(usersId: number): User | undefined {
