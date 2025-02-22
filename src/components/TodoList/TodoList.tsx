@@ -1,5 +1,5 @@
-import { TodoInfo } from "../TodoInfo";
-import { Task } from "../../types/Task";
+import { TodoInfo } from '../TodoInfo';
+import { Task } from '../../types/Task';
 
 type Props = {
   listOfTodos: Task[];

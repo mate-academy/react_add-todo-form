@@ -49,12 +49,20 @@ export const App = () => {
         onSubmit={(event) => {
           event.preventDefault();
 
-          if (!title) {
-            setHasTitleError(true);
-          }
+          // if (!title) {
+          //   setHasTitleError(true);
+          //   return
+          // }
 
-          if (!currentUser) {
-            setHasUserError(true);
+          // if (!currentUser) {
+          //   setHasUserError(true);
+          // }
+
+          setHasTitleError(!title);
+          setHasUserError(!currentUser);
+
+          if (!title || !currentUser) {
+            return;
           }
 
           setTodosList([
