@@ -80,7 +80,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ handleSubmit }) => {
           <input
             type="text"
             data-cy="titleInput"
-            name="tile"
+            name="title"
             placeholder="Title"
             value={newTodoData.title}
             onChange={handleChange('title')}

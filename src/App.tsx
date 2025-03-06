@@ -7,7 +7,9 @@ import { AddTodoForm } from './components/AddTodoForm/AddTodoForm';
 import { TodoInfo } from './types';
 
 export const App = () => {
-  const [todoList, setTodoList] = useState(todosFromServer);
+  const [todoList, setTodoList] = useState<Array<TodoInfo>>(
+    todosFromServer || [],
+  );
 
   const handleSubmit = (todoData: Omit<TodoInfo, 'id'>) => {
     const newTodo = {
