@@ -1,20 +1,20 @@
-import { Todo } from "../../interfaces";
-import { UserInfo } from "../UserInfo";
-import cn from "classnames";
+import { Todo } from '../../interfaces';
+import { UserInfo } from '../UserInfo';
+import cn from 'classnames';
 
 type Props = {
-  todo: Todo
-}
+  todo: Todo;
+};
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  return(
+  return (
     <article
       key={todo.id}
       data-id={todo.id}
-      className={cn("TodoInfo", { "TodoInfo--completed": todo.completed })}
+      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <UserInfo user={todo.user}/>
+      <UserInfo user={todo.user} />
     </article>
   );
 };

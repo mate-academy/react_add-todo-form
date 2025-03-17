@@ -2,14 +2,13 @@ import './App.scss';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
-import { userById } from './services/userById';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { Todo } from './interfaces';
 
 const visibleTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: userById(todo.userId)
+  user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
 export const App = () => {
@@ -20,7 +19,6 @@ export const App = () => {
 
   const [selectedUser, setSelectedUser] = useState(0);
   const [hasSelectedUserErors, setHasSelectedUserErors] = useState(false);
-
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,34 +32,30 @@ export const App = () => {
     setInitialTodo([
       ...initialTodo,
       {
-      id: Math.max(0, ...initialTodo.map(todo => todo.id)) + 1,
-      title: title,
-      completed: false,
-      userId: selectedUser,
-      user: userById(selectedUser),
-    }]);
+        id: Math.max(0, ...initialTodo.map(todo => todo.id)) + 1,
+        title: title,
+        completed: false,
+        userId: selectedUser,
+        user: usersFromServer.find(user => user.id === selectedUser),
+      },
+    ]);
 
     setTitle('');
     setSelectedUser(0);
-  }
+  };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-      >
-
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
-            placeholder='Enter a title'
+            placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
+            onChange={event => {
               setTitle(event.target.value);
               setHasTitleErors(false);
             }}
@@ -73,7 +67,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={(event) => {
+            onChange={event => {
               setSelectedUser(+event.target.value);
               setHasSelectedUserErors(false);
             }}
@@ -83,16 +77,16 @@ export const App = () => {
             </option>
             {usersFromServer.map(user => {
               return (
-                <option
-                  key={user.id}
-                  value={user.id}
-                >
+                <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
-            )})}
+              );
+            })}
           </select>
 
-          {hasSelectedUserErors && <span className="error">Please choose a user</span>}
+          {hasSelectedUserErors && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
