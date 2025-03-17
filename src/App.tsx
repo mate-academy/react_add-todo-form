@@ -29,16 +29,15 @@ export const App = () => {
       return;
     }
 
-    setInitialTodo([
-      ...initialTodo,
-      {
-        id: Math.max(0, ...initialTodo.map(todo => todo.id)) + 1,
-        title: title,
-        completed: false,
-        userId: selectedUser,
-        user: usersFromServer.find(user => user.id === selectedUser),
-      },
-    ]);
+    const newTodo = {
+      id: Math.max(0, ...initialTodo.map(todo => todo.id)) + 1,
+      title: title,
+      completed: false,
+      userId: selectedUser,
+      user: usersFromServer.find(user => user.id === selectedUser),
+    };
+
+    setInitialTodo([...initialTodo, newTodo]);
 
     setTitle('');
     setSelectedUser(0);
