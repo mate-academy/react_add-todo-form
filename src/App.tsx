@@ -4,22 +4,34 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-import { Todo, TodoWithUser } from './types';
+import { Todo, TodoWithUser, User } from './types';
 
-const prepareTodos = (todos: Todo[]): TodoWithUser[] => {
-  return todos.reduce<TodoWithUser[]>((acc, todo) => {
-    const user = usersFromServer.find(userFS => todo.userId === userFS.id);
+const defaultUser: User = {
+  id: 0,
+  name: 'Unknown user',
+  username: 'Unknown',
+  email: 'Unknown',
+};
 
-    if (user) {
-      acc.push({ ...todo, user });
-    }
+const findUser = (userId: number): User => {
+  const user = usersFromServer.find(userFS => userFS.id === userId);
 
-    return acc;
-  }, []);
+  if (user) {
+    return user;
+  }
+
+  // throw new Error('incorrect user ID');
+  return defaultUser;
+};
+
+const mergeTodos = (todos: Todo[]): TodoWithUser[] => {
+  return todos.map(todo => ({ ...todo, user: findUser(todo.userId) }));
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<TodoWithUser[]>(
+    mergeTodos(todosFromServer),
+  );
 
   const [titleField, setInputField] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -41,18 +53,19 @@ export const App = () => {
       return;
     }
 
-    const newTodo: Todo = {
+    const newTodo: TodoWithUser = {
       userId: userSelection,
       title: titleField,
       completed: false,
       id: Math.max(...todos.map(({ id }) => id)) + 1,
+      user: findUser(userSelection),
     };
 
     setTodos([...todos, newTodo]);
     clearForm();
   };
 
-  const preparedTodos = prepareTodos(todos);
+  // const preparedTodos = prepareTodos(todos);
 
   return (
     <div className="App">
@@ -104,7 +117,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={preparedTodos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
