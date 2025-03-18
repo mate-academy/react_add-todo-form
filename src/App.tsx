@@ -7,17 +7,19 @@ import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { ITodo, IUser, OnAddCallback } from './types/todo';
 
+const users = [...usersFromServer];
+
 const todos: ITodo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId),
+  user: users.find(user => user.id === todo.userId),
 }));
 
 const getNextId = (list: ITodo[]): number => {
   return Math.max(...list.map(item => item.id)) + 1;
 };
 
-const getUser = (id: number, users: IUser[]): IUser | undefined =>
-  users.find(user => user.id === id);
+const getUser = (id: number, userList: IUser[]): IUser | undefined =>
+  userList.find(user => user.id === id);
 
 export const App = () => {
   const [todoList, setTodoList] = useState(todos);
@@ -28,7 +30,7 @@ export const App = () => {
       title,
       userId,
       completed: false,
-      user: getUser(userId, usersFromServer),
+      user: getUser(userId, users),
     };
 
     setTodoList(list => [...list, newTodo]);
@@ -38,7 +40,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm users={usersFromServer} onAdd={handleAddTodo} />
+      <TodoForm users={users} onAdd={handleAddTodo} />
       <TodoList todos={todoList} />
     </div>
   );

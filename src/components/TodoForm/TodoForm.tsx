@@ -35,9 +35,9 @@ export const TodoForm: React.FC<Props> = ({ users, onAdd }) => {
     reset();
   };
 
-  const handleTitleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sanitizedInput = sanitizeStringAlpha(
-      ev.target.value,
+      event.target.value,
       /[A-Za-zА-ЩЬЮЯҐЄІЇа-щьюяґєії]/,
     );
 
@@ -45,8 +45,8 @@ export const TodoForm: React.FC<Props> = ({ users, onAdd }) => {
     setTitleHasError(false);
   };
 
-  const handleUserChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+ev.target.value);
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
     setUserIdHasError(false);
   };
 
