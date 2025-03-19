@@ -9,7 +9,7 @@ Implement the ability to add TODOs to the `TodoList` implemented in the **Static
   - add a `<select>` with `data-cy="userSelect"` attribute showing all the given users;
   - add labels and placeholders where they are needed;
   - add a new todo to the list after clicking the `Add` button;
-  - each TODO item must have the following fields:
+  - each TODO item must have the following fields:rrys
      - `id`,
      - `title`,
      - `userId`,
