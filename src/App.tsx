@@ -8,6 +8,7 @@ import { TodoList } from './components/TodoList';
 interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
 }
 
@@ -24,6 +25,7 @@ const enrichedTodos = todosFromServer.map(todo => ({
   user: usersFromServer.find(user => user.id === todo.userId) || {
     id: 0,
     name: 'Unknown',
+    username: '',
     email: '',
   },
 }));
@@ -55,8 +57,7 @@ export const App = () => {
       return;
     }
 
-    const newTodoId =
-      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 16;
+    const newTodoId = Math.max(...todos.map(todo => todo.id), 0) + 1;
     const selectedUser = usersFromServer.find(user => user.id === userId) || {
       id: 0,
       name: 'Unknown',
