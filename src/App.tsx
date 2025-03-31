@@ -40,13 +40,17 @@ export const App = () => {
     setPosts(currentPost => [...currentPost, newPost]);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+  const handleTitleChange = (
+    changeEvent: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTitle(changeEvent.target.value);
     setHasTitleError(false);
   };
 
-  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(event.target.value);
+  const handleUserIdChange = (
+    changeEvent: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(changeEvent.target.value);
     setHasUserIdError(false);
   };
 
@@ -60,8 +64,10 @@ export const App = () => {
       return;
     }
 
+    const newPostId = getNewPostId(posts);
+
     const newPost: Todo = {
-      id: getNewPostId(posts),
+      id: newPostId,
       title,
       completed: false,
       userId: Number(userId),
@@ -69,8 +75,6 @@ export const App = () => {
     };
 
     addPost(newPost);
-    setTitle('');
-    setUserId('');
   };
 
   return (
