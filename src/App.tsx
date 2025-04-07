@@ -26,6 +26,7 @@ function newTodoId(todos: Todo[]) {
 export const App: React.FC = () => {
   const [title, setTitle] = useState('');
   const [errorTitle, setErrorTitle] = useState(false);
+  const [users] = useState(usersFromServer);
   const [userId, setUserId] = useState(0);
   const [errorUserId, setErrorUserId] = useState(false);
   const [todos, setTodos] = useState(initialTodos);
@@ -78,7 +79,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="title">
             Title:&nbsp;&nbsp;
@@ -106,7 +107,7 @@ export const App: React.FC = () => {
               <option value="0" disabled>
                 Choose a user
               </option>
-              {usersFromServer.map(user => (
+              {users.map(user => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
