@@ -109,7 +109,6 @@ export const App = () => {
         <button
           type="submit"
           data-cy="submitButton"
-          onClick={() => setIsTouched(true)}
         >
           Add
         </button>
