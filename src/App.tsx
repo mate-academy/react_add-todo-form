@@ -1,61 +1,55 @@
-import './App.scss';
+import React, { useState } from 'react';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+// Define the type for a movie
+interface Movie {
+  title: string;
+  description: string;
+}
 
-export const App = () => {
+// MoviesList component
+const MoviesList: React.FC<{ movies: Movie[] }> = ({ movies }) => {
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <ul>
+      {movies.map((movie, index) => (
+        <li key={index}>
+          <h2>{movie.title}</h2>
+          <p>{movie.description}</p>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+// App component
+const App: React.FC = () => {
+  // Sample data for movies
+  const movies: Movie[] = [
+    { title: 'Inception', description: 'A mind-bending thriller about dreams.' },
+    { title: 'Interstellar', description: 'A journey through space and time.' },
+    { title: 'The Dark Knight', description: 'Batman faces his greatest nemesis.' },
+    { title: 'Joker', description: 'A deep dive into the origins of an iconic villain.' },
+  ];
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+  // State for query and filtered movies
+  const [query, setQuery] = useState<string>('');
+  const visibleMovies = movies.filter(
+    movie =>
+      movie.title.toLowerCase().includes(query.toLowerCase()) ||
+      movie.description.toLowerCase().includes(query.toLowerCase())
+  );
 
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+  return (
+    <div>
+      <h1>Movies List</h1>
+      <input
+        type="text"
+        placeholder="Search movies..."
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+      />
+      <MoviesList movies={visibleMovies} />
     </div>
   );
 };
+
+export default App;
