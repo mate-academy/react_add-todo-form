@@ -45,7 +45,7 @@ export const App = () => {
     }
 
     const newTodo: Todo = {
-      id: getNewId(todos),
+      id: getNewId(newTodos),
       title: title,
       completed: false,
       userId: userId,
