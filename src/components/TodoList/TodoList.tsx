@@ -27,7 +27,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
           user,
         };
 
-        return <TodoInfo key={todo.id} todo={completedTodo} user={user} />;
+        return <TodoInfo key={todo.id} todo={completedTodo} />;
       })}
       {/* {completedTodos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} user={todo.user} />

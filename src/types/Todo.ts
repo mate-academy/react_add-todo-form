@@ -1,4 +1,4 @@
-import { User } from "./User";
+import { User } from './User';
 
 export type TodoId = number;
 
@@ -9,6 +9,6 @@ export interface Todo {
   userId: number;
 }
 
-export interface CompletedTodo extends Todo{
-  user: User;
+export interface CompletedTodo extends Todo {
+  user: User | null;
 }
