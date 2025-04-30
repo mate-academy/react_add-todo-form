@@ -2,10 +2,7 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { MouseEventHandler, useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { values } from 'cypress/types/lodash';
-import { event } from 'cypress/types/jquery';
 
 export interface User {
   id: number;
@@ -20,7 +17,7 @@ export interface Todo {
   completed: boolean;
   userId: number;
   user: User;
-};
+}
 
 export const App = () => {
   const preparedTodos: Todo[] = todosFromServer.map(todo => ({

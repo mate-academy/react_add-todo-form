@@ -1,6 +1,6 @@
-import { Todo } from "../../App";
+import { Todo } from '../../App';
 
-export const TodoInfo = ({ todo }) => {
+export const TodoInfo = (todo: Todo) => {
   return (
     <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
       <h2 className="TodoInfo__title">{todo.title}</h2>

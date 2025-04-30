@@ -18,4 +18,3 @@ export default [
     userId: 4,
   },
 ];
-
