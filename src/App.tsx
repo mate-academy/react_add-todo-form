@@ -21,7 +21,7 @@ export const App = () => {
 
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
   const [userError, setUserError] = useState('');
 
@@ -63,7 +63,7 @@ export const App = () => {
 
     setTodos(prev => [...prev, newTodo]);
     setTitle('');
-    setUserId('');
+    setUserId(0);
     setTitleError('');
     setUserError('');
   };
@@ -87,8 +87,8 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={0}
-            onChange={e => setUserId(e.target.value)}
+            value={userId}
+            onChange={e => setUserId(Number(e.target.value))}
           >
             <option value="0" disabled>
               Choose a user
