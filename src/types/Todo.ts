@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export type TodoId = number;
 
 export interface Todo {
@@ -5,4 +7,8 @@ export interface Todo {
   title: string;
   completed: boolean;
   userId: number;
+}
+
+export interface CompletedTodo extends Todo{
+  user: User;
 }

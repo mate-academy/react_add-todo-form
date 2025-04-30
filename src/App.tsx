@@ -5,7 +5,6 @@ import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
-import { getUserById } from './services/user';
 import { Todo, TodoId } from './types/Todo';
 
 export const App = () => {
@@ -45,7 +44,7 @@ export const App = () => {
       id: getNewTodoId(),
       title: titleValue,
       completed: false,
-      userId: getUserById(selectedUser)!.id,
+      userId: selectedUser,
     });
 
     setTitleValue('');

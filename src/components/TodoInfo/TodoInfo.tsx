@@ -1,16 +1,16 @@
 import React from 'react';
-import { Todo } from '../../types/Todo';
+import { CompletedTodo } from '../../types/Todo';
 import classNames from 'classnames';
-import { getUserById } from '../../services/user';
 import { UserInfo } from '../UserInfo';
 import { User } from '../../types/User';
 
 type Props = {
-  todo: Todo;
+  todo: CompletedTodo;
+  user: User;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const { id, title, completed, userId } = todo;
+export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+  const { id, title, completed } = todo;
 
   return (
     <article
@@ -21,7 +21,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
-      <UserInfo user={getUserById(userId) as User} />
+      <UserInfo user={user} />
     </article>
   );
 };
