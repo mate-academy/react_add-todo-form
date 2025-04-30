@@ -30,6 +30,11 @@ export const App = () => {
     setHasTitleError(false);
   }
 
+  function handleOnChangeSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedUser(+event.target.value);
+    setHasSelectError(false);
+  }
+
   function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -78,10 +83,7 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={selectedUser}
-              onChange={event => {
-                setSelectedUser(+event.target.value);
-                setHasSelectError(false);
-              }}
+              onChange={handleOnChangeSelect}
             >
               <option value="0" disabled>
                 Choose a user
