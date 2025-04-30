@@ -3,6 +3,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { useState } from 'react';
 
 export interface User {
   id: number;
@@ -80,6 +81,7 @@ export const App = () => {
             data-cy="titleInput"
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
+            placeholder="Enter a title"
           />
           {hasErrorInput && <span className="error">Please enter a title</span>}
         </div>

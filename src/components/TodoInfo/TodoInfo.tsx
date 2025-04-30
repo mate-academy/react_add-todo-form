@@ -1,13 +1,19 @@
 import { Todo } from '../../App';
+import { UserInfo } from '../UserInfo';
 
-export const TodoInfo = (todo: Todo) => {
+interface TodoInfoProps {
+  todo: Todo;
+}
+
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
-    <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
+    <article
+      data-id={todo.id}
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+    >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href={todo.user.email}>
-        {todo.user.username}
-      </a>
+      <UserInfo user={todo.user} />
     </article>
   );
 };
