@@ -87,7 +87,7 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={userId}
+            value={0}
             onChange={e => setUserId(e.target.value)}
           >
             <option value="0" disabled>
