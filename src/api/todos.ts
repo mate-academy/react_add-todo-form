@@ -6,13 +6,13 @@ export default [
     userId: 1,
   },
   {
-    id: 15,
+    id: 2,
     title: 'some other todo',
     completed: false,
     userId: 1,
   },
   {
-    id: 2,
+    id: 3,
     title: 'quis ut nam facilis et officia qui',
     completed: false,
     userId: 4,
