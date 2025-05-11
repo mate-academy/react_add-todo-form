@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
@@ -13,6 +13,29 @@ button {
 
 .error {
   color: red;
+}
+
+.field {
+  // display: flex;
+  // flex-direction: column;
+  margin: 8px 0;
+  &__label {
+    margin: 4px 0;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+}
+
+.formBtn {
+  margin: 8px 0;
+  padding: 8px;
+  width: 200px;
+  border-radius: 4px;
+  background-color: rgb(215, 247, 250);
+
+  &:hover {
+    background-color: rgb(173, 232, 237);
+  }
 }
 
 .TodoInfo {
