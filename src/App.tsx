@@ -100,7 +100,7 @@ export const App = () => {
               setUserError('');
             }}
           >
-            <option value="" defaultValue="">
+            <option value={0} disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
