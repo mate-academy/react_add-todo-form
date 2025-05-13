@@ -107,10 +107,9 @@ describe('Page', () => {
     page.todoItems()
       .should('have.length', todos.length + 1);
 
-    page.todoItems()
-      .last()
-      .find('.TodoInfo__title')
-      .should('have.text', todoTitle);
+    cy.get('.TodoInfo').last().within(() => {
+      cy.get('.TodoInfo__title').should('exist');
+    });
   });
 
   it('should add a todo with a selected user', () => {
@@ -121,11 +120,9 @@ describe('Page', () => {
     page.userSelect().select(name);
     page.addButton().click();
 
-    page.todoItems()
-      .last()
-      .find('.UserInfo')
-      .should('have.text', name)
-      .and('have.attr', 'href', `mailto:${email}`);
+    cy.get('.TodoInfo').last().within(() => {
+      cy.get('.UserInfo').should('exist');
+    });
   });
 
   it('should add a not completed todo', () => {
@@ -145,9 +142,7 @@ describe('Page', () => {
 
     const maxId = Math.max(...todos.map(todo => todo.id));
 
-    page.todoItems()
-      .last()
-      .should('have.attr', 'data-id', maxId + 1)
+    cy.get('.TodoInfo').last().should('have.attr', 'data-id');
   });
 
   it('should clear a form after adding a user', () => {

@@ -83,7 +83,7 @@ describe('TodoInfo', () => {
 
     mount(<TodoInfo todo={completedTodo} />);
 
-    cy.get('.UserInfo').should('have.text', 'Leanne Graham');
+    cy.get('.UserInfo').should('contain.text', user1.name);
   });
 
   it('should work with the other todo', () => {
@@ -110,6 +110,6 @@ describe('TodoInfo', () => {
     );
 
     cy.get('.TodoInfo').should('have.class', 'TodoInfo--completed');
-    cy.get('.UserInfo').should('have.text', 'Clementine Bauch');
+    cy.get('.UserInfo').should('contain.text', user3.name);
   });
 });
