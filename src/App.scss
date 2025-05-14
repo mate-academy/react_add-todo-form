@@ -37,3 +37,49 @@ button {
 .UserInfo {
   font-style: italic;
 }
+
+/* adicionado -------------------- */
+
+.App {
+  padding: 20px;
+}
+
+.App h1 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 500px;
+  border: 1px solid #000;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+form > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.field input, .field select {
+  padding: 5px 10px;
+  flex: 1;
+  width: 210px;
+}
+
+form > button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  max-width: 70px;
+}
