@@ -131,7 +131,9 @@ export const App = () => {
         {userError && submitted && (
           <span className="error">Please choose a user</span>
         )}
-        <button type="submit">Add</button>
+        <button type="submit" data-cy="submitButton">
+          Add
+        </button>
       </form>
       <TodoList todos={todos} />
     </div>

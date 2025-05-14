@@ -1,4 +1,5 @@
 import React from 'react';
+import { UserInfo } from '../UserInfo';
 
 interface User {
   id: number;
@@ -25,10 +26,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <div className={todoClassName} data-id={todo.id}>
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <div className="UserInfo">
-        <p>User: {todo.user.name}</p>
-        <p>Email: {todo.user.email}</p>
-      </div>
+      <UserInfo user={todo.user} />
     </div>
   );
 };
