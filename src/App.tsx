@@ -33,10 +33,26 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!title.trim() || !userId) {
+    setSubmitted(true);
+    let hasError = false;
+
+    if (!title.trim()) {
+      setTitleError(true);
+      hasError = true;
+    }
+
+    if (!userId) {
+      setUserError(true);
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
 
@@ -53,6 +69,25 @@ export const App = () => {
     setTodos(prev => [...prev, newTodo]);
     setTitle('');
     setUserId('');
+    setTitleError(false);
+    setUserError(false);
+    setSubmitted(false);
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+
+    if (titleError) {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(e.target.value);
+
+    if (userError) {
+      setUserError(false);
+    }
   };
 
   return (
@@ -66,14 +101,17 @@ export const App = () => {
           type="text"
           placeholder="Enter todo title"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={handleTitleChange}
         />
+        {titleError && submitted && (
+          <span className="error">Please enter a title</span>
+        )}
         <label htmlFor="userSelect">User</label>
         <select
           id="userSelect"
           data-cy="userSelect"
           value={userId}
-          onChange={e => setUserId(e.target.value)}
+          onChange={handleUserChange}
         >
           <option value="" disabled>
             Choose a user
@@ -84,6 +122,9 @@ export const App = () => {
             </option>
           ))}
         </select>
+        {userError && submitted && (
+          <span className="error">Please choose a user</span>
+        )}
         <button type="submit">Add</button>
       </form>
       <TodoList todos={todos} />
