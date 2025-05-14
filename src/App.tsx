@@ -75,7 +75,13 @@ export const App = () => {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    // Allow only ua/en letters, digits, and spaces
+    const filtered = e.target.value.replace(
+      /[^a-zA-Zа-яА-ЯёЁіІїЇєЄ0-9 ]+/g,
+      '',
+    );
+
+    setTitle(filtered);
 
     if (titleError) {
       setTitleError(false);
