@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
@@ -30,11 +30,62 @@ const preparedTodos: Todo[] = (todosFromServer as TodoFromServer[]).map(
 );
 
 export const App = () => {
-  const [todos] = useState<Todo[]>(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState('');
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (!title.trim() || !userId) {
+      return;
+    }
+
+    const user = (usersFromServer as User[]).find(u => u.id === +userId)!;
+    const newId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1;
+    const newTodo: Todo = {
+      id: newId,
+      title: title.trim(),
+      userId: +userId,
+      completed: false,
+      user,
+    };
+
+    setTodos(prev => [...prev, newTodo]);
+    setTitle('');
+    setUserId('');
+  };
 
   return (
     <div className="App">
       <h1>Todos</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="titleInput">Title</label>
+        <input
+          id="titleInput"
+          data-cy="titleInput"
+          type="text"
+          placeholder="Enter todo title"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <label htmlFor="userSelect">User</label>
+        <select
+          id="userSelect"
+          data-cy="userSelect"
+          value={userId}
+          onChange={e => setUserId(e.target.value)}
+        >
+          <option value="" disabled>
+            Choose a user
+          </option>
+          {(usersFromServer as User[]).map(user => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+        <button type="submit">Add</button>
+      </form>
       <TodoList todos={todos} />
     </div>
   );
