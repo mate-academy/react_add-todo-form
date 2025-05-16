@@ -12,7 +12,7 @@ export const App = () => {
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [isTitleError, setIsTitleError] = useState(false);
   const [isUserError, setIsUserError] = useState(false);
-  const isFormValid = title.trim() && selectedUserId !== 0;
+  const isFormValid = Boolean(title.trim()) && selectedUserId !== 0;
   const [todos, setTodos] = useState(() =>
     todosFromServer.map(todo => ({
       ...todo,
