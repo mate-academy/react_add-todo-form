@@ -1,4 +1,4 @@
-import { TodoInfo } from "../TodoInfo";
+import { TodoInfo } from '../TodoInfo';
 
 interface Todo {
   id: number;
@@ -17,13 +17,12 @@ interface Props {
   todos: Todo[];
 }
 
-export const TodoList = ({todos}: Props) => {
+export const TodoList = ({ todos }: Props) => {
   return (
     <section className="TodoList">
-
-        {todos.map((todo: Todo) => (
-          <TodoInfo todo={todo}/>
-        ))}
-      </section>
-  )
+      {todos.map((todo: Todo) => (
+        <TodoInfo todo={todo} key={todo.id} />
+      ))}
+    </section>
+  );
 };

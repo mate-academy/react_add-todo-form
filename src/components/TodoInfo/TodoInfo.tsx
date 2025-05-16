@@ -1,4 +1,4 @@
-import { UserInfo } from "../UserInfo";
+import { UserInfo } from '../UserInfo';
 
 interface Todo {
   id: number;
@@ -15,10 +15,12 @@ interface Todo {
 
 export const TodoInfo = ({ todo }: { todo: Todo }) => {
   return (
-    <article data-id={todo.id} className={`TodoInfo${todo.completed ? ' TodoInfo--completed' : ''}`}>
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-
-            <UserInfo user = {todo.user}/>
-          </article>
-  )
+    <article
+      data-id={todo.id}
+      className={`TodoInfo${todo.completed ? ' TodoInfo--completed' : ''}`}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <UserInfo user={todo.user} key={todo.id} />
+    </article>
+  );
 };
