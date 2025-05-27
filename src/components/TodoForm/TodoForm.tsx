@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Todo } from '../../types/Todo';
 import users from '../../api/users';
-import { getUserById } from '../../srvices/getUserById';
+import { getUserById } from '../../services/getUserById';
 
 type Props = {
   onAdd: (todo: Todo) => void;

@@ -5,7 +5,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import { useState } from 'react';
 import { TodoForm } from './components/TodoForm/TodoForm';
-import { getUserById } from './srvices/getUserById';
+import { getUserById } from './services/getUserById';
 
 const todosList: Todo[] = todosFromServer.map(t => ({
   ...t,
