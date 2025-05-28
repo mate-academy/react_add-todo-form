@@ -12,7 +12,9 @@ export const App = () => {
   const [title, setTitle] = useState<string>('');
   const [selectedUserId, setSelectedUserId] = useState<string>('0');
   const [formSubmitedError, setFormSubmitedError] = useState<boolean>(false);
-  // Adiciona o usuário completo a cada todo
+  const [userError, setUserError] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState<boolean>(false);
+
   const todosWithUsers = todos.map(todo => ({
     ...todo,
     user: users.find(user => user.id === todo.userId)!,
@@ -29,9 +31,20 @@ export const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || selectedUserId === '0') {
-      setFormSubmitedError(true);
+    let hasError = false;
 
+    if (!title.trim()) {
+      setTitleError(true);
+      hasError = true;
+    }
+
+    if (selectedUserId === '0') {
+      setUserError(true);
+      hasError = true;
+    }
+
+    if (hasError) {
+      setFormSubmitedError(true);
       return;
     }
 
@@ -46,6 +59,9 @@ export const App = () => {
     setTodos([...todos, newTodo]);
     setTitle('');
     setSelectedUserId('0');
+    setFormSubmitedError(false);
+    setTitleError(false);
+    setUserError(false);
   };
 
   return (
@@ -59,14 +75,15 @@ export const App = () => {
             placeholder="Enter todo title"
             value={title}
             onChange={e => {
-              setFormSubmitedError(false);
               setTitle(e.target.value);
+              if (titleError || formSubmitedError) setTitleError(false);
+            }}
+            onBlur={() => {
+              if (!title.trim()) setTitleError(true);
             }}
             data-cy="titleInput"
           />
-          {formSubmitedError && !title && (
-            <span className="error">Please enter a title</span>
-          )}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -74,8 +91,11 @@ export const App = () => {
             data-cy="userSelect"
             value={selectedUserId}
             onChange={e => {
-              setFormSubmitedError(false);
               setSelectedUserId(e.target.value);
+              if (userError || formSubmitedError) setUserError(false);
+            }}
+            onBlur={() => {
+              if (selectedUserId === '0') setUserError(true);
             }}
           >
             <option value="0" disabled>
@@ -87,10 +107,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-
-          {formSubmitedError && selectedUserId === '0' && (
-            <span className="error">Please choose a user</span>
-          )}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
