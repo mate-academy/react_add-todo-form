@@ -11,7 +11,7 @@ export default defineConfig({
   screenshotOnRunFailure: true,
   reporter: 'mochawesome',
   reporterOptions: {
-    reportDir: 'raw_reports',
+    reportDir: 'reports',
     overwrite: false,
     html: false,
     json: true,

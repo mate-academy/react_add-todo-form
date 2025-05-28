@@ -6,6 +6,7 @@
     "cypress.config.ts"
   ],
   "compilerOptions": {
+    "baseUrl": ".",
     "sourceMap": false,
     "types": ["node", "cypress"],
     "target": "ES6",
