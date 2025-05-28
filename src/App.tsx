@@ -11,7 +11,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState<string>('');
   const [selectedUserId, setSelectedUserId] = useState<string>('0');
-
+  const [formSubmitedError, setFormSubmitedError] = useState<boolean>(false);
   // Adiciona o usuário completo a cada todo
   const todosWithUsers = todos.map(todo => ({
     ...todo,
@@ -30,6 +30,8 @@ export const App = () => {
     e.preventDefault();
 
     if (!title || selectedUserId === '0') {
+      setFormSubmitedError(true);
+
       return;
     }
 
@@ -56,17 +58,25 @@ export const App = () => {
             type="text"
             placeholder="Enter todo title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => {
+              setFormSubmitedError(false);
+              setTitle(e.target.value);
+            }}
             data-cy="titleInput"
           />
-          {!title && <span className="error">Please enter a title</span>}
+          {formSubmitedError && !title && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={e => setSelectedUserId(e.target.value)}
+            onChange={e => {
+              setFormSubmitedError(false);
+              setSelectedUserId(e.target.value);
+            }}
           >
             <option value="0" disabled>
               Choose a user
@@ -78,7 +88,7 @@ export const App = () => {
             ))}
           </select>
 
-          {selectedUserId === '0' && (
+          {formSubmitedError && selectedUserId === '0' && (
             <span className="error">Please choose a user</span>
           )}
         </div>
