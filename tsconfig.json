@@ -1,10 +1,20 @@
 {
   "extends": "@mate-academy/students-ts-config",
   "include": [
-    "src"
+    "src",
+     "cypress",
+    "cypress.config.ts"
   ],
   "compilerOptions": {
+    "baseUrl": ".",
     "sourceMap": false,
-    "types": ["node", "cypress"]
+    "types": ["node", "cypress"],
+    "target": "ES6",
+    "module": "ES6",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   }
 }
+
