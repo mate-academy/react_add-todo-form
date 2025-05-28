@@ -20,6 +20,10 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
 
   const findLargestId = () => {
+    if (listToDo.length === 0) {
+      return 1;
+    }
+
     return Math.max(...listToDo.map(item => item.id)) + 1;
   };
 
