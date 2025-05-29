@@ -1,6 +1,6 @@
 import { User } from '../entities/User';
 
-const todosFromServer: User[] = [
+const usersFromServer: User[] = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -63,4 +63,4 @@ const todosFromServer: User[] = [
   },
 ];
 
-export default todosFromServer;
+export default usersFromServer;

@@ -18,13 +18,13 @@ const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => {
 export const App = () => {
   const [todos, setTodos] = useState(todosWithUser);
 
-  const [reloudForm, setReloudForm] = useState(0);
+  const [reloadForm, setReloadForm] = useState(0);
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
-  const [hasUserId, setHasUserId] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const onSubmit = (newTodo: TodoWithUser) => {
     return setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -43,7 +43,7 @@ export const App = () => {
     }
 
     if (!userId) {
-      setHasUserId(true);
+      setHasUserIdError(true);
     }
 
     if (!userId || !title) {
@@ -58,7 +58,7 @@ export const App = () => {
       user: findUserById(userId),
     });
 
-    setReloudForm(reloudForm + 1);
+    setReloadForm(reloadForm + 1);
 
     reset();
   };
@@ -68,9 +68,9 @@ export const App = () => {
     setHasTitleError(false);
   };
 
-  const handleChuseName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChooseName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUserId(false);
+    setHasUserIdError(false);
   };
 
   return (
@@ -80,7 +80,7 @@ export const App = () => {
       <form
         action="/api/todos"
         method="POST"
-        key={reloudForm}
+        key={reloadForm}
         onSubmit={handleOnSubmit}
       >
         <div className="field">
@@ -101,7 +101,7 @@ export const App = () => {
         <div className="field">
           <label>
             {'User '}
-            <select data-cy="userSelect" onChange={handleChuseName}>
+            <select data-cy="userSelect" onChange={handleChooseName}>
               {userId ? (
                 <option value={0} disabled>
                   Choose a user
@@ -120,7 +120,9 @@ export const App = () => {
             </select>
           </label>
 
-          {hasUserId && <span className="error">Please choose a user</span>}
+          {hasUserIdError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
