@@ -31,7 +31,7 @@ export const App = () => {
       return;
     }
 
-    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+    const newId = Math.max(0, ...todos.map(todo => todo.id)) + 1;
     const user = usersFromServer.find(u => u.id === userId);
 
     if (!user) {
