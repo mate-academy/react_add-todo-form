@@ -1,27 +1,132 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
 
-export const App = () => {
+import { useState } from 'react';
+import { TodoWithUser, TodoList } from './components/TodoList';
+
+export const App: React.FC = () => {
+  const [userSelected, setUserSelected] = useState(0);
+  const [visibleTodos, setVisibleTodos] = useState<TodoWithUser[]>(() =>
+    todosFromServer.map(todo => {
+      const user = usersFromServer.find(usr => usr.id === todo.userId)!;
+
+      return {
+        ...todo,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      };
+    }),
+  );
+  const [title, setTitle] = useState('');
+
+  const usersWithTasks = usersFromServer.map(user => {
+    const todo = todosFromServer.find(tudu => tudu.userId === user.id);
+
+    return {
+      ...user,
+      todoTitle: todo?.title,
+      todoCompleted: todo?.completed,
+    };
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const onAddToDoHandle = (userSelected: number, title: string) => {
+    const user = usersFromServer.find(u => u.id === userSelected);
+    const maxId = visibleTodos.reduce((max, todo) => Math.max(max, todo.id), 0);
+
+    if (!user) {
+      return;
+    }
+
+    setVisibleTodos([
+      ...visibleTodos,
+      {
+        id: maxId + 1,
+        title,
+        completed: false,
+        userId: user.id,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      },
+    ]);
+  };
+
+  console.log(visibleTodos);
+  console.log(usersWithTasks);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={event => {
+          event.preventDefault();
+          if (title.trim() && userSelected !== 0) {
+            onAddToDoHandle(userSelected, title);
+            setTitle('');
+            setUserSelected(0);
+          }
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <label htmlFor="titleInput">Title: </label>
+          <input
+            onChange={eventChangeTitle => {
+              setTitle(eventChangeTitle.target.value);
+            }}
+            placeholder={'Enter a title'}
+            value={title}
+            type="text"
+            data-cy="titleInput"
+            id="titleInput"
+          />
+          {title.length === 0 && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
+          <label htmlFor="selectUser">User: </label>
+          <select
+            value={userSelected}
+            id="selectUser"
+            data-cy="userSelect"
+            onChange={event => {
+              const selectedId = Number(event.target.value);
+              const selectedUser = usersWithTasks.find(
+                user => user.id === selectedId,
+              );
+
+              if (selectedUser && selectedUser.id !== undefined) {
+                setUserSelected(selectedUser.id);
+              }
+            }}
+          >
             <option value="0" disabled>
               Choose a user
             </option>
+            {usersFromServer.map(user => {
+              return (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              );
+            })}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {!userSelected && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -29,33 +134,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={visibleTodos} />
     </div>
   );
 };
