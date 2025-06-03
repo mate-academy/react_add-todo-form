@@ -9,8 +9,8 @@ import { TodoList } from './components/TodoList';
 export const App = () => {
   const [title, setTitle] = useState('');
   const [isTitleTouched, setIsTitleTouched] = useState(false);
+  const [isUserTouched, setIsUserTouched] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const emptyUser = {
     name: 'Choose a user',
@@ -30,8 +30,8 @@ export const App = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsFormSubmitted(true);
     setIsTitleTouched(true);
+    setIsUserTouched(true);
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -56,8 +56,8 @@ export const App = () => {
     setTodos(prev => [...prev, newTodo]);
     setTitle('');
     setSelectedUser(0);
-    setIsFormSubmitted(false);
     setIsTitleTouched(false);
+    setIsUserTouched(false);
   }
 
   return (
@@ -85,9 +85,14 @@ export const App = () => {
           <label htmlFor="userSelect">User:</label>
           <select
             data-cy="userSelect"
-            onChange={e => setSelectedUser(+e.target.value)}
+            onChange={e => {
+              if (+e.target.value === 0) {
+                setIsUserTouched(true);
+              }
+            }}
             value={selectedUser}
             name="userSelect"
+            onBlur={() => setIsUserTouched(true)}
           >
             {[emptyUser, ...usersFromServer].map(user => (
               <option value={user.id} key={user.id} disabled={user.id === 0}>
@@ -95,7 +100,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {isFormSubmitted && selectedUser === 0 && (
+          {isUserTouched && selectedUser === 0 && (
             <span className="error">Please choose a user</span>
           )}
         </div>
