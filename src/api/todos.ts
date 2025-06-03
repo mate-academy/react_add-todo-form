@@ -1,4 +1,5 @@
-export default [
+import { Todo } from '../entities/Todo';
+const todos: Todo[] = [
   {
     id: 1,
     title: 'delectus aut autem',
@@ -18,3 +19,5 @@ export default [
     userId: 4,
   },
 ];
+
+export default todos;
