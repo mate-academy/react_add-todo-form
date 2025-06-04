@@ -16,7 +16,7 @@ export const NewTodo: React.FC<NewTodoProps> = ({ onSubmit }) => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.trimStart());
+    setTitle(event.target.value.trim());
     setHasTitleError(false);
   };
 
