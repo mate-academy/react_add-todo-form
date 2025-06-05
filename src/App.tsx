@@ -1,61 +1,125 @@
-import './App.scss';
+import React, { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { Todo } from './types/Todo';
+import classNames from 'classnames';
+import { TodoList } from './components/TodoList';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+export const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
-export const App = () => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value.replace(/[^a-zA-Z0-9 ]/g, ''));
+    setHasTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+event.target.value);
+    setHasUserIdError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setHasTitleError(!title.trim());
+    setHasUserIdError(!userId);
+
+    if (!title.trim() || !userId) {
+      return;
+    }
+
+    const nextId = Math.max(0, ...todos.map(todo => todo.id)) + 1;
+    const user = usersFromServer.find(u => u.id === userId)!;
+
+    const newTodo: Todo = {
+      id: nextId,
+      title: title.trim(),
+      userId,
+      completed: false,
+      user,
+    };
+
+    setTodos(current => [...current, newTodo]);
+    setTitle('');
+    setUserId(0);
+  };
+
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
+    <main className="section">
+      <div className="container">
+        <h1 className="title">Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+        <form onSubmit={handleSubmit} className="box">
+          <div className="field">
+            <label htmlFor="title" className="label">
+              Title
+            </label>
+            <div
+              className={classNames('control', {
+                'has-icons-right': hasTitleError,
+              })}
+            >
+              <input
+                type="text"
+                className={classNames('input', {
+                  'is-danger': hasTitleError,
+                })}
+                placeholder="Enter a title"
+                value={title}
+                onChange={handleTitleChange}
+                data-cy="titleInput"
+              />
+            </div>
+            {hasTitleError && (
+              <p className="help is-danger error">Please enter a title</p>
+            )}
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+            {hasUserIdError && (
+              <p className="help is-danger error">Please choose a user</p>
+            )}
+          </div>
 
-          <span className="error">Please choose a user</span>
-        </div>
+          <div className="field">
+            <label htmlFor="user" className="label">
+              User
+            </label>
+            <div className="control">
+              <div
+                className={classNames('select', {
+                  'is-danger': hasUserIdError,
+                })}
+              >
+                <select
+                  value={userId}
+                  onChange={handleUserChange}
+                  data-cy="userSelect"
+                >
+                  <option value={0}>Choose a user</option>
+                  {usersFromServer.map(user => (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
 
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="button is-link"
+            data-cy="submitButton"
+          >
+            Add
+          </button>
+        </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
-    </div>
+        <TodoList todos={todos} />
+      </div>
+    </main>
   );
 };
