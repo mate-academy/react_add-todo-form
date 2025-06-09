@@ -1,4 +1,4 @@
-import { Todo } from '../../api/entitis/todo';
+import { Todo } from '../../api/entities/todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {

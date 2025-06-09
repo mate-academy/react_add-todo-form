@@ -1,4 +1,4 @@
-import { User } from '../../api/entitis/user';
+import { User } from '../../api/entities/user';
 
 type Props = {
   user: User;
