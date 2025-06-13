@@ -50,7 +50,7 @@ export const App = () => {
 
     const user = users.find(user => user.id === selectedUserId)!;
 
-    
+
 
     const newTodo = {
       title: trimmedTitle,
@@ -59,8 +59,6 @@ export const App = () => {
       user,
       id: maxId + 1,
     };
-
-    console.log(newTodo)
 
     setTodos(current => [...current, newTodo]);
 
