@@ -9,22 +9,22 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [valueOption, setValueOption] = useState('0');
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorOptions, setErrrorOptions] = useState(false);
+  const [errorTitle, setErorTitle] = useState(false);
+  const [errorOptions, setErrorOptions] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value !== '0') {
-      setErrrorOptions(false);
+      setErrorOptions(false);
     }
 
     setValueOption(e.target.value);
   };
 
   const handleInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setErrorTitle(false);
+    setErorTitle(false);
     setTitle(e.target.value);
     if (!e.target.value) {
-      setErrorTitle(true);
+      setErorTitle(true);
     }
   };
 
@@ -32,11 +32,11 @@ export const App = () => {
     e.preventDefault();
 
     if (!title) {
-      setErrorTitle(true);
+      setErorTitle(true);
     }
 
     if (valueOption === '0') {
-      setErrrorOptions(true);
+      setErrorOptions(true);
     }
 
     if (title && valueOption !== '0') {
