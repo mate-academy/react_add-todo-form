@@ -36,7 +36,7 @@ export const App: React.FC = () => {
 
     const cleanedTitle = title.replace(/[^\p{L}\p{N} ]/gu, '').trim();
 
-    const foundUser = users.find(user => user.id === todo.userId);
+    //const foundUser = users.find(user => user.id === todo.userId);
 
     if (!user) {
       return;
