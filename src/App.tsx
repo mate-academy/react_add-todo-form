@@ -6,8 +6,13 @@ import { TodoList } from './components/TodoList/TodoList';
 import { Todo, User } from './types';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [users] = useState<User[]>(usersFromServer);
+  const [todos, setTodos] = useState<Todo[]>(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: users.find(user => user.id === todo.userId)!,
+    }))
+  );
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
@@ -34,9 +39,10 @@ export const App: React.FC = () => {
       return;
     }
 
+    // Очищаем title от нежелательных символов
     const cleanedTitle = title.replace(/[^\p{L}\p{N} ]/gu, '').trim();
 
-    //const foundUser = users.find(user => user.id === todo.userId);
+    const user = users.find(user => user.id === +userId);
 
     if (!user) {
       return;
@@ -72,7 +78,6 @@ export const App: React.FC = () => {
             value={title}
             onChange={e => {
               const filtered = e.target.value.replace(/[^\p{L}\p{N} ]/gu, '');
-
               setTitle(filtered);
               if (titleError) {
                 setTitleError(false);
