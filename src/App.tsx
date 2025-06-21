@@ -4,8 +4,8 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-import { Todo } from './types/todo';
 import { User } from './types/user';
+import { Todo } from './types/todo';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(
@@ -14,17 +14,18 @@ export const App = () => {
       user: usersFromServer.find(user => user.id === todo.userId)!,
     })),
   );
+
   const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState('');
   const [userId, setUserId] = useState('');
-  const [hasUserIdError, setHasUserIdError] = useState('');
-  const [users] = useState<User[]>(usersFromServer);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
+  const users: User[] = usersFromServer;
 
   const reset = () => {
     setTitle('');
     setUserId('');
-    setHasTitleError('');
-    setHasUserIdError('');
+    setHasTitleError(false);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,17 +34,17 @@ export const App = () => {
     let isValid = true;
 
     if (!title.trim()) {
-      setHasTitleError('Please enter a title');
+      setHasTitleError(true);
       isValid = false;
     } else {
-      setHasTitleError('');
+      setHasTitleError(false);
     }
 
     if (!userId.trim()) {
-      setHasUserIdError('Please choose a user');
+      setHasUserIdError(true);
       isValid = false;
     } else {
-      setHasUserIdError('');
+      setHasUserIdError(false);
     }
 
     if (!isValid) {
@@ -51,7 +52,7 @@ export const App = () => {
     }
 
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id), 0) + 1,
+      id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
       title: title.trim(),
       userId: +userId,
       completed: false,
@@ -66,15 +67,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-        onReset={reset}
-      >
+      <form onSubmit={handleSubmit} onReset={reset}>
         <div className="field">
-          <label htmlFor="title">Title: </label>
+          <label htmlFor="title">Title:</label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -82,29 +79,27 @@ export const App = () => {
               const newTitle = e.target.value;
 
               setTitle(newTitle);
-
               if (newTitle.trim()) {
-                setHasTitleError('');
+                setHasTitleError(false);
               }
             }}
             placeholder="Enter a title"
           />
-          {hasTitleError && <span className="error">{hasTitleError}</span>}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <label htmlFor="user">User: </label>
-
+          <label htmlFor="user">User:</label>
           <select
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={e => {
               const newUserId = e.target.value;
 
               setUserId(newUserId);
-
               if (newUserId.trim()) {
-                setHasUserIdError('');
+                setHasUserIdError(false);
               }
             }}
           >
@@ -117,13 +112,16 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {hasUserIdError && <span className="error">{hasUserIdError}</span>}
+          {hasUserIdError && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
+
       <TodoList todos={todos} />
     </div>
   );
