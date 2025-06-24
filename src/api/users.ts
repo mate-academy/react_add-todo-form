@@ -1,4 +1,5 @@
-export default [
+// src/api/users.ts
+const usersFromServer = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -60,3 +61,5 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export default usersFromServer;
