@@ -1,11 +1,10 @@
 import { ChangeEvent, useState } from 'react';
 import usersFromServer from '../../api/users';
-import { Todo } from '../../types/Todo';
+// import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 
 type Props = {
-  onSubmit: (props: Todo) => void;
-  nextId: number;
+  onSubmit: (data: { title?: string; userId: number }) => void;
 };
 
 function getUserById(userId: number): User | undefined {
@@ -16,7 +15,7 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-export const TodoForm: React.FC<Props> = ({ onSubmit, nextId }) => {
+export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [title, setTitle] = useState('');
@@ -40,10 +39,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, nextId }) => {
       }
 
       onSubmit({
-        id: nextId,
-        title,
-        completed: false,
-        user: user,
+        title: title.trim(),
+        userId,
       });
 
       setTitle('');

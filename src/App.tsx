@@ -20,15 +20,34 @@ export const App: React.FC = () => {
   );
 
   const nextId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1;
-  const handleAddTodo = (newTodo: Todo) => {
-    setTodos(prev => [...prev, newTodo]);
+  const handleAddTodo = ({
+    title,
+    userId,
+  }: {
+    title?: string;
+    userId: number;
+  }) => {
+    const user = getUserById(userId);
+
+    if (!user) {
+      return;
+    }
+
+    const todo: Todo = {
+      id: nextId,
+      title: title?.trim() || `Todo #${nextId}`,
+      completed: false,
+      user,
+    };
+
+    setTodos(prev => [...prev, todo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onSubmit={handleAddTodo} nextId={nextId} />
+      <TodoForm onSubmit={handleAddTodo} />
 
       <TodoList todos={todos} />
     </div>
