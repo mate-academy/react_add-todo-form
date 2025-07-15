@@ -61,8 +61,6 @@ export const App = () => {
     };
 
     setTodos([...todos, newTodo]);
-
-    setTodos([...todos, newTodo]);
     setNoteText('');
     setNoteUser('0');
     setTouched({ title: false, user: false });
