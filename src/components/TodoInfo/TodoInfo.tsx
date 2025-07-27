@@ -1,12 +1,29 @@
-import { UserInfo } from '../UserInfo/UserInfo';
+import React from 'react';
 
-export const TodoInfo = ({ todo }) => (
+interface User {
+  name: string;
+  email: string;
+}
+
+interface Todo {
+  id: number | string;
+  title: string;
+  completed: boolean;
+  user?: User;
+}
+
+interface TodoInfoProps {
+  todo: Todo;
+}
+
+export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => (
   <article
+    className={`TodoInfo${todo.completed ? ' TodoInfo--completed' : ''}`}
     data-id={todo.id}
-    className={todo.completed ? 'TodoInfo TodoInfo--completed' : 'TodoInfo'}
   >
     <h2 className="TodoInfo__title">{todo.title}</h2>
-
-    {todo.user && <UserInfo user={todo.user} />}
+    <a className="UserInfo" href={`mailto:${todo.user?.email}`}>
+      {todo.user?.name}
+    </a>
   </article>
 );

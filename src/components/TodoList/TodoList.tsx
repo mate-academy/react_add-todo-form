@@ -1,4 +1,31 @@
-import { TodoInfo } from '../TodoInfo/TodoInfo';
+import React from 'react';
+import { TodoInfo } from '../TodoInfo';
 
-export const TodoList = ({ todos }) =>
-  todos.map(todo => <TodoInfo todo={todo} key={todo.id} />);
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+interface Todo {
+  id: number;
+  title: string;
+  userId: number;
+  completed: boolean;
+  user?: User;
+}
+
+interface Todolist {
+  todos: Todo[];
+}
+
+export const TodoList: React.FC<Todolist> = ({ todos }) => {
+  return (
+    <section className="TodoList">
+      {todos.map(todo => (
+        <TodoInfo key={todo.id} todo={todo} />
+      ))}
+    </section>
+  );
+};
