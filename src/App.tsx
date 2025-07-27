@@ -29,7 +29,7 @@ export const App = () => {
     },
   });
 
-  const onSubmit = data => {
+  const onSubmit = (data: { title: string; userId: string | number }) => {
     const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const newTodo = {
