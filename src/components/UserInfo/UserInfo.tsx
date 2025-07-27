@@ -1,11 +1,5 @@
 import React from 'react';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+import { User } from '../../types/User';
 
 interface Props {
   user: User;
