@@ -29,7 +29,7 @@ const todosWithUser = todosFromServer.map(t => {
 });
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosWithUser);
+  const [todos, setTodos] = useState<Todo[]>(todosWithUser);
 
   function onSubmit(newTodo: Todo) {
     setTodos(current => [...current, newTodo]);
