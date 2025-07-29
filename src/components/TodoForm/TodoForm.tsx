@@ -57,7 +57,7 @@ export const TodoForm: React.FC<Props> = ({ users, todos, onSubmit }) => {
     setSelectUser(0);
     setTitle('');
 
-    const maxId = Math.max(...todos.map(t => t.id));
+    const maxId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) : 0;
 
     onSubmit({
       id: maxId + 1,
