@@ -25,7 +25,7 @@ export const App = () => {
     myTodos.length > 0 ? Math.max(...myTodos.map(todo => todo.id)) + 1 : 1;
 
   function addTodos(todo: Todo) {
-    setTodos(currenrTodos => [...currenrTodos, todo]);
+    setTodos(currentTodos => [...currentTodos, todo]);
   }
 
   function handleTitleChange(value: string) {
@@ -42,12 +42,12 @@ export const App = () => {
     event.preventDefault();
 
     const isTitleEmpty = title.trim() === '';
-    const isUserNotSelectd = selectedUserId === 0;
+    const isUserNotSelected = selectedUserId === 0;
 
     setHasErrorTitle(isTitleEmpty);
-    setHasErrorSelect(isUserNotSelectd);
+    setHasErrorSelect(isUserNotSelected);
 
-    if (isTitleEmpty || isUserNotSelectd) {
+    if (isTitleEmpty || isUserNotSelected) {
       return;
     }
 
