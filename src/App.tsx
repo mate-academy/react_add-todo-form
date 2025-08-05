@@ -31,7 +31,7 @@ export interface Todo {
 // Define App component
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
-  const [users, setUsers] = useState<User[]>(usersFromServer);
+  const [users] = useState<User[]>(usersFromServer);
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
