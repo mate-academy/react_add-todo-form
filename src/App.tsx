@@ -11,43 +11,50 @@ interface Errors {
 }
 
 export const App = () => {
-   const [todos, setTodos] = React.useState<Todo[]>(() => {
+  const [todos, setTodos] = React.useState<Todo[]>(() => {
     return todosFromServer.map(todo => ({
       ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId) || usersFromServer[0]
+      user:
+        usersFromServer.find(user => user.id === todo.userId) ||
+        usersFromServer[0],
     }));
   });
-  
+
   const [title, setTitle] = React.useState('');
   const [userId, setUserId] = React.useState('');
   const [errors, setErrors] = React.useState<Errors>({});
-  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newErrors: Errors = {};
+
     if (!title.trim()) {
       newErrors.title = true;
     }
+
     if (!userId) {
       newErrors.userId = true;
-    } 
+    }
+
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
       return;
     }
 
-    const selectedUser = usersFromServer.find(user => user.id === parseInt(userId));
-    
+    const selectedUser = usersFromServer.find(
+      user => user.id === parseInt(userId),
+    );
+
     if (selectedUser) {
       const newTodo: Todo = {
         id: Math.max(...todos.map(t => t.id)) + 1,
         title: title.trim(),
         userId: parseInt(userId),
         completed: false,
-        user: selectedUser
+        user: selectedUser,
       };
-      
+
       setTodos([...todos, newTodo]);
       setTitle('');
       setUserId('');
@@ -74,8 +81,8 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <input 
-            type="text" 
+          <input
+            type="text"
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
@@ -85,12 +92,14 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select 
+          <select
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="" disabled>Choose a user</option>
+            <option value="" disabled>
+              Choose a user
+            </option>
             {usersFromServer.map((user: User) => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -100,7 +109,9 @@ export const App = () => {
           {errors.userId && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">Add</button>
+        <button type="submit" data-cy="submitButton">
+          Add
+        </button>
       </form>
 
       <TodoList todos={todos} />

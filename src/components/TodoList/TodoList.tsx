@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '../type'; 
+import { Todo } from '../type';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 interface TodoListProps {
@@ -9,7 +9,7 @@ interface TodoListProps {
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <section className="TodoList">
-      {todos.map((todo) => (
+      {todos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
