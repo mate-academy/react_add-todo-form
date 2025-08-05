@@ -16,7 +16,7 @@ export const App = () => {
   const pattern = /[^a-zA-Z0-9 ]+/g;
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.replace(pattern, ''));
     setTitleError(false);
   };
 
@@ -42,7 +42,7 @@ export const App = () => {
       ...todos,
       {
         id: newId,
-        title: title.replace(pattern, ''),
+        title: title,
         userId: +user,
         completed: false,
       },
