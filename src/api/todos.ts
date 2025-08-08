@@ -8,7 +8,7 @@ export default [
   {
     id: 15,
     title: 'some other todo',
-    completed: false,
+    completed: true,
     userId: 1,
   },
   {
