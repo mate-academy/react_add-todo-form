@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 
 export const App = () => {
-  const getUserById = (userId: number): User => {
+  const getUserById = (userId: number): User | null => {
     const userById = usersFromServer.find((user: User) => {
       return user.id === userId;
     });
@@ -20,16 +20,14 @@ export const App = () => {
     return userById;
   };
 
-  const todosInitial: Todo[] = [];
-
-  todosFromServer.map((todo: Todo) => {
-    todosInitial.push({
+  const todosInitial: Todo[] = todosFromServer.map((todo: Todo) => {
+    return {
       ...todo,
-      user: getUserById(todo.id),
-    });
+      user: getUserById(todo.userId)
+    }
   });
 
-  const [todos, setTodos] = useState<Todo[]>([...todosInitial]);
+  const [todos, setTodos] = useState<Todo[]>(todosInitial);
 
   const [title, setTitle] = useState<string>('');
   const [titleError, setTitleError] = useState<boolean>(false);
@@ -58,6 +56,12 @@ export const App = () => {
 
     if (!title || title === '') {
       setTitleError(true);
+
+      if (!option || option === '0') {
+        setOptionError(true);
+  
+        return;
+      }
     }
 
     if (!option || option === '0') {
