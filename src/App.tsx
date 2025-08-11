@@ -1,61 +1,163 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { useMemo, useState } from 'react';
+import { User } from './types/User';
+import { TodoList } from './components/TodoList';
+import { Todo } from './types/Todo';
 
 export const App = () => {
+  const getUserById = (userId: number): User | null => {
+    const userById = usersFromServer.find((user: User) => {
+      return user.id === userId;
+    });
+
+    if (!userById) {
+      return null;
+    }
+
+    return userById;
+  };
+
+  const todosInitial: Todo[] = todosFromServer.map((todo: Todo) => {
+    return {
+      ...todo,
+      user: getUserById(todo.userId),
+    };
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(todosInitial);
+
+  const [title, setTitle] = useState<string>('');
+  const [titleError, setTitleError] = useState<boolean>(false);
+
+  const [option, setOption] = useState<string>('0');
+  const [optionError, setOptionError] = useState<boolean>(false);
+
+  const onReset = () => {
+    setTitle('');
+    setOption('0');
+    setTitleError(false);
+    setOptionError(false);
+  };
+
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  const handleFormReset = (event: React.FormEvent) => {
+    event.preventDefault();
+    onReset();
+  };
+
+  const addTodo = (newTodo: Todo) => {
+    setTodos([...todos, newTodo]);
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!title || title === '') {
+      setTitleError(true);
+    }
+
+    if (!option || option === '0') {
+      setOptionError(true);
+
+      return;
+    }
+
+    if (title !== '' && option !== '0') {
+      addTodo({
+        id: Math.max(0, ...todos.map(t => t.id)) + 1,
+        title: title,
+        completed: false,
+        userId: Number(option),
+        user: getUserById(Number(option)),
+      });
+
+      onReset();
+    }
+
+    return;
+
+  };
+
+  const handleChangeInputTitle = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTitleError(false);
+
+    const { value } = event.target;
+
+    setTitle(value);
+  };
+
+  const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setOptionError(false);
+
+    const { value } = event.target;
+
+    setOption(value);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        action="/api/todos"
+        method="POST"
+        onReset={handleFormReset}
+        onSubmit={handleFormSubmit}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+          <label htmlFor="title">
+            Title: &#160;
+            <input
+              type="text"
+              name="title"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={handleChangeInputTitle}
+            />
+          </label>
 
+          {titleError && <span className="error">Please enter a title</span>}
+        </div>
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+          <label htmlFor="select-user">
+            User: &#160;
+            <select
+              data-cy="userSelect"
+              name="select-user"
+              onChange={handleChangeSelect}
+              value={option}
+            >
+              <option value="0" disabled>
+                Choose a user
+              </option>
 
-          <span className="error">Please choose a user</span>
+              {useMemo(() => {
+                return usersFromServer.map((user: User) => {
+                  return (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  );
+                });
+              }, [])}
+            </select>
+          </label>
+
+          {optionError && <span className="error">Please choose a user</span>}
         </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
+        <input type="submit" data-cy="submitButton" value="Add" />
+        &#160;&#160;
+        <input type="reset" value="Reset" />
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      {useMemo(() => {
+        return <TodoList todos={todos} />;
+      }, [todos])}
     </div>
   );
 };
