@@ -23,8 +23,8 @@ export const App = () => {
   const todosInitial: Todo[] = todosFromServer.map((todo: Todo) => {
     return {
       ...todo,
-      user: getUserById(todo.userId)
-    }
+      user: getUserById(todo.userId),
+    };
   });
 
   const [todos, setTodos] = useState<Todo[]>(todosInitial);
@@ -44,6 +44,7 @@ export const App = () => {
 
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const handleFormReset = (event: React.FormEvent) => {
+    event.preventDefault();
     onReset();
   };
 
@@ -56,12 +57,6 @@ export const App = () => {
 
     if (!title || title === '') {
       setTitleError(true);
-
-      if (!option || option === '0') {
-        setOptionError(true);
-  
-        return;
-      }
     }
 
     if (!option || option === '0') {
@@ -72,26 +67,33 @@ export const App = () => {
 
     if (title !== '' && option !== '0') {
       addTodo({
-        id: todos.length,
+        id: Math.max(0, ...todos.map(t => t.id)) + 1,
         title: title,
         completed: false,
         userId: Number(option),
         user: getUserById(Number(option)),
       });
+
+      onReset();
     }
 
-    onReset();
+    return;
+
   };
 
   const handleChangeInputTitle = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
+    setTitleError(false);
+
     const { value } = event.target;
 
     setTitle(value);
   };
 
   const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setOptionError(false);
+
     const { value } = event.target;
 
     setOption(value);
@@ -129,7 +131,7 @@ export const App = () => {
               data-cy="userSelect"
               name="select-user"
               onChange={handleChangeSelect}
-              defaultValue={option}
+              value={option}
             >
               <option value="0" disabled>
                 Choose a user
