@@ -12,19 +12,34 @@ export const todos = todosFromServer.map(todo => ({
   user: getUserById(todo.userId),
 }));
 
-export const App = () => {
-  const [user, setUser] = useState<Todo[]>(todos);
+function getNewPostId(currentTodos: Todo[]) {
+  const maxId = currentTodos.length
+    ? Math.max(...currentTodos.map(todo => todo.id))
+    : 0;
 
-  const addUser = (newUser: Todo) => {
-    setUser(currentUser => [...currentUser, newUser]);
+  return maxId + 1;
+}
+
+export const App = () => {
+  const [todosState, setTodos] = useState<Todo[]>(todos);
+
+  const addTodo = (newTodoData: Omit<Todo, 'id'>) => {
+    setTodos(current => {
+      const newTodo: Todo = {
+        ...newTodoData,
+        id: getNewPostId(current),
+      };
+
+      return [...current, newTodo];
+    });
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <NewTodos onSubmit={addUser} />
-      <TodoList todos={user} />
+      <NewTodos onSubmit={addTodo} />
+      <TodoList todos={todosState} />
     </div>
   );
 };
