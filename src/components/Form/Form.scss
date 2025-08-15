@@ -1,0 +1,56 @@
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    label {
+      font-weight: 600;
+      white-space: nowrap;
+      width: 100px; // фиксированная ширина для выравнивания
+    }
+
+    input,
+    select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 250px; // фиксированная ширина
+      flex-shrink: 0; // чтобы ширина не сжималась
+    }
+
+    .error {
+      color: #e63946;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      width: 200px; // фиксированная ширина, чтобы форма не прыгала
+    }
+  }
+
+  button[type='submit'] {
+    align-self: flex-start;
+    background: #3273dc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #2759a6;
+    }
+  }
+}
