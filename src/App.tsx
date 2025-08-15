@@ -4,6 +4,7 @@ import './App.scss';
 
 import { Todo } from './types/Todo';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { getUserById } from './services/user';
@@ -23,10 +24,13 @@ function getNewTodoId(todos: Todo[]) {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUser);
 
-  const addTodo = ({ id, ...data }: Todo) => {
-    const newTodo = {
-      id: id || getNewTodoId(todos),
-      ...data,
+  const addTodo = ({ title, userId }: { title: string; userId: number }) => {
+    const newTodo: Todo = {
+      id: getNewTodoId(todos),
+      title,
+      userId,
+      completed: false,
+      user: getUserById(userId),
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -35,7 +39,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm onSubmit={addTodo} users={usersFromServer} />
       <TodoList todos={todos} />
     </div>
   );

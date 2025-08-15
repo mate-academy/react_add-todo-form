@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Todo, User } from '../../types';
-import usersFromServer from '../../api/users';
-import { getUserById } from '../../services/user';
+import { User } from '../../types';
 
 type Props = {
-  onSubmit: (todo: Todo) => void;
+  users: User[];
+  onSubmit: (formData: { title: string; userId: number }) => void;
 };
 
-export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
+export const TodoForm: React.FC<Props> = ({ users, onSubmit }) => {
   // #region state
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
@@ -47,11 +46,8 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 0,
       title,
       userId,
-      completed: false,
-      user: getUserById(userId),
     });
 
     reset();
@@ -81,7 +77,7 @@ export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
           onChange={handleUserChange}
         >
           <option value="0">Choose a user</option>
-          {usersFromServer.map((user: User) => (
+          {users.map((user: User) => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
