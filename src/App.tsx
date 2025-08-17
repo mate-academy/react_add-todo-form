@@ -3,6 +3,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 
@@ -34,12 +35,14 @@ export const App = () => {
     }
 
     const maxId = Math.max(...todos.map(todo => todo.id), 0);
+    const user = usersFromServer.find(u => u.id === userId);
 
     const newTodo = {
       id: maxId + 1,
       title,
       userId,
       completed: false,
+      user,
     };
 
     setTodos(prev => [...prev, newTodo]);
