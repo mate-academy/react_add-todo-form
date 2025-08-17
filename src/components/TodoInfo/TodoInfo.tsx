@@ -6,7 +6,7 @@ type TodoInfoProps = {
     title: string;
     userId: number;
     completed: boolean;
-    user: {
+    user?: {
       id: number;
       name: string;
       username: string;
@@ -16,7 +16,7 @@ type TodoInfoProps = {
 };
 
 export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
-  const user = usersFromServer.find(u => u.id === todo.userId);
+  const user = todo.user || usersFromServer.find(u => u.id === todo.userId);
 
   return (
     <article
@@ -24,6 +24,7 @@ export const TodoInfo: React.FC<TodoInfoProps> = ({ todo }) => {
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
+
       {user && (
         <a className="UserInfo" href={`mailto:${user.email}`}>
           {user.name}
