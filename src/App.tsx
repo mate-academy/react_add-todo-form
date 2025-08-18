@@ -14,7 +14,7 @@ export const App = () => {
     todosFromServer.map(todo => ({
       ...todo,
       user: users.find(user => user.id === todo.userId)!,
-    }))
+    })),
   );
 
   const [title, setTitle] = useState('');
@@ -39,8 +39,8 @@ export const App = () => {
     }
 
     if (!isValid) {
-      return
-    };
+      return;
+    }
 
     const sanitizedTitle = title.replace(/[^\p{L}\p{N} ]/gu, '');
 
@@ -72,9 +72,11 @@ export const App = () => {
             placeholder="Enter todo title"
             data-cy="titleInput"
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
-              if (titleError) setTitleError('');
+              if (titleError) {
+                setTitleError('');
+              }
             }}
           />
           {titleError && <span className="error">{titleError}</span>}
@@ -86,9 +88,11 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={userId}
-            onChange={(e) => {
+            onChange={e => {
               setUserId(+e.target.value);
-              if (userError) setUserError('');
+              if (userError) {
+                setUserError('');
+              }
             }}
           >
             <option value={0} disabled>
