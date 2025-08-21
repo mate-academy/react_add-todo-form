@@ -13,7 +13,11 @@ const getNewTodoId = (todos: Todo[]) => {
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const preparedTodos: Todo[] = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(u => u.id === todo.userId)!,
+  }));
+  const [todos, setTodos] = useState(preparedTodos);
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -21,11 +25,14 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
+  const user = usersFromServer.find(u => u.id === userId);
+
   const data = {
     id: getNewTodoId(todos),
     title: title,
     completed: false,
     userId: userId,
+    user: user,
   };
 
   const addTodo = (todo: Todo) => {
@@ -33,7 +40,9 @@ export const App = () => {
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const inputTitle = event.target.value;
+
+    setTitle(inputTitle.replace(/[^a-zA-Zа-яА-ЯіїєІЇЄ0-9 ]/g, ''));
     setHasTitleError(false);
   };
 
@@ -88,9 +97,9 @@ export const App = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {usersFromServer.map(u => (
+              <option key={u.id} value={u.id}>
+                {u.name}
               </option>
             ))}
           </select>
