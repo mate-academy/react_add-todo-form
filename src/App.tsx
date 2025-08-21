@@ -59,11 +59,11 @@ export const App = () => {
     setHasTitleError(!title);
     setHasUserIdError(userId === 0);
 
-    if (!title || userId === 0) {
+    if (!title || userId === 0 || !user) {
       return;
     }
 
-    addTodo(data);
+    addTodo(data as Todo);
 
     setTitle('');
     setUserId(0);
