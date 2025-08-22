@@ -2,7 +2,7 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { Todo } from './types/todos';
 import { User } from './types/user';
@@ -59,6 +59,20 @@ export const App = () => {
     setUserError('');
   };
 
+  const inpHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    if (titleError) {
+      setTitleError('');
+    }
+  };
+
+  const idHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(+e.target.value);
+    if (userError) {
+      setUserError('');
+    }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -72,12 +86,7 @@ export const App = () => {
             placeholder="Enter todo title"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
-              if (titleError) {
-                setTitleError('');
-              }
-            }}
+            onChange={inpHandler}
           />
           {titleError && <span className="error">{titleError}</span>}
         </div>
@@ -88,12 +97,7 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(+e.target.value);
-              if (userError) {
-                setUserError('');
-              }
-            }}
+            onChange={idHandler}
           >
             <option value={0} disabled>
               Choose a user
