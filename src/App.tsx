@@ -61,7 +61,7 @@ export const App = () => {
       return;
     }
 
-    const selectedUser = users.find(u => u.id === Number(userId));
+    const selectedUser = users.find(user => user.id === Number(userId));
 
     if (!selectedUser) {
       setErrors(prev => ({ ...prev, user: true }));
@@ -69,7 +69,7 @@ export const App = () => {
       return;
     }
 
-    const nextId = Math.max(0, ...todos.map(t => t.id)) + 1;
+    const nextId = Math.max(0, ...todos.map(todo => todo.id)) + 1;
 
     const newTodo: Todo = {
       id: nextId,
