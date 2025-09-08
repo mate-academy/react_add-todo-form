@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -24,49 +24,80 @@ export const App = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
-  const [errors, setErrors] = useState({
-    title: false,
-    user: false,
-  });
+  const [errors, setErrors] = useState({ title: false, user: false });
 
   useEffect(() => {
-    const formattedTodos = todosFromServer.map(todo => ({
-      ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId)!,
-    }));
+    const formattedTodos: Todo[] = todosFromServer.reduce<Todo[]>(
+      (acc, todo) => {
+        const matchedUser = usersFromServer.find(
+          user => user.id === todo.userId,
+        );
+
+        if (!matchedUser) {
+          return acc;
+        }
+
+        acc.push({ ...todo, user: matchedUser });
+
+        return acc;
+      },
+      [],
+    );
 
     setTodos(formattedTodos);
+
     setUsers(usersFromServer);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const titleError = !title.trim();
     const userError = !userId;
 
-    setErrors({
-      title: titleError,
-      user: userError,
-    });
+    setErrors({ title: titleError, user: userError });
 
     if (titleError || userError) {
       return;
     }
 
-    const selectedUser = users.find(user => user.id === Number(userId))!;
+    const selectedUser = users.find(u => u.id === Number(userId));
+
+    if (!selectedUser) {
+      setErrors(prev => ({ ...prev, user: true }));
+
+      return;
+    }
+
+    const nextId = Math.max(0, ...todos.map(t => t.id)) + 1;
 
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id), 0) + 1,
+      id: nextId,
       title: title.trim(),
       completed: false,
-      userId: Number(userId),
+      userId: selectedUser.id,
       user: selectedUser,
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(prev => [...prev, newTodo]);
     setTitle('');
     setUserId('');
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+
+    if (errors.title) {
+      setErrors(prev => ({ ...prev, title: false }));
+    }
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
+
+    if (errors.user) {
+      setErrors(prev => ({ ...prev, user: false }));
+    }
   };
 
   return (
@@ -76,17 +107,16 @@ export const App = () => {
       <form onSubmit={handleSubmit} data-cy="form">
         <div className="field">
           <label htmlFor="title">Title:</label>
+
           <input
             id="title"
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
-              setErrors(prev => ({ ...prev, title: false }));
-            }}
+            onChange={handleTitleChange}
             placeholder="Enter todo title"
           />
+
           {errors.title && (
             <span className="error" data-cy="titleError">
               Please enter a title
@@ -96,24 +126,24 @@ export const App = () => {
 
         <div className="field">
           <label htmlFor="user">User:</label>
+
           <select
             id="user"
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(e.target.value);
-              setErrors(prev => ({ ...prev, user: false }));
-            }}
+            onChange={handleUserChange}
           >
             <option value="" data-cy="defaultOption">
               Choose a user
             </option>
+
             {users.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
+
           {errors.user && (
             <span className="error" data-cy="userError">
               Please choose a user

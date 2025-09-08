@@ -1,4 +1,5 @@
 import { TodoInfo } from '../TodoInfo';
+
 type User = {
   id: number;
   name: string;
