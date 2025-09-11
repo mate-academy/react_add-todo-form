@@ -1,4 +1,6 @@
-export default [
+import { User } from '../types';
+
+const usersFromServer: User[] = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -43,7 +45,7 @@ export default [
   },
   {
     id: 8,
-    name: 'Nicholas Runolfsdottir V',
+    name: 'Nicholas Runolfsdotir V',
     username: 'Maxime_Nienow',
     email: 'Sherwood@rosamond.me',
   },
@@ -60,3 +62,5 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export default usersFromServer;
