@@ -40,21 +40,21 @@ export const App: React.FC = () => {
     const newErrors: { titleNew?: string; userId?: string } = {};
 
     if (titleNew.length > 0) {
-      newErrors.titleNew = 'Please enter a title';
+      newErrors.title = 'Please enter a title';
     }
 
     if (!userId) {
       newErrors.userId = 'Please choose a user';
     }
 
-    if (Object.keys(newErrors).length > 0) {
+    if (Object.keys(newErrors).length !== 0) {
       setErrors(newErrors);
 
       return;
     }
 
     const newTodo: Todo = {
-      id: String(todos.length + 1),
+      id: String(Math.max(...todos.map(todo => Number(todo.id))) + 1) || '1',
       title,
       completed: false,
       userId,
@@ -62,9 +62,8 @@ export const App: React.FC = () => {
     };
 
     setTodos([...todos, newTodo]);
-    setErrors({});
 
-    form.reset();
+    setErrors({});
     setSelectedUserId('');
     setTitle('');
   }
