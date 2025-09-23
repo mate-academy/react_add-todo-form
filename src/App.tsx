@@ -19,15 +19,21 @@ export const App: React.FC = () => {
   }));
 
   const getNewTodoId = (todos: Todo[]) => {
+    if (!todos.length) {
+      return 1;
+    }
+
     const maxId = Math.max(...todos.map(todo => todo.id));
 
     return maxId + 1;
   };
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  const addTodo = ({ id, ...data }: Todo) => {
+  const addTodo = (data: { title: string; userId: number }) => {
     const newTodo = {
       id: getNewTodoId(todos),
+      completed: false,
+      user: getUserById(data.userId),
       ...data,
     };
 
@@ -37,7 +43,7 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm users={usersFromServer} onSubmit={addTodo} />
       <TodoList todos={todos} />
     </div>
   );
