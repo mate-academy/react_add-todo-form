@@ -26,10 +26,11 @@ export const App: React.FC = () => {
     const titleNew = formData.get('title')?.toString().trim() || '';
     const userId = formData.get('userId')?.toString().trim() || '';
     const newErrors: { title?: string; userId?: string } = {};
-    const maxid = Math.max(...todos.map(todo => Number(todo.id)));
-    const idNew = String(maxid) === '-Infinity' ? '1' : String(maxid + 1);
 
-    if (titleNew.length !== 0) {
+    const maxId = Math.max(...todos.map(todo => Number(todo.id)), 0);
+    const idNew = String(maxId + 1);
+
+    if (titleNew.length === 0) {
       newErrors.title = 'Please enter a title';
     }
 
@@ -43,12 +44,20 @@ export const App: React.FC = () => {
       return;
     }
 
+    const selectedUser = users.find(user => user.id === userId);
+
+    if (!selectedUser) {
+      setErrors({ userId: 'Selected user not found' });
+
+      return;
+    }
+
     const newTodo: Todo = {
-      id: idNew,
+      id: Number(idNew),
       title: titleNew,
       completed: false,
-      userId: userId,
-      user: users.find(user => user.id === userId),
+      userId: Number(selectedUser.id) || 0,
+      user: selectedUser,
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -60,14 +69,16 @@ export const App: React.FC = () => {
 
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
     setTitle(event.target.value);
-    setErrors(prevErrors => ({ ...prevErrors, title: undefined }));
-    setTitle('');
+    if (errors.title) {
+      setErrors(prevErrors => ({ ...prevErrors, title: undefined }));
+    }
   }
 
   function handleUserChange(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedUserId(event.target.value);
-    setErrors(prevErrors => ({ ...prevErrors, userId: undefined }));
-    setSelectedUserId('');
+    if (errors.userId) {
+      setErrors(prevErrors => ({ ...prevErrors, userId: undefined }));
+    }
   }
 
   return (
@@ -95,8 +106,12 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {errors.title && <span className="error">{errors.title}</span>}
-          {errors.userId && <span className="error">{errors.userId}</span>}
+
+          {errors.title && (
+            <span className="error" role="alert">
+              {errors.title}
+            </span>
+          )}
         </div>
 
         <div className="field">
@@ -113,13 +128,15 @@ export const App: React.FC = () => {
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="" disabled>
-              Choose a user
-            </option>
+            <option value="" disabled>Choose a user</option>
 
             {users.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
+              <option
+                value={user.id}
+                key={user.id}
+                data-cy={`userOption-${user.id}`}
+              >
+                {user.username}
               </option>
             ))}
           </select>
