@@ -4,20 +4,8 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-};
-
-type Todo = {
-  id: string;
-  title: string;
-  completed: boolean;
-  userId: string;
-  user?: User;
-};
+import { Todo } from './types/Todo';
+import { User } from './types/User';
 import { ChangeEvent, FormEvent } from 'react';
 
 export const App: React.FC = () => {
@@ -27,7 +15,7 @@ export const App: React.FC = () => {
   const [errors, setErrors] = useState<{ title?: string; userId?: string }>({});
   const users: User[] = usersFromServer.map(user => ({
     id: String(user.id),
-    name: user.name,
+    username: user.name,
     email: user.email,
   }));
 
@@ -37,9 +25,11 @@ export const App: React.FC = () => {
     const formData = new FormData(form);
     const titleNew = formData.get('title')?.toString().trim() || '';
     const userId = formData.get('userId')?.toString().trim() || '';
-    const newErrors: { titleNew?: string; userId?: string } = {};
+    const newErrors: { title?: string; userId?: string } = {};
+    const maxid = Math.max(...todos.map(todo => Number(todo.id)));
+    const idNew = String(maxid) === '-Infinity' ? '1' : String(maxid + 1);
 
-    if (titleNew.length > 0) {
+    if (titleNew.length !== 0) {
       newErrors.title = 'Please enter a title';
     }
 
@@ -54,14 +44,14 @@ export const App: React.FC = () => {
     }
 
     const newTodo: Todo = {
-      id: String(Math.max(...todos.map(todo => Number(todo.id))) + 1) || '1',
-      title,
+      id: idNew,
+      title: titleNew,
       completed: false,
-      userId,
+      userId: userId,
       user: users.find(user => user.id === userId),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
 
     setErrors({});
     setSelectedUserId('');
@@ -71,11 +61,13 @@ export const App: React.FC = () => {
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
     setTitle(event.target.value);
     setErrors(prevErrors => ({ ...prevErrors, title: undefined }));
+    setTitle('');
   }
 
   function handleUserChange(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedUserId(event.target.value);
     setErrors(prevErrors => ({ ...prevErrors, userId: undefined }));
+    setSelectedUserId('');
   }
 
   return (
@@ -103,12 +95,8 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
           />
-
-          {errors.title && (
-            <p className="FormError" role="alert">
-              {errors.title}
-            </p>
-          )}
+          {errors.title && <span className="error">{errors.title}</span>}
+          {errors.userId && <span className="error">{errors.userId}</span>}
         </div>
 
         <div className="field">
