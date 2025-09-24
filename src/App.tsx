@@ -3,23 +3,8 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
+import { User, Todo } from './components/types/types';
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User; // obrigatório
-}
-
-// Função para preparar os todos com usuário definido
 const listOfTodo = (): Todo[] => {
   return todosFromServer
     .map(todo => {
@@ -27,14 +12,14 @@ const listOfTodo = (): Todo[] => {
 
       if (!user) {
         return null;
-      } // descarta se usuário não existir
+      }
 
       return {
         ...todo,
         user,
       };
     })
-    .filter((todo): todo is Todo => todo !== null); // type guard explícito
+    .filter((todo): todo is Todo => todo !== null);
 };
 
 export const App = () => {
@@ -49,16 +34,13 @@ export const App = () => {
       ? Math.max(...historyChange.map(todo => todo.id))
       : 0;
 
-  const uniqueUsers = usersFromServer.reduce(
-    (acc, item) => {
-      if (!acc.some(user => user.id === item.id)) {
-        acc.push(item);
-      }
+  const uniqueUsers = usersFromServer.reduce((acc, item) => {
+    if (!acc.some(user => user.id === item.id)) {
+      acc.push(item);
+    }
 
-      return acc;
-    },
-    [] as { id: number; name: string; username: string; email: string }[],
-  );
+    return acc;
+  }, [] as User[]);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTitle(event.target.value);

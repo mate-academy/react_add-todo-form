@@ -1,9 +1,4 @@
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+import { User } from '../types/types';
 
 interface Props {
   user: User;
