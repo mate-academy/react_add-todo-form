@@ -110,13 +110,15 @@ export const App = () => {
       <h1>Add todo form</h1>
 
       <form
-        onSubmit={e => {
-          e.preventDefault();
+        onSubmit={event => {
+          event.preventDefault();
           addTodo();
         }}
       >
         <div className="field">
+          <label htmlFor="titleInput">Title</label>
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             value={inputTitle}
@@ -127,7 +129,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectUser}
             onChange={handleSelectUser}
