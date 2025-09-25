@@ -42,8 +42,13 @@ export const App = () => {
   const [userId, setUserId] = useState<number | ''>('');
   const [errors, setErrors] = useState({ title: '', user: '' });
 
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
+  const clearError = (field: 'title' | 'user') => {
+    setErrors(prev => ({ ...prev, [field]: '' }));
+  };
+
+  const handleAdd = (formEvent: React.FormEvent) => {
+    formEvent.preventDefault();
+
     let valid = true;
     const newErrors = { title: '', user: '' };
 
@@ -63,9 +68,14 @@ export const App = () => {
       return;
     }
 
-    const selectedUser = usersFromServer.find(u => u.id === userId)!;
+    const selectedUser = usersFromServer.find(user => user.id === userId);
+
+    if (!selectedUser) {
+      return;
+    } // robust check
+
     const newTodo: TodoInfoType = {
-      id: todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1,
+      id: todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
       title,
       userId: userId as number,
       completed: false,
@@ -77,21 +87,24 @@ export const App = () => {
     setUserId('');
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (
+    inputEvent: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     // Optional: only letters, digits, spaces
-    const value = e.target.value.replace(/[^a-zA-Z0-9а-яА-ЯёЁ ]/g, '');
+    const sanitizedValue = inputEvent.target.value.replace(
+      /[^a-zA-Z0-9а-яА-ЯёЁ ]/g,
+      '',
+    );
 
-    setTitle(value);
-    if (errors.title) {
-      setErrors({ ...errors, title: '' });
-    }
+    setTitle(sanitizedValue);
+    clearError('title');
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value));
-    if (errors.user) {
-      setErrors({ ...errors, user: '' });
-    }
+  const handleUserChange = (
+    selectEvent: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setUserId(Number(selectEvent.target.value));
+    clearError('user');
   };
 
   return (
