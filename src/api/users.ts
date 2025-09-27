@@ -1,4 +1,11 @@
-export default [
+export type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+
+export const users: User[] = [
   {
     id: 1,
     name: 'Leanne Graham',
@@ -60,3 +67,5 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export default users;
