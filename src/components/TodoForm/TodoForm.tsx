@@ -8,19 +8,19 @@ type Props = {
   onAdd: (todo: Todo) => void;
 };
 
+const INITIAL_TODO: Todo = {
+  id: 0,
+  title: '',
+  completed: false,
+  userId: 0,
+};
+
 export const TodoForm: React.FC<Props> = ({
   users,
   maxTodoId,
   onAdd,
 }: Props) => {
-  const initialTodo: Todo = {
-    id: 0,
-    title: '',
-    completed: false,
-    userId: 0,
-  };
-
-  const [todo, setTodo] = useState<Todo>(initialTodo);
+  const [todo, setTodo] = useState<Todo>(INITIAL_TODO);
   const [titleError, setTitleError] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
 
@@ -51,7 +51,7 @@ export const TodoForm: React.FC<Props> = ({
       id: maxTodoId + 1,
     });
 
-    setTodo(initialTodo);
+    setTodo(INITIAL_TODO);
     setTitleError('');
     setUserError('');
   };

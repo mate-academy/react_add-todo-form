@@ -22,7 +22,14 @@ export const App = () => {
     getPreparedTodos(todosFromServer, usersFromServer),
   );
 
-  const maxTodoId: number = Math.max(0, ...todos.map(todo => todo.id));
+  function handleAddTodo(todo: Todo) {
+    const extendedTodo: ExtendedTodo = {
+      ...todo,
+      user: usersFromServer.find((user: User) => todo.userId === user.id),
+    };
+
+    setTodos(prevTodos => [...prevTodos, extendedTodo]);
+  }
 
   return (
     <div className="App">
@@ -30,15 +37,8 @@ export const App = () => {
 
       <TodoForm
         users={usersFromServer}
-        maxTodoId={maxTodoId}
-        onAdd={todo => {
-          const extendedTodo: ExtendedTodo = {
-            ...todo,
-            user: usersFromServer.find((user: User) => todo.userId === user.id),
-          };
-
-          setTodos([...todos, extendedTodo]);
-        }}
+        maxTodoId={Math.max(0, ...todos.map(todo => todo.id))}
+        onAdd={handleAddTodo}
       />
 
       <TodoList todos={todos} />
