@@ -46,10 +46,10 @@ export const App = () => {
       return;
     }
 
-    setTodos(prev => [
+    setTodos((prev, newId = (prev.length ? Math.max(...prev.map(t => t.id)) : 0) + 1) => [
       ...prev,
       {
-        id: todos.length + 1,
+        id: newId,
         title: title,
         completed: false,
         userId: userId,
@@ -58,7 +58,7 @@ export const App = () => {
     ]);
 
     setTitle('');
-    setUserId(+0);
+    setUserId(0);
   }
 
   return (
@@ -67,18 +67,23 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleTodoSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title: </label>
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             value={title}
+            placeholder="Enter title"
             onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User: </label>
           <select
             data-cy="userSelect"
+            id="userSelect"
             value={userId}
             onChange={handleUserChange}
           >
