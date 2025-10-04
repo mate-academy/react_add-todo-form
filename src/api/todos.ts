@@ -5,6 +5,7 @@ export default [
     completed: true,
     userId: 1,
   },
+
   {
     id: 15,
     title: 'some other todo',
