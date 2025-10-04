@@ -15,7 +15,7 @@ export const TodoList: React.FC<Props> = ({ todos, getUser }) => {
       {todos.map(todo => (
         <article
           key={todo.id}
-          data-id="1"
+          data-id={todo.id}
           className={classNames('TodoInfo', {
             'TodoInfo--completed': todo.completed,
           })}
