@@ -10,7 +10,7 @@ export const TodoInfo = ({ todo, user }: Props) => {
   return (
     <>
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <a className="UserInfo" href={user?.email}>
+      <a className="UserInfo" href={`mailto:${user?.email}`}>
         {user?.name}
       </a>
     </>

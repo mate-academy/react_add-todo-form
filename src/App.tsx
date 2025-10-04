@@ -14,24 +14,20 @@ function getUserById(userId: number) {
 export const App = () => {
   const [inputValue, setInputValue] = useState('');
   const [todos, setTodos] = useState([...todosFromServer]);
-  const [selectValue, setSelectValue] = useState(0);
+  const [selectValue, setSelectValue] = useState('');
   const [hasInputErr, setHasInputErr] = useState(false);
   const [hasSelectErr, setHasSelectErr] = useState(false);
   const handleInput = (valueToSet: string) => {
     setInputValue(valueToSet);
-    if (!valueToSet) {
-      setHasInputErr(true);
-    } else {
+    if (valueToSet) {
       setHasInputErr(false);
     }
   };
 
-  const handleSelect = (value: number) => {
+  const handleSelect = (value: string) => {
     setSelectValue(value);
 
-    if (!selectValue) {
-      setHasSelectErr(true);
-    } else {
+    if (value) {
       setHasSelectErr(false);
     }
   };
@@ -40,14 +36,16 @@ export const App = () => {
     todoTitle: string,
     todosArg: Todo[],
     usersFromServerArg: UserI[],
-    userOption: number,
+    userOption: string,
   ): Todo {
-    const maxId = Math.max(...todosArg.map(todo => todo.id));
+    const todoId = todos.length
+      ? Math.max(...todosArg.map(todo => todo.id)) + 1
+      : 1;
 
-    const userId = usersFromServerArg.find(user => user.id === userOption);
+    const userId = usersFromServerArg.find(user => user.id === +userOption);
 
     return {
-      id: maxId + 1 || 0,
+      id: todoId,
       title: todoTitle,
       completed: false,
       userId: userId?.id || 0,
@@ -63,7 +61,7 @@ export const App = () => {
         createTodo(inputValue, todos, usersFromServer, selectValue),
       ]);
       setInputValue('');
-      setSelectValue(0);
+      setSelectValue('');
       setHasInputErr(false);
       setHasSelectErr(false);
     }
@@ -84,6 +82,7 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
+            placeholder="Enter the title"
             onChange={event => handleInput(event.target.value)}
             value={inputValue}
             type="text"
@@ -96,7 +95,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectValue}
-            onChange={event => handleSelect(+event.target.value)}
+            onChange={event => handleSelect(event.target.value)}
           >
             <option value={'0'}>Choose a user</option>
             {usersFromServer.map(user => (
