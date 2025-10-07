@@ -1,4 +1,6 @@
-export default [
+import { User } from '../components/types';
+
+export const users: User[] = [
   {
     id: 1,
     name: 'Leanne Graham',
