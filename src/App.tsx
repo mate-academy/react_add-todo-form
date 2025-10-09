@@ -24,16 +24,16 @@ type Todo = {
 
 export const App = () => {
   type RawTodo = {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-};
+    userId: number;
+    id: number;
+    title: string;
+    completed: boolean;
+  };
 
-const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
-  ...t,
-  user: (users as User[]).find(u => u.id === t.userId)!,
-}));
+  const todosWithUsers: Todo[] = initialTodos.map((rawTodo: RawTodo) => ({
+    ...rawTodo,
+    user: (users as User[]).find((user: User) => user.id === rawTodo.userId)!,
+  }));
 
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
@@ -53,8 +53,12 @@ const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
       return;
     }
 
-    const user = (users as User[]).find(u => u.id === +selectedUserId)!;
-    const nextId = (todos.length ? Math.max(...todos.map(t => t.id)) : 0) + 1;
+    const user = (users as User[]).find(
+      (u: User) => u.id === Number(selectedUserId),
+    )!;
+
+    const nextId =
+      (todos.length ? Math.max(...todos.map((todo: Todo) => todo.id)) : 0) + 1;
 
     const newTodo: Todo = {
       id: nextId,
@@ -64,7 +68,7 @@ const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
       user,
     };
 
-    setTodos(prev => [...prev, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
 
     setTitle('');
     setSelectedUserId('');
@@ -77,8 +81,8 @@ const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
       <h1 className="title">Todos</h1>
 
       <form
-        onSubmit={e => {
-          e.preventDefault();
+        onSubmit={event => {
+          event.preventDefault();
           handleAddTodo();
         }}
       >
@@ -93,11 +97,11 @@ const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
             className={`input${titleError ? ' is-danger' : ''}`}
             placeholder="Enter a todo title"
             value={title}
-            onChange={e => {
-              const sanitized = sanitizeTitle(e.target.value);
+            onChange={event => {
+              const sanitizedValue = sanitizeTitle(event.target.value);
 
-              setTitle(sanitized);
-              if (titleError && sanitized.trim() !== '') {
+              setTitle(sanitizedValue);
+              if (titleError && sanitizedValue.trim() !== '') {
                 setTitleError(false);
               }
             }}
@@ -117,11 +121,11 @@ const todosWithUsers: Todo[] = initialTodos.map((t: RawTodo) => ({
               id="userSelect"
               data-cy="userSelect"
               value={selectedUserId}
-              onChange={e => {
-                const v = e.target.value;
+              onChange={event => {
+                const value = event.target.value;
 
-                setSelectedUserId(v);
-                if (userError && v) {
+                setSelectedUserId(value);
+                if (userError && value) {
                   setUserError(false);
                 }
               }}
