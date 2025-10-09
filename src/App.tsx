@@ -74,6 +74,7 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             data-cy="titleInput"
@@ -92,6 +93,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User</label>
           <select
             data-cy="userSelect"
             value={userId}
@@ -100,7 +102,7 @@ export const App = () => {
 
               setUserId(selected);
 
-              // Clear user error when a valid user is selected
+              // hide the message immediately after any change of the field with an error;
               if (errors.user && selected !== '') {
                 setErrors(prev => ({ ...prev, user: false }));
               }
