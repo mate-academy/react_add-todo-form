@@ -23,14 +23,23 @@ export type TodoWithUser = {
   id: number;
   title: string;
   completed: boolean;
+  userId: number;      
   user: User;
 };
+
 
 const makeTodoWithUser = (t: TodoRaw): TodoWithUser => {
   const user = users.find(u => u.id === t.userId);
   if (!user) throw new Error(`User ${t.userId} not found`);
-  return { id: t.id, title: t.title, completed: t.completed, user };
+  return {
+    id: t.id,
+    title: t.title,
+    completed: t.completed,
+    userId: t.userId,   
+    user,
+  };
 };
+
 
 export const App: React.FC = () => {
 
@@ -72,6 +81,7 @@ export const App: React.FC = () => {
       id: maxId + 1,
       title: title.trim(),
       completed: false,
+      userId: selectedUser.id,
       user: selectedUser,
     };
 
