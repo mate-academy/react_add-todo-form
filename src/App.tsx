@@ -15,7 +15,9 @@ export const App = () => {
   const [hasErrorTitle, setHasErrorTitle] = useState(false);
 
   function generatePostId(): number {
-    return Math.max(...[...todos].map(todo => todo.id));
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
+
+    return maxId + 1;
   }
 
   const handleFormSubmit = (event: React.FormEvent) => {
@@ -39,19 +41,36 @@ export const App = () => {
       return;
     }
 
-    setTodos([
-      ...todos,
-      {
-        title,
-        id: generatePostId() + 1,
-        userId: selectedUserId,
-        completed: false,
-      },
-    ]);
+    // Находим пользователя по selectedUserId
+    const selectedUser = usersFromServer.find(
+      user => user.id === selectedUserId,
+    );
+
+    if (!selectedUser) {
+      return;
+    }
+
+    const newTodo = {
+      id: generatePostId(),
+      title: title.trim(),
+      userId: selectedUserId,
+      completed: false,
+      user: selectedUser,
+    };
+
+    setTodos([...todos, newTodo]);
 
     setTitle('');
     setSelectedUserId(0);
   };
+
+  const todosWithUsers = todos.map(todo => {
+    const existingUser = (todo as Todo & { user?: User }).user;
+    const user =
+      existingUser || usersFromServer.find(u => u.id === todo.userId);
+
+    return { ...todo, user };
+  });
 
   return (
     <div className="App">
@@ -75,7 +94,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user-select">User</label>
           <select
+            id="user-select"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={event => {
@@ -106,7 +127,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };
