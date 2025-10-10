@@ -1,22 +1,8 @@
 import React from 'react';
-import { UserInfo } from '../UserInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User; 
-};
+import type { TodoWithUser } from '../../App';
 
 type Props = {
-  todo: Todo;
+  todo: TodoWithUser;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
@@ -27,8 +13,10 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h3 className="TodoInfo__title">{todo.title}</h3>
 
-      {}
-      <UserInfo user={todo.user} />
+     
+      <a className="UserInfo" href={`mailto:${todo.user.email}`}>
+        {todo.user.name}
+      </a>
     </article>
   );
 };

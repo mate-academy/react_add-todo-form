@@ -1,22 +1,9 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User;
-};
+import type { TodoWithUser } from '../../App';
 
 type Props = {
-  todos: Todo[];
+  todos: TodoWithUser[];
 };
 
 export const TodoList: React.FC<Props> = ({ todos }) => {
@@ -28,5 +15,6 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
     </section>
   );
 };
+
 
 

@@ -3,6 +3,7 @@ import './App.scss';
 
 import users from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
 type User = {
   id: number;
@@ -11,20 +12,36 @@ type User = {
   email: string;
 };
 
-type Todo = {
+type TodoRaw = {
   userId: number;
   id: number;
   title: string;
   completed: boolean;
 };
 
+export type TodoWithUser = {
+  id: number;
+  title: string;
+  completed: boolean;
+  user: User;
+};
+
+const makeTodoWithUser = (t: TodoRaw): TodoWithUser => {
+  const user = users.find(u => u.id === t.userId);
+  if (!user) throw new Error(`User ${t.userId} not found`);
+  return { id: t.id, title: t.title, completed: t.completed, user };
+};
+
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+
+  const [todos, setTodos] = useState<TodoWithUser[]>(
+    todosFromServer.map(makeTodoWithUser),
+  );
+
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState<number | ''>('');
   const [touched, setTouched] = useState(false);
-
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
@@ -33,8 +50,8 @@ export const App: React.FC = () => {
     [todos],
   );
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = event => {
+    event.preventDefault();
     setTouched(true);
 
     const hasTitleError = title.trim() === '';
@@ -47,16 +64,20 @@ export const App: React.FC = () => {
       return;
     }
 
+    
+    const selectedUser = users.find(u => u.id === Number(userId));
+    if (!selectedUser) return;
 
-    const newTodo: Todo = {
+    const newTodo: TodoWithUser = {
       id: maxId + 1,
       title: title.trim(),
-      userId: Number(userId),
       completed: false,
+      user: selectedUser,
     };
 
     setTodos(prev => [...prev, newTodo]);
 
+  
     setTitle('');
     setUserId('');
     setTitleError(false);
@@ -64,16 +85,14 @@ export const App: React.FC = () => {
     setTouched(false);
   };
 
-
-  const onTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setTitle(e.target.value);
+  const onTitleChange: React.ChangeEventHandler<HTMLInputElement> = changeEvent => {
+    setTitle(changeEvent.target.value);
     if (touched) setTitleError(false);
   };
 
-
-  const onUserChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const v = e.target.value === '' ? '' : Number(e.target.value);
-    setUserId(v);
+  const onUserChange: React.ChangeEventHandler<HTMLSelectElement> = changeEvent => {
+    const value = changeEvent.target.value === '' ? '' : Number(changeEvent.target.value);
+    setUserId(value);
     if (touched) setUserError(false);
   };
 
@@ -83,7 +102,9 @@ export const App: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="title"><strong>Title:</strong></label>
+          <label htmlFor="title">
+            <strong>Title:</strong>
+          </label>
           <input
             id="title"
             type="text"
@@ -96,47 +117,34 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="user"><strong>User:</strong></label>
+          <label htmlFor="user">
+            <strong>User:</strong>
+          </label>
           <select
             id="user"
             data-cy="userSelect"
             value={userId}
             onChange={onUserChange}
           >
-            {}
             <option value="">Choose a user</option>
             {users.map(u => (
-              <option key={u.id} value={u.id}>{u.name}</option>
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
             ))}
           </select>
-
           {userError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton">Add</button>
+        <button type="submit" data-cy="submitButton">
+          Add
+        </button>
       </form>
 
-      {}
-      <section className="TodoList">
-        {todos.map(todo => {
-          const user = users.find(u => u.id === todo.userId)!;
-
-          return (
-            <article
-              key={todo.id}
-              data-id={todo.id}
-              className={`TodoInfo${todo.completed ? ' TodoInfo--completed' : ''}`}
-            >
-              <h2 className="TodoInfo__title">{todo.title}</h2>
-
-              <a className="UserInfo" href={`mailto:${user.email}`}>
-                {user.name}
-              </a>
-            </article>
-          );
-        })}
-      </section>
+    
+      <TodoList todos={todos} />
     </div>
   );
 };
+
 
