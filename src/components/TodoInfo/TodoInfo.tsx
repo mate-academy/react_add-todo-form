@@ -8,10 +8,6 @@ type Props = {
 };
 
 export const TodoInfo = ({ todo }: Props) => {
-  if (!todo || !todo.user) {
-    return null;
-  }
-
   return (
     <article
       data-id={todo.id}

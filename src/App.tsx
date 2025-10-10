@@ -64,13 +64,15 @@ export const App = () => {
     setSelectedUserId(0);
   };
 
-  const todosWithUsers = todos.map(todo => {
-    const existingUser = (todo as Todo & { user?: User }).user;
-    const user =
-      existingUser || usersFromServer.find(u => u.id === todo.userId);
+  const todosWithUsers = todos
+    .map(todo => {
+      const existingUser = (todo as Todo & { user?: User }).user;
+      const user =
+        existingUser || usersFromServer.find(u => u.id === todo.userId);
 
-    return { ...todo, user };
-  });
+      return { ...todo, user };
+    })
+    .filter((todo): todo is Todo & { user: User } => !!todo.user);
 
   return (
     <div className="App">
