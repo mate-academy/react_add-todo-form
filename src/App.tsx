@@ -2,47 +2,42 @@ import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import users from './api/users';
 import initialTodos from './api/todos';
-import './App.scss';
+import 'bulma/css/bulma.css';
 
-const sanitizeTitle = (value: string) =>
-  value.replace(/[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9 ]+/g, '');
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-  user: User;
-};
+import { FormInput } from './components/FormInput';
+import { FormSelect } from './components/FormSelect';
+import { EMPTY_USER_ID, getNextId, sanitizeTitle } from './utils';
+import type { User, RawTodo, Todo } from './types';
 
 export const App = () => {
-  type RawTodo = {
-    userId: number;
-    id: number;
-    title: string;
-    completed: boolean;
-  };
-
-  const todosWithUsers: Todo[] = initialTodos.map((rawTodo: RawTodo) => ({
-    ...rawTodo,
-    user: (users as User[]).find((user: User) => user.id === rawTodo.userId)!,
+  const todosWithUsers: Todo[] = (initialTodos as RawTodo[]).map(t => ({
+    ...t,
+    user: (users as User[]).find(u => u.id === t.userId)!,
   }));
 
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState('');
-
+  const [selectedUserId, setSelectedUserId] = useState<string>(EMPTY_USER_ID);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleAddTodo = () => {
+  const handleTitleChange = (value: string) => {
+    const sanitizedValue = sanitizeTitle(value);
+
+    setTitle(sanitizedValue);
+    if (titleError && sanitizedValue.trim() !== '') {
+      setTitleError(false);
+    }
+  };
+
+  const handleUserChange = (value: string) => {
+    setSelectedUserId(value);
+    if (userError && value) {
+      setUserError(false);
+    }
+  };
+
+  const handleSubmit = () => {
     const isTitleEmpty = title.trim() === '';
     const isUserEmpty = !selectedUserId;
 
@@ -53,100 +48,83 @@ export const App = () => {
       return;
     }
 
-    const user = (users as User[]).find(
-      (u: User) => u.id === Number(selectedUserId),
-    )!;
-
-    const nextId =
-      (todos.length ? Math.max(...todos.map((todo: Todo) => todo.id)) : 0) + 1;
+    const user = (users as User[]).find(u => u.id === +selectedUserId)!;
 
     const newTodo: Todo = {
-      id: nextId,
+      id: getNextId(todos),
       title: title.trim(),
       userId: user.id,
       completed: false,
       user,
     };
 
-    setTodos(prevTodos => [...prevTodos, newTodo]);
-
+    setTodos(prev => [...prev, newTodo]);
     setTitle('');
-    setSelectedUserId('');
+    setSelectedUserId(EMPTY_USER_ID);
     setTitleError(false);
     setUserError(false);
   };
 
   return (
-    <div className="App box">
-      <h1 className="title">Todos</h1>
+    <section className="section">
+      <div className="container">
+        <div className="columns is-centered">
+          <div className="column is-half">
+            <div className="box">
+              <h1 className="title has-text-centered">Add new TODO</h1>
 
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          handleAddTodo();
-        }}
-      >
-        <div className="field">
-          <label className="label" htmlFor="titleInput">
-            Title
-          </label>
-          <input
-            id="titleInput"
-            data-cy="titleInput"
-            type="text"
-            className={`input${titleError ? ' is-danger' : ''}`}
-            placeholder="Enter a todo title"
-            value={title}
-            onChange={event => {
-              const sanitizedValue = sanitizeTitle(event.target.value);
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+              >
+                <FormInput
+                  id="titleInput"
+                  label="Title"
+                  value={title}
+                  onChange={handleTitleChange}
+                  placeholder="Enter todo title"
+                  dataCy="titleInput"
+                  hasError={titleError}
+                  errorText="Please enter a title"
+                />
 
-              setTitle(sanitizedValue);
-              if (titleError && sanitizedValue.trim() !== '') {
-                setTitleError(false);
-              }
-            }}
-          />
+                <FormSelect
+                  id="userSelect"
+                  label="User"
+                  value={selectedUserId}
+                  onChange={handleUserChange}
+                  dataCy="userSelect"
+                  options={[
+                    { value: EMPTY_USER_ID, label: 'Choose a user' },
+                    ...(users as User[]).map(u => ({
+                      value: String(u.id),
+                      label: u.name,
+                    })),
+                  ]}
+                  hasError={userError}
+                  errorText="Please choose a user"
+                />
 
-          {titleError && <p className="error">Please enter a title</p>}
-        </div>
+                <div className="field has-text-centered">
+                  <div className="control">
+                    <button
+                      type="submit"
+                      className="button is-primary is-medium"
+                      data-cy="submitButton"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
 
-        <div className="field">
-          <label className="label" htmlFor="userSelect">
-            User
-          </label>
-          <div
-            className={`select is-fullwidth${userError ? ' is-danger' : ''}`}
-          >
-            <select
-              id="userSelect"
-              data-cy="userSelect"
-              value={selectedUserId}
-              onChange={event => {
-                const value = event.target.value;
-
-                setSelectedUserId(value);
-                if (userError && value) {
-                  setUserError(false);
-                }
-              }}
-            >
-              <option value="">Choose a user</option>
-              {(users as User[]).map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
+            <TodoList todos={todos} />
           </div>
-          {userError && <p className="error">Please choose a user</p>}
         </div>
-
-        <button type="submit" className="button is-link" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <TodoList todos={todos} />
-    </div>
+      </div>
+    </section>
   );
 };
