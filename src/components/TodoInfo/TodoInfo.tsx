@@ -1,3 +1,5 @@
+import React from 'react';
+import cn from 'classnames';
 import { UserInfo } from '../UserInfo';
 
 type User = {
@@ -16,10 +18,11 @@ type Todo = {
 };
 
 export const TodoInfo: React.FC<{ todo: Todo }> = ({ todo }) => {
-  const className = `TodoInfo${todo.completed ? ' TodoInfo--completed' : ''}`;
-
   return (
-    <div className={className} data-id={todo.id}>
+    <div
+      className={cn('TodoInfo', { 'TodoInfo--completed': todo.completed })}
+      data-id={todo.id}
+    >
       <p className="TodoInfo__title">{todo.title}</p>
       <UserInfo user={todo.user} />
     </div>

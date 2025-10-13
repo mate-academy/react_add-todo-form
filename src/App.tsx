@@ -23,7 +23,6 @@ export const App = () => {
 
   const handleTitleChange = (value: string) => {
     const sanitizedValue = sanitizeTitle(value);
-
     setTitle(sanitizedValue);
     if (titleError && sanitizedValue.trim() !== '') {
       setTitleError(false);
@@ -37,16 +36,16 @@ export const App = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const isTitleEmpty = title.trim() === '';
     const isUserEmpty = !selectedUserId;
 
     setTitleError(isTitleEmpty);
     setUserError(isUserEmpty);
 
-    if (isTitleEmpty || isUserEmpty) {
-      return;
-    }
+    if (isTitleEmpty || isUserEmpty) return;
 
     const user = (users as User[]).find(u => u.id === +selectedUserId)!;
 
@@ -73,12 +72,7 @@ export const App = () => {
             <div className="box">
               <h1 className="title has-text-centered">Add new TODO</h1>
 
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  handleSubmit();
-                }}
-              >
+              <form onSubmit={handleSubmit}>
                 <FormInput
                   id="titleInput"
                   label="Title"
