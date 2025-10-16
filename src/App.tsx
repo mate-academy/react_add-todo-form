@@ -5,7 +5,6 @@ import { TodoAgregate } from './domains/TodoAgregate';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { AddTodoForm } from './components/AddTodoForm';
-import { User } from './domains/User';
 import { useState } from 'react';
 
 export type TodoDraft = {
@@ -14,28 +13,33 @@ export type TodoDraft = {
 };
 
 export const App = () => {
-  const [todos, setTodos] = useState<TodoAgregate[]>(() =>
-    todosFromServer.map(todo => {
-      const user = usersFromServer.find(
-        userItem => userItem.id === todo.userId,
-      ) as User;
+  const [todos, setTodos] = useState<TodoAgregate[]>(() => {
+    const prepared: TodoAgregate[] = [];
 
-      return {
-        ...todo,
-        user,
-      };
-    }),
-  );
+    for (const todo of todosFromServer) {
+      const user = usersFromServer.find(u => u.id === todo.userId);
+
+      if (!user) {
+        continue;
+      }
+
+      prepared.push({ ...todo, user });
+    }
+
+    return prepared;
+  });
 
   const handleAddTodo = ({ title, userId }: TodoDraft) => {
+    const user = usersFromServer.find(u => u.id === userId);
+
+    if (!user) {
+      return;
+    }
+
     const nextId =
       todos.length > 0
         ? Math.max(...todos.map(todoItem => todoItem.id)) + 1
         : 1;
-
-    const user = usersFromServer.find(
-      userItem => userItem.id === userId,
-    ) as User;
 
     const newTodo: TodoAgregate = {
       id: nextId,

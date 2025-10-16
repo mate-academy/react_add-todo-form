@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 
-import {} from '../../domains/TodoAgregate';
 import { User } from '../../domains/User';
-import { TodoDraft } from '../../App';
+
+type TodoDraftLocal = {
+  title: string;
+  userId: number;
+};
 
 type Errors = {
   title?: boolean;
@@ -11,7 +14,7 @@ type Errors = {
 
 type Props = {
   users: User[];
-  onAdd: (draft: TodoDraft) => void;
+  onAdd: (draft: TodoDraftLocal) => void;
 };
 
 export const AddTodoForm: React.FC<Props> = ({ onAdd, users }) => {
