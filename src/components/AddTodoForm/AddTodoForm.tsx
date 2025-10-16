@@ -1,40 +1,26 @@
 import { useState } from 'react';
-import usersFromServer from '../../api/users';
-import { TodoWithUser } from '../../App';
+import { User } from '../../api/users';
 
 type AddTodoFormProps = {
-  onAddTodo: (newTodo: TodoWithUser) => void;
-  currentTodos: TodoWithUser[];
+  onAddTodo: (title: string, userId: number) => void;
+  users: User[];
 };
 
 export const AddTodoForm: React.FC<AddTodoFormProps> = ({
   onAddTodo,
-  currentTodos,
+  users,
 }) => {
-  const [title, setTitle] = useState<string>('');
-  const [userId, setUserId] = useState<number>(0);
-  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
-  const [hasUserIdError, setHasUserIdError] = useState<boolean>(false);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value.trimStart());
-    setHasTitleError(false);
-  };
-
-  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
-    setHasUserIdError(false);
-  };
-
-  const resetForm = () => {
-    setTitle('');
-    setUserId(0);
-  };
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
       setHasTitleError(true);
     }
 
@@ -42,27 +28,14 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({
       setHasUserIdError(true);
     }
 
-    if (!title || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
-    const newId =
-      currentTodos.length > 0
-        ? Math.max(...currentTodos.map(todo => todo.id)) + 1
-        : 1;
+    onAddTodo(trimmedTitle, userId);
 
-    const user = usersFromServer.find(u => u.id === userId);
-
-    const newTodo: TodoWithUser = {
-      id: newId,
-      title: title.trim(),
-      completed: false,
-      userId,
-      user,
-    };
-
-    onAddTodo(newTodo);
-    resetForm();
+    setTitle('');
+    setUserId(0);
   };
 
   return (
@@ -75,7 +48,10 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({
             data-cy="titleInput"
             type="text"
             value={title}
-            onChange={handleTitleChange}
+            onChange={e => {
+              setTitle(e.target.value.trimStart());
+              setHasTitleError(false);
+            }}
             placeholder="Enter a title"
           />
         </label>
@@ -93,12 +69,15 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({
             id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={handleUserChange}
+            onChange={e => {
+              setUserId(+e.target.value);
+              setHasUserIdError(false);
+            }}
           >
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
+            {users.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>

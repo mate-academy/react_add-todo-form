@@ -1,1 +1,1 @@
-export * from '../AddTodoForm';
+export * from './AddTodoForm';
