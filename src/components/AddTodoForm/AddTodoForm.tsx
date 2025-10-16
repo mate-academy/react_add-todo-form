@@ -48,8 +48,8 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({
             data-cy="titleInput"
             type="text"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value.trimStart());
+            onChange={event => {
+              setTitle(event.target.value.trimStart());
               setHasTitleError(false);
             }}
             placeholder="Enter a title"
@@ -69,8 +69,8 @@ export const AddTodoForm: React.FC<AddTodoFormProps> = ({
             id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(+e.target.value);
+            onChange={event => {
+              setUserId(+event.target.value);
               setHasUserIdError(false);
             }}
           >

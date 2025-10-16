@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import React from 'react';
 import { UserInfo } from '../UserInfo';
 import { TodoWithUser } from '../../App';
 

@@ -1,4 +1,5 @@
 import { User } from '../../api/users';
+import React from 'react';
 
 type Props = {
   user: User;
