@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import usersFromServer from '../../api/users';
-import { TodoWithoutId } from '../../domains/TodoAgregate';
+import {} from '../../domains/TodoAgregate';
 import { User } from '../../domains/User';
+import { TodoDraft } from '../../App';
 
 type Errors = {
   title?: boolean;
@@ -10,12 +10,13 @@ type Errors = {
 };
 
 type Props = {
-  onAdd: (todoWithoutId: TodoWithoutId) => void;
+  users: User[];
+  onAdd: (draft: TodoDraft) => void;
 };
 
-export const AddTodoForm: React.FC<Props> = ({ onAdd }) => {
+export const AddTodoForm: React.FC<Props> = ({ onAdd, users }) => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<number>(0);
 
   const [errors, setErrors] = useState<Errors>({});
 
@@ -33,7 +34,7 @@ export const AddTodoForm: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    setUserId(Number(event.target.value));
 
     if (errors.userId) {
       setErrors(prev => ({ ...prev, userId: false }));
@@ -59,14 +60,7 @@ export const AddTodoForm: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const newTodo: TodoWithoutId = {
-      title,
-      completed: false,
-      userId,
-      user: usersFromServer.find(u => u.id === userId) as User,
-    };
-
-    onAdd(newTodo);
+    onAdd({ title: title.trim(), userId });
 
     setTitle('');
     setUserId(0);
@@ -97,13 +91,13 @@ export const AddTodoForm: React.FC<Props> = ({ onAdd }) => {
           onChange={handleUserIdChange}
           data-cy="userSelect"
         >
-          <option value="0" disabled>
+          <option value={0} disabled>
             Choose a user
           </option>
-          {usersFromServer.map(u => {
+          {users.map(user => {
             return (
-              <option key={u.id} value={u.id}>
-                {u.name}
+              <option key={user.id} value={user.id}>
+                {user.name}
               </option>
             );
           })}

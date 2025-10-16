@@ -1,6 +1,6 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { TodoAgregate, TodoWithoutId } from './domains/TodoAgregate';
+import { TodoAgregate } from './domains/TodoAgregate';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -8,29 +8,51 @@ import { AddTodoForm } from './components/AddTodoForm';
 import { User } from './domains/User';
 import { useState } from 'react';
 
-const todosList: TodoAgregate[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => u.id === todo.userId) as User;
-
-  return {
-    ...todo,
-    user,
-  };
-});
+export type TodoDraft = {
+  title: string;
+  userId: number;
+};
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosList);
+  const [todos, setTodos] = useState<TodoAgregate[]>(() =>
+    todosFromServer.map(todo => {
+      const user = usersFromServer.find(
+        userItem => userItem.id === todo.userId,
+      ) as User;
 
-  const handleAddTodo = (todoWithoutId: TodoWithoutId) => {
-    const id = Math.max(...todos.map(t => t.id)) + 1;
+      return {
+        ...todo,
+        user,
+      };
+    }),
+  );
 
-    setTodos(prev => [...prev, { id, ...todoWithoutId }]);
+  const handleAddTodo = ({ title, userId }: TodoDraft) => {
+    const nextId =
+      todos.length > 0
+        ? Math.max(...todos.map(todoItem => todoItem.id)) + 1
+        : 1;
+
+    const user = usersFromServer.find(
+      userItem => userItem.id === userId,
+    ) as User;
+
+    const newTodo: TodoAgregate = {
+      id: nextId,
+      title,
+      completed: false,
+      userId,
+      user,
+    };
+
+    setTodos(prev => [...prev, newTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <AddTodoForm onAdd={handleAddTodo} />
+      <AddTodoForm onAdd={handleAddTodo} users={usersFromServer} />
 
       <TodoList todos={todos} />
     </div>
