@@ -1,4 +1,10 @@
-export default [
+export type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+export default <User[]>[
   {
     id: 1,
     name: 'Leanne Graham',

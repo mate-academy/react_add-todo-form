@@ -1,4 +1,11 @@
-export default [
+export type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
+
+export default <Todo[]>[
   {
     id: 1,
     title: 'delectus aut autem',
