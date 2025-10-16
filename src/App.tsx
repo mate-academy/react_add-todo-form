@@ -15,8 +15,17 @@ function getUserById(userId: number) {
 export const App = () => {
   const [todoList, setTodoList] = useState(todosFromServer);
 
+  const todos: TodoAggregate[] = todoList.map(todo => {
+    const todoAggregate: TodoAggregate = {
+      ...todo,
+      user: getUserById(todo.userId),
+    };
+
+    return todoAggregate;
+  });
+
   const handleAddTodo = (todo: Omit<Todo, 'id'>) => {
-    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
+    const maxId = todos.length ? Math.max(...todos.map(item => item.id)) : 0;
 
     setTodoList(currentTodos => [
       ...currentTodos,
@@ -26,15 +35,6 @@ export const App = () => {
       },
     ]);
   };
-
-  const todos: TodoAggregate[] = todoList.map(todo => {
-    const todoAggregate: TodoAggregate = {
-      ...todo,
-      user: getUserById(todo.userId),
-    };
-
-    return todoAggregate;
-  });
 
   return (
     <div className="App">
