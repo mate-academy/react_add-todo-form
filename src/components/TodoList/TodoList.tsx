@@ -1,1 +1,16 @@
-export const TodoList = () => {};
+import { TodoUserAggregate } from '../../types/TodoUserAggregate';
+import { TodoInfo } from '../TodoInfo';
+
+type Props = {
+  todos: TodoUserAggregate[];
+};
+
+export const TodoList: React.FC<Props> = ({ todos }) => {
+  return (
+    <section className="TodoList">
+      {todos.map(todo => (
+        <TodoInfo key={todo.id} todo={todo} />
+      ))}
+    </section>
+  );
+};
