@@ -1,11 +1,11 @@
-import { Todo } from '../../types/Todo';
+import { TodoAggregate } from '../../types/TodoAggregate';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {
-  todos: Todo[];
+  todos: TodoAggregate[];
 };
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList = ({ todos }: Props) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (

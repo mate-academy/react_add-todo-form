@@ -1,9 +1,9 @@
-import { Todo } from '../../types/Todo';
+import { TodoAggregate } from '../../types/TodoAggregate';
 import { UserInfo } from '../UserInfo';
 import cn from 'classnames';
 
 type Props = {
-  todo: Todo;
+  todo: TodoAggregate;
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
