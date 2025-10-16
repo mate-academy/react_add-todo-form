@@ -1,4 +1,4 @@
-import { TodoUserAggregate } from '../../App';
+import { TodoUserAggregate } from '../../types/TodoUserAggregate';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {

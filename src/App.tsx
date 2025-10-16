@@ -4,11 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { User } from './types/User';
-import { Todo } from './types/Todo';
-
-export type TodoUserAggregate = Todo & {
-  user?: User;
-};
+import { TodoUserAggregate } from './types/TodoUserAggregate';
 
 function getUserById(users: User[], userId: number): User | undefined {
   return users.find(user => user.id === userId);
