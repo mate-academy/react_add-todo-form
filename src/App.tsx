@@ -4,25 +4,14 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
-import { TodoAggregate } from './types/TodoAggregate';
+import { createTodoAggregate, TodoAggregate } from './types/TodoAggregate';
 import { AddTodoForm } from './components/AddTodoForm';
 import { Todo } from './types/Todo';
-
-function getUserById(userId: number) {
-  return usersFromServer.find(user => user.id === userId)!;
-}
 
 export const App = () => {
   const [todoList, setTodoList] = useState(todosFromServer);
 
-  const todos: TodoAggregate[] = todoList.map(todo => {
-    const todoAggregate: TodoAggregate = {
-      ...todo,
-      user: getUserById(todo.userId),
-    };
-
-    return todoAggregate;
-  });
+  const todos: TodoAggregate[] = createTodoAggregate(todoList, usersFromServer);
 
   const handleAddTodo = (todo: Omit<Todo, 'id'>) => {
     const maxId = todos.length ? Math.max(...todos.map(item => item.id)) : 0;
@@ -40,7 +29,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <AddTodoForm onSubmit={handleAddTodo} />
+      <AddTodoForm users={usersFromServer} onSubmit={handleAddTodo} />
 
       <TodoList todos={todos} />
     </div>

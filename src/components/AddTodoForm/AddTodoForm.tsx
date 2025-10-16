@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Todo } from '../../types/Todo';
-
-import users from '../../api/users';
+import { User } from '../../types/User';
 
 type Props = {
+  users: User[];
   onSubmit: (todo: Omit<Todo, 'id'>) => void;
 };
 
-export const AddTodoForm = ({ onSubmit }: Props) => {
+export const AddTodoForm = ({ users, onSubmit }: Props) => {
   const [title, setTitle] = useState('');
   const [showTitleError, setShowTitleError] = useState(false);
 
