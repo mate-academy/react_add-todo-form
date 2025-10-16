@@ -1,27 +1,147 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { useState } from 'react';
+import { TodoList } from './components/TodoList';
+
+const listOfTodo = () => {
+  return todosFromServer.map(todo => {
+    const user = usersFromServer.find(item => todo.userId === item.id);
+
+    return {
+      ...todo,
+      user,
+    };
+  });
+};
 
 export const App = () => {
+  const [historyChange, setHistoryChange] = useState(listOfTodo());
+  const [inputTitle, setInputTitle] = useState('');
+  const [selectUser, setSelectUser] = useState<number | ''>('');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
+  const maxId =
+    historyChange.length > 0
+      ? Math.max(...historyChange.map(todo => todo.id))
+      : 0;
+
+  const uniqueUsers = usersFromServer.reduce(
+    (acc, item) => {
+      if (!acc.some(user => user.id === item.id)) {
+        acc.push(item);
+      }
+
+      return acc;
+    },
+    [] as { id: number; name: string }[],
+  );
+
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleSelectUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value === '' ? '' : Number(event.target.value);
+
+    setSelectUser(value);
+    setUserError(false);
+  };
+
+  const findUser =
+    typeof selectUser === 'number'
+      ? usersFromServer.find(user => user.id === selectUser)
+      : undefined;
+
+  const addTodo = () => {
+    const isTitleEmpty = inputTitle.trim() === '';
+    const isUserEmpty = selectUser === '';
+
+    setTitleError(isTitleEmpty);
+    setUserError(isUserEmpty);
+
+    if (isTitleEmpty || isUserEmpty) {
+      return;
+    }
+
+    if (!findUser) {
+      return;
+    }
+
+    const newId = maxId + 1;
+
+    const newTodo = {
+      id: newId,
+      title: inputTitle.trim(),
+      completed: false,
+      user: {
+        id: findUser.id,
+        name: findUser.name,
+        username: findUser.username,
+        email: findUser.email,
+      },
+      userId: findUser.id,
+    };
+
+    setHistoryChange(prev => [...prev, newTodo]);
+
+    setInputTitle('');
+    setSelectUser('');
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
+      <form
+        onSubmit={event => {
+          event.preventDefault();
+          addTodo();
+        }}
+      >
         <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
+          <input
+            id="title"
+            type="text"
+            data-cy="titleInput"
+            value={inputTitle}
+            onChange={handleTitle}
+            placeholder="Enter title"
+          />
+
+          {titleError && (
+            <label htmlFor="title" className="error">
+              Please enter a title
+            </label>
+          )}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
+          <select
+            id="user"
+            data-cy="userSelect"
+            value={selectUser}
+            onChange={handleSelectUser}
+          >
+            <option value="">Choose a user</option>
+
+            {uniqueUsers.map(item => {
+              return (
+                <option value={item.id} key={item.id}>
+                  {item.name}
+                </option>
+              );
+            })}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {userError && (
+            <label htmlFor="user" className="error">
+              Please choose a user
+            </label>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -29,33 +149,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={historyChange} />
     </div>
   );
 };
