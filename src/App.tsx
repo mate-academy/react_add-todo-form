@@ -3,20 +3,8 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-export type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-export type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { User } from './types/User';
+import { Todo } from './types/Todo';
 
 export type TodoUserAggregate = Todo & {
   user?: User;
@@ -51,6 +39,7 @@ export const App = () => {
       /[^a-zA-Zа-яА-ЯёЁіІїЇєЄ0-9\s]/g,
       '',
     );
+
     setTitle(inputValue);
 
     if (titleError) {
