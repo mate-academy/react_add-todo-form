@@ -1,0 +1,20 @@
+import { Todo } from './Todo';
+import { User } from './User';
+
+export type TodoAggregate = Todo & {
+  user: User | null;
+};
+
+export const createTodoAggregates = (
+  todos: Todo[],
+  users: User[],
+): TodoAggregate[] => {
+  return todos.map(todo => {
+    const user = users.find(({ id }) => id === todo.userId) ?? null;
+
+    return {
+      ...todo,
+      user,
+    } satisfies TodoAggregate;
+  });
+};
