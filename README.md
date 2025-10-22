@@ -25,9 +25,31 @@ Implement the ability to add TODOs to the `TodoList` implemented in the **Static
 1. If the form is valid, add a todo to the list and clear the form.
 1. (* **Optional**) Allow entering only letters (`ua` and `en`), digits, and `spaces` in the `title` field. Just remove any other characters from the `title`.
 
+
+1. Створіть компонент `App`, який зберігатиме масив `todos` та відображатиме його за допомогою `TodoList`.
+1. Створіть форму для додавання нових TODO:
+- має бути поле для введення тексту для `title` з атрибутом `data-cy="titleInput"`;
+- додайте `<select>` з атрибутом `data-cy="userSelect"`, що відображає всіх заданих користувачів;
+- додайте мітки та заповнювачі, де вони потрібні;
+- додайте нове завдання до списку після натискання кнопки `Додати`;
+- кожен елемент TODO повинен мати такі поля:
+- `id`,
+- `title`,
+- `userId`,
+- заповнено (`false` за замовчуванням),
+- та об'єкт користувача, що містить: `id`, `name`, `username`, `email`
+- `id` - це найбільший `id` у масиві + 1 (додайте атрибут `data-id={todo.id}` до кожного `.TodoInfo`).
+1. Додайте перевірку до форми:
+- додайте порожній варіант за замовчуванням `Виберіть користувача` до поля `select`;
+- перед створенням завдання перевірте, чи було вибрано `користувача`; якщо ні, відобразіть повідомлення про помилку поруч із полем `select` (`Business choose a user`);
+- якщо поле `title` порожнє, відобразіть повідомлення про помилку поруч із полем `title` (`Business enter a title`);
+- помилки повинні з'являтися лише після натискання кнопки `Add`;
+- приховуйте повідомлення одразу після будь-якої зміни поля з помилкою;
+1. Якщо форма дійсна, додайте завдання до списку та очистіть форму.
+1. (* **Необов'язково**) Дозволити введення лише літер (`ua` та `en`), цифр та `пробілів` у полі `title`. Просто видаліть будь-які інші символи з `title`.
 ## Instructions
 - Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_add-todo-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://ElinaMrachkovska.github.io/react_add-todo-form/) and add it to the PR description.
