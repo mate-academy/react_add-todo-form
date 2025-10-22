@@ -1,61 +1,35 @@
 import './App.scss';
+import { ToDoForm } from './components/AddNewToDoForm/AddNewToDoForm';
+import { TodoList } from './components/TodoList';
+import { getAggregateTodos } from './domain/TodoAggreaged';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { useState } from 'react';
+import { Todo } from './domain/Todo';
 
 export const App = () => {
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+
+  const aggregatedTodos = getAggregateTodos(todos, usersFromServer);
+
+  const handleAddTodo = (todoWithoutId: Omit<Todo, 'id'>) => {
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
+
+    setTodos(currentTodos => [
+      ...currentTodos,
+      {
+        ...todoWithoutId,
+        id: maxId + 1,
+      },
+    ]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <ToDoForm users={usersFromServer} onSubmit={handleAddTodo} />
+      <TodoList todos={aggregatedTodos} />
     </div>
   );
 };
