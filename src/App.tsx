@@ -4,14 +4,15 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
 
-function getUserById(userId) {
-  return usersFromServer.find(user => user.id === userId) || null;
-}
 
-export const preparedTodos = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+export const preparedTodos = todosFromServer.map(todo => {
+  const selectedUser  = usersFromServer.find(user => user.id === todo.userId) || null;
+
+  return {
+    ...todo,
+    user: selectedUser,
+  };
+});
 
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
@@ -27,13 +28,15 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-
+    const selectedUser  = usersFromServer.find(user => user.id === Number(userId));
+    const maxId = Math.max(...todos.map(t => t.id)) + 1;
 
     const newTodo = {
-      id: todos.length + 1,
+      id: maxId,
       title,
       userId: Number(userId),
       completed: false,
+      user: selectedUser  || null,
     };
 
     if (title && userId) {
@@ -64,8 +67,8 @@ export const App = () => {
               type="text"
               data-cy="titleInput"
               value={title}
-              onChange={e => {
-                const cleaned = cleanTitle(e.target.value);
+              onChange={event => {
+                const cleaned = cleanTitle(event.target.value);
 
                 setTitle(cleaned);
                 setTitleError('');
@@ -82,8 +85,8 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={userId}
-              onChange={e => {
-                setUserId(e.target.value);
+              onChange={event => {
+                setUserId(event.target.value);
                 setUserError('');
               }}
             >
@@ -104,7 +107,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList list={todos} getUserById={getUserById} />
+      <TodoList list={todos} />
     </div>
   );
 };
