@@ -1,0 +1,17 @@
+export interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+export interface Todo {
+  id: number;
+  userId: number;
+  title: string;
+  completed: boolean;
+}
+
+export interface PreparedTodo extends Todo {
+  user: User;
+}
