@@ -5,22 +5,22 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
-export const App = () => {
-  function getUser(userID: number): User {
-    const foundUser = usersFromServer.find(user => user.id === userID);
+function getUser(userID: number): User {
+  const foundUser = usersFromServer.find(user => user.id === userID);
 
-    if (!foundUser) {
-      throw new Error(`User with Id ${userID} not found`);
-    }
-
-    return foundUser;
+  if (!foundUser) {
+    throw new Error(`User with Id ${userID} not found`);
   }
 
-  const preparedToDo: PreparedTodo[] = todosFromServer.map(todo => ({
-    ...todo,
-    user: getUser(todo.userId),
-  }));
+  return foundUser;
+}
 
+const preparedToDo: PreparedTodo[] = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUser(todo.userId),
+}));
+
+export const App = () => {
   const [todoList, setToDoList] = useState(preparedToDo);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
@@ -55,12 +55,15 @@ export const App = () => {
       hasError = true;
     }
 
-    if (hasError) {
+    if (hasError === true) {
       return;
     }
 
+    const newID =
+      todoList.length > 0 ? Math.max(...todoList.map(todo => todo.id)) + 1 : 1;
+
     const newToDo: PreparedTodo = {
-      id: Math.max(...todoList.map(todo => todo.id)) + 1,
+      id: newID,
       title: title.trim(),
       completed: false,
       userId,
