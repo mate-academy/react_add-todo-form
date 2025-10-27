@@ -1,19 +1,12 @@
-import { Todo, User } from '../../types';
+import { User } from '../../types';
 import React, { useState } from 'react';
 
 interface Props {
-  todos: Todo[];
   users: User[];
-  onAdd: (newTodo: Todo) => void;
+  onAdd: (title: string, userId: number) => void;
 }
 
-function getNewId(todos: Todo[]): number {
-  const maxId = Math.max(...todos.map(todo => todo.id), 0);
-
-  return maxId + 1;
-}
-
-export const NewTodo: React.FC<Props> = ({ todos, users, onAdd }) => {
+export const NewTodo: React.FC<Props> = ({ users, onAdd }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -48,22 +41,14 @@ export const NewTodo: React.FC<Props> = ({ todos, users, onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    setHasTitleError(!title.trim());
     setHasUserIdError(!userId);
 
     if (!isFormValid()) {
       return;
     }
 
-    const newTodo: Todo = {
-      id: getNewId(todos),
-      title,
-      completed: false,
-      userId,
-      user: users.find(user => user.id === userId) || null,
-    };
-
-    onAdd(newTodo);
+    onAdd(title.trim(), userId);
 
     reset();
   };
