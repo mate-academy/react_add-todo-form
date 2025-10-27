@@ -14,7 +14,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <p className="TodoInfo__title">{todo.title}</p>
 
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
     </div>
   );
 };
