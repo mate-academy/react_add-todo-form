@@ -3,13 +3,7 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
+import { Todo } from './types';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
@@ -55,15 +49,15 @@ export const App = () => {
     setSelectedUserId(0);
   };
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^a-zA-Z0-9\s]/g, '');
 
     setTitle(value);
     setErrors(prev => ({ ...prev, title: '' }));
   };
 
-  const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(Number(e.target.value));
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(Number(event.target.value));
     setErrors(prev => ({ ...prev, user: '' }));
   };
 
@@ -73,7 +67,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="todoTitle">Title</label>
           <input
+            id="todoTitle"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -84,7 +80,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={handleUserChange}
@@ -92,9 +90,9 @@ export const App = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {usersFromServer.map(currentUser => (
+              <option key={currentUser.id} value={currentUser.id}>
+                {currentUser.name}
               </option>
             ))}
           </select>

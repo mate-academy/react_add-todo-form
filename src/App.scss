@@ -3,12 +3,27 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
 button {
   cursor: pointer;
+}
+
+.field {
+  margin: 10px 0;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 5px;
+  }
 }
 
 .error {
