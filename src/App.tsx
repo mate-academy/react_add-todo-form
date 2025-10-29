@@ -6,7 +6,12 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types';
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId)!,
+    })),
+  );
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState<number>(0);
   const [errors, setErrors] = useState({
@@ -14,8 +19,8 @@ export const App = () => {
     user: '',
   });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (formEvent: FormEvent) => {
+    formEvent.preventDefault();
 
     const newErrors = {
       title: '',
@@ -37,11 +42,16 @@ export const App = () => {
     }
 
     const maxId = Math.max(0, ...todos.map(todo => todo.id));
-    const newTodo: Todo = {
+    const selectedUser = usersFromServer.find(
+      user => user.id === selectedUserId,
+    )!;
+
+    const newTodo = {
       id: maxId + 1,
       title: title.trim(),
       completed: false,
       userId: selectedUserId,
+      user: selectedUser,
     };
 
     setTodos(prev => [...prev, newTodo]);
@@ -105,12 +115,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos.map(todo => ({
-          ...todo,
-          user: usersFromServer.find(u => u.id === todo.userId)!,
-        }))}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };

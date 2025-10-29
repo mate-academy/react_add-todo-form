@@ -5,10 +5,13 @@ export type User = {
   email: string;
 };
 
-export type Todo = {
+export type TodoBase = {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user?: User;
+};
+
+export type Todo = TodoBase & {
+  user: User;
 };
