@@ -4,6 +4,7 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
+
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
@@ -19,12 +20,12 @@ export const App = () => {
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState({ title: false, user: false });
 
   const reset = () => {
     setTitle('');
     setUserId(0);
-    setError(false);
+    setError({ title: false, user: false });
   };
 
   const addTodo = () => {
@@ -51,8 +52,24 @@ export const App = () => {
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !userId) {
-      setError(true);
+    if (!title && !userId) {
+      setError({ title: true, user: true });
+
+      return;
+    }
+
+    if (!title) {
+      setError(prevState => {
+        return { ...prevState, title: true };
+      });
+
+      return;
+    }
+
+    if (!userId) {
+      setError(prevState => {
+        return { ...prevState, user: true };
+      });
 
       return;
     }
@@ -82,19 +99,23 @@ export const App = () => {
             type="text"
             placeholder="add a title"
             onChange={event => {
+              setError(prevState => {
+                return { ...prevState, title: false };
+              });
               setTitle(event.target.value);
             }}
             data-cy="titleInput"
             value={title}
           />
-          {!title && error && (
-            <span className="error">Please enter a title</span>
-          )}
+          {error.title && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
           <select
             onChange={event => {
+              setError(prevState => {
+                return { ...prevState, user: false };
+              });
               setUserId(Number(event.target.value));
             }}
             value={userId}
@@ -110,9 +131,7 @@ export const App = () => {
             ))}
           </select>
 
-          {!userId && error && (
-            <span className="error">Please choose a user</span>
-          )}
+          {error.user && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
