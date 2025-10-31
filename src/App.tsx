@@ -7,14 +7,14 @@ import { TodoList } from './components/TodoList';
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
+const todos = todosFromServer.map(todo => {
+  return {
+    ...todo,
+    user: getUserById(todo.userId),
+  };
+});
 
 export const App = () => {
-  const todos = [...todosFromServer].map(todo => {
-    return {
-      ...todo,
-      user: getUserById(todo.userId),
-    };
-  });
 
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [title, setTitle] = useState<string>('');
@@ -48,8 +48,8 @@ export const App = () => {
     setVisibleTodos(prevTodos => [...prevTodos, todo]);
   };
 
-  const handleSubmission = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (!title || !userId) {
       setError(true);
@@ -61,7 +61,7 @@ export const App = () => {
     reset();
   };
 
-  const usersToChoose = [...usersFromServer].map(user => {
+  const usersToChoose = usersFromServer.map(user => {
     return {
       value: user.id,
       text: user.name,
