@@ -7,6 +7,7 @@ import { TodoList } from './components/TodoList';
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
 }
+
 const todos = todosFromServer.map(todo => {
   return {
     ...todo,
@@ -15,7 +16,6 @@ const todos = todosFromServer.map(todo => {
 });
 
 export const App = () => {
-
   const [visibleTodos, setVisibleTodos] = useState(todos);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
