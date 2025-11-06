@@ -17,7 +17,9 @@ export const AddTodoForm: React.FC<Props> = ({ users, todos, onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
       setTitleError(true);
     }
 
@@ -25,17 +27,19 @@ export const AddTodoForm: React.FC<Props> = ({ users, todos, onAdd }) => {
       setUserError(true);
     }
 
-    if (!title.trim() || !userId) {
+    if (!trimmedTitle || !userId) {
       return;
     }
 
-    const selectedUser = users.find(u => u.id === +userId);
-    const newId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1;
+    const selectedUser = users.find(user => user.id === +userId);
+    const newId = todos.length
+      ? Math.max(...todos.map(todo => todo.id)) + 1
+      : 1;
 
     const newTodo: Todo = {
       id: newId,
       userId: +userId,
-      title: title.trim(),
+      title: trimmedTitle,
       completed: false,
       user: selectedUser!,
     };
@@ -55,8 +59,8 @@ export const AddTodoForm: React.FC<Props> = ({ users, todos, onAdd }) => {
           type="text"
           placeholder="Enter a title"
           value={title}
-          onChange={e => {
-            setTitle(e.target.value);
+          onChange={event => {
+            setTitle(event.target.value);
             setTitleError(false);
           }}
         />
@@ -68,8 +72,8 @@ export const AddTodoForm: React.FC<Props> = ({ users, todos, onAdd }) => {
         <select
           data-cy="userSelect"
           value={userId}
-          onChange={e => {
-            setUserId(e.target.value);
+          onChange={event => {
+            setUserId(event.target.value);
             setUserError(false);
           }}
         >
