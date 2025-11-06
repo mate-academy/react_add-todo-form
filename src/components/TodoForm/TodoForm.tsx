@@ -83,7 +83,9 @@ export const AddTodoForm: React.FC<Props> = ({ users, todos, onAdd }) => {
       </label>
       {userError && <p className="error">Please choose a user</p>}
 
-      <button type="submit">Add</button>
+      <button type="submit" data-cy="submitButton">
+        Add
+      </button>
     </form>
   );
 };
