@@ -7,12 +7,12 @@ import { Todo } from './types';
 
 export const App: React.FC = () => {
   const initialTodos: Todo[] = todosFromServer
-    .map(t => {
-      const user = usersFromServer.find(u => u.id === t.userId);
+    .map(todo => {
+      const user = usersFromServer.find(name => name.id === todo.userId);
 
-      return user ? { ...t, user } : null;
+      return user ? { ...todo, user } : null;
     })
-    .filter((x): x is Todo => x !== null);
+    .filter((item): item is Todo => item !== null);
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
@@ -42,9 +42,9 @@ export const App: React.FC = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map(t => t.id), 0);
+    const maxId = Math.max(...todos.map(todo => todo.id), 0);
     const userId = Number(userIdSelec);
-    const user = usersFromServer.find(u => u.id === userId);
+    const user = usersFromServer.find(name => name.id === userId);
 
     if (!user) {
       return;
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubimit}>
+      <form onSubmit={handleSubimit}>
         <div className="field">
           <input
             type="text"
