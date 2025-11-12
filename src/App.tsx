@@ -37,8 +37,14 @@ export const App: React.FC = () => {
       return;
     }
 
+    // Fixed ID generation to handle empty todos array
+    const maxId = todos.length > 0
+      ? Math.max(...todos.map(todo => todo.id))
+      : 0;
+    const newId = maxId + 1;
+
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: newId,
       title: title.trim(),
       completed: false,
       userId: selectedUserId,
