@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import usersFromServer from '../../api/users';
-import { Todo } from '../../types';
-import { getUserById } from '../../services/user';
+import { User } from '../../types';
 
-type Props = { onAdd: (todo: Todo) => void };
+type Props = {
+  onAdd: (title: string, userId: number) => void;
+  users: User[];
+};
 
-export const PostForm: React.FC<Props> = ({ onAdd }) => {
+export const PostForm: React.FC<Props> = ({ onAdd, users }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [errors, setErrors] = useState<{ title: string; user: string }>({
@@ -38,12 +39,7 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      userId,
-      completed: false,
-      user: getUserById(userId),
-    });
+    onAdd(title, userId);
 
     setTitle('');
     setUserId(0);
@@ -72,20 +68,20 @@ export const PostForm: React.FC<Props> = ({ onAdd }) => {
           data-cy="userSelect"
           required
           value={userId}
-          onChange={(event) => {
+          onChange={event => {
             setUserId(+event.target.value);
-              if (errors.user) {
-                setErrors(prev => ({ ...prev, user: '' }));
-              }
-            }}
-          >
+            if (errors.user) {
+              setErrors(prev => ({ ...prev, user: '' }));
+            }
+          }}
+        >
           <option value="0" disabled>
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option key={user.id} value={user.id}>
-              {user.name}
+             {user.name}
             </option>
           ))}
         </select>
