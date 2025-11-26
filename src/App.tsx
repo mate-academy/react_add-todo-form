@@ -34,8 +34,12 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const addTodo = (title: string, userId: number) => {
+    // Handle empty array case: if no todos exist, start with ID 1
+    const maxId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
+    
     const newTodo: Todo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
+      id: maxId + 1,
       title,
       completed: false,
       userId,
