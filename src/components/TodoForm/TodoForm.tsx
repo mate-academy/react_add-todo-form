@@ -12,8 +12,8 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, users }) => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     const trimmedTitle = title.trim();
     const hasTitleError = !trimmedTitle;
@@ -31,16 +31,16 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, users }) => {
     }
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
 
     if (titleError) {
       setTitleError(false);
     }
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(Number(e.target.value));
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(Number(event.target.value));
 
     if (userError) {
       setUserError(false);
