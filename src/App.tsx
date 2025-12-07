@@ -12,7 +12,6 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
-  const [count, setCount] = useState(0);
   const todosWithUser = todosFromServer.map(todo => {
     const userForTodo = usersFromServer.find(
       userFromServer => userFromServer.id === todo.userId,
@@ -35,6 +34,13 @@ export const App = () => {
     setHasUserError(false);
   };
 
+  const clearForm = function (): void {
+    setTitle('');
+    setSelectedUser('');
+    setHasTitleError(false);
+    setHasUserError(false);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -54,8 +60,11 @@ export const App = () => {
       return;
     }
 
+    const newTodoId: number =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
     const newTodo: Todo = {
-      id: todos[todos.length - 1].id + 1,
+      id: newTodoId,
       title: title,
       userId: user.id,
       completed: false,
@@ -63,7 +72,7 @@ export const App = () => {
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
-    setCount(currentCount => currentCount + 1);
+    clearForm();
   };
 
   return (
@@ -75,7 +84,6 @@ export const App = () => {
         method="POST"
         noValidate
         onSubmit={handleSubmit}
-        key={count}
       >
         <div className="field">
           <label htmlFor="titleInput">
