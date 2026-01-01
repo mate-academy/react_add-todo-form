@@ -4,24 +4,7 @@ import { useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type TodoFromServer = {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-};
-
-type Todo = TodoFromServer & {
-  user: User;
-};
+import { Todo } from './types';
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(
@@ -45,8 +28,8 @@ export const App = () => {
   const [userId, setUserId] = useState('0');
   const [showErrors, setShowErrors] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setShowErrors(true);
 
     const trimmedTitle = title.trim();
@@ -95,8 +78,8 @@ export const App = () => {
             placeholder="Enter todo title"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              const filtered = e.target.value.replace(
+            onChange={event => {
+              const filtered = event.target.value.replace(
                 /[^А-Яа-яЄєІіЇїҐґA-Za-z0-9\s]/g,
                 '',
               );
@@ -116,7 +99,7 @@ export const App = () => {
             name="user"
             data-cy="userSelect"
             value={userId}
-            onChange={e => setUserId(e.target.value)}
+            onChange={event => setUserId(event.target.value)}
           >
             <option value="0" disabled>
               Choose a user
