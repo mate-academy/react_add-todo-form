@@ -43,9 +43,11 @@ export const App = () => {
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('0');
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowErrors(true);
 
     const trimmedTitle = title.trim();
 
@@ -60,7 +62,6 @@ export const App = () => {
       return;
     }
 
-    // Calculate new id (largest id + 1)
     const maxId =
       todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
     const newId = maxId + 1;
@@ -75,9 +76,9 @@ export const App = () => {
 
     setTodos([...todos, newTodo]);
 
-    // Reset form
     setTitle('');
     setUserId('0');
+    setShowErrors(false);
   };
 
   return (
@@ -96,7 +97,9 @@ export const App = () => {
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
-          <span className="error">Please enter a title</span>
+          {showErrors && !title.trim() && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
@@ -118,7 +121,9 @@ export const App = () => {
             ))}
           </select>
 
-          <span className="error">Please choose a user</span>
+          {showErrors && userId === '0' && (
+            <span className="error">Please choose a user</span>
+          )}
         </div>
 
         <button type="submit" data-cy="submitButton">
