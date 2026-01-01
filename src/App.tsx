@@ -95,7 +95,14 @@ export const App = () => {
             placeholder="Enter todo title"
             data-cy="titleInput"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => {
+              const filtered = e.target.value.replace(
+                /[^А-Яа-яЄєІіЇїҐґA-Za-z0-9\s]/g,
+                '',
+              );
+
+              setTitle(filtered);
+            }}
           />
           {showErrors && !title.trim() && (
             <span className="error">Please enter a title</span>
