@@ -6,9 +6,9 @@ export interface User {
 }
 
 export interface Todo {
-  id?: number;
+  id: number;
   title: string;
-  completed?: boolean;
+  completed: boolean;
   userId: number;
   user: User;
 }

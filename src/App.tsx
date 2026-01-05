@@ -11,7 +11,7 @@ const enrichTodos = (
   usersList: User[],
 ): Todo[] => {
   return todosToEnrich.map(todo => {
-    const foundUser = usersList.find(u => u.id === todo.userId);
+    const foundUser = usersList.find(user => user.id === todo.userId);
 
     return {
       ...todo,
@@ -29,8 +29,8 @@ export const App: React.FC = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
 
     const isTitleEmpty = title.trim() === '';
     const isUserNotSelected = selectedUserId === 0;
@@ -45,8 +45,9 @@ export const App: React.FC = () => {
     }
 
     // eslint-disable-next-line max-len
-    const maxId = todos.length > 0 ? Math.max(...todos.map(t => t.id || 0)) : 0;
-    const currentUser = users.find(u => u.id === selectedUserId);
+    const maxId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id || 0)) : 0;
+    const currentUser = users.find(user => user.id === selectedUserId);
 
     const newTodo: Todo = {
       id: maxId + 1,
@@ -72,8 +73,8 @@ export const App: React.FC = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Please enter a title"
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
           />
@@ -84,8 +85,8 @@ export const App: React.FC = () => {
           <select
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={e => {
-              setSelectedUserId(Number(e.target.value));
+            onChange={event => {
+              setSelectedUserId(Number(event.target.value));
               setUserError(false);
             }}
           >
