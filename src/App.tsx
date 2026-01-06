@@ -1,61 +1,60 @@
 import './App.scss';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { useState } from 'react';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { TodoForm } from './components/TodoForm';
+import { TodoList } from './components/TodoList';
+
+type Todo = {
+  id: number;
+  title: string;
+  userId: number;
+  completed: boolean;
+};
+
+type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+type EnrichedTodo = Todo & { user: User | null };
+
+function getNewIdTodo(todos: Todo[]) {
+  if (todos.length === 0) {
+    return 1;
+  }
+  const maxId = Math.max(...todos.map(todo => todo.id));
+
+  return maxId + 1;
+}
 
 export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
+
+  const addTodo = (newTodo: Omit<Todo, 'id'>) => {
+    const todoNew = {
+      ...newTodo,
+      id: getNewIdTodo(todos),
+    };
+
+    setTodos(prev => [...prev, todoNew]);
+  };
+
+  const enrichedTodos: EnrichedTodo[] = todos.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) || null,
+  }));
+
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <TodoForm users={usersFromServer} onAddTodo={addTodo} />
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList todos={enrichedTodos} />
     </div>
   );
 };
