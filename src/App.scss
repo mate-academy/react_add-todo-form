@@ -3,7 +3,7 @@ iframe {
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 label,
@@ -12,15 +12,42 @@ button {
 }
 
 .error {
+  margin: 0;
+  font-size: 10px;
   color: red;
+}
+
+.error__field {
+  border: 2px solid red;
+
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.field__input {
+  width: 250px;
+}
+
+.field__select {
+  width: 150px;
+}
+
+.field__input, .field__select{
+  margin-top: 10px;
+  border-radius: 3px;
 }
 
 .TodoInfo {
   width: max-content;
-  padding: 8px;
   margin: 12px 0;
+  padding: 8px;
   border: 1px solid #000;
   border-radius: 8px;
+
   background-color: antiquewhite;
 
   &__title {
