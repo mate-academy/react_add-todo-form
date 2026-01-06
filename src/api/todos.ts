@@ -1,4 +1,11 @@
-export default [
+export interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+}
+
+const todos: Todo[] = [
   {
     id: 1,
     title: 'delectus aut autem',
@@ -18,3 +25,5 @@ export default [
     userId: 4,
   },
 ];
+
+export default todos;
