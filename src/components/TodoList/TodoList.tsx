@@ -6,6 +6,7 @@ interface Todo {
   title: string;
   completed: boolean;
   userId: number;
+  user: {id: number, name: string, username: string, email: string} | null
 }
 
 interface Props {
@@ -15,7 +16,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <TodoInfo key={todo.id} todo={todo} data-id={todo.id} />
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
   );

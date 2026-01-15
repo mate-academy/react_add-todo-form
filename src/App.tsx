@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 const getUserById = (userId: number) => {
   /* como quero achar o usuario que tem o id igual o user id do todosfromserver
     criei uma funçao para buscar dentro do todosfromserver */
-  return usersFromServer.find(users => users.id === userId) || null;
+  return usersFromServer.find(user => user.id === userId) || null;
 };
 
 export const App: React.FC = () => {
@@ -23,15 +23,14 @@ export const App: React.FC = () => {
       user: getUserById(todo.userId),
     })),
   );
-  const maxId = Math.max(...todosFrom.map((todo) => todo.id))
-
+  const maxId = Math.max(...todosFrom.map(todo => todo.id));
 
   const reset = () => {
     setUserId(0);
     setTtitle('');
   };
 
-  const addTodo = (newTodo) => {
+  const addTodo = newTodo => {
     setTodosFrom([...todosFrom, newTodo]);
   };
 
