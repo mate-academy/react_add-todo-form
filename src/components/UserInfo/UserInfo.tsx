@@ -1,4 +1,7 @@
 import React from 'react';
+import { User } from '../../types/types';
+
+
 interface Props {
   user: User;
 }

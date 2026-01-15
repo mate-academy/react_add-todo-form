@@ -23,31 +23,30 @@ export const App: React.FC = () => {
       user: getUserById(todo.userId),
     })),
   );
-  const maxId = Math.max(...todosFrom.map(todo => todo.id));
 
   const reset = () => {
     setUserId(0);
     setTtitle('');
   };
 
-  const addTodo = newTodo => {
+  const addTodo = (newTodo) => {
     setTodosFrom([...todosFrom, newTodo]);
   };
 
-  const handleUserError = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value));
+  const handleUserError = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
 
     return setHasUserError(false);
   };
 
-  const handleTitleError = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTtitle(e.target.value);
+  const handleTitleError = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTtitle(event.target.value);
 
     return setHasTitleError(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     setHasTitleError(!title);
     setHasUserError(!userId);
@@ -55,6 +54,8 @@ export const App: React.FC = () => {
     if (!title || !userId) {
       return;
     }
+
+    const maxId = Math.max(...todosFrom.map(todo => todo.id));
 
     addTodo({
       id: maxId + 1,

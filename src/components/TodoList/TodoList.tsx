@@ -1,13 +1,7 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../../types/types';
 
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: {id: number, name: string, username: string, email: string} | null
-}
 
 interface Props {
   todos: Todo[];
