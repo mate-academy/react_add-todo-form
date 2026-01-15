@@ -1,76 +1,72 @@
-import './App.scss'
+import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import React, { useState } from 'react';
 
-
-
-  const getUserById = (userId: number) => { /* como quero achar o usuario que tem o id igual o user id do todosfromserver
+const getUserById = (userId: number) => {
+  /* como quero achar o usuario que tem o id igual o user id do todosfromserver
     criei uma funçao para buscar dentro do todosfromserver */
-   return usersFromServer.find((users) => users.id === userId) || null
-  }
+  return usersFromServer.find(users => users.id === userId) || null;
+};
 
 export const App: React.FC = () => {
-  const [userId, setUserId] = useState<number>(0)
-  const [hasUserError, setHasUserError] = useState<boolean>(false)
+  const [userId, setUserId] = useState<number>(0);
+  const [hasUserError, setHasUserError] = useState<boolean>(false);
 
-  const [title, setTtitle] = useState<string>('')
-  const [hasTitleError, setHasTitleError] = useState<boolean>(false)
+  const [title, setTtitle] = useState<string>('');
+  const [hasTitleError, setHasTitleError] = useState<boolean>(false);
 
   const [todosFrom, setTodosFrom] = useState(
-  todosFromServer.map(todo => ({
-    ...todo,
-    user: getUserById(todo.userId)
-  }))
-  )
-
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: getUserById(todo.userId),
+    })),
+  );
+  const maxId = Math.max(...todosFrom.map((todo) => todo.id))
 
 
   const reset = () => {
-    setUserId(0)
-    setTtitle('')
-  }
+    setUserId(0);
+    setTtitle('');
+  };
 
   const addTodo = (newTodo) => {
-
-     setTodosFrom([...todosFrom, newTodo])
-  }
+    setTodosFrom([...todosFrom, newTodo]);
+  };
 
   const handleUserError = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value))
-    return setHasUserError(false)
-  }
+    setUserId(Number(e.target.value));
+
+    return setHasUserError(false);
+  };
+
   const handleTitleError = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTtitle(e.target.value)
-    return setHasTitleError(false)
-  }
+    setTtitle(e.target.value);
+
+    return setHasTitleError(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-
-      setHasTitleError(!title)
-      setHasUserError(!userId)
+    setHasTitleError(!title);
+    setHasUserError(!userId);
 
     if (!title || !userId) {
-      return
+      return;
     }
 
     addTodo({
-      id: todosFrom.length + 1,
+      id: maxId + 1,
       title,
       userId,
       completed: false,
-      user: getUserById(userId)
-    })
+      user: getUserById(userId),
+    });
 
-    reset()
-
-
-  }
-
-
+    reset();
+  };
 
   return (
     <div className="App">
@@ -78,25 +74,37 @@ export const App: React.FC = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
-        <label htmlFor="title">Title:</label>
-          <input placeholder='Enter a title' type="text" id='title' data-cy="titleInput" value={title} onChange={handleTitleError} />
+          <label htmlFor="title">Title:</label>
+          <input
+            placeholder="Enter a title"
+            type="text"
+            id="title"
+            data-cy="titleInput"
+            value={title}
+            onChange={handleTitleError}
+          />
           {hasTitleError && <span className="error">Please enter a title</span>}
-
         </div>
         <div className="field">
           <label htmlFor="user">choose a user:</label>
-          <select data-cy="userSelect" id='user' value={userId} onChange={handleUserError}>
+          <select
+            data-cy="userSelect"
+            id="user"
+            value={userId}
+            onChange={handleUserError}
+          >
             <option value="0" disabled>
               Choose a user
             </option>
-             {/* essa é a primeira opçao de usuario, tipo a default. com o userfrom
+            {/* essa é a primeira opçao de usuario, tipo a default. com o userfrom
             server abaixo eu renderizei as outras opçoes */}
-            {usersFromServer.map((user) => (
-              <option key={user.id} value={user.id}>{user.name}</option>
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
             ))}
           </select>
-            {hasUserError && <span className="error">Please choose a user</span>}
-
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -104,7 +112,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todosFrom}/>
+      <TodoList todos={todosFrom} />
     </div>
   );
 };
