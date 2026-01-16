@@ -3,24 +3,10 @@ import React, { useState } from 'react';
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import { Todo } from './types';
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => u.id === todo.userId)!;
+  const user = usersFromServer.find(candidate => candidate.id === todo.userId)!;
 
   return {
     ...todo,
@@ -48,7 +34,9 @@ export const App: React.FC = () => {
       return;
     }
 
-    const user = usersFromServer.find(u => u.id === selectedUserId);
+    const user = usersFromServer.find(
+      candidate => candidate.id === selectedUserId,
+    );
 
     if (!user) {
       return;
