@@ -50,7 +50,7 @@ export const App = () => {
       title,
       completed: false,
       userId,
-      user: usersFromServer.find(user => user.id === userId)!,
+      user: usersFromServer.find(user => user.id === userId),
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
