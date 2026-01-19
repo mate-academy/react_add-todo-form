@@ -3,7 +3,7 @@ import './App.scss';
 import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo, User } from './types/types';
+import { Todo, TodoWithUser, User } from './types/types';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
@@ -15,6 +15,15 @@ export const App = () => {
 
   const [userId, setUserId] = useState<number>(0);
   const [userError, setUserError] = useState<boolean>(false);
+
+  const todosWithUsers: TodoWithUser[] = todos.map(todo => {
+    const user = users.find(person => person.id === todo.userId);
+
+    return {
+      ...todo,
+      user,
+    };
+  });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -43,7 +52,8 @@ export const App = () => {
     }
 
     const selectedUser = users.find(user => user.id === userId);
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const maxId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
     const newId = maxId + 1;
 
     if (!selectedUser) {
@@ -101,7 +111,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={users} />
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };

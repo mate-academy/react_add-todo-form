@@ -12,3 +12,7 @@ export interface Todo {
   userId: number;
   user?: User;
 }
+
+export type TodoWithUser = Todo & {
+  user?: User;
+};
