@@ -12,7 +12,15 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, users = [] }) => {
       {todos.map(todo => {
         const user = users.find(u => u.id === todo.userId) || todo.user;
 
-        return <TodoInfo key={todo.id} todo={todo} user={user} />;
+        return (
+          <TodoInfo
+            key={todo.id}
+            todo={{
+              ...todo,
+              user,
+            }}
+          />
+        );
       })}
     </section>
   );
