@@ -14,11 +14,21 @@ export const todos: Todo[] = todosFromServer.map(todo => ({
 
 export const App = () => {
   const [todosState, setTodosState] = useState<Todo[]>(todos);
-  const addTodoForm = (todo: Omit<Todo, 'id'>) => {
+  const addTodoForm = ({
+    title,
+    userId,
+  }: {
+    title: string;
+    userId: number;
+  }) => {
     const maxId = Math.max(...todos.map(t => t.id));
+
     const newTodo: Todo = {
-      ...todo,
       id: maxId + 1,
+      title,
+      userId,
+      completed: false,
+      user: getUserById(userId),
     };
 
     setTodosState(prev => [...prev, newTodo]);
@@ -27,7 +37,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <TodoForm onSubmite={addTodoForm} />
+      <TodoForm onSubmit={addTodoForm} />
       <TodoList todos={todosState} />
     </div>
   );

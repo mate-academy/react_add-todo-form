@@ -1,45 +1,46 @@
 import React, { useState } from 'react';
 import usersFromServer from '../../api/users';
-import { Todo } from '../../types/Todo';
-import { getUserById } from '../../services/userServices';
+
+type NewTodoData = {
+  title: string;
+  userId: number;
+};
 
 type Props = {
-  onSubmite: (value: Omit<Todo, 'id'>) => void;
+  onSubmit: (data: NewTodoData) => void;
 };
-export const TodoForm: React.FC<Props> = ({ onSubmite }) => {
+export const TodoForm: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const handelTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const handleUserId = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
     setHasUserIdError(false);
   };
 
-  const handleSumbitForm = (event: React.FormEvent) => {
+  const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
+    const isTitleEmpty = !title.trim();
+    const isUserEmpty = !userId;
 
-    setHasUserIdError(!userId);
+    setHasTitleError(isTitleEmpty);
+    setHasUserIdError(isUserEmpty);
 
-    if (!title || !userId) {
+    if (isTitleEmpty || isUserEmpty) {
       return;
     }
 
-    onSubmite({
-      title,
-      userId,
-      user: getUserById(userId),
-      completed: false,
-    });
+    onSubmit({ title, userId });
 
+    // очистка форми
     setTitle('');
     setUserId(0);
   };
@@ -48,20 +49,24 @@ export const TodoForm: React.FC<Props> = ({ onSubmite }) => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSumbitForm}>
+      <form action="/api/todos" method="POST" onSubmit={handleSubmitForm}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter todo title"
             value={title}
-            onChange={handelTitle}
+            onChange={handleTitleChange}
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
-          <select data-cy="userSelect" value={userId} onChange={handleUserId}>
+          <select
+            data-cy="userSelect"
+            value={userId}
+            onChange={handleUserChange}
+          >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
