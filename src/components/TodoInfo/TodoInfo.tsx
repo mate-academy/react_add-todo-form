@@ -1,14 +1,15 @@
 import React from 'react';
 import { UserInfo } from '../UserInfo';
-import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 
 type Props = {
   todo: Todo;
+  users: User[];
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const foundUser = usersFromServer.find(usr => usr.id === todo.userId);
+export const TodoInfo: React.FC<Props> = ({ todo, users }) => {
+  const foundUser = users.find(usr => usr.id === todo.userId);
 
   return (
     <article

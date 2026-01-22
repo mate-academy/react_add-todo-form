@@ -12,31 +12,36 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
-  const addTodo = (e: React.FormEvent<HTMLFormElement>): void => {
+  const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (title === '') {
+    let hasError = false;
+
+    if (title.trim() === '') {
       setTitleSelected(false);
+      hasError = true;
     }
 
     if (userId === 0) {
       setUserSelected(false);
-    } else {
-      const max = Math.max(...todos.map(todo => todo.id));
-
-      setTodos([
-        ...todos,
-        {
-          id: max + 1,
-          title: title,
-          completed: false,
-          userId: userId,
-        },
-      ]);
-
-      setUserId(0);
-      setTitle('');
+      hasError = true;
     }
+
+    if (hasError) {
+      return;
+    }
+
+    const max = Math.max(...todos.map(todo => todo.id));
+
+    setTodos([
+      ...todos,
+      {
+        id: max + 1,
+        title,
+        completed: false,
+        userId,
+      },
+    ]);
   };
 
   return (
@@ -92,7 +97,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };
