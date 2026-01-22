@@ -32,16 +32,19 @@ export const App = () => {
     }
 
     const max = Math.max(...todos.map(todo => todo.id));
+    const foundUser = usersFromServer.find(usr => usr.id === userId);
 
-    setTodos([
-      ...todos,
-      {
-        id: max + 1,
-        title,
-        completed: false,
-        userId,
-      },
-    ]);
+    if (foundUser) {
+      setTodos([
+        ...todos,
+        {
+          id: max + 1,
+          title,
+          completed: false,
+          userId,
+        },
+      ]);
+    }
   };
 
   return (
