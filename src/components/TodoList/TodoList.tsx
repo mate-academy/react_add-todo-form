@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-
+import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 
@@ -16,23 +15,7 @@ export const TodoList = ({ todos, users }: TodoListProps) => {
       {todos.map(el => {
         const user = userById.get(el.userId);
 
-        return (
-          <article
-            key={el.id}
-            data-id="1"
-            className={classNames('TodoInfo', {
-              'TodoInfo--completed': el.completed,
-            })}
-          >
-            <h2 className="TodoInfo__title">{el.title}</h2>
-
-            {user && (
-              <a className="UserInfo" href={`mailto:${user.email}`}>
-                {user.name}
-              </a>
-            )}
-          </article>
-        );
+        return <TodoInfo key={el.id} todo={el} user={user} />;
       })}
     </section>
   );
