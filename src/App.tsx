@@ -5,33 +5,16 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type TodoFromServer = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
-
-type TodoWithUser = TodoFromServer & {
-  user: User;
-};
+import { Todo, TodoWithUser } from './type';
 
 const sanitizeTitle = (value: string) => {
-  // Optional requirement: only letters (ua/en), digits, spaces
+  // Optional requirement: only letters (ua and en), digits, and spaces
   // remove any other characters
   return value.replace(/[^0-9A-Za-zА-Яа-яІіЇїЄєҐґ\s]/g, '');
 };
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<TodoFromServer[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
 
@@ -41,7 +24,9 @@ export const App: React.FC = () => {
   const preparedTodos: TodoWithUser[] = useMemo(() => {
     return todos
       .map(todo => {
-        const user = usersFromServer.find(u => u.id === todo.userId);
+        const user = usersFromServer.find(
+          userItem => userItem.id === todo.userId,
+        );
 
         if (!user) {
           return null;
@@ -93,7 +78,7 @@ export const App: React.FC = () => {
     }
 
     const userId = Number(selectedUserId);
-    const user = usersFromServer.find(u => u.id === userId);
+    const user = usersFromServer.find(userItem => userItem.id === userId);
 
     if (!user) {
       setUserError(true);
@@ -103,7 +88,7 @@ export const App: React.FC = () => {
 
     const maxId = todos.reduce((max, todo) => Math.max(max, todo.id), 0);
 
-    const newTodo: TodoFromServer = {
+    const newTodo: Todo = {
       id: maxId + 1,
       title: normalizedTitle,
       userId,
@@ -157,7 +142,6 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      {/* Tu ma być docelowo TodoList z komponentów */}
       <TodoList todos={preparedTodos} />
     </div>
   );
