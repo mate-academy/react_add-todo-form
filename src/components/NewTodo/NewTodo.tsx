@@ -9,6 +9,8 @@ type NewTodoProps = {
 export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
+  const [showTitleError, setShowTitleError] = useState(false);
+  const [showUserError, setShowUserError] = useState(false);
 
   const isFormValid = title.trim() && userId !== 0;
 
@@ -16,13 +18,18 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
     event.preventDefault();
 
     if (!isFormValid) {
+      setShowTitleError(title.trim() === '');
+      setShowUserError(userId === 0);
+
       return;
     }
 
     onAddTodo({ title, userId });
 
     setTitle('');
+    setShowTitleError(false);
     setUserId(0);
+    setShowUserError(false);
   }
 
   return (
@@ -34,9 +41,12 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
           value={title}
           onChange={event => {
             setTitle(event.target.value);
+            if (title.trim()) {
+              setShowTitleError(false);
+            }
           }}
         />
-        <span className="error">Please enter a title</span>
+        {showTitleError && <span className="error">Please enter a title</span>}
       </div>
 
       <div className="field">
@@ -45,6 +55,10 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
           value={userId}
           onChange={event => {
             setUserId(Number(event.target.value));
+
+            if (userId !== 0) {
+              setShowUserError(false);
+            }
           }}
         >
           <option value="0" disabled>
@@ -57,7 +71,7 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
           ))}
         </select>
 
-        <span className="error">Please choose a user</span>
+        {showUserError && <span className="error">Please choose a user</span>}
       </div>
 
       <button type="submit" data-cy="submitButton">
