@@ -7,8 +7,15 @@ import { useState } from 'react';
 import { Todo } from './types/Todo';
 import { NewTodo } from './components/NewTodo';
 
-const getUserById = (id: number) =>
-  usersFromServer.find(user => user.id === id) as Todo['user'];
+const getUserById = (id: number) => {
+  const foundUser = usersFromServer.find(user => user.id === id);
+
+  if (!foundUser) {
+    throw new Error(`User with id ${id} not found`);
+  }
+
+  return foundUser;
+};
 
 const initialTodos = todosFromServer.map(todo => ({
   ...todo,

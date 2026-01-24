@@ -33,7 +33,7 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
   }
 
   return (
-    <form action="/api/todos" method="POST" onSubmit={handlerSubmit}>
+    <form onSubmit={handlerSubmit}>
       <div className="field">
         <input
           type="text"
