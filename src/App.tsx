@@ -1,7 +1,7 @@
 import './App.scss';
+import { useState } from 'react';
 import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
-import { useState } from 'react';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
@@ -25,13 +25,13 @@ export const App: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isUserValid = handleUser === '0';
-    const isTitleValid = handleTitle.trim() === '';
+    const isUserInvalid = handleUser === '0';
+    const isTitleInvalid = handleTitle.trim() === '';
 
-    setHandleUserError(isUserValid);
-    setHandleTitleError(isTitleValid);
+    setHandleUserError(isUserInvalid);
+    setHandleTitleError(isTitleInvalid);
 
-    if (isUserValid || isTitleValid) {
+    if (isUserInvalid || isTitleInvalid) {
       return;
     }
 
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
       id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
       title: handleTitle,
       completed: false,
-      userId: +handleUser,
+      userId: Number(handleUser),
     };
 
     setTodos([...todos, newTodo]);
@@ -51,44 +51,69 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="todo-title">Title</label>
-          <input
-            id="todo-title"
-            type="text"
-            data-cy="titleInput"
-            value={handleTitle}
-            onChange={onTitleChange}
-          />
+          <label className="label" htmlFor="todo-title">
+            Title
+          </label>
+
+          <div className="control">
+            <input
+              id="todo-title"
+              type="text"
+              data-cy="titleInput"
+              className={`input ${handleTitleError ? 'is-danger' : ''}`}
+              placeholder="Todo title"
+              value={handleTitle}
+              onChange={onTitleChange}
+            />
+          </div>
+
           {handleTitleError && (
-            <span className="error">Please enter a title</span>
+            <p className="error" data-cy="titleErrorMessage">
+              Please enter a title
+            </p>
           )}
         </div>
 
         <div className="field">
-          <label htmlFor="todo-user">User</label>
-          <select
-            id="todo-user"
-            data-cy="userSelect"
-            value={handleUser}
-            onChange={onUserChange}
-          >
-            <option value="0" disabled>
-              Choose a user
-            </option>
-            {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <label className="label" htmlFor="todo-user">
+            User
+          </label>
+
+          <div className="control">
+            <div className={`select ${handleUserError ? 'is-danger' : ''}`}>
+              <select
+                id="todo-user"
+                data-cy="userSelect"
+                value={handleUser}
+                onChange={onUserChange}
+              >
+                <option value="0" disabled>
+                  Choose a user
+                </option>
+
+                {usersFromServer.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {handleUserError && (
-            <span className="error">Please choose a user</span>
+            <p className="error" data-cy="userErrorMessage">
+              Please choose a user
+            </p>
           )}
         </div>
 
-        <button type="submit" data-cy="submitButton">
+        <button
+          type="submit"
+          className="button is-primary"
+          data-cy="submitButton"
+        >
           Add
         </button>
       </form>
