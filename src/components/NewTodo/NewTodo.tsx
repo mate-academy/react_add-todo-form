@@ -39,11 +39,10 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
           type="text"
           data-cy="titleInput"
           value={title}
+          placeholder="Title"
           onChange={event => {
             setTitle(event.target.value);
-            if (title.trim()) {
-              setShowTitleError(false);
-            }
+            setShowTitleError(false);
           }}
         />
         {showTitleError && <span className="error">Please enter a title</span>}
@@ -56,9 +55,7 @@ export const NewTodo = ({ onAddTodo, users }: NewTodoProps) => {
           onChange={event => {
             setUserId(Number(event.target.value));
 
-            if (userId !== 0) {
-              setShowUserError(false);
-            }
+            setShowUserError(false);
           }}
         >
           <option value="0" disabled>

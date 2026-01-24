@@ -1,14 +1,13 @@
 import classNames from 'classnames';
 
 import { Todo } from '../../types/Todo';
-import { User } from '../../types/User';
+import { UserInfo } from '../UserInfo';
 
 type TodoInfoProps = {
   todo: Todo;
-  user: User | undefined;
 };
 
-export const TodoInfo = ({ todo, user }: TodoInfoProps) => {
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
     <article
       data-id={todo.id}
@@ -18,11 +17,7 @@ export const TodoInfo = ({ todo, user }: TodoInfoProps) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {user && (
-        <a className="UserInfo" href={`mailto:${user.email}`}>
-          {user.name}
-        </a>
-      )}
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };
