@@ -7,8 +7,16 @@ import { useState } from 'react';
 import { Todo } from './types/Todo';
 import { NewTodo } from './components/NewTodo';
 
+const getUserById = (id: number) =>
+  usersFromServer.find(user => user.id === id) as Todo['user'];
+
+const initialTodos = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   function newTodoId() {
     return Math.max(...todos.map(todo => todo.id), 0) + 1;
@@ -27,12 +35,13 @@ export const App = () => {
               title: todo.title,
               completed: false,
               userId: todo.userId,
+              user: getUserById(todo.userId),
             },
           ]);
         }}
         users={usersFromServer}
       />
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };
