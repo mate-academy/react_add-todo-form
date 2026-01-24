@@ -1,50 +1,51 @@
 import './App.scss';
 import { useState } from 'react';
-import { TodoList } from './components/TodoList/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
+import { TodoList } from './components/TodoList/TodoList';
 
 export const App: React.FC = () => {
-  const [handleUser, setHandleUser] = useState('0');
-  const [handleTitle, setHandleTitle] = useState('');
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
-  const [handleUserError, setHandleUserError] = useState(false);
-  const [handleTitleError, setHandleTitleError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState('0');
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
-  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHandleTitle(event.target.value);
-    setHandleTitleError(false);
-  };
-
-  const onUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setHandleUser(event.target.value);
-    setHandleUserError(false);
-  };
+  const [todos, setTodos] = useState<Todo[]>(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId),
+    })),
+  );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isUserInvalid = handleUser === '0';
-    const isTitleInvalid = handleTitle.trim() === '';
+    const isTitleInvalid = title.trim() === '';
+    const isUserInvalid = userId === '0';
 
-    setHandleUserError(isUserInvalid);
-    setHandleTitleError(isTitleInvalid);
+    setTitleError(isTitleInvalid);
+    setUserError(isUserInvalid);
 
-    if (isUserInvalid || isTitleInvalid) {
+    if (isTitleInvalid || isUserInvalid) {
       return;
     }
 
+    const selectedUser = usersFromServer.find(
+      user => user.id === Number(userId),
+    );
+
     const newTodo: Todo = {
-      id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
-      title: handleTitle,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      title,
       completed: false,
-      userId: Number(handleUser),
+      userId: Number(userId),
+      user: selectedUser,
     };
 
-    setTodos([...todos, newTodo]);
-    setHandleTitle('');
-    setHandleUser('0');
+    setTodos(prev => [...prev, newTodo]);
+    setTitle('');
+    setUserId('0');
   };
 
   return (
@@ -57,22 +58,20 @@ export const App: React.FC = () => {
             Title
           </label>
 
-          <div className="control">
-            <input
-              id="todo-title"
-              type="text"
-              data-cy="titleInput"
-              className={`input ${handleTitleError ? 'is-danger' : ''}`}
-              placeholder="Todo title"
-              value={handleTitle}
-              onChange={onTitleChange}
-            />
-          </div>
+          <input
+            id="todo-title"
+            data-cy="titleInput"
+            className={`input ${titleError ? 'is-danger' : ''}`}
+            value={title}
+            onChange={e => {
+              setTitle(e.target.value);
+              setTitleError(false);
+            }}
+            placeholder="Todo title"
+          />
 
-          {handleTitleError && (
-            <p className="error" data-cy="titleErrorMessage">
-              Please enter a title
-            </p>
+          {titleError && (
+            <p className="help is-danger error">Please enter a title</p>
           )}
         </div>
 
@@ -81,31 +80,28 @@ export const App: React.FC = () => {
             User
           </label>
 
-          <div className="control">
-            <div className={`select ${handleUserError ? 'is-danger' : ''}`}>
-              <select
-                id="todo-user"
-                data-cy="userSelect"
-                value={handleUser}
-                onChange={onUserChange}
-              >
-                <option value="0" disabled>
-                  Choose a user
-                </option>
+          <div className={`select ${userError ? 'is-danger' : ''}`}>
+            <select
+              id="todo-user"
+              data-cy="userSelect"
+              value={userId}
+              onChange={e => {
+                setUserId(e.target.value);
+                setUserError(false);
+              }}
+            >
+              <option value="0">Choose a user</option>
 
-                {usersFromServer.map(user => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+              {usersFromServer.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {handleUserError && (
-            <p className="error" data-cy="userErrorMessage">
-              Please choose a user
-            </p>
+          {userError && (
+            <p className="help is-danger error">Please choose a user</p>
           )}
         </div>
 
@@ -118,7 +114,7 @@ export const App: React.FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };
