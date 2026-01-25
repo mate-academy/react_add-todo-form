@@ -1,19 +1,5 @@
 import { TodoInfo } from '../TodoInfo';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import { Todo } from '../../types';
 
 type Props = {
   todos: Todo[];

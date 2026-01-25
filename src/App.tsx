@@ -3,25 +3,11 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import { Todo } from './types';
 
 // Prepare initial todos with user objects
 const initialTodos: Todo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => u.id === todo.userId);
+  const user = usersFromServer.find(userItem => userItem.id === todo.userId);
 
   return {
     ...todo,
@@ -49,13 +35,14 @@ export const App = () => {
       return;
     }
 
-    const user = usersFromServer.find(u => u.id === userId);
+    const user = usersFromServer.find(userItem => userItem.id === userId);
 
     if (!user) {
       return;
     }
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const maxId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
     const newTodo: Todo = {
       id: maxId + 1,
       title: title.trim(),

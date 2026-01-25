@@ -1,9 +1,4 @@
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
+import { User } from '../../types';
 
 type Props = {
   user: User;
