@@ -7,11 +7,10 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 
 type Props = {
-  onSubmit: (todo: Todo) => void;
-  todos: Todo[];
+  onSubmit: (title: string, userId: number) => void;
 };
 
-export const App: React.FC<Props> = ({ onSubmit, todos = [] }) => {
+export const App: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -38,20 +37,7 @@ export const App: React.FC<Props> = ({ onSubmit, todos = [] }) => {
       return;
     }
 
-    const maxId = todos.reduce(
-      (max, todo) => (todo.id > max ? todo.id : max),
-      0,
-    );
-
-    const selectedUser = usersFromServer.find(user => user.id === userId);
-
-    onSubmit({
-      id: maxId + 1,
-      title: title.trim(),
-      completed: false,
-      userId: Number(userId),
-      user: selectedUser,
-    });
+    onSubmit(title.trim(), userId);
 
     setTitle('');
     setUserId(0);
@@ -112,14 +98,32 @@ export const App: React.FC<Props> = ({ onSubmit, todos = [] }) => {
 export const Root = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
-  const addTodo = (todo: Todo) => {
-    setTodos(prev => [...prev, todo]);
+  const addTodo = (title: string, userId: number) => {
+    const maxId = todos.reduce(
+      (max, todo) => (todo.id > max ? todo.id : max),
+      0,
+    );
+    const selectedUser = usersFromServer.find(user => user.id === userId);
+    const newTodo: Todo = {
+      id: maxId + 1,
+      title: title,
+      userId: userId,
+      completed: false,
+      user: selectedUser,
+    };
+
+    setTodos(prev => [...prev, newTodo]);
   };
+
+  const preparedTodos = todos.map(todo => ({
+    ...todo,
+    user: todo.user || usersFromServer.find(user => user.id === todo.userId),
+  }));
 
   return (
     <>
-      <App onSubmit={addTodo} todos={todos} />
-      <TodoList todos={todos} users={usersFromServer} />
+      <App onSubmit={addTodo} users={usersFromServer} />
+      <TodoList todos={preparedTodos} />
     </>
   );
 };
