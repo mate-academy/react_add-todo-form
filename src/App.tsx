@@ -1,6 +1,5 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { getUserId } from './services/user';
 import { Todo } from './services/types';
 
 import usersFromServer from './api/users';
@@ -44,12 +43,14 @@ export const App: React.FC<Props> = ({ onSubmit, todos = [] }) => {
       0,
     );
 
+    const selectedUser = usersFromServer.find(user => user.id === userId);
+
     onSubmit({
       id: maxId + 1,
       title: title.trim(),
       completed: false,
       userId: Number(userId),
-      user: getUserId(userId),
+      user: selectedUser,
     });
 
     setTitle('');
@@ -118,7 +119,7 @@ export const Root = () => {
   return (
     <>
       <App onSubmit={addTodo} todos={todos} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} users={usersFromServer} />
     </>
   );
 };
