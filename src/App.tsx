@@ -5,29 +5,15 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import { Todo } from './types/types';
 
 export const App = () => {
   const preparedTodos: Todo[] = todosFromServer.map(todo => {
-    const user = usersFromServer.find(u => u.id === todo.userId);
+    const foundUser = usersFromServer.find(user => user.id === todo.userId);
 
     return {
       ...todo,
-      user: user || { id: 0, name: '', username: '', email: '' },
+      user: foundUser || { id: 0, name: '', username: '', email: '' },
     };
   });
 
@@ -67,7 +53,8 @@ export const App = () => {
     const selectedUser = usersFromServer.find(user => user.id === userId);
 
     if (selectedUser) {
-      const maxId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) : 0;
+      const maxId =
+        todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
 
       const newTodo: Todo = {
         id: maxId + 1,
