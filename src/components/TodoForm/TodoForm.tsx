@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Todo } from '../../types/todo';
-import { getUserById } from '../../services/user';
+import { User } from '../../types/user';
 
 type Props = {
   onSubmit: (todo: Omit<Todo, 'id'>) => void;
@@ -34,11 +34,13 @@ export const TodoForm: React.FC<Props> = ({ onSubmit, users }) => {
       return;
     }
 
+    const selectedUser = users.find(user => user.id === userId) as User;
+
     onSubmit({
       title,
       userId,
       completed: false,
-      user: getUserById(userId),
+      user: selectedUser,
     });
 
     setTitle('');
