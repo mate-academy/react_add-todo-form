@@ -17,7 +17,13 @@ const mapTask = (todo, users: User[]): Task => {
 };
 
 const getUserById = (id: number): User => {
-  return usersFromServer.find(user => user.id === id);
+  const user = usersFromServer.find(u => u.id === id);
+
+  if (!user) {
+    throw new Error(`Invariant violated: user ${id} not found`);
+  }
+
+  return user;
 };
 
 const getTasks = () => {
@@ -36,49 +42,36 @@ export const App = () => {
     userId: false,
   });
 
-  const setFormError = () => {
-    setError(prev => ({
-      ...prev,
-      title: true,
-    }));
+  const formError = {
+    title() {
+      setError(prev => ({ ...prev, title: true }));
+    },
+    user() {
+      setError(prev => ({ ...prev, userId: true }));
+    },
+    clearTitle() {
+      setError(prev => ({ ...prev, title: false }));
+    },
+    clearUser() {
+      setError(prev => ({ ...prev, userId: false }));
+    },
+    clearAll() {
+      setError({
+        title: false,
+        userId: false,
+      });
+    },
   };
 
-  const setUserError = () => {
-    setError(prev => ({
-      ...prev,
-      userId: true,
-    }));
-  };
-
-  const clearErrors = () => {
-    setError({
-      title: false,
-      userId: false,
-    });
-  };
-
-  const handelTitle = (input: string) => {
-    setError(prev => ({
-      ...prev,
-      title: false,
-    }));
-
-    setForm(prev => ({
-      ...prev,
-      title: input,
-    }));
-  };
-
-  const handelUser = (userId: number) => {
-    setError(prev => ({
-      ...prev,
-      userId: false,
-    }));
-
-    setForm(prev => ({
-      ...prev,
-      userId,
-    }));
+  const formChange = {
+    title(input: string) {
+      formError.clearTitle();
+      setForm(prev => ({ ...prev, title: input }));
+    },
+    userId(userId: number) {
+      formError.clearUser();
+      setForm(prev => ({ ...prev, userId }));
+    },
   };
 
   const getNewId = () =>
@@ -92,16 +85,16 @@ export const App = () => {
   };
 
   const handelSubmit = () => {
-    clearErrors();
+    formError.clearAll();
     const titleError = form.title.length < 1;
     const userError = users.every(user => user.id !== form.userId);
 
     if (titleError) {
-      setFormError();
+      formError.title();
     }
 
     if (userError) {
-      setUserError();
+      formError.user();
     }
 
     if (titleError || userError) {
@@ -119,7 +112,7 @@ export const App = () => {
       },
     ]);
 
-    clearErrors();
+    formError.clearAll();
     clearForm();
   };
 
@@ -141,7 +134,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={form.title}
-            onChange={event => handelTitle(event.target.value)}
+            onChange={event => formChange.title(event.target.value)}
           />
           {error.title && <span className="error">Please enter a title</span>}
         </div>
@@ -150,7 +143,7 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={form.userId}
-            onChange={event => handelUser(Number(event.target.value))}
+            onChange={event => formChange.userId(Number(event.target.value))}
           >
             <option key={0} value={0}>
               Choose a user
