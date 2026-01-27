@@ -1,6 +1,7 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { Todo } from './types/todo';
 import { TodoForm } from './components/TodoForm/TodoForm';
 import { getUserById } from './services/user';
@@ -16,7 +17,8 @@ export const App: React.FC = () => {
 
   const addPost = (newTodoData: Omit<Todo, 'id'>) => {
     setTodos(prev => {
-      const maxId = prev.length > 0 ? Math.max(...prev.map(t => t.id)) : 0;
+      const maxId =
+        prev.length > 0 ? Math.max(...prev.map(todo => todo.id)) : 0;
 
       const fullTodo: Todo = {
         ...newTodoData,
@@ -31,7 +33,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <TodoForm onSubmit={addPost} />
+      <TodoForm onSubmit={addPost} users={usersFromServer} />
       <TodoList todos={todos} />
     </div>
   );

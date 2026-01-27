@@ -2,11 +2,11 @@ import usersFromServer from '../api/users';
 import { User } from '../types/user';
 
 export function getUserById(userId: number): User {
-  const user = usersFromServer.find(u => u.id === userId);
+  const users = usersFromServer.find(user => user.id === userId);
 
-  if (!user) {
+  if (!users) {
     throw new Error(`User with id ${userId}`);
   }
 
-  return user;
+  return users;
 }
