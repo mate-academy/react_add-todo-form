@@ -7,7 +7,9 @@ import todosFromServer from './api/todos';
 
 export const App = () => {
   const initialTodos = todosFromServer.map(todo => {
-    const user = usersFromServer.find(item => item.id === todo.userId);
+    const user = usersFromServer.find(
+      foundUser => foundUser.id === todo.userId,
+    );
 
     return {
       ...todo,
@@ -55,14 +57,14 @@ export const App = () => {
       return;
     }
 
-    const user = usersFromServer.find(u => u.id === userId);
+    const user = usersFromServer.find(foundUser => foundUser.id === userId);
 
     if (!user) {
       return;
     }
 
     const newTodo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
+      id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
       title: title.trim(),
       userId,
       completed: false,

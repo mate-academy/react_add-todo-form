@@ -1,14 +1,6 @@
 import React from 'react';
 import { TodoInfo } from '../TodoInfo';
-import { User } from '../UserInfo';
-
-type Todo = {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user: User;
-};
+import { Todo } from '../../types/Todo';
 
 type TodoListProps = {
   todos: Todo[];
