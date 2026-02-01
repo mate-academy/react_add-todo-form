@@ -1,14 +1,13 @@
-import { User } from "../../App";
+import { User } from '../../App';
 
 type Props = {
   user: User;
-}
+};
 
-
-export const UserInfo = ({user}: Props) => {
+export const UserInfo = ({ user }: Props) => {
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
-           {user.name}
-          </a>
-  )
+      {user.name}
+    </a>
+  );
 };

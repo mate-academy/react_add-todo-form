@@ -1,16 +1,16 @@
-import { Todo } from "../../App";
-import { UserInfo } from "../UserInfo";
+import { Todo } from '../../App';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
-}
+};
 
-export const TodoInfo = ({todo}: Props) => {
+export const TodoInfo = ({ todo }: Props) => {
   return (
-     <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">{todo.title}</h2>
+    <article data-id={todo.id} className="TodoInfo TodoInfo--completed">
+      <h2 className="TodoInfo__title">{todo.title}</h2>
 
-          <UserInfo user={todo.user}/>
-        </article>
-  )
+      {todo.user && <UserInfo user={todo.user} />}
+    </article>
+  );
 };
