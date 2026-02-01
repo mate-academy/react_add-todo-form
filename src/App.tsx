@@ -63,7 +63,7 @@ export const App = () => {
     }
 
     const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
       title,
       userId,
       completed: false,
@@ -84,17 +84,22 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title-input">Title</label>
           <input
+           id="title-input"
             type="text"
             data-cy="titleInput"
             value={title}
             onChange={handleTitleChange}
+             placeholder="Enter a title"
           />
           {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="user-select">User</label>
           <select
+          id="user-select"
             data-cy="userSelect"
             value={userId}
             onChange={handleUserIdChange}
