@@ -6,10 +6,6 @@ type Props = {
 };
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
-  if (!user) {
-    return <span className="UserInfo">Unknown user</span>;
-  }
-
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
       {user.name}

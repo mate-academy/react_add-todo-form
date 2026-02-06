@@ -40,10 +40,12 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const hasError = !title.trim() || !userId;
+    const isTitleEmpty = !title.trim();
+    const isUserUnselected = !userId;
+    const hasError = isTitleEmpty || isUserUnselected;
 
-    setTitleError(!title.trim());
-    setUserError(!userId);
+    setTitleError(isTitleEmpty);
+    setUserError(isUserUnselected);
 
     if (hasError) {
       return;
