@@ -5,6 +5,7 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
+import { TodoWithUser } from './components/types/TodoWithUser';
 
 function getUserById(userId: number) {
   return usersFromServer.find(user => user.id === userId) || null;
@@ -24,8 +25,13 @@ export const App = () => {
   );
 
   const handleAddTodo = ({ title, userId }: TodoNew) => {
-    const newTodo = {
-      id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+    const maxId = todos.reduce(
+      (max, todo) => (todo.id > max ? todo.id : max),
+      0,
+    );
+
+    const newTodo: TodoWithUser = {
+      id: maxId + 1,
       title,
       completed: false,
       userId,

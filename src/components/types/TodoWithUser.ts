@@ -1,4 +1,4 @@
-export interface Todos {
+export interface TodoWithUser {
   user: {
     id: number;
     name: string;
