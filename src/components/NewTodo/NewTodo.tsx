@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Todo } from '../types/Todo';
-import userFromServer from '../../api/users';
+import { User } from '../types/User';
 
-type Props = {
-  onAdd: (todo: Todo) => void;
+type NewTodoData = {
+  title: string;
+  userId: number;
 };
 
-export const NewTodo: React.FC<Props> = ({ onAdd }) => {
+type Props = {
+  onAdd: (todo: NewTodoData) => void;
+  users: User[];
+};
+
+export const NewTodo: React.FC<Props> = ({ onAdd, users }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [hasTitleEror, setHasTitleEror] = useState(false);
@@ -39,14 +44,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const formTodo: Todo = {
-      id: 0,
-      title: title,
-      completed: false,
-      userId: userId,
-    };
-
-    onAdd(formTodo);
+    onAdd({ title, userId });
 
     reset();
   };
@@ -77,7 +75,7 @@ export const NewTodo: React.FC<Props> = ({ onAdd }) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {userFromServer.map(user => (
+          {users.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>

@@ -23,29 +23,23 @@ export const App = () => {
     })),
   );
 
-  const handleAddTodo = (newTodo: TodoNew) => {
-    setTodos(prevTodos => {
-      const maxId = prevTodos.length
-        ? Math.max(...prevTodos.map(todo => todo.id))
-        : 0;
+  const handleAddTodo = ({ title, userId }: TodoNew) => {
+    const newTodo = {
+      id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+      title,
+      completed: false,
+      userId,
+      user: getUserById(userId),
+    };
 
-      return [
-        ...prevTodos,
-        {
-          ...newTodo,
-          id: maxId + 1,
-          completed: false,
-          user: getUserById(newTodo.userId),
-        },
-      ];
-    });
+    setTodos(prev => [...prev, newTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <NewTodo onAdd={handleAddTodo} />
+      <NewTodo onAdd={handleAddTodo} users={usersFromServer} />
 
       <TodoList todos={todos} />
     </div>
