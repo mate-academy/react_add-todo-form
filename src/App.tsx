@@ -7,7 +7,9 @@ import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const preparedTodos = todosFromServer.map(todo => {
-    const user = usersFromServer.find(u => u.id === todo.userId);
+    const user = usersFromServer.find(
+      serverUser => serverUser.id === todo.userId,
+    );
 
     return {
       ...todo,
@@ -42,7 +44,11 @@ export const App = () => {
 
     const selectedUser = usersFromServer.find(u => u.id === selectedUserId);
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    if (!selectedUser) {
+      return;
+    }
+
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
 
     const newTodo = {
       id: maxId + 1,
