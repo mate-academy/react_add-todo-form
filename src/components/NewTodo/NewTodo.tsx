@@ -1,78 +1,102 @@
-import { useState } from 'react';
-import usersFromServer from '../../api/users';
-import { NewTodo } from '../../App';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { User } from '../../types';
 
-type Props = {
-  onAdd: (todo: NewTodo) => void;
-};
+interface NewTodoFormProps {
+  onAdd: (title: string, userId: number) => void;
+  users: User[];
+}
 
-export const NewTodoForm: React.FC<Props> = ({ onAdd }) => {
+export const NewTodoForm: React.FC<NewTodoFormProps> = ({ onAdd, users }) => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [hasTitleError, setTitleError] = useState(false);
-  const [hasUserError, setUserError] = useState(false);
+  const [userId, setUserId] = useState<number | ''>('');
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const [titleError, setTitleError] = useState('');
+  const [userError, setUserError] = useState('');
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const filtered = event.target.value.replace(
+      /[^a-zA-Zа-яА-ЯіІїЇєЄ0-9 ]/g,
+      '',
+    );
+
+    setTitle(filtered);
+
+    if (titleError) {
+      setTitleError('');
+    }
+  };
+
+  const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+
+    setUserId(value ? Number(value) : '');
+
+    if (userError) {
+      setUserError('');
+    }
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const trimmedTitle = title.trim();
+    let isValid = true;
 
-    const isTitleInvalid = !trimmedTitle;
-    const isUserInvalid = userId === 0;
+    if (!title.trim()) {
+      setTitleError('Please enter a title');
+      isValid = false;
+    }
 
-    setTitleError(isTitleInvalid);
-    setUserError(isUserInvalid);
+    if (!userId) {
+      setUserError('Please choose a user');
+      isValid = false;
+    }
 
-    if (isTitleInvalid || isUserInvalid) {
+    if (!isValid) {
       return;
     }
 
-    onAdd({ title: trimmedTitle, userId });
+    onAdd(title.trim(), userId as number);
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
+    setTitleError('');
+    setUserError('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="field">
+      <div>
+        <label htmlFor="titleInput">Title</label>
         <input
+          id="titleInput"
           data-cy="titleInput"
           type="text"
-          placeholder="Enter todo..."
+          placeholder="Enter todo title"
           value={title}
-          onChange={e => {
-            setTitle(e.target.value);
-            setTitleError(false);
-          }}
+          onChange={handleTitleChange}
         />
-        {hasTitleError && <span className="error">Please enter a title</span>}
+        {titleError && <p>{titleError}</p>}
       </div>
 
-      <div className="field">
+      <div>
+        <label htmlFor="userSelect">User</label>
         <select
+          id="userSelect"
           data-cy="userSelect"
           value={userId}
-          onChange={e => {
-            setUserId(Number(e.target.value));
-            setUserError(false);
-          }}
+          onChange={handleUserChange}
         >
-          <option value="0" disabled>
-            Choose a user
-          </option>
-
-          {usersFromServer.map(user => (
+          <option value="">Choose a user</option>
+          {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
           ))}
         </select>
-
-        {hasUserError && <span className="error">Please choose a user</span>}
+        {userError && <p>{userError}</p>}
       </div>
 
-      <button data-cy="submitButton" type="submit">
+      <button type="submit" data-cy="submitButton">
         Add
       </button>
     </form>

@@ -4,50 +4,51 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 import { TodoList } from './components/TodoList';
 import { NewTodoForm } from './components/NewTodo/NewTodo';
-
-export interface NewTodo {
-  title: string;
-  userId: number;
-}
-
-export interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user: (typeof usersFromServer)[number];
-}
+import { Todo } from './types';
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(
-    todosFromServer.map(todo => {
-      const user = usersFromServer.find(u => u.id === todo.userId)!;
+  const initialTodos: Todo[] = todosFromServer.map(serverTodo => {
+    const user = usersFromServer.find(
+      serverUser => serverUser.id === serverTodo.userId,
+    );
 
-      return { ...todo, user };
-    }),
-  );
+    if (!user) {
+      throw new Error('User not found');
+    }
 
-  const handleAddTodo = (newTodo: NewTodo) => {
-    const user = usersFromServer.find(u => u.id === newTodo.userId)!;
+    return { ...serverTodo, user };
+  });
 
-    const newItem: Todo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
-      title: newTodo.title,
-      userId: newTodo.userId,
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
+  const handleAddTodo = (title: string, userId: number) => {
+    const user = usersFromServer.find(serverUser => serverUser.id === userId);
+
+    if (!user) {
+      return;
+    }
+
+    const newId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
+    const newTodo: Todo = {
+      id: newId,
+      title,
+      userId,
       completed: false,
       user,
     };
 
-    setTodos([...todos, newItem]);
+    setTodos([...todos, newTodo]);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <NewTodoForm onAdd={handleAddTodo} />
+      <NewTodoForm onAdd={handleAddTodo} users={usersFromServer} />
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };

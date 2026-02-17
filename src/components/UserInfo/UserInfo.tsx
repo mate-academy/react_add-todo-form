@@ -1,15 +1,13 @@
-import React from 'react';
-import usersFromServer from '../../api/users';
+import { User } from '../../types';
 
 interface UserInfoProps {
-  user: (typeof usersFromServer)[number];
+  user: User;
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
-    <div className="UserInfo" data-id={user.id}>
-      <span>{user.name}</span> {''}
-      <a href={`mailto:${user.email}`}>{user.email}</a>
-    </div>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };
