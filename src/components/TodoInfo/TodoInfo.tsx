@@ -1,17 +1,8 @@
 import { UserInfo } from '../UserInfo/UserInfo';
-import usersFromServer from '../../api/users';
-import { Todo, User } from '../../App';
+import { Todo } from '../../App';
 import cn from 'classnames';
 
 export const TodoInfo = ({ todo }: { todo: Todo }) => {
-  const foundUser: User | undefined = usersFromServer.find(
-    (user: User) => user.id === todo.userId,
-  );
-
-  if (!foundUser) {
-    return null;
-  }
-
   return (
     <article
       data-id={todo.id}
@@ -21,7 +12,7 @@ export const TodoInfo = ({ todo }: { todo: Todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={foundUser} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };

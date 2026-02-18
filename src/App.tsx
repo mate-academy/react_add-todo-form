@@ -18,17 +18,23 @@ export interface Todo {
   title: string;
   completed: boolean;
   userId: number;
+  user: User;
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const initialTodos: Todo[] = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId) as User,
+  }));
+
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const isTitleInvalid = !title.trim();
     const isUserInvalid = userId === 0;
@@ -40,16 +46,24 @@ export const App = () => {
       return;
     }
 
-    const newTodo: Todo = {
-      id: Date.now(),
-      title,
-      completed: false,
-      userId,
-    };
+    const selectedUser = usersFromServer.find(user => user.id === userId);
 
-    setTodos([...todos, newTodo]);
-    setTitle('');
-    setUserId(0);
+    const newId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
+    if (selectedUser) {
+      const newTodo: Todo = {
+        id: newId,
+        title,
+        completed: false,
+        userId,
+        user: selectedUser,
+      };
+
+      setTodos([...todos, newTodo]);
+      setTitle('');
+      setUserId(0);
+    }
   };
 
   return (
@@ -58,12 +72,13 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               if (titleError) {
                 setTitleError(false);
               }
@@ -76,8 +91,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(Number(+e.target.value));
+            onChange={event => {
+              setUserId(Number(event.target.value));
               if (userError) {
                 setUserError(false);
               }
