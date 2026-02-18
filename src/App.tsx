@@ -73,9 +73,12 @@ export const App = () => {
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="title">Title</label>
+
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
+            placeholder="Enter title"
             value={title}
             onChange={event => {
               setTitle(event.target.value);
@@ -88,7 +91,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
+
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={userId}
             onChange={event => {
