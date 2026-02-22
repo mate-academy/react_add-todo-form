@@ -1,7 +1,11 @@
 import { Todo } from '../../types/Todo';
 import { TodoInfo } from '../TodoInfo';
 
-export const TodoList = ({ todos }: Todo[]) => {
+type Prop = {
+  todos: Todo[];
+};
+
+export const TodoList = ({ todos }: Prop) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (

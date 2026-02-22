@@ -5,7 +5,6 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { Todo } from './types/Todo';
-import { User } from './types/User';
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -48,7 +47,7 @@ export const App = () => {
   };
 
   function getUserById(id: number) {
-    return usersFromServer.find(user => user.id === id) as User;
+    return usersFromServer.find(user => user.id === id) || usersFromServer[0];
   }
 
   const prepareTodos = todos.map(todo => ({
