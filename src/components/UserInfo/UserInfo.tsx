@@ -1,6 +1,10 @@
 import { User } from '../../types/User';
 
-export const UserInfo = ({ user }: { user: User }) => {
+type Prop = {
+  user: User;
+};
+
+export const UserInfo = ({ user }: Prop) => {
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
       {user.name}

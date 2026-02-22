@@ -2,7 +2,11 @@ import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 import { UserInfo } from '../UserInfo';
 
-export const TodoInfo = ({ todo }: Todo) => {
+type Prop = {
+  todo: Todo;
+};
+
+export const TodoInfo = ({ todo }: Prop) => {
   return (
     <article
       data-id={todo.id}

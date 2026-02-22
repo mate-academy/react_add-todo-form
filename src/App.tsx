@@ -51,9 +51,9 @@ export const App = () => {
     return usersFromServer.find(user => user.id === id) as User;
   }
 
-  const prepareTodos = todos.map(i => ({
-    ...i,
-    user: getUserById(i.userId),
+  const prepareTodos = todos.map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
   }));
 
   return (
@@ -70,7 +70,7 @@ export const App = () => {
             value={title}
             onChange={event => {
               setTitle(() => event.target.value);
-              setIsTitleEmpty(prev => !prev);
+              setIsTitleEmpty(false);
             }}
           />
           {isTitleEmpty && <span className="error">Please enter a title</span>}
@@ -82,7 +82,7 @@ export const App = () => {
             data-cy="userSelect"
             onChange={event => {
               setUserId(event.target.value);
-              setUserIsNotSelected(event.target.value === '0');
+              setUserIsNotSelected(false);
             }}
             value={String(userId)}
           >
