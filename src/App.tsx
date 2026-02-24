@@ -81,8 +81,8 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
           />
@@ -95,8 +95,8 @@ export const App = () => {
             id="userId"
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={e => {
-              setSelectedUserId(e.target.value);
+            onChange={event => {
+              setSelectedUserId(event.target.value);
               setUserError(false);
             }}
           >
