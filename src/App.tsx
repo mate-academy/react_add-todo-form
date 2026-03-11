@@ -77,13 +77,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={event => {
-          onSubmit(event);
-        }}
-      >
+      <form action="/api/todos" method="POST" onSubmit={onSubmit}>
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
@@ -128,6 +122,8 @@ export const App = () => {
 
       <section className="TodoList">
         {todos.map(todo => {
+          const user = findUser(todo.userId);
+
           return (
             <article
               data-id={todo.id}
@@ -137,11 +133,8 @@ export const App = () => {
               })}
             >
               <h2 className="TodoInfo__title">{todo.title}</h2>
-              <a
-                className="UserInfo"
-                href={`mailto:${findUser(todo.userId)?.email}`}
-              >
-                {findUser(todo.userId)?.name}
+              <a className="UserInfo" href={`mailto:${user?.email}`}>
+                {user?.name}
               </a>
             </article>
           );
