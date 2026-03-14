@@ -25,8 +25,8 @@ export const App = () => {
   const [hasUserError, setHasUserError] = useState(false);
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     let isError = false;
 
@@ -66,7 +66,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={e => handleSubmit(e)}>
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="field">
           <label htmlFor="titleInput">Enter a title of Todo</label>
           <input
@@ -94,9 +98,9 @@ export const App = () => {
             id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
+            onChange={event => {
               setHasUserError(false);
-              setUserId(Number(e.target.value));
+              setUserId(Number(event.target.value));
             }}
           >
             <option value="0" disabled>
