@@ -75,9 +75,9 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={e => {
+            onChange={event => {
               setHasTitleError(false);
-              const sanitizedValue = e.target.value.replace(
+              const sanitizedValue = event.target.value.replace(
                 /[^a-zA-ZА-ЩЬЮЯЄІЇҐа-щьюяєіїґ0-9 ]/g,
                 '',
               );
