@@ -1,6 +1,6 @@
 import React from 'react';
-import { Todo } from '../../api/todos';
-import { UserInfo } from '../UserInfo'; // Імпортуємо сусідній компонент
+import { Todo } from '../../types';
+import { UserInfo } from '../UserInfo';
 
 interface Props {
   todo: Todo;

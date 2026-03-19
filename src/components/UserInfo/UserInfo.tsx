@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from '../../api/users'; // Імпортуємо інтерфейс
+import { User } from '../../types';
 
 interface Props {
   user: User;

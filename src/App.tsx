@@ -1,32 +1,22 @@
 import './App.scss';
-
+import React, { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
-import React from 'react';
+import { User, Todo } from './types';
+import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+  const initialTodos: Todo[] = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId),
+  }));
 
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user?: User;
-}
-
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer)
-  const [users] = useState<User[]>(usersFromServer)
-  const [title, setTitle] = useState('')
-  const [userId, setUserId] = useState(0)
-  const [titleError, setTitleError] = useState(false)
-  const [userError, setUserError] = useState(false)
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [users] = useState<User[]>(usersFromServer);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,44 +31,55 @@ interface Todo {
       return;
     }
 
-    const currentUser = users.find(user => user.id === userId)
+    const currentUser = users.find(user => user.id === userId);
 
     const newTodo: Todo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
-      title: title,
+      // Виправлено іменування (todo замість t)
+      id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1,
+      title: title.trim(),
       userId: userId,
       completed: false,
-      user: currentUser
-    }
+      user: currentUser,
+    };
 
-    setTodos([...todos, newTodo]);
-
+    setTodos(prevTodos => [...prevTodos, newTodo]);
     setTitle('');
     setUserId(0);
-  }
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          {/* Додано Label для доступності */}
+          <label htmlFor="todo-title">Title</label>
           <input
+            id="todo-title"
             type="text"
             data-cy="titleInput"
             placeholder="Enter title"
             value={title}
-            onChange={(e) => { setTitle(e.target.value); setTitleError(false); }}
+            // Виправлено: event замість e
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setTitleError(false);
+            }}
           />
-          {titleError &&
-            <span className="error">Please enter a title</span>
-          }
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="todo-user">User</label>
           <select
+            id="todo-user"
             data-cy="userSelect"
             value={userId}
-            onChange={(e) => { setUserId(Number(e.target.value)); setUserError(false); }}
+            onChange={(event) => {
+              setUserId(Number(event.target.value));
+              setUserError(false);
+            }}
           >
             <option value="0" disabled>Choose a user</option>
             {users.map(user => (
@@ -87,9 +88,7 @@ interface Todo {
               </option>
             ))}
           </select>
-          {userError &&
-            <span className="error">Please choose a user</span>
-          }
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -97,24 +96,8 @@ interface Todo {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id={todo.id}
-            key={todo.id}
-            className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-          >
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-
-            <a
-              className="UserInfo"
-              href={`mailto:${todo.user?.email}`}
-            >
-              {todo.user?.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      {/* Використовуємо окремий компонент (Декомпозиція) */}
+      <TodoList todos={todos} />
     </div>
   );
 };
