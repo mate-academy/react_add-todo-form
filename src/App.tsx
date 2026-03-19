@@ -62,7 +62,7 @@ export const App = () => {
             placeholder="Enter title"
             value={title}
             // Виправлено: event замість e
-            onChange={(event) => {
+            onChange={event => {
               setTitle(event.target.value);
               setTitleError(false);
             }}
@@ -76,12 +76,14 @@ export const App = () => {
             id="todo-user"
             data-cy="userSelect"
             value={userId}
-            onChange={(event) => {
+            onChange={event => {
               setUserId(Number(event.target.value));
               setUserError(false);
             }}
           >
-            <option value="0" disabled>Choose a user</option>
+            <option value="0" disabled>
+              Choose a user
+            </option>
             {users.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
