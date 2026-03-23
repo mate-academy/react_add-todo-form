@@ -48,7 +48,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title-input">Title</label>
           <input
+            id="title-input"
             value={title}
             onChange={event => {
               const clean = event.target.value.replace(
@@ -57,9 +59,6 @@ export const App = () => {
               );
 
               setTitle(clean);
-              if (triedSubmit) {
-                setTriedSubmit(false);
-              }
             }}
             type="text"
             data-cy="titleInput"
@@ -70,10 +69,12 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user-select">User</label>
           <select
+            id="user-select"
             value={userId}
-            onChange={e => {
-              setUserId(e.target.value);
+            onChange={event => {
+              setUserId(event.target.value);
               if (triedSubmit) {
                 setTriedSubmit(false);
               }
@@ -101,7 +102,7 @@ export const App = () => {
       </form>
       <section className="TodoList">
         {todos.map(todo => {
-          const user = users.find(u => u.id === todo.userId);
+          const user = users.find(person => person.id === todo.userId);
 
           return (
             <article
