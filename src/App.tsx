@@ -5,7 +5,10 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const usersById = Object.fromEntries(usersFromServer.map(u => [u.id, u]));
+  const [todos, setTodos] = useState(() =>
+    todosFromServer.map(t => ({ ...t, user: usersById[t.userId] || null })),
+  );
   const [users] = useState(usersFromServer);
 
   const [title, setTitle] = useState('');
@@ -26,8 +29,7 @@ export const App = () => {
       ? Math.max(...todos.map(todo => todo.id)) + 1
       : 1;
 
-    const userObj = users.find(user => user.id === Number(userId));
-
+    const userObj = users.find(u => u.id === Number(userId))!;
     const newTodo = {
       id: newId,
       title: title.trim(),
@@ -102,7 +104,7 @@ export const App = () => {
       </form>
       <section className="TodoList">
         {todos.map(todo => {
-          const user = users.find(person => person.id === todo.userId);
+          const user = todo.user;
 
           return (
             <article
