@@ -57,6 +57,8 @@ export const FormItem = ({ addPost, todos, users }: FormItemProps) => {
     };
 
     addPost(newTodo);
+    setTitle(''); // очистити input
+    setUserSelect(0); // скинути select
   };
 
   return (
@@ -81,9 +83,9 @@ export const FormItem = ({ addPost, todos, users }: FormItemProps) => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {users.map(el => (
-              <option value={el.id} key={el.id}>
-                {el.name}
+            {users.map(item => (
+              <option value={item.id} key={item.id}>
+                {item.name}
               </option>
             ))}
           </select>

@@ -5,7 +5,10 @@ type TodoInfoProps = {
 };
 export const TodoInfo = ({ item }: TodoInfoProps) => {
   return (
-    <article data-id={item.id} className="TodoInfo TodoInfo--completed">
+    <article
+      data-id={item.id}
+      className={`TodoInfo ${item.completed ? 'TodoInfo--completed' : ''}`}
+    >
       <h2 className="TodoInfo__title">{item.title}</h2>
 
       <a className="UserInfo" href={`mailto:${item.email}`}>

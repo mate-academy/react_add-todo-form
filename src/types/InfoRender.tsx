@@ -4,4 +4,5 @@ export interface InfoRender {
   title: string;
   email: string;
   name: string;
+  completed: boolean;
 }

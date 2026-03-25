@@ -13,7 +13,7 @@ export const App = () => {
   const [users] = useState<UsersType[]>(usersFromServer);
 
   const preparedTodos: TodoType[] = todosFromServer.map(todo => {
-    const user = usersFromServer.find(u => u.id === todo.userId);
+    const user = usersFromServer.find(item => item.id === todo.userId);
 
     return {
       ...todo,
@@ -29,6 +29,7 @@ export const App = () => {
       title: todo.title,
       email: todo.user.email,
       name: todo.user.name,
+      completed: todo.completed,
     };
   });
 
