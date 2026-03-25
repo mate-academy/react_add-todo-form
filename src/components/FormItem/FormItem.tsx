@@ -1,14 +1,15 @@
 //..
 import { useState } from 'react';
 import type { TodoType } from '../../types/TodoType';
-import users from '../../api/users';
+import type { UsersType } from '../../types/UsersType';
 
 interface FormItemProps {
   addPost: (newPost: TodoType) => void;
   todos: TodoType[];
+  users: UsersType[];
 }
 
-export const FormItem = ({ addPost, todos }: FormItemProps) => {
+export const FormItem = ({ addPost, todos, users }: FormItemProps) => {
   const [title, setTitle] = useState(''); // стан для заголовка
   const [isErrorTitle, setIsErrorTitle] = useState(false); // стан для помилки заголовка
   const [userSelect, setUserSelect] = useState(0); // стан для значення селекта
@@ -39,19 +40,20 @@ export const FormItem = ({ addPost, todos }: FormItemProps) => {
       return;
     }
 
-    const user = users.find(el => el.id === userSelect);
+    const user = users.find(item => item.id === userSelect);
 
     if (!user) {
       return;
     }
 
-    const maxId = todos.length ? Math.max(...todos.map(t => t.id)) : 0;
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
 
     const newTodo: TodoType = {
       id: maxId + 1, // або інша логіка
       title: title,
       completed: false,
       userId: user.id,
+      user: user,
     };
 
     addPost(newTodo);

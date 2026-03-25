@@ -10,17 +10,25 @@ import type { TodoType } from './types/TodoType';
 import type { UsersType } from './types/UsersType';
 
 export const App = () => {
-  const [todos, setTodos] = useState<TodoType[]>(todosFromServer);
   const [users] = useState<UsersType[]>(usersFromServer);
 
-  const info: InfoRender[] = todos.map(todo => {
-    const user = users.find(u => u.id === todo.userId);
+  const preparedTodos: TodoType[] = todosFromServer.map(todo => {
+    const user = usersFromServer.find(u => u.id === todo.userId);
 
+    return {
+      ...todo,
+      user: user!,
+    };
+  });
+
+  const [todos, setTodos] = useState<TodoType[]>(preparedTodos);
+
+  const info: InfoRender[] = todos.map(todo => {
     return {
       id: todo.id,
       title: todo.title,
-      email: user?.email || '',
-      name: user?.name || '',
+      email: todo.user.email,
+      name: todo.user.name,
     };
   });
 
@@ -31,7 +39,7 @@ export const App = () => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <FormItem addPost={addPost} todos={todos} />
+      <FormItem addPost={addPost} todos={todos} users={users} />
       <TodoList info={info} />
     </div>
   );
