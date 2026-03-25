@@ -5,22 +5,22 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+
 import type { InfoRender } from './types/InfoRender';
 import type { TodoType } from './types/TodoType';
 import type { UsersType } from './types/UsersType';
 
+const preparedTodos: TodoType[] = todosFromServer.map(todo => {
+  const user = usersFromServer.find(item => item.id === todo.userId);
+
+  return {
+    ...todo,
+    user: user!,
+  };
+});
+
 export const App = () => {
   const [users] = useState<UsersType[]>(usersFromServer);
-
-  const preparedTodos: TodoType[] = todosFromServer.map(todo => {
-    const user = usersFromServer.find(item => item.id === todo.userId);
-
-    return {
-      ...todo,
-      user: user!,
-    };
-  });
-
   const [todos, setTodos] = useState<TodoType[]>(preparedTodos);
 
   const info: InfoRender[] = todos.map(todo => {

@@ -63,13 +63,14 @@ export const FormItem = ({ addPost, todos, users }: FormItemProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} action="/api/todos" method="POST">
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             value={title}
             onChange={handleTitle}
+            placeholder="Enter a title"
           />
           {isErrorTitle && <span className="error">Please enter a title</span>}
         </div>
