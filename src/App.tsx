@@ -27,9 +27,11 @@ export const App = () => {
     return {
       id: todo.id,
       title: todo.title,
-      email: todo.user.email,
-      name: todo.user.name,
       completed: todo.completed,
+      user: {
+        name: todo.user.name,
+        email: todo.user.email,
+      },
     };
   });
 

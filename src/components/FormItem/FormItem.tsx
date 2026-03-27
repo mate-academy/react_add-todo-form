@@ -28,15 +28,19 @@ export const FormItem = ({ addPost, todos, users }: FormItemProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
-      setIsErrorTitle(true);
+    let hasError = false;
 
-      return;
+    if (!title) {
+      setIsErrorTitle(true);
+      hasError = true;
     }
 
-    if (userSelect === 0) {
+    if (!userSelect) {
       setIsErrorSelect(true);
+      hasError = true;
+    }
 
+    if (hasError) {
       return;
     }
 

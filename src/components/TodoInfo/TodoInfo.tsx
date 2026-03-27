@@ -1,19 +1,23 @@
 import type { InfoRender } from '../../types/InfoRender';
+import { UserInfo } from '../UserInfo/UserInfo';
 
 type TodoInfoProps = {
-  item: InfoRender;
+  todo: InfoRender;
 };
-export const TodoInfo = ({ item }: TodoInfoProps) => {
+
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
+  if (!todo) {
+    return null;
+  }
+
   return (
     <article
-      data-id={item.id}
-      className={`TodoInfo ${item.completed ? 'TodoInfo--completed' : ''}`}
+      data-id={todo.id}
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >
-      <h2 className="TodoInfo__title">{item.title}</h2>
+      <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <a className="UserInfo" href={`mailto:${item.email}`}>
-        {item.name}
-      </a>
+      <UserInfo user={todo.user} />
     </article>
   );
 };
