@@ -5,6 +5,7 @@ import { getUserById } from './services/user';
 import { TodoList } from './components/TodoList';
 import { Todo } from './components/Types/Todo';
 import { PostForm } from './PostForm';
+import usersFromServer from './api/users';
 
 export const todos = todosFromServer.map(todo => ({
   ...todo,
@@ -32,7 +33,7 @@ export const App: React.FC = ({}) => {
   return (
     <div className="App">
       <h1>Add todo form</h1>
-      <PostForm onSubmit={addPost} />
+      <PostForm onSubmit={addPost} users={usersFromServer} />
       <TodoList todos={posts} />
 
       {/* <section className="TodoList">

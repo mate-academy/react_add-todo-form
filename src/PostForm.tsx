@@ -1,33 +1,35 @@
 import { useState } from 'react';
 import { getUserById } from './services/user';
-import usersFromServer from './api/users';
 import { Todo } from './components/Types/Todo';
 import React from 'react';
 import './App.scss';
 
+import { User } from './components/Types/User';
+
 type Props = {
   onSubmit: (post: Todo) => void;
+  users: User[];
 };
 
-export const PostForm: React.FC<Props> = ({ onSubmit }) => {
+export const PostForm: React.FC<Props> = ({ onSubmit, users }) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setHasTitleError(false);
   };
 
-  const handleUserIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value));
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
     setHasUserIdError(false);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     setHasTitleError(!title);
     setHasUserIdError(!userId);
@@ -76,7 +78,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             Choose a user
           </option>
 
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
