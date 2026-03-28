@@ -21,10 +21,14 @@ function getNewPostId(posts: Todo[]) {
 export const App: React.FC = ({}) => {
   const [posts, setPosts] = useState<Todo[]>(todos);
 
-  const addPost = (post: Todo) => {
-    const newPost = {
-      ...post,
+  const addPost = (data: { title: string; userId: number }) => {
+    const user = getUserById(data.userId);
+    const newPost: Todo = {
       id: getNewPostId(posts),
+      title: data.title,
+      completed: false,
+      userId: data.userId,
+      user: user,
     };
 
     setPosts(currentPosts => [...currentPosts, newPost]);

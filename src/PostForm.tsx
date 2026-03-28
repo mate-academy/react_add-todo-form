@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { getUserById } from './services/user';
-import { Todo } from './components/Types/Todo';
 import React from 'react';
 import './App.scss';
 
 import { User } from './components/Types/User';
 
+type RawFormData = {
+  title: string;
+  userId: number;
+};
+
 type Props = {
-  onSubmit: (post: Todo) => void;
+  onSubmit: (data: RawFormData) => void;
   users: User[];
 };
 
@@ -39,11 +42,8 @@ export const PostForm: React.FC<Props> = ({ onSubmit, users }) => {
     }
 
     onSubmit({
-      id: 0,
       title,
-      completed: false,
       userId,
-      user: getUserById(userId) || undefined,
     });
 
     setTitle('');
