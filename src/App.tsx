@@ -1,35 +1,46 @@
+import React, { useState } from 'react';
 import './App.scss';
+import todosFromServer from './api/todos';
+import { getUserById } from './services/user';
+import { TodoList } from './components/TodoList';
+import { Todo } from './components/Types/Todo';
+import { PostForm } from './PostForm';
+import usersFromServer from './api/users';
 
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+export const todos = todosFromServer.map(todo => ({
+  ...todo,
+  user: getUserById(todo.userId),
+}));
 
-export const App = () => {
+function getNewPostId(posts: Todo[]) {
+  const maxId = Math.max(...posts.map(post => post.id));
+
+  return maxId + 1;
+}
+
+export const App: React.FC = ({}) => {
+  const [posts, setPosts] = useState<Todo[]>(todos);
+
+  const addPost = (data: { title: string; userId: number }) => {
+    const user = getUserById(data.userId);
+    const newPost: Todo = {
+      id: getNewPostId(posts),
+      title: data.title,
+      completed: false,
+      userId: data.userId,
+      user: user,
+    };
+
+    setPosts(currentPosts => [...currentPosts, newPost]);
+  };
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
+      <PostForm onSubmit={addPost} users={usersFromServer} />
+      <TodoList todos={posts} />
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
+      {/* <section className="TodoList">
         <article data-id="1" className="TodoInfo TodoInfo--completed">
           <h2 className="TodoInfo__title">delectus aut autem</h2>
 
@@ -55,7 +66,7 @@ export const App = () => {
             Patricia Lebsack
           </a>
         </article>
-      </section>
+      </section> */}
     </div>
   );
 };
