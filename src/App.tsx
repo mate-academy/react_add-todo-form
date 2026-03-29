@@ -7,7 +7,20 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 
 export const App = () => {
-  const [currentTodos, setCurrentTodos] = useState(todosFromServer);
+  const prepareTodos = (todosArr: Todo[]): Todo[] => {
+    return todosArr.map(todo => {
+      const user = usersFromServer.find(u => u.id === todo.userId);
+
+      return {
+        ...todo,
+        user,
+      };
+    });
+  };
+
+  const [currentTodos, setCurrentTodos] = useState(
+    prepareTodos(todosFromServer),
+  );
 
   const [value, setValue] = useState('');
   const [inputError, setInputError] = useState(false);
@@ -92,7 +105,7 @@ export const App = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {...usersFromServer.map(user => (
+            {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}
               </option>
