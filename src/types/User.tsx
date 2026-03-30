@@ -1,6 +1,6 @@
 export type User = {
-  id: number;
+  id: number | undefined;
   name: string | undefined;
-  username: string | null;
-  email: string | null;
+  username: string | undefined;
+  email: string | undefined;
 };

@@ -58,17 +58,18 @@ export const App = () => {
       return;
     }
 
+    const foundedUser = usersFromServer.find(user => user.id === userSelected);
+
     addNewTodo({
       id: generateNewId(currentTodos),
       title: value,
       completed: false,
       userId: userSelected,
       user: {
-        email: usersFromServer.find(user => user.id === userSelected)?.email,
-        id: usersFromServer.find(user => user.id === userSelected)?.id,
-        name: usersFromServer.find(user => user.id === userSelected)?.name,
-        username: usersFromServer.find(user => user.id === userSelected)
-          ?.username,
+        id: foundedUser?.id,
+        email: foundedUser?.email,
+        name: foundedUser?.name,
+        username: foundedUser?.username,
       },
     });
 
