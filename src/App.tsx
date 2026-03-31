@@ -5,17 +5,18 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
+import { Todo, User } from './types';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     let hasError = false;
 
@@ -33,34 +34,34 @@ export const App = () => {
       return;
     }
 
-    const user = usersFromServer.find(u => u.id === Number(userId));
+    const selectedUser = usersFromServer.find(
+      (user: User) => user.id === userId,
+    );
 
-    // 🔥 защита от undefined
-    if (!user) {
+    if (!selectedUser) {
       return;
     }
 
-    const maxId = todos.length ? Math.max(...todos.map(t => t.id)) : 0;
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
 
-    const newTodo = {
+    const newTodo: Todo = {
       id: maxId + 1,
       title: title.trim(),
-      userId: Number(userId),
+      userId,
       completed: false,
-      user,
+      user: selectedUser,
     };
 
     setTodos([...todos, newTodo]);
 
-    // reset form
     setTitle('');
     setUserId(0);
     setTitleError(false);
     setUserError(false);
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^a-zA-Zа-яА-ЯёЁ0-9 ]/g, '');
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^a-zA-Zа-яА-ЯёЁ0-9 ]/g, '');
 
     setTitle(value);
 
@@ -69,8 +70,8 @@ export const App = () => {
     }
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = Number(e.target.value);
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = Number(event.target.value);
 
     setUserId(value);
 
