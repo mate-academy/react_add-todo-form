@@ -106,11 +106,17 @@ export const AddTodoForm: React.FC<Props> = ({ onAddTodo }) => {
   };
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const pattern = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9 ]*$/;
+    const title = event.target.value;
+
     clearError('title');
-    setNewTodo(prevTodo => ({
-      ...prevTodo,
-      title: event.target.value,
-    }));
+    // Allow entering only letters (ua and en), digits, and spaces
+    if (pattern.test(title)) {
+      setNewTodo(prevTodo => ({
+        ...prevTodo,
+        title,
+      }));
+    }
   };
 
   return (
