@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './TodoList.scss';
 import { TodoInfo } from '../TodoInfo';
 import { TodoWithUser } from '../../types';
 
