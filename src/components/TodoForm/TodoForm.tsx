@@ -34,7 +34,7 @@ export const TodoForm: React.FC<Props> = ({ users, onAdd, currentTodos }) => {
     const newTodo: Todo = {
       id:
         currentTodos.length > 0
-          ? Math.max(...currentTodos.map(t => t.id)) + 1
+          ? Math.max(...currentTodos.map(todo => todo.id)) + 1
           : 1,
       title,
       completed: false,
