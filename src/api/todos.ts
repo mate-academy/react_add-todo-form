@@ -1,4 +1,19 @@
-export default [
+export type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+
+export type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user?: User; // 👈 importante (nem todos têm user ainda)
+};
+
+const todos: Todo[] = [
   {
     id: 1,
     title: 'delectus aut autem',
@@ -18,3 +33,5 @@ export default [
     userId: 4,
   },
 ];
+
+export default todos;
