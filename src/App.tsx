@@ -1,28 +1,92 @@
 import './App.scss';
-
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
+import usersFromServer from './api/users';
+import todosFromServer from './api/todos';
+import { useState } from 'react';
 
 export const App = () => {
+  const [todos, setTodos] = useState(todosFromServer);
+  const [title, setTitle] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [titleError, setTitleError] = useState(true);
+  const [userError, setUserError] = useState(true);
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
+      <form
+        action="/api/todos"
+        method="POST"
+        onSubmit={event => {
+          event.preventDefault();
+          const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+          const newTodo = {
+            id: newId,
+            title: title,
+            completed: false,
+            userId: userId,
+          };
 
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
+          const isTitleEmpty = title.trim() === '';
+          const isUserNotSelected = userId === 0;
 
-          <span className="error">Please choose a user</span>
-        </div>
+          setTitleError(!isTitleEmpty);
+          setUserError(!isUserNotSelected);
+
+          if (!isTitleEmpty && !isUserNotSelected) {
+            setTodos(prev => [...prev, newTodo]);
+            setTitle('');
+            setUserId(0);
+          }
+        }}
+      >
+        <label>
+          Title:
+          <div className="field">
+            <input
+              type="text"
+              data-cy="titleInput"
+              placeholder="Enter a title"
+              value={title}
+              onChange={event => {
+                setTitle(event.target.value);
+                setTitleError(true);
+              }}
+            />
+            <span className="error" hidden={titleError}>
+              Please enter a title
+            </span>
+          </div>
+        </label>
+
+        <label>
+          User:
+          <div className="field">
+            <select
+              data-cy="userSelect"
+              value={userId}
+              onChange={user => {
+                setUserId(+user.target.value);
+                setUserError(true);
+              }}
+            >
+              <option value="0" disabled>
+                Choose a user
+              </option>
+              {usersFromServer.map(user => {
+                return (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                );
+              })}
+            </select>
+            <span className="error" hidden={userError}>
+              Please choose a user
+            </span>
+          </div>
+        </label>
 
         <button type="submit" data-cy="submitButton">
           Add
@@ -30,31 +94,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
+        <TodoList todos={todos} users={usersFromServer} />
       </section>
     </div>
   );
