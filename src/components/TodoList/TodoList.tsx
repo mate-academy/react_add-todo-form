@@ -1,13 +1,14 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 
-interface Todos {
+interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
 }
 
-interface Users {
+interface User {
   id: number;
   name: string;
   username: string;
@@ -15,23 +16,18 @@ interface Users {
 }
 
 type Props = {
-  todos: Todos[];
-  users: Users[];
+  todos: Todo[];
+  users?: User[]; // Робимо необов'язковим для гнучкості тестів
 };
 
-export const TodoList: React.FC<Props> = ({ todos, users }) => {
+export const TodoList: React.FC<Props> = ({ todos, users = [] }) => {
   return (
     <>
       {todos.map(todo => {
-        const currentUser: Users | undefined = users.find(
-          user => user.id === todo.userId,
-        );
+        // Тепер find не впаде, бо users точно масив (хоча б порожній)
+        const user = users.find(u => u.id === todo.userId) || null;
 
-        if (!currentUser) {
-          return null;
-        }
-
-        return <TodoInfo todo={todo} currentUser={currentUser} key={todo.id} />;
+        return <TodoInfo key={todo.id} todo={todo} user={user} />;
       })}
     </>
   );

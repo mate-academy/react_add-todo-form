@@ -8,8 +8,9 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [titleError, setTitleError] = useState(true);
-  const [userError, setUserError] = useState(true);
+
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   return (
     <div className="App">
@@ -20,24 +21,27 @@ export const App = () => {
         method="POST"
         onSubmit={event => {
           event.preventDefault();
-          const newId = Math.max(...todos.map(todo => todo.id)) + 1;
-          const newTodo = {
-            id: newId,
-            title: title,
-            completed: false,
-            userId: userId,
-          };
 
-          const isTitleEmpty = title.trim() === '';
-          const isUserNotSelected = userId === 0;
+          const isTitleInvalid = title.trim() === '';
+          const isUserInvalid = userId === 0;
 
-          setTitleError(!isTitleEmpty);
-          setUserError(!isUserNotSelected);
+          setTitleError(isTitleInvalid);
+          setUserError(isUserInvalid);
 
-          if (!isTitleEmpty && !isUserNotSelected) {
+          if (!isTitleInvalid && !isUserInvalid) {
+            const newId = Math.max(...todos.map(todo => todo.id), 0) + 1;
+            const newTodo = {
+              id: newId,
+              title: title,
+              completed: false,
+              userId: userId,
+            };
+
             setTodos(prev => [...prev, newTodo]);
             setTitle('');
             setUserId(0);
+            setTitleError(false);
+            setUserError(false);
           }
         }}
       >
@@ -51,12 +55,13 @@ export const App = () => {
               value={title}
               onChange={event => {
                 setTitle(event.target.value);
-                setTitleError(true);
+
+                if (event.target.value.trim() !== '') {
+                  setTitleError(false);
+                }
               }}
             />
-            <span className="error" hidden={titleError}>
-              Please enter a title
-            </span>
+            {titleError && <span className="error">Please enter a title</span>}
           </div>
         </label>
 
@@ -67,8 +72,13 @@ export const App = () => {
               data-cy="userSelect"
               value={userId}
               onChange={user => {
-                setUserId(+user.target.value);
-                setUserError(true);
+                const value = Number(user.target.value);
+
+                setUserId(value);
+
+                if (value !== 0) {
+                  setUserError(false);
+                }
               }}
             >
               <option value="0" disabled>
@@ -82,9 +92,7 @@ export const App = () => {
                 );
               })}
             </select>
-            <span className="error" hidden={userError}>
-              Please choose a user
-            </span>
+            {userError && <span className="error">Please choose a user</span>}
           </div>
         </label>
 
