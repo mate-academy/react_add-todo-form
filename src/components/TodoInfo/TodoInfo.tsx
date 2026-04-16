@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { UserInfo } from '../UserInfo';
 
 interface Todo {
@@ -6,6 +5,7 @@ interface Todo {
   title: string;
   completed: boolean;
   userId: number;
+  user: User;
 }
 
 interface User {
@@ -20,14 +20,6 @@ type Props = {
 };
 
 export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users/${todo.userId}`)
-      .then(response => response.json())
-      .then(data => setUser(data));
-  }, [todo.userId]);
-
   return (
     <div
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
@@ -35,7 +27,7 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
     >
       <h3 className="TodoInfo__title">{todo.title}</h3>
 
-      <UserInfo user={user} />
+      <UserInfo user={todo.user} />
     </div>
   );
 };

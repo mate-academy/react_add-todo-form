@@ -5,7 +5,12 @@ import todosFromServer from './api/todos';
 import { useState } from 'react';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId)!,
+    })),
+  );
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
 
@@ -30,11 +35,15 @@ export const App = () => {
 
           if (!isTitleInvalid && !isUserInvalid) {
             const newId = Math.max(...todos.map(todo => todo.id), 0) + 1;
+            const selectedUser = usersFromServer.find(
+              user => user.id === userId,
+            )!;
             const newTodo = {
               id: newId,
               title: title,
               completed: false,
               userId: userId,
+              user: selectedUser,
             };
 
             setTodos(prev => [...prev, newTodo]);
@@ -102,7 +111,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todos} users={usersFromServer} />
+        <TodoList todos={todos} />
       </section>
     </div>
   );

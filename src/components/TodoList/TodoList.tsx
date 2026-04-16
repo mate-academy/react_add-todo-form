@@ -6,6 +6,7 @@ interface Todo {
   title: string;
   completed: boolean;
   userId: number;
+  user: User;
 }
 
 interface User {
@@ -17,18 +18,14 @@ interface User {
 
 type Props = {
   todos: Todo[];
-  users?: User[]; // Робимо необов'язковим для гнучкості тестів
 };
 
-export const TodoList: React.FC<Props> = ({ todos, users = [] }) => {
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <>
-      {todos.map(todo => {
-        // Тепер find не впаде, бо users точно масив (хоча б порожній)
-        const user = users.find(u => u.id === todo.userId) || null;
-
-        return <TodoInfo key={todo.id} todo={todo} user={user} />;
-      })}
+      {todos.map(todo => (
+        <TodoInfo key={todo.id} todo={todo} />
+      ))}
     </>
   );
 };
