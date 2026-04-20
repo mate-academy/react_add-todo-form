@@ -4,20 +4,7 @@ import './App.scss';
 import todos from './api/todos';
 import users from './api/users';
 import { TodoList } from './components/TodoList';
-
-export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-export interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user: User;
-}
+import type { Todo } from './Types/types';
 
 const usersFromServer = users;
 

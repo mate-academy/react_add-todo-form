@@ -1,4 +1,4 @@
-import { User } from '../../App';
+import type { User } from '../../Types/types';
 
 type Props = {
   user: User;
