@@ -5,24 +5,17 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 import { TodoList } from './components/TodoList';
+import { Todos } from './types/Types';
 
 export const App = () => {
-  const normalizedTodos = todosFromServer.map(todo => {
-    const user = usersFromServer.find(u => u.id === todo.userId);
-
-    if (!user) {
-      throw new Error(`User not found for todo ${todo.id}`);
-    }
-
-    return {
-      id: todo.id,
-      title: todo.title,
-      completed: todo.completed,
-      user,
-    };
-  });
-
-  const [todos, setTodos] = useState(normalizedTodos);
+  const [todos, setTodos] = useState<Todos[]>(
+    todosFromServer
+      .map(todo => ({
+        ...todo,
+        user: usersFromServer.find(user => user.id === todo.userId),
+      }))
+      .filter(todo => todo.user !== undefined) as Todos[],
+  );
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userSelect, setUserSelect] = useState(0);
@@ -49,6 +42,7 @@ export const App = () => {
       id: maxId + 1,
       title,
       completed: false,
+      userId: foundUser.id,
       user: foundUser,
     };
 
@@ -62,7 +56,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleErrors}>
+      <form onSubmit={handleErrors}>
         <div className="field">
           <label htmlFor="title">Title</label>
           <input
@@ -71,8 +65,8 @@ export const App = () => {
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(e) => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setHasTitleError(false);
             }}
           />
@@ -85,8 +79,8 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={userSelect}
-            onChange={(e) => {
-              setUserSelect(Number(e.target.value));
+            onChange={event => {
+              setUserSelect(Number(event.target.value));
               setHasUserError(false);
             }}
           >
@@ -108,7 +102,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList users={usersFromServer} todos={todos} />
+      <TodoList todos={todos} />
     </div>
   );
 };
