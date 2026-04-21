@@ -2,10 +2,10 @@ export type Todos = {
   id: number;
   title: string;
   completed: boolean;
-  userId: number;
+  user: User;
 };
 
-export type Users = {
+export type User = {
   id: number;
   name: string;
   username: string;
@@ -13,15 +13,13 @@ export type Users = {
 };
 
 export type TodoListProps = {
-  users: Users[];
   todos: Todos[];
 };
 
 export type TodoInfoProps = {
-  user: Users;
   todo: Todos;
 };
 
 export type UserInfoProps = {
-  user: Users;
+  user: User;
 };

@@ -7,7 +7,22 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const normalizedTodos = todosFromServer.map(todo => {
+    const user = usersFromServer.find(u => u.id === todo.userId);
+
+    if (!user) {
+      throw new Error(`User not found for todo ${todo.id}`);
+    }
+
+    return {
+      id: todo.id,
+      title: todo.title,
+      completed: todo.completed,
+      user,
+    };
+  });
+
+  const [todos, setTodos] = useState(normalizedTodos);
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [userSelect, setUserSelect] = useState(0);
@@ -22,11 +37,19 @@ export const App = () => {
       return;
     }
 
+    const foundUser = usersFromServer.find(u => u.id === userSelect);
+
+    if (!foundUser) {
+      return;
+    }
+
+    const maxId = Math.max(0, ...todos.map(t => t.id));
+
     const newTodo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
-      title: title,
-      userId: userSelect,
+      id: maxId + 1,
+      title,
       completed: false,
+      user: foundUser,
     };
 
     setTodos([...todos, newTodo]);
@@ -41,27 +64,29 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleErrors}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setTitle(event.target.value);
+            onChange={(e) => {
+              setTitle(e.target.value);
               setHasTitleError(false);
             }}
           />
-          {hasTitleError ? (
-            <span className="error">Please enter a title</span>
-          ) : null}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="user">User</label>
           <select
+            id="user"
             data-cy="userSelect"
             value={userSelect}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              setUserSelect(Number(event.target.value));
+            onChange={(e) => {
+              setUserSelect(Number(e.target.value));
               setHasUserError(false);
             }}
           >
@@ -69,15 +94,13 @@ export const App = () => {
               Choose a user
             </option>
             {usersFromServer.map(user => (
-              <option value={user.id} key={user.id}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
-          {hasUserError ? (
-            <span className="error">Please choose a user</span>
-          ) : null}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
