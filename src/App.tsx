@@ -5,17 +5,19 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import React, { useState } from 'react';
 
-function getUserById(userId: number) {
+import type { User, Todo } from './types.ts/types';
+
+function getUserById(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const preparedTodos = todosFromServer.map(todo => ({
+const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getUserById(todo.userId),
 }));
 
 export const App = () => {
-  const [todos, setTodos] = useState(preparedTodos);
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
   const [userId, setUserId] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -23,7 +25,7 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title.trim()) {
@@ -38,9 +40,11 @@ export const App = () => {
       return;
     }
 
-    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+    const newId = todos.length
+      ? Math.max(...todos.map(todo => todo.id)) + 1
+      : 1;
 
-    const newTodo = {
+    const newTodo: Todo = {
       id: newId,
       title: title.trim(),
       userId: userId,
@@ -52,6 +56,16 @@ export const App = () => {
 
     setTitle('');
     setUserId(0);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
+    setUserError(false);
   };
 
   return (
@@ -67,10 +81,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={handleTitleChange}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -81,14 +92,9 @@ export const App = () => {
             id="user"
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(Number(event.target.value));
-              setUserError(false);
-            }}
+            onChange={handleUserChange}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value={0}>Choose a user</option>
 
             {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>

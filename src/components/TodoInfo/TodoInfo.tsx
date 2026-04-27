@@ -1,6 +1,11 @@
 import { UserInfo } from '../UserInfo';
+import type { Todo } from '../../types.ts/types';
 
-export const TodoInfo = ({ todo }) => {
+type Props = {
+  todo: Todo;
+};
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -8,7 +13,7 @@ export const TodoInfo = ({ todo }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };
