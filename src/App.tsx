@@ -1,6 +1,4 @@
 import './App.scss';
-import { User } from './types/User';
-import { Todo } from './types/Todo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
@@ -21,6 +19,7 @@ export const App = () => {
       <TodoForm
         onAdd={todo => setTodos(prevTodo => [...prevTodo, todo])}
         todos={todos}
+        users={usersFromServer}
       />
       <section className="TodoList">
         <TodoList todos={todos} />

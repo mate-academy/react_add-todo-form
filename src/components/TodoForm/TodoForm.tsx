@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import usersFromServer from '../../api/users';
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
 
 type Props = {
   onAdd: (todo: Todo) => void;
   todos: Todo[];
+  users: User[];
 };
 
-export const TodoForm = ({ onAdd, todos }: Props) => {
+export const TodoForm = ({ onAdd, todos, users }: Props) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
   const [titleError, setTitleError] = useState('');
@@ -33,7 +34,7 @@ export const TodoForm = ({ onAdd, todos }: Props) => {
       title: title,
       completed: false,
       userId: userId,
-      user: usersFromServer.find(user => user.id === userId),
+      user: users.find(user => user.id === userId),
     };
 
     onAdd(newTodo);
@@ -53,7 +54,9 @@ export const TodoForm = ({ onAdd, todos }: Props) => {
       }}
     >
       <div className="field">
+        <label htmlFor="title">Title</label>
         <input
+          id="title"
           type="text"
           data-cy="titleInput"
           value={title}
@@ -67,7 +70,9 @@ export const TodoForm = ({ onAdd, todos }: Props) => {
       </div>
 
       <div className="field">
+        <label htmlFor="user">User</label>
         <select
+          id="user"
           data-cy="userSelect"
           value={userId}
           onChange={event => {
@@ -78,7 +83,7 @@ export const TodoForm = ({ onAdd, todos }: Props) => {
           <option value="0" disabled>
             Choose a user
           </option>
-          {usersFromServer.map(user => (
+          {users.map(user => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>
