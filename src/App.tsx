@@ -45,17 +45,15 @@ export const App = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!data.title) {
-      setError(prev => ({ ...prev, title: true }));
-    }
 
-    if (data.userId === 0) {
-      setError(prev => ({ ...prev, userId: true }));
+    const newErrors = {
+      title: !data.title.trim(),
+      userId: data.userId === 0,
+    };
 
-      return;
-    }
+    setError(newErrors);
 
-    if (data.userId === 0 || !data.title) {
+    if (newErrors.title || newErrors.userId) {
       return;
     }
 
@@ -90,8 +88,10 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
             placeholder="Enter a title"
+            id="title"
             type="text"
             data-cy="titleInput"
             value={data.title}
@@ -101,7 +101,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User: </label>
           <select
+            id="user"
             data-cy="userSelect"
             value={data.userId}
             onChange={event => {
