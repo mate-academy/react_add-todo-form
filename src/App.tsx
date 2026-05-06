@@ -76,7 +76,28 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="title">Title</label>
+
+          <input
+            id="title"
+            type="text"
+            data-cy="titleInput"
+            placeholder="Enter a title"
+            value={title}
+            onChange={event => {
+              setTitle(event.target.value);
+              setTitleError(false);
+            }}
+          />
+
+          {titleError && <span className="error">Please enter a title</span>}
+        </div>
+
+        <div className="field">
+          <label htmlFor="user">User</label>
+
           <select
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={event => {
