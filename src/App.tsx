@@ -28,6 +28,10 @@ const currentTodos: Todo[] = todosFromServer.map(todo => ({
   user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
+const sanitizeTitle = (text: string) => {
+  return text.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9\s]/g, '');
+};
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -38,7 +42,7 @@ export const App = () => {
   const [todos, setTodos] = useState(currentTodos);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle(sanitizeTitle(event.target.value));
     setHasTitleError(false);
   };
 
