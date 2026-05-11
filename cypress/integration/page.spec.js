@@ -1,5 +1,5 @@
-import users from '../../src/api/users';
-import todos from '../../src/api/todos';
+import users from '../../src/entities/user/service/users.mock.ts';
+import todos from '../../src/entities/todo/service/todos.mock.ts';
 
 const page = {
   todoItems: () => cy.get('.TodoInfo'),
