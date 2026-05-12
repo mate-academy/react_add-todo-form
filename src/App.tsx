@@ -12,8 +12,8 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [titleError, setTitleError] = useState(false);
 
-  const hundleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const hundleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!title.trim()) {
       setTitleError(true);
