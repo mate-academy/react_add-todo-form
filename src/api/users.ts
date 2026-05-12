@@ -60,3 +60,10 @@ export default [
     email: 'Rey.Padberg@karina.biz',
   },
 ];
+
+export type User = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
