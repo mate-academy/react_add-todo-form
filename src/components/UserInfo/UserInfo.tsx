@@ -1,4 +1,8 @@
 export const UserInfo = ({ user }) => {
+  if (!user) {
+    return null;
+  }
+
   const { email, name } = user;
 
   return (

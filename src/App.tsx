@@ -26,13 +26,13 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
 
-  const handlerTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handlerTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setTitleError(false);
   };
 
-  const handlerAuthor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setAuthor(e.target.value);
+  const handlerAuthor = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setAuthor(event.target.value);
     setAuthorError(false);
   };
 
@@ -47,8 +47,8 @@ export const App = () => {
     };
   });
 
-  const handlerAdd = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handlerAdd = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     let isValid = true;
 
@@ -99,8 +99,8 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <select data-cy="userSelect" onChange={handlerAuthor}>
-            <option value="0" disabled>
+          <select data-cy="userSelect" onChange={handlerAuthor} value={author}>
+            <option value="" disabled>
               Choose a user
             </option>
             {usersFromServer.map((user: User) => (
@@ -109,7 +109,6 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {author}
 
           {authorError && <span className="error">Please choose a user</span>}
         </div>
