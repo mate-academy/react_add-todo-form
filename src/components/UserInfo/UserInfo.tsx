@@ -2,6 +2,8 @@ type Props = {
   user: {
     name: string;
     email: string;
+    id: string;
+    username: string;
   };
 };
 

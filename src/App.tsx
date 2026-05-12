@@ -1,5 +1,6 @@
 import './App.scss';
 import { useState } from 'react';
+import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
@@ -27,14 +28,14 @@ export const App = () => {
     }
 
     const newTodo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title,
       userId,
       completed: false,
-      user: usersFromServer.find(u => u.id === userId),
+      user: usersFromServer.find(user => user.id === userId),
     };
 
-    setTodos([...todos, newTodo]);
+    setTodos(todos.concat(newTodo));
     setTitle('');
     setUserId(0);
   };
@@ -50,8 +51,8 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
           />
@@ -62,8 +63,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(Number(e.target.value));
+            onChange={event => {
+              setUserId(Number(event.target.value));
               setUserError(false);
             }}
           >
@@ -85,23 +86,12 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            data-id={todo.id}
-            key={todo.id}
-            className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
-          >
-            <h2 className="TodoInfo__title">{todo.title}</h2>
-            <a
-              className="UserInfo"
-              href={`mailto:${usersFromServer.find(u => u.id === todo.userId)?.email}`}
-            >
-              {usersFromServer.find(u => u.id === todo.userId)?.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList
+        todos={todos.map(todo => ({
+          ...todo,
+          user: usersFromServer.find(user => user.id === todo.userId),
+        }))}
+      />
     </div>
   );
 };
