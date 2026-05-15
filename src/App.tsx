@@ -5,15 +5,10 @@ import todosFromServer from './api/todos';
 import { AggregatedTodo } from './types/Types';
 import { TodoList } from './components/TodoList';
 import { FormEvent, useState } from 'react';
-// import { event } from 'cypress/types/jquery';
 
 const aggregatedTodos: AggregatedTodo[] = todosFromServer.map(todo => {
   const foundUser =
     usersFromServer.find(user => user.id === todo.userId) ?? null;
-
-  if (!foundUser) {
-    throw new Error(`Missing user in todo: ${todo.id}`);
-  }
 
   return {
     ...todo,
@@ -32,9 +27,7 @@ export const App = () => {
     setTodos(current => [...current, newTodo]);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleValidate = () => {
     let hasErrors = false;
 
     const preparedTitle = newTitle.trim();
@@ -49,7 +42,13 @@ export const App = () => {
       hasErrors = true;
     }
 
-    if (hasErrors) {
+    return hasErrors;
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (handleValidate()) {
       return;
     }
 

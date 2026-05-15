@@ -1,13 +1,13 @@
 import { User } from '../../types/Types';
 
 type UserInfoProps = {
-  user: User;
+  user: User | null;
 };
 
 export const UserInfo = ({ user }: UserInfoProps) => {
   return (
-    <a className="UserInfo" href={`mailto:${user.email}`}>
-      {user.name}
+    <a className="UserInfo" href={`mailto:${user?.email}`}>
+      {user?.name}
     </a>
   );
 };

@@ -12,5 +12,5 @@ export type Todo = {
 };
 
 export type AggregatedTodo = Todo & {
-  user: User;
+  user: User | null;
 };
