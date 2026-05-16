@@ -1,1 +1,21 @@
-export const TodoInfo = () => {};
+import { TodoAggregated } from '../../types/Todo';
+import { UserInfo } from '../UserInfo';
+
+type TodoInfoProps = {
+  todo: TodoAggregated;
+};
+
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
+  return (
+    <>
+      <article
+        data-id={todo.id}
+        className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      >
+        <h2 className="TodoInfo__title">{todo.title}</h2>
+
+        <UserInfo user={todo.user} />
+      </article>
+    </>
+  );
+};
