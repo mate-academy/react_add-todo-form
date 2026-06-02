@@ -36,4 +36,14 @@ button {
 
 .UserInfo {
   font-style: italic;
+
+  &__name {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  &__link {
+    display: block;
+    margin-top: 4px;
+  }
 }
