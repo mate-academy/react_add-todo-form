@@ -1,15 +1,18 @@
-import { Todo } from "../../types";
-import { TodoInfo } from "../TodoInfo";
+import { Todo } from '../../types';
+import { TodoInfo } from '../TodoInfo';
 
 type Props = {
-  todoList:Todo[]
-}
-export const TodoList = ( { todoList }:Props ) => {
+  todoList?: Todo[];
+  todos?: Todo[];
+};
+export const TodoList = ({ todoList, todos }: Props) => {
+  const list = todoList ?? todos ?? [];
+
   return (
     <>
-        {todoList.map(todo => (
-          <TodoInfo todo={todo} key={todo.id}/>
-        ))}
+      {list.map(todo => (
+        <TodoInfo todo={todo} key={todo.id} />
+      ))}
     </>
-  )
+  );
 };
