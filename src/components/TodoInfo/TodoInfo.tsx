@@ -2,7 +2,6 @@
 import { UserInfo } from '../UserInfo';
 import { ToDo } from '../../types/ToDo';
 import classNames from 'classnames';
-import { getUserById } from '../../functions/getUserId';
 import { User } from '../../types/user';
 
 type Props = {
@@ -10,9 +9,7 @@ type Props = {
   user: User;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const user = getUserById(todo.userId);
-
+export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
   return (
     <article
       data-id={todo.id}
@@ -23,7 +20,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => {
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
       <UserInfo user={user} />
-      <TodoInfo todo={todo} user={todo.user} key={todo.id} />
     </article>
   );
 };
