@@ -5,10 +5,15 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { getUserById } from './functions/getUserId';
-import { event } from 'cypress/types/jquery';
 
 export const App = () => {
-  const [list, setList] = useState(todosFromServer);
+  const [list, setList] = useState(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: getUserById(todo.userId),
+    })),
+  );
+
   const [title, setTitle] = useState('');
   const [id, setId] = useState(0);
   const [titleError, setTitleError] = useState(false);
@@ -20,18 +25,18 @@ export const App = () => {
     return Math.max(...ids) + 1;
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handleInput = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(changeEvent.target.value);
     setTitleError(false);
   };
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setId(+e.target.value);
+  const handleSelect = (changeEvent: React.ChangeEvent<HTMLSelectElement>) => {
+    setId(+changeEvent.target.value);
     setUserError(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (changeEvent: React.FormEvent) => {
+    changeEvent.preventDefault();
 
     setUserError(!id);
     setTitleError(!title);
