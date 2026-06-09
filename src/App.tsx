@@ -3,7 +3,13 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { useState } from 'react';
-// import { title } from 'process';
+import { TodoList } from './components/TodoList';
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
 
 export const App = () => {
   const [todos, setTodos] = useState([...todosFromServer]);
@@ -11,6 +17,8 @@ export const App = () => {
   const users = [...usersFromServer];
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
+  let userId = 0;
+  let email = '';
   const isActive = title.trim() && user;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,13 +27,20 @@ export const App = () => {
       return;
     }
 
+    users.map(usr => {
+      if (usr.name === user) {
+        userId = usr.id;
+        email = usr.email;
+      }
+    });
+
     const newId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1;
 
-    const todo = {
+    const todo: Todo = {
       id: newId,
       title: title,
       completed: false,
-      userId: 0,
+      userId: userId,
     };
     const whatToDo = [...todos];
 
@@ -82,34 +97,7 @@ export const App = () => {
           Add
         </button>
       </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+      <TodoList user={String(user)} email={email} todos={todos} />
     </div>
   );
 };
