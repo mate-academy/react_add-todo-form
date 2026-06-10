@@ -11,6 +11,12 @@ button {
   cursor: pointer;
 }
 
+.field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .error {
   color: red;
 }
