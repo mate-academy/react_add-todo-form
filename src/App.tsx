@@ -1,24 +1,16 @@
 import './App.scss';
+import { Todo } from './components/types';
 
+import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { useState } from 'react';
 import { TodoList } from './components/TodoList';
-type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-};
 
 export const App = () => {
-  const [todos, setTodos] = useState([...todosFromServer]);
-  // const [users, setUsers] = useState([...usersFromServer]);
+  const [todos, setTodos] = useState(todosFromServer);
   const users = [...usersFromServer];
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('');
-  let userId = 0;
-  let email = '';
+  const [user, setUser] = useState(0);
   const isActive = title.trim() && user;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,10 +19,11 @@ export const App = () => {
       return;
     }
 
+    let userId = 0;
+
     users.map(usr => {
-      if (usr.name === user) {
+      if (usr.id === user) {
         userId = usr.id;
-        email = usr.email;
       }
     });
 
@@ -42,10 +35,10 @@ export const App = () => {
       completed: false,
       userId: userId,
     };
-    const whatToDo = [...todos];
 
-    whatToDo.push({ ...todo });
-    setTodos(whatToDo);
+    setTodos([...todos, todo]);
+    setTitle('');
+    setUser(0);
   };
 
   return (
@@ -76,15 +69,18 @@ export const App = () => {
           <select
             data-cy="userSelect"
             id="userSelect"
-            onChange={e => setUser(e.target.value)}
-            defaultValue={0}
+            value={user}
+            onChange={e => {
+              setUser(+e.target.value);
+              // activeUser = e.target.value;
+            }}
           >
             <option value="0" disabled>
               Choose a user
             </option>
-            {[...users].map(el => {
+            {users.map(el => {
               return (
-                <option key={el.id} value={el.name}>
+                <option key={el.id} value={el.id}>
                   {el.name}
                 </option>
               );
@@ -97,7 +93,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList user={String(user)} email={email} todos={todos} />
+      <TodoList todos={todos} users={users} />
     </div>
   );
 };
