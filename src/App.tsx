@@ -41,10 +41,11 @@ export const App = () => {
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
           <input
+            id="title"
             type="text"
+            placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            placeholder="Enter a title"
             onChange={e => {
               setTitle(e.target.value);
             }}
@@ -57,8 +58,8 @@ export const App = () => {
         <div className="field">
           <label htmlFor="user">User: </label>
           <select
-            data-cy="userSelect"
             id="user"
+            data-cy="userSelect"
             value={userId}
             onChange={e => {
               setUserId(+e.target.value);
