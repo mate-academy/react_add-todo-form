@@ -1,99 +1,86 @@
 import './App.scss';
-import { Todo } from './components/types';
+import { Todo } from './components/types/Todo';
 
 import { useState } from 'react';
+
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
-  const users = [...usersFromServer];
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState(0);
-  const isActive = title.trim() && user;
+  const [userId, setUserId] = useState(0);
+  const isActive = title.trim().length > 0 && userId > 0;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!user || !title.trim()) {
+    if (!isActive) {
       return;
     }
 
-    let userId = 0;
+    const newId = todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1;
 
-    users.map(usr => {
-      if (usr.id === user) {
-        userId = usr.id;
-      }
-    });
-
-    const newId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1;
-
-    const todo: Todo = {
+    const newTodo: Todo = {
       id: newId,
-      title: title,
+      title: title.trim(),
       completed: false,
       userId: userId,
     };
 
-    setTodos([...todos, todo]);
+    setTodos(currentTodos => [...currentTodos, newTodo]);
     setTitle('');
-    setUser(0);
+    setUserId(0);
   };
 
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
-            id="titleInput"
             value={title}
+            placeholder="Enter a title"
             onChange={e => {
               setTitle(e.target.value);
             }}
           />
-          {title.trim().length === 0 ? (
+          {title.trim().length === 0 && (
             <span className="error"> Please enter a title</span>
-          ) : (
-            ''
           )}
         </div>
 
         <div className="field">
-          <label htmlFor="userSelect">User: </label>
+          <label htmlFor="user">User: </label>
           <select
             data-cy="userSelect"
-            id="userSelect"
-            value={user}
+            id="user"
+            value={userId}
             onChange={e => {
-              setUser(+e.target.value);
-              // activeUser = e.target.value;
+              setUserId(+e.target.value);
             }}
           >
             <option value="0" disabled>
               Choose a user
             </option>
-            {users.map(el => {
-              return (
-                <option key={el.id} value={el.id}>
-                  {el.name}
-                </option>
-              );
-            })}
+            {usersFromServer.map(user => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
-          {!user ? <span className="error"> Please choose a user</span> : ''}
+          {userId === 0 && <span className="error"> Please choose a user</span>}
         </div>
 
-        <button type="submit" data-cy="submitButton" disabled={!isActive}>
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
-      <TodoList todos={todos} users={users} />
+      <TodoList todos={todos} users={usersFromServer} />
     </div>
   );
 };

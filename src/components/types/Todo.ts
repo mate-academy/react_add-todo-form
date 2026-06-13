@@ -4,9 +4,3 @@ export type Todo = {
   completed: boolean;
   userId: number;
 };
-export type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
