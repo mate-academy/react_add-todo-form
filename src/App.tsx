@@ -62,10 +62,11 @@ export const App = () => {
         <div className="field">
           <label htmlFor="titleInput">Title: </label>
           <input
-            id="titleInput"
+            type="text"
             data-cy="titleInput"
-            placeholder="Enter a title"
+            id="titleInput"
             value={title}
+            placeholder="Enter a title"
             onChange={e => {
               setTitle(e.target.value);
               if (titleError) {
@@ -77,10 +78,10 @@ export const App = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="user">User: </label>
+          <label htmlFor="userSelect">User: </label>
           <select
             data-cy="userSelect"
-            id="user"
+            id="userSelect"
             value={userId}
             onChange={e => {
               setUserId(+e.target.value);
