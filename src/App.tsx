@@ -1,61 +1,22 @@
+import { useState } from 'react';
+//import 'bulma/css/bulma.min.css';
+import todosFromServer, { Todo } from './api/todos';
+import { usersFromServer } from './api/users';
 import './App.scss';
-
-// import usersFromServer from './api/users';
-// import todosFromServer from './api/todos';
-
+import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm';
 export const App = () => {
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+
+  const handleAddTodo = (todoToAdd: Todo) => {
+    setTodos(prevTodos => [...prevTodos, todoToAdd]);
+  };
+
   return (
-    <div className="App">
-      <h1>Add todo form</h1>
-
-      <form action="/api/todos" method="POST">
-        <div className="field">
-          <input type="text" data-cy="titleInput" />
-          <span className="error">Please enter a title</span>
-        </div>
-
-        <div className="field">
-          <select data-cy="userSelect">
-            <option value="0" disabled>
-              Choose a user
-            </option>
-          </select>
-
-          <span className="error">Please choose a user</span>
-        </div>
-
-        <button type="submit" data-cy="submitButton">
-          Add
-        </button>
-      </form>
-
-      <section className="TodoList">
-        <article data-id="1" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="15" className="TodoInfo TodoInfo--completed">
-          <h2 className="TodoInfo__title">delectus aut autem</h2>
-
-          <a className="UserInfo" href="mailto:Sincere@april.biz">
-            Leanne Graham
-          </a>
-        </article>
-
-        <article data-id="2" className="TodoInfo">
-          <h2 className="TodoInfo__title">
-            quis ut nam facilis et officia qui
-          </h2>
-
-          <a className="UserInfo" href="mailto:Julianne.OConner@kory.org">
-            Patricia Lebsack
-          </a>
-        </article>
-      </section>
+    <div className="section">
+      <h1 className="title">Add todo form</h1>
+      <TodoForm todos={todos} users={usersFromServer} onAdd={handleAddTodo} />
+      <TodoList todos={todos} />
     </div>
   );
 };
