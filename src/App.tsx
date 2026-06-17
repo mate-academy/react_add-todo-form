@@ -5,6 +5,21 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 
+export interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+export interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user?: User;
+}
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
@@ -12,7 +27,16 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+
+  const todosWithUsers = todos.map(todo => {
+    const matchedUser = usersFromServer.find(user => user.id === todo.userId);
+
+    return {
+      ...todo,
+      user: matchedUser,
+    };
+  });
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,12 +56,14 @@ export const App = () => {
     }
 
     const nextId = Math.max(...todos.map(todo => todo.id), 0) + 1;
+    const selectedUser = usersFromServer.find(user => user.id === userId);
 
-    const newTodo = {
+    const newTodo: Todo = {
       id: nextId,
       title: title.trim(),
       userId: userId,
       completed: false,
+      user: selectedUser,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -49,7 +75,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
@@ -94,7 +120,7 @@ export const App = () => {
           Add
         </button>
       </form>
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };
