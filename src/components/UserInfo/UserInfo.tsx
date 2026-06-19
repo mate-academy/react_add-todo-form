@@ -1,11 +1,5 @@
 import { FC } from 'react';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+import type { User } from '../../types';
 
 interface UserInfoProps {
   user: User;

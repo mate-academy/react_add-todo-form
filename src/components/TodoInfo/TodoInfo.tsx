@@ -1,26 +1,15 @@
 import { FC } from 'react';
-import { UserInfo } from '../UserInfo';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-}
+import type { User, Todo } from '../../types';
 
 interface TodoInfoProps {
   todo: Todo;
+  userComponent: FC<{ user: User }>;
 }
 
-export const TodoInfo: FC<TodoInfoProps> = ({ todo }) => {
+export const TodoInfo: FC<TodoInfoProps> = ({
+  todo,
+  userComponent: UserComponent,
+}) => {
   const { id, title, completed, user } = todo;
 
   return (
@@ -29,7 +18,7 @@ export const TodoInfo: FC<TodoInfoProps> = ({ todo }) => {
       className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      {user && <UserInfo user={user} />}
+      {UserComponent && <UserComponent user={user} />}
     </article>
   );
 };

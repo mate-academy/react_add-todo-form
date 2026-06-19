@@ -1,49 +1,35 @@
 import { useState, FC } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
+import { TodoInfo } from './components/TodoInfo';
+import { UserInfo } from './components/UserInfo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-}
-
-interface FormErrors {
-  title: boolean;
-  user: boolean;
-}
+import type { Todo, FormErrors } from './types';
 
 export const App: FC = () => {
   const [todos, setTodos] = useState<Todo[]>(
-    todosFromServer.map((todo) => ({
+    todosFromServer.map(todo => ({
       ...todo,
-      user: usersFromServer.find((user) => user.id === todo.userId)!,
+      user: usersFromServer.find(user => user.id === todo.userId)!,
     })),
   );
 
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(0);
-  const [errors, setErrors] = useState<FormErrors>({ title: false, user: false });
+  const [errors, setErrors] = useState<FormErrors>({
+    title: false,
+    user: false,
+  });
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, title: false }));
+    setErrors(prevErrors => ({ ...prevErrors, title: false }));
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(Number(event.target.value));
-    setErrors((prevErrors) => ({ ...prevErrors, user: false }));
+    setErrors(prevErrors => ({ ...prevErrors, user: false }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -60,9 +46,9 @@ export const App: FC = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map((todo) => todo.id), 0);
+    const maxId = Math.max(...todos.map(todo => todo.id), 0);
     const selectedUser = usersFromServer.find(
-      (user) => user.id === selectedUserId,
+      user => user.id === selectedUserId,
     )!;
 
     const newTodo: Todo = {
@@ -93,9 +79,7 @@ export const App: FC = () => {
             value={title}
             onChange={handleTitleChange}
           />
-          {errors.title && (
-            <span className="error">Please enter a title</span>
-          )}
+          {errors.title && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -109,16 +93,14 @@ export const App: FC = () => {
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map((user) => (
+            {usersFromServer.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
 
-          {errors.user && (
-            <span className="error">Please choose a user</span>
-          )}
+          {errors.user && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -126,7 +108,12 @@ export const App: FC = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList
+        todos={todos}
+        todoComponent={props => (
+          <TodoInfo {...props} userComponent={UserInfo} />
+        )}
+      />
     </div>
   );
 };
