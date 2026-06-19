@@ -22,7 +22,7 @@ interface TodoInfoProps {
 
 export const TodoInfo = ({
   todo,
-  userComponent: UserComponent,
+  userComponent: UserComponent = () => null,
 }: TodoInfoProps) => {
   const { id, title, completed, user } = todo;
 
