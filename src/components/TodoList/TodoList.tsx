@@ -1,22 +1,39 @@
-import { FC } from 'react';
-import type { Todo } from '../../types';
-
 interface TodoListProps {
-  todos: Todo[];
-  todoComponent?: React.ComponentType<{ todo: Todo }>;
+  todos: {
+    id: number;
+    title: string;
+    completed: boolean;
+    userId: number;
+    user: {
+      id: number;
+      name: string;
+      username: string;
+      email: string;
+    };
+  }[];
+  todoComponent: React.ComponentType<{
+    todo: {
+      id: number;
+      title: string;
+      completed: boolean;
+      userId: number;
+      user: {
+        id: number;
+        name: string;
+        username: string;
+        email: string;
+      };
+    };
+  }>;
 }
 
-export const TodoList: FC<TodoListProps> = ({
+export const TodoList = ({
   todos,
   todoComponent: TodoComponent,
-}) => {
-  if (!TodoComponent) {
-    return <section className="TodoList">{todos}</section>;
-  }
-
+}: TodoListProps) => {
   return (
     <section className="TodoList">
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <TodoComponent key={todo.id} todo={todo} />
       ))}
     </section>
