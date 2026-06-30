@@ -15,15 +15,15 @@ interface Props {
   todo: Todo;
 }
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
+export const TodoInfo: React.FC<Props> = ({ todo: todoItem }) => {
   return (
     <article
-      data-id={todo.id}
-      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      data-id={todoItem.id}
+      className={`TodoInfo ${todoItem.completed ? 'TodoInfo--completed' : ''}`}
     >
-      <h2 className="TodoInfo__title">{todo.title}</h2>
+      <h2 className="TodoInfo__title">{todoItem.title}</h2>
 
-      <UserInfo user={todo.user} />
+      <UserInfo user={todoItem.user} />
     </article>
   );
 };

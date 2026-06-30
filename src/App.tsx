@@ -27,11 +27,13 @@ export const App: React.FC = () => {
   const [userId, setUserId] = useState(0);
 
   const [todos, setTodos] = useState<Todo[]>(() => {
-    return todosFromServer.map(todo => {
-      const founderUser = usersFromServer.find(user => user.id === todo.userId);
+    return todosFromServer.map(todoItem => {
+      const founderUser = usersFromServer.find(
+        userItem => userItem.id === todoItem.userId,
+      );
 
       return {
-        ...todo,
+        ...todoItem,
         user: founderUser!,
       };
     });
@@ -67,10 +69,12 @@ export const App: React.FC = () => {
       return;
     }
 
-    const founderUser = usersFromServer.find(user => user.id === userId);
+    const founderUser = usersFromServer.find(
+      userItem => userItem.id === userId,
+    );
 
     const maxId =
-      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
+      todos.length > 0 ? Math.max(...todos.map(todoItem => todoItem.id)) : 0;
 
     const newId = maxId + 1;
 
@@ -82,7 +86,7 @@ export const App: React.FC = () => {
       user: founderUser!,
     };
 
-    setTodos(prevTodos => [...prevTodos, newTodo]);
+    setTodos(previousTodos => [...previousTodos, newTodo]);
     reset();
   };
 
@@ -116,9 +120,9 @@ export const App: React.FC = () => {
             }}
           >
             <option value="0">Choose a user</option>
-            {usersFromServer.map((user: User) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {usersFromServer.map((userItem: User) => (
+              <option key={userItem.id} value={userItem.id}>
+                {userItem.name}
               </option>
             ))}
           </select>
