@@ -6,16 +6,16 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { User } from './types';
 
-const todosWithUsers = todosFromServer.map(todo => {
+const todosWithUsers = todosFromServer.map(currentTodo => {
   const user = usersFromServer.find(
-    (currentUser: User) => currentUser.id === todo.userId,
+    (currentUser: User) => currentUser.id === currentTodo.userId,
   );
 
   if (!user) {
-    throw new Error(`User with id ${todo.userId} not found`);
+    throw new Error(`User with id ${currentTodo.userId} not found`);
   }
 
-  return { ...todo, user };
+  return { ...currentTodo, user };
 });
 
 export const App = () => {
@@ -47,7 +47,9 @@ export const App = () => {
     }
 
     const newId =
-      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+      todos.length > 0
+        ? Math.max(...todos.map(currentTodo => currentTodo.id)) + 1
+        : 1;
 
     const newTodo = {
       id: newId,
@@ -76,8 +78,8 @@ export const App = () => {
             placeholder="Enter a title"
             data-cy="titleInput"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
+            onChange={changeEvent => {
+              setTitle(changeEvent.target.value);
               setHasTitleError(false);
             }}
           />
@@ -88,17 +90,17 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={selectedUser}
-            onChange={event => {
-              setSelectedUser(event.target.value);
+            onChange={changeEvent => {
+              setSelectedUser(changeEvent.target.value);
               setHasUserError(false);
             }}
           >
             <option value="0" disabled>
               Choose a user
             </option>
-            {usersFromServer.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+            {usersFromServer.map(currentUser => (
+              <option key={currentUser.id} value={currentUser.id}>
+                {currentUser.name}
               </option>
             ))}
           </select>
