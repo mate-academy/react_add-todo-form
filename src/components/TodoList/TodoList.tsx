@@ -1,3 +1,4 @@
+import { TodoInfo } from '../TodoInfo';
 import { Todo } from '../../types';
 
 type Props = {
@@ -13,4 +14,3 @@ export const TodoList = ({ todos }: Props) => {
     </section>
   );
 };
-
