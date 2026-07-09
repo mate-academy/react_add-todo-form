@@ -48,7 +48,7 @@ export const App = () => {
       setTodosWithUsers(previousState => [
         ...previousState,
         {
-          id: calcNewTodoId(todosWithUsers),
+          id: calcNewTodoId(previousState),
           title: inputTitle,
           completed: false,
           userId: selectedUser?.id,

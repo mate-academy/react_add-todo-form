@@ -1,11 +1,11 @@
 import { UserType } from '../../types/UserType';
 
 interface Props {
-  user: UserType | undefined;
+  user: UserType;
 }
 
 export const UserInfo = ({ user }: Props) => (
-  <a className="UserInfo" href={`mailto:${user?.email}`}>
-    {user?.name}
+  <a className="UserInfo" href={`mailto:${user.email}`}>
+    {user.name}
   </a>
 );
