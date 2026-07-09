@@ -39,7 +39,7 @@ export const App = () => {
         user,
       };
     })
-    .filter(todo => todo !== null);
+    .filter((todo): todo is Todos => todo !== null);
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
