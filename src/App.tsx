@@ -6,18 +6,18 @@ import { Todo } from './types/Todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { TodoForm } from './components/TodoForm/TodoForm';
+import { User } from './types/Users';
 
-export const todosWithUsers: Todo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(person => person.id === todo.userId);
+export const todosWithUsers: Todo[] = todosFromServer.map(currentTodo => {
+  const user = usersFromServer.find(
+    person => person.id === currentTodo.userId,
+  ) as User;
 
-  return { ...todo, user };
+  return { ...currentTodo, user };
 });
 
 export const App = () => {
   const [todose, setTodose] = useState(todosWithUsers);
-  const ids = todose.map(todo => todo.id);
-  const maxId = Math.max(...ids);
-  const newId = maxId + 1;
 
   return (
     <div className="App">
@@ -26,16 +26,24 @@ export const App = () => {
       <TodoForm
         users={usersFromServer}
         onAdd={(title: string, userId: number) => {
-          const user = usersFromServer.find(person => person.id === userId);
-          const td = {
-            id: newId,
-            title: title,
-            completed: false,
-            userId: userId,
-            user: user,
-          };
+          const user = usersFromServer.find(
+            person => person.id === userId,
+          ) as User;
 
-          setTodose([...todose, td]);
+          setTodose(prevTodos => {
+            const ids = prevTodos.map(existingTodo => existingTodo.id);
+            const maxId = Math.max(...ids);
+            const newId = maxId + 1;
+            const newTodo = {
+              id: newId,
+              title: title,
+              completed: false,
+              userId: userId,
+              user: user,
+            };
+
+            return [...prevTodos, newTodo];
+          });
         }}
       />
 
