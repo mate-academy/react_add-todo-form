@@ -1,38 +1,23 @@
+import classNames from 'classnames';
+import type { Todo } from '../../types';
+import { UserInfo } from '../UserInfo';
+
 interface TodoInfoProps {
-  todo: {
-    id: number;
-    title: string;
-    completed: boolean;
-    user: {
-      id: number;
-      name: string;
-      username: string;
-      email: string;
-    };
-  };
-  userComponent: React.ComponentType<{
-    user: {
-      id: number;
-      name: string;
-      username: string;
-      email: string;
-    };
-  }>;
+  todo: Todo;
 }
 
-export const TodoInfo = ({
-  todo,
-  userComponent: UserComponent = () => null,
-}: TodoInfoProps) => {
+export const TodoInfo = ({ todo }: TodoInfoProps) => {
   const { id, title, completed, user } = todo;
 
   return (
     <article
       data-id={id}
-      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
-      <UserComponent user={user} />
+      <UserInfo user={user} />
     </article>
   );
 };

@@ -1,6 +1,5 @@
 import { mount } from '@cypress/react18';
 import { TodoList } from './TodoList';
-import { TodoInfo } from '../TodoInfo';
 
 describe('TodoList', () => {
   it('should contain all the todos', () => {
@@ -49,7 +48,7 @@ describe('TodoList', () => {
       },
     ];
 
-    mount(<TodoList todos={todos} todoComponent={TodoInfo} />);
+    mount(<TodoList todos={todos} />);
 
     cy.get('.TodoInfo').should('have.length', 4);
 

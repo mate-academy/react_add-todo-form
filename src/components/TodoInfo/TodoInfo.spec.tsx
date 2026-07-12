@@ -1,6 +1,5 @@
 import { mount } from '@cypress/react18';
 import { TodoInfo } from './TodoInfo';
-import { UserInfo } from '../UserInfo';
 
 describe('TodoInfo', () => {
   it('should have a correct title', () => {
@@ -19,7 +18,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={todo} userComponent={UserInfo} />);
+    mount(<TodoInfo todo={todo} />);
 
     cy.get('.TodoInfo__title').should('have.text', 'Learn HTML');
   });
@@ -40,7 +39,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={completedTodo} userComponent={UserInfo} />);
+    mount(<TodoInfo todo={completedTodo} />);
 
     cy.get('.TodoInfo').should('have.class', 'TodoInfo--completed');
   });
@@ -61,7 +60,7 @@ describe('TodoInfo', () => {
       user: user2,
     };
 
-    mount(<TodoInfo todo={completedTodo} userComponent={UserInfo} />);
+    mount(<TodoInfo todo={completedTodo} />);
 
     cy.get('.TodoInfo').should('not.have.class', 'TodoInfo--completed');
   });
@@ -82,7 +81,7 @@ describe('TodoInfo', () => {
       user: user1,
     };
 
-    mount(<TodoInfo todo={completedTodo} userComponent={UserInfo} />);
+    mount(<TodoInfo todo={completedTodo} />);
 
     cy.get('.UserInfo').should('have.text', 'Leanne Graham');
   });
@@ -103,7 +102,7 @@ describe('TodoInfo', () => {
       user: user3,
     };
 
-    mount(<TodoInfo todo={todo48} userComponent={UserInfo} />);
+    mount(<TodoInfo todo={todo48} />);
 
     cy.get('.TodoInfo__title').should(
       'have.text',

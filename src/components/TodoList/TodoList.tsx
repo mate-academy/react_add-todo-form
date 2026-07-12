@@ -1,40 +1,15 @@
+import type { Todo } from '../../types';
+import { TodoInfo } from '../TodoInfo';
+
 interface TodoListProps {
-  todos: {
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number;
-    user: {
-      id: number;
-      name: string;
-      username: string;
-      email: string;
-    };
-  }[];
-  todoComponent: React.ComponentType<{
-    todo: {
-      id: number;
-      title: string;
-      completed: boolean;
-      userId: number;
-      user: {
-        id: number;
-        name: string;
-        username: string;
-        email: string;
-      };
-    };
-  }>;
+  todos: Todo[];
 }
 
-export const TodoList = ({
-  todos,
-  todoComponent: TodoComponent,
-}: TodoListProps) => {
+export const TodoList = ({ todos }: TodoListProps) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <TodoComponent key={todo.id} todo={todo} />
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
   );

@@ -1,8 +1,6 @@
 import { useState, FC } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
-import { TodoInfo } from './components/TodoInfo';
-import { UserInfo } from './components/UserInfo';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import type { Todo, FormErrors } from './types';
@@ -108,12 +106,7 @@ export const App: FC = () => {
         </button>
       </form>
 
-      <TodoList
-        todos={todos}
-        todoComponent={props => (
-          <TodoInfo {...props} userComponent={UserInfo} />
-        )}
-      />
+      <TodoList todos={todos} />
     </div>
   );
 };
