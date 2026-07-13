@@ -1,8 +1,16 @@
-import { Todo } from '../../types.ts/todo';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: Todo;
+  todo: {
+    id: number;
+    title: string;
+    completed: boolean;
+    user?: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  };
 };
 
 export const TodoInfo = ({ todo }: Props) => {
@@ -13,7 +21,7 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
     </article>
   );
 };

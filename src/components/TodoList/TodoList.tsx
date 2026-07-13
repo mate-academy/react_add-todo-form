@@ -1,8 +1,17 @@
 import { TodoInfo } from '../TodoInfo';
-import { Todo } from '../../types.ts/todo';
 
 type Props = {
-  todos: Todo[];
+  todos: {
+    id: number;
+    title: string;
+    completed: boolean;
+    userId: number;
+    user?: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  }[];
 };
 
 export const TodoList = ({ todos }: Props) => (
