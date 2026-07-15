@@ -4,7 +4,8 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false,
-    "types": ["node", "cypress"]
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler"
   }
 }
