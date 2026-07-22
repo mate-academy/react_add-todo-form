@@ -16,7 +16,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title === '') {
+    if (title.trim() === '') {
       setErrorTitle(true);
     } else {
       setErrorTitle(false);
@@ -28,14 +28,14 @@ export const App = () => {
       setErrorId(false);
     }
 
-    if (title === '' || userId === '') {
+    if (title.trim() === '' || userId === '') {
       return;
     }
 
     const idUser = +userId;
 
     const findUser = usersFromServer.find(user => user.id === idUser);
-    const newId = Math.max(...todosFromServer.map(todo => todo.id)) + 1;
+    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
 
     const newTodo = {
       id: newId,
@@ -57,13 +57,15 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title: </label>
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={event => {
-              setTitle(event.target.value);
+            onChange={titleEvent => {
+              setTitle(titleEvent.target.value);
               setErrorTitle(false);
             }}
           />
@@ -71,11 +73,13 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User: </label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(event.target.value);
+            onChange={userEvent => {
+              setUserId(userEvent.target.value);
               setErrorId(false);
             }}
           >
