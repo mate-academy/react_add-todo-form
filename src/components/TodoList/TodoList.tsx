@@ -1,12 +1,10 @@
 import { TodoInfo } from '../TodoInfo';
-
 interface User {
   id: number;
   name: string;
   username: string;
   email: string;
 }
-
 interface Todo {
   id: number;
   title: string;
