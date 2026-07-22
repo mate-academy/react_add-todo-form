@@ -13,7 +13,7 @@ interface Todo {
   title: string;
   userId: number;
   completed: boolean;
-  user: User | null;
+  user?: User;
 }
 
 type Props = {
