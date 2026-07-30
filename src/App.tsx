@@ -4,24 +4,32 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import React, { useState } from 'react';
-
-type Todo = {
+interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user?: User;
 };
-
-type User = {
+interface User {
   id: number;
   name: string;
   username: string;
   email: string;
 };
 
+type TodoWithUser = Todo & {
+  user: User,
+}
+
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+
+  const todosWithUser: TodoWithUser[] = todos.map(todo => {
+    return {
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId)!,
+    }
+  });
 
   const [title, setTitle] = useState('');
   const [select, setSelect] = useState(0);
@@ -44,8 +52,6 @@ export const App = () => {
       return;
     }
 
-    const searchUser = usersFromServer.find(user => user.id === select)!;
-
     const newId: number[] = todos.map(todo => todo.id);
 
     setTodos([
@@ -55,7 +61,6 @@ export const App = () => {
         title,
         completed: false,
         userId: select,
-        user: searchUser,
       },
     ]);
 
@@ -121,7 +126,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} />
+      <TodoList todos={todosWithUser} />
     </div>
   );
 };

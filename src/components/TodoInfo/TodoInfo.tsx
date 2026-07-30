@@ -1,28 +1,25 @@
 import { UserInfo } from '../UserInfo';
-import usersFromServer from '../../api/users';
 
-type Todo = {
+interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user?: User;
+  user: User;
 };
 
-type User = {
+interface User {
   id: number;
   name: string;
   username: string;
   email: string;
 };
 
-type Props = {
+interface Props {
   todo: Todo;
 };
 
 export const TodoInfo = ({ todo }: Props) => {
-  const searcUser: User = usersFromServer.find(user => user.id === todo.userId)!;
-
   return (
     <article
       data-id={todo.id}
@@ -30,7 +27,7 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={searcUser} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };

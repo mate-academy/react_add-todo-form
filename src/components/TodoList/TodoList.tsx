@@ -1,21 +1,21 @@
 import { TodoInfo } from '../TodoInfo';
 
-type Todo = {
+interface Todo {
   id: number;
   title: string;
   completed: boolean;
   userId: number;
-  user?: User;
+  user: User;
 };
 
-type User = {
+interface User {
   id: number;
   name: string;
   username: string;
   email: string;
 };
 
-type Props = {
+interface Props {
   todos: Todo[];
 };
 
