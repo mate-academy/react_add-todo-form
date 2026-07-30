@@ -9,27 +9,28 @@ interface Todo {
   title: string;
   completed: boolean;
   userId: number;
-};
+  user: User;
+}
 interface User {
   id: number;
   name: string;
   username: string;
   email: string;
-};
-
-type TodoWithUser = Todo & {
-  user: User,
 }
 
-export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+type TodoWithUser = Todo & {
+  user: User;
+};
 
-  const todosWithUser: TodoWithUser[] = todos.map(todo => {
+export const App = () => {
+  const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => {
     return {
       ...todo,
       user: usersFromServer.find(user => user.id === todo.userId)!,
-    }
+    };
   });
+
+  const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser)
 
   const [title, setTitle] = useState('');
   const [select, setSelect] = useState(0);
@@ -54,6 +55,8 @@ export const App = () => {
 
     const newId: number[] = todos.map(todo => todo.id);
 
+    const selectedUser = usersFromServer.find(user => user.id === select)!;
+
     setTodos([
       ...todos,
       {
@@ -61,6 +64,7 @@ export const App = () => {
         title,
         completed: false,
         userId: select,
+        user: selectedUser,
       },
     ]);
 

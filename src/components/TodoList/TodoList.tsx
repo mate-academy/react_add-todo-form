@@ -6,18 +6,18 @@ interface Todo {
   completed: boolean;
   userId: number;
   user: User;
-};
+}
 
 interface User {
   id: number;
   name: string;
   username: string;
   email: string;
-};
+}
 
 interface Props {
   todos: Todo[];
-};
+}
 
 export const TodoList = ({ todos }: Props) => {
   return (
