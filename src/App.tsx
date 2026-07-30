@@ -23,14 +23,14 @@ type TodoWithUser = Todo & {
 };
 
 export const App = () => {
-  const todosWithUser: TodoWithUser[] = todosFromServer.map(todo => {
+  const initialTodos: TodoWithUser[] = todosFromServer.map(todo => {
     return {
       ...todo,
       user: usersFromServer.find(user => user.id === todo.userId)!,
     };
   });
 
-  const [todos, setTodos] = useState<TodoWithUser[]>(todosWithUser)
+  const [todos, setTodos] = useState<TodoWithUser[]>(initialTodos);
 
   const [title, setTitle] = useState('');
   const [select, setSelect] = useState(0);
@@ -130,7 +130,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosWithUser} />
+      <TodoList todos={todos} />
     </div>
   );
 };
