@@ -60,6 +60,8 @@ export const App = () => {
 
     setTitle('');
     setSelectedUser(0);
+    setTitleError(false);
+    setUserError(false);
   };
 
   return (
@@ -68,7 +70,10 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title</label>
+
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -83,7 +88,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
+
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUser}
             onChange={event => {
