@@ -32,6 +32,7 @@ export const App = () => {
     if (!isTitleValid || !isUserValid) {
       setHasTitleError(!isTitleValid);
       setHasUserError(!isUserValid);
+
       return;
     }
 
@@ -56,7 +57,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="todo-title">Title</label>
           <input
+            id="todo-title"
             type="text"
             data-cy="titleInput"
             placeholder="Title"
@@ -67,7 +70,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="todo-user">User</label>
           <select
+            id="todo-user"
             value={userId}
             data-cy="userSelect"
             onChange={handleUserIdChange}
