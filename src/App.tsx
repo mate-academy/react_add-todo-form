@@ -34,8 +34,8 @@ export const App = () => {
   };
 
   return <div className="App"><h1>Add todo form</h1><form onSubmit={handleSubmit}>
-    <div className="field"><input type="text" placeholder="Enter a title" data-cy="titleInput" value={title} onChange={event => { setTitle(event.target.value); setShowTitleError(false); }} />{showTitleError && <span className="error">Please enter a title</span>}</div>
-    <div className="field"><select data-cy="userSelect" value={userId} onChange={event => { setUserId(Number(event.target.value)); setShowUserError(false); }}><option value="0">Choose a user</option>{usersFromServer.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}</select>{showUserError && <span className="error">Please choose a user</span>}</div>
+    <div className="field"><label htmlFor="titleInput">Title</label><input id="titleInput" type="text" placeholder="Enter a title" data-cy="titleInput" value={title} onChange={event => { setTitle(event.target.value); setShowTitleError(false); }} />{showTitleError && <span className="error">Please enter a title</span>}</div>
+    <div className="field"><label htmlFor="userSelect">User</label><select id="userSelect" data-cy="userSelect" value={userId} onChange={event => { setUserId(Number(event.target.value)); setShowUserError(false); }}><option value="0">Choose a user</option>{usersFromServer.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}</select>{showUserError && <span className="error">Please choose a user</span>}</div>
     <button type="submit" data-cy="submitButton">Add</button>
   </form><TodoList todos={todos} /></div>;
 };
