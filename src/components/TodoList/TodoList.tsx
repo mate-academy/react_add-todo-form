@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '../../App'; // Імпортуємо тип Todo з App
+import { Todo } from '../../App';
 import { TodoInfo } from '../TodoInfo/TodoInfo';
 
 interface Props {

@@ -22,7 +22,7 @@ export interface Todo {
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
-  user: usersFromServer.find(u => u.id === todo.userId),
+  user: usersFromServer.find(user => user.id === todo.userId),
 }));
 
 export const App: React.FC = () => {
@@ -95,7 +95,9 @@ export const App: React.FC = () => {
 
       <form onSubmit={handleSubmit} noValidate>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -106,7 +108,9 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User</label>
           <select
+            id="user"
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
