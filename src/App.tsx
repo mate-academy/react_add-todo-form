@@ -20,14 +20,14 @@ const initialTodos: Todo[] = todosFromServer.map(todo => ({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState<number>(0);
 
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    // Allow only Ukrainian, English letters, digits, and spaces
+    // Дозволяємо лише українські, англійські літери, цифри та пробіли
     const cleanValue = rawValue.replace(/[^a-zA-Z0-9\u0400-\u04FF\s]/g, '');
 
     setTitle(cleanValue);
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
+            <option value={0} disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
