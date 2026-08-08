@@ -25,8 +25,8 @@ export const App: React.FC = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = event.target.value;
     // Дозволяємо лише українські, англійські літери, цифри та пробіли
     const cleanValue = rawValue.replace(/[^a-zA-Z0-9\u0400-\u04FF\s]/g, '');
 
@@ -36,15 +36,15 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserId(Number(e.target.value));
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserId(Number(event.target.value));
     if (hasUserError) {
       setHasUserError(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const trimmedTitle = title.trim();
     const isTitleValid = trimmedTitle.length > 0;
