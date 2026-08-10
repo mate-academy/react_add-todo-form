@@ -6,7 +6,7 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { Todo } from './types/Todo';
-import { User } from './types/user';
+import { User } from './types/User';
 import { TodoItem } from './types/TodoItem';
 
 function findMaxTodoId(todos: Todo[]) {
