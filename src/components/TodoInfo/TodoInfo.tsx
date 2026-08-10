@@ -1,14 +1,6 @@
-import classNames from "classnames";
-import { User } from "../../types/user";
-import { UserInfo } from "../UserInfo";
-
-type TodoItem = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import classNames from 'classnames';
+import { TodoItem } from '../../types/TodoItem';
+import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: TodoItem;

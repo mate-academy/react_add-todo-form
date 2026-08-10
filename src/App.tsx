@@ -6,17 +6,17 @@ import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
 import { Todo } from './types/Todo';
-import users from './api/users';
 import { User } from './types/user';
+import { TodoItem } from './types/TodoItem';
 
 function findMaxTodoId(todos: Todo[]) {
   return todos.reduce((max, todo) => {
     return todo.id > max ? todo.id : max;
-  }, Number.NEGATIVE_INFINITY);
+  }, 0);
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState<string>('');
   const [selectedUserId, setSelectedUserId] = useState<number>(0);
 
@@ -24,7 +24,9 @@ export const App = () => {
   const [isUserUnselected, setIsUserUnselected] = useState<boolean>(false);
 
   const preparedTodos = todos.map(todo => {
-    const user = users.find(u => u.id === todo.userId);
+    const user = usersFromServer.find(currentUser => {
+      return currentUser.id === todo.userId;
+    });
 
     return {
       ...todo,
@@ -51,11 +53,17 @@ export const App = () => {
             return;
           }
 
-          const newTodo: Todo = {
+          const newTodo: TodoItem = {
             id: findMaxTodoId(todos) + 1,
             title: title.trim(),
             completed: false,
             userId: selectedUserId,
+            user: usersFromServer.find(u => u.id === selectedUserId) || {
+              id: 0,
+              name: 'Unknown',
+              username: '',
+              email: '',
+            },
           };
 
           setTitle('');
@@ -93,9 +101,7 @@ export const App = () => {
             }}
             value={selectedUserId}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value="0">Choose a user</option>
             {usersFromServer.map((user: User) => (
               <option value={user.id} key={user.id}>
                 {user.name}
