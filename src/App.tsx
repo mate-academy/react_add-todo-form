@@ -57,7 +57,7 @@ export const App = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
 
     const newTodo: Todo = {
       id: maxId + 1,
@@ -81,7 +81,10 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title</label>
+
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -96,7 +99,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
+
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={userId}
             onChange={event => {
@@ -104,9 +110,7 @@ export const App = () => {
               setUserError(false);
             }}
           >
-            <option value="" disabled>
-              Choose a user
-            </option>
+            <option value="">Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
