@@ -38,7 +38,7 @@ export const App = () => {
       return;
     }
 
-    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+    const newId = Math.max(0, ...todos.map(todo => todo.id)) + 1;
 
     const newTodo = {
       id: newId,
