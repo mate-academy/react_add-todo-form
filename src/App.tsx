@@ -13,7 +13,7 @@ const preparedTodos = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
@@ -32,7 +32,9 @@ export const App = () => {
       return;
     }
 
-    const selectedUser = usersFromServer.find(user => user.id === userId);
+    const selectedUser = usersFromServer.find(
+      user => user.id === parseInt(userId, 10),
+    );
 
     if (!selectedUser) {
       return;
@@ -43,7 +45,7 @@ export const App = () => {
     const newTodo = {
       id: newId,
       title: title.trim(),
-      userId,
+      userId: parseInt(userId, 10),
       completed: false,
       user: selectedUser,
     };
@@ -51,7 +53,7 @@ export const App = () => {
     setTodos([...todos, newTodo]);
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
   };
 
   return (
@@ -84,11 +86,11 @@ export const App = () => {
             data-cy="userSelect"
             value={userId}
             onChange={event => {
-              setUserId(+event.target.value);
+              setUserId(event.target.value);
               setUserError(false);
             }}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
