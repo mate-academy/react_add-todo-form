@@ -17,8 +17,8 @@ export const App = () => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     setHasTitleError(true);
     setHasUserError(true);
@@ -49,13 +49,15 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             data-cy="titleInput"
             value={title}
             placeholder="Enter a title"
-            onChange={e => {
-              setTitle(e.target.value);
+            id="title"
+            onChange={event => {
+              setTitle(event.target.value);
 
               setHasTitleError(false);
             }}
@@ -66,11 +68,13 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User: </label>
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(+e.target.value);
+            id="user"
+            onChange={event => {
+              setUserId(+event.target.value);
 
               setHasUserError(false);
             }}
