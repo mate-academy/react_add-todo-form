@@ -15,14 +15,26 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [select, setSelect] = useState(0);
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setIsSubmitted(true);
+    let hasError = false;
 
-    if (!title.trim() || select === 0) {
+    if (!title.trim()) {
+      setTitleError(true);
+      hasError = true;
+    }
+
+    if (select === 0) {
+      setUserError(true);
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
 
@@ -46,7 +58,6 @@ export const App = () => {
 
     setTitle('');
     setSelect(0);
-    setIsSubmitted(false);
   };
 
   return (
@@ -62,12 +73,13 @@ export const App = () => {
               data-cy="titleInput"
               placeholder="Enter a title"
               value={title}
-              onChange={event => setTitle(event.target.value)}
+              onChange={event => {
+                setTitle(event.target.value);
+                setTitleError(false);
+              }}
             />
           </label>
-          {isSubmitted && title === '' && (
-            <span className="error">Please enter a title</span>
-          )}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -76,11 +88,12 @@ export const App = () => {
             <select
               data-cy="userSelect"
               value={select}
-              onChange={event => setSelect(+event.target.value)}
+              onChange={event => {
+                setSelect(+event.target.value);
+                setUserError(false);
+              }}
             >
-              <option value="0" disabled>
-                Choose a user
-              </option>
+              <option value={0}>Choose a user</option>
 
               {usersFromServer.map(user => (
                 <option value={user.id} key={user.id}>
@@ -90,9 +103,7 @@ export const App = () => {
             </select>
           </label>
 
-          {isSubmitted && select === 0 && (
-            <span className="error">Please choose a user</span>
-          )}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
