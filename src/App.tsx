@@ -1,6 +1,7 @@
 import './App.scss';
 import { TodoList } from './components/TodoList';
 import todosFromServer from './api/todos';
+import usersFromServer from './api/users';
 import { getUserById } from './services/user';
 import { Todo } from './types/Todo';
 import { useState } from 'react';
@@ -29,7 +30,7 @@ export const App: React.FC = () => {
       <h1>Add todo form</h1>
 
       <section className="TodoList">
-        <FormTodo onSubmit={addTodo} />
+        <FormTodo onSubmit={addTodo} users={usersFromServer} />
         <TodoList todos={todos} />
       </section>
     </div>
