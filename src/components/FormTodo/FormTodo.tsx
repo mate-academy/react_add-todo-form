@@ -2,14 +2,13 @@ import { ChangeEvent, useState } from 'react';
 import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 import { getUserById } from '../../services/user';
-import users from '../../api/users';
 
 type Props = {
   onSubmit: (todo: Todo) => void;
   users: User[];
 };
 
-export const FormTodo: React.FC<Props> = ({ onSubmit }) => {
+export const FormTodo: React.FC<Props> = ({ onSubmit, users }: Props) => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
