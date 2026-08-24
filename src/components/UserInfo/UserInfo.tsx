@@ -9,9 +9,8 @@ type Props = {
 
 export const UserInfo = ({ user }: Props) => {
   return (
-    <div className="UserInfo">
-      <p>{user.name}</p>
-      <a href={`mailto:${user.email}`}>{user.email}</a>
-    </div>
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
+    </a>
   );
 };
