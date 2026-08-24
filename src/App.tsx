@@ -23,16 +23,24 @@ interface Todo {
 }
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(
-    todosFromServer.map(todo => ({
-      ...todo,
-      user: usersFromServer.find(user => user.id === todo.userId)!,
-    })),
-  );
+  const initialTodos: Todo[] = todosFromServer.map(todo => {
+    const user = usersFromServer.find(
+      currentUser => currentUser.id === todo.userId,
+    );
 
+    if (!user) {
+      throw new Error(`User ${todo.userId} not found`);
+    }
+
+    return {
+      ...todo,
+      user,
+    };
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
-
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
@@ -57,8 +65,10 @@ export const App: React.FC = () => {
       return;
     }
 
+    const newId = Math.max(...todos.map(todo => todo.id)) + 1;
+
     const newTodo: Todo = {
-      id: Math.max(...todos.map(todo => todo.id)) + 1,
+      id: newId,
       title,
       completed: false,
       userId: selectedUser.id,
@@ -79,10 +89,13 @@ export const App: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title</label>
+
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
-            placeholder="Enter a title"
+            placeholder="Enter todo title"
             value={title}
             onChange={event => {
               setTitle(event.target.value);
@@ -94,7 +107,10 @@ export const App: React.FC = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
+
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={userId}
             onChange={event => {
