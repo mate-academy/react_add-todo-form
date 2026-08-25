@@ -8,10 +8,14 @@ type User = {
 };
 
 type Props = {
-  user: User;
+  user?: User;
 };
 
 export const UserInfo = ({ user }: Props) => {
+  if (!user) {
+    return null;
+  }
+
   return (
     <a className="UserInfo" href={`mailto:${user.email}`}>
       {user.name}

@@ -9,7 +9,8 @@ export const App = () => {
   const [todos, setTodos] = useState(todosFromServer);
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [submited, setSubmited] = useState(false);
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   return (
     <div className="App">
@@ -20,25 +21,29 @@ export const App = () => {
         method="POST"
         onSubmit={event => {
           event.preventDefault();
-          setSubmited(true);
+
+          setHasTitleError(!title);
+          setHasUserError(userId === 0);
+
           if (!title || userId === 0) {
             return;
           }
 
-          const user = usersFromServer.find(u => u.id === userId);
+          const foundUser = usersFromServer.find(user => user.id === userId);
           const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
           const newTodo = {
             id: newTodoId,
             title,
             completed: false,
             userId,
-            user: user!,
+            user: foundUser!,
           };
 
           setTodos([...todos, newTodo]);
           setTitle('');
           setUserId(0);
-          setSubmited(false);
+          setHasTitleError(false);
+          setHasUserError(false);
         }}
       >
         <div className="field">
@@ -51,11 +56,10 @@ export const App = () => {
             value={title}
             onChange={event => {
               setTitle(event.target.value);
+              setHasTitleError(false);
             }}
           />
-          {submited && !title && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -66,6 +70,7 @@ export const App = () => {
             id="todoUser"
             onChange={event => {
               setUserId(+event.target.value);
+              setHasUserError(false);
             }}
           >
             <option value={0}>Choose a user</option>
@@ -76,9 +81,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userId === 0 && submited && (
-            <span className="error">Please choose a user</span>
-          )}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
