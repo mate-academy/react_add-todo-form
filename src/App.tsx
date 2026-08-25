@@ -25,12 +25,14 @@ export const App = () => {
             return;
           }
 
+          const user = usersFromServer.find(u => u.id === userId);
           const newTodoId = Math.max(...todos.map(todo => todo.id)) + 1;
           const newTodo = {
             id: newTodoId,
             title,
             completed: false,
             userId,
+            user: user!,
           };
 
           setTodos([...todos, newTodo]);
@@ -40,12 +42,16 @@ export const App = () => {
         }}
       >
         <div className="field">
+          <label htmlFor="todoTitle">Title</label>
           <input
             type="text"
             data-cy="titleInput"
+            id="todoTitle"
             placeholder="What needs to be done?"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              setTitle(event.target.value);
+            }}
           />
           {submited && !title && (
             <span className="error">Please enter a title</span>
@@ -53,10 +59,14 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="todoUser">User</label>
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => setUserId(+event.target.value)}
+            id="todoUser"
+            onChange={event => {
+              setUserId(+event.target.value);
+            }}
           >
             <option value={0}>Choose a user</option>
             {usersFromServer.map(user => (
