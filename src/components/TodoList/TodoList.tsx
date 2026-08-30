@@ -28,4 +28,3 @@ export const TodoList = ({ todos }: Props) => {
     </section>
   );
 };
-
