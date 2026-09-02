@@ -1,12 +1,11 @@
-import { Todo, User } from '../../types/types';
+import { TodoWithUser } from '../../types/types';
 import { UserInfo } from '../UserInfo';
 
 type Props = {
-  todo: Todo;
-  user: User | undefined;
+  todo: TodoWithUser;
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
   return (
     <article
       data-id={todo.id}
@@ -15,7 +14,7 @@ export const TodoInfo: React.FC<Props> = ({ todo, user }) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={user} />
+      <UserInfo user={todo.user} />
     </article>
   );
 };

@@ -84,6 +84,11 @@ export const App = () => {
     setTitle('');
   };
 
+  const todosWithUsers = todos.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(user => user.id === todo.userId)!,
+  }));
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
@@ -125,31 +130,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosFromServer} users={usersFromServer} />
-
-      <section className="TodoList">
-        {todos.map(todo => {
-          const foundUser = usersFromServer.find(
-            user => user.id === todo.userId,
-          );
-
-          return (
-            <article
-              data-id={todo.id}
-              key={todo.id}
-              className={
-                todo.completed ? `TodoInfo TodoInfo--completed` : `TodoInfo`
-              }
-            >
-              <h2 className="TodoInfo__title">{todo.title}</h2>
-
-              <a className="UserInfo" href={`mailto:${foundUser?.email}`}>
-                {`${foundUser?.name}`}
-              </a>
-            </article>
-          );
-        })}
-      </section>
+      <TodoList todos={todosWithUsers} />
     </div>
   );
 };

@@ -5,6 +5,14 @@ export interface Todo {
   userId: number;
 }
 
+export interface TodoWithUser {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user: User;
+}
+
 export interface User {
   id: number;
   name: string;
