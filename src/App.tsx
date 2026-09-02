@@ -47,29 +47,11 @@ export const App = () => {
       return;
     }
 
-    if (userId === 0) {
-      setErrors(prev => ({
-        ...prev,
-        user: true,
-      }));
-
-      return;
-    }
-
-    if (!title.trim()) {
-      setErrors(prev => ({
-        ...prev,
-        title: true,
-      }));
-
-      return;
-    }
-
     const todosId: number[] = [];
 
     todos.map(todo => todosId.push(todo.id));
 
-    const maxId = Math.max(...todosId);
+    const maxId = Math.max(...todos.map(todo => todo.id));
 
     setTodos([
       ...todos,
@@ -82,6 +64,7 @@ export const App = () => {
     ]);
 
     setTitle('');
+    setUserId(0);
   };
 
   const todosWithUsers = todos.map(todo => ({
@@ -111,9 +94,7 @@ export const App = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value="0">Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
