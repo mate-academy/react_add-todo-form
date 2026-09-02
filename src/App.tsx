@@ -22,7 +22,7 @@ export interface Todo {
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([...todosFromServer]);
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
   const [title, setTitle] = useState<string>('');
   const [userId, setUserId] = useState<number | string>('');
   const [titleError, setTitleError] = useState<boolean>(false);
@@ -67,7 +67,9 @@ export const App = () => {
       );
       const newTodoId = maxId + 1;
 
-      const foundUser = usersFromServer.find(u => u.id === Number(userId));
+      const foundUser = usersFromServer.find(
+        user => user.id === Number(userId),
+      );
 
       if (foundUser) {
         const newTodo: Todo = {
@@ -91,7 +93,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title-input">Title</label>
           <input
+            id="title-input"
             type="text"
             data-cy="titleInput"
             value={title}
@@ -102,7 +106,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user-select">User</label>
           <select
+            id="user-select"
             data-cy="userSelect"
             value={userId}
             onChange={event => handleUserChange(event.target.value)}
