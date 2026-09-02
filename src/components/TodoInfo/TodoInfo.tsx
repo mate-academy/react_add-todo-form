@@ -1,1 +1,20 @@
-export const TodoInfo = () => {};
+import { TodoWithUser } from '../../types/types';
+import { UserInfo } from '../UserInfo';
+
+type Props = {
+  todo: TodoWithUser;
+};
+
+export const TodoInfo: React.FC<Props> = ({ todo }) => {
+  return (
+    <article
+      data-id={todo.id}
+      key={todo.id}
+      className={todo.completed ? `TodoInfo TodoInfo--completed` : `TodoInfo`}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
+
+      <UserInfo user={todo.user} />
+    </article>
+  );
+};
