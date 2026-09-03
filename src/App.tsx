@@ -89,9 +89,7 @@ export const App = () => {
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value="0">Choose a user</option>
             {users.map(user => (
               <option value={user.id} key={user.id}>
                 {user.name}

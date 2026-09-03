@@ -7,7 +7,7 @@ type Props = {
 
 export const UserInfo: React.FC<Props> = ({ user }) => {
   if (!user) {
-    return <div>User undefined or searcing</div>;
+    return null;
   }
 
   return (

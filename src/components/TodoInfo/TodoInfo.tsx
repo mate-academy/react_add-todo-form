@@ -10,6 +10,6 @@ export const TodoInfo: React.FC<Props> = ({ todo }) => (
     data-id={todo.id}
   >
     <h2 className="TodoInfo__title">{todo.title}</h2>
-    {todo.user !== null ? <UserInfo user={todo.user} /> : undefined}
+    {todo.user ? <UserInfo user={todo.user} /> : null}
   </article>
 );
