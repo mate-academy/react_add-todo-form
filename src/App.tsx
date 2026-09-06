@@ -22,6 +22,7 @@ export const App = () => {
         id: todo.id,
         title: todo.title,
         completed: todo.completed,
+        userId: todo.userId,
         user,
       });
     }
@@ -45,38 +46,29 @@ export const App = () => {
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    let isError = false;
-
     event.preventDefault();
     const newUser = getUserById(+userId);
 
     if (!title.trim()) {
       setTitleError(true);
-      isError = true;
     }
 
     if (!newUser || +userId === 0) {
       setUserError(true);
+    }
 
-      isError = true;
-
+    if (!title.trim() || !newUser || +userId === 0) {
       return;
     }
 
-    if (isError) {
-      return;
-    }
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : -1;
 
     const newTodo: Todo = {
-      id:
-        todos.reduce(
-          (prevMaxIdTodo, currentTodo) =>
-            currentTodo.id > prevMaxIdTodo ? currentTodo.id : prevMaxIdTodo,
-          todos[0].id,
-        ) + 1,
+      id: maxId + 1,
       title,
       completed: false,
       user: newUser,
+      userId: +userId,
     };
 
     setTodos(prevTodos => [...prevTodos, newTodo]);
@@ -89,11 +81,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={event => handleSubmit(event)}
-      >
+      <form onSubmit={event => handleSubmit(event)}>
         <div className="field">
           <label htmlFor="title">Title: </label>
           <input
