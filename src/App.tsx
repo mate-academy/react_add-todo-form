@@ -50,6 +50,11 @@ export const App = () => {
       ...prev,
       title: value,
     }));
+
+    setNewTodoErrorMessages(prev => ({
+      ...prev,
+      title: '',
+    }));
   };
 
   const handleUserChange = (userId: number) => {
@@ -57,6 +62,11 @@ export const App = () => {
       ...prev,
       userId,
       user: getUser(userId) || null,
+    }));
+
+    setNewTodoErrorMessages(prev => ({
+      ...prev,
+      userId: '',
     }));
   };
 
