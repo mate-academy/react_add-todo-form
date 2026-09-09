@@ -13,7 +13,6 @@ const DEFAULT_NEW_TODO: NewTodo = {
   title: '',
   completed: false,
   userId: 0,
-  user: null,
 };
 
 const DEFAULT_NEW_TODO_ERROR_MESSAGES = {
@@ -37,6 +36,22 @@ const sanitizeTitle = (value: string) => {
   return value.replace(TITLE_PATTERN, '');
 };
 
+const validateTitle = (value: string) => {
+  if (value === '') {
+    return 'Please enter a title';
+  }
+
+  return '';
+};
+
+const validateUserId = (value: number) => {
+  if (value === 0) {
+    return 'Please choose a user';
+  }
+
+  return '';
+};
+
 export const App = () => {
   const [todos, setTodos] = useState(defaultTodos);
 
@@ -45,45 +60,16 @@ export const App = () => {
     DEFAULT_NEW_TODO_ERROR_MESSAGES,
   );
 
-  const handleTitleChange = (value: string) => {
+  const handleChange = (key: string, value: string | number | boolean) => {
     setNewTodo(prev => ({
       ...prev,
-      title: value,
+      [key]: value,
     }));
 
     setNewTodoErrorMessages(prev => ({
       ...prev,
-      title: '',
+      [key]: '',
     }));
-  };
-
-  const handleUserChange = (userId: number) => {
-    setNewTodo(prev => ({
-      ...prev,
-      userId,
-      user: getUser(userId) || null,
-    }));
-
-    setNewTodoErrorMessages(prev => ({
-      ...prev,
-      userId: '',
-    }));
-  };
-
-  const validateTitle = (value: string) => {
-    if (value === '') {
-      return 'Please enter a title';
-    }
-
-    return '';
-  };
-
-  const validateUserId = (value: number) => {
-    if (value === 0) {
-      return 'Please choose a user';
-    }
-
-    return '';
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -112,6 +98,7 @@ export const App = () => {
       ...newTodo,
       title: newTodo.title.trim(),
       id: nextTodoId,
+      user: getUser(newTodo.userId) || null,
     };
 
     setTodos(prev => [...prev, todoToAdd]);
@@ -138,7 +125,7 @@ export const App = () => {
             value={newTodo.title}
             placeholder="Enter a title"
             onChange={event =>
-              handleTitleChange(sanitizeTitle(event.target.value))
+              handleChange(event.target.name, sanitizeTitle(event.target.value))
             }
           />
           {newTodoErrorMessages.title !== '' && (
@@ -153,7 +140,9 @@ export const App = () => {
             data-cy="userSelect"
             id="userSelect"
             value={newTodo.userId}
-            onChange={event => handleUserChange(+event.target.value)}
+            onChange={event =>
+              handleChange(event.target.name, +event.target.value)
+            }
           >
             <option value="0" disabled>
               Choose a user

@@ -7,3 +7,5 @@ export type Todo = {
   userId: number;
   user: User | null;
 };
+
+export type NewTodo = Omit<Todo, 'id' | 'user'>;
