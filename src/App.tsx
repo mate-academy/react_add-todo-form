@@ -29,20 +29,24 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(getVisibleTodos(todosFromServer));
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('0');
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setTitleError(false);
   };
 
   const handleSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserId(event.target.value);
+    setUserError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setIsSubmitted(true);
+    setTitleError(true);
+    setUserError(true);
 
     const currentUserId = +selectedUserId;
 
@@ -59,7 +63,8 @@ export const App: React.FC = () => {
       ]);
       setTitle('');
       setSelectedUserId('0');
-      setIsSubmitted(false);
+      setTitleError(false);
+      setUserError(false);
     }
   };
 
@@ -77,7 +82,7 @@ export const App: React.FC = () => {
             value={title}
             onChange={handleChangeTitle}
           />
-          {isSubmitted && title === '' && (
+          {titleError && title === '' && (
             <span className="error">Please enter a title</span>
           )}
         </div>
@@ -101,7 +106,7 @@ export const App: React.FC = () => {
             })}
           </select>
 
-          {isSubmitted && selectedUserId === '0' && (
+          {userError && selectedUserId === '0' && (
             <span className="error">Please choose a user</span>
           )}
         </div>
