@@ -57,6 +57,12 @@ export const App = () => {
       return;
     }
 
+    const selectedUser = getUserById(selectedUserId);
+
+    if (!selectedUser) {
+      return;
+    }
+
     const newTodo: Todo = {
       id: getNewTodoId(todos),
       title: trimmedTitle,
@@ -91,9 +97,7 @@ export const App = () => {
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
-              Choose a user
-            </option>
+            <option value="">Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
