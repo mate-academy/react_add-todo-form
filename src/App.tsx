@@ -10,10 +10,12 @@ const getUserById = (userId: number): User | null => {
   return usersFromServer.find(user => user.id === userId) || null;
 };
 
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+const initialTodos: Todo[] = todosFromServer
+  .map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
+  }))
+  .filter((todo): todo is Todo => todo.user !== null);
 
 function getNewTodoId(todos: Todo[]) {
   const maxId = Math.max(0, ...todos.map(todo => todo.id));
@@ -68,7 +70,7 @@ export const App = () => {
       title: trimmedTitle,
       completed: false,
       userId: selectedUserId,
-      user: getUserById(selectedUserId),
+      user: selectedUser,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -79,9 +81,11 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="titleInput">Title</label>
           <input
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -92,12 +96,14 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">Select</label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={handleUserChange}
           >
-            <option value="">Choose a user</option>
+            <option value={0}>Choose a user</option>
 
             {usersFromServer.map(user => (
               <option value={user.id} key={user.id}>
