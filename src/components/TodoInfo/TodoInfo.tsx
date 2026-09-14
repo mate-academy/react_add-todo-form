@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Todo } from '../../types/todos';
 import { UserInfo } from '../UserInfo';
 
@@ -11,7 +12,9 @@ export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
     <article
       data-id={todo.id}
-      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+      className={classNames('TodoInfo', {
+        'TodoInfo--completed': completed,
+      })}
     >
       <h2 className="TodoInfo__title">{title}</h2>
 
