@@ -5,7 +5,6 @@ import { Todo } from './types/Todo';
 import { User } from './types/User';
 import { TodoList } from './components/TodoList';
 import { useState } from 'react';
-import { has } from 'cypress/types/lodash';
 
 const getUserById = (userId: number): User | null => {
   return usersFromServer.find(user => user.id === userId) || null;
