@@ -5,25 +5,14 @@ import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { Todo } from './types/todos';
+import { getTodosWithUsers } from './utils/getTodoWithUsers';
+
+const todosWithUsers = getTodosWithUsers(todosFromServer, usersFromServer);
 
 export const App = () => {
   const [userId, setUserId] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
-
-  const todosWithUsers: Todo[] = [];
-
-  for (const todo of todosFromServer) {
-    const user = usersFromServer.find(u => u.id === todo.userId);
-
-    if (user) {
-      todosWithUsers.push({
-        ...todo,
-        user,
-      });
-    }
-  }
 
   const [todos, setTodos] = useState(todosWithUsers);
   const [title, setTitle] = useState('');
