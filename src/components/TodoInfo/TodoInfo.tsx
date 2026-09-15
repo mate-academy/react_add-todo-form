@@ -1,1 +1,16 @@
-export const TodoInfo = () => {};
+import { UserInfo } from '../UserInfo/UserInfo';
+
+export const TodoInfo = ({ todo }) => {
+  const { id, title, completed, user } = todo;
+
+  return (
+    <article
+      data-id={id}
+      className={`TodoInfo ${completed ? 'TodoInfo--completed' : ''}`}
+    >
+      <h2 className="TodoInfo__title">{title}</h2>
+
+      {user && <UserInfo user={user} />}
+    </article>
+  );
+};
