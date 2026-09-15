@@ -39,6 +39,8 @@ export const App = () => {
   const [todoItem, setTodoItem] = useState(visibleTodos);
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
+  const [hasUserError, setHasUserError] = useState(false);
 
   const addTodos = (todo: Todos) => {
     setTodoItem(currentTodo => [...currentTodo, todo]);
@@ -48,6 +50,10 @@ export const App = () => {
 
   const submitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setHasTitleError(title === '');
+    setHasUserError(selectedUserId === 0);
+
     if (!isValidate) {
       return;
     }
@@ -81,21 +87,31 @@ export const App = () => {
         onSubmit={event => submitHandle(event)}
       >
         <div className="field">
+          <label htmlFor="titleInput">Title</label>
           <input
             type="text"
+            id="titleInput"
             data-cy="titleInput"
             value={title}
-            placeholder="Pleace enter a text"
-            onChange={event => setTitle(event.target.value)}
+            placeholder="Enter a title"
+            onChange={event => {
+              setTitle(event.target.value);
+              setHasTitleError(false);
+            }}
           />
-          {!title ? <span className="error">Please enter a title</span> : ''}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">User</label>
           <select
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUserId}
-            onChange={event => setSelectedUserId(+event.target.value)}
+            onChange={event => {
+              setSelectedUserId(+event.target.value);
+              setHasUserError(false);
+            }}
           >
             <option value="0" disabled>
               Choose a user
@@ -106,11 +122,7 @@ export const App = () => {
               </option>
             ))}
           </select>
-          {!selectedUserId ? (
-            <span className="error">Please choose a user</span>
-          ) : (
-            ''
-          )}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
