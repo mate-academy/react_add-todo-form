@@ -1,4 +1,4 @@
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 import { TodoList } from './TodoList';
 
 describe('TodoList', () => {
@@ -50,8 +50,7 @@ describe('TodoList', () => {
 
     mount(<TodoList todos={todos} />);
 
-    cy.get('.TodoInfo')
-      .should('have.length', 4);
+    cy.get('.TodoInfo').should('have.length', 4);
 
     cy.get('.TodoInfo')
       .first()
