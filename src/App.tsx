@@ -1,23 +1,10 @@
 import './App.scss';
-import { useState} from 'react';
+import { useState } from 'react';
+import type { Todo } from './types';
+import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-  user: User;
-}
 
 export const App = () => {
   const [title, setTitle] = useState('');
@@ -43,23 +30,17 @@ export const App = () => {
   const [showTitleError, setShowTitleError] = useState(false);
   const [showUserError, setShowUserError] = useState(false);
 
-  const titleHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setShowTitleError(false);
   };
 
-  const userHandler = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const userHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(event.target.value);
     setShowUserError(false);
   };
 
-  const formHandler = (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const cleanTitle = title.trim();
@@ -79,17 +60,14 @@ export const App = () => {
 
     if (!selectedUser) {
       setShowUserError(true);
+
       return;
     }
 
     setTodos(currentTodos => [
       ...currentTodos,
       {
-        id:
-          Math.max(
-            0,
-            ...currentTodos.map(todo => todo.id),
-          ) + 1,
+        id: Math.max(0, ...currentTodos.map(todo => todo.id)) + 1,
         title: cleanTitle,
         userId: selectedUser.id,
         completed: false,
@@ -123,9 +101,7 @@ export const App = () => {
           </label>
 
           {showTitleError && (
-            <span className="error">
-              Please enter a title
-            </span>
+            <span className="error">Please enter a title</span>
           )}
         </div>
 
@@ -150,11 +126,7 @@ export const App = () => {
             </select>
           </label>
 
-          {showUserError && (
-            <span className="error">
-              Please choose a user
-            </span>
-          )}
+          {showUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -162,30 +134,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            key={todo.id}
-            data-id={todo.id}
-            className={
-              todo.completed
-                ? 'TodoInfo TodoInfo--completed'
-                : 'TodoInfo'
-            }
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            <a
-              className="UserInfo"
-              href={`mailto:${todo.user.email}`}
-            >
-              {todo.user.name}
-            </a>
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };

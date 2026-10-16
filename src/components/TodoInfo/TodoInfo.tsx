@@ -1,1 +1,25 @@
-export const TodoInfo = () => {};
+import type { Todo } from '../../types';
+import { UserInfo } from '../UserInfo/UserInfo';
+
+interface Props {
+  todo: Todo;
+}
+
+export const TodoInfo = ({ todo }: Props) => {
+  return (
+    <article
+      data-id={todo.id}
+      className={
+        todo.completed
+          ? 'TodoInfo TodoInfo--completed'
+          : 'TodoInfo'
+      }
+    >
+      <h2 className="TodoInfo__title">
+        {todo.title}
+      </h2>
+
+      <UserInfo user={todo.user} />
+    </article>
+  );
+};
