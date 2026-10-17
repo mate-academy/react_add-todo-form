@@ -61,8 +61,20 @@ module.exports = {
       { blankLine: 'always', prev: 'directive', next: '*' },
       { blankLine: 'always', prev: 'block-like', next: '*' },
     ],
-    'implicit-arrow-linebreak:': 0,
 
+    'implicit-arrow-linebreak': 0,
+
+  'import/extensions': [
+  'error',
+  'always',
+  {
+    ignorePackages: true,
+    js: 'always',
+    jsx: 'always',
+    ts: 'always',
+    tsx: 'always',
+  },
+],
     // React
     'react/prop-types': 0,
     'react/require-default-props': 0,

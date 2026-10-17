@@ -1,5 +1,5 @@
 import { mount } from '@cypress/react18';
-import { TodoInfo } from './TodoInfo';
+import { TodoInfo } from './TodoInfo.tsx';
 
 describe('TodoInfo', () => {
   it('should have a correct title', () => {
