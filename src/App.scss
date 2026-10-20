@@ -1,9 +1,34 @@
+$input-padding-x: 12px;
+$input-padding-y: 8px;
+$placeholder-color: #888;
+$light-background: antiquewhite;
+$margin-top: 14px;
+$btn-add-width: 80px;
+$btn-add-color: #2c2c2c;
+$border: 1px solid #000;
+
 iframe {
   display: none;
 }
 
 html {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.App {
+  padding: 12px 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+label {
+  display: block;
+  margin: 4px 0;
+  font-weight: bold;
 }
 
 label,
@@ -15,13 +40,27 @@ button {
   color: red;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+
+  label {
+    margin-bottom: 4px;
+  }
+}
+
+.TodoList {
+  margin-top: $margin-top;
+}
+
 .TodoInfo {
   width: max-content;
   padding: 8px;
   margin: 12px 0;
-  border: 1px solid #000;
+  border: $border;
   border-radius: 8px;
-  background-color: antiquewhite;
+  background-color: $light-background;
 
   &__title {
     margin: 4px 0;
@@ -36,4 +75,38 @@ button {
 
 .UserInfo {
   font-style: italic;
+}
+
+.input {
+  padding: $input-padding-y $input-padding-x;
+  border: $border;
+  border-radius: 4px;
+  font-size: 14px;
+  color: $placeholder-color;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $placeholder-color;
+  }
+
+  &:focus {
+    color: #000;
+  }
+}
+
+.btn-add {
+  min-width: $btn-add-width;
+  padding: $input-padding-y $input-padding-x;
+  margin-top: $margin-top;
+  margin-left: auto;
+  border: $border;
+  border-radius: 8px;
+  background-color: $btn-add-color;
+  color: $light-background;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #000;
+  }
 }
