@@ -12,9 +12,9 @@ function getUserById(userId: number): User | null {
 }
 
 export const App = () => {
-  const todosList = todosFromServer.map(post => ({
-    ...post,
-    user: getUserById(post.userId),
+  const todosList = todosFromServer.map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
   }));
   const pattern = /[^a-zA-Zа-яіїєґА-ЯІЇЄҐ0-9 ]/g;
   const [todos, setTodos] = useState(todosList);
@@ -46,8 +46,6 @@ export const App = () => {
       user: getUserById(userId),
     };
 
-    setUserError(false);
-    setTitleError(false);
     setTitle('');
     setUserId(0);
 
