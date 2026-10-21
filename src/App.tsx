@@ -4,7 +4,7 @@ import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import { User } from './types/user';
+import { User } from './types/User';
 import { ToDo } from './types/ToDo';
 
 function getUserById(userId: number): User | null {
