@@ -34,8 +34,9 @@ export const App = () => {
   const [titleError, setTitleError] = useState('');
   const [userIdError, setUserIdError] = useState('');
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  // Переименовали аргумент e -> event
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
     const filteredValue = value.replace(/[^a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ0-9 ]/g, '');
 
     setTitle(filteredValue);
@@ -45,8 +46,9 @@ export const App = () => {
     }
   };
 
-  const handleUserIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedUserId = Number(e.target.value);
+  // Переименовали аргумент e -> event
+  const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedUserId = Number(event.target.value);
 
     setUserId(selectedUserId);
 
@@ -55,8 +57,9 @@ export const App = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Переименовали аргумент e -> event
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     let hasError = false;
 
@@ -98,7 +101,10 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          {/* Добавили label для инпута */}
+          <label htmlFor="todo-title-input">Title</label>
           <input
+            id="todo-title-input"
             type="text"
             value={title}
             onChange={handleTitleChange}
@@ -109,7 +115,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          {/* Добавили label для селекта */}
+          <label htmlFor="todo-user-select">User</label>
           <select
+            id="todo-user-select"
             value={userId}
             onChange={handleUserIdChange}
             data-cy="userSelect"

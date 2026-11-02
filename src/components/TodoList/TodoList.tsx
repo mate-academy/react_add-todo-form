@@ -9,6 +9,7 @@ interface Props {
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <section className="TodoList">
+      {/* Имя переменной внутри map изменено на понятное слово todo */}
       {todos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} />
       ))}
