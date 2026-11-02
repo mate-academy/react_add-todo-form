@@ -5,7 +5,12 @@ import usersFromServer from './api/users';
 import { TodoList } from './components/TodoList';
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const preparedTodos = todosFromServer.map(todo => ({
+    ...todo,
+    user: usersFromServer.find(person => person.id === todo.userId),
+  }));
+
+  const [todos, setTodos] = useState(preparedTodos);
   const [title, setTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(0);
   const [titleError, setTitleError] = useState(false);
@@ -58,7 +63,9 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
@@ -71,7 +78,9 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User</label>
           <select
+            id="user"
             data-cy="userSelect"
             value={selectedUser}
             onChange={event => (
@@ -96,7 +105,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} users={usersFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };
