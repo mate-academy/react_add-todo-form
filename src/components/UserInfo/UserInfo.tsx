@@ -11,8 +11,8 @@ type UserInfoProps = {
 
 export const UserInfo = ({ user }: UserInfoProps) => {
   return (
-    <a className="UserInfo" href={`mailto:${user?.email}`}>
-      {user?.name}
+    <a className="UserInfo" href={`mailto:${user.email}`}>
+      {user.name}
     </a>
   );
 };

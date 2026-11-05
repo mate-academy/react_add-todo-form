@@ -18,7 +18,6 @@ type TodoInfoProps = {
 export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
     <article
-      key={todo.id}
       data-id={todo.id}
       className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
     >

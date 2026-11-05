@@ -40,7 +40,7 @@ export const App = () => {
       title,
       userId: Number(user),
       completed: false,
-      users: selectedUser,
+      user: selectedUser,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -51,12 +51,18 @@ export const App = () => {
     setUserError(false);
   };
 
+  const preparedTodos = todos.map(todo => ({
+    ...todo,
+    user: getUserById(todo.userId),
+  }));
+
   return (
     <div className="App">
       <h1>Add todo form</h1>
 
       <form action="/api/todos" method="POST" onSubmit={addTodo}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             data-cy="titleInput"
@@ -74,6 +80,7 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">Users</label>
           <select
             data-cy="userSelect"
             value={user}
@@ -103,7 +110,7 @@ export const App = () => {
       </form>
 
       <section className="TodoList">
-        <TodoList todos={todos} />
+        <TodoList todos={preparedTodos} />
       </section>
     </div>
   );

@@ -1,4 +1,3 @@
-import usersFromServer from '../../api/users';
 import { TodoInfo, type Todo } from '../TodoInfo';
 
 type TodoListProps = {
@@ -7,22 +6,11 @@ type TodoListProps = {
 
 export const TodoList = ({ todos }: TodoListProps) => (
   <>
-    {todos.map(todo => {
-      const user = usersFromServer.find(serverUser => serverUser.id === todo.userId);
-
-      if (!user) {
-        return null;
-      }
-
-      return (
-        <TodoInfo
+    {todos.map(todo => (
+      <TodoInfo
           key={todo.id}
-          todo={{
-            ...todo,
-            user,
-          }}
+          todo={todo}
         />
-      );
-    })}
+    ))}
   </>
 );
