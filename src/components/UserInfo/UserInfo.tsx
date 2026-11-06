@@ -2,11 +2,11 @@ import { User } from '../../types';
 import { FC } from 'react';
 
 type Props = {
-  user: User | null;
+  user: User;
 };
 
 export const UserInfo: FC<Props> = ({ user }) => (
-  <a className="UserInfo" href={`mailto:${user?.email}`}>
-    {user?.name}
+  <a className="UserInfo" href={`mailto:${user.email}`}>
+    {user.name}
   </a>
 );
