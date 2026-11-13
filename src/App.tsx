@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { TodoList } from './components/TodoList';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
-import React from 'react';
 
 export const App = () => {
   const [todos, setTodos] = useState(
@@ -14,22 +13,22 @@ export const App = () => {
     })),
   );
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState('');
 
   const [showTitleError, setTitleError] = useState(false);
   const [showUserError, setUserError] = useState(false);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim()) {
       setTitleError(true);
     }
 
-    if (userId === '0') {
+    if (userId === '') {
       setUserError(true);
     }
 
-    if (!title.trim() || userId === '0') {
+    if (!title.trim() || userId === '') {
       return;
     }
 
@@ -51,7 +50,7 @@ export const App = () => {
 
     setTodos([...todos, newTodo]);
     setTitle('');
-    setUserId('0');
+    setUserId('');
     setTitleError(false);
     setUserError(false);
   };
@@ -91,7 +90,7 @@ export const App = () => {
               setUserError(false);
             }}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
