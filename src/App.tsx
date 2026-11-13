@@ -7,12 +7,11 @@ import todosFromServer from './api/todos';
 import React from 'react';
 
 export const App = () => {
-
   const [todos, setTodos] = useState(
-    todosFromServer.map((todo) => ({
+    todosFromServer.map(todo => ({
       ...todo,
-      user: usersFromServer.find((user) => user.id === todo.userId),
-    }))
+      user: usersFromServer.find(user => user.id === todo.userId),
+    })),
   );
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
@@ -20,103 +19,96 @@ export const App = () => {
   const [showTitleError, setTitleError] = useState(false);
   const [showUserError, setUserError] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    if (!title.trim()){
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!title.trim()) {
       setTitleError(true);
     }
-    if (userId === 0){
+
+    if (userId === 0) {
       setUserError(true);
     }
-     if (!title.trim() || userId === 0){
+
+    if (!title.trim() || userId === 0) {
       return;
     }
 
-    const selectedUser = usersFromServer.find((user) => user.id === Number(userId))
+    const selectedUser = usersFromServer.find(
+      user => user.id === Number(userId),
+    );
 
     if (!selectedUser) {
       return;
     }
 
     const newTodo = {
-      id: Math.max(...todos.map((todo) => todo.id))+1,
+      id: Math.max(...todos.map(todo => todo.id)) + 1,
       title: title,
       userId: selectedUser.id,
       completed: false,
       user: selectedUser,
-    }
+    };
 
-    setTodos ([...todos, newTodo]);
+    setTodos([...todos, newTodo]);
     setTitle('');
     setUserId(0);
     setTitleError(false);
     setUserError(false);
-  }
+  };
 
   return (
-
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form
-        action="/api/todos"
-        method="POST"
-        onSubmit={handleSubmit}
-        >
-
+      <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={(event) => {
-              setTitle(event.target.value)
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
-            }}/>
+            }}
+          />
 
-          {(showTitleError &&
-          <span className="error">Please enter a title</span>)}
-
+          {showTitleError && (
+            <span className="error">Please enter a title</span>
+          )}
         </div>
 
         <div className="field">
           <select
-          data-cy="userSelect"
-          value={userId}
-          onChange={(event) => {
-           setUserId(event.target.value)
-           setUserError(false)
-           }}>
+            data-cy="userSelect"
+            value={userId}
+            onChange={event => {
+              setUserId(event.target.value);
+              setUserError(false);
+            }}
+          >
             <option value="0" disabled>
               Choose a user
             </option>
 
-              {usersFromServer.map((user) => {
-                return (
-                  <option
-                  key={user.id}
-                  value={user.id}>
-                    {user.name}
-                  </option>
-                )
-              })
-            }
+            {usersFromServer.map(user => {
+              return (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              );
+            })}
           </select>
 
-          {(showUserError &&
-          <span className="error">Please choose a user</span>)}
+          {showUserError && <span className="error">Please choose a user</span>}
         </div>
 
-        <button
-          type="submit"
-          data-cy="submitButton">
+        <button type="submit" data-cy="submitButton">
           Add
         </button>
       </form>
 
-      <TodoList todos={todos}/>
-
+      <TodoList todos={todos} />
     </div>
   );
 };

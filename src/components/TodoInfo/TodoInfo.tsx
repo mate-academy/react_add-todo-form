@@ -1,5 +1,5 @@
-import React from "react";
-import { UserInfo } from "../UserInfo";
+import React from 'react';
+import { UserInfo } from '../UserInfo';
 
 type TodoInfoProps = {
   todo: {
@@ -17,14 +17,11 @@ export const TodoInfo = ({ todo }: TodoInfoProps) => {
   return (
     <article
       data-id={todo.id}
-      className={'TodoInfo '
-        + (todo.completed === true
-        ? 'TodoInfo--completed'
-        : '')}
+      className={
+        'TodoInfo ' + (todo.completed === true ? 'TodoInfo--completed' : '')
+      }
     >
-      <h2 className="TodoInfo__title">
-        {todo.title}
-      </h2>
+      <h2 className="TodoInfo__title">{todo.title}</h2>
 
       <UserInfo user={todo.user} />
     </article>
