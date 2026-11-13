@@ -14,7 +14,7 @@ export const App = () => {
     })),
   );
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('0');
 
   const [showTitleError, setTitleError] = useState(false);
   const [showUserError, setUserError] = useState(false);
@@ -25,11 +25,11 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (userId === 0) {
+    if (userId === '0') {
       setUserError(true);
     }
 
-    if (!title.trim() || userId === 0) {
+    if (!title.trim() || userId === '0') {
       return;
     }
 
@@ -51,7 +51,7 @@ export const App = () => {
 
     setTodos([...todos, newTodo]);
     setTitle('');
-    setUserId(0);
+    setUserId('0');
     setTitleError(false);
     setUserError(false);
   };
@@ -62,10 +62,12 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
+            id="title"
             value={title}
             onChange={event => {
               setTitle(event.target.value);
@@ -79,8 +81,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user">User</label>
           <select
             data-cy="userSelect"
+            id="user"
             value={userId}
             onChange={event => {
               setUserId(event.target.value);

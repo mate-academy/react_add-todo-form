@@ -1,6 +1,21 @@
+import React from 'react';
 import { TodoInfo } from '../TodoInfo';
 
-export const TodoList = ({ todos }) => {
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  user: {
+    name: string;
+    email: string;
+  };
+};
+
+type Props = {
+  todos: Todo[];
+};
+
+export const TodoList = ({ todos }: Props) => {
   return (
     <section className="TodoList">
       {todos.map(todo => {
