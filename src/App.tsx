@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
+import { TodoList } from './components/TodoList';
 
 type User = (typeof usersFromServer)[number];
 type ServerTodo = (typeof todosFromServer)[number];
@@ -33,7 +33,7 @@ export const App = () => {
       user => user.id === userId,
     );
 
-    setTitleError(!trimmedTitle);
+    setTitleError(trimmedTitle === '');
     setUserError(!selectedUser);
 
     if (!trimmedTitle || !selectedUser) {
@@ -116,30 +116,7 @@ export const App = () => {
         </button>
       </form>
 
-      <section className="TodoList">
-        {todos.map(todo => (
-          <article
-            key={todo.id}
-            data-id={todo.id}
-            className={`TodoInfo ${
-              todo.completed ? 'TodoInfo--completed' : ''
-            }`}
-          >
-            <h2 className="TodoInfo__title">
-              {todo.title}
-            </h2>
-
-            {todo.user && (
-              <a
-                className="UserInfo"
-                href={`mailto:${todo.user.email}`}
-              >
-                {todo.user.name}
-              </a>
-            )}
-          </article>
-        ))}
-      </section>
+      <TodoList todos={todos} />
     </div>
   );
 };
