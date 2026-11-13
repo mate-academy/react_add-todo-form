@@ -12,7 +12,7 @@ type Todo = {
   userId: number;
   title: string;
   completed: boolean;
-  user: User | null;
+  user: User;
 };
 
 type Props = {

@@ -10,13 +10,23 @@ type User = (typeof usersFromServer)[number];
 type ServerTodo = (typeof todosFromServer)[number];
 
 type Todo = ServerTodo & {
-  user: User | null;
+  user: User;
 };
 
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: usersFromServer.find(user => user.id === todo.userId) || null,
-}));
+const initialTodos: Todo[] = todosFromServer
+  .map(todo => {
+    const user = usersFromServer.find(item => item.id === todo.userId);
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...todo,
+      user,
+    };
+  })
+  .filter((todo): todo is Todo => todo !== null);
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -29,9 +39,7 @@ export const App = () => {
     event.preventDefault();
 
     const trimmedTitle = title.trim();
-    const selectedUser = usersFromServer.find(
-      user => user.id === userId,
-    );
+    const selectedUser = usersFromServer.find(user => user.id === userId);
 
     setTitleError(trimmedTitle === '');
     setUserError(!selectedUser);
@@ -78,9 +86,7 @@ export const App = () => {
             }}
           />
 
-          {titleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -106,9 +112,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">

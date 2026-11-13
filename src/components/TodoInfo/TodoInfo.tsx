@@ -12,7 +12,7 @@ type Todo = {
   userId: number;
   title: string;
   completed: boolean;
-  user: User | null;
+  user: User;
 };
 
 type Props = {
@@ -22,14 +22,10 @@ type Props = {
 export const TodoInfo = ({ todo }: Props) => (
   <article
     data-id={todo.id}
-    className={`TodoInfo ${
-      todo.completed ? 'TodoInfo--completed' : ''
-    }`}
+    className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
   >
-    <h2 className="TodoInfo__title">
-      {todo.title}
-    </h2>
+    <h2 className="TodoInfo__title">{todo.title}</h2>
 
-    {todo.user && <UserInfo user={todo.user} />}
+    <UserInfo user={todo.user} />
   </article>
 );
