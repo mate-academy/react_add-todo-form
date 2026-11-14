@@ -18,6 +18,7 @@ function getUserById(userId: number): User {
 
 export const App = () => {
   const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [userId, setUserId] = useState(0);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [todos, setTodos] = useState(() =>
@@ -30,6 +31,7 @@ export const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setHasSubmitted(true);
+    setHasTitleError(!title.trim());
 
     if (!title.trim() || userId === 0) {
       return;
@@ -55,19 +57,23 @@ export const App = () => {
 
       <form action="/api/todos" method="POST" onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title-input">Title</label>
           <input
+            id="title-input"
             type="text"
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={event => {
+              setTitle(event.target.value);
+              setHasTitleError(false);
+            }}
           />
-          {hasSubmitted && !title.trim() && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
+          <label htmlFor="user-id">User</label>
           <select
             id="user-id"
             data-cy="userSelect"
