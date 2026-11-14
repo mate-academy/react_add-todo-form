@@ -1,15 +1,16 @@
 import { Fragment, useState } from 'react';
-import { getAllUsers } from '../../services/userService';
+import { User } from '../../types/user';
 
 type Props = {
+  users: User[];
   onAdd: (title: string, userId: number) => void;
 };
 
-const titleAllowedCharsPattern = /[^a-zA-Zа-яА-ЯіїєґІЇЄҐ0-9\s]/g;
+const titleAllowedCharsPattern = /[^a-zA-Zа-щьюяіїєґА-ЩЬЮЯІЇЄҐ0-9 ]/g;
 
-export const NewTodoForm = ({ onAdd }: Props) => {
+export const NewTodoForm = ({ users, onAdd }: Props) => {
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
@@ -19,7 +20,7 @@ export const NewTodoForm = ({ onAdd }: Props) => {
   };
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(event.target.value));
+    setUserId(event.target.value);
     setHasUserError(false);
   };
 
@@ -35,10 +36,10 @@ export const NewTodoForm = ({ onAdd }: Props) => {
       return;
     }
 
-    onAdd(trimmedTitle, userId);
+    onAdd(trimmedTitle, Number(userId));
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
   };
 
   return (
@@ -66,10 +67,10 @@ export const NewTodoForm = ({ onAdd }: Props) => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
-            {getAllUsers().map(user => (
+            {users.map(user => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
