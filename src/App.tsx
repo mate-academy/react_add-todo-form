@@ -77,7 +77,6 @@ export const App = () => {
           <select
             id="user-id"
             data-cy="userSelect"
-            required
             value={userId}
             onChange={event => setUserId(+event.target.value)}
           >
