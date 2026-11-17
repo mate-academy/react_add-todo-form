@@ -65,34 +65,39 @@ export const App = () => {
 
       <form onSubmit={event => addTodo(event)}>
         <div className="field">
-          <input
-            type="text"
-            placeholder="Enter Title"
-            data-cy="titleInput"
-            value={title}
-            onChange={e => setTitle(e.target.value.replace(/[^a-zA-Z]\s/g, ''))}
-          />
-
+          <label>
+            Title:
+            <input
+              type="text"
+              placeholder="Enter Title"
+              data-cy="titleInput"
+              value={title}
+              onChange={event => setTitle(event.target.value.replace(/[^a-zA-Z]\s/g, ''))}
+            />
+          </label>
           {showTitleError && (
             <span className="error">Please enter a title</span>
           )}
         </div>
 
         <div className="field">
-          <select
-            data-cy="userSelect"
-            value={selectedUserId}
-            onChange={e => setSelectedUserId(e.target.value)}
-          >
-            <option value="" disabled>
-              Choose a user
-            </option>
-            {users.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
+          <label>
+            User
+            <select
+              data-cy="userSelect"
+              value={selectedUserId}
+              onChange={e => setSelectedUserId(e.target.value)}
+            >
+              <option value="" disabled>
+                Choose a user
               </option>
-            ))}
-          </select>
+              {users.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {showUserError && <span className="error">Please choose a user</span>}
         </div>
