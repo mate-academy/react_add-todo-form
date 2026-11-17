@@ -17,7 +17,7 @@ export const App = () => {
   );
 
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState('');
 
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
@@ -28,7 +28,7 @@ export const App = () => {
     const normalizedTitle = title.trim();
 
     const selectedUser = usersFromServer.find(
-      user => user.id === selectedUserId,
+      user => user.id === Number(selectedUserId),
     );
 
     const hasTitle = normalizedTitle.length > 0;
@@ -51,7 +51,7 @@ export const App = () => {
     setTodos(currentTodos => [...currentTodos, newTodo]);
 
     setTitle('');
-    setSelectedUserId(0);
+    setSelectedUserId('');
     setTitleError(false);
     setUserError(false);
   };
@@ -72,7 +72,7 @@ export const App = () => {
             value={title}
             onChange={event => {
               const newTitle = event.target.value.replace(
-                /[^a-zA-Zа-яА-ЯіІїЇєЄґҐ0-9 ]/g,
+                /[^a-zA-ZіІїЇєЄґҐ0-9 ]/g,
                 '',
               );
 
@@ -81,9 +81,7 @@ export const App = () => {
             }}
           />
 
-          {titleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {titleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -94,11 +92,11 @@ export const App = () => {
             data-cy="userSelect"
             value={selectedUserId}
             onChange={event => {
-              setSelectedUserId(Number(event.target.value));
+              setSelectedUserId(event.target.value);
               setUserError(false);
             }}
           >
-            <option value={0} disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
@@ -109,9 +107,7 @@ export const App = () => {
             ))}
           </select>
 
-          {userError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {userError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
