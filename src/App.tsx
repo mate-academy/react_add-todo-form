@@ -24,13 +24,17 @@ export const App = () => {
     setShowUserError(false);
   }, [selectedUserId]);
 
+  useEffect(() => {
+    setShowTitleError(false);
+  }, [title]);
+
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const largestID = Math.max(...todos.map(todo => todo.id));
-    const user = users.find(u => u.id === Number(selectedUserId));
+    const selectedUser = users.find(user => user.id === Number(selectedUserId));
 
-    if (!user) {
+    if (!selectedUser) {
       setShowUserError(true);
     }
 
@@ -38,13 +42,13 @@ export const App = () => {
       setShowTitleError(true);
     }
 
-    if (user && title) {
+    if (selectedUser && title) {
       const newTodo = {
         id: largestID + 1,
         title: title,
-        userId: user?.id,
+        userId: selectedUser?.id,
         completed: false,
-        user: user,
+        user: selectedUser,
       };
 
       setTodos(oldTodos => [...oldTodos, newTodo]);
@@ -59,7 +63,7 @@ export const App = () => {
     <div className="App">
       <h1>Add todo form</h1>
 
-      <form onSubmit={e => addTodo(e)}>
+      <form onSubmit={event => addTodo(event)}>
         <div className="field">
           <input
             type="text"
@@ -80,7 +84,7 @@ export const App = () => {
             value={selectedUserId}
             onChange={e => setSelectedUserId(e.target.value)}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
             {users.map(user => (
