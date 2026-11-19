@@ -54,7 +54,11 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            placeholder="Enter a title"
+            onChange={event => {
+              setTitle(event.target.value);
+              setTitleError(false);
+            }}
           />
           {titleError && <span className="error">Please enter a title</span>}
         </div>
@@ -63,7 +67,10 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={event => setUserId(+event.target.value)}
+            onChange={event => {
+              setUserId(+event.target.value);
+              setUserError(false);
+            }}
           >
             <option value="0">Choose a user</option>
             {usersFromServer.map(user => (
