@@ -1,4 +1,5 @@
 import { Todo } from '../../types/Todo';
+import { UserInfo } from '../UserInfo/UserInfo';
 import cn from 'classnames';
 
 type Props = {
@@ -12,9 +13,7 @@ export const TodoInfo = ({ todo }: Props) => {
       data-id={todo.id}
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
-      <a className="UserInfo" href={`mailto:${todo.user.email}`}>
-        {todo.user.name}
-      </a>
+      <UserInfo user={todo.user} />
     </article>
   );
 };
