@@ -22,7 +22,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
 
-  const [userId, setUserId] = useState('0');
+  const [userId, setUserId] = useState('');
   const [userIdError, setUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +43,9 @@ export const App = () => {
     });
 
     setTitleError(!title.trim());
-    setUserIdError(!userId || userId === '0' || !selectedUser);
+    setUserIdError(!userId || !selectedUser);
 
-    if (!title.trim() || !userId || userId === '0' || !selectedUser) {
+    if (!title.trim() || !userId || !selectedUser) {
       return;
     }
 
@@ -59,7 +59,7 @@ export const App = () => {
 
     setTodosState([...todosState, newTodo]);
     setTitle('');
-    setUserId('0');
+    setUserId('');
   };
 
   return (
@@ -74,6 +74,7 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
+            placeholder="Enter a title"
             onChange={handleTitleChange}
           />
 
@@ -88,7 +89,7 @@ export const App = () => {
             value={userId}
             onChange={handleUserIdChange}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
             {users.map(user => (
