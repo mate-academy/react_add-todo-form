@@ -6,8 +6,14 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList';
 
-function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
+function getUserById(userId: number): User {
+  const user = usersFromServer.find(u => u.id === userId);
+
+  if (!user) {
+    throw new Error(`User with id ${userId} not found`);
+  }
+
+  return user;
 }
 
 const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
@@ -18,7 +24,7 @@ const todosWithUsers: Todo[] = todosFromServer.map(todo => ({
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosWithUsers);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
   const [hasUserError, setHasUserError] = useState(false);
 
@@ -26,9 +32,9 @@ export const App = () => {
     event.preventDefault();
 
     setHasTitleError(!title.trim());
-    setHasUserError(userId === 0);
+    setHasUserError(userId === '');
 
-    if (!title.trim() || userId === 0) {
+    if (!title.trim() || userId === '') {
       return;
     }
 
@@ -37,13 +43,13 @@ export const App = () => {
       id: newId,
       title: title.trim(),
       completed: false,
-      userId,
-      user: getUserById(userId),
+      userId: Number(userId),
+      user: getUserById(Number(userId)),
     };
 
     setTodos([...todos, newTodo]);
     setTitle('');
-    setUserId(0);
+    setUserId('');
   }
 
   return (
@@ -74,11 +80,11 @@ export const App = () => {
             id="userSelect"
             value={userId}
             onChange={event => {
-              setUserId(Number(event.target.value));
+              setUserId(event.target.value);
               setHasUserError(false);
             }}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
