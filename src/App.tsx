@@ -3,7 +3,6 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import React, { useState } from 'react';
 // import { event } from 'cypress/types/jquery';
-import { UserInfo } from './components/UserInfo';
 import { TodoList } from './components/TodoList';
 import { Todos } from './types/Todos';
 
@@ -99,7 +98,11 @@ export const App = () => {
               Choose a user
             </option>
 
-            <UserInfo users={usersFromServer} />
+            {usersFromServer.map(user => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
 
           {hasUserIdError && (
