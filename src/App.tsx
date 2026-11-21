@@ -20,7 +20,7 @@ export const App = () => {
 
   const [todos, setTodos] = useState(todosWithUser);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
@@ -34,15 +34,15 @@ export const App = () => {
       setTitleError(true);
     }
 
-    if (userId === 0) {
+    if (!userId) {
       setUserError(true);
     }
 
-    if (userId === 0 || !title.trim()) {
+    if (!userId || !title.trim()) {
       return;
     }
 
-    const selectedUser = findUser(userId);
+    const selectedUser = findUser(Number(userId));
 
     if (!selectedUser) {
       return;
@@ -51,7 +51,7 @@ export const App = () => {
     const newTodo = {
       id: newId,
       title,
-      userId,
+      userId: Number(userId),
       completed: false,
       user: selectedUser,
     };
@@ -59,7 +59,7 @@ export const App = () => {
     setTodos([...todos, newTodo]);
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
     setTitleError(false);
     setUserError(false);
   };
@@ -70,12 +70,15 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title">Title: </label>
           <input
+            id="title"
             type="text"
             data-cy="titleInput"
+            placeholder="Enter a title"
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
           />
@@ -83,15 +86,17 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="select">User:</label>
           <select
+            id="select"
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(Number(e.target.value));
+            onChange={event => {
+              setUserId(event.target.value);
               setUserError(false);
             }}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
