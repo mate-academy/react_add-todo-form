@@ -5,5 +5,5 @@ export type Todos = {
   title: string;
   completed: boolean;
   userId: number;
-  user: User | null;
+  user: User;
 };

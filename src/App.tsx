@@ -12,7 +12,7 @@ function getUserById(userId: number) {
 
 const initialTodos: Todos[] = todosFromServer.map(todo => ({
   ...todo,
-  user: getUserById(todo.userId),
+  user: getUserById(todo.userId)!,
 }));
 
 export const App = () => {
@@ -52,12 +52,18 @@ export const App = () => {
 
     const newId = maxId + 1;
 
+    const foundUser = getUserById(userId);
+
+    if (!foundUser) {
+      return;
+    }
+
     addTodo({
       id: newId,
       title,
       userId,
       completed: false,
-      user: getUserById(userId),
+      user: foundUser,
     });
 
     setTitle('');
