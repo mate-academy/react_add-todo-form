@@ -60,7 +60,7 @@ export const TodoForm = (props: Props) => {
   const { users, onAdd } = props;
 
   const [title, setTitle] = useState('');
-  const [user, setUser] = useState('0');
+  const [user, setUser] = useState('');
 
   const [errors, setErrors] = useState<Errors>(NO_ERRORS);
   const validateForm = (field: string): string => {
@@ -68,7 +68,7 @@ export const TodoForm = (props: Props) => {
       case 'title':
         return title.trim() ? '' : 'Please enter a title';
       case 'user':
-        return user !== '0' ? '' : 'Please choose a user';
+        return user !== '' ? '' : 'Please choose a user';
       default:
         return '';
     }
@@ -76,7 +76,7 @@ export const TodoForm = (props: Props) => {
 
   const resetForm = () => {
     setTitle('');
-    setUser('0');
+    setUser('');
     setErrors(NO_ERRORS);
   };
 
@@ -97,13 +97,13 @@ export const TodoForm = (props: Props) => {
     resetForm();
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
     setErrors(prev => ({ ...prev, title: '' }));
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(e.target.value);
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value);
     setErrors(prev => ({ ...prev, user: '' }));
   };
 
@@ -143,7 +143,7 @@ export const TodoForm = (props: Props) => {
           value={user}
           onChange={handleUserChange}
         >
-          <option value="0" disabled>
+          <option value="" disabled>
             Choose a user
           </option>
           {users.map(({ id, name }) => (
