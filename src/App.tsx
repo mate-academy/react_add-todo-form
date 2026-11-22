@@ -21,7 +21,7 @@ export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState('');
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ export const App = () => {
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(+event.target.value);
+    setUserId(event.target.value);
     setHasUserIdError(false);
   };
 
@@ -47,12 +47,14 @@ export const App = () => {
       return;
     }
 
+    const numericUserId = Number(userId);
+
     const maxId =
       todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
 
     const newId = maxId + 1;
 
-    const foundUser = getUserById(userId);
+    const foundUser = getUserById(numericUserId);
 
     if (!foundUser) {
       return;
@@ -61,13 +63,13 @@ export const App = () => {
     addTodo({
       id: newId,
       title,
-      userId,
+      userId: numericUserId,
       completed: false,
       user: foundUser,
     });
 
     setTitle('');
-    setUserId(0);
+    setUserId('');
   };
 
   return (
@@ -100,7 +102,7 @@ export const App = () => {
             value={userId}
             onChange={handleUserIdChange}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
 
