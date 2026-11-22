@@ -1,10 +1,10 @@
 {
   "extends": "@mate-academy/students-ts-config",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "target": "es2022",
+  },
   "include": [
     "src"
-  ],
-  "compilerOptions": {
-    "sourceMap": false,
-    "types": ["node", "cypress"]
-  }
+  ]
 }
