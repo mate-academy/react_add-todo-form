@@ -42,6 +42,8 @@ const buttonClasses = [
   'focus:outline-none focus:shadow-outline',
 ].join(' ');
 
+const labelClasses = 'block text-gray-700 text-sm font-bold mb-2';
+
 const NO_ERRORS: Errors = { title: '', user: '' };
 
 const ErrorMessage = ({ message }: ErrorMessageProps) => {
@@ -113,10 +115,7 @@ export const TodoForm = (props: Props) => {
       className={formClasses}
     >
       <div className="field">
-        <label
-          htmlFor="title"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
+        <label htmlFor="title" className={labelClasses}>
           Title:{' '}
         </label>
         <input
@@ -133,10 +132,7 @@ export const TodoForm = (props: Props) => {
       </div>
 
       <div className="field">
-        <label
-          htmlFor="user"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
+        <label htmlFor="user" className={labelClasses}>
           User:{' '}
         </label>
         <select
@@ -157,7 +153,7 @@ export const TodoForm = (props: Props) => {
           ))}
         </select>
 
-        <ErrorMessage message={errors.title} />
+        <ErrorMessage message={errors.user} />
       </div>
 
       <button type="submit" data-cy="submitButton" className={buttonClasses}>
