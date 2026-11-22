@@ -1,14 +1,10 @@
 import { User } from '../../types/Users';
 
 type Props = {
-  user: User | null;
+  user: User;
 };
 
 export const UserInfo = ({ user }: Props) => {
-  if (!user) {
-    return null;
-  }
-
   return (
     <a href={`mailto:${user.email}`} className="UserInfo text-blue-500">
       {user.name}

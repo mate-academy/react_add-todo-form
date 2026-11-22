@@ -8,8 +8,8 @@ import todosFromServer from './api/todos';
 import { Todo } from './types/Todo';
 import { User } from './types/Users';
 
-const getUserById = (userID: number): User | null =>
-  usersFromServer.find(user => user.id === userID) || null;
+const getUserById = (userID: number): User =>
+  usersFromServer.find(user => user.id === userID) as User;
 
 const stateUsersForStart: Todo[] = todosFromServer.map(todo => ({
   ...todo,

@@ -11,6 +11,10 @@ type Errors = {
   user: string;
 };
 
+type ErrorMessageProps = {
+  message: string;
+};
+
 const formClasses = [
   'bg-white shadow-md rounded',
   'px-8 pt-6 pb-8 mb-4',
@@ -40,6 +44,16 @@ const buttonClasses = [
 
 const NO_ERRORS: Errors = { title: '', user: '' };
 
+const ErrorMessage = ({ message }: ErrorMessageProps) => {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <span className="error text-red-500 text-xs italic mt-1">{message}</span>
+  );
+};
+
 export const TodoForm = (props: Props) => {
   const { users, onAdd } = props;
 
@@ -64,8 +78,8 @@ export const TodoForm = (props: Props) => {
     setErrors(NO_ERRORS);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const titleError = validateForm('title');
     const userError = validateForm('user');
@@ -115,11 +129,7 @@ export const TodoForm = (props: Props) => {
           placeholder="Enter a title"
           onChange={handleTitleChange}
         />
-        {errors.title && (
-          <span className="error text-red-500 text-xs italic mt-1">
-            {errors.title}
-          </span>
-        )}
+        <ErrorMessage message={errors.title} />
       </div>
 
       <div className="field">
@@ -147,11 +157,7 @@ export const TodoForm = (props: Props) => {
           ))}
         </select>
 
-        {errors.user && (
-          <span className="error text-red-500 text-xs italic mt-1">
-            {errors.user}
-          </span>
-        )}
+        <ErrorMessage message={errors.title} />
       </div>
 
       <button type="submit" data-cy="submitButton" className={buttonClasses}>
