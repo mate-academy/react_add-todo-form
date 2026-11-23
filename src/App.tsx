@@ -6,13 +6,14 @@ import { getUserById } from './services/services';
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
+const initialTodos: Todo[] = todosFromServer.flatMap(todo => {
+  const user = getUserById(todo.userId);
+
+  return user ? [{ ...todo, user }] : [];
+});
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(
-    todosFromServer.map(todo => ({
-      ...todo,
-      user: getUserById(todo.userId),
-    })),
-  );
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const users: User[] = usersFromServer;
 
   const [title, setTitle] = useState('');
@@ -65,8 +66,8 @@ export const App = () => {
           <label htmlFor="title">Title</label>
           <input
             value={title}
-            onChange={e => {
-              setTitle(e.target.value);
+            onChange={event => {
+              setTitle(event.target.value);
               setTitleError(false);
             }}
             type="text"
@@ -83,8 +84,8 @@ export const App = () => {
             data-cy="userSelect"
             id="user-select"
             value={userId}
-            onChange={e => {
-              setUserId(Number(e.target.value));
+            onChange={event => {
+              setUserId(Number(event.target.value));
               setUserIdError(false);
             }}
           >
