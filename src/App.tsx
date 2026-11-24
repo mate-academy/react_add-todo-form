@@ -3,22 +3,9 @@ import './App.scss';
 
 import todosFromServer from './api/todos';
 import usersFromServer from './api/users';
+
 import { TodoList } from './components/TodoList';
-
-export type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-};
-
-export type Todo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
+import type { Todo } from './types';
 
 const initialTodos: Todo[] = todosFromServer.map(todo => {
   const user = usersFromServer.find(person => person.id === todo.userId);
