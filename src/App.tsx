@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+
 import './App.scss';
 
 import todosFromServer from './api/todos';
@@ -23,10 +24,20 @@ const initialTodos: Todo[] = todosFromServer.map(todo => {
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState('0');
 
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
+
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
+    setTitleError(false);
+  };
+
+  const handleUserChange = (value: string) => {
+    setUserId(value);
+    setUserError(false);
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,27 +48,30 @@ export const App = () => {
       user => user.id === Number(userId),
     );
 
-    setTitleError(!trimmedTitle);
-    setUserError(!selectedUser);
+    const hasTitleError = trimmedTitle.length === 0;
+    const hasUserError = !selectedUser;
 
-    if (!trimmedTitle || !selectedUser) {
+    setTitleError(hasTitleError);
+    setUserError(hasUserError);
+
+    if (hasTitleError || hasUserError || !selectedUser) {
       return;
     }
 
-    const maxId = Math.max(0, ...todos.map(todo => todo.id));
+    const nextId = Math.max(0, ...todos.map(todo => todo.id)) + 1;
 
     const newTodo: Todo = {
-      id: maxId + 1,
+      id: nextId,
       title: trimmedTitle,
-      completed: false,
       userId: selectedUser.id,
+      completed: false,
       user: selectedUser,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
 
     setTitle('');
-    setUserId('');
+    setUserId('0');
     setTitleError(false);
     setUserError(false);
   };
@@ -76,10 +90,7 @@ export const App = () => {
             data-cy="titleInput"
             placeholder="Enter a title"
             value={title}
-            onChange={event => {
-              setTitle(event.target.value);
-              setTitleError(false);
-            }}
+            onChange={event => handleTitleChange(event.target.value)}
           />
 
           {titleError && <span className="error">Please enter a title</span>}
@@ -92,12 +103,9 @@ export const App = () => {
             id="todo-user"
             data-cy="userSelect"
             value={userId}
-            onChange={event => {
-              setUserId(event.target.value);
-              setUserError(false);
-            }}
+            onChange={event => handleUserChange(event.target.value)}
           >
-            <option value="" disabled>
+            <option value="0" disabled>
               Choose a user
             </option>
 
