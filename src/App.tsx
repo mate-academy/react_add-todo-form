@@ -11,7 +11,12 @@ import { User } from './types/User';
 type AddTodoHandler = (event: React.FormEvent<HTMLFormElement>) => void;
 
 export const App = () => {
-  const [todoList, setTodoList] = useState<Todo[]>(todosFromServer);
+  const [todoList, setTodoList] = useState<Todo[]>(todosFromServer.map(todo => {
+    return {
+      ...todo,
+      user: usersFromServer.find(user => user.id === todo.userId)!,
+    }
+  }));
   const [title, setTitle] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
 
@@ -89,7 +94,6 @@ export const App = () => {
                 );
                 setTitleError(false);
               }}
-              onBlur={() => setTitleError(!title.trim())}
               type="text"
               data-cy="titleInput"
             />
@@ -106,7 +110,6 @@ export const App = () => {
               setSelectedUserId(event.target.value);
               setUserError(false);
             }}
-            onBlur={() => setUserError(!selectedUserId)}
             data-cy="userSelect"
           >
             <option value="" disabled>
