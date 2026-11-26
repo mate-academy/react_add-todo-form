@@ -1,5 +1,5 @@
-import { TodoInfo } from "../TodoInfo";
-import { Todo } from "../types/Todo";
+import { TodoInfo } from '../TodoInfo';
+import { Todo } from '../types/Todo';
 
 type Props = {
   todos: Todo[];
@@ -8,7 +8,7 @@ type Props = {
 export const TodoList = ({ todos }: Props) => {
   return (
     <div className="TodoList">
-      {todos.map((todo) => (
+      {todos.map(todo => (
         <TodoInfo key={todo.id} todo={todo} />
       ))}
     </div>

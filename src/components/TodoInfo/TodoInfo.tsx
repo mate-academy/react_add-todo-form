@@ -3,13 +3,16 @@ import { UserInfo } from '../UserInfo';
 
 type Props = {
   todo: Todo;
-}
+};
 
 export const TodoInfo = ({ todo }: Props) => {
-    return (
-    <div className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`} data-id={todo.id}>
-      <h2 className='TodoInfo__title'>{todo.title}</h2>
+  return (
+    <div
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+      data-id={todo.id}
+    >
+      <h2 className="TodoInfo__title">{todo.title}</h2>
       <UserInfo user={todo.user} />
     </div>
-  )
+  );
 };
