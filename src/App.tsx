@@ -13,7 +13,7 @@ function getByUserId(userId: number): User | null {
 const initialTodos: Todo[] = todosFromServer.map(todo => ({
   ...todo,
   user: getByUserId(todo.userId),
-}));
+})).filter((todo):todo is Todo => todo.user !== null);
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -35,15 +35,18 @@ export const App = () => {
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    const foundUser = getByUserId(userId);
+
+    if (!trimmedTitle) {
       setHasTitleError(true);
     }
 
-    if (userId === 0) {
+    if (!foundUser) {
       setHasUserError(true);
     }
 
-    if (!title.trim() || userId === 0) {
+    if (!trimmedTitle || !foundUser) {
       return;
     }
 
@@ -51,10 +54,10 @@ export const App = () => {
 
     const newTodo: Todo = {
       id: newId,
-      title: title.trim(),
+      title: trimmedTitle,
       completed: false,
       userId,
-      user: getByUserId(userId),
+      user: foundUser,
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -78,9 +81,7 @@ export const App = () => {
             onChange={handleTitleChange}
           />
 
-          {hasTitleError && (
-            <span className="error">Please enter a title</span>
-          )}
+          {hasTitleError && <span className="error">Please enter a title</span>}
         </div>
 
         <div className="field">
@@ -102,9 +103,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserError && (
-            <span className="error">Please choose a user</span>
-          )}
+          {hasUserError && <span className="error">Please choose a user</span>}
         </div>
 
         <button type="submit" data-cy="submitButton">
