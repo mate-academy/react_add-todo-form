@@ -8,14 +8,15 @@ import { TodoList } from './components/TodoList';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
-function getUserById(userId: number): User | null {
-  return usersFromServer.find(user => user.id === userId) || null;
+function getUserById(userId: number): User | undefined {
+  return usersFromServer.find(user => user.id === userId);
 }
 
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getUserById(todo.userId),
-}));
+const initialTodos: Todo[] = todosFromServer.flatMap(todo => {
+  const user = getUserById(todo.userId);
+
+  return user ? [{...todo,user}]: [];
+});
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -41,11 +42,12 @@ export const App = () => {
 
     const isTitleEmpty = !title.trim();
     const isUserEmpty = userId === 0;
+    const selectedUser = getUserById(userId);
 
     setHasTitleError(isTitleEmpty);
     setHasUserError(isUserEmpty);
 
-    if (isTitleEmpty || isUserEmpty) {
+    if (isTitleEmpty || isUserEmpty|| !selectedUser) {
       return;
     }
 
@@ -56,7 +58,7 @@ export const App = () => {
       title: title.trim(),
       completed: false,
       userId,
-      user: getUserById(userId)
+      user: selectedUser
     };
 
     setTodos(currentTodos => [...currentTodos, newTodo]);
@@ -97,7 +99,7 @@ export const App = () => {
             </option>
 
             {usersFromServer.map(user => (
-              <option key={userId} value={user.id}>
+              <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
