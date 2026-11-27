@@ -7,7 +7,7 @@ import { TodoList } from './components/TodoList';
 
 export const App = () => {
   const transformedTodos = todosFromServer.map(todo => {
-    const user = usersFromServer.find(u => u.id === todo.userId);
+    const user = usersFromServer.find(user => user.id === todo.userId);
 
     return {
       ...todo,
@@ -22,18 +22,21 @@ export const App = () => {
   const [titleError, setTitleError] = useState(false);
   const [userError, setUserError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    if (titleText.trim() === '') {
+    const isTitleInvalid = titleText.trim() === '';
+    const isUserInvalid = selectedUserId === '';
+
+    if (isTitleInvalid) {
       setTitleError(true);
     }
 
-    if (selectedUserId === '') {
+    if (isUserInvalid) {
       setUserError(true);
     }
 
-    if (titleText.trim() === '' || selectedUserId === '') {
+    if (isTitleInvalid || isUserInvalid) {
       return;
     }
 
@@ -58,7 +61,7 @@ export const App = () => {
         <div className="field">
           <label htmlFor="titleInput">Title</label>
           <input
-            id='titleInput'
+            id="titleInput"
             type="text"
             data-cy="titleInput"
             placeholder="Enter title"
@@ -74,7 +77,7 @@ export const App = () => {
         <div className="field">
           <label htmlFor="userSelect">User</label>
           <select
-            id='userSelect'
+            id="userSelect"
             data-cy="userSelect"
             value={selectedUserId}
             onChange={event => {

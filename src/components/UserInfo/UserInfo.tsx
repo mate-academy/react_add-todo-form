@@ -1,7 +1,7 @@
-import { User } from '../types/User';
+import { Todo } from '../types/Todo';
 
 type Props = {
-  user: User;
+  user: Todo['user'];
 };
 
 export const UserInfo = ({ user }: Props) => {
