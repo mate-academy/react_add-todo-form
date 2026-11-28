@@ -10,10 +10,12 @@ function getByUserId(userId: number): User | null {
   return usersFromServer.find(user => user.id === userId) || null;
 }
 
-const initialTodos: Todo[] = todosFromServer.map(todo => ({
-  ...todo,
-  user: getByUserId(todo.userId),
-})).filter((todo):todo is Todo => todo.user !== null);
+const initialTodos: Todo[] = todosFromServer
+  .map(todo => ({
+    ...todo,
+    user: getByUserId(todo.userId),
+  }))
+  .filter((todo): todo is Todo => todo.user !== null);
 
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -38,15 +40,14 @@ export const App = () => {
     const trimmedTitle = title.trim();
     const foundUser = getByUserId(userId);
 
-    if (!trimmedTitle) {
-      setHasTitleError(true);
-    }
+    const isTitleValid = Boolean(trimmedTitle);
 
-    if (!foundUser) {
-      setHasUserError(true);
-    }
+    const isUserValid = Boolean(foundUser);
 
-    if (!trimmedTitle || !foundUser) {
+    setHasTitleError(!isTitleValid);
+    setHasUserError(!isUserValid);
+
+    if (!isTitleValid || !foundUser) {
       return;
     }
 
